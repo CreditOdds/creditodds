@@ -16,19 +16,19 @@ Parameters:
   ENDPOINT:
     Type: String
     Description: MySQL database endpoint
-    Default: default
+    NoEcho: true
   DATABASE:
     Type: String
     Description: MySQL database name
-    Default: default
+    NoEcho: true
   USERNAME:
     Type: String
     Description: MySQL database username
-    Default: default
+    NoEcho: true
   PASSWORD:
     Type: String
     Description: MySQL database password
-    Default: default
+    NoEcho: true
   CardsJsonUrl:
     Type: String
     Description: CloudFront URL for cards.json

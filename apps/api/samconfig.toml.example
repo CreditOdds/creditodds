@@ -1,3 +1,5 @@
+# Copy this file to samconfig.toml and update with your values
+# For deployment, use ./deploy.sh which reads credentials from .env
 version = 0.1
 [default]
 [default.deploy]
@@ -7,7 +9,7 @@ s3_bucket = "your-s3-bucket-name"
 s3_prefix = "CreditCardOddsAPI"
 region = "us-east-2"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "ENDPOINT=\"your-rds-endpoint.region.rds.amazonaws.com\" DATABASE=\"creditodds\" USERNAME=\"your-username\" PASSWORD=\"your-password\" CardsJsonUrl=\"https://your-cloudfront-domain.cloudfront.net/cards.json\""
+parameter_overrides = ""
 image_repositories = []
 confirm_changeset = false
 disable_rollback = true
