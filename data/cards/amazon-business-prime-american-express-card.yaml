@@ -1,0 +1,6 @@
+name: "Amazon Business Prime American Express Card"
+bank: "American Express"
+slug: "amazon-business-prime-american-express-card"
+accepting_applications: true
+category: "business"
+annual_fee: 0

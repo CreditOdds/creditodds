@@ -1,0 +1,6 @@
+name: "Capital One SavorOne Cash Rewards Credit Card"
+bank: "Capital One"
+slug: "capital-one-savorone"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0

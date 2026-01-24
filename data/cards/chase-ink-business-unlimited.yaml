@@ -1,0 +1,6 @@
+name: "Ink Business Unlimited Credit Card"
+bank: "Chase"
+slug: "chase-ink-business-unlimited"
+accepting_applications: true
+category: "business"
+annual_fee: 0

@@ -1,0 +1,6 @@
+name: "Capital One Platinum Secured Credit Card"
+bank: "Capital One"
+slug: "capital-one-platinum-secured"
+accepting_applications: true
+category: "secured"
+annual_fee: 0

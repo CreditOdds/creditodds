@@ -1,0 +1,6 @@
+name: "Capital One SavorOne Student Cash Rewards Credit Card"
+bank: "Capital One"
+slug: "capital-one-savor-student"
+accepting_applications: true
+category: "student"
+annual_fee: 0

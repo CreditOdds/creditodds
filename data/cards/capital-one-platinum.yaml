@@ -1,0 +1,6 @@
+name: "Capital One Platinum Credit Card"
+bank: "Capital One"
+slug: "capital-one-platinum"
+accepting_applications: true
+category: "rewards"
+annual_fee: 0

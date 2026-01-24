@@ -1,0 +1,6 @@
+name: "Citi Strata Premier Card"
+bank: "Citi"
+slug: "citi-strata-premier"
+accepting_applications: true
+category: "travel"
+annual_fee: 95

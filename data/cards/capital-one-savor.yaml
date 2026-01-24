@@ -1,0 +1,6 @@
+name: "Capital One Savor Cash Rewards Credit Card"
+bank: "Capital One"
+slug: "capital-one-savor"
+accepting_applications: true
+category: "cashback"
+annual_fee: 95

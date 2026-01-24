@@ -1,0 +1,6 @@
+name: "BankAmericard Credit Card"
+bank: "Bank of America"
+slug: "bankamericard"
+accepting_applications: true
+category: "other"
+annual_fee: 0

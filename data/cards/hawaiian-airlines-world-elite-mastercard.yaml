@@ -1,0 +1,6 @@
+name: "Hawaiian Airlines World Elite Mastercard"
+bank: "Barclays"
+slug: "hawaiian-airlines-world-elite-mastercard"
+accepting_applications: true
+category: "travel"
+annual_fee: 99

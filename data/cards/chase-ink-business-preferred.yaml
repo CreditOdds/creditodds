@@ -1,0 +1,6 @@
+name: "Ink Business Preferred Credit Card"
+bank: "Chase"
+slug: "chase-ink-business-preferred"
+accepting_applications: true
+category: "business"
+annual_fee: 95

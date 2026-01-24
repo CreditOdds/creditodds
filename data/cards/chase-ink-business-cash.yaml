@@ -1,0 +1,6 @@
+name: "Ink Business Cash Credit Card"
+bank: "Chase"
+slug: "chase-ink-business-cash"
+accepting_applications: true
+category: "business"
+annual_fee: 0

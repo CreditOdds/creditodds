@@ -1,0 +1,6 @@
+name: "JetBlue Business Card"
+bank: "Barclays"
+slug: "jetblue-business-card"
+accepting_applications: true
+category: "business"
+annual_fee: 99
