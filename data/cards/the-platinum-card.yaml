@@ -1,0 +1,5 @@
+name: "The Platinum Card"
+bank: "American Express"
+slug: "the-platinum-card"
+image: "amex_the_platinum_card.png"
+accepting_applications: false

@@ -1,0 +1,5 @@
+name: "United Gateway"
+bank: "Chase"
+slug: "united-gateway"
+image: "united_gateway.png"
+accepting_applications: false

@@ -1,0 +1,5 @@
+name: "Wells Fargo Visa Signature"
+bank: "Wells Fargo"
+slug: "wells-fargo-visa-signature"
+image: "wells_fargo_visa_signature.png"
+accepting_applications: false

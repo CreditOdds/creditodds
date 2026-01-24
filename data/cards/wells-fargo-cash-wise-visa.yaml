@@ -1,0 +1,5 @@
+name: "Wells Fargo Cash Wise Visa"
+bank: "Wells Fargo"
+slug: "wells-fargo-cash-wise-visa"
+image: "cash_wise.png"
+accepting_applications: false

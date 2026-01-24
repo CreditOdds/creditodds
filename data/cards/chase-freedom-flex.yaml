@@ -1,0 +1,5 @@
+name: "Chase Freedom Flex"
+bank: "Chase"
+slug: "chase-freedom-flex"
+image: "freedom_flex_card.png"
+accepting_applications: false

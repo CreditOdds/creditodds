@@ -1,0 +1,5 @@
+name: "Cash Magnet Card"
+bank: "American Express"
+slug: "cash-magnet-card"
+image: "amex_cash_magnet.png"
+accepting_applications: false

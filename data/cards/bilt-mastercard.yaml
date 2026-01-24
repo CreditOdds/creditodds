@@ -1,0 +1,5 @@
+name: "Bilt Mastercard"
+bank: "Wells Fargo"
+slug: "bilt-mastercard"
+image: "bilt_mastercard.png"
+accepting_applications: false

@@ -1,0 +1,4 @@
+name: "Disney Visa Card"
+bank: "Chase"
+slug: "disney-visa-card"
+accepting_applications: false

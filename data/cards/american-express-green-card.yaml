@@ -1,0 +1,5 @@
+name: "American Express Green Card"
+bank: "American Express"
+slug: "american-express-green-card"
+image: "amex_green_card.png"
+accepting_applications: false

@@ -1,0 +1,5 @@
+name: "Wells Fargo Platinum"
+bank: "Wells Fargo"
+slug: "wells-fargo-platinum"
+image: "wells_fargo_platinum.png"
+accepting_applications: false

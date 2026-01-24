@@ -1,7 +1,0 @@
-name: "American Express Platinum Card"
-bank: "American Express"
-slug: "amex-platinum"
-image: "amex-platinum.png"
-accepting_applications: true
-category: "travel"
-annual_fee: 695

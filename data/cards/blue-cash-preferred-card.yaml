@@ -1,0 +1,5 @@
+name: "Blue Cash Preferred Card"
+bank: "American Express"
+slug: "blue-cash-preferred-card"
+image: "amex_blue_cash_preferred.png"
+accepting_applications: false

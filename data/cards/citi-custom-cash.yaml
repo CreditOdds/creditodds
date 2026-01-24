@@ -1,0 +1,5 @@
+name: "Citi Custom Cash"
+bank: "Citi"
+slug: "citi-custom-cash"
+image: "citi_custom_cash.png"
+accepting_applications: true

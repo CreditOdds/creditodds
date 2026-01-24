@@ -1,0 +1,4 @@
+name: "Citi Secured Mastercard"
+bank: "Citi"
+slug: "citi-secured-mastercard"
+accepting_applications: false

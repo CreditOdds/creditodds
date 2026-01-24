@@ -1,0 +1,5 @@
+name: "US Bank Altitude Connect"
+bank: "U.S. Bank"
+slug: "us-bank-altitude-connect"
+image: "altitude_connect.png"
+accepting_applications: false

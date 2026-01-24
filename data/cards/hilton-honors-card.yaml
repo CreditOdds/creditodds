@@ -1,0 +1,5 @@
+name: "Hilton Honors Card"
+bank: "American Express"
+slug: "hilton-honors-card"
+image: "amex_hilton_honors.png"
+accepting_applications: false

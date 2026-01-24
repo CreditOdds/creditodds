@@ -1,0 +1,5 @@
+name: "Amex EveryDay Credit Card"
+bank: "American Express"
+slug: "amex-everyday-credit-card"
+image: "amex_everyday.png"
+accepting_applications: false

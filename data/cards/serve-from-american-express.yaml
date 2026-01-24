@@ -1,0 +1,4 @@
+name: "Serve from American Express"
+bank: "American Express"
+slug: "serve-from-american-express"
+accepting_applications: false
