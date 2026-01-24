@@ -53,6 +53,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
       <CreditCardSchema card={card} />
       <BreadcrumbSchema items={[
         { name: 'Home', url: 'https://creditodds.com' },
+        { name: card.bank, url: `https://creditodds.com/bank/${encodeURIComponent(card.bank)}` },
         { name: card.card_name, url: `https://creditodds.com/card/${encodeURIComponent(card.card_name)}` }
       ]} />
       {/* Breadcrumbs */}
@@ -63,6 +64,16 @@ export default function CardClient({ card, graphData }: CardClientProps) {
               <Link href="/" className="text-gray-400 hover:text-gray-500">
                 Home
               </Link>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                </svg>
+                <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-500">
+                  {card.bank}
+                </Link>
+              </div>
             </li>
             <li>
               <div className="flex items-center">
@@ -99,10 +110,10 @@ export default function CardClient({ card, graphData }: CardClientProps) {
             <h1 className="text-4xl font-extrabold text-gray-900 sm:text-4xl tracking-wide">
               {card.card_name}
             </h1>
-            <div className="flex justify-center pt-2">
-              <BuildingLibraryIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              <p className="pl-2 pr-2 tracking-wide text-sm text-gray-500">{card.bank}</p>
-            </div>
+            <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="flex justify-center pt-2 group">
+              <BuildingLibraryIcon className="h-5 w-5 text-gray-400 group-hover:text-indigo-500" aria-hidden="true" />
+              <p className="pl-2 pr-2 tracking-wide text-sm text-gray-500 group-hover:text-indigo-600">{card.bank}</p>
+            </Link>
           </div>
 
           {/* Card Info Section */}

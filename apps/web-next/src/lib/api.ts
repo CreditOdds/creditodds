@@ -27,6 +27,17 @@ export async function getAllCards(): Promise<Card[]> {
   return res.json();
 }
 
+export async function getCardsByBank(bankName: string): Promise<Card[]> {
+  const allCards = await getAllCards();
+  return allCards.filter(card => card.bank.toLowerCase() === bankName.toLowerCase());
+}
+
+export async function getAllBanks(): Promise<string[]> {
+  const allCards = await getAllCards();
+  const banks = new Set(allCards.map(card => card.bank));
+  return Array.from(banks).sort();
+}
+
 export async function getCard(cardName: string): Promise<Card> {
   const res = await fetch(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
     next: { revalidate: 3600 },
