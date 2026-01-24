@@ -2,76 +2,188 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "CreditOdds Privacy Policy",
+  description: "CreditOdds Use of Private Information Policy",
 };
 
 export default function PrivacyPage() {
   return (
     <div className="relative py-16 bg-white overflow-hidden">
+      <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full">
+        <div className="relative h-full text-lg max-w-prose mx-auto" aria-hidden="true">
+          <svg
+            className="absolute top-12 left-full transform translate-x-32"
+            width="404"
+            height="384"
+            fill="none"
+            viewBox="0 0 404 384"
+          >
+            <defs>
+              <pattern
+                id="74b3fd99-0a6f-4271-bef2-e80eeafdf357"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  x="0"
+                  y="0"
+                  width="4"
+                  height="4"
+                  className="text-gray-200"
+                  fill="currentColor"
+                />
+              </pattern>
+            </defs>
+            <rect
+              width="404"
+              height="384"
+              fill="url(#74b3fd99-0a6f-4271-bef2-e80eeafdf357)"
+            />
+          </svg>
+          <svg
+            className="absolute top-1/2 right-full transform -translate-y-1/2 -translate-x-32"
+            width="404"
+            height="384"
+            fill="none"
+            viewBox="0 0 404 384"
+          >
+            <defs>
+              <pattern
+                id="f210dbf6-a58d-4871-961e-36d5016a0f49"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  x="0"
+                  y="0"
+                  width="4"
+                  height="4"
+                  className="text-gray-200"
+                  fill="currentColor"
+                />
+              </pattern>
+            </defs>
+            <rect
+              width="404"
+              height="384"
+              fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"
+            />
+          </svg>
+          <svg
+            className="absolute bottom-12 left-full transform translate-x-32"
+            width="404"
+            height="384"
+            fill="none"
+            viewBox="0 0 404 384"
+          >
+            <defs>
+              <pattern
+                id="d3eb07ae-5182-43e6-857d-35c643af9034"
+                x="0"
+                y="0"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect
+                  x="0"
+                  y="0"
+                  width="4"
+                  height="4"
+                  className="text-gray-200"
+                  fill="currentColor"
+                />
+              </pattern>
+            </defs>
+            <rect
+              width="404"
+              height="384"
+              fill="url(#d3eb07ae-5182-43e6-857d-35c643af9034)"
+            />
+          </svg>
+        </div>
+      </div>
       <div className="relative px-4 sm:px-6 lg:px-8">
-        <div className="text-lg max-w-prose mx-auto">
+        <div className="text-lg max-w-screen-lg mx-auto">
           <h1>
             <span className="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">
-              LEGAL
+              Privacy
             </span>
             <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Privacy Policy
+              Use of Private Information Policy
             </span>
           </h1>
-        </div>
-        <div className="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
-          <p>Last updated: January 2024</p>
-
-          <h2>Information We Collect</h2>
-          <p>
-            When you register for CreditOdds, we collect your email address and a display name.
-            When you submit credit card application data, we collect the information you provide
-            including credit score, income, and application results.
-          </p>
-
-          <h2>How We Use Your Information</h2>
-          <p>
-            We use the information you provide to display aggregated, anonymized credit card
-            approval statistics to other users. Your personal information (email, display name)
-            is never shared publicly.
-          </p>
-
-          <h2>Data Security</h2>
-          <p>
-            We implement appropriate security measures to protect your personal information.
-            Your data is stored securely using AWS infrastructure with encryption at rest and
-            in transit.
-          </p>
-
-          <h2>Cookies</h2>
-          <p>
-            We use cookies to maintain your session when you log in. We do not use tracking
-            cookies or share data with third-party advertisers.
-          </p>
-
-          <h2>Third Party Services</h2>
-          <p>
-            We use Google Firebase for authentication. Please review Google&apos;s privacy policy for
-            information about how they handle your data.
-          </p>
-
-          <h2>Your Rights</h2>
-          <p>
-            You may request deletion of your account and associated data at any time by
-            contacting us at support@creditodds.com.
-          </p>
-
-          <h2>Changes to This Policy</h2>
-          <p>
-            We may update this privacy policy from time to time. We will notify you of any
-            changes by posting the new policy on this page.
-          </p>
-
-          <h2>Contact Us</h2>
-          <p>
-            If you have questions about this Privacy Policy, please contact us at
-            support@creditodds.com.
-          </p>
+          <ul className="list-disc list-inside mt-8 text-base text-gray-500 leading-8">
+            <li>
+              <b>Summary -</b> We respect the EU&apos;s General Data Protection
+              Regulations (GDPR) and this policy explains how we collect and treat
+              any information you give us. You won&apos;t find any complicated legal
+              terms or long passages of unreadable text. We&apos;ve no desire to trick
+              you into agreeing to something you might later regret.
+            </li>
+            <li>
+              <b>Why we value your privacy -</b> We value your privacy as much as
+              we do our own, so we&apos;re committed to keeping your personal and
+              business information safe. We&apos;re uncomfortable with the information
+              companies, governments, and other organisations keep on file, so we
+              ask for only the bare minimum from our customers. We&apos;ll never use
+              your personal information for any reason other than why you gave it,
+              and we&apos;ll never give anyone access to it unless we&apos;re forced to by
+              law.
+            </li>
+            <li>
+              <b>How we collect information -</b> Our website doesn&apos;t use cookies
+              or scripts that were designed to track the websites you visit. We
+              don&apos;t use analytics or native social media &apos;like&apos; or &apos;sharing&apos;
+              buttons which also build profiles of your internet activity.
+            </li>
+            <li>
+              <b>What information we hold -</b> When you contact us by email or
+              through our website, we collect your name, email address, if you&apos;ve
+              given us that, and your IP address if you conduct a search (this
+              allows us to block a denial of service attack).
+            </li>
+            <li>
+              <b>Where we store your information -</b> When you contact us by email
+              or through our website, we store your information on our secure cloud
+              database.
+            </li>
+            <li>
+              <b>Who&apos;s responsible for your information at our company -</b> Our IT
+              Department is responsible for the security of your information. You
+              can contact them by using the contact feature if you have any
+              concerns about the information we store.
+            </li>
+            <li>
+              <b>Who has access to information about you -</b> When we store
+              information in our own systems, only the people who need it have
+              access. Our management team has access to everything you&apos;ve provided.
+            </li>
+            <li>
+              <b>The steps we take to keep your information private -</b> Where we
+              store your information in third-party services, we restrict access
+              only to people who need it.
+            </li>
+            <li>
+              <b>How to complain -</b> We take complaints very seriously. If
+              you&apos;ve any reason to complain about the ways we handle your privacy,
+              please contact us through the contact feature.
+            </li>
+            <li>
+              <b>Changes to the policy -</b> If we change the contents of this
+              policy, those changes will become effective the moment we publish
+              them on our website.
+            </li>
+          </ul>
+          <br />
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+            Updated 4/8/21
+          </span>
         </div>
       </div>
     </div>
