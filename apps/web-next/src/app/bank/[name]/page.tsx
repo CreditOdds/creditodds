@@ -128,17 +128,17 @@ export default async function BankPage({ params }: BankPageProps) {
                       <tr key={card.card_id} className="hover:bg-gray-50">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                           <Link href={`/card/${encodeURIComponent(card.card_name)}`} className="flex items-center group">
-                            {card.card_image_link && (
-                              <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
-                                <Image
-                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                                  alt={card.card_name}
-                                  width={64}
-                                  height={40}
-                                  className="h-10 w-16 object-contain"
-                                />
-                              </div>
-                            )}
+                            <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
+                              <Image
+                                src={card.card_image_link
+                                  ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                                  : '/assets/generic-card.svg'}
+                                alt={card.card_name}
+                                width={64}
+                                height={40}
+                                className="h-10 w-16 object-contain"
+                              />
+                            </div>
                             <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
                               {card.card_name}
                             </div>

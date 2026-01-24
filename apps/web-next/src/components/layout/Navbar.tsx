@@ -38,15 +38,15 @@ export default function Navbar() {
                 </div>
                 <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
                   <Link
-                    href="/how"
+                    href="/explore"
                     className={classNames(
-                      isActive('/how')
+                      isActive('/explore')
                         ? 'border-indigo-500 text-gray-900'
                         : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                       'inline-flex items-center px-1 pt-1 border-b-2 text-md font-medium'
                     )}
                   >
-                    How it works
+                    Explore Cards
                   </Link>
                 </nav>
               </div>
@@ -113,11 +113,18 @@ export default function Navbar() {
                     )}
                   </Menu>
                 ) : (
-                  <Link href="/login">
-                    <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      Sign In
-                    </button>
-                  </Link>
+                  <div className="flex items-center space-x-3">
+                    <Link href="/login">
+                      <button className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Sign In
+                      </button>
+                    </Link>
+                    <Link href="/login">
+                      <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Sign Up
+                      </button>
+                    </Link>
+                  </div>
                 )}
               </div>
               <div className="-mr-2 flex items-center sm:hidden">
@@ -136,15 +143,15 @@ export default function Navbar() {
           <Disclosure.Panel className="sm:hidden">
             <nav className="pt-2 pb-3 space-y-1">
               <Link
-                href="/how"
+                href="/explore"
                 className={classNames(
-                  isActive('/how')
+                  isActive('/explore')
                     ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
                     : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
                   'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
                 )}
               >
-                How it works
+                Explore Cards
               </Link>
             </nav>
             <div className="pb-3 border-t border-gray-200">
@@ -170,12 +177,20 @@ export default function Navbar() {
                     </button>
                   </>
                 ) : (
-                  <Link
-                    href="/login"
-                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                  >
-                    Sign In
-                  </Link>
+                  <>
+                    <Link
+                      href="/login"
+                      className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/login"
+                      className="block px-4 py-2 text-base font-medium text-indigo-600 hover:text-indigo-800 hover:bg-gray-100"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
                 )}
               </div>
             </div>

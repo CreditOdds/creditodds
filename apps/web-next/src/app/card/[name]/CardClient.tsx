@@ -118,17 +118,17 @@ export default function CardClient({ card, graphData }: CardClientProps) {
 
           {/* Card Info Section */}
           <div className="sm:flex pb-6">
-            {card.card_image_link && (
-              <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-                <Image
-                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                  alt={card.card_name}
-                  className="h-30 w-45 md:h-56 md:w-94 mx-auto"
-                  width={376}
-                  height={224}
-                />
-              </div>
-            )}
+            <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+              <Image
+                src={card.card_image_link
+                  ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                  : '/assets/generic-card.svg'}
+                alt={card.card_name}
+                className="h-30 w-45 md:h-56 md:w-94 mx-auto"
+                width={376}
+                height={224}
+              />
+            </div>
 
             <div className="w-full px-12">
               <div className="items-stretch">
