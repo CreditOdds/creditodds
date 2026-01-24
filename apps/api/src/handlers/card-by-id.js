@@ -39,7 +39,7 @@ async function fetchCardFromDB(cardName) {
   try {
     // First find the card by name (fuzzy match - the CDN has "Card" suffix but DB might not)
     const cardResults = await mysql.query(`
-      SELECT card_id, card_name, card_image_link
+      SELECT card_id, card_name, card_image_link, accepting_applications
       FROM cards
       WHERE card_name = ? OR card_name = ? OR ? LIKE CONCAT(card_name, '%')
       LIMIT 1
@@ -70,6 +70,7 @@ async function fetchCardFromDB(cardName) {
     return {
       card_id: dbCard.card_id,
       card_image_link: dbCard.card_image_link,
+      accepting_applications: dbCard.accepting_applications === 1,
       stats: statsResults[0] || {}
     };
   } catch (error) {
@@ -126,6 +127,7 @@ exports.CardByIdHandler = async (event) => {
           ...card,
           card_id: dbData?.card_id || card.card_id, // Override with database numeric ID
           card_image_link: dbData?.card_image_link || card.image || null,
+          accepting_applications: dbData?.accepting_applications !== undefined ? dbData.accepting_applications : card.accepting_applications,
           approved_count: dbData?.stats?.approved_count || 0,
           rejected_count: dbData?.stats?.rejected_count || 0,
           total_records: dbData?.stats?.total_records || 0,

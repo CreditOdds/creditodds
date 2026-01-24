@@ -35,10 +35,10 @@ async function fetchCardsFromCDN() {
   });
 }
 
-// Fetch card stats and images from MySQL
-async function fetchCardStatsAndImages() {
+// Fetch card stats and metadata from MySQL
+async function fetchCardStatsAndMetadata() {
   try {
-    const [statsResults, imageResults] = await Promise.all([
+    const [statsResults, cardResults] = await Promise.all([
       mysql.query(`
         SELECT
           card_id,
@@ -50,9 +50,8 @@ async function fetchCardStatsAndImages() {
         GROUP BY card_id
       `),
       mysql.query(`
-        SELECT card_name, card_image_link
+        SELECT card_name, card_image_link, accepting_applications
         FROM cards
-        WHERE card_image_link IS NOT NULL
       `)
     ]);
     await mysql.end();
@@ -63,16 +62,19 @@ async function fetchCardStatsAndImages() {
       statsMap[row.card_id] = row;
     }
 
-    // Convert images to lookup map (by card_name)
-    const imageMap = {};
-    for (const row of imageResults) {
-      imageMap[row.card_name] = row.card_image_link;
+    // Convert card metadata to lookup map (by card_name)
+    const cardMap = {};
+    for (const row of cardResults) {
+      cardMap[row.card_name] = {
+        card_image_link: row.card_image_link,
+        accepting_applications: row.accepting_applications === 1
+      };
     }
 
-    return { statsMap, imageMap };
+    return { statsMap, cardMap };
   } catch (error) {
     console.error('Error fetching card data from MySQL:', error);
-    return { statsMap: {}, imageMap: {} };
+    return { statsMap: {}, cardMap: {} };
   }
 }
 
@@ -84,21 +86,23 @@ exports.AllCardsHandler = async (event) => {
   switch (event.httpMethod) {
     case "GET":
       try {
-        // Fetch cards from CDN and stats/images from MySQL in parallel
-        const [cards, { statsMap, imageMap }] = await Promise.all([
+        // Fetch cards from CDN and stats/metadata from MySQL in parallel
+        const [cards, { statsMap, cardMap }] = await Promise.all([
           fetchCardsFromCDN(),
-          fetchCardStatsAndImages(),
+          fetchCardStatsAndMetadata(),
         ]);
 
-        // Merge card data with stats and images
+        // Merge card data with stats and metadata from database
         const enrichedCards = cards.map(card => {
             const stats = statsMap[card.card_id] || {};
+            const dbCard = cardMap[card.card_name] || cardMap[card.name] || {};
             return {
               ...card,
               approved_count: stats.approved_count || 0,
               rejected_count: stats.rejected_count || 0,
               total_records: stats.total_records || 0,
-              card_image_link: imageMap[card.card_name] || imageMap[card.name] || null,
+              card_image_link: dbCard.card_image_link || null,
+              accepting_applications: dbCard.accepting_applications !== undefined ? dbCard.accepting_applications : card.accepting_applications,
             };
           });
 
