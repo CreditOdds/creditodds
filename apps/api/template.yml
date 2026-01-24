@@ -37,16 +37,32 @@ Parameters:
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
+  # Firebase Token Authorizer Lambda
+  FirebaseAuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/firebase-authorizer.firebaseAuthorizerHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 10
+      Description: Firebase token authorizer for API Gateway
+      Environment:
+        Variables:
+          FIREBASE_PROJECT_ID: creditodds
+
   CreditCardOddsAPI:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
       Auth:
-        DefaultAuthorizer: CreditCardOddsAuthorizer
+        DefaultAuthorizer: FirebaseAuthorizer
         Authorizers:
-          CreditCardOddsAuthorizer:
-            UserPoolArn:
-              "arn:aws:cognito-idp:us-east-2:953352003729:userpool/us-east-2_YsAXahdbM"
+          FirebaseAuthorizer:
+            FunctionArn: !GetAtt FirebaseAuthorizerFunction.Arn
+            FunctionPayloadType: TOKEN
+            Identity:
+              Header: Authorization
+              ReauthorizeEvery: 300
 
   AllCardsFunction:
     Type: AWS::Serverless::Function

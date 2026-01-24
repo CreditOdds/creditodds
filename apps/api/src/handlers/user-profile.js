@@ -32,8 +32,8 @@ exports.UserProfileHandler = async (event) => {
       break;
     case "GET":
       try {
-        const userId = event.requestContext.authorizer.claims.sub;
-        const claims = event.requestContext.authorizer.claims;
+        const userId = event.requestContext.authorizer.sub;
+        const claims = event.requestContext.authorizer;
 
         // Get counts from database
         const [recordsResult, referralsResult] = await Promise.all([
@@ -45,7 +45,7 @@ exports.UserProfileHandler = async (event) => {
         const recordsCount = recordsResult[0]?.count || 0;
         const referralsCount = referralsResult[0]?.count || 0;
 
-        // Build profile response from Cognito claims
+        // Build profile response from Firebase authorizer context
         const profile = {
           username: claims['cognito:username'] || claims.preferred_username || claims.email?.split('@')[0] || 'User',
           email: claims.email || '',

@@ -50,7 +50,7 @@ exports.UserRecordsHandler = async (event) => {
     case "GET":
       try {
         let results = await mysql.query("call creditodds.user_records(?)", [
-          event.requestContext.authorizer.claims.sub,
+          event.requestContext.authorizer.sub,
         ]);
         // Run clean up function
         await mysql.end();
@@ -77,7 +77,7 @@ exports.UserRecordsHandler = async (event) => {
           "call creditodds.count_submit_records(?,?)",
           [
             JSON.parse(event.body).card_id,
-            event.requestContext.authorizer.claims.sub,
+            event.requestContext.authorizer.sub,
           ]
         );
         count = JSON.parse(JSON.stringify(count))[0][0]["count"];
@@ -104,7 +104,7 @@ exports.UserRecordsHandler = async (event) => {
               date_applied: new Date(value.date_applied),
               length_credit: value.length_credit,
               starting_credit_limit: value.starting_credit_limit,
-              submitter_id: event.requestContext.authorizer.claims.sub,
+              submitter_id: event.requestContext.authorizer.sub,
               submitter_ip_address: event.requestContext.identity.sourceIp,
               submit_datetime: new Date(),
               starting_credit_limit: value.starting_credit_limit,

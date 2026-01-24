@@ -36,7 +36,7 @@ exports.UserReferralsHandler = async (event) => {
         // Run stored procedure query
         let results = await mysql.query(
           "call creditodds.all_card_referrals(?)",
-          [event.requestContext.authorizer.claims.sub]
+          [event.requestContext.authorizer.sub]
         );
         results = JSON.parse(JSON.stringify(results[0]));
 
@@ -70,7 +70,7 @@ exports.UserReferralsHandler = async (event) => {
         console.log(JSON.parse(event.body).referral_link);
         let count = await mysql.query("call creditodds.check_referral(?,?,?)", [
           JSON.parse(event.body).card_id,
-          event.requestContext.authorizer.claims.sub,
+          event.requestContext.authorizer.sub,
           JSON.parse(event.body).referral_link,
         ]);
         await mysql.end();
@@ -87,7 +87,7 @@ exports.UserReferralsHandler = async (event) => {
         const referral = await mysql.query("INSERT INTO referrals SET ?", {
           card_id: JSON.parse(event.body).card_id,
           referral_link: JSON.parse(event.body).referral_link,
-          submitter_id: event.requestContext.authorizer.claims.sub,
+          submitter_id: event.requestContext.authorizer.sub,
           submitter_ip_address: event.requestContext.identity.sourceIp,
           submit_datetime: new Date(),
         });
