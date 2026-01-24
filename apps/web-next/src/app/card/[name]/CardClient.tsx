@@ -4,17 +4,29 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData } from "@/lib/api";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
+import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 // Dynamic import for Highcharts (client-side only)
 const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
   ssr: false,
   loading: () => <div className="h-64 flex items-center justify-center">Loading chart...</div>,
 });
+
+// Chart error fallback component (#10)
+function ChartErrorFallback() {
+  return (
+    <div className="h-64 flex items-center justify-center bg-gray-100 rounded-lg">
+      <p className="text-gray-500">Unable to load chart. Please refresh the page.</p>
+    </div>
+  );
+}
 
 interface CardClientProps {
   card: Card;
@@ -24,13 +36,25 @@ interface CardClientProps {
 export default function CardClient({ card, graphData }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const { authState } = useAuth();
+  const router = useRouter();
 
   const chartOne = graphData[0] || [];
   const chartTwo = graphData[1] || [];
   const chartThree = graphData[2] || [];
 
+  // Refresh page data after successful submission (#8)
+  const handleSubmitSuccess = () => {
+    router.refresh();
+  };
+
   return (
     <div className="bg-gray-50">
+      {/* JSON-LD Structured Data (#12) */}
+      <CreditCardSchema card={card} />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://creditodds.com' },
+        { name: card.card_name, url: `https://creditodds.com/card/${encodeURIComponent(card.card_name)}` }
+      ]} />
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -179,28 +203,32 @@ export default function CardClient({ card, graphData }: CardClientProps) {
             <div className="mt-10 mb-10 flex flex-wrap">
               <div className="sm:mx-2 bg-white shadow overflow-hidden sm:rounded-lg sm:min-w-0 sm:w-5/12 min-w-full flex-auto">
                 <div className="px-1 py-5 sm:px-6">
-                  <ScatterPlot
-                    title="Credit Score vs Income"
-                    yAxis="Income (USD)"
-                    xAxis="Credit Score"
-                    series={[
-                      { name: "Accepted", color: "#71AC49", data: chartOne[0] || [] },
-                      { name: "Rejected", color: "#e53936", data: chartOne[1] || [] },
-                    ]}
-                  />
+                  <ErrorBoundary fallback={<ChartErrorFallback />}>
+                    <ScatterPlot
+                      title="Credit Score vs Income"
+                      yAxis="Income (USD)"
+                      xAxis="Credit Score"
+                      series={[
+                        { name: "Accepted", color: "#71AC49", data: chartOne[0] || [] },
+                        { name: "Rejected", color: "#e53936", data: chartOne[1] || [] },
+                      ]}
+                    />
+                  </ErrorBoundary>
                 </div>
               </div>
               <div className="sm:mx-2 bg-white shadow overflow-hidden sm:rounded-lg sm:min-w-0 sm:w-5/12 min-w-full flex-auto">
                 <div className="px-4 py-5 sm:px-6">
-                  <ScatterPlot
-                    title="Length of Credit vs Credit Score"
-                    yAxis="Credit Score"
-                    xAxis="Length of Credit (Year)"
-                    series={[
-                      { name: "Accepted", color: "#71AC49", data: chartTwo[0] || [] },
-                      { name: "Rejected", color: "#e53936", data: chartTwo[1] || [] },
-                    ]}
-                  />
+                  <ErrorBoundary fallback={<ChartErrorFallback />}>
+                    <ScatterPlot
+                      title="Length of Credit vs Credit Score"
+                      yAxis="Credit Score"
+                      xAxis="Length of Credit (Year)"
+                      series={[
+                        { name: "Accepted", color: "#71AC49", data: chartTwo[0] || [] },
+                        { name: "Rejected", color: "#e53936", data: chartTwo[1] || [] },
+                      ]}
+                    />
+                  </ErrorBoundary>
                 </div>
               </div>
             </div>
@@ -218,14 +246,16 @@ export default function CardClient({ card, graphData }: CardClientProps) {
                 </div>
                 <div className="mt-10 sm:mx-2 bg-white shadow overflow-hidden sm:rounded-lg lg:col-span-2">
                   <div className="sm:px-6 py-5">
-                    <ScatterPlot
-                      title="Starting Credit Limit vs Income"
-                      yAxis="Starting Credit Limit (USD)"
-                      xAxis="Income (USD)"
-                      series={[
-                        { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree },
-                      ]}
-                    />
+                    <ErrorBoundary fallback={<ChartErrorFallback />}>
+                      <ScatterPlot
+                        title="Starting Credit Limit vs Income"
+                        yAxis="Starting Credit Limit (USD)"
+                        xAxis="Income (USD)"
+                        series={[
+                          { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree },
+                        ]}
+                      />
+                    </ErrorBoundary>
                   </div>
                 </div>
               </div>
@@ -239,6 +269,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
         show={showModal}
         handleClose={() => setShowModal(false)}
         card={card}
+        onSuccess={handleSubmitSuccess}
       />
     </div>
   );

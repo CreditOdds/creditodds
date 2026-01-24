@@ -1,8 +1,12 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact CreditOdds",
+  title: "Contact Us",
+  description: "Get in touch with the CreditOdds team. Questions, feedback, or suggestions about credit card approval data? We'd love to hear from you.",
+  openGraph: {
+    title: "Contact CreditOdds",
+    description: "Get in touch with questions or feedback",
+  },
 };
 
 export default function ContactPage() {

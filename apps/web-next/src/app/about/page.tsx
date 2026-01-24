@@ -3,7 +3,11 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About CreditOdds - Learn how we help you understand credit card approval odds",
+  description: "Learn about CreditOdds - the community-driven platform helping you understand your credit card approval chances before you apply. See real user data points to make informed decisions.",
+  openGraph: {
+    title: "About CreditOdds",
+    description: "The community-driven platform for credit card approval data",
+  },
 };
 
 export default function AboutPage() {

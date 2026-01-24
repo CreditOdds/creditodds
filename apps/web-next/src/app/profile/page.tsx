@@ -2,9 +2,11 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAuth } from "@/auth/AuthProvider";
 import { getProfile, getRecords, getReferrals } from "@/lib/api";
 import ReferralModal from "@/components/forms/ReferralModal";
+import { ProfileSkeleton } from "@/components/ui/Skeleton";
 
 interface Record {
   record_id: number;
@@ -111,11 +113,7 @@ export default function ProfilePage() {
   };
 
   if (authState.isLoading || loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-500">Loading...</div>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   if (!authState.isAuthenticated) {
@@ -180,11 +178,13 @@ export default function ProfilePage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           {record.card_image_link && (
-                            <div className="flex-shrink-0 h-10 w-16">
-                              <img
-                                className="h-10 w-16"
+                            <div className="flex-shrink-0 h-10 w-16 relative">
+                              <Image
+                                className="object-contain"
                                 src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
-                                alt=""
+                                alt={record.card_name}
+                                fill
+                                sizes="64px"
                               />
                             </div>
                           )}
@@ -260,11 +260,13 @@ export default function ProfilePage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             {referral.card_image_link && (
-                              <div className="flex-shrink-0 h-10 w-16">
-                                <img
-                                  className="h-10 w-16"
+                              <div className="flex-shrink-0 h-10 w-16 relative">
+                                <Image
+                                  className="object-contain"
                                   src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
-                                  alt=""
+                                  alt={referral.card_name}
+                                  fill
+                                  sizes="64px"
                                 />
                               </div>
                             )}

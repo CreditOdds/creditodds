@@ -2,8 +2,12 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "How it works",
-  description: "How CreditOdds works - Our approach to credit card approval odds",
+  title: "How It Works",
+  description: "Discover how CreditOdds collects and analyzes credit card approval data. Submit your results and help others make informed decisions about credit card applications.",
+  openGraph: {
+    title: "How CreditOdds Works",
+    description: "Our approach to credit card approval odds - powered by community data",
+  },
 };
 
 export default function HowPage() {

@@ -1,14 +1,18 @@
 'use client';
 
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import { Dialog, DialogPanel, Switch, Transition, TransitionChild } from "@headlessui/react";
 import { XMarkIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NumericFormat } from "react-number-format";
+import Image from "next/image";
 import { useAuth } from "@/auth/AuthProvider";
 import { toast } from "react-toastify";
 import { getRecords } from "@/lib/api";
+
+// Form persistence key prefix (#7)
+const FORM_STORAGE_KEY = 'creditodds_record_form_';
 
 interface Card {
   card_id: string | number;
@@ -35,6 +39,40 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
   const [submitting, setSubmitting] = useState(false);
   const [hasExistingRecord, setHasExistingRecord] = useState(false);
   const [checkingRecords, setCheckingRecords] = useState(true);
+
+  // Get storage key for this card (#7)
+  const storageKey = `${FORM_STORAGE_KEY}${card.card_id}`;
+
+  // Load saved form data from localStorage (#7)
+  const loadSavedForm = useCallback(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const saved = localStorage.getItem(storageKey);
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  }, [storageKey]);
+
+  // Save form data to localStorage (#7)
+  const saveFormData = useCallback((values: typeof formik.values) => {
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(values));
+    } catch {
+      // Ignore storage errors
+    }
+  }, [storageKey]);
+
+  // Clear saved form data (#7)
+  const clearSavedForm = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {
+      // Ignore storage errors
+    }
+  }, [storageKey]);
 
   // Check if user has already submitted a record for this card
   useEffect(() => {
@@ -65,21 +103,32 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
     checkExistingRecords();
   }, [show, card.card_name, getSession]);
 
+  // Auto-save form data when values change (#7)
+  useEffect(() => {
+    if (show && !hasExistingRecord && formik.dirty) {
+      saveFormData(formik.values);
+    }
+  }, [show, hasExistingRecord, formik.values, formik.dirty, saveFormData]);
+
+  // Default form values
+  const defaultValues = {
+    credit_score: 700,
+    credit_score_source: "0",
+    listed_income: 50000,
+    date_applied: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
+    length_credit: 5,
+    bank_customer: false,
+    result: true,
+    starting_credit_limit: undefined as number | undefined,
+    reason_denied: "",
+    inquiries_3: undefined as number | undefined,
+    inquiries_12: undefined as number | undefined,
+    inquiries_24: undefined as number | undefined,
+  };
+
   const formik = useFormik({
-    initialValues: {
-      credit_score: 700,
-      credit_score_source: "0",
-      listed_income: 50000,
-      date_applied: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
-      length_credit: 5,
-      bank_customer: false,
-      result: true,
-      starting_credit_limit: undefined as number | undefined,
-      reason_denied: "",
-      inquiries_3: undefined as number | undefined,
-      inquiries_12: undefined as number | undefined,
-      inquiries_24: undefined as number | undefined,
-    },
+    initialValues: loadSavedForm() || defaultValues,
+    enableReinitialize: true,
     validationSchema: Yup.object({
       credit_score: Yup.number()
         .integer("Credit Score must be a whole number")
@@ -142,8 +191,9 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
           autoClose: 5000,
         });
 
+        clearSavedForm(); // Clear saved form data on success (#7)
         formik.resetForm();
-        onSuccess?.();
+        onSuccess?.(); // Refresh card page data (#8)
         handleClose();
       } catch (error) {
         console.error("Error submitting record:", error);
@@ -204,11 +254,13 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                       {/* Card image and name */}
                       <div className="mb-6">
                         {card.card_image_link && (
-                          <div className="block w-full rounded-lg overflow-hidden mb-4">
-                            <img
+                          <div className="block w-full rounded-lg overflow-hidden mb-4 relative h-48">
+                            <Image
                               src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
                               alt={card.card_name}
-                              className="object-cover w-full"
+                              fill
+                              className="object-contain"
+                              sizes="(max-width: 448px) 100vw, 448px"
                             />
                           </div>
                         )}
