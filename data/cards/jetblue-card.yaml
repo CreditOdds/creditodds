@@ -1,0 +1,6 @@
+name: "JetBlue Card"
+bank: "Barclays"
+slug: "jetblue-card"
+accepting_applications: true
+category: "travel"
+annual_fee: 0

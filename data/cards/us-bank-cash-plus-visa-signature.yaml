@@ -1,0 +1,6 @@
+name: "U.S. Bank Cash+ Visa Signature Card"
+bank: "U.S. Bank"
+slug: "us-bank-cash-plus-visa-signature"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0

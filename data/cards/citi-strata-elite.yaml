@@ -1,0 +1,6 @@
+name: "Citi Strata Elite Card"
+bank: "Citi"
+slug: "citi-strata-elite"
+accepting_applications: true
+category: "travel"
+annual_fee: 495

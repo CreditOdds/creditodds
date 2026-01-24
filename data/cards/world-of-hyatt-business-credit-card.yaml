@@ -1,0 +1,6 @@
+name: "World of Hyatt Business Credit Card"
+bank: "Chase"
+slug: "world-of-hyatt-business-credit-card"
+accepting_applications: true
+category: "business"
+annual_fee: 199

@@ -1,0 +1,6 @@
+name: "JetBlue Plus Card"
+bank: "Barclays"
+slug: "jetblue-plus-card"
+accepting_applications: true
+category: "travel"
+annual_fee: 99

@@ -1,0 +1,6 @@
+name: "Citi Strata Card"
+bank: "Citi"
+slug: "citi-strata"
+accepting_applications: true
+category: "travel"
+annual_fee: 0

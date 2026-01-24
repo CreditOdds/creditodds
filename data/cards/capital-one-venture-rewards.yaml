@@ -1,0 +1,6 @@
+name: "Capital One Venture Rewards Credit Card"
+bank: "Capital One"
+slug: "capital-one-venture-rewards"
+accepting_applications: true
+category: "travel"
+annual_fee: 95
