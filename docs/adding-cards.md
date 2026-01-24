@@ -13,7 +13,7 @@ Credit card data is stored as YAML files in the repository. When your PR is merg
 
 ### Step 1: Fork the Repository
 
-1. Go to [github.com/CreditCardOdds/creditodds](https://github.com/CreditCardOdds/creditodds)
+1. Go to [github.com/CreditOdds/creditodds](https://github.com/CreditOdds/creditodds)
 2. Click the **Fork** button in the top right
 3. Clone your fork locally:
    ```bash
@@ -225,7 +225,7 @@ Once a maintainer reviews and merges your PR:
 
 ## Questions?
 
-- Open a [GitHub Issue](https://github.com/CreditCardOdds/creditodds/issues)
+- Open a [GitHub Issue](https://github.com/CreditOdds/creditodds/issues)
 - Contact us at [creditodds.com/contact](https://creditodds.com/contact)
 
 Thank you for contributing to CreditOdds!

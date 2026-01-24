@@ -29,7 +29,7 @@ The easiest way to contribute is by adding new credit cards to our database.
 
 ### Report Issues
 
-Found a bug or have a suggestion? [Open an issue](https://github.com/CreditCardOdds/creditodds/issues).
+Found a bug or have a suggestion? [Open an issue](https://github.com/CreditOdds/creditodds/issues).
 
 ### Code Contributions
 
@@ -45,7 +45,7 @@ For code changes:
 
 ```bash
 # Clone and install
-git clone https://github.com/CreditCardOdds/creditodds.git
+git clone https://github.com/CreditOdds/creditodds.git
 cd creditodds
 npm install
 
@@ -72,5 +72,5 @@ creditodds/
 
 ## Questions?
 
-- [Open an issue](https://github.com/CreditCardOdds/creditodds/issues)
+- [Open an issue](https://github.com/CreditOdds/creditodds/issues)
 - Visit [creditodds.com/contact](https://creditodds.com/contact)

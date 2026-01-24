@@ -56,7 +56,7 @@ creditodds/
 
 ```bash
 # Clone the repository
-git clone https://github.com/CreditCardOdds/creditodds.git
+git clone https://github.com/CreditOdds/creditodds.git
 cd creditodds
 
 # Install dependencies (installs all workspaces)
