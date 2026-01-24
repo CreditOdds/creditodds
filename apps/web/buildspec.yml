@@ -1,0 +1,27 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      # Install all dependencies (including dependencies for running tests)
+      - npm install
+  pre_build:
+    commands:
+      # Discover and run unit tests in the '__tests__' directory
+      # - npm run test
+      # Remove all unit tests to reduce the size of the package that will be ultimately uploaded to Lambda
+      # rm -rf ./__tests__
+      # Remove all dependencies not needed for the Lambda deployment package (the packages from devDependencies in package.json)
+      # npm prune --production
+  build:
+    commands:
+    # creatre production build of project push
+      - npm run-script build
+  post_build:
+    commands:
+      - aws s3 cp --recursive --acl public-read ./build s3://creditodds-website/ 
+artifacts:
+  files:
+    - '**/*'
+  base-directory: build

@@ -1,0 +1,36 @@
+{
+    "httpMethod": "GET",
+    "requestContext": {
+      "authorizer":  {
+      "claims": 
+      {
+        "sub": "9ac30874-a3d6-4fb6-9bd8-46169409f0ea",
+        "aud": "7g0sssglmevghirvr9oid50afm",
+        "email_verified": "true",
+        "event_id": "5a0215de-6faf-460c-873e-cc2b5120185a",
+        "token_use": "id",
+        "auth_time": "1619465968",
+        "iss": "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_YsAXahdbM",
+        "cognito:username": "33877394-3f93-4dde-a6ff-75d929a86b08",
+        "preferred_username": "mmm",
+        "exp": "Mon Apr 26 20:39:28 UTC 2021",
+        "iat": "Mon Apr 26 19:39:28 UTC 2021",
+        "email": "melcher.maxwell@gmail.com"
+      }
+      },
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "accountId": null,
+        "cognitoIdentityId": null,
+        "caller": null,
+        "sourceIp": "174.65.124.224",
+        "principalOrgId": null,
+        "accessKey": null,
+        "cognitoAuthenticationType": null,
+        "cognitoAuthenticationProvider": null,
+        "userArn": null,
+        "userAgent": "PostmanRuntime/7.26.8",
+        "user": null
+      }
+    }
+  }

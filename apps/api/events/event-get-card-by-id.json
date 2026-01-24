@@ -1,0 +1,6 @@
+{
+    "httpMethod": "GET",
+    "queryStringParameters": {
+        "card_name": "Wells Fargo Propel American Express Card"
+    }
+}

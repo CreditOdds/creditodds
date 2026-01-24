@@ -1,0 +1,265 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  CreditCardOddsAPI
+
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+- AWS::Serverless-2016-10-31
+
+Parameters:
+  ENDPOINT:
+    Type: String
+    Description: MySQL database endpoint
+    Default: default
+  DATABASE:
+    Type: String
+    Description: MySQL database name
+    Default: default
+  USERNAME:
+    Type: String
+    Description: MySQL database username
+    Default: default
+  PASSWORD:
+    Type: String
+    Description: MySQL database password
+    Default: default
+  CardsJsonUrl:
+    Type: String
+    Description: CloudFront URL for cards.json
+    Default: https://d2hxvzw7msbtvt.cloudfront.net/cards.json 
+
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+  CreditCardOddsAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Auth:
+        DefaultAuthorizer: CreditCardOddsAuthorizer
+        Authorizers:
+          CreditCardOddsAuthorizer:
+            UserPoolArn:
+              "arn:aws:cognito-idp:us-east-2:953352003729:userpool/us-east-2_YsAXahdbM"
+
+  AllCardsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/all-cards.AllCardsHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Returns all cards for landing search
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          CardsJsonUrl: !Ref CardsJsonUrl
+      Events:
+        CreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /cards
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
+  CardByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/card-by-id.CardByIdHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Returns card details by name or slug
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          CardsJsonUrl: !Ref CardsJsonUrl
+      Events:
+        CreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
+  getCardGraphsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-card-graphs.getCardGraphsHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        CreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /graphs
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
+  UserRecordsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/user-records.UserRecordsHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        CreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /records
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        OPTIONSCreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /records
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+        POSTCreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /records
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
+  UserReferralsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/user-referrals.UserReferralsHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        CreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /referrals
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        OPTIONSCreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /referrals
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+        POSTCreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /referrals
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
+  UserProfileFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/user-profile.UserProfileHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        CreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /profile
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        OPTIONSCreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /profile
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  updateHighLevelFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/update-high-level.updateHighLevelHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+  updateCardsGitHub:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/update-cards-github.updateCardsGitHubHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD

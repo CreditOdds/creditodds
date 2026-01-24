@@ -1,0 +1,25 @@
+{
+  "name": "@creditodds/api",
+  "description": "CreditOdds API - AWS Lambda serverless backend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "aws-sdk": "^2.799.0",
+    "serverless-mysql": "^1.5.4",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "scripts": {
+    "test-get-all-cards": "sam build && sam local invoke AllCardsFunction --event events/event-get-all-cards.json --env-vars env.json",
+    "test-get-card-by-id": "sam build && sam local invoke CardByIdFunction --event events/event-get-card-by-id.json --env-vars env.json",
+    "test-get-card-graphs": "sam build && sam local invoke getCardGraphsFunction --event events/event-get-card-graphs.json --env-vars env.json",
+    "test-post-record": "sam build && sam local invoke postRecordFunction --event events/event-post-record.json --env-vars env.json",
+    "test-post-referral": "sam build && sam local invoke postReferralFunction --event events/event-post-referral.json --env-vars env.json",
+    "test-update-high-level": "sam build && sam local invoke updateHighLevelFunction --env-vars env.json",
+    "test-get-user-records": "sam build && sam local invoke getUserRecordsFunction --event events/event-get-user-records.json --env-vars env.json",
+    "test-get-user-referrals": "sam build && sam local invoke getUserReferralsFunction --event events/event-get-user-referrals.json --env-vars env.json",
+    "test-get-user-profile": "sam build && sam local invoke UserProfileFunction --event events/event-get-user-profile.json --env-vars env.json"
+  }
+}
