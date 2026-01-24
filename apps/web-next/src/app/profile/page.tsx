@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/auth/AuthProvider";
 import { getProfile, getRecords, getReferrals } from "@/lib/api";
+import ReferralModal from "@/components/forms/ReferralModal";
 
 interface Record {
   record_id: number;
@@ -18,10 +19,17 @@ interface Record {
 
 interface Referral {
   referral_id: number;
+  card_id: string;
   card_name: string;
   card_image_link?: string;
   referral_link: string;
   admin_approved: boolean;
+}
+
+interface OpenReferral {
+  card_id: string;
+  card_name: string;
+  card_image_link?: string;
 }
 
 interface Profile {
@@ -37,7 +45,15 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [records, setRecords] = useState<Record[]>([]);
   const [referrals, setReferrals] = useState<Referral[]>([]);
+  const [openReferrals, setOpenReferrals] = useState<OpenReferral[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showReferralModal, setShowReferralModal] = useState(false);
+
+  // Only allow referrals for cards where user has submitted a record
+  const eligibleReferralCards = useMemo(() => {
+    const recordCardNames = new Set(records.map(r => r.card_name));
+    return openReferrals.filter(card => recordCardNames.has(card.card_name));
+  }, [records, openReferrals]);
 
   useEffect(() => {
     if (!authState.isLoading && !authState.isAuthenticated) {
@@ -53,13 +69,8 @@ export default function ProfilePage() {
   const loadData = async () => {
     try {
       const session = await getSession();
-      // Use same pattern as old React app: session.idToken.jwtToken
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const token = (session as any).idToken?.jwtToken || session.getIdToken().getJwtToken();
-
-      // Log token for debugging (first/last 10 chars only for security)
-      console.log('Token obtained:', token ? `${token.slice(0, 10)}...${token.slice(-10)}` : 'none');
-      console.log('Session keys:', Object.keys(session));
 
       // Fetch each independently to get better error handling
       try {
@@ -72,10 +83,18 @@ export default function ProfilePage() {
 
       try {
         const referralsData = await getReferrals(token);
-        setReferrals(referralsData || []);
+        // API returns [submitted, open] - two arrays
+        if (Array.isArray(referralsData) && referralsData.length >= 2) {
+          setReferrals(referralsData[0] || []);
+          setOpenReferrals(referralsData[1] || []);
+        } else {
+          setReferrals([]);
+          setOpenReferrals([]);
+        }
       } catch (e) {
         console.error("Referrals error:", e);
         setReferrals([]);
+        setOpenReferrals([]);
       }
 
       try {
@@ -207,60 +226,120 @@ export default function ProfilePage() {
         </div>
 
         {/* Referrals Table */}
-        <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Your Referrals</h2>
+        <div className="bg-white shadow rounded-lg overflow-hidden">
+          <div className="px-4 py-5 sm:px-6">
+            <h2 className="text-lg leading-6 font-medium text-gray-900">Your Referrals</h2>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">Your card referrals</p>
+          </div>
           {referrals.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Card
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Link
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {referrals.map((referral, index) => (
-                    <tr key={referral.referral_id || index}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {referral.card_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <a
-                          href={referral.referral_link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          View Link
-                        </a>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {referral.admin_approved ? (
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            Approved
-                          </span>
-                        ) : (
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                            Pending
-                          </span>
-                        )}
-                      </td>
+            <div className="border-t border-gray-200">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Card
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Referral Link
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Impressions
+                      </th>
+                      <th className="relative px-6 py-3">
+                        <span className="sr-only">Edit</span>
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {referrals.map((referral, index) => (
+                      <tr key={referral.referral_id || index}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            {referral.card_image_link && (
+                              <div className="flex-shrink-0 h-10 w-16">
+                                <img
+                                  className="h-10 w-16"
+                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
+                                  alt=""
+                                />
+                              </div>
+                            )}
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900">
+                                {referral.card_name}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-500 truncate max-w-xs">
+                            <a
+                              href={referral.referral_link}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              {referral.referral_link}
+                            </a>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {referral.admin_approved ? (
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                              Approved
+                            </span>
+                          ) : (
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                              Awaiting Approval
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          Coming soon...
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                            Edit
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           ) : (
-            <p className="text-gray-500">No referrals submitted yet.</p>
+            <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+              <p className="text-gray-500">No referrals submitted yet.</p>
+            </div>
           )}
+          <div className="border-t border-gray-200">
+            {eligibleReferralCards.length > 0 ? (
+              <button
+                onClick={() => setShowReferralModal(true)}
+                className="block w-full bg-gray-50 text-sm font-medium text-gray-500 text-center px-4 py-4 hover:text-gray-700 sm:rounded-b-lg cursor-pointer"
+              >
+                Submit a referral
+              </button>
+            ) : (
+              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
+                Submit a data point for a card to add your referral link
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Referral Modal */}
+        <ReferralModal
+          show={showReferralModal}
+          handleClose={() => setShowReferralModal(false)}
+          openReferrals={eligibleReferralCards}
+          onSuccess={loadData}
+        />
       </div>
     </div>
   );
