@@ -179,6 +179,13 @@ Resources:
             Method: POST
             RestApiId:
               Ref: CreditCardOddsAPI
+        DELETECreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /records
+            Method: DELETE
+            RestApiId:
+              Ref: CreditCardOddsAPI
 
   UserReferralsFunction:
     Type: AWS::Serverless::Function
@@ -272,10 +279,21 @@ Resources:
       Runtime: nodejs18.x
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Description: Syncs cards from CDN to MySQL database when triggered by GitHub webhook or manual call
       Environment:
         Variables:
           ENDPOINT: !Ref ENDPOINT
           DATABASE: !Ref DATABASE
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
+          CardsJsonUrl: !Ref CardsJsonUrl
+      Events:
+        SyncCardsAPI:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /sync-cards
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
