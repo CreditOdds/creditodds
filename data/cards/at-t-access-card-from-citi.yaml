@@ -1,4 +1,4 @@
 name: "AT&T Access Card From Citi"
 bank: "Citi"
 slug: "at-t-access-card-from-citi"
-accepting_applications: false
+accepting_applications: true
