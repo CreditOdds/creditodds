@@ -42,50 +42,49 @@ async function syncCardsToDatabase(cdnCards) {
   };
 
   try {
-    // Get existing cards from database
+    // Get existing cards from database (table doesn't have slug column)
     const existingCards = await mysql.query(
-      "SELECT card_id, card_name, bank, slug FROM cards"
+      "SELECT card_id, card_name, bank FROM cards"
     );
 
-    // Create lookup maps
-    const existingBySlug = {};
+    // Get max card_id for new inserts (table doesn't have auto-increment)
+    const maxIdResult = await mysql.query("SELECT MAX(card_id) as max_id FROM cards");
+    let nextCardId = (maxIdResult[0]?.max_id || 0) + 1;
+
+    // Create lookup map by card_name
     const existingByName = {};
     for (const card of existingCards) {
-      if (card.slug) {
-        existingBySlug[card.slug] = card;
-      }
       existingByName[card.card_name] = card;
     }
 
     for (const cdnCard of cdnCards) {
       try {
-        const slug = cdnCard.slug || cdnCard.card_id;
         const name = cdnCard.name;
         const bank = cdnCard.bank;
         const acceptingApplications = cdnCard.accepting_applications ? 1 : 0;
 
-        // Check if card exists by slug or name
-        const existingCard = existingBySlug[slug] || existingByName[name];
+        // Check if card exists by name
+        const existingCard = existingByName[name];
 
         if (existingCard) {
           // Update existing card
           await mysql.query(
             `UPDATE cards SET
-              card_name = ?,
               bank = ?,
               accepting_applications = ?
             WHERE card_id = ?`,
-            [name, bank, acceptingApplications, existingCard.card_id]
+            [bank, acceptingApplications, existingCard.card_id]
           );
           results.updated.push(name);
         } else {
-          // Insert new card
+          // Insert new card with explicit card_id
           await mysql.query(
-            `INSERT INTO cards (card_name, bank, accepting_applications, active)
-             VALUES (?, ?, ?, 1)`,
-            [name, bank, acceptingApplications]
+            `INSERT INTO cards (card_id, card_name, bank, accepting_applications, active)
+             VALUES (?, ?, ?, ?, 1)`,
+            [nextCardId, name, bank, acceptingApplications]
           );
           results.added.push(name);
+          nextCardId++;
         }
       } catch (cardError) {
         console.error(`Error processing card ${cdnCard.name}:`, cardError);
