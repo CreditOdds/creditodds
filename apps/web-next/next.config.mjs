@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export for production builds (S3/CloudFront/Amplify static deployment)
-  // Disabled in dev mode to allow on-demand rendering
-  ...(process.env.NODE_ENV === 'production' && { output: 'export' }),
-
   images: {
-    // For static export, use unoptimized images
-    unoptimized: process.env.NODE_ENV === 'production',
     remotePatterns: [
       {
         protocol: 'https',
