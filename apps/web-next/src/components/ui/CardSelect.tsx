@@ -145,19 +145,18 @@ export default function CardSelect({ allCards }: CardSelectProps) {
                     })}
                   >
                     <div className="flex items-center">
-                      {item.card_image_link ? (
-                        <div className="flex-shrink-0 h-8 w-12 relative">
-                          <Image
-                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`}
-                            alt=""
-                            fill
-                            className="object-contain"
-                            sizes="48px"
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex-shrink-0 h-8 w-12 bg-gray-200 rounded" />
-                      )}
+                      <div className="flex-shrink-0 h-8 w-12 relative">
+                        <Image
+                          src={item.card_image_link
+                            ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`
+                            : '/assets/generic-card.svg'
+                          }
+                          alt=""
+                          fill
+                          className="object-contain"
+                          sizes="48px"
+                        />
+                      </div>
                       <div className="ml-3 flex-1 min-w-0">
                         <p className={`text-sm truncate ${
                           selectedItem === item ? 'font-semibold' : 'font-normal'
