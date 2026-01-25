@@ -41,19 +41,13 @@ jobs:
           aws-region: us-east-2
 
       - name: Upload cards.json to S3
-        run: |
-          aws s3 cp data/cards.json s3://${{ secrets.S3_BUCKET_NAME }}/cards.json \
-            --content-type application/json \
-            --cache-control "max-age=300"
+        run: aws s3 cp data/cards.json s3://${{ secrets.S3_BUCKET_NAME }}/cards.json --content-type application/json --cache-control "max-age=300"
 
       - name: Upload card images to S3
         run: |
-          # Check if there are any images to upload (excluding .gitkeep)
           if find data/cards/images -type f ! -name '.gitkeep' | grep -q .; then
             echo "Uploading card images to S3..."
-            aws s3 sync data/cards/images/ s3://${{ secrets.S3_IMAGES_BUCKET_NAME }}/card_images/ \
-              --exclude ".gitkeep" \
-              --cache-control "max-age=86400"
+            aws s3 sync data/cards/images/ s3://${{ secrets.S3_IMAGES_BUCKET_NAME }}/card_images/ --exclude ".gitkeep" --cache-control "max-age=86400"
             echo "Images uploaded successfully"
           else
             echo "No images to upload"
@@ -61,16 +55,9 @@ jobs:
 
       - name: Invalidate CloudFront cache
         run: |
-          # Invalidate cards.json cache
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths "/cards.json"
-
-          # Invalidate images cache if images were uploaded
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/cards.json"
           if find data/cards/images -type f ! -name '.gitkeep' | grep -q .; then
-            aws cloudfront create-invalidation \
-              --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} \
-              --paths "/card_images/*"
+            aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} --paths "/card_images/*"
           fi
 
       - name: Wait for CloudFront invalidation
@@ -79,16 +66,11 @@ jobs:
       - name: Sync cards to database
         run: |
           echo "Triggering card sync to MySQL database..."
-          response=$(curl -s -w "\n%{http_code}" -X POST "${{ secrets.API_BASE_URL }}/sync-cards" \
-            -H "Content-Type: application/json" \
-            -d '{"source": "github-action"}')
-
+          response=$(curl -s -w "\n%{http_code}" -X POST "${{ secrets.API_BASE_URL }}/sync-cards" -H "Content-Type: application/json" -d '{"source": "github-action"}')
           http_code=$(echo "$response" | tail -n1)
           body=$(echo "$response" | sed '$d')
-
           echo "Response: $body"
           echo "HTTP Status: $http_code"
-
           if [ "$http_code" -ne 200 ]; then
             echo "Warning: Card sync returned non-200 status"
           fi
