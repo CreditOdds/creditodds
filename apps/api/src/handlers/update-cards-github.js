@@ -44,28 +44,23 @@ async function syncCardsToDatabase(cdnCards) {
   try {
     // Get existing cards from database
     const existingCards = await mysql.query(
-      "SELECT card_id, card_name, bank, slug FROM cards"
+      "SELECT card_id, card_name, bank FROM cards"
     );
 
-    // Create lookup maps
-    const existingBySlug = {};
+    // Create lookup map by card_name
     const existingByName = {};
     for (const card of existingCards) {
-      if (card.slug) {
-        existingBySlug[card.slug] = card;
-      }
       existingByName[card.card_name] = card;
     }
 
     for (const cdnCard of cdnCards) {
       try {
-        const slug = cdnCard.slug || cdnCard.card_id;
         const name = cdnCard.name;
         const bank = cdnCard.bank;
         const acceptingApplications = cdnCard.accepting_applications ? 1 : 0;
 
-        // Check if card exists by slug or name
-        const existingCard = existingBySlug[slug] || existingByName[name];
+        // Check if card exists by name
+        const existingCard = existingByName[name];
 
         if (existingCard) {
           // Update existing card
