@@ -210,7 +210,8 @@ export default function CardClient({ card, graphData }: CardClientProps) {
         </div>
       </div>
 
-      {/* Charts Section */}
+      {/* Charts Section - only show if there's data */}
+      {(chartOne.length > 0 || chartThree.length > 0) && (
       <div className="py-12">
         <div className="max-w-full mx-auto sm:px-6 lg:px-8">
           <div className="lg:text-center">
@@ -289,6 +290,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
           </div>
         )}
       </div>
+      )}
 
       {/* Submit Record Modal */}
       <SubmitRecordModal
