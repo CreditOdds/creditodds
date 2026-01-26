@@ -132,34 +132,49 @@ export default function CardClient({ card, graphData }: CardClientProps) {
 
             <div className="w-full px-12">
               <div className="items-stretch">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 text-center">
-                  On average people who got <b>accepted</b> for the card had...
-                </h3>
+                {(card.approved_count || 0) > 0 ? (
+                  <>
+                    <h3 className="text-lg leading-6 font-medium text-gray-900 text-center">
+                      On average people who got <b>accepted</b> for the card had...
+                    </h3>
 
-                <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3 text-center">
-                  <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Credit Score</dt>
-                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                      {card.approved_median_credit_score}
-                    </dd>
+                    <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3 text-center">
+                      <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
+                        <dt className="text-sm font-medium text-gray-500 truncate">Credit Score</dt>
+                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                          {card.approved_median_credit_score}
+                        </dd>
+                      </div>
+                      <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
+                        <dt className="text-sm font-medium text-gray-500 truncate">Income</dt>
+                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                          ${card.approved_median_income?.toLocaleString()}
+                        </dd>
+                      </div>
+                      <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
+                        <dt className="text-sm font-medium text-gray-500 truncate">Length of Credit</dt>
+                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                          {card.approved_median_length_credit}
+                        </dd>
+                      </div>
+                    </dl>
+                    <p className="mt-2 text-center text-xs text-gray-400 pt-6">
+                      Median based on {(card.rejected_count || 0) + (card.approved_count || 0)} records
+                      with {card.approved_count} approved and {card.rejected_count} rejected
+                    </p>
+                  </>
+                ) : (
+                  <div className="py-8 bg-blue-50 rounded-lg">
+                    <div className="text-center px-6">
+                      <h3 className="text-lg leading-6 font-medium text-gray-900 mb-3">
+                        We're still collecting data on this card
+                      </h3>
+                      <p className="text-base text-gray-600">
+                        If you've applied for this card, please submit your data below. We need at least 1 data point to show the charts and statistics.
+                      </p>
+                    </div>
                   </div>
-                  <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Income</dt>
-                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                      ${card.approved_median_income?.toLocaleString()}
-                    </dd>
-                  </div>
-                  <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Length of Credit</dt>
-                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                      {card.approved_median_length_credit}
-                    </dd>
-                  </div>
-                </dl>
-                <p className="mt-2 text-center text-xs text-gray-400 pt-6">
-                  Median based on {(card.rejected_count || 0) + (card.approved_count || 0)} records
-                  with {card.approved_count} approved and {card.rejected_count} rejected
-                </p>
+                )}
               </div>
             </div>
           </div>
