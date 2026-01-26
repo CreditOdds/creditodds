@@ -18,10 +18,10 @@ export interface Card {
 // Each series is an array of [x, y] data points
 export type GraphData = [number, number][][];
 
-// Server-side fetch functions with caching
+// Server-side fetch functions (caching disabled during development)
 export async function getAllCards(): Promise<Card[]> {
   const res = await fetch(`${API_BASE}/cards`, {
-    next: { revalidate: 3600 }, // Cache for 1 hour
+    cache: 'no-store',
   });
   if (!res.ok) throw new Error('Failed to fetch cards');
   return res.json();
@@ -40,7 +40,7 @@ export async function getAllBanks(): Promise<string[]> {
 
 export async function getCard(cardName: string): Promise<Card> {
   const res = await fetch(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
-    next: { revalidate: 3600 },
+    cache: 'no-store',
   });
   if (!res.ok) throw new Error('Failed to fetch card');
   return res.json();
@@ -48,7 +48,7 @@ export async function getCard(cardName: string): Promise<Card> {
 
 export async function getCardGraphs(cardName: string): Promise<GraphData[]> {
   const res = await fetch(`${API_BASE}/graphs?card_name=${encodeURIComponent(cardName)}`, {
-    next: { revalidate: 3600 },
+    cache: 'no-store',
   });
   if (!res.ok) throw new Error('Failed to fetch graphs');
   return res.json();
