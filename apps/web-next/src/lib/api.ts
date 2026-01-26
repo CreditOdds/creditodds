@@ -11,6 +11,7 @@ export interface Card {
   approved_median_length_credit?: string | number;
   approved_count?: number;
   rejected_count?: number;
+  release_date?: string;
 }
 
 // GraphData is an array of series data

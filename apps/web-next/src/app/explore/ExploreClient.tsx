@@ -10,22 +10,86 @@ interface ExploreClientProps {
   banks: string[];
 }
 
+type SortOption = 'name' | 'recent' | 'bank';
+
 export default function ExploreClient({ cards, banks }: ExploreClientProps) {
   const [search, setSearch] = useState("");
   const [selectedBank, setSelectedBank] = useState<string>("");
+  const [sortBy, setSortBy] = useState<SortOption>('name');
+
+  // Get recently released cards (cards with release_date, sorted by most recent)
+  const recentlyReleased = useMemo(() => {
+    return cards
+      .filter(card => card.release_date && card.accepting_applications)
+      .sort((a, b) => (b.release_date || '').localeCompare(a.release_date || ''))
+      .slice(0, 5);
+  }, [cards]);
 
   const filteredCards = useMemo(() => {
-    return cards.filter(card => {
+    let filtered = cards.filter(card => {
       const matchesSearch = search === "" ||
         card.card_name.toLowerCase().includes(search.toLowerCase()) ||
         card.bank.toLowerCase().includes(search.toLowerCase());
       const matchesBank = selectedBank === "" || card.bank === selectedBank;
       return matchesSearch && matchesBank;
     });
-  }, [cards, search, selectedBank]);
+
+    // Sort based on selected option
+    switch (sortBy) {
+      case 'recent':
+        filtered = [...filtered].sort((a, b) => {
+          // Cards with release_date come first, sorted by most recent
+          if (a.release_date && b.release_date) {
+            return b.release_date.localeCompare(a.release_date);
+          }
+          if (a.release_date) return -1;
+          if (b.release_date) return 1;
+          return a.card_name.localeCompare(b.card_name);
+        });
+        break;
+      case 'bank':
+        filtered = [...filtered].sort((a, b) => a.bank.localeCompare(b.bank));
+        break;
+      case 'name':
+      default:
+        filtered = [...filtered].sort((a, b) => a.card_name.localeCompare(b.card_name));
+    }
+
+    return filtered;
+  }, [cards, search, selectedBank, sortBy]);
 
   return (
     <>
+      {/* Recently Released Section */}
+      {recentlyReleased.length > 0 && !search && !selectedBank && (
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Recently Released</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+            {recentlyReleased.map((card) => (
+              <Link
+                key={card.card_id}
+                href={`/card/${encodeURIComponent(card.card_name)}`}
+                className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+              >
+                <div className="aspect-[1.586/1] relative mb-2">
+                  <Image
+                    src={card.card_image_link
+                      ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                      : '/assets/generic-card.svg'}
+                    alt={card.card_name}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                  />
+                </div>
+                <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
+                <p className="text-xs text-gray-500">{card.bank}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Filters */}
       <div className="mt-8 flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
@@ -51,6 +115,19 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
             {banks.map(bank => (
               <option key={bank} value={bank}>{bank}</option>
             ))}
+          </select>
+        </div>
+        <div className="sm:w-48">
+          <label htmlFor="sort" className="sr-only">Sort by</label>
+          <select
+            id="sort"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          >
+            <option value="name">Sort by Name</option>
+            <option value="recent">Sort by Release Date</option>
+            <option value="bank">Sort by Bank</option>
           </select>
         </div>
       </div>

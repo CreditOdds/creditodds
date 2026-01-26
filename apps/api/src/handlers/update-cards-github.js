@@ -75,11 +75,13 @@ async function syncCardsToDatabase(cdnCards) {
           );
           results.updated.push(name);
         } else {
-          // Insert new card
+          // Insert new card - get next available card_id
+          const maxIdResult = await mysql.query("SELECT MAX(card_id) as max_id FROM cards");
+          const nextId = (maxIdResult[0]?.max_id || 0) + 1;
           await mysql.query(
-            `INSERT INTO cards (card_name, bank, accepting_applications, card_image_link, active)
-             VALUES (?, ?, ?, ?, 1)`,
-            [name, bank, acceptingApplications, cdnCard.image || null]
+            `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link, active)
+             VALUES (?, ?, ?, ?, ?, 1)`,
+            [nextId, name, bank, acceptingApplications, cdnCard.image || null]
           );
           results.added.push(name);
         }
