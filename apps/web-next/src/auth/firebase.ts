@@ -15,25 +15,32 @@ const firebaseConfig = {
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
 
-function initializeFirebase() {
+function getFirebaseAuth(): Auth | undefined {
   if (typeof window === 'undefined') {
-    return;
+    return undefined;
   }
 
   if (!firebaseConfig.apiKey) {
-    console.error('Firebase config missing - API key not found');
-    return;
+    console.error('Firebase config missing - API key not found. Check NEXT_PUBLIC_FIREBASE_API_KEY environment variable.');
+    return undefined;
   }
 
   if (!app) {
-    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-    auth = getAuth(app);
+    try {
+      app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+      auth = getAuth(app);
+      console.log('Firebase initialized successfully');
+    } catch (error) {
+      console.error('Firebase initialization error:', error);
+      return undefined;
+    }
   }
+
+  return auth;
 }
 
-// Initialize immediately if we're on the client
-if (typeof window !== 'undefined') {
-  initializeFirebase();
-}
+// Export a getter function that initializes on first access
+export { app, getFirebaseAuth };
 
-export { app, auth };
+// For backwards compatibility, also export auth but it will be initialized lazily
+export const getAuth_lazy = getFirebaseAuth;

@@ -11,7 +11,7 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
 } from "firebase/auth";
-import { auth } from "./firebase";
+import { getFirebaseAuth } from "./firebase";
 
 // Key for storing email in localStorage for email link sign-in
 const EMAIL_FOR_SIGN_IN_KEY = 'emailForSignIn';
@@ -48,7 +48,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Listen for auth state changes
   useEffect(() => {
+    const auth = getFirebaseAuth();
     if (!auth) {
+      console.warn('Firebase auth not available');
       setAuthState({ isAuthenticated: false, isLoading: false, user: null });
       return;
     }
@@ -66,7 +68,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Check for email link sign-in on mount
   useEffect(() => {
-    if (typeof window === 'undefined' || !auth) return;
+    if (typeof window === 'undefined') return;
+    const auth = getFirebaseAuth();
+    if (!auth) return;
 
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = window.localStorage.getItem(EMAIL_FOR_SIGN_IN_KEY);
@@ -92,14 +96,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Sign in with Google
   const signInWithGoogle = useCallback(async () => {
-    if (!auth) throw new Error('Firebase not initialized');
+    const auth = getFirebaseAuth();
+    if (!auth) throw new Error('Firebase not initialized. Please check your environment variables.');
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
   }, []);
 
   // Send email link for passwordless sign-in
   const sendEmailLink = useCallback(async (email: string) => {
-    if (!auth) throw new Error('Firebase not initialized');
+    const auth = getFirebaseAuth();
+    if (!auth) throw new Error('Firebase not initialized. Please check your environment variables.');
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
     // Save the email locally to complete sign-in if user opens link on same device
     if (typeof window !== 'undefined') {
@@ -109,7 +115,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Complete email link sign-in (for manual completion)
   const completeEmailLinkSignIn = useCallback(async (email: string) => {
-    if (typeof window === 'undefined' || !auth) return;
+    if (typeof window === 'undefined') return;
+    const auth = getFirebaseAuth();
+    if (!auth) return;
 
     if (isSignInWithEmailLink(auth, window.location.href)) {
       await signInWithEmailLink(auth, email, window.location.href);
@@ -120,12 +128,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Sign out
   const logout = useCallback(async () => {
+    const auth = getFirebaseAuth();
     if (!auth) return;
     await signOut(auth);
   }, []);
 
   // Get ID token for API calls
   const getToken = useCallback(async (): Promise<string | null> => {
+    const auth = getFirebaseAuth();
     if (!auth) return null;
     const user = auth.currentUser;
     if (user) {
