@@ -202,7 +202,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                       Card
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">
-                      Bank
+                      Annual Fee
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                       Status
@@ -225,15 +225,18 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                               className="h-10 w-16 object-contain"
                             />
                           </div>
-                          <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
-                            {card.card_name}
+                          <div>
+                            <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
+                              {card.card_name}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {card.bank}
+                            </div>
                           </div>
                         </Link>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm hidden sm:table-cell">
-                        <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="text-gray-500 hover:text-indigo-600">
-                          {card.bank}
-                        </Link>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
+                        {card.annual_fee !== undefined ? (card.annual_fee === 0 ? '$0' : `$${card.annual_fee}`) : '—'}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm">
                         {card.accepting_applications ? (

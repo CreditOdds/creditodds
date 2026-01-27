@@ -50,7 +50,7 @@ async function fetchCardStatsAndMetadata() {
         GROUP BY card_id
       `),
       mysql.query(`
-        SELECT card_name, card_image_link, accepting_applications, tags
+        SELECT card_id, card_name, card_image_link, accepting_applications, tags
         FROM cards
       `)
     ]);
@@ -75,6 +75,7 @@ async function fetchCardStatsAndMetadata() {
         }
       }
       cardMap[row.card_name] = {
+        db_card_id: row.card_id,
         card_image_link: row.card_image_link,
         accepting_applications: row.accepting_applications === 1,
         tags: tags || []
@@ -108,6 +109,7 @@ exports.AllCardsHandler = async (event) => {
             const dbCard = cardMap[card.card_name] || cardMap[card.name] || {};
             return {
               ...card,
+              db_card_id: dbCard.db_card_id || null,
               approved_count: stats.approved_count || 0,
               rejected_count: stats.rejected_count || 0,
               total_records: stats.total_records || 0,

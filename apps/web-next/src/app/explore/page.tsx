@@ -59,18 +59,16 @@ export default async function ExplorePage() {
       </nav>
 
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center">
-          <div className="flex justify-center items-center mb-4">
-            <MagnifyingGlassIcon className="h-12 w-12 text-indigo-600" aria-hidden="true" />
-          </div>
-          <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex items-center justify-center gap-3">
+          <MagnifyingGlassIcon className="h-8 w-8 text-indigo-600" aria-hidden="true" />
+          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Explore Credit Cards
           </h1>
-          <p className="mt-4 text-xl text-gray-500">
-            {cards.length} credit cards from {banks.length} banks
-          </p>
         </div>
+        <p className="mt-2 text-center text-lg text-gray-500">
+          {cards.length} credit cards from {banks.length} banks
+        </p>
 
         {/* Client component for filtering/search */}
         <ExploreClient cards={sortedCards} banks={banks} />

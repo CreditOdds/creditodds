@@ -3,13 +3,20 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getProfile, getRecords, getReferrals, deleteRecord } from "@/lib/api";
+import { getProfile, getRecords, getReferrals, deleteRecord, getWallet, removeFromWallet, WalletCard } from "@/lib/api";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
+import { PlusIcon, WalletIcon, TrashIcon } from "@heroicons/react/24/outline";
 
-// Lazy load ReferralModal - only loaded when user opens it
+// Lazy load modals - only loaded when user opens them
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), {
+  ssr: false,
+  loading: () => null,
+});
+
+const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), {
   ssr: false,
   loading: () => null,
 });
@@ -55,9 +62,12 @@ export default function ProfilePage() {
   const [records, setRecords] = useState<Record[]>([]);
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [openReferrals, setOpenReferrals] = useState<OpenReferral[]>([]);
+  const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [showReferralModal, setShowReferralModal] = useState(false);
+  const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
+  const [removingCardId, setRemovingCardId] = useState<number | null>(null);
 
   // Only allow referrals for cards where user has submitted a record
   const eligibleReferralCards = useMemo(() => {
@@ -115,11 +125,47 @@ export default function ProfilePage() {
       } catch (e) {
         console.error("Profile error:", e);
       }
+
+      try {
+        const walletData = await getWallet(token);
+        setWalletCards(walletData || []);
+      } catch (e) {
+        console.error("Wallet error:", e);
+        setWalletCards([]);
+      }
     } catch (error) {
       console.error("Error loading profile data:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRemoveFromWallet = async (cardId: number) => {
+    if (!confirm("Remove this card from your wallet?")) return;
+
+    setRemovingCardId(cardId);
+    try {
+      const token = await getToken();
+      if (!token) {
+        console.error("No auth token available");
+        return;
+      }
+      await removeFromWallet(cardId, token);
+      setWalletCards(walletCards.filter(c => c.card_id !== cardId));
+    } catch (error) {
+      console.error("Error removing card from wallet:", error);
+      alert("Failed to remove card. Please try again.");
+    } finally {
+      setRemovingCardId(null);
+    }
+  };
+
+  const formatAcquiredDate = (month?: number, year?: number) => {
+    if (!month && !year) return null;
+    const monthName = month ? new Date(2000, month - 1).toLocaleString('default', { month: 'short' }) : '';
+    if (month && year) return `${monthName} ${year}`;
+    if (year) return `${year}`;
+    return monthName;
   };
 
   const handleDeleteRecord = async (recordId: number) => {
@@ -170,7 +216,13 @@ export default function ProfilePage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 mb-6">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-6">
+          <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <dt className="text-sm font-medium text-gray-500 truncate">Cards in Wallet</dt>
+              <dd className="mt-1 text-3xl font-semibold text-gray-900">{walletCards.length}</dd>
+            </div>
+          </div>
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-medium text-gray-500 truncate">Total Records</dt>
@@ -183,6 +235,69 @@ export default function ProfilePage() {
               <dd className="mt-1 text-3xl font-semibold text-gray-900">{referrals.length}</dd>
             </div>
           </div>
+        </div>
+
+        {/* Wallet Section */}
+        <div className="bg-white shadow rounded-lg p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <WalletIcon className="h-6 w-6 text-indigo-600" />
+              <h2 className="text-xl font-bold text-gray-900">My Wallet</h2>
+            </div>
+            <button
+              onClick={() => setShowWalletModal(true)}
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <PlusIcon className="h-4 w-4 mr-1" />
+              Add Card
+            </button>
+          </div>
+
+          {walletCards.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {walletCards.map((card) => (
+                <div
+                  key={card.id}
+                  className="relative group bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
+                >
+                  <Link href={`/card/${encodeURIComponent(card.card_name)}`}>
+                    <div className="aspect-[1.586/1] relative mb-2">
+                      <Image
+                        src={card.card_image_link
+                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                          : '/assets/generic-card.svg'}
+                        alt={card.card_name}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                      />
+                    </div>
+                    <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
+                    <p className="text-xs text-gray-500">{card.bank}</p>
+                    {formatAcquiredDate(card.acquired_month, card.acquired_year) && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Since {formatAcquiredDate(card.acquired_month, card.acquired_year)}
+                      </p>
+                    )}
+                  </Link>
+                  <button
+                    onClick={() => handleRemoveFromWallet(card.card_id)}
+                    disabled={removingCardId === card.card_id}
+                    className="absolute top-2 right-2 p-1 bg-white rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+                    title="Remove from wallet"
+                  >
+                    <TrashIcon className={`h-4 w-4 ${removingCardId === card.card_id ? 'text-gray-400' : 'text-red-500'}`} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <WalletIcon className="mx-auto h-12 w-12 text-gray-300" />
+              <p className="mt-2 text-gray-500">No cards in your wallet yet.</p>
+              <p className="text-sm text-gray-400">Add the credit cards you own to track your collection.</p>
+            </div>
+          )}
         </div>
 
         {/* Records Table */}
@@ -393,6 +508,14 @@ export default function ProfilePage() {
           handleClose={() => setShowReferralModal(false)}
           openReferrals={eligibleReferralCards}
           onSuccess={loadData}
+        />
+
+        {/* Add to Wallet Modal */}
+        <AddToWalletModal
+          show={showWalletModal}
+          onClose={() => setShowWalletModal(false)}
+          onSuccess={loadData}
+          existingCardIds={walletCards.map(c => c.card_id)}
         />
       </div>
     </div>

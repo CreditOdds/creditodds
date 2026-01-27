@@ -2,6 +2,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://c301gwdbok.exe
 
 export interface Card {
   card_id: string | number;
+  db_card_id?: number;
   card_name: string;
   bank: string;
   card_image_link?: string;
@@ -13,6 +14,7 @@ export interface Card {
   rejected_count?: number;
   release_date?: string;
   tags?: string[];
+  annual_fee?: number;
 }
 
 // GraphData is an array of series data
@@ -129,6 +131,73 @@ export async function getProfile(token: string) {
     const errorText = await res.text().catch(() => 'Unknown error');
     console.error('getProfile error:', res.status, errorText);
     throw new Error(`Failed to fetch profile: ${res.status}`);
+  }
+  return res.json();
+}
+
+// Wallet types and API functions
+export interface WalletCard {
+  id: number;
+  card_id: number;
+  card_name: string;
+  bank: string;
+  card_image_link?: string;
+  acquired_month?: number;
+  acquired_year?: number;
+  created_at: string;
+}
+
+export async function getWallet(token: string): Promise<WalletCard[]> {
+  const res = await fetch(`${API_BASE}/wallet`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    console.error('getWallet error:', res.status, errorText);
+    throw new Error(`Failed to fetch wallet: ${res.status}`);
+  }
+  return res.json();
+}
+
+export async function addToWallet(
+  cardId: number,
+  acquiredMonth?: number,
+  acquiredYear?: number,
+  token?: string
+): Promise<{ message: string; card_id: number }> {
+  if (!token) throw new Error('Authentication required');
+  const res = await fetch(`${API_BASE}/wallet`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      card_id: cardId,
+      acquired_month: acquiredMonth || null,
+      acquired_year: acquiredYear || null,
+    }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to add card to wallet: ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function removeFromWallet(cardId: number, token: string): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/wallet`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ card_id: cardId }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to remove card from wallet: ${errorText}`);
   }
   return res.json();
 }
