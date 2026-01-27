@@ -1,0 +1,6 @@
+name: "US Bank Shield"
+bank: "U.S. Bank"
+slug: "us-bank-shield"
+image: "us-bank-shield.png"
+accepting_applications: true
+annual_fee: 0

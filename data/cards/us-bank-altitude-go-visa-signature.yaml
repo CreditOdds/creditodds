@@ -3,4 +3,5 @@ bank: "U.S. Bank"
 slug: "us-bank-altitude-go-visa-signature"
 accepting_applications: true
 category: "travel"
+image: "us-bank-altitude-go.png"
 annual_fee: 0
