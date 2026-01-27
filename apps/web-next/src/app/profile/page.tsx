@@ -39,7 +39,10 @@ interface Referral {
   card_name: string;
   card_image_link?: string;
   referral_link: string;
+  card_referral_link?: string;
   admin_approved: boolean;
+  impressions?: number;
+  clicks?: number;
 }
 
 interface OpenReferral {
@@ -335,94 +338,101 @@ export default function ProfilePage() {
         </div>
 
         {/* Records Table */}
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Your Records</h2>
+        <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
+          <div className="px-4 py-5 sm:px-6">
+            <h2 className="text-lg leading-6 font-medium text-gray-900">Your Records</h2>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">Your submitted application data points</p>
+          </div>
           {records.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Card
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Credit Score
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Income
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Result
-                    </th>
-                    <th className="relative px-6 py-3">
-                      <span className="sr-only">Delete</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {records.map((record, index) => (
-                    <tr key={record.record_id || index}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          {record.card_image_link && (
-                            <div className="flex-shrink-0 h-10 w-16 relative">
-                              <Image
-                                className="object-contain"
-                                src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
-                                alt={record.card_name}
-                                fill
-                                sizes="64px"
-                              />
-                            </div>
-                          )}
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
-                              {record.card_name}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              Submitted: {new Date(record.submit_datetime).toLocaleDateString()}
-                            </div>
-                            {record.date_applied && (
-                              <div className="text-sm text-gray-500">
-                                Applied: {new Date(record.date_applied).toLocaleDateString()}
+            <div className="border-t border-gray-200">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Card
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Credit Score
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Income
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Result
+                      </th>
+                      <th className="relative px-6 py-3">
+                        <span className="sr-only">Delete</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {records.map((record, index) => (
+                      <tr key={record.record_id || index}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            {record.card_image_link && (
+                              <div className="flex-shrink-0 h-10 w-16 relative">
+                                <Image
+                                  className="object-contain"
+                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
+                                  alt={record.card_name}
+                                  fill
+                                  sizes="64px"
+                                />
                               </div>
                             )}
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900">
+                                {record.card_name}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                Submitted: {new Date(record.submit_datetime).toLocaleDateString()}
+                              </div>
+                              {record.date_applied && (
+                                <div className="text-sm text-gray-500">
+                                  Applied: {new Date(record.date_applied).toLocaleDateString()}
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {record.credit_score}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        ${record.listed_income?.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span
-                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            record.result
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {record.result ? "Approved" : "Rejected"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button
-                          onClick={() => handleDeleteRecord(record.record_id)}
-                          disabled={deletingRecordId === record.record_id}
-                          className="text-red-600 hover:text-red-900 disabled:opacity-50"
-                        >
-                          {deletingRecordId === record.record_id ? "Deleting..." : "Delete"}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {record.credit_score}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          ${record.listed_income?.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                              record.result
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {record.result ? "Approved" : "Rejected"}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <button
+                            onClick={() => handleDeleteRecord(record.record_id)}
+                            disabled={deletingRecordId === record.record_id}
+                            className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                          >
+                            {deletingRecordId === record.record_id ? "Deleting..." : "Delete"}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           ) : (
-            <p className="text-gray-500">No records submitted yet.</p>
+            <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+              <p className="text-gray-500">No records submitted yet.</p>
+            </div>
           )}
         </div>
 
@@ -450,8 +460,8 @@ export default function ProfilePage() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Impressions
                       </th>
-                      <th className="relative px-6 py-3">
-                        <span className="sr-only">Edit</span>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Clicks
                       </th>
                     </tr>
                   </thead>
@@ -481,7 +491,7 @@ export default function ProfilePage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500 truncate max-w-xs">
                             <a
-                              href={referral.referral_link}
+                              href={referral.card_referral_link ? `${referral.card_referral_link}${referral.referral_link}` : referral.referral_link}
                               target="_blank"
                               rel="noreferrer"
                               className="text-indigo-600 hover:text-indigo-900"
@@ -502,12 +512,10 @@ export default function ProfilePage() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          Coming soon...
+                          {referral.impressions ?? 0}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                            Edit
-                          </a>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {referral.clicks ?? 0}
                         </td>
                       </tr>
                     ))}

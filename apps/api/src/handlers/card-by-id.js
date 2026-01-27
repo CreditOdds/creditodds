@@ -39,7 +39,7 @@ async function fetchCardFromDB(cardName) {
   try {
     // First find the card by name (fuzzy match - the CDN has "Card" suffix but DB might not)
     const cardResults = await mysql.query(`
-      SELECT card_id, card_name, card_image_link, accepting_applications
+      SELECT card_id, card_name, card_image_link, accepting_applications, apply_link, card_referral_link
       FROM cards
       WHERE card_name = ? OR card_name = ? OR ? LIKE CONCAT(card_name, '%')
       LIMIT 1
@@ -52,18 +52,25 @@ async function fetchCardFromDB(cardName) {
 
     const dbCard = cardResults[0];
 
-    // Now get the stats using the database card_id
-    const statsResults = await mysql.query(`
-      SELECT
-        COUNT(*) as total_records,
-        SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
-        SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as rejected_count,
-        (SELECT ROUND(AVG(credit_score)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_credit_score,
-        (SELECT ROUND(AVG(listed_income)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_income,
-        (SELECT ROUND(AVG(length_credit)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_length_credit
-      FROM records
-      WHERE card_id = ? AND admin_review = 1
-    `, [dbCard.card_id, dbCard.card_id, dbCard.card_id, dbCard.card_id]);
+    // Get the stats and referrals in parallel
+    const [statsResults, referralResults] = await Promise.all([
+      mysql.query(`
+        SELECT
+          COUNT(*) as total_records,
+          SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
+          SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as rejected_count,
+          (SELECT ROUND(AVG(credit_score)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_credit_score,
+          (SELECT ROUND(AVG(listed_income)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_income,
+          (SELECT ROUND(AVG(length_credit)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_length_credit
+        FROM records
+        WHERE card_id = ? AND admin_review = 1
+      `, [dbCard.card_id, dbCard.card_id, dbCard.card_id, dbCard.card_id]),
+      mysql.query(`
+        SELECT referral_id, referral_link
+        FROM referrals
+        WHERE card_id = ? AND admin_approved = 1
+      `, [dbCard.card_id])
+    ]);
 
     await mysql.end();
 
@@ -71,7 +78,10 @@ async function fetchCardFromDB(cardName) {
       card_id: dbCard.card_id,
       card_image_link: dbCard.card_image_link,
       accepting_applications: dbCard.accepting_applications === 1,
-      stats: statsResults[0] || {}
+      apply_link: dbCard.apply_link || null,
+      card_referral_link: dbCard.card_referral_link || null,
+      stats: statsResults[0] || {},
+      referrals: referralResults || []
     };
   } catch (error) {
     console.error('Error fetching card from DB:', error);
@@ -134,6 +144,9 @@ exports.CardByIdHandler = async (event) => {
           approved_median_credit_score: dbData?.stats?.approved_median_credit_score || null,
           approved_median_income: dbData?.stats?.approved_median_income || null,
           approved_median_length_credit: dbData?.stats?.approved_median_length_credit || null,
+          apply_link: dbData?.apply_link || card.apply_link || null,
+          card_referral_link: dbData?.card_referral_link || null,
+          referrals: dbData?.referrals || [],
         };
 
         response = {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData } from "@/lib/api";
+import { Card, GraphData, trackReferralEvent } from "@/lib/api";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -41,6 +41,43 @@ export default function CardClient({ card, graphData }: CardClientProps) {
   const chartOne = graphData[0] || [];
   const chartTwo = graphData[1] || [];
   const chartThree = graphData[2] || [];
+
+  // Randomly select a referral if available
+  const selectedReferral = useMemo(() => {
+    if (card.referrals && card.referrals.length > 0 && card.card_referral_link) {
+      const randomIndex = Math.floor(Math.random() * card.referrals.length);
+      return card.referrals[randomIndex];
+    }
+    return null;
+  }, [card.referrals, card.card_referral_link]);
+
+  // Build full referral URL
+  const randomReferralUrl = useMemo(() => {
+    if (selectedReferral && card.card_referral_link) {
+      return card.card_referral_link + selectedReferral.referral_link;
+    }
+    return null;
+  }, [selectedReferral, card.card_referral_link]);
+
+  // Track impression when referral is shown
+  const impressionTracked = useRef(false);
+  useEffect(() => {
+    if (selectedReferral && !impressionTracked.current) {
+      impressionTracked.current = true;
+      trackReferralEvent(selectedReferral.referral_id, 'impression').catch(() => {
+        // Silently fail - tracking shouldn't break the page
+      });
+    }
+  }, [selectedReferral]);
+
+  // Handle referral click
+  const handleReferralClick = () => {
+    if (selectedReferral) {
+      trackReferralEvent(selectedReferral.referral_id, 'click').catch(() => {
+        // Silently fail
+      });
+    }
+  };
 
   // Check if charts have actual data points (not just empty structure)
   const hasChartOneData = chartOne.some(series => Array.isArray(series) && series.length > 0);
@@ -132,6 +169,35 @@ export default function CardClient({ card, graphData }: CardClientProps) {
                 width={376}
                 height={224}
               />
+              {/* Apply Buttons under card image */}
+              {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
+                <div className="mt-4 flex flex-col sm:flex-row gap-2 justify-center">
+                  {card.apply_link && (
+                    <a
+                      href={card.apply_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
+                    >
+                      Apply Now
+                    </a>
+                  )}
+                  {randomReferralUrl && (
+                    <a
+                      href={randomReferralUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleReferralClick}
+                      className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white transition-colors animate-shimmer bg-[length:200%_100%]"
+                      style={{
+                        backgroundImage: 'linear-gradient(110deg, #5b21b6 0%, #6d28d9 45%, #8b5cf6 55%, #6d28d9 100%)',
+                      }}
+                    >
+                      Apply with Referral
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="w-full px-12">
@@ -294,6 +360,48 @@ export default function CardClient({ card, graphData }: CardClientProps) {
           </div>
         )}
       </div>
+      )}
+
+      {/* Bottom Apply Section */}
+      {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
+        <div className="bg-gray-100 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Ready to apply for the {card.card_name}?
+            </h2>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {card.apply_link && (
+                <a
+                  href={card.apply_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-lg"
+                >
+                  Apply Now
+                </a>
+              )}
+              {randomReferralUrl && (
+                <a
+                  href={randomReferralUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleReferralClick}
+                  className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white shadow-lg animate-shimmer bg-[length:200%_100%]"
+                  style={{
+                    backgroundImage: 'linear-gradient(110deg, #5b21b6 0%, #6d28d9 45%, #8b5cf6 55%, #6d28d9 100%)',
+                  }}
+                >
+                  Apply with Referral
+                </a>
+              )}
+            </div>
+            {randomReferralUrl && (
+              <p className="mt-3 text-sm text-gray-500">
+                Using a referral link helps support our community members
+              </p>
+            )}
+          </div>
+        </div>
       )}
 
       {/* Submit Record Modal */}

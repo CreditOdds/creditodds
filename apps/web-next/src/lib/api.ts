@@ -1,5 +1,10 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://c301gwdbok.execute-api.us-east-2.amazonaws.com/Prod';
 
+export interface CardReferral {
+  referral_id: number;
+  referral_link: string;
+}
+
 export interface Card {
   card_id: string | number;
   db_card_id?: number;
@@ -15,6 +20,9 @@ export interface Card {
   release_date?: string;
   tags?: string[];
   annual_fee?: number;
+  apply_link?: string;
+  card_referral_link?: string;
+  referrals?: CardReferral[];
 }
 
 // GraphData is an array of series data
@@ -200,4 +208,22 @@ export async function removeFromWallet(cardId: number, token: string): Promise<{
     throw new Error(`Failed to remove card from wallet: ${errorText}`);
   }
   return res.json();
+}
+
+// Track referral impressions and clicks (no auth required)
+export async function trackReferralEvent(
+  referralId: number,
+  eventType: 'impression' | 'click'
+): Promise<void> {
+  await fetch(`${API_BASE}/referral-stats`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      referral_id: referralId,
+      event_type: eventType,
+    }),
+  });
+  // Fire and forget - don't throw on error
 }

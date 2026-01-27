@@ -48,6 +48,53 @@ exports.UserReferralsHandler = async (event) => {
           return element.referral_link == null;
         });
 
+        // Get impression/click counts and card_referral_link for submitted referrals
+        if (submitted.length > 0) {
+          const referralIds = submitted.map(r => r.referral_id).filter(id => id);
+          const cardIds = submitted.map(r => r.card_id).filter(id => id);
+
+          // Fetch stats and card referral links in parallel
+          const [statsResults, cardResults] = await Promise.all([
+            referralIds.length > 0 ? mysql.query(`
+              SELECT
+                referral_id,
+                SUM(CASE WHEN event_type = 'impression' THEN 1 ELSE 0 END) as impressions,
+                SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks
+              FROM referral_stats
+              WHERE referral_id IN (?)
+              GROUP BY referral_id
+            `, [referralIds]) : [],
+            cardIds.length > 0 ? mysql.query(`
+              SELECT card_id, card_referral_link
+              FROM cards
+              WHERE card_id IN (?)
+            `, [cardIds]) : []
+          ]);
+
+          // Create a map of stats by referral_id
+          const statsMap = {};
+          for (const stat of statsResults) {
+            statsMap[stat.referral_id] = {
+              impressions: stat.impressions || 0,
+              clicks: stat.clicks || 0
+            };
+          }
+
+          // Create a map of card_referral_link by card_id
+          const cardLinkMap = {};
+          for (const card of cardResults) {
+            cardLinkMap[card.card_id] = card.card_referral_link;
+          }
+
+          // Add stats and card_referral_link to submitted referrals
+          for (const referral of submitted) {
+            const stats = statsMap[referral.referral_id] || { impressions: 0, clicks: 0 };
+            referral.impressions = stats.impressions;
+            referral.clicks = stats.clicks;
+            referral.card_referral_link = cardLinkMap[referral.card_id] || null;
+          }
+        }
+
         // Run clean up function
         await mysql.end();
 
