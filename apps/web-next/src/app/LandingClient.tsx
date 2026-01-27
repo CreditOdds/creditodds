@@ -54,7 +54,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                 Credit Cards
               </dt>
               <dd className="order-1 text-5xl font-extrabold text-white">
-                73
+                100+
               </dd>
             </div>
             <div className="flex flex-col mt-10 sm:mt-0">
