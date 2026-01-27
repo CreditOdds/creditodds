@@ -1,6 +1,6 @@
-name: "Amex EveryDay Preferred Credit Card"
+name: "Amex Everyday Preferred Credit Card"
 bank: "American Express"
 slug: "amex-everyday-preferred-credit-card"
 accepting_applications: false
-image: "amex-everyday-preferred.png"
+image: "everyday-preferred.png"
 annual_fee: 95

@@ -31,6 +31,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [sortBy, setSortBy] = useState<SortOption>('name');
   const [activeEmoji, setActiveEmoji] = useState<string | null>(null);
+  const [showArchived, setShowArchived] = useState(false);
 
   // Get recently released cards (cards with release_date, sorted by most recent)
   const recentlyReleased = useMemo(() => {
@@ -56,7 +57,10 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
         }
       }
 
-      return matchesSearch && matchesBank && matchesEmoji;
+      // Hide archived cards unless showArchived is true
+      const matchesStatus = showArchived || card.accepting_applications;
+
+      return matchesSearch && matchesBank && matchesEmoji && matchesStatus;
     });
 
     // Sort based on selected option
@@ -81,7 +85,12 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
     }
 
     return filtered;
-  }, [cards, search, selectedBank, sortBy, activeEmoji]);
+  }, [cards, search, selectedBank, sortBy, activeEmoji, showArchived]);
+
+  // Count archived cards
+  const archivedCount = useMemo(() => {
+    return cards.filter(card => !card.accepting_applications).length;
+  }, [cards]);
 
   return (
     <>
@@ -185,10 +194,32 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
         </div>
       </div>
 
-      {/* Results count */}
-      <p className="mt-4 text-sm text-gray-500">
-        Showing {filteredCards.length} of {cards.length} cards
-      </p>
+      {/* Results count and archived toggle */}
+      <div className="mt-4 flex items-center justify-between">
+        <p className="text-sm text-gray-500">
+          Showing {filteredCards.length} of {cards.length} cards
+        </p>
+        <label className="flex items-center cursor-pointer">
+          <span className="text-sm text-gray-500 mr-2">
+            Show archived ({archivedCount})
+          </span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={showArchived}
+            onClick={() => setShowArchived(!showArchived)}
+            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+              showArchived ? 'bg-indigo-600' : 'bg-gray-200'
+            }`}
+          >
+            <span
+              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                showArchived ? 'translate-x-5' : 'translate-x-0'
+              }`}
+            />
+          </button>
+        </label>
+      </div>
 
       {/* Cards Table */}
       <div className="mt-4 flex flex-col">

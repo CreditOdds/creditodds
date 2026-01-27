@@ -1,5 +1,5 @@
 name: "Apple Card"
-bank: "Apple"
+bank: "Goldman Sachs"
 slug: "apple-card"
 image: "apple_card.png"
 accepting_applications: true
