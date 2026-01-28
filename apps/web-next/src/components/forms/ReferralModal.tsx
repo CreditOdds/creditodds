@@ -111,7 +111,7 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
 
       <div className="fixed inset-0 z-10 overflow-y-auto">
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
+          <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6">
             <div>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
                 <LinkIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
