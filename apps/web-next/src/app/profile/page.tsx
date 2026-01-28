@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getProfile, getRecords, getReferrals, deleteRecord, getWallet, removeFromWallet, getAllCards, WalletCard, Card } from "@/lib/api";
+import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, removeFromWallet, getAllCards, WalletCard, Card } from "@/lib/api";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon } from "@heroicons/react/24/outline";
 
@@ -72,6 +72,7 @@ export default function ProfilePage() {
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
+  const [deletingReferralId, setDeletingReferralId] = useState<number | null>(null);
   const [removingCardId, setRemovingCardId] = useState<number | null>(null);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
@@ -214,6 +215,29 @@ export default function ProfilePage() {
       alert("Failed to delete record. Please try again.");
     } finally {
       setDeletingRecordId(null);
+    }
+  };
+
+  const handleDeleteReferral = async (referralId: number) => {
+    if (!confirm("Are you sure you want to delete this referral?")) {
+      return;
+    }
+
+    setDeletingReferralId(referralId);
+    try {
+      const token = await getToken();
+      if (!token) {
+        console.error("No auth token available");
+        return;
+      }
+      await deleteReferral(referralId, token);
+      // Remove the referral from local state
+      setReferrals(referrals.filter(r => r.referral_id !== referralId));
+    } catch (error) {
+      console.error("Error deleting referral:", error);
+      alert("Failed to delete referral. Please try again.");
+    } finally {
+      setDeletingReferralId(null);
     }
   };
 
@@ -467,6 +491,9 @@ export default function ProfilePage() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Clicks
                       </th>
+                      <th className="relative px-6 py-3">
+                        <span className="sr-only">Delete</span>
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -520,6 +547,15 @@ export default function ProfilePage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {referral.clicks ?? 0}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <button
+                            onClick={() => handleDeleteReferral(referral.referral_id)}
+                            disabled={deletingReferralId === referral.referral_id}
+                            className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                          >
+                            {deletingReferralId === referral.referral_id ? "Deleting..." : "Delete"}
+                          </button>
                         </td>
                       </tr>
                     ))}

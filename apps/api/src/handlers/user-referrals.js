@@ -153,11 +153,48 @@ exports.UserReferralsHandler = async (event) => {
         };
       }
       break;
+    case "DELETE":
+      try {
+        const referralId = event.queryStringParameters?.referral_id;
+        if (!referralId) {
+          throw new Error("referral_id is required");
+        }
+
+        // Verify the referral belongs to this user before deleting
+        const referral = await mysql.query(
+          "SELECT referral_id FROM referrals WHERE referral_id = ? AND submitter_id = ?",
+          [referralId, event.requestContext.authorizer.sub]
+        );
+
+        if (referral.length === 0) {
+          throw new Error("Referral not found or you don't have permission to delete it");
+        }
+
+        // Delete associated stats first
+        await mysql.query("DELETE FROM referral_stats WHERE referral_id = ?", [referralId]);
+
+        // Delete the referral
+        await mysql.query("DELETE FROM referrals WHERE referral_id = ?", [referralId]);
+        await mysql.end();
+
+        response = {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify({ message: "Referral deleted successfully" }),
+        };
+      } catch (error) {
+        response = {
+          statusCode: 500,
+          body: `There was an error deleting the referral: ${error}`,
+          headers: responseHeaders,
+        };
+      }
+      break;
     default:
       //Throw an error if the request method is not GET
       response = {
         statusCode: 405,
-        body: `UserReferrals only accepts GET and POST method, you tried: ${event.httpMethod}`,
+        body: `UserReferrals only accepts GET, POST, and DELETE methods, you tried: ${event.httpMethod}`,
         headers: responseHeaders,
       };
       break;

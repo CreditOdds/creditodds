@@ -225,6 +225,13 @@ Resources:
             Method: POST
             RestApiId:
               Ref: CreditCardOddsAPI
+        DELETECreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /referrals
+            Method: DELETE
+            RestApiId:
+              Ref: CreditCardOddsAPI
 
   UserProfileFunction:
     Type: AWS::Serverless::Function
