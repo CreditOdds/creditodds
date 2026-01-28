@@ -73,11 +73,14 @@ export default function ProfilePage() {
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
   const [removingCardId, setRemovingCardId] = useState<number | null>(null);
 
-  // Only allow referrals for cards where user has submitted a record
+  // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
     const recordCardNames = new Set(records.map(r => r.card_name));
-    return openReferrals.filter(card => recordCardNames.has(card.card_name));
-  }, [records, openReferrals]);
+    const walletCardNames = new Set(walletCards.map(w => w.card_name));
+    return openReferrals.filter(card =>
+      recordCardNames.has(card.card_name) || walletCardNames.has(card.card_name)
+    );
+  }, [records, openReferrals, walletCards]);
 
   // Calculate total annual fees for wallet cards
   const totalAnnualFees = useMemo(() => {
@@ -538,7 +541,7 @@ export default function ProfilePage() {
               </button>
             ) : (
               <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
-                Submit a data point for a card to add your referral link
+                Add a card to your wallet or submit a data point to add your referral link
               </div>
             )}
           </div>
