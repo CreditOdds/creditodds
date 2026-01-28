@@ -468,7 +468,16 @@ export default function ProfilePage() {
         <div className="bg-white shadow rounded-lg overflow-hidden">
           <div className="px-4 py-5 sm:px-6">
             <h2 className="text-lg leading-6 font-medium text-gray-900">Your Referrals</h2>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Your card referrals</p>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              Don&apos;t see your card as an option?{' '}
+              <a href="https://github.com/CreditOdds/creditodds/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500">
+                Add the referral base URL on GitHub
+              </a>{' '}
+              or{' '}
+              <a href="https://x.com/MaxwellMelcher" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500">
+                message me on X
+              </a>.
+            </p>
           </div>
           {referrals.length > 0 ? (
             <div className="border-t border-gray-200">
