@@ -1,14 +1,16 @@
 version: 0.2
-env:
-  variables:
-    NEXT_PUBLIC_API_BASE_URL: "https://c301gwdbok.execute-api.us-east-2.amazonaws.com/Prod"
-    NEXT_PUBLIC_CDN_URL: "https://d3ay3etzd1512y.cloudfront.net"
-    NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyD-v_UwJpyY2aVYS7yVt3E8MXLl-H3IYVg"
-    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "creditodds.firebaseapp.com"
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID: "creditodds"
-    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "creditodds.firebasestorage.app"
-    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "1064564569219"
-    NEXT_PUBLIC_FIREBASE_APP_ID: "1:1064564569219:web:9f7c5be4b05426aeaafeef"
+# Environment variables are configured in AWS CodeBuild project settings
+# Required variables:
+#   - NEXT_PUBLIC_API_BASE_URL
+#   - NEXT_PUBLIC_CDN_URL
+#   - NEXT_PUBLIC_FIREBASE_API_KEY
+#   - NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+#   - NEXT_PUBLIC_FIREBASE_PROJECT_ID
+#   - NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+#   - NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+#   - NEXT_PUBLIC_FIREBASE_APP_ID
+#   - S3_BUCKET_NAME
+#   - CLOUDFRONT_DISTRIBUTION_ID
 phases:
   install:
     runtime-versions:
@@ -22,9 +24,9 @@ phases:
       - npm run build:web-next
   post_build:
     commands:
-      - aws s3 sync apps/web-next/out/ s3://creditodds-website/ --delete
+      - aws s3 sync apps/web-next/out/ s3://${S3_BUCKET_NAME}/ --delete
       # Invalidate CloudFront cache (non-blocking if it fails)
-      - aws cloudfront create-invalidation --distribution-id ECS8QY2GQ641I --paths "/*" || echo "CloudFront invalidation failed - cache may not be cleared"
+      - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/*" || echo "CloudFront invalidation failed - cache may not be cleared"
 artifacts:
   files:
     - '**/*'
