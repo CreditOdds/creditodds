@@ -131,22 +131,25 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
             <button
               key={filter.emoji}
               onClick={() => setActiveEmoji(activeEmoji === filter.emoji ? null : filter.emoji)}
+              aria-label={`Filter by ${filter.label} cards`}
+              aria-pressed={activeEmoji === filter.emoji}
               className={`inline-flex items-center px-3 py-2 rounded-full text-sm font-medium transition-all ${
                 activeEmoji === filter.emoji
                   ? 'bg-indigo-100 text-indigo-700 ring-2 ring-indigo-500'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <span className="mr-1.5 text-lg">{filter.emoji}</span>
+              <span className="mr-1.5 text-lg" aria-hidden="true">{filter.emoji}</span>
               {filter.label}
             </button>
           ))}
           {activeEmoji && (
             <button
               onClick={() => setActiveEmoji(null)}
+              aria-label="Clear filter"
               className="inline-flex items-center px-3 py-2 rounded-full text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200"
             >
-              ✕ Clear
+              <span aria-hidden="true">✕</span> Clear
             </button>
           )}
         </div>
@@ -241,47 +244,72 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {filteredCards.map((card) => (
-                    <tr key={card.card_id} className="hover:bg-gray-50">
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-                        <Link href={`/card/${encodeURIComponent(card.card_name)}`} className="flex items-center group">
-                          <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
-                            <Image
-                              src={card.card_image_link
-                                ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                                : '/assets/generic-card.svg'}
-                              alt={card.card_name}
-                              width={64}
-                              height={40}
-                              className="h-10 w-16 object-contain"
-                            />
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
-                              {card.card_name}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              {card.bank}
-                            </div>
-                          </div>
-                        </Link>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
-                        {card.annual_fee !== undefined ? (card.annual_fee === 0 ? '$0' : `$${card.annual_fee}`) : '—'}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm">
-                        {card.accepting_applications ? (
-                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                            Active
-                          </span>
-                        ) : (
-                          <span className="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold leading-5 text-gray-800">
-                            Archived
-                          </span>
-                        )}
+                  {filteredCards.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="py-12 text-center">
+                        <div className="text-gray-500">
+                          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                          </svg>
+                          <h3 className="mt-2 text-sm font-semibold text-gray-900">No cards found</h3>
+                          <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filters to find what you&apos;re looking for.</p>
+                          <button
+                            onClick={() => {
+                              setSearch('');
+                              setSelectedBank('');
+                              setActiveEmoji(null);
+                              setShowArchived(false);
+                            }}
+                            className="mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                          >
+                            Clear all filters
+                          </button>
+                        </div>
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    filteredCards.map((card) => (
+                      <tr key={card.card_id} className="hover:bg-gray-50">
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
+                          <Link href={`/card/${encodeURIComponent(card.card_name)}`} className="flex items-center group">
+                            <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
+                              <Image
+                                src={card.card_image_link
+                                  ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                                  : '/assets/generic-card.svg'}
+                                alt={card.card_name}
+                                width={64}
+                                height={40}
+                                className="h-10 w-16 object-contain"
+                              />
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
+                                {card.card_name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {card.bank}
+                              </div>
+                            </div>
+                          </Link>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
+                          {card.annual_fee !== undefined ? (card.annual_fee === 0 ? '$0' : `$${card.annual_fee}`) : '—'}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm">
+                          {card.accepting_applications ? (
+                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                              Active
+                            </span>
+                          ) : (
+                            <span className="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold leading-5 text-gray-800">
+                              Archived
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
