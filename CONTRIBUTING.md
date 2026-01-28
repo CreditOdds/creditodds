@@ -22,6 +22,7 @@ The easiest way to contribute is by adding new credit cards to our database.
    accepting_applications: true
    category: "travel"  # optional
    annual_fee: 95  # optional
+   card_referral_link: "https://example.com/refer/"  # optional, base URL for referrals
    ```
 3. (Optional) Add card image to `data/cards/images/your-card-name.png`
 4. Run `npm run build:cards` to validate
