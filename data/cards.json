@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-01-27T20:05:26.051Z",
-  "count": 129,
+  "generated_at": "2026-01-28T00:32:53.168Z",
+  "count": 133,
   "cards": [
     {
       "name": "Aer Lingus Visa Signature card",
@@ -106,18 +106,18 @@
       "card_name": "Amex Everyday Credit Card"
     },
     {
-      "name": "Amex EveryDay Preferred Credit Card",
+      "name": "Amex Everyday Preferred Credit Card",
       "bank": "American Express",
       "slug": "amex-everyday-preferred-credit-card",
       "accepting_applications": false,
-      "image": "amex-everyday-preferred.png",
+      "image": "everyday-preferred.png",
       "annual_fee": 95,
       "card_id": "amex-everyday-preferred-credit-card",
-      "card_name": "Amex EveryDay Preferred Credit Card"
+      "card_name": "Amex Everyday Preferred Credit Card"
     },
     {
       "name": "Apple Card",
-      "bank": "Apple",
+      "bank": "Goldman Sachs",
       "slug": "apple-card",
       "image": "apple_card.png",
       "accepting_applications": true,
@@ -162,6 +162,7 @@
       "bank": "Bank of America",
       "slug": "bank-of-america-customized-cash-rewards",
       "accepting_applications": true,
+      "image": "customized-cash-rewards.png",
       "category": "cashback",
       "annual_fee": 0,
       "card_id": "bank-of-america-customized-cash-rewards",
@@ -171,7 +172,7 @@
       "name": "Bank of America Premium Rewards Credit Card",
       "bank": "Bank of America",
       "slug": "bank-of-america-premium-rewards",
-      "image": "bofa_premium_rewards.png",
+      "image": "premium-rewards.png",
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 95,
@@ -183,6 +184,7 @@
       "bank": "Bank of America",
       "slug": "bank-of-america-premium-rewards-elite",
       "accepting_applications": true,
+      "image": "premium-rewards.png",
       "category": "travel",
       "annual_fee": 550,
       "card_id": "bank-of-america-premium-rewards-elite",
@@ -192,7 +194,7 @@
       "name": "Bank of America Travel Rewards Credit Card",
       "bank": "Bank of America",
       "slug": "bank-of-america-travel-rewards",
-      "image": "bofa_travel_rewards.png",
+      "image": "travelrewards.png",
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 0,
@@ -205,6 +207,7 @@
       "slug": "bank-of-america-unlimited-cash-rewards",
       "accepting_applications": true,
       "category": "cashback",
+      "image": "unlimited-cash-rewards.png",
       "annual_fee": 0,
       "card_id": "bank-of-america-unlimited-cash-rewards",
       "card_name": "Bank of America Unlimited Cash Rewards Credit Card"
@@ -214,6 +217,7 @@
       "bank": "Bank of America",
       "slug": "bankamericard",
       "accepting_applications": true,
+      "image": "bankamericard.png",
       "category": "other",
       "annual_fee": 0,
       "card_id": "bankamericard",
@@ -280,12 +284,22 @@
       "card_name": "Bilt Palladium"
     },
     {
+      "name": "Blue",
+      "bank": "American Express",
+      "slug": "blue-from-american-express",
+      "accepting_applications": false,
+      "annual_fee": 0,
+      "card_id": "blue-from-american-express",
+      "card_name": "Blue"
+    },
+    {
       "name": "Blue Business Cash Card from American Express",
       "bank": "American Express",
       "slug": "blue-business-cash-card-from-american-express",
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "image": "blue-business-cash.png",
       "tags": [
         "business",
         "cashback"
@@ -299,6 +313,7 @@
       "slug": "blue-business-plus-credit-card-from-american-express",
       "accepting_applications": true,
       "category": "business",
+      "image": "blue-business-plus.png",
       "annual_fee": 0,
       "tags": [
         "business",
@@ -333,15 +348,6 @@
       ],
       "card_id": "blue-cash-preferred-card",
       "card_name": "Blue Cash Preferred Card"
-    },
-    {
-      "name": "Blue from American Express",
-      "bank": "American Express",
-      "slug": "blue-from-american-express",
-      "accepting_applications": false,
-      "annual_fee": 0,
-      "card_id": "blue-from-american-express",
-      "card_name": "Blue from American Express"
     },
     {
       "name": "British Airways Visa Signature card",
@@ -579,7 +585,7 @@
       "name": "Chase Slate Edge",
       "bank": "Chase",
       "slug": "chase-slate-edge",
-      "image": "chase_slate_edge.png",
+      "image": "chase-slate-edge.png",
       "accepting_applications": true,
       "category": "other",
       "annual_fee": 0,
@@ -710,7 +716,7 @@
       "slug": "citi-strata-elite",
       "accepting_applications": true,
       "category": "travel",
-      "annual_fee": 495,
+      "annual_fee": 595,
       "card_id": "citi-strata-elite",
       "card_name": "Citi Strata Elite Card"
     },
@@ -818,6 +824,7 @@
       "image": "discover_it_cash.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "card_referral_link": "https://refer.discover.com/",
       "tags": [
         "cashback",
         "rewards"
@@ -1147,13 +1154,24 @@
       "card_name": "Princess Cruises Rewards Visa Card"
     },
     {
-      "name": "Serve from American Express",
+      "name": "Serve",
       "bank": "American Express",
       "slug": "serve-from-american-express",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "annual_fee": 0,
       "card_id": "serve-from-american-express",
-      "card_name": "Serve from American Express"
+      "card_name": "Serve"
+    },
+    {
+      "name": "Smartly Visa Signature Card",
+      "bank": "U.S. Bank",
+      "slug": "us-bank-smartly-visa-signature",
+      "image": "smartly-signature.png",
+      "accepting_applications": true,
+      "category": "cashback",
+      "annual_fee": 0,
+      "card_id": "us-bank-smartly-visa-signature",
+      "card_name": "Smartly Visa Signature Card"
     },
     {
       "name": "Southwest Rapid Rewards Plus Credit Card",
@@ -1206,11 +1224,12 @@
       "card_name": "Starbucks Rewards Visa Card"
     },
     {
-      "name": "The Business Platinum Card from American Express",
+      "name": "The Business Platinum Card",
       "bank": "American Express",
       "slug": "the-business-platinum-card-from-american-express",
       "accepting_applications": true,
       "category": "business",
+      "image": "business-platinum.png",
       "annual_fee": 895,
       "tags": [
         "business",
@@ -1218,7 +1237,7 @@
         "premium"
       ],
       "card_id": "the-business-platinum-card-from-american-express",
-      "card_name": "The Business Platinum Card from American Express"
+      "card_name": "The Business Platinum Card"
     },
     {
       "name": "The Platinum Card",
@@ -1226,6 +1245,7 @@
       "slug": "the-platinum-card",
       "image": "amex_the_platinum_card.png",
       "accepting_applications": true,
+      "card_referral_link": "https://americanexpress.com/en-us/referral/platinum-card?ref=",
       "annual_fee": 695,
       "tags": [
         "travel",
@@ -1241,6 +1261,7 @@
       "slug": "us-bank-altitude-go-visa-signature",
       "accepting_applications": true,
       "category": "travel",
+      "image": "us-bank-altitude-go.png",
       "annual_fee": 0,
       "card_id": "us-bank-altitude-go-visa-signature",
       "card_name": "U.S. Bank Altitude Go Visa Signature Card"
@@ -1249,8 +1270,9 @@
       "name": "U.S. Bank Altitude Reserve Visa Infinite Card",
       "bank": "U.S. Bank",
       "slug": "us-bank-altitude-reserve-visa-infinite",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "category": "travel",
+      "image": "us-bank-altitude-reserve.png",
       "annual_fee": 400,
       "card_id": "us-bank-altitude-reserve-visa-infinite",
       "card_name": "U.S. Bank Altitude Reserve Visa Infinite Card"
@@ -1262,18 +1284,9 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
+      "image": "us-bank-cash-plus-signature.png",
       "card_id": "us-bank-cash-plus-visa-signature",
       "card_name": "U.S. Bank Cash+ Visa Signature Card"
-    },
-    {
-      "name": "U.S. Bank Smartly Visa Signature Card",
-      "bank": "U.S. Bank",
-      "slug": "us-bank-smartly-visa-signature",
-      "accepting_applications": true,
-      "category": "cashback",
-      "annual_fee": 0,
-      "card_id": "us-bank-smartly-visa-signature",
-      "card_name": "U.S. Bank Smartly Visa Signature Card"
     },
     {
       "name": "United Club Infinite",
@@ -1338,11 +1351,51 @@
       "name": "US Bank Altitude Connect",
       "bank": "U.S. Bank",
       "slug": "us-bank-altitude-connect",
-      "image": "altitude_connect.png",
+      "image": "altitude-connect.png",
       "accepting_applications": true,
-      "annual_fee": 95,
+      "annual_fee": 0,
       "card_id": "us-bank-altitude-connect",
       "card_name": "US Bank Altitude Connect"
+    },
+    {
+      "name": "US Bank Secured",
+      "bank": "U.S. Bank",
+      "slug": "us-bank-secured",
+      "image": "us-bank-secured.png",
+      "accepting_applications": true,
+      "annual_fee": 0,
+      "card_id": "us-bank-secured",
+      "card_name": "US Bank Secured"
+    },
+    {
+      "name": "US Bank Shield",
+      "bank": "U.S. Bank",
+      "slug": "us-bank-shield",
+      "image": "us-bank-shield.png",
+      "accepting_applications": true,
+      "annual_fee": 0,
+      "card_id": "us-bank-shield",
+      "card_name": "US Bank Shield"
+    },
+    {
+      "name": "US Bank Shopper Cash Rewards",
+      "bank": "U.S. Bank",
+      "slug": "us-bank-shopper",
+      "image": "us-bank-shopper.png",
+      "accepting_applications": true,
+      "annual_fee": 0,
+      "card_id": "us-bank-shopper",
+      "card_name": "US Bank Shopper Cash Rewards"
+    },
+    {
+      "name": "US Bank Split",
+      "bank": "U.S. Bank",
+      "slug": "us-bank-split",
+      "image": "us-bank-split.png",
+      "accepting_applications": true,
+      "annual_fee": 0,
+      "card_id": "us-bank-split",
+      "card_name": "US Bank Split"
     },
     {
       "name": "Wells Fargo Active Cash Card",
