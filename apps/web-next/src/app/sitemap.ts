@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getAllCards } from '@/lib/api';
+import { getAllCards, getAllBanks } from '@/lib/api';
 
 // Required for static export
 export const dynamic = 'force-static';
@@ -19,6 +19,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,
+    },
+    {
+      url: `${baseUrl}/explore`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/about`,
@@ -50,18 +56,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
-    {
-      url: `${baseUrl}/login`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/register`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.4,
-    },
   ];
 
   // Dynamic card pages
@@ -78,5 +72,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap for cards:', error);
   }
 
-  return [...staticPages, ...cardPages];
+  // Dynamic bank pages
+  let bankPages: MetadataRoute.Sitemap = [];
+  try {
+    const banks = await getAllBanks();
+    bankPages = banks.map((bank) => ({
+      url: `${baseUrl}/bank/${encodeURIComponent(bank)}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }));
+  } catch (error) {
+    console.error('Error generating sitemap for banks:', error);
+  }
+
+  return [...staticPages, ...bankPages, ...cardPages];
 }

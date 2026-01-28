@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
+import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
@@ -52,6 +53,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://c301gwdbok.execute-api.us-east-2.amazonaws.com" />
       </head>
       <body>
+        <OrganizationSchema />
+        <WebsiteSchema />
         <AuthProvider>
           <SkipLink />
           <Navbar />
