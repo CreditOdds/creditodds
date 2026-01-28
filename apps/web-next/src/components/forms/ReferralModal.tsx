@@ -111,7 +111,7 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
 
       <div className="fixed inset-0 z-10 overflow-y-auto">
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+          <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
             <div>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100">
                 <LinkIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
@@ -209,7 +209,7 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
               <div className="mt-1">
                 {selected.card_referral_link ? (
                   <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm max-w-[200px] truncate" title={selected.card_referral_link}>
+                    <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm whitespace-nowrap">
                       {selected.card_referral_link}
                     </span>
                     <input
