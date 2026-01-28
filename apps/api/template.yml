@@ -395,3 +395,6 @@ Resources:
             Method: GET
             RestApiId:
               Ref: CreditCardOddsAPI
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
