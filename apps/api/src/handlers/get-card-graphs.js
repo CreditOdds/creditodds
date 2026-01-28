@@ -98,15 +98,19 @@ exports.getCardGraphsHandler = async (event) => {
             .map((x) => [x.length_credit, x.credit_score]);
           let chartTwo = [acceptedFinal, rejectedFinal];
 
-          //Income vs Starting Credit Limit
-          chartThree = resultsData
+          //Income vs Starting Credit Limit (approved only, with valid values)
+          let chartThreeData = resultsData
             .filter(function (element) {
               return (
+                element.result == 1 &&
                 element.starting_credit_limit != null &&
-                element.listed_income != null
+                element.starting_credit_limit > 0 &&
+                element.listed_income != null &&
+                element.listed_income > 0
               );
             })
             .map((x) => [x.listed_income, x.starting_credit_limit]);
+          let chartThree = [chartThreeData];
 
           response = {
             statusCode: 200,
