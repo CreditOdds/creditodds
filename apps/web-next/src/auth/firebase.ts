@@ -1,5 +1,6 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
+import { getAnalytics, Analytics, isSupported } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,6 +15,7 @@ const firebaseConfig = {
 // Lazy initialization to ensure it only runs on the client
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
+let analytics: Analytics | undefined;
 
 function getFirebaseAuth(): Auth | undefined {
   if (typeof window === 'undefined') {
@@ -29,6 +31,15 @@ function getFirebaseAuth(): Auth | undefined {
     try {
       app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
       auth = getAuth(app);
+
+      // Initialize Analytics (only in browser and if supported)
+      isSupported().then((supported) => {
+        if (supported && app && !analytics) {
+          analytics = getAnalytics(app);
+          console.log('Firebase Analytics initialized');
+        }
+      });
+
       console.log('Firebase initialized successfully');
     } catch (error) {
       console.error('Firebase initialization error:', error);
@@ -39,8 +50,13 @@ function getFirebaseAuth(): Auth | undefined {
   return auth;
 }
 
+// Get analytics instance (may be undefined if not yet initialized)
+function getFirebaseAnalytics(): Analytics | undefined {
+  return analytics;
+}
+
 // Export a getter function that initializes on first access
-export { app, getFirebaseAuth };
+export { app, getFirebaseAuth, getFirebaseAnalytics };
 
 // For backwards compatibility, also export auth but it will be initialized lazily
 export const getAuth_lazy = getFirebaseAuth;
