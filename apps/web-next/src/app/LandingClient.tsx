@@ -142,11 +142,10 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                     Get rewarded for your results
                   </h2>
                   <p className="mt-4 text-lg text-gray-500">
-                    <strong>COMING SOON</strong> When you submit a record to
-                    help others you will also have the ability to submit your
-                    referral link for your credit cards. Referrals provide you
-                    and sometimes the individual who applies an additional
-                    bonus on approval. When new users visit the site we will
+                    When you submit a record to help others you can also submit
+                    your referral link for your credit cards. Referrals provide
+                    you and sometimes the individual who applies an additional
+                    bonus on approval. When new users visit the site we
                     inject uploaded referral codes into the application link.
                     We&apos;ll also keep track of how many times your link has been
                     used.
