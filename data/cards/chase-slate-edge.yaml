@@ -1,7 +1,7 @@
 name: "Chase Slate Edge"
 bank: "Chase"
 slug: "chase-slate-edge"
-image: "chase_slate_edge.png"
+image: "chase-slate-edge.png"
 accepting_applications: true
 category: "other"
 annual_fee: 0
