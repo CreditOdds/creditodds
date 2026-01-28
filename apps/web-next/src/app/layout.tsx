@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { AuthProvider } from "@/auth/AuthProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -9,8 +8,6 @@ import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-
-const GA_MEASUREMENT_ID = "G-LHHJ0HJ8NK";
 
 export const metadata: Metadata = {
   title: {
@@ -49,19 +46,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
-          `}
-        </Script>
         {/* Preconnect to external domains for faster loading */}
         <link rel="preconnect" href="https://d3ay3etzd1512y.cloudfront.net" />
         <link rel="preconnect" href="https://c301gwdbok.execute-api.us-east-2.amazonaws.com" />
