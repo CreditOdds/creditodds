@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { getCard, getCardGraphs, getAllCards, GraphData } from "@/lib/api";
 import CardClient from "./CardClient";
 
+// Force dynamic rendering to ensure fresh graph data on each request
+export const dynamic = 'force-dynamic';
+
 interface CardPageProps {
   params: Promise<{ name: string }>;
 }
