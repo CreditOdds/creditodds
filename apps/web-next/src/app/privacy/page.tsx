@@ -137,10 +137,12 @@ export default function PrivacyPage() {
               law.
             </li>
             <li>
-              <b>How we collect information -</b> Our website doesn&apos;t use cookies
-              or scripts that were designed to track the websites you visit. We
-              don&apos;t use analytics or native social media &apos;like&apos; or &apos;sharing&apos;
-              buttons which also build profiles of your internet activity.
+              <b>How we collect information -</b> We use Google Analytics to
+              understand how visitors use our website. This helps us improve the
+              site and user experience. Google Analytics collects anonymized data
+              about page views and does not personally identify you. We don&apos;t use
+              native social media &apos;like&apos; or &apos;sharing&apos; buttons which build profiles
+              of your internet activity.
             </li>
             <li>
               <b>What information we hold -</b> When you contact us by email or
@@ -182,7 +184,7 @@ export default function PrivacyPage() {
           </ul>
           <br />
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
-            Updated 4/8/21
+            Updated 1/27/26
           </span>
         </div>
       </div>
