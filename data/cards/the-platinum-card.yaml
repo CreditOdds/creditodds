@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "the-platinum-card"
 image: "amex_the_platinum_card.png"
 accepting_applications: true
+card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
 annual_fee: 695
 tags:
   - travel
