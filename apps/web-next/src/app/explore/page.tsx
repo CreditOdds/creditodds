@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { getAllCards } from "@/lib/api";
+import { getAllCards, getRecentRecords } from "@/lib/api";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import ExploreClient from "./ExploreClient";
+import RecordsTicker from "@/components/ui/RecordsTicker";
 
 export const metadata: Metadata = {
   title: "Explore Credit Cards",
@@ -16,7 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ExplorePage() {
-  const cards = await getAllCards();
+  const [cards, recentRecords] = await Promise.all([
+    getAllCards(),
+    getRecentRecords(),
+  ]);
 
   // Sort cards: by bank, then by name
   const sortedCards = [...cards].sort((a, b) => {
@@ -31,6 +34,8 @@ export default async function ExplorePage() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      {/* Recent Records Ticker - Desktop Only */}
+      <RecordsTicker records={recentRecords} />
       {/* JSON-LD Structured Data */}
       <BreadcrumbSchema items={[
         { name: 'Home', url: 'https://creditodds.com' },

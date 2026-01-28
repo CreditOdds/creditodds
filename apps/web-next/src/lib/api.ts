@@ -221,6 +221,26 @@ export async function removeFromWallet(cardId: number, token: string): Promise<{
   return res.json();
 }
 
+// Recent records for ticker (no auth required)
+export interface RecentRecord {
+  record_id: number;
+  result: number;
+  credit_score: number;
+  listed_income: number;
+  submit_datetime: string;
+  card_name: string;
+  card_image_link?: string;
+  bank: string;
+}
+
+export async function getRecentRecords(): Promise<RecentRecord[]> {
+  const res = await fetch(`${API_BASE}/recent-records`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) return [];
+  return res.json();
+}
+
 // Track referral impressions and clicks (no auth required)
 export async function trackReferralEvent(
   referralId: number,
