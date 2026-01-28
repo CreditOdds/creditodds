@@ -76,7 +76,7 @@ export default function ScatterPlot({ title, xAxis, yAxis, series }: ScatterPlot
         },
         tooltip: {
           headerFormat: "<b>{series.name}</b><br>",
-          pointFormat: "{point.x:,.0f}, {point.y}",
+          pointFormat: "{point.x:,.0f}, {point.y:,.0f}",
         },
       },
     },
