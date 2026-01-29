@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { ExclamationTriangleIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, trackReferralEvent } from "@/lib/api";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -99,7 +99,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
       ]} />
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <ol className="flex items-center space-x-4 py-4">
             <li>
               <Link href="/" className="text-gray-400 hover:text-gray-500">
@@ -125,6 +125,17 @@ export default function CardClient({ card, graphData }: CardClientProps) {
               </div>
             </li>
           </ol>
+          {card.slug && (
+            <a
+              href={`https://github.com/CreditOdds/creditodds/edit/main/data/cards/${card.slug}.yaml`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center text-xs text-gray-400 hover:text-indigo-600"
+            >
+              <PencilSquareIcon className="h-3.5 w-3.5 mr-1" />
+              Edit this page
+            </a>
+          )}
         </div>
       </nav>
 
@@ -146,32 +157,22 @@ export default function CardClient({ card, graphData }: CardClientProps) {
 
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Card Header */}
-          <div className="text-center pt-6 pb-6 sm:pt-14 sm:pb-10">
-            <h1 className="text-4xl font-extrabold text-gray-900 sm:text-4xl tracking-wide">
-              {card.card_name}
-            </h1>
-            <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="flex justify-center pt-2 group">
-              <BuildingLibraryIcon className="h-5 w-5 text-gray-400 group-hover:text-indigo-500" aria-hidden="true" />
-              <p className="pl-2 pr-2 tracking-wide text-sm text-gray-500 group-hover:text-indigo-600">{card.bank}</p>
-            </Link>
-          </div>
-
-          {/* Card Info Section */}
-          <div className="sm:flex pb-6">
-            <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+          {/* Card Header & Info Section */}
+          <div className="sm:flex sm:items-start pt-6 pb-6 sm:pt-14 sm:pb-10">
+            {/* Card Image - Left side */}
+            <div className="mb-4 flex-shrink-0 sm:mb-0 sm:mr-8">
               <Image
                 src={card.card_image_link
                   ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
                   : '/assets/generic-card.svg'}
                 alt={card.card_name}
-                className="h-30 w-45 md:h-56 md:w-94 mx-auto"
+                className="h-30 w-45 md:h-56 md:w-94 mx-auto sm:mx-0"
                 width={376}
                 height={224}
               />
               {/* Apply Buttons under card image */}
               {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
-                <div className="mt-4 flex flex-col sm:flex-row gap-2 justify-center">
+                <div className="mt-4 flex flex-col sm:flex-row gap-2 justify-center sm:justify-start">
                   {card.apply_link && (
                     <a
                       href={card.apply_link}
@@ -200,35 +201,55 @@ export default function CardClient({ card, graphData }: CardClientProps) {
               )}
             </div>
 
-            <div className="w-full px-12">
+            {/* Card Details - Right side */}
+            <div className="flex-1 text-center sm:text-left">
+              <h1 className="text-4xl font-extrabold text-gray-900 sm:text-4xl tracking-wide">
+                {card.card_name}
+              </h1>
+              <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="flex justify-center sm:justify-start pt-2 group">
+                <BuildingLibraryIcon className="h-5 w-5 text-gray-400 group-hover:text-indigo-500" aria-hidden="true" />
+                <p className="pl-2 pr-2 tracking-wide text-sm text-gray-500 group-hover:text-indigo-600">{card.bank}</p>
+              </Link>
+              {card.annual_fee !== undefined && (
+                <p className="mt-2 text-sm text-gray-500">
+                  Annual Fee: <span className={card.annual_fee === 0 ? "text-green-600 font-medium" : "text-gray-900 font-medium"}>
+                    {card.annual_fee === 0 ? "$0" : `$${card.annual_fee.toLocaleString()}`}
+                  </span>
+                </p>
+              )}
+
+              {/* Stats Section */}
+              <div className="mt-6">
               <div className="items-stretch">
                 {(card.approved_count || 0) > 0 ? (
                   <>
-                    <h3 className="text-lg leading-6 font-medium text-gray-900 text-center">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900 text-center sm:text-left mb-4">
                       On average people who got <b>accepted</b> for the card had...
                     </h3>
 
-                    <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3 text-center">
-                      <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
-                        <dt className="text-sm font-medium text-gray-500 truncate">Credit Score</dt>
-                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                          {card.approved_median_credit_score}
-                        </dd>
-                      </div>
-                      <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
-                        <dt className="text-sm font-medium text-gray-500 truncate">Income</dt>
-                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                          ${card.approved_median_income?.toLocaleString()}
-                        </dd>
-                      </div>
-                      <div className="py-5 bg-white shadow rounded-lg overflow-hidden sm:min-w-min">
-                        <dt className="text-sm font-medium text-gray-500 truncate">Length of Credit</dt>
-                        <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                          {card.approved_median_length_credit}
-                        </dd>
-                      </div>
-                    </dl>
-                    <p className="mt-2 text-center text-xs text-gray-400 pt-6">
+                    <div className="bg-white shadow rounded-lg overflow-hidden">
+                      <dl className="grid grid-cols-1 divide-y sm:grid-cols-3 sm:divide-y-0 sm:divide-x divide-gray-200">
+                        <div className="px-4 py-5 text-center">
+                          <dt className="text-sm font-medium text-gray-500">Credit Score</dt>
+                          <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                            {card.approved_median_credit_score}
+                          </dd>
+                        </div>
+                        <div className="px-4 py-5 text-center">
+                          <dt className="text-sm font-medium text-gray-500">Income</dt>
+                          <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                            ${card.approved_median_income?.toLocaleString()}
+                          </dd>
+                        </div>
+                        <div className="px-4 py-5 text-center">
+                          <dt className="text-sm font-medium text-gray-500">Length of Credit</dt>
+                          <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                            {card.approved_median_length_credit}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                    <p className="mt-3 text-center sm:text-left text-xs text-gray-400">
                       Median based on {(card.rejected_count || 0) + (card.approved_count || 0)} records
                       with <span className="text-green-600">{card.approved_count} approved</span> and <span className="text-red-600">{card.rejected_count} rejected</span>
                     </p>
@@ -250,6 +271,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
           </div>
         </div>
       </div>
+    </div>
 
       {/* CTA Section - only show for cards accepting applications */}
       {card.accepting_applications && (
