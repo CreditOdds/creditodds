@@ -9,6 +9,7 @@ export interface Card {
   card_id: string | number;
   db_card_id?: number;
   card_name: string;
+  slug?: string;
   bank: string;
   card_image_link?: string;
   accepting_applications: boolean;
