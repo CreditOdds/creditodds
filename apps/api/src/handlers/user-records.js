@@ -11,6 +11,7 @@ const mysql = require("serverless-mysql")({
 // Yup Schema Validation for Record Submit
 const yup = require("yup");
 const recordSchema = yup.object().shape({
+  card_id: yup.number().integer().required(),
   credit_score: yup.number().integer().min(300).max(850).required(),
   credit_score_source: yup.number().integer().min(0).max(4).required(),
   result: yup.boolean().required(),
@@ -24,6 +25,9 @@ const recordSchema = yup.object().shape({
   inquiries_12: yup.number().integer().min(0).max(50),
   inquiries_24: yup.number().integer().min(0).max(50),
 });
+
+// Constants for spam prevention
+const MAX_RECORDS_PER_CARD_PER_USER = 5;
 
 const responseHeaders = {
   "Access-Control-Allow-Headers":
@@ -81,6 +85,30 @@ exports.UserRecordsHandler = async (event) => {
           .validate(event.body)
           .then(async function (value) {
             console.log(value);
+            const submitterId = event.requestContext.authorizer.sub;
+
+            // Check if user has reached max records for this card
+            const countResult = await mysql.query(
+              `SELECT COUNT(*) as count FROM records
+               WHERE card_id = ? AND submitter_id = ? AND active = 1`,
+              [value.card_id, submitterId]
+            );
+            if (countResult[0].count >= MAX_RECORDS_PER_CARD_PER_USER) {
+              throw new Error(`You can only submit ${MAX_RECORDS_PER_CARD_PER_USER} records per card.`);
+            }
+
+            // Check for duplicate submission (same card, credit score, income, result)
+            const duplicateResult = await mysql.query(
+              `SELECT record_id FROM records
+               WHERE card_id = ? AND submitter_id = ? AND credit_score = ?
+               AND listed_income = ? AND result = ? AND active = 1
+               LIMIT 1`,
+              [value.card_id, submitterId, value.credit_score, value.listed_income, value.result]
+            );
+            if (duplicateResult.length > 0) {
+              throw new Error('You have already submitted a record with the same credit score, income, and result for this card.');
+            }
+
             //If accepted submit starting credit limit, otherwise reason denied
             value.result
               ? (value.reason_denied = null)
@@ -94,7 +122,7 @@ exports.UserRecordsHandler = async (event) => {
               date_applied: new Date(value.date_applied),
               length_credit: value.length_credit,
               starting_credit_limit: value.starting_credit_limit,
-              submitter_id: event.requestContext.authorizer.sub,
+              submitter_id: submitterId,
               submitter_ip_address: event.requestContext.identity.sourceIp,
               submit_datetime: new Date(),
               bank_customer: value.bank_customer,
