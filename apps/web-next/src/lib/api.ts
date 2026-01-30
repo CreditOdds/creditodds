@@ -260,6 +260,38 @@ export async function trackReferralEvent(
   // Fire and forget - don't throw on error
 }
 
+// Leaderboard - top contributors
+export interface LeaderboardEntry {
+  display_name: string;
+  records_count: number;
+  approved_count: number;
+  denied_count: number;
+  first_submission: string;
+  last_submission: string;
+}
+
+export interface LeaderboardStats {
+  total_records: number;
+  total_contributors: number;
+  total_approved: number;
+  total_denied: number;
+}
+
+export interface LeaderboardResponse {
+  leaderboard: LeaderboardEntry[];
+  stats: LeaderboardStats;
+}
+
+export async function getLeaderboard(limit = 25): Promise<LeaderboardResponse> {
+  const res = await fetch(`${API_BASE}/leaderboard?limit=${limit}`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch leaderboard');
+  }
+  return res.json();
+}
+
 // Delete user account (removes referrals and wallet, keeps records anonymized)
 export async function deleteAccount(token: string): Promise<{ message: string }> {
   const res = await fetch(`${API_BASE}/account`, {
