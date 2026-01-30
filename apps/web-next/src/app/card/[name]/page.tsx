@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   try {
     const cards = await getAllCards();
     return cards.map((card) => ({
-      name: card.card_name,
+      name: card.slug,
     }));
   } catch {
     return [];
@@ -25,9 +25,8 @@ export async function generateStaticParams() {
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: CardPageProps): Promise<Metadata> {
   try {
-    const { name } = await params;
-    const cardName = decodeURIComponent(name);
-    const card = await getCard(cardName);
+    const { name: slug } = await params;
+    const card = await getCard(slug);
 
     const description = card.approved_median_credit_score
       ? `Credit card approval odds for ${card.card_name}. Median approved credit score: ${card.approved_median_credit_score}, income: $${card.approved_median_income?.toLocaleString()}`
@@ -41,7 +40,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
         description: `See approval odds for ${card.card_name}${card.approved_median_credit_score ? `. Average approved credit score: ${card.approved_median_credit_score}` : ''}`,
         siteName: 'CreditOdds',
         type: 'website',
-        url: `https://creditodds.com/card/${encodeURIComponent(card.card_name)}`,
+        url: `https://creditodds.com/card/${card.slug}`,
       },
       twitter: {
         card: 'summary_large_image',
@@ -49,7 +48,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
         description: `See approval odds for ${card.card_name}`,
       },
       alternates: {
-        canonical: `https://creditodds.com/card/${encodeURIComponent(card.card_name)}`,
+        canonical: `https://creditodds.com/card/${card.slug}`,
       },
     };
   } catch {
@@ -58,14 +57,13 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
 }
 
 export default async function CardPage({ params }: CardPageProps) {
-  const { name } = await params;
-  const cardName = decodeURIComponent(name);
+  const { name: slug } = await params;
 
   try {
     // Fetch card and graph data in parallel for faster loading
     const [card, graphData] = await Promise.all([
-      getCard(cardName),
-      getCardGraphs(cardName).catch(() => [] as GraphData[]), // Empty array for new cards with no data
+      getCard(slug),
+      getCardGraphs(slug).catch(() => [] as GraphData[]), // Empty array for new cards with no data
     ]);
 
     return <CardClient card={card} graphData={graphData} />;

@@ -127,7 +127,7 @@ export default async function BankPage({ params }: BankPageProps) {
                     {sortedCards.map((card) => (
                       <tr key={card.card_id} className="hover:bg-gray-50">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-                          <Link href={`/card/${encodeURIComponent(card.card_name)}`} className="flex items-center group">
+                          <Link href={`/card/${card.slug}`} className="flex items-center group">
                             <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
                               <Image
                                 src={card.card_image_link

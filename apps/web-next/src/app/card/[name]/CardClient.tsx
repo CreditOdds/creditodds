@@ -95,7 +95,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
       <BreadcrumbSchema items={[
         { name: 'Home', url: 'https://creditodds.com' },
         { name: card.bank, url: `https://creditodds.com/bank/${encodeURIComponent(card.bank)}` },
-        { name: card.card_name, url: `https://creditodds.com/card/${encodeURIComponent(card.card_name)}` }
+        { name: card.card_name, url: `https://creditodds.com/card/${card.slug}` }
       ]} />
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">

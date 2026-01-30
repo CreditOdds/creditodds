@@ -54,7 +54,7 @@ export default function CardSelect({ allCards }: CardSelectProps) {
   const handleSelection = useCallback((selection: Card | null) => {
     if (selection) {
       saveRecentSearch(selection);
-      router.push(`/card/${encodeURIComponent(selection.card_name)}`);
+      router.push(`/card/${selection.slug}`);
     }
   }, [router, saveRecentSearch]);
 

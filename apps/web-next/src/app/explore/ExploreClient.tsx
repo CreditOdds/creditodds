@@ -102,7 +102,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
             {recentlyReleased.map((card) => (
               <Link
                 key={card.card_id}
-                href={`/card/${encodeURIComponent(card.card_name)}`}
+                href={`/card/${card.slug}`}
                 className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
               >
                 <div className="aspect-[1.586/1] relative mb-2">
@@ -271,7 +271,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                     filteredCards.map((card) => (
                       <tr key={card.card_id} className="hover:bg-gray-50">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-                          <Link href={`/card/${encodeURIComponent(card.card_name)}`} className="flex items-center group">
+                          <Link href={`/card/${card.slug}`} className="flex items-center group">
                             <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
                               <Image
                                 src={card.card_image_link

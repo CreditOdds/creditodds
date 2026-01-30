@@ -69,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const cards = await getAllCards();
     cardPages = cards.map((card) => ({
-      url: `${baseUrl}/card/${encodeURIComponent(card.card_name)}`,
+      url: `${baseUrl}/card/${card.slug}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,

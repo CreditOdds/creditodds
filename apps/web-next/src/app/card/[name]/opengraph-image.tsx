@@ -17,12 +17,11 @@ interface Props {
 }
 
 export default async function OGImage({ params }: Props) {
-  const { name } = await params;
-  const cardName = decodeURIComponent(name);
+  const { name: slug } = await params;
 
   let card;
   try {
-    card = await getCard(cardName);
+    card = await getCard(slug);
   } catch {
     // Return a default image if card not found
     return new ImageResponse(

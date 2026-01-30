@@ -357,7 +357,7 @@ export default function ProfilePage() {
                   key={card.id}
                   className="relative group bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
                 >
-                  <Link href={`/card/${encodeURIComponent(card.card_name)}`}>
+                  <Link href={`/card/${allCards.find(c => c.card_name === card.card_name)?.slug || card.card_name}`}>
                     <div className="aspect-[1.586/1] relative mb-2">
                       <Image
                         src={card.card_image_link
