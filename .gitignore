@@ -5,6 +5,7 @@ node_modules/
 dist/
 build/
 .aws-sam/
+data/news.json
 
 # Environment files
 .env
