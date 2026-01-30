@@ -2,4 +2,5 @@ name: "NHL Discover it"
 bank: "Discover"
 slug: "nhl-discover-it"
 accepting_applications: true
+image: "discover-it-nhl.png"
 annual_fee: 0

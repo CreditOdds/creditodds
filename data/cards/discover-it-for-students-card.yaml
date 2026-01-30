@@ -2,6 +2,7 @@ name: "Discover it for Students Card"
 bank: "Discover"
 slug: "discover-it-for-students-card"
 accepting_applications: true
+image: "discover-it-student-cash-back.png"
 annual_fee: 0
 tags:
   - student

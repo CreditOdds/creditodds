@@ -2,6 +2,7 @@ name: "Discover it Miles"
 bank: "Discover"
 slug: "discover-it-miles"
 accepting_applications: true
+image: "discover-it-miles.png"
 annual_fee: 0
 tags:
   - travel

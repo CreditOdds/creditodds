@@ -2,6 +2,7 @@ name: "Discover it Secured Credit Card"
 bank: "Discover"
 slug: "discover-it-secured-credit-card"
 accepting_applications: true
+image: "discover-it-secured.png"
 annual_fee: 0
 tags:
   - secured

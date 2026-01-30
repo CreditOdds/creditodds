@@ -2,4 +2,5 @@ name: "Discover it Student Chrome Card"
 bank: "Discover"
 slug: "discover-it-student-chrome-card"
 accepting_applications: true
+image: "discover-it-student-chrome.png"
 annual_fee: 0
