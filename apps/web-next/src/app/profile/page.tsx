@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, removeFromWallet, getAllCards, WalletCard, Card } from "@/lib/api";
+import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, removeFromWallet, getAllCards, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 // Lazy load modals - only loaded when user opens them
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), {
@@ -60,7 +60,7 @@ interface Profile {
 }
 
 export default function ProfilePage() {
-  const { authState, getToken } = useAuth();
+  const { authState, getToken, signOut } = useAuth();
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [records, setRecords] = useState<Record[]>([]);
@@ -74,6 +74,7 @@ export default function ProfilePage() {
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
   const [deletingReferralId, setDeletingReferralId] = useState<number | null>(null);
   const [removingCardId, setRemovingCardId] = useState<number | null>(null);
+  const [deletingAccount, setDeletingAccount] = useState(false);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
@@ -245,6 +246,39 @@ export default function ProfilePage() {
       alert("Failed to delete referral. Please try again.");
     } finally {
       setDeletingReferralId(null);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmText = "DELETE";
+    const userInput = prompt(
+      `This will permanently delete your account, all your referrals, and your wallet.\n\nYour submitted data points will be kept anonymously to help others.\n\nType "${confirmText}" to confirm:`
+    );
+
+    if (userInput !== confirmText) {
+      if (userInput !== null) {
+        alert("Account deletion cancelled. Text did not match.");
+      }
+      return;
+    }
+
+    setDeletingAccount(true);
+    try {
+      const token = await getToken();
+      if (!token) {
+        alert("No auth token available");
+        return;
+      }
+
+      await deleteAccount(token);
+      alert("Your account has been deleted. Thank you for contributing to CreditOdds.");
+      await signOut();
+      router.push("/");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alert(error instanceof Error ? error.message : "Failed to delete account. Please try again.");
+    } finally {
+      setDeletingAccount(false);
     }
   };
 
@@ -615,6 +649,33 @@ export default function ProfilePage() {
           onSuccess={loadData}
           existingCardIds={walletCards.map(c => c.card_id)}
         />
+
+        {/* Delete Account Section */}
+        <div className="bg-white shadow rounded-lg overflow-hidden mt-6">
+          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h2 className="text-lg leading-6 font-medium text-gray-900">Danger Zone</h2>
+          </div>
+          <div className="px-4 py-5 sm:px-6">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <ExclamationTriangleIcon className="h-6 w-6 text-red-500" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-sm font-medium text-gray-900">Delete Account</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  Permanently delete your account, all your referrals, and your wallet. Your submitted data points will be kept anonymously to help other users.
+                </p>
+                <button
+                  onClick={handleDeleteAccount}
+                  disabled={deletingAccount}
+                  className="mt-4 inline-flex items-center px-4 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {deletingAccount ? "Deleting..." : "Delete Account"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

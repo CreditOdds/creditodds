@@ -260,6 +260,21 @@ export async function trackReferralEvent(
   // Fire and forget - don't throw on error
 }
 
+// Delete user account (removes referrals and wallet, keeps records anonymized)
+export async function deleteAccount(token: string): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/account`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to delete account: ${errorText}`);
+  }
+  return res.json();
+}
+
 // ============ ADMIN API FUNCTIONS ============
 
 // Admin Stats
