@@ -2,5 +2,6 @@ name: "Wells Fargo Autograph Journey Card"
 bank: "Wells Fargo"
 slug: "wells-fargo-autograph-journey"
 accepting_applications: true
+image: "wells-fargo-autograph-journey.png"
 category: "travel"
 annual_fee: 95

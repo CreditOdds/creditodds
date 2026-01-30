@@ -2,5 +2,6 @@ name: "Wells Fargo Signify Business Cash Card"
 bank: "Wells Fargo"
 slug: "wells-fargo-signify-business-cash"
 accepting_applications: true
+image: "wells-fargo-signify-business-cash.png"
 category: "business"
 annual_fee: 0
