@@ -6,6 +6,7 @@
   "dependencies": {
     "aws-sdk": "^2.799.0",
     "firebase-admin": "^13.6.0",
+    "mysql2": "^3.16.2",
     "serverless-mysql": "^1.5.4",
     "yup": "^0.32.9"
   },
