@@ -60,7 +60,7 @@ interface Profile {
 }
 
 export default function ProfilePage() {
-  const { authState, getToken, signOut } = useAuth();
+  const { authState, getToken, logout } = useAuth();
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [records, setRecords] = useState<Record[]>([]);
@@ -272,7 +272,7 @@ export default function ProfilePage() {
 
       await deleteAccount(token);
       alert("Your account has been deleted. Thank you for contributing to CreditOdds.");
-      await signOut();
+      await logout();
       router.push("/");
     } catch (error) {
       console.error("Error deleting account:", error);
