@@ -205,7 +205,7 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
 
             {/* Card Details - Right side */}
             <div className="flex-1 text-center sm:text-left">
-              <h1 className="text-4xl font-extrabold text-gray-900 sm:text-4xl tracking-wide">
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-wide">
                 {card.card_name}
               </h1>
               <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="flex justify-center sm:justify-start pt-2 group">

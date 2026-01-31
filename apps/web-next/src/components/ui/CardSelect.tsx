@@ -109,8 +109,8 @@ export default function CardSelect({ allCards }: CardSelectProps) {
                   {...getInputProps()}
                   id="search"
                   name="search"
-                  className="shadow-sm text-xl border focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 border-gray-300 rounded-md h-12"
-                  placeholder="Search by card name or bank..."
+                  className="shadow-sm text-base sm:text-xl border focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-3 border-gray-300 rounded-md h-12"
+                  placeholder="Search cards..."
                   type="search"
                   autoComplete="off"
                 />

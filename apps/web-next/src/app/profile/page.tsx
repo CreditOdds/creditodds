@@ -396,33 +396,33 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="flex items-center gap-2 bg-indigo-50 rounded-lg px-3 py-2">
-                <WalletIcon className="h-5 w-5 text-indigo-600" />
+            <div className="grid grid-cols-4 gap-2 sm:flex sm:items-center sm:gap-3">
+              <div className="flex items-center gap-1 sm:gap-2 bg-indigo-50 rounded-lg px-2 sm:px-3 py-2">
+                <WalletIcon className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600" />
                 <div>
-                  <p className="text-lg sm:text-xl font-bold text-indigo-600">{walletCards.length}</p>
-                  <p className="text-xs text-indigo-600/70">Cards</p>
+                  <p className="text-base sm:text-xl font-bold text-indigo-600">{walletCards.length}</p>
+                  <p className="text-[10px] sm:text-xs text-indigo-600/70">Cards</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-red-50 rounded-lg px-3 py-2">
-                <span className="text-red-500 font-medium text-sm">$</span>
+              <div className="flex items-center gap-1 sm:gap-2 bg-red-50 rounded-lg px-2 sm:px-3 py-2">
+                <span className="text-red-500 font-medium text-xs sm:text-sm">$</span>
                 <div>
-                  <p className="text-lg sm:text-xl font-bold text-red-600">{totalAnnualFees.toLocaleString()}</p>
-                  <p className="text-xs text-red-600/70">Fees/yr</p>
+                  <p className="text-base sm:text-xl font-bold text-red-600">{totalAnnualFees.toLocaleString()}</p>
+                  <p className="text-[10px] sm:text-xs text-red-600/70">Fees/yr</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-green-50 rounded-lg px-3 py-2">
-                <DocumentTextIcon className="h-5 w-5 text-green-600" />
+              <div className="flex items-center gap-1 sm:gap-2 bg-green-50 rounded-lg px-2 sm:px-3 py-2">
+                <DocumentTextIcon className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
                 <div>
-                  <p className="text-lg sm:text-xl font-bold text-green-600">{records.length}</p>
-                  <p className="text-xs text-green-600/70">Records</p>
+                  <p className="text-base sm:text-xl font-bold text-green-600">{records.length}</p>
+                  <p className="text-[10px] sm:text-xs text-green-600/70">Records</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-amber-50 rounded-lg px-3 py-2">
-                <LinkIcon className="h-5 w-5 text-amber-600" />
+              <div className="flex items-center gap-1 sm:gap-2 bg-amber-50 rounded-lg px-2 sm:px-3 py-2">
+                <LinkIcon className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
                 <div>
-                  <p className="text-lg sm:text-xl font-bold text-amber-600">{referrals.length}</p>
-                  <p className="text-xs text-amber-600/70">Referrals</p>
+                  <p className="text-base sm:text-xl font-bold text-amber-600">{referrals.length}</p>
+                  <p className="text-[10px] sm:text-xs text-amber-600/70">Referrals</p>
                 </div>
               </div>
             </div>
@@ -430,8 +430,8 @@ export default function ProfilePage() {
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 mb-6">
-          <nav className="-mb-px flex space-x-8">
+        <div className="border-b border-gray-200 mb-6 overflow-x-auto">
+          <nav className="-mb-px flex space-x-4 sm:space-x-8 min-w-max">
             <button
               onClick={() => setActiveTab('wallet')}
               className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
@@ -484,9 +484,9 @@ export default function ProfilePage() {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-3 gap-4 sm:gap-6">
-          {/* Left Column - Tabs Content (2/3) */}
-          <div className="col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Tabs Content - Full width on mobile, 2/3 on desktop */}
+          <div className="col-span-1 lg:col-span-2">
         {/* Tab Content */}
         {activeTab === 'wallet' && (
           <div className="bg-white shadow rounded-lg p-6">
@@ -603,7 +603,58 @@ export default function ProfilePage() {
             </div>
           {records.length > 0 ? (
             <div className="border-t border-gray-200">
-              <div className="overflow-x-auto">
+              {/* Mobile: Card layout */}
+              <div className="sm:hidden divide-y divide-gray-200">
+                {records.map((record, index) => (
+                  <div key={record.record_id || index} className="p-4">
+                    <div className="flex items-start gap-3">
+                      {record.card_image_link && (
+                        <div className="flex-shrink-0 h-12 w-20 relative">
+                          <Image
+                            className="object-contain"
+                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
+                            alt={record.card_name}
+                            fill
+                            sizes="80px"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between">
+                          <p className="text-sm font-medium text-gray-900 truncate">{record.card_name}</p>
+                          <span
+                            className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                              record.result
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {record.result ? "Approved" : "Rejected"}
+                          </span>
+                        </div>
+                        <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                          <span>Score: <span className="font-medium text-gray-700">{record.credit_score}</span></span>
+                          <span>Income: <span className="font-medium text-gray-700">${record.listed_income?.toLocaleString()}</span></span>
+                        </div>
+                        <div className="mt-1 flex items-center justify-between">
+                          <span className="text-xs text-gray-400">
+                            {new Date(record.submit_datetime).toLocaleDateString()}
+                          </span>
+                          <button
+                            onClick={() => handleDeleteRecord(record.record_id)}
+                            disabled={deletingRecordId === record.record_id}
+                            className="text-xs text-red-600 hover:text-red-900 disabled:opacity-50"
+                          >
+                            {deletingRecordId === record.record_id ? "Deleting..." : "Delete"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Desktop: Table layout */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
@@ -713,7 +764,63 @@ export default function ProfilePage() {
           </div>
           {referrals.length > 0 ? (
             <div className="border-t border-gray-200">
-              <div className="overflow-x-auto">
+              {/* Mobile: Card layout */}
+              <div className="sm:hidden divide-y divide-gray-200">
+                {referrals.map((referral, index) => (
+                  <div key={referral.referral_id || index} className="p-4">
+                    <div className="flex items-start gap-3">
+                      {referral.card_image_link && (
+                        <div className="flex-shrink-0 h-12 w-20 relative">
+                          <Image
+                            className="object-contain"
+                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
+                            alt={referral.card_name}
+                            fill
+                            sizes="80px"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between">
+                          <p className="text-sm font-medium text-gray-900 truncate">{referral.card_name}</p>
+                          {referral.admin_approved ? (
+                            <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                              Approved
+                            </span>
+                          ) : (
+                            <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                              Pending
+                            </span>
+                          )}
+                        </div>
+                        <a
+                          href={referral.card_referral_link ? `${referral.card_referral_link}${referral.referral_link}` : referral.referral_link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-1 text-xs text-indigo-600 hover:text-indigo-900 truncate block"
+                        >
+                          {referral.referral_link}
+                        </a>
+                        <div className="mt-1 flex items-center justify-between">
+                          <div className="flex gap-3 text-xs text-gray-500">
+                            <span>{referral.impressions ?? 0} views</span>
+                            <span>{referral.clicks ?? 0} clicks</span>
+                          </div>
+                          <button
+                            onClick={() => handleDeleteReferral(referral.referral_id)}
+                            disabled={deletingReferralId === referral.referral_id}
+                            className="text-xs text-red-600 hover:text-red-900 disabled:opacity-50"
+                          >
+                            {deletingReferralId === referral.referral_id ? "Deleting..." : "Delete"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Desktop: Table layout */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
@@ -827,8 +934,8 @@ export default function ProfilePage() {
         )}
           </div>
 
-          {/* Right Column - News Sidebar (1/3) */}
-          <div className="col-span-1">
+          {/* News Sidebar - Below content on mobile, 1/3 on desktop */}
+          <div className="col-span-1 lg:col-span-1">
             <div className="bg-white shadow rounded-lg overflow-hidden sticky top-4">
               <div className="px-4 py-4 border-b border-gray-200">
                 <div className="flex items-center gap-2">

@@ -102,13 +102,13 @@ export default async function BankPage({ params }: BankPageProps) {
         </div>
 
         {/* Main Content Grid */}
-        <div className="mt-8 grid grid-cols-3 gap-4 sm:gap-6">
-          {/* Left Column - Cards Table (2/3) */}
-          <div className="col-span-2">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Cards Table - Full width on mobile, 2/3 on desktop */}
+          <div className="col-span-1 lg:col-span-2 -mx-4 sm:mx-0">
             <BankCardsTable cards={cards} />
           </div>
 
-          {/* Right Column - News Sidebar (1/3) */}
+          {/* News Sidebar - Below cards on mobile, 1/3 on desktop */}
           <div className="col-span-1">
             <div className="bg-white shadow ring-1 ring-black ring-opacity-5 rounded-lg overflow-hidden sticky top-4">
               <div className="px-4 py-4 border-b border-gray-200">
