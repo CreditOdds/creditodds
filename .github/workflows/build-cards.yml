@@ -76,3 +76,9 @@ jobs:
           if [ "$http_code" -ne 200 ]; then
             echo "Warning: Card sync returned non-200 status"
           fi
+
+      - name: Trigger Amplify rebuild
+        if: ${{ secrets.AMPLIFY_WEBHOOK_URL != '' }}
+        run: |
+          echo "Triggering Amplify rebuild to update sitemap..."
+          curl -s -X POST "${{ secrets.AMPLIFY_WEBHOOK_URL }}" || echo "Warning: Amplify webhook failed"
