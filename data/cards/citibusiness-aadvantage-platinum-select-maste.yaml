@@ -1,5 +1,6 @@
-name: "CitiBusiness AAdvantage Platinum Select Maste"
+name: "CitiBusiness AAdvantage Platinum Select Mastercard"
 bank: "Citi"
 slug: "citibusiness-aadvantage-platinum-select-maste"
 accepting_applications: true
+image: "citi-business-aadvantage-platinum-select.png"
 annual_fee: 99

@@ -1,5 +1,6 @@
 name: "Citi Rewards+"
 bank: "Citi"
 slug: "citi-rewards"
-accepting_applications: true
+accepting_applications: false
 annual_fee: 0
+image: "citi-rewards-plus.png"
