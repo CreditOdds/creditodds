@@ -38,12 +38,18 @@ async function fetchCardsFromCDN() {
 async function fetchCardFromDB(cardName) {
   try {
     // First find the card by name (fuzzy match - the CDN has "Card" suffix but DB might not)
+    // Order by exact match first, then by card_id to get the oldest (original) entry
     const cardResults = await mysql.query(`
       SELECT card_id, card_name, card_image_link, accepting_applications, apply_link, card_referral_link
       FROM cards
       WHERE card_name = ? OR card_name = ? OR ? LIKE CONCAT(card_name, '%')
+      ORDER BY
+        CASE WHEN card_name = ? THEN 0
+             WHEN card_name = ? THEN 1
+             ELSE 2 END,
+        card_id ASC
       LIMIT 1
-    `, [cardName, cardName.replace(/ Card$/, ''), cardName]);
+    `, [cardName, cardName.replace(/ Card$/, ''), cardName, cardName, cardName.replace(/ Card$/, '')]);
 
     if (!cardResults || cardResults.length === 0) {
       await mysql.end();

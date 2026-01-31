@@ -68,11 +68,17 @@ exports.getCardGraphsHandler = async (event) => {
           const card_name = cdnCard ? (cdnCard.card_name || cdnCard.name) : cardNameParam;
 
           // Get card_id from cards table (with fuzzy matching for card suffix)
+          // Order by exact match first, then by card_id to get the oldest (original) entry
           let cardResult = await mysql.query(
             `SELECT card_id FROM cards
              WHERE card_name = ? OR card_name = ? OR ? LIKE CONCAT(card_name, '%')
+             ORDER BY
+               CASE WHEN card_name = ? THEN 0
+                    WHEN card_name = ? THEN 1
+                    ELSE 2 END,
+               card_id ASC
              LIMIT 1`,
-            [card_name, card_name.replace(/ Card$/, ''), card_name]
+            [card_name, card_name.replace(/ Card$/, ''), card_name, card_name, card_name.replace(/ Card$/, '')]
           );
           await mysql.end();
 
