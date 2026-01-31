@@ -28,7 +28,7 @@ interface SubmitRecordModalProps {
   onSuccess?: () => void;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://c301gwdbok.execute-api.us-east-2.amazonaws.com/Prod';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");

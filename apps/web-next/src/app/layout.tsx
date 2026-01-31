@@ -48,9 +48,9 @@ export default function RootLayout({
       <head>
         {/* Preconnect to external domains for faster loading */}
         <link rel="preconnect" href="https://d3ay3etzd1512y.cloudfront.net" />
-        <link rel="preconnect" href="https://c301gwdbok.execute-api.us-east-2.amazonaws.com" />
+        <link rel="preconnect" href="https://d2ojrhbh2dincr.cloudfront.net" />
         <link rel="dns-prefetch" href="https://d3ay3etzd1512y.cloudfront.net" />
-        <link rel="dns-prefetch" href="https://c301gwdbok.execute-api.us-east-2.amazonaws.com" />
+        <link rel="dns-prefetch" href="https://d2ojrhbh2dincr.cloudfront.net" />
       </head>
       <body>
         <OrganizationSchema />
