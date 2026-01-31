@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-01-31T14:39:32.034Z",
-  "count": 134,
+  "generated_at": "2026-01-31T14:48:47.801Z",
+  "count": 133,
   "cards": [
     {
       "name": "Aer Lingus Visa Signature card",
@@ -652,19 +652,6 @@
       ],
       "card_id": "citi-double-cash",
       "card_name": "Citi Double Cash"
-    },
-    {
-      "name": "Citi Premier",
-      "bank": "Citi",
-      "slug": "citi-premier",
-      "accepting_applications": true,
-      "annual_fee": 95,
-      "tags": [
-        "travel",
-        "rewards"
-      ],
-      "card_id": "citi-premier",
-      "card_name": "Citi Premier"
     },
     {
       "name": "Citi Prestige",

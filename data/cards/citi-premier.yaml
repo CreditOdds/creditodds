@@ -1,8 +1,0 @@
-name: "Citi Premier"
-bank: "Citi"
-slug: "citi-premier"
-accepting_applications: true
-annual_fee: 95
-tags:
-  - travel
-  - rewards
