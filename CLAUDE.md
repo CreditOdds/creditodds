@@ -15,7 +15,7 @@
 ## Deployment
 
 - Backend: `cd apps/api && sam build && sam deploy`
-- Frontend: Deployed via Vercel (automatic on push)
+- Frontend: Deployed via AWS Amplify (automatic on push)
 - Cards data: Run `npm run build-cards` in web-next to rebuild cards.json
 
 ## Database
