@@ -19,6 +19,7 @@ export interface NewsItem {
   bank?: string;
   card_slug?: string;
   card_name?: string;
+  card_image_link?: string;
   source?: string;
   source_url?: string;
 }
@@ -58,6 +59,16 @@ const isBrowser = typeof window !== 'undefined';
 
 export async function getNews(): Promise<NewsItem[]> {
   try {
+    // In development on the server, read from local file
+    if (!isBrowser && process.env.NODE_ENV === 'development') {
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const filePath = path.join(process.cwd(), '..', '..', 'data', 'news.json');
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      const data: NewsResponse = JSON.parse(fileContent);
+      return data.items || [];
+    }
+
     // Use local API route on client to avoid CORS, direct CDN on server
     const url = isBrowser ? '/api/news' : NEWS_CDN_URL;
     const res = await fetch(url, isBrowser ? {} : {

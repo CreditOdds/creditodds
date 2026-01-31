@@ -32,6 +32,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
   const [sortBy, setSortBy] = useState<SortOption>('name');
   const [activeEmoji, setActiveEmoji] = useState<string | null>(null);
   const [showArchived, setShowArchived] = useState(false);
+  const [showBusiness, setShowBusiness] = useState(false);
 
   // Get recently released cards (cards with release_date, sorted by most recent)
   const recentlyReleased = useMemo(() => {
@@ -60,7 +61,11 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
       // Hide archived cards unless showArchived is true
       const matchesStatus = showArchived || card.accepting_applications;
 
-      return matchesSearch && matchesBank && matchesEmoji && matchesStatus;
+      // Hide business cards unless showBusiness is true or actively filtering for business
+      const isBusiness = card.tags?.includes('business') || card.category === 'business';
+      const matchesBusiness = showBusiness || !isBusiness || activeEmoji === '💼';
+
+      return matchesSearch && matchesBank && matchesEmoji && matchesStatus && matchesBusiness;
     });
 
     // Sort based on selected option
@@ -85,11 +90,16 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
     }
 
     return filtered;
-  }, [cards, search, selectedBank, sortBy, activeEmoji, showArchived]);
+  }, [cards, search, selectedBank, sortBy, activeEmoji, showArchived, showBusiness]);
 
   // Count archived cards
   const archivedCount = useMemo(() => {
     return cards.filter(card => !card.accepting_applications).length;
+  }, [cards]);
+
+  // Count business cards
+  const businessCount = useMemo(() => {
+    return cards.filter(card => card.tags?.includes('business') || card.category === 'business').length;
   }, [cards]);
 
   return (
@@ -197,31 +207,53 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
         </div>
       </div>
 
-      {/* Results count and archived toggle */}
-      <div className="mt-4 flex items-center justify-between">
+      {/* Results count and toggles */}
+      <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-sm text-gray-500">
           Showing {filteredCards.length} of {cards.length} cards
         </p>
-        <label className="flex items-center cursor-pointer">
-          <span className="text-sm text-gray-500 mr-2">
-            Show archived ({archivedCount})
-          </span>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={showArchived}
-            onClick={() => setShowArchived(!showArchived)}
-            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-              showArchived ? 'bg-indigo-600' : 'bg-gray-200'
-            }`}
-          >
-            <span
-              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                showArchived ? 'translate-x-5' : 'translate-x-0'
+        <div className="flex items-center gap-4">
+          <label className="flex items-center cursor-pointer">
+            <span className="text-sm text-gray-500 mr-2">
+              Business ({businessCount})
+            </span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={showBusiness}
+              onClick={() => setShowBusiness(!showBusiness)}
+              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                showBusiness ? 'bg-indigo-600' : 'bg-gray-200'
               }`}
-            />
-          </button>
-        </label>
+            >
+              <span
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                  showBusiness ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </label>
+          <label className="flex items-center cursor-pointer">
+            <span className="text-sm text-gray-500 mr-2">
+              Archived ({archivedCount})
+            </span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={showArchived}
+              onClick={() => setShowArchived(!showArchived)}
+              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                showArchived ? 'bg-indigo-600' : 'bg-gray-200'
+              }`}
+            >
+              <span
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                  showArchived ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </label>
+        </div>
       </div>
 
       {/* Cards Table */}
@@ -259,6 +291,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                               setSelectedBank('');
                               setActiveEmoji(null);
                               setShowArchived(false);
+                              setShowBusiness(false);
                             }}
                             className="mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                           >

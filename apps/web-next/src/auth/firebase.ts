@@ -32,13 +32,15 @@ function getFirebaseAuth(): Auth | undefined {
       app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
       auth = getAuth(app);
 
-      // Initialize Analytics (only in browser and if supported)
-      isSupported().then((supported) => {
-        if (supported && app && !analytics) {
-          analytics = getAnalytics(app);
-          console.log('Firebase Analytics initialized');
-        }
-      });
+      // Initialize Analytics (only in browser, if supported, and not in development)
+      if (process.env.NODE_ENV === 'production') {
+        isSupported().then((supported) => {
+          if (supported && app && !analytics) {
+            analytics = getAnalytics(app);
+            console.log('Firebase Analytics initialized');
+          }
+        });
+      }
 
       console.log('Firebase initialized successfully');
     } catch (error) {

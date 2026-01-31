@@ -3,7 +3,7 @@ bank: "Chase"
 slug: "chase-sapphire-reserve"
 image: "chase_sapphire_reserve.png"
 accepting_applications: true
-annual_fee: 550
+annual_fee: 795
 tags:
   - travel
   - premium
