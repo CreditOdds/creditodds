@@ -256,7 +256,7 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                       with <span className="text-green-600">{card.approved_count} approved</span> and <span className="text-red-600">{card.rejected_count} rejected</span>
                     </p>
                   </>
-                ) : (
+                ) : card.accepting_applications ? (
                   <div className="py-8 bg-blue-50 rounded-lg">
                     <div className="text-center px-6">
                       <h3 className="text-lg leading-6 font-medium text-gray-900 mb-3">
@@ -267,7 +267,7 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                       </p>
                     </div>
                   </div>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
