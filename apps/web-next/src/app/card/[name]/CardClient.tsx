@@ -6,9 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
-import { ExclamationTriangleIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { ExclamationTriangleIcon, PencilSquareIcon, NewspaperIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, trackReferralEvent } from "@/lib/api";
+import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -31,9 +32,10 @@ function ChartErrorFallback() {
 interface CardClientProps {
   card: Card;
   graphData: GraphData[];
+  news: NewsItem[];
 }
 
-export default function CardClient({ card, graphData }: CardClientProps) {
+export default function CardClient({ card, graphData, news }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const { authState } = useAuth();
   const router = useRouter();
@@ -384,6 +386,55 @@ export default function CardClient({ card, graphData }: CardClientProps) {
           </div>
         )}
       </div>
+      )}
+
+      {/* Card News Section */}
+      {news.length > 0 && (
+        <div className="bg-white py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 mb-6">
+              <NewspaperIcon className="h-6 w-6 text-indigo-600" />
+              <h2 className="text-2xl font-bold text-gray-900">
+                {card.card_name} News
+              </h2>
+            </div>
+            <div className="space-y-4">
+              {news.map((item) => (
+                <div key={item.id} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="text-sm text-gray-500">
+                      {new Date(item.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </span>
+                    {item.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${tagColors[tag]}`}
+                      >
+                        {tagLabels[tag]}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{item.title}</h3>
+                  <p className="text-gray-600">{item.summary}</p>
+                  {item.source_url && (
+                    <a
+                      href={item.source_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex text-sm text-indigo-600 hover:text-indigo-800"
+                    >
+                      Read more →
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Bottom Apply Section */}
