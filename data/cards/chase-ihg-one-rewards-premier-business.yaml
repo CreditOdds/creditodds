@@ -1,0 +1,10 @@
+name: "IHG One Rewards Premier Business Credit Card"
+bank: "Chase"
+slug: "ihg-rewards-premier-business"
+accepting_applications: true
+annual_fee: 0
+image: "chase-ihg-one-rewards-premier-business.png"
+tags:
+  - hotel
+  - travel
+  - rewards

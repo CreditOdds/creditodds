@@ -3,3 +3,8 @@ bank: "Chase"
 slug: "ihg-rewards-club-traveler-credit-card"
 accepting_applications: true
 annual_fee: 0
+image: "chase-ihg-one-rewards-traveler.png"
+tags:
+  - hotel
+  - travel
+  - rewards

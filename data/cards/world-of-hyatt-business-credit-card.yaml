@@ -2,5 +2,6 @@ name: "World of Hyatt Business Credit Card"
 bank: "Chase"
 slug: "world-of-hyatt-business-credit-card"
 accepting_applications: true
+image: "chase-world-of-hyatt-business.png"
 category: "business"
 annual_fee: 199

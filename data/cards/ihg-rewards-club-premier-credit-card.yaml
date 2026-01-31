@@ -1,5 +1,10 @@
-name: "IHG Rewards Club Premier Credit Card"
+name: "IHG One Rewards Premier Credit Card"
 bank: "Chase"
 slug: "ihg-rewards-club-premier-credit-card"
 accepting_applications: true
+image: "chase-ihg-one-rewards-premier.png"
 annual_fee: 99
+tags:
+  - hotel
+  - travel
+  - rewards

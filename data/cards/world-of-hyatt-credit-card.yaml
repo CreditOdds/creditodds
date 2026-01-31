@@ -2,6 +2,7 @@ name: "World of Hyatt Credit Card"
 bank: "Chase"
 slug: "world-of-hyatt-credit-card"
 accepting_applications: true
+image: "chase-world-of-hyatt.png"
 annual_fee: 95
 tags:
   - hotel
