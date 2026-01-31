@@ -16,10 +16,10 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
 
   return (
     <>
-      <main className="lg:relative">
+      <section className="lg:relative overflow-x-hidden">
         <div className="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-72 lg:text-left">
           <div className="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
-            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
+            <h1 className="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
               <span className="block xl:inline">Can I get this </span>
               <span className="block text-indigo-600 xl:inline">card?</span>
             </h1>
@@ -29,7 +29,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
             <CardSelect allCards={initialCards} />
           </div>
         </div>
-        <div className="relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
+        <div className="relative w-screen h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
           <Image
             className="absolute inset-0 w-full h-full object-cover"
             src="/assets/Graphic-02.svg"
@@ -37,7 +37,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
             fill
           />
         </div>
-      </main>
+      </section>
       <div className="bg-indigo-900">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="max-w-4xl mx-auto text-center">

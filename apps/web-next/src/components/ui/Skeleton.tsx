@@ -74,29 +74,29 @@ export function ProfileSkeleton() {
               </div>
               <Skeleton className="h-8 w-8 rounded-full" />
             </div>
-            {/* Stats pills */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <Skeleton className="h-14 w-20 rounded-lg" />
-              <Skeleton className="h-14 w-20 rounded-lg" />
-              <Skeleton className="h-14 w-20 rounded-lg" />
-              <Skeleton className="h-14 w-20 rounded-lg" />
+            {/* Stats pills - 4 columns on mobile */}
+            <div className="grid grid-cols-4 gap-2 sm:flex sm:items-center sm:gap-3">
+              <Skeleton className="h-14 w-full sm:w-20 rounded-lg" />
+              <Skeleton className="h-14 w-full sm:w-20 rounded-lg" />
+              <Skeleton className="h-14 w-full sm:w-20 rounded-lg" />
+              <Skeleton className="h-14 w-full sm:w-20 rounded-lg" />
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 mb-6">
-          <nav className="-mb-px flex space-x-8">
-            <Skeleton className="h-10 w-24" />
-            <Skeleton className="h-10 w-24" />
-            <Skeleton className="h-10 w-24" />
+        <div className="border-b border-gray-200 mb-6 overflow-x-auto">
+          <nav className="-mb-px flex space-x-4 sm:space-x-8 min-w-max">
+            <Skeleton className="h-10 w-20 sm:w-24" />
+            <Skeleton className="h-10 w-20 sm:w-24" />
+            <Skeleton className="h-10 w-20 sm:w-24" />
           </nav>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-3 gap-4 sm:gap-6">
-          {/* Left Column - Tab Content (2/3) */}
-          <div className="col-span-2">
+        {/* Main Content Grid - Single column on mobile */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Tab Content (full width on mobile, 2/3 on desktop) */}
+          <div className="col-span-1 lg:col-span-2">
             <div className="bg-white shadow rounded-lg p-6 animate-pulse">
               <div className="flex items-center justify-between mb-4">
                 <Skeleton className="h-6 w-24" />
@@ -104,7 +104,7 @@ export function ProfileSkeleton() {
               </div>
               {/* Wallet cards grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {[...Array(5)].map((_, i) => (
+                {[...Array(4)].map((_, i) => (
                   <div key={i} className="rounded-lg p-3 bg-gray-50">
                     <Skeleton className="aspect-[1.586/1] w-full mb-2 rounded" />
                     <Skeleton className="h-3 w-3/4 mb-1" />
@@ -115,7 +115,7 @@ export function ProfileSkeleton() {
             </div>
           </div>
 
-          {/* Right Column - News Sidebar (1/3) */}
+          {/* Right Column - News Sidebar (1/3 on desktop, below on mobile) */}
           <div className="col-span-1">
             <div className="bg-white shadow rounded-lg overflow-hidden animate-pulse">
               <div className="px-4 py-4 border-b border-gray-200">

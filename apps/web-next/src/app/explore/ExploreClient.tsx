@@ -257,7 +257,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
 
       {/* Cards Table */}
       <div className="mt-4 flex flex-col">
-        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="-my-2 sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
               <table className="min-w-full divide-y divide-gray-300">
@@ -269,7 +269,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">
                       Annual Fee
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900 hidden sm:table-cell">
                       Status
                     </th>
                   </tr>
@@ -302,9 +302,9 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                   ) : (
                     filteredCards.map((card) => (
                       <tr key={card.card_id} className="hover:bg-gray-50">
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
+                        <td className="py-3 pl-3 pr-2 sm:py-4 sm:pl-6 sm:pr-3">
                           <Link href={`/card/${card.slug}`} className="flex items-center group">
-                            <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
+                            <div className="h-8 w-12 sm:h-10 sm:w-16 flex-shrink-0 mr-3">
                               <Image
                                 src={card.card_image_link
                                   ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
@@ -312,15 +312,26 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                                 alt={card.card_name}
                                 width={64}
                                 height={40}
-                                className="h-10 w-16 object-contain"
+                                className="h-8 w-12 sm:h-10 sm:w-16 object-contain"
                               />
                             </div>
-                            <div>
-                              <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
+                            <div className="min-w-0 flex-1">
+                              <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900 truncate">
                                 {card.card_name}
                               </div>
-                              <div className="text-xs text-gray-500">
-                                {card.bank}
+                              <div className="text-xs text-gray-500 flex flex-wrap items-center gap-x-2">
+                                <span>{card.bank}</span>
+                                {/* Show fee and status on mobile inline */}
+                                <span className="sm:hidden">
+                                  {card.annual_fee !== undefined && card.annual_fee > 0 && (
+                                    <span className="text-gray-400">· ${card.annual_fee}/yr</span>
+                                  )}
+                                </span>
+                                {!card.accepting_applications && (
+                                  <span className="sm:hidden inline-flex rounded-full bg-gray-100 px-1.5 text-xs font-medium text-gray-600">
+                                    Archived
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </Link>
@@ -328,7 +339,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
                           {card.annual_fee !== undefined ? (card.annual_fee === 0 ? '$0' : `$${card.annual_fee}`) : '—'}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm">
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-right hidden sm:table-cell">
                           {card.accepting_applications ? (
                             <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                               Active
