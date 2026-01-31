@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card } from "@/lib/api";
+import { cardMatchesSearch } from "@/lib/searchAliases";
 
 interface ExploreClientProps {
   cards: Card[];
@@ -44,9 +45,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
 
   const filteredCards = useMemo(() => {
     let filtered = cards.filter(card => {
-      const matchesSearch = search === "" ||
-        card.card_name.toLowerCase().includes(search.toLowerCase()) ||
-        card.bank.toLowerCase().includes(search.toLowerCase());
+      const matchesSearch = cardMatchesSearch(card.card_name, card.bank, search);
       const matchesBank = selectedBank === "" || card.bank === selectedBank;
 
       // Apply emoji filter if active (filter by tag)

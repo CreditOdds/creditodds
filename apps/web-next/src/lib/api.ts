@@ -20,6 +20,7 @@ export interface Card {
   rejected_count?: number;
   release_date?: string;
   tags?: string[];
+  category?: string;
   annual_fee?: number;
   apply_link?: string;
   card_referral_link?: string;

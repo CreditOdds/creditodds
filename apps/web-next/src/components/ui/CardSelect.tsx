@@ -6,6 +6,7 @@ import Downshift from "downshift";
 import Image from "next/image";
 import { ClockIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Card } from "@/lib/api";
+import { cardMatchesSearch } from "@/lib/searchAliases";
 
 interface CardSelectProps {
   allCards: Card[];
@@ -75,13 +76,10 @@ export default function CardSelect({ allCards }: CardSelectProps) {
         selectedItem,
         getRootProps,
       }) => {
-        // Filter cards based on input, then sort with archived cards at the bottom
+        // Filter cards based on input (with alias support), then sort with archived cards at the bottom
         const filteredCards = allCards
           .filter(
-            (item) =>
-              !inputValue ||
-              item.card_name.toLowerCase().includes(inputValue.toLowerCase()) ||
-              item.bank.toLowerCase().includes(inputValue.toLowerCase())
+            (item) => cardMatchesSearch(item.card_name, item.bank, inputValue || '')
           )
           .sort((a, b) => {
             // Active cards first, archived cards last
