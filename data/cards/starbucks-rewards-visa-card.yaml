@@ -1,5 +1,6 @@
 name: "Starbucks Rewards Visa Card"
 bank: "Chase"
 slug: "starbucks-rewards-visa-card"
-accepting_applications: true
+image: "chase-starbucks-rewards.png"
+accepting_applications: false
 annual_fee: 49
