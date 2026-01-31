@@ -513,7 +513,7 @@ export default function ProfilePage() {
                 />
                 <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
                 <span className="ms-3 text-sm text-gray-500">
-                  Show inactive cards ({inactiveCount})
+                  Show discontinued cards ({inactiveCount})
                 </span>
               </label>
             </div>
@@ -541,7 +541,7 @@ export default function ProfilePage() {
                       />
                       {inactive && (
                         <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-500 px-1.5 py-0.5 rounded-full text-xs font-medium text-white shadow-sm">
-                          Inactive
+                          Discontinued
                         </span>
                       )}
                       {/* Record and Referral indicators */}
