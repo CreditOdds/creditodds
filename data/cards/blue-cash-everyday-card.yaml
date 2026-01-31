@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "blue-cash-everyday-card"
 image: "amex_blue_cash_everyday.png"
 accepting_applications: true
+card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
 annual_fee: 0
 tags:
   - cashback
