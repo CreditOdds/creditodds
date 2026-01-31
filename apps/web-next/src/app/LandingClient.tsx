@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import CardSelect from "@/components/ui/CardSelect";
 import { useAuth } from "@/auth/AuthProvider";
-import { UserGroupIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { UserGroupIcon, SparklesIcon, WalletIcon } from "@heroicons/react/24/outline";
 import { Card } from "@/lib/api";
 
 interface LandingClientProps {
@@ -168,6 +168,60 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                   className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
                   src="https://d3ay3etzd1512y.cloudfront.net/other/Landing_Screen_Shot_Reward.png"
                   alt="Customer profile user interface"
+                  width={800}
+                  height={600}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-24">
+          <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
+            <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
+              <div>
+                <div>
+                  <span className="h-12 w-12 rounded-md flex items-center justify-center bg-indigo-600">
+                    <WalletIcon
+                      className="h-6 w-6 text-white"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </div>
+                <div className="mt-6">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
+                    Manage your wallet
+                  </h2>
+                  <p className="mt-4 text-lg text-gray-500">
+                    Keep track of all your credit cards in one place. Your wallet
+                    shows your complete card collection, tracks annual fees, and
+                    displays personalized news for cards you own. See at a glance
+                    which cards have submitted records or referrals, and easily
+                    manage your portfolio.
+                  </p>
+                  <div className="mt-6">
+                    {!authState.isAuthenticated ? (
+                      <Link href="/register">
+                        <button className="inline-flex px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                          Create Account
+                        </button>
+                      </Link>
+                    ) : (
+                      <Link href="/profile">
+                        <button className="inline-flex px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                          View Wallet
+                        </button>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-12 sm:mt-16 lg:mt-0">
+              <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
+                <Image
+                  className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+                  src="https://d3ay3etzd1512y.cloudfront.net/other/Landing_Screen_Shot_Wallet.png"
+                  alt="Wallet management interface"
                   width={800}
                   height={600}
                 />
