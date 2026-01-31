@@ -1,5 +1,6 @@
 name: "AT&T Access Card From Citi"
 bank: "Citi"
 slug: "at-t-access-card-from-citi"
-accepting_applications: true
+accepting_applications: false
+image: "citi-att-access.png"
 annual_fee: 0
