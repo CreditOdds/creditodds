@@ -75,6 +75,7 @@ export default function ProfilePage() {
   const [deletingReferralId, setDeletingReferralId] = useState<number | null>(null);
   const [removingCardId, setRemovingCardId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
+  const [showInactiveCards, setShowInactiveCards] = useState(false);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
@@ -93,6 +94,33 @@ export default function ProfilePage() {
       return total + (cardData?.annual_fee || 0);
     }, 0);
   }, [walletCards, allCards]);
+
+  // Filter wallet cards based on active status
+  const { activeWalletCards, inactiveCount } = useMemo(() => {
+    if (allCards.length === 0) {
+      return { activeWalletCards: walletCards, inactiveCount: 0 };
+    }
+    const active: WalletCard[] = [];
+    let inactive = 0;
+    for (const walletCard of walletCards) {
+      const cardData = allCards.find(c => c.card_name === walletCard.card_name);
+      if (cardData?.accepting_applications === false) {
+        inactive++;
+        if (showInactiveCards) {
+          active.push(walletCard);
+        }
+      } else {
+        active.push(walletCard);
+      }
+    }
+    return { activeWalletCards: active, inactiveCount: inactive };
+  }, [walletCards, allCards, showInactiveCards]);
+
+  // Helper to check if a card is inactive
+  const isCardInactive = (cardName: string) => {
+    const cardData = allCards.find(c => c.card_name === cardName);
+    return cardData?.accepting_applications === false;
+  };
 
   useEffect(() => {
     if (!authState.isLoading && !authState.isAuthenticated) {
@@ -350,52 +378,84 @@ export default function ProfilePage() {
             </button>
           </div>
 
-          {walletCards.length > 0 ? (
+          {/* Show inactive cards toggle */}
+          {inactiveCount > 0 && (
+            <div className="mb-4">
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showInactiveCards}
+                  onChange={(e) => setShowInactiveCards(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                <span className="ms-3 text-sm text-gray-500">
+                  Show inactive cards ({inactiveCount})
+                </span>
+              </label>
+            </div>
+          )}
+
+          {activeWalletCards.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {walletCards.map((card) => (
-                <div
-                  key={card.id}
-                  className="relative group bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
-                >
-                  <Link href={`/card/${allCards.find(c => c.card_name === card.card_name)?.slug || card.card_name}`}>
-                    <div className="aspect-[1.586/1] relative mb-2">
-                      <Image
-                        src={card.card_image_link
-                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                          : '/assets/generic-card.svg'}
-                        alt={card.card_name}
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
-                      />
-                      {(() => {
-                        const cardData = allCards.find(c => c.card_name === card.card_name);
-                        const annualFee = cardData?.annual_fee || 0;
-                        return annualFee > 0 ? (
-                          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white px-1.5 py-0.5 rounded-full text-xs font-medium text-red-600 shadow-sm">
-                            ${annualFee}
-                          </span>
-                        ) : null;
-                      })()}
-                    </div>
-                    <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
-                    <p className="text-xs text-gray-500">{card.bank}</p>
-                    {formatAcquiredDate(card.acquired_month, card.acquired_year) && (
-                      <p className="text-xs text-gray-400 mt-1">
-                        Since {formatAcquiredDate(card.acquired_month, card.acquired_year)}
-                      </p>
-                    )}
-                  </Link>
-                  <button
-                    onClick={() => handleRemoveFromWallet(card.card_id)}
-                    disabled={removingCardId === card.card_id}
-                    className="absolute top-2 right-2 p-1 bg-white rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
-                    title="Remove from wallet"
+              {activeWalletCards.map((card) => {
+                const inactive = isCardInactive(card.card_name);
+                return (
+                  <div
+                    key={card.id}
+                    className={`relative group rounded-lg p-3 transition-colors ${inactive ? 'bg-gray-100 opacity-60' : 'bg-gray-50 hover:bg-gray-100'}`}
                   >
-                    <TrashIcon className={`h-4 w-4 ${removingCardId === card.card_id ? 'text-gray-400' : 'text-red-500'}`} />
-                  </button>
-                </div>
-              ))}
+                    <Link href={`/card/${allCards.find(c => c.card_name === card.card_name)?.slug || card.card_name}`}>
+                      <div className="aspect-[1.586/1] relative mb-2">
+                        <Image
+                          src={card.card_image_link
+                            ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                            : '/assets/generic-card.svg'}
+                          alt={card.card_name}
+                          fill
+                          className={`object-contain ${inactive ? 'grayscale' : ''}`}
+                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                        />
+                        {inactive && (
+                          <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-500 px-1.5 py-0.5 rounded-full text-xs font-medium text-white shadow-sm">
+                            Inactive
+                          </span>
+                        )}
+                        {(() => {
+                          const cardData = allCards.find(c => c.card_name === card.card_name);
+                          const annualFee = cardData?.annual_fee || 0;
+                          return annualFee > 0 ? (
+                            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white px-1.5 py-0.5 rounded-full text-xs font-medium text-red-600 shadow-sm">
+                              ${annualFee}
+                            </span>
+                          ) : null;
+                        })()}
+                      </div>
+                      <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
+                      <p className="text-xs text-gray-500">{card.bank}</p>
+                      {formatAcquiredDate(card.acquired_month, card.acquired_year) && (
+                        <p className="text-xs text-gray-400 mt-1">
+                          Since {formatAcquiredDate(card.acquired_month, card.acquired_year)}
+                        </p>
+                      )}
+                    </Link>
+                    <button
+                      onClick={() => handleRemoveFromWallet(card.card_id)}
+                      disabled={removingCardId === card.card_id}
+                      className="absolute top-2 right-2 p-1 bg-white rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+                      title="Remove from wallet"
+                    >
+                      <TrashIcon className={`h-4 w-4 ${removingCardId === card.card_id ? 'text-gray-400' : 'text-red-500'}`} />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          ) : walletCards.length > 0 ? (
+            <div className="text-center py-8">
+              <WalletIcon className="mx-auto h-12 w-12 text-gray-300" />
+              <p className="mt-2 text-gray-500">All {walletCards.length} cards are inactive.</p>
+              <p className="text-sm text-gray-400">Toggle &quot;Show inactive cards&quot; above to see them.</p>
             </div>
           ) : (
             <div className="text-center py-8">
