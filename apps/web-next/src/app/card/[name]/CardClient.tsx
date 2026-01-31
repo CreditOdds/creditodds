@@ -230,22 +230,22 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                     </h3>
 
                     <div className="bg-white shadow rounded-lg overflow-hidden">
-                      <dl className="grid grid-cols-1 divide-y sm:grid-cols-3 sm:divide-y-0 sm:divide-x divide-gray-200">
-                        <div className="px-4 py-5 text-center">
-                          <dt className="text-sm font-medium text-gray-500">Credit Score</dt>
-                          <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                      <dl className="grid grid-cols-3 divide-x divide-gray-200">
+                        <div className="px-2 py-3 sm:px-4 sm:py-5 text-center">
+                          <dt className="text-xs sm:text-sm font-medium text-gray-500">Credit Score</dt>
+                          <dd className="mt-1 text-xl sm:text-3xl font-semibold text-gray-900">
                             {card.approved_median_credit_score}
                           </dd>
                         </div>
-                        <div className="px-4 py-5 text-center">
-                          <dt className="text-sm font-medium text-gray-500">Income</dt>
-                          <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                        <div className="px-2 py-3 sm:px-4 sm:py-5 text-center">
+                          <dt className="text-xs sm:text-sm font-medium text-gray-500">Income</dt>
+                          <dd className="mt-1 text-xl sm:text-3xl font-semibold text-gray-900">
                             ${card.approved_median_income?.toLocaleString()}
                           </dd>
                         </div>
-                        <div className="px-4 py-5 text-center">
-                          <dt className="text-sm font-medium text-gray-500">Length of Credit</dt>
-                          <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                        <div className="px-2 py-3 sm:px-4 sm:py-5 text-center">
+                          <dt className="text-xs sm:text-sm font-medium text-gray-500">Credit Length</dt>
+                          <dd className="mt-1 text-xl sm:text-3xl font-semibold text-gray-900">
                             {card.approved_median_length_credit}
                           </dd>
                         </div>
