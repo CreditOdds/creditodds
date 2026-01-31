@@ -1,0 +1,6 @@
+name: "Citi AAdvantage Globe"
+bank: "Citi"
+slug: "citi-aadvantage-globe"
+accepting_applications: true
+annual_fee: 350
+image: "citi-aadvantage-globe.png"

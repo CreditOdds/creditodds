@@ -1,5 +1,6 @@
-name: "Citi Simplicity Card"
+name: "Citi Simplicity"
 bank: "Citi"
 slug: "citi-simplicity-card"
 accepting_applications: true
+image: "citi-simplicity.png"
 annual_fee: 0

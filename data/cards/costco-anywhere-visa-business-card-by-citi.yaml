@@ -2,4 +2,5 @@ name: "Costco Anywhere Visa Business Card by Citi"
 bank: "Citi"
 slug: "costco-anywhere-visa-business-card-by-citi"
 accepting_applications: true
+image: "citi-costco-anywhere-business.png"
 annual_fee: 0

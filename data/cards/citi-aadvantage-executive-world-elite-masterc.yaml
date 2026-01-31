@@ -1,5 +1,6 @@
-name: "Citi AAdvantage Executive World Elite Masterc"
+name: "Citi AAdvantage Executive World Elite Mastercard"
 bank: "Citi"
 slug: "citi-aadvantage-executive-world-elite-masterc"
 accepting_applications: true
 annual_fee: 595
+image: "citi-aadvantage-executive-world-elite.png"
