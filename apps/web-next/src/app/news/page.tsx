@@ -1,7 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { NewspaperIcon, BuildingLibraryIcon, CreditCardIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { getNews, tagLabels, tagColors, NewsTag } from "@/lib/news";
+import { ExpandableText } from "@/components/ui/ExpandableText";
 
 export const metadata: Metadata = {
   title: "Card News - Credit Card Updates",
@@ -118,9 +120,10 @@ export default async function NewsPage() {
                         <div className="text-sm font-medium text-gray-900">
                           {item.title}
                         </div>
-                        <div className="text-sm text-gray-500 mt-1 line-clamp-2">
-                          {item.summary}
-                        </div>
+                        <ExpandableText
+                          text={item.summary}
+                          className="text-sm text-gray-500 mt-1"
+                        />
                         {/* Mobile tags */}
                         <div className="flex flex-wrap gap-1 mt-2 md:hidden">
                           {item.tags.map((tag) => (
@@ -141,7 +144,18 @@ export default async function NewsPage() {
                               href={`/card/${item.card_slug}`}
                               className="flex items-center text-sm text-indigo-600 hover:text-indigo-900"
                             >
-                              <CreditCardIcon className="h-4 w-4 mr-1" />
+                              {item.card_image_link ? (
+                                <Image
+                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`}
+                                  alt={item.card_name}
+                                  width={32}
+                                  height={20}
+                                  className="mr-1.5 rounded-sm object-contain"
+                                  unoptimized
+                                />
+                              ) : (
+                                <CreditCardIcon className="h-4 w-4 mr-1" />
+                              )}
                               {item.card_name}
                             </Link>
                           )}

@@ -374,7 +374,7 @@ function RecordsTab({
                   </span>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{record.submitter_email || 'Unknown'}</div>
+                  <div className="text-sm text-gray-900 font-mono text-xs">{record.submitter_id || 'Unknown'}</div>
                   <div className="text-xs text-gray-400">{record.submitter_ip_address}</div>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
@@ -480,8 +480,8 @@ function ReferralsTab({
                   <div>{referral.impressions} views</div>
                   <div>{referral.clicks} clicks</div>
                 </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  {referral.submitter_email || 'Unknown'}
+                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 font-mono text-xs">
+                  {referral.submitter_id || 'Unknown'}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                   {new Date(referral.submit_datetime).toLocaleDateString()}

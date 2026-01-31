@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-01-31T14:48:47.801Z",
-  "count": 133,
+  "generated_at": "2026-01-31T19:30:58.385Z",
+  "count": 134,
   "cards": [
     {
       "name": "Aer Lingus Visa Signature card",
@@ -321,6 +321,7 @@
       "slug": "blue-cash-everyday-card",
       "image": "amex_blue_cash_everyday.png",
       "accepting_applications": true,
+      "card_referral_link": "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref=",
       "annual_fee": 0,
       "tags": [
         "cashback"
@@ -368,8 +369,12 @@
       "bank": "Capital One",
       "slug": "capital-one-platinum-secured",
       "accepting_applications": true,
+      "image": "capital-one-platinum-secured.png",
       "category": "secured",
       "annual_fee": 0,
+      "tags": [
+        "secured"
+      ],
       "card_id": "capital-one-platinum-secured",
       "card_name": "Capital One Platinum Secured Credit Card"
     },
@@ -394,6 +399,7 @@
       "slug": "capital-one-quicksilver-secured",
       "accepting_applications": true,
       "category": "secured",
+      "image": "capital-one-quicksilver-secured.png",
       "annual_fee": 0,
       "tags": [
         "secured",
@@ -418,6 +424,7 @@
       "bank": "Capital One",
       "slug": "capital-one-savor",
       "accepting_applications": true,
+      "image": "capital-one-savor-cash-rewards.png",
       "category": "cashback",
       "annual_fee": 95,
       "tags": [
@@ -427,6 +434,17 @@
       ],
       "card_id": "capital-one-savor",
       "card_name": "Capital One Savor Cash Rewards Credit Card"
+    },
+    {
+      "name": "Capital One Savor Student Cash Rewards Credit Card",
+      "bank": "Capital One",
+      "slug": "capital-one-savor-student",
+      "accepting_applications": true,
+      "image": "capital-one-savor-student.png",
+      "category": "student",
+      "annual_fee": 0,
+      "card_id": "capital-one-savor-student",
+      "card_name": "Capital One Savor Student Cash Rewards Credit Card"
     },
     {
       "name": "Capital One SavorOne Cash Rewards Credit Card",
@@ -445,21 +463,12 @@
       "card_name": "Capital One SavorOne Cash Rewards Credit Card"
     },
     {
-      "name": "Capital One SavorOne Student Cash Rewards Credit Card",
-      "bank": "Capital One",
-      "slug": "capital-one-savor-student",
-      "accepting_applications": true,
-      "category": "student",
-      "annual_fee": 0,
-      "card_id": "capital-one-savor-student",
-      "card_name": "Capital One SavorOne Student Cash Rewards Credit Card"
-    },
-    {
       "name": "Capital One Venture Rewards Credit Card",
       "bank": "Capital One",
       "slug": "capital-one-venture-rewards",
       "accepting_applications": true,
       "category": "travel",
+      "image": "capital-one-venture-rewards.png",
       "annual_fee": 95,
       "tags": [
         "travel",
@@ -565,7 +574,7 @@
       "slug": "chase-sapphire-reserve",
       "image": "chase_sapphire_reserve.png",
       "accepting_applications": true,
-      "annual_fee": 550,
+      "annual_fee": 795,
       "tags": [
         "travel",
         "premium",
@@ -606,14 +615,14 @@
       "card_name": "Citi AAdvantage Globe"
     },
     {
-      "name": "Citi AAdvantage Platinum Select World Elite M",
+      "name": "Citi AAdvantage Platinum Select World Elite Mastercard",
       "bank": "Citi",
       "slug": "citi-aadvantage-platinum-select-world-elite-m",
       "accepting_applications": true,
       "annual_fee": 99,
       "image": "citi-aadvantage-platinum-select-world-elite.png",
       "card_id": "citi-aadvantage-platinum-select-world-elite-m",
-      "card_name": "Citi AAdvantage Platinum Select World Elite M"
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard"
     },
     {
       "name": "Citi Custom Cash",
@@ -658,6 +667,7 @@
       "bank": "Citi",
       "slug": "citi-prestige",
       "accepting_applications": false,
+      "image": "citi-prestige.png",
       "annual_fee": 495,
       "card_id": "citi-prestige",
       "card_name": "Citi Prestige"
@@ -666,8 +676,9 @@
       "name": "Citi Rewards+",
       "bank": "Citi",
       "slug": "citi-rewards",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "annual_fee": 0,
+      "image": "citi-rewards-plus.png",
       "card_id": "citi-rewards",
       "card_name": "Citi Rewards+"
     },
@@ -676,6 +687,7 @@
       "bank": "Citi",
       "slug": "citi-secured-mastercard",
       "accepting_applications": true,
+      "image": "citi-secured.png",
       "annual_fee": 0,
       "tags": [
         "secured"
@@ -727,13 +739,14 @@
       "card_name": "Citi Strata Premier Card"
     },
     {
-      "name": "CitiBusiness AAdvantage Platinum Select Maste",
+      "name": "CitiBusiness AAdvantage Platinum Select Mastercard",
       "bank": "Citi",
       "slug": "citibusiness-aadvantage-platinum-select-maste",
       "accepting_applications": true,
+      "image": "citi-business-aadvantage-platinum-select.png",
       "annual_fee": 99,
       "card_id": "citibusiness-aadvantage-platinum-select-maste",
-      "card_name": "CitiBusiness AAdvantage Platinum Select Maste"
+      "card_name": "CitiBusiness AAdvantage Platinum Select Mastercard"
     },
     {
       "name": "Costco Anywhere Visa Business Card by Citi",
@@ -750,6 +763,7 @@
       "bank": "Citi",
       "slug": "costco-anywhere-visa-card-by-citi",
       "accepting_applications": true,
+      "image": "citi-costco-anywhere.png",
       "annual_fee": 0,
       "card_id": "costco-anywhere-visa-card-by-citi",
       "card_name": "Costco Anywhere Visa Card by Citi"
@@ -915,6 +929,7 @@
       "bank": "Citi",
       "slug": "expedia-rewards-card-from-citi",
       "accepting_applications": false,
+      "image": "citi-expedia-rewards.png",
       "annual_fee": 0,
       "card_id": "expedia-rewards-card-from-citi",
       "card_name": "Expedia Rewards Card from Citi"
@@ -924,6 +939,7 @@
       "bank": "Citi",
       "slug": "expedia-rewards-voyager-card-from-citi",
       "accepting_applications": false,
+      "image": "citi-expedia-rewards-voyager.png",
       "annual_fee": 0,
       "card_id": "expedia-rewards-voyager-card-from-citi",
       "card_name": "Expedia Rewards Voyager Card from Citi"
@@ -933,7 +949,7 @@
       "bank": "Robinhood",
       "slug": "robinhood-gold-card",
       "accepting_applications": true,
-      "image": "robinhood-gold.png",
+      "image": "robinhood-gold-card.png",
       "release_date": "2024-03-26",
       "annual_fee": 0,
       "tags": [
@@ -989,6 +1005,7 @@
       "slug": "hilton-honors-card",
       "image": "amex_hilton_honors.png",
       "accepting_applications": true,
+      "card_referral_link": "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref=",
       "annual_fee": 0,
       "tags": [
         "hotel",
@@ -1018,13 +1035,34 @@
       "card_name": "Iberia Visa Signature card"
     },
     {
-      "name": "IHG Rewards Club Premier Credit Card",
+      "name": "IHG One Rewards Premier Business Credit Card",
+      "bank": "Chase",
+      "slug": "ihg-rewards-premier-business",
+      "accepting_applications": true,
+      "annual_fee": 0,
+      "image": "chase-ihg-one-rewards-premier-business.png",
+      "tags": [
+        "hotel",
+        "travel",
+        "rewards"
+      ],
+      "card_id": "ihg-rewards-premier-business",
+      "card_name": "IHG One Rewards Premier Business Credit Card"
+    },
+    {
+      "name": "IHG One Rewards Premier Credit Card",
       "bank": "Chase",
       "slug": "ihg-rewards-club-premier-credit-card",
       "accepting_applications": true,
+      "image": "chase-ihg-one-rewards-premier.png",
       "annual_fee": 99,
+      "tags": [
+        "hotel",
+        "travel",
+        "rewards"
+      ],
       "card_id": "ihg-rewards-club-premier-credit-card",
-      "card_name": "IHG Rewards Club Premier Credit Card"
+      "card_name": "IHG One Rewards Premier Credit Card"
     },
     {
       "name": "IHG Rewards Club Traveler Credit Card",
@@ -1032,6 +1070,12 @@
       "slug": "ihg-rewards-club-traveler-credit-card",
       "accepting_applications": true,
       "annual_fee": 0,
+      "image": "chase-ihg-one-rewards-traveler.png",
+      "tags": [
+        "hotel",
+        "travel",
+        "rewards"
+      ],
       "card_id": "ihg-rewards-club-traveler-credit-card",
       "card_name": "IHG Rewards Club Traveler Credit Card"
     },
@@ -1115,9 +1159,10 @@
       "card_name": "JetBlue Plus Card"
     },
     {
-      "name": "Marriott Bonvoy Bold credit card",
+      "name": "Marriott Bonvoy Bold Credit Card",
       "bank": "Chase",
       "slug": "marriott-bonvoy-bold-credit-card",
+      "image": "chase-marriott-bonvoy-bold.png",
       "accepting_applications": true,
       "annual_fee": 0,
       "tags": [
@@ -1125,7 +1170,7 @@
         "travel"
       ],
       "card_id": "marriott-bonvoy-bold-credit-card",
-      "card_name": "Marriott Bonvoy Bold credit card"
+      "card_name": "Marriott Bonvoy Bold Credit Card"
     },
     {
       "name": "Marriott Bonvoy Boundless credit card",
@@ -1203,7 +1248,8 @@
       "bank": "Chase",
       "slug": "southwest-rapid-rewards-plus-credit-card",
       "accepting_applications": true,
-      "annual_fee": 69,
+      "annual_fee": 99,
+      "image": "chase-southwest-rapid-rewards-plus.png",
       "tags": [
         "airline",
         "travel"
@@ -1216,7 +1262,8 @@
       "bank": "Chase",
       "slug": "southwest-rapid-rewards-premier-credit-card",
       "accepting_applications": true,
-      "annual_fee": 99,
+      "image": "chase-southwest-rapid-rewards-premier.png",
+      "annual_fee": 149,
       "tags": [
         "airline",
         "travel"
@@ -1230,7 +1277,7 @@
       "slug": "southwest-rapid-rewards-priority-credit-card",
       "image": "southwest_priority.png",
       "accepting_applications": true,
-      "annual_fee": 149,
+      "annual_fee": 229,
       "tags": [
         "airline",
         "travel",
@@ -1563,6 +1610,7 @@
       "bank": "Chase",
       "slug": "world-of-hyatt-business-credit-card",
       "accepting_applications": true,
+      "image": "chase-world-of-hyatt-business.png",
       "category": "business",
       "annual_fee": 199,
       "card_id": "world-of-hyatt-business-credit-card",
@@ -1573,6 +1621,7 @@
       "bank": "Chase",
       "slug": "world-of-hyatt-credit-card",
       "accepting_applications": true,
+      "image": "chase-world-of-hyatt.png",
       "annual_fee": 95,
       "tags": [
         "hotel",

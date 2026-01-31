@@ -820,26 +820,23 @@ export default function ProfilePage() {
                 ))}
               </div>
               {/* Desktop: Table layout */}
-              <div className="hidden sm:block overflow-x-auto">
+              <div className="hidden sm:block">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Card
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Referral Link
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Impressions
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Stats
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Clicks
-                      </th>
-                      <th className="relative px-6 py-3">
+                      <th className="relative px-4 py-3">
                         <span className="sr-only">Delete</span>
                       </th>
                     </tr>
@@ -847,62 +844,58 @@ export default function ProfilePage() {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {referrals.map((referral, index) => (
                       <tr key={referral.referral_id || index}>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-3 whitespace-nowrap">
                           <div className="flex items-center">
                             {referral.card_image_link && (
-                              <div className="flex-shrink-0 h-10 w-16 relative">
+                              <div className="flex-shrink-0 h-8 w-12 relative">
                                 <Image
                                   className="object-contain"
                                   src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
                                   alt={referral.card_name}
                                   fill
-                                  sizes="64px"
+                                  sizes="48px"
                                 />
                               </div>
                             )}
-                            <div className="ml-4">
+                            <div className="ml-3">
                               <div className="text-sm font-medium text-gray-900">
                                 {referral.card_name}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500 truncate max-w-xs">
-                            <a
-                              href={referral.card_referral_link ? `${referral.card_referral_link}${referral.referral_link}` : referral.referral_link}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-indigo-600 hover:text-indigo-900"
-                            >
-                              {referral.referral_link}
-                            </a>
-                          </div>
+                        <td className="px-4 py-3">
+                          <a
+                            href={referral.card_referral_link ? `${referral.card_referral_link}${referral.referral_link}` : referral.referral_link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm text-indigo-600 hover:text-indigo-900 truncate block max-w-[200px]"
+                          >
+                            {referral.referral_link}
+                          </a>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-3 whitespace-nowrap">
                           {referral.admin_approved ? (
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                               Approved
                             </span>
                           ) : (
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                              Awaiting Approval
+                              Pending
                             </span>
                           )}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {referral.impressions ?? 0}
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                          <div>{referral.impressions ?? 0} views</div>
+                          <div>{referral.clicks ?? 0} clicks</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {referral.clicks ?? 0}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
                           <button
                             onClick={() => handleDeleteReferral(referral.referral_id)}
                             disabled={deletingReferralId === referral.referral_id}
                             className="text-red-600 hover:text-red-900 disabled:opacity-50"
                           >
-                            {deletingReferralId === referral.referral_id ? "Deleting..." : "Delete"}
+                            {deletingReferralId === referral.referral_id ? "..." : "Delete"}
                           </button>
                         </td>
                       </tr>

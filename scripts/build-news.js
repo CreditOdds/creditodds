@@ -7,6 +7,7 @@ const yaml = require('js-yaml');
 const NEWS_DIR = path.join(__dirname, '..', 'data', 'news');
 const OUTPUT_FILE = path.join(__dirname, '..', 'data', 'news.json');
 const SCHEMA_FILE = path.join(NEWS_DIR, 'schema.json');
+const CARDS_FILE = path.join(__dirname, '..', 'data', 'cards.json');
 
 const VALID_TAGS = [
   'new-card',
@@ -22,6 +23,21 @@ const VALID_TAGS = [
 function loadSchema() {
   const schemaContent = fs.readFileSync(SCHEMA_FILE, 'utf8');
   return JSON.parse(schemaContent);
+}
+
+function loadCardsLookup() {
+  try {
+    const cardsContent = fs.readFileSync(CARDS_FILE, 'utf8');
+    const cardsData = JSON.parse(cardsContent);
+    const lookup = {};
+    for (const card of cardsData.cards) {
+      lookup[card.slug] = card;
+    }
+    return lookup;
+  } catch (err) {
+    console.warn('Warning: Could not load cards.json for image lookup:', err.message);
+    return {};
+  }
 }
 
 function validateNewsItem(item, schema) {
@@ -69,6 +85,7 @@ function buildNews() {
   console.log('Building news.json from YAML files...\n');
 
   const schema = loadSchema();
+  const cardsLookup = loadCardsLookup();
   const newsItems = [];
   const errors = [];
 
@@ -91,6 +108,11 @@ function buildNews() {
         errors.push({ file, errors: validationErrors });
         console.log(`  ERROR: ${validationErrors.join(', ')}`);
         continue;
+      }
+
+      // Add card_image_link if card_slug matches a card
+      if (item.card_slug && cardsLookup[item.card_slug]) {
+        item.card_image_link = cardsLookup[item.card_slug].image;
       }
 
       newsItems.push(item);
