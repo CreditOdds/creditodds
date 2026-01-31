@@ -3,6 +3,7 @@ bank: "Capital One"
 slug: "capital-one-venture-rewards"
 accepting_applications: true
 category: "travel"
+image: "capital-one-venture-rewards.png"
 annual_fee: 95
 tags:
   - travel

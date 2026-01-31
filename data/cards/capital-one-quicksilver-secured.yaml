@@ -3,6 +3,7 @@ bank: "Capital One"
 slug: "capital-one-quicksilver-secured"
 accepting_applications: true
 category: "secured"
+image: "capital-one-quicksilver-secured.png"
 annual_fee: 0
 tags:
   - secured

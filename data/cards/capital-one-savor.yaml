@@ -2,6 +2,7 @@ name: "Capital One Savor Cash Rewards Credit Card"
 bank: "Capital One"
 slug: "capital-one-savor"
 accepting_applications: true
+image: "capital-one-savor-cash-rewards.png"
 category: "cashback"
 annual_fee: 95
 tags:
