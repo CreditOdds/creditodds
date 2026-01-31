@@ -20,7 +20,7 @@ export default function Navbar() {
 
   return (
     <Disclosure as="nav" className="bg-white shadow">
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
@@ -162,6 +162,7 @@ export default function Navbar() {
             <nav className="pt-2 pb-3 space-y-1">
               <Link
                 href="/explore"
+                onClick={() => close()}
                 className={classNames(
                   isActive('/explore')
                     ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
@@ -173,6 +174,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/news"
+                onClick={() => close()}
                 className={classNames(
                   isActive('/news')
                     ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
@@ -189,6 +191,7 @@ export default function Navbar() {
                   <>
                     <Link
                       href="/profile"
+                      onClick={() => close()}
                       className={classNames(
                         isActive('/profile')
                           ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
@@ -200,7 +203,7 @@ export default function Navbar() {
                       Your Wallet
                     </Link>
                     <button
-                      onClick={logout}
+                      onClick={() => { close(); logout(); }}
                       className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
                     >
                       Sign out
@@ -209,6 +212,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/login"
+                    onClick={() => close()}
                     className="block px-4 py-2 text-base font-medium text-indigo-600 hover:text-indigo-800 hover:bg-gray-100"
                   >
                     Sign In
