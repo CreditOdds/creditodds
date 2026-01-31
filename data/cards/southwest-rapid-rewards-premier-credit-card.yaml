@@ -2,6 +2,7 @@ name: "Southwest Rapid Rewards Premier Credit Card"
 bank: "Chase"
 slug: "southwest-rapid-rewards-premier-credit-card"
 accepting_applications: true
+image: "chase-southwest-rapid-rewards-premier.png"
 annual_fee: 99
 tags:
   - airline
