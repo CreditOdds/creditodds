@@ -78,7 +78,12 @@ jobs:
           fi
 
       - name: Trigger Amplify rebuild
-        if: ${{ secrets.AMPLIFY_WEBHOOK_URL != '' }}
+        env:
+          AMPLIFY_WEBHOOK_URL: ${{ secrets.AMPLIFY_WEBHOOK_URL }}
         run: |
-          echo "Triggering Amplify rebuild to update sitemap..."
-          curl -s -X POST "${{ secrets.AMPLIFY_WEBHOOK_URL }}" || echo "Warning: Amplify webhook failed"
+          if [ -n "$AMPLIFY_WEBHOOK_URL" ]; then
+            echo "Triggering Amplify rebuild to update sitemap..."
+            curl -s -X POST "$AMPLIFY_WEBHOOK_URL" || echo "Warning: Amplify webhook failed"
+          else
+            echo "Skipping Amplify rebuild (no webhook URL configured)"
+          fi
