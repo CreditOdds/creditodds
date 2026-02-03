@@ -16,7 +16,7 @@ const yaml = require('js-yaml');
 const NEWS_DIR = path.join(__dirname, '..', 'data', 'news');
 const NEWS_JSON = path.join(__dirname, '..', 'data', 'news.json');
 const CARDS_JSON = path.join(__dirname, '..', 'data', 'cards.json');
-const MAX_NEWS_ITEMS = 10;
+const MAX_NEWS_ITEMS = 3;
 
 // Valid tags from schema
 const VALID_TAGS = [
@@ -154,7 +154,9 @@ async function generateNewsWithClaude(searchResults, existingNewsIds, cards) {
     `[${i + 1}] ${r.title}\nURL: ${r.url}\nDescription: ${r.description || 'N/A'}\n`
   ).join('\n');
 
-  const prompt = `You are a credit card news analyst. Analyze these search results and identify legitimate, newsworthy credit card news items. Generate YAML files for any valid news.
+  const today = new Date().toISOString().split('T')[0];
+
+  const prompt = `You are a highly selective credit card news analyst. Your job is to identify ONLY the most important, high-impact credit card news. Most days there will be NO news worth reporting - that is expected and acceptable.
 
 ## Search Results
 ${searchContext}
@@ -165,12 +167,28 @@ ${cardsList}
 ## Existing News IDs (DO NOT DUPLICATE)
 ${existingNewsIds.join(', ') || 'None'}
 
+## STRICT Selection Criteria - Only include news that meets ALL of these:
+1. **High Impact**: Must significantly affect cardholders (major fee changes, significant benefit additions/removals, new card launches from major issuers)
+2. **Confirmed & Official**: Must be officially announced or confirmed, not rumors or speculation
+3. **Recent**: Article must be published within the last 7 days
+4. **Unique**: Not similar to any existing news IDs listed above
+
+## DO NOT Include:
+- Minor policy tweaks or small adjustments
+- "Best cards" listicles or roundups
+- Promotional content or affiliate marketing
+- Earnings reports or financial news (unless directly affecting card benefits)
+- Speculation about future changes
+- News about cards not in the database
+- Generic credit card advice articles
+- News that is essentially a duplicate of existing items
+
 ## Schema Requirements
 Each news item MUST have:
-- id: lowercase-with-hyphens, unique identifier (e.g., "chase-sapphire-bonus-increase-2024")
-- date: YYYY-MM-DD format (use the date the news was published if known, otherwise today)
+- id: lowercase-with-hyphens, unique identifier
+- date: YYYY-MM-DD format - THIS MUST BE THE DATE THE ARTICLE WAS PUBLISHED, not a future effective date. Today is ${today}.
 - title: Concise headline, max 200 chars
-- summary: Factual summary of the news, max 500 chars. Include specific details like numbers, dates, requirements.
+- summary: Factual summary with specific details (numbers, dates, requirements), max 500 chars
 - tags: Array of 1+ tags from: ${VALID_TAGS.join(', ')}
 
 Optional fields:
@@ -180,15 +198,9 @@ Optional fields:
 - source: Source name (e.g., "The Points Guy", "Doctor of Credit")
 - source_url: Full URL to the source article
 
-## Instructions
-1. Only include REAL, VERIFIED credit card news from reputable sources
-2. Skip promotional content, affiliate marketing, or "best cards" listicles
-3. Skip news that's similar to existing news IDs
-4. Focus on: new card launches, benefit changes, fee changes, bonus changes, policy changes
-5. Each news item should be distinct and newsworthy to credit card enthusiasts
-
 ## Output Format
-Output each valid news item as a separate YAML code block. If no valid news found, output "NO_NEWS_FOUND".
+If you find important news (expect 0-2 items on most days), output each as a YAML code block.
+If no news meets the strict criteria above, output "NO_NEWS_FOUND" - this is the expected outcome most days.
 
 Example:
 \`\`\`yaml
@@ -268,6 +280,14 @@ function validateNewsItem(item) {
   }
   if (!item.date || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
     errors.push('Invalid or missing date');
+  } else {
+    // Reject future dates - date should be when news was published
+    const itemDate = new Date(item.date);
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    if (itemDate > today) {
+      errors.push('Date cannot be in the future (use publication date, not effective date)');
+    }
   }
   if (!item.title || item.title.length > 200) {
     errors.push('Invalid or missing title');
