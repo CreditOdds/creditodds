@@ -35,6 +35,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
             src="/assets/Graphic-02.svg"
             alt=""
             fill
+            priority
           />
         </div>
       </section>
@@ -120,6 +121,8 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                   alt="Inbox user interface"
                   width={800}
                   height={600}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
                 />
               </div>
             </div>
@@ -170,6 +173,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                   alt="Customer profile user interface"
                   width={800}
                   height={600}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
             </div>
@@ -224,6 +228,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                   alt="Wallet management interface"
                   width={800}
                   height={600}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
             </div>
