@@ -11,6 +11,7 @@
     "build:web-next": "npm run build -w @creditodds/web-next",
     "build:cards": "node scripts/build-cards.js",
     "build:news": "node scripts/build-news.js",
+    "build:articles": "node scripts/build-articles.js",
     "start:web": "npm run start -w @creditodds/web",
     "start:web-next": "npm run dev -w @creditodds/web-next",
     "dev:web-next": "npm run dev -w @creditodds/web-next",
