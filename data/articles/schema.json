@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["id", "slug", "title", "date", "author", "summary", "tags", "content"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier (lowercase with hyphens)"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL slug for the article"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Article title"
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Publication date in YYYY-MM-DD format"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Author name"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Brief description under 200 characters"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "strategy",
+          "guide",
+          "analysis",
+          "news-analysis",
+          "beginner"
+        ]
+      },
+      "minItems": 1,
+      "description": "Tags categorizing the article"
+    },
+    "related_cards": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "description": "Array of related card slugs (optional)"
+    },
+    "seo_title": {
+      "type": "string",
+      "maxLength": 70,
+      "description": "SEO title for search engines (optional)"
+    },
+    "seo_description": {
+      "type": "string",
+      "maxLength": 160,
+      "description": "Meta description for search engines (optional)"
+    },
+    "image": {
+      "type": "string",
+      "description": "Hero image filename (stored in article_images/, optional)"
+    },
+    "image_alt": {
+      "type": "string",
+      "description": "Alt text for the hero image (optional)"
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Full article content in Markdown format"
+    }
+  }
+}
