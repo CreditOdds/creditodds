@@ -6,6 +6,9 @@ import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import ExploreClient from "./ExploreClient";
 import RecordsTicker from "@/components/ui/RecordsTicker";
 
+// Revalidate every 5 minutes
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: "Explore Credit Cards",
   description: "Browse all credit cards and their approval odds. Compare credit scores, income requirements, and approval rates across different banks.",

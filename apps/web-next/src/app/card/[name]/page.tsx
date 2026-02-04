@@ -4,8 +4,8 @@ import { getCard, getCardGraphs, getAllCards, GraphData } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import CardClient from "./CardClient";
 
-// Force dynamic rendering to ensure fresh graph data on each request
-export const dynamic = 'force-dynamic';
+// Revalidate every 5 minutes for fresh data while enabling caching
+export const revalidate = 300;
 
 interface CardPageProps {
   params: Promise<{ name: string }>;

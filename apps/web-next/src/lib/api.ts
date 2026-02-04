@@ -33,10 +33,10 @@ export interface Card {
 // Each series is an array of [x, y] data points
 export type GraphData = [number, number][][];
 
-// Server-side fetch functions (caching disabled during development)
+// Server-side fetch functions with ISR caching (5 minutes)
 export async function getAllCards(): Promise<Card[]> {
   const res = await fetch(`${API_BASE}/cards`, {
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch cards');
   return res.json();
@@ -55,7 +55,7 @@ export async function getAllBanks(): Promise<string[]> {
 
 export async function getCard(cardName: string): Promise<Card> {
   const res = await fetch(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch card');
   return res.json();
@@ -63,7 +63,7 @@ export async function getCard(cardName: string): Promise<Card> {
 
 export async function getCardGraphs(cardName: string): Promise<GraphData[]> {
   const res = await fetch(`${API_BASE}/graphs?card_name=${encodeURIComponent(cardName)}`, {
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch graphs');
   return res.json();
@@ -238,7 +238,7 @@ export interface RecentRecord {
 
 export async function getRecentRecords(): Promise<RecentRecord[]> {
   const res = await fetch(`${API_BASE}/recent-records`, {
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
   if (!res.ok) return [];
   return res.json();
@@ -286,7 +286,7 @@ export interface LeaderboardResponse {
 
 export async function getLeaderboard(limit = 25): Promise<LeaderboardResponse> {
   const res = await fetch(`${API_BASE}/leaderboard?limit=${limit}`, {
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
   if (!res.ok) {
     throw new Error('Failed to fetch leaderboard');
