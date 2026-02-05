@@ -122,7 +122,7 @@ export default async function NewsPage() {
                                 width={40}
                                 height={25}
                                 className="rounded-sm object-contain"
-                                unoptimized
+                                sizes="40px"
                               />
                             </Link>
                           )}
@@ -170,7 +170,7 @@ export default async function NewsPage() {
                                   width={32}
                                   height={20}
                                   className="mr-1.5 rounded-sm object-contain"
-                                  unoptimized
+                                  sizes="40px"
                                 />
                               ) : (
                                 <CreditCardIcon className="h-4 w-4 mr-1" />

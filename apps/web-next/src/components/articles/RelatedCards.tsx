@@ -32,7 +32,7 @@ export function RelatedCards({ cards }: RelatedCardsProps) {
                 width={64}
                 height={40}
                 className="rounded object-contain flex-shrink-0"
-                unoptimized
+                sizes="64px"
               />
             ) : (
               <div className="w-16 h-10 bg-gray-100 rounded flex items-center justify-center flex-shrink-0">

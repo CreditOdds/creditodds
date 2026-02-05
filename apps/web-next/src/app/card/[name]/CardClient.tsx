@@ -171,6 +171,8 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                 className="h-30 w-45 md:h-56 md:w-94 mx-auto sm:mx-0"
                 width={376}
                 height={224}
+                priority
+                sizes="(max-width: 768px) 180px, 376px"
               />
               {/* Apply Buttons under card image */}
               {card.accepting_applications && (card.apply_link || randomReferralUrl) && (

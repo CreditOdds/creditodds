@@ -187,7 +187,7 @@ export default async function ArticlePage({ params }: Props) {
                 height={504}
                 className="w-full h-auto object-cover"
                 priority
-                unoptimized
+                sizes="(max-width: 896px) 100vw, 896px"
               />
             </div>
           )}
