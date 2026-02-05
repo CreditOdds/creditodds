@@ -137,7 +137,7 @@ async function braveSearch(query) {
 /**
  * Call Claude API to analyze search results and generate news items
  */
-async function generateNewsWithClaude(searchResults, existingNewsIds, cards) {
+async function generateNewsWithClaude(searchResults, existingNews, cards) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error('ANTHROPIC_API_KEY environment variable is required');
@@ -155,6 +155,16 @@ async function generateNewsWithClaude(searchResults, existingNewsIds, cards) {
   ).join('\n');
 
   const today = new Date().toISOString().split('T')[0];
+  const currentMonth = today.substring(0, 7); // YYYY-MM format
+
+  // Build detailed existing news context - especially for current month
+  // This helps Claude detect semantic duplicates (same story, different wording)
+  const existingNewsContext = existingNews
+    .filter(n => n.date >= currentMonth + '-01') // Only show news from current month onward
+    .map(n => `- [${n.date}] "${n.title}" (ID: ${n.id})\n  Summary: ${n.summary}`)
+    .join('\n');
+
+  const existingNewsIds = existingNews.map(n => n.id);
 
   const prompt = `You are a highly selective credit card news analyst. Your job is to identify ONLY the most important, high-impact credit card news. Most days there will be NO news worth reporting - that is expected and acceptable.
 
@@ -164,14 +174,19 @@ ${searchContext}
 ## Card Database (for matching card_slug)
 ${cardsList}
 
-## Existing News IDs (DO NOT DUPLICATE)
+## CRITICAL: Existing News This Month (DO NOT DUPLICATE)
+The following news items have ALREADY been posted. Do NOT create news about the same topics, even if the search results phrase it differently or provide updates on the same story.
+
+${existingNewsContext || 'No news posted yet this month.'}
+
+## All Existing News IDs (for reference)
 ${existingNewsIds.join(', ') || 'None'}
 
 ## STRICT Selection Criteria - Only include news that meets ALL of these:
 1. **High Impact**: Must significantly affect cardholders (major fee changes, significant benefit additions/removals, new card launches from major issuers)
 2. **Confirmed & Official**: Must be officially announced or confirmed, not rumors or speculation
 3. **Recent**: Article must be published within the last 7 days
-4. **Unique**: Not similar to any existing news IDs listed above
+4. **Unique**: NOT about the same topic as any existing news listed above - check the TITLES and SUMMARIES, not just IDs
 
 ## DO NOT Include:
 - Minor policy tweaks or small adjustments
@@ -181,7 +196,7 @@ ${existingNewsIds.join(', ') || 'None'}
 - Speculation about future changes
 - News about cards not in the database
 - Generic credit card advice articles
-- News that is essentially a duplicate of existing items
+- **CRITICAL**: News about the same topic as existing items above, even if worded differently. If we already posted about a card's fee change, benefit update, or policy change this month, do NOT post about it again even if there's a new article about the same thing.
 
 ## Schema Requirements
 Each news item MUST have:
@@ -356,9 +371,11 @@ async function main() {
   // Load existing data
   console.log('Loading existing data...');
   const existingNews = loadExistingNews();
-  const existingNewsIds = existingNews.map(n => n.id);
   const cards = loadCards();
-  console.log(`  Found ${existingNews.length} existing news items`);
+  const today = new Date().toISOString().split('T')[0];
+  const currentMonth = today.substring(0, 7);
+  const newsThisMonth = existingNews.filter(n => n.date.startsWith(currentMonth));
+  console.log(`  Found ${existingNews.length} existing news items (${newsThisMonth.length} this month)`);
   console.log(`  Found ${cards.length} cards\n`);
 
   // Build search queries
@@ -401,7 +418,7 @@ async function main() {
 
   // Generate news with Claude
   console.log('Analyzing results with Claude API...');
-  const claudeResponse = await generateNewsWithClaude(allResults, existingNewsIds, cards);
+  const claudeResponse = await generateNewsWithClaude(allResults, existingNews, cards);
 
   // Parse YAML blocks
   const newsItems = parseYamlBlocks(claudeResponse);
@@ -424,9 +441,27 @@ async function main() {
       continue;
     }
 
-    // Skip duplicates
+    // Skip duplicates by ID
+    const existingNewsIds = existingNews.map(n => n.id);
     if (existingNewsIds.includes(item.id)) {
       console.log(`  Skipping "${item.id}": Already exists`);
+      continue;
+    }
+
+    // Skip semantic duplicates - check if title is too similar to existing news this month
+    const isDuplicateTitle = newsThisMonth.some(existing => {
+      const existingTitleLower = existing.title.toLowerCase();
+      const newTitleLower = item.title.toLowerCase();
+      // Check for significant word overlap (simple heuristic)
+      const existingWords = new Set(existingTitleLower.split(/\s+/).filter(w => w.length > 3));
+      const newWords = newTitleLower.split(/\s+/).filter(w => w.length > 3);
+      const matchingWords = newWords.filter(w => existingWords.has(w));
+      const overlapRatio = matchingWords.length / Math.max(newWords.length, 1);
+      return overlapRatio > 0.5; // More than 50% word overlap
+    });
+
+    if (isDuplicateTitle) {
+      console.log(`  Skipping "${item.id}": Similar news already posted this month`);
       continue;
     }
 
