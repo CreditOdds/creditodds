@@ -117,7 +117,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
               <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                 <Image
                   className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                  src="https://d3ay3etzd1512y.cloudfront.net/other/Landing_Screen_Shot_Results.png"
+                  src="/assets/landing-results.webp"
                   alt="Inbox user interface"
                   width={800}
                   height={600}
@@ -169,7 +169,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
               <div className="pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                 <Image
                   className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                  src="https://d3ay3etzd1512y.cloudfront.net/other/Landing_Screen_Shot_Reward.png"
+                  src="/assets/landing-reward.webp"
                   alt="Customer profile user interface"
                   width={800}
                   height={600}
@@ -224,7 +224,7 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
               <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                 <Image
                   className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                  src="https://d3ay3etzd1512y.cloudfront.net/other/Landing_Screen_Shot_Wallet.png"
+                  src="/assets/landing-wallet.webp"
                   alt="Wallet management interface"
                   width={800}
                   height={600}
