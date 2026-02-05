@@ -32,6 +32,11 @@ const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordM
   loading: () => null,
 });
 
+const SubmitRecordCardPicker = dynamic(() => import("@/components/forms/SubmitRecordCardPicker"), {
+  ssr: false,
+  loading: () => null,
+});
+
 interface Record {
   record_id: number;
   card_name: string;
@@ -97,6 +102,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
   const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
+  const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
@@ -149,21 +155,10 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   const cardsWithReferrals = useMemo(() =>
     new Set(referrals.map(r => r.card_name)), [referrals]);
 
-  // Check if a wallet card should show "Share your result" prompt
-  // Only show when user explicitly set a recent acquisition date (within 3 months)
-  const shouldShowSharePrompt = (card: WalletCard) => {
-    // Don't show if already has a record
-    if (cardsWithRecords.has(card.card_name)) return false;
-
-    // Only show if user explicitly set both month AND year
-    if (!card.acquired_month || !card.acquired_year) return false;
-
-    const now = new Date();
-    const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
-    const acquiredDate = new Date(card.acquired_year, card.acquired_month - 1, 1);
-
-    return acquiredDate >= threeMonthsAgo;
-  };
+  // Get cards eligible for record submission (in wallet, no record yet)
+  const eligibleRecordCards = useMemo(() => {
+    return walletCards.filter(card => !cardsWithRecords.has(card.card_name));
+  }, [walletCards, cardsWithRecords]);
 
   // Filter news to cards in user's wallet (only match by card slug, not bank)
   const relevantNews = useMemo(() => {
@@ -567,19 +562,6 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
                           </span>
                         )}
                       </div>
-                      {/* Share result prompt for recently added cards */}
-                      {shouldShowSharePrompt(card) && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSubmitRecordCard(card);
-                          }}
-                          className="absolute top-0 right-0 bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded-bl-lg rounded-tr-lg text-[10px] font-medium hover:bg-amber-200 transition-colors shadow-sm"
-                          title="Share your approval result"
-                        >
-                          Share result
-                        </button>
-                      )}
                       {(() => {
                         const cardData = allCards.find(c => c.card_name === card.card_name);
                         const annualFee = cardData?.annual_fee || 0;
@@ -766,6 +748,24 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
               <p className="text-gray-500">No records submitted yet.</p>
             </div>
           )}
+          <div className="border-t border-gray-200">
+            {eligibleRecordCards.length > 0 ? (
+              <button
+                onClick={() => setShowRecordCardPicker(true)}
+                className="block w-full bg-gray-50 text-sm font-medium text-gray-500 text-center px-4 py-4 hover:text-gray-700 sm:rounded-b-lg cursor-pointer"
+              >
+                Submit a data point
+              </button>
+            ) : walletCards.length > 0 ? (
+              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
+                You&apos;ve submitted records for all cards in your wallet
+              </div>
+            ) : (
+              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
+                Add a card to your wallet to submit a data point
+              </div>
+            )}
+          </div>
           </div>
         )}
 
@@ -1042,7 +1042,15 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
           onSuccess={loadData}
         />
 
-        {/* Submit Record Modal (from wallet) */}
+        {/* Card Picker for Submit Record */}
+        <SubmitRecordCardPicker
+          show={showRecordCardPicker}
+          onClose={() => setShowRecordCardPicker(false)}
+          cards={eligibleRecordCards}
+          onSelectCard={(card) => setSubmitRecordCard(card)}
+        />
+
+        {/* Submit Record Modal */}
         {submitRecordCard && (
           <SubmitRecordModal
             show={!!submitRecordCard}
