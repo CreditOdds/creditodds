@@ -1,0 +1,11 @@
+name: "Disney Inspire Visa Card"
+bank: "Chase"
+slug: "disney-inspire-visa"
+image: "disney-inspire-visa.png"
+accepting_applications: false
+category: "rewards"
+annual_fee: 149
+tags:
+  - rewards
+  - disney
+  - entertainment
