@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { DocumentTextIcon, RssIcon } from "@heroicons/react/24/outline";
+import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { getArticles } from "@/lib/articles";
 import { ArticlesListClient } from "@/components/articles/ArticlesListClient";
 
@@ -14,9 +14,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://creditodds.com/articles",
-    types: {
-      'application/rss+xml': 'https://creditodds.com/articles/feed.xml',
-    },
   },
 };
 
@@ -61,13 +58,6 @@ export default async function ArticlesPage() {
           <p className="mt-2 text-lg text-gray-500 max-w-2xl mx-auto">
             In-depth guides, strategies, and analysis to help you maximize your credit card rewards
           </p>
-          <Link
-            href="/articles/feed.xml"
-            className="inline-flex items-center gap-1.5 mt-3 text-sm text-orange-600 hover:text-orange-700"
-          >
-            <RssIcon className="h-4 w-4" />
-            Subscribe via RSS
-          </Link>
         </div>
 
         {/* Articles List with Filters and Pagination */}
