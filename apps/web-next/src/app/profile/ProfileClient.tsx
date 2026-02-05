@@ -27,6 +27,11 @@ const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWallet
   loading: () => null,
 });
 
+const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), {
+  ssr: false,
+  loading: () => null,
+});
+
 interface Record {
   record_id: number;
   card_name: string;
@@ -91,6 +96,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals'>('wallet');
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
+  const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
@@ -142,6 +148,31 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
     new Set(records.map(r => r.card_name)), [records]);
   const cardsWithReferrals = useMemo(() =>
     new Set(referrals.map(r => r.card_name)), [referrals]);
+
+  // Check if a wallet card should show "Share your result" prompt
+  const shouldShowSharePrompt = (card: WalletCard) => {
+    // Don't show if already has a record
+    if (cardsWithRecords.has(card.card_name)) return false;
+
+    const now = new Date();
+    const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+    const sixMonthsAgo = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+
+    // Show if card was added to wallet in the last 90 days
+    if (card.created_at) {
+      const createdDate = new Date(card.created_at);
+      if (createdDate >= ninetyDaysAgo) return true;
+    }
+
+    // Show if acquisition date is within the last 6 months
+    if (card.acquired_year) {
+      const acquiredMonth = card.acquired_month || 1;
+      const acquiredDate = new Date(card.acquired_year, acquiredMonth - 1, 1);
+      if (acquiredDate >= sixMonthsAgo) return true;
+    }
+
+    return false;
+  };
 
   // Filter news to cards in user's wallet (only match by card slug, not bank)
   const relevantNews = useMemo(() => {
@@ -545,6 +576,19 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
                           </span>
                         )}
                       </div>
+                      {/* Share result prompt for recently added cards */}
+                      {shouldShowSharePrompt(card) && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSubmitRecordCard(card);
+                          }}
+                          className="absolute top-0 right-0 bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded-bl-lg rounded-tr-lg text-[10px] font-medium hover:bg-amber-200 transition-colors shadow-sm"
+                          title="Share your approval result"
+                        >
+                          Share result
+                        </button>
+                      )}
                       {(() => {
                         const cardData = allCards.find(c => c.card_name === card.card_name);
                         const annualFee = cardData?.annual_fee || 0;
@@ -1006,6 +1050,21 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
           onClose={() => setEditingCard(null)}
           onSuccess={loadData}
         />
+
+        {/* Submit Record Modal (from wallet) */}
+        {submitRecordCard && (
+          <SubmitRecordModal
+            show={!!submitRecordCard}
+            handleClose={() => setSubmitRecordCard(null)}
+            card={{
+              card_id: submitRecordCard.card_id,
+              card_name: submitRecordCard.card_name,
+              card_image_link: submitRecordCard.card_image_link,
+              bank: submitRecordCard.bank,
+            }}
+            onSuccess={loadData}
+          />
+        )}
 
       </div>
     </div>
