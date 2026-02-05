@@ -150,28 +150,19 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
     new Set(referrals.map(r => r.card_name)), [referrals]);
 
   // Check if a wallet card should show "Share your result" prompt
+  // Only show when user explicitly set a recent acquisition date (within 3 months)
   const shouldShowSharePrompt = (card: WalletCard) => {
     // Don't show if already has a record
     if (cardsWithRecords.has(card.card_name)) return false;
 
+    // Only show if user explicitly set both month AND year
+    if (!card.acquired_month || !card.acquired_year) return false;
+
     const now = new Date();
-    const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
-    const sixMonthsAgo = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+    const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+    const acquiredDate = new Date(card.acquired_year, card.acquired_month - 1, 1);
 
-    // Show if card was added to wallet in the last 90 days
-    if (card.created_at) {
-      const createdDate = new Date(card.created_at);
-      if (createdDate >= ninetyDaysAgo) return true;
-    }
-
-    // Show if acquisition date is within the last 6 months
-    if (card.acquired_year) {
-      const acquiredMonth = card.acquired_month || 1;
-      const acquiredDate = new Date(card.acquired_year, acquiredMonth - 1, 1);
-      if (acquiredDate >= sixMonthsAgo) return true;
-    }
-
-    return false;
+    return acquiredDate >= threeMonthsAgo;
   };
 
   // Filter news to cards in user's wallet (only match by card slug, not bank)
