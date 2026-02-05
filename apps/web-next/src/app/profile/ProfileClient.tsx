@@ -27,6 +27,16 @@ const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWallet
   loading: () => null,
 });
 
+const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), {
+  ssr: false,
+  loading: () => null,
+});
+
+const SubmitRecordCardPicker = dynamic(() => import("@/components/forms/SubmitRecordCardPicker"), {
+  ssr: false,
+  loading: () => null,
+});
+
 interface Record {
   record_id: number;
   card_name: string;
@@ -91,6 +101,8 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals'>('wallet');
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
+  const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
+  const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
@@ -142,6 +154,11 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
     new Set(records.map(r => r.card_name)), [records]);
   const cardsWithReferrals = useMemo(() =>
     new Set(referrals.map(r => r.card_name)), [referrals]);
+
+  // Get cards eligible for record submission (in wallet, no record yet)
+  const eligibleRecordCards = useMemo(() => {
+    return walletCards.filter(card => !cardsWithRecords.has(card.card_name));
+  }, [walletCards, cardsWithRecords]);
 
   // Filter news to cards in user's wallet (only match by card slug, not bank)
   const relevantNews = useMemo(() => {
@@ -731,6 +748,24 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
               <p className="text-gray-500">No records submitted yet.</p>
             </div>
           )}
+          <div className="border-t border-gray-200">
+            {eligibleRecordCards.length > 0 ? (
+              <button
+                onClick={() => setShowRecordCardPicker(true)}
+                className="block w-full bg-gray-50 text-sm font-medium text-gray-500 text-center px-4 py-4 hover:text-gray-700 sm:rounded-b-lg cursor-pointer"
+              >
+                Submit a data point
+              </button>
+            ) : walletCards.length > 0 ? (
+              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
+                You&apos;ve submitted records for all cards in your wallet
+              </div>
+            ) : (
+              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
+                Add a card to your wallet to submit a data point
+              </div>
+            )}
+          </div>
           </div>
         )}
 
@@ -1006,6 +1041,29 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
           onClose={() => setEditingCard(null)}
           onSuccess={loadData}
         />
+
+        {/* Card Picker for Submit Record */}
+        <SubmitRecordCardPicker
+          show={showRecordCardPicker}
+          onClose={() => setShowRecordCardPicker(false)}
+          cards={eligibleRecordCards}
+          onSelectCard={(card) => setSubmitRecordCard(card)}
+        />
+
+        {/* Submit Record Modal */}
+        {submitRecordCard && (
+          <SubmitRecordModal
+            show={!!submitRecordCard}
+            handleClose={() => setSubmitRecordCard(null)}
+            card={{
+              card_id: submitRecordCard.card_id,
+              card_name: submitRecordCard.card_name,
+              card_image_link: submitRecordCard.card_image_link,
+              bank: submitRecordCard.bank,
+            }}
+            onSuccess={loadData}
+          />
+        )}
 
       </div>
     </div>
