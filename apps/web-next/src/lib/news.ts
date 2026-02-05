@@ -31,14 +31,14 @@ export interface NewsResponse {
 }
 
 export const tagLabels: Record<NewsTag, string> = {
-  'new-card': 'New Card',
-  'discontinued': 'Discontinued',
-  'bonus-change': 'Bonus Change',
-  'fee-change': 'Fee Change',
-  'benefit-change': 'Benefit Change',
-  'limited-time': 'Limited Time',
-  'policy-change': 'Policy Change',
-  'general': 'General',
+  'new-card': '🆕 New Card',
+  'discontinued': '🚫 Discontinued',
+  'bonus-change': '🎁 Bonus Change',
+  'fee-change': '💰 Fee Change',
+  'benefit-change': '✨ Benefit Change',
+  'limited-time': '⏰ Limited Time',
+  'policy-change': '📋 Policy Change',
+  'general': '📰 General',
 };
 
 export const tagColors: Record<NewsTag, string> = {
