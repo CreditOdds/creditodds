@@ -1,0 +1,41 @@
+categories:
+  - id: dining
+    label: Dining
+  - id: groceries
+    label: Groceries
+  - id: travel
+    label: Travel
+  - id: gas
+    label: Gas
+  - id: streaming
+    label: Streaming
+  - id: transit
+    label: Transit
+  - id: drugstores
+    label: Drugstores
+  - id: home_improvement
+    label: Home Improvement
+  - id: online_shopping
+    label: Online Shopping
+  - id: hotels
+    label: Hotels
+  - id: airlines
+    label: Airlines
+  - id: car_rentals
+    label: Car Rentals
+  - id: entertainment
+    label: Entertainment
+  - id: rotating
+    label: Rotating Categories
+  - id: travel_portal
+    label: Travel (via Portal)
+  - id: hotels_portal
+    label: Hotels (via Portal)
+  - id: flights_portal
+    label: Flights (via Portal)
+  - id: hotels_car_portal
+    label: Hotels & Car Rentals (via Portal)
+  - id: amazon
+    label: Amazon.com
+  - id: everything_else
+    label: Everything Else

@@ -1,6 +1,88 @@
 {
-  "generated_at": "2026-01-31T22:56:27.766Z",
-  "count": 135,
+  "generated_at": "2026-02-05T20:55:04.377Z",
+  "count": 136,
+  "categories": [
+    {
+      "id": "dining",
+      "label": "Dining"
+    },
+    {
+      "id": "groceries",
+      "label": "Groceries"
+    },
+    {
+      "id": "travel",
+      "label": "Travel"
+    },
+    {
+      "id": "gas",
+      "label": "Gas"
+    },
+    {
+      "id": "streaming",
+      "label": "Streaming"
+    },
+    {
+      "id": "transit",
+      "label": "Transit"
+    },
+    {
+      "id": "drugstores",
+      "label": "Drugstores"
+    },
+    {
+      "id": "home_improvement",
+      "label": "Home Improvement"
+    },
+    {
+      "id": "online_shopping",
+      "label": "Online Shopping"
+    },
+    {
+      "id": "hotels",
+      "label": "Hotels"
+    },
+    {
+      "id": "airlines",
+      "label": "Airlines"
+    },
+    {
+      "id": "car_rentals",
+      "label": "Car Rentals"
+    },
+    {
+      "id": "entertainment",
+      "label": "Entertainment"
+    },
+    {
+      "id": "rotating",
+      "label": "Rotating Categories"
+    },
+    {
+      "id": "travel_portal",
+      "label": "Travel (via Portal)"
+    },
+    {
+      "id": "hotels_portal",
+      "label": "Hotels (via Portal)"
+    },
+    {
+      "id": "flights_portal",
+      "label": "Flights (via Portal)"
+    },
+    {
+      "id": "hotels_car_portal",
+      "label": "Hotels & Car Rentals (via Portal)"
+    },
+    {
+      "id": "amazon",
+      "label": "Amazon.com"
+    },
+    {
+      "id": "everything_else",
+      "label": "Everything Else"
+    }
+  ],
   "cards": [
     {
       "name": "Aer Lingus Visa Signature card",
@@ -34,6 +116,34 @@
         "shopping",
         "cashback",
         "rewards"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "amazon",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "transit",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
       ],
       "card_id": "amazon-prime-rewards-visa-signature-card",
       "card_name": "Amazon Prime Rewards Visa Signature Card"
@@ -78,6 +188,35 @@
         "rewards",
         "premium"
       ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 4,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 4,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 6000,
+        "timeframe_months": 6
+      },
       "card_id": "american-express-gold-card",
       "card_name": "American Express Gold Card"
     },
@@ -460,6 +599,40 @@
         "dining",
         "rewards"
       ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "entertainment",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
       "card_id": "capital-one-savorone",
       "card_name": "Capital One SavorOne Cash Rewards Credit Card"
     },
@@ -491,6 +664,30 @@
         "premium",
         "rewards"
       ],
+      "reward_type": "miles",
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 10,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "flights_portal",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 75000,
+        "type": "miles",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
       "card_id": "capital-one-venture-x",
       "card_name": "Capital One Venture X Rewards Credit Card"
     },
@@ -526,6 +723,40 @@
         "cashback",
         "rewards"
       ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "travel_portal",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "drugstores",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
       "card_id": "chase-freedom-flex",
       "card_name": "Chase Freedom Flex"
     },
@@ -550,6 +781,35 @@
         "cashback",
         "rewards"
       ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "travel_portal",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "drugstores",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
       "card_id": "chase-freedom-unlimited",
       "card_name": "Chase Freedom Unlimited"
     },
@@ -566,6 +826,40 @@
         "dining",
         "rewards"
       ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "travel_portal",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
       "card_id": "chase-sapphire-preferred",
       "card_name": "Chase Sapphire Preferred Card"
     },
@@ -581,6 +875,40 @@
         "premium",
         "dining"
       ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 10,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "flights_portal",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
       "card_id": "chase-sapphire-reserve",
       "card_name": "Chase Sapphire Reserve"
     },
@@ -660,6 +988,20 @@
         "cashback",
         "rewards"
       ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 1500,
+        "timeframe_months": 6
+      },
       "card_id": "citi-double-cash",
       "card_name": "Citi Double Cash"
     },
@@ -837,8 +1179,20 @@
       "annual_fee": 0,
       "card_referral_link": "https://refer.discover.com/",
       "tags": [
-        "cashback",
-        "rewards"
+        "cashback"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
       ],
       "card_id": "discover-it-cash-back",
       "card_name": "Discover it Cash Back"
@@ -904,6 +1258,22 @@
       "annual_fee": 0,
       "card_id": "discover-it-student-chrome-card",
       "card_name": "Discover it Student Chrome Card"
+    },
+    {
+      "name": "Disney Inspire Visa Card",
+      "bank": "Chase",
+      "slug": "disney-inspire-visa",
+      "image": "disney-inspire-visa.png",
+      "accepting_applications": false,
+      "category": "rewards",
+      "annual_fee": 149,
+      "tags": [
+        "rewards",
+        "disney",
+        "entertainment"
+      ],
+      "card_id": "disney-inspire-visa",
+      "card_name": "Disney Inspire Visa Card"
     },
     {
       "name": "Disney Premier Visa Card",
@@ -1498,6 +1868,20 @@
         "cashback",
         "rewards"
       ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
       "card_id": "wells-fargo-active-cash",
       "card_name": "Wells Fargo Active Cash Card"
     },
@@ -1525,6 +1909,45 @@
         "dining",
         "rewards"
       ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "transit",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 20000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
       "card_id": "wells-fargo-autograph",
       "card_name": "Wells Fargo Autograph Card"
     },

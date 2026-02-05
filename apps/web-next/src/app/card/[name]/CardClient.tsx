@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
 import { ExclamationTriangleIcon, PencilSquareIcon, NewspaperIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, trackReferralEvent } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
@@ -27,6 +27,36 @@ function ChartErrorFallback() {
       <p className="text-gray-500">Unable to load chart. Please refresh the page.</p>
     </div>
   );
+}
+
+const categoryLabels: Record<string, string> = {
+  dining: "Dining",
+  groceries: "Groceries",
+  travel: "Travel",
+  gas: "Gas",
+  streaming: "Streaming",
+  transit: "Transit",
+  drugstores: "Drugstores",
+  home_improvement: "Home Improvement",
+  online_shopping: "Online Shopping",
+  hotels: "Hotels",
+  airlines: "Airlines",
+  car_rentals: "Car Rentals",
+  entertainment: "Entertainment",
+  rotating: "Rotating Categories",
+  travel_portal: "Travel (via Portal)",
+  hotels_portal: "Hotels (via Portal)",
+  flights_portal: "Flights (via Portal)",
+  hotels_car_portal: "Hotels & Car Rentals (via Portal)",
+  amazon: "Amazon.com",
+  everything_else: "Everything Else",
+};
+
+function formatRewardValue(reward: Reward): string {
+  if (reward.unit === "percent") {
+    return `${reward.value}%`;
+  }
+  return `${reward.value}x`;
 }
 
 interface CardClientProps {
@@ -220,6 +250,42 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                     {card.annual_fee === 0 ? "$0" : `$${card.annual_fee.toLocaleString()}`}
                   </span>
                 </p>
+              )}
+
+              {/* Rewards Section */}
+              {card.rewards && card.rewards.length > 0 && (
+                <div className="mt-4">
+                  <div className="flex flex-wrap gap-2">
+                    {card.rewards.map((reward) => (
+                      <span
+                        key={reward.category}
+                        className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
+                          reward.category === "everything_else"
+                            ? "bg-gray-100 text-gray-700"
+                            : "bg-indigo-50 text-indigo-700"
+                        }`}
+                      >
+                        {formatRewardValue(reward)} {categoryLabels[reward.category] || reward.category}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Signup Bonus */}
+              {card.signup_bonus && (
+                <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
+                  <p className="text-sm font-medium text-amber-900">
+                    Earn{" "}
+                    <span className="font-bold">
+                      {card.signup_bonus.type === "cash"
+                        ? `$${card.signup_bonus.value.toLocaleString()}`
+                        : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type}`}
+                    </span>{" "}
+                    after spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
+                    {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
+                  </p>
+                </div>
               )}
 
               {/* Stats Section */}

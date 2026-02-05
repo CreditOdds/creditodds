@@ -8,3 +8,25 @@ tags:
   - travel
   - premium
   - dining
+reward_type: "points"
+rewards:
+  - category: hotels_car_portal
+    value: 10
+    unit: points_per_dollar
+  - category: flights_portal
+    value: 5
+    unit: points_per_dollar
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: travel
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 60000
+  type: points
+  spend_requirement: 4000
+  timeframe_months: 3

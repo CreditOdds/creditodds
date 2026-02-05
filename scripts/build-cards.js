@@ -7,13 +7,20 @@ const yaml = require('js-yaml');
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const OUTPUT_FILE = path.join(__dirname, '..', 'data', 'cards.json');
 const SCHEMA_FILE = path.join(CARDS_DIR, 'schema.json');
+const CATEGORIES_FILE = path.join(__dirname, '..', 'data', 'categories.yaml');
 
 function loadSchema() {
   const schemaContent = fs.readFileSync(SCHEMA_FILE, 'utf8');
   return JSON.parse(schemaContent);
 }
 
-function validateCard(card, schema) {
+function loadCategories() {
+  const content = fs.readFileSync(CATEGORIES_FILE, 'utf8');
+  const data = yaml.load(content);
+  return data.categories;
+}
+
+function validateCard(card, schema, categoryIds) {
   const errors = [];
 
   // Check required fields
@@ -40,6 +47,26 @@ function validateCard(card, schema) {
     errors.push(`Invalid annual_fee: ${card.annual_fee}`);
   }
 
+  // Validate reward_type enum
+  if (card.reward_type && !['cashback', 'points', 'miles'].includes(card.reward_type)) {
+    errors.push(`Invalid reward_type: ${card.reward_type}`);
+  }
+
+  // Validate rewards categories against categories.yaml
+  if (card.rewards) {
+    for (const reward of card.rewards) {
+      if (!categoryIds.has(reward.category)) {
+        errors.push(`Invalid reward category: ${reward.category} (not in categories.yaml)`);
+      }
+      if (typeof reward.value !== 'number') {
+        errors.push(`Invalid reward value for ${reward.category}: ${reward.value}`);
+      }
+      if (!['percent', 'points_per_dollar'].includes(reward.unit)) {
+        errors.push(`Invalid reward unit for ${reward.category}: ${reward.unit}`);
+      }
+    }
+  }
+
   return errors;
 }
 
@@ -47,6 +74,8 @@ function buildCards() {
   console.log('Building cards.json from YAML files...\n');
 
   const schema = loadSchema();
+  const categories = loadCategories();
+  const categoryIds = new Set(categories.map(c => c.id));
   const cards = [];
   const errors = [];
 
@@ -64,7 +93,7 @@ function buildCards() {
       const card = yaml.load(content);
 
       // Validate the card
-      const validationErrors = validateCard(card, schema);
+      const validationErrors = validateCard(card, schema, categoryIds);
       if (validationErrors.length > 0) {
         errors.push({ file, errors: validationErrors });
         console.log(`  ERROR: ${validationErrors.join(', ')}`);
@@ -103,6 +132,7 @@ function buildCards() {
   const output = {
     generated_at: new Date().toISOString(),
     count: cards.length,
+    categories: categories,
     cards: cards,
   };
 

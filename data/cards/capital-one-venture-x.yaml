@@ -9,3 +9,19 @@ tags:
   - travel
   - premium
   - rewards
+reward_type: "miles"
+rewards:
+  - category: hotels_car_portal
+    value: 10
+    unit: points_per_dollar
+  - category: flights_portal
+    value: 5
+    unit: points_per_dollar
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+signup_bonus:
+  value: 75000
+  type: miles
+  spend_requirement: 4000
+  timeframe_months: 3

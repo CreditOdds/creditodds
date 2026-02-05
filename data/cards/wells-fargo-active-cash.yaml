@@ -8,3 +8,13 @@ annual_fee: 0
 tags:
   - cashback
   - rewards
+reward_type: "cashback"
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+signup_bonus:
+  value: 200
+  type: cash
+  spend_requirement: 500
+  timeframe_months: 3

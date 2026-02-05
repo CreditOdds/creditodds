@@ -7,3 +7,11 @@ annual_fee: 0
 card_referral_link: "https://refer.discover.com/"
 tags:
   - cashback
+reward_type: "cashback"
+rewards:
+  - category: rotating
+    value: 5
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent

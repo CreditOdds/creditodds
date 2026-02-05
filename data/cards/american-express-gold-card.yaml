@@ -10,3 +10,22 @@ tags:
   - dining
   - rewards
   - premium
+reward_type: "points"
+rewards:
+  - category: dining
+    value: 4
+    unit: points_per_dollar
+  - category: groceries
+    value: 4
+    unit: points_per_dollar
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 60000
+  type: points
+  spend_requirement: 6000
+  timeframe_months: 6

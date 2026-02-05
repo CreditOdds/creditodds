@@ -5,6 +5,24 @@ export interface CardReferral {
   referral_link: string;
 }
 
+export interface RewardCategory {
+  id: string;
+  label: string;
+}
+
+export interface Reward {
+  category: string;
+  value: number;
+  unit: string;
+}
+
+export interface SignupBonus {
+  value: number;
+  type: string;
+  spend_requirement: number;
+  timeframe_months: number;
+}
+
 export interface Card {
   card_id: string | number;
   db_card_id?: number;
@@ -26,6 +44,9 @@ export interface Card {
   apply_link?: string;
   card_referral_link?: string;
   referrals?: CardReferral[];
+  reward_type?: 'cashback' | 'points' | 'miles';
+  rewards?: Reward[];
+  signup_bonus?: SignupBonus;
 }
 
 // GraphData is an array of series data

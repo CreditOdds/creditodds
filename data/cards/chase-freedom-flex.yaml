@@ -7,3 +7,25 @@ annual_fee: 0
 tags:
   - cashback
   - rewards
+reward_type: "cashback"
+rewards:
+  - category: rotating
+    value: 5
+    unit: percent
+  - category: travel_portal
+    value: 5
+    unit: percent
+  - category: dining
+    value: 3
+    unit: percent
+  - category: drugstores
+    value: 3
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 200
+  type: cash
+  spend_requirement: 500
+  timeframe_months: 3

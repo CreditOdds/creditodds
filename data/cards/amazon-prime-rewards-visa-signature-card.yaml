@@ -8,3 +8,20 @@ tags:
   - shopping
   - cashback
   - rewards
+reward_type: "cashback"
+rewards:
+  - category: amazon
+    value: 5
+    unit: percent
+  - category: dining
+    value: 2
+    unit: percent
+  - category: gas
+    value: 2
+    unit: percent
+  - category: transit
+    value: 2
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent

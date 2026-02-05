@@ -56,6 +56,60 @@
       "type": "string",
       "format": "uri",
       "description": "Base URL for referral links - user codes are appended to this (optional)"
+    },
+    "reward_type": {
+      "type": "string",
+      "enum": ["cashback", "points", "miles"],
+      "description": "Type of rewards earned (optional)"
+    },
+    "rewards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "value", "unit"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Spend category id from categories.yaml"
+          },
+          "value": {
+            "type": "number",
+            "description": "Reward rate (e.g., 3 for 3% or 3x)"
+          },
+          "unit": {
+            "type": "string",
+            "enum": ["percent", "points_per_dollar"],
+            "description": "Unit of the reward value"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Reward rates by spend category (optional)"
+    },
+    "signup_bonus": {
+      "type": "object",
+      "required": ["value", "type", "spend_requirement", "timeframe_months"],
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "Bonus amount (e.g., 60000 points)"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["cash", "points", "miles"],
+          "description": "Type of signup bonus"
+        },
+        "spend_requirement": {
+          "type": "number",
+          "description": "Minimum spend required in USD"
+        },
+        "timeframe_months": {
+          "type": "number",
+          "description": "Months to meet spend requirement"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Welcome/signup bonus details (optional)"
     }
   },
   "additionalProperties": false
