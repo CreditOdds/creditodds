@@ -42,14 +42,14 @@ export const tagLabels: Record<NewsTag, string> = {
 };
 
 export const tagColors: Record<NewsTag, string> = {
-  'new-card': 'bg-green-100 text-green-800',
-  'discontinued': 'bg-red-100 text-red-800',
-  'bonus-change': 'bg-blue-100 text-blue-800',
-  'fee-change': 'bg-yellow-100 text-yellow-800',
-  'benefit-change': 'bg-purple-100 text-purple-800',
-  'limited-time': 'bg-orange-100 text-orange-800',
-  'policy-change': 'bg-gray-100 text-gray-800',
-  'general': 'bg-indigo-100 text-indigo-800',
+  'new-card': 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20',
+  'discontinued': 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
+  'bonus-change': 'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20',
+  'fee-change': 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20',
+  'benefit-change': 'bg-violet-50 text-violet-700 ring-1 ring-inset ring-violet-600/20',
+  'limited-time': 'bg-orange-50 text-orange-700 ring-1 ring-inset ring-orange-600/20',
+  'policy-change': 'bg-slate-50 text-slate-700 ring-1 ring-inset ring-slate-600/20',
+  'general': 'bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-600/20',
 };
 
 const NEWS_CDN_URL = 'https://d2hxvzw7msbtvt.cloudfront.net/news.json';

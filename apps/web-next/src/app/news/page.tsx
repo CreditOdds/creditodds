@@ -32,7 +32,7 @@ function formatDate(dateString: string): string {
 
 function TagBadge({ tag }: { tag: NewsTag }) {
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${tagColors[tag]}`}>
+    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${tagColors[tag]}`}>
       {tagLabels[tag]}
     </span>
   );
