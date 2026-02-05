@@ -24,10 +24,20 @@
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
       "description": "Publication date in YYYY-MM-DD format"
     },
+    "updated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Last updated date in YYYY-MM-DD format (optional, for evergreen content)"
+    },
     "author": {
       "type": "string",
       "minLength": 1,
       "description": "Author name"
+    },
+    "author_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Author URL slug (optional, auto-generated from author name if not provided)"
     },
     "summary": {
       "type": "string",
@@ -75,6 +85,10 @@
     "image_alt": {
       "type": "string",
       "description": "Alt text for the hero image (optional)"
+    },
+    "estimated_value": {
+      "type": "string",
+      "description": "Estimated potential value/savings for strategy articles (e.g., '$500-$1,000/year')"
     },
     "content": {
       "type": "string",

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { DocumentTextIcon } from "@heroicons/react/24/outline";
+import { DocumentTextIcon, RssIcon } from "@heroicons/react/24/outline";
 import { getArticles } from "@/lib/articles";
-import { ArticleCard } from "@/components/articles/ArticleCard";
+import { ArticlesListClient } from "@/components/articles/ArticlesListClient";
 
 export const metadata: Metadata = {
   title: "Credit Card Articles - Guides & Strategies",
@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://creditodds.com/articles",
+    types: {
+      'application/rss+xml': 'https://creditodds.com/articles/feed.xml',
+    },
   },
 };
 
@@ -58,15 +61,18 @@ export default async function ArticlesPage() {
           <p className="mt-2 text-lg text-gray-500 max-w-2xl mx-auto">
             In-depth guides, strategies, and analysis to help you maximize your credit card rewards
           </p>
+          <Link
+            href="/articles/feed.xml"
+            className="inline-flex items-center gap-1.5 mt-3 text-sm text-orange-600 hover:text-orange-700"
+          >
+            <RssIcon className="h-4 w-4" />
+            Subscribe via RSS
+          </Link>
         </div>
 
-        {/* Articles Grid */}
+        {/* Articles List with Filters and Pagination */}
         {articles.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
+          <ArticlesListClient articles={articles} />
         ) : (
           <div className="text-center py-12">
             <DocumentTextIcon className="mx-auto h-12 w-12 text-gray-400" />

@@ -2,10 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { CalendarIcon, UserIcon, ClockIcon } from "@heroicons/react/24/outline";
-import { getArticle, getArticles, tagLabels, tagColors, ArticleTag } from "@/lib/articles";
+import { CalendarIcon, UserIcon, ClockIcon, ArrowPathIcon, BanknotesIcon } from "@heroicons/react/24/outline";
+import { getArticle, getArticles, getRelatedArticles, tagLabels, tagColors, ArticleTag, generateAuthorSlug } from "@/lib/articles";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { RelatedCards } from "@/components/articles/RelatedCards";
+import { TableOfContents } from "@/components/articles/TableOfContents";
+import { ReadingProgressBar } from "@/components/articles/ReadingProgressBar";
+import { ShareButtons } from "@/components/articles/ShareButtons";
+import { RelatedArticles } from "@/components/articles/RelatedArticles";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -22,9 +26,12 @@ function formatDate(dateString: string): string {
 
 function TagBadge({ tag }: { tag: ArticleTag }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tagColors[tag]}`}>
+    <Link
+      href={`/articles/category/${tag}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tagColors[tag]} hover:opacity-80 transition-opacity`}
+    >
       {tagLabels[tag]}
-    </span>
+    </Link>
   );
 }
 
@@ -51,6 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `https://creditodds.com/articles/${article.slug}`,
       type: "article",
       publishedTime: article.date,
+      modifiedTime: article.updated_at || article.date,
       authors: [article.author],
       images: openGraphImages,
     },
@@ -78,6 +86,10 @@ export default async function ArticlePage({ params }: Props) {
     notFound();
   }
 
+  const relatedArticles = await getRelatedArticles(article, 3);
+  const authorSlug = article.author_slug || generateAuthorSlug(article.author);
+  const articleUrl = `https://creditodds.com/articles/${article.slug}`;
+
   // Schema.org Article structured data
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -89,6 +101,7 @@ export default async function ArticlePage({ params }: Props) {
       name: article.author,
     },
     datePublished: article.date,
+    dateModified: article.updated_at || article.date,
     publisher: {
       "@type": "Organization",
       name: "CreditOdds",
@@ -96,7 +109,7 @@ export default async function ArticlePage({ params }: Props) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://creditodds.com/articles/${article.slug}`,
+      "@id": articleUrl,
     },
   };
 
@@ -110,6 +123,8 @@ export default async function ArticlePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
+      <ReadingProgressBar />
 
       <div className="min-h-screen bg-gray-50">
         {/* Breadcrumbs */}
@@ -161,19 +176,41 @@ export default async function ArticlePage({ params }: Props) {
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-              <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
+              <Link
+                href={`/articles/author/${authorSlug}`}
+                className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors"
+              >
                 <UserIcon className="h-4 w-4" />
                 <span>{article.author}</span>
-              </div>
+              </Link>
               <div className="flex items-center gap-1.5">
                 <CalendarIcon className="h-4 w-4" />
                 <span>{formatDate(article.date)}</span>
               </div>
+              {article.updated_at && article.updated_at !== article.date && (
+                <div className="flex items-center gap-1.5 text-green-600">
+                  <ArrowPathIcon className="h-4 w-4" />
+                  <span>Updated {formatDate(article.updated_at)}</span>
+                </div>
+              )}
               <div className="flex items-center gap-1.5">
                 <ClockIcon className="h-4 w-4" />
                 <span>{article.reading_time} min read</span>
               </div>
+            </div>
+
+            {/* Estimated Value */}
+            {article.estimated_value && (
+              <div className="flex items-center gap-2 text-sm bg-green-50 text-green-700 px-3 py-2 rounded-lg mb-4 inline-flex">
+                <BanknotesIcon className="h-4 w-4" />
+                <span>Potential value: <strong>{article.estimated_value}</strong></span>
+              </div>
+            )}
+
+            {/* Share Buttons */}
+            <div className="pt-2">
+              <ShareButtons title={article.title} url={articleUrl} />
             </div>
           </header>
 
@@ -194,12 +231,18 @@ export default async function ArticlePage({ params }: Props) {
 
           {/* Article Content */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-10">
+            {/* Table of Contents */}
+            <TableOfContents content={article.content} />
+
             <ArticleContent content={article.content} />
 
             {/* Related Cards */}
             {article.related_cards_info && article.related_cards_info.length > 0 && (
               <RelatedCards cards={article.related_cards_info} />
             )}
+
+            {/* Related Articles */}
+            <RelatedArticles articles={relatedArticles} />
           </div>
 
           {/* Back Link */}

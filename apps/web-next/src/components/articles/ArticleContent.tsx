@@ -6,14 +6,38 @@ interface ArticleContentProps {
   content: string;
 }
 
-// Simple markdown to HTML converter for article content
+// Enhanced markdown to HTML converter for article content
 function markdownToHtml(markdown: string): string {
   let html = markdown;
 
-  // Headers
-  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+  // Code blocks (must come before inline code)
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/gim, (_, lang, code) => {
+    const langClass = lang ? ` language-${lang}` : '';
+    return `<pre class="bg-gray-900 text-gray-100 rounded-lg p-4 overflow-x-auto my-6${langClass}"><code>${code.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
+  });
+
+  // Inline code
+  html = html.replace(/`([^`]+)`/gim, '<code class="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>');
+
+  // Blockquotes
+  html = html.replace(/^>\s*(.*)$/gim, '<blockquote class="border-l-4 border-indigo-500 pl-4 py-1 my-4 text-gray-600 italic">$1</blockquote>');
+
+  // Images
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, '<img src="$2" alt="$1" class="rounded-lg my-6 max-w-full h-auto" loading="lazy" />');
+
+  // Headers with IDs for TOC linking
+  html = html.replace(/^### (.+)$/gim, (_, text) => {
+    const id = text.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return `<h3 id="${id}">${text}</h3>`;
+  });
+  html = html.replace(/^## (.+)$/gim, (_, text) => {
+    const id = text.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return `<h2 id="${id}">${text}</h2>`;
+  });
+  html = html.replace(/^# (.+)$/gim, (_, text) => {
+    const id = text.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return `<h1 id="${id}">${text}</h1>`;
+  });
 
   // Bold
   html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
@@ -44,7 +68,6 @@ function markdownToHtml(markdown: string): string {
       return ''; // Skip separator row
     }
     const cells = content.split('|').map((cell: string) => cell.trim());
-    const isHeader = match.includes('---') === false && html.indexOf(match) === html.indexOf('|');
     const cellTag = 'td';
     const cellsHtml = cells.map((cell: string) => `<${cellTag} class="border border-gray-200 px-4 py-2">${cell}</${cellTag}>`).join('');
     return `<tr>${cellsHtml}</tr>`;
@@ -68,6 +91,9 @@ function markdownToHtml(markdown: string): string {
   // Clean up empty paragraphs
   html = html.replace(/<p><\/p>/g, '');
 
+  // Merge consecutive blockquotes
+  html = html.replace(/<\/blockquote>\n<blockquote[^>]*>/gi, '<br />');
+
   return html;
 }
 
@@ -77,13 +103,15 @@ export function ArticleContent({ content }: ArticleContentProps) {
   return (
     <div
       className="prose prose-indigo prose-lg max-w-none
-        prose-headings:font-bold prose-headings:text-gray-900
+        prose-headings:font-bold prose-headings:text-gray-900 prose-headings:scroll-mt-20
         prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
         prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
         prose-p:text-gray-600 prose-p:leading-relaxed prose-p:my-4
         prose-li:text-gray-600 prose-li:my-1
         prose-strong:text-gray-900
-        prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline"
+        prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline
+        prose-code:before:content-[''] prose-code:after:content-['']
+        prose-pre:bg-gray-900 prose-pre:text-gray-100"
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
   );

@@ -37,6 +37,10 @@ function loadCardsLookup() {
   }
 }
 
+function generateAuthorSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
 function validateArticle(item, schema) {
   const errors = [];
 
@@ -60,6 +64,16 @@ function validateArticle(item, schema) {
   // Validate date format
   if (item.date && !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
     errors.push(`Invalid date format: ${item.date} (must be YYYY-MM-DD)`);
+  }
+
+  // Validate updated_at format if present
+  if (item.updated_at && !/^\d{4}-\d{2}-\d{2}$/.test(item.updated_at)) {
+    errors.push(`Invalid updated_at format: ${item.updated_at} (must be YYYY-MM-DD)`);
+  }
+
+  // Validate author_slug pattern if present
+  if (item.author_slug && !/^[a-z0-9-]+$/.test(item.author_slug)) {
+    errors.push(`Invalid author_slug format: ${item.author_slug} (must be lowercase with hyphens only)`);
   }
 
   // Validate summary length
@@ -134,6 +148,11 @@ function buildArticles() {
 
       // Calculate reading time
       item.reading_time = calculateReadingTime(item.content);
+
+      // Generate author_slug if not provided
+      if (!item.author_slug && item.author) {
+        item.author_slug = generateAuthorSlug(item.author);
+      }
 
       // Enrich related_cards with card info
       if (item.related_cards && item.related_cards.length > 0) {
