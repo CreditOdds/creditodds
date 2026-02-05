@@ -9,7 +9,8 @@ import { useAuth } from "@/auth/AuthProvider";
 import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, Cog6ToothIcon, ChartBarIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 
 // Lazy load modals - only loaded when user opens them
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), {
@@ -35,6 +36,11 @@ const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordM
 const SubmitRecordCardPicker = dynamic(() => import("@/components/forms/SubmitRecordCardPicker"), {
   ssr: false,
   loading: () => null,
+});
+
+const RuleProgressChart = dynamic(() => import("@/components/charts/RuleProgressChart"), {
+  ssr: false,
+  loading: () => <div className="bg-white rounded-lg border border-gray-200 p-4 h-[250px] animate-pulse" />,
 });
 
 interface Record {
@@ -98,7 +104,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   const [deletingReferralId, setDeletingReferralId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
-  const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals'>('wallet');
+  const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals' | 'advanced'>('wallet');
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
   const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
@@ -159,6 +165,16 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   const eligibleRecordCards = useMemo(() => {
     return walletCards.filter(card => !cardsWithRecords.has(card.card_name));
   }, [walletCards, cardsWithRecords]);
+
+  // Calculate application rules from wallet cards
+  const applicationRules = useMemo(() => {
+    return calculateApplicationRules(walletCards);
+  }, [walletCards]);
+
+  // Count cards missing acquisition dates
+  const cardsMissingDates = useMemo(() => {
+    return countCardsMissingDates(walletCards);
+  }, [walletCards]);
 
   // Filter news to cards in user's wallet (only match by card slug, not bank)
   const relevantNews = useMemo(() => {
@@ -484,6 +500,17 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
               }`}>
                 {referrals.length}
               </span>
+            </button>
+            <button
+              onClick={() => setActiveTab('advanced')}
+              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'advanced'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <ChartBarIcon className="h-5 w-5" />
+              Advanced
             </button>
           </nav>
         </div>
@@ -946,6 +973,90 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
               </div>
             )}
             </div>
+          </div>
+        )}
+
+        {/* Advanced Tab */}
+        {activeTab === 'advanced' && (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold text-gray-900">Application Rules Tracker</h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Track your credit card application velocity against common bank rules.
+              </p>
+            </div>
+
+            {/* Warning if cards missing dates */}
+            {cardsMissingDates > 0 && (
+              <div className="mb-6 rounded-md bg-yellow-50 p-4">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="text-sm font-medium text-yellow-800">Missing acquisition dates</h3>
+                    <div className="mt-2 text-sm text-yellow-700">
+                      <p>
+                        {cardsMissingDates} {cardsMissingDates === 1 ? 'card is' : 'cards are'} missing acquisition dates.
+                        For accurate rule tracking, please add when you got each card.
+                      </p>
+                    </div>
+                    <div className="mt-4">
+                      <div className="-mx-2 -my-1.5 flex">
+                        <button
+                          type="button"
+                          onClick={() => setActiveTab('wallet')}
+                          className="rounded-md bg-yellow-50 px-2 py-1.5 text-sm font-medium text-yellow-800 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2 focus:ring-offset-yellow-50"
+                        >
+                          Go to Wallet
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {walletCards.length === 0 ? (
+              <div className="text-center py-12">
+                <ChartBarIcon className="mx-auto h-12 w-12 text-gray-300" />
+                <p className="mt-2 text-gray-500">Add cards to your wallet to track application rules.</p>
+                <button
+                  onClick={() => setActiveTab('wallet')}
+                  className="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Go to Wallet
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Rules Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                  {applicationRules.map((rule) => (
+                    <RuleProgressChart key={rule.ruleName} rule={rule} />
+                  ))}
+                </div>
+
+                {/* Rules Explanation */}
+                <div className="border-t border-gray-200 pt-6">
+                  <h3 className="text-sm font-medium text-gray-900 mb-4">Understanding Application Rules</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                    <div>
+                      <p className="font-medium text-gray-700">Chase 5/24</p>
+                      <p>Chase will likely deny you if you&apos;ve opened 5+ cards (any bank) in 24 months.</p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-700">Amex 2/90</p>
+                      <p>American Express limits you to 2 credit card approvals within 90 days.</p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-700">Capital One 1/6</p>
+                      <p>Capital One typically approves only 1 card every 6 months.</p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
           </div>
