@@ -240,51 +240,79 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
               <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-wide">
                 {card.card_name}
               </h1>
-              <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="flex justify-center sm:justify-start pt-2 group">
-                <BuildingLibraryIcon className="h-5 w-5 text-gray-400 group-hover:text-indigo-500" aria-hidden="true" />
-                <p className="pl-2 pr-2 tracking-wide text-sm text-gray-500 group-hover:text-indigo-600">{card.bank}</p>
-              </Link>
-              {card.annual_fee !== undefined && (
-                <p className="mt-2 text-sm text-gray-500">
-                  Annual Fee: <span className={card.annual_fee === 0 ? "text-green-600 font-medium" : "text-gray-900 font-medium"}>
-                    {card.annual_fee === 0 ? "$0" : `$${card.annual_fee.toLocaleString()}`}
-                  </span>
-                </p>
-              )}
 
-              {/* Rewards Section */}
-              {card.rewards && card.rewards.length > 0 && (
-                <div className="mt-4">
-                  <div className="flex flex-wrap gap-2">
-                    {card.rewards.map((reward) => (
-                      <span
-                        key={reward.category}
-                        className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
-                          reward.category === "everything_else"
-                            ? "bg-gray-100 text-gray-700"
-                            : "bg-indigo-50 text-indigo-700"
-                        }`}
-                      >
-                        {formatRewardValue(reward)} {categoryLabels[reward.category] || reward.category}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Compact metadata row */}
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1 mt-2 text-sm text-gray-500">
+                <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="inline-flex items-center group">
+                  <BuildingLibraryIcon className="h-4 w-4 text-gray-400 group-hover:text-indigo-500 mr-1" aria-hidden="true" />
+                  <span className="group-hover:text-indigo-600">{card.bank}</span>
+                </Link>
+                {card.annual_fee !== undefined && (
+                  <>
+                    <span className="text-gray-300">&middot;</span>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                      card.annual_fee === 0
+                        ? "bg-green-50 text-green-700"
+                        : "bg-gray-100 text-gray-700"
+                    }`}>
+                      {card.annual_fee === 0 ? "$0 Annual Fee" : `$${card.annual_fee.toLocaleString()} Annual Fee`}
+                    </span>
+                  </>
+                )}
+                {card.reward_type && (
+                  <>
+                    <span className="text-gray-300">&middot;</span>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                      card.reward_type === 'cashback'
+                        ? "bg-green-50 text-green-700"
+                        : card.reward_type === 'points'
+                          ? "bg-blue-50 text-blue-700"
+                          : "bg-purple-50 text-purple-700"
+                    }`}>
+                      {card.reward_type === 'cashback' ? 'Cashback' : card.reward_type === 'points' ? 'Points' : 'Miles'}
+                    </span>
+                  </>
+                )}
+              </div>
 
-              {/* Signup Bonus */}
-              {card.signup_bonus && (
-                <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
-                  <p className="text-sm font-medium text-amber-900">
-                    Earn{" "}
-                    <span className="font-bold">
-                      {card.signup_bonus.type === "cash"
-                        ? `$${card.signup_bonus.value.toLocaleString()}`
-                        : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type}`}
-                    </span>{" "}
-                    after spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
-                    {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
-                  </p>
+              {/* Rewards + Signup Bonus Card */}
+              {(card.rewards && card.rewards.length > 0 || card.signup_bonus) && (
+                <div className="mt-4 bg-white shadow rounded-lg overflow-hidden">
+                  {card.rewards && card.rewards.length > 0 && (
+                    <div className="p-4">
+                      <p className="text-xs uppercase text-gray-500 font-semibold mb-2 tracking-wide">Rewards</p>
+                      <div className="flex flex-wrap gap-2">
+                        {card.rewards.map((reward) => (
+                          <span
+                            key={reward.category}
+                            className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
+                              reward.category === "everything_else"
+                                ? "bg-gray-100 text-gray-700"
+                                : "bg-indigo-50 text-indigo-700"
+                            }`}
+                          >
+                            {formatRewardValue(reward)} {categoryLabels[reward.category] || reward.category}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {card.signup_bonus && (
+                    <div className={`bg-amber-50 px-4 py-3 border-t border-amber-100 ${
+                      !(card.rewards && card.rewards.length > 0) ? "rounded-t-lg" : ""
+                    }`}>
+                      <p className="text-sm font-medium text-amber-900">
+                        Earn{" "}
+                        <span className="font-bold">
+                          {card.signup_bonus.type === "cash"
+                            ? `$${card.signup_bonus.value.toLocaleString()}`
+                            : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type}`}
+                        </span>{" "}
+                        after spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
+                        {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -324,17 +352,6 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                       with <span className="text-green-600">{card.approved_count} approved</span> and <span className="text-red-600">{card.rejected_count} rejected</span>
                     </p>
                   </>
-                ) : card.accepting_applications ? (
-                  <div className="py-8 bg-blue-50 rounded-lg">
-                    <div className="text-center px-6">
-                      <h3 className="text-lg leading-6 font-medium text-gray-900 mb-3">
-                        We're still collecting data on this card
-                      </h3>
-                      <p className="text-base text-gray-600">
-                        If you've applied for this card, please submit your data below. We need at least 1 data point to show the charts and statistics.
-                      </p>
-                    </div>
-                  </div>
                 ) : null}
               </div>
             </div>
@@ -369,6 +386,22 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                   </button>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Still collecting data - shown below CTA when no approval data */}
+      {(card.approved_count || 0) === 0 && card.accepting_applications && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="py-8 bg-blue-50 rounded-lg">
+            <div className="text-center px-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900 mb-3">
+                We&apos;re still collecting data on this card
+              </h3>
+              <p className="text-base text-gray-600">
+                If you&apos;ve applied for this card, please submit your data above. We need at least 1 data point to show the charts and statistics.
+              </p>
             </div>
           </div>
         </div>
