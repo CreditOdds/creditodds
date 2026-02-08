@@ -318,7 +318,7 @@ exports.AdminReferralsHandler = async (event) => {
     case "PUT":
       try {
         const body = JSON.parse(event.body);
-        const { referral_id, approved } = body;
+        const { referral_id, approved, referral_link } = body;
 
         if (!referral_id || approved === undefined) {
           return {
@@ -338,11 +338,21 @@ exports.AdminReferralsHandler = async (event) => {
           };
         }
 
-        await mysql.query(
-          "UPDATE referrals SET admin_approved = ? WHERE referral_id = ?",
-          [approved ? 1 : 0, referral_id]
-        );
-        await logAuditAction(userId, approved ? 'APPROVE' : 'UNAPPROVE', 'referral', referral_id, referral[0]);
+        if (referral_link) {
+          await mysql.query(
+            "UPDATE referrals SET admin_approved = ?, referral_link = ? WHERE referral_id = ?",
+            [approved ? 1 : 0, referral_link, referral_id]
+          );
+        } else {
+          await mysql.query(
+            "UPDATE referrals SET admin_approved = ? WHERE referral_id = ?",
+            [approved ? 1 : 0, referral_id]
+          );
+        }
+        const auditDetails = referral_link
+          ? { ...referral[0], updated_referral_link: referral_link }
+          : referral[0];
+        await logAuditAction(userId, approved ? 'APPROVE' : 'UNAPPROVE', 'referral', referral_id, auditDetails);
         await mysql.end();
 
         return {

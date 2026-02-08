@@ -76,20 +76,20 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
 
   // Randomly select a referral if available
   const selectedReferral = useMemo(() => {
-    if (card.referrals && card.referrals.length > 0 && card.card_referral_link) {
+    if (card.referrals && card.referrals.length > 0) {
       const randomIndex = Math.floor(Math.random() * card.referrals.length);
       return card.referrals[randomIndex];
     }
     return null;
-  }, [card.referrals, card.card_referral_link]);
+  }, [card.referrals]);
 
   // Build full referral URL
   const randomReferralUrl = useMemo(() => {
-    if (selectedReferral && card.card_referral_link) {
-      return card.card_referral_link + selectedReferral.referral_link;
+    if (selectedReferral) {
+      return selectedReferral.referral_link;
     }
     return null;
-  }, [selectedReferral, card.card_referral_link]);
+  }, [selectedReferral]);
 
   // Track impression when referral is shown
   const impressionTracked = useRef(false);

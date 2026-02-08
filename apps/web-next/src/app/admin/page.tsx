@@ -24,7 +24,8 @@ import {
   ChartBarIcon,
   DocumentTextIcon,
   LinkIcon,
-  ClipboardDocumentListIcon
+  ClipboardDocumentListIcon,
+  PencilIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
@@ -144,6 +145,28 @@ export default function AdminPage() {
     }
   };
 
+  const handleEditReferral = async (referralId: number, newLink: string) => {
+    setProcessingId(referralId);
+    try {
+      const token = await getToken();
+      if (!token) return;
+
+      const referral = referrals.find(r => r.referral_id === referralId);
+      if (!referral) return;
+
+      await updateReferralApproval(referralId, !!referral.admin_approved, token, newLink);
+      setReferrals(prev =>
+        prev.map(r =>
+          r.referral_id === referralId ? { ...r, referral_link: newLink } : r
+        )
+      );
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to update referral link");
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
   const handleDeleteReferral = async (referralId: number) => {
     if (!confirm("Are you sure you want to delete this referral?")) return;
 
@@ -256,6 +279,7 @@ export default function AdminPage() {
             processingId={processingId}
             onApprove={handleApproveReferral}
             onDelete={handleDeleteReferral}
+            onEdit={handleEditReferral}
           />
         )}
         {activeTab === 'audit' && <AuditTab logs={auditLogs} total={auditTotal} />}
@@ -404,14 +428,19 @@ function ReferralsTab({
   total,
   processingId,
   onApprove,
-  onDelete
+  onDelete,
+  onEdit
 }: {
   referrals: AdminReferral[];
   total: number;
   processingId: number | null;
   onApprove: (id: number, approve: boolean) => void;
   onDelete: (id: number) => void;
+  onEdit: (id: number, newLink: string) => void;
 }) {
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState('');
+
   return (
     <div className="bg-white shadow rounded-lg overflow-hidden">
       <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
@@ -458,16 +487,63 @@ function ReferralsTab({
                   </div>
                 </td>
                 <td className="px-4 py-3">
-                  <a
-                    href={referral.card_referral_link
-                      ? `${referral.card_referral_link}${referral.referral_link}`
-                      : referral.referral_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-indigo-600 hover:text-indigo-800 break-all max-w-[200px] block truncate"
-                  >
-                    {referral.referral_link}
-                  </a>
+                  {editingId === referral.referral_id ? (
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="text"
+                        value={editValue}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            onEdit(referral.referral_id, editValue);
+                            setEditingId(null);
+                          } else if (e.key === 'Escape') {
+                            setEditingId(null);
+                          }
+                        }}
+                        className="text-sm border border-gray-300 rounded px-2 py-1 w-full max-w-[250px]"
+                        autoFocus
+                      />
+                      <button
+                        onClick={() => {
+                          onEdit(referral.referral_id, editValue);
+                          setEditingId(null);
+                        }}
+                        className="text-green-600 hover:text-green-800"
+                        title="Save"
+                      >
+                        <CheckIcon className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => setEditingId(null)}
+                        className="text-gray-400 hover:text-gray-600"
+                        title="Cancel"
+                      >
+                        <XMarkIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1">
+                      <a
+                        href={referral.referral_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-indigo-600 hover:text-indigo-800 break-all max-w-[200px] block truncate"
+                      >
+                        {referral.referral_link}
+                      </a>
+                      <button
+                        onClick={() => {
+                          setEditingId(referral.referral_id);
+                          setEditValue(referral.referral_link);
+                        }}
+                        className="text-gray-400 hover:text-gray-600 flex-shrink-0"
+                        title="Edit referral link"
+                      >
+                        <PencilIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  )}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <span className={`px-2 py-1 text-xs font-medium rounded-full ${
