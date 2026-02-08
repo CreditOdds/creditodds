@@ -459,9 +459,7 @@ function ReferralsTab({
                 </td>
                 <td className="px-4 py-3">
                   <a
-                    href={referral.card_referral_link
-                      ? `${referral.card_referral_link}${referral.referral_link}`
-                      : referral.referral_link}
+                    href={referral.referral_link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-indigo-600 hover:text-indigo-800 break-all max-w-[200px] block truncate"

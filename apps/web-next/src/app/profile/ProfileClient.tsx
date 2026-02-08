@@ -802,14 +802,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
             <div className="px-4 py-5 sm:px-6">
               <h2 className="text-lg font-semibold text-gray-900">Your Referrals</h2>
             <p className="mt-1 max-w-2xl text-sm text-gray-500">
-              Don&apos;t see your card as an option?{' '}
-              <a href="https://github.com/CreditOdds/creditodds/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500">
-                Add the referral base URL on GitHub
-              </a>{' '}
-              or{' '}
-              <a href="https://x.com/MaxwellMelcher" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500">
-                message me on X
-              </a>.
+              Submit your full referral URL for any card in your wallet or with a submitted record.
             </p>
           </div>
           {referrals.length > 0 ? (
@@ -844,7 +837,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
                           )}
                         </div>
                         <a
-                          href={referral.card_referral_link ? `${referral.card_referral_link}${referral.referral_link}` : referral.referral_link}
+                          href={referral.referral_link}
                           target="_blank"
                           rel="noreferrer"
                           className="mt-1 text-xs text-indigo-600 hover:text-indigo-900 truncate block"
@@ -916,7 +909,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
                         </td>
                         <td className="px-4 py-3">
                           <a
-                            href={referral.card_referral_link ? `${referral.card_referral_link}${referral.referral_link}` : referral.referral_link}
+                            href={referral.referral_link}
                             target="_blank"
                             rel="noreferrer"
                             className="text-sm text-indigo-600 hover:text-indigo-900 truncate block max-w-[200px]"
