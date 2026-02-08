@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { NewspaperIcon, BuildingLibraryIcon, CreditCardIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import { getNews, tagLabels, tagColors, NewsTag } from "@/lib/news";
-import { ExpandableText } from "@/components/ui/ExpandableText";
+import { NewspaperIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { getNews } from "@/lib/news";
+import NewsTable from "@/components/news/NewsTable";
 
 export const metadata: Metadata = {
   title: "Card News - Credit Card Updates",
@@ -20,23 +19,6 @@ export const metadata: Metadata = {
 
 // Revalidate every 5 minutes
 export const revalidate = 300;
-
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-
-function TagBadge({ tag }: { tag: NewsTag }) {
-  return (
-    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${tagColors[tag]}`}>
-      {tagLabels[tag]}
-    </span>
-  );
-}
 
 export default async function NewsPage() {
   const newsItems = await getNews();
@@ -91,113 +73,7 @@ export default async function NewsPage() {
 
         {/* News Table */}
         <div className="mt-8 -mx-4 sm:mx-0">
-          <div className="bg-white shadow sm:rounded-lg overflow-hidden">
-          {newsItems.length > 0 ? (
-            <div>
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Update
-                    </th>
-                    <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
-                      Bank / Card
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                      Tags
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {newsItems.slice(0, 20).map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="px-3 sm:px-6 py-3 sm:py-4">
-                        <div className="flex items-start gap-2 sm:gap-3">
-                          {/* Card image on mobile */}
-                          {item.card_image_link && (
-                            <Link href={`/card/${item.card_slug}`} className="flex-shrink-0 sm:hidden">
-                              <Image
-                                src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`}
-                                alt={item.card_name || ''}
-                                width={40}
-                                height={25}
-                                className="rounded-sm object-contain"
-                                sizes="40px"
-                              />
-                            </Link>
-                          )}
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                              <span>{formatDate(item.date)}</span>
-                              {/* Mobile: show bank name inline */}
-                              {item.bank && (
-                                <span className="sm:hidden text-gray-400">· {item.bank}</span>
-                              )}
-                            </div>
-                            <div className="text-sm font-medium text-gray-900">
-                              {item.title}
-                            </div>
-                            <ExpandableText
-                              text={item.summary}
-                              className="text-sm text-gray-500 mt-1"
-                            />
-                            {/* Mobile tags */}
-                            <div className="flex flex-wrap gap-1 mt-2 md:hidden">
-                              {item.tags.map((tag) => (
-                                <TagBadge key={tag} tag={tag} />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                        <div className="flex flex-col gap-1">
-                          {item.bank && (
-                            <div className="flex items-center text-sm text-gray-600">
-                              <BuildingLibraryIcon className="h-4 w-4 mr-1 text-gray-400" />
-                              {item.bank}
-                            </div>
-                          )}
-                          {item.card_slug && item.card_name && (
-                            <Link
-                              href={`/card/${item.card_slug}`}
-                              className="flex items-center text-sm text-indigo-600 hover:text-indigo-900"
-                            >
-                              {item.card_image_link ? (
-                                <Image
-                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`}
-                                  alt={item.card_name}
-                                  width={32}
-                                  height={20}
-                                  className="mr-1.5 rounded-sm object-contain"
-                                  sizes="40px"
-                                />
-                              ) : (
-                                <CreditCardIcon className="h-4 w-4 mr-1" />
-                              )}
-                              {item.card_name}
-                            </Link>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 hidden md:table-cell">
-                        <div className="flex flex-wrap gap-1">
-                          {item.tags.map((tag) => (
-                            <TagBadge key={tag} tag={tag} />
-                          ))}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="px-6 py-12 text-center text-gray-500">
-              No news updates available yet. Check back soon!
-            </div>
-          )}
-          </div>
+          <NewsTable newsItems={newsItems} />
         </div>
 
         {/* CTA */}
