@@ -456,15 +456,20 @@ export async function getAdminReferrals(
 export async function updateReferralApproval(
   referralId: number,
   approved: boolean,
-  token: string
+  token: string,
+  referralLink?: string
 ): Promise<{ message: string }> {
+  const body: Record<string, unknown> = { referral_id: referralId, approved };
+  if (referralLink) {
+    body.referral_link = referralLink;
+  }
   const res = await fetch(`${API_BASE}/admin/referrals`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ referral_id: referralId, approved }),
+    body: JSON.stringify(body),
   });
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');
