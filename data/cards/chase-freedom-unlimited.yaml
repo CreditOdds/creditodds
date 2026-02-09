@@ -3,6 +3,7 @@ bank: "Chase"
 slug: "chase-freedom-unlimited"
 image: "freedom_unlimited_card.png"
 accepting_applications: true
+card_referral_link: "https://www.referyourchasecard.com/18e"
 annual_fee: 0
 tags:
   - cashback

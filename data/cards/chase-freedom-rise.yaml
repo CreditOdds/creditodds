@@ -1,0 +1,12 @@
+name: "Chase Freedom Rise"
+bank: "Chase"
+slug: "chase-freedom-rise"
+image: "chase_freedom_rise.png"
+accepting_applications: true
+card_referral_link: "https://www.referyourchasecard.com/20r"
+annual_fee: 0
+reward_type: "cashback"
+rewards:
+  - category: everything_else
+    value: 1.5
+    unit: percent
