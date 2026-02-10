@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-09T04:13:57.030Z",
+  "generated_at": "2026-02-10T01:38:37.726Z",
   "count": 136,
   "categories": [
     {
@@ -763,7 +763,7 @@
     {
       "name": "Chase Freedom Rise",
       "bank": "Chase",
-      "slug": "chase-freedom-rise",
+      "slug": "chase-freedom-student",
       "image": "chase_freedom_rise.png",
       "accepting_applications": true,
       "card_referral_link": "https://www.referyourchasecard.com/20r",
@@ -776,7 +776,7 @@
           "unit": "percent"
         }
       ],
-      "card_id": "chase-freedom-rise",
+      "card_id": "chase-freedom-student",
       "card_name": "Chase Freedom Rise"
     },
     {
