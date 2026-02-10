@@ -1,7 +1,7 @@
 name: "Chase Freedom Rise"
 bank: "Chase"
 slug: "chase-freedom-student"
-image: "chase_freedom_rise.png"
+image: "chase-freedom-rise.png"
 accepting_applications: true
 card_referral_link: "https://www.referyourchasecard.com/20r"
 annual_fee: 0
