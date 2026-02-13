@@ -28,11 +28,6 @@ export default function ContactPage() {
             Have questions, feedback, or suggestions? We&apos;d love to hear from you!
           </p>
 
-          <h2>Email</h2>
-          <p>
-            <a href="mailto:support@creditodds.com">support@creditodds.com</a>
-          </p>
-
           <h2>Twitter</h2>
           <p>
             Follow us on Twitter:{" "}
