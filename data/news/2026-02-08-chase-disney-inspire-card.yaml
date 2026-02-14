@@ -6,5 +6,6 @@ tags:
   - "new-card"
 bank: "Chase"
 card_slug: "disney-inspire-visa"
+card_name: "Disney Inspire Visa"
 source: "Upgraded Points"
 source_url: "https://upgradedpoints.com/news/chase-launches-disney-inspire-visa-card/"

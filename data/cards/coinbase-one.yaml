@@ -1,0 +1,10 @@
+name: "Coinbase One"
+bank: "First Electronic Bank"
+slug: "coinbase-one"
+image: "coinbase-one.png"
+accepting_applications: true
+category: "rewards"
+annual_fee: 0
+tags:
+  - rewards
+  - crypto
