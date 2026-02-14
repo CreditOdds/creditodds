@@ -66,32 +66,32 @@ async function fetchCardFromDB(cardName) {
           SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
           SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as rejected_count,
           (SELECT ROUND(AVG(val)) FROM (
-            SELECT credit_score AS val
+            SELECT credit_score AS val,
+              ROW_NUMBER() OVER (ORDER BY credit_score) AS rn,
+              COUNT(*) OVER () AS cnt
             FROM records
             WHERE card_id = ? AND result = 1 AND admin_review = 1
-            ORDER BY credit_score
-            LIMIT 2 - (SELECT COUNT(*) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) % 2
-            OFFSET (SELECT (COUNT(*) - 1) / 2 FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1)
-          ) AS median_cs) as approved_median_credit_score,
+          ) t WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
+          ) as approved_median_credit_score,
           (SELECT ROUND(AVG(val)) FROM (
-            SELECT listed_income AS val
+            SELECT listed_income AS val,
+              ROW_NUMBER() OVER (ORDER BY listed_income) AS rn,
+              COUNT(*) OVER () AS cnt
             FROM records
             WHERE card_id = ? AND result = 1 AND admin_review = 1
-            ORDER BY listed_income
-            LIMIT 2 - (SELECT COUNT(*) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) % 2
-            OFFSET (SELECT (COUNT(*) - 1) / 2 FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1)
-          ) AS median_inc) as approved_median_income,
+          ) t WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
+          ) as approved_median_income,
           (SELECT ROUND(AVG(val)) FROM (
-            SELECT length_credit AS val
+            SELECT length_credit AS val,
+              ROW_NUMBER() OVER (ORDER BY length_credit) AS rn,
+              COUNT(*) OVER () AS cnt
             FROM records
             WHERE card_id = ? AND result = 1 AND admin_review = 1
-            ORDER BY length_credit
-            LIMIT 2 - (SELECT COUNT(*) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) % 2
-            OFFSET (SELECT (COUNT(*) - 1) / 2 FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1)
-          ) AS median_lc) as approved_median_length_credit
+          ) t WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
+          ) as approved_median_length_credit
         FROM records
         WHERE card_id = ? AND admin_review = 1
-      `, Array(10).fill(dbCard.card_id)),
+      `, [dbCard.card_id, dbCard.card_id, dbCard.card_id, dbCard.card_id]),
       mysql.query(`
         SELECT referral_id, referral_link
         FROM referrals
