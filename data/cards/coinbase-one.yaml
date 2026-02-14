@@ -3,6 +3,7 @@ bank: "First Electronic Bank"
 slug: "coinbase-one"
 image: "coinbase-one.png"
 accepting_applications: true
+release_date: "2025-10-22"
 category: "rewards"
 annual_fee: 0
 tags:

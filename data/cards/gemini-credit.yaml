@@ -1,0 +1,11 @@
+name: "Gemini Credit"
+bank: "WebBank"
+slug: "gemini-credit"
+image: "gemini.png"
+accepting_applications: true
+release_date: "2022-04-14"
+category: "rewards"
+annual_fee: 0
+tags:
+  - rewards
+  - crypto
