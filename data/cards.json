@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-02-10T01:38:37.726Z",
-  "count": 136,
+  "generated_at": "2026-02-14T22:20:28.324Z",
+  "count": 137,
   "categories": [
     {
       "id": "dining",
@@ -764,7 +764,7 @@
       "name": "Chase Freedom Rise",
       "bank": "Chase",
       "slug": "chase-freedom-student",
-      "image": "chase_freedom_rise.png",
+      "image": "chase-freedom-rise.png",
       "accepting_applications": true,
       "card_referral_link": "https://www.referyourchasecard.com/20r",
       "annual_fee": 0,
@@ -1100,6 +1100,21 @@
       "annual_fee": 99,
       "card_id": "citibusiness-aadvantage-platinum-select-maste",
       "card_name": "CitiBusiness AAdvantage Platinum Select Mastercard"
+    },
+    {
+      "name": "Coinbase One",
+      "bank": "First Electronic Bank",
+      "slug": "coinbase-one",
+      "image": "coinbase-one.png",
+      "accepting_applications": true,
+      "category": "rewards",
+      "annual_fee": 0,
+      "tags": [
+        "rewards",
+        "crypto"
+      ],
+      "card_id": "coinbase-one",
+      "card_name": "Coinbase One"
     },
     {
       "name": "Costco Anywhere Visa Business by Citi",
