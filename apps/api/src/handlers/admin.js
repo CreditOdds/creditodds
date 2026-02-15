@@ -1,4 +1,5 @@
 // Comprehensive admin handler
+const yup = require("yup");
 const mysql = require("serverless-mysql")({
   config: {
     host: process.env.ENDPOINT,
@@ -183,6 +184,87 @@ exports.AdminRecordsHandler = async (event) => {
           statusCode: 500,
           headers: responseHeaders,
           body: JSON.stringify({ error: `Failed to fetch records: ${error.message}` }),
+        };
+      }
+
+    case "POST":
+      try {
+        const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+        const { submitter_name, ...recordData } = body;
+
+        if (!submitter_name || typeof submitter_name !== 'string' || !submitter_name.trim()) {
+          return {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "submitter_name is required" }),
+          };
+        }
+
+        const recordSchema = yup.object().shape({
+          card_id: yup.number().integer().required(),
+          credit_score: yup.number().integer().min(300).max(850).required(),
+          credit_score_source: yup.number().integer().min(0).max(4).required(),
+          result: yup.boolean().required(),
+          listed_income: yup.number().integer().min(0).max(1000000).required(),
+          length_credit: yup.number().integer().min(0).max(100).required(),
+          starting_credit_limit: yup.number().integer().min(0).max(1000000),
+          reason_denied: yup.string().max(254),
+          date_applied: yup.date().required(),
+          bank_customer: yup.boolean().required(),
+          inquiries_3: yup.number().integer().min(0).max(50),
+          inquiries_12: yup.number().integer().min(0).max(50),
+          inquiries_24: yup.number().integer().min(0).max(50),
+        });
+
+        const value = await recordSchema.validate(recordData);
+
+        // Clear irrelevant fields based on result
+        if (value.result) {
+          value.reason_denied = null;
+        } else {
+          value.starting_credit_limit = null;
+        }
+
+        const insertResult = await mysql.query("INSERT INTO records SET ?", {
+          card_id: value.card_id,
+          result: value.result,
+          credit_score: value.credit_score,
+          credit_score_source: value.credit_score_source,
+          listed_income: value.listed_income,
+          date_applied: new Date(value.date_applied),
+          length_credit: value.length_credit,
+          starting_credit_limit: value.starting_credit_limit,
+          submitter_id: `admin:${userId}`,
+          submitter_ip_address: null,
+          submit_datetime: new Date(),
+          bank_customer: value.bank_customer,
+          reason_denied: value.reason_denied,
+          inquiries_3: value.inquiries_3,
+          inquiries_12: value.inquiries_12,
+          inquiries_24: value.inquiries_24,
+          admin_review: 1,
+        });
+
+        await logAuditAction(userId, 'ADMIN_CREATE', 'record', insertResult.insertId, {
+          ...value,
+          submitter_name: submitter_name.trim(),
+        });
+        await mysql.end();
+
+        return {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify({
+            message: "Record created",
+            record_id: insertResult.insertId,
+          }),
+        };
+      } catch (error) {
+        console.error("Error creating admin record:", error);
+        return {
+          statusCode: 500,
+          headers: responseHeaders,
+          body: JSON.stringify({ error: `Failed to create record: ${error.message}` }),
         };
       }
 

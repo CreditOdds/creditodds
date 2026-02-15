@@ -517,6 +517,13 @@ Resources:
             Method: GET
             RestApiId:
               Ref: CreditCardOddsAPI
+        PostRecord:
+          Type: Api
+          Properties:
+            Path: /admin/records
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
         DeleteRecord:
           Type: Api
           Properties:
