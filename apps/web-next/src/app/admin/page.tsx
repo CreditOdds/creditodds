@@ -609,7 +609,7 @@ function ReferralsTab({
 }
 
 // ============ SUBMIT RECORD TAB ============
-const CDN_URL = 'https://d2hxvzw7msbtvt.cloudfront.net/cards.json';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
 function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<string | null>; onSuccess: () => void }) {
   const [cards, setCards] = useState<Card[]>([]);
@@ -636,7 +636,7 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch(CDN_URL)
+    fetch(`${API_BASE}/cards`)
       .then(res => res.json())
       .then((data: Card[]) => {
         const active = data.filter(c => c.accepting_applications !== false);
