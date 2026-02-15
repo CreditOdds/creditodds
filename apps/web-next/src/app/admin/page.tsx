@@ -12,11 +12,14 @@ import {
   deleteAdminRecord,
   deleteAdminReferral,
   updateReferralApproval,
+  createAdminRecord,
   AdminStats,
   AdminRecord,
   AdminReferral,
-  AuditLogEntry
+  AuditLogEntry,
+  Card
 } from "@/lib/api";
+import { NumericFormat } from "react-number-format";
 import {
   CheckIcon,
   XMarkIcon,
@@ -25,13 +28,14 @@ import {
   DocumentTextIcon,
   LinkIcon,
   ClipboardDocumentListIcon,
-  PencilIcon
+  PencilIcon,
+  PlusCircleIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
 const ADMIN_USER_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
 
-type TabType = 'stats' | 'records' | 'referrals' | 'audit';
+type TabType = 'stats' | 'records' | 'referrals' | 'audit' | 'submit';
 
 export default function AdminPage() {
   const { authState, getToken } = useAuth();
@@ -210,6 +214,7 @@ export default function AdminPage() {
     { id: 'records' as TabType, name: 'Records', icon: DocumentTextIcon, count: recordsTotal },
     { id: 'referrals' as TabType, name: 'Referrals', icon: LinkIcon, count: referralsTotal, badge: stats?.pending_referrals },
     { id: 'audit' as TabType, name: 'Audit Log', icon: ClipboardDocumentListIcon },
+    { id: 'submit' as TabType, name: 'Submit Record', icon: PlusCircleIcon },
   ];
 
   return (
@@ -283,6 +288,7 @@ export default function AdminPage() {
           />
         )}
         {activeTab === 'audit' && <AuditTab logs={auditLogs} total={auditTotal} />}
+        {activeTab === 'submit' && <SubmitRecordTab getToken={getToken} onSuccess={loadData} />}
       </div>
     </div>
   );
@@ -602,6 +608,388 @@ function ReferralsTab({
   );
 }
 
+// ============ SUBMIT RECORD TAB ============
+const CDN_URL = 'https://d2hxvzw7msbtvt.cloudfront.net/cards.json';
+
+function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<string | null>; onSuccess: () => void }) {
+  const [cards, setCards] = useState<Card[]>([]);
+  const [cardSearch, setCardSearch] = useState('');
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [submitterName, setSubmitterName] = useState('');
+  const [creditScore, setCreditScore] = useState(700);
+  const [creditScoreSource, setCreditScoreSource] = useState(0);
+  const [income, setIncome] = useState(50000);
+  const [dateApplied, setDateApplied] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  });
+  const [lengthCredit, setLengthCredit] = useState(5);
+  const [bankCustomer, setBankCustomer] = useState(false);
+  const [inquiries3, setInquiries3] = useState(0);
+  const [inquiries12, setInquiries12] = useState(0);
+  const [inquiries24, setInquiries24] = useState(0);
+  const [result, setResult] = useState(true);
+  const [startingCreditLimit, setStartingCreditLimit] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    fetch(CDN_URL)
+      .then(res => res.json())
+      .then((data: Card[]) => {
+        const active = data.filter(c => c.accepting_applications !== false);
+        active.sort((a, b) => a.card_name.localeCompare(b.card_name));
+        setCards(active);
+      })
+      .catch(() => setErrorMessage('Failed to load cards'));
+  }, []);
+
+  const filteredCards = cardSearch.trim()
+    ? cards.filter(c =>
+        c.card_name.toLowerCase().includes(cardSearch.toLowerCase()) ||
+        c.bank.toLowerCase().includes(cardSearch.toLowerCase())
+      )
+    : cards;
+
+  const resetForm = () => {
+    setSelectedCard(null);
+    setCardSearch('');
+    setSubmitterName('');
+    setCreditScore(700);
+    setCreditScoreSource(0);
+    setIncome(50000);
+    const now = new Date();
+    setDateApplied(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`);
+    setLengthCredit(5);
+    setBankCustomer(false);
+    setInquiries3(0);
+    setInquiries12(0);
+    setInquiries24(0);
+    setResult(true);
+    setStartingCreditLimit(0);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedCard) {
+      setErrorMessage('Please select a card');
+      return;
+    }
+    if (!submitterName.trim()) {
+      setErrorMessage('Please enter a submitter name');
+      return;
+    }
+
+    setSubmitting(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      const token = await getToken();
+      if (!token) {
+        setErrorMessage('No auth token');
+        return;
+      }
+
+      const [year, month] = dateApplied.split('-');
+      const dateAppliedValue = new Date(parseInt(year), parseInt(month) - 1, 15);
+
+      await createAdminRecord({
+        card_id: selectedCard.db_card_id || selectedCard.card_id,
+        credit_score: creditScore,
+        credit_score_source: creditScoreSource,
+        result,
+        listed_income: income,
+        length_credit: lengthCredit,
+        starting_credit_limit: result ? startingCreditLimit : undefined,
+        date_applied: dateAppliedValue,
+        bank_customer: bankCustomer,
+        inquiries_3: inquiries3,
+        inquiries_12: inquiries12,
+        inquiries_24: inquiries24,
+        submitter_name: submitterName.trim(),
+      }, token);
+
+      setSuccessMessage(`Record submitted for ${selectedCard.card_name}`);
+      resetForm();
+      onSuccess();
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : 'Failed to submit record');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const creditScoreSources = ['FICO: *', 'FICO: Experian', 'FICO: TransUnion', 'FICO: Equifax', 'VantageScore'];
+
+  return (
+    <div className="bg-white shadow rounded-lg p-6 max-w-2xl">
+      <h3 className="text-lg font-medium text-gray-900 mb-6">Submit Record on Behalf of User</h3>
+
+      {successMessage && (
+        <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
+          <p className="text-green-700 text-sm">{successMessage}</p>
+        </div>
+      )}
+      {errorMessage && (
+        <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3">
+          <p className="text-red-700 text-sm">{errorMessage}</p>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Card Selector */}
+        <div className="relative">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Card</label>
+          {selectedCard ? (
+            <div className="flex items-center justify-between border border-gray-300 rounded-md px-3 py-2">
+              <div className="flex items-center gap-2">
+                {selectedCard.card_image_link && (
+                  <div className="flex-shrink-0 h-6 w-10 relative">
+                    <Image
+                      src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${selectedCard.card_image_link}`}
+                      alt={selectedCard.card_name}
+                      fill
+                      className="object-contain"
+                      sizes="40px"
+                    />
+                  </div>
+                )}
+                <span className="text-sm text-gray-900">{selectedCard.card_name}</span>
+                <span className="text-xs text-gray-500">({selectedCard.bank})</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setSelectedCard(null); setCardSearch(''); }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <>
+              <input
+                type="text"
+                value={cardSearch}
+                onChange={(e) => { setCardSearch(e.target.value); setShowDropdown(true); }}
+                onFocus={() => setShowDropdown(true)}
+                placeholder="Search cards..."
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {showDropdown && filteredCards.length > 0 && (
+                <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                  {filteredCards.slice(0, 50).map((card) => (
+                    <li
+                      key={card.card_id}
+                      onClick={() => {
+                        setSelectedCard(card);
+                        setCardSearch(card.card_name);
+                        setShowDropdown(false);
+                      }}
+                      className="px-3 py-2 hover:bg-indigo-50 cursor-pointer text-sm flex items-center gap-2"
+                    >
+                      {card.card_image_link && (
+                        <div className="flex-shrink-0 h-5 w-8 relative">
+                          <Image
+                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
+                            alt={card.card_name}
+                            fill
+                            className="object-contain"
+                            sizes="32px"
+                          />
+                        </div>
+                      )}
+                      <span>{card.card_name}</span>
+                      <span className="text-gray-400 text-xs">({card.bank})</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Submitter Name */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Submitter Name</label>
+          <input
+            type="text"
+            value={submitterName}
+            onChange={(e) => setSubmitterName(e.target.value)}
+            placeholder="e.g. Reddit user, email, forum handle..."
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            required
+          />
+        </div>
+
+        {/* Credit Score + Source */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Credit Score</label>
+          <div className="flex">
+            <input
+              type="number"
+              value={creditScore}
+              onChange={(e) => setCreditScore(parseInt(e.target.value) || 300)}
+              min={300}
+              max={850}
+              className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              required
+            />
+            <select
+              value={creditScoreSource}
+              onChange={(e) => setCreditScoreSource(parseInt(e.target.value))}
+              className="border border-l-0 border-gray-300 rounded-r-md px-3 py-2 text-sm bg-gray-50 focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              {creditScoreSources.map((src, i) => (
+                <option key={i} value={i}>{src}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Income */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Annual Income</label>
+          <NumericFormat
+            value={income}
+            onValueChange={(values) => setIncome(values.floatValue || 0)}
+            thousandSeparator
+            prefix="$"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+          />
+        </div>
+
+        {/* Application Date */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Application Date</label>
+          <input
+            type="month"
+            value={dateApplied}
+            onChange={(e) => setDateApplied(e.target.value)}
+            min="2019-01"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            required
+          />
+        </div>
+
+        {/* Age of Oldest Account */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Age of Oldest Account (Years)</label>
+          <input
+            type="number"
+            value={lengthCredit}
+            onChange={(e) => setLengthCredit(parseInt(e.target.value) || 0)}
+            min={0}
+            max={100}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            required
+          />
+        </div>
+
+        {/* Bank Customer */}
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium text-gray-700">
+            Existing bank customer?
+          </label>
+          <button
+            type="button"
+            onClick={() => setBankCustomer(!bankCustomer)}
+            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${bankCustomer ? 'bg-indigo-600' : 'bg-gray-200'}`}
+          >
+            <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${bankCustomer ? 'translate-x-5' : 'translate-x-0'}`} />
+          </button>
+        </div>
+
+        {/* Inquiries */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Hard Inquiries</label>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">Last 3 months</label>
+              <input
+                type="number"
+                value={inquiries3}
+                onChange={(e) => setInquiries3(parseInt(e.target.value) || 0)}
+                min={0}
+                max={50}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">Last 12 months</label>
+              <input
+                type="number"
+                value={inquiries12}
+                onChange={(e) => setInquiries12(parseInt(e.target.value) || 0)}
+                min={0}
+                max={50}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">Last 24 months</label>
+              <input
+                type="number"
+                value={inquiries24}
+                onChange={(e) => setInquiries24(parseInt(e.target.value) || 0)}
+                min={0}
+                max={50}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Result */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Result</label>
+          <div className="flex rounded-md overflow-hidden border border-gray-300">
+            <button
+              type="button"
+              onClick={() => setResult(true)}
+              className={`flex-1 py-2 text-sm font-medium ${result ? 'bg-green-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            >
+              Approved
+            </button>
+            <button
+              type="button"
+              onClick={() => setResult(false)}
+              className={`flex-1 py-2 text-sm font-medium ${!result ? 'bg-red-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            >
+              Denied
+            </button>
+          </div>
+        </div>
+
+        {/* Starting Credit Limit (if approved) */}
+        {result && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Starting Credit Limit</label>
+            <NumericFormat
+              value={startingCreditLimit}
+              onValueChange={(values) => setStartingCreditLimit(values.floatValue || 0)}
+              thousandSeparator
+              prefix="$"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+        )}
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={submitting || !selectedCard}
+          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {submitting ? 'Submitting...' : 'Submit Record'}
+        </button>
+      </form>
+    </div>
+  );
+}
+
 // ============ AUDIT TAB ============
 function AuditTab({ logs, total }: { logs: AuditLogEntry[]; total: number }) {
   return (
@@ -632,6 +1020,7 @@ function AuditTab({ logs, total }: { logs: AuditLogEntry[]; total: number }) {
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                       log.action === 'DELETE' ? 'bg-red-100 text-red-800' :
                       log.action === 'APPROVE' ? 'bg-green-100 text-green-800' :
+                      log.action === 'ADMIN_CREATE' ? 'bg-blue-100 text-blue-800' :
                       'bg-gray-100 text-gray-800'
                     }`}>
                       {log.action}

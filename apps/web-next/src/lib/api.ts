@@ -396,6 +396,25 @@ export async function getAdminRecords(
   return res.json();
 }
 
+export async function createAdminRecord(
+  data: unknown,
+  token: string
+): Promise<{ message: string; record_id: number }> {
+  const res = await fetch(`${API_BASE}/admin/records`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to create record: ${errorText}`);
+  }
+  return res.json();
+}
+
 export async function deleteAdminRecord(
   recordId: number,
   token: string
