@@ -280,15 +280,18 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">
                       Annual Fee
                     </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">
+                      Approval Rate
+                    </th>
                     <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900 hidden sm:table-cell">
-                      Status
+                      Reward Type
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {filteredCards.length === 0 ? (
                     <tr>
-                      <td colSpan={3} className="py-12 text-center">
+                      <td colSpan={4} className="py-12 text-center">
                         <div className="text-gray-500">
                           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -350,15 +353,34 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
                           {card.annual_fee !== undefined ? (card.annual_fee === 0 ? '$0' : `$${card.annual_fee}`) : '—'}
                         </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm hidden sm:table-cell">
+                          {(() => {
+                            const total = (card.approved_count || 0) + (card.rejected_count || 0);
+                            if (total === 0) return <span className="text-gray-400">—</span>;
+                            const rate = Math.round(((card.approved_count || 0) / total) * 100);
+                            return (
+                              <div>
+                                <span className={rate >= 50 ? 'text-green-700 font-medium' : 'text-red-700 font-medium'}>{rate}%</span>
+                                <span className="text-gray-400 text-xs ml-1">({total})</span>
+                              </div>
+                            );
+                          })()}
+                        </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-right hidden sm:table-cell">
-                          {card.accepting_applications ? (
-                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                              Active
+                          {card.reward_type ? (
+                            <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                              card.reward_type === 'cashback' ? 'bg-green-100 text-green-800' :
+                              card.reward_type === 'points' ? 'bg-indigo-100 text-indigo-800' :
+                              card.reward_type === 'miles' ? 'bg-blue-100 text-blue-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {card.reward_type === 'cashback' ? 'Cash Back' :
+                               card.reward_type === 'points' ? 'Points' :
+                               card.reward_type === 'miles' ? 'Miles' :
+                               card.reward_type}
                             </span>
                           ) : (
-                            <span className="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold leading-5 text-gray-800">
-                              Archived
-                            </span>
+                            <span className="text-gray-400">—</span>
                           )}
                         </td>
                       </tr>
