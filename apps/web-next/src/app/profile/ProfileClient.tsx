@@ -102,7 +102,9 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   // Use prefetched data as initial state
   const [allCards] = useState<Card[]>(initialCards);
   const [newsItems] = useState<NewsItem[]>(initialNews);
-  const [loading, setLoading] = useState(true);
+  const [walletLoaded, setWalletLoaded] = useState(false);
+  const [recordsLoaded, setRecordsLoaded] = useState(false);
+  const [referralsLoaded, setReferralsLoaded] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
@@ -241,6 +243,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
         console.error("Records error:", recordsResult.reason);
         setRecords([]);
       }
+      setRecordsLoaded(true);
 
       // Process referrals - API returns [submitted, open] - two arrays
       if (referralsResult.status === 'fulfilled') {
@@ -257,6 +260,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
         setReferrals([]);
         setOpenReferrals([]);
       }
+      setReferralsLoaded(true);
 
       // Process profile
       if (profileResult.status === 'fulfilled') {
@@ -272,10 +276,13 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
         console.error("Wallet error:", walletResult.reason);
         setWalletCards([]);
       }
+      setWalletLoaded(true);
     } catch (error) {
       console.error("Error loading profile data:", error);
-    } finally {
-      setLoading(false);
+      // Ensure we still unblock the page on error
+      setWalletLoaded(true);
+      setRecordsLoaded(true);
+      setReferralsLoaded(true);
     }
   };
 
@@ -366,7 +373,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
     }
   };
 
-  if (authState.isLoading || loading) {
+  if (authState.isLoading || !walletLoaded) {
     return <ProfileSkeleton />;
   }
 
@@ -631,6 +638,13 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
 
         {/* Records Tab */}
         {activeTab === 'records' && (
+          !recordsLoaded ? (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+            </div>
+          </div>
+          ) : (
           <div className="bg-white shadow rounded-lg overflow-hidden">
             <div className="px-4 py-5 sm:px-6">
               <h2 className="text-lg font-semibold text-gray-900">Your Records</h2>
@@ -797,10 +811,18 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
             )}
           </div>
           </div>
+          )
         )}
 
         {/* Referrals Tab */}
         {activeTab === 'referrals' && (
+          !referralsLoaded ? (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+            </div>
+          </div>
+          ) : (
           <div className="bg-white shadow rounded-lg overflow-hidden">
             <div className="px-4 py-5 sm:px-6">
               <h2 className="text-lg font-semibold text-gray-900">Your Referrals</h2>
@@ -970,6 +992,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
             )}
             </div>
           </div>
+          )
         )}
 
         {/* Advanced Tab */}
