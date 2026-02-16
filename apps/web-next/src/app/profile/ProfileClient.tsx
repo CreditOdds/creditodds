@@ -28,6 +28,11 @@ const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWallet
   loading: () => null,
 });
 
+const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), {
+  ssr: false,
+  loading: () => null,
+});
+
 const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), {
   ssr: false,
   loading: () => null,
@@ -521,6 +526,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
           <div className="col-span-1 lg:col-span-2">
         {/* Tab Content */}
         {activeTab === 'wallet' && (
+          <>
           <div className="bg-white shadow rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">My Cards</h2>
@@ -601,11 +607,6 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
                     </div>
                     <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
                     <p className="text-xs text-gray-500">{card.bank}</p>
-                    {formatAcquiredDate(card.acquired_month, card.acquired_year) && (
-                      <p className="text-xs text-gray-400 mt-1">
-                        Since {formatAcquiredDate(card.acquired_month, card.acquired_year)}
-                      </p>
-                    )}
                   </button>
                 );
               })}
@@ -624,6 +625,8 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
             </div>
           )}
           </div>
+          <BestCardByCategory walletCards={walletCards} allCards={allCards} />
+          </>
         )}
 
         {/* Records Tab */}
