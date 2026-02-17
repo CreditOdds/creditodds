@@ -6,8 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
-import { NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
+import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, Cog6ToothIcon, ChartBarIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
@@ -86,12 +86,7 @@ interface Profile {
   referrals_count: number;
 }
 
-interface ProfileClientProps {
-  initialCards: Card[];
-  initialNews: NewsItem[];
-}
-
-export default function ProfileClient({ initialCards, initialNews }: ProfileClientProps) {
+export default function ProfileClient() {
   const { authState, getToken, logout } = useAuth();
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -99,9 +94,8 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [openReferrals, setOpenReferrals] = useState<OpenReferral[]>([]);
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
-  // Use prefetched data as initial state
-  const [allCards] = useState<Card[]>(initialCards);
-  const [newsItems] = useState<NewsItem[]>(initialNews);
+  const [allCards, setAllCards] = useState<Card[]>([]);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [walletLoaded, setWalletLoaded] = useState(false);
   const [recordsLoaded, setRecordsLoaded] = useState(false);
   const [referralsLoaded, setReferralsLoaded] = useState(false);
@@ -208,6 +202,13 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
       news.card_slug && walletCardSlugs.has(news.card_slug)
     );
   }, [walletCards, newsItems, allCards]);
+
+  // Fetch public data client-side on mount — runs immediately, overlaps with Firebase auth
+  useEffect(() => {
+    Promise.all([getAllCards(), getNews()])
+      .then(([cards, news]) => { setAllCards(cards); setNewsItems(news); })
+      .catch(err => console.error("Error loading public data:", err));
+  }, []);
 
   useEffect(() => {
     if (!authState.isLoading && !authState.isAuthenticated) {
