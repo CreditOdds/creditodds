@@ -26,6 +26,76 @@ function TagBadge({ tag }: { tag: NewsTag }) {
   );
 }
 
+const CARD_IMG_CDN = 'https://d3ay3etzd1512y.cloudfront.net/card_images/';
+
+function CardStack({ item }: { item: NewsItem }) {
+  const slugs = item.card_slugs ?? [];
+  const names = item.card_names ?? [];
+  const images = item.card_image_links ?? [];
+
+  // Single card — simple link with image + name
+  if (slugs.length <= 1) {
+    return slugs[0] && names[0] ? (
+      <Link
+        href={`/card/${slugs[0]}`}
+        className="flex items-center text-sm text-indigo-600 hover:text-indigo-900 whitespace-nowrap"
+      >
+        {images[0] ? (
+          <Image
+            src={`${CARD_IMG_CDN}${images[0]}`}
+            alt={names[0]}
+            width={32}
+            height={20}
+            className="mr-1.5 rounded-sm object-contain"
+            sizes="40px"
+          />
+        ) : (
+          <CreditCardIcon className="h-4 w-4 mr-1" />
+        )}
+        {names[0]}
+      </Link>
+    ) : null;
+  }
+
+  // Multi-card — overlapping stack with hover tooltips
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex items-center">
+        <div className="flex -space-x-3">
+          {slugs.map((slug, i) => (
+            <Link
+              key={slug}
+              href={`/card/${slug}`}
+              className="relative group block rounded-sm hover:z-20 transition-transform hover:scale-110"
+              style={{ zIndex: slugs.length - i }}
+            >
+              {images[i] ? (
+                <Image
+                  src={`${CARD_IMG_CDN}${images[i]}`}
+                  alt={names[i] || slug}
+                  width={36}
+                  height={23}
+                  className="rounded-sm object-contain ring-1 ring-white"
+                  sizes="36px"
+                />
+              ) : (
+                <span className="flex items-center justify-center w-9 h-[23px] bg-gray-100 rounded-sm ring-1 ring-white">
+                  <CreditCardIcon className="h-3.5 w-3.5 text-gray-400" />
+                </span>
+              )}
+              {/* Tooltip */}
+              <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-30">
+                {names[i] || slug}
+              </span>
+            </Link>
+          ))}
+        </div>
+        <span className="ml-2 text-xs text-gray-500">{slugs.length} cards</span>
+      </div>
+    </div>
+  );
+}
+
 export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -50,7 +120,7 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
             <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Update
             </th>
-            <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+            <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell whitespace-nowrap" style={{ minWidth: '18rem' }}>
               Bank / Card
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
@@ -64,16 +134,34 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
               <td className="px-3 sm:px-6 py-3 sm:py-4">
                 <div className="flex items-start gap-2 sm:gap-3">
                   {item.card_image_link && (
-                    <Link href={`/card/${item.card_slug}`} className="flex-shrink-0 sm:hidden">
-                      <Image
-                        src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`}
-                        alt={item.card_name || ''}
-                        width={40}
-                        height={25}
-                        className="rounded-sm object-contain"
-                        sizes="40px"
-                      />
-                    </Link>
+                    <div className="flex-shrink-0 sm:hidden flex -space-x-2">
+                      {(item.card_image_links && item.card_image_links.length > 1
+                        ? item.card_image_links.slice(0, 3)
+                        : [item.card_image_link]
+                      ).map((img, i) => (
+                        <Link
+                          key={item.card_slugs?.[i] ?? i}
+                          href={`/card/${item.card_slugs?.[i] ?? item.card_slug}`}
+                          style={{ zIndex: (item.card_image_links?.length ?? 1) - i }}
+                        >
+                          <Image
+                            src={`${CARD_IMG_CDN}${img}`}
+                            alt={item.card_names?.[i] ?? item.card_name ?? ''}
+                            width={36}
+                            height={23}
+                            className="rounded-sm object-contain ring-1 ring-white"
+                            sizes="36px"
+                          />
+                        </Link>
+                      ))}
+                      {(item.card_image_links?.length ?? 0) > 3 && (
+                        <span className="flex items-center justify-center w-9 h-[23px] bg-gray-100 rounded-sm ring-1 ring-white text-[10px] text-gray-500 font-medium"
+                          style={{ zIndex: 0 }}
+                        >
+                          +{item.card_image_links!.length - 3}
+                        </span>
+                      )}
+                    </div>
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
@@ -97,7 +185,7 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
                   </div>
                 </div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+              <td className="px-6 py-4 hidden sm:table-cell">
                 <div className="flex flex-col gap-1">
                   {item.bank && (
                     <div className="flex items-center text-sm text-gray-600">
@@ -105,31 +193,7 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
                       {item.bank}
                     </div>
                   )}
-                  {item.card_slugs && item.card_names && item.card_slugs.length > 0 && (
-                    <div className="flex flex-col gap-0.5">
-                      {item.card_slugs.map((slug, i) => (
-                        <Link
-                          key={slug}
-                          href={`/card/${slug}`}
-                          className="flex items-center text-sm text-indigo-600 hover:text-indigo-900"
-                        >
-                          {item.card_image_links?.[i] ? (
-                            <Image
-                              src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_links[i]}`}
-                              alt={item.card_names![i]}
-                              width={32}
-                              height={20}
-                              className="mr-1.5 rounded-sm object-contain"
-                              sizes="40px"
-                            />
-                          ) : (
-                            <CreditCardIcon className="h-4 w-4 mr-1" />
-                          )}
-                          {item.card_names![i]}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                  <CardStack item={item} />
                 </div>
               </td>
               <td className="px-6 py-4 hidden md:table-cell">
