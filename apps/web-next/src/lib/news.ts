@@ -20,6 +20,9 @@ export interface NewsItem {
   card_slug?: string;
   card_name?: string;
   card_image_link?: string;
+  card_slugs?: string[];
+  card_names?: string[];
+  card_image_links?: string[];
   source?: string;
   source_url?: string;
 }

@@ -50,11 +50,26 @@
     "card_slug": {
       "type": "string",
       "pattern": "^[a-z0-9-]+$",
-      "description": "Related card slug for linking (optional)"
+      "description": "Related card slug for linking (optional, use card_slugs for multiple)"
     },
     "card_name": {
       "type": "string",
-      "description": "Related card display name (optional)"
+      "description": "Related card display name (optional, use card_names for multiple)"
+    },
+    "card_slugs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "description": "Related card slugs for linking multiple cards (optional)"
+    },
+    "card_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related card display names for multiple cards (optional)"
     },
     "source": {
       "type": "string",

@@ -70,7 +70,7 @@ export default async function CardPage({ params }: CardPageProps) {
     ]);
 
     // Filter news for this specific card
-    const cardNews = allNews.filter(news => news.card_slug === slug);
+    const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));
 
     return <CardClient card={card} graphData={graphData} news={cardNews} />;
   } catch {

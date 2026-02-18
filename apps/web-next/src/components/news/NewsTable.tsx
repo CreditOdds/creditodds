@@ -105,25 +105,30 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
                       {item.bank}
                     </div>
                   )}
-                  {item.card_slug && item.card_name && (
-                    <Link
-                      href={`/card/${item.card_slug}`}
-                      className="flex items-center text-sm text-indigo-600 hover:text-indigo-900"
-                    >
-                      {item.card_image_link ? (
-                        <Image
-                          src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`}
-                          alt={item.card_name}
-                          width={32}
-                          height={20}
-                          className="mr-1.5 rounded-sm object-contain"
-                          sizes="40px"
-                        />
-                      ) : (
-                        <CreditCardIcon className="h-4 w-4 mr-1" />
-                      )}
-                      {item.card_name}
-                    </Link>
+                  {item.card_slugs && item.card_names && item.card_slugs.length > 0 && (
+                    <div className="flex flex-col gap-0.5">
+                      {item.card_slugs.map((slug, i) => (
+                        <Link
+                          key={slug}
+                          href={`/card/${slug}`}
+                          className="flex items-center text-sm text-indigo-600 hover:text-indigo-900"
+                        >
+                          {item.card_image_links?.[i] ? (
+                            <Image
+                              src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_links[i]}`}
+                              alt={item.card_names![i]}
+                              width={32}
+                              height={20}
+                              className="mr-1.5 rounded-sm object-contain"
+                              sizes="40px"
+                            />
+                          ) : (
+                            <CreditCardIcon className="h-4 w-4 mr-1" />
+                          )}
+                          {item.card_names![i]}
+                        </Link>
+                      ))}
+                    </div>
                   )}
                 </div>
               </td>

@@ -78,6 +78,27 @@ function validateNewsItem(item, schema) {
     errors.push(`Invalid card_slug format: ${item.card_slug} (must be lowercase with hyphens only)`);
   }
 
+  // Error if both singular and plural card fields are set
+  if (item.card_slug && item.card_slugs) {
+    errors.push('Cannot set both card_slug and card_slugs — use one or the other');
+  }
+
+  // Validate card_slugs items if present
+  if (item.card_slugs) {
+    if (!Array.isArray(item.card_slugs)) {
+      errors.push('card_slugs must be an array');
+    } else {
+      for (const slug of item.card_slugs) {
+        if (!/^[a-z0-9-]+$/.test(slug)) {
+          errors.push(`Invalid card_slugs item: ${slug} (must be lowercase with hyphens only)`);
+        }
+      }
+      if (item.card_names && item.card_names.length !== item.card_slugs.length) {
+        errors.push('card_slugs and card_names must have the same length');
+      }
+    }
+  }
+
   return errors;
 }
 
@@ -110,9 +131,30 @@ function buildNews() {
         continue;
       }
 
-      // Add card_image_link if card_slug matches a card
-      if (item.card_slug && cardsLookup[item.card_slug]) {
-        item.card_image_link = cardsLookup[item.card_slug].image;
+      // Normalize singular card fields into arrays
+      if (item.card_slugs) {
+        // Multi-card: use arrays as-is, set singular to first element for backward compat
+        item.card_slug = item.card_slugs[0];
+        if (item.card_names) {
+          item.card_name = item.card_names[0];
+        }
+      } else if (item.card_slug) {
+        // Single card: wrap in arrays
+        item.card_slugs = [item.card_slug];
+        if (item.card_name) {
+          item.card_names = [item.card_name];
+        }
+      }
+
+      // Build card_image_links array and set singular for backward compat
+      if (item.card_slugs) {
+        item.card_image_links = item.card_slugs.map(slug => {
+          const card = cardsLookup[slug];
+          return card ? card.image : null;
+        }).filter(Boolean);
+        if (item.card_image_links.length > 0) {
+          item.card_image_link = item.card_image_links[0];
+        }
       }
 
       newsItems.push(item);

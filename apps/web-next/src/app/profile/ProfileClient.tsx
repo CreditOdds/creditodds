@@ -203,7 +203,7 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
 
     // Only show news for specific cards the user owns
     return newsItems.filter(news =>
-      news.card_slug && walletCardSlugs.has(news.card_slug)
+      news.card_slugs?.some(s => walletCardSlugs.has(s))
     );
   }, [walletCards, newsItems, allCards]);
 
@@ -1087,13 +1087,20 @@ export default function ProfileClient({ initialCards, initialNews }: ProfileClie
                       {news.summary && (
                         <p className="mt-1 text-xs text-gray-500 line-clamp-3">{news.summary}</p>
                       )}
-                      {news.card_slug && news.card_name && (
-                        <Link
-                          href={`/card/${news.card_slug}`}
-                          className="mt-1 inline-block text-xs text-indigo-600 hover:text-indigo-900"
-                        >
-                          {news.card_name}
-                        </Link>
+                      {news.card_slugs && news.card_names && news.card_slugs.length > 0 && (
+                        <div className="mt-1 text-xs">
+                          {news.card_slugs.map((s, i) => (
+                            <span key={s}>
+                              {i > 0 && <span className="text-gray-400">, </span>}
+                              <Link
+                                href={`/card/${s}`}
+                                className="text-indigo-600 hover:text-indigo-900"
+                              >
+                                {news.card_names![i]}
+                              </Link>
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </li>
                   ))}
