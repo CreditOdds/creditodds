@@ -25,6 +25,7 @@ export interface NewsItem {
   card_image_links?: string[];
   source?: string;
   source_url?: string;
+  body?: string;
 }
 
 export interface NewsResponse {
@@ -59,6 +60,11 @@ const NEWS_CDN_URL = 'https://d2hxvzw7msbtvt.cloudfront.net/news.json';
 
 // Check if running in the browser
 const isBrowser = typeof window !== 'undefined';
+
+export async function getNewsItem(id: string): Promise<NewsItem | null> {
+  const items = await getNews();
+  return items.find(item => item.id === id) || null;
+}
 
 export async function getNews(): Promise<NewsItem[]> {
   try {

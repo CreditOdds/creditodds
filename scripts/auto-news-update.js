@@ -348,7 +348,94 @@ function validateNewsItem(item) {
 }
 
 /**
- * Write news item to YAML file
+ * Generate a full article body for a news item using Claude Sonnet
+ */
+async function generateNewsBody(newsItem, searchResults) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return null;
+
+  // Filter search results to ones relevant to this news item
+  const titleWords = newsItem.title.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+  const relevantResults = searchResults.filter(r => {
+    const text = `${r.title} ${r.description || ''}`.toLowerCase();
+    const matchCount = titleWords.filter(w => text.includes(w)).length;
+    return matchCount >= 2;
+  }).slice(0, 5);
+
+  const sourcesContext = relevantResults.map((r, i) =>
+    `[${i + 1}] ${r.title}\nURL: ${r.url}\nDescription: ${r.description || 'N/A'}\n`
+  ).join('\n');
+
+  const prompt = `Write a full news article body for the following credit card news item.
+
+## News Item
+Title: ${newsItem.title}
+Summary: ${newsItem.summary}
+Date: ${newsItem.date}
+Bank: ${newsItem.bank || 'N/A'}
+Card: ${newsItem.card_name || 'N/A'}
+Tags: ${(newsItem.tags || []).join(', ')}
+
+## Source Articles for Reference
+${sourcesContext || 'No additional sources available.'}
+
+## Instructions
+- Write 500-1500 words in markdown format
+- Use a factual, informative tone — like a financial news outlet
+- Structure with clear ## headings
+- Include a "## What This Means for Cardholders" section near the end
+- Include specific details: numbers, dates, requirements where known
+- Do NOT include a title heading (the page already has one)
+- Do NOT include images or image references
+- Do NOT make up facts — only use information from the summary and sources above
+- Use **bold** for key terms and numbers`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4096,
+        messages: [
+          { role: 'user', content: prompt }
+        ],
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.warn(`  Warning: Body generation API error: ${response.status} - ${errorText}`);
+      return null;
+    }
+
+    const data = await response.json();
+    const body = data.content[0]?.text || '';
+
+    if (body.length < 100) {
+      console.warn('  Warning: Generated body too short, skipping');
+      return null;
+    }
+
+    if (body.length > 15000) {
+      console.warn('  Warning: Generated body too long, truncating');
+      return body.substring(0, 15000);
+    }
+
+    return body;
+  } catch (err) {
+    console.warn(`  Warning: Body generation failed: ${err.message}`);
+    return null;
+  }
+}
+
+/**
+ * Write news item to YAML file.
+ * Uses manual YAML construction for the body field to use literal block scalar (|).
  */
 function writeNewsFile(item) {
   const filename = `${item.date}-${item.id.replace(`${item.date}-`, '')}.yaml`;
@@ -360,13 +447,23 @@ function writeNewsFile(item) {
     return null;
   }
 
-  const yamlContent = yaml.dump(item, {
+  // Separate body from other fields for special YAML handling
+  const { body, ...rest } = item;
+
+  const yamlContent = yaml.dump(rest, {
     quotingType: '"',
     forceQuotes: true,
     lineWidth: -1,
   });
 
-  fs.writeFileSync(filepath, yamlContent);
+  // Append body using YAML literal block scalar (|) for multiline readability
+  let finalContent = yamlContent;
+  if (body) {
+    const indentedBody = body.split('\n').map(line => `  ${line}`).join('\n');
+    finalContent += `body: |\n${indentedBody}\n`;
+  }
+
+  fs.writeFileSync(filepath, finalContent);
   console.log(`  Created ${filename}`);
   return filename;
 }
@@ -482,6 +579,16 @@ async function main() {
     if (isDuplicateTitle) {
       console.log(`  Skipping "${item.id}": Similar news already posted this month`);
       continue;
+    }
+
+    // Generate full article body (non-fatal if it fails)
+    console.log(`  Generating article body for "${item.id}"...`);
+    const body = await generateNewsBody(item, allResults);
+    if (body) {
+      item.body = body;
+      console.log(`  Body generated (${body.length} chars)`);
+    } else {
+      console.log(`  No body generated — item will have summary only`);
     }
 
     const filename = writeNewsFile(item);

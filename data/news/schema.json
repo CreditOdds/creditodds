@@ -79,6 +79,11 @@
       "type": "string",
       "format": "uri",
       "description": "Source URL (optional)"
+    },
+    "body": {
+      "type": "string",
+      "maxLength": 15000,
+      "description": "Full article body in markdown (optional)"
     }
   }
 }

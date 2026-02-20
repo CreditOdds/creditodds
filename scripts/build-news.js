@@ -73,6 +73,15 @@ function validateNewsItem(item, schema) {
     }
   }
 
+  // Validate body if present
+  if (item.body !== undefined) {
+    if (typeof item.body !== 'string') {
+      errors.push('body must be a string');
+    } else if (item.body.length > 15000) {
+      errors.push(`body is too long (${item.body.length} chars, max 15000)`);
+    }
+  }
+
   // Validate card_slug pattern if present
   if (item.card_slug && !/^[a-z0-9-]+$/.test(item.card_slug)) {
     errors.push(`Invalid card_slug format: ${item.card_slug} (must be lowercase with hyphens only)`);

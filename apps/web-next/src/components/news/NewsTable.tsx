@@ -171,7 +171,13 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
                       )}
                     </div>
                     <div className="text-sm font-medium text-gray-900">
-                      {item.title}
+                      {item.body ? (
+                        <Link href={`/news/${item.id}`} className="hover:text-indigo-600 transition-colors">
+                          {item.title}
+                        </Link>
+                      ) : (
+                        item.title
+                      )}
                     </div>
                     <ExpandableText
                       text={item.summary}

@@ -519,7 +519,15 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                       </span>
                     ))}
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{item.title}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    {item.body ? (
+                      <Link href={`/news/${item.id}`} className="hover:text-indigo-600 transition-colors">
+                        {item.title}
+                      </Link>
+                    ) : (
+                      item.title
+                    )}
+                  </h3>
                   <p className="text-gray-600">{item.summary}</p>
                   {item.source_url && (
                     <a

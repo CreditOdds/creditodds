@@ -134,7 +134,15 @@ export default async function BankPage({ params }: BankPageProps) {
                           </span>
                         ))}
                       </div>
-                      <p className="text-sm font-medium text-gray-900 line-clamp-2">{news.title}</p>
+                      <p className="text-sm font-medium text-gray-900 line-clamp-2">
+                        {news.body ? (
+                          <Link href={`/news/${news.id}`} className="hover:text-indigo-600 transition-colors">
+                            {news.title}
+                          </Link>
+                        ) : (
+                          news.title
+                        )}
+                      </p>
                       {news.card_slugs && news.card_names && news.card_slugs.length > 0 && (
                         <div className="mt-1 text-xs">
                           {news.card_slugs.map((s, i) => (
