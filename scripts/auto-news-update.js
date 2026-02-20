@@ -240,7 +240,7 @@ source_url: "https://example.com/article"
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-3-5-haiku-20241022',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 4096,
       messages: [
         { role: 'user', content: prompt }
@@ -402,8 +402,8 @@ async function main() {
         }
       }
 
-      // Rate limit between requests
-      await new Promise(resolve => setTimeout(resolve, 200));
+      // Rate limit between requests (Brave free tier allows ~1 req/sec)
+      await new Promise(resolve => setTimeout(resolve, 1200));
     } catch (err) {
       console.warn(`  Warning: Search failed for "${query}": ${err.message}`);
     }
