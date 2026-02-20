@@ -44,6 +44,7 @@ export function WebsiteSchema({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name,
+    alternateName: 'Credit Odds',
     url,
     potentialAction: {
       '@type': 'SearchAction',
