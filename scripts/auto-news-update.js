@@ -44,13 +44,25 @@ const MAJOR_BANKS = [
 ];
 
 /**
- * Load existing news to avoid duplicates
+ * Load existing news from YAML files to avoid duplicates.
+ * Reads directly from data/news/ since news.json is gitignored and not available in CI.
  */
 function loadExistingNews() {
   try {
-    const content = fs.readFileSync(NEWS_JSON, 'utf8');
-    const data = JSON.parse(content);
-    return data.items || [];
+    const files = fs.readdirSync(NEWS_DIR).filter(f => f.endsWith('.yaml'));
+    const items = [];
+    for (const file of files) {
+      try {
+        const content = fs.readFileSync(path.join(NEWS_DIR, file), 'utf8');
+        const parsed = yaml.load(content);
+        if (parsed && parsed.id) {
+          items.push(parsed);
+        }
+      } catch (err) {
+        console.warn(`Warning: Could not parse ${file}: ${err.message}`);
+      }
+    }
+    return items;
   } catch (err) {
     console.warn('Warning: Could not load existing news:', err.message);
     return [];
@@ -296,12 +308,19 @@ function validateNewsItem(item) {
   if (!item.date || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
     errors.push('Invalid or missing date');
   } else {
-    // Reject future dates - date should be when news was published
     const itemDate = new Date(item.date);
     const today = new Date();
     today.setHours(23, 59, 59, 999);
+    // Reject future dates
     if (itemDate > today) {
       errors.push('Date cannot be in the future (use publication date, not effective date)');
+    }
+    // Reject articles older than 14 days
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 14);
+    cutoff.setHours(0, 0, 0, 0);
+    if (itemDate < cutoff) {
+      errors.push(`Date ${item.date} is older than 14 days`);
     }
   }
   if (!item.title || item.title.length > 200) {
