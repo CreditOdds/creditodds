@@ -133,6 +133,32 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
             <tr key={item.id} className="hover:bg-gray-50">
               <td className="px-3 sm:px-6 py-3 sm:py-4">
                 <div className="flex items-start gap-2 sm:gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+                      <span>{formatDate(item.date)}</span>
+                      {item.bank && (
+                        <span className="sm:hidden text-gray-400">· {item.bank}</span>
+                      )}
+                    </div>
+                    <div className="text-sm font-medium text-gray-900">
+                      {item.body ? (
+                        <Link href={`/news/${item.id}`} className="hover:text-indigo-600 transition-colors">
+                          {item.title}
+                        </Link>
+                      ) : (
+                        item.title
+                      )}
+                    </div>
+                    <ExpandableText
+                      text={item.summary}
+                      className="text-sm text-gray-500 mt-1"
+                    />
+                    <div className="flex flex-wrap gap-1 mt-2 md:hidden">
+                      {item.tags.map((tag) => (
+                        <TagBadge key={tag} tag={tag} />
+                      ))}
+                    </div>
+                  </div>
                   {item.card_image_link && (
                     <div className="flex-shrink-0 sm:hidden flex -space-x-2">
                       {(item.card_image_links && item.card_image_links.length > 1
@@ -163,32 +189,6 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
                       )}
                     </div>
                   )}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-                      <span>{formatDate(item.date)}</span>
-                      {item.bank && (
-                        <span className="sm:hidden text-gray-400">· {item.bank}</span>
-                      )}
-                    </div>
-                    <div className="text-sm font-medium text-gray-900">
-                      {item.body ? (
-                        <Link href={`/news/${item.id}`} className="hover:text-indigo-600 transition-colors">
-                          {item.title}
-                        </Link>
-                      ) : (
-                        item.title
-                      )}
-                    </div>
-                    <ExpandableText
-                      text={item.summary}
-                      className="text-sm text-gray-500 mt-1"
-                    />
-                    <div className="flex flex-wrap gap-1 mt-2 md:hidden">
-                      {item.tags.map((tag) => (
-                        <TagBadge key={tag} tag={tag} />
-                      ))}
-                    </div>
-                  </div>
                 </div>
               </td>
               <td className="px-6 py-4 hidden sm:table-cell">
