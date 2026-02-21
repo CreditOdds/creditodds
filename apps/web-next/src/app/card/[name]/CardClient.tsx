@@ -432,6 +432,7 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                       title="Credit Score vs Income"
                       yAxis="Income (USD)"
                       xAxis="Credit Score"
+                      yPrefix="$"
                       series={[
                         { name: "Accepted", color: "#71AC49", data: chartOne[0] || [] },
                         { name: "Rejected", color: "#e53936", data: chartOne[1] || [] },
@@ -447,6 +448,7 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                       title="Length of Credit vs Credit Score"
                       yAxis="Credit Score"
                       xAxis="Length of Credit (Year)"
+                      xSuffix=" yr"
                       series={[
                         { name: "Accepted", color: "#71AC49", data: chartTwo[0] || [] },
                         { name: "Rejected", color: "#e53936", data: chartTwo[1] || [] },
@@ -472,9 +474,11 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                   <div className="sm:px-6 py-5">
                     <ErrorBoundary fallback={<ChartErrorFallback />}>
                       <ScatterPlot
-                        title="Starting Credit Limit vs Income"
+                        title="Income vs Starting Credit Limit"
                         yAxis="Starting Credit Limit (USD)"
                         xAxis="Income (USD)"
+                        xPrefix="$"
+                        yPrefix="$"
                         series={[
                           { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree[0] || [] },
                         ]}
