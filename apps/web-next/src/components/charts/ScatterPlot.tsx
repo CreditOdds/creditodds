@@ -15,9 +15,13 @@ interface ScatterPlotProps {
   xAxis: string;
   yAxis: string;
   series: SeriesData[];
+  xPrefix?: string;
+  xSuffix?: string;
+  yPrefix?: string;
+  ySuffix?: string;
 }
 
-export default function ScatterPlot({ title, xAxis, yAxis, series }: ScatterPlotProps) {
+export default function ScatterPlot({ title, xAxis, yAxis, series, xPrefix = '', xSuffix = '', yPrefix = '', ySuffix = '' }: ScatterPlotProps) {
   useEffect(() => {
     Highcharts.setOptions({
       lang: {
@@ -40,6 +44,11 @@ export default function ScatterPlot({ title, xAxis, yAxis, series }: ScatterPlot
         enabled: true,
         text: xAxis,
       },
+      labels: {
+        formatter: function(this: { value: number }) {
+          return xPrefix + Highcharts.numberFormat(this.value, 0, '.', ',') + xSuffix;
+        },
+      },
       startOnTick: true,
       endOnTick: true,
       showLastLabel: true,
@@ -47,6 +56,11 @@ export default function ScatterPlot({ title, xAxis, yAxis, series }: ScatterPlot
     yAxis: {
       title: {
         text: yAxis,
+      },
+      labels: {
+        formatter: function(this: { value: number }) {
+          return yPrefix + Highcharts.numberFormat(this.value, 0, '.', ',') + ySuffix;
+        },
       },
     },
     legend: {
@@ -76,12 +90,12 @@ export default function ScatterPlot({ title, xAxis, yAxis, series }: ScatterPlot
         },
         tooltip: {
           headerFormat: "<b>{series.name}</b><br>",
-          pointFormat: "{point.x:,.0f}, {point.y:,.0f}",
+          pointFormat: `${xPrefix}{point.x:,.0f}${xSuffix}, ${yPrefix}{point.y:,.0f}${ySuffix}`,
         },
       },
     },
     series: series,
-  }), [title, xAxis, yAxis, series]);
+  }), [title, xAxis, yAxis, series, xPrefix, xSuffix, yPrefix, ySuffix]);
 
   return (
     <div>
