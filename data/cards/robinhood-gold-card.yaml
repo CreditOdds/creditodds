@@ -8,3 +8,8 @@ annual_fee: 0
 tags:
   - cashback
   - rewards
+reward_type: "cashback"
+rewards:
+  - category: everything_else
+    value: 3
+    unit: percent
