@@ -5,6 +5,7 @@ accepting_applications: true
 category: "business"
 image: "business-platinum.png"
 annual_fee: 895
+reward_type: "points"
 tags:
   - business
   - travel

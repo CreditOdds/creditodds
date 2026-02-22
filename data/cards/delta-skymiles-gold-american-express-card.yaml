@@ -4,6 +4,7 @@ slug: "delta-skymiles-gold-american-express-card"
 image: "amex_delta_skymiles_gold.png"
 accepting_applications: true
 annual_fee: 150
+reward_type: "miles"
 tags:
   - airline
   - travel

@@ -5,3 +5,4 @@ accepting_applications: true
 category: "business"
 image: "barclays-wyndham-earner-business.png"
 annual_fee: 95
+reward_type: "points"

@@ -4,6 +4,7 @@ slug: "hilton-honors-american-express-aspire-card"
 image: "amex_hilton_honors_aspire.png"
 accepting_applications: true
 annual_fee: 550
+reward_type: "points"
 tags:
   - hotel
   - travel

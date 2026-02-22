@@ -5,3 +5,4 @@ accepting_applications: true
 category: "travel"
 image: "barclays-jetblue.png"
 annual_fee: 0
+reward_type: "points"

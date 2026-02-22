@@ -4,6 +4,7 @@ slug: "hilton-honors-american-express-surpass-card"
 image: "amex_hilton_honors_surpass.png"
 accepting_applications: true
 annual_fee: 150
+reward_type: "points"
 tags:
   - hotel
   - travel

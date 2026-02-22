@@ -5,3 +5,4 @@ accepting_applications: true
 category: "travel"
 image: "barclays-hawaiian.png"
 annual_fee: 99
+reward_type: "miles"

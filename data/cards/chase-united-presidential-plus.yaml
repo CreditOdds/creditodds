@@ -5,6 +5,7 @@ image: "chase-united-presidential-plus.png"
 accepting_applications: false
 active: true
 annual_fee: 495
+reward_type: "miles"
 tags:
   - airline
   - travel

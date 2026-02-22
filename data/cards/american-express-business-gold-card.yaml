@@ -5,6 +5,7 @@ accepting_applications: true
 category: "business"
 image: "american-express-business-gold.png"
 annual_fee: 375
+reward_type: "points"
 tags:
   - business
   - rewards

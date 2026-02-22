@@ -5,3 +5,4 @@ image: "capital_one_quicksilverone.png"
 accepting_applications: true
 category: "cashback"
 annual_fee: 39
+reward_type: "cashback"

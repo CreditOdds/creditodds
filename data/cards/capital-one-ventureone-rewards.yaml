@@ -5,3 +5,4 @@ image: "capital_one_ventureone.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 0
+reward_type: "miles"

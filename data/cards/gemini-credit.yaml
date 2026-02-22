@@ -6,6 +6,7 @@ accepting_applications: true
 release_date: "2022-04-14"
 category: "rewards"
 annual_fee: 0
+reward_type: "cashback"
 tags:
   - rewards
   - crypto

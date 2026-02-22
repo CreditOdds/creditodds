@@ -6,4 +6,5 @@ accepting_applications: false
 active: false
 category: "rewards"
 annual_fee: 0
+reward_type: "points"
 release_date: "2022-06-01"

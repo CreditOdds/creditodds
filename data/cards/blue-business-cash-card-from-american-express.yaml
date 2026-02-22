@@ -4,6 +4,7 @@ slug: "blue-business-cash-card-from-american-express"
 accepting_applications: true
 category: "business"
 annual_fee: 0
+reward_type: "cashback"
 image: "blue-business-cash.png"
 tags:
   - business

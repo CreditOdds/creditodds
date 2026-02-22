@@ -5,4 +5,5 @@ image: "smartly-signature.png"
 accepting_applications: true
 category: "cashback"
 annual_fee: 0
+reward_type: "cashback"
 

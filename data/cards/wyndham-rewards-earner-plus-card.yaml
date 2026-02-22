@@ -5,3 +5,4 @@ accepting_applications: false
 category: "travel"
 image: "barclays-wyndham-earner-plus.png"
 annual_fee: 75
+reward_type: "points"

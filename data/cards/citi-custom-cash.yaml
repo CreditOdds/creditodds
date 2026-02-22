@@ -4,6 +4,7 @@ slug: "citi-custom-cash"
 image: "citi_custom_cash.png"
 accepting_applications: true
 annual_fee: 0
+reward_type: "cashback"
 tags:
   - cashback
   - rewards

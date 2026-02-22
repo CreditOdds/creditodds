@@ -4,6 +4,7 @@ slug: "discover-it-for-students-card"
 accepting_applications: true
 image: "discover-it-student-cash-back.png"
 annual_fee: 0
+reward_type: "cashback"
 tags:
   - student
   - cashback

@@ -5,6 +5,7 @@ accepting_applications: true
 category: "business"
 image: "blue-business-plus.png"
 annual_fee: 0
+reward_type: "points"
 tags:
   - business
   - rewards

@@ -5,6 +5,7 @@ accepting_applications: true
 image: "capital-one-savor-cash-rewards.png"
 category: "cashback"
 annual_fee: 95
+reward_type: "cashback"
 tags:
   - cashback
   - dining

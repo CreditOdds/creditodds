@@ -5,6 +5,7 @@ image: "chase_ink_business_cash.png"
 accepting_applications: true
 category: "business"
 annual_fee: 0
+reward_type: "cashback"
 tags:
   - business
   - cashback

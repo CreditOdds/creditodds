@@ -4,6 +4,7 @@ slug: "united-quest"
 image: "united_quest.png"
 accepting_applications: true
 annual_fee: 350
+reward_type: "miles"
 tags:
   - airline
   - travel

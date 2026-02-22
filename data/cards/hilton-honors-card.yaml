@@ -5,6 +5,7 @@ image: "amex_hilton_honors.png"
 accepting_applications: true
 card_referral_link: "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref="
 annual_fee: 0
+reward_type: "points"
 tags:
   - hotel
   - travel

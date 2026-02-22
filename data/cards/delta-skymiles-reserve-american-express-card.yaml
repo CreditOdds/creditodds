@@ -4,6 +4,7 @@ slug: "delta-skymiles-reserve-american-express-card"
 image: "amex_delta_skymiles_reserve.png"
 accepting_applications: true
 annual_fee: 650
+reward_type: "miles"
 tags:
   - airline
   - travel

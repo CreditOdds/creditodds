@@ -5,6 +5,7 @@ image: "chase-disney-inspire.png"
 accepting_applications: true
 category: "rewards"
 annual_fee: 149
+reward_type: "cashback"
 tags:
   - rewards
   - disney

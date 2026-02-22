@@ -5,3 +5,4 @@ image: "travelrewards.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 0
+reward_type: "points"

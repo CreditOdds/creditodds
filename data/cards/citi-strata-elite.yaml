@@ -5,3 +5,4 @@ accepting_applications: true
 category: "travel"
 image: "citi-strata-elite.png"
 annual_fee: 595
+reward_type: "points"
