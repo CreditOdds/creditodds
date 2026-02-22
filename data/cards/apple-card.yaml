@@ -4,5 +4,26 @@ slug: "apple-card"
 image: "apple_card.png"
 accepting_applications: true
 annual_fee: 0
+reward_type: cashback
+rewards:
+  - category: everything_else
+    value: 1
+    unit: percent
+  - category: online_shopping
+    value: 3
+    unit: percent
+    note: "Apple purchases"
+  - category: dining
+    value: 2
+    unit: percent
+    note: "Via Apple Pay"
+  - category: transit
+    value: 2
+    unit: percent
+    note: "Via Apple Pay"
+  - category: groceries
+    value: 2
+    unit: percent
+    note: "Via Apple Pay"
 tags:
   - cashback
