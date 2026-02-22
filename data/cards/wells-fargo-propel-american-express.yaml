@@ -4,3 +4,4 @@ slug: "wells-fargo-propel-american-express"
 image: "propel_card.png"
 accepting_applications: false
 annual_fee: 0
+reward_type: "points"

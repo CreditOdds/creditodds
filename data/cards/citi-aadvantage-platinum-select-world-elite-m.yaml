@@ -3,4 +3,5 @@ bank: "Citi"
 slug: "citi-aadvantage-platinum-select-world-elite-m"
 accepting_applications: true
 annual_fee: 99
+reward_type: "miles"
 image: "citi-aadvantage-platinum-select-world-elite.png"

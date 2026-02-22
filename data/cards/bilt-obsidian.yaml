@@ -4,6 +4,7 @@ slug: "bilt-obsidian"
 image: "bilt_obsidian.png"
 accepting_applications: true
 annual_fee: 95
+reward_type: "points"
 release_date: "2025-01-15"
 tags:
   - rewards

@@ -4,6 +4,7 @@ slug: "southwest-rapid-rewards-premier-credit-card"
 accepting_applications: true
 image: "chase-southwest-rapid-rewards-premier.png"
 annual_fee: 149
+reward_type: "points"
 tags:
   - airline
   - travel

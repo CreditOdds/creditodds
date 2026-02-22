@@ -5,3 +5,4 @@ accepting_applications: true
 image: "chase-world-of-hyatt-business.png"
 category: "business"
 annual_fee: 199
+reward_type: "points"

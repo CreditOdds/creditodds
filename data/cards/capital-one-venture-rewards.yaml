@@ -5,6 +5,7 @@ accepting_applications: true
 category: "travel"
 image: "capital-one-venture-rewards.png"
 annual_fee: 95
+reward_type: "miles"
 tags:
   - travel
   - rewards

@@ -4,4 +4,5 @@ slug: "us-bank-cash-plus-visa-signature"
 accepting_applications: true
 category: "cashback"
 annual_fee: 0
+reward_type: "cashback"
 image: "us-bank-cash-plus-signature.png"

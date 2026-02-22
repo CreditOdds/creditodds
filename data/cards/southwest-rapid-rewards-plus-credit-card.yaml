@@ -3,6 +3,7 @@ bank: "Chase"
 slug: "southwest-rapid-rewards-plus-credit-card"
 accepting_applications: true
 annual_fee: 99
+reward_type: "points"
 image: "chase-southwest-rapid-rewards-plus.png"
 tags:
   - airline

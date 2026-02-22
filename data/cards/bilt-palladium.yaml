@@ -4,6 +4,7 @@ slug: "bilt-palladium"
 image: "bilt_palladium.png"
 accepting_applications: true
 annual_fee: 495
+reward_type: "points"
 release_date: "2025-01-15"
 tags:
   - rewards

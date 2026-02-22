@@ -5,3 +5,4 @@ accepting_applications: true
 image: "wells-fargo-signify-business-cash.png"
 category: "business"
 annual_fee: 0
+reward_type: "cashback"

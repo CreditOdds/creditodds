@@ -5,3 +5,4 @@ accepting_applications: true
 image: "customized-cash-rewards.png"
 category: "cashback"
 annual_fee: 0
+reward_type: "cashback"

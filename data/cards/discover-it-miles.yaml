@@ -4,6 +4,7 @@ slug: "discover-it-miles"
 accepting_applications: true
 image: "discover-it-miles.png"
 annual_fee: 0
+reward_type: "cashback"
 tags:
   - travel
   - rewards

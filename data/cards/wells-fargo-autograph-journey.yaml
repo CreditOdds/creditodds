@@ -5,3 +5,4 @@ accepting_applications: true
 image: "wells-fargo-autograph-journey.png"
 category: "travel"
 annual_fee: 95
+reward_type: "points"

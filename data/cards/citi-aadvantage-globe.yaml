@@ -3,4 +3,5 @@ bank: "Citi"
 slug: "citi-aadvantage-globe"
 accepting_applications: true
 annual_fee: 350
+reward_type: "miles"
 image: "citi-aadvantage-globe.png"

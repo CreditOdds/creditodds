@@ -3,6 +3,7 @@ bank: "Chase"
 slug: "ihg-rewards-premier-business"
 accepting_applications: true
 annual_fee: 0
+reward_type: "points"
 image: "chase-ihg-one-rewards-premier-business.png"
 tags:
   - hotel

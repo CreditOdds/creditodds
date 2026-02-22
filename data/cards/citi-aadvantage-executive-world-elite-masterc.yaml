@@ -3,4 +3,5 @@ bank: "Citi"
 slug: "citi-aadvantage-executive-world-elite-masterc"
 accepting_applications: true
 annual_fee: 595
+reward_type: "miles"
 image: "citi-aadvantage-executive-world-elite.png"

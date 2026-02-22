@@ -5,3 +5,4 @@ accepting_applications: true
 image: "capital-one-savor-student.png"
 category: "student"
 annual_fee: 0
+reward_type: "cashback"

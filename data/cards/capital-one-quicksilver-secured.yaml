@@ -5,6 +5,7 @@ accepting_applications: true
 category: "secured"
 image: "capital-one-quicksilver-secured.png"
 annual_fee: 0
+reward_type: "cashback"
 tags:
   - secured
   - cashback

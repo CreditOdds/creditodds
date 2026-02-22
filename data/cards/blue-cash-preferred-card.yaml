@@ -4,6 +4,7 @@ slug: "blue-cash-preferred-card"
 image: "amex_blue_cash_preferred.png"
 accepting_applications: true
 annual_fee: 95
+reward_type: "cashback"
 tags:
   - cashback
   - shopping

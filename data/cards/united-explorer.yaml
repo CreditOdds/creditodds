@@ -4,6 +4,7 @@ slug: "united-explorer"
 image: "united_explorer.png"
 accepting_applications: true
 annual_fee: 150
+reward_type: "miles"
 tags:
   - airline
   - travel

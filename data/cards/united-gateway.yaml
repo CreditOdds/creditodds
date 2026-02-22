@@ -4,6 +4,7 @@ slug: "united-gateway"
 image: "united_gateway.png"
 accepting_applications: true
 annual_fee: 0
+reward_type: "miles"
 tags:
   - airline
   - travel

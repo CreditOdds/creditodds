@@ -5,3 +5,4 @@ image: "premium-rewards.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
+reward_type: "points"
