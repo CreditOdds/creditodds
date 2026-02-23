@@ -42,7 +42,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -n "$(git status --porcelain data/cards/)" ]; then
-            BRANCH="auto-card-update-$(date +%Y-%m-%d)"
+            BRANCH="auto-card-update-$(date +%Y-%m-%d-%H%M%S)"
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git checkout -b "$BRANCH"
