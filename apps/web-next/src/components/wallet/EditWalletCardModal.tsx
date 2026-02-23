@@ -144,6 +144,11 @@ export default function EditWalletCardModal({ show, card, cardSlug, onClose, onS
                 <div className="flex-1">
                   <div className="font-medium text-gray-900">{card.card_name}</div>
                   <div className="text-sm text-gray-500">{card.bank}</div>
+                  {(card.acquired_month || card.acquired_year) && (
+                    <div className="text-xs text-gray-400 mt-0.5">
+                      Since {card.acquired_month ? new Date(2000, card.acquired_month - 1).toLocaleString('default', { month: 'short' }) + ' ' : ''}{card.acquired_year || ''}
+                    </div>
+                  )}
                 </div>
               </div>
               {cardSlug && (

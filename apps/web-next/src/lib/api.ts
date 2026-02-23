@@ -14,6 +14,12 @@ export interface Reward {
   category: string;
   value: number;
   unit: string;
+  note?: string;
+  mode?: 'quarterly_rotating' | 'user_choice' | 'auto_top_spend';
+  eligible_categories?: string[];
+  choices?: number;
+  current_categories?: string[];
+  current_period?: string;
 }
 
 export interface SignupBonus {

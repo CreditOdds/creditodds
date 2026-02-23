@@ -6,3 +6,16 @@ category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
 image: "us-bank-cash-plus-signature.png"
+tags:
+  - cashback
+rewards:
+  - category: rotating
+    value: 5
+    unit: percent
+    mode: user_choice
+    choices: 2
+    eligible_categories: [gas, groceries, online_shopping, streaming, transit, home_improvement, entertainment]
+    note: "Choose 2 categories each quarter, up to $2,000 combined"
+  - category: everything_else
+    value: 1
+    unit: percent

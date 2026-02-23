@@ -8,3 +8,13 @@ reward_type: "cashback"
 tags:
   - cashback
   - rewards
+rewards:
+  - category: rotating
+    value: 5
+    unit: percent
+    mode: auto_top_spend
+    eligible_categories: [dining, gas, groceries, transit, travel, streaming, drugstores, home_improvement, entertainment]
+    note: "Automatically on your top eligible spend category each billing cycle, up to $500/month"
+  - category: everything_else
+    value: 1
+    unit: percent
