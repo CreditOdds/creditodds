@@ -131,7 +131,7 @@ async function publishToAyrshare(postText, url, ogImageUrl) {
 
   const body = {
     post: fullPost,
-    platforms: ['twitter', 'facebook', 'linkedin', 'instagram'],
+    platforms: ['twitter', 'facebook', 'linkedin'],
     mediaUrls: [ogImageUrl],
     shortenLinks: true,
   };
