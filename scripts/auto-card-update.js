@@ -53,9 +53,10 @@ function selectCardsForToday(allCards) {
     .sort((a, b) => a.slug.localeCompare(b.slug));
 
   const now = new Date();
+  const dayOffset = parseInt(process.env.DAY_OFFSET || '0', 10);
   const dayOfYear = Math.floor(
     (now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24)
-  );
+  ) + dayOffset;
 
   const selected = [];
 
