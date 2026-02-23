@@ -6,3 +6,7 @@ image: "wells-fargo-signify-business-cash.png"
 category: "business"
 annual_fee: 0
 reward_type: "cashback"
+rewards:
+  - category: "everything_else"
+    value: 2
+    unit: "percent"

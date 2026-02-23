@@ -6,3 +6,8 @@ image: "chase-world-of-hyatt-business.png"
 category: "business"
 annual_fee: 199
 reward_type: "points"
+signup_bonus:
+  value: 60000
+  type: "points"
+  spend_requirement: 5000
+  timeframe_months: 3
