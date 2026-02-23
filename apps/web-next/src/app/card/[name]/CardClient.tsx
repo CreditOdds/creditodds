@@ -10,6 +10,7 @@ import { ExclamationTriangleIcon, PencilSquareIcon, NewspaperIcon } from "@heroi
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, Reward, trackReferralEvent } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
+import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -63,9 +64,10 @@ interface CardClientProps {
   card: Card;
   graphData: GraphData[];
   news: NewsItem[];
+  articles: Article[];
 }
 
-export default function CardClient({ card, graphData, news }: CardClientProps) {
+export default function CardClient({ card, graphData, news, articles }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const { authState } = useAuth();
   const router = useRouter();
@@ -577,6 +579,48 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                     </a>
                   )}
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Related Articles Section */}
+      {articles.length > 0 && (
+        <div className="bg-white py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 mb-6">
+              <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
+              <h2 className="text-2xl font-bold text-gray-900">
+                Articles about {card.card_name}
+              </h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {articles.map((article) => (
+                <Link
+                  key={article.id}
+                  href={`/articles/${article.slug}`}
+                  className="block bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md hover:border-indigo-300 transition-all duration-200 p-5"
+                >
+                  <div className="flex flex-wrap gap-1.5 mb-2">
+                    {article.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${articleTagColors[tag]}`}
+                      >
+                        {articleTagLabels[tag]}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-2">{article.summary}</p>
+                  <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
+                    <span>{article.author}</span>
+                    <span>{article.reading_time} min read</span>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>

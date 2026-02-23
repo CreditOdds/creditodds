@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCard, getCardGraphs, getAllCards, GraphData } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
+import { getArticles, Article } from "@/lib/articles";
 import CardClient from "./CardClient";
 
 // Revalidate every 5 minutes for fresh data while enabling caching
@@ -62,17 +63,19 @@ export default async function CardPage({ params }: CardPageProps) {
   const { name: slug } = await params;
 
   try {
-    // Fetch card, graph data, and news in parallel for faster loading
-    const [card, graphData, allNews] = await Promise.all([
+    // Fetch card, graph data, news, and articles in parallel for faster loading
+    const [card, graphData, allNews, allArticles] = await Promise.all([
       getCard(slug),
       getCardGraphs(slug).catch(() => [] as GraphData[]), // Empty array for new cards with no data
       getNews().catch(() => [] as NewsItem[]),
+      getArticles().catch(() => [] as Article[]),
     ]);
 
-    // Filter news for this specific card
+    // Filter news and articles for this specific card
     const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));
+    const cardArticles = allArticles.filter(a => a.related_cards?.includes(slug));
 
-    return <CardClient card={card} graphData={graphData} news={cardNews} />;
+    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} />;
   } catch {
     notFound();
   }
