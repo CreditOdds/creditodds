@@ -39,6 +39,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
   const [submitting, setSubmitting] = useState(false);
   const [hasExistingRecord, setHasExistingRecord] = useState(false);
   const [checkingRecords, setCheckingRecords] = useState(true);
+  const [lastRecord, setLastRecord] = useState<{ credit_score?: number; listed_income?: number; length_credit?: number } | null>(null);
 
   // Get storage key for this card (#7)
   const storageKey = `${FORM_STORAGE_KEY}${card.card_id}`;
@@ -94,6 +95,19 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
           r.card_name === card.card_name.replace(/ Card$/, '')
         );
         setHasExistingRecord(!!existingRecord);
+
+        // Find most recent record to prepopulate fields
+        if (records.length > 0) {
+          const sorted = [...records].sort((a: { submit_datetime: string }, b: { submit_datetime: string }) =>
+            new Date(b.submit_datetime).getTime() - new Date(a.submit_datetime).getTime()
+          );
+          const latest = sorted[0] as { credit_score?: number; listed_income?: number; length_credit?: number };
+          setLastRecord({
+            credit_score: latest.credit_score,
+            listed_income: latest.listed_income,
+            length_credit: latest.length_credit,
+          });
+        }
       } catch (error) {
         console.error("Error checking existing records:", error);
         setHasExistingRecord(false);
@@ -105,13 +119,13 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
     checkExistingRecords();
   }, [show, card.card_name, getToken]);
 
-  // Default form values
+  // Default form values — no defaults for credit_score/income/length to avoid lazy submissions
   const defaultValues = {
-    credit_score: 700,
+    credit_score: lastRecord?.credit_score ?? ('' as number | ''),
     credit_score_source: "0",
-    listed_income: 50000,
+    listed_income: lastRecord?.listed_income ?? ('' as number | ''),
     date_applied: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
-    length_credit: 5,
+    length_credit: lastRecord?.length_credit ?? ('' as number | ''),
     bank_customer: false,
     result: true,
     starting_credit_limit: undefined as number | undefined,
@@ -297,6 +311,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                                 id="credit_score"
                                 name="credit_score"
                                 type="number"
+                                placeholder="300-850"
                                 className={
                                   formik.errors.credit_score && formik.touched.credit_score
                                     ? "block w-full pr-10 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
@@ -347,6 +362,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                               <NumericFormat
                                 thousandSeparator={true}
                                 id="listed_income"
+                                placeholder="Income on application"
                                 autoComplete="off"
                                 className={
                                   formik.errors.listed_income && formik.touched.listed_income
@@ -398,6 +414,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                                 name="length_credit"
                                 id="length_credit"
                                 type="number"
+                                placeholder="Years"
                                 className={
                                   formik.errors.length_credit && formik.touched.length_credit
                                     ? "block w-full pr-16 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
