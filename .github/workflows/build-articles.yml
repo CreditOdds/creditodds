@@ -1,11 +1,11 @@
-name: Build and Deploy News
+name: Build and Deploy Articles
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'data/news/**'
+      - 'data/articles/**'
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
@@ -31,8 +31,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build news.json
-        run: npm run build:news
+      - name: Build articles.json
+        run: npm run build:articles
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -40,12 +40,12 @@ jobs:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
           aws-region: us-east-2
 
-      - name: Upload news.json to S3
-        run: aws s3 cp data/news.json s3://${{ secrets.S3_BUCKET_NAME }}/news.json --content-type application/json --cache-control "max-age=300"
+      - name: Upload articles.json to S3
+        run: aws s3 cp data/articles.json s3://${{ secrets.S3_BUCKET_NAME }}/articles.json --content-type application/json --cache-control "max-age=300"
 
       - name: Invalidate CloudFront cache
         run: |
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/news.json"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/articles.json"
 
       - name: Wait for CloudFront invalidation
         run: |
@@ -63,21 +63,21 @@ jobs:
             echo "Skipping Amplify rebuild (no webhook URL configured)"
           fi
 
-      - name: Detect new news files
+      - name: Detect new article files
         id: new-files
         run: |
-          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- 'data/news/*.yaml' 'data/news/*.yml' 2>/dev/null || echo "")
+          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- 'data/articles/*.yaml' 'data/articles/*.yml' 2>/dev/null || echo "")
           echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
           if [ -n "$NEW_FILES" ]; then
-            echo "New news files detected:"
+            echo "New article files detected:"
             echo "$NEW_FILES"
           else
-            echo "No new news files detected"
+            echo "No new article files detected"
           fi
 
-      - name: Post new news to social media
+      - name: Post new articles to social media
         if: steps.new-files.outputs.files != ''
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           AYRSHARE_API_KEY: ${{ secrets.AYRSHARE_API_KEY }}
-        run: node scripts/post-social.js --type news --files ${{ steps.new-files.outputs.files }}
+        run: node scripts/post-social.js --type article --files ${{ steps.new-files.outputs.files }}
