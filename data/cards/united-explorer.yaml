@@ -6,6 +6,6 @@ accepting_applications: true
 annual_fee: 150
 reward_type: "miles"
 tags:
-  - airline
-  - travel
-  - rewards
+  - "airline"
+  - "travel"
+  - "rewards"
