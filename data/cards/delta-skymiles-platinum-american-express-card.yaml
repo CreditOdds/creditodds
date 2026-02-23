@@ -9,3 +9,27 @@ tags:
   - airline
   - travel
   - premium
+rewards:
+  - category: delta_purchases
+    value: 3
+    unit: points_per_dollar
+  - category: hotels
+    value: 3
+    unit: points_per_dollar
+    note: "Direct hotel purchases"
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: groceries
+    value: 2
+    unit: points_per_dollar
+    note: "U.S. supermarkets"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 100000
+  type: miles
+  spend_requirement: 6000
+  timeframe_months: 6
+  note: "80k after $4k spend + 20k after additional $2k spend"

@@ -9,3 +9,16 @@ tags:
   - airline
   - travel
   - premium
+rewards:
+  - category: delta_purchases
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 125000
+  type: miles
+  spend_requirement: 9000
+  timeframe_months: 6
+  note: "100k after $6k spend + 25k after additional $3k spend"
