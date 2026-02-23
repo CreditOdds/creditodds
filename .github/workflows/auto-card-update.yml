@@ -1,0 +1,59 @@
+name: Auto Card Update
+
+on:
+  schedule:
+    - cron: '0 15 * * *'  # Daily at 3 PM UTC / 10 AM EST
+  workflow_dispatch:       # Manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-card-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run auto card update
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+        run: node scripts/auto-card-update.js
+
+      - name: Create PR if changes found
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "$(git status --porcelain data/cards/)" ]; then
+            BRANCH="auto-card-update-$(date +%Y-%m-%d)"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git checkout -b "$BRANCH"
+            git add data/cards/
+            git commit -m "Auto card data update for $(date +%Y-%m-%d)"
+            git push -u origin "$BRANCH"
+
+            # Use generated summary if available, otherwise fallback
+            if [ -f .card-update-summary.md ]; then
+              gh pr create \
+                --title "Auto Card Update $(date +%Y-%m-%d)" \
+                --body-file .card-update-summary.md
+            else
+              gh pr create \
+                --title "Auto Card Update $(date +%Y-%m-%d)" \
+                --body "Auto card data update. Please review changes to card YAML files."
+            fi
+          else
+            echo "No card data changes found"
+          fi
