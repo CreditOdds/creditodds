@@ -223,11 +223,19 @@ If NO changes found for ANY card, return: []`;
 
   try {
     const results = JSON.parse(jsonStr);
-    // Filter to high-confidence changes only
+    // Filter to high-confidence changes where values actually differ
     return results
       .map((card) => ({
         ...card,
-        changes: card.changes.filter((c) => c.confidence === 'high'),
+        changes: card.changes.filter((c) => {
+          if (c.confidence !== 'high') return false;
+          // Skip no-op changes (old_value === new_value)
+          if (JSON.stringify(c.old_value) === JSON.stringify(c.new_value)) {
+            console.log(`  Skipping no-op change for "${card.card_name}": ${c.field} (${JSON.stringify(c.old_value)} unchanged)`);
+            return false;
+          }
+          return true;
+        }),
       }))
       .filter((card) => card.changes.length > 0);
   } catch (err) {
