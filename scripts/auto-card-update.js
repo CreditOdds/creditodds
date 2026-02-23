@@ -246,7 +246,47 @@ If NO changes found for ANY card, return: []`;
 }
 
 /**
- * Apply changes to YAML files and return the list of applied changes.
+ * Replace a scalar YAML field value in raw YAML text.
+ * Handles both quoted and unquoted values.
+ */
+function replaceYamlField(yamlText, field, newValue) {
+  // Match "field: <value>" (quoted or unquoted) on its own line
+  const pattern = new RegExp(`^(${field}:\\s*).*$`, 'm');
+  const replacement = typeof newValue === 'string'
+    ? `$1"${newValue}"`
+    : `$1${newValue}`;
+  return yamlText.replace(pattern, replacement);
+}
+
+/**
+ * Replace a nested YAML block (like signup_bonus or rewards) in raw YAML text.
+ * Dumps just the block and splices it into the file.
+ */
+function replaceYamlBlock(yamlText, field, newValue) {
+  // Build the new block as YAML
+  const blockObj = { [field]: newValue };
+  const blockYaml = yaml.dump(blockObj, {
+    quotingType: '"',
+    forceQuotes: true,
+    lineWidth: -1,
+    sortKeys: false,
+  }).trimEnd();
+
+  // Find the existing block: starts with "field:" and continues until next top-level key or EOF
+  const blockPattern = new RegExp(
+    `^${field}:.*(?:\\n(?:  | \\t).*)*`, 'm'
+  );
+  if (blockPattern.test(yamlText)) {
+    return yamlText.replace(blockPattern, blockYaml);
+  }
+
+  // Field doesn't exist yet — append it
+  return yamlText.trimEnd() + '\n' + blockYaml + '\n';
+}
+
+/**
+ * Apply changes to YAML files using targeted edits (not full rewrite).
+ * Returns the list of applied changes.
  */
 function applyChanges(changes, allCards) {
   const cardMap = new Map(allCards.map((c) => [c.slug, c]));
@@ -259,25 +299,28 @@ function applyChanges(changes, allCards) {
       continue;
     }
 
+    let yamlText = fs.readFileSync(card.filepath, 'utf8');
     let modified = false;
+
     for (const change of cardChanges.changes) {
       const { field, new_value } = change;
 
-      if (field === 'annual_fee') {
-        card.data.annual_fee = new_value;
-        modified = true;
-      } else if (field === 'reward_type') {
-        card.data.reward_type = new_value;
+      if (field === 'annual_fee' || field === 'reward_type') {
+        yamlText = replaceYamlField(yamlText, field, new_value);
         modified = true;
       } else if (field === 'rewards') {
-        card.data.rewards = new_value;
+        yamlText = replaceYamlBlock(yamlText, 'rewards', new_value);
+        modified = true;
+      } else if (field === 'signup_bonus') {
+        yamlText = replaceYamlBlock(yamlText, 'signup_bonus', new_value);
         modified = true;
       } else if (field.startsWith('signup_bonus.')) {
+        // For sub-field changes, update the parsed object and rewrite the block
+        const data = yaml.load(yamlText);
         const subfield = field.split('.')[1];
-        if (!card.data.signup_bonus) {
-          card.data.signup_bonus = {};
-        }
-        card.data.signup_bonus[subfield] = new_value;
+        if (!data.signup_bonus) data.signup_bonus = {};
+        data.signup_bonus[subfield] = new_value;
+        yamlText = replaceYamlBlock(yamlText, 'signup_bonus', data.signup_bonus);
         modified = true;
       }
 
@@ -289,13 +332,7 @@ function applyChanges(changes, allCards) {
     }
 
     if (modified) {
-      const yamlStr = yaml.dump(card.data, {
-        quotingType: '"',
-        forceQuotes: true,
-        lineWidth: -1,
-        sortKeys: false,
-      });
-      fs.writeFileSync(card.filepath, yamlStr);
+      fs.writeFileSync(card.filepath, yamlText);
       applied.push(cardChanges);
     }
   }
