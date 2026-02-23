@@ -10,9 +10,10 @@ tags:
   - travel
   - rewards
 rewards:
-  - category: delta_purchases
+  - category: airlines
     value: 2
     unit: points_per_dollar
+    note: "Delta purchases"
   - category: dining
     value: 2
     unit: points_per_dollar
