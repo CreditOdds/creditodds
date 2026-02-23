@@ -281,18 +281,51 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                   {card.rewards && card.rewards.length > 0 && (
                     <div className="p-4">
                       <p className="text-xs uppercase text-gray-500 font-semibold mb-2 tracking-wide">Rewards</p>
-                      <div className="flex flex-wrap gap-2">
-                        {card.rewards.map((reward) => (
-                          <span
-                            key={reward.category}
-                            className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
-                              reward.category === "everything_else"
-                                ? "bg-gray-100 text-gray-700"
-                                : "bg-indigo-50 text-indigo-700"
-                            }`}
-                          >
-                            {formatRewardValue(reward)} {categoryLabels[reward.category] || reward.category}
-                          </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-wrap gap-2">
+                          {card.rewards.map((reward) => {
+                            const label = reward.category === "rotating" && reward.mode
+                              ? reward.mode === "quarterly_rotating"
+                                ? "Rotating Categories"
+                                : reward.mode === "user_choice"
+                                  ? `Choose ${reward.choices || ''} Categories`
+                                  : reward.mode === "auto_top_spend"
+                                    ? "Top Spend Category"
+                                    : categoryLabels[reward.category] || reward.category
+                              : categoryLabels[reward.category] || reward.category;
+
+                            return (
+                              <span
+                                key={reward.category}
+                                className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${
+                                  reward.category === "everything_else"
+                                    ? "bg-gray-100 text-gray-700"
+                                    : "bg-indigo-50 text-indigo-700"
+                                }`}
+                              >
+                                {formatRewardValue(reward)} {label}
+                              </span>
+                            );
+                          })}
+                        </div>
+                        {card.rewards.filter(r => r.category === "rotating" && r.mode).map((reward) => (
+                          <div key={`${reward.category}-detail`} className="text-xs text-gray-500 px-1">
+                            {reward.mode === "quarterly_rotating" && reward.current_categories && reward.current_period && (
+                              <span>
+                                {reward.current_period}: {reward.current_categories.map(c => categoryLabels[c] || c).join(', ')}
+                              </span>
+                            )}
+                            {(reward.mode === "user_choice" || reward.mode === "auto_top_spend") && reward.eligible_categories && (
+                              <span>
+                                Eligible: {reward.eligible_categories.map(c => categoryLabels[c] || c).join(', ')}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                        {card.rewards.filter(r => r.note).map((reward) => (
+                          <p key={`${reward.category}-note`} className="text-xs text-gray-400 px-1">
+                            {reward.note}
+                          </p>
                         ))}
                       </div>
                     </div>

@@ -54,6 +54,7 @@ function validateCard(card, schema, categoryIds) {
 
   // Validate rewards categories against categories.yaml
   if (card.rewards) {
+    const validModes = ['quarterly_rotating', 'user_choice', 'auto_top_spend'];
     for (const reward of card.rewards) {
       if (!categoryIds.has(reward.category)) {
         errors.push(`Invalid reward category: ${reward.category} (not in categories.yaml)`);
@@ -63,6 +64,33 @@ function validateCard(card, schema, categoryIds) {
       }
       if (!['percent', 'points_per_dollar'].includes(reward.unit)) {
         errors.push(`Invalid reward unit for ${reward.category}: ${reward.unit}`);
+      }
+      if (reward.note !== undefined && typeof reward.note !== 'string') {
+        errors.push(`Invalid reward note for ${reward.category}: must be a string`);
+      }
+      if (reward.mode !== undefined && !validModes.includes(reward.mode)) {
+        errors.push(`Invalid reward mode for ${reward.category}: ${reward.mode} (must be one of ${validModes.join(', ')})`);
+      }
+      if (reward.eligible_categories) {
+        for (const cat of reward.eligible_categories) {
+          if (!categoryIds.has(cat)) {
+            errors.push(`Invalid eligible_category for ${reward.category}: ${cat} (not in categories.yaml)`);
+          }
+        }
+      }
+      if (reward.current_categories) {
+        for (const cat of reward.current_categories) {
+          if (reward.eligible_categories && !reward.eligible_categories.includes(cat)) {
+            // current_categories should be a subset of eligible_categories when both are present
+            errors.push(`current_category '${cat}' not in eligible_categories for ${reward.category}`);
+          }
+          if (!categoryIds.has(cat)) {
+            errors.push(`Invalid current_category for ${reward.category}: ${cat} (not in categories.yaml)`);
+          }
+        }
+      }
+      if (reward.choices !== undefined && (typeof reward.choices !== 'number' || reward.choices < 1 || !Number.isInteger(reward.choices))) {
+        errors.push(`Invalid reward choices for ${reward.category}: must be a positive integer`);
       }
     }
   }

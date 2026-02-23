@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-02-14T22:20:28.324Z",
-  "count": 137,
+  "generated_at": "2026-02-23T20:36:58.402Z",
+  "count": 138,
   "categories": [
     {
       "id": "dining",
@@ -91,6 +91,7 @@
       "accepting_applications": true,
       "image": "aer-lingus.png",
       "annual_fee": 95,
+      "reward_type": "miles",
       "card_id": "aer-lingus-visa-signature-card",
       "card_name": "Aer Lingus Visa Signature"
     },
@@ -101,6 +102,7 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "image": "amazon-business-prime.png",
       "card_id": "amazon-business-prime-american-express-card",
       "card_name": "Amazon Business Prime American Express"
@@ -122,7 +124,8 @@
         {
           "category": "amazon",
           "value": 5,
-          "unit": "percent"
+          "unit": "percent",
+          "note": "Amazon, Whole Foods Market, Shopbop, Chase Travel (Prime members); 3% without Prime"
         },
         {
           "category": "dining",
@@ -131,11 +134,6 @@
         },
         {
           "category": "gas",
-          "value": 2,
-          "unit": "percent"
-        },
-        {
-          "category": "transit",
           "value": 2,
           "unit": "percent"
         },
@@ -155,6 +153,7 @@
       "accepting_applications": true,
       "image": "american-aadvantage.jpeg",
       "annual_fee": 0,
+      "reward_type": "miles",
       "card_id": "american-airlines-aadvantage-mileu-mastercard",
       "card_name": "American Airlines AAdvantage MileU Mastercard"
     },
@@ -166,6 +165,7 @@
       "category": "business",
       "image": "american-express-business-gold.png",
       "annual_fee": 375,
+      "reward_type": "points",
       "tags": [
         "business",
         "rewards",
@@ -227,6 +227,7 @@
       "image": "amex_green_card.png",
       "accepting_applications": true,
       "annual_fee": 150,
+      "reward_type": "points",
       "tags": [
         "travel",
         "dining",
@@ -242,6 +243,7 @@
       "image": "amex_everyday.png",
       "accepting_applications": false,
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "amex-everyday-credit-card",
       "card_name": "Amex Everyday"
     },
@@ -252,6 +254,7 @@
       "accepting_applications": false,
       "image": "everyday-preferred.png",
       "annual_fee": 95,
+      "reward_type": "points",
       "card_id": "amex-everyday-preferred-credit-card",
       "card_name": "Amex Everyday Preferred"
     },
@@ -262,6 +265,38 @@
       "image": "apple_card.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        },
+        {
+          "category": "online_shopping",
+          "value": 3,
+          "unit": "percent",
+          "note": "Apple purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent",
+          "note": "Via Apple Pay"
+        },
+        {
+          "category": "transit",
+          "value": 2,
+          "unit": "percent",
+          "note": "Via Apple Pay"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "percent",
+          "note": "Via Apple Pay"
+        }
+      ],
       "tags": [
         "cashback"
       ],
@@ -275,6 +310,7 @@
       "accepting_applications": false,
       "image": "citi-att-access.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "at-t-access-card-from-citi",
       "card_name": "AT&T Access from Citi"
     },
@@ -286,6 +322,7 @@
       "category": "secured",
       "image": "bank-of-america-customized-cash-secured.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "bank-of-america-cash-rewards-secured",
       "card_name": "Bank of America Cash Rewards Secured"
     },
@@ -297,6 +334,7 @@
       "image": "customized-cash-rewards.png",
       "category": "cashback",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "bank-of-america-customized-cash-rewards",
       "card_name": "Bank of America Customized Cash Rewards"
     },
@@ -308,6 +346,7 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 95,
+      "reward_type": "points",
       "card_id": "bank-of-america-premium-rewards",
       "card_name": "Bank of America Premium Rewards"
     },
@@ -319,6 +358,7 @@
       "image": "premium-rewards.png",
       "category": "travel",
       "annual_fee": 550,
+      "reward_type": "points",
       "card_id": "bank-of-america-premium-rewards-elite",
       "card_name": "Bank of America Premium Rewards Elite"
     },
@@ -330,6 +370,7 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "bank-of-america-travel-rewards",
       "card_name": "Bank of America Travel Rewards"
     },
@@ -341,6 +382,7 @@
       "category": "cashback",
       "image": "unlimited-cash-rewards.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "bank-of-america-unlimited-cash-rewards",
       "card_name": "Bank of America Unlimited Cash Rewards"
     },
@@ -362,6 +404,7 @@
       "image": "bilt_blue.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "points",
       "release_date": "2025-01-15",
       "tags": [
         "rewards",
@@ -379,6 +422,7 @@
       "active": false,
       "category": "rewards",
       "annual_fee": 0,
+      "reward_type": "points",
       "release_date": "2022-06-01",
       "card_id": "bilt-mastercard",
       "card_name": "Bilt Mastercard"
@@ -390,6 +434,7 @@
       "image": "bilt_obsidian.png",
       "accepting_applications": true,
       "annual_fee": 95,
+      "reward_type": "points",
       "release_date": "2025-01-15",
       "tags": [
         "rewards",
@@ -406,6 +451,7 @@
       "image": "bilt_palladium.png",
       "accepting_applications": true,
       "annual_fee": 495,
+      "reward_type": "points",
       "release_date": "2025-01-15",
       "tags": [
         "rewards",
@@ -422,6 +468,7 @@
       "slug": "blue-from-american-express",
       "accepting_applications": false,
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "blue-from-american-express",
       "card_name": "Blue"
     },
@@ -432,6 +479,7 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "image": "blue-business-cash.png",
       "tags": [
         "business",
@@ -448,6 +496,7 @@
       "category": "business",
       "image": "blue-business-plus.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "tags": [
         "business",
         "rewards"
@@ -463,6 +512,7 @@
       "accepting_applications": true,
       "card_referral_link": "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref=",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "cashback"
       ],
@@ -476,6 +526,7 @@
       "image": "amex_blue_cash_preferred.png",
       "accepting_applications": true,
       "annual_fee": 95,
+      "reward_type": "cashback",
       "tags": [
         "cashback",
         "shopping"
@@ -490,6 +541,7 @@
       "accepting_applications": true,
       "image": "british-airways.png",
       "annual_fee": 95,
+      "reward_type": "miles",
       "card_id": "british-airways-visa-signature-card",
       "card_name": "British Airways Visa Signature"
     },
@@ -526,6 +578,7 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "cashback",
         "rewards"
@@ -541,6 +594,7 @@
       "category": "secured",
       "image": "capital-one-quicksilver-secured.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "secured",
         "cashback"
@@ -556,6 +610,7 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 39,
+      "reward_type": "cashback",
       "card_id": "capital-one-quicksilverone",
       "card_name": "Capital One QuicksilverOne Cash Rewards"
     },
@@ -566,7 +621,8 @@
       "accepting_applications": true,
       "image": "capital-one-savor-cash-rewards.png",
       "category": "cashback",
-      "annual_fee": 95,
+      "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "cashback",
         "dining",
@@ -583,6 +639,7 @@
       "image": "capital-one-savor-student.png",
       "category": "student",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "capital-one-savor-student",
       "card_name": "Capital One Savor Student Cash Rewards"
     },
@@ -644,6 +701,7 @@
       "category": "travel",
       "image": "capital-one-venture-rewards.png",
       "annual_fee": 95,
+      "reward_type": "miles",
       "tags": [
         "travel",
         "rewards"
@@ -699,6 +757,7 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 0,
+      "reward_type": "miles",
       "card_id": "capital-one-ventureone-rewards",
       "card_name": "Capital One VentureOne Rewards"
     },
@@ -709,6 +768,7 @@
       "image": "amex_cash_magnet.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "cash-magnet-card",
       "card_name": "Cash Magnet"
     },
@@ -728,7 +788,13 @@
         {
           "category": "rotating",
           "value": 5,
-          "unit": "percent"
+          "unit": "percent",
+          "mode": "quarterly_rotating",
+          "current_categories": [
+            "groceries",
+            "online_shopping"
+          ],
+          "current_period": "Q1 2026"
         },
         {
           "category": "travel_portal",
@@ -939,6 +1005,7 @@
       "slug": "citi-aadvantage-executive-world-elite-masterc",
       "accepting_applications": true,
       "annual_fee": 595,
+      "reward_type": "miles",
       "image": "citi-aadvantage-executive-world-elite.png",
       "card_id": "citi-aadvantage-executive-world-elite-masterc",
       "card_name": "Citi AAdvantage Executive World Elite Mastercard"
@@ -949,6 +1016,7 @@
       "slug": "citi-aadvantage-globe",
       "accepting_applications": true,
       "annual_fee": 350,
+      "reward_type": "miles",
       "image": "citi-aadvantage-globe.png",
       "card_id": "citi-aadvantage-globe",
       "card_name": "Citi AAdvantage Globe"
@@ -959,6 +1027,7 @@
       "slug": "citi-aadvantage-platinum-select-world-elite-m",
       "accepting_applications": true,
       "annual_fee": 99,
+      "reward_type": "miles",
       "image": "citi-aadvantage-platinum-select-world-elite.png",
       "card_id": "citi-aadvantage-platinum-select-world-elite-m",
       "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard"
@@ -970,9 +1039,35 @@
       "image": "citi_custom_cash.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "cashback",
         "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 5,
+          "unit": "percent",
+          "mode": "auto_top_spend",
+          "eligible_categories": [
+            "dining",
+            "gas",
+            "groceries",
+            "transit",
+            "travel",
+            "streaming",
+            "drugstores",
+            "home_improvement",
+            "entertainment"
+          ],
+          "note": "Automatically on your top eligible spend category each billing cycle, up to $500/month"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
       ],
       "card_id": "citi-custom-cash",
       "card_name": "Citi Custom Cash"
@@ -1022,6 +1117,7 @@
       "accepting_applications": false,
       "image": "citi-prestige.png",
       "annual_fee": 495,
+      "reward_type": "points",
       "card_id": "citi-prestige",
       "card_name": "Citi Prestige"
     },
@@ -1031,6 +1127,7 @@
       "slug": "citi-rewards",
       "accepting_applications": false,
       "annual_fee": 0,
+      "reward_type": "points",
       "image": "citi-rewards-plus.png",
       "card_id": "citi-rewards",
       "card_name": "Citi Rewards+"
@@ -1066,6 +1163,7 @@
       "category": "travel",
       "image": "citi-strata.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "citi-strata",
       "card_name": "Citi Strata"
     },
@@ -1077,6 +1175,7 @@
       "category": "travel",
       "image": "citi-strata-elite.png",
       "annual_fee": 595,
+      "reward_type": "points",
       "card_id": "citi-strata-elite",
       "card_name": "Citi Strata Elite"
     },
@@ -1088,6 +1187,7 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 95,
+      "reward_type": "points",
       "card_id": "citi-strata-premier",
       "card_name": "Citi Strata Premier"
     },
@@ -1098,6 +1198,7 @@
       "accepting_applications": true,
       "image": "citi-business-aadvantage-platinum-select.png",
       "annual_fee": 99,
+      "reward_type": "miles",
       "card_id": "citibusiness-aadvantage-platinum-select-maste",
       "card_name": "CitiBusiness AAdvantage Platinum Select Mastercard"
     },
@@ -1107,8 +1208,10 @@
       "slug": "coinbase-one",
       "image": "coinbase-one.png",
       "accepting_applications": true,
+      "release_date": "2025-10-22",
       "category": "rewards",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "rewards",
         "crypto"
@@ -1123,6 +1226,7 @@
       "accepting_applications": true,
       "image": "citi-costco-anywhere-business.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "costco-anywhere-visa-business-card-by-citi",
       "card_name": "Costco Anywhere Visa Business by Citi"
     },
@@ -1133,6 +1237,7 @@
       "accepting_applications": true,
       "image": "citi-costco-anywhere.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "costco-anywhere-visa-card-by-citi",
       "card_name": "Costco Anywhere Visa by Citi"
     },
@@ -1143,10 +1248,35 @@
       "image": "amex_delta_blue_skymiles.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel"
       ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Delta purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 10000,
+        "type": "miles",
+        "spend_requirement": 1000,
+        "timeframe_months": 6
+      },
       "card_id": "delta-skymiles-blue-american-express-card",
       "card_name": "Delta SkyMiles Blue American Express"
     },
@@ -1157,11 +1287,43 @@
       "image": "amex_delta_skymiles_gold.png",
       "accepting_applications": true,
       "annual_fee": 150,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Delta purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "U.S. supermarkets"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 90000,
+        "type": "miles",
+        "spend_requirement": 5000,
+        "timeframe_months": 6,
+        "note": "70k after $3k spend + 20k after additional $2k spend"
+      },
       "card_id": "delta-skymiles-gold-american-express-card",
       "card_name": "Delta SkyMiles Gold American Express"
     },
@@ -1172,11 +1334,49 @@
       "image": "amex_delta_skymiles_platinum.png",
       "accepting_applications": true,
       "annual_fee": 350,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel",
         "premium"
       ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Delta purchases"
+        },
+        {
+          "category": "hotels",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Direct hotel purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "U.S. supermarkets"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100000,
+        "type": "miles",
+        "spend_requirement": 6000,
+        "timeframe_months": 6,
+        "note": "80k after $4k spend + 20k after additional $2k spend"
+      },
       "card_id": "delta-skymiles-platinum-american-express-card",
       "card_name": "Delta SkyMiles Platinum American Express"
     },
@@ -1187,11 +1387,32 @@
       "image": "amex_delta_skymiles_reserve.png",
       "accepting_applications": true,
       "annual_fee": 650,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel",
         "premium"
       ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Delta purchases"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 125000,
+        "type": "miles",
+        "spend_requirement": 9000,
+        "timeframe_months": 6,
+        "note": "100k after $6k spend + 25k after additional $3k spend"
+      },
       "card_id": "delta-skymiles-reserve-american-express-card",
       "card_name": "Delta SkyMiles Reserve American Express"
     },
@@ -1211,7 +1432,13 @@
         {
           "category": "rotating",
           "value": 5,
-          "unit": "percent"
+          "unit": "percent",
+          "mode": "quarterly_rotating",
+          "current_categories": [
+            "groceries",
+            "online_shopping"
+          ],
+          "current_period": "Q1 2026"
         },
         {
           "category": "everything_else",
@@ -1229,6 +1456,7 @@
       "accepting_applications": true,
       "image": "discover-it-student-cash-back.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "student",
         "cashback"
@@ -1243,6 +1471,7 @@
       "accepting_applications": false,
       "image": "discover-it-gas-restaurants.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "discover-it-gas-and-restaurants",
       "card_name": "Discover it Gas and Restaurants"
     },
@@ -1253,6 +1482,7 @@
       "accepting_applications": true,
       "image": "discover-it-miles.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "travel",
         "rewards"
@@ -1267,6 +1497,7 @@
       "accepting_applications": true,
       "image": "discover-it-secured.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "secured",
         "cashback"
@@ -1281,6 +1512,7 @@
       "accepting_applications": true,
       "image": "discover-it-student-chrome.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "discover-it-student-chrome-card",
       "card_name": "Discover it Student Chrome"
     },
@@ -1292,6 +1524,7 @@
       "accepting_applications": true,
       "category": "rewards",
       "annual_fee": 149,
+      "reward_type": "cashback",
       "tags": [
         "rewards",
         "disney",
@@ -1307,6 +1540,7 @@
       "accepting_applications": true,
       "image": "chase-disney-premier.png",
       "annual_fee": 49,
+      "reward_type": "cashback",
       "card_id": "disney-premier-visa-card",
       "card_name": "Disney Premier Visa"
     },
@@ -1317,6 +1551,7 @@
       "accepting_applications": true,
       "image": "chase-disney.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "disney-visa-card",
       "card_name": "Disney Visa"
     },
@@ -1327,6 +1562,7 @@
       "accepting_applications": false,
       "image": "citi-expedia-rewards.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "expedia-rewards-card-from-citi",
       "card_name": "Expedia Rewards from Citi"
     },
@@ -1337,8 +1573,26 @@
       "accepting_applications": false,
       "image": "citi-expedia-rewards-voyager.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "expedia-rewards-voyager-card-from-citi",
       "card_name": "Expedia Rewards Voyager from Citi"
+    },
+    {
+      "name": "Gemini Credit",
+      "bank": "WebBank",
+      "slug": "gemini-credit",
+      "image": "gemini.png",
+      "accepting_applications": true,
+      "release_date": "2022-04-14",
+      "category": "rewards",
+      "annual_fee": 0,
+      "reward_type": "cashback",
+      "tags": [
+        "rewards",
+        "crypto"
+      ],
+      "card_id": "gemini-credit",
+      "card_name": "Gemini Credit"
     },
     {
       "name": "Gold Card",
@@ -1352,6 +1606,14 @@
         "cashback",
         "rewards"
       ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 3,
+          "unit": "percent"
+        }
+      ],
       "card_id": "robinhood-gold-card",
       "card_name": "Gold Card"
     },
@@ -1363,6 +1625,7 @@
       "category": "travel",
       "image": "barclays-hawaiian.png",
       "annual_fee": 99,
+      "reward_type": "miles",
       "card_id": "hawaiian-airlines-world-elite-mastercard",
       "card_name": "Hawaiian Airlines World Elite Mastercard"
     },
@@ -1374,6 +1637,7 @@
       "accepting_applications": true,
       "card_referral_link": "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref=",
       "annual_fee": 0,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel"
@@ -1388,6 +1652,7 @@
       "image": "amex_hilton_honors_aspire.png",
       "accepting_applications": true,
       "annual_fee": 550,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel",
@@ -1403,6 +1668,7 @@
       "image": "amex_hilton_honors_surpass.png",
       "accepting_applications": true,
       "annual_fee": 150,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel"
@@ -1417,6 +1683,7 @@
       "accepting_applications": false,
       "image": "wells-fargo-hotels-com.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "hotels-com-rewards-visa",
       "card_name": "Hotels.com Rewards Visa"
     },
@@ -1427,6 +1694,7 @@
       "accepting_applications": true,
       "image": "iberia-plus.png",
       "annual_fee": 95,
+      "reward_type": "miles",
       "card_id": "iberia-visa-signature-card",
       "card_name": "Iberia Visa Signature"
     },
@@ -1437,6 +1705,7 @@
       "accepting_applications": true,
       "image": "chase-ihg-one-rewards-premier.png",
       "annual_fee": 99,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel",
@@ -1451,6 +1720,7 @@
       "slug": "ihg-rewards-premier-business",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "points",
       "image": "chase-ihg-one-rewards-premier-business.png",
       "tags": [
         "hotel",
@@ -1466,6 +1736,7 @@
       "slug": "ihg-rewards-club-traveler-credit-card",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "points",
       "image": "chase-ihg-one-rewards-traveler.png",
       "tags": [
         "hotel",
@@ -1483,6 +1754,7 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "tags": [
         "business",
         "cashback"
@@ -1498,6 +1770,7 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 95,
+      "reward_type": "points",
       "tags": [
         "business",
         "travel",
@@ -1514,6 +1787,7 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "reward_type": "points",
       "tags": [
         "business",
         "cashback"
@@ -1529,6 +1803,7 @@
       "category": "travel",
       "image": "barclays-jetblue.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "jetblue-card",
       "card_name": "JetBlue"
     },
@@ -1540,6 +1815,7 @@
       "category": "business",
       "image": "barclays-jetblue-business.png",
       "annual_fee": 99,
+      "reward_type": "points",
       "card_id": "jetblue-business-card",
       "card_name": "JetBlue Business"
     },
@@ -1551,6 +1827,7 @@
       "category": "travel",
       "image": "barclays-jetblue-plus.png",
       "annual_fee": 99,
+      "reward_type": "points",
       "card_id": "jetblue-plus-card",
       "card_name": "JetBlue Plus"
     },
@@ -1561,6 +1838,7 @@
       "image": "chase-marriott-bonvoy-bold.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel"
@@ -1575,6 +1853,7 @@
       "image": "marriott_bonvoy_boundless.png",
       "accepting_applications": true,
       "annual_fee": 95,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel",
@@ -1590,6 +1869,7 @@
       "image": "amex_marriott_bonvoy_brilliant.png",
       "accepting_applications": true,
       "annual_fee": 650,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel",
@@ -1605,6 +1885,7 @@
       "accepting_applications": true,
       "image": "discover-it-nhl.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "nhl-discover-it",
       "card_name": "NHL Discover it"
     },
@@ -1616,6 +1897,7 @@
       "category": "travel",
       "image": "barclays-princess.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "princess-cruises-rewards-visa-card",
       "card_name": "Princess Cruises Rewards Visa"
     },
@@ -1636,6 +1918,7 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "us-bank-smartly-visa-signature",
       "card_name": "Smartly Visa Signature"
     },
@@ -1645,6 +1928,7 @@
       "slug": "southwest-rapid-rewards-plus-credit-card",
       "accepting_applications": true,
       "annual_fee": 99,
+      "reward_type": "points",
       "image": "chase-southwest-rapid-rewards-plus.png",
       "tags": [
         "airline",
@@ -1660,6 +1944,7 @@
       "accepting_applications": true,
       "image": "chase-southwest-rapid-rewards-premier.png",
       "annual_fee": 149,
+      "reward_type": "points",
       "tags": [
         "airline",
         "travel"
@@ -1674,6 +1959,7 @@
       "image": "southwest_priority.png",
       "accepting_applications": true,
       "annual_fee": 229,
+      "reward_type": "points",
       "tags": [
         "airline",
         "travel",
@@ -1689,6 +1975,7 @@
       "image": "chase-starbucks-rewards.png",
       "accepting_applications": false,
       "annual_fee": 49,
+      "reward_type": "points",
       "card_id": "starbucks-rewards-visa-card",
       "card_name": "Starbucks Rewards Visa"
     },
@@ -1700,6 +1987,7 @@
       "category": "business",
       "image": "business-platinum.png",
       "annual_fee": 895,
+      "reward_type": "points",
       "tags": [
         "business",
         "travel",
@@ -1716,6 +2004,26 @@
       "accepting_applications": true,
       "card_referral_link": "https://americanexpress.com/en-us/referral/platinum-card?ref=",
       "annual_fee": 895,
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "Booked directly with airlines or through Amex Travel, up to $500,000 per calendar year"
+        },
+        {
+          "category": "hotels_portal",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "Prepaid hotels booked on AmexTravel.com"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "tags": [
         "travel",
         "premium",
@@ -1732,6 +2040,7 @@
       "category": "travel",
       "image": "us-bank-altitude-go.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "us-bank-altitude-go-visa-signature",
       "card_name": "U.S. Bank Altitude Go Visa Signature"
     },
@@ -1743,6 +2052,7 @@
       "category": "travel",
       "image": "us-bank-altitude-reserve.png",
       "annual_fee": 400,
+      "reward_type": "points",
       "card_id": "us-bank-altitude-reserve-visa-infinite",
       "card_name": "U.S. Bank Altitude Reserve Visa Infinite"
     },
@@ -1753,7 +2063,35 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "image": "us-bank-cash-plus-signature.png",
+      "tags": [
+        "cashback"
+      ],
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 5,
+          "unit": "percent",
+          "mode": "user_choice",
+          "choices": 2,
+          "eligible_categories": [
+            "gas",
+            "groceries",
+            "online_shopping",
+            "streaming",
+            "transit",
+            "home_improvement",
+            "entertainment"
+          ],
+          "note": "Choose 2 categories each quarter, up to $2,000 combined"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
       "card_id": "us-bank-cash-plus-visa-signature",
       "card_name": "U.S. Bank Cash+ Visa Signature"
     },
@@ -1764,6 +2102,7 @@
       "image": "united_club_infinite.png",
       "accepting_applications": true,
       "annual_fee": 695,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel",
@@ -1779,6 +2118,7 @@
       "image": "united_explorer.png",
       "accepting_applications": true,
       "annual_fee": 150,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel",
@@ -1794,6 +2134,7 @@
       "image": "united_gateway.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel"
@@ -1809,6 +2150,7 @@
       "accepting_applications": false,
       "active": true,
       "annual_fee": 495,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel"
@@ -1823,6 +2165,7 @@
       "image": "united_quest.png",
       "accepting_applications": true,
       "annual_fee": 350,
+      "reward_type": "miles",
       "tags": [
         "airline",
         "travel",
@@ -1838,6 +2181,7 @@
       "image": "altitude-connect.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "us-bank-altitude-connect",
       "card_name": "US Bank Altitude Connect"
     },
@@ -1868,6 +2212,7 @@
       "image": "us-bank-shopper.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "us-bank-shopper",
       "card_name": "US Bank Shopper Cash Rewards"
     },
@@ -1918,6 +2263,7 @@
       "category": "cashback",
       "image": "wells-fargo-attune.png",
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "wells-fargo-attune",
       "card_name": "Wells Fargo Attune"
     },
@@ -1984,6 +2330,7 @@
       "image": "wells-fargo-autograph-journey.png",
       "category": "travel",
       "annual_fee": 95,
+      "reward_type": "points",
       "card_id": "wells-fargo-autograph-journey",
       "card_name": "Wells Fargo Autograph Journey"
     },
@@ -1994,6 +2341,7 @@
       "image": "wells_fargo_cash_back_college.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "wells-fargo-cash-back-college",
       "card_name": "Wells Fargo Cash Back College"
     },
@@ -2004,6 +2352,7 @@
       "image": "cash_wise.png",
       "accepting_applications": false,
       "annual_fee": 0,
+      "reward_type": "cashback",
       "card_id": "wells-fargo-cash-wise-visa",
       "card_name": "Wells Fargo Cash Wise Visa"
     },
@@ -2024,6 +2373,7 @@
       "image": "propel_card.png",
       "accepting_applications": false,
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "wells-fargo-propel-american-express",
       "card_name": "Wells Fargo Propel American Express"
     },
@@ -2045,6 +2395,7 @@
       "image": "wells_fargo_rewards.png",
       "accepting_applications": false,
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "wells-fargo-rewards",
       "card_name": "Wells Fargo Rewards"
     },
@@ -2056,6 +2407,14 @@
       "image": "wells-fargo-signify-business-cash.png",
       "category": "business",
       "annual_fee": 0,
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "percent"
+        }
+      ],
       "card_id": "wells-fargo-signify-business-cash",
       "card_name": "Wells Fargo Signify Business Cash"
     },
@@ -2066,6 +2425,7 @@
       "image": "wells_fargo_visa_signature.png",
       "accepting_applications": false,
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "wells-fargo-visa-signature",
       "card_name": "Wells Fargo Visa Signature"
     },
@@ -2076,6 +2436,7 @@
       "accepting_applications": true,
       "image": "chase-world-of-hyatt.png",
       "annual_fee": 95,
+      "reward_type": "points",
       "tags": [
         "hotel",
         "travel",
@@ -2092,6 +2453,13 @@
       "image": "chase-world-of-hyatt-business.png",
       "category": "business",
       "annual_fee": 199,
+      "reward_type": "points",
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
       "card_id": "world-of-hyatt-business-credit-card",
       "card_name": "World of Hyatt Business"
     },
@@ -2103,6 +2471,7 @@
       "category": "travel",
       "image": "barclays-wyndham-earner.png",
       "annual_fee": 0,
+      "reward_type": "points",
       "card_id": "wyndham-rewards-earner-card",
       "card_name": "Wyndham Rewards Earner"
     },
@@ -2114,6 +2483,7 @@
       "category": "business",
       "image": "barclays-wyndham-earner-business.png",
       "annual_fee": 95,
+      "reward_type": "points",
       "card_id": "wyndham-rewards-earner-business-card",
       "card_name": "Wyndham Rewards Earner Business"
     },
@@ -2125,6 +2495,7 @@
       "category": "travel",
       "image": "barclays-wyndham-earner-plus.png",
       "annual_fee": 75,
+      "reward_type": "points",
       "card_id": "wyndham-rewards-earner-plus-card",
       "card_name": "Wyndham Rewards Earner Plus"
     }

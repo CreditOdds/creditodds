@@ -12,6 +12,9 @@ rewards:
   - category: rotating
     value: 5
     unit: percent
+    mode: quarterly_rotating
+    current_categories: [groceries, online_shopping]
+    current_period: "Q1 2026"
   - category: travel_portal
     value: 5
     unit: percent

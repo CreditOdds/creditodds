@@ -80,9 +80,35 @@
             "type": "string",
             "enum": ["percent", "points_per_dollar"],
             "description": "Unit of the reward value"
+          },
+          "note": {
+            "type": "string",
+            "description": "Additional context for the reward"
+          },
+          "mode": {
+            "type": "string",
+            "enum": ["quarterly_rotating", "user_choice", "auto_top_spend"],
+            "description": "Flexible reward category mode"
+          },
+          "eligible_categories": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Category IDs eligible for this flexible reward"
+          },
+          "choices": {
+            "type": "integer",
+            "description": "Number of categories to pick (user_choice mode)"
+          },
+          "current_categories": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Currently active categories (quarterly_rotating mode)"
+          },
+          "current_period": {
+            "type": "string",
+            "description": "Current rotation period label, e.g. Q1 2026"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "description": "Reward rates by spend category (optional)"
     },
