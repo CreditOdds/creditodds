@@ -9,3 +9,8 @@ tags:
   - airline
   - travel
   - rewards
+signup_bonus:
+  value: 90000
+  type: "miles"
+  spend_requirement: 5000
+  timeframe_months: 6
