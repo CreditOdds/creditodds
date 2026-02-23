@@ -10,18 +10,16 @@ tags:
   - rewards
 reward_type: "cashback"
 rewards:
-  - category: amazon
+  - category: "amazon"
     value: 5
-    unit: percent
-  - category: dining
+    unit: "percent"
+    note: "Amazon, Whole Foods Market, Shopbop, Chase Travel (Prime members); 3% without Prime"
+  - category: "dining"
     value: 2
-    unit: percent
-  - category: gas
+    unit: "percent"
+  - category: "gas"
     value: 2
-    unit: percent
-  - category: transit
-    value: 2
-    unit: percent
-  - category: everything_else
+    unit: "percent"
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
