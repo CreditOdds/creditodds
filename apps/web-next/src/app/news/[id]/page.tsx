@@ -1,10 +1,13 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { NewspaperIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { CalendarIcon } from "@heroicons/react/24/outline";
 import { getNews, getNewsItem, tagLabels, tagColors } from "@/lib/news";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
+import { ReadingProgressBar } from "@/components/articles/ReadingProgressBar";
+import { RelatedCards } from "@/components/articles/RelatedCards";
+import { RelatedCardInfo } from "@/lib/articles";
 
 interface NewsDetailPageProps {
   params: Promise<{ id: string }>;
@@ -59,6 +62,19 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     notFound();
   }
 
+  // Build related cards info from news item data
+  const relatedCards: RelatedCardInfo[] = [];
+  if (item.card_slugs && item.card_names && item.card_image_links) {
+    for (let i = 0; i < item.card_slugs.length; i++) {
+      relatedCards.push({
+        slug: item.card_slugs[i],
+        name: item.card_names[i],
+        image: item.card_image_links[i] || '',
+        bank: item.bank || '',
+      });
+    }
+  }
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
@@ -74,7 +90,9 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <ReadingProgressBar />
+      <div className="min-h-screen bg-gray-50">
       {/* JSON-LD */}
       <script
         type="application/ld+json"
@@ -88,7 +106,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ol className="flex items-center space-x-4 py-4">
             <li>
               <Link href="/" className="text-gray-400 hover:text-gray-500">
@@ -100,7 +118,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                 <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                 </svg>
-                <Link href="/news" className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-500">
+                <Link href="/news" className="ml-4 text-gray-400 hover:text-gray-500">
                   Card News
                 </Link>
               </div>
@@ -110,7 +128,9 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                 <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                 </svg>
-                <span className="ml-4 text-sm font-medium text-gray-500 line-clamp-1">{item.title}</span>
+                <span className="ml-4 text-sm font-medium text-gray-500 truncate sm:whitespace-normal">
+                  {item.title}
+                </span>
               </div>
             </li>
           </ol>
@@ -118,15 +138,15 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
       </nav>
 
       {/* Article */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <article className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Header */}
-        <header className="mb-8">
+        <header className="mb-10">
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
             {item.tags.map((tag) => (
               <span
                 key={tag}
-                className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${tagColors[tag]}`}
+                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tagColors[tag]}`}
               >
                 {tagLabels[tag]}
               </span>
@@ -134,18 +154,18 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
             {item.title}
           </h1>
 
           {/* Meta row */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-sm text-gray-500">
-            <time dateTime={item.date}>{formatDate(item.date)}</time>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
+            <div className="flex items-center gap-1.5">
+              <CalendarIcon className="h-4 w-4" />
+              <time dateTime={item.date}>{formatDate(item.date)}</time>
+            </div>
             {item.bank && (
-              <>
-                <span className="text-gray-300">|</span>
-                <span>{item.bank}</span>
-              </>
+              <span>{item.bank}</span>
             )}
           </div>
 
@@ -166,11 +186,16 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         </header>
 
         {/* Body */}
-        <div className="bg-white shadow rounded-lg p-6 sm:p-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-10">
           {item.body ? (
             <ArticleContent content={item.body} />
           ) : (
             <p className="text-gray-600 text-lg leading-relaxed">{item.summary}</p>
+          )}
+
+          {/* Related Cards */}
+          {relatedCards.length > 0 && (
+            <RelatedCards cards={relatedCards} />
           )}
         </div>
 
@@ -192,16 +217,19 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         )}
 
         {/* Back link */}
-        <div className="mt-8">
+        <div className="mt-8 text-center">
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-800"
+            className="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
           >
-            <ArrowLeftIcon className="h-4 w-4" />
+            <svg className="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
             Back to Card News
           </Link>
         </div>
       </article>
     </div>
+    </>
   );
 }

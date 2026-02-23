@@ -129,7 +129,7 @@ export default async function ArticlePage({ params }: Props) {
       <div className="min-h-screen bg-gray-50">
         {/* Breadcrumbs */}
         <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <ol className="flex items-center space-x-4 py-4">
               <li>
                 <Link href="/" className="text-gray-400 hover:text-gray-500">
@@ -160,7 +160,7 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </nav>
 
-        <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <article className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Article Header */}
           <header className="mb-10">
             {/* Tags */}
