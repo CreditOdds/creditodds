@@ -3,7 +3,12 @@ name: Auto Card Update
 on:
   schedule:
     - cron: '0 15 * * *'  # Daily at 3 PM UTC / 10 AM EST
-  workflow_dispatch:       # Manual trigger
+  workflow_dispatch:
+    inputs:
+      day_offset:
+        description: 'Offset day-of-year to select a different card batch (e.g. 1, 2, 3)'
+        required: false
+        default: '0'
 
 permissions:
   contents: write
@@ -29,6 +34,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+          DAY_OFFSET: ${{ github.event.inputs.day_offset || '0' }}
         run: node scripts/auto-card-update.js
 
       - name: Create PR if changes found
