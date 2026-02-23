@@ -131,9 +131,13 @@ async function publishToAyrshare(postText, url, ogImageUrl) {
 
   const body = {
     post: fullPost,
-    platforms: ['twitter', 'facebook', 'linkedin'],
+    platforms: ['twitter', 'facebook', 'linkedin', 'reddit'],
     mediaUrls: [ogImageUrl],
     shortenLinks: true,
+    redditOptions: {
+      title: postText,
+      subreddit: 'creditodds',
+    },
   };
 
   const response = await fetch('https://app.ayrshare.com/api/post', {
