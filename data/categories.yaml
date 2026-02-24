@@ -37,5 +37,21 @@ categories:
     label: Hotels & Car Rentals (via Portal)
   - id: amazon
     label: Amazon.com
+  - id: office_supplies
+    label: Office Supplies
+  - id: phone
+    label: Phone & Wireless
+  - id: utilities
+    label: Utilities
+  - id: ev_charging
+    label: EV Charging
+  - id: rent
+    label: Rent
+  - id: wholesale_clubs
+    label: Wholesale Clubs
+  - id: shipping
+    label: Shipping
+  - id: foreign_transactions
+    label: Foreign Transactions
   - id: everything_else
     label: Everything Else

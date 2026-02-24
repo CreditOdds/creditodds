@@ -1,0 +1,33 @@
+name: "Atmos Rewards Ascent"
+bank: "Bank of America"
+slug: "atmos-rewards-ascent"
+image: "atmos-rewards-ascent.png"
+accepting_applications: true
+category: "travel"
+annual_fee: 95
+tags:
+  - travel
+  - airlines
+  - rewards
+reward_type: "points"
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+  - category: streaming
+    value: 2
+    unit: points_per_dollar
+  - category: transit
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 70000
+  type: points
+  spend_requirement: 3000
+  timeframe_months: 3

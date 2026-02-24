@@ -1,0 +1,31 @@
+name: "Atmos Rewards Summit"
+bank: "Bank of America"
+slug: "atmos-rewards-summit"
+image: "atmos-rewards-summit.png"
+accepting_applications: true
+category: "travel"
+annual_fee: 395
+tags:
+  - travel
+  - airlines
+  - premium
+  - rewards
+reward_type: "points"
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: foreign_transactions
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 80000
+  type: points
+  spend_requirement: 4000
+  timeframe_months: 3
