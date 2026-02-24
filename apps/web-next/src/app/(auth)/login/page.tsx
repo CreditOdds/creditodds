@@ -1,32 +1,54 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { XCircleIcon, CheckCircleIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 import { useAuth } from "@/auth/AuthProvider";
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginPageInner />
+    </Suspense>
+  );
+}
+
+function LoginPageInner() {
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { authState, signInWithGoogle, sendEmailLink } = useAuth();
+
+  // Build redirect URL from query params
+  const getRedirectUrl = () => {
+    const redirect = searchParams.get('redirect');
+    if (!redirect) return '/profile';
+    // Preserve other query params for the redirect target
+    const params = new URLSearchParams();
+    searchParams.forEach((value, key) => {
+      if (key !== 'redirect') params.set(key, value);
+    });
+    const qs = params.toString();
+    return qs ? `${redirect}?${qs}` : redirect;
+  };
 
   // Redirect if already authenticated
   useEffect(() => {
     if (authState.isAuthenticated) {
-      router.push("/profile");
+      router.push(getRedirectUrl());
     }
-  }, [authState.isAuthenticated, router]);
+  }, [authState.isAuthenticated, router, searchParams]);
 
   const handleGoogleSignIn = async () => {
     setErrorMessage("");
     setLoading(true);
     try {
       await signInWithGoogle();
-      router.push("/profile");
+      router.push(getRedirectUrl());
     } catch (err: unknown) {
       const error = err as Error;
       setErrorMessage(error.message || "Failed to sign in with Google");

@@ -81,7 +81,13 @@ exports.DeleteAccountHandler = async (event) => {
       [userId]
     );
 
-    // 5. Anonymize records (keep data points but remove user association)
+    // 5. Delete user's approval searches
+    await mysql.query(
+      "DELETE FROM approval_searches WHERE user_id = ?",
+      [userId]
+    );
+
+    // 6. Anonymize records (keep data points but remove user association)
     // Set submitter_id to NULL to preserve data integrity while removing PII
     await mysql.query(
       "UPDATE records SET submitter_id = NULL WHERE submitter_id = ?",
@@ -90,7 +96,7 @@ exports.DeleteAccountHandler = async (event) => {
 
     await mysql.end();
 
-    // 6. Delete Firebase user account
+    // 7. Delete Firebase user account
     try {
       await admin.auth().deleteUser(userId);
       console.info(`Firebase user ${userId} deleted successfully`);
