@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@/auth/AuthProvider";
-import { checkOdds, CheckOddsCard, CheckOddsResponse } from "@/lib/api";
+import { checkOdds, CheckOddsCard, CheckOddsResponse, getWallet, WalletCard } from "@/lib/api";
+import { calculateApplicationRules, RuleResult } from "@/lib/applicationRules";
 import { cardMatchesSearch } from "@/lib/searchAliases";
 
 type SortOption = 'match' | 'name' | 'bank';
@@ -58,6 +59,7 @@ export default function CheckOddsClient() {
 
   // Results state — restore from cache
   const [results, setResults] = useState<CheckOddsResponse | null>(cached);
+  const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -100,11 +102,15 @@ export default function CheckOddsClient() {
     try {
       const token = await getToken();
       if (!token) throw new Error('Not authenticated');
-      const data = await checkOdds(
-        { credit_score: csVal, income: incVal, length_credit: clVal },
-        token
-      );
+      const [data, wallet] = await Promise.all([
+        checkOdds(
+          { credit_score: csVal, income: incVal, length_credit: clVal },
+          token
+        ),
+        getWallet(token).catch(() => [] as WalletCard[]),
+      ]);
       setResults(data);
+      setWalletCards(wallet);
       saveResultsToCache(data);
     } catch (err: unknown) {
       const error = err as Error;
@@ -166,6 +172,20 @@ export default function CheckOddsClient() {
       noData: cards.filter(c => !c.has_enough_data).length,
     };
   }, [results]);
+
+  const ruleByBank = useMemo(() => {
+    const rules = calculateApplicationRules(walletCards);
+    const map: Record<string, RuleResult> = {};
+    for (const rule of rules) {
+      map[rule.bank] = rule;
+    }
+    return map;
+  }, [walletCards]);
+
+  const hasWalletDates = useMemo(
+    () => walletCards.some((c) => c.acquired_year),
+    [walletCards]
+  );
 
   return (
     <>
@@ -347,12 +367,15 @@ export default function CheckOddsClient() {
                         <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 hidden sm:table-cell">
                           Credit History
                         </th>
+                        <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 hidden sm:table-cell">
+                          Bank Rules
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                       {filteredCards.length === 0 ? (
                         <tr>
-                          <td colSpan={4} className="py-12 text-center text-gray-500">
+                          <td colSpan={5} className="py-12 text-center text-gray-500">
                             No cards match your search.
                           </td>
                         </tr>
@@ -390,6 +413,15 @@ export default function CheckOddsClient() {
                                         Still collecting ({card.approved_data_points}/5)
                                       </span>
                                     )}
+                                    {ruleByBank[card.bank] && (
+                                      <div className="mt-0.5">
+                                        {hasWalletDates ? (
+                                          <RuleProgressBar rule={ruleByBank[card.bank]} size="sm" />
+                                        ) : (
+                                          <RuleCaution rule={ruleByBank[card.bank]} size="sm" />
+                                        )}
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </Link>
@@ -420,11 +452,17 @@ export default function CheckOddsClient() {
                                     suffix=" yr"
                                   />
                                 </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
+                                  <BankRuleCell rule={ruleByBank[card.bank]} hasWalletDates={hasWalletDates} />
+                                </td>
                               </>
                             ) : (
                               <>
                                 <td colSpan={3} className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-400 italic hidden sm:table-cell">
                                   Still collecting results ({card.approved_data_points}/5 approved)
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
+                                  <BankRuleCell rule={ruleByBank[card.bank]} hasWalletDates={hasWalletDates} />
                                 </td>
                               </>
                             )}
@@ -514,5 +552,63 @@ function MatchBadge({ score }: { score: number }) {
     <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${colors[score as keyof typeof colors] || colors[0]}`}>
       {score}/3
     </span>
+  );
+}
+
+function BankRuleCell({ rule, hasWalletDates }: { rule?: RuleResult; hasWalletDates: boolean }) {
+  if (!rule) return <span className="text-gray-400">&mdash;</span>;
+  if (hasWalletDates) return <RuleProgressBar rule={rule} size="md" />;
+  return <RuleCaution rule={rule} size="md" />;
+}
+
+function RuleProgressBar({ rule, size }: { rule: RuleResult; size: 'sm' | 'md' }) {
+  const pct = Math.min((rule.current / rule.limit) * 100, 100);
+  const barColor = rule.isSafe
+    ? 'bg-green-500'
+    : rule.current === rule.limit
+      ? 'bg-red-500'
+      : 'bg-amber-500';
+
+  if (size === 'sm') {
+    return (
+      <span className={`text-[11px] ${rule.isSafe ? 'text-green-700' : 'text-red-700'}`}>
+        {rule.ruleName} {rule.current}/{rule.limit}
+      </span>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span className="text-xs font-medium text-gray-700">{rule.ruleName}</span>
+      <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className={`h-full rounded-full ${barColor}`} style={{ width: `${pct}%` }} />
+      </div>
+      <span className={`text-xs font-medium ${rule.isSafe ? 'text-green-700' : 'text-red-700'}`}>
+        {rule.current}/{rule.limit}
+      </span>
+    </div>
+  );
+}
+
+function RuleCaution({ rule, size }: { rule: RuleResult; size: 'sm' | 'md' }) {
+  const tooltip = `Add cards to your wallet to track your progress towards ${rule.ruleName}`;
+
+  if (size === 'sm') {
+    return (
+      <span className="text-[11px] text-amber-600 cursor-default" title={tooltip}>
+        &#9888; {rule.ruleName}
+      </span>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-0.5 cursor-default" title={tooltip}>
+      <span className="text-xs text-amber-600">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 inline -mt-0.5">
+          <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 6a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 6Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
+        </svg>
+        {' '}{rule.ruleName}
+      </span>
+    </div>
   );
 }
