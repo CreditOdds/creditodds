@@ -18,6 +18,9 @@ rewards:
   - category: dining
     value: 3
     unit: points_per_dollar
+  - category: foreign_transactions
+    value: 3
+    unit: points_per_dollar
   - category: everything_else
     value: 1
     unit: points_per_dollar

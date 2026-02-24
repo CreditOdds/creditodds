@@ -37,5 +37,9 @@ categories:
     label: Hotels & Car Rentals (via Portal)
   - id: amazon
     label: Amazon.com
+  - id: shipping
+    label: Shipping
+  - id: foreign_transactions
+    label: Foreign Transactions
   - id: everything_else
     label: Everything Else

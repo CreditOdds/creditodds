@@ -21,6 +21,9 @@ rewards:
   - category: transit
     value: 2
     unit: points_per_dollar
+  - category: shipping
+    value: 2
+    unit: points_per_dollar
   - category: everything_else
     value: 1
     unit: points_per_dollar
