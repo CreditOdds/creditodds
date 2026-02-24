@@ -591,23 +591,29 @@ function RuleProgressBar({ rule, size }: { rule: RuleResult; size: 'sm' | 'md' }
 }
 
 function RuleCaution({ rule, size }: { rule: RuleResult; size: 'sm' | 'md' }) {
-  const tooltip = `Add cards to your wallet to track your progress towards ${rule.ruleName}`;
+  const tooltip = `Add cards to your wallet to track progress towards ${rule.ruleName}`;
 
   if (size === 'sm') {
     return (
-      <span className="text-[11px] text-amber-600 cursor-default" title={tooltip}>
+      <span className="relative group/tip text-[11px] text-amber-600 cursor-default">
         &#9888; {rule.ruleName}
+        <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover/tip:block w-44 rounded bg-gray-900 px-2 py-1 text-[10px] text-white text-center z-10">
+          {tooltip}
+        </span>
       </span>
     );
   }
 
   return (
-    <div className="flex flex-col items-center gap-0.5 cursor-default" title={tooltip}>
+    <div className="relative group/tip flex flex-col items-center gap-0.5 cursor-default">
       <span className="text-xs text-amber-600">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 inline -mt-0.5">
           <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 6a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 6Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
         </svg>
         {' '}{rule.ruleName}
+      </span>
+      <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover/tip:block w-48 rounded bg-gray-900 px-2 py-1.5 text-xs text-white text-center z-10">
+        {tooltip}
       </span>
     </div>
   );
