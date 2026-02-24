@@ -1,0 +1,31 @@
+name: "Atmos Rewards Business"
+bank: "Bank of America"
+slug: "atmos-rewards-business"
+image: "atmos-rewards-business.png"
+accepting_applications: true
+category: "business"
+annual_fee: 95
+tags:
+  - travel
+  - airlines
+  - business
+  - rewards
+reward_type: "points"
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+  - category: transit
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 70000
+  type: points
+  spend_requirement: 4000
+  timeframe_months: 3
