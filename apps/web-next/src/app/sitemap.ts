@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllCards, getAllBanks } from '@/lib/api';
+import { getNews } from '@/lib/news';
 
 // Required for static export
 export const dynamic = 'force-static';
@@ -12,7 +13,7 @@ export const dynamic = 'force-static';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://creditodds.com';
 
-  // Static pages
+  // Static pages — ordered by priority for crawlers
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -21,10 +22,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: `${baseUrl}/check-odds`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+    {
       url: `${baseUrl}/explore`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/news`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/leaderboard`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/about`,
@@ -56,18 +75,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
-    {
-      url: `${baseUrl}/leaderboard`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/news`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.8,
-    },
   ];
 
   // Dynamic card pages
@@ -98,5 +105,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap for banks:', error);
   }
 
-  return [...staticPages, ...bankPages, ...cardPages];
+  // Dynamic news article pages
+  let newsPages: MetadataRoute.Sitemap = [];
+  try {
+    const newsItems = await getNews();
+    newsPages = newsItems
+      .filter((item) => item.body)
+      .map((item) => ({
+        url: `${baseUrl}/news/${item.id}`,
+        lastModified: new Date(item.date),
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+      }));
+  } catch (error) {
+    console.error('Error generating sitemap for news:', error);
+  }
+
+  return [...staticPages, ...bankPages, ...cardPages, ...newsPages];
 }
