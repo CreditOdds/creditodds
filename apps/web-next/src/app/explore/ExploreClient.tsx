@@ -338,7 +338,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                                 {/* Show fee and status on mobile inline */}
                                 <span className="sm:hidden">
                                   {card.annual_fee !== undefined && card.annual_fee > 0 && (
-                                    <span className="text-gray-400">· ${card.annual_fee}/yr</span>
+                                    <span className="text-amber-600 font-medium">· ${card.annual_fee}/yr</span>
                                   )}
                                 </span>
                                 {!card.accepting_applications && (
@@ -350,8 +350,11 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                             </div>
                           </Link>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
-                          {card.annual_fee !== undefined ? (card.annual_fee === 0 ? '$0' : `$${card.annual_fee}`) : '—'}
+                        <td className="whitespace-nowrap px-3 py-4 text-sm hidden sm:table-cell">
+                          {card.annual_fee !== undefined ? (
+                            card.annual_fee === 0 ? <span className="text-gray-500">$0</span> :
+                            <span className="text-amber-700 font-medium">${card.annual_fee}</span>
+                          ) : '—'}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm hidden sm:table-cell">
                           {(() => {
@@ -371,7 +374,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                             <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
                               card.reward_type === 'cashback' ? 'bg-green-100 text-green-800' :
                               card.reward_type === 'points' ? 'bg-indigo-100 text-indigo-800' :
-                              card.reward_type === 'miles' ? 'bg-blue-100 text-blue-800' :
+                              card.reward_type === 'miles' ? 'bg-purple-100 text-purple-800' :
                               'bg-gray-100 text-gray-800'
                             }`}>
                               {card.reward_type === 'cashback' ? 'Cash Back' :
