@@ -464,8 +464,8 @@ export default function ProfileClient() {
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 mb-6">
-          <nav className="-mb-px flex space-x-4 sm:space-x-8">
+        <div className="border-b border-gray-200 mb-6 overflow-x-auto scrollbar-hide">
+          <nav className="-mb-px flex space-x-4 sm:space-x-8 whitespace-nowrap">
             <button
               onClick={() => setActiveTab('wallet')}
               className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
