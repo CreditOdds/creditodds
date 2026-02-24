@@ -10,6 +10,21 @@ import { cardMatchesSearch } from "@/lib/searchAliases";
 
 type SortOption = 'match' | 'name' | 'bank';
 
+const CACHE_KEY = 'check-odds-results';
+
+function saveResultsToCache(data: CheckOddsResponse) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch { /* ignore quota errors */ }
+}
+
+function loadResultsFromCache(): CheckOddsResponse | null {
+  try {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    return cached ? JSON.parse(cached) : null;
+  } catch { return null; }
+}
+
 function formatIncome(value: string): string {
   const num = value.replace(/[^0-9]/g, '');
   if (!num) return '';
@@ -25,15 +40,24 @@ export default function CheckOddsClient() {
   const searchParams = useSearchParams();
   const { authState, getToken } = useAuth();
 
-  // Form state
-  const [creditScore, setCreditScore] = useState(searchParams.get('cs') || '');
-  const [income, setIncome] = useState(
-    searchParams.get('income') ? formatIncome(searchParams.get('income')!) : ''
-  );
-  const [lengthCredit, setLengthCredit] = useState(searchParams.get('cl') || '');
+  // Restore cached results on mount
+  const cached = typeof window !== 'undefined' ? loadResultsFromCache() : null;
 
-  // Results state
-  const [results, setResults] = useState<CheckOddsResponse | null>(null);
+  // Form state — URL params take priority, then cached search, then empty
+  const [creditScore, setCreditScore] = useState(
+    searchParams.get('cs') || (cached ? String(cached.search.credit_score) : '')
+  );
+  const [income, setIncome] = useState(
+    searchParams.get('income')
+      ? formatIncome(searchParams.get('income')!)
+      : cached ? formatIncome(String(cached.search.income)) : ''
+  );
+  const [lengthCredit, setLengthCredit] = useState(
+    searchParams.get('cl') || (cached ? String(cached.search.length_credit) : '')
+  );
+
+  // Results state — restore from cache
+  const [results, setResults] = useState<CheckOddsResponse | null>(cached);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -81,6 +105,7 @@ export default function CheckOddsClient() {
         token
       );
       setResults(data);
+      saveResultsToCache(data);
     } catch (err: unknown) {
       const error = err as Error;
       setError(error.message || 'Failed to check odds');
@@ -322,15 +347,12 @@ export default function CheckOddsClient() {
                         <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 hidden sm:table-cell">
                           Credit History
                         </th>
-                        <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 sm:hidden">
-                          Match
-                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                       {filteredCards.length === 0 ? (
                         <tr>
-                          <td colSpan={5} className="py-12 text-center text-gray-500">
+                          <td colSpan={4} className="py-12 text-center text-gray-500">
                             No cards match your search.
                           </td>
                         </tr>
@@ -355,6 +377,20 @@ export default function CheckOddsClient() {
                                     {card.card_name}
                                   </div>
                                   <div className="text-xs text-gray-500">{card.bank}</div>
+                                  {/* Mobile inline indicators */}
+                                  <div className="sm:hidden mt-0.5">
+                                    {card.has_enough_data ? (
+                                      <div className="flex items-center gap-2 text-[11px]">
+                                        <MobileIndicator label="Score" isAbove={card.above_credit_score!} median={card.median_credit_score!} />
+                                        <MobileIndicator label="Income" isAbove={card.above_income!} median={card.median_income!} isCurrency />
+                                        <MobileIndicator label="History" isAbove={card.above_length_credit!} median={card.median_length_credit!} suffix="yr" />
+                                      </div>
+                                    ) : (
+                                      <span className="text-[11px] text-gray-400 italic">
+                                        Still collecting ({card.approved_data_points}/5)
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                               </Link>
                             </td>
@@ -384,18 +420,11 @@ export default function CheckOddsClient() {
                                     suffix=" yr"
                                   />
                                 </td>
-                                {/* Mobile column */}
-                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm sm:hidden">
-                                  <MatchBadge score={card.match_score} />
-                                </td>
                               </>
                             ) : (
                               <>
                                 <td colSpan={3} className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-400 italic hidden sm:table-cell">
                                   Still collecting results ({card.approved_data_points}/5 approved)
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-400 italic sm:hidden">
-                                  N/A
                                 </td>
                               </>
                             )}
@@ -446,6 +475,30 @@ function MedianIndicator({
         median {formatVal(median)}
       </span>
     </div>
+  );
+}
+
+function MobileIndicator({
+  label,
+  isAbove,
+  median,
+  isCurrency,
+  suffix,
+}: {
+  label: string;
+  isAbove: boolean;
+  median: number;
+  isCurrency?: boolean;
+  suffix?: string;
+}) {
+  const formatted = isCurrency
+    ? `$${median >= 1000 ? `${Math.round(median / 1000)}k` : median}`
+    : `${median}${suffix ? suffix : ''}`;
+
+  return (
+    <span className={isAbove ? 'text-green-700' : 'text-red-700'}>
+      {label} {isAbove ? '\u2191' : '\u2193'} {formatted}
+    </span>
   );
 }
 
