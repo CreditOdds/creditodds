@@ -336,6 +336,77 @@ export async function deleteAccount(token: string): Promise<{ message: string }>
   return res.json();
 }
 
+// Check Odds types and API functions
+export interface CheckOddsCard {
+  card_id: string | number;
+  card_name: string;
+  slug: string;
+  bank: string;
+  card_image_link?: string;
+  annual_fee?: number;
+  reward_type?: string;
+  tags?: string[];
+  approved_count: number;
+  total_records: number;
+  approved_data_points: number;
+  has_enough_data: boolean;
+  median_credit_score: number | null;
+  median_income: number | null;
+  median_length_credit: number | null;
+  above_credit_score: boolean | null;
+  above_income: boolean | null;
+  above_length_credit: boolean | null;
+  match_score: number;
+}
+
+export interface CheckOddsResponse {
+  cards: CheckOddsCard[];
+  search: {
+    credit_score: number;
+    income: number;
+    length_credit: number;
+  };
+}
+
+export interface ApprovalSearch {
+  id: number;
+  credit_score: number;
+  income: number;
+  length_credit: number;
+  created_at: string;
+}
+
+export async function checkOdds(
+  data: { credit_score: number; income: number; length_credit: number },
+  token: string
+): Promise<CheckOddsResponse> {
+  const res = await fetch(`${API_BASE}/check-odds`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to check odds: ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function getApprovalSearches(token: string): Promise<ApprovalSearch[]> {
+  const res = await fetch(`${API_BASE}/check-odds`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch searches: ${errorText}`);
+  }
+  return res.json();
+}
+
 // ============ ADMIN API FUNCTIONS ============
 
 // Admin Stats
