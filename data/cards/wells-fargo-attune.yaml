@@ -6,3 +6,8 @@ category: "cashback"
 image: "wells-fargo-attune.png"
 annual_fee: 0
 reward_type: "cashback"
+signup_bonus:
+  value: 100
+  type: "cashback"
+  spend_requirement: 500
+  timeframe_months: 3
