@@ -10,3 +10,8 @@ rewards:
   - category: "everything_else"
     value: 2
     unit: "percent"
+signup_bonus:
+  value: 500
+  type: "cashback"
+  spend_requirement: 5000
+  timeframe_months: 3
