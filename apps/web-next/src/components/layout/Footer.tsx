@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const socialLinks = [
   {
@@ -55,8 +56,14 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           {/* Left side - Navigation */}
           <div className="flex flex-col items-center sm:items-start gap-2">
-            <Link href="/" className="text-white font-bold text-lg">
-              CreditOdds
+            <Link href="/">
+              <Image
+                src="/assets/CreditOdds_LogoText_white-01.svg"
+                alt="CreditOdds"
+                width={150}
+                height={32}
+                className="h-8 w-auto"
+              />
             </Link>
             <nav className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2" aria-label="Footer">
               <Link href="/about" className="text-sm text-indigo-200 hover:text-white transition-colors">
