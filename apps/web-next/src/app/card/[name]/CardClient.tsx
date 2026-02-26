@@ -134,7 +134,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <ol className="flex items-center space-x-4 py-4">
+          <ol className="flex items-center space-x-4 py-4 overflow-hidden">
             <li>
               <Link href="/" className="text-gray-400 hover:text-gray-500">
                 Home
@@ -155,7 +155,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                 <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                 </svg>
-                <span className="ml-4 text-sm font-medium text-gray-500">{card.card_name}</span>
+                <span className="ml-4 text-sm font-medium text-gray-500 truncate">{card.card_name}</span>
               </div>
             </li>
           </ol>
