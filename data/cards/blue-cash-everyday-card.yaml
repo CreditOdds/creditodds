@@ -8,3 +8,21 @@ annual_fee: 0
 reward_type: "cashback"
 tags:
   - cashback
+rewards:
+  - category: "groceries"
+    value: 3
+    unit: "percent"
+    note: "U.S. supermarkets, up to $6,000 per year then 1%"
+  - category: "gas"
+    value: 3
+    unit: "percent"
+    note: "U.S. gas stations, up to $6,000 per year then 1%"
+  - category: "online_retail"
+    value: 3
+    unit: "percent"
+    note: "U.S. online retail purchases, up to $6,000 per year then 1%"
+signup_bonus:
+  value: 200
+  type: "cashback"
+  spend_requirement: 2000
+  timeframe_months: 6
