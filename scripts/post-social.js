@@ -122,9 +122,14 @@ async function publishToTwitter(postText, url) {
 
   const tweetText = `${postText}\n\n${url}`;
 
-  const { data } = await client.v2.tweet(tweetText);
-  console.log(`  Tweet posted: https://x.com/creditodds/status/${data.id}`);
-  return true;
+  try {
+    const { data } = await client.v2.tweet(tweetText);
+    console.log(`  Tweet posted: https://x.com/creditodds/status/${data.id}`);
+    return true;
+  } catch (err) {
+    console.error(`  Twitter API error details:`, JSON.stringify(err.data || err.errors || err.message, null, 2));
+    throw err;
+  }
 }
 
 /**
