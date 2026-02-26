@@ -70,12 +70,19 @@ async function generatePost(type, item) {
       ? item.related_cards.join(', ')
       : 'N/A');
 
-  const prompt = `Write a social media post for CreditOdds about this ${type}:
+  const prompt = `Write a short tweet for CreditOdds about this credit card ${type}:
 Title: ${item.title}
 Summary: ${item.summary}
 Cards: ${cardNames}
 
-Max 260 characters. Informative, engaging, professional. 1-2 hashtags. Do NOT include the URL.`;
+Rules:
+- Max 200 characters (shorter is better)
+- Lead with a hook like "BREAKING:" or "NEW:" or a bold statement when appropriate
+- Write like a human, not a corporate account — be direct, casual, punchy
+- No filler words, no "excited to announce", no "stay tuned"
+- 1 hashtag max, only if it adds value. Skip hashtags if the tweet is strong without one
+- Do NOT include any URL
+- Do NOT use emojis excessively — 0-1 emoji max`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
