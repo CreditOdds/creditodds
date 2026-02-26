@@ -6,3 +6,12 @@ accepting_applications: true
 category: "travel"
 annual_fee: 0
 reward_type: "points"
+signup_bonus:
+  value: 25000
+  type: "points"
+  spend_requirement: 1000
+  timeframe_months: 3
+rewards:
+  - category: "everything_else"
+    value: 1.5
+    unit: "points_per_dollar"

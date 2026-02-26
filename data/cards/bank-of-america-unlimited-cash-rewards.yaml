@@ -6,3 +6,8 @@ category: "cashback"
 image: "unlimited-cash-rewards.png"
 annual_fee: 0
 reward_type: "cashback"
+signup_bonus:
+  value: 200
+  type: "cashback"
+  spend_requirement: 1000
+  timeframe_months: 3

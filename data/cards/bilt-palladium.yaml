@@ -11,3 +11,8 @@ tags:
   - travel
   - premium
   - dining
+signup_bonus:
+  value: 50000
+  type: "points"
+  spend_requirement: 4000
+  timeframe_months: 3
