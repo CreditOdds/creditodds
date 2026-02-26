@@ -6,7 +6,12 @@ on:
       - main
     paths:
       - 'data/news/**'
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      test_post_file:
+        description: 'Test social posting with a specific news file (e.g. data/news/2026-02-25-chase-apple-card-transition.yaml)'
+        required: false
+        type: string
 
 permissions:
   id-token: write
@@ -66,13 +71,18 @@ jobs:
       - name: Detect new news files
         id: new-files
         run: |
-          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- 'data/news/*.yaml' 'data/news/*.yml' 2>/dev/null || echo "")
-          echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
-          if [ -n "$NEW_FILES" ]; then
-            echo "New news files detected:"
-            echo "$NEW_FILES"
+          if [ -n "${{ inputs.test_post_file }}" ]; then
+            echo "Test mode: using provided file"
+            echo "files=${{ inputs.test_post_file }}" >> $GITHUB_OUTPUT
           else
-            echo "No new news files detected"
+            NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- 'data/news/*.yaml' 'data/news/*.yml' 2>/dev/null || echo "")
+            echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
+            if [ -n "$NEW_FILES" ]; then
+              echo "New news files detected:"
+              echo "$NEW_FILES"
+            else
+              echo "No new news files detected"
+            fi
           fi
 
       - name: Post new news to social media
