@@ -20,7 +20,8 @@
     "lint": "npm run lint --workspaces --if-present"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "twitter-api-v2": "^1.29.0"
   },
   "engines": {
     "node": ">=18.0.0"

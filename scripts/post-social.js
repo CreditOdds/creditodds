@@ -4,17 +4,18 @@
  * Social Media Auto-Post Script
  *
  * Parses new news/article YAML files, generates an engaging social media post
- * via Claude Haiku, and publishes to X, Facebook, LinkedIn, and Instagram
- * via the Ayrshare API.
+ * via Claude Haiku, and publishes directly to X/Twitter.
  *
  * Usage: node scripts/post-social.js --type news|article --files <yaml-paths...>
  *
- * Env vars: ANTHROPIC_API_KEY, AYRSHARE_API_KEY
+ * Env vars: ANTHROPIC_API_KEY, TWITTER_API_KEY, TWITTER_API_SECRET,
+ *           TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET
  */
 
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+const { TwitterApi } = require('twitter-api-v2');
 
 // Parse CLI args
 function parseArgs() {
@@ -53,16 +54,6 @@ function buildUrl(type, item) {
     return `https://creditodds.com/news/${item.id}`;
   }
   return `https://creditodds.com/articles/${item.slug}`;
-}
-
-/**
- * Build the OG image URL for social media previews.
- */
-function buildOgImageUrl(type, item) {
-  if (type === 'news') {
-    return `https://creditodds.com/news/${item.id}/opengraph-image`;
-  }
-  return `https://creditodds.com/articles/${item.slug}/opengraph-image`;
 }
 
 /**
@@ -110,7 +101,7 @@ Max 260 characters. Informative, engaging, professional. 1-2 hashtags. Do NOT in
   const data = await response.json();
   let text = (data.content[0]?.text || '').trim();
 
-  // Safety: truncate if somehow over 280 chars (leaving room for URL)
+  // Safety: truncate if somehow over 260 chars
   if (text.length > 260) {
     text = text.substring(0, 257) + '...';
   }
@@ -119,44 +110,20 @@ Max 260 characters. Informative, engaging, professional. 1-2 hashtags. Do NOT in
 }
 
 /**
- * Publish a post to social media via Ayrshare.
+ * Publish a tweet to X/Twitter using the v2 API.
  */
-async function publishToAyrshare(postText, url, ogImageUrl) {
-  const apiKey = process.env.AYRSHARE_API_KEY;
-  if (!apiKey) {
-    throw new Error('AYRSHARE_API_KEY environment variable is required');
-  }
-
-  const fullPost = `${postText}\n\n${url}`;
-
-  const body = {
-    post: fullPost,
-    platforms: ['twitter', 'facebook', 'linkedin', 'reddit'],
-    mediaUrls: [ogImageUrl],
-    shortenLinks: true,
-    redditOptions: {
-      title: postText,
-      subreddit: 'creditodds',
-    },
-  };
-
-  const response = await fetch('https://app.ayrshare.com/api/post', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(body),
+async function publishToTwitter(postText, url) {
+  const client = new TwitterApi({
+    appKey: process.env.TWITTER_API_KEY,
+    appSecret: process.env.TWITTER_API_SECRET,
+    accessToken: process.env.TWITTER_ACCESS_TOKEN,
+    accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
   });
 
-  const data = await response.json();
+  const tweetText = `${postText}\n\n${url}`;
 
-  if (!response.ok) {
-    console.error(`  Ayrshare API error (${response.status}):`, JSON.stringify(data));
-    return false;
-  }
-
-  console.log('  Ayrshare response:', JSON.stringify(data));
+  const { data } = await client.v2.tweet(tweetText);
+  console.log(`  Tweet posted: https://x.com/creditodds/status/${data.id}`);
   return true;
 }
 
@@ -172,8 +139,14 @@ async function main() {
     console.error('Error: ANTHROPIC_API_KEY is not set');
     process.exit(1);
   }
-  if (!process.env.AYRSHARE_API_KEY) {
-    console.error('Error: AYRSHARE_API_KEY is not set');
+
+  const twitterEnabled = process.env.TWITTER_API_KEY
+    && process.env.TWITTER_API_SECRET
+    && process.env.TWITTER_ACCESS_TOKEN
+    && process.env.TWITTER_ACCESS_TOKEN_SECRET;
+
+  if (!twitterEnabled) {
+    console.error('Error: Twitter credentials are not set (TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)');
     process.exit(1);
   }
 
@@ -196,7 +169,6 @@ async function main() {
     }
 
     const url = buildUrl(type, item);
-    const ogImageUrl = buildOgImageUrl(type, item);
     console.log(`  URL: ${url}`);
 
     // Generate post text
@@ -209,16 +181,12 @@ async function main() {
       continue;
     }
 
-    // Publish via Ayrshare
+    // Publish to Twitter
     try {
-      const success = await publishToAyrshare(postText, url, ogImageUrl);
-      if (success) {
-        console.log('  Published successfully!\n');
-      } else {
-        console.log('  Publishing failed (non-fatal).\n');
-      }
+      await publishToTwitter(postText, url);
+      console.log('  Published successfully!\n');
     } catch (err) {
-      console.error(`  Ayrshare publish error: ${err.message}\n`);
+      console.error(`  Twitter publish error: ${err.message}\n`);
     }
   }
 
