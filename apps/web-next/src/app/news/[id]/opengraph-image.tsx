@@ -19,6 +19,13 @@ export default async function OGImage({ params }: { params: Promise<{ id: string
     ? new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : '';
 
+  // Single card referenced — show card image
+  const hasSingleCard = item?.card_slugs?.length === 1 && item?.card_image_links?.[0];
+  const cardImageUrl = hasSingleCard
+    ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${item!.card_image_links![0]}`
+    : null;
+  const cardName = hasSingleCard ? item!.card_names?.[0] : null;
+
   return new ImageResponse(
     (
       <div
@@ -50,64 +57,120 @@ export default async function OGImage({ params }: { params: Promise<{ id: string
             display: 'flex',
             width: '100%',
             height: '100%',
-            flexDirection: 'column',
-            justifyContent: 'center',
+            alignItems: 'center',
             padding: '60px 80px',
           }}
         >
-          {/* Date */}
-          {date && (
-            <div
-              style={{
-                color: 'rgba(255,255,255,0.7)',
-                fontSize: 24,
-                marginBottom: 16,
-              }}
-            >
-              {date}
-            </div>
-          )}
-
-          {/* Title */}
-          <div
-            style={{
-              color: 'white',
-              fontSize: title.length > 80 ? 40 : 48,
-              fontWeight: 'bold',
-              letterSpacing: -1,
-              lineHeight: 1.2,
-              maxWidth: 1000,
-              overflow: 'hidden',
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {title}
-          </div>
-
-          {/* Tag line */}
+          {/* Left side: text */}
           <div
             style={{
               display: 'flex',
-              marginTop: 32,
-              gap: 12,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              flex: 1,
+              paddingRight: cardImageUrl ? 40 : 0,
             }}
           >
+            {/* Date */}
+            {date && (
+              <div
+                style={{
+                  color: 'rgba(255,255,255,0.7)',
+                  fontSize: 24,
+                  marginBottom: 16,
+                }}
+              >
+                {date}
+              </div>
+            )}
+
+            {/* Title */}
+            <div
+              style={{
+                color: 'white',
+                fontSize: cardImageUrl
+                  ? (title.length > 60 ? 34 : 40)
+                  : (title.length > 80 ? 40 : 48),
+                fontWeight: 'bold',
+                letterSpacing: -1,
+                lineHeight: 1.2,
+                maxWidth: cardImageUrl ? 650 : 1000,
+                overflow: 'hidden',
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
+              }}
+            >
+              {title}
+            </div>
+
+            {/* Tag line */}
             <div
               style={{
                 display: 'flex',
-                alignItems: 'center',
-                padding: '8px 20px',
-                background: 'rgba(255,255,255,0.15)',
-                borderRadius: 50,
-                color: 'white',
-                fontSize: 18,
+                marginTop: 24,
+                gap: 12,
               }}
             >
-              Card News
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '8px 20px',
+                  background: 'rgba(255,255,255,0.15)',
+                  borderRadius: 50,
+                  color: 'white',
+                  fontSize: 18,
+                }}
+              >
+                Card News
+              </div>
             </div>
           </div>
+
+          {/* Right side: card image (single card only) */}
+          {cardImageUrl && (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  borderRadius: 16,
+                  boxShadow: '0 25px 80px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.3)',
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={cardImageUrl}
+                  alt={cardName || ''}
+                  width={380}
+                  height={240}
+                  style={{
+                    borderRadius: 16,
+                  }}
+                />
+              </div>
+              {cardName && (
+                <div
+                  style={{
+                    marginTop: 16,
+                    color: 'rgba(255,255,255,0.8)',
+                    fontSize: 20,
+                    textAlign: 'center',
+                    maxWidth: 380,
+                  }}
+                >
+                  {cardName}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Logo in bottom left corner */}
