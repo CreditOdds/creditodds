@@ -123,6 +123,11 @@ async function analyzeChanges(cards, searchResults) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY required');
 
+  // Load valid categories from categories.yaml
+  const categoriesFile = path.join(__dirname, '..', 'data', 'categories.yaml');
+  const categoriesData = yaml.load(fs.readFileSync(categoriesFile, 'utf8'));
+  const validCategories = categoriesData.categories.map(c => c.id);
+
   const cardsContext = cards
     .map((card) => {
       const current = {
@@ -157,11 +162,12 @@ ${cardsContext}
 ## Instructions
 - Compare current values against information found in search results
 - Only report changes you are CONFIDENT about from official issuer pages or multiple reliable sources
-- For annual_fee: must be a number (e.g., 95, 0, 550). Use the standard annual fee, NOT intro/waived fees.
+- For annual_fee: must be a number >= 0 (e.g., 95, 0, 550). NEVER use null. Use 0 for no annual fee. Use the standard annual fee, NOT intro/waived fees.
 - For reward_type: must be one of "cashback", "points", "miles"
 - For rewards: array of objects with {category, value, unit, note?}
   - unit must be "percent" or "points_per_dollar"
-  - category examples: "dining", "travel", "groceries", "gas", "streaming", "everything_else", etc.
+  - category MUST be one of these exact values: ${validCategories.join(', ')}
+  - Do NOT invent new categories. If a reward doesn't fit, use the closest match and explain in the "note" field.
 - For signup_bonus: object with {value, type, spend_requirement, timeframe_months}
   - value = number of points/miles/dollars
   - type = "points", "miles", or "cashback"
@@ -234,6 +240,23 @@ If NO changes found for ANY card, return: []`;
           if (JSON.stringify(c.old_value) === JSON.stringify(c.new_value)) {
             console.log(`  Skipping no-op change for "${card.card_name}": ${c.field} (${JSON.stringify(c.old_value)} unchanged)`);
             return false;
+          }
+          // Validate annual_fee: must be a number >= 0
+          if (c.field === 'annual_fee') {
+            if (c.new_value === null || typeof c.new_value !== 'number' || c.new_value < 0) {
+              console.warn(`  Skipping invalid annual_fee for "${card.card_name}": ${JSON.stringify(c.new_value)} (must be a number >= 0)`);
+              return false;
+            }
+          }
+          // Validate rewards: all categories must be valid
+          if (c.field === 'rewards' && Array.isArray(c.new_value)) {
+            const invalidCats = c.new_value
+              .map(r => r.category)
+              .filter(cat => !validCategories.includes(cat));
+            if (invalidCats.length > 0) {
+              console.warn(`  Skipping rewards change for "${card.card_name}": invalid categories: ${invalidCats.join(', ')}`);
+              return false;
+            }
           }
           return true;
         }),
