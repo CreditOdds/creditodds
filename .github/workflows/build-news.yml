@@ -75,7 +75,7 @@ jobs:
             echo "Test mode: using provided file"
             echo "files=${{ inputs.test_post_file }}" >> $GITHUB_OUTPUT
           else
-            NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- 'data/news/*.yaml' 'data/news/*.yml' 2>/dev/null || echo "")
+            NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- 'data/news/*.yaml' 'data/news/*.yml' 2>/dev/null | tr '\n' ' ' | xargs)
             echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
             if [ -n "$NEW_FILES" ]; then
               echo "New news files detected:"
