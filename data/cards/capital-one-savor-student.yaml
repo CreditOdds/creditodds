@@ -6,3 +6,8 @@ image: "capital-one-savor-student.png"
 category: "student"
 annual_fee: 0
 reward_type: "cashback"
+signup_bonus:
+  value: 50
+  type: "cashback"
+  spend_requirement: 100
+  timeframe_months: 3
