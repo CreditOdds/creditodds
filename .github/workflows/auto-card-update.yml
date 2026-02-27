@@ -37,6 +37,17 @@ jobs:
           DAY_OFFSET: ${{ github.event.inputs.day_offset || '0' }}
         run: node scripts/auto-card-update.js
 
+      - name: Validate card data
+        run: |
+          if [ -n "$(git status --porcelain data/cards/)" ]; then
+            echo "Validating updated card data..."
+            if ! npm run build:cards; then
+              echo "::error::Card validation failed! Reverting changes."
+              git checkout -- data/cards/
+              exit 1
+            fi
+          fi
+
       - name: Create PR if changes found
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

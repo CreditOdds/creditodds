@@ -3,5 +3,5 @@ bank: "Chase"
 slug: "starbucks-rewards-visa-card"
 image: "chase-starbucks-rewards.png"
 accepting_applications: false
-annual_fee: null
+annual_fee: 0
 reward_type: null

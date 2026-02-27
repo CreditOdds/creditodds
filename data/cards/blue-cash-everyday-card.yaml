@@ -17,7 +17,7 @@ rewards:
     value: 3
     unit: "percent"
     note: "U.S. gas stations, up to $6,000 per year then 1%"
-  - category: "online_retail"
+  - category: "online_shopping"
     value: 3
     unit: "percent"
     note: "U.S. online retail purchases, up to $6,000 per year then 1%"
