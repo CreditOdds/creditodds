@@ -6,3 +6,10 @@ accepting_applications: true
 category: "cashback"
 annual_fee: 39
 reward_type: "cashback"
+rewards:
+  - category: "hotels_car_portal"
+    value: 5
+    unit: "percent"
+  - category: "everything_else"
+    value: 1.5
+    unit: "percent"
