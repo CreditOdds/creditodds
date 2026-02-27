@@ -20,9 +20,10 @@ rewards:
   - category: "streaming"
     value: 3
     unit: "points_per_dollar"
-  - category: "online_groceries"
+  - category: "online_shopping"
     value: 3
     unit: "points_per_dollar"
+    note: "Online grocery purchases (excluding Target, Walmart, wholesale clubs)"
   - category: "travel"
     value: 2
     unit: "points_per_dollar"
