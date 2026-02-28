@@ -13,7 +13,7 @@ export interface BestPage {
   description: string;
   date: string;
   updated_at?: string;
-  author: string;
+  author?: string;
   author_slug?: string;
   seo_title?: string;
   seo_description?: string;

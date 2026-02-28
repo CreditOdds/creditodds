@@ -29,10 +29,6 @@ function loadCardsLookup() {
   }
 }
 
-function generateAuthorSlug(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
 function validateBestPage(item, schema, cardsLookup) {
   const errors = [];
 
@@ -115,11 +111,6 @@ function buildBest() {
         errors.push({ file, errors: validationErrors });
         console.log(`  ERROR: ${validationErrors.join(', ')}`);
         continue;
-      }
-
-      // Generate author_slug if not provided
-      if (!item.author_slug && item.author) {
-        item.author_slug = generateAuthorSlug(item.author);
       }
 
       pages.push(item);

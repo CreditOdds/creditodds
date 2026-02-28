@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CalendarIcon, UserIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+import { CalendarIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 import { getBestPage, getBestPages } from "@/lib/best";
 import { getAllCards } from "@/lib/api";
 import { BestCardList } from "@/components/best/BestCardList";
@@ -42,7 +42,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: page.date,
       modifiedTime: page.updated_at || page.date,
-      authors: [page.author],
     },
     alternates: {
       canonical: `https://creditodds.com/best/${page.slug}`,
@@ -82,7 +81,6 @@ export default async function BestDetailPage({ params }: Props) {
     }));
 
   const pageUrl = `https://creditodds.com/best/${page.slug}`;
-  const authorSlug = page.author_slug || page.author.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
   // ItemList JSON-LD for the ranked card list
   const jsonLd = {
@@ -156,10 +154,6 @@ export default async function BestDetailPage({ params }: Props) {
               {page.description}
             </p>
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-              <div className="flex items-center gap-1.5">
-                <UserIcon className="h-4 w-4" />
-                <span>{page.author}</span>
-              </div>
               <div className="flex items-center gap-1.5">
                 <CalendarIcon className="h-4 w-4" />
                 <span>{formatDate(page.date)}</span>

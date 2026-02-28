@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["id", "slug", "title", "description", "date", "author", "cards"],
+  "required": ["id", "slug", "title", "description", "date", "cards"],
   "properties": {
     "id": {
       "type": "string",

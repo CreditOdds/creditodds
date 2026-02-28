@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T20:27:07.238Z",
+  "generated_at": "2026-02-28T20:28:35.555Z",
   "count": 5,
   "pages": [
     {
@@ -8,7 +8,6 @@
       "title": "Best 0% APR Credit Cards",
       "description": "The best 0% intro APR credit cards for purchases and balance transfers, all with no annual fee.",
       "date": "2026-02-28",
-      "author": "Maxwell Melcher",
       "seo_title": "Best 0% APR Credit Cards of 2026",
       "seo_description": "Compare the best 0% intro APR credit cards of 2026. Up to 21 months of 0% APR on purchases and balance transfers.",
       "intro": "A 0% intro APR card lets you make purchases or transfer balances and pay no interest for an extended period — typically 12 to 21 months. These cards are ideal for financing a large purchase over time or consolidating existing credit card debt. Every card on this list has a $0 annual fee.\n",
@@ -40,8 +39,7 @@
           "slug": "us-bank-shield",
           "highlight": "15 months of 0% APR on both purchases and balance transfers. Shorter than the top picks but still a generous window for interest-free financing."
         }
-      ],
-      "author_slug": "maxwell-melcher"
+      ]
     },
     {
       "id": "best-airline-cards",
@@ -49,7 +47,6 @@
       "title": "Best Airline Credit Cards",
       "description": "The top co-branded airline credit cards ranked by signup bonuses, earning rates, and travel perks.",
       "date": "2026-02-28",
-      "author": "Maxwell Melcher",
       "seo_title": "Best Airline Credit Cards of 2026",
       "seo_description": "Compare the best airline credit cards of 2026. Delta, United, Southwest, JetBlue, and more — ranked by value.",
       "intro": "Airline credit cards earn miles in a specific loyalty program and come with perks like free checked bags, priority boarding, and lounge access. They're best for travelers loyal to one airline or alliance. We've ranked these by overall value — factoring in signup bonuses, earning rates, annual fees, and travel benefits.\n",
@@ -117,8 +114,7 @@
           "slug": "hawaiian-airlines-world-elite-mastercard",
           "highlight": "3x miles on Hawaiian Airlines, 2x on dining and gas. Includes a companion fare discount and no foreign transaction fees — ideal for Hawaii-bound travelers."
         }
-      ],
-      "author_slug": "maxwell-melcher"
+      ]
     },
     {
       "id": "best-dining-grocery-cards",
@@ -126,7 +122,6 @@
       "title": "Best Credit Cards for Dining and Groceries",
       "description": "The top credit cards for earning rewards on restaurants and grocery store purchases, from premium to no-annual-fee options.",
       "date": "2026-02-28",
-      "author": "Maxwell Melcher",
       "seo_title": "Best Credit Cards for Dining and Groceries of 2026",
       "seo_description": "Compare the best dining and grocery credit cards of 2026. Earn 3-4x points or up to 6% cash back on food spending.",
       "intro": "Dining and groceries are two of the biggest spending categories for most people. The right card can earn you serious rewards on money you're already spending. We've ranked these cards by their earning rates on dining and groceries, factoring in annual fees and overall card value.\n",
@@ -181,8 +176,7 @@
           "slug": "atmos-rewards-ascent",
           "highlight": "3x on dining with a lower annual fee than the Summit. A good mid-tier option if you want elevated dining rewards without the premium price tag."
         }
-      ],
-      "author_slug": "maxwell-melcher"
+      ]
     },
     {
       "id": "best-secured-cards",
@@ -190,7 +184,6 @@
       "title": "Best Secured Credit Cards",
       "description": "The best secured credit cards for building or rebuilding credit, all with no annual fee.",
       "date": "2026-02-28",
-      "author": "Maxwell Melcher",
       "seo_title": "Best Secured Credit Cards of 2026",
       "seo_description": "Compare the best secured credit cards of 2026 for building credit. All have $0 annual fees and report to all three bureaus.",
       "intro": "Secured credit cards require a refundable security deposit that typically becomes your credit limit. They're designed for people building credit for the first time or rebuilding after a setback. Every card on this list has no annual fee and reports to all three major credit bureaus, so responsible use will help your credit score grow over time.\n",
@@ -222,8 +215,7 @@
           "slug": "us-bank-secured",
           "highlight": "A basic secured Visa card with no rewards. U.S. Bank reviews your account for an upgrade to an unsecured card automatically. A solid option if you already bank with U.S. Bank."
         }
-      ],
-      "author_slug": "maxwell-melcher"
+      ]
     },
     {
       "id": "best-signup-bonuses",
@@ -231,7 +223,6 @@
       "title": "Best Credit Card Signup Bonuses",
       "description": "The most valuable credit card signup bonuses available right now, ranked by bonus value and overall appeal.",
       "date": "2026-02-28",
-      "author": "Maxwell Melcher",
       "seo_title": "Best Credit Card Signup Bonuses of 2026",
       "seo_description": "Compare the best credit card signup bonuses of 2026. Ranked by value — from 140k points to $200 cash back.",
       "intro": "Signup bonuses are the fastest way to earn a big chunk of rewards from a new credit card. We've ranked the best offers available right now based on bonus value, ease of earning, and overall card quality. All data is pulled live from our card database so bonus values, annual fees, and apply links are always current.\n",
@@ -301,8 +292,7 @@
           "slug": "capital-one-savorone",
           "highlight": "$200 cash back after $500 in 3 months. The SavorOne also earns 3% on dining, entertainment, groceries, and streaming — a great all-around no-annual-fee card."
         }
-      ],
-      "author_slug": "maxwell-melcher"
+      ]
     }
   ]
 }
