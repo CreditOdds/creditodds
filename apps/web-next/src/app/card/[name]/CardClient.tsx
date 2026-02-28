@@ -4,11 +4,11 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
 import { ExclamationTriangleIcon, PencilSquareIcon, NewspaperIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent, getRecords } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -69,8 +69,39 @@ interface CardClientProps {
 
 export default function CardClient({ card, graphData, news, articles }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
-  const { authState } = useAuth();
+  const [hasSubmittedForCard, setHasSubmittedForCard] = useState<boolean | null>(null);
+  const { authState, getToken } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Auto-open submit modal when ?submit=true is present
+  useEffect(() => {
+    if (searchParams.get('submit') === 'true' && authState.isAuthenticated) {
+      setShowModal(true);
+      router.replace(`/card/${card.slug}`, { scroll: false });
+    }
+  }, [searchParams, authState.isAuthenticated, card.slug, router]);
+
+  // Check if user has already submitted a record for this card
+  useEffect(() => {
+    if (!authState.isAuthenticated || !card.accepting_applications) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const token = await getToken();
+        if (!token || cancelled) return;
+        const records = await getRecords(token);
+        if (cancelled) return;
+        const submitted = records.some(
+          (r: { card_name: string }) => r.card_name === card.card_name
+        );
+        setHasSubmittedForCard(submitted);
+      } catch {
+        // Silently fail
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [authState.isAuthenticated, getToken, card.card_name, card.accepting_applications]);
 
   const chartOne = graphData[0] || [];
   const chartTwo = graphData[1] || [];
@@ -172,6 +203,23 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
           )}
         </div>
       </nav>
+
+      {/* Contextual nudge for users who haven't submitted for this card */}
+      {card.accepting_applications && authState.isAuthenticated && hasSubmittedForCard === false && (
+        <div className="bg-amber-50 border-b border-amber-200 px-4 sm:px-6 lg:px-8 py-3">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <p className="text-sm text-amber-800">
+              You haven&apos;t shared your result for this card yet.
+            </p>
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex-shrink-0 text-sm font-semibold text-white bg-amber-600 hover:bg-amber-500 px-3 py-1.5 rounded-md transition-colors"
+            >
+              Submit now
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Not accepting applications warning - full width */}
       {!card.accepting_applications && card.accepting_applications !== undefined && (

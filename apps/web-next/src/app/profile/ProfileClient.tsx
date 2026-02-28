@@ -464,7 +464,7 @@ export default function ProfileClient() {
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 mb-6 overflow-x-auto scrollbar-hide">
+        <div className="border-b border-gray-200 mb-6 overflow-x-auto overflow-y-hidden scrollbar-hide">
           <nav className="-mb-px flex space-x-4 sm:space-x-8 whitespace-nowrap">
             <button
               onClick={() => setActiveTab('wallet')}

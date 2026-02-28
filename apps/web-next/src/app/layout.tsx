@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
+import DataPointPrompt from "@/components/ui/DataPointPrompt";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -58,6 +59,7 @@ export default function RootLayout({
         <AuthProvider>
           <SkipLink />
           <Navbar />
+          <DataPointPrompt />
           <main id="main-content" className="flex-grow">{children}</main>
           <Footer />
           <ToastContainer />
