@@ -4,3 +4,13 @@ slug: "citi-simplicity-card"
 accepting_applications: true
 image: "citi-simplicity.png"
 annual_fee: 0
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  balance_transfer_intro:
+    rate: 0
+    months: 21
+  regular:
+    min: 19.24
+    max: 29.99

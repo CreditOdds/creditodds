@@ -323,10 +323,21 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                     </span>
                   </>
                 )}
+                {card.apr && (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (() => {
+                  const intro = card.apr.balance_transfer_intro || card.apr.purchase_intro;
+                  return (
+                    <>
+                      <span className="text-gray-300">&middot;</span>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-50 text-cyan-700">
+                        {intro!.rate}% Intro APR {intro!.months}mo
+                      </span>
+                    </>
+                  );
+                })()}
               </div>
 
-              {/* Rewards + Signup Bonus Card */}
-              {(card.rewards && card.rewards.length > 0 || card.signup_bonus) && (
+              {/* Rewards + Signup Bonus + APR Card */}
+              {(card.rewards && card.rewards.length > 0 || card.signup_bonus || card.apr) && (
                 <div className="mt-4 bg-white shadow rounded-lg overflow-hidden">
                   {card.rewards && card.rewards.length > 0 && (
                     <div className="p-4">
@@ -394,6 +405,29 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                         after spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
                         {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
                       </p>
+                    </div>
+                  )}
+                  {card.apr && (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (
+                    <div className={`bg-cyan-50 px-4 py-3 border-t border-cyan-100 ${
+                      !(card.rewards && card.rewards.length > 0) && !card.signup_bonus ? "rounded-t-lg" : ""
+                    }`}>
+                      <div className="text-sm font-medium text-cyan-900">
+                        {card.apr.balance_transfer_intro && (
+                          <p>
+                            <span className="font-bold">{card.apr.balance_transfer_intro.rate}% Intro APR</span> for {card.apr.balance_transfer_intro.months} months on balance transfers
+                          </p>
+                        )}
+                        {card.apr.purchase_intro && (
+                          <p className={card.apr.balance_transfer_intro ? "mt-1" : ""}>
+                            <span className="font-bold">{card.apr.purchase_intro.rate}% Intro APR</span> for {card.apr.purchase_intro.months} months on purchases
+                          </p>
+                        )}
+                      </div>
+                      {card.apr.regular && (
+                        <p className="text-xs text-cyan-600 mt-1">
+                          Then {card.apr.regular.min}%&ndash;{card.apr.regular.max}% variable APR
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>

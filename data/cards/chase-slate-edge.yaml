@@ -5,3 +5,10 @@ image: "chase-slate-edge.png"
 accepting_applications: true
 category: "other"
 annual_fee: 0
+apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 21
+  regular:
+    min: 22.49
+    max: 31.24

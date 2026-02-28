@@ -4,3 +4,10 @@ slug: "us-bank-shield"
 image: "us-bank-shield.png"
 accepting_applications: true
 annual_fee: 0
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
