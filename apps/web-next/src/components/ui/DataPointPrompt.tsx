@@ -68,7 +68,7 @@ function CardPicker({
                     <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    {...getInputProps({ ref: searchInputRef })}
+                    {...getInputProps({ ref: searchInputRef as React.RefObject<HTMLInputElement> })}
                     className="w-full border border-gray-300 rounded-lg pl-10 pr-3 py-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="Search cards..."
                     type="search"
