@@ -2,7 +2,7 @@ name: "IHG One Rewards Premier Business"
 bank: "Chase"
 slug: "ihg-rewards-premier-business"
 accepting_applications: true
-annual_fee: 0
+annual_fee: 99
 reward_type: "points"
 image: "chase-ihg-one-rewards-premier-business.png"
 tags:
