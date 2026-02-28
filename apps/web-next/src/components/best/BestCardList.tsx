@@ -161,6 +161,32 @@ export function BestCardList({ cards }: BestCardListProps) {
                     </div>
                   )}
 
+                  {/* Intro APR */}
+                  {!card.signup_bonus && card.apr && (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (
+                    <div className="bg-sky-50 border border-sky-100 rounded-lg px-4 py-3 mb-3">
+                      <p className="text-sm font-medium text-sky-900">
+                        {card.apr.purchase_intro && card.apr.balance_transfer_intro ? (
+                          <>
+                            <span className="font-bold text-base">{card.apr.purchase_intro.rate}% intro APR</span> for {card.apr.purchase_intro.months} months on purchases
+                            {card.apr.balance_transfer_intro.months !== card.apr.purchase_intro.months ? (
+                              <> &amp; {card.apr.balance_transfer_intro.months} months on balance transfers</>
+                            ) : (
+                              <> &amp; balance transfers</>
+                            )}
+                          </>
+                        ) : card.apr.balance_transfer_intro ? (
+                          <>
+                            <span className="font-bold text-base">{card.apr.balance_transfer_intro.rate}% intro APR</span> for {card.apr.balance_transfer_intro.months} months on balance transfers
+                          </>
+                        ) : card.apr.purchase_intro ? (
+                          <>
+                            <span className="font-bold text-base">{card.apr.purchase_intro.rate}% intro APR</span> for {card.apr.purchase_intro.months} months on purchases
+                          </>
+                        ) : null}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Top reward categories */}
                   {topRewards.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-3">

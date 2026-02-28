@@ -1,0 +1,59 @@
+id: best-airline-cards
+slug: best-airline-cards
+title: Best Airline Credit Cards
+description: The top co-branded airline credit cards ranked by signup bonuses, earning rates, and travel perks.
+date: "2026-02-28"
+author: Maxwell Melcher
+seo_title: Best Airline Credit Cards of 2026
+seo_description: Compare the best airline credit cards of 2026. Delta, United, Southwest, JetBlue, and more — ranked by value.
+intro: |
+  Airline credit cards earn miles in a specific loyalty program and come with perks like free checked bags, priority boarding, and lounge access. They're best for travelers loyal to one airline or alliance. We've ranked these by overall value — factoring in signup bonuses, earning rates, annual fees, and travel benefits.
+
+cards:
+  - slug: delta-skymiles-reserve-american-express-card
+    badge: Best Premium
+    highlight: 125,000 SkyMiles signup bonus, Delta Sky Club access, and a companion certificate. The ultimate Delta card for frequent flyers willing to pay the $650 annual fee.
+
+  - slug: delta-skymiles-platinum-american-express-card
+    badge: Best Delta Value
+    highlight: 100,000 SkyMiles with a companion certificate and solid travel protections. A strong step up from the Gold at $350/year without the Reserve's premium price.
+
+  - slug: delta-skymiles-gold-american-express-card
+    badge: Best Mid-Tier
+    highlight: 90,000 SkyMiles signup bonus with a $150 annual fee. Includes a free first checked bag and 2x earning on dining, groceries, and Delta purchases.
+
+  - slug: united-explorer
+    highlight: A well-rounded United card with a free first checked bag, two United Club one-time passes, and expanded award availability. Good for occasional to moderate United flyers.
+
+  - slug: united-quest
+    highlight: Premium United card with up to $250 in annual travel credits. 3x miles on United purchases and a stronger earning structure than the Explorer.
+
+  - slug: united-club-infinite
+    highlight: United Club lounge access, Premier 1K-level upgrades, and the strongest United earning structure. Worth it if you fly United frequently and value lounge access.
+
+  - slug: southwest-rapid-rewards-priority-credit-card
+    highlight: $75 annual travel credit, 4 upgraded boardings per year, and 7,500 anniversary points. The best Southwest card for earning toward the Companion Pass.
+
+  - slug: southwest-rapid-rewards-premier-credit-card
+    highlight: Solid mid-tier Southwest option with 2x on Southwest and Rapid Rewards hotel/car purchases. Lower annual fee than the Priority with core travel benefits.
+
+  - slug: southwest-rapid-rewards-plus-credit-card
+    highlight: The entry-level Southwest card at $99/year. 2x on Southwest purchases and 1x on everything else, plus anniversary points toward the Companion Pass.
+
+  - slug: delta-skymiles-blue-american-express-card
+    highlight: No annual fee entry point into the Delta ecosystem. 2x miles on dining and Delta purchases. A great starter airline card.
+
+  - slug: united-gateway
+    highlight: No annual fee United card. A free first checked bag on United and basic miles earning. Best for infrequent United travelers who want the checked bag perk.
+
+  - slug: jetblue-plus-card
+    highlight: 6x points on JetBlue, a free first checked bag, and 50% savings on inflight purchases. A solid co-brand for Northeast and Florida travelers.
+
+  - slug: jetblue-card
+    highlight: No annual fee JetBlue card with 3x on JetBlue purchases and 2x on dining and groceries. Good for casual JetBlue flyers.
+
+  - slug: american-airlines-aadvantage-mileu-mastercard
+    highlight: No annual fee American Airlines card. Earns 2x on eligible AA purchases and is the only free entry into the AAdvantage program via a credit card.
+
+  - slug: hawaiian-airlines-world-elite-mastercard
+    highlight: 3x miles on Hawaiian Airlines, 2x on dining and gas. Includes a companion fare discount and no foreign transaction fees — ideal for Hawaii-bound travelers.
