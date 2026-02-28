@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
+import DataPointPrompt from "@/components/ui/DataPointPrompt";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -52,13 +53,14 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://d3ay3etzd1512y.cloudfront.net" />
         <link rel="dns-prefetch" href="https://d2ojrhbh2dincr.cloudfront.net" />
       </head>
-      <body>
+      <body className="min-h-screen flex flex-col">
         <OrganizationSchema />
         <WebsiteSchema />
         <AuthProvider>
           <SkipLink />
           <Navbar />
-          <main id="main-content">{children}</main>
+          <DataPointPrompt />
+          <main id="main-content" className="flex-grow">{children}</main>
           <Footer />
           <ToastContainer />
           <WebVitalsReporter />
