@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllCards, getAllBanks } from '@/lib/api';
 import { getNews } from '@/lib/news';
+import { getArticles } from '@/lib/articles';
 import { getBestPages } from '@/lib/best';
 
 // Required for static export
@@ -38,6 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/news`,
       lastModified: new Date(),
       changeFrequency: 'daily',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/articles`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 0.85,
     },
     {
@@ -146,6 +153,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap for news:', error);
   }
 
+  // Dynamic article pages
+  let articlePages: MetadataRoute.Sitemap = [];
+  try {
+    const articleItems = await getArticles();
+    articlePages = articleItems.map((item) => ({
+      url: `${baseUrl}/articles/${item.slug}`,
+      lastModified: new Date(item.updated_at || item.date),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    }));
+  } catch (error) {
+    console.error('Error generating sitemap for articles:', error);
+  }
+
   // Dynamic best pages
   let bestPages: MetadataRoute.Sitemap = [];
   try {
@@ -160,5 +181,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap for best pages:', error);
   }
 
-  return [...staticPages, ...bankPages, ...cardPages, ...newsPages, ...bestPages];
+  return [...staticPages, ...bankPages, ...cardPages, ...newsPages, ...articlePages, ...bestPages];
 }

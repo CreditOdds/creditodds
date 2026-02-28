@@ -1,8 +1,10 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import {
-  TrophyIcon,
   CalendarIcon,
+} from "@heroicons/react/24/outline";
+import {
+  TrophyIcon,
   GiftIcon,
   PaperAirplaneIcon,
   PercentBadgeIcon,
@@ -10,7 +12,7 @@ import {
   ShoppingCartIcon,
   BanknotesIcon,
   GlobeAltIcon,
-} from "@heroicons/react/24/outline";
+} from "@heroicons/react/24/solid";
 
 const pageIcons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
   'best-signup-bonuses': GiftIcon,
@@ -25,11 +27,11 @@ import { getBestPages } from "@/lib/best";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Best Credit Cards - Top Picks & Comparisons",
-  description: "Curated rankings of the best credit cards across categories. Data-driven picks updated with live approval odds and bonus values.",
+  title: "Best Credit Cards of 2026 - Top Picks & Comparisons",
+  description: "Curated rankings of the best credit cards of 2026 across categories. Data-driven picks updated with live approval odds and bonus values.",
   openGraph: {
-    title: "Best Credit Cards | CreditOdds",
-    description: "Curated rankings of the best credit cards across categories.",
+    title: "Best Credit Cards of 2026 | CreditOdds",
+    description: "Curated rankings of the best credit cards of 2026 across categories.",
     url: "https://creditodds.com/best",
   },
   alternates: {
