@@ -27,6 +27,13 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
               Explore what it takes to get approved.
             </p>
             <CardSelect allCards={initialCards} />
+            <p className="mt-3 text-sm text-gray-500 text-center lg:text-left">
+              Or{" "}
+              <Link href="/check-odds" className="underline hover:text-indigo-600">
+                check your odds against all cards
+              </Link>{" "}
+              &rarr;
+            </p>
           </div>
         </div>
         <div className="relative w-screen h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
