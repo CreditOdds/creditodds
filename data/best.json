@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-02-28T20:28:35.555Z",
-  "count": 5,
+  "generated_at": "2026-02-28T20:52:32.390Z",
+  "count": 7,
   "pages": [
     {
       "id": "best-0-apr-cards",
@@ -113,6 +113,76 @@
         {
           "slug": "hawaiian-airlines-world-elite-mastercard",
           "highlight": "3x miles on Hawaiian Airlines, 2x on dining and gas. Includes a companion fare discount and no foreign transaction fees — ideal for Hawaii-bound travelers."
+        }
+      ]
+    },
+    {
+      "id": "best-cash-back-cards",
+      "slug": "best-cash-back-cards",
+      "title": "Best Cash Back Credit Cards",
+      "description": "The top cash back credit cards ranked by earning rates, bonus categories, and signup offers — all with no annual fee unless noted.",
+      "date": "2026-02-28",
+      "seo_title": "Best Cash Back Credit Cards of 2026",
+      "seo_description": "Compare the best cash back credit cards of 2026. Flat-rate 2% cards, 5% rotating categories, and the best signup bonuses.",
+      "intro": "Cash back cards are the simplest way to earn rewards — no points to transfer, no portals to navigate, just money back on your spending. We've ranked the best options from flat-rate everyday cards to category specialists, all based on earning rates and overall value.\n",
+      "cards": [
+        {
+          "slug": "chase-freedom-flex",
+          "badge": "Best Overall",
+          "highlight": "5% on rotating quarterly categories, 5% on Chase Travel, 3% on dining and drugstores, and 1% on everything else. Plus a $200 signup bonus after just $500 in spending. The most versatile cash back card available."
+        },
+        {
+          "slug": "wells-fargo-active-cash",
+          "badge": "Best Flat Rate",
+          "highlight": "A simple 2% cash back on every purchase with no annual fee. The $200 signup bonus after $500 spend makes it an easy win. One of the best \"set it and forget it\" cards."
+        },
+        {
+          "slug": "citi-double-cash",
+          "highlight": "2% on everything — 1% when you buy, 1% when you pay. A $200 bonus after $1,500 in 6 months. Also earns Citi ThankYou points that can be transferred to airline partners if you pair it with a Citi premium card."
+        },
+        {
+          "slug": "chase-freedom-unlimited",
+          "highlight": "1.5% on everything plus 3% on dining and drugstores, 5% on Chase Travel. The $200 signup bonus is easy to earn. Pairs perfectly with a Sapphire card for point transfers."
+        },
+        {
+          "slug": "capital-one-savorone",
+          "badge": "Best for Food",
+          "highlight": "3% on dining, groceries, entertainment, and streaming with no annual fee. The $200 signup bonus after $500 is one of the easiest to earn. A great all-in-one card for everyday spending."
+        },
+        {
+          "slug": "discover-it-cash-back",
+          "badge": "Best First-Year Value",
+          "highlight": "5% on rotating quarterly categories and 1% on everything else. Discover matches all cash back earned in your first year — effectively doubling your rewards to 10% and 2%."
+        },
+        {
+          "slug": "blue-cash-everyday-card",
+          "highlight": "3% at U.S. supermarkets (up to $6,000/year), 3% on gas, and 3% on online shopping. A strong grocery-focused card with a $200 signup bonus."
+        },
+        {
+          "slug": "citi-custom-cash",
+          "badge": "Best Category Card",
+          "highlight": "5% back on your top spending category each billing cycle (up to $500/month) — automatically adjusting between dining, gas, groceries, transit, streaming, and more. No annual fee."
+        },
+        {
+          "slug": "amazon-prime-rewards-visa-signature-card",
+          "highlight": "5% back at Amazon, Whole Foods, and Chase Travel for Prime members. 2% on dining and gas, 1% on everything else. No annual fee beyond your Prime membership."
+        },
+        {
+          "slug": "capital-one-quicksilver",
+          "highlight": "A straightforward 1.5% cash back on everything with no annual fee. No rotating categories or spending caps to worry about — just reliable flat-rate earnings."
+        },
+        {
+          "slug": "wells-fargo-signify-business-cash",
+          "badge": "Best Business",
+          "highlight": "2% cash back on every purchase with no category restrictions. The $500 signup bonus after $5,000 in 3 months is one of the highest flat cash bonuses available."
+        },
+        {
+          "slug": "wells-fargo-autograph",
+          "highlight": "3x points on dining, travel, gas, transit, and streaming with no annual fee. While technically a points card, rewards redeem at 1 cent each — making it effectively a multi-category 3% cash back card."
+        },
+        {
+          "slug": "wells-fargo-attune",
+          "highlight": "4% on select categories you choose and 2% on everyday spending. A newer Wells Fargo card with a customizable rewards structure and $100 signup bonus."
         }
       ]
     },
@@ -291,6 +361,75 @@
         {
           "slug": "capital-one-savorone",
           "highlight": "$200 cash back after $500 in 3 months. The SavorOne also earns 3% on dining, entertainment, groceries, and streaming — a great all-around no-annual-fee card."
+        }
+      ]
+    },
+    {
+      "id": "best-travel-cards",
+      "slug": "best-travel-cards",
+      "title": "Best Travel Credit Cards",
+      "description": "The top travel credit cards ranked by rewards, travel perks, and overall value — from premium to no-annual-fee options.",
+      "date": "2026-02-28",
+      "seo_title": "Best Travel Credit Cards of 2026",
+      "seo_description": "Compare the best travel credit cards of 2026. From Chase Sapphire Reserve to no-fee options — ranked by rewards and perks.",
+      "intro": "The best travel cards earn accelerated rewards on travel and dining, offer perks like lounge access and travel credits, and let you transfer points to airline and hotel partners for outsized value. We've ranked these by overall value for travelers — from premium cards with big perks to no-fee options that still earn great rewards.\n",
+      "cards": [
+        {
+          "slug": "chase-sapphire-reserve",
+          "badge": "Best Premium",
+          "highlight": "10x on hotels and car rentals through Chase Travel, 5x on flights, 3x on dining and travel. The $300 annual travel credit and Priority Pass lounge access help offset the $795 fee. Points are worth 50% more through Chase Travel."
+        },
+        {
+          "slug": "capital-one-venture-x",
+          "badge": "Best Value Premium",
+          "highlight": "10x on hotels and 5x on flights through the Capital One portal, 2x on everything else. The $300 travel credit and 10,000 anniversary miles make the effective annual fee close to $0. Includes Capital One Lounges and Priority Pass."
+        },
+        {
+          "slug": "chase-sapphire-preferred",
+          "badge": "Best Mid-Tier",
+          "highlight": "5x on Chase Travel, 3x on dining, streaming, and online groceries, 2x on other travel. The 60,000-point signup bonus is worth at least $750. The most popular travel card for good reason."
+        },
+        {
+          "slug": "american-express-gold-card",
+          "highlight": "4x on dining and groceries, 3x on flights. Monthly dining and Uber credits help offset the $325 fee. Membership Rewards points transfer to a huge list of airline and hotel partners."
+        },
+        {
+          "slug": "capital-one-venture-rewards",
+          "highlight": "2x miles on every purchase with no category tracking needed. Miles can be transferred to partners or used to erase travel purchases. A solid mid-tier option at $95/year."
+        },
+        {
+          "slug": "wells-fargo-autograph",
+          "badge": "Best No-Fee",
+          "highlight": "3x on dining, travel, gas, transit, and streaming with no annual fee. A 20,000-point signup bonus after $1,000 spend. Hard to beat for a free travel card."
+        },
+        {
+          "slug": "bank-of-america-travel-rewards",
+          "highlight": "1.5x points on everything with no annual fee and no foreign transaction fees. A 25,000-point signup bonus after $1,000 spend. Simple and effective for occasional travelers."
+        },
+        {
+          "slug": "bilt-palladium",
+          "highlight": "Earn points on rent payments with no transaction fees — a unique feature no other card offers. Also earns on dining, travel, and everyday spending. Points transfer to Hyatt, AA, United, and more."
+        },
+        {
+          "slug": "world-of-hyatt-business-credit-card",
+          "badge": "Best Hotel Card",
+          "highlight": "60,000 World of Hyatt points can be worth $1,200+ in hotel stays. Hyatt offers the best cents-per-point value of any major hotel program. Automatic Discoverist status included."
+        },
+        {
+          "slug": "atmos-rewards-summit",
+          "highlight": "80,000-point signup bonus with 3x on dining and a competitive rewards structure. A newer entrant competing with the established premium travel cards."
+        },
+        {
+          "slug": "atmos-rewards-ascent",
+          "highlight": "70,000-point signup bonus with only $3,000 in spending required. A lower-fee alternative to the Summit that still earns elevated rewards on dining and travel."
+        },
+        {
+          "slug": "citi-strata-premier",
+          "highlight": "A strong Citi travel card with competitive earning rates on travel and dining. ThankYou points transfer to a solid lineup of airline partners."
+        },
+        {
+          "slug": "us-bank-altitude-go-visa-signature",
+          "highlight": "4x points on dining and takeout, 2x on groceries, gas, and streaming with no annual fee. A strong no-fee option for diners who want travel-redeemable rewards."
         }
       ]
     }
