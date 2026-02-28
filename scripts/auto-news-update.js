@@ -147,6 +147,56 @@ async function braveSearch(query) {
 }
 
 /**
+ * Search using Google News RSS feeds (no API key required)
+ */
+async function googleNewsSearch(query) {
+  const params = new URLSearchParams({
+    q: query,
+    hl: 'en-US',
+    gl: 'US',
+    ceid: 'US:en',
+  });
+
+  const url = `https://news.google.com/rss/search?${params}`;
+
+  const response = await fetch(url, {
+    headers: {
+      'User-Agent': 'CreditOdds-NewsBot/1.0',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Google News RSS error: ${response.status} ${response.statusText}`);
+  }
+
+  const xml = await response.text();
+
+  // Parse RSS items with regex (simple and reliable for Google News RSS)
+  const items = [];
+  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+  let match;
+
+  while ((match = itemRegex.exec(xml)) !== null) {
+    const itemXml = match[1];
+    const title = itemXml.match(/<title>([\s\S]*?)<\/title>/)?.[1]?.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1') || '';
+    const link = itemXml.match(/<link>([\s\S]*?)<\/link>/)?.[1] || '';
+    const pubDate = itemXml.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1] || '';
+    const description = itemXml.match(/<description>([\s\S]*?)<\/description>/)?.[1]?.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')?.replace(/<[^>]+>/g, '') || '';
+
+    if (title && link) {
+      items.push({
+        title: title.trim(),
+        url: link.trim(),
+        description: description.trim(),
+        pubDate,
+      });
+    }
+  }
+
+  return items;
+}
+
+/**
  * Call Claude API to analyze search results and generate news items
  */
 async function generateNewsWithClaude(searchResults, existingNews, cards) {
@@ -505,6 +555,8 @@ async function main() {
   const allResults = [];
   const seenUrls = new Set();
 
+  // Brave Search
+  console.log('\n--- Brave Search ---');
   for (const query of queries) {
     try {
       const results = await braveSearch(query);
@@ -522,6 +574,35 @@ async function main() {
       await new Promise(resolve => setTimeout(resolve, 1200));
     } catch (err) {
       console.warn(`  Warning: Search failed for "${query}": ${err.message}`);
+    }
+  }
+
+  // Google News RSS
+  console.log('\n--- Google News RSS ---');
+  const googleQueries = [
+    'credit card bonus change',
+    'credit card new launch',
+    'credit card annual fee',
+    'credit card benefit update',
+  ];
+
+  for (const query of googleQueries) {
+    try {
+      const results = await googleNewsSearch(query);
+      let added = 0;
+      for (const result of results) {
+        if (!seenUrls.has(result.url)) {
+          seenUrls.add(result.url);
+          allResults.push(result);
+          added++;
+        }
+      }
+      console.log(`  "${query}" -> ${results.length} results (${added} new)`);
+
+      // Small delay between requests
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } catch (err) {
+      console.warn(`  Warning: Google News search failed for "${query}": ${err.message}`);
     }
   }
 
