@@ -1,0 +1,35 @@
+name: "Rakuten American Express"
+bank: "American Express"
+slug: "rakuten-american-express"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0
+tags:
+  - cashback
+  - shopping
+  - dining
+  - rewards
+reward_type: "cashback"
+rewards:
+  - category: "rakuten"
+    value: 4
+    unit: "percent"
+    note: "Rakuten.com purchases, up to $7,000 in spend per calendar year (then 1%)"
+  - category: "rakuten_dining"
+    value: 5
+    unit: "percent"
+    note: "Rakuten Dining purchases"
+  - category: "groceries"
+    value: 2
+    unit: "percent"
+  - category: "dining"
+    value: 2
+    unit: "percent"
+  - category: "everything_else"
+    value: 1
+    unit: "percent"
+signup_bonus:
+  value: 25
+  type: "cash"
+  spend_requirement: 500
+  timeframe_months: 3

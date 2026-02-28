@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-02-23T20:36:58.402Z",
-  "count": 138,
+  "generated_at": "2026-02-28T04:07:25.192Z",
+  "count": 142,
   "categories": [
     {
       "id": "dining",
@@ -77,6 +77,46 @@
     {
       "id": "amazon",
       "label": "Amazon.com"
+    },
+    {
+      "id": "rakuten",
+      "label": "Rakuten.com"
+    },
+    {
+      "id": "rakuten_dining",
+      "label": "Rakuten Dining"
+    },
+    {
+      "id": "office_supplies",
+      "label": "Office Supplies"
+    },
+    {
+      "id": "phone",
+      "label": "Phone & Wireless"
+    },
+    {
+      "id": "utilities",
+      "label": "Utilities"
+    },
+    {
+      "id": "ev_charging",
+      "label": "EV Charging"
+    },
+    {
+      "id": "rent",
+      "label": "Rent"
+    },
+    {
+      "id": "wholesale_clubs",
+      "label": "Wholesale Clubs"
+    },
+    {
+      "id": "shipping",
+      "label": "Shipping"
+    },
+    {
+      "id": "foreign_transactions",
+      "label": "Foreign Transactions"
     },
     {
       "id": "everything_else",
@@ -315,6 +355,153 @@
       "card_name": "AT&T Access from Citi"
     },
     {
+      "name": "Atmos Rewards Ascent",
+      "bank": "Bank of America",
+      "slug": "atmos-rewards-ascent",
+      "image": "atmos-rewards-ascent.png",
+      "accepting_applications": true,
+      "category": "travel",
+      "annual_fee": 95,
+      "tags": [
+        "travel",
+        "airlines",
+        "rewards"
+      ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "transit",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 70000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
+      "card_id": "atmos-rewards-ascent",
+      "card_name": "Atmos Rewards Ascent"
+    },
+    {
+      "name": "Atmos Rewards Business",
+      "bank": "Bank of America",
+      "slug": "atmos-rewards-business",
+      "image": "atmos-rewards-business.png",
+      "accepting_applications": true,
+      "category": "business",
+      "annual_fee": 95,
+      "tags": [
+        "travel",
+        "airlines",
+        "business",
+        "rewards"
+      ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "transit",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "shipping",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 70000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
+      "card_id": "atmos-rewards-business",
+      "card_name": "Atmos Rewards Business"
+    },
+    {
+      "name": "Atmos Rewards Summit",
+      "bank": "Bank of America",
+      "slug": "atmos-rewards-summit",
+      "image": "atmos-rewards-summit.png",
+      "accepting_applications": true,
+      "category": "travel",
+      "annual_fee": 395,
+      "tags": [
+        "travel",
+        "airlines",
+        "premium",
+        "rewards"
+      ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "foreign_transactions",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 80000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
+      "card_id": "atmos-rewards-summit",
+      "card_name": "Atmos Rewards Summit"
+    },
+    {
       "name": "Bank of America Cash Rewards Secured",
       "bank": "Bank of America",
       "slug": "bank-of-america-cash-rewards-secured",
@@ -371,6 +558,19 @@
       "category": "travel",
       "annual_fee": 0,
       "reward_type": "points",
+      "signup_bonus": {
+        "value": 25000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "points_per_dollar"
+        }
+      ],
       "card_id": "bank-of-america-travel-rewards",
       "card_name": "Bank of America Travel Rewards"
     },
@@ -383,6 +583,12 @@
       "image": "unlimited-cash-rewards.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "signup_bonus": {
+        "value": 200,
+        "type": "cashback",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
       "card_id": "bank-of-america-unlimited-cash-rewards",
       "card_name": "Bank of America Unlimited Cash Rewards"
     },
@@ -459,6 +665,12 @@
         "premium",
         "dining"
       ],
+      "signup_bonus": {
+        "value": 50000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
       "card_id": "bilt-palladium",
       "card_name": "Bilt Palladium"
     },
@@ -516,6 +728,32 @@
       "tags": [
         "cashback"
       ],
+      "rewards": [
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "percent",
+          "note": "U.S. supermarkets, up to $6,000 per year then 1%"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "percent",
+          "note": "U.S. gas stations, up to $6,000 per year then 1%"
+        },
+        {
+          "category": "online_shopping",
+          "value": 3,
+          "unit": "percent",
+          "note": "U.S. online retail purchases, up to $6,000 per year then 1%"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cashback",
+        "spend_requirement": 2000,
+        "timeframe_months": 6
+      },
       "card_id": "blue-cash-everyday-card",
       "card_name": "Blue Cash Everyday"
     },
@@ -611,6 +849,18 @@
       "category": "cashback",
       "annual_fee": 39,
       "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
       "card_id": "capital-one-quicksilverone",
       "card_name": "Capital One QuicksilverOne Cash Rewards"
     },
@@ -640,6 +890,12 @@
       "category": "student",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "signup_bonus": {
+        "value": 50,
+        "type": "cashback",
+        "spend_requirement": 100,
+        "timeframe_months": 3
+      },
       "card_id": "capital-one-savor-student",
       "card_name": "Capital One Savor Student Cash Rewards"
     },
@@ -918,6 +1174,12 @@
           "category": "streaming",
           "value": 3,
           "unit": "points_per_dollar"
+        },
+        {
+          "category": "online_shopping",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Online grocery purchases (excluding Target, Walmart, wholesale clubs)"
         },
         {
           "category": "travel",
@@ -1683,7 +1945,7 @@
       "accepting_applications": false,
       "image": "wells-fargo-hotels-com.png",
       "annual_fee": 0,
-      "reward_type": "points",
+      "reward_type": null,
       "card_id": "hotels-com-rewards-visa",
       "card_name": "Hotels.com Rewards Visa"
     },
@@ -1902,6 +2164,58 @@
       "card_name": "Princess Cruises Rewards Visa"
     },
     {
+      "name": "Rakuten American Express",
+      "bank": "American Express",
+      "slug": "rakuten-american-express",
+      "accepting_applications": true,
+      "category": "cashback",
+      "annual_fee": 0,
+      "tags": [
+        "cashback",
+        "shopping",
+        "dining",
+        "rewards"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "rakuten",
+          "value": 4,
+          "unit": "percent",
+          "note": "Rakuten.com purchases, up to $7,000 in spend per calendar year (then 1%)"
+        },
+        {
+          "category": "rakuten_dining",
+          "value": 5,
+          "unit": "percent",
+          "note": "Rakuten Dining purchases"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 25,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
+      "card_id": "rakuten-american-express",
+      "card_name": "Rakuten American Express"
+    },
+    {
       "name": "Serve",
       "bank": "American Express",
       "slug": "serve-from-american-express",
@@ -1974,8 +2288,8 @@
       "slug": "starbucks-rewards-visa-card",
       "image": "chase-starbucks-rewards.png",
       "accepting_applications": false,
-      "annual_fee": 49,
-      "reward_type": "points",
+      "annual_fee": 0,
+      "reward_type": null,
       "card_id": "starbucks-rewards-visa-card",
       "card_name": "Starbucks Rewards Visa"
     },
@@ -2264,6 +2578,12 @@
       "image": "wells-fargo-attune.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "signup_bonus": {
+        "value": 100,
+        "type": "cashback",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
       "card_id": "wells-fargo-attune",
       "card_name": "Wells Fargo Attune"
     },
@@ -2415,6 +2735,12 @@
           "unit": "percent"
         }
       ],
+      "signup_bonus": {
+        "value": 500,
+        "type": "cashback",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
       "card_id": "wells-fargo-signify-business-cash",
       "card_name": "Wells Fargo Signify Business Cash"
     },

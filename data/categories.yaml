@@ -37,6 +37,10 @@ categories:
     label: Hotels & Car Rentals (via Portal)
   - id: amazon
     label: Amazon.com
+  - id: rakuten
+    label: Rakuten.com
+  - id: rakuten_dining
+    label: Rakuten Dining
   - id: office_supplies
     label: Office Supplies
   - id: phone
