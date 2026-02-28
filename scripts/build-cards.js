@@ -95,6 +95,41 @@ function validateCard(card, schema, categoryIds) {
     }
   }
 
+  // Validate APR
+  if (card.apr) {
+    if (typeof card.apr !== 'object' || Array.isArray(card.apr)) {
+      errors.push('apr must be an object');
+    } else {
+      if (card.apr.purchase_intro) {
+        if (typeof card.apr.purchase_intro.rate !== 'number') {
+          errors.push('apr.purchase_intro.rate must be a number');
+        }
+        if (typeof card.apr.purchase_intro.months !== 'number' || card.apr.purchase_intro.months < 1) {
+          errors.push('apr.purchase_intro.months must be a positive integer');
+        }
+      }
+      if (card.apr.balance_transfer_intro) {
+        if (typeof card.apr.balance_transfer_intro.rate !== 'number') {
+          errors.push('apr.balance_transfer_intro.rate must be a number');
+        }
+        if (typeof card.apr.balance_transfer_intro.months !== 'number' || card.apr.balance_transfer_intro.months < 1) {
+          errors.push('apr.balance_transfer_intro.months must be a positive integer');
+        }
+      }
+      if (card.apr.regular) {
+        if (typeof card.apr.regular.min !== 'number') {
+          errors.push('apr.regular.min must be a number');
+        }
+        if (typeof card.apr.regular.max !== 'number') {
+          errors.push('apr.regular.max must be a number');
+        }
+        if (typeof card.apr.regular.min === 'number' && typeof card.apr.regular.max === 'number' && card.apr.regular.min > card.apr.regular.max) {
+          errors.push('apr.regular.min must be <= apr.regular.max');
+        }
+      }
+    }
+  }
+
   return errors;
 }
 

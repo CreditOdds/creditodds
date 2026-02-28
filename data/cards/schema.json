@@ -136,6 +136,40 @@
       },
       "additionalProperties": false,
       "description": "Welcome/signup bonus details (optional)"
+    },
+    "apr": {
+      "type": "object",
+      "properties": {
+        "purchase_intro": {
+          "type": "object",
+          "required": ["rate", "months"],
+          "properties": {
+            "rate": { "type": "number", "minimum": 0, "description": "Intro APR rate (e.g., 0 for 0%)" },
+            "months": { "type": "integer", "minimum": 1, "description": "Intro period in months" }
+          },
+          "additionalProperties": false
+        },
+        "balance_transfer_intro": {
+          "type": "object",
+          "required": ["rate", "months"],
+          "properties": {
+            "rate": { "type": "number", "minimum": 0, "description": "Intro APR rate (e.g., 0 for 0%)" },
+            "months": { "type": "integer", "minimum": 1, "description": "Intro period in months" }
+          },
+          "additionalProperties": false
+        },
+        "regular": {
+          "type": "object",
+          "required": ["min", "max"],
+          "properties": {
+            "min": { "type": "number", "minimum": 0, "description": "Minimum regular APR" },
+            "max": { "type": "number", "minimum": 0, "description": "Maximum regular APR" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "description": "APR details including intro offers and regular rate (optional)"
     }
   },
   "additionalProperties": false

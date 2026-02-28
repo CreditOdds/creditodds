@@ -92,6 +92,9 @@ export function CreditCardSchema({ card }: CreditCardSchemaProps) {
       bestRating: 5,
       worstRating: 1,
     } : undefined,
+    ...(card.apr?.regular ? {
+      annualPercentageRate: card.apr.regular.max,
+    } : {}),
     additionalProperty: [
       {
         '@type': 'PropertyValue',
@@ -108,6 +111,21 @@ export function CreditCardSchema({ card }: CreditCardSchemaProps) {
         name: 'Median Length of Credit History',
         value: card.approved_median_length_credit ? `${card.approved_median_length_credit} years` : 'N/A',
       },
+      ...(card.apr?.purchase_intro ? [{
+        '@type': 'PropertyValue',
+        name: 'Intro APR on Purchases',
+        value: `${card.apr.purchase_intro.rate}% for ${card.apr.purchase_intro.months} months`,
+      }] : []),
+      ...(card.apr?.balance_transfer_intro ? [{
+        '@type': 'PropertyValue',
+        name: 'Intro APR on Balance Transfers',
+        value: `${card.apr.balance_transfer_intro.rate}% for ${card.apr.balance_transfer_intro.months} months`,
+      }] : []),
+      ...(card.apr?.regular ? [{
+        '@type': 'PropertyValue',
+        name: 'Regular APR',
+        value: `${card.apr.regular.min}%-${card.apr.regular.max}%`,
+      }] : []),
     ],
   };
 

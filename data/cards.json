@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T15:24:51.126Z",
+  "generated_at": "2026-02-28T18:36:22.627Z",
   "count": 142,
   "categories": [
     {
@@ -600,6 +600,20 @@
       "image": "bankamericard.png",
       "category": "other",
       "annual_fee": 0,
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 21
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 21
+        },
+        "regular": {
+          "min": 16.24,
+          "max": 26.24
+        }
+      },
       "card_id": "bankamericard",
       "card_name": "BankAmericard"
     },
@@ -1258,6 +1272,16 @@
       "accepting_applications": true,
       "category": "other",
       "annual_fee": 0,
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 21
+        },
+        "regular": {
+          "min": 22.49,
+          "max": 31.24
+        }
+      },
       "card_id": "chase-slate-edge",
       "card_name": "Chase Slate Edge"
     },
@@ -1341,6 +1365,20 @@
       "image": "citi_diamond_preferred.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 21
+        },
+        "regular": {
+          "min": 18.24,
+          "max": 29.24
+        }
+      },
       "card_id": "citi-diamond-preferred",
       "card_name": "Citi Diamond Preferred"
     },
@@ -1414,6 +1452,20 @@
       "accepting_applications": true,
       "image": "citi-simplicity.png",
       "annual_fee": 0,
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 21
+        },
+        "regular": {
+          "min": 19.24,
+          "max": 29.99
+        }
+      },
       "card_id": "citi-simplicity-card",
       "card_name": "Citi Simplicity"
     },
@@ -2523,6 +2575,16 @@
       "image": "us-bank-shield.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        }
+      },
       "card_id": "us-bank-shield",
       "card_name": "US Bank Shield"
     },
@@ -2712,6 +2774,20 @@
       "accepting_applications": true,
       "category": "other",
       "annual_fee": 0,
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 21
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 21
+        },
+        "regular": {
+          "min": 24.49,
+          "max": 34.49
+        }
+      },
       "card_id": "wells-fargo-reflect",
       "card_name": "Wells Fargo Reflect"
     },

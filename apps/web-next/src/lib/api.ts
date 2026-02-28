@@ -29,6 +29,22 @@ export interface SignupBonus {
   timeframe_months: number;
 }
 
+export interface IntroAPR {
+  rate: number;
+  months: number;
+}
+
+export interface RegularAPR {
+  min: number;
+  max: number;
+}
+
+export interface CardAPR {
+  purchase_intro?: IntroAPR;
+  balance_transfer_intro?: IntroAPR;
+  regular?: RegularAPR;
+}
+
 export interface Card {
   card_id: string | number;
   db_card_id?: number;
@@ -53,6 +69,7 @@ export interface Card {
   reward_type?: 'cashback' | 'points' | 'miles';
   rewards?: Reward[];
   signup_bonus?: SignupBonus;
+  apr?: CardAPR;
 }
 
 // GraphData is an array of series data

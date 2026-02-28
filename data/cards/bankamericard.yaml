@@ -5,3 +5,13 @@ accepting_applications: true
 image: "bankamericard.png"
 category: "other"
 annual_fee: 0
+apr:
+  purchase_intro:
+    rate: 0
+    months: 21
+  balance_transfer_intro:
+    rate: 0
+    months: 21
+  regular:
+    min: 16.24
+    max: 26.24

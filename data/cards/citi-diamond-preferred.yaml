@@ -4,3 +4,13 @@ slug: "citi-diamond-preferred"
 image: "citi_diamond_preferred.png"
 accepting_applications: true
 annual_fee: 0
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  balance_transfer_intro:
+    rate: 0
+    months: 21
+  regular:
+    min: 18.24
+    max: 29.24
