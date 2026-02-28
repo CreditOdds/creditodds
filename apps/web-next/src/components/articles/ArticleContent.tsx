@@ -62,20 +62,48 @@ function markdownToHtml(markdown: string): string {
     return `<ul class="list-disc pl-6 my-4 space-y-1">${match}</ul>`;
   });
 
-  // Tables (basic support)
-  html = html.replace(/^\|(.+)\|$/gim, (match, content) => {
-    if (content.includes('---')) {
-      return ''; // Skip separator row
-    }
-    const cells = content.split('|').map((cell: string) => cell.trim());
-    const cellTag = 'td';
-    const cellsHtml = cells.map((cell: string) => `<${cellTag} class="border border-gray-200 px-4 py-2">${cell}</${cellTag}>`).join('');
-    return `<tr>${cellsHtml}</tr>`;
-  });
+  // Tables (with header support)
+  // First pass: find table blocks (consecutive lines starting and ending with |)
+  html = html.replace(/(^\|.+\|$\n?)+/gim, (tableBlock) => {
+    const rows = tableBlock.trim().split('\n').filter(Boolean);
+    if (rows.length === 0) return tableBlock;
 
-  // Wrap consecutive <tr> in <table>
-  html = html.replace(/(<tr>.*<\/tr>\n?)+/gi, (match) => {
-    return `<div class="overflow-x-auto my-6"><table class="min-w-full border-collapse border border-gray-200">${match}</table></div>`;
+    let headerHtml = '';
+    let bodyHtml = '';
+    let separatorIndex = -1;
+
+    // Find the separator row (e.g. |---|---|---|)
+    for (let i = 0; i < rows.length; i++) {
+      const inner = rows[i].replace(/^\|/, '').replace(/\|$/, '');
+      if (/^[\s|:-]+$/.test(inner) && inner.includes('---')) {
+        separatorIndex = i;
+        break;
+      }
+    }
+
+    rows.forEach((row, i) => {
+      const inner = row.replace(/^\|/, '').replace(/\|$/, '');
+      // Skip separator row
+      if (i === separatorIndex) return;
+
+      const cells = inner.split('|').map((cell: string) => cell.trim());
+      const isHeader = separatorIndex > 0 && i < separatorIndex;
+      const tag = isHeader ? 'th' : 'td';
+      const cellClass = isHeader
+        ? 'border border-gray-200 px-6 py-4 bg-indigo-50 font-semibold text-gray-900 text-left text-base'
+        : 'border border-gray-200 px-6 py-4 text-gray-600 text-base';
+      const cellsHtml = cells.map((cell: string) => `<${tag} class="${cellClass}">${cell}</${tag}>`).join('');
+
+      if (isHeader) {
+        headerHtml += `<tr>${cellsHtml}</tr>`;
+      } else {
+        bodyHtml += `<tr class="hover:bg-gray-50 transition-colors">${cellsHtml}</tr>`;
+      }
+    });
+
+    const thead = headerHtml ? `<thead>${headerHtml}</thead>` : '';
+    const tbody = bodyHtml ? `<tbody>${bodyHtml}</tbody>` : '';
+    return `<div class="overflow-x-auto my-6 rounded-lg border border-gray-200 shadow-sm"><table class="min-w-full border-collapse">${thead}${tbody}</table></div>`;
   });
 
   // Paragraphs - wrap lines that aren't already wrapped
@@ -111,7 +139,8 @@ export function ArticleContent({ content }: ArticleContentProps) {
         prose-strong:text-gray-900
         prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline
         prose-code:before:content-[''] prose-code:after:content-['']
-        prose-pre:bg-gray-900 prose-pre:text-gray-100"
+        prose-pre:bg-gray-900 prose-pre:text-gray-100
+        prose-table:my-0 prose-th:p-0 prose-td:p-0 prose-tr:border-0"
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
   );
