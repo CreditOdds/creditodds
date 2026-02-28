@@ -8,6 +8,8 @@ import {
   PercentBadgeIcon,
   ShieldCheckIcon,
   ShoppingCartIcon,
+  BanknotesIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/24/outline";
 
 const pageIcons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -16,6 +18,8 @@ const pageIcons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement
   'best-0-apr-cards': PercentBadgeIcon,
   'best-dining-grocery-cards': ShoppingCartIcon,
   'best-secured-cards': ShieldCheckIcon,
+  'best-cash-back-cards': BanknotesIcon,
+  'best-travel-cards': GlobeAltIcon,
 };
 import { getBestPages } from "@/lib/best";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
