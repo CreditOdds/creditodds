@@ -52,13 +52,13 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://d3ay3etzd1512y.cloudfront.net" />
         <link rel="dns-prefetch" href="https://d2ojrhbh2dincr.cloudfront.net" />
       </head>
-      <body>
+      <body className="min-h-screen flex flex-col">
         <OrganizationSchema />
         <WebsiteSchema />
         <AuthProvider>
           <SkipLink />
           <Navbar />
-          <main id="main-content">{children}</main>
+          <main id="main-content" className="flex-grow">{children}</main>
           <Footer />
           <ToastContainer />
           <WebVitalsReporter />
