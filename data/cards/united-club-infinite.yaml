@@ -5,6 +5,11 @@ image: "united_club_infinite.png"
 accepting_applications: true
 annual_fee: 695
 reward_type: "miles"
+signup_bonus:
+  value: 90000
+  type: miles
+  spend_requirement: 5000
+  timeframe_months: 3
 tags:
   - airline
   - travel
