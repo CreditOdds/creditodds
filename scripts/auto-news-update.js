@@ -590,14 +590,14 @@ async function main() {
     try {
       const results = await googleNewsSearch(query);
       let added = 0;
-      for (const result of results) {
+      for (const result of results.slice(0, 15)) {
         if (!seenUrls.has(result.url)) {
           seenUrls.add(result.url);
           allResults.push(result);
           added++;
         }
       }
-      console.log(`  "${query}" -> ${results.length} results (${added} new)`);
+      console.log(`  "${query}" -> ${results.length} results (${added} new, capped at 15)`);
 
       // Small delay between requests
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -606,16 +606,24 @@ async function main() {
     }
   }
 
-  console.log(`\nTotal unique search results: ${allResults.length}\n`);
+  console.log(`\nTotal unique search results: ${allResults.length}`);
 
-  if (allResults.length === 0) {
+  // Cap total results to avoid exceeding Claude's token limit
+  const MAX_RESULTS = 100;
+  const resultsForClaude = allResults.slice(0, MAX_RESULTS);
+  if (allResults.length > MAX_RESULTS) {
+    console.log(`  Capped to ${MAX_RESULTS} results for analysis`);
+  }
+  console.log('');
+
+  if (resultsForClaude.length === 0) {
     console.log('No search results found. Exiting.');
     return;
   }
 
   // Generate news with Claude
   console.log('Analyzing results with Claude API...');
-  const claudeResponse = await generateNewsWithClaude(allResults, existingNews, cards);
+  const claudeResponse = await generateNewsWithClaude(resultsForClaude, existingNews, cards);
 
   // Parse YAML blocks
   const newsItems = parseYamlBlocks(claudeResponse);
