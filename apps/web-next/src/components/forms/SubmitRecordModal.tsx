@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useAuth } from "@/auth/AuthProvider";
 import { toast } from "react-toastify";
 import { getRecords } from "@/lib/api";
+import confetti from "canvas-confetti";
 
 // Form persistence key prefix (#7)
 const FORM_STORAGE_KEY = 'creditodds_record_form_';
@@ -199,6 +200,13 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
         toast.success("Your record was submitted successfully!", {
           position: "top-right",
           autoClose: 5000,
+        });
+
+        // Fire confetti celebration
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 },
         });
 
         clearSavedForm(); // Clear saved form data on success (#7)
