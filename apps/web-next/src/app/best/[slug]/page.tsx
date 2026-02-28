@@ -146,7 +146,7 @@ export default async function BestDetailPage({ params }: Props) {
           </div>
         </nav>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <header className="mb-8">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-4">

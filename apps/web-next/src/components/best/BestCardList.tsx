@@ -12,6 +12,41 @@ interface BestCardListProps {
   cards: EnrichedCard[];
 }
 
+// Cents-per-point estimates by program (conservative baseline values)
+function getCentsPerPoint(card: Card): number | null {
+  if (!card.signup_bonus) return null;
+  const { type } = card.signup_bonus;
+  if (type === 'cash' || type === 'cashback') return null; // Already in dollars
+
+  const name = card.card_name.toLowerCase();
+  // Points programs
+  if (name.includes('chase sapphire') || name.includes('freedom')) return 1.25; // Chase Ultimate Rewards
+  if (name.includes('amex') || name.includes('american express') || name.includes('gold card') || name.includes('platinum card')) {
+    if (name.includes('delta') || name.includes('skymiles')) return 1.1; // Delta SkyMiles
+    if (name.includes('hilton')) return 0.5; // Hilton Honors
+    return 1.2; // Amex Membership Rewards
+  }
+  if (name.includes('capital one')) return 1.0; // Capital One miles
+  if (name.includes('hyatt')) return 2.0; // World of Hyatt
+  if (name.includes('ihg')) return 0.5; // IHG Rewards
+  if (name.includes('marriott') || name.includes('bonvoy')) return 0.7; // Marriott Bonvoy
+  if (name.includes('atmos')) return 1.0; // Atmos (newer program, ~1cpp estimate)
+  if (name.includes('bilt')) return 1.5; // Bilt transfer partners
+  if (name.includes('citi')) return 1.0; // Citi ThankYou
+  if (name.includes('wells fargo')) return 1.0; // Wells Fargo Rewards
+
+  // Default for unknown points/miles
+  return 1.0;
+}
+
+function formatEstimatedValue(card: Card): string | null {
+  if (!card.signup_bonus) return null;
+  const cpp = getCentsPerPoint(card);
+  if (cpp === null) return null;
+  const value = Math.round((card.signup_bonus.value * cpp) / 100);
+  return `~$${value.toLocaleString()}`;
+}
+
 function formatBonusValue(card: Card): string {
   if (!card.signup_bonus) return '';
   const { value, type } = card.signup_bonus;
@@ -117,8 +152,11 @@ export function BestCardList({ cards }: BestCardListProps) {
                     <div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-3 mb-3">
                       <p className="text-sm font-medium text-amber-900">
                         Earn{' '}
-                        <span className="font-bold text-base">{formatBonusValue(card)}</span>{' '}
-                        {formatBonusRequirement(card)}
+                        <span className="font-bold text-base">{formatBonusValue(card)}</span>
+                        {formatEstimatedValue(card) && (
+                          <span className="text-amber-700 font-normal"> ({formatEstimatedValue(card)} est. value)</span>
+                        )}
+                        {' '}{formatBonusRequirement(card)}
                       </p>
                     </div>
                   )}
