@@ -5,6 +5,11 @@ accepting_applications: true
 image: "chase-southwest-rapid-rewards-premier.png"
 annual_fee: 149
 reward_type: "points"
+signup_bonus:
+  value: 30000
+  type: points
+  spend_requirement: 4000
+  timeframe_months: 3
 tags:
   - airline
   - travel

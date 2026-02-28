@@ -5,6 +5,11 @@ image: "southwest_priority.png"
 accepting_applications: true
 annual_fee: 229
 reward_type: "points"
+signup_bonus:
+  value: 40000
+  type: points
+  spend_requirement: 5000
+  timeframe_months: 3
 tags:
   - airline
   - travel

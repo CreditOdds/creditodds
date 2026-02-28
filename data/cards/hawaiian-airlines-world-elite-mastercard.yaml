@@ -6,3 +6,8 @@ category: "travel"
 image: "barclays-hawaiian.png"
 annual_fee: 99
 reward_type: "miles"
+signup_bonus:
+  value: 50000
+  type: miles
+  spend_requirement: 2000
+  timeframe_months: 3

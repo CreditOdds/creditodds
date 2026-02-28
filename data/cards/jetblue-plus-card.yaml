@@ -6,3 +6,8 @@ category: "travel"
 image: "barclays-jetblue-plus.png"
 annual_fee: 99
 reward_type: "points"
+signup_bonus:
+  value: 70000
+  type: points
+  spend_requirement: 1000
+  timeframe_months: 3
