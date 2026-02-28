@@ -9,3 +9,8 @@ tags:
   - hotel
   - travel
   - rewards
+signup_bonus:
+  value: 140000
+  type: "points"
+  spend_requirement: 4000
+  timeframe_months: 3

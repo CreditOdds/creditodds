@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T04:07:25.192Z",
+  "generated_at": "2026-02-28T15:24:51.126Z",
   "count": 142,
   "categories": [
     {
@@ -1981,7 +1981,7 @@
       "bank": "Chase",
       "slug": "ihg-rewards-premier-business",
       "accepting_applications": true,
-      "annual_fee": 0,
+      "annual_fee": 99,
       "reward_type": "points",
       "image": "chase-ihg-one-rewards-premier-business.png",
       "tags": [
@@ -1989,6 +1989,12 @@
         "travel",
         "rewards"
       ],
+      "signup_bonus": {
+        "value": 140000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
       "card_id": "ihg-rewards-premier-business",
       "card_name": "IHG One Rewards Premier Business"
     },
@@ -2169,6 +2175,7 @@
       "slug": "rakuten-american-express",
       "accepting_applications": true,
       "category": "cashback",
+      "image": "rakuten-american-express.png",
       "annual_fee": 0,
       "tags": [
         "cashback",
