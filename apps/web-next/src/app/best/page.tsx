@@ -1,6 +1,22 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { TrophyIcon, CalendarIcon } from "@heroicons/react/24/outline";
+import {
+  TrophyIcon,
+  CalendarIcon,
+  GiftIcon,
+  PaperAirplaneIcon,
+  PercentBadgeIcon,
+  ShieldCheckIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
+
+const pageIcons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+  'best-signup-bonuses': GiftIcon,
+  'best-airline-cards': PaperAirplaneIcon,
+  'best-0-apr-cards': PercentBadgeIcon,
+  'best-dining-grocery-cards': ShoppingCartIcon,
+  'best-secured-cards': ShieldCheckIcon,
+};
 import { getBestPages } from "@/lib/best";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
@@ -102,7 +118,11 @@ export default async function BestIndexPage() {
                 href={`/best/${page.slug}`}
                 className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-indigo-200 transition-all"
               >
-                <h2 className="text-lg font-bold text-gray-900 mb-2">
+                <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-2">
+                  {(() => {
+                    const Icon = pageIcons[page.slug];
+                    return Icon ? <Icon className="h-5 w-5 text-indigo-500 flex-shrink-0" aria-hidden="true" /> : null;
+                  })()}
                   {page.title}
                 </h2>
                 <p className="text-sm text-gray-500 mb-4">
