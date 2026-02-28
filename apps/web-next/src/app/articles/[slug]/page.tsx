@@ -10,6 +10,7 @@ import { TableOfContents } from "@/components/articles/TableOfContents";
 import { ReadingProgressBar } from "@/components/articles/ReadingProgressBar";
 import { ShareButtons } from "@/components/articles/ShareButtons";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
+import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -99,23 +100,28 @@ export default async function ArticlePage({ params }: Props) {
     author: {
       "@type": "Person",
       name: article.author,
+      url: `https://creditodds.com/articles/author/${authorSlug}`,
     },
     datePublished: article.date,
     dateModified: article.updated_at || article.date,
+    image: article.image
+      ? `https://d2hxvzw7msbtvt.cloudfront.net/article_images/${article.image}`
+      : `https://creditodds.com/articles/${article.slug}/opengraph-image`,
     publisher: {
       "@type": "Organization",
       name: "CreditOdds",
       url: "https://creditodds.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://creditodds.com/logo.png",
+      },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": articleUrl,
     },
+    isAccessibleForFree: true,
   };
-
-  if (article.image) {
-    jsonLd.image = `https://d2hxvzw7msbtvt.cloudfront.net/article_images/${article.image}`;
-  }
 
   return (
     <>
@@ -123,6 +129,11 @@ export default async function ArticlePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://creditodds.com' },
+        { name: 'Articles', url: 'https://creditodds.com/articles' },
+        { name: article.title, url: articleUrl },
+      ]} />
 
       <ReadingProgressBar />
 

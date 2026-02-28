@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { getArticlesByTag, tagLabels, tagColors, tagDescriptions, ArticleTag } from "@/lib/articles";
 import { ArticleCard } from "@/components/articles/ArticleCard";
+import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 interface Props {
   params: Promise<{ tag: string }>;
@@ -54,8 +55,34 @@ export default async function CategoryPage({ params }: Props) {
   const tagDescription = tagDescriptions[tag as ArticleTag];
   const tagColor = tagColors[tag as ArticleTag];
 
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${tagLabel} Articles`,
+    description: tagDescription,
+    url: `https://creditodds.com/articles/category/${tag}`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: articles.slice(0, 10).map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `https://creditodds.com/articles/${article.slug}`,
+      })),
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://creditodds.com' },
+        { name: 'Articles', url: 'https://creditodds.com/articles' },
+        { name: tagLabel, url: `https://creditodds.com/articles/category/${tag}` },
+      ]} />
+
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
