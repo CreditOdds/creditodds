@@ -1,0 +1,31 @@
+id: best-secured-cards
+slug: best-secured-cards
+title: Best Secured Credit Cards
+description: The best secured credit cards for building or rebuilding credit, all with no annual fee.
+date: "2026-02-28"
+seo_title: Best Secured Credit Cards of 2026
+seo_description: Compare the best secured credit cards of 2026 for building credit. All have $0 annual fees and report to all three bureaus.
+intro: |
+  Secured credit cards require a refundable security deposit that typically becomes your credit limit. They're designed for people building credit for the first time or rebuilding after a setback. Every card on this list has no annual fee and reports to all three major credit bureaus, so responsible use will help your credit score grow over time.
+
+cards:
+  - slug: discover-it-secured-credit-card
+    badge: Best Overall
+    highlight: The only secured card that earns meaningful cash back — 2% at gas stations and restaurants (up to $1,000/quarter) and 1% on everything else. Discover also matches all cash back earned in your first year, effectively doubling your rewards.
+
+  - slug: capital-one-quicksilver-secured
+    badge: Best for Rewards
+    highlight: Earns 1.5% cash back on every purchase with no annual fee. One of the few secured cards with a flat-rate rewards structure, making it feel like a regular credit card.
+
+  - slug: bank-of-america-cash-rewards-secured
+    highlight: Earns cash back in a category of your choice (gas, online shopping, dining, travel, drug stores, or home improvement). A good pick if your spending is concentrated in one area.
+
+  - slug: capital-one-platinum-secured
+    badge: Easiest Approval
+    highlight: No rewards, but one of the easiest secured cards to get approved for. Minimum deposit as low as $49 depending on creditworthiness. A strong starter card for those with very limited credit history.
+
+  - slug: citi-secured-mastercard
+    highlight: A straightforward secured card with no rewards but wide Mastercard acceptance. Reports to all three bureaus and has a path to upgrade to an unsecured Citi card over time.
+
+  - slug: us-bank-secured
+    highlight: A basic secured Visa card with no rewards. U.S. Bank reviews your account for an upgrade to an unsecured card automatically. A solid option if you already bank with U.S. Bank.

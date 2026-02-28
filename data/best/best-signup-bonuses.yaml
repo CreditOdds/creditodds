@@ -1,0 +1,60 @@
+id: best-signup-bonuses
+slug: best-signup-bonuses
+title: Best Credit Card Signup Bonuses
+description: The most valuable credit card signup bonuses available right now, ranked by bonus value and overall appeal.
+date: "2026-02-28"
+seo_title: Best Credit Card Signup Bonuses of 2026
+seo_description: Compare the best credit card signup bonuses of 2026. Ranked by value — from 140k points to $200 cash back.
+intro: |
+  Signup bonuses are the fastest way to earn a big chunk of rewards from a new credit card. We've ranked the best offers available right now based on bonus value, ease of earning, and overall card quality. All data is pulled live from our card database so bonus values, annual fees, and apply links are always current.
+
+cards:
+  - slug: ihg-rewards-premier-business
+    badge: Best Overall
+    highlight: The highest signup bonus available right now — 140,000 IHG points after $4,000 in 3 months. IHG points are worth around 0.5 cents each, making this worth roughly $700 in hotel stays.
+
+  - slug: delta-skymiles-reserve-american-express-card
+    badge: Best for Premium Travel
+    highlight: 125,000 Delta SkyMiles is an enormous haul. The Reserve card also includes Delta Sky Club access and a companion certificate — ideal for frequent Delta flyers.
+
+  - slug: delta-skymiles-platinum-american-express-card
+    badge: Best Delta Value
+    highlight: 100,000 SkyMiles for a lower annual fee than the Reserve. You still get a companion certificate and solid travel perks without the ultra-premium price tag.
+
+  - slug: delta-skymiles-gold-american-express-card
+    highlight: 90,000 SkyMiles is a top-tier bonus for a mid-tier card. Great entry point into the Delta ecosystem with a reasonable $150 annual fee.
+
+  - slug: atmos-rewards-summit
+    highlight: 80,000 Atmos points with a $4,000 spend requirement. Atmos is a newer player but their redemption rates are competitive with major programs.
+
+  - slug: capital-one-venture-x
+    badge: Best Travel Card
+    highlight: 75,000 miles after $4,000 in 3 months. The Venture X also comes with a $300 travel credit and 10,000 anniversary miles, effectively making the $395 annual fee very manageable.
+
+  - slug: atmos-rewards-ascent
+    highlight: 70,000 Atmos points with only $3,000 in spending required. A lower spend threshold makes this one of the easier big bonuses to earn.
+
+  - slug: chase-sapphire-preferred
+    highlight: 60,000 Ultimate Rewards points are worth at least $750 when redeemed through Chase Travel. One of the most versatile points currencies available.
+
+  - slug: american-express-gold-card
+    highlight: 60,000 Membership Rewards points after $6,000 in 6 months. The Gold Card is a powerhouse for dining and groceries with 4x earning in both categories.
+
+  - slug: chase-sapphire-reserve
+    highlight: 60,000 Ultimate Rewards points plus a $300 annual travel credit. Points are worth 50% more through Chase Travel, making this bonus worth up to $900.
+
+  - slug: world-of-hyatt-business-credit-card
+    highlight: 60,000 World of Hyatt points can easily be worth $1,200+ in hotel stays. Hyatt consistently offers the best value among hotel loyalty programs.
+
+  - slug: wells-fargo-signify-business-cash
+    badge: Best Cash Back
+    highlight: A straightforward $500 cash back after $5,000 in 3 months. No points to figure out, no transfer partners — just cash in your account.
+
+  - slug: chase-freedom-flex
+    highlight: $200 cash back after just $500 in spending — one of the easiest bonuses to earn. Plus 5% rotating categories and a strong everyday rewards structure.
+
+  - slug: wells-fargo-active-cash
+    highlight: $200 cash back with a low $500 spend requirement. Pairs well with the 2% flat cash back on everything, making it a solid daily driver.
+
+  - slug: capital-one-savorone
+    highlight: $200 cash back after $500 in 3 months. The SavorOne also earns 3% on dining, entertainment, groceries, and streaming — a great all-around no-annual-fee card.
