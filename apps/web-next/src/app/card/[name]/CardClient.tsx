@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
-import { ExclamationTriangleIcon, PencilSquareIcon, NewspaperIcon } from "@heroicons/react/24/outline";
+import { ExclamationTriangleIcon, PencilSquareIcon, NewspaperIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, Reward, trackReferralEvent, getRecords } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
@@ -70,6 +70,11 @@ interface CardClientProps {
 export default function CardClient({ card, graphData, news, articles }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const [hasSubmittedForCard, setHasSubmittedForCard] = useState<boolean | null>(null);
+  const [nudgeDismissed, setNudgeDismissed] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const dismissed = localStorage.getItem('nudge_dismissed');
+    return dismissed === new Date().toISOString().slice(0, 10);
+  });
   const { authState, getToken } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -205,18 +210,30 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
       </nav>
 
       {/* Contextual nudge for users who haven't submitted for this card */}
-      {card.accepting_applications && authState.isAuthenticated && hasSubmittedForCard === false && (
+      {card.accepting_applications && authState.isAuthenticated && hasSubmittedForCard === false && !nudgeDismissed && (
         <div className="bg-amber-50 border-b border-amber-200 px-4 sm:px-6 lg:px-8 py-3">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <p className="text-sm text-amber-800">
               You haven&apos;t shared your result for this card yet.
             </p>
-            <button
-              onClick={() => setShowModal(true)}
-              className="flex-shrink-0 text-sm font-semibold text-white bg-amber-600 hover:bg-amber-500 px-3 py-1.5 rounded-md transition-colors"
-            >
-              Submit now
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowModal(true)}
+                className="flex-shrink-0 text-sm font-semibold text-white bg-amber-600 hover:bg-amber-500 px-3 py-1.5 rounded-md transition-colors"
+              >
+                Submit now
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.setItem('nudge_dismissed', new Date().toISOString().slice(0, 10));
+                  setNudgeDismissed(true);
+                }}
+                className="flex-shrink-0 p-1 text-amber-400 hover:text-amber-600 transition-colors"
+                aria-label="Dismiss"
+              >
+                <XMarkIcon className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </div>
       )}
