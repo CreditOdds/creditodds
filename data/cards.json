@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T20:32:27.155Z",
+  "generated_at": "2026-02-28T20:37:27.743Z",
   "count": 142,
   "categories": [
     {
@@ -194,6 +194,12 @@
       "image": "american-aadvantage.jpeg",
       "annual_fee": 0,
       "reward_type": "miles",
+      "signup_bonus": {
+        "value": 15000,
+        "type": "miles",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
       "card_id": "american-airlines-aadvantage-mileu-mastercard",
       "card_name": "American Airlines AAdvantage MileU Mastercard"
     },
@@ -1940,6 +1946,12 @@
       "image": "barclays-hawaiian.png",
       "annual_fee": 99,
       "reward_type": "miles",
+      "signup_bonus": {
+        "value": 50000,
+        "type": "miles",
+        "spend_requirement": 2000,
+        "timeframe_months": 3
+      },
       "card_id": "hawaiian-airlines-world-elite-mastercard",
       "card_name": "Hawaiian Airlines World Elite Mastercard"
     },
@@ -2124,6 +2136,12 @@
       "image": "barclays-jetblue.png",
       "annual_fee": 0,
       "reward_type": "points",
+      "signup_bonus": {
+        "value": 10000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
       "card_id": "jetblue-card",
       "card_name": "JetBlue"
     },
@@ -2136,6 +2154,12 @@
       "image": "barclays-jetblue-business.png",
       "annual_fee": 99,
       "reward_type": "points",
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 2000,
+        "timeframe_months": 3
+      },
       "card_id": "jetblue-business-card",
       "card_name": "JetBlue Business"
     },
@@ -2148,6 +2172,12 @@
       "image": "barclays-jetblue-plus.png",
       "annual_fee": 99,
       "reward_type": "points",
+      "signup_bonus": {
+        "value": 70000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
       "card_id": "jetblue-plus-card",
       "card_name": "JetBlue Plus"
     },
@@ -2302,6 +2332,12 @@
       "accepting_applications": true,
       "annual_fee": 99,
       "reward_type": "points",
+      "signup_bonus": {
+        "value": 20000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
       "image": "chase-southwest-rapid-rewards-plus.png",
       "tags": [
         "airline",
@@ -2318,6 +2354,12 @@
       "image": "chase-southwest-rapid-rewards-premier.png",
       "annual_fee": 149,
       "reward_type": "points",
+      "signup_bonus": {
+        "value": 30000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
       "tags": [
         "airline",
         "travel"
@@ -2333,6 +2375,12 @@
       "accepting_applications": true,
       "annual_fee": 229,
       "reward_type": "points",
+      "signup_bonus": {
+        "value": 40000,
+        "type": "points",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
       "tags": [
         "airline",
         "travel",

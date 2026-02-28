@@ -4,6 +4,11 @@ slug: "southwest-rapid-rewards-plus-credit-card"
 accepting_applications: true
 annual_fee: 99
 reward_type: "points"
+signup_bonus:
+  value: 20000
+  type: points
+  spend_requirement: 3000
+  timeframe_months: 3
 image: "chase-southwest-rapid-rewards-plus.png"
 tags:
   - airline
