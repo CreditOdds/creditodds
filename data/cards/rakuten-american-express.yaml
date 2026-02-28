@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "rakuten-american-express"
 accepting_applications: true
 category: "cashback"
+image: "rakuten-american-express.png"
 annual_fee: 0
 tags:
   - cashback
