@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T18:36:22.627Z",
+  "generated_at": "2026-02-28T20:32:27.155Z",
   "count": 142,
   "categories": [
     {
@@ -2476,6 +2476,12 @@
       "accepting_applications": true,
       "annual_fee": 695,
       "reward_type": "miles",
+      "signup_bonus": {
+        "value": 90000,
+        "type": "miles",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
       "tags": [
         "airline",
         "travel",
@@ -2492,6 +2498,12 @@
       "accepting_applications": true,
       "annual_fee": 150,
       "reward_type": "miles",
+      "signup_bonus": {
+        "value": 70000,
+        "type": "miles",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
       "tags": [
         "airline",
         "travel",
@@ -2508,6 +2520,12 @@
       "accepting_applications": true,
       "annual_fee": 0,
       "reward_type": "miles",
+      "signup_bonus": {
+        "value": 30000,
+        "type": "miles",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
       "tags": [
         "airline",
         "travel"
@@ -2539,6 +2557,12 @@
       "accepting_applications": true,
       "annual_fee": 350,
       "reward_type": "miles",
+      "signup_bonus": {
+        "value": 80000,
+        "type": "miles",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
       "tags": [
         "airline",
         "travel",
