@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { getArticles } from "@/lib/articles";
 import { ArticlesListClient } from "@/components/articles/ArticlesListClient";
+import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Credit Card Articles - Guides & Strategies",
@@ -23,8 +24,33 @@ export const revalidate = 300;
 export default async function ArticlesPage() {
   const articles = await getArticles();
 
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Credit Card Articles",
+    description: "In-depth guides, strategies, and analysis to help you maximize your credit card rewards and make smarter financial decisions.",
+    url: "https://creditodds.com/articles",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: articles.slice(0, 10).map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `https://creditodds.com/articles/${article.slug}`,
+      })),
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://creditodds.com' },
+        { name: 'Articles', url: 'https://creditodds.com/articles' },
+      ]} />
+
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

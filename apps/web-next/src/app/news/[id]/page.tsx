@@ -75,18 +75,34 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     }
   }
 
+  const url = `https://creditodds.com/news/${item.id}`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
     headline: item.title,
     description: item.summary,
     datePublished: item.date,
-    url: `https://creditodds.com/news/${item.id}`,
+    dateModified: item.date,
+    url,
+    image: `https://creditodds.com/news/${item.id}/opengraph-image`,
+    author: {
+      "@type": "Organization",
+      name: "CreditOdds",
+    },
     publisher: {
       "@type": "Organization",
       name: "CreditOdds",
       url: "https://creditodds.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://creditodds.com/logo.png",
+      },
     },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    isAccessibleForFree: true,
   };
 
   return (

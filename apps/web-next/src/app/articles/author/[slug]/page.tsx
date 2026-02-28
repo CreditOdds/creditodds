@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { getArticles, getUniqueAuthors, generateAuthorSlug } from "@/lib/articles";
 import { ArticleCard } from "@/components/articles/ArticleCard";
+import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -57,8 +58,34 @@ export default async function AuthorPage({ params }: Props) {
     return articleAuthorSlug === slug;
   });
 
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `Articles by ${author.name}`,
+    description: `Read ${author.count} article${author.count !== 1 ? 's' : ''} by ${author.name} about credit card strategies and guides.`,
+    url: `https://creditodds.com/articles/author/${slug}`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: articles.slice(0, 10).map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `https://creditodds.com/articles/${article.slug}`,
+      })),
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://creditodds.com' },
+        { name: 'Articles', url: 'https://creditodds.com/articles' },
+        { name: author.name, url: `https://creditodds.com/articles/author/${slug}` },
+      ]} />
+
       {/* Breadcrumbs */}
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
