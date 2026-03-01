@@ -254,7 +254,7 @@ Output raw JSON only, no markdown fences.`,
     for (const item of data.output) {
       if (item.type === 'message' && Array.isArray(item.content)) {
         for (const block of item.content) {
-          if (block.type === 'text') outputText += block.text;
+          if (block.type === 'text' || block.type === 'output_text') outputText += block.text;
         }
       }
       // Also check for direct text content
@@ -266,23 +266,9 @@ Output raw JSON only, no markdown fences.`,
     outputText = data.choices[0]?.message?.content || '';
   }
 
-  // Debug: log output item types
-  const outputTypes = (data.output || []).map(item => `${item.type}:${item.name || ''}`).join(', ');
-  console.log(`    xAI output items: [${outputTypes}]`);
-  console.log(`    xAI extracted text length: ${outputText.length} chars`);
-  if (outputText.length > 0) {
-    console.log(`    xAI output preview: ${outputText.substring(0, 300)}`);
-  } else {
-    // Log the message item content for debugging
-    const msgItem = (data.output || []).find(item => item.type === 'message');
-    if (msgItem) {
-      console.log(`    xAI message item: ${JSON.stringify(msgItem).substring(0, 500)}`);
-    }
-  }
-  // Also try the top-level text field (can be a string or object)
+  // Fallback: try the top-level text field
   if (!outputText && data.text && typeof data.text === 'string') {
     outputText = data.text;
-    console.log(`    Using top-level text field (${outputText.length} chars)`);
   }
 
   // Parse JSON from the response
