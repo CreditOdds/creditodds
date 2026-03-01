@@ -6,6 +6,7 @@ image: "citi-secured.png"
 annual_fee: 0
 tags:
   - secured
+  - credit_builder
 apr:
   regular:
     min: 26.74

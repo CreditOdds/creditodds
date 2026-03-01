@@ -43,7 +43,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["travel", "cashback", "hotel", "shopping", "student", "secured", "premium", "business", "rewards", "airline", "dining", "balance_transfer"]
+        "enum": ["travel", "cashback", "hotel", "shopping", "student", "secured", "premium", "business", "rewards", "airline", "dining", "balance_transfer", "entertainment", "credit_builder"]
       },
       "description": "Card tags for categorization and filtering (optional)"
     },
