@@ -3,7 +3,9 @@ bank: "Chase"
 slug: "chase-slate-edge"
 image: "chase-slate-edge.png"
 accepting_applications: true
-category: "other"
+category: "balance_transfer"
+tags:
+  - balance_transfer
 annual_fee: 0
 apr:
   balance_transfer_intro:

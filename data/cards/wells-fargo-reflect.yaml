@@ -3,10 +3,10 @@ bank: "Wells Fargo"
 slug: "wells-fargo-reflect"
 image: "wells_fargo_reflect.png"
 accepting_applications: true
-category: "other"
+category: "balance_transfer"
 annual_fee: 0
 tags:
-  - cashback
+  - balance_transfer
 apr:
   purchase_intro:
     rate: 0

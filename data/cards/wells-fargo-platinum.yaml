@@ -4,6 +4,6 @@ slug: "wells-fargo-platinum"
 image: "wells_fargo_platinum.png"
 accepting_applications: false
 annual_fee: 0
-category: "other"
+category: "balance_transfer"
 tags:
-  - cashback
+  - balance_transfer
