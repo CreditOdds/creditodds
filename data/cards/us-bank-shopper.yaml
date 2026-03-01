@@ -3,5 +3,35 @@ bank: "U.S. Bank"
 slug: "us-bank-shopper"
 image: "us-bank-shopper.png"
 accepting_applications: true
-annual_fee: 0
+annual_fee: 95
+tags:
+  - cashback
+  - shopping
 reward_type: "cashback"
+rewards:
+  - category: shopping
+    value: 6
+    unit: percent
+    mode: user_choice
+    choices: 2
+    eligible_categories: [amazon, apple, best_buy, costco, home_depot, kroger, lowes, macys, nike, nordstrom, sams_club, sephora, starbucks, target, tjmaxx, uber, walgreens, walmart]
+    note: "Choose 2 retailers each quarter, up to $1,500 combined"
+  - category: rotating
+    value: 3
+    unit: percent
+    mode: user_choice
+    choices: 1
+    eligible_categories: [gas, wholesale_clubs, bills_and_utilities]
+    note: "Choose 1 everyday category each quarter, up to $1,500"
+  - category: travel
+    value: 5.5
+    unit: percent
+    note: "Hotel and car reservations booked in the Travel Center"
+  - category: everything_else
+    value: 1.5
+    unit: percent
+signup_bonus:
+  value: 250
+  type: cash
+  spend_requirement: 2000
+  timeframe_months: 4
