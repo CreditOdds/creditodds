@@ -7,7 +7,7 @@ reward_type: "miles"
 image: "citi-aadvantage-globe.png"
 tags:
   - travel
-  - airlines
+  - airline
 rewards:
   - category: hotels_portal
     value: 6

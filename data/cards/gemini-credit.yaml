@@ -9,7 +9,6 @@ annual_fee: 0
 reward_type: "cashback"
 tags:
   - rewards
-  - crypto
 rewards:
   - category: gas
     value: 4
