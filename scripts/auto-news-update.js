@@ -519,6 +519,72 @@ function writeNewsFile(item) {
 }
 
 /**
+ * Ask Claude to check if a candidate news item is a duplicate of any existing news.
+ * Returns { isDuplicate: true, matchedId, reason } or { isDuplicate: false }.
+ */
+async function checkDuplicateWithClaude(candidate, existingNews) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return { isDuplicate: false };
+
+  const existingList = existingNews
+    .map(n => `- [${n.id}] "${n.title}" — ${n.summary}`)
+    .join('\n');
+
+  const prompt = `You are a duplicate detection system. Determine if the CANDIDATE news item below is about the same story/topic as ANY of the EXISTING news items.
+
+Two items are duplicates if they cover the same underlying event, announcement, or development — even if they use different wording, focus on different angles, or come from different sources.
+
+CANDIDATE:
+Title: "${candidate.title}"
+Summary: "${candidate.summary}"
+Bank: ${candidate.bank || 'N/A'}
+Source URL: ${candidate.source_url || 'N/A'}
+
+EXISTING NEWS:
+${existingList || 'None'}
+
+Respond with EXACTLY one line in this format:
+DUPLICATE:<existing-id> — if it matches an existing item (use the ID in brackets)
+UNIQUE — if it is genuinely new news
+
+Do not explain. Just output one line.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 50,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+
+    if (!response.ok) {
+      console.warn(`  Warning: Dedup API error: ${response.status}`);
+      return { isDuplicate: false };
+    }
+
+    const data = await response.json();
+    const result = (data.content[0]?.text || '').trim();
+
+    if (result.startsWith('DUPLICATE:')) {
+      const matchedId = result.replace('DUPLICATE:', '').trim();
+      return { isDuplicate: true, matchedId, reason: 'Claude detected semantic duplicate' };
+    }
+
+    return { isDuplicate: false };
+  } catch (err) {
+    console.warn(`  Warning: Dedup check failed: ${err.message}`);
+    return { isDuplicate: false };
+  }
+}
+
+/**
  * Main execution
  */
 async function main() {
@@ -649,24 +715,28 @@ async function main() {
     // Skip duplicates by ID
     const existingNewsIds = existingNews.map(n => n.id);
     if (existingNewsIds.includes(item.id)) {
-      console.log(`  Skipping "${item.id}": Already exists`);
+      console.log(`  Skipping "${item.id}": Already exists (exact ID match)`);
       continue;
     }
 
-    // Skip semantic duplicates - check if title is too similar to existing news this month
-    const isDuplicateTitle = newsThisMonth.some(existing => {
-      const existingTitleLower = existing.title.toLowerCase();
-      const newTitleLower = item.title.toLowerCase();
-      // Check for significant word overlap (simple heuristic)
-      const existingWords = new Set(existingTitleLower.split(/\s+/).filter(w => w.length > 3));
-      const newWords = newTitleLower.split(/\s+/).filter(w => w.length > 3);
-      const matchingWords = newWords.filter(w => existingWords.has(w));
-      const overlapRatio = matchingWords.length / Math.max(newWords.length, 1);
-      return overlapRatio > 0.5; // More than 50% word overlap
-    });
+    // Skip duplicates by source URL
+    if (item.source_url) {
+      const normalizeUrl = (u) => u.replace(/^https?:\/\//, '').replace(/\/+$/, '').replace(/\?.*$/, '');
+      const newUrl = normalizeUrl(item.source_url);
+      const isDuplicateUrl = existingNews.some(existing =>
+        existing.source_url && normalizeUrl(existing.source_url) === newUrl
+      );
+      if (isDuplicateUrl) {
+        console.log(`  Skipping "${item.id}": Duplicate source URL`);
+        continue;
+      }
+    }
 
-    if (isDuplicateTitle) {
-      console.log(`  Skipping "${item.id}": Similar news already posted this month`);
+    // Ask Claude to check for semantic duplicates
+    console.log(`  Checking "${item.id}" for duplicates...`);
+    const dupCheck = await checkDuplicateWithClaude(item, existingNews);
+    if (dupCheck.isDuplicate) {
+      console.log(`  Skipping "${item.id}": Duplicate of "${dupCheck.matchedId}" (${dupCheck.reason})`);
       continue;
     }
 
