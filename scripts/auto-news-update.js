@@ -3,9 +3,9 @@
 /**
  * Auto News Update Script
  *
- * Searches for credit card news using Brave Search API,
- * generates YAML news items using Claude API (Haiku),
- * and writes them to data/news/ for human review.
+ * Searches for credit card news using Brave Search API, Google News RSS,
+ * and xAI Grok (X/Twitter search), then generates YAML news items
+ * using Claude API (Haiku) and writes them to data/news/ for human review.
  */
 
 const fs = require('fs');
@@ -194,6 +194,78 @@ async function googleNewsSearch(query) {
   }
 
   return items;
+}
+
+/**
+ * Search X/Twitter for credit card news using xAI Grok API.
+ * Returns an array of { title, url, description } matching the same format as other search sources.
+ */
+async function xaiXSearch(query) {
+  const apiKey = process.env.XAI_API_KEY;
+  if (!apiKey) return [];
+
+  // Date range: last 7 days
+  const toDate = new Date().toISOString().split('T')[0];
+  const fromDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+  const response = await fetch('https://api.x.ai/v1/responses', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'grok-4-1-fast',
+      input: [
+        {
+          role: 'user',
+          content: `Search X/Twitter for recent credit card news about: ${query}
+
+Return ONLY a JSON array of the most relevant posts/discussions from the past week. Each item should have:
+- "title": a short summary of the post/thread (max 100 chars)
+- "url": the X post URL if available, otherwise ""
+- "description": the key details being discussed (max 300 chars)
+
+Return 5-10 items max. Only include posts with real news (announcements, changes, launches), not opinions or promotions.
+Output raw JSON only, no markdown fences.`,
+        },
+      ],
+      tools: [
+        {
+          type: 'x_search',
+          from_date: fromDate,
+          to_date: toDate,
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`xAI API error: ${response.status} - ${errorText}`);
+  }
+
+  const data = await response.json();
+
+  // Extract text from the response output
+  const outputText = data.output
+    ?.filter(item => item.type === 'message')
+    ?.flatMap(item => item.content || [])
+    ?.filter(block => block.type === 'text')
+    ?.map(block => block.text)
+    ?.join('') || '';
+
+  // Parse JSON from the response
+  try {
+    // Try to extract JSON array from the response (handle markdown fences if present)
+    const jsonMatch = outputText.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) return [];
+    const items = JSON.parse(jsonMatch[0]);
+    return items.filter(item => item.title && typeof item.title === 'string');
+  } catch (err) {
+    console.warn(`  Warning: Could not parse xAI response as JSON: ${err.message}`);
+    return [];
+  }
 }
 
 /**
@@ -670,6 +742,36 @@ async function main() {
     } catch (err) {
       console.warn(`  Warning: Google News search failed for "${query}": ${err.message}`);
     }
+  }
+
+  // xAI X/Twitter Search (optional — skip if no API key)
+  if (process.env.XAI_API_KEY) {
+    console.log('\n--- xAI X/Twitter Search ---');
+    const xQueries = [
+      'credit card news announcement',
+      'credit card bonus change new card launch',
+    ];
+
+    for (const query of xQueries) {
+      try {
+        const results = await xaiXSearch(query);
+        let added = 0;
+        for (const result of results) {
+          const key = result.url || result.title;
+          if (!seenUrls.has(key)) {
+            seenUrls.add(key);
+            allResults.push(result);
+            added++;
+          }
+        }
+        console.log(`  "${query}" -> ${results.length} results (${added} new)`);
+      } catch (err) {
+        console.warn(`  Warning: xAI search failed for "${query}": ${err.message}`);
+      }
+    }
+  } else {
+    console.log('\n--- xAI X/Twitter Search ---');
+    console.log('  Skipped (XAI_API_KEY not set)');
   }
 
   console.log(`\nTotal unique search results: ${allResults.length}`);
