@@ -6,7 +6,7 @@ accepting_applications: true
 category: "other"
 annual_fee: 0
 tags:
-  - secured
+  - credit_builder
 apr:
   regular:
     min: 28.99
