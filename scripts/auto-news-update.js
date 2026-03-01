@@ -247,19 +247,41 @@ Output raw JSON only, no markdown fences.`,
 
   const data = await response.json();
 
-  // Extract text from the response output
-  const outputText = data.output
-    ?.filter(item => item.type === 'message')
-    ?.flatMap(item => item.content || [])
-    ?.filter(block => block.type === 'text')
-    ?.map(block => block.text)
-    ?.join('') || '';
+  // Extract text from all possible response shapes
+  // The Responses API can return output as an array of items with different types
+  let outputText = '';
+  if (data.output && Array.isArray(data.output)) {
+    for (const item of data.output) {
+      if (item.type === 'message' && Array.isArray(item.content)) {
+        for (const block of item.content) {
+          if (block.type === 'text') outputText += block.text;
+        }
+      }
+      // Also check for direct text content
+      if (item.type === 'text') outputText += item.text;
+    }
+  }
+  // Fallback: check for choices format (chat completions compatibility)
+  if (!outputText && data.choices) {
+    outputText = data.choices[0]?.message?.content || '';
+  }
+
+  console.log(`    xAI response keys: ${Object.keys(data).join(', ')}`);
+  console.log(`    xAI output length: ${outputText.length} chars`);
+  if (outputText.length > 0) {
+    console.log(`    xAI output preview: ${outputText.substring(0, 200)}...`);
+  } else {
+    console.log(`    xAI raw response: ${JSON.stringify(data).substring(0, 500)}`);
+  }
 
   // Parse JSON from the response
   try {
     // Try to extract JSON array from the response (handle markdown fences if present)
     const jsonMatch = outputText.match(/\[[\s\S]*\]/);
-    if (!jsonMatch) return [];
+    if (!jsonMatch) {
+      console.warn(`    No JSON array found in xAI output`);
+      return [];
+    }
     const items = JSON.parse(jsonMatch[0]);
     return items.filter(item => item.title && typeof item.title === 'string');
   } catch (err) {
