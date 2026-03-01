@@ -9,3 +9,17 @@ reward_type: "cashback"
 tags:
   - secured
   - cashback
+rewards:
+  - category: hotels_car_portal
+    value: 5
+    unit: percent
+  - category: everything_else
+    value: 1.5
+    unit: percent
+apr:
+  balance_transfer_intro:
+    rate: 10.99
+    months: 6
+  regular:
+    min: 26.49
+    max: 26.49

@@ -6,3 +6,48 @@ category: "travel"
 image: "citi-strata.png"
 annual_fee: 0
 reward_type: "points"
+tags:
+  - travel
+  - rewards
+rewards:
+  - category: hotels_car_portal
+    value: 5
+    unit: points_per_dollar
+    note: "On hotels, car rentals, and attractions booked through Citi Travel"
+  - category: groceries
+    value: 3
+    unit: points_per_dollar
+  - category: transit
+    value: 3
+    unit: points_per_dollar
+  - category: gas
+    value: 3
+    unit: points_per_dollar
+    note: "Includes EV charging stations"
+  - category: rotating
+    value: 3
+    unit: points_per_dollar
+    mode: user_choice
+    choices: 1
+    note: "3x on one eligible self-select category of your choice"
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 20000
+  type: points
+  spend_requirement: 1000
+  timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 18.49
+    max: 28.49

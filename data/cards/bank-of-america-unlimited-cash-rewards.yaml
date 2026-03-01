@@ -6,8 +6,25 @@ category: "cashback"
 image: "unlimited-cash-rewards.png"
 annual_fee: 0
 reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: everything_else
+    value: 1.5
+    unit: percent
 signup_bonus:
   value: 200
-  type: "cashback"
+  type: cash
   spend_requirement: 1000
   timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 17.49
+    max: 27.49

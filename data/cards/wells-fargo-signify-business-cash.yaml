@@ -12,6 +12,13 @@ rewards:
     unit: "percent"
 signup_bonus:
   value: 500
-  type: "cashback"
+  type: cash
   spend_requirement: 5000
   timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 18.49
+    max: 26.49

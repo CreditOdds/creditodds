@@ -5,11 +5,29 @@ image: "united_explorer.png"
 accepting_applications: true
 annual_fee: 150
 reward_type: "miles"
+rewards:
+  - category: airlines
+    value: 2
+    unit: points_per_dollar
+    note: "United purchases, dining, and hotel stays"
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: hotels
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
 signup_bonus:
   value: 70000
   type: miles
   spend_requirement: 3000
   timeframe_months: 3
+apr:
+  regular:
+    min: 19.74
+    max: 28.24
 tags:
   - airline
   - travel

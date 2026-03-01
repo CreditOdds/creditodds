@@ -6,3 +6,32 @@ image: "wells-fargo-autograph-journey.png"
 category: "travel"
 annual_fee: 95
 reward_type: "points"
+tags:
+  - travel
+  - rewards
+  - premium
+rewards:
+  - category: hotels
+    value: 5
+    unit: points_per_dollar
+  - category: airlines
+    value: 4
+    unit: points_per_dollar
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: travel
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 60000
+  type: points
+  spend_requirement: 4000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 18.49
+    max: 28.49

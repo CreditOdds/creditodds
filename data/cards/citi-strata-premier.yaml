@@ -6,3 +6,40 @@ accepting_applications: true
 category: "travel"
 annual_fee: 95
 reward_type: "points"
+tags:
+  - travel
+  - rewards
+rewards:
+  - category: hotels_car_portal
+    value: 10
+    unit: points_per_dollar
+    note: "On hotels, car rentals, and attractions booked through Citi Travel"
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+  - category: hotels
+    value: 3
+    unit: points_per_dollar
+    note: "On hotels booked directly"
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: groceries
+    value: 3
+    unit: points_per_dollar
+  - category: gas
+    value: 3
+    unit: points_per_dollar
+    note: "Includes EV charging stations"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 60000
+  type: points
+  spend_requirement: 4000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 20.24
+    max: 28.24

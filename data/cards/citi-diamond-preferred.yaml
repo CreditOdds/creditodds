@@ -4,6 +4,9 @@ slug: "citi-diamond-preferred"
 image: "citi_diamond_preferred.png"
 accepting_applications: true
 annual_fee: 0
+category: "balance_transfer"
+tags:
+  - balance_transfer
 apr:
   purchase_intro:
     rate: 0
@@ -12,5 +15,5 @@ apr:
     rate: 0
     months: 21
   regular:
-    min: 18.24
-    max: 29.24
+    min: 16.49
+    max: 27.24

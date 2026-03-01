@@ -5,11 +5,29 @@ image: "southwest_priority.png"
 accepting_applications: true
 annual_fee: 229
 reward_type: "points"
+rewards:
+  - category: airlines
+    value: 4
+    unit: points_per_dollar
+    note: "Southwest Airlines purchases (flights, in-flight, gift cards)"
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
 signup_bonus:
   value: 40000
   type: points
   spend_requirement: 5000
   timeframe_months: 3
+apr:
+  regular:
+    min: 19.24
+    max: 27.74
 tags:
   - airline
   - travel

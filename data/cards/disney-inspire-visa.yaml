@@ -10,3 +10,33 @@ tags:
   - rewards
   - disney
   - entertainment
+rewards:
+  - category: streaming
+    value: 10
+    unit: percent
+    note: "Disney+, Hulu, and ESPN+ purchases"
+  - category: gas
+    value: 3
+    unit: percent
+  - category: entertainment
+    value: 3
+    unit: percent
+    note: "Most U.S. Disney locations"
+  - category: groceries
+    value: 2
+    unit: percent
+  - category: dining
+    value: 2
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 300
+  type: cash
+  spend_requirement: 1000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 18.24
+    max: 27.74

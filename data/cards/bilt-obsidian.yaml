@@ -10,3 +10,15 @@ tags:
   - rewards
   - travel
   - premium
+rewards:
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+    note: "Choose dining or groceries, up to $25,000/year"
+  - category: travel
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+    note: "Also earns 4% Bilt Cash on everyday purchases"

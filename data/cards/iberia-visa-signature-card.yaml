@@ -5,3 +5,27 @@ accepting_applications: true
 image: "iberia-plus.png"
 annual_fee: 95
 reward_type: "miles"
+tags:
+  - airline
+  - travel
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Iberia, British Airways, and Aer Lingus flights"
+  - category: hotels
+    value: 2
+    unit: points_per_dollar
+    note: "Hotels booked directly"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 75000
+  type: miles
+  spend_requirement: 5000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 19.24
+    max: 29.99

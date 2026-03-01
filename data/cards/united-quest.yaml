@@ -5,11 +5,37 @@ image: "united_quest.png"
 accepting_applications: true
 annual_fee: 350
 reward_type: "miles"
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "United purchases"
+  - category: hotels
+    value: 5
+    unit: points_per_dollar
+    note: "Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers"
+  - category: travel
+    value: 2
+    unit: points_per_dollar
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: streaming
+    value: 2
+    unit: points_per_dollar
+    note: "Select streaming services"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
 signup_bonus:
   value: 80000
   type: miles
   spend_requirement: 4000
   timeframe_months: 3
+apr:
+  regular:
+    min: 21.24
+    max: 28.24
 tags:
   - airline
   - travel

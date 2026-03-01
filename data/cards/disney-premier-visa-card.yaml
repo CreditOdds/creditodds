@@ -5,3 +5,30 @@ accepting_applications: true
 image: "chase-disney-premier.png"
 annual_fee: 49
 reward_type: "cashback"
+rewards:
+  - category: streaming
+    value: 5
+    unit: percent
+    note: "Disney+, Hulu, and ESPN+ purchases"
+  - category: entertainment
+    value: 2
+    unit: percent
+    note: "Select Disney purchases, gas stations, and grocery stores"
+  - category: gas
+    value: 2
+    unit: percent
+  - category: groceries
+    value: 2
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 100
+  type: cash
+  spend_requirement: 500
+  timeframe_months: 3
+apr:
+  regular:
+    min: 18.24
+    max: 27.74

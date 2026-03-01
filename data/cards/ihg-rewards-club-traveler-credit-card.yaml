@@ -9,3 +9,30 @@ tags:
   - hotel
   - travel
   - rewards
+rewards:
+  - category: hotels
+    value: 17
+    unit: points_per_dollar
+    note: "Up to 17x total points at IHG hotels"
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: gas
+    value: 3
+    unit: points_per_dollar
+  - category: streaming
+    value: 3
+    unit: points_per_dollar
+    note: "Utilities, internet, cable, phone, and select streaming"
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+signup_bonus:
+  value: 90000
+  type: points
+  spend_requirement: 2000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 19.24
+    max: 29.99

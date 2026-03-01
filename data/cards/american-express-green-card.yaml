@@ -5,6 +5,24 @@ image: "amex_green_card.png"
 accepting_applications: true
 annual_fee: 150
 reward_type: "points"
+rewards:
+  - category: travel
+    value: 3
+    unit: points_per_dollar
+  - category: transit
+    value: 3
+    unit: points_per_dollar
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 40000
+  type: points
+  spend_requirement: 3000
+  timeframe_months: 6
 tags:
   - travel
   - dining

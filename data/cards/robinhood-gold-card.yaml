@@ -10,6 +10,14 @@ tags:
   - rewards
 reward_type: "cashback"
 rewards:
+  - category: travel_portal
+    value: 5
+    unit: percent
+    note: "Travel booked through Robinhood travel portal"
   - category: everything_else
     value: 3
     unit: percent
+apr:
+  regular:
+    min: 29.99
+    max: 29.99

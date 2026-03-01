@@ -6,6 +6,35 @@ accepting_applications: true
 card_referral_link: "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref="
 annual_fee: 0
 reward_type: "points"
+rewards:
+  - category: hotels
+    value: 7
+    unit: points_per_dollar
+    note: "Eligible purchases at Hilton hotels and resorts"
+  - category: dining
+    value: 5
+    unit: points_per_dollar
+    note: "U.S. restaurants"
+  - category: groceries
+    value: 5
+    unit: points_per_dollar
+    note: "U.S. supermarkets"
+  - category: gas
+    value: 5
+    unit: points_per_dollar
+    note: "U.S. gas stations"
+  - category: everything_else
+    value: 3
+    unit: points_per_dollar
+signup_bonus:
+  value: 70000
+  type: points
+  spend_requirement: 2000
+  timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
 tags:
   - hotel
   - travel

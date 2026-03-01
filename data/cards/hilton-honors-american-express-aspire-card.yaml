@@ -5,6 +5,35 @@ image: "amex_hilton_honors_aspire.png"
 accepting_applications: true
 annual_fee: 550
 reward_type: "points"
+rewards:
+  - category: hotels
+    value: 14
+    unit: points_per_dollar
+    note: "Eligible purchases at Hilton hotels and resorts"
+  - category: airlines
+    value: 7
+    unit: points_per_dollar
+    note: "Flights booked directly with airlines or through AmexTravel.com"
+  - category: car_rentals
+    value: 7
+    unit: points_per_dollar
+    note: "Booked directly with select car rental companies"
+  - category: dining
+    value: 7
+    unit: points_per_dollar
+    note: "U.S. restaurants"
+  - category: everything_else
+    value: 3
+    unit: points_per_dollar
+signup_bonus:
+  value: 175000
+  type: points
+  spend_requirement: 6000
+  timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
 tags:
   - hotel
   - travel

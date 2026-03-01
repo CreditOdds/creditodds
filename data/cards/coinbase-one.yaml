@@ -10,3 +10,8 @@ reward_type: "cashback"
 tags:
   - rewards
   - crypto
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+    note: "Up to 4% with higher crypto balances on Coinbase; requires Coinbase One membership"

@@ -6,6 +6,23 @@ category: "business"
 annual_fee: 0
 reward_type: "cashback"
 image: "blue-business-cash.png"
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+    note: "On first $50,000 in purchases per calendar year, then 1%"
+signup_bonus:
+  value: 250
+  type: cash
+  spend_requirement: 15000
+  timeframe_months: 12
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 18.49
+    max: 26.49
 tags:
   - business
   - cashback

@@ -12,8 +12,16 @@ rewards:
   - category: everything_else
     value: 2
     unit: percent
+    note: "1% when you buy, 1% when you pay"
 signup_bonus:
   value: 200
   type: cash
   spend_requirement: 1500
   timeframe_months: 6
+apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 18
+  regular:
+    min: 17.49
+    max: 27.49

@@ -35,3 +35,7 @@ signup_bonus:
   type: cash
   spend_requirement: 2000
   timeframe_months: 4
+apr:
+  regular:
+    min: 18.74
+    max: 28.74

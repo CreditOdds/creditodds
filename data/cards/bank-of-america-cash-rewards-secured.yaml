@@ -6,3 +6,24 @@ category: "secured"
 image: "bank-of-america-customized-cash-secured.png"
 annual_fee: 0
 reward_type: "cashback"
+tags:
+  - secured
+  - cashback
+rewards:
+  - category: rotating
+    value: 3
+    unit: percent
+    mode: user_choice
+    choices: 1
+    note: "3% in choice category, up to $2,500/quarter"
+  - category: groceries
+    value: 2
+    unit: percent
+    note: "Also includes wholesale clubs, up to $2,500/quarter combined"
+  - category: everything_else
+    value: 1
+    unit: percent
+apr:
+  regular:
+    min: 27.49
+    max: 27.49

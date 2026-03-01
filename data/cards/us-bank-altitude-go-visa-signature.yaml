@@ -2,7 +2,39 @@ name: "U.S. Bank Altitude Go Visa Signature"
 bank: "U.S. Bank"
 slug: "us-bank-altitude-go-visa-signature"
 accepting_applications: true
-category: "travel"
+category: "dining"
 image: "us-bank-altitude-go.png"
 annual_fee: 0
 reward_type: "points"
+tags:
+  - dining
+  - rewards
+rewards:
+  - category: dining
+    value: 4
+    unit: points_per_dollar
+    note: "Up to $2,000/quarter"
+  - category: groceries
+    value: 2
+    unit: points_per_dollar
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+  - category: streaming
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 20000
+  type: points
+  spend_requirement: 1000
+  timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 17.49
+    max: 27.49

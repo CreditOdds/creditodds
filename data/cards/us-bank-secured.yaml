@@ -4,3 +4,11 @@ slug: "us-bank-secured"
 image: "us-bank-secured.png"
 accepting_applications: true
 annual_fee: 0
+category: "secured"
+tags:
+  - secured
+  - credit_builder
+apr:
+  regular:
+    min: 27.49
+    max: 27.49

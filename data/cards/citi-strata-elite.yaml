@@ -6,3 +6,32 @@ category: "travel"
 image: "citi-strata-elite.png"
 annual_fee: 595
 reward_type: "points"
+tags:
+  - travel
+  - rewards
+  - premium
+rewards:
+  - category: hotels_car_portal
+    value: 12
+    unit: points_per_dollar
+    note: "On hotels, car rentals, and attractions booked through Citi Travel"
+  - category: flights_portal
+    value: 6
+    unit: points_per_dollar
+    note: "On air travel booked through Citi Travel"
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+    note: "6x on Citi Nights (Fri-Sat 6PM-6AM ET)"
+  - category: everything_else
+    value: 1.5
+    unit: points_per_dollar
+signup_bonus:
+  value: 75000
+  type: points
+  spend_requirement: 6000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 21.24
+    max: 29.24

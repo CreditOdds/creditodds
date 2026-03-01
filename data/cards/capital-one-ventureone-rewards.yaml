@@ -6,3 +6,25 @@ accepting_applications: true
 category: "travel"
 annual_fee: 0
 reward_type: "miles"
+tags:
+  - travel
+  - rewards
+rewards:
+  - category: hotels_car_portal
+    value: 5
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1.25
+    unit: points_per_dollar
+signup_bonus:
+  value: 20000
+  type: miles
+  spend_requirement: 500
+  timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 18.49
+    max: 28.49

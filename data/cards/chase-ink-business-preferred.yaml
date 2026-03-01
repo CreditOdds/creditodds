@@ -10,3 +10,20 @@ tags:
   - business
   - travel
   - rewards
+rewards:
+  - category: travel
+    value: 3
+    unit: points_per_dollar
+    note: "Travel, shipping, internet/cable/phone, advertising on search engines and social media (first $150,000/year combined)"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 100000
+  type: points
+  spend_requirement: 8000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 19.49
+    max: 29.99

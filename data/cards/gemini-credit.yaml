@@ -10,3 +10,21 @@ reward_type: "cashback"
 tags:
   - rewards
   - crypto
+rewards:
+  - category: gas
+    value: 4
+    unit: percent
+    note: "First $300/month on gas and EV charging"
+  - category: dining
+    value: 3
+    unit: percent
+  - category: groceries
+    value: 2
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent
+apr:
+  regular:
+    min: 18.99
+    max: 34.99

@@ -18,3 +18,13 @@ signup_bonus:
   type: cash
   spend_requirement: 500
   timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  balance_transfer_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 18.49
+    max: 28.49

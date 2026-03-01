@@ -9,3 +9,30 @@ tags:
   - hotel
   - travel
   - rewards
+rewards:
+  - category: hotels
+    value: 4
+    unit: points_per_dollar
+    note: "At Hyatt hotels, up to 9x total with World of Hyatt membership"
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: airlines
+    value: 2
+    unit: points_per_dollar
+    note: "Purchased directly from airlines"
+  - category: transit
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 30000
+  type: points
+  spend_requirement: 3000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 19.24
+    max: 29.99

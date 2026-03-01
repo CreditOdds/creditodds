@@ -3,5 +3,11 @@ bank: "Capital One"
 slug: "capital-one-platinum"
 image: "capital_one_platinum.png"
 accepting_applications: true
-category: "rewards"
+category: "other"
 annual_fee: 0
+tags:
+  - credit_builder
+apr:
+  regular:
+    min: 28.99
+    max: 28.99
