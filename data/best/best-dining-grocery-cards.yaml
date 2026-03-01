@@ -2,7 +2,7 @@ id: best-dining-grocery-cards
 slug: best-dining-grocery-cards
 title: Best Credit Cards for Dining and Groceries
 description: The top credit cards for earning rewards on restaurants and grocery store purchases, from premium to no-annual-fee options.
-date: "2026-02-28"
+date: "2026-03-01"
 seo_title: Best Credit Cards for Dining and Groceries of 2026
 seo_description: Compare the best dining and grocery credit cards of 2026. Earn 3-4x points or up to 6% cash back on food spending.
 intro: |
@@ -11,38 +11,43 @@ intro: |
 cards:
   - slug: american-express-gold-card
     badge: Best Overall
-    highlight: 4x Membership Rewards points on dining and groceries is the highest ongoing earn rate in both categories from a single card. The $325 annual fee is offset by monthly dining and Uber credits.
+    highlight: 4x Membership Rewards points on both dining and groceries is the highest ongoing earn rate in both categories from a single card. The $325 annual fee is offset by monthly dining and Uber credits.
+
+  - slug: blue-cash-preferred-card
+    badge: Best for Groceries
+    highlight: 6% cash back at U.S. supermarkets (up to $6,000/year) is the highest grocery earn rate of any card. Also earns 6% on streaming and 3% on transit and gas for a $95 annual fee.
+
+  - slug: us-bank-altitude-go-visa-signature
+    badge: Best No-Fee Dining
+    highlight: 4x points on dining (up to $2,000/quarter) with no annual fee is the highest no-fee dining rate available. Also earns 2x on groceries, gas, and streaming.
 
   - slug: capital-one-savorone
-    badge: Best No-Fee Card
-    highlight: 3% cash back on dining, groceries, entertainment, and streaming with no annual fee. The best all-around no-fee card for food spending.
+    badge: Best No-Fee All-Around
+    highlight: 3% cash back on dining, groceries, entertainment, and streaming with no annual fee. The best all-around no-fee card for food spending across both categories.
+
+  - slug: citi-strata-premier
+    highlight: 3x points on both dining and groceries plus 3x on airlines, hotels, and gas for a $95 annual fee. One of the few mid-tier cards with elevated earning in both food categories.
 
   - slug: chase-sapphire-preferred
-    highlight: 3x points on dining make this a strong everyday earner. Points transfer to Hyatt, United, and other partners, giving you outsized value for a $95 annual fee.
+    highlight: 3x points on dining and 3x on online grocery purchases make this a strong everyday earner. Points transfer to Hyatt, United, and other partners, giving you outsized value for a $95 annual fee.
+
+  - slug: citi-custom-cash
+    highlight: Automatically earns 5% on your top spending category each billing cycle, including dining or groceries (up to $500/month). No annual fee makes this a great targeted card for your biggest food expense.
 
   - slug: chase-sapphire-reserve
-    highlight: 3x on dining with a $300 travel credit and 50% bonus when redeeming through Chase Travel. The premium option for frequent travelers who also dine out a lot.
+    highlight: 3x on dining with a $300 travel credit and 50% point bonus when redeeming through Chase Travel. The premium option for frequent travelers who also dine out a lot, though the $795 annual fee is steep.
 
   - slug: chase-freedom-flex
-    highlight: 3% back on dining at restaurants with no annual fee, plus 5% rotating categories that sometimes include grocery stores. A great starter or pairing card.
+    highlight: 3% back on dining with no annual fee, plus 5% rotating categories that sometimes include grocery stores. A great starter or pairing card with a Sapphire card for point transfers.
 
   - slug: chase-freedom-unlimited
     highlight: 3% on dining plus 1.5% on everything else, no annual fee. Pairs perfectly with a Sapphire card to transfer points to travel partners.
 
-  - slug: wells-fargo-autograph
-    highlight: 3x points on dining with no annual fee. Also earns 3x on travel, gas, transit, and streaming — a versatile everyday card.
-
   - slug: blue-cash-everyday-card
-    highlight: 3% cash back at U.S. supermarkets (up to $6,000/year) with no annual fee. One of the best standalone grocery cards for most households.
+    highlight: 3% cash back at U.S. supermarkets (up to $6,000/year) with no annual fee. A strong no-fee grocery card that also earns 3% on gas and online shopping.
 
-  - slug: atmos-rewards-summit
-    highlight: 3x points on dining plus a strong rewards structure across travel and everyday categories. A newer card with competitive earning rates.
+  - slug: wells-fargo-autograph
+    highlight: 3x points on dining with no annual fee. Also earns 3x on travel, gas, transit, and streaming, though it has no grocery bonus.
 
   - slug: delta-skymiles-gold-american-express-card
-    highlight: 2x miles on dining and U.S. supermarkets. A strong pick if you fly Delta — the dining and grocery earnings fuel your miles balance between flights.
-
-  - slug: rakuten-american-express
-    highlight: 2% back on dining and groceries with no annual fee. Also earns elevated rates on Rakuten shopping portal purchases — a solid secondary card.
-
-  - slug: atmos-rewards-ascent
-    highlight: 3x on dining with a lower annual fee than the Summit. A good mid-tier option if you want elevated dining rewards without the premium price tag.
+    highlight: 2x miles on dining and U.S. supermarkets. A strong pick if you fly Delta regularly, as the dining and grocery earnings fuel your miles balance between flights.
