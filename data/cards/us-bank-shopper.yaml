@@ -9,19 +9,18 @@ tags:
   - shopping
 reward_type: "cashback"
 rewards:
-  - category: shopping
+  - category: online_shopping
     value: 6
     unit: percent
     mode: user_choice
     choices: 2
-    eligible_categories: [amazon, apple, best_buy, costco, home_depot, kroger, lowes, macys, nike, nordstrom, sams_club, sephora, starbucks, target, tjmaxx, uber, walgreens, walmart]
-    note: "Choose 2 retailers each quarter, up to $1,500 combined"
+    note: "Choose 2 retailers each quarter (Amazon, Apple, Costco, Target, Walmart, etc.), up to $1,500 combined"
   - category: rotating
     value: 3
     unit: percent
     mode: user_choice
     choices: 1
-    eligible_categories: [gas, wholesale_clubs, bills_and_utilities]
+    eligible_categories: [gas, wholesale_clubs, utilities]
     note: "Choose 1 everyday category each quarter, up to $1,500"
   - category: travel
     value: 5.5

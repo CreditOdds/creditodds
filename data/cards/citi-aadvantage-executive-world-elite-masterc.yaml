@@ -7,7 +7,7 @@ reward_type: "miles"
 image: "citi-aadvantage-executive-world-elite.png"
 tags:
   - travel
-  - airlines
+  - airline
   - premium
 rewards:
   - category: hotels_car_portal

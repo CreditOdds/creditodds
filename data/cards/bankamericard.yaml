@@ -6,7 +6,7 @@ image: "bankamericard.png"
 category: "other"
 annual_fee: 0
 tags:
-  - balance_transfer
+  - cashback
 apr:
   purchase_intro:
     rate: 0

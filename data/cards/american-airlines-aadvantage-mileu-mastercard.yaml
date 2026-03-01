@@ -6,7 +6,7 @@ image: "american-aadvantage.jpeg"
 annual_fee: 0
 reward_type: "miles"
 tags:
-  - airlines
+  - airline
 rewards:
   - category: groceries
     value: 2

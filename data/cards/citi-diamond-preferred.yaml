@@ -4,9 +4,9 @@ slug: "citi-diamond-preferred"
 image: "citi_diamond_preferred.png"
 accepting_applications: true
 annual_fee: 0
-category: "balance_transfer"
+category: "other"
 tags:
-  - balance_transfer
+  - cashback
 apr:
   purchase_intro:
     rate: 0

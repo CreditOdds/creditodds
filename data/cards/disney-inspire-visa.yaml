@@ -8,8 +8,7 @@ annual_fee: 149
 reward_type: "cashback"
 tags:
   - rewards
-  - disney
-  - entertainment
+  - shopping
 rewards:
   - category: streaming
     value: 10
