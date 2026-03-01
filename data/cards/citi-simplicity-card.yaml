@@ -4,9 +4,9 @@ slug: "citi-simplicity-card"
 accepting_applications: true
 image: "citi-simplicity.png"
 annual_fee: 0
-category: "other"
+category: "balance_transfer"
 tags:
-  - cashback
+  - balance_transfer
 apr:
   purchase_intro:
     rate: 0

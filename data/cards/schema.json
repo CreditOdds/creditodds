@@ -26,7 +26,7 @@
     },
     "category": {
       "type": "string",
-      "enum": ["travel", "cashback", "business", "student", "secured", "rewards", "other"],
+      "enum": ["travel", "cashback", "business", "student", "secured", "rewards", "balance_transfer", "other"],
       "description": "Card category (optional)"
     },
     "annual_fee": {
@@ -43,7 +43,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["travel", "cashback", "hotel", "shopping", "student", "secured", "premium", "business", "rewards", "airline", "dining"]
+        "enum": ["travel", "cashback", "hotel", "shopping", "student", "secured", "premium", "business", "rewards", "airline", "dining", "balance_transfer"]
       },
       "description": "Card tags for categorization and filtering (optional)"
     },
