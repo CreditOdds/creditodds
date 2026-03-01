@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T20:37:27.743Z",
+  "generated_at": "2026-03-01T00:10:28.159Z",
   "count": 142,
   "categories": [
     {
@@ -1161,6 +1161,20 @@
         "type": "cash",
         "spend_requirement": 500,
         "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 18.24,
+          "max": 27.74
+        }
       },
       "card_id": "chase-freedom-unlimited",
       "card_name": "Chase Freedom Unlimited"
