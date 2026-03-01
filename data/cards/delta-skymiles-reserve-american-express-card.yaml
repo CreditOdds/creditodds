@@ -22,4 +22,7 @@ signup_bonus:
   type: miles
   spend_requirement: 9000
   timeframe_months: 6
-  note: "100k after $6k spend + 25k after additional $3k spend"
+apr:
+  regular:
+    min: 19.49
+    max: 28.49

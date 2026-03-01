@@ -30,7 +30,14 @@ rewards:
     value: 1
     unit: "percent"
 signup_bonus:
-  value: 25
+  value: 75
   type: "cash"
-  spend_requirement: 500
+  spend_requirement: 2000
   timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 19.49
+    max: 28.49

@@ -4,3 +4,6 @@ slug: "us-bank-split"
 image: "us-bank-split.png"
 accepting_applications: true
 annual_fee: 0
+category: "other"
+tags:
+  - installment

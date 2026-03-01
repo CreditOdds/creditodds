@@ -15,3 +15,13 @@ rewards:
   - category: "everything_else"
     value: 1.5
     unit: "points_per_dollar"
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 17.49
+    max: 27.49

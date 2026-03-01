@@ -24,3 +24,7 @@ signup_bonus:
   type: miles
   spend_requirement: 1000
   timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49

@@ -5,6 +5,8 @@ image: "wells_fargo_reflect.png"
 accepting_applications: true
 category: "other"
 annual_fee: 0
+tags:
+  - balance_transfer
 apr:
   purchase_intro:
     rate: 0
@@ -13,5 +15,5 @@ apr:
     rate: 0
     months: 21
   regular:
-    min: 24.49
-    max: 34.49
+    min: 17.49
+    max: 28.24

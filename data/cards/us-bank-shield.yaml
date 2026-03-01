@@ -4,10 +4,16 @@ slug: "us-bank-shield"
 image: "us-bank-shield.png"
 accepting_applications: true
 annual_fee: 0
+category: "other"
+tags:
+  - balance_transfer
 apr:
   purchase_intro:
     rate: 0
-    months: 15
+    months: 24
   balance_transfer_intro:
     rate: 0
-    months: 15
+    months: 24
+  regular:
+    min: 16.99
+    max: 27.99

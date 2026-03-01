@@ -6,6 +6,24 @@ category: "business"
 image: "business-platinum.png"
 annual_fee: 895
 reward_type: "points"
+rewards:
+  - category: flights_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Flights booked through Amex Travel"
+  - category: hotels_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Prepaid hotels booked through Amex Travel"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+    note: "2x on purchases of $5,000 or more (up to $2M/year)"
+signup_bonus:
+  value: 200000
+  type: points
+  spend_requirement: 20000
+  timeframe_months: 3
 tags:
   - business
   - travel

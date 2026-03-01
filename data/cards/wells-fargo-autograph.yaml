@@ -34,3 +34,10 @@ signup_bonus:
   type: points
   spend_requirement: 1000
   timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 18.49
+    max: 28.49

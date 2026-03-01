@@ -6,8 +6,36 @@ category: "travel"
 image: "barclays-hawaiian.png"
 annual_fee: 99
 reward_type: "miles"
+tags:
+  - travel
+  - airlines
+  - rewards
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Hawaiian Airlines purchases"
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: groceries
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
 signup_bonus:
   value: 50000
   type: miles
   spend_requirement: 2000
   timeframe_months: 3
+apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 20.24
+    max: 29.99

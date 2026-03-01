@@ -9,3 +9,27 @@ tags:
   - hotel
   - travel
   - rewards
+rewards:
+  - category: hotels
+    value: 6
+    unit: points_per_dollar
+    note: "Marriott Bonvoy hotels"
+  - category: groceries
+    value: 3
+    unit: points_per_dollar
+    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+  - category: gas
+    value: 3
+    unit: points_per_dollar
+    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+apr:
+  regular:
+    min: 20.49
+    max: 27.49

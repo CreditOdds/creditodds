@@ -6,6 +6,23 @@ category: "business"
 image: "blue-business-plus.png"
 annual_fee: 0
 reward_type: "points"
+rewards:
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+    note: "On first $50,000 in purchases per calendar year, then 1x"
+signup_bonus:
+  value: 15000
+  type: points
+  spend_requirement: 3000
+  timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 17.49
+    max: 25.49
 tags:
   - business
   - rewards

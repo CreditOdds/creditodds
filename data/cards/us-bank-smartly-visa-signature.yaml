@@ -6,4 +6,21 @@ accepting_applications: true
 category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  balance_transfer_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 17.74
+    max: 27.99
 

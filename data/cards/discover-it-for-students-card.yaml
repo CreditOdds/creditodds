@@ -4,7 +4,24 @@ slug: "discover-it-for-students-card"
 accepting_applications: true
 image: "discover-it-student-cash-back.png"
 annual_fee: 0
+category: "student"
 reward_type: "cashback"
 tags:
   - student
   - cashback
+rewards:
+  - category: rotating
+    value: 5
+    unit: percent
+    mode: quarterly_rotating
+    note: "Up to $1,500/quarter when activated"
+  - category: everything_else
+    value: 1
+    unit: percent
+apr:
+  purchase_intro:
+    rate: 0
+    months: 6
+  regular:
+    min: 16.49
+    max: 25.49

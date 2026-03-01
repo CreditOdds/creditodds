@@ -6,3 +6,32 @@ category: "business"
 annual_fee: 0
 reward_type: "cashback"
 image: "amazon-business-prime.png"
+rewards:
+  - category: amazon
+    value: 5
+    unit: percent
+    note: "U.S. purchases at Amazon.com, Amazon Business, AWS, and Whole Foods Market, on first $120,000/year then 1%"
+  - category: dining
+    value: 2
+    unit: percent
+    note: "U.S. restaurants"
+  - category: gas
+    value: 2
+    unit: percent
+    note: "U.S. gas stations"
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 125
+  type: cash
+  spend_requirement: 0
+  timeframe_months: 0
+apr:
+  regular:
+    min: 18.24
+    max: 26.24
+tags:
+  - business
+  - cashback
+  - shopping

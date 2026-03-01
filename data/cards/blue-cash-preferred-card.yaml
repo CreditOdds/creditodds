@@ -5,6 +5,38 @@ image: "amex_blue_cash_preferred.png"
 accepting_applications: true
 annual_fee: 95
 reward_type: "cashback"
+rewards:
+  - category: groceries
+    value: 6
+    unit: percent
+    note: "U.S. supermarkets, up to $6,000 per year then 1%"
+  - category: streaming
+    value: 6
+    unit: percent
+    note: "Select U.S. streaming subscriptions"
+  - category: transit
+    value: 3
+    unit: percent
+    note: "Including taxis, rideshare, parking, tolls, trains, buses"
+  - category: gas
+    value: 3
+    unit: percent
+    note: "U.S. gas stations"
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 250
+  type: cash
+  spend_requirement: 3000
+  timeframe_months: 6
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 19.49
+    max: 28.49
 tags:
   - cashback
   - shopping

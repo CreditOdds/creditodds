@@ -4,11 +4,31 @@ slug: "southwest-rapid-rewards-plus-credit-card"
 accepting_applications: true
 annual_fee: 99
 reward_type: "points"
+rewards:
+  - category: airlines
+    value: 2
+    unit: points_per_dollar
+    note: "Southwest Airlines purchases"
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+    note: "Gas stations and grocery stores (first $5,000/year)"
+  - category: groceries
+    value: 2
+    unit: points_per_dollar
+    note: "Gas stations and grocery stores (first $5,000/year)"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
 signup_bonus:
   value: 20000
   type: points
   spend_requirement: 3000
   timeframe_months: 3
+apr:
+  regular:
+    min: 20.49
+    max: 27.49
 image: "chase-southwest-rapid-rewards-plus.png"
 tags:
   - airline

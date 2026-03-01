@@ -5,6 +5,31 @@ image: "amex_marriott_bonvoy_brilliant.png"
 accepting_applications: true
 annual_fee: 650
 reward_type: "points"
+rewards:
+  - category: hotels
+    value: 6
+    unit: points_per_dollar
+    note: "Hotels participating in Marriott Bonvoy"
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+    note: "Restaurants worldwide"
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Flights booked directly with airlines"
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+signup_bonus:
+  value: 100000
+  type: points
+  spend_requirement: 6000
+  timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
 tags:
   - hotel
   - travel
