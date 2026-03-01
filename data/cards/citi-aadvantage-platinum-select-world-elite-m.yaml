@@ -7,7 +7,7 @@ reward_type: "miles"
 image: "citi-aadvantage-platinum-select-world-elite.png"
 tags:
   - travel
-  - airlines
+  - airline
 rewards:
   - category: airlines
     value: 2

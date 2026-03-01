@@ -7,7 +7,6 @@ annual_fee: 0
 category: "secured"
 tags:
   - secured
-  - credit_builder
 apr:
   regular:
     min: 27.49

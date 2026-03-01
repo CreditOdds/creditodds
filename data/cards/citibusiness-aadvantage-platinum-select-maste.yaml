@@ -7,7 +7,7 @@ annual_fee: 99
 reward_type: "miles"
 tags:
   - travel
-  - airlines
+  - airline
   - business
 rewards:
   - category: airlines

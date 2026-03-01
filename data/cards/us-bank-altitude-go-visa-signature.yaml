@@ -2,7 +2,7 @@ name: "U.S. Bank Altitude Go Visa Signature"
 bank: "U.S. Bank"
 slug: "us-bank-altitude-go-visa-signature"
 accepting_applications: true
-category: "dining"
+category: "rewards"
 image: "us-bank-altitude-go.png"
 annual_fee: 0
 reward_type: "points"
