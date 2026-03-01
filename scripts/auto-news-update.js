@@ -266,12 +266,18 @@ Output raw JSON only, no markdown fences.`,
     outputText = data.choices[0]?.message?.content || '';
   }
 
-  console.log(`    xAI response keys: ${Object.keys(data).join(', ')}`);
-  console.log(`    xAI output length: ${outputText.length} chars`);
+  // Debug: log output item types and the text field
+  const outputTypes = (data.output || []).map(item => `${item.type}:${item.name || ''}`).join(', ');
+  console.log(`    xAI output items: [${outputTypes}]`);
+  console.log(`    xAI text field: ${(data.text || '').substring(0, 300)}`);
+  console.log(`    xAI extracted text length: ${outputText.length} chars`);
   if (outputText.length > 0) {
-    console.log(`    xAI output preview: ${outputText.substring(0, 200)}...`);
-  } else {
-    console.log(`    xAI raw response: ${JSON.stringify(data).substring(0, 500)}`);
+    console.log(`    xAI output preview: ${outputText.substring(0, 300)}`);
+  }
+  // Also try the top-level text field
+  if (!outputText && data.text) {
+    outputText = data.text;
+    console.log(`    Using top-level text field (${outputText.length} chars)`);
   }
 
   // Parse JSON from the response
