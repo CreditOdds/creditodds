@@ -75,12 +75,10 @@ jobs:
             echo "No new article files detected"
           fi
 
-      - name: Post new articles to social media
+      - name: Queue new articles for social media
         if: steps.new-files.outputs.files != ''
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
-          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
-          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
-          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
-        run: node scripts/post-social.js --type article --files ${{ steps.new-files.outputs.files }}
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+        run: node scripts/queue-social.js --type article --files ${{ steps.new-files.outputs.files }}
