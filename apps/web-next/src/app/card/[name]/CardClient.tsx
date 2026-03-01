@@ -14,17 +14,8 @@ import {
   NewspaperIcon,
   XMarkIcon,
   InformationCircleIcon,
-  GlobeAltIcon,
-  ShoppingBagIcon,
-  TruckIcon,
-  SparklesIcon,
   BanknotesIcon,
-  FireIcon,
-  HomeModernIcon,
-  FilmIcon,
-  ComputerDesktopIcon,
-  TicketIcon,
-  CreditCardIcon,
+  ScaleIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, Reward, trackReferralEvent, getRecords } from "@/lib/api";
@@ -33,6 +24,7 @@ import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors }
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
 
 // Dynamic import for Highcharts (client-side only)
 const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
@@ -47,85 +39,6 @@ function ChartErrorFallback() {
       <p className="text-gray-500">Unable to load chart. Please refresh the page.</p>
     </div>
   );
-}
-
-const categoryLabels: Record<string, string> = {
-  dining: "Dining",
-  groceries: "Groceries",
-  travel: "Travel",
-  gas: "Gas",
-  streaming: "Streaming",
-  transit: "Transit",
-  drugstores: "Drugstores",
-  home_improvement: "Home Improvement",
-  online_shopping: "Online Shopping",
-  hotels: "Hotels",
-  airlines: "Airlines",
-  car_rentals: "Car Rentals",
-  entertainment: "Entertainment",
-  rotating: "Rotating Categories",
-  travel_portal: "Travel (via Portal)",
-  hotels_portal: "Hotels (via Portal)",
-  flights_portal: "Flights (via Portal)",
-  hotels_car_portal: "Hotels & Car Rentals (via Portal)",
-  amazon: "Amazon.com",
-  everything_else: "Everything Else",
-};
-
-// Map category to icon component
-function CategoryIcon({ category, className }: { category: string; className?: string }) {
-  const iconClass = className || "h-5 w-5";
-  switch (category) {
-    case "dining":
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 3v7a3 3 0 003 3v0a3 3 0 003-3V3M7 3H5m2 0h2m0 0h2m0 0h2M10 13v8m0 0H8m2 0h2M17 3v4a2 2 0 01-2 2v0a2 2 0 01-2-2V3m2 18V9" />
-        </svg>
-      );
-    case "groceries":
-      return <ShoppingBagIcon className={iconClass} />;
-    case "travel":
-    case "travel_portal":
-      return (
-        <svg className={iconClass} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L10.93 3.555a1.126 1.126 0 00-1.006 0L2.547 7.242A1.125 1.125 0 002 8.185v11.264c0 .756.794 1.245 1.473.89l4.23-2.21a1.126 1.126 0 011.006 0l3.86 2.02a1.126 1.126 0 001.006 0l2.928-1.533z" />
-        </svg>
-      );
-    case "gas":
-      return <FireIcon className={iconClass} />;
-    case "streaming":
-      return <ComputerDesktopIcon className={iconClass} />;
-    case "transit":
-      return <TruckIcon className={iconClass} />;
-    case "drugstores":
-      return <BuildingLibraryIcon className={iconClass} />;
-    case "home_improvement":
-      return <HomeModernIcon className={iconClass} />;
-    case "online_shopping":
-    case "amazon":
-      return <ShoppingBagIcon className={iconClass} />;
-    case "hotels":
-    case "hotels_portal":
-    case "hotels_car_portal":
-      return <HomeModernIcon className={iconClass} />;
-    case "airlines":
-    case "flights_portal":
-      return (
-        <svg className={iconClass} viewBox="0 0 24 24" fill="currentColor">
-          <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0011.5 2 1.5 1.5 0 0010 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
-        </svg>
-      );
-    case "car_rentals":
-      return <TruckIcon className={iconClass} />;
-    case "entertainment":
-      return <FilmIcon className={iconClass} />;
-    case "rotating":
-      return <SparklesIcon className={iconClass} />;
-    case "everything_else":
-      return <GlobeAltIcon className={iconClass} />;
-    default:
-      return <CreditCardIcon className={iconClass} />;
-  }
 }
 
 function formatRewardValue(reward: Reward): string {
@@ -343,6 +256,16 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
           <div className="p-6 sm:p-10">
+            {/* Compare link */}
+            <div className="flex justify-end mb-4">
+              <Link
+                href={`/compare?cards=${card.slug}`}
+                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-indigo-600 transition-colors"
+              >
+                <ScaleIcon className="h-4 w-4" />
+                Compare
+              </Link>
+            </div>
             {/* Two-column layout */}
             <div className="lg:grid lg:grid-cols-12 lg:gap-12">
 

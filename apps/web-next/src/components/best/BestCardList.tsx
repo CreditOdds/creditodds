@@ -3,6 +3,14 @@ import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard } from '@/lib/best';
 import { ApplyButtons } from './ApplyButtons';
+import {
+  getCentsPerPoint,
+  formatEstimatedValue,
+  formatBonusValue,
+  formatBonusRequirement,
+  formatAnnualFee,
+  RewardTypeBadge,
+} from '@/lib/cardDisplayUtils';
 
 interface EnrichedCard extends BestPageCard {
   card: Card;
@@ -10,81 +18,6 @@ interface EnrichedCard extends BestPageCard {
 
 interface BestCardListProps {
   cards: EnrichedCard[];
-}
-
-// Cents-per-point estimates by program (conservative baseline values)
-function getCentsPerPoint(card: Card): number | null {
-  if (!card.signup_bonus) return null;
-  const { type } = card.signup_bonus;
-  if (type === 'cash' || type === 'cashback') return null; // Already in dollars
-
-  const name = card.card_name.toLowerCase();
-  // Points programs
-  if (name.includes('chase sapphire') || name.includes('freedom')) return 1.25; // Chase Ultimate Rewards
-  if (name.includes('amex') || name.includes('american express') || name.includes('gold card') || name.includes('platinum card')) {
-    if (name.includes('delta') || name.includes('skymiles')) return 1.1; // Delta SkyMiles
-    if (name.includes('hilton')) return 0.5; // Hilton Honors
-    return 1.2; // Amex Membership Rewards
-  }
-  if (name.includes('capital one')) return 1.0; // Capital One miles
-  if (name.includes('hyatt')) return 2.0; // World of Hyatt
-  if (name.includes('ihg')) return 0.5; // IHG Rewards
-  if (name.includes('marriott') || name.includes('bonvoy')) return 0.7; // Marriott Bonvoy
-  if (name.includes('atmos')) return 1.0; // Atmos (newer program, ~1cpp estimate)
-  if (name.includes('bilt')) return 1.5; // Bilt transfer partners
-  if (name.includes('citi')) return 1.0; // Citi ThankYou
-  if (name.includes('wells fargo')) return 1.0; // Wells Fargo Rewards
-
-  // Default for unknown points/miles
-  return 1.0;
-}
-
-function formatEstimatedValue(card: Card): string | null {
-  if (!card.signup_bonus) return null;
-  const cpp = getCentsPerPoint(card);
-  if (cpp === null) return null;
-  const value = Math.round((card.signup_bonus.value * cpp) / 100);
-  return `~$${value.toLocaleString()}`;
-}
-
-function formatBonusValue(card: Card): string {
-  if (!card.signup_bonus) return '';
-  const { value, type } = card.signup_bonus;
-  if (type === 'cash' || type === 'cashback') {
-    return `$${value.toLocaleString()}`;
-  }
-  return `${value.toLocaleString()} ${type}`;
-}
-
-function formatBonusRequirement(card: Card): string {
-  if (!card.signup_bonus) return '';
-  const { spend_requirement, timeframe_months } = card.signup_bonus;
-  return `after $${spend_requirement.toLocaleString()} in ${timeframe_months} month${timeframe_months !== 1 ? 's' : ''}`;
-}
-
-function formatAnnualFee(fee: number | undefined): string {
-  if (fee === undefined || fee === null) return 'N/A';
-  if (fee === 0) return '$0';
-  return `$${fee}`;
-}
-
-function RewardTypeBadge({ type }: { type?: string }) {
-  if (!type) return null;
-  const colors: Record<string, string> = {
-    cashback: 'bg-green-100 text-green-800',
-    points: 'bg-blue-100 text-blue-800',
-    miles: 'bg-purple-100 text-purple-800',
-  };
-  const labels: Record<string, string> = {
-    cashback: 'Cash Back',
-    points: 'Points',
-    miles: 'Miles',
-  };
-  return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colors[type] || 'bg-gray-100 text-gray-800'}`}>
-      {labels[type] || type}
-    </span>
-  );
 }
 
 export function BestCardList({ cards }: BestCardListProps) {
