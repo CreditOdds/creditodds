@@ -61,7 +61,10 @@ export default async function OGImage({ params }: Props) {
             height: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 60,
+            paddingLeft: 50,
+            paddingRight: 280,
+            paddingTop: 60,
+            paddingBottom: 60,
           }}
         >
           {/* Card image or placeholder */}
@@ -73,10 +76,25 @@ export default async function OGImage({ params }: Props) {
                 alignItems: 'center',
               }}
             >
+              {/* Card name on top */}
               <div
                 style={{
                   display: 'flex',
-                  borderRadius: 20,
+                  marginBottom: 28,
+                  color: 'white',
+                  fontSize: card.card_name.length > 30 ? 34 : 42,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  maxWidth: 900,
+                }}
+              >
+                {card.card_name}
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  borderRadius: 16,
                   boxShadow: '0 25px 80px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.3)',
                 }}
               >
@@ -84,25 +102,10 @@ export default async function OGImage({ params }: Props) {
                 <img
                   src={cardImageUrl}
                   alt={card.card_name}
-                  width={480}
-                  height={303}
+                  width={420}
+                  height={265}
                   style={{ borderRadius: 16 }}
                 />
-              </div>
-
-              {/* Card name below */}
-              <div
-                style={{
-                  display: 'flex',
-                  marginTop: 36,
-                  color: 'white',
-                  fontSize: card.card_name.length > 30 ? 36 : 44,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  maxWidth: 900,
-                }}
-              >
-                {card.card_name}
               </div>
             </div>
           ) : (
@@ -114,11 +117,25 @@ export default async function OGImage({ params }: Props) {
                 color: 'white',
               }}
             >
+              {/* Card name on top */}
               <div
                 style={{
                   display: 'flex',
-                  width: 400,
-                  height: 252,
+                  marginBottom: 28,
+                  fontSize: card.card_name.length > 30 ? 34 : 42,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  maxWidth: 900,
+                }}
+              >
+                {card.card_name}
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  width: 380,
+                  height: 240,
                   background: 'linear-gradient(145deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%)',
                   borderRadius: 16,
                   alignItems: 'center',
@@ -128,18 +145,6 @@ export default async function OGImage({ params }: Props) {
                 }}
               >
                 💳
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  marginTop: 36,
-                  fontSize: card.card_name.length > 30 ? 36 : 44,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  maxWidth: 900,
-                }}
-              >
-                {card.card_name}
               </div>
             </div>
           )}
@@ -157,18 +162,59 @@ export default async function OGImage({ params }: Props) {
           <OGLogo size={40} />
         </div>
 
-        {/* Bank name in bottom right */}
+        {/* "Check Your Odds" text on the right */}
         <div
           style={{
             position: 'absolute',
-            bottom: 35,
+            right: 50,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: 10,
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              color: 'white',
+              fontSize: 34,
+              fontWeight: 'bold',
+              letterSpacing: -0.5,
+            }}
+          >
+            Check Your
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              color: 'white',
+              fontSize: 34,
+              fontWeight: 'bold',
+              letterSpacing: -0.5,
+            }}
+          >
+            Odds →
+          </div>
+        </div>
+
+        {/* Bank name bottom right */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 30,
             right: 50,
             display: 'flex',
             alignItems: 'center',
-            color: 'rgba(255,255,255,0.8)',
-            fontSize: 24,
+            gap: 8,
+            color: 'rgba(255,255,255,0.7)',
+            fontSize: 20,
           }}
         >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M3 21h18v-2H3v2zm0-4h18v-6H3v6zm0-8h18V7l-9-4-9 4v2z" fill="rgba(255,255,255,0.7)" />
+          </svg>
           {card.bank}
         </div>
       </OGBackground>
