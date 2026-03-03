@@ -9,8 +9,6 @@ export const size = {
 
 export const contentType = 'image/png';
 
-export const runtime = 'edge';
-
 export default async function OGImage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const item = await getNewsItem(id);
