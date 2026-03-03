@@ -115,67 +115,65 @@ export function OGBackground({
         width: '100%',
         height: '100%',
         display: 'flex',
-        position: 'relative',
-        background: 'linear-gradient(135deg, #3730A3 0%, #504DE1 30%, #7C3AED 60%, #4F46E5 100%)',
+        background: 'linear-gradient(115deg, #e8e8e8 0%, #9a9a9a 8%, #f0f0f0 16%, #858585 24%, #d8d8d8 32%, #a8a8a8 40%, #ececec 48%, #929292 56%, #dcdcdc 64%, #b0b0b0 72%, #f2f2f2 80%, #8e8e8e 88%, #d0d0d0 96%)',
         fontFamily: 'Inter, system-ui, sans-serif',
+        padding: 8,
       }}
     >
-      {/* Dot grid pattern overlay */}
+      {/* Inner rounded content area */}
       <div
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
           display: 'flex',
-        }}
-      />
-
-      {/* Cool indigo glow — top left */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'radial-gradient(circle at 15% 20%, rgba(99,102,241,0.4) 0%, transparent 50%)',
-          display: 'flex',
-        }}
-      />
-
-      {/* Warm accent glow — bottom right */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `radial-gradient(circle at 85% 80%, ${hexToRgba(warmGlow, 0.25)} 0%, transparent 50%)`,
-          display: 'flex',
-        }}
-      />
-
-      {/* Thin white inset border */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 12,
-          left: 12,
-          right: 12,
-          bottom: 12,
-          border: '1px solid rgba(255,255,255,0.15)',
+          flex: 1,
+          position: 'relative',
           borderRadius: 16,
-          display: 'flex',
+          overflow: 'hidden',
+          background: 'linear-gradient(135deg, #3730A3 0%, #504DE1 30%, #7C3AED 60%, #4F46E5 100%)',
         }}
-      />
+      >
+        {/* Dot grid pattern overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+            display: 'flex',
+          }}
+        />
 
-      {/* Content */}
-      {children}
+        {/* Cool indigo glow — top left */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: 'radial-gradient(circle at 15% 20%, rgba(99,102,241,0.4) 0%, transparent 50%)',
+            display: 'flex',
+          }}
+        />
+
+        {/* Warm accent glow — bottom right */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: `radial-gradient(circle at 85% 80%, ${hexToRgba(warmGlow, 0.25)} 0%, transparent 50%)`,
+            display: 'flex',
+          }}
+        />
+
+        {/* Content */}
+        {children}
+      </div>
     </div>
   );
 }
