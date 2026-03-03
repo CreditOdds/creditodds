@@ -55,9 +55,10 @@ export function formatStatNumber(n: number): string {
 // ── Load Inter fonts from Google Fonts CDN ──
 
 export async function loadInterFonts(): Promise<{ name: string; data: ArrayBuffer; style: 'normal'; weight: 400 | 700 }[]> {
+  // Satori requires TTF format (not woff2)
   const [regular, bold] = await Promise.all([
-    fetch('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2').then(r => r.arrayBuffer()),
-    fetch('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYAZ9hjQ.woff2').then(r => r.arrayBuffer()),
+    fetch('https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf').then(r => r.arrayBuffer()),
+    fetch('https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf').then(r => r.arrayBuffer()),
   ]);
 
   return [
@@ -115,7 +116,7 @@ export function OGBackground({
         height: '100%',
         display: 'flex',
         position: 'relative',
-        background: 'linear-gradient(135deg, #504DE1 0%, #7C3AED 50%, #4F46E5 100%)',
+        background: 'linear-gradient(135deg, #3730A3 0%, #504DE1 30%, #7C3AED 60%, #4F46E5 100%)',
         fontFamily: 'Inter, system-ui, sans-serif',
       }}
     >
