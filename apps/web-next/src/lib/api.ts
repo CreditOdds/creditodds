@@ -59,6 +59,7 @@ export interface Card {
   approved_median_length_credit?: string | number;
   approved_count?: number;
   rejected_count?: number;
+  total_records?: number;
   release_date?: string;
   tags?: string[];
   category?: string;
