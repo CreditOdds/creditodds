@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
+import { OGBackground, OGLogo, loadInterFonts, formatStatNumber } from '@/components/og/og-utils';
 
-// Image dimensions for OG images
 export const size = {
   width: 1200,
   height: 630,
@@ -10,33 +10,44 @@ export const contentType = 'image/png';
 
 export const runtime = 'edge';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
+
 export default async function OGImage() {
+  let totalRecords = 0;
+  let totalContributors = 0;
+  let cardCount = 0;
+
+  try {
+    const [leaderboardRes, cardsRes] = await Promise.all([
+      fetch(`${API_BASE}/leaderboard?limit=1`, { next: { revalidate: 300 } }),
+      fetch(`${API_BASE}/cards`, { next: { revalidate: 300 } }),
+    ]);
+
+    if (leaderboardRes.ok) {
+      const data = await leaderboardRes.json();
+      totalRecords = data.stats?.total_records || 0;
+      totalContributors = data.stats?.total_contributors || 0;
+    }
+
+    if (cardsRes.ok) {
+      const cards = await cardsRes.json();
+      cardCount = Array.isArray(cards) ? cards.length : 0;
+    }
+  } catch {
+    // Graceful fallback — use zeros
+  }
+
+  const fonts = await loadInterFonts();
+
+  const pills = [
+    totalRecords > 0 ? `${formatStatNumber(totalRecords)} Data Points` : 'Real Data Points',
+    totalContributors > 0 ? `${formatStatNumber(totalContributors)} Users` : 'Community Powered',
+    cardCount > 0 ? `${formatStatNumber(cardCount)} Cards Tracked` : '100% Free',
+  ];
+
   return new ImageResponse(
     (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          position: 'relative',
-          background: 'linear-gradient(135deg, #504DE1 0%, #7C3AED 50%, #4F46E5 100%)',
-          fontFamily: 'system-ui, sans-serif',
-        }}
-      >
-        {/* Background pattern overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage: 'radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%)',
-            display: 'flex',
-          }}
-        />
-
-        {/* Main content */}
+      <OGBackground>
         <div
           style={{
             display: 'flex',
@@ -48,7 +59,7 @@ export default async function OGImage() {
             padding: 60,
           }}
         >
-          {/* Logo */}
+          {/* Logo icon */}
           <svg
             width="120"
             height="120"
@@ -94,7 +105,7 @@ export default async function OGImage() {
             Discover Your Credit Card Approval Odds
           </div>
 
-          {/* Feature pills */}
+          {/* Dynamic stat pills */}
           <div
             style={{
               display: 'flex',
@@ -102,49 +113,29 @@ export default async function OGImage() {
               gap: 20,
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '12px 24px',
-                background: 'rgba(255,255,255,0.15)',
-                borderRadius: 50,
-                color: 'white',
-                fontSize: 20,
-              }}
-            >
-              Real Data Points
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '12px 24px',
-                background: 'rgba(255,255,255,0.15)',
-                borderRadius: 50,
-                color: 'white',
-                fontSize: 20,
-              }}
-            >
-              Community Powered
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '12px 24px',
-                background: 'rgba(255,255,255,0.15)',
-                borderRadius: 50,
-                color: 'white',
-                fontSize: 20,
-              }}
-            >
-              100% Free
-            </div>
+            {pills.map((pill) => (
+              <div
+                key={pill}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '12px 24px',
+                  background: 'rgba(255,255,255,0.15)',
+                  borderRadius: 50,
+                  color: 'white',
+                  fontSize: 20,
+                }}
+              >
+                {pill}
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+      </OGBackground>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts,
+    }
   );
 }

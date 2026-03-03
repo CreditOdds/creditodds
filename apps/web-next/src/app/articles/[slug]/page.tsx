@@ -46,10 +46,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const openGraphImages = article.image
-    ? [{ url: `https://d2hxvzw7msbtvt.cloudfront.net/article_images/${article.image}` }]
-    : undefined;
-
   return {
     title: article.seo_title || `${article.title} | CreditOdds`,
     description: article.seo_description || article.summary,
@@ -61,7 +57,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: article.date,
       modifiedTime: article.updated_at || article.date,
       authors: [article.author],
-      images: openGraphImages,
     },
     alternates: {
       canonical: `https://creditodds.com/articles/${article.slug}`,
