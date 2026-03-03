@@ -503,6 +503,151 @@ exports.AdminReferralsHandler = async (event) => {
   }
 };
 
+// ============ SEARCHES HANDLER ============
+exports.AdminSearchesHandler = async (event) => {
+  console.info("AdminSearches received:", event);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
+  }
+
+  if (!isAdmin(event)) {
+    return {
+      statusCode: 403,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: "Forbidden: Admin access required" }),
+    };
+  }
+
+  if (event.httpMethod !== "GET") {
+    return { statusCode: 405, headers: responseHeaders, body: JSON.stringify({ error: "Method not allowed" }) };
+  }
+
+  try {
+    const limit = parseInt(event.queryStringParameters?.limit) || 100;
+    const offset = parseInt(event.queryStringParameters?.offset) || 0;
+
+    const results = await mysql.query(`
+      SELECT *
+      FROM approval_searches
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+    `, [limit, offset]);
+
+    const countResult = await mysql.query("SELECT COUNT(*) as total FROM approval_searches");
+    await mysql.end();
+
+    return {
+      statusCode: 200,
+      headers: responseHeaders,
+      body: JSON.stringify({
+        searches: results,
+        total: countResult[0].total,
+        limit,
+        offset
+      }),
+    };
+  } catch (error) {
+    console.error("Error fetching searches:", error);
+    return {
+      statusCode: 500,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: `Failed to fetch searches: ${error.message}` }),
+    };
+  }
+};
+
+// ============ USER LOOKUP HANDLER ============
+exports.AdminUserLookupHandler = async (event) => {
+  console.info("AdminUserLookup received:", event);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
+  }
+
+  if (!isAdmin(event)) {
+    return {
+      statusCode: 403,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: "Forbidden: Admin access required" }),
+    };
+  }
+
+  if (event.httpMethod !== "GET") {
+    return { statusCode: 405, headers: responseHeaders, body: JSON.stringify({ error: "Method not allowed" }) };
+  }
+
+  const userId = event.queryStringParameters?.user_id;
+  if (!userId) {
+    return {
+      statusCode: 400,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: "user_id query parameter is required" }),
+    };
+  }
+
+  try {
+    const [records, searches, wallet, referrals] = await Promise.all([
+      mysql.query(`
+        SELECT r.*, c.card_name, c.card_image_link, c.bank
+        FROM records r
+        JOIN cards c ON r.card_id = c.card_id
+        WHERE r.submitter_id = ?
+        ORDER BY r.submit_datetime DESC
+      `, [userId]),
+      mysql.query(`
+        SELECT * FROM approval_searches
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+      `, [userId]),
+      mysql.query(`
+        SELECT uc.*, c.card_name, c.card_image_link, c.bank
+        FROM user_cards uc
+        JOIN cards c ON uc.card_id = c.card_id
+        WHERE uc.user_id = ?
+        ORDER BY uc.created_at DESC
+      `, [userId]),
+      mysql.query(`
+        SELECT r.*, c.card_name, c.card_image_link, c.bank,
+          COALESCE(stats.impressions, 0) as impressions,
+          COALESCE(stats.clicks, 0) as clicks
+        FROM referrals r
+        JOIN cards c ON r.card_id = c.card_id
+        LEFT JOIN (
+          SELECT referral_id,
+            SUM(CASE WHEN event_type = 'impression' THEN 1 ELSE 0 END) as impressions,
+            SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks
+          FROM referral_stats
+          GROUP BY referral_id
+        ) stats ON r.referral_id = stats.referral_id
+        WHERE r.submitter_id = ?
+        ORDER BY r.submit_datetime DESC
+      `, [userId]),
+    ]);
+
+    await mysql.end();
+
+    return {
+      statusCode: 200,
+      headers: responseHeaders,
+      body: JSON.stringify({
+        user_id: userId,
+        records,
+        searches,
+        wallet,
+        referrals
+      }),
+    };
+  } catch (error) {
+    console.error("Error looking up user:", error);
+    return {
+      statusCode: 500,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: `Failed to look up user: ${error.message}` }),
+    };
+  }
+};
+
 // ============ AUDIT LOG HANDLER ============
 exports.AdminAuditHandler = async (event) => {
   console.info("AdminAudit received:", event);

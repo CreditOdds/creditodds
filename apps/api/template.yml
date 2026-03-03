@@ -627,6 +627,70 @@ Resources:
             Auth:
               Authorizer: NONE
 
+  AdminSearchesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/admin.AdminSearchesHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Admin approval searches endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetSearches:
+          Type: Api
+          Properties:
+            Path: /admin/searches
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        SearchesOptions:
+          Type: Api
+          Properties:
+            Path: /admin/searches
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  AdminUserLookupFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/admin.AdminUserLookupHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Admin user lookup endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            Path: /admin/user
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        UserOptions:
+          Type: Api
+          Properties:
+            Path: /admin/user
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
   AdminAuditFunction:
     Type: AWS::Serverless::Function
     Properties:

@@ -54,41 +54,19 @@ exports.DeleteAccountHandler = async (event) => {
   }
 
   try {
-    // 1. Get all referral IDs for this user (to delete stats)
-    const userReferrals = await mysql.query(
-      "SELECT referral_id FROM referrals WHERE submitter_id = ?",
-      [userId]
-    );
-
-    // 2. Delete referral stats for user's referrals
-    if (userReferrals.length > 0) {
-      const referralIds = userReferrals.map(r => r.referral_id);
-      await mysql.query(
-        `DELETE FROM referral_stats WHERE referral_id IN (?)`,
-        [referralIds]
-      );
-    }
-
-    // 3. Delete user's referrals
+    // 1. Anonymize referrals (keep rows + referral_stats intact, remove user association)
     await mysql.query(
-      "DELETE FROM referrals WHERE submitter_id = ?",
+      "UPDATE referrals SET submitter_id = NULL WHERE submitter_id = ?",
       [userId]
     );
 
-    // 4. Delete user's wallet entries
+    // 2. Delete user's wallet entries
     await mysql.query(
       "DELETE FROM user_cards WHERE user_id = ?",
       [userId]
     );
 
-    // 5. Delete user's approval searches
-    await mysql.query(
-      "DELETE FROM approval_searches WHERE user_id = ?",
-      [userId]
-    );
-
-    // 6. Anonymize records (keep data points but remove user association)
-    // Set submitter_id to NULL to preserve data integrity while removing PII
+    // 3. Anonymize records (keep data points but remove user association)
     await mysql.query(
       "UPDATE records SET submitter_id = NULL WHERE submitter_id = ?",
       [userId]
@@ -96,7 +74,7 @@ exports.DeleteAccountHandler = async (event) => {
 
     await mysql.end();
 
-    // 7. Delete Firebase user account
+    // 4. Delete Firebase user account
     try {
       await admin.auth().deleteUser(userId);
       console.info(`Firebase user ${userId} deleted successfully`);
@@ -112,8 +90,8 @@ exports.DeleteAccountHandler = async (event) => {
       body: JSON.stringify({
         message: "Account deleted successfully",
         deleted: {
-          referrals: userReferrals.length,
           wallet_entries: "all",
+          referrals_anonymized: "all",
           records_anonymized: "all"
         }
       }),
