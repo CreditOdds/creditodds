@@ -606,6 +606,63 @@ export async function deleteAdminReferral(
   return res.json();
 }
 
+// Admin Searches
+export interface AdminSearch {
+  id: number;
+  user_id: string;
+  credit_score: number;
+  income: number;
+  length_credit: number;
+  created_at: string;
+}
+
+export interface AdminSearchesResponse {
+  searches: AdminSearch[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export async function getAdminSearches(
+  token: string,
+  limit = 100,
+  offset = 0
+): Promise<AdminSearchesResponse> {
+  const res = await fetch(`${API_BASE}/admin/searches?limit=${limit}&offset=${offset}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch admin searches: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+// Admin User Lookup
+export interface AdminUserData {
+  user_id: string;
+  records: AdminRecord[];
+  searches: AdminSearch[];
+  wallet: WalletCard[];
+  referrals: AdminReferral[];
+}
+
+export async function getAdminUser(
+  userId: string,
+  token: string
+): Promise<AdminUserData> {
+  const res = await fetch(`${API_BASE}/admin/user?user_id=${encodeURIComponent(userId)}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to look up user: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
 // Admin Audit Log
 export interface AuditLogEntry {
   id: number;

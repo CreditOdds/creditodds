@@ -9,6 +9,8 @@ import {
   getAdminRecords,
   getAdminReferrals,
   getAdminAuditLog,
+  getAdminSearches,
+  getAdminUser,
   deleteAdminRecord,
   deleteAdminReferral,
   updateReferralApproval,
@@ -16,6 +18,8 @@ import {
   AdminStats,
   AdminRecord,
   AdminReferral,
+  AdminSearch,
+  AdminUserData,
   AuditLogEntry,
   Card
 } from "@/lib/api";
@@ -29,13 +33,15 @@ import {
   LinkIcon,
   ClipboardDocumentListIcon,
   PencilIcon,
-  PlusCircleIcon
+  PlusCircleIcon,
+  MagnifyingGlassIcon,
+  UserIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
 const ADMIN_USER_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
 
-type TabType = 'stats' | 'records' | 'referrals' | 'audit' | 'submit';
+type TabType = 'stats' | 'records' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit';
 
 export default function AdminPage() {
   const { authState, getToken } = useAuth();
@@ -52,6 +58,9 @@ export default function AdminPage() {
   const [referralsTotal, setReferralsTotal] = useState(0);
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
   const [auditTotal, setAuditTotal] = useState(0);
+  const [searches, setSearches] = useState<AdminSearch[]>([]);
+  const [searchesTotal, setSearchesTotal] = useState(0);
+  const [userLookupId, setUserLookupId] = useState('');
 
   // Processing states
   const [processingId, setProcessingId] = useState<number | null>(null);
@@ -85,11 +94,12 @@ export default function AdminPage() {
       }
 
       // Load all data in parallel
-      const [statsData, recordsData, referralsData, auditData] = await Promise.all([
+      const [statsData, recordsData, referralsData, auditData, searchesData] = await Promise.all([
         getAdminStats(token),
         getAdminRecords(token),
         getAdminReferrals(token),
-        getAdminAuditLog(token)
+        getAdminAuditLog(token),
+        getAdminSearches(token)
       ]);
 
       setStats(statsData);
@@ -99,6 +109,8 @@ export default function AdminPage() {
       setReferralsTotal(referralsData.total);
       setAuditLogs(auditData.logs);
       setAuditTotal(auditData.total);
+      setSearches(searchesData.searches);
+      setSearchesTotal(searchesData.total);
     } catch (err) {
       console.error("Error loading admin data:", err);
       setError(err instanceof Error ? err.message : "Failed to load data");
@@ -197,6 +209,11 @@ export default function AdminPage() {
     }
   };
 
+  const handleUserLookup = (userId: string) => {
+    setUserLookupId(userId);
+    setActiveTab('user');
+  };
+
   if (authState.isLoading || loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -213,6 +230,8 @@ export default function AdminPage() {
     { id: 'stats' as TabType, name: 'Overview', icon: ChartBarIcon },
     { id: 'records' as TabType, name: 'Records', icon: DocumentTextIcon, count: recordsTotal },
     { id: 'referrals' as TabType, name: 'Referrals', icon: LinkIcon, count: referralsTotal, badge: stats?.pending_referrals },
+    { id: 'searches' as TabType, name: 'Searches', icon: MagnifyingGlassIcon, count: searchesTotal },
+    { id: 'user' as TabType, name: 'User Lookup', icon: UserIcon },
     { id: 'audit' as TabType, name: 'Audit Log', icon: ClipboardDocumentListIcon },
     { id: 'submit' as TabType, name: 'Submit Record', icon: PlusCircleIcon },
   ];
@@ -285,6 +304,19 @@ export default function AdminPage() {
             onApprove={handleApproveReferral}
             onDelete={handleDeleteReferral}
             onEdit={handleEditReferral}
+          />
+        )}
+        {activeTab === 'searches' && (
+          <SearchesTab
+            searches={searches}
+            total={searchesTotal}
+            onUserClick={handleUserLookup}
+          />
+        )}
+        {activeTab === 'user' && (
+          <UserLookupTab
+            getToken={getToken}
+            initialUserId={userLookupId}
           />
         )}
         {activeTab === 'audit' && <AuditTab logs={auditLogs} total={auditTotal} />}
@@ -604,6 +636,378 @@ function ReferralsTab({
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+// ============ SEARCHES TAB ============
+function SearchesTab({
+  searches,
+  total,
+  onUserClick
+}: {
+  searches: AdminSearch[];
+  total: number;
+  onUserClick: (userId: string) => void;
+}) {
+  return (
+    <div className="bg-white shadow rounded-lg overflow-hidden">
+      <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h3 className="text-lg font-medium text-gray-900">Approval Searches ({total})</h3>
+      </div>
+      {searches.length === 0 ? (
+        <div className="px-4 py-12 text-center text-gray-500">
+          No approval searches yet.
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User ID</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Score</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Length</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {searches.map((search) => (
+                <tr key={search.id} className="hover:bg-gray-50">
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <button
+                      onClick={() => onUserClick(search.user_id)}
+                      className="text-sm text-indigo-600 hover:text-indigo-800 font-mono"
+                    >
+                      {search.user_id}
+                    </button>
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{search.credit_score}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                    ${search.income?.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                    {search.length_credit} years
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(search.created_at).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============ USER LOOKUP TAB ============
+function UserLookupTab({
+  getToken,
+  initialUserId
+}: {
+  getToken: () => Promise<string | null>;
+  initialUserId: string;
+}) {
+  const [userId, setUserId] = useState(initialUserId);
+  const [userData, setUserData] = useState<AdminUserData | null>(null);
+  const [lookupLoading, setLookupLoading] = useState(false);
+  const [lookupError, setLookupError] = useState('');
+
+  useEffect(() => {
+    if (initialUserId) {
+      setUserId(initialUserId);
+      doLookup(initialUserId);
+    }
+  }, [initialUserId]);
+
+  const doLookup = async (uid?: string) => {
+    const lookupId = uid || userId;
+    if (!lookupId.trim()) return;
+
+    setLookupLoading(true);
+    setLookupError('');
+    setUserData(null);
+
+    try {
+      const token = await getToken();
+      if (!token) {
+        setLookupError('No auth token');
+        return;
+      }
+      const data = await getAdminUser(lookupId.trim(), token);
+      setUserData(data);
+    } catch (err) {
+      setLookupError(err instanceof Error ? err.message : 'Failed to look up user');
+    } finally {
+      setLookupLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Search bar */}
+      <div className="bg-white shadow rounded-lg p-6">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Look Up User by Firebase UID</h3>
+        <div className="flex gap-3">
+          <input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && doLookup()}
+            placeholder="Enter Firebase UID..."
+            className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm font-mono focus:ring-indigo-500 focus:border-indigo-500"
+          />
+          <button
+            onClick={() => doLookup()}
+            disabled={lookupLoading || !userId.trim()}
+            className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+          >
+            {lookupLoading ? 'Loading...' : 'Look Up'}
+          </button>
+        </div>
+        {lookupError && (
+          <p className="mt-2 text-sm text-red-600">{lookupError}</p>
+        )}
+      </div>
+
+      {userData && (
+        <>
+          {/* Wallet */}
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
+              <h3 className="text-base font-medium text-gray-900">Wallet ({userData.wallet.length})</h3>
+            </div>
+            {userData.wallet.length === 0 ? (
+              <div className="px-4 py-8 text-center text-gray-500 text-sm">No cards in wallet.</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Bank</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acquired</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Added</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {userData.wallet.map((card) => (
+                      <tr key={card.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center">
+                            {card.card_image_link && (
+                              <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                                <Image
+                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
+                                  alt={card.card_name}
+                                  fill
+                                  className="object-contain"
+                                  sizes="48px"
+                                />
+                              </div>
+                            )}
+                            <span className="text-sm font-medium text-gray-900">{card.card_name}</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{card.bank}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                          {card.acquired_month && card.acquired_year
+                            ? `${card.acquired_month}/${card.acquired_year}`
+                            : '-'}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                          {new Date(card.created_at).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Records */}
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
+              <h3 className="text-base font-medium text-gray-900">Records ({userData.records.length})</h3>
+            </div>
+            {userData.records.length === 0 ? (
+              <div className="px-4 py-8 text-center text-gray-500 text-sm">No records.</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Result</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {userData.records.map((record) => (
+                      <tr key={record.record_id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center">
+                            {record.card_image_link && (
+                              <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                                <Image
+                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
+                                  alt={record.card_name}
+                                  fill
+                                  className="object-contain"
+                                  sizes="48px"
+                                />
+                              </div>
+                            )}
+                            <div>
+                              <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                                {record.card_name}
+                              </div>
+                              <div className="text-xs text-gray-500">{record.bank}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{record.credit_score}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                          ${record.listed_income?.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            record.result ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          }`}>
+                            {record.result ? 'Approved' : 'Denied'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                          {new Date(record.submit_datetime).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Searches */}
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
+              <h3 className="text-base font-medium text-gray-900">Approval Searches ({userData.searches.length})</h3>
+            </div>
+            {userData.searches.length === 0 ? (
+              <div className="px-4 py-8 text-center text-gray-500 text-sm">No searches.</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Score</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Length</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {userData.searches.map((search) => (
+                      <tr key={search.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{search.credit_score}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                          ${search.income?.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                          {search.length_credit} years
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                          {new Date(search.created_at).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Referrals */}
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
+              <h3 className="text-base font-medium text-gray-900">Referrals ({userData.referrals.length})</h3>
+            </div>
+            {userData.referrals.length === 0 ? (
+              <div className="px-4 py-8 text-center text-gray-500 text-sm">No referrals.</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Link</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stats</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {userData.referrals.map((referral) => (
+                      <tr key={referral.referral_id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center">
+                            {referral.card_image_link && (
+                              <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                                <Image
+                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
+                                  alt={referral.card_name}
+                                  fill
+                                  className="object-contain"
+                                  sizes="48px"
+                                />
+                              </div>
+                            )}
+                            <div>
+                              <div className="text-sm font-medium text-gray-900 truncate max-w-[150px]">
+                                {referral.card_name}
+                              </div>
+                              <div className="text-xs text-gray-500">{referral.bank}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <a
+                            href={referral.referral_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-indigo-600 hover:text-indigo-800 break-all max-w-[200px] block truncate"
+                          >
+                            {referral.referral_link}
+                          </a>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            referral.admin_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {referral.admin_approved ? 'Approved' : 'Pending'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                          <div>{referral.impressions} views</div>
+                          <div>{referral.clicks} clicks</div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                          {new Date(referral.submit_datetime).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
