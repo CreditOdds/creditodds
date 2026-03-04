@@ -96,6 +96,7 @@ export default function ProfileClient() {
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
   const [allCards, setAllCards] = useState<Card[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [profileLoaded, setProfileLoaded] = useState(false);
   const [walletLoaded, setWalletLoaded] = useState(false);
   const [recordsLoaded, setRecordsLoaded] = useState(false);
   const [referralsLoaded, setReferralsLoaded] = useState(false);
@@ -222,33 +223,48 @@ export default function ProfileClient() {
   }, [authState.isAuthenticated, authState.isLoading, router]);
 
   const loadData = async () => {
-    try {
-      const token = await getToken();
-      if (!token) {
-        console.error("No auth token available");
-        return;
+    const token = await getToken();
+    if (!token) {
+      console.error("No auth token available");
+      return;
+    }
+
+    // Fire all fetches independently — each sets its own loaded state when done
+    const loadProfile = async () => {
+      try {
+        const result = await getProfile(token);
+        setProfile(result);
+      } catch (error) {
+        console.error("Profile error:", error);
       }
+      setProfileLoaded(true);
+    };
 
-      // Only fetch authenticated data - public data is prefetched from server
-      const [recordsResult, referralsResult, profileResult, walletResult] = await Promise.allSettled([
-        getRecords(token),
-        getReferrals(token),
-        getProfile(token),
-        getWallet(token),
-      ]);
+    const loadWallet = async () => {
+      try {
+        const result = await getWallet(token);
+        setWalletCards(result || []);
+      } catch (error) {
+        console.error("Wallet error:", error);
+        setWalletCards([]);
+      }
+      setWalletLoaded(true);
+    };
 
-      // Process records
-      if (recordsResult.status === 'fulfilled') {
-        setRecords(recordsResult.value || []);
-      } else {
-        console.error("Records error:", recordsResult.reason);
+    const loadRecords = async () => {
+      try {
+        const result = await getRecords(token);
+        setRecords(result || []);
+      } catch (error) {
+        console.error("Records error:", error);
         setRecords([]);
       }
       setRecordsLoaded(true);
+    };
 
-      // Process referrals - API returns [submitted, open] - two arrays
-      if (referralsResult.status === 'fulfilled') {
-        const referralsData = referralsResult.value;
+    const loadReferrals = async () => {
+      try {
+        const referralsData = await getReferrals(token);
         if (Array.isArray(referralsData) && referralsData.length >= 2) {
           setReferrals(referralsData[0] || []);
           setOpenReferrals(referralsData[1] || []);
@@ -256,35 +272,18 @@ export default function ProfileClient() {
           setReferrals([]);
           setOpenReferrals([]);
         }
-      } else {
-        console.error("Referrals error:", referralsResult.reason);
+      } catch (error) {
+        console.error("Referrals error:", error);
         setReferrals([]);
         setOpenReferrals([]);
       }
       setReferralsLoaded(true);
+    };
 
-      // Process profile
-      if (profileResult.status === 'fulfilled') {
-        setProfile(profileResult.value);
-      } else {
-        console.error("Profile error:", profileResult.reason);
-      }
-
-      // Process wallet
-      if (walletResult.status === 'fulfilled') {
-        setWalletCards(walletResult.value || []);
-      } else {
-        console.error("Wallet error:", walletResult.reason);
-        setWalletCards([]);
-      }
-      setWalletLoaded(true);
-    } catch (error) {
-      console.error("Error loading profile data:", error);
-      // Ensure we still unblock the page on error
-      setWalletLoaded(true);
-      setRecordsLoaded(true);
-      setReferralsLoaded(true);
-    }
+    loadProfile();
+    loadWallet();
+    loadRecords();
+    loadReferrals();
   };
 
   const formatAcquiredDate = (month?: number, year?: number) => {
@@ -374,7 +373,7 @@ export default function ProfileClient() {
     }
   };
 
-  if (authState.isLoading || !walletLoaded) {
+  if (authState.isLoading) {
     return <ProfileSkeleton />;
   }
 
@@ -534,6 +533,13 @@ export default function ProfileClient() {
           <div className="col-span-1 lg:col-span-2">
         {/* Tab Content */}
         {activeTab === 'wallet' && (
+          !walletLoaded ? (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+            </div>
+          </div>
+          ) : (
           <>
           <div className="bg-white shadow rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
@@ -635,6 +641,7 @@ export default function ProfileClient() {
           </div>
           <BestCardByCategory walletCards={walletCards} allCards={allCards} />
           </>
+          )
         )}
 
         {/* Records Tab */}
