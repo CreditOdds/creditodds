@@ -11,6 +11,7 @@ import {
   getAdminAuditLog,
   getAdminSearches,
   getAdminUser,
+  getAdminGraphs,
   deleteAdminRecord,
   deleteAdminReferral,
   updateReferralApproval,
@@ -21,8 +22,12 @@ import {
   AdminSearch,
   AdminUserData,
   AuditLogEntry,
+  AdminGraphsData,
   Card
 } from "@/lib/api";
+import dynamic from "next/dynamic";
+
+const TimeSeriesChart = dynamic(() => import("@/components/charts/TimeSeriesChart"), { ssr: false });
 import { NumericFormat } from "react-number-format";
 import {
   CheckIcon,
@@ -60,6 +65,8 @@ export default function AdminPage() {
   const [auditTotal, setAuditTotal] = useState(0);
   const [searches, setSearches] = useState<AdminSearch[]>([]);
   const [searchesTotal, setSearchesTotal] = useState(0);
+  const [graphData, setGraphData] = useState<AdminGraphsData | null>(null);
+  const [graphDays, setGraphDays] = useState(30);
   const [userLookupId, setUserLookupId] = useState('');
 
   // Processing states
@@ -83,6 +90,22 @@ export default function AdminPage() {
     }
   }, [authState.isAuthenticated, authState.isLoading, isAdmin, router]);
 
+  const loadGraphs = async (days: number) => {
+    try {
+      const token = await getToken();
+      if (!token) return;
+      const data = await getAdminGraphs(token, days).catch(() => null);
+      setGraphData(data);
+    } catch (err) {
+      console.error("Error loading graphs:", err);
+    }
+  };
+
+  const handleGraphDaysChange = (days: number) => {
+    setGraphDays(days);
+    loadGraphs(days);
+  };
+
   const loadData = async () => {
     setLoading(true);
     setError(null);
@@ -94,12 +117,13 @@ export default function AdminPage() {
       }
 
       // Load all data in parallel
-      const [statsData, recordsData, referralsData, auditData, searchesData] = await Promise.all([
+      const [statsData, recordsData, referralsData, auditData, searchesData, graphsData] = await Promise.all([
         getAdminStats(token),
         getAdminRecords(token),
         getAdminReferrals(token),
         getAdminAuditLog(token),
-        getAdminSearches(token)
+        getAdminSearches(token),
+        getAdminGraphs(token, graphDays).catch(() => null)
       ]);
 
       setStats(statsData);
@@ -111,6 +135,7 @@ export default function AdminPage() {
       setAuditTotal(auditData.total);
       setSearches(searchesData.searches);
       setSearchesTotal(searchesData.total);
+      setGraphData(graphsData);
     } catch (err) {
       console.error("Error loading admin data:", err);
       setError(err instanceof Error ? err.message : "Failed to load data");
@@ -287,7 +312,14 @@ export default function AdminPage() {
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'stats' && stats && <StatsTab stats={stats} />}
+        {activeTab === 'stats' && stats && (
+          <StatsTab
+            stats={stats}
+            graphData={graphData}
+            graphDays={graphDays}
+            onGraphDaysChange={handleGraphDaysChange}
+          />
+        )}
         {activeTab === 'records' && (
           <RecordsTab
             records={records}
@@ -327,7 +359,25 @@ export default function AdminPage() {
 }
 
 // ============ STATS TAB ============
-function StatsTab({ stats }: { stats: AdminStats }) {
+function toTimeSeries(data: { date: string; count: number }[]): [number, number][] {
+  return data.map(d => [new Date(d.date).getTime(), d.count]);
+}
+
+const GRAPH_RANGES = [
+  { label: '30d', days: 30 },
+  { label: '90d', days: 90 },
+  { label: '180d', days: 180 },
+  { label: '1y', days: 365 },
+];
+
+function StatsTab({ stats, graphData, graphDays, onGraphDaysChange }: {
+  stats: AdminStats;
+  graphData: AdminGraphsData | null;
+  graphDays: number;
+  onGraphDaysChange: (days: number) => void;
+}) {
+  const rangeLabel = GRAPH_RANGES.find(r => r.days === graphDays)?.label || `${graphDays}d`;
+
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
@@ -338,6 +388,69 @@ function StatsTab({ stats }: { stats: AdminStats }) {
         <StatCard title="Pending Referrals" value={stats.pending_referrals} highlight={stats.pending_referrals > 0} />
         <StatCard title="Records Today" value={stats.records_today} />
         <StatCard title="Records This Week" value={stats.records_this_week} />
+      </div>
+
+      {/* Time Range Picker + Charts */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-medium text-gray-900">Activity Charts</h3>
+          <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+            {GRAPH_RANGES.map(range => (
+              <button
+                key={range.days}
+                onClick={() => onGraphDaysChange(range.days)}
+                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                  graphDays === range.days
+                    ? 'bg-white text-indigo-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                {range.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {graphData && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TimeSeriesChart
+              title={`Daily Active Users (Last ${rangeLabel})`}
+              series={[{
+                name: "DAU",
+                color: "#10b981",
+                data: toTimeSeries(graphData.dau_daily),
+              }]}
+              yAxisTitle="Users"
+            />
+            <TimeSeriesChart
+              title={`Records per Day (Last ${rangeLabel})`}
+              series={[{
+                name: "Records",
+                color: "#6366f1",
+                data: toTimeSeries(graphData.records_daily),
+              }]}
+              yAxisTitle="Records"
+            />
+            <TimeSeriesChart
+              title={`Searches per Day (Last ${rangeLabel})`}
+              series={[{
+                name: "Searches",
+                color: "#8b5cf6",
+                data: toTimeSeries(graphData.searches_daily),
+              }]}
+              yAxisTitle="Searches"
+            />
+            <TimeSeriesChart
+              title={`Referrals per Day (Last ${rangeLabel})`}
+              series={[{
+                name: "Referrals",
+                color: "#ec4899",
+                data: toTimeSeries(graphData.referrals_daily),
+              }]}
+              yAxisTitle="Referrals"
+            />
+          </div>
+        )}
       </div>
 
       {/* Top Cards */}
