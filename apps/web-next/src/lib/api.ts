@@ -427,6 +427,26 @@ export async function getApprovalSearches(token: string): Promise<ApprovalSearch
 
 // ============ ADMIN API FUNCTIONS ============
 
+// Admin Graphs
+export interface AdminGraphsData {
+  records_daily: { date: string; count: number }[];
+  searches_daily: { date: string; count: number }[];
+  referrals_daily: { date: string; count: number }[];
+  dau_daily: { date: string; count: number }[];
+}
+
+export async function getAdminGraphs(token: string, days = 30): Promise<AdminGraphsData> {
+  const res = await fetch(`${API_BASE}/admin/graphs?days=${days}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch admin graphs: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
 // Admin Stats
 export interface AdminStats {
   total_records: number;

@@ -648,6 +648,90 @@ exports.AdminUserLookupHandler = async (event) => {
   }
 };
 
+// ============ GRAPHS HANDLER ============
+exports.AdminGraphsHandler = async (event) => {
+  console.info("AdminGraphs received:", event);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
+  }
+
+  if (!isAdmin(event)) {
+    return {
+      statusCode: 403,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: "Forbidden: Admin access required" }),
+    };
+  }
+
+  if (event.httpMethod !== "GET") {
+    return { statusCode: 405, headers: responseHeaders, body: JSON.stringify({ error: "Method not allowed" }) };
+  }
+
+  try {
+    const days = Math.min(parseInt(event.queryStringParameters?.days) || 30, 365);
+
+    const [recordsDaily, searchesDaily, referralsDaily, dauDaily] = await Promise.all([
+      mysql.query(`
+        SELECT DATE(submit_datetime) as date, COUNT(*) as count
+        FROM records
+        WHERE submit_datetime >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+        GROUP BY DATE(submit_datetime)
+        ORDER BY date ASC
+      `, [days]),
+      mysql.query(`
+        SELECT DATE(created_at) as date, COUNT(*) as count
+        FROM approval_searches
+        WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+        GROUP BY DATE(created_at)
+        ORDER BY date ASC
+      `, [days]),
+      mysql.query(`
+        SELECT DATE(submit_datetime) as date, COUNT(*) as count
+        FROM referrals
+        WHERE submit_datetime >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+        GROUP BY DATE(submit_datetime)
+        ORDER BY date ASC
+      `, [days]),
+      mysql.query(`
+        SELECT date, SUM(unique_users) as count FROM (
+          SELECT DATE(submit_datetime) as date, COUNT(DISTINCT submitter_id) as unique_users
+          FROM records
+          WHERE submit_datetime >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+          GROUP BY DATE(submit_datetime)
+          UNION ALL
+          SELECT DATE(created_at) as date, COUNT(DISTINCT user_id) as unique_users
+          FROM approval_searches
+          WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+          GROUP BY DATE(created_at)
+        ) combined
+        GROUP BY date
+        ORDER BY date ASC
+      `, [days, days]),
+    ]);
+
+    await mysql.end();
+
+    return {
+      statusCode: 200,
+      headers: responseHeaders,
+      body: JSON.stringify({
+        records_daily: recordsDaily,
+        searches_daily: searchesDaily,
+        referrals_daily: referralsDaily,
+        dau_daily: dauDaily,
+      }),
+    };
+  } catch (error) {
+    console.error("Error fetching graphs:", error);
+    return {
+      statusCode: 500,
+      headers: responseHeaders,
+      body: JSON.stringify({ error: `Failed to fetch graphs: ${error.message}` }),
+    };
+  }
+};
+
 // ============ AUDIT LOG HANDLER ============
 exports.AdminAuditHandler = async (event) => {
   console.info("AdminAudit received:", event);
