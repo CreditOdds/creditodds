@@ -13,6 +13,26 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 
+async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function fetchWithRetry(url, options, { maxRetries = 3, baseDelay = 2000 } = {}) {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const response = await fetch(url, options);
+    if (response.ok || (response.status < 500 && response.status !== 429)) {
+      return response;
+    }
+    if (attempt < maxRetries) {
+      const delay = baseDelay * Math.pow(2, attempt);
+      console.log(`  Retrying in ${delay / 1000}s (attempt ${attempt + 1}/${maxRetries}, status ${response.status})...`);
+      await sleep(delay);
+    } else {
+      return response;
+    }
+  }
+}
+
 function parseArgs() {
   const args = process.argv.slice(2);
   let type = null;
@@ -70,7 +90,7 @@ Rules:
 - Do NOT include any URL
 - Do NOT use emojis excessively — 0-1 emoji max`;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetchWithRetry('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -101,7 +121,7 @@ async function queuePost(textContent, linkUrl, sourceType, sourceId) {
 
   if (!apiUrl || !apiKey) throw new Error('SOCIAL_API_URL and SOCIAL_API_KEY are required');
 
-  const response = await fetch(`${apiUrl}/social/queue`, {
+  const response = await fetchWithRetry(`${apiUrl}/social/queue`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
