@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, Cog6ToothIcon, ChartBarIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 
 // Lazy load modals - only loaded when user opens them
@@ -107,7 +107,8 @@ export default function ProfileClient() {
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
   const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals' | 'advanced'>('wallet');
-  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
   const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
@@ -341,17 +342,7 @@ export default function ProfileClient() {
   };
 
   const handleDeleteAccount = async () => {
-    const confirmText = "DELETE";
-    const userInput = prompt(
-      `This will permanently delete your account, all your referrals, and your wallet.\n\nYour submitted data points will be kept anonymously to help others.\n\nType "${confirmText}" to confirm:`
-    );
-
-    if (userInput !== confirmText) {
-      if (userInput !== null) {
-        alert("Account deletion cancelled. Text did not match.");
-      }
-      return;
-    }
+    if (deleteConfirmText !== 'DELETE') return;
 
     setDeletingAccount(true);
     try {
@@ -370,6 +361,8 @@ export default function ProfileClient() {
       alert(error instanceof Error ? error.message : "Failed to delete account. Please try again.");
     } finally {
       setDeletingAccount(false);
+      setConfirmingDelete(false);
+      setDeleteConfirmText('');
     }
   };
 
@@ -394,38 +387,6 @@ export default function ProfileClient() {
                 </h1>
                 {authState.user?.email && (
                   <p className="text-sm text-gray-500">{authState.user.email}</p>
-                )}
-              </div>
-              {/* Settings Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowSettingsMenu(!showSettingsMenu)}
-                  className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
-                  title="Account settings"
-                >
-                  <Cog6ToothIcon className="h-5 w-5" />
-                </button>
-                {showSettingsMenu && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-10"
-                      onClick={() => setShowSettingsMenu(false)}
-                    />
-                    <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-20">
-                      <div className="py-1">
-                        <button
-                          onClick={() => {
-                            setShowSettingsMenu(false);
-                            handleDeleteAccount();
-                          }}
-                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                          Delete Account
-                        </button>
-                      </div>
-                    </div>
-                  </>
                 )}
               </div>
             </div>
@@ -1084,6 +1045,59 @@ export default function ProfileClient() {
                 </div>
               </>
             )}
+
+            {/* Danger Zone */}
+            <div className="mt-8 border-t border-gray-200 pt-6">
+              <h3 className="text-sm font-medium text-red-600 uppercase tracking-wide mb-4">Danger Zone</h3>
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Delete your account</p>
+                    <p className="text-sm text-gray-500">
+                      Permanently delete your account, wallet, and referrals. Your submitted data points will be kept anonymously.
+                    </p>
+                  </div>
+                  {!confirmingDelete ? (
+                    <button
+                      onClick={() => setConfirmingDelete(true)}
+                      className="shrink-0 inline-flex items-center px-3 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      <TrashIcon className="h-4 w-4 mr-1.5" />
+                      Delete Account
+                    </button>
+                  ) : (
+                    <div className="shrink-0 flex flex-col gap-2">
+                      <label className="text-sm font-medium text-red-700">
+                        Type <span className="font-mono font-bold">DELETE</span> to confirm:
+                      </label>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={deleteConfirmText}
+                          onChange={(e) => setDeleteConfirmText(e.target.value)}
+                          placeholder="DELETE"
+                          className="w-28 px-3 py-1.5 text-sm border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                          autoFocus
+                        />
+                        <button
+                          onClick={handleDeleteAccount}
+                          disabled={deleteConfirmText !== 'DELETE' || deletingAccount}
+                          className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        >
+                          {deletingAccount ? 'Deleting...' : 'Confirm'}
+                        </button>
+                        <button
+                          onClick={() => { setConfirmingDelete(false); setDeleteConfirmText(''); }}
+                          className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         )}
           </div>
