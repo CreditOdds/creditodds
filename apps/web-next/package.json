@@ -22,6 +22,7 @@
     "formik": "^2.4.9",
     "highcharts": "^12.5.0",
     "highcharts-react-official": "^3.2.3",
+    "logrocket": "^12.0.0",
     "next": "^16.1.4",
     "react": "^18",
     "react-dom": "^18",
