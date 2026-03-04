@@ -42,7 +42,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/firebase-authorizer.firebaseAuthorizerHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 10
       Description: Firebase token authorizer for API Gateway
@@ -68,7 +68,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/all-cards.AllCardsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Returns all cards for landing search
@@ -94,7 +94,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/card-by-id.CardByIdHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Returns card details by name or slug
@@ -120,7 +120,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/get-card-graphs.getCardGraphsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
@@ -145,7 +145,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/user-records.UserRecordsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
@@ -191,7 +191,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/user-referrals.UserReferralsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
@@ -237,7 +237,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/user-profile.UserProfileHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
@@ -269,7 +269,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/delete-account.DeleteAccountHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Deletes user account, referrals, and wallet but keeps records
@@ -302,7 +302,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/update-cards-github.updateCardsGitHubHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Syncs cards from CDN to MySQL database when triggered by GitHub webhook or manual call
@@ -328,7 +328,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/user-wallet.UserWalletHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Manage cards in user wallet
@@ -374,7 +374,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/referral-stats.ReferralStatsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Track referral impressions and clicks
@@ -408,7 +408,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/leaderboard.LeaderboardHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Returns top contributors leaderboard
@@ -442,7 +442,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/recent-records.RecentRecordsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Returns the most recent approved records for the ticker
@@ -467,7 +467,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/admin.AdminStatsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Admin stats overview endpoint
@@ -499,7 +499,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/admin.AdminRecordsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Admin records management endpoint
@@ -545,7 +545,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/admin.AdminReferralsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Admin referrals management endpoint
@@ -591,7 +591,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/check-odds.CheckOddsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 256
       Timeout: 100
       Description: Check approval odds across all cards for a given credit profile
@@ -631,7 +631,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/admin.AdminGraphsHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Admin graphs endpoint for time-series data
@@ -663,7 +663,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/admin.AdminSearchesHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Admin approval searches endpoint
@@ -695,7 +695,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/admin.AdminUserLookupHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Admin user lookup endpoint
@@ -727,7 +727,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/handlers/admin.AdminAuditHandler
-      Runtime: nodejs18.x
+      Runtime: nodejs20.x
       MemorySize: 128
       Timeout: 100
       Description: Admin audit log endpoint
