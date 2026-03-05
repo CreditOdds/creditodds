@@ -43,6 +43,8 @@ export async function generateMetadata({
     openGraph: {
       title,
       description: baseDescription,
+      url: `https://creditodds.com/compare?cards=${slugs.join(',')}`,
+      type: "website",
       images: [`/api/og/compare?cards=${slugs.join(',')}`],
     },
     twitter: {

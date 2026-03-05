@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     title: "CreditOdds Leaderboard - Top Contributors",
     description: "See the top contributors who have submitted credit card application data points.",
     url: "https://creditodds.com/leaderboard",
+    type: "website",
   },
   alternates: {
     canonical: "https://creditodds.com/leaderboard",

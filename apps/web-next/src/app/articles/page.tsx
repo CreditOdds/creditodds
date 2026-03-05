@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Credit Card Articles | CreditOdds",
     description: "Guides, strategies, and analysis for credit card rewards optimization.",
     url: "https://creditodds.com/articles",
+    type: "website",
   },
   alternates: {
     canonical: "https://creditodds.com/articles",

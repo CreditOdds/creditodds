@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact CreditOdds",
     description: "Get in touch with questions or feedback",
+    url: "https://creditodds.com/contact",
+    type: "website",
   },
 };
 

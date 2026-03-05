@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Card News | CreditOdds",
     description: "Latest credit card news, bonus changes, and updates from major banks.",
     url: "https://creditodds.com/news",
+    type: "website",
   },
   alternates: {
     canonical: "https://creditodds.com/news",

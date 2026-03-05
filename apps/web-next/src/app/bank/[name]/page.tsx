@@ -35,6 +35,8 @@ export async function generateMetadata({ params }: BankPageProps): Promise<Metad
     openGraph: {
       title: `${bankName} Credit Cards | CreditOdds`,
       description: `See approval odds for all ${bankName} credit cards.`,
+      url: `https://creditodds.com/bank/${encodeURIComponent(bankName)}`,
+      type: "website",
     },
   };
 }

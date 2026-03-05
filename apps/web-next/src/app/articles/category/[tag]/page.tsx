@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${tagLabel} Articles | CreditOdds`,
       description: tagDescription,
       url: `https://creditodds.com/articles/category/${tag}`,
+      type: "website",
     },
     alternates: {
       canonical: `https://creditodds.com/articles/category/${tag}`,

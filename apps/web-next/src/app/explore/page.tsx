@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Explore Credit Cards | CreditOdds",
     description: "Browse all credit cards and compare approval odds.",
+    url: "https://creditodds.com/explore",
+    type: "website",
   },
 };
 
