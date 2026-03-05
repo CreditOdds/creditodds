@@ -143,6 +143,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
 
   // Refresh page data after successful submission (#8)
   const handleSubmitSuccess = () => {
+    setHasSubmittedForCard(true);
     router.refresh();
   };
 
