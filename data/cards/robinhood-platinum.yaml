@@ -9,5 +9,23 @@ annual_fee: 695
 tags:
   - premium
   - travel
+  - dining
   - rewards
 reward_type: "cashback"
+rewards:
+  - category: hotels
+    value: 10
+    unit: percent
+  - category: car_rentals
+    value: 10
+    unit: percent
+  - category: flights_portal
+    value: 5
+    unit: percent
+    note: "Flights booked through the Robinhood Banking app"
+  - category: dining
+    value: 5
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent
