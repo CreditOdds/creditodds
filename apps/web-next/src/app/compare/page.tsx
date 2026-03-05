@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllCards } from '@/lib/api';
 import { BreadcrumbSchema } from '@/components/seo/JsonLd';
@@ -6,10 +7,52 @@ import CompareClient from './CompareClient';
 
 export const revalidate = 300;
 
-export const metadata = {
-  title: 'Compare Credit Cards | CreditOdds',
-  description: 'Compare up to 3 credit cards side-by-side. See rewards, signup bonuses, APR, annual fees, and approval odds all in one place.',
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ cards?: string }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const baseTitle = 'Compare Credit Cards | CreditOdds';
+  const baseDescription = 'Compare up to 3 credit cards side-by-side. See rewards, signup bonuses, APR, annual fees, and approval odds all in one place.';
+
+  if (!params.cards) {
+    return { title: baseTitle, description: baseDescription };
+  }
+
+  const slugs = params.cards.split(',').filter(Boolean).slice(0, 3);
+  if (slugs.length === 0) {
+    return { title: baseTitle, description: baseDescription };
+  }
+
+  const allCards = await getAllCards();
+  const matchedCards = slugs
+    .map((slug) => allCards.find((c) => c.slug === slug))
+    .filter(Boolean);
+
+  if (matchedCards.length === 0) {
+    return { title: baseTitle, description: baseDescription };
+  }
+
+  const cardNames = matchedCards.map((c) => c!.card_name);
+  const title = `Compare ${cardNames.join(' vs ')} | CreditOdds`;
+
+  return {
+    title,
+    description: baseDescription,
+    openGraph: {
+      title,
+      description: baseDescription,
+      images: [`/api/og/compare?cards=${slugs.join(',')}`],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: baseDescription,
+      images: [`/api/og/compare?cards=${slugs.join(',')}`],
+    },
+  };
+}
 
 export default async function ComparePage() {
   const cards = await getAllCards();
