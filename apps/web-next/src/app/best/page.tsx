@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     title: "Best Credit Cards of 2026 | CreditOdds",
     description: "Curated rankings of the best credit cards of 2026 across categories.",
     url: "https://creditodds.com/best",
+    type: "website",
   },
   alternates: {
     canonical: "https://creditodds.com/best",
