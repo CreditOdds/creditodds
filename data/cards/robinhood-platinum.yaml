@@ -1,0 +1,13 @@
+name: "Robinhood Platinum"
+bank: "Robinhood"
+slug: "robinhood-platinum"
+accepting_applications: true
+image: "robinhood-platinum.png"
+release_date: "2026-03-05"
+category: "premium"
+annual_fee: 695
+tags:
+  - premium
+  - travel
+  - rewards
+reward_type: "cashback"
