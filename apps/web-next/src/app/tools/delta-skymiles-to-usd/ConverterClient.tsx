@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { getValuationBySlug } from '@/lib/valuations';
 
-const CENTS_PER_MILE = 1.1;
-const RATE = CENTS_PER_MILE / 100; // 0.011
+const CENTS_PER_MILE = getValuationBySlug('delta-skymiles')?.cpp ?? 1.1;
+const RATE = CENTS_PER_MILE / 100;
 
 function formatNumber(value: string): string {
   const num = value.replace(/[^0-9]/g, '');

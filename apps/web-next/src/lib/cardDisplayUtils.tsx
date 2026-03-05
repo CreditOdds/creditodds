@@ -10,6 +10,7 @@ import {
   CreditCardIcon,
 } from "@heroicons/react/24/outline";
 import { Card } from "@/lib/api";
+import { getValuation } from "@/lib/valuations";
 
 export const categoryLabels: Record<string, string> = {
   dining: "Dining",
@@ -89,29 +90,12 @@ export function CategoryIcon({ category, className }: { category: string; classN
   }
 }
 
-// Cents-per-point estimates by program (conservative baseline values)
+// Cents-per-point estimates by program (driven by data/valuations.yaml)
 export function getCentsPerPoint(card: Card): number | null {
   if (!card.signup_bonus) return null;
   const { type } = card.signup_bonus;
   if (type === 'cash' || type === 'cashback') return null;
-
-  const name = card.card_name.toLowerCase();
-  if (name.includes('chase sapphire') || name.includes('freedom')) return 1.25;
-  if (name.includes('amex') || name.includes('american express') || name.includes('gold card') || name.includes('platinum card')) {
-    if (name.includes('delta') || name.includes('skymiles')) return 1.1;
-    if (name.includes('hilton')) return 0.5;
-    return 1.2;
-  }
-  if (name.includes('capital one')) return 1.0;
-  if (name.includes('hyatt')) return 2.0;
-  if (name.includes('ihg')) return 0.5;
-  if (name.includes('marriott') || name.includes('bonvoy')) return 0.7;
-  if (name.includes('atmos')) return 1.0;
-  if (name.includes('bilt')) return 1.5;
-  if (name.includes('citi')) return 1.0;
-  if (name.includes('wells fargo')) return 1.0;
-
-  return 1.0;
+  return getValuation(card.card_name);
 }
 
 export function formatEstimatedValue(card: Card): string | null {
