@@ -6,7 +6,7 @@ const recordSchema = yup.object().shape({
   credit_score_source: yup.number().integer().min(0).max(4).required(),
   result: yup.boolean().required(),
   listed_income: yup.number().integer().min(0).max(1000000).required(),
-  length_credit: yup.number().integer().min(0).max(100).required(),
+  length_credit: yup.number().integer().min(0).max(100),
   starting_credit_limit: yup.number().integer().min(0).max(1000000),
   reason_denied: yup.string().max(254),
   date_applied: yup.date().required(),

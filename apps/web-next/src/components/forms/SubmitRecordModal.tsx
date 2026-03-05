@@ -131,9 +131,6 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
     result: true,
     starting_credit_limit: undefined as number | undefined,
     reason_denied: "",
-    inquiries_3: undefined as number | undefined,
-    inquiries_12: undefined as number | undefined,
-    inquiries_24: undefined as number | undefined,
   };
 
   const formik = useFormik({
@@ -157,20 +154,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
       length_credit: Yup.number()
         .integer("Length of credit must be a whole number")
         .min(0, "Length of credit must be a positive number")
-        .max(50, "Length of credit cannot be greater than 50 years")
-        .required("Required"),
-      inquiries_3: Yup.number()
-        .integer("Inquiries must be a whole number")
-        .min(0, "Inquiries must be a positive number")
-        .max(50, "Inquiries cannot be higher than 50"),
-      inquiries_12: Yup.number()
-        .integer("Inquiries must be a whole number")
-        .min(0, "Inquiries must be a positive number")
-        .max(50, "Inquiries cannot be higher than 50"),
-      inquiries_24: Yup.number()
-        .integer("Inquiries must be a whole number")
-        .min(0, "Inquiries must be a positive number")
-        .max(50, "Inquiries cannot be higher than 50"),
+        .max(50, "Length of credit cannot be greater than 50 years"),
     }),
     onSubmit: async (values) => {
       setSubmitting(true);
@@ -415,7 +399,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                           {/* Length of Credit */}
                           <div>
                             <label htmlFor="length_credit" className="block text-sm font-medium text-gray-700">
-                              Age of Oldest Account
+                              Age of Oldest Account <span className="text-gray-400 font-normal">(optional)</span>
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                               <input
@@ -462,57 +446,6 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                                 )}
                               />
                             </Switch>
-                          </div>
-
-                          {/* Inquiries */}
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Number of Credit Inquiries in the last
-                            </label>
-                            <div className="space-y-2">
-                              <div className="flex rounded-md shadow-sm">
-                                <span className="inline-flex w-28 items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                                  3 months
-                                </span>
-                                <input
-                                  name="inquiries_3"
-                                  id="inquiries_3"
-                                  type="number"
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  value={formik.values.inquiries_3 ?? ""}
-                                  className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                />
-                              </div>
-                              <div className="flex rounded-md shadow-sm">
-                                <span className="inline-flex w-28 items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                                  12 months
-                                </span>
-                                <input
-                                  name="inquiries_12"
-                                  id="inquiries_12"
-                                  type="number"
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  value={formik.values.inquiries_12 ?? ""}
-                                  className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                />
-                              </div>
-                              <div className="flex rounded-md shadow-sm">
-                                <span className="inline-flex w-28 items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                                  24 months
-                                </span>
-                                <input
-                                  name="inquiries_24"
-                                  id="inquiries_24"
-                                  type="number"
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  value={formik.values.inquiries_24 ?? ""}
-                                  className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                />
-                              </div>
-                            </div>
                           </div>
 
                           {/* Approved/Rejected Toggle */}
