@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   BuildingLibraryIcon,
 } from "@heroicons/react/24/solid";
+import { getValuation } from "@/lib/valuations";
 import {
   ExclamationTriangleIcon,
   PencilSquareIcon,
@@ -300,6 +301,11 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                           {card.signup_bonus.type === "cash"
                             ? `$${card.signup_bonus.value.toLocaleString()}`
                             : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
+                          {card.signup_bonus.type !== "cash" && (
+                            <span className="text-sm font-medium text-amber-700/70 ml-1.5">
+                              (~${(card.signup_bonus.value * getValuation(card.card_name) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
+                            </span>
+                          )}
                         </p>
                         <p className="text-sm text-amber-800/70 mt-1">
                           After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
