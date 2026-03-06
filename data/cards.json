@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-03-06T18:43:19.387Z",
-  "count": 144,
+  "generated_at": "2026-03-06T19:13:56.467Z",
+  "count": 146,
   "categories": [
     {
       "id": "dining",
@@ -5799,6 +5799,130 @@
       "reward_type": "cashback",
       "card_id": "wells-fargo-cash-wise-visa",
       "card_name": "Wells Fargo Cash Wise Visa"
+    },
+    {
+      "name": "Wells Fargo Choice Privileges Mastercard",
+      "bank": "Wells Fargo",
+      "slug": "wells-fargo-choice-privileges-mastercard",
+      "image": "wells-fargo-choice-privileges-mastercard.png",
+      "accepting_applications": true,
+      "category": "travel",
+      "annual_fee": 0,
+      "reward_type": "points",
+      "tags": [
+        "travel",
+        "hotel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "At participating Choice Hotels properties"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "home_improvement",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "phone",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.99,
+          "max": 28.74
+        }
+      },
+      "card_id": "wells-fargo-choice-privileges-mastercard",
+      "card_name": "Wells Fargo Choice Privileges Mastercard"
+    },
+    {
+      "name": "Wells Fargo Choice Privileges Select Mastercard",
+      "bank": "Wells Fargo",
+      "slug": "wells-fargo-choice-privileges-select-mastercard",
+      "image": "wells-fargo-choice-privileges-select-mastercard.png",
+      "accepting_applications": true,
+      "category": "travel",
+      "annual_fee": 95,
+      "reward_type": "points",
+      "tags": [
+        "travel",
+        "hotel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 10,
+          "unit": "points_per_dollar",
+          "note": "At participating Choice Hotels properties"
+        },
+        {
+          "category": "gas",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "home_improvement",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "phone",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.74,
+          "max": 28.49
+        }
+      },
+      "card_id": "wells-fargo-choice-privileges-select-mastercard",
+      "card_name": "Wells Fargo Choice Privileges Select Mastercard"
     },
     {
       "name": "Wells Fargo Platinum",
