@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-06T18:41:47.380Z",
+  "generated_at": "2026-03-06T18:43:19.387Z",
   "count": 144,
   "categories": [
     {
@@ -3457,7 +3457,7 @@
       "name": "Fidelity Rewards Visa Signature",
       "bank": "Elan Financial Services",
       "slug": "fidelity-rewards-visa-signature",
-      "image": "fidelity_rewards_visa_signature.png",
+      "image": "fidelity-rewards.png",
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
