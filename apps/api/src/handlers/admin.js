@@ -144,6 +144,19 @@ exports.AdminRecordsHandler = async (event) => {
         const limit = parseInt(event.queryStringParameters?.limit) || 100;
         const offset = parseInt(event.queryStringParameters?.offset) || 0;
 
+        const source = event.queryStringParameters?.source;
+        const pendingOnly = event.queryStringParameters?.pending === 'true';
+
+        let whereClause = 'WHERE 1=1';
+        const queryParams = [];
+        if (source) {
+          whereClause += ' AND r.source = ?';
+          queryParams.push(source);
+        }
+        if (pendingOnly) {
+          whereClause += ' AND r.admin_review = 0';
+        }
+
         const results = await mysql.query(`
           SELECT
             r.record_id,
@@ -156,16 +169,28 @@ exports.AdminRecordsHandler = async (event) => {
             r.date_applied,
             r.submitter_id,
             r.submitter_ip_address,
+            r.source,
+            r.source_url,
+            r.admin_review,
+            r.starting_credit_limit,
+            r.bank_customer,
+            r.inquiries_3,
+            r.inquiries_12,
+            r.inquiries_24,
             c.card_name,
             c.card_image_link,
             c.bank
           FROM records r
           JOIN cards c ON r.card_id = c.card_id
+          ${whereClause}
           ORDER BY r.submit_datetime DESC
           LIMIT ? OFFSET ?
-        `, [limit, offset]);
+        `, [...queryParams, limit, offset]);
 
-        const countResult = await mysql.query("SELECT COUNT(*) as total FROM records");
+        const countResult = await mysql.query(
+          `SELECT COUNT(*) as total FROM records r ${whereClause}`,
+          queryParams
+        );
         await mysql.end();
 
         return {
@@ -265,6 +290,52 @@ exports.AdminRecordsHandler = async (event) => {
           statusCode: 500,
           headers: responseHeaders,
           body: JSON.stringify({ error: `Failed to create record: ${error.message}` }),
+        };
+      }
+
+    case "PUT":
+      try {
+        const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+        const { record_id, approved } = body;
+
+        if (!record_id || approved === undefined) {
+          return {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "record_id and approved are required" }),
+          };
+        }
+
+        const record = await mysql.query("SELECT * FROM records WHERE record_id = ?", [record_id]);
+        if (record.length === 0) {
+          return {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Record not found" }),
+          };
+        }
+
+        await mysql.query(
+          "UPDATE records SET admin_review = ? WHERE record_id = ?",
+          [approved ? 1 : 0, record_id]
+        );
+        await logAuditAction(userId, approved ? 'APPROVE' : 'REJECT', 'record', record_id, record[0]);
+        await mysql.end();
+
+        return {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify({
+            message: approved ? "Record approved" : "Record rejected",
+            record_id,
+          }),
+        };
+      } catch (error) {
+        console.error("Error updating record:", error);
+        return {
+          statusCode: 500,
+          headers: responseHeaders,
+          body: JSON.stringify({ error: `Failed to update record: ${error.message}` }),
         };
       }
 
