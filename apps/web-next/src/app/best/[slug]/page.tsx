@@ -5,6 +5,7 @@ import { CalendarIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 import { getBestPage, getBestPages } from "@/lib/best";
 import { getAllCards } from "@/lib/api";
 import { BestCardList } from "@/components/best/BestCardList";
+import { BestComparisonTable } from "@/components/best/BestComparisonTable";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
@@ -173,6 +174,9 @@ export default async function BestDetailPage({ params }: Props) {
               <ArticleContent content={page.intro} />
             </div>
           )}
+
+          {/* Quick comparison table */}
+          <BestComparisonTable cards={enrichedCards} />
 
           {/* Ranked card list */}
           <BestCardList cards={enrichedCards} />

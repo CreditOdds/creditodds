@@ -60,8 +60,10 @@ export default function RootLayout({
         <AuthProvider>
           <SkipLink />
           <Navbar />
-          <DataPointPrompt />
-          <main id="main-content" className="flex-grow">{children}</main>
+          <main id="main-content" className="flex-grow">
+            {children}
+            <DataPointPrompt />
+          </main>
           <Footer />
           <ToastContainer />
           <WebVitalsReporter />
