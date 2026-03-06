@@ -754,3 +754,76 @@ Resources:
               Ref: CreditCardOddsAPI
             Auth:
               Authorizer: NONE
+
+  CardRatingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/card-ratings.CardRatingsHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Public card ratings aggregate endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetRatings:
+          Type: Api
+          Properties:
+            Path: /ratings
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+        RatingsOptions:
+          Type: Api
+          Properties:
+            Path: /ratings
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  CardRatingsUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/card-ratings.CardRatingsUserHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Authenticated user card rating endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetUserRating:
+          Type: Api
+          Properties:
+            Path: /ratings/me
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        PostUserRating:
+          Type: Api
+          Properties:
+            Path: /ratings/me
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        UserRatingOptions:
+          Type: Api
+          Properties:
+            Path: /ratings/me
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
