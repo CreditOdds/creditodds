@@ -19,7 +19,7 @@ import {
   ScaleIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent, getRecords } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent, getRecords, getCardRatings, getUserCardRating, submitCardRating } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -47,6 +47,168 @@ function formatRewardValue(reward: Reward): string {
     return `${reward.value}%`;
   }
   return `${reward.value}x`;
+}
+
+const RATING_LABELS: Record<number, string> = {
+  1: 'Very Bad',
+  2: 'Bad',
+  3: 'Good',
+  4: 'Very Good',
+};
+
+const RATING_COLORS: Record<number, { bg: string; text: string; fill: string }> = {
+  1: { bg: 'bg-red-100', text: 'text-red-700', fill: 'text-red-400' },
+  2: { bg: 'bg-orange-100', text: 'text-orange-700', fill: 'text-orange-400' },
+  3: { bg: 'bg-green-100', text: 'text-green-700', fill: 'text-green-400' },
+  4: { bg: 'bg-emerald-100', text: 'text-emerald-700', fill: 'text-emerald-500' },
+};
+
+function StarIcon({ filled, half, className }: { filled?: boolean; half?: boolean; className?: string }) {
+  if (half) {
+    return (
+      <svg className={className} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="halfGrad">
+            <stop offset="50%" stopColor="currentColor" />
+            <stop offset="50%" stopColor="transparent" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+          fill="url(#halfGrad)"
+          stroke="currentColor"
+          strokeWidth="1"
+        />
+      </svg>
+    );
+  }
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth={filled ? "0" : "1.5"} xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+    </svg>
+  );
+}
+
+function CardRating({ cardId, isAuthenticated, getToken }: {
+  cardId: number | undefined;
+  isAuthenticated: boolean;
+  getToken: () => Promise<string | null>;
+}) {
+  const [aggregate, setAggregate] = useState<{ count: number; average: number | null }>({ count: 0, average: null });
+  const [userRating, setUserRating] = useState<number | null>(null);
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!cardId) return;
+    getCardRatings(cardId).then(setAggregate).catch(() => {});
+  }, [cardId]);
+
+  useEffect(() => {
+    if (!cardId || !isAuthenticated) return;
+    let cancelled = false;
+    (async () => {
+      const token = await getToken();
+      if (!token || cancelled) return;
+      const rating = await getUserCardRating(cardId, token);
+      if (!cancelled) setUserRating(rating);
+    })();
+    return () => { cancelled = true; };
+  }, [cardId, isAuthenticated, getToken]);
+
+  const handleRate = async (rating: number) => {
+    if (!cardId || !isAuthenticated || submitting) return;
+    setSubmitting(true);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      await submitCardRating(cardId, rating, token);
+      setUserRating(rating);
+      // Refresh aggregate
+      const updated = await getCardRatings(cardId);
+      setAggregate(updated);
+    } catch {
+      // Silently fail
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const displayRating = hoveredRating ?? userRating;
+  const ratingStyle = displayRating ? RATING_COLORS[displayRating] : null;
+
+  return (
+    <div className="mt-5 bg-gray-50 border border-gray-200 rounded-xl px-5 py-4">
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-xs uppercase text-gray-400 font-semibold tracking-wider">User Rating</p>
+        {aggregate.count > 0 && aggregate.average !== null && (
+          <span className="text-sm text-gray-500">
+            {aggregate.average.toFixed(1)}/4 from {aggregate.count} {aggregate.count === 1 ? 'rating' : 'ratings'}
+          </span>
+        )}
+      </div>
+
+      {/* Star display for aggregate */}
+      {aggregate.count > 0 && aggregate.average !== null && (
+        <div className="flex items-center gap-0.5 mb-3">
+          {[1, 2, 3, 4].map((star) => {
+            const filled = star <= Math.floor(aggregate.average!);
+            const half = !filled && star === Math.ceil(aggregate.average!) && aggregate.average! % 1 >= 0.25;
+            return (
+              <StarIcon
+                key={star}
+                filled={filled}
+                half={half}
+                className={`h-5 w-5 ${filled || half ? 'text-amber-400' : 'text-gray-300'}`}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Interactive rating for signed-in users */}
+      {isAuthenticated ? (
+        <div>
+          <p className="text-sm text-gray-600 mb-2">
+            {userRating ? 'Your rating (click to change):' : 'Rate this card:'}
+          </p>
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4].map((star) => {
+              const active = (hoveredRating ?? userRating ?? 0) >= star;
+              const colors = RATING_COLORS[hoveredRating ?? userRating ?? star];
+              return (
+                <button
+                  key={star}
+                  onClick={() => handleRate(star)}
+                  onMouseEnter={() => setHoveredRating(star)}
+                  onMouseLeave={() => setHoveredRating(null)}
+                  disabled={submitting}
+                  className={`p-1.5 rounded-lg transition-colors ${
+                    active ? colors.bg : 'hover:bg-gray-100'
+                  } ${submitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  title={RATING_LABELS[star]}
+                >
+                  <StarIcon
+                    filled={active}
+                    className={`h-7 w-7 ${active ? colors.fill : 'text-gray-300'}`}
+                  />
+                </button>
+              );
+            })}
+            {displayRating && ratingStyle && (
+              <span className={`ml-2 text-sm font-medium ${ratingStyle.text}`}>
+                {RATING_LABELS[displayRating]}
+              </span>
+            )}
+          </div>
+        </div>
+      ) : (
+        <p className="text-sm text-gray-400">
+          Sign in to rate this card
+        </p>
+      )}
+    </div>
+  );
 }
 
 interface CardClientProps {
@@ -528,6 +690,13 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                     </dl>
                   </div>
                 )}
+
+                {/* Card Rating */}
+                <CardRating
+                  cardId={card.db_card_id}
+                  isAuthenticated={authState.isAuthenticated}
+                  getToken={getToken}
+                />
               </div>
             </div>
           </div>

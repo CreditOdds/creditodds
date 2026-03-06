@@ -425,6 +425,49 @@ export async function getApprovalSearches(token: string): Promise<ApprovalSearch
   return res.json();
 }
 
+// Card Ratings
+export interface CardRatingAggregates {
+  count: number;
+  average: number | null;
+}
+
+export async function getCardRatings(cardId: number): Promise<CardRatingAggregates> {
+  const res = await fetch(`${API_BASE}/ratings?card_id=${cardId}`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) return { count: 0, average: null };
+  return res.json();
+}
+
+export async function getUserCardRating(cardId: number, token: string): Promise<number | null> {
+  const res = await fetch(`${API_BASE}/ratings/me?card_id=${cardId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.rating;
+}
+
+export async function submitCardRating(
+  cardId: number,
+  rating: number,
+  token: string
+): Promise<void> {
+  const res = await fetch(`${API_BASE}/ratings/me`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ card_id: cardId, rating }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to submit rating: ${errorText}`);
+  }
+}
+
 // ============ ADMIN API FUNCTIONS ============
 
 // Admin Graphs
