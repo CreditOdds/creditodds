@@ -1,0 +1,41 @@
+name: "Wells Fargo Choice Privileges Mastercard"
+bank: "Wells Fargo"
+slug: "wells-fargo-choice-privileges-mastercard"
+image: "wells-fargo-choice-privileges-mastercard.png"
+accepting_applications: true
+category: "travel"
+annual_fee: 0
+reward_type: "points"
+tags:
+  - travel
+  - hotel
+  - rewards
+rewards:
+  - category: hotels
+    value: 5
+    unit: points_per_dollar
+    note: "At participating Choice Hotels properties"
+  - category: gas
+    value: 3
+    unit: points_per_dollar
+  - category: groceries
+    value: 3
+    unit: points_per_dollar
+  - category: home_improvement
+    value: 3
+    unit: points_per_dollar
+  - category: phone
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 60000
+  type: points
+  spend_requirement: 1000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 19.99
+    max: 28.74
