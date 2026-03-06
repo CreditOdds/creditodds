@@ -16,6 +16,7 @@ import {
   deleteAdminReferral,
   updateReferralApproval,
   createAdminRecord,
+  approveAdminRecord,
   AdminStats,
   AdminRecord,
   AdminReferral,
@@ -46,7 +47,7 @@ import {
 // Master admin user ID (Firebase UID)
 const ADMIN_USER_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
 
-type TabType = 'stats' | 'records' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit';
+type TabType = 'stats' | 'records' | 'reddit' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit';
 
 export default function AdminPage() {
   const { authState, getToken } = useAuth();
@@ -68,6 +69,8 @@ export default function AdminPage() {
   const [graphData, setGraphData] = useState<AdminGraphsData | null>(null);
   const [graphDays, setGraphDays] = useState(30);
   const [userLookupId, setUserLookupId] = useState('');
+  const [redditRecords, setRedditRecords] = useState<AdminRecord[]>([]);
+  const [redditTotal, setRedditTotal] = useState(0);
 
   // Processing states
   const [processingId, setProcessingId] = useState<number | null>(null);
@@ -117,13 +120,14 @@ export default function AdminPage() {
       }
 
       // Load all data in parallel
-      const [statsData, recordsData, referralsData, auditData, searchesData, graphsData] = await Promise.all([
+      const [statsData, recordsData, referralsData, auditData, searchesData, graphsData, redditData] = await Promise.all([
         getAdminStats(token),
         getAdminRecords(token),
         getAdminReferrals(token),
         getAdminAuditLog(token),
         getAdminSearches(token),
-        getAdminGraphs(token, graphDays).catch(() => null)
+        getAdminGraphs(token, graphDays).catch(() => null),
+        getAdminRecords(token, 100, 0, { source: 'reddit', pending: true }).catch(() => ({ records: [], total: 0 })),
       ]);
 
       setStats(statsData);
@@ -136,6 +140,8 @@ export default function AdminPage() {
       setSearches(searchesData.searches);
       setSearchesTotal(searchesData.total);
       setGraphData(graphsData);
+      setRedditRecords(redditData.records);
+      setRedditTotal(redditData.total);
     } catch (err) {
       console.error("Error loading admin data:", err);
       setError(err instanceof Error ? err.message : "Failed to load data");
@@ -158,6 +164,28 @@ export default function AdminPage() {
       if (stats) setStats({ ...stats, total_records: stats.total_records - 1 });
     } catch (err) {
       alert(err instanceof Error ? err.message : "Failed to delete record");
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const handleApproveRecord = async (recordId: number, approve: boolean) => {
+    setProcessingId(recordId);
+    try {
+      const token = await getToken();
+      if (!token) return;
+
+      if (approve) {
+        await approveAdminRecord(recordId, true, token);
+        setRedditRecords(prev => prev.filter(r => r.record_id !== recordId));
+        setRedditTotal(prev => prev - 1);
+      } else {
+        await deleteAdminRecord(recordId, token);
+        setRedditRecords(prev => prev.filter(r => r.record_id !== recordId));
+        setRedditTotal(prev => prev - 1);
+      }
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to update record");
     } finally {
       setProcessingId(null);
     }
@@ -254,6 +282,7 @@ export default function AdminPage() {
   const tabs = [
     { id: 'stats' as TabType, name: 'Overview', icon: ChartBarIcon },
     { id: 'records' as TabType, name: 'Records', icon: DocumentTextIcon, count: recordsTotal },
+    { id: 'reddit' as TabType, name: 'Reddit', icon: DocumentTextIcon, badge: redditTotal },
     { id: 'referrals' as TabType, name: 'Referrals', icon: LinkIcon, count: referralsTotal, badge: stats?.pending_referrals },
     { id: 'searches' as TabType, name: 'Searches', icon: MagnifyingGlassIcon, count: searchesTotal },
     { id: 'user' as TabType, name: 'User Lookup', icon: UserIcon },
@@ -326,6 +355,14 @@ export default function AdminPage() {
             total={recordsTotal}
             processingId={processingId}
             onDelete={handleDeleteRecord}
+          />
+        )}
+        {activeTab === 'reddit' && (
+          <RedditTab
+            records={redditRecords}
+            total={redditTotal}
+            processingId={processingId}
+            onApprove={handleApproveRecord}
           />
         )}
         {activeTab === 'referrals' && (
@@ -569,6 +606,125 @@ function RecordsTab({
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+// ============ REDDIT TAB ============
+function RedditTab({
+  records,
+  total,
+  processingId,
+  onApprove,
+}: {
+  records: AdminRecord[];
+  total: number;
+  processingId: number | null;
+  onApprove: (id: number, approve: boolean) => void;
+}) {
+  return (
+    <div className="bg-white shadow rounded-lg overflow-hidden">
+      <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h3 className="text-lg font-medium text-gray-900">Reddit Data Points — Pending Approval ({total})</h3>
+        <p className="mt-1 text-sm text-gray-500">
+          Data points extracted from r/creditcards. Review and approve or reject each entry.
+        </p>
+      </div>
+      {records.length === 0 ? (
+        <div className="px-4 py-12 text-center text-gray-500">
+          No pending Reddit data points to review.
+        </div>
+      ) : (
+        <div className="divide-y divide-gray-200">
+          {records.map((record) => (
+            <div key={record.record_id} className="p-4 hover:bg-gray-50">
+              <div className="flex items-start justify-between">
+                <div className="flex items-start space-x-4 flex-1 min-w-0">
+                  {record.card_image_link && (
+                    <div className="flex-shrink-0 h-10 w-16 relative">
+                      <Image
+                        src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
+                        alt={record.card_name}
+                        fill
+                        className="object-contain"
+                        sizes="64px"
+                      />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm font-medium text-gray-900">{record.card_name}</span>
+                      <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                        record.result ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      }`}>
+                        {record.result ? 'Approved' : 'Denied'}
+                      </span>
+                      <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-orange-100 text-orange-800">
+                        Reddit
+                      </span>
+                    </div>
+                    <div className="mt-1 text-sm text-gray-600">
+                      <span className="font-medium">Score:</span> {record.credit_score}
+                      {record.listed_income != null && (
+                        <> &middot; <span className="font-medium">Income:</span> ${record.listed_income.toLocaleString()}</>
+                      )}
+                      {record.length_credit != null && (
+                        <> &middot; <span className="font-medium">History:</span> {record.length_credit}yr</>
+                      )}
+                      {record.starting_credit_limit != null && (
+                        <> &middot; <span className="font-medium">Limit:</span> ${record.starting_credit_limit.toLocaleString()}</>
+                      )}
+                      {record.bank_customer && (
+                        <> &middot; <span className="font-medium">Existing customer</span></>
+                      )}
+                    </div>
+                    {(record.inquiries_3 != null || record.inquiries_12 != null || record.inquiries_24 != null) && (
+                      <div className="mt-0.5 text-sm text-gray-500">
+                        Inquiries:
+                        {record.inquiries_3 != null && <> {record.inquiries_3}/3mo</>}
+                        {record.inquiries_12 != null && <> {record.inquiries_12}/12mo</>}
+                        {record.inquiries_24 != null && <> {record.inquiries_24}/24mo</>}
+                      </div>
+                    )}
+                    <div className="mt-1 flex items-center space-x-3 text-xs text-gray-400">
+                      <span>{record.submitter_id?.replace('reddit:', '') || 'Unknown'}</span>
+                      <span>{new Date(record.submit_datetime).toLocaleDateString()}</span>
+                      {record.source_url && (
+                        <a
+                          href={record.source_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-indigo-500 hover:text-indigo-700 underline"
+                        >
+                          View Reddit Post
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2 ml-4 flex-shrink-0">
+                  <button
+                    onClick={() => onApprove(record.record_id, true)}
+                    disabled={processingId === record.record_id}
+                    className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md bg-green-50 text-green-700 hover:bg-green-100 disabled:opacity-50"
+                  >
+                    <CheckIcon className="h-4 w-4 mr-1" />
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => onApprove(record.record_id, false)}
+                    disabled={processingId === record.record_id}
+                    className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50"
+                  >
+                    <XMarkIcon className="h-4 w-4 mr-1" />
+                    Reject
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
