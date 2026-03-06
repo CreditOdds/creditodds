@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-03-01T00:10:28.159Z",
-  "count": 142,
+  "generated_at": "2026-03-06T18:43:19.387Z",
+  "count": 144,
   "categories": [
     {
       "id": "dining",
@@ -132,6 +132,45 @@
       "image": "aer-lingus.png",
       "annual_fee": 95,
       "reward_type": "miles",
+      "tags": [
+        "airline",
+        "travel"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Aer Lingus, British Airways, and Iberia flights"
+        },
+        {
+          "category": "hotels",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Hotels booked directly"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 75000,
+        "type": "miles",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "aer-lingus-visa-signature-card",
       "card_name": "Aer Lingus Visa Signature"
     },
@@ -144,6 +183,48 @@
       "annual_fee": 0,
       "reward_type": "cashback",
       "image": "amazon-business-prime.png",
+      "rewards": [
+        {
+          "category": "amazon",
+          "value": 5,
+          "unit": "percent",
+          "note": "U.S. purchases at Amazon.com, Amazon Business, AWS, and Whole Foods Market, on first $120,000/year then 1%"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent",
+          "note": "U.S. restaurants"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "percent",
+          "note": "U.S. gas stations"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 125,
+        "type": "cash",
+        "spend_requirement": 0,
+        "timeframe_months": 0
+      },
+      "apr": {
+        "regular": {
+          "min": 18.24,
+          "max": 26.24
+        }
+      },
+      "tags": [
+        "business",
+        "cashback",
+        "shopping"
+      ],
       "card_id": "amazon-business-prime-american-express-card",
       "card_name": "Amazon Business Prime American Express"
     },
@@ -178,11 +259,29 @@
           "unit": "percent"
         },
         {
+          "category": "transit",
+          "value": 2,
+          "unit": "percent",
+          "note": "Local transit, commuting, and rideshare"
+        },
+        {
           "category": "everything_else",
           "value": 1,
           "unit": "percent"
         }
       ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 0,
+        "timeframe_months": 0
+      },
+      "apr": {
+        "regular": {
+          "min": 18.74,
+          "max": 27.49
+        }
+      },
       "card_id": "amazon-prime-rewards-visa-signature-card",
       "card_name": "Amazon Prime Rewards Visa Signature"
     },
@@ -194,11 +293,38 @@
       "image": "american-aadvantage.jpeg",
       "annual_fee": 0,
       "reward_type": "miles",
+      "tags": [
+        "airline"
+      ],
+      "rewards": [
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "On eligible American Airlines purchases"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 15000,
         "type": "miles",
-        "spend_requirement": 500,
+        "spend_requirement": 1000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 29.49
+        }
       },
       "card_id": "american-airlines-aadvantage-mileu-mastercard",
       "card_name": "American Airlines AAdvantage MileU Mastercard"
@@ -212,6 +338,26 @@
       "image": "american-express-business-gold.png",
       "annual_fee": 375,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "4x on top 2 categories where you spend the most each billing cycle (from 6 eligible categories), on first $150,000/year"
+        },
+        {
+          "category": "travel_portal",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Flights and prepaid hotels booked via AmexTravel.com"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100000,
+        "type": "points",
+        "spend_requirement": 15000,
+        "timeframe_months": 3
+      },
       "tags": [
         "business",
         "rewards",
@@ -274,6 +420,34 @@
       "accepting_applications": true,
       "annual_fee": 150,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "transit",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 40000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 6
+      },
       "tags": [
         "travel",
         "dining",
@@ -314,15 +488,10 @@
       "reward_type": "cashback",
       "rewards": [
         {
-          "category": "everything_else",
-          "value": 1,
-          "unit": "percent"
-        },
-        {
           "category": "online_shopping",
           "value": 3,
           "unit": "percent",
-          "note": "Apple purchases"
+          "note": "Apple purchases and select merchants"
         },
         {
           "category": "dining",
@@ -341,11 +510,22 @@
           "value": 2,
           "unit": "percent",
           "note": "Via Apple Pay"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
         }
       ],
       "tags": [
         "cashback"
       ],
+      "apr": {
+        "regular": {
+          "min": 17.49,
+          "max": 27.74
+        }
+      },
       "card_id": "apple-card",
       "card_name": "Apple Card"
     },
@@ -370,7 +550,7 @@
       "annual_fee": 95,
       "tags": [
         "travel",
-        "airlines",
+        "airline",
         "rewards"
       ],
       "reward_type": "points",
@@ -420,7 +600,7 @@
       "annual_fee": 95,
       "tags": [
         "travel",
-        "airlines",
+        "airline",
         "business",
         "rewards"
       ],
@@ -471,7 +651,7 @@
       "annual_fee": 395,
       "tags": [
         "travel",
-        "airlines",
+        "airline",
         "premium",
         "rewards"
       ],
@@ -516,6 +696,37 @@
       "image": "bank-of-america-customized-cash-secured.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "secured",
+        "cashback"
+      ],
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 3,
+          "unit": "percent",
+          "mode": "user_choice",
+          "choices": 1,
+          "note": "3% in choice category, up to $2,500/quarter"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "percent",
+          "note": "Also includes wholesale clubs, up to $2,500/quarter combined"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 27.49,
+          "max": 27.49
+        }
+      },
       "card_id": "bank-of-america-cash-rewards-secured",
       "card_name": "Bank of America Cash Rewards Secured"
     },
@@ -528,6 +739,51 @@
       "category": "cashback",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 3,
+          "unit": "percent",
+          "mode": "user_choice",
+          "choices": 1,
+          "note": "3% in choice category (gas, online shopping, dining, travel, drugstores, home improvement), up to $2,500/quarter"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "percent",
+          "note": "Also includes wholesale clubs, up to $2,500/quarter combined with choice category"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
+      },
       "card_id": "bank-of-america-customized-cash-rewards",
       "card_name": "Bank of America Customized Cash Rewards"
     },
@@ -540,6 +796,39 @@
       "category": "travel",
       "annual_fee": 95,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 27.49
+        }
+      },
       "card_id": "bank-of-america-premium-rewards",
       "card_name": "Bank of America Premium Rewards"
     },
@@ -552,6 +841,40 @@
       "category": "travel",
       "annual_fee": 550,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "rewards",
+        "premium"
+      ],
+      "rewards": [
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 75000,
+        "type": "points",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 27.49
+        }
+      },
       "card_id": "bank-of-america-premium-rewards-elite",
       "card_name": "Bank of America Premium Rewards Elite"
     },
@@ -577,6 +900,20 @@
           "unit": "points_per_dollar"
         }
       ],
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
+      },
       "card_id": "bank-of-america-travel-rewards",
       "card_name": "Bank of America Travel Rewards"
     },
@@ -589,11 +926,36 @@
       "image": "unlimited-cash-rewards.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
       "signup_bonus": {
         "value": 200,
-        "type": "cashback",
+        "type": "cash",
         "spend_requirement": 1000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
       },
       "card_id": "bank-of-america-unlimited-cash-rewards",
       "card_name": "Bank of America Unlimited Cash Rewards"
@@ -604,20 +966,23 @@
       "slug": "bankamericard",
       "accepting_applications": true,
       "image": "bankamericard.png",
-      "category": "other",
+      "category": "balance_transfer",
       "annual_fee": 0,
+      "tags": [
+        "balance_transfer"
+      ],
       "apr": {
         "purchase_intro": {
           "rate": 0,
-          "months": 21
+          "months": 18
         },
         "balance_transfer_intro": {
           "rate": 0,
-          "months": 21
+          "months": 18
         },
         "regular": {
-          "min": 16.24,
-          "max": 26.24
+          "min": 14.49,
+          "max": 24.49
         }
       },
       "card_id": "bankamericard",
@@ -635,6 +1000,14 @@
       "tags": [
         "rewards",
         "travel"
+      ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar",
+          "note": "Also earns 4% Bilt Cash on everyday purchases"
+        }
       ],
       "card_id": "bilt-blue",
       "card_name": "Bilt Blue"
@@ -667,6 +1040,25 @@
         "travel",
         "premium"
       ],
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Choose dining or groceries, up to $25,000/year"
+        },
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar",
+          "note": "Also earns 4% Bilt Cash on everyday purchases"
+        }
+      ],
       "card_id": "bilt-obsidian",
       "card_name": "Bilt Obsidian"
     },
@@ -684,6 +1076,25 @@
         "travel",
         "premium",
         "dining"
+      ],
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Choose dining or groceries, up to $25,000/year"
+        },
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Also earns 4% Bilt Cash on everyday purchases"
+        }
       ],
       "signup_bonus": {
         "value": 50000,
@@ -713,6 +1124,30 @@
       "annual_fee": 0,
       "reward_type": "cashback",
       "image": "blue-business-cash.png",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "percent",
+          "note": "On first $50,000 in purchases per calendar year, then 1%"
+        }
+      ],
+      "signup_bonus": {
+        "value": 250,
+        "type": "cash",
+        "spend_requirement": 15000,
+        "timeframe_months": 12
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 26.49
+        }
+      },
       "tags": [
         "business",
         "cashback"
@@ -729,6 +1164,30 @@
       "image": "blue-business-plus.png",
       "annual_fee": 0,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "On first $50,000 in purchases per calendar year, then 1x"
+        }
+      ],
+      "signup_bonus": {
+        "value": 15000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 25.49
+        }
+      },
       "tags": [
         "business",
         "rewards"
@@ -766,13 +1225,28 @@
           "value": 3,
           "unit": "percent",
           "note": "U.S. online retail purchases, up to $6,000 per year then 1%"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
         }
       ],
       "signup_bonus": {
         "value": 200,
-        "type": "cashback",
+        "type": "cash",
         "spend_requirement": 2000,
         "timeframe_months": 6
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
       },
       "card_id": "blue-cash-everyday-card",
       "card_name": "Blue Cash Everyday"
@@ -785,6 +1259,53 @@
       "accepting_applications": true,
       "annual_fee": 95,
       "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "groceries",
+          "value": 6,
+          "unit": "percent",
+          "note": "U.S. supermarkets, up to $6,000 per year then 1%"
+        },
+        {
+          "category": "streaming",
+          "value": 6,
+          "unit": "percent",
+          "note": "Select U.S. streaming subscriptions"
+        },
+        {
+          "category": "transit",
+          "value": 3,
+          "unit": "percent",
+          "note": "Including taxis, rideshare, parking, tolls, trains, buses"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "percent",
+          "note": "U.S. gas stations"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 250,
+        "type": "cash",
+        "spend_requirement": 3000,
+        "timeframe_months": 6
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
+      },
       "tags": [
         "cashback",
         "shopping"
@@ -800,6 +1321,41 @@
       "image": "british-airways.png",
       "annual_fee": 95,
       "reward_type": "miles",
+      "tags": [
+        "airline",
+        "travel"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "British Airways, Aer Lingus, and Iberia flights"
+        },
+        {
+          "category": "hotels",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Hotels booked directly"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 75000,
+        "type": "miles",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 29.99
+        }
+      },
       "card_id": "british-airways-visa-signature-card",
       "card_name": "British Airways Visa Signature"
     },
@@ -809,8 +1365,17 @@
       "slug": "capital-one-platinum",
       "image": "capital_one_platinum.png",
       "accepting_applications": true,
-      "category": "rewards",
+      "category": "other",
       "annual_fee": 0,
+      "tags": [
+        "credit_builder"
+      ],
+      "apr": {
+        "regular": {
+          "min": 28.99,
+          "max": 28.99
+        }
+      },
       "card_id": "capital-one-platinum",
       "card_name": "Capital One Platinum"
     },
@@ -823,8 +1388,15 @@
       "category": "secured",
       "annual_fee": 0,
       "tags": [
-        "secured"
+        "secured",
+        "credit_builder"
       ],
+      "apr": {
+        "regular": {
+          "min": 28.99,
+          "max": 28.99
+        }
+      },
       "card_id": "capital-one-platinum-secured",
       "card_name": "Capital One Platinum Secured"
     },
@@ -841,6 +1413,38 @@
         "cashback",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "capital-one-quicksilver",
       "card_name": "Capital One Quicksilver Cash Rewards"
     },
@@ -857,6 +1461,28 @@
         "secured",
         "cashback"
       ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 10.99,
+          "months": 6
+        },
+        "regular": {
+          "min": 26.49,
+          "max": 26.49
+        }
+      },
       "card_id": "capital-one-quicksilver-secured",
       "card_name": "Capital One Quicksilver Secured Cash Rewards"
     },
@@ -881,6 +1507,12 @@
           "unit": "percent"
         }
       ],
+      "apr": {
+        "regular": {
+          "min": 28.99,
+          "max": 28.99
+        }
+      },
       "card_id": "capital-one-quicksilverone",
       "card_name": "Capital One QuicksilverOne Cash Rewards"
     },
@@ -896,8 +1528,62 @@
       "tags": [
         "cashback",
         "dining",
+        "entertainment",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "entertainment",
+          "value": 3,
+          "unit": "percent",
+          "note": "Also 8% on Capital One Entertainment"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "capital-one-savor",
       "card_name": "Capital One Savor Cash Rewards"
     },
@@ -910,11 +1596,55 @@
       "category": "student",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "student",
+        "cashback",
+        "dining",
+        "entertainment"
+      ],
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "entertainment",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
       "signup_bonus": {
         "value": 50,
-        "type": "cashback",
+        "type": "cash",
         "spend_requirement": 100,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
       },
       "card_id": "capital-one-savor-student",
       "card_name": "Capital One Savor Student Cash Rewards"
@@ -930,6 +1660,7 @@
       "tags": [
         "cashback",
         "dining",
+        "entertainment",
         "rewards"
       ],
       "reward_type": "cashback",
@@ -966,6 +1697,20 @@
         "spend_requirement": 500,
         "timeframe_months": 3
       },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "capital-one-savorone",
       "card_name": "Capital One SavorOne Cash Rewards"
     },
@@ -982,6 +1727,30 @@
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 75000,
+        "type": "miles",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
+      },
       "card_id": "capital-one-venture-rewards",
       "card_name": "Capital One Venture Rewards"
     },
@@ -1022,6 +1791,12 @@
         "spend_requirement": 4000,
         "timeframe_months": 3
       },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
+      },
       "card_id": "capital-one-venture-x",
       "card_name": "Capital One Venture X Rewards"
     },
@@ -1034,6 +1809,38 @@
       "category": "travel",
       "annual_fee": 0,
       "reward_type": "miles",
+      "tags": [
+        "travel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.25,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 20000,
+        "type": "miles",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "capital-one-ventureone-rewards",
       "card_name": "Capital One VentureOne Rewards"
     },
@@ -1042,7 +1849,7 @@
       "bank": "American Express",
       "slug": "cash-magnet-card",
       "image": "amex_cash_magnet.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "annual_fee": 0,
       "reward_type": "cashback",
       "card_id": "cash-magnet-card",
@@ -1099,6 +1906,20 @@
         "spend_requirement": 500,
         "timeframe_months": 3
       },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 18.24,
+          "max": 27.74
+        }
+      },
       "card_id": "chase-freedom-flex",
       "card_name": "Chase Freedom Flex"
     },
@@ -1118,6 +1939,12 @@
           "unit": "percent"
         }
       ],
+      "apr": {
+        "regular": {
+          "min": 25.24,
+          "max": 25.24
+        }
+      },
       "card_id": "chase-freedom-student",
       "card_name": "Chase Freedom Rise"
     },
@@ -1227,10 +2054,16 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 75000,
         "type": "points",
-        "spend_requirement": 4000,
+        "spend_requirement": 5000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 27.49
+        }
       },
       "card_id": "chase-sapphire-preferred",
       "card_name": "Chase Sapphire Preferred"
@@ -1250,22 +2083,18 @@
       "reward_type": "points",
       "rewards": [
         {
-          "category": "hotels_car_portal",
-          "value": 10,
-          "unit": "points_per_dollar"
-        },
-        {
-          "category": "flights_portal",
-          "value": 5,
-          "unit": "points_per_dollar"
-        },
-        {
-          "category": "dining",
-          "value": 3,
+          "category": "travel_portal",
+          "value": 8,
           "unit": "points_per_dollar"
         },
         {
           "category": "travel",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "Hotels and flights booked directly"
+        },
+        {
+          "category": "dining",
           "value": 3,
           "unit": "points_per_dollar"
         },
@@ -1276,10 +2105,16 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 125000,
         "type": "points",
-        "spend_requirement": 4000,
+        "spend_requirement": 6000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 27.99
+        }
       },
       "card_id": "chase-sapphire-reserve",
       "card_name": "Chase Sapphire Reserve"
@@ -1290,7 +2125,10 @@
       "slug": "chase-slate-edge",
       "image": "chase-slate-edge.png",
       "accepting_applications": true,
-      "category": "other",
+      "category": "balance_transfer",
+      "tags": [
+        "balance_transfer"
+      ],
       "annual_fee": 0,
       "apr": {
         "balance_transfer_intro": {
@@ -1313,6 +2151,42 @@
       "annual_fee": 595,
       "reward_type": "miles",
       "image": "citi-aadvantage-executive-world-elite.png",
+      "tags": [
+        "travel",
+        "airline",
+        "premium"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 10,
+          "unit": "points_per_dollar",
+          "note": "On eligible hotels and car rentals booked through AA portals"
+        },
+        {
+          "category": "airlines",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "On eligible American Airlines purchases"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100000,
+        "type": "miles",
+        "spend_requirement": 10000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 29.49
+        }
+      },
       "card_id": "citi-aadvantage-executive-world-elite-masterc",
       "card_name": "Citi AAdvantage Executive World Elite Mastercard"
     },
@@ -1324,6 +2198,52 @@
       "annual_fee": 350,
       "reward_type": "miles",
       "image": "citi-aadvantage-globe.png",
+      "tags": [
+        "travel",
+        "airline"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_portal",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "On eligible hotels booked through aadvantagehotels.com"
+        },
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "On eligible American Airlines purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "transit",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Rides and Rails including taxis, rideshares, and public transit"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 90000,
+        "type": "miles",
+        "spend_requirement": 5000,
+        "timeframe_months": 4
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 29.49
+        }
+      },
       "card_id": "citi-aadvantage-globe",
       "card_name": "Citi AAdvantage Globe"
     },
@@ -1335,6 +2255,45 @@
       "annual_fee": 99,
       "reward_type": "miles",
       "image": "citi-aadvantage-platinum-select-world-elite.png",
+      "tags": [
+        "travel",
+        "airline"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "On eligible American Airlines purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 80000,
+        "type": "miles",
+        "spend_requirement": 3500,
+        "timeframe_months": 4
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 29.49
+        }
+      },
       "card_id": "citi-aadvantage-platinum-select-world-elite-m",
       "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard"
     },
@@ -1375,6 +2334,26 @@
           "unit": "percent"
         }
       ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 1500,
+        "timeframe_months": 6
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
+      },
       "card_id": "citi-custom-cash",
       "card_name": "Citi Custom Cash"
     },
@@ -1385,6 +2364,10 @@
       "image": "citi_diamond_preferred.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "category": "balance_transfer",
+      "tags": [
+        "balance_transfer"
+      ],
       "apr": {
         "purchase_intro": {
           "rate": 0,
@@ -1395,8 +2378,8 @@
           "months": 21
         },
         "regular": {
-          "min": 18.24,
-          "max": 29.24
+          "min": 16.49,
+          "max": 27.24
         }
       },
       "card_id": "citi-diamond-preferred",
@@ -1418,7 +2401,8 @@
         {
           "category": "everything_else",
           "value": 2,
-          "unit": "percent"
+          "unit": "percent",
+          "note": "1% when you buy, 1% when you pay"
         }
       ],
       "signup_bonus": {
@@ -1426,6 +2410,16 @@
         "type": "cash",
         "spend_requirement": 1500,
         "timeframe_months": 6
+      },
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 18
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
       },
       "card_id": "citi-double-cash",
       "card_name": "Citi Double Cash"
@@ -1460,8 +2454,15 @@
       "image": "citi-secured.png",
       "annual_fee": 0,
       "tags": [
-        "secured"
+        "secured",
+        "credit_builder"
       ],
+      "apr": {
+        "regular": {
+          "min": 26.74,
+          "max": 26.74
+        }
+      },
       "card_id": "citi-secured-mastercard",
       "card_name": "Citi Secured Mastercard"
     },
@@ -1472,6 +2473,10 @@
       "accepting_applications": true,
       "image": "citi-simplicity.png",
       "annual_fee": 0,
+      "category": "balance_transfer",
+      "tags": [
+        "balance_transfer"
+      ],
       "apr": {
         "purchase_intro": {
           "rate": 0,
@@ -1482,8 +2487,8 @@
           "months": 21
         },
         "regular": {
-          "min": 19.24,
-          "max": 29.99
+          "min": 17.49,
+          "max": 28.24
         }
       },
       "card_id": "citi-simplicity-card",
@@ -1498,6 +2503,72 @@
       "image": "citi-strata.png",
       "annual_fee": 0,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "On hotels, car rentals, and attractions booked through Citi Travel"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "transit",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Includes EV charging stations"
+        },
+        {
+          "category": "rotating",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "mode": "user_choice",
+          "choices": 1,
+          "note": "3x on one eligible self-select category of your choice"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 20000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "citi-strata",
       "card_name": "Citi Strata"
     },
@@ -1510,6 +2581,48 @@
       "image": "citi-strata-elite.png",
       "annual_fee": 595,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "rewards",
+        "premium"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 12,
+          "unit": "points_per_dollar",
+          "note": "On hotels, car rentals, and attractions booked through Citi Travel"
+        },
+        {
+          "category": "flights_portal",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "On air travel booked through Citi Travel"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "6x on Citi Nights (Fri-Sat 6PM-6AM ET)"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 75000,
+        "type": "points",
+        "spend_requirement": 6000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 21.24,
+          "max": 29.24
+        }
+      },
       "card_id": "citi-strata-elite",
       "card_name": "Citi Strata Elite"
     },
@@ -1522,6 +2635,62 @@
       "category": "travel",
       "annual_fee": 95,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 10,
+          "unit": "points_per_dollar",
+          "note": "On hotels, car rentals, and attractions booked through Citi Travel"
+        },
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "hotels",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "On hotels booked directly"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Includes EV charging stations"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 20.24,
+          "max": 28.24
+        }
+      },
       "card_id": "citi-strata-premier",
       "card_name": "Citi Strata Premier"
     },
@@ -1533,6 +2702,46 @@
       "image": "citi-business-aadvantage-platinum-select.png",
       "annual_fee": 99,
       "reward_type": "miles",
+      "tags": [
+        "travel",
+        "airline",
+        "business"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "On eligible American Airlines purchases"
+        },
+        {
+          "category": "car_rentals",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 65000,
+        "type": "miles",
+        "spend_requirement": 4000,
+        "timeframe_months": 4
+      },
+      "apr": {
+        "regular": {
+          "min": 21.24,
+          "max": 29.99
+        }
+      },
       "card_id": "citibusiness-aadvantage-platinum-select-maste",
       "card_name": "CitiBusiness AAdvantage Platinum Select Mastercard"
     },
@@ -1547,8 +2756,15 @@
       "annual_fee": 0,
       "reward_type": "cashback",
       "tags": [
-        "rewards",
-        "crypto"
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "percent",
+          "note": "Up to 4% with higher crypto balances on Coinbase; requires Coinbase One membership"
+        }
       ],
       "card_id": "coinbase-one",
       "card_name": "Coinbase One"
@@ -1561,6 +2777,42 @@
       "image": "citi-costco-anywhere-business.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards",
+        "business"
+      ],
+      "rewards": [
+        {
+          "category": "gas",
+          "value": 4,
+          "unit": "percent",
+          "note": "On eligible gas and EV charging worldwide, first $7,000/year combined"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "percent",
+          "note": "Includes Costco Travel"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent",
+          "note": "2% on purchases at Costco and Costco.com"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 18.74,
+          "max": 26.74
+        }
+      },
       "card_id": "costco-anywhere-visa-business-card-by-citi",
       "card_name": "Costco Anywhere Visa Business by Citi"
     },
@@ -1572,6 +2824,41 @@
       "image": "citi-costco-anywhere.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "gas",
+          "value": 4,
+          "unit": "percent",
+          "note": "On eligible gas and EV charging worldwide, first $7,000/year combined. 5% at Costco gas stations."
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "percent",
+          "note": "Includes Costco Travel"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent",
+          "note": "2% on purchases at Costco and Costco.com"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 18.74,
+          "max": 26.74
+        }
+      },
       "card_id": "costco-anywhere-visa-card-by-citi",
       "card_name": "Costco Anywhere Visa by Citi"
     },
@@ -1610,6 +2897,12 @@
         "type": "miles",
         "spend_requirement": 1000,
         "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
       },
       "card_id": "delta-skymiles-blue-american-express-card",
       "card_name": "Delta SkyMiles Blue American Express"
@@ -1655,8 +2948,13 @@
         "value": 90000,
         "type": "miles",
         "spend_requirement": 5000,
-        "timeframe_months": 6,
-        "note": "70k after $3k spend + 20k after additional $2k spend"
+        "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
       },
       "card_id": "delta-skymiles-gold-american-express-card",
       "card_name": "Delta SkyMiles Gold American Express"
@@ -1708,8 +3006,13 @@
         "value": 100000,
         "type": "miles",
         "spend_requirement": 6000,
-        "timeframe_months": 6,
-        "note": "80k after $4k spend + 20k after additional $2k spend"
+        "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
       },
       "card_id": "delta-skymiles-platinum-american-express-card",
       "card_name": "Delta SkyMiles Platinum American Express"
@@ -1744,8 +3047,13 @@
         "value": 125000,
         "type": "miles",
         "spend_requirement": 9000,
-        "timeframe_months": 6,
-        "note": "100k after $6k spend + 25k after additional $3k spend"
+        "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
       },
       "card_id": "delta-skymiles-reserve-american-express-card",
       "card_name": "Delta SkyMiles Reserve American Express"
@@ -1772,7 +3080,8 @@
             "groceries",
             "online_shopping"
           ],
-          "current_period": "Q1 2026"
+          "current_period": "Q1 2026",
+          "note": "Up to $1,500/quarter when activated"
         },
         {
           "category": "everything_else",
@@ -1780,6 +3089,20 @@
           "unit": "percent"
         }
       ],
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 26.49
+        }
+      },
       "card_id": "discover-it-cash-back",
       "card_name": "Discover it Cash Back"
     },
@@ -1790,11 +3113,36 @@
       "accepting_applications": true,
       "image": "discover-it-student-cash-back.png",
       "annual_fee": 0,
+      "category": "student",
       "reward_type": "cashback",
       "tags": [
         "student",
         "cashback"
       ],
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 5,
+          "unit": "percent",
+          "mode": "quarterly_rotating",
+          "note": "Up to $1,500/quarter when activated"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 6
+        },
+        "regular": {
+          "min": 16.49,
+          "max": 25.49
+        }
+      },
       "card_id": "discover-it-for-students-card",
       "card_name": "Discover it for Students"
     },
@@ -1816,11 +3164,32 @@
       "accepting_applications": true,
       "image": "discover-it-miles.png",
       "annual_fee": 0,
-      "reward_type": "cashback",
+      "reward_type": "miles",
       "tags": [
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 26.49
+        }
+      },
       "card_id": "discover-it-miles",
       "card_name": "Discover it Miles"
     },
@@ -1836,6 +3205,35 @@
         "secured",
         "cashback"
       ],
+      "rewards": [
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "percent",
+          "note": "Up to $1,000/quarter combined with dining"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent",
+          "note": "Up to $1,000/quarter combined with gas"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 10.99,
+          "months": 6
+        },
+        "regular": {
+          "min": 26.49,
+          "max": 26.49
+        }
+      },
       "card_id": "discover-it-secured-credit-card",
       "card_name": "Discover it Secured"
     },
@@ -1846,7 +3244,45 @@
       "accepting_applications": true,
       "image": "discover-it-student-chrome.png",
       "annual_fee": 0,
+      "category": "student",
       "reward_type": "cashback",
+      "tags": [
+        "student",
+        "cashback"
+      ],
+      "rewards": [
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "percent",
+          "note": "Up to $1,000/quarter combined with dining"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent",
+          "note": "Up to $1,000/quarter combined with gas"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 6
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 18
+        },
+        "regular": {
+          "min": 16.49,
+          "max": 25.49
+        }
+      },
       "card_id": "discover-it-student-chrome-card",
       "card_name": "Discover it Student Chrome"
     },
@@ -1861,9 +3297,54 @@
       "reward_type": "cashback",
       "tags": [
         "rewards",
-        "disney",
-        "entertainment"
+        "shopping"
       ],
+      "rewards": [
+        {
+          "category": "streaming",
+          "value": 10,
+          "unit": "percent",
+          "note": "Disney+, Hulu, and ESPN+ purchases"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "entertainment",
+          "value": 3,
+          "unit": "percent",
+          "note": "Most U.S. Disney locations"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 300,
+        "type": "cash",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 18.24,
+          "max": 27.74
+        }
+      },
       "card_id": "disney-inspire-visa",
       "card_name": "Disney Inspire Visa"
     },
@@ -1875,6 +3356,47 @@
       "image": "chase-disney-premier.png",
       "annual_fee": 49,
       "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "streaming",
+          "value": 5,
+          "unit": "percent",
+          "note": "Disney+, Hulu, and ESPN+ purchases"
+        },
+        {
+          "category": "entertainment",
+          "value": 2,
+          "unit": "percent",
+          "note": "Select Disney purchases, gas stations, and grocery stores"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 18.24,
+          "max": 27.74
+        }
+      },
       "card_id": "disney-premier-visa-card",
       "card_name": "Disney Premier Visa"
     },
@@ -1886,6 +3408,26 @@
       "image": "chase-disney.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent",
+          "note": "1% in Disney Rewards Dollars on all purchases"
+        }
+      ],
+      "signup_bonus": {
+        "value": 50,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 18.24,
+          "max": 29.99
+        }
+      },
       "card_id": "disney-visa-card",
       "card_name": "Disney Visa"
     },
@@ -1912,6 +3454,36 @@
       "card_name": "Expedia Rewards Voyager from Citi"
     },
     {
+      "name": "Fidelity Rewards Visa Signature",
+      "bank": "Elan Financial Services",
+      "slug": "fidelity-rewards-visa-signature",
+      "image": "fidelity-rewards.png",
+      "accepting_applications": true,
+      "category": "cashback",
+      "annual_fee": 0,
+      "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "percent",
+          "note": "When deposited into an eligible Fidelity account"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 16.99,
+          "max": 26.99
+        }
+      },
+      "card_id": "fidelity-rewards-visa-signature",
+      "card_name": "Fidelity Rewards Visa Signature"
+    },
+    {
       "name": "Gemini Credit",
       "bank": "WebBank",
       "slug": "gemini-credit",
@@ -1922,9 +3494,37 @@
       "annual_fee": 0,
       "reward_type": "cashback",
       "tags": [
-        "rewards",
-        "crypto"
+        "rewards"
       ],
+      "rewards": [
+        {
+          "category": "gas",
+          "value": 4,
+          "unit": "percent",
+          "note": "First $300/month on gas and EV charging"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 18.99,
+          "max": 34.99
+        }
+      },
       "card_id": "gemini-credit",
       "card_name": "Gemini Credit"
     },
@@ -1943,11 +3543,23 @@
       "reward_type": "cashback",
       "rewards": [
         {
+          "category": "travel_portal",
+          "value": 5,
+          "unit": "percent",
+          "note": "Travel booked through Robinhood travel portal"
+        },
+        {
           "category": "everything_else",
           "value": 3,
           "unit": "percent"
         }
       ],
+      "apr": {
+        "regular": {
+          "min": 29.99,
+          "max": 29.99
+        }
+      },
       "card_id": "robinhood-gold-card",
       "card_name": "Gold Card"
     },
@@ -1960,11 +3572,54 @@
       "image": "barclays-hawaiian.png",
       "annual_fee": 99,
       "reward_type": "miles",
+      "tags": [
+        "travel",
+        "airline",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Hawaiian Airlines purchases"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 50000,
         "type": "miles",
         "spend_requirement": 2000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 20.24,
+          "max": 29.99
+        }
       },
       "card_id": "hawaiian-airlines-world-elite-mastercard",
       "card_name": "Hawaiian Airlines World Elite Mastercard"
@@ -1978,6 +3633,49 @@
       "card_referral_link": "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref=",
       "annual_fee": 0,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 7,
+          "unit": "points_per_dollar",
+          "note": "Eligible purchases at Hilton hotels and resorts"
+        },
+        {
+          "category": "dining",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "U.S. restaurants"
+        },
+        {
+          "category": "groceries",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "U.S. supermarkets"
+        },
+        {
+          "category": "gas",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "U.S. gas stations"
+        },
+        {
+          "category": "everything_else",
+          "value": 3,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 70000,
+        "type": "points",
+        "spend_requirement": 2000,
+        "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
+      },
       "tags": [
         "hotel",
         "travel"
@@ -1993,6 +3691,49 @@
       "accepting_applications": true,
       "annual_fee": 550,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 14,
+          "unit": "points_per_dollar",
+          "note": "Eligible purchases at Hilton hotels and resorts"
+        },
+        {
+          "category": "airlines",
+          "value": 7,
+          "unit": "points_per_dollar",
+          "note": "Flights booked directly with airlines or through AmexTravel.com"
+        },
+        {
+          "category": "car_rentals",
+          "value": 7,
+          "unit": "points_per_dollar",
+          "note": "Booked directly with select car rental companies"
+        },
+        {
+          "category": "dining",
+          "value": 7,
+          "unit": "points_per_dollar",
+          "note": "U.S. restaurants"
+        },
+        {
+          "category": "everything_else",
+          "value": 3,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 175000,
+        "type": "points",
+        "spend_requirement": 6000,
+        "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
+      },
       "tags": [
         "hotel",
         "travel",
@@ -2009,6 +3750,59 @@
       "accepting_applications": true,
       "annual_fee": 150,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 12,
+          "unit": "points_per_dollar",
+          "note": "Eligible purchases at Hilton hotels and resorts"
+        },
+        {
+          "category": "dining",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "U.S. restaurants"
+        },
+        {
+          "category": "groceries",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "U.S. supermarkets"
+        },
+        {
+          "category": "gas",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "U.S. gas stations"
+        },
+        {
+          "category": "online_shopping",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "U.S. online retail purchases"
+        },
+        {
+          "category": "everything_else",
+          "value": 3,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 130000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 6
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
+      },
       "tags": [
         "hotel",
         "travel"
@@ -2035,6 +3829,41 @@
       "image": "iberia-plus.png",
       "annual_fee": 95,
       "reward_type": "miles",
+      "tags": [
+        "airline",
+        "travel"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Iberia, British Airways, and Aer Lingus flights"
+        },
+        {
+          "category": "hotels",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Hotels booked directly"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 75000,
+        "type": "miles",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 29.99
+        }
+      },
       "card_id": "iberia-visa-signature-card",
       "card_name": "Iberia Visa Signature"
     },
@@ -2051,6 +3880,46 @@
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 26,
+          "unit": "points_per_dollar",
+          "note": "Up to 26x total points at IHG hotels"
+        },
+        {
+          "category": "travel",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 3,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 175000,
+        "type": "points",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 29.99
+        }
+      },
       "card_id": "ihg-rewards-club-premier-credit-card",
       "card_name": "IHG One Rewards Premier"
     },
@@ -2067,11 +3936,46 @@
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 26,
+          "unit": "points_per_dollar",
+          "note": "Up to 26x total points at IHG hotels"
+        },
+        {
+          "category": "travel",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "Travel, gas stations, select advertising, and restaurants"
+        },
+        {
+          "category": "gas",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 3,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 140000,
         "type": "points",
         "spend_requirement": 4000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 29.99
+        }
       },
       "card_id": "ihg-rewards-premier-business",
       "card_name": "IHG One Rewards Premier Business"
@@ -2089,6 +3993,47 @@
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 17,
+          "unit": "points_per_dollar",
+          "note": "Up to 17x total points at IHG hotels"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Utilities, internet, cable, phone, and select streaming"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 90000,
+        "type": "points",
+        "spend_requirement": 2000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 29.99
+        }
+      },
       "card_id": "ihg-rewards-club-traveler-credit-card",
       "card_name": "IHG Rewards Club Traveler"
     },
@@ -2105,6 +4050,47 @@
         "business",
         "cashback"
       ],
+      "rewards": [
+        {
+          "category": "online_shopping",
+          "value": 5,
+          "unit": "percent",
+          "note": "Office supply stores, internet, cable, and phone services (first $25,000/year)"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "percent",
+          "note": "Gas stations and restaurants (first $25,000/year)"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent",
+          "note": "Gas stations and restaurants (first $25,000/year)"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 750,
+        "type": "cash",
+        "spend_requirement": 6000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 16.74,
+          "max": 24.74
+        }
+      },
       "card_id": "chase-ink-business-cash",
       "card_name": "Ink Business Cash"
     },
@@ -2122,6 +4108,31 @@
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Travel, shipping, internet/cable/phone, advertising on search engines and social media (first $150,000/year combined)"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100000,
+        "type": "points",
+        "spend_requirement": 8000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 29.99
+        }
+      },
       "card_id": "chase-ink-business-preferred",
       "card_name": "Ink Business Preferred"
     },
@@ -2138,6 +4149,29 @@
         "business",
         "cashback"
       ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 750,
+        "type": "cash",
+        "spend_requirement": 6000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 16.74,
+          "max": 24.74
+        }
+      },
       "card_id": "chase-ink-business-unlimited",
       "card_name": "Ink Business Unlimited"
     },
@@ -2150,11 +4184,49 @@
       "image": "barclays-jetblue.png",
       "annual_fee": 0,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "airline",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "JetBlue purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 10000,
         "type": "points",
         "spend_requirement": 1000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 19.74,
+          "max": 29.74
+        }
       },
       "card_id": "jetblue-card",
       "card_name": "JetBlue"
@@ -2168,11 +4240,42 @@
       "image": "barclays-jetblue-business.png",
       "annual_fee": 99,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "airline",
+        "business",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "JetBlue purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar",
+          "note": "2x on office supply stores"
+        }
+      ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 50000,
         "type": "points",
         "spend_requirement": 2000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 29.49
+        }
       },
       "card_id": "jetblue-business-card",
       "card_name": "JetBlue Business"
@@ -2186,11 +4289,49 @@
       "image": "barclays-jetblue-plus.png",
       "annual_fee": 99,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "airline",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "JetBlue purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 70000,
         "type": "points",
         "spend_requirement": 1000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 20.24,
+          "max": 29.99
+        }
       },
       "card_id": "jetblue-plus-card",
       "card_name": "JetBlue Plus"
@@ -2207,6 +4348,43 @@
         "hotel",
         "travel"
       ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "Marriott Bonvoy hotels"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores, gas stations, and dining (first $6,000/year)"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores, gas stations, and dining (first $6,000/year)"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores, gas stations, and dining (first $6,000/year)"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 27.74
+        }
+      },
       "card_id": "marriott-bonvoy-bold-credit-card",
       "card_name": "Marriott Bonvoy Bold"
     },
@@ -2223,6 +4401,49 @@
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "Marriott Bonvoy hotels"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores, gas stations, and dining (first $6,000/year)"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores, gas stations, and dining (first $6,000/year)"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores, gas stations, and dining (first $6,000/year)"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": "5 Free Night Awards",
+        "type": "free_nights",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 20.49,
+          "max": 27.49
+        }
+      },
       "card_id": "marriott-bonvoy-boundless-credit-card",
       "card_name": "Marriott Bonvoy Boundless"
     },
@@ -2234,6 +4455,43 @@
       "accepting_applications": true,
       "annual_fee": 650,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "Hotels participating in Marriott Bonvoy"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Restaurants worldwide"
+        },
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Flights booked directly with airlines"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100000,
+        "type": "points",
+        "spend_requirement": 6000,
+        "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
+      },
       "tags": [
         "hotel",
         "travel",
@@ -2250,6 +4508,38 @@
       "image": "discover-it-nhl.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "rotating",
+          "value": 5,
+          "unit": "percent",
+          "mode": "quarterly_rotating",
+          "note": "Up to $1,500/quarter when activated"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 18.24,
+          "max": 28.24
+        }
+      },
       "card_id": "nhl-discover-it",
       "card_name": "NHL Discover it"
     },
@@ -2262,6 +4552,35 @@
       "image": "barclays-princess.png",
       "annual_fee": 0,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Princess Cruises purchases"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 20000,
+        "type": "points",
+        "spend_requirement": 500,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 29.49
+        }
+      },
       "card_id": "princess-cruises-rewards-visa-card",
       "card_name": "Princess Cruises Rewards Visa"
     },
@@ -2310,13 +4629,70 @@
         }
       ],
       "signup_bonus": {
-        "value": 25,
+        "value": 75,
         "type": "cash",
-        "spend_requirement": 500,
+        "spend_requirement": 2000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 19.49,
+          "max": 28.49
+        }
       },
       "card_id": "rakuten-american-express",
       "card_name": "Rakuten American Express"
+    },
+    {
+      "name": "Robinhood Platinum",
+      "bank": "Robinhood",
+      "slug": "robinhood-platinum",
+      "accepting_applications": true,
+      "image": "robinhood-platinum.png",
+      "release_date": "2026-03-05",
+      "category": "travel",
+      "annual_fee": 695,
+      "tags": [
+        "premium",
+        "travel",
+        "dining",
+        "rewards"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 10,
+          "unit": "percent"
+        },
+        {
+          "category": "car_rentals",
+          "value": 10,
+          "unit": "percent"
+        },
+        {
+          "category": "flights_portal",
+          "value": 5,
+          "unit": "percent",
+          "note": "Flights booked through the Robinhood Banking app"
+        },
+        {
+          "category": "dining",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "card_id": "robinhood-platinum",
+      "card_name": "Robinhood Platinum"
     },
     {
       "name": "Serve",
@@ -2336,6 +4712,31 @@
       "category": "cashback",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 17.74,
+          "max": 27.99
+        }
+      },
       "card_id": "us-bank-smartly-visa-signature",
       "card_name": "Smartly Visa Signature"
     },
@@ -2346,11 +4747,42 @@
       "accepting_applications": true,
       "annual_fee": 99,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Southwest Airlines purchases"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Gas stations and grocery stores (first $5,000/year)"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Gas stations and grocery stores (first $5,000/year)"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 20000,
         "type": "points",
         "spend_requirement": 3000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 20.49,
+          "max": 27.49
+        }
       },
       "image": "chase-southwest-rapid-rewards-plus.png",
       "tags": [
@@ -2368,11 +4800,42 @@
       "image": "chase-southwest-rapid-rewards-premier.png",
       "annual_fee": 149,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Southwest Airlines purchases"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores and restaurants (first $8,000/year)"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Grocery stores and restaurants (first $8,000/year)"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 30000,
         "type": "points",
         "spend_requirement": 4000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 27.74
+        }
       },
       "tags": [
         "airline",
@@ -2389,11 +4852,40 @@
       "accepting_applications": true,
       "annual_fee": 229,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "Southwest Airlines purchases (flights, in-flight, gift cards)"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 40000,
         "type": "points",
         "spend_requirement": 5000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 27.74
+        }
       },
       "tags": [
         "airline",
@@ -2423,6 +4915,32 @@
       "image": "business-platinum.png",
       "annual_fee": 895,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "flights_portal",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "Flights booked through Amex Travel"
+        },
+        {
+          "category": "hotels_portal",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "Prepaid hotels booked through Amex Travel"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar",
+          "note": "2x on purchases of $5,000 or more (up to $2M/year)"
+        }
+      ],
+      "signup_bonus": {
+        "value": 200000,
+        "type": "points",
+        "spend_requirement": 20000,
+        "timeframe_months": 3
+      },
       "tags": [
         "business",
         "travel",
@@ -2459,6 +4977,12 @@
           "unit": "points_per_dollar"
         }
       ],
+      "signup_bonus": {
+        "value": 175000,
+        "type": "points",
+        "spend_requirement": 12000,
+        "timeframe_months": 6
+      },
       "tags": [
         "travel",
         "premium",
@@ -2472,10 +4996,58 @@
       "bank": "U.S. Bank",
       "slug": "us-bank-altitude-go-visa-signature",
       "accepting_applications": true,
-      "category": "travel",
+      "category": "rewards",
       "image": "us-bank-altitude-go.png",
       "annual_fee": 0,
       "reward_type": "points",
+      "tags": [
+        "dining",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "Up to $2,000/quarter"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 20000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
+      },
       "card_id": "us-bank-altitude-go-visa-signature",
       "card_name": "U.S. Bank Altitude Go Visa Signature"
     },
@@ -2522,11 +5094,38 @@
           "note": "Choose 2 categories each quarter, up to $2,000 combined"
         },
         {
+          "category": "dining",
+          "value": 2,
+          "unit": "percent",
+          "note": "Choose 1 everyday category: gas, grocery, or restaurants",
+          "mode": "user_choice"
+        },
+        {
           "category": "everything_else",
           "value": 1,
           "unit": "percent"
         }
       ],
+      "signup_bonus": {
+        "value": 200,
+        "type": "cash",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.74,
+          "max": 27.99
+        }
+      },
       "card_id": "us-bank-cash-plus-visa-signature",
       "card_name": "U.S. Bank Cash+ Visa Signature"
     },
@@ -2538,11 +5137,40 @@
       "accepting_applications": true,
       "annual_fee": 695,
       "reward_type": "miles",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "United purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 90000,
         "type": "miles",
         "spend_requirement": 5000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.74,
+          "max": 28.24
+        }
       },
       "tags": [
         "airline",
@@ -2560,11 +5188,40 @@
       "accepting_applications": true,
       "annual_fee": 150,
       "reward_type": "miles",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "United purchases, dining, and hotel stays"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "hotels",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 70000,
         "type": "miles",
         "spend_requirement": 3000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.74,
+          "max": 28.24
+        }
       },
       "tags": [
         "airline",
@@ -2582,11 +5239,44 @@
       "accepting_applications": true,
       "annual_fee": 0,
       "reward_type": "miles",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "United purchases"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "transit",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 30000,
         "type": "miles",
         "spend_requirement": 1000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 20.24,
+          "max": 28.74
+        }
       },
       "tags": [
         "airline",
@@ -2619,11 +5309,52 @@
       "accepting_applications": true,
       "annual_fee": 350,
       "reward_type": "miles",
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "United purchases"
+        },
+        {
+          "category": "hotels",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers"
+        },
+        {
+          "category": "travel",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Select streaming services"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "signup_bonus": {
         "value": 80000,
         "type": "miles",
         "spend_requirement": 4000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 21.24,
+          "max": 28.24
+        }
       },
       "tags": [
         "airline",
@@ -2639,8 +5370,66 @@
       "slug": "us-bank-altitude-connect",
       "image": "altitude-connect.png",
       "accepting_applications": true,
+      "category": "travel",
       "annual_fee": 0,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "travel",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "Also gas stations and EV charging, up to $1,000/quarter"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 20000,
+        "type": "points",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 17.49,
+          "max": 27.49
+        }
+      },
       "card_id": "us-bank-altitude-connect",
       "card_name": "US Bank Altitude Connect"
     },
@@ -2651,6 +5440,17 @@
       "image": "us-bank-secured.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "category": "secured",
+      "tags": [
+        "secured",
+        "credit_builder"
+      ],
+      "apr": {
+        "regular": {
+          "min": 27.49,
+          "max": 27.49
+        }
+      },
       "card_id": "us-bank-secured",
       "card_name": "US Bank Secured"
     },
@@ -2661,14 +5461,22 @@
       "image": "us-bank-shield.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "category": "balance_transfer",
+      "tags": [
+        "balance_transfer"
+      ],
       "apr": {
         "purchase_intro": {
           "rate": 0,
-          "months": 15
+          "months": 24
         },
         "balance_transfer_intro": {
           "rate": 0,
-          "months": 15
+          "months": 24
+        },
+        "regular": {
+          "min": 16.99,
+          "max": 27.99
         }
       },
       "card_id": "us-bank-shield",
@@ -2680,8 +5488,58 @@
       "slug": "us-bank-shopper",
       "image": "us-bank-shopper.png",
       "accepting_applications": true,
-      "annual_fee": 0,
+      "annual_fee": 95,
+      "tags": [
+        "cashback",
+        "shopping"
+      ],
       "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "online_shopping",
+          "value": 6,
+          "unit": "percent",
+          "mode": "user_choice",
+          "choices": 2,
+          "note": "Choose 2 retailers each quarter (Amazon, Apple, Costco, Target, Walmart, etc.), up to $1,500 combined"
+        },
+        {
+          "category": "rotating",
+          "value": 3,
+          "unit": "percent",
+          "mode": "user_choice",
+          "choices": 1,
+          "eligible_categories": [
+            "gas",
+            "wholesale_clubs",
+            "utilities"
+          ],
+          "note": "Choose 1 everyday category each quarter, up to $1,500"
+        },
+        {
+          "category": "travel",
+          "value": 5.5,
+          "unit": "percent",
+          "note": "Hotel and car reservations booked in the Travel Center"
+        },
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 250,
+        "type": "cash",
+        "spend_requirement": 2000,
+        "timeframe_months": 4
+      },
+      "apr": {
+        "regular": {
+          "min": 18.74,
+          "max": 28.74
+        }
+      },
       "card_id": "us-bank-shopper",
       "card_name": "US Bank Shopper Cash Rewards"
     },
@@ -2692,6 +5550,10 @@
       "image": "us-bank-split.png",
       "accepting_applications": true,
       "annual_fee": 0,
+      "category": "other",
+      "tags": [
+        "rewards"
+      ],
       "card_id": "us-bank-split",
       "card_name": "US Bank Split"
     },
@@ -2721,6 +5583,20 @@
         "spend_requirement": 500,
         "timeframe_months": 3
       },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "wells-fargo-active-cash",
       "card_name": "Wells Fargo Active Cash"
     },
@@ -2733,11 +5609,38 @@
       "image": "wells-fargo-attune.png",
       "annual_fee": 0,
       "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "entertainment",
+          "value": 4,
+          "unit": "percent",
+          "note": "Fitness, wellness, sports, recreation, live events, gardening, pet supplies, transit, EV charging, thrift stores"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
       "signup_bonus": {
         "value": 100,
-        "type": "cashback",
+        "type": "cash",
         "spend_requirement": 500,
         "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
       },
       "card_id": "wells-fargo-attune",
       "card_name": "Wells Fargo Attune"
@@ -2794,6 +5697,16 @@
         "spend_requirement": 1000,
         "timeframe_months": 3
       },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "wells-fargo-autograph",
       "card_name": "Wells Fargo Autograph"
     },
@@ -2806,6 +5719,50 @@
       "category": "travel",
       "annual_fee": 95,
       "reward_type": "points",
+      "tags": [
+        "travel",
+        "rewards",
+        "premium"
+      ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 5,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "airlines",
+          "value": 4,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
       "card_id": "wells-fargo-autograph-journey",
       "card_name": "Wells Fargo Autograph Journey"
     },
@@ -2814,9 +5771,21 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-cash-back-college",
       "image": "wells_fargo_cash_back_college.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "annual_fee": 0,
+      "category": "student",
       "reward_type": "cashback",
+      "tags": [
+        "student",
+        "cashback"
+      ],
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
       "card_id": "wells-fargo-cash-back-college",
       "card_name": "Wells Fargo Cash Back College"
     },
@@ -2836,8 +5805,12 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-platinum",
       "image": "wells_fargo_platinum.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "annual_fee": 0,
+      "category": "balance_transfer",
+      "tags": [
+        "balance_transfer"
+      ],
       "card_id": "wells-fargo-platinum",
       "card_name": "Wells Fargo Platinum"
     },
@@ -2858,8 +5831,11 @@
       "slug": "wells-fargo-reflect",
       "image": "wells_fargo_reflect.png",
       "accepting_applications": true,
-      "category": "other",
+      "category": "balance_transfer",
       "annual_fee": 0,
+      "tags": [
+        "balance_transfer"
+      ],
       "apr": {
         "purchase_intro": {
           "rate": 0,
@@ -2870,8 +5846,8 @@
           "months": 21
         },
         "regular": {
-          "min": 24.49,
-          "max": 34.49
+          "min": 17.49,
+          "max": 28.24
         }
       },
       "card_id": "wells-fargo-reflect",
@@ -2906,9 +5882,19 @@
       ],
       "signup_bonus": {
         "value": 500,
-        "type": "cashback",
+        "type": "cash",
         "spend_requirement": 5000,
         "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 26.49
+        }
       },
       "card_id": "wells-fargo-signify-business-cash",
       "card_name": "Wells Fargo Signify Business Cash"
@@ -2937,6 +5923,47 @@
         "travel",
         "rewards"
       ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Purchased directly from airlines"
+        },
+        {
+          "category": "transit",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 30000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.24,
+          "max": 29.99
+        }
+      },
       "card_id": "world-of-hyatt-credit-card",
       "card_name": "World of Hyatt"
     },
@@ -2949,6 +5976,31 @@
       "category": "business",
       "annual_fee": 199,
       "reward_type": "points",
+      "tags": [
+        "hotel",
+        "travel",
+        "business",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar",
+          "note": "2x on top 3 spend categories each quarter"
+        }
+      ],
       "signup_bonus": {
         "value": 60000,
         "type": "points",
@@ -2979,6 +6031,42 @@
       "image": "barclays-wyndham-earner-business.png",
       "annual_fee": 95,
       "reward_type": "points",
+      "tags": [
+        "hotel",
+        "business",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 8,
+          "unit": "points_per_dollar",
+          "note": "At Wyndham hotels"
+        },
+        {
+          "category": "gas",
+          "value": 8,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar",
+          "note": "5x on marketing, advertising, and utility purchases"
+        }
+      ],
+      "signup_bonus": {
+        "value": 50000,
+        "type": "points",
+        "spend_requirement": 4000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 19.49,
+          "max": 29.49
+        }
+      },
       "card_id": "wyndham-rewards-earner-business-card",
       "card_name": "Wyndham Rewards Earner Business"
     },

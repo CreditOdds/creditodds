@@ -1,0 +1,20 @@
+name: "Fidelity Rewards Visa Signature"
+bank: "Elan Financial Services"
+slug: "fidelity-rewards-visa-signature"
+image: "fidelity-rewards.png"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0
+reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+    note: "When deposited into an eligible Fidelity account"
+apr:
+  regular:
+    min: 16.99
+    max: 26.99
