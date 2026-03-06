@@ -431,16 +431,16 @@ export interface CardRatingAggregates {
   average: number | null;
 }
 
-export async function getCardRatings(cardId: number): Promise<CardRatingAggregates> {
-  const res = await fetch(`${API_BASE}/ratings?card_id=${cardId}`, {
+export async function getCardRatings(cardName: string): Promise<CardRatingAggregates> {
+  const res = await fetch(`${API_BASE}/ratings?card_name=${encodeURIComponent(cardName)}`, {
     cache: 'no-store',
   });
   if (!res.ok) return { count: 0, average: null };
   return res.json();
 }
 
-export async function getUserCardRating(cardId: number, token: string): Promise<number | null> {
-  const res = await fetch(`${API_BASE}/ratings/me?card_id=${cardId}`, {
+export async function getUserCardRating(cardName: string, token: string): Promise<number | null> {
+  const res = await fetch(`${API_BASE}/ratings/me?card_name=${encodeURIComponent(cardName)}`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store',
   });
@@ -450,7 +450,7 @@ export async function getUserCardRating(cardId: number, token: string): Promise<
 }
 
 export async function submitCardRating(
-  cardId: number,
+  cardName: string,
   rating: number,
   token: string
 ): Promise<void> {
@@ -460,7 +460,7 @@ export async function submitCardRating(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ card_id: cardId, rating }),
+    body: JSON.stringify({ card_name: cardName, rating }),
   });
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');

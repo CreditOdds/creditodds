@@ -15,9 +15,16 @@ const responseHeaders = {
   "X-Requested-With": "*",
 };
 
-// GET /ratings?card_id=123 — public, returns avg + count
-// GET /ratings/me?card_id=123 — authenticated, returns user's rating
-// POST /ratings — authenticated, upsert rating
+// Resolve a card_name to its numeric card_id
+async function resolveCardId(cardName) {
+  const rows = await mysql.query(
+    `SELECT card_id FROM cards WHERE card_name = ? OR card_name = ? LIMIT 1`,
+    [cardName, cardName.replace(/ Card$/, '')]
+  );
+  return rows.length > 0 ? rows[0].card_id : null;
+}
+
+// GET /ratings?card_name=Chase+Sapphire+Preferred — public, returns avg + count
 exports.CardRatingsHandler = async (event) => {
   console.info("received:", event);
 
@@ -34,12 +41,23 @@ exports.CardRatingsHandler = async (event) => {
 
     case "GET":
       try {
-        const cardId = event.queryStringParameters?.card_id;
-        if (!cardId) {
+        const cardName = event.queryStringParameters?.card_name;
+        if (!cardName) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_id is required" }),
+            body: JSON.stringify({ error: "card_name is required" }),
+          };
+          break;
+        }
+
+        const cardId = await resolveCardId(cardName);
+        if (!cardId) {
+          await mysql.end();
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({ count: 0, average: null }),
           };
           break;
         }
@@ -61,6 +79,7 @@ exports.CardRatingsHandler = async (event) => {
         };
         break;
       } catch (error) {
+        await mysql.end();
         response = {
           statusCode: 500,
           headers: responseHeaders,
@@ -100,12 +119,23 @@ exports.CardRatingsUserHandler = async (event) => {
 
     case "GET":
       try {
-        const cardId = event.queryStringParameters?.card_id;
-        if (!cardId) {
+        const cardName = event.queryStringParameters?.card_name;
+        if (!cardName) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_id is required" }),
+            body: JSON.stringify({ error: "card_name is required" }),
+          };
+          break;
+        }
+
+        const cardId = await resolveCardId(cardName);
+        if (!cardId) {
+          await mysql.end();
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({ rating: null }),
           };
           break;
         }
@@ -125,6 +155,7 @@ exports.CardRatingsUserHandler = async (event) => {
         };
         break;
       } catch (error) {
+        await mysql.end();
         response = {
           statusCode: 500,
           headers: responseHeaders,
@@ -136,13 +167,13 @@ exports.CardRatingsUserHandler = async (event) => {
     case "POST":
       try {
         const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-        const { card_id, rating } = body;
+        const { card_name: cardName, rating } = body;
 
-        if (!card_id || !rating) {
+        if (!cardName || !rating) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_id and rating are required" }),
+            body: JSON.stringify({ error: "card_name and rating are required" }),
           };
           break;
         }
@@ -156,12 +187,23 @@ exports.CardRatingsUserHandler = async (event) => {
           break;
         }
 
+        const cardId = await resolveCardId(cardName);
+        if (!cardId) {
+          await mysql.end();
+          response = {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Card not found" }),
+          };
+          break;
+        }
+
         // Upsert: insert or update on duplicate key
         await mysql.query(
           `INSERT INTO card_ratings (user_id, card_id, rating)
            VALUES (?, ?, ?)
            ON DUPLICATE KEY UPDATE rating = VALUES(rating), updated_at = NOW()`,
-          [userId, card_id, rating]
+          [userId, cardId, rating]
         );
         await mysql.end();
 
@@ -172,6 +214,7 @@ exports.CardRatingsUserHandler = async (event) => {
         };
         break;
       } catch (error) {
+        await mysql.end();
         response = {
           statusCode: 500,
           headers: responseHeaders,
