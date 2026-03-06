@@ -1,7 +1,7 @@
 name: "Wells Fargo Choice Privileges Mastercard"
 bank: "Wells Fargo"
 slug: "wells-fargo-choice-privileges-mastercard"
-image: "wells-fargo-choice-privileges-mastercard.png"
+image: "choice-privileges.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 0

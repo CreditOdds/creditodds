@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-06T19:13:56.467Z",
+  "generated_at": "2026-03-06T19:21:40.289Z",
   "count": 146,
   "categories": [
     {
@@ -5804,7 +5804,7 @@
       "name": "Wells Fargo Choice Privileges Mastercard",
       "bank": "Wells Fargo",
       "slug": "wells-fargo-choice-privileges-mastercard",
-      "image": "wells-fargo-choice-privileges-mastercard.png",
+      "image": "choice-privileges.png",
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 0,
@@ -5866,7 +5866,7 @@
       "name": "Wells Fargo Choice Privileges Select Mastercard",
       "bank": "Wells Fargo",
       "slug": "wells-fargo-choice-privileges-select-mastercard",
-      "image": "wells-fargo-choice-privileges-select-mastercard.png",
+      "image": "choice-privileges-select.png",
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 95,
