@@ -89,8 +89,8 @@ function StarIcon({ filled, half, className }: { filled?: boolean; half?: boolea
   );
 }
 
-function CardRating({ cardId, isAuthenticated, getToken }: {
-  cardId: number | undefined;
+function CardRating({ cardName, isAuthenticated, getToken }: {
+  cardName: string;
   isAuthenticated: boolean;
   getToken: () => Promise<string | null>;
 }) {
@@ -100,32 +100,31 @@ function CardRating({ cardId, isAuthenticated, getToken }: {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!cardId) return;
-    getCardRatings(cardId).then(setAggregate).catch(() => {});
-  }, [cardId]);
+    getCardRatings(cardName).then(setAggregate).catch(() => {});
+  }, [cardName]);
 
   useEffect(() => {
-    if (!cardId || !isAuthenticated) return;
+    if (!isAuthenticated) return;
     let cancelled = false;
     (async () => {
       const token = await getToken();
       if (!token || cancelled) return;
-      const rating = await getUserCardRating(cardId, token);
+      const rating = await getUserCardRating(cardName, token);
       if (!cancelled) setUserRating(rating);
     })();
     return () => { cancelled = true; };
-  }, [cardId, isAuthenticated, getToken]);
+  }, [cardName, isAuthenticated, getToken]);
 
   const handleRate = async (rating: number) => {
-    if (!cardId || !isAuthenticated || submitting) return;
+    if (!isAuthenticated || submitting) return;
     setSubmitting(true);
     try {
       const token = await getToken();
       if (!token) return;
-      await submitCardRating(cardId, rating, token);
+      await submitCardRating(cardName, rating, token);
       setUserRating(rating);
       // Refresh aggregate
-      const updated = await getCardRatings(cardId);
+      const updated = await getCardRatings(cardName);
       setAggregate(updated);
     } catch {
       // Silently fail
@@ -693,7 +692,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
 
                 {/* Card Rating */}
                 <CardRating
-                  cardId={card.db_card_id}
+                  cardName={card.card_name}
                   isAuthenticated={authState.isAuthenticated}
                   getToken={getToken}
                 />
