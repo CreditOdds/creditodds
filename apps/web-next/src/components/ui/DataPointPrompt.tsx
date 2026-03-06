@@ -250,7 +250,7 @@ export default function DataPointPrompt() {
     <>
       {/* Returning user banner */}
       {showBanner && (
-        <div className="sticky top-0 z-40 bg-indigo-50 border-b border-indigo-200">
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-indigo-50 border-t border-indigo-200 shadow-[0_-2px_8px_rgba(0,0,0,0.08)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             {!showBannerPicker ? (
               <div className="flex items-center justify-between gap-4">

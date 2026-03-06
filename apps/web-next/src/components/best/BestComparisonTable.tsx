@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard } from '@/lib/best';
@@ -95,14 +96,31 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
                     </span>
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
-                    <Link href={`/card/${card.slug}`} className="text-sm font-medium text-indigo-600 hover:text-indigo-900">
-                      {card.card_name}
-                    </Link>
-                    {entry.badge && (
-                      <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-800">
-                        {entry.badge}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-3">
+                      <Link href={`/card/${card.slug}`} className="flex-shrink-0">
+                        {card.card_image_link ? (
+                          <Image
+                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
+                            alt={card.card_name}
+                            width={48}
+                            height={30}
+                            className="rounded shadow-sm"
+                          />
+                        ) : (
+                          <div className="w-12 h-[30px] bg-gray-200 rounded" />
+                        )}
+                      </Link>
+                      <div>
+                        <Link href={`/card/${card.slug}`} className="text-sm font-medium text-indigo-600 hover:text-indigo-900">
+                          {card.card_name}
+                        </Link>
+                        {entry.badge && (
+                          <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-800">
+                            {entry.badge}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                     {formatAnnualFee(card.annual_fee)}
