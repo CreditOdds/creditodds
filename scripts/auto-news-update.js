@@ -91,12 +91,12 @@ function buildSearchQueries() {
   const year = now.getFullYear();
   const month = now.toLocaleString('default', { month: 'long' });
 
-  // Generic credit card news queries
+  // Generic credit card news queries — use month+year to avoid old results
   const queries = [
     `credit card news ${month} ${year}`,
-    `credit card bonus change ${year}`,
-    `credit card annual fee change ${year}`,
-    `new credit card launch ${year}`,
+    `credit card bonus change ${month} ${year}`,
+    `credit card annual fee change ${month} ${year}`,
+    `new credit card launch ${month} ${year}`,
   ];
 
   // Pick 2-3 random banks for targeted search (rotate through)
@@ -109,7 +109,7 @@ function buildSearchQueries() {
 
   for (const idx of bankIndices) {
     const bank = MAJOR_BANKS[idx];
-    queries.push(`${bank} credit card news ${year}`);
+    queries.push(`${bank} credit card news ${month} ${year}`);
   }
 
   return queries;
@@ -151,7 +151,7 @@ async function braveSearch(query) {
  */
 async function googleNewsSearch(query) {
   const params = new URLSearchParams({
-    q: query,
+    q: `${query} when:7d`,
     hl: 'en-US',
     gl: 'US',
     ceid: 'US:en',
@@ -184,6 +184,13 @@ async function googleNewsSearch(query) {
     const description = itemXml.match(/<description>([\s\S]*?)<\/description>/)?.[1]?.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')?.replace(/<[^>]+>/g, '') || '';
 
     if (title && link) {
+      // Filter out articles older than 7 days
+      if (pubDate) {
+        const articleDate = new Date(pubDate);
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        if (articleDate < sevenDaysAgo) continue;
+      }
+
       items.push({
         title: title.trim(),
         url: link.trim(),
@@ -338,7 +345,7 @@ ${existingNewsIds.join(', ') || 'None'}
 ## STRICT Selection Criteria - Only include news that meets ALL of these:
 1. **High Impact**: Must significantly affect cardholders (major fee changes, significant benefit additions/removals, new card launches from major issuers)
 2. **Confirmed & Official**: Must be officially announced or confirmed, not rumors or speculation
-3. **Recent**: Article must be published within the last 7 days
+3. **Recent**: The underlying EVENT or ANNOUNCEMENT must have happened within the last 7 days. An old event (e.g., a card launched months ago) covered in a new article is NOT recent news. Only include news where the actual change, launch, or announcement occurred in the past week.
 4. **Unique**: NOT about the same topic as any existing news listed above - check the TITLES and SUMMARIES, not just IDs
 
 ## DO NOT Include:
@@ -349,6 +356,7 @@ ${existingNewsIds.join(', ') || 'None'}
 - Speculation about future changes
 - News about cards not in the database
 - Generic credit card advice articles
+- **CRITICAL**: Old news being re-reported. If a card was launched, a benefit changed, or a policy was updated more than a week ago, it is NOT news even if a new article was just published about it. Check the actual event date, not just the article publication date.
 - **CRITICAL**: News about the same topic as existing items above, even if worded differently. If we already posted about a card's fee change, benefit update, or policy change this month, do NOT post about it again even if there's a new article about the same thing.
 
 ## Schema Requirements
@@ -456,12 +464,12 @@ function validateNewsItem(item) {
     if (itemDate > today) {
       errors.push('Date cannot be in the future (use publication date, not effective date)');
     }
-    // Reject articles older than 14 days
+    // Reject articles older than 7 days
     const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 14);
+    cutoff.setDate(cutoff.getDate() - 7);
     cutoff.setHours(0, 0, 0, 0);
     if (itemDate < cutoff) {
-      errors.push(`Date ${item.date} is older than 14 days`);
+      errors.push(`Date ${item.date} is older than 7 days`);
     }
   }
   if (!item.title || item.title.length > 200) {
