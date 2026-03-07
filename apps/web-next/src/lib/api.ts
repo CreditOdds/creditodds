@@ -189,6 +189,19 @@ export async function deleteReferral(referralId: number, token: string) {
   return res.json();
 }
 
+export async function archiveReferral(referralId: number, token: string) {
+  const res = await fetch(`${API_BASE}/referrals`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ referral_id: referralId }),
+  });
+  if (!res.ok) throw new Error('Failed to archive referral');
+  return res.json();
+}
+
 export async function getProfile(token: string) {
   const res = await fetch(`${API_BASE}/profile`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -601,6 +614,7 @@ export interface AdminReferral {
   submitter_email?: string;
   submit_datetime: string;
   admin_approved: number;
+  archived_at: string | null;
   impressions: number;
   clicks: number;
 }

@@ -352,6 +352,7 @@ exports.AdminReferralsHandler = async (event) => {
             r.submitter_id,
             r.submit_datetime,
             r.admin_approved,
+            r.archived_at,
             c.card_name,
             c.card_image_link,
             c.bank,
@@ -400,13 +401,13 @@ exports.AdminReferralsHandler = async (event) => {
     case "PUT":
       try {
         const body = JSON.parse(event.body);
-        const { referral_id, approved, referral_link } = body;
+        const { referral_id, approved, referral_link, archived } = body;
 
-        if (!referral_id || approved === undefined) {
+        if (!referral_id) {
           return {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "referral_id and approved are required" }),
+            body: JSON.stringify({ error: "referral_id is required" }),
           };
         }
 
@@ -420,21 +421,33 @@ exports.AdminReferralsHandler = async (event) => {
           };
         }
 
-        if (referral_link) {
+        // Handle archive/unarchive
+        if (archived !== undefined) {
           await mysql.query(
-            "UPDATE referrals SET admin_approved = ?, referral_link = ? WHERE referral_id = ?",
-            [approved ? 1 : 0, referral_link, referral_id]
+            "UPDATE referrals SET archived_at = ? WHERE referral_id = ?",
+            [archived ? new Date() : null, referral_id]
           );
-        } else {
-          await mysql.query(
-            "UPDATE referrals SET admin_approved = ? WHERE referral_id = ?",
-            [approved ? 1 : 0, referral_id]
-          );
+          await logAuditAction(userId, archived ? 'ARCHIVE' : 'UNARCHIVE', 'referral', referral_id, referral[0]);
         }
-        const auditDetails = referral_link
-          ? { ...referral[0], updated_referral_link: referral_link }
-          : referral[0];
-        await logAuditAction(userId, approved ? 'APPROVE' : 'UNAPPROVE', 'referral', referral_id, auditDetails);
+
+        // Handle approval and link update
+        if (approved !== undefined) {
+          if (referral_link) {
+            await mysql.query(
+              "UPDATE referrals SET admin_approved = ?, referral_link = ? WHERE referral_id = ?",
+              [approved ? 1 : 0, referral_link, referral_id]
+            );
+          } else {
+            await mysql.query(
+              "UPDATE referrals SET admin_approved = ? WHERE referral_id = ?",
+              [approved ? 1 : 0, referral_id]
+            );
+          }
+          const auditDetails = referral_link
+            ? { ...referral[0], updated_referral_link: referral_link }
+            : referral[0];
+          await logAuditAction(userId, approved ? 'APPROVE' : 'UNAPPROVE', 'referral', referral_id, auditDetails);
+        }
         await mysql.end();
 
         return {

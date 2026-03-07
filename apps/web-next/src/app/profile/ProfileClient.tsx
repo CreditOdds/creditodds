@@ -6,10 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 
 // Lazy load modals - only loaded when user opens them
@@ -68,6 +68,7 @@ interface Referral {
   referral_link: string;
   card_referral_link?: string;
   admin_approved: boolean;
+  archived_at?: string | null;
   impressions?: number;
   clicks?: number;
 }
@@ -104,6 +105,7 @@ export default function ProfileClient() {
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
   const [deletingReferralId, setDeletingReferralId] = useState<number | null>(null);
+  const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
   const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals' | 'advanced'>('wallet');
@@ -318,8 +320,29 @@ export default function ProfileClient() {
     }
   };
 
+  const handleArchiveReferral = async (referralId: number) => {
+    if (!confirm("Archive this referral? It will stop being shown to visitors but stats will be preserved.")) {
+      return;
+    }
+
+    setArchivingReferralId(referralId);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      await archiveReferral(referralId, token);
+      setReferrals(referrals.map(r =>
+        r.referral_id === referralId ? { ...r, archived_at: new Date().toISOString() } : r
+      ));
+    } catch (error) {
+      console.error("Error archiving referral:", error);
+      alert("Failed to archive referral. Please try again.");
+    } finally {
+      setArchivingReferralId(null);
+    }
+  };
+
   const handleDeleteReferral = async (referralId: number) => {
-    if (!confirm("Are you sure you want to delete this referral?")) {
+    if (!confirm("Permanently delete this referral and all its stats? This cannot be undone.")) {
       return;
     }
 
@@ -331,7 +354,6 @@ export default function ProfileClient() {
         return;
       }
       await deleteReferral(referralId, token);
-      // Remove the referral from local state
       setReferrals(referrals.filter(r => r.referral_id !== referralId));
     } catch (error) {
       console.error("Error deleting referral:", error);
@@ -799,167 +821,207 @@ export default function ProfileClient() {
               Submit your full referral URL for any card in your wallet or with a submitted record.
             </p>
           </div>
-          {referrals.length > 0 ? (
-            <div className="border-t border-gray-200">
-              {/* Mobile: Card layout */}
-              <div className="sm:hidden divide-y divide-gray-200">
-                {referrals.map((referral, index) => (
-                  <div key={referral.referral_id || index} className="p-4">
-                    <div className="flex items-start gap-3">
-                      {referral.card_image_link && (
-                        <div className="flex-shrink-0 h-12 w-20 relative">
-                          <Image
-                            className="object-contain"
-                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
-                            alt={referral.card_name}
-                            fill
-                            sizes="80px"
-                          />
-                        </div>
+          {(() => {
+            const activeReferrals = referrals.filter(r => !r.archived_at);
+            const archivedReferrals = referrals.filter(r => r.archived_at);
+
+            const renderReferralRow = (referral: Referral, isArchived: boolean) => (
+              <tr key={referral.referral_id} className={isArchived ? 'opacity-60' : ''}>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  <div className="flex items-center">
+                    {referral.card_image_link && (
+                      <div className={`flex-shrink-0 h-8 w-12 relative ${isArchived ? 'grayscale' : ''}`}>
+                        <Image
+                          className="object-contain"
+                          src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
+                          alt={referral.card_name}
+                          fill
+                          sizes="48px"
+                        />
+                      </div>
+                    )}
+                    <div className="ml-3">
+                      <div className="text-sm font-medium text-gray-900">{referral.card_name}</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-4 py-3">
+                  <a href={referral.referral_link} target="_blank" rel="noreferrer"
+                    className="text-sm text-indigo-600 hover:text-indigo-900 truncate block max-w-[200px]">
+                    {referral.referral_link}
+                  </a>
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap">
+                  {isArchived ? (
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-600">
+                      Archived
+                    </span>
+                  ) : referral.admin_approved ? (
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Approved
+                    </span>
+                  ) : (
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                      Pending
+                    </span>
+                  )}
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                  <div>{referral.impressions ?? 0} views</div>
+                  <div>{referral.clicks ?? 0} clicks</div>
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+                  {!isArchived && (
+                    <button
+                      onClick={() => handleArchiveReferral(referral.referral_id)}
+                      disabled={archivingReferralId === referral.referral_id}
+                      className="text-gray-500 hover:text-gray-700 disabled:opacity-50 mr-3"
+                      title="Archive"
+                    >
+                      {archivingReferralId === referral.referral_id ? "..." : <ArchiveBoxIcon className="h-4 w-4 inline" />}
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleDeleteReferral(referral.referral_id)}
+                    disabled={deletingReferralId === referral.referral_id}
+                    className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                    title="Delete permanently"
+                  >
+                    {deletingReferralId === referral.referral_id ? "..." : <TrashIcon className="h-4 w-4 inline" />}
+                  </button>
+                </td>
+              </tr>
+            );
+
+            const renderReferralMobileCard = (referral: Referral, isArchived: boolean) => (
+              <div key={referral.referral_id} className={`p-4 ${isArchived ? 'opacity-60' : ''}`}>
+                <div className="flex items-start gap-3">
+                  {referral.card_image_link && (
+                    <div className={`flex-shrink-0 h-12 w-20 relative ${isArchived ? 'grayscale' : ''}`}>
+                      <Image
+                        className="object-contain"
+                        src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
+                        alt={referral.card_name}
+                        fill
+                        sizes="80px"
+                      />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between">
+                      <p className="text-sm font-medium text-gray-900 truncate">{referral.card_name}</p>
+                      {isArchived ? (
+                        <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-600">
+                          Archived
+                        </span>
+                      ) : referral.admin_approved ? (
+                        <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          Approved
+                        </span>
+                      ) : (
+                        <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          Pending
+                        </span>
                       )}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between">
-                          <p className="text-sm font-medium text-gray-900 truncate">{referral.card_name}</p>
-                          {referral.admin_approved ? (
-                            <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              Approved
-                            </span>
-                          ) : (
-                            <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                              Pending
-                            </span>
-                          )}
-                        </div>
-                        <a
-                          href={referral.referral_link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="mt-1 text-xs text-indigo-600 hover:text-indigo-900 truncate block"
-                        >
-                          {referral.referral_link}
-                        </a>
-                        <div className="mt-1 flex items-center justify-between">
-                          <div className="flex gap-3 text-xs text-gray-500">
-                            <span>{referral.impressions ?? 0} views</span>
-                            <span>{referral.clicks ?? 0} clicks</span>
-                          </div>
+                    </div>
+                    <a href={referral.referral_link} target="_blank" rel="noreferrer"
+                      className="mt-1 text-xs text-indigo-600 hover:text-indigo-900 truncate block">
+                      {referral.referral_link}
+                    </a>
+                    <div className="mt-1 flex items-center justify-between">
+                      <div className="flex gap-3 text-xs text-gray-500">
+                        <span>{referral.impressions ?? 0} views</span>
+                        <span>{referral.clicks ?? 0} clicks</span>
+                      </div>
+                      <div className="flex gap-2">
+                        {!isArchived && (
                           <button
-                            onClick={() => handleDeleteReferral(referral.referral_id)}
-                            disabled={deletingReferralId === referral.referral_id}
-                            className="text-xs text-red-600 hover:text-red-900 disabled:opacity-50"
+                            onClick={() => handleArchiveReferral(referral.referral_id)}
+                            disabled={archivingReferralId === referral.referral_id}
+                            className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-50"
                           >
-                            {deletingReferralId === referral.referral_id ? "Deleting..." : "Delete"}
+                            {archivingReferralId === referral.referral_id ? "..." : "Archive"}
                           </button>
-                        </div>
+                        )}
+                        <button
+                          onClick={() => handleDeleteReferral(referral.referral_id)}
+                          disabled={deletingReferralId === referral.referral_id}
+                          className="text-xs text-red-600 hover:text-red-900 disabled:opacity-50"
+                        >
+                          {deletingReferralId === referral.referral_id ? "..." : "Delete"}
+                        </button>
                       </div>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
-              {/* Desktop: Table layout */}
-              <div className="hidden sm:block">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Card
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Referral Link
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Stats
-                      </th>
-                      <th className="relative px-4 py-3">
-                        <span className="sr-only">Delete</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {referrals.map((referral, index) => (
-                      <tr key={referral.referral_id || index}>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center">
-                            {referral.card_image_link && (
-                              <div className="flex-shrink-0 h-8 w-12 relative">
-                                <Image
-                                  className="object-contain"
-                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
-                                  alt={referral.card_name}
-                                  fill
-                                  sizes="48px"
-                                />
-                              </div>
-                            )}
-                            <div className="ml-3">
-                              <div className="text-sm font-medium text-gray-900">
-                                {referral.card_name}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <a
-                            href={referral.referral_link}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-sm text-indigo-600 hover:text-indigo-900 truncate block max-w-[200px]"
-                          >
-                            {referral.referral_link}
-                          </a>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          {referral.admin_approved ? (
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              Approved
-                            </span>
-                          ) : (
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                              Pending
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                          <div>{referral.impressions ?? 0} views</div>
-                          <div>{referral.clicks ?? 0} clicks</div>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
-                          <button
-                            onClick={() => handleDeleteReferral(referral.referral_id)}
-                            disabled={deletingReferralId === referral.referral_id}
-                            className="text-red-600 hover:text-red-900 disabled:opacity-50"
-                          >
-                            {deletingReferralId === referral.referral_id ? "..." : "Delete"}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ) : (
-            <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-              <p className="text-gray-500">No referrals submitted yet.</p>
-            </div>
-          )}
-          <div className="border-t border-gray-200">
-            {eligibleReferralCards.length > 0 ? (
-              <button
-                onClick={() => setShowReferralModal(true)}
-                className="block w-full bg-gray-50 text-sm font-medium text-gray-500 text-center px-4 py-4 hover:text-gray-700 sm:rounded-b-lg cursor-pointer"
-              >
-                Submit a referral
-              </button>
-            ) : (
-              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
-                Add a card to your wallet or submit a data point to add your referral link
-              </div>
-            )}
-            </div>
+            );
+
+            return (
+              <>
+                {activeReferrals.length > 0 ? (
+                  <div className="border-t border-gray-200">
+                    <div className="sm:hidden divide-y divide-gray-200">
+                      {activeReferrals.map(r => renderReferralMobileCard(r, false))}
+                    </div>
+                    <div className="hidden sm:block">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Card</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Referral Link</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stats</th>
+                            <th className="relative px-4 py-3"><span className="sr-only">Actions</span></th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {activeReferrals.map(r => renderReferralRow(r, false))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+                    <p className="text-gray-500">No active referrals.</p>
+                  </div>
+                )}
+
+                {archivedReferrals.length > 0 && (
+                  <div className="border-t border-gray-200">
+                    <div className="px-4 py-3 sm:px-6 bg-gray-50">
+                      <h3 className="text-sm font-medium text-gray-500">Archived ({archivedReferrals.length})</h3>
+                    </div>
+                    <div className="sm:hidden divide-y divide-gray-200">
+                      {archivedReferrals.map(r => renderReferralMobileCard(r, true))}
+                    </div>
+                    <div className="hidden sm:block">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {archivedReferrals.map(r => renderReferralRow(r, true))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                <div className="border-t border-gray-200">
+                  {eligibleReferralCards.length > 0 ? (
+                    <button
+                      onClick={() => setShowReferralModal(true)}
+                      className="block w-full bg-gray-50 text-sm font-medium text-gray-500 text-center px-4 py-4 hover:text-gray-700 sm:rounded-b-lg cursor-pointer"
+                    >
+                      Submit a referral
+                    </button>
+                  ) : (
+                    <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
+                      Add a card to your wallet or submit a data point to add your referral link
+                    </div>
+                  )}
+                </div>
+              </>
+            );
+          })()}
           </div>
           )
         )}

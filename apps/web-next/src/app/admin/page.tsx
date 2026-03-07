@@ -697,11 +697,18 @@ function ReferralsTab({
                   )}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                    referral.admin_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {referral.admin_approved ? 'Approved' : 'Pending'}
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full inline-block w-fit ${
+                      referral.admin_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {referral.admin_approved ? 'Approved' : 'Pending'}
+                    </span>
+                    {referral.archived_at && (
+                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600 inline-block w-fit">
+                        Archived
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                   <div>{referral.impressions} views</div>
@@ -1099,11 +1106,18 @@ function UserLookupTab({
                           </a>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                            referral.admin_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {referral.admin_approved ? 'Approved' : 'Pending'}
-                          </span>
+                          <div className="flex flex-col gap-1">
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full inline-block w-fit ${
+                              referral.admin_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {referral.admin_approved ? 'Approved' : 'Pending'}
+                            </span>
+                            {referral.archived_at && (
+                              <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600 inline-block w-fit">
+                                Archived
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                           <div>{referral.impressions} views</div>

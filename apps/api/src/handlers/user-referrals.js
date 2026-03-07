@@ -48,13 +48,13 @@ exports.UserReferralsHandler = async (event) => {
           return element.referral_link == null;
         });
 
-        // Get impression/click counts and card_referral_link for submitted referrals
+        // Get impression/click counts, card_referral_link, and archived status for submitted referrals
         if (submitted.length > 0) {
           const referralIds = submitted.map(r => r.referral_id).filter(id => id);
           const cardIds = submitted.map(r => r.card_id).filter(id => id);
 
-          // Fetch stats and card referral links in parallel
-          const [statsResults, cardResults] = await Promise.all([
+          // Fetch stats, card referral links, and archived status in parallel
+          const [statsResults, cardResults, archivedResults] = await Promise.all([
             referralIds.length > 0 ? mysql.query(`
               SELECT
                 referral_id,
@@ -68,7 +68,12 @@ exports.UserReferralsHandler = async (event) => {
               SELECT card_id, card_referral_link
               FROM cards
               WHERE card_id IN (?)
-            `, [cardIds]) : []
+            `, [cardIds]) : [],
+            referralIds.length > 0 ? mysql.query(`
+              SELECT referral_id, archived_at
+              FROM referrals
+              WHERE referral_id IN (?)
+            `, [referralIds]) : []
           ]);
 
           // Create a map of stats by referral_id
@@ -86,12 +91,40 @@ exports.UserReferralsHandler = async (event) => {
             cardLinkMap[card.card_id] = card.card_referral_link;
           }
 
-          // Add stats and card_referral_link to submitted referrals
+          // Create a map of archived_at by referral_id
+          const archivedMap = {};
+          for (const row of archivedResults) {
+            archivedMap[row.referral_id] = row.archived_at;
+          }
+
+          // Add stats, card_referral_link, and archived_at to submitted referrals
           for (const referral of submitted) {
             const stats = statsMap[referral.referral_id] || { impressions: 0, clicks: 0 };
             referral.impressions = stats.impressions;
             referral.clicks = stats.clicks;
             referral.card_referral_link = cardLinkMap[referral.card_id] || null;
+            referral.archived_at = archivedMap[referral.referral_id] || null;
+          }
+        }
+
+        // Also include cards with only archived referrals in the "open" list
+        const archivedCardIds = new Set(
+          submitted.filter(r => r.archived_at).map(r => r.card_id)
+        );
+        const activeCardIds = new Set(
+          submitted.filter(r => !r.archived_at).map(r => r.card_id)
+        );
+        // Cards that only have archived referrals (no active one) should appear in open
+        for (const cardId of archivedCardIds) {
+          if (!activeCardIds.has(cardId)) {
+            const archivedRef = submitted.find(r => r.card_id === cardId && r.archived_at);
+            if (archivedRef && !open.some(o => o.card_id === cardId)) {
+              open.push({
+                card_id: archivedRef.card_id,
+                card_name: archivedRef.card_name,
+                card_image_link: archivedRef.card_image_link,
+              });
+            }
           }
         }
 
@@ -113,28 +146,31 @@ exports.UserReferralsHandler = async (event) => {
       break;
     case "POST":
       try {
-        console.log(JSON.parse(event.body).card_id);
-        console.log(JSON.parse(event.body).referral_link);
-        let count = await mysql.query("call creditodds.check_referral(?,?,?)", [
-          JSON.parse(event.body).card_id,
-          event.requestContext.authorizer.sub,
-          JSON.parse(event.body).referral_link,
-        ]);
-        await mysql.end();
-        console.log(count);
-        count = JSON.parse(JSON.stringify(count))[0][0]["count"];
-        console.log(count);
+        const postBody = JSON.parse(event.body);
+        const userId = event.requestContext.authorizer.sub;
 
-        if (count > 0) {
-          throw new Error(
-            `User has already submitted a referral for this card or this referral link has been used by another account.`
-          );
+        // Check for existing active (non-archived) referral for this card by this user
+        const existingActive = await mysql.query(
+          "SELECT referral_id FROM referrals WHERE card_id = ? AND submitter_id = ? AND archived_at IS NULL",
+          [postBody.card_id, userId]
+        );
+        if (existingActive.length > 0) {
+          throw new Error("User has already submitted an active referral for this card.");
+        }
+
+        // Check if this exact link is used by another account (active only)
+        const existingLink = await mysql.query(
+          "SELECT referral_id FROM referrals WHERE referral_link = ? AND submitter_id != ? AND archived_at IS NULL",
+          [postBody.referral_link, userId]
+        );
+        if (existingLink.length > 0) {
+          throw new Error("This referral link has been used by another account.");
         }
 
         const referral = await mysql.query("INSERT INTO referrals SET ?", {
-          card_id: JSON.parse(event.body).card_id,
-          referral_link: JSON.parse(event.body).referral_link,
-          submitter_id: event.requestContext.authorizer.sub,
+          card_id: postBody.card_id,
+          referral_link: postBody.referral_link,
+          submitter_id: userId,
           submitter_ip_address: event.requestContext.identity.sourceIp,
           submit_datetime: new Date(),
         });
@@ -149,6 +185,48 @@ exports.UserReferralsHandler = async (event) => {
         response = {
           statusCode: 500,
           body: `There was an error with the query: ${error}`,
+          headers: responseHeaders,
+        };
+      }
+      break;
+    case "PATCH":
+      try {
+        const patchBody = JSON.parse(event.body);
+        const patchUserId = event.requestContext.authorizer.sub;
+
+        if (!patchBody.referral_id) {
+          throw new Error("referral_id is required");
+        }
+
+        // Verify the referral belongs to this user
+        const referralToArchive = await mysql.query(
+          "SELECT referral_id, archived_at FROM referrals WHERE referral_id = ? AND submitter_id = ?",
+          [patchBody.referral_id, patchUserId]
+        );
+
+        if (referralToArchive.length === 0) {
+          throw new Error("Referral not found or you don't have permission to archive it");
+        }
+
+        if (referralToArchive[0].archived_at) {
+          throw new Error("Referral is already archived");
+        }
+
+        await mysql.query(
+          "UPDATE referrals SET archived_at = NOW() WHERE referral_id = ?",
+          [patchBody.referral_id]
+        );
+        await mysql.end();
+
+        response = {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify({ message: "Referral archived successfully" }),
+        };
+      } catch (error) {
+        response = {
+          statusCode: 500,
+          body: `There was an error archiving the referral: ${error}`,
           headers: responseHeaders,
         };
       }
@@ -194,7 +272,7 @@ exports.UserReferralsHandler = async (event) => {
       //Throw an error if the request method is not GET
       response = {
         statusCode: 405,
-        body: `UserReferrals only accepts GET, POST, and DELETE methods, you tried: ${event.httpMethod}`,
+        body: `UserReferrals only accepts GET, POST, PATCH, and DELETE methods, you tried: ${event.httpMethod}`,
         headers: responseHeaders,
       };
       break;
