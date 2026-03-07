@@ -137,7 +137,7 @@ function CardRating({ cardName, isAuthenticated, getToken }: {
   const ratingStyle = displayRating ? RATING_COLORS[displayRating] : null;
 
   return (
-    <div className="mt-5 bg-gray-50 border border-gray-200 rounded-xl px-5 py-4">
+    <div className="mt-6 w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4">
       <div className="flex items-center justify-between mb-2">
         <p className="text-xs uppercase text-gray-400 font-semibold tracking-wider">User Rating</p>
         {aggregate.count > 0 && aggregate.average !== null && (
@@ -477,6 +477,13 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                   </div>
                 )}
 
+                {/* Card Rating */}
+                <CardRating
+                  cardName={card.card_name}
+                  isAuthenticated={authState.isAuthenticated}
+                  getToken={getToken}
+                />
+
                 {/* Apply Buttons */}
                 {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
                   <div className="mt-5 w-full flex flex-col gap-2.5">
@@ -690,12 +697,6 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                   </div>
                 )}
 
-                {/* Card Rating */}
-                <CardRating
-                  cardName={card.card_name}
-                  isAuthenticated={authState.isAuthenticated}
-                  getToken={getToken}
-                />
               </div>
             </div>
           </div>
