@@ -515,7 +515,7 @@ async function generateNewsBody(newsItem, searchResults) {
     `[${i + 1}] ${r.title}\nURL: ${r.url}\nDescription: ${r.description || 'N/A'}\n`
   ).join('\n');
 
-  const prompt = `Write a full news article body for the following credit card news item.
+  const prompt = `Write a concise news article body for the following credit card news item.
 
 ## News Item
 Title: ${newsItem.title}
@@ -529,15 +529,22 @@ Tags: ${(newsItem.tags || []).join(', ')}
 ${sourcesContext || 'No additional sources available.'}
 
 ## Instructions
-- Write 500-1500 words in markdown format
-- Use a factual, informative tone — like a financial news outlet
-- Structure with clear ## headings
-- Include a "## What This Means for Cardholders" section near the end
+- Write 150-400 words in markdown format
+- Get straight to the facts. Lead with the key details: what changed, the specific numbers, and when it takes effect
+- Use ## headings only if there are genuinely distinct sections to cover — don't force structure
 - Include specific details: numbers, dates, requirements where known
+- Use **bold** for key numbers and dates
 - Do NOT include a title heading (the page already has one)
 - Do NOT include images or image references
 - Do NOT make up facts — only use information from the summary and sources above
-- Use **bold** for key terms and numbers`;
+
+## CRITICAL: What NOT to write
+- No filler about "the competitive credit card landscape" or "market context"
+- No speculation about what benefits "might" or "likely" include — if you don't know, don't write about it
+- No generic industry analysis or padding
+- No "What This Means for Cardholders" section with obvious observations
+- No restating information already in the title or summary
+- If the only concrete fact is what the summary already says, write a very short article (2-3 paragraphs). A short factual article is better than a long fluffy one.`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -570,9 +577,9 @@ ${sourcesContext || 'No additional sources available.'}
       return null;
     }
 
-    if (body.length > 15000) {
+    if (body.length > 5000) {
       console.warn('  Warning: Generated body too long, truncating');
-      return body.substring(0, 15000);
+      return body.substring(0, 5000);
     }
 
     return body;
