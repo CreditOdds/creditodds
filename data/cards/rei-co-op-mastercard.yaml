@@ -1,0 +1,28 @@
+name: "REI Co-op Mastercard"
+bank: "Capital One"
+slug: "rei-co-op-mastercard"
+image: "rei-coop.png"
+accepting_applications: true
+annual_fee: 0
+reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: everything_else
+    value: 5
+    unit: percent
+    note: "At REI retail locations and REI.com"
+  - category: everything_else
+    value: 1.5
+    unit: percent
+signup_bonus:
+  value: 100
+  type: cash
+  spend_requirement: 0
+  timeframe_months: 2
+  note: "$100 REI gift card after first purchase outside REI within 60 days"
+apr:
+  regular:
+    min: 17.49
+    max: 28.49
