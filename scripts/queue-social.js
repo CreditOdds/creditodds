@@ -60,11 +60,17 @@ function parseArgs() {
   return { type, files };
 }
 
-function buildUrl(type, item) {
-  if (type === 'news') {
-    return `https://creditodds.com/news/${item.id}`;
-  }
-  return `https://creditodds.com/articles/${item.slug}`;
+function buildUrl(type, item, source = 'twitter') {
+  const base = type === 'news'
+    ? `https://creditodds.com/news/${item.id}`
+    : `https://creditodds.com/articles/${item.slug}`;
+  const params = new URLSearchParams({
+    utm_source: source,
+    utm_medium: 'social',
+    utm_campaign: `auto-${type}`,
+    utm_content: type === 'news' ? item.id : item.slug,
+  });
+  return `${base}?${params}`;
 }
 
 async function generatePost(type, item) {
