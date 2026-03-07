@@ -24,6 +24,7 @@ const categoryLabels: Record<string, string> = {
   flights_portal: "Flights (via Portal)",
   hotels_car_portal: "Hotels & Car Rentals (via Portal)",
   amazon: "Amazon.com",
+  rei: "REI",
 };
 
 const canonicalOrder = Object.keys(categoryLabels);

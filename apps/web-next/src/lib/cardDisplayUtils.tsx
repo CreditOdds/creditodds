@@ -32,6 +32,7 @@ export const categoryLabels: Record<string, string> = {
   flights_portal: "Flights (via Portal)",
   hotels_car_portal: "Hotels & Car Rentals (via Portal)",
   amazon: "Amazon.com",
+  rei: "REI",
   everything_else: "Everything Else",
 };
 
@@ -65,6 +66,7 @@ export function CategoryIcon({ category, className }: { category: string; classN
       return <HomeModernIcon className={iconClass} />;
     case "online_shopping":
     case "amazon":
+    case "rei":
       return <ShoppingBagIcon className={iconClass} />;
     case "hotels":
     case "hotels_portal":

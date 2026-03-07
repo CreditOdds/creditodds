@@ -9,7 +9,7 @@ tags:
   - cashback
   - rewards
 rewards:
-  - category: everything_else
+  - category: rei
     value: 5
     unit: percent
     note: "At REI retail locations and REI.com"
