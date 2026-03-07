@@ -225,6 +225,13 @@ Resources:
             Method: POST
             RestApiId:
               Ref: CreditCardOddsAPI
+        PATCHCreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /referrals
+            Method: PATCH
+            RestApiId:
+              Ref: CreditCardOddsAPI
         DELETECreditCardOddsAPI:
           Type: Api
           Properties:
