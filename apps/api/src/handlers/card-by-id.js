@@ -95,7 +95,7 @@ async function fetchCardFromDB(cardName) {
       mysql.query(`
         SELECT referral_id, referral_link
         FROM referrals
-        WHERE card_id = ? AND admin_approved = 1
+        WHERE card_id = ? AND admin_approved = 1 AND archived_at IS NULL
       `, [dbCard.card_id])
     ]);
 
