@@ -369,8 +369,171 @@ export default function CompareClient({ allCards }: CompareClientProps) {
           </p>
         </div>
       ) : (
-        <div className="mt-8 overflow-x-auto -mx-4 sm:mx-0">
-          <table className="min-w-[640px] w-full border-collapse">
+        <>
+        {/* Mobile: Stacked cards */}
+        <div className="mt-8 sm:hidden space-y-6">
+          {activeCards.map((card, cardIdx) => {
+            const feeValues = activeCards.map(c => c.annual_fee);
+            const feeBest = getBestIndices(feeValues, 'min');
+            const bonusValues = activeCards.map(c => {
+              if (!c.signup_bonus) return null;
+              if (c.signup_bonus.type === 'cash' || c.signup_bonus.type === 'cashback') return c.signup_bonus.value;
+              const est = formatEstimatedValue(c);
+              if (est) return parseInt(est.replace(/[~$,]/g, ''));
+              return c.signup_bonus.value;
+            });
+            const bonusBest = getBestIndices(bonusValues, 'max');
+            const scoreValues = activeCards.map(c => c.approved_median_credit_score ?? null);
+            const scoreBest = getBestIndices(scoreValues, 'min');
+
+            return (
+              <div key={card.slug} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                {/* Card header */}
+                <div className="px-4 py-4 bg-gray-50 border-b border-gray-200 flex items-center gap-3">
+                  <div className="flex-shrink-0 h-12 w-20 relative">
+                    <Image
+                      src={card.card_image_link
+                        ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                        : '/assets/generic-card.svg'}
+                      alt={card.card_name}
+                      fill
+                      className="object-contain rounded"
+                      sizes="80px"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <Link href={`/card/${card.slug}`} className="text-sm font-semibold text-gray-900 hover:text-indigo-600 block truncate">
+                      {card.card_name}
+                    </Link>
+                    <p className="text-xs text-gray-500">{card.bank}</p>
+                  </div>
+                </div>
+
+                {/* Attribute rows */}
+                <div className="divide-y divide-gray-100">
+                  {/* Annual Fee */}
+                  <div className={`flex justify-between px-4 py-2.5 text-sm ${feeBest.has(cardIdx) ? 'bg-green-50' : ''}`}>
+                    <span className="text-gray-500 font-medium">Annual Fee</span>
+                    <span className={`font-medium ${feeBest.has(cardIdx) ? 'text-green-700' : 'text-gray-900'}`}>
+                      {formatAnnualFee(card.annual_fee)}/yr
+                    </span>
+                  </div>
+
+                  {/* Reward Type */}
+                  <div className="flex justify-between items-center px-4 py-2.5 text-sm">
+                    <span className="text-gray-500 font-medium">Reward Type</span>
+                    <RewardTypeBadge type={card.reward_type} />
+                  </div>
+
+                  {/* Signup Bonus */}
+                  <div className={`flex justify-between px-4 py-2.5 text-sm ${bonusBest.has(cardIdx) && card.signup_bonus ? 'bg-green-50' : ''}`}>
+                    <span className="text-gray-500 font-medium">Signup Bonus</span>
+                    {card.signup_bonus ? (
+                      <span className="text-right">
+                        <span className={`font-semibold ${bonusBest.has(cardIdx) ? 'text-green-700' : 'text-gray-900'}`}>
+                          {formatBonusValue(card)}
+                        </span>
+                        {formatEstimatedValue(card) && (
+                          <span className="text-gray-500 text-xs ml-1">({formatEstimatedValue(card)})</span>
+                        )}
+                      </span>
+                    ) : (
+                      <span className="text-gray-400">{'\u2014'}</span>
+                    )}
+                  </div>
+
+                  {/* Spend Requirement */}
+                  <div className="flex justify-between px-4 py-2.5 text-sm">
+                    <span className="text-gray-500 font-medium">Spend Requirement</span>
+                    {card.signup_bonus ? (
+                      <span className="text-gray-900">${card.signup_bonus.spend_requirement.toLocaleString()} in {card.signup_bonus.timeframe_months} mo</span>
+                    ) : (
+                      <span className="text-gray-400">{'\u2014'}</span>
+                    )}
+                  </div>
+
+                  {/* Reward Categories */}
+                  {unifiedCategories.map((cat) => {
+                    const specific = card.rewards?.find(rw => rw.category === cat);
+                    const fallback = !specific && cat !== 'everything_else'
+                      ? card.rewards?.find(rw => rw.category === 'everything_else')
+                      : undefined;
+                    const reward = specific || fallback;
+                    const isFallback = !specific && !!fallback;
+
+                    const catValues = activeCards.map(c => {
+                      const r = c.rewards?.find(rw => rw.category === cat);
+                      return r ? r.value : null;
+                    });
+                    const catBest = cat !== 'everything_else' ? getBestIndices(catValues, 'max') : new Set<number>();
+                    const isBest = catBest.has(cardIdx) && specific !== undefined;
+
+                    return (
+                      <div key={cat} className={`flex justify-between px-4 py-2 text-sm ${isBest ? 'bg-green-50' : ''}`}>
+                        <span className="text-gray-500 flex items-center gap-1.5">
+                          <CategoryIcon category={cat} className="h-3.5 w-3.5 text-gray-400" />
+                          {categoryLabels[cat] || cat}
+                        </span>
+                        <span className={`${isBest ? 'text-green-700 font-semibold' : isFallback ? 'text-gray-400 italic' : 'text-gray-900'}`}>
+                          {formatRewardCellValue(reward)}
+                          {reward?.note && !isFallback && (
+                            <span className="text-gray-400 text-xs ml-1">*</span>
+                          )}
+                        </span>
+                      </div>
+                    );
+                  })}
+
+                  {/* APR section */}
+                  <div className="flex justify-between px-4 py-2.5 text-sm">
+                    <span className="text-gray-500 font-medium">Purchase Intro APR</span>
+                    {card.apr?.purchase_intro ? (
+                      <span className="text-gray-900">{card.apr.purchase_intro.rate}% for {card.apr.purchase_intro.months} mo</span>
+                    ) : (
+                      <span className="text-gray-400">{'\u2014'}</span>
+                    )}
+                  </div>
+                  <div className="flex justify-between px-4 py-2.5 text-sm">
+                    <span className="text-gray-500 font-medium">BT Intro APR</span>
+                    {card.apr?.balance_transfer_intro ? (
+                      <span className="text-gray-900">{card.apr.balance_transfer_intro.rate}% for {card.apr.balance_transfer_intro.months} mo</span>
+                    ) : (
+                      <span className="text-gray-400">{'\u2014'}</span>
+                    )}
+                  </div>
+                  <div className="flex justify-between px-4 py-2.5 text-sm">
+                    <span className="text-gray-500 font-medium">Regular APR</span>
+                    {card.apr?.regular ? (
+                      <span className="text-gray-900">{card.apr.regular.min}%&ndash;{card.apr.regular.max}%</span>
+                    ) : (
+                      <span className="text-gray-400">{'\u2014'}</span>
+                    )}
+                  </div>
+
+                  {/* Approval stats */}
+                  <div className={`flex justify-between px-4 py-2.5 text-sm ${scoreBest.has(cardIdx) && card.approved_median_credit_score ? 'bg-green-50' : ''}`}>
+                    <span className="text-gray-500 font-medium">Median Credit Score</span>
+                    <span className={`font-medium ${scoreBest.has(cardIdx) && card.approved_median_credit_score ? 'text-green-700' : 'text-gray-900'}`}>
+                      {card.approved_median_credit_score ?? <span className="text-gray-400">{'\u2014'}</span>}
+                    </span>
+                  </div>
+                  <div className="flex justify-between px-4 py-2.5 text-sm">
+                    <span className="text-gray-500 font-medium">Median Income</span>
+                    {card.approved_median_income ? (
+                      <span className="text-gray-900">${card.approved_median_income.toLocaleString()}</span>
+                    ) : (
+                      <span className="text-gray-400">{'\u2014'}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop: Side-by-side table */}
+        <div className="mt-8 overflow-x-auto hidden sm:block">
+          <table className="w-full border-collapse">
             <thead>
               <tr>
                 <th className="sticky left-0 z-10 bg-gray-50 w-40 sm:w-48" />
@@ -627,6 +790,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
             </tbody>
           </table>
         </div>
+        </>
       )}
     </div>
   );
