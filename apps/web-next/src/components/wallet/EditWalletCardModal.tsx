@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
-import { addToWallet, removeFromWallet, WalletCard } from '@/lib/api';
+import { addToWallet, removeFromWallet, WalletCard, getCardRatings, getUserCardRating, submitCardRating } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
 
 interface EditWalletCardModalProps {
@@ -13,6 +13,28 @@ interface EditWalletCardModalProps {
   cardSlug?: string;
   onClose: () => void;
   onSuccess: () => void;
+}
+
+const RATING_LABELS: Record<number, string> = {
+  1: 'Very Bad',
+  2: 'Bad',
+  3: 'Good',
+  4: 'Very Good',
+};
+
+const RATING_COLORS: Record<number, { bg: string; text: string; fill: string }> = {
+  1: { bg: 'bg-red-100', text: 'text-red-700', fill: 'text-red-400' },
+  2: { bg: 'bg-orange-100', text: 'text-orange-700', fill: 'text-orange-400' },
+  3: { bg: 'bg-green-100', text: 'text-green-700', fill: 'text-green-400' },
+  4: { bg: 'bg-emerald-100', text: 'text-emerald-700', fill: 'text-emerald-500' },
+};
+
+function StarIcon({ filled, className }: { filled?: boolean; className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth={filled ? "0" : "1.5"} xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+    </svg>
+  );
 }
 
 const months = [
@@ -37,6 +59,9 @@ export default function EditWalletCardModal({ show, card, cardSlug, onClose, onS
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [userRating, setUserRating] = useState<number | null>(null);
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
+  const [ratingSubmitting, setRatingSubmitting] = useState(false);
 
   // Generate year options (current year back to 1990)
   const currentYear = new Date().getFullYear();
@@ -48,8 +73,16 @@ export default function EditWalletCardModal({ show, card, cardSlug, onClose, onS
       setAcquiredMonth(card.acquired_month);
       setAcquiredYear(card.acquired_year);
       setError(null);
+      setUserRating(null);
+      // Load user's rating
+      (async () => {
+        const token = await getToken();
+        if (!token) return;
+        const rating = await getUserCardRating(card.card_name, token);
+        setUserRating(rating);
+      })();
     }
-  }, [card]);
+  }, [card, getToken]);
 
   const handleSave = async () => {
     if (!card) return;
@@ -91,6 +124,21 @@ export default function EditWalletCardModal({ show, card, cardSlug, onClose, onS
       setError(err instanceof Error ? err.message : 'Failed to remove card');
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const handleRate = async (rating: number) => {
+    if (!card || ratingSubmitting) return;
+    setRatingSubmitting(true);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      await submitCardRating(card.card_name, rating, token);
+      setUserRating(rating);
+    } catch {
+      // Silently fail
+    } finally {
+      setRatingSubmitting(false);
     }
   };
 
@@ -160,6 +208,42 @@ export default function EditWalletCardModal({ show, card, cardSlug, onClose, onS
                   <ArrowTopRightOnSquareIcon className="h-4 w-4" />
                 </Link>
               )}
+            </div>
+
+            {/* Rating */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {userRating ? 'Your rating (click to change):' : 'Rate this card:'}
+              </label>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4].map((star) => {
+                  const active = (hoveredRating ?? userRating ?? 0) >= star;
+                  const colors = RATING_COLORS[hoveredRating ?? userRating ?? star];
+                  return (
+                    <button
+                      key={star}
+                      onClick={() => handleRate(star)}
+                      onMouseEnter={() => setHoveredRating(star)}
+                      onMouseLeave={() => setHoveredRating(null)}
+                      disabled={ratingSubmitting}
+                      className={`p-1.5 rounded-lg transition-colors ${
+                        active ? colors.bg : 'hover:bg-gray-100'
+                      } ${ratingSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                      title={RATING_LABELS[star]}
+                    >
+                      <StarIcon
+                        filled={active}
+                        className={`h-6 w-6 ${active ? colors.fill : 'text-gray-300'}`}
+                      />
+                    </button>
+                  );
+                })}
+                {(hoveredRating ?? userRating) && (
+                  <span className={`ml-2 text-sm font-medium ${RATING_COLORS[hoveredRating ?? userRating!].text}`}>
+                    {RATING_LABELS[hoveredRating ?? userRating!]}
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Acquired Date */}

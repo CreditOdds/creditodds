@@ -17,9 +17,11 @@ import {
   InformationCircleIcon,
   BanknotesIcon,
   ScaleIcon,
+  WalletIcon,
+  CheckIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent, getRecords, getCardRatings, getUserCardRating, submitCardRating } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent, getRecords, getCardRatings, getUserCardRating, submitCardRating, getWallet, addToWallet } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -89,8 +91,9 @@ function StarIcon({ filled, half, className }: { filled?: boolean; half?: boolea
   );
 }
 
-function CardRating({ cardName, isAuthenticated, getToken }: {
+function CardRating({ cardName, dbCardId, isAuthenticated, getToken }: {
   cardName: string;
+  dbCardId?: number;
   isAuthenticated: boolean;
   getToken: () => Promise<string | null>;
 }) {
@@ -98,6 +101,10 @@ function CardRating({ cardName, isAuthenticated, getToken }: {
   const [userRating, setUserRating] = useState<number | null>(null);
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [inWallet, setInWallet] = useState<boolean | null>(null);
+  const [showWalletPrompt, setShowWalletPrompt] = useState(false);
+  const [addingToWallet, setAddingToWallet] = useState(false);
+  const [walletAdded, setWalletAdded] = useState(false);
 
   useEffect(() => {
     getCardRatings(cardName).then(setAggregate).catch(() => {});
@@ -109,8 +116,13 @@ function CardRating({ cardName, isAuthenticated, getToken }: {
     (async () => {
       const token = await getToken();
       if (!token || cancelled) return;
-      const rating = await getUserCardRating(cardName, token);
-      if (!cancelled) setUserRating(rating);
+      const [rating, wallet] = await Promise.all([
+        getUserCardRating(cardName, token),
+        getWallet(token).catch(() => []),
+      ]);
+      if (cancelled) return;
+      setUserRating(rating);
+      setInWallet(wallet.some(w => w.card_name === cardName));
     })();
     return () => { cancelled = true; };
   }, [cardName, isAuthenticated, getToken]);
@@ -123,13 +135,33 @@ function CardRating({ cardName, isAuthenticated, getToken }: {
       if (!token) return;
       await submitCardRating(cardName, rating, token);
       setUserRating(rating);
-      // Refresh aggregate
       const updated = await getCardRatings(cardName);
       setAggregate(updated);
+      // Show wallet prompt if card isn't in wallet
+      if (inWallet === false && !walletAdded) {
+        setShowWalletPrompt(true);
+      }
     } catch {
       // Silently fail
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleAddToWallet = async () => {
+    if (!dbCardId || addingToWallet) return;
+    setAddingToWallet(true);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      await addToWallet(dbCardId, undefined, undefined, token);
+      setWalletAdded(true);
+      setInWallet(true);
+      setShowWalletPrompt(false);
+    } catch {
+      // Silently fail
+    } finally {
+      setAddingToWallet(false);
     }
   };
 
@@ -200,6 +232,35 @@ function CardRating({ cardName, isAuthenticated, getToken }: {
               </span>
             )}
           </div>
+
+          {/* Add to wallet prompt */}
+          {showWalletPrompt && dbCardId && (
+            <div className="mt-3 flex items-center gap-2 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2">
+              <WalletIcon className="h-4 w-4 text-indigo-500 flex-shrink-0" />
+              <span className="text-sm text-indigo-700 flex-1">Add this card to your wallet?</span>
+              <button
+                onClick={handleAddToWallet}
+                disabled={addingToWallet}
+                className="text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded-md disabled:opacity-50"
+              >
+                {addingToWallet ? 'Adding...' : 'Add'}
+              </button>
+              <button
+                onClick={() => setShowWalletPrompt(false)}
+                className="text-indigo-400 hover:text-indigo-600"
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+
+          {/* Wallet added confirmation */}
+          {walletAdded && (
+            <div className="mt-3 flex items-center gap-2 text-sm text-green-600">
+              <CheckIcon className="h-4 w-4" />
+              Added to your wallet
+            </div>
+          )}
         </div>
       ) : (
         <p className="text-sm text-gray-400">
@@ -480,6 +541,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                 {/* Card Rating */}
                 <CardRating
                   cardName={card.card_name}
+                  dbCardId={typeof card.card_id === 'number' ? card.card_id : undefined}
                   isAuthenticated={authState.isAuthenticated}
                   getToken={getToken}
                 />
