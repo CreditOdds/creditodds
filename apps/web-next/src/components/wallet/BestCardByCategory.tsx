@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import Image from 'next/image';
 import { Card, WalletCard, Reward } from '@/lib/api';
+import { formatRewardWithUsdEquivalent, getRewardUsdRate } from '@/lib/cardDisplayUtils';
 
 const categoryLabels: Record<string, string> = {
   dining: "Dining",
@@ -29,13 +30,6 @@ const categoryLabels: Record<string, string> = {
 
 const canonicalOrder = Object.keys(categoryLabels);
 
-function formatRewardValue(reward: Reward): string {
-  if (reward.unit === "percent") {
-    return `${reward.value}%`;
-  }
-  return `${reward.value}x`;
-}
-
 interface BestCardByCategoryProps {
   walletCards: WalletCard[];
   allCards: Card[];
@@ -60,15 +54,16 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
     if (walletCardData.length === 0) return [];
 
     // For each category, find the card with the highest reward value
-    const bestByCategory = new Map<string, { card: Card; reward: Reward }>();
+    const bestByCategory = new Map<string, { card: Card; reward: Reward; usdRate: number }>();
 
     for (const card of walletCardData) {
       for (const reward of card.rewards!) {
         if (reward.category === 'everything_else') continue;
+        const usdRate = getRewardUsdRate(reward, card);
 
         const existing = bestByCategory.get(reward.category);
-        if (!existing || reward.value > existing.reward.value) {
-          bestByCategory.set(reward.category, { card, reward });
+        if (!existing || usdRate > existing.usdRate) {
+          bestByCategory.set(reward.category, { card, reward, usdRate });
         }
       }
     }
@@ -152,7 +147,7 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
                       ? 'bg-green-100 text-green-800'
                       : 'bg-indigo-100 text-indigo-800'
                   }`}>
-                    {formatRewardValue(reward)}
+                    {formatRewardWithUsdEquivalent(reward, card)}
                   </span>
                 </td>
               </tr>
@@ -183,7 +178,7 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
                   ? 'bg-green-100 text-green-800'
                   : 'bg-indigo-100 text-indigo-800'
               }`}>
-                {formatRewardValue(reward)}
+                {formatRewardWithUsdEquivalent(reward, card)}
               </span>
             </div>
           </div>

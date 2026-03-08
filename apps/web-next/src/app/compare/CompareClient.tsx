@@ -20,6 +20,8 @@ import {
   formatEstimatedValue,
   formatBonusRequirement,
   formatAnnualFee,
+  formatRewardWithUsdEquivalent,
+  getRewardUsdRate,
   RewardTypeBadge,
 } from '@/lib/cardDisplayUtils';
 
@@ -185,10 +187,8 @@ function CardPicker({
   );
 }
 
-function formatRewardCellValue(reward: Reward | undefined): string {
-  if (!reward) return '\u2014';
-  if (reward.unit === 'percent') return `${reward.value}%`;
-  return `${reward.value}x`;
+function formatRewardCellValue(reward: Reward | undefined, card: Card): string {
+  return formatRewardWithUsdEquivalent(reward, card);
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
@@ -311,11 +311,11 @@ export default function CompareClient({ allCards }: CompareClientProps) {
 
       const maxA = Math.max(...activeCards.map(card => {
         const r = card.rewards?.find(rw => rw.category === a);
-        return r ? r.value : 0;
+        return r ? getRewardUsdRate(r, card) : 0;
       }));
       const maxB = Math.max(...activeCards.map(card => {
         const r = card.rewards?.find(rw => rw.category === b);
-        return r ? r.value : 0;
+        return r ? getRewardUsdRate(r, card) : 0;
       }));
       return maxB - maxA;
     });
@@ -463,7 +463,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
 
                     const catValues = activeCards.map(c => {
                       const r = c.rewards?.find(rw => rw.category === cat);
-                      return r ? r.value : null;
+                      return r ? getRewardUsdRate(r, c) : null;
                     });
                     const catBest = cat !== 'everything_else' ? getBestIndices(catValues, 'max') : new Set<number>();
                     const isBest = catBest.has(cardIdx) && specific !== undefined;
@@ -475,7 +475,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                           {categoryLabels[cat] || cat}
                         </span>
                         <span className={`${isBest ? 'text-green-700 font-semibold' : isFallback ? 'text-gray-400 italic' : 'text-gray-900'}`}>
-                          {formatRewardCellValue(reward)}
+                          {formatRewardCellValue(reward, card)}
                           {reward?.note && !isFallback && (
                             <span className="text-gray-400 text-xs ml-1">*</span>
                           )}
@@ -669,7 +669,10 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                   return { reward: undefined, isFallback: false };
                 });
 
-                const values = rewardsPerCard.map(r => r.reward ? r.reward.value : null);
+                const values = rewardsPerCard.map((r, i) => {
+                  if (!r.reward) return null;
+                  return getRewardUsdRate(r.reward, activeCards[i]);
+                });
                 const bestSet = cat !== 'everything_else' ? getBestIndices(values, 'max') : new Set<number>();
                 const isEven = catIdx % 2 === 0;
 
@@ -689,7 +692,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                       return (
                         <td key={card.slug} className={`px-4 py-2.5 text-center text-sm ${isBest && !isFallback ? 'text-green-700 font-semibold bg-green-50' : reward && !isFallback ? 'text-gray-900' : 'text-gray-400'} ${isFallback ? 'italic' : ''}`}>
                           <span className="inline-flex items-center gap-1 justify-center">
-                            {formatRewardCellValue(reward)}
+                            {formatRewardCellValue(reward, card)}
                             {reward?.note && !isFallback && (
                               <span className="relative group">
                                 <InformationCircleIcon className="h-3.5 w-3.5 text-gray-300 hover:text-gray-500 cursor-help" />
