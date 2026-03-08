@@ -9,7 +9,7 @@ import {
   ComputerDesktopIcon,
   CreditCardIcon,
 } from "@heroicons/react/24/outline";
-import { Card } from "@/lib/api";
+import { Card, Reward } from "@/lib/api";
 import { getValuation } from "@/lib/valuations";
 
 export const categoryLabels: Record<string, string> = {
@@ -127,6 +127,27 @@ export function formatAnnualFee(fee: number | undefined): string {
   if (fee === undefined || fee === null) return 'N/A';
   if (fee === 0) return '$0';
   return `$${fee}`;
+}
+
+function formatPercent(value: number): string {
+  const rounded = Math.round(value * 100) / 100;
+  return Number.isInteger(rounded) ? `${rounded}` : rounded.toFixed(2).replace(/\.?0+$/, '');
+}
+
+// Normalizes reward rate into cash-equivalent percentage (value per $1 spent).
+// Example: 5x points at 0.5 cpp => 2.5 (%)
+export function getRewardUsdRate(reward: Reward, card: Card): number {
+  if (reward.unit === 'percent') return reward.value;
+  const cpp = getValuation(card.card_name);
+  return reward.value * cpp;
+}
+
+export function formatRewardWithUsdEquivalent(reward: Reward | undefined, card: Card): string {
+  if (!reward) return '\u2014';
+  const raw = reward.unit === 'percent' ? `${reward.value}%` : `${reward.value}x`;
+  if (reward.unit === 'percent') return raw;
+  const usdRate = getRewardUsdRate(reward, card);
+  return `${raw} (~${formatPercent(usdRate)}%)`;
 }
 
 export function RewardTypeBadge({ type }: { type?: string }) {
