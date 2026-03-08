@@ -19,6 +19,7 @@ import {
   ScaleIcon,
   WalletIcon,
   CheckIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, Reward, trackReferralEvent, getRecords, getCardRatings, getUserCardRating, submitCardRating, getWallet, addToWallet } from "@/lib/api";
@@ -105,6 +106,7 @@ function CardRating({ cardName, dbCardId, isAuthenticated, getToken }: {
   const [showWalletPrompt, setShowWalletPrompt] = useState(false);
   const [addingToWallet, setAddingToWallet] = useState(false);
   const [walletAdded, setWalletAdded] = useState(false);
+  const [showSignInPrompt, setShowSignInPrompt] = useState(false);
 
   useEffect(() => {
     getCardRatings(cardName).then(setAggregate).catch(() => {});
@@ -168,12 +170,21 @@ function CardRating({ cardName, dbCardId, isAuthenticated, getToken }: {
   const displayRating = hoveredRating ?? userRating;
   const ratingStyle = displayRating ? RATING_COLORS[displayRating] : null;
 
+  const handleStarClick = (rating: number) => {
+    if (!isAuthenticated) {
+      setShowSignInPrompt(true);
+      return;
+    }
+    setShowSignInPrompt(false);
+    handleRate(rating);
+  };
+
   return (
-    <div className="mt-6 w-full bg-gray-50 border border-gray-200 rounded-xl px-5 py-4">
-      <div className="flex items-center justify-between mb-2">
-        <p className="text-xs uppercase text-gray-400 font-semibold tracking-wider">User Rating</p>
+    <div className="mt-6 w-full rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+      <div className="mb-3 flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">User Rating</p>
         {aggregate.count > 0 && aggregate.average !== null && (
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-500 whitespace-nowrap">
             {aggregate.average.toFixed(1)}/4 from {aggregate.count} {aggregate.count === 1 ? 'rating' : 'ratings'}
           </span>
         )}
@@ -181,7 +192,7 @@ function CardRating({ cardName, dbCardId, isAuthenticated, getToken }: {
 
       {/* Star display for aggregate */}
       {aggregate.count > 0 && aggregate.average !== null && (
-        <div className="flex items-center gap-0.5 mb-3">
+        <div className="mb-4 flex items-center gap-0.5">
           {[1, 2, 3, 4].map((star) => {
             const filled = star <= Math.floor(aggregate.average!);
             const half = !filled && star === Math.ceil(aggregate.average!) && aggregate.average! % 1 >= 0.25;
@@ -197,75 +208,85 @@ function CardRating({ cardName, dbCardId, isAuthenticated, getToken }: {
         </div>
       )}
 
-      {/* Interactive rating for signed-in users */}
-      {isAuthenticated ? (
-        <div>
-          <p className="text-sm text-gray-600 mb-2">
-            {userRating ? 'Your rating (click to change):' : 'Rate this card:'}
+      <div className="rounded-lg border border-gray-100 bg-gray-50 px-3 py-3">
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <p className="text-sm text-gray-700">
+            {isAuthenticated
+              ? (userRating ? 'Your rating (click to change):' : 'Rate this card:')
+              : 'Rate this card:'}
           </p>
-          <div className="flex items-center gap-1">
-            {[1, 2, 3, 4].map((star) => {
-              const active = (hoveredRating ?? userRating ?? 0) >= star;
-              const colors = RATING_COLORS[hoveredRating ?? userRating ?? star];
-              return (
-                <button
-                  key={star}
-                  onClick={() => handleRate(star)}
-                  onMouseEnter={() => setHoveredRating(star)}
-                  onMouseLeave={() => setHoveredRating(null)}
-                  disabled={submitting}
-                  className={`p-1.5 rounded-lg transition-colors ${
-                    active ? colors.bg : 'hover:bg-gray-100'
-                  } ${submitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                  title={RATING_LABELS[star]}
-                >
-                  <StarIcon
-                    filled={active}
-                    className={`h-7 w-7 ${active ? colors.fill : 'text-gray-300'}`}
-                  />
-                </button>
-              );
-            })}
-            {displayRating && ratingStyle && (
-              <span className={`ml-2 text-sm font-medium ${ratingStyle.text}`}>
-                {RATING_LABELS[displayRating]}
-              </span>
-            )}
-          </div>
-
-          {/* Add to wallet prompt */}
-          {showWalletPrompt && dbCardId && (
-            <div className="mt-3 flex items-center gap-2 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2">
-              <WalletIcon className="h-4 w-4 text-indigo-500 flex-shrink-0" />
-              <span className="text-sm text-indigo-700 flex-1">Add this card to your wallet?</span>
-              <button
-                onClick={handleAddToWallet}
-                disabled={addingToWallet}
-                className="text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded-md disabled:opacity-50"
-              >
-                {addingToWallet ? 'Adding...' : 'Add'}
-              </button>
-              <button
-                onClick={() => setShowWalletPrompt(false)}
-                className="text-indigo-400 hover:text-indigo-600"
-              >
-                <XMarkIcon className="h-4 w-4" />
-              </button>
-            </div>
-          )}
-
-          {/* Wallet added confirmation */}
-          {walletAdded && (
-            <div className="mt-3 flex items-center gap-2 text-sm text-green-600">
-              <CheckIcon className="h-4 w-4" />
-              Added to your wallet
-            </div>
+          {displayRating && ratingStyle && (
+            <span className={`text-xs font-semibold ${ratingStyle.text}`}>
+              {RATING_LABELS[displayRating]}
+            </span>
           )}
         </div>
-      ) : (
-        <p className="text-sm text-gray-400">
-          Sign in to rate this card
-        </p>
+        <div className="flex items-center gap-1">
+          {[1, 2, 3, 4].map((star) => {
+            const active = (hoveredRating ?? userRating ?? 0) >= star;
+            const colors = RATING_COLORS[hoveredRating ?? userRating ?? star];
+            return (
+              <button
+                key={star}
+                onClick={() => handleStarClick(star)}
+                onMouseEnter={() => setHoveredRating(star)}
+                onMouseLeave={() => setHoveredRating(null)}
+                disabled={isAuthenticated && submitting}
+                className={`rounded-lg p-1.5 transition-colors ${
+                  active ? colors.bg : 'hover:bg-white'
+                } ${(isAuthenticated && submitting) ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+                title={RATING_LABELS[star]}
+              >
+                <StarIcon
+                  filled={active}
+                  className={`h-7 w-7 ${active ? colors.fill : 'text-gray-300'}`}
+                />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {!isAuthenticated && showSignInPrompt && (
+        <div className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2.5">
+          <span className="text-sm text-indigo-900">Sign in to submit your rating.</span>
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-1 rounded-md bg-indigo-600 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500"
+          >
+            Sign in
+            <ArrowRightOnRectangleIcon className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      )}
+
+      {/* Add to wallet prompt */}
+      {isAuthenticated && showWalletPrompt && dbCardId && (
+        <div className="mt-3 flex items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2">
+          <WalletIcon className="h-4 w-4 flex-shrink-0 text-indigo-500" />
+          <span className="flex-1 text-sm text-indigo-700">Add this card to your wallet?</span>
+          <button
+            onClick={handleAddToWallet}
+            disabled={addingToWallet}
+            className="rounded-md bg-indigo-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-indigo-500 disabled:opacity-50"
+          >
+            {addingToWallet ? 'Adding...' : 'Add'}
+          </button>
+          <button
+            onClick={() => setShowWalletPrompt(false)}
+            className="text-indigo-400 hover:text-indigo-600"
+          >
+            <XMarkIcon className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      {/* Wallet added confirmation */}
+      {isAuthenticated && walletAdded && (
+        <div className="mt-3 flex items-center gap-2 text-sm text-green-600">
+          <CheckIcon className="h-4 w-4" />
+          Added to your wallet
+        </div>
       )}
     </div>
   );
