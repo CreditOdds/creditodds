@@ -414,15 +414,6 @@ function StatsTab({ stats, graphData, graphDays, onGraphDaysChange }: {
         {graphData && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <TimeSeriesChart
-              title={`Daily Active Users (Last ${rangeLabel})`}
-              series={[{
-                name: "DAU",
-                color: "#10b981",
-                data: toTimeSeries(graphData.dau_daily),
-              }]}
-              yAxisTitle="Users"
-            />
-            <TimeSeriesChart
               title={`Records per Day (Last ${rangeLabel})`}
               series={[{
                 name: "Records",
@@ -439,15 +430,6 @@ function StatsTab({ stats, graphData, graphDays, onGraphDaysChange }: {
                 data: toTimeSeries(graphData.searches_daily),
               }]}
               yAxisTitle="Searches"
-            />
-            <TimeSeriesChart
-              title={`Referrals per Day (Last ${rangeLabel})`}
-              series={[{
-                name: "Referrals",
-                color: "#ec4899",
-                data: toTimeSeries(graphData.referrals_daily),
-              }]}
-              yAxisTitle="Referrals"
             />
           </div>
         )}
