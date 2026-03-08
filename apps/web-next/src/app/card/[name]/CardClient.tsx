@@ -17,6 +17,7 @@ import {
   InformationCircleIcon,
   BanknotesIcon,
   ScaleIcon,
+  ShareIcon,
   WalletIcon,
   CheckIcon,
   ArrowRightOnRectangleIcon,
@@ -302,14 +303,21 @@ interface CardClientProps {
 export default function CardClient({ card, graphData, news, articles }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const [hasSubmittedForCard, setHasSubmittedForCard] = useState<boolean | null>(null);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [nudgeDismissed, setNudgeDismissed] = useState(() => {
     if (typeof window === 'undefined') return false;
     const dismissed = localStorage.getItem('nudge_dismissed');
     return dismissed === new Date().toISOString().slice(0, 10);
   });
+  const shareMenuRef = useRef<HTMLDivElement | null>(null);
   const { authState, getToken } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const cardUrl = `https://creditodds.com/card/${card.slug}`;
+  const shareTitle = `${card.card_name} on CreditOdds`;
+  const encodedShareTitle = encodeURIComponent(shareTitle);
+  const encodedCardUrl = encodeURIComponent(cardUrl);
 
   // Auto-open submit modal when ?submit=true is present
   useEffect(() => {
@@ -318,6 +326,27 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
       router.replace(`/card/${card.slug}`, { scroll: false });
     }
   }, [searchParams, authState.isAuthenticated, card.slug, router]);
+
+  useEffect(() => {
+    if (!showShareMenu) return;
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (shareMenuRef.current && !shareMenuRef.current.contains(event.target as Node)) {
+        setShowShareMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [showShareMenu]);
+
+  const handleCopyShareLink = async () => {
+    try {
+      await navigator.clipboard.writeText(cardUrl);
+      setCopiedShareLink(true);
+      setTimeout(() => setCopiedShareLink(false), 2000);
+    } catch {
+      // Silently fail
+    }
+  };
 
   // Check if user has already submitted a record for this card
   useEffect(() => {
@@ -501,16 +530,6 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
           <div className="p-6 sm:p-10">
-            {/* Compare link */}
-            <div className="flex justify-end mb-4">
-              <Link
-                href={`/compare?cards=${card.slug}`}
-                className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-indigo-600 transition-colors"
-              >
-                <ScaleIcon className="h-4 w-4" />
-                Compare
-              </Link>
-            </div>
             {/* Two-column layout */}
             <div className="lg:grid lg:grid-cols-12 lg:gap-12">
 
@@ -601,9 +620,73 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
               {/* Right Column - Details */}
               <div className="lg:col-span-8 mt-8 lg:mt-0">
                 {/* Title */}
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight text-center lg:text-left">
-                  {card.card_name}
-                </h1>
+                <div className="flex flex-col items-center gap-2 lg:flex-row lg:items-start lg:justify-between">
+                  <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight text-center lg:text-left">
+                    {card.card_name}
+                  </h1>
+                  <div className="relative lg:mt-1 lg:flex-shrink-0" ref={shareMenuRef}>
+                    <div className="flex items-center gap-3">
+                      <Link
+                        href={`/compare?cards=${card.slug}`}
+                        className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-indigo-600 transition-colors"
+                      >
+                        <ScaleIcon className="h-4 w-4" />
+                        Compare
+                      </Link>
+                      <button
+                        onClick={() => setShowShareMenu((prev) => !prev)}
+                        className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-indigo-600 transition-colors"
+                      >
+                        <ShareIcon className="h-4 w-4" />
+                        Share
+                      </button>
+                    </div>
+
+                    {showShareMenu && (
+                      <div className="absolute right-0 z-20 mt-2 w-52 rounded-lg border border-gray-200 bg-white p-1.5 shadow-lg">
+                        <a
+                          href={`https://twitter.com/intent/tweet?text=${encodedShareTitle}&url=${encodedCardUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          Share on X
+                        </a>
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedCardUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          Share on Facebook
+                        </a>
+                        <a
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedCardUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          Share on LinkedIn
+                        </a>
+                        <a
+                          href={`https://www.reddit.com/submit?url=${encodedCardUrl}&title=${encodedShareTitle}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          Share on Reddit
+                        </a>
+                        <button
+                          onClick={handleCopyShareLink}
+                          className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                        >
+                          Copy link
+                          {copiedShareLink && <span className="text-xs font-semibold text-green-600">Copied</span>}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
                 {/* Metadata Row */}
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-2 mt-3">
