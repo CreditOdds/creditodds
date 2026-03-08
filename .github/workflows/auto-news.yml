@@ -2,8 +2,7 @@ name: Auto News Update
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # 12 PM UTC / 7 AM EST
-    - cron: '0 18 * * *'  # 6 PM UTC / 1 PM EST
+    - cron: '0 14 * * *'  # 2 PM UTC / 9 AM EST
     - cron: '0 0 * * *'   # 12 AM UTC / 7 PM EST
   workflow_dispatch:       # Manual trigger
 
