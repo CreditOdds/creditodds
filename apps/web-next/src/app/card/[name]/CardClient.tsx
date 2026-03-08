@@ -530,13 +530,30 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
           <div className="p-6 sm:p-10">
+            {/* Mobile card image first */}
+            <div className="mb-6 lg:hidden">
+              <div className="w-full max-w-sm mx-auto">
+                <Image
+                  src={card.card_image_link
+                    ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                    : '/assets/generic-card.svg'}
+                  alt={card.card_name}
+                  className="w-full rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
+                  width={360}
+                  height={227}
+                  priority
+                  sizes="75vw"
+                />
+              </div>
+            </div>
+
             {/* Two-column layout */}
-            <div className="lg:grid lg:grid-cols-12 lg:gap-12">
+            <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-12">
 
               {/* Left Column - Card Image & Signup Bonus */}
-              <div className="lg:col-span-4 flex flex-col items-center">
+              <div className="order-2 mt-8 flex flex-col items-center lg:order-1 lg:col-span-4 lg:mt-0">
                 {/* Card Image */}
-                <div className="w-full max-w-sm lg:max-w-[330px] mx-auto lg:mx-0">
+                <div className="hidden w-full max-w-sm lg:mx-0 lg:block lg:max-w-[330px]">
                   <Image
                     src={card.card_image_link
                       ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
@@ -552,7 +569,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
 
                 {/* Signup Bonus Card - below image */}
                 {card.signup_bonus && (
-                  <div className="mt-6 w-full bg-gradient-to-br from-amber-50 to-amber-100/80 border border-amber-200/60 rounded-xl p-5">
+                  <div className="mt-6 hidden w-full rounded-xl border border-amber-200/60 bg-gradient-to-br from-amber-50 to-amber-100/80 p-5 lg:block">
                     <div className="flex items-start gap-3">
                       <div className="flex-shrink-0 p-2 bg-amber-200/50 rounded-lg">
                         <BanknotesIcon className="h-5 w-5 text-amber-700" />
@@ -618,7 +635,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
               </div>
 
               {/* Right Column - Details */}
-              <div className="lg:col-span-8 mt-8 lg:mt-0">
+              <div className="order-1 lg:order-2 lg:col-span-8">
                 {/* Title */}
                 <div className="flex flex-col items-center gap-2 lg:flex-row lg:items-start lg:justify-between">
                   <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight text-center lg:text-left">
@@ -798,6 +815,34 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                   );
                 })()}
 
+                {/* Mobile-only Signup Bonus placement: after rewards, before Intro APR */}
+                {card.signup_bonus && (
+                  <div className="mt-6 w-full rounded-xl border border-amber-200/60 bg-gradient-to-br from-amber-50 to-amber-100/80 p-5 lg:hidden">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 rounded-lg bg-amber-200/50 p-2">
+                        <BanknotesIcon className="h-5 w-5 text-amber-700" />
+                      </div>
+                      <div>
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-amber-600">Signup Bonus</p>
+                        <p className="text-xl font-bold text-amber-900">
+                          {card.signup_bonus.type === "cash"
+                            ? `$${card.signup_bonus.value.toLocaleString()}`
+                            : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
+                          {card.signup_bonus.type !== "cash" && (
+                            <span className="ml-1.5 text-sm font-medium text-amber-700/70">
+                              (~${(card.signup_bonus.value * getValuation(card.card_name) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
+                            </span>
+                          )}
+                        </p>
+                        <p className="mt-1 text-sm text-amber-800/70">
+                          After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
+                          {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Intro APR Section */}
                 {card.apr && (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (
                   <div className="mt-6 bg-cyan-50/50 border border-cyan-100 rounded-xl px-5 py-4">
@@ -837,20 +882,20 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                         </span>
                       </span>
                     </div>
-                    <dl className="grid grid-cols-3 divide-x divide-slate-200">
-                      <div className="text-center px-2">
+                    <dl className="grid grid-cols-1 divide-y divide-slate-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
+                      <div className="py-3 text-left sm:py-0 sm:text-center sm:px-2">
                         <dt className="text-xs font-medium text-gray-400 mb-1">Credit Score</dt>
                         <dd className="text-2xl sm:text-3xl font-bold text-gray-900">
                           {card.approved_median_credit_score}
                         </dd>
                       </div>
-                      <div className="text-center px-2">
+                      <div className="py-3 text-left sm:py-0 sm:text-center sm:px-2">
                         <dt className="text-xs font-medium text-gray-400 mb-1">Income</dt>
                         <dd className="text-2xl sm:text-3xl font-bold text-gray-900">
                           ${card.approved_median_income?.toLocaleString()}
                         </dd>
                       </div>
-                      <div className="text-center px-2">
+                      <div className="pt-3 text-left sm:pt-0 sm:text-center sm:px-2">
                         <dt className="text-xs font-medium text-gray-400 mb-1">Credit History</dt>
                         <dd className="text-2xl sm:text-3xl font-bold text-gray-900">
                           {creditLength.number}
@@ -863,44 +908,79 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                   </div>
                 )}
 
+                {/* Compact submit CTA */}
+                {card.accepting_applications && (
+                  <div className="mt-6 hidden rounded-xl border border-indigo-200 bg-indigo-50/70 px-4 py-4 sm:px-5 lg:block">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <p className="text-sm font-semibold text-indigo-900">
+                          Have you applied for this card?
+                        </p>
+                        <p className="mt-0.5 text-sm text-indigo-700">
+                          Share your result to help others compare approval odds.
+                        </p>
+                      </div>
+                      <div className="sm:flex-shrink-0">
+                        {authState.isAuthenticated ? (
+                          <button
+                            onClick={() => setShowModal(true)}
+                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                          >
+                            Submit Data Point
+                          </button>
+                        ) : (
+                          <Link
+                            href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                          >
+                            Log In to Submit
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
               </div>
             </div>
+
+            {/* Mobile-only: keep "Have you applied" as last item in top card */}
+            {card.accepting_applications && (
+              <div className="mt-8 rounded-xl border border-indigo-200 bg-indigo-50/70 px-4 py-4 sm:px-5 lg:hidden">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-indigo-900">
+                      Have you applied for this card?
+                    </p>
+                    <p className="mt-0.5 text-sm text-indigo-700">
+                      Share your result to help others compare approval odds.
+                    </p>
+                  </div>
+                  <div className="sm:flex-shrink-0">
+                    {authState.isAuthenticated ? (
+                      <button
+                        onClick={() => setShowModal(true)}
+                        className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                      >
+                        Submit Data Point
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                        className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                      >
+                        Log In to Submit
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* CTA Section - only show for cards accepting applications */}
-      {card.accepting_applications && (
-        <div className="bg-indigo-50">
-          <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between">
-            <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl">
-              <span className="block">Have you applied for this card?</span>
-              <span className="block text-indigo-600">Let others know your experience.</span>
-            </h2>
-            <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-              <div className="inline-flex rounded-md shadow">
-                {authState.isAuthenticated ? (
-                  <button
-                    onClick={() => setShowModal(true)}
-                    className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-                  >
-                    Submit
-                  </button>
-                ) : (
-                  <button
-                    disabled
-                    className="cursor-not-allowed inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-300"
-                  >
-                    Log In to Submit
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Still collecting data - shown below CTA when no approval data */}
+      {/* Still collecting data - shown when no approval data */}
       {(card.approved_count || 0) === 0 && card.accepting_applications && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="py-8 bg-blue-50 rounded-lg">
@@ -918,88 +998,83 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
 
       {/* Charts Section - only show if there's actual data points */}
       {(hasChartOneData || hasChartThreeData) && (
-      <div className="py-12">
-        <div className="max-w-full mx-auto sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">
-              DATA POINTS
-            </h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              How other people did
-            </p>
-            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-              User reported results when applying for the {card.card_name}.
-            </p>
-          </div>
-
-          {hasChartOneData && (
-            <div className="mt-10 mb-10 flex flex-wrap">
-              <div className="sm:mx-2 bg-white shadow overflow-hidden sm:rounded-lg sm:min-w-0 sm:w-5/12 min-w-full flex-auto">
-                <div className="px-1 py-5 sm:px-6">
-                  <ErrorBoundary fallback={<ChartErrorFallback />}>
-                    <ScatterPlot
-                      title="Credit Score vs Income"
-                      yAxis="Income (USD)"
-                      xAxis="Credit Score"
-                      yPrefix="$"
-                      series={[
-                        { name: "Accepted", color: "#71AC49", data: chartOne[0] || [] },
-                        { name: "Rejected", color: "#e53936", data: chartOne[1] || [] },
-                      ]}
-                    />
-                  </ErrorBoundary>
-                </div>
+        <div className="py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
+              <div className="p-6 sm:p-10 border-b border-gray-100 bg-gradient-to-br from-indigo-50/70 to-white">
+                <h2 className="text-xs text-indigo-600 font-semibold tracking-[0.18em] uppercase">
+                  Data Points
+                </h2>
+                <p className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
+                  How other people did
+                </p>
+                <p className="mt-3 text-sm sm:text-base text-gray-600 max-w-3xl">
+                  User-reported application outcomes for the {card.card_name}.
+                </p>
               </div>
-              <div className="sm:mx-2 bg-white shadow overflow-hidden sm:rounded-lg sm:min-w-0 sm:w-5/12 min-w-full flex-auto">
-                <div className="px-4 py-5 sm:px-6">
-                  <ErrorBoundary fallback={<ChartErrorFallback />}>
-                    <ScatterPlot
-                      title="Length of Credit vs Credit Score"
-                      yAxis="Credit Score"
-                      xAxis="Length of Credit (Year)"
-                      xSuffix=" yr"
-                      series={[
-                        { name: "Accepted", color: "#71AC49", data: chartTwo[0] || [] },
-                        { name: "Rejected", color: "#e53936", data: chartTwo[1] || [] },
-                      ]}
-                    />
-                  </ErrorBoundary>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
 
-        {hasChartThreeData && (
-          <div className="bg-gray-50 overflow-hidden">
-            <div className="relative max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
-              <div className="relative lg:grid lg:grid-cols-3 lg:gap-x-8">
-                <div className="lg:col-span-1">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                    For people who got approved...
-                  </h2>
-                </div>
-                <div className="mt-10 sm:mx-2 bg-white shadow overflow-hidden sm:rounded-lg lg:col-span-2">
-                  <div className="sm:px-6 py-5">
-                    <ErrorBoundary fallback={<ChartErrorFallback />}>
-                      <ScatterPlot
-                        title="Income vs Starting Credit Limit"
-                        yAxis="Starting Credit Limit (USD)"
-                        xAxis="Income (USD)"
-                        xPrefix="$"
-                        yPrefix="$"
-                        series={[
-                          { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree[0] || [] },
-                        ]}
-                      />
-                    </ErrorBoundary>
+              <div className="p-6 sm:p-10 space-y-6">
+                {hasChartOneData && (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-3 sm:p-5">
+                      <ErrorBoundary fallback={<ChartErrorFallback />}>
+                        <ScatterPlot
+                          title="Credit Score vs Income"
+                          yAxis="Income (USD)"
+                          xAxis="Credit Score"
+                          yPrefix="$"
+                          series={[
+                            { name: "Accepted", color: "#71AC49", data: chartOne[0] || [] },
+                            { name: "Rejected", color: "#e53936", data: chartOne[1] || [] },
+                          ]}
+                        />
+                      </ErrorBoundary>
+                    </div>
+                    <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-3 sm:p-5">
+                      <ErrorBoundary fallback={<ChartErrorFallback />}>
+                        <ScatterPlot
+                          title="Length of Credit vs Credit Score"
+                          yAxis="Credit Score"
+                          xAxis="Length of Credit (Year)"
+                          xSuffix=" yr"
+                          series={[
+                            { name: "Accepted", color: "#71AC49", data: chartTwo[0] || [] },
+                            { name: "Rejected", color: "#e53936", data: chartTwo[1] || [] },
+                          ]}
+                        />
+                      </ErrorBoundary>
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {hasChartThreeData && (
+                  <div className="rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50/60 to-white p-4 sm:p-6">
+                    <div className="mb-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900">For approved applicants</h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        How income related to starting credit limits.
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-3 sm:p-5">
+                      <ErrorBoundary fallback={<ChartErrorFallback />}>
+                        <ScatterPlot
+                          title="Income vs Starting Credit Limit"
+                          yAxis="Starting Credit Limit (USD)"
+                          xAxis="Income (USD)"
+                          xPrefix="$"
+                          yPrefix="$"
+                          series={[
+                            { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree[0] || [] },
+                          ]}
+                        />
+                      </ErrorBoundary>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
       )}
 
       {/* Card News Section */}
