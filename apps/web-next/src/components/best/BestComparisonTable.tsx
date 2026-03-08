@@ -95,8 +95,8 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
                       {index + 1}
                     </span>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
+                  <td className="px-4 py-3 align-top">
+                    <div className="flex items-start gap-3 min-w-0">
                       <Link href={`/card/${card.slug}`} className="flex-shrink-0">
                         {card.card_image_link ? (
                           <Image
@@ -110,12 +110,15 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
                           <div className="w-12 h-[30px] bg-gray-200 rounded" />
                         )}
                       </Link>
-                      <div>
-                        <Link href={`/card/${card.slug}`} className="text-sm font-medium text-indigo-600 hover:text-indigo-900">
+                      <div className="min-w-0">
+                        <Link
+                          href={`/card/${card.slug}`}
+                          className="block text-sm font-medium text-indigo-600 hover:text-indigo-900 break-words leading-snug"
+                        >
                           {card.card_name}
                         </Link>
                         {entry.badge && (
-                          <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-800">
+                          <span className="mt-1 inline-flex max-w-full items-center rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800 break-words leading-tight">
                             {entry.badge}
                           </span>
                         )}
