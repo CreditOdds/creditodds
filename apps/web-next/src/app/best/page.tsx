@@ -23,6 +23,16 @@ const pageIcons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement
   'best-cash-back-cards': BanknotesIcon,
   'best-travel-cards': GlobeAltIcon,
 };
+
+const pageCoverGradients: Record<string, string> = {
+  'best-signup-bonuses': 'from-fuchsia-600 via-purple-600 to-indigo-700',
+  'best-airline-cards': 'from-violet-600 via-indigo-600 to-purple-700',
+  'best-0-apr-cards': 'from-indigo-600 via-purple-600 to-violet-700',
+  'best-dining-grocery-cards': 'from-purple-600 via-indigo-600 to-violet-700',
+  'best-secured-cards': 'from-indigo-700 via-purple-700 to-violet-800',
+  'best-cash-back-cards': 'from-violet-700 via-purple-600 to-indigo-700',
+  'best-travel-cards': 'from-purple-700 via-indigo-600 to-violet-600',
+};
 import { getBestPages } from "@/lib/best";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 
@@ -123,8 +133,20 @@ export default async function BestIndexPage() {
               <Link
                 key={page.id}
                 href={`/best/${page.slug}`}
-                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-indigo-200 transition-all"
+                className="group bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-indigo-200 transition-all"
               >
+                <div
+                  className={`relative mb-4 h-28 w-full overflow-hidden rounded-md bg-gradient-to-br ${pageCoverGradients[page.slug] ?? 'from-indigo-600 via-purple-600 to-violet-700'}`}
+                >
+                  <span className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/10" />
+                  <span className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-white/10" />
+                  <div className="relative flex h-full w-full items-center justify-center">
+                    {(() => {
+                      const Icon = pageIcons[page.slug];
+                      return Icon ? <Icon className="h-12 w-12 text-white drop-shadow-sm" aria-hidden="true" /> : null;
+                    })()}
+                  </div>
+                </div>
                 <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-2">
                   {(() => {
                     const Icon = pageIcons[page.slug];
