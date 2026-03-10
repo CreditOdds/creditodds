@@ -30,7 +30,7 @@ rewards:
     value: 1
     unit: "percent"
 signup_bonus:
-  value: 75
+  value: 200
   type: "cash"
   spend_requirement: 2000
   timeframe_months: 3
