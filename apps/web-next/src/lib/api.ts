@@ -544,6 +544,17 @@ export interface AdminRecord {
   submitter_ip_address?: string;
 }
 
+export interface AdminRecordDetail extends AdminRecord {
+  credit_score_source?: number;
+  starting_credit_limit?: number | null;
+  bank_customer?: boolean;
+  reason_denied?: string | null;
+  inquiries_3?: number | null;
+  inquiries_12?: number | null;
+  inquiries_24?: number | null;
+  admin_review?: number;
+}
+
 export interface AdminRecordsResponse {
   records: AdminRecord[];
   total: number;
@@ -554,15 +565,37 @@ export interface AdminRecordsResponse {
 export async function getAdminRecords(
   token: string,
   limit = 100,
-  offset = 0
+  offset = 0,
+  cardId?: number
 ): Promise<AdminRecordsResponse> {
-  const res = await fetch(`${API_BASE}/admin/records?limit=${limit}&offset=${offset}`, {
+  let url = `${API_BASE}/admin/records?limit=${limit}&offset=${offset}`;
+  if (cardId) url += `&card_id=${cardId}`;
+  const res = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store',
   });
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');
     throw new Error(`Failed to fetch admin records: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function updateAdminRecord(
+  data: { record_id: number; [key: string]: unknown },
+  token: string
+): Promise<{ message: string; record_id: number }> {
+  const res = await fetch(`${API_BASE}/admin/records`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to update record: ${errorText}`);
   }
   return res.json();
 }

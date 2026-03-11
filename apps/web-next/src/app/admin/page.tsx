@@ -16,8 +16,10 @@ import {
   deleteAdminReferral,
   updateReferralApproval,
   createAdminRecord,
+  updateAdminRecord,
   AdminStats,
   AdminRecord,
+  AdminRecordDetail,
   AdminReferral,
   AdminSearch,
   AdminUserData,
@@ -40,13 +42,14 @@ import {
   PencilIcon,
   PlusCircleIcon,
   MagnifyingGlassIcon,
-  UserIcon
+  UserIcon,
+  CreditCardIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
 const ADMIN_USER_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
 
-type TabType = 'stats' | 'records' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit';
+type TabType = 'stats' | 'records' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit' | 'carddata';
 
 export default function AdminPage() {
   const { authState, getToken } = useAuth();
@@ -258,6 +261,7 @@ export default function AdminPage() {
     { id: 'searches' as TabType, name: 'Searches', icon: MagnifyingGlassIcon, count: searchesTotal },
     { id: 'user' as TabType, name: 'User Lookup', icon: UserIcon },
     { id: 'audit' as TabType, name: 'Audit Log', icon: ClipboardDocumentListIcon },
+    { id: 'carddata' as TabType, name: 'Card Data', icon: CreditCardIcon },
     { id: 'submit' as TabType, name: 'Submit Record', icon: PlusCircleIcon },
   ];
 
@@ -352,6 +356,9 @@ export default function AdminPage() {
           />
         )}
         {activeTab === 'audit' && <AuditTab logs={auditLogs} total={auditTotal} />}
+        {activeTab === 'carddata' && (
+          <CardDataTab getToken={getToken} />
+        )}
         {activeTab === 'submit' && <SubmitRecordTab getToken={getToken} onSuccess={loadData} />}
       </div>
     </div>
@@ -1121,8 +1128,492 @@ function UserLookupTab({
   );
 }
 
-// ============ SUBMIT RECORD TAB ============
+// ============ CARD DATA TAB ============
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
+const CREDIT_SCORE_SOURCES = ['FICO: *', 'FICO: Experian', 'FICO: TransUnion', 'FICO: Equifax', 'VantageScore'];
+
+function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
+  const [cards, setCards] = useState<Card[]>([]);
+  const [cardSearch, setCardSearch] = useState('');
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [cardRecords, setCardRecords] = useState<AdminRecordDetail[]>([]);
+  const [cardRecordsTotal, setCardRecordsTotal] = useState(0);
+  const [loadingRecords, setLoadingRecords] = useState(false);
+  const [processingId, setProcessingId] = useState<number | null>(null);
+  const [editingRecord, setEditingRecord] = useState<AdminRecordDetail | null>(null);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/cards`)
+      .then(res => res.json())
+      .then((data: Card[]) => {
+        const sorted = [...data].sort((a, b) => a.card_name.localeCompare(b.card_name));
+        setCards(sorted);
+      })
+      .catch(() => {});
+  }, []);
+
+  const filteredCards = cardSearch.trim()
+    ? cards.filter(c =>
+        c.card_name.toLowerCase().includes(cardSearch.toLowerCase()) ||
+        c.bank.toLowerCase().includes(cardSearch.toLowerCase())
+      )
+    : cards;
+
+  const loadCardRecords = async (card: Card) => {
+    setLoadingRecords(true);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      const dbCardId = card.db_card_id || card.card_id;
+      const data = await getAdminRecords(token, 500, 0, typeof dbCardId === 'number' ? dbCardId : parseInt(String(dbCardId)));
+      setCardRecords(data.records as AdminRecordDetail[]);
+      setCardRecordsTotal(data.total);
+    } catch (err) {
+      console.error("Error loading card records:", err);
+    } finally {
+      setLoadingRecords(false);
+    }
+  };
+
+  const handleSelectCard = (card: Card) => {
+    setSelectedCard(card);
+    setCardSearch(card.card_name);
+    setShowDropdown(false);
+    setEditingRecord(null);
+    loadCardRecords(card);
+  };
+
+  const handleDeleteRecord = async (recordId: number) => {
+    if (!confirm("Are you sure you want to delete this data point?")) return;
+    setProcessingId(recordId);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      await deleteAdminRecord(recordId, token);
+      setCardRecords(prev => prev.filter(r => r.record_id !== recordId));
+      setCardRecordsTotal(prev => prev - 1);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to delete record");
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const handleUpdateRecord = async (data: { record_id: number; [key: string]: unknown }) => {
+    setProcessingId(data.record_id);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      await updateAdminRecord(data, token);
+      // Reload records to get fresh data
+      if (selectedCard) await loadCardRecords(selectedCard);
+      setEditingRecord(null);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to update record");
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Card Selector */}
+      <div className="bg-white shadow rounded-lg p-6">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Select a Card</h3>
+        <div className="relative max-w-lg">
+          {selectedCard ? (
+            <div className="flex items-center justify-between border border-gray-300 rounded-md px-3 py-2">
+              <div className="flex items-center gap-2">
+                {selectedCard.card_image_link && (
+                  <div className="flex-shrink-0 h-6 w-10 relative">
+                    <Image
+                      src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${selectedCard.card_image_link}`}
+                      alt={selectedCard.card_name}
+                      fill
+                      className="object-contain"
+                      sizes="40px"
+                    />
+                  </div>
+                )}
+                <span className="text-sm text-gray-900">{selectedCard.card_name}</span>
+                <span className="text-xs text-gray-500">({selectedCard.bank})</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setSelectedCard(null); setCardSearch(''); setCardRecords([]); setCardRecordsTotal(0); }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <>
+              <input
+                type="text"
+                value={cardSearch}
+                onChange={(e) => { setCardSearch(e.target.value); setShowDropdown(true); }}
+                onFocus={() => setShowDropdown(true)}
+                placeholder="Search cards..."
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {showDropdown && filteredCards.length > 0 && (
+                <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                  {filteredCards.slice(0, 50).map((card) => (
+                    <li
+                      key={card.card_id}
+                      onClick={() => handleSelectCard(card)}
+                      className="px-3 py-2 hover:bg-indigo-50 cursor-pointer text-sm flex items-center gap-2"
+                    >
+                      {card.card_image_link && (
+                        <div className="flex-shrink-0 h-5 w-8 relative">
+                          <Image
+                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
+                            alt={card.card_name}
+                            fill
+                            className="object-contain"
+                            sizes="32px"
+                          />
+                        </div>
+                      )}
+                      <span>{card.card_name}</span>
+                      <span className="text-gray-400 text-xs">({card.bank})</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Records for Selected Card */}
+      {selectedCard && (
+        <div className="bg-white shadow rounded-lg overflow-hidden">
+          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h3 className="text-lg font-medium text-gray-900">
+              Data Points ({cardRecordsTotal})
+            </h3>
+          </div>
+
+          {loadingRecords ? (
+            <div className="px-4 py-12 text-center text-gray-500">Loading data points...</div>
+          ) : cardRecords.length === 0 ? (
+            <div className="px-4 py-12 text-center text-gray-500">No data points for this card.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Age</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Result</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Limit</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Bank Cust.</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Inquiries</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Applied</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitter</th>
+                    <th className="px-3 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {cardRecords.map((record) => (
+                    <tr key={record.record_id} className="hover:bg-gray-50">
+                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-500 font-mono">
+                        {record.record_id}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
+                        {record.credit_score}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-500">
+                        {record.credit_score_source !== undefined ? CREDIT_SCORE_SOURCES[record.credit_score_source] || '-' : '-'}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
+                        ${record.listed_income?.toLocaleString()}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
+                        {record.length_credit != null ? `${record.length_credit}y` : '-'}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap">
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                          record.result ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {record.result ? 'Approved' : 'Denied'}
+                        </span>
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
+                        {record.starting_credit_limit != null ? `$${record.starting_credit_limit.toLocaleString()}` : '-'}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
+                        {record.bank_customer !== undefined ? (record.bank_customer ? 'Yes' : 'No') : '-'}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-500">
+                        {record.inquiries_3 != null || record.inquiries_12 != null || record.inquiries_24 != null
+                          ? `${record.inquiries_3 ?? '-'}/${record.inquiries_12 ?? '-'}/${record.inquiries_24 ?? '-'}`
+                          : '-'}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-500">
+                        {record.date_applied ? new Date(record.date_applied).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : '-'}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-400 font-mono max-w-[100px] truncate">
+                        {record.submitter_id || '-'}
+                      </td>
+                      <td className="px-3 py-3 whitespace-nowrap text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => setEditingRecord(record)}
+                            className="text-indigo-600 hover:text-indigo-800"
+                            title="Edit"
+                          >
+                            <PencilIcon className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteRecord(record.record_id)}
+                            disabled={processingId === record.record_id}
+                            className="text-red-600 hover:text-red-800 disabled:opacity-50"
+                            title="Delete"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Edit Record Modal */}
+      {editingRecord && (
+        <EditRecordModal
+          record={editingRecord}
+          processing={processingId === editingRecord.record_id}
+          onSave={handleUpdateRecord}
+          onClose={() => setEditingRecord(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+function EditRecordModal({
+  record,
+  processing,
+  onSave,
+  onClose
+}: {
+  record: AdminRecordDetail;
+  processing: boolean;
+  onSave: (data: { record_id: number; [key: string]: unknown }) => void;
+  onClose: () => void;
+}) {
+  const [creditScore, setCreditScore] = useState(record.credit_score);
+  const [creditScoreSource, setCreditScoreSource] = useState(record.credit_score_source ?? 0);
+  const [income, setIncome] = useState(record.listed_income);
+  const [lengthCredit, setLengthCredit] = useState<number | null>(record.length_credit ?? null);
+  const [result, setResult] = useState(!!record.result);
+  const [startingCreditLimit, setStartingCreditLimit] = useState<number | null>(record.starting_credit_limit ?? null);
+  const [bankCustomer, setBankCustomer] = useState(!!record.bank_customer);
+  const [inquiries3, setInquiries3] = useState<number | null>(record.inquiries_3 ?? null);
+  const [inquiries12, setInquiries12] = useState<number | null>(record.inquiries_12 ?? null);
+  const [inquiries24, setInquiries24] = useState<number | null>(record.inquiries_24 ?? null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave({
+      record_id: record.record_id,
+      credit_score: creditScore,
+      credit_score_source: creditScoreSource,
+      listed_income: income,
+      length_credit: lengthCredit,
+      result,
+      starting_credit_limit: result ? startingCreditLimit : null,
+      bank_customer: bankCustomer,
+      inquiries_3: inquiries3,
+      inquiries_12: inquiries12,
+      inquiries_24: inquiries24,
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
+      <div
+        className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-medium text-gray-900">Edit Record #{record.record_id}</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <XMarkIcon className="h-5 w-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Credit Score + Source */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Credit Score</label>
+            <div className="flex">
+              <input
+                type="number"
+                value={creditScore}
+                onChange={(e) => setCreditScore(parseInt(e.target.value) || 300)}
+                min={300}
+                max={850}
+                className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <select
+                value={creditScoreSource}
+                onChange={(e) => setCreditScoreSource(parseInt(e.target.value))}
+                className="border border-l-0 border-gray-300 rounded-r-md px-3 py-2 text-sm bg-gray-50 focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                {CREDIT_SCORE_SOURCES.map((src, i) => (
+                  <option key={i} value={i}>{src}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Income */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Annual Income</label>
+            <NumericFormat
+              value={income}
+              onValueChange={(values) => setIncome(values.floatValue || 0)}
+              thousandSeparator
+              prefix="$"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+
+          {/* Age of Oldest Account */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Age of Oldest Account (Years)</label>
+            <input
+              type="number"
+              value={lengthCredit ?? ''}
+              onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
+              min={0}
+              max={100}
+              placeholder="Optional"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+
+          {/* Bank Customer */}
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-medium text-gray-700">Existing bank customer?</label>
+            <button
+              type="button"
+              onClick={() => setBankCustomer(!bankCustomer)}
+              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${bankCustomer ? 'bg-indigo-600' : 'bg-gray-200'}`}
+            >
+              <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${bankCustomer ? 'translate-x-5' : 'translate-x-0'}`} />
+            </button>
+          </div>
+
+          {/* Inquiries */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Hard Inquiries</label>
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Last 3 mo</label>
+                <input
+                  type="number"
+                  value={inquiries3 ?? ''}
+                  onChange={(e) => setInquiries3(e.target.value === '' ? null : parseInt(e.target.value))}
+                  min={0} max={50} placeholder="-"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Last 12 mo</label>
+                <input
+                  type="number"
+                  value={inquiries12 ?? ''}
+                  onChange={(e) => setInquiries12(e.target.value === '' ? null : parseInt(e.target.value))}
+                  min={0} max={50} placeholder="-"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Last 24 mo</label>
+                <input
+                  type="number"
+                  value={inquiries24 ?? ''}
+                  onChange={(e) => setInquiries24(e.target.value === '' ? null : parseInt(e.target.value))}
+                  min={0} max={50} placeholder="-"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Result */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Result</label>
+            <div className="flex rounded-md overflow-hidden border border-gray-300">
+              <button
+                type="button"
+                onClick={() => setResult(true)}
+                className={`flex-1 py-2 text-sm font-medium ${result ? 'bg-green-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+              >
+                Approved
+              </button>
+              <button
+                type="button"
+                onClick={() => setResult(false)}
+                className={`flex-1 py-2 text-sm font-medium ${!result ? 'bg-red-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+              >
+                Denied
+              </button>
+            </div>
+          </div>
+
+          {/* Starting Credit Limit (if approved) */}
+          {result && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Starting Credit Limit</label>
+              <NumericFormat
+                value={startingCreditLimit ?? ''}
+                onValueChange={(values) => setStartingCreditLimit(values.floatValue ?? null)}
+                thousandSeparator
+                prefix="$"
+                placeholder="Optional"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          )}
+
+          {/* Buttons */}
+          <div className="flex gap-3 pt-2">
+            <button
+              type="submit"
+              disabled={processing}
+              className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+            >
+              {processing ? 'Saving...' : 'Save Changes'}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-200"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ============ SUBMIT RECORD TAB ============
 
 function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<string | null>; onSuccess: () => void }) {
   const [cards, setCards] = useState<Card[]>([]);
