@@ -5,7 +5,7 @@
  * Replaces post-social.js — instead of posting directly to Twitter,
  * this generates text via Claude and queues it for the scheduler.
  *
- * Usage: node scripts/queue-social.js --type news|article --files <yaml-paths...>
+ * Usage: node scripts/queue-social.js --type news|article|best|page --files <yaml-paths...>
  *
  * Env vars: ANTHROPIC_API_KEY, SOCIAL_API_URL, SOCIAL_API_KEY
  */
@@ -47,8 +47,8 @@ function parseArgs() {
     }
   }
 
-  if (!type || !['news', 'article'].includes(type)) {
-    console.error('Usage: node scripts/queue-social.js --type news|article --files <yaml-paths...>');
+  if (!type || !['news', 'article', 'best', 'page'].includes(type)) {
+    console.error('Usage: node scripts/queue-social.js --type news|article|best|page --files <yaml-paths...>');
     process.exit(1);
   }
 
@@ -61,16 +61,41 @@ function parseArgs() {
 }
 
 function buildUrl(type, item, source = 'twitter') {
-  const base = type === 'news'
-    ? `https://creditodds.com/news/${item.id}`
-    : `https://creditodds.com/articles/${item.slug}`;
-  const params = new URLSearchParams({
-    utm_source: source,
-    utm_medium: 'social',
-    utm_campaign: `auto-${type}`,
-    utm_content: type === 'news' ? item.id : item.slug,
-  });
-  return `${base}?${params}`;
+  const explicitUrl = item.url;
+  let base = explicitUrl;
+
+  if (!base) {
+    if (type === 'news') {
+      base = `https://creditodds.com/news/${item.id}`;
+    } else if (type === 'article') {
+      base = `https://creditodds.com/articles/${item.slug}`;
+    } else if (type === 'best') {
+      const slug = item.slug || item.id;
+      if (!slug) throw new Error('Missing slug/id for best item');
+      base = `https://creditodds.com/best/${slug}`;
+    } else if (type === 'page') {
+      throw new Error('Missing url for page item');
+    }
+  }
+
+  if (!base) throw new Error('Unable to build URL');
+
+  const url = new URL(base);
+  const contentId = item.id || item.slug || item.title || 'page';
+  url.searchParams.set('utm_source', source);
+  url.searchParams.set('utm_medium', 'social');
+  url.searchParams.set('utm_campaign', `auto-${type}`);
+  url.searchParams.set('utm_content', contentId);
+  return url.toString();
+}
+
+function getSummary(item) {
+  const raw = item.summary || item.description || item.seo_description || item.intro || '';
+  if (!raw) return '';
+  const text = String(raw).trim();
+  if (!text) return '';
+  // Keep prompts tight: use the first paragraph if intro is long.
+  return text.split(/\n{2,}/)[0].trim();
 }
 
 async function generatePost(type, item) {
@@ -80,11 +105,24 @@ async function generatePost(type, item) {
   const cardNames = item.card_name
     || (item.related_cards && item.related_cards.length > 0
       ? item.related_cards.join(', ')
-      : 'N/A');
+      : (item.cards && item.cards.length > 0
+        ? item.cards.map((card) => card.card_name || card.slug || card).join(', ')
+        : 'N/A'));
 
-  const prompt = `Write a short tweet for CreditOdds about this credit card ${type}:
+  const summary = getSummary(item);
+  const label = type === 'news'
+    ? 'news update'
+    : type === 'article'
+      ? 'article'
+      : type === 'best'
+        ? 'best-of list'
+        : type === 'page'
+          ? 'site page'
+          : type;
+
+  const prompt = `Write a short tweet for CreditOdds about this ${label}:
 Title: ${item.title}
-Summary: ${item.summary}
+Summary: ${summary}
 Cards: ${cardNames}
 
 Rules:
@@ -171,7 +209,8 @@ async function main() {
     }
 
     const url = buildUrl(type, item);
-    const sourceId = type === 'news' ? String(item.id) : item.slug;
+    const sourceId = String(item.source_id || item.id || item.slug);
+    const sourceType = item.source_type || type;
     console.log(`  URL: ${url}`);
 
     let postText;
@@ -184,7 +223,7 @@ async function main() {
     }
 
     try {
-      const result = await queuePost(postText, url, type, sourceId);
+      const result = await queuePost(postText, url, sourceType, sourceId);
       console.log(`  Queued successfully! Post ID: ${result.id}\n`);
     } catch (err) {
       console.error(`  Failed to queue: ${err.message}\n`);
