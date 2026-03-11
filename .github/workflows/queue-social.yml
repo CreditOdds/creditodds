@@ -1,0 +1,95 @@
+name: Queue Evergreen Social Posts
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: "Which set of posts to queue"
+        type: choice
+        options:
+          - all
+          - best
+          - articles
+          - pages
+        default: all
+
+jobs:
+  queue-social:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Queue posts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+        run: |
+          set -euo pipefail
+          batch="${{ inputs.batch }}"
+
+          queue_best() {
+            node scripts/queue-social.js --type best --files \
+              data/best/best-0-apr-cards.yaml \
+              data/best/best-airline-cards.yaml \
+              data/best/best-cash-back-cards.yaml \
+              data/best/best-dining-grocery-cards.yaml \
+              data/best/best-secured-cards.yaml \
+              data/best/best-signup-bonuses.yaml \
+              data/best/best-travel-cards.yaml
+          }
+
+          queue_articles() {
+            node scripts/queue-social.js --type article --files \
+              data/articles/best-no-annual-fee-cashback-2026.yaml \
+              data/articles/chase-5-24-rule-explained.yaml \
+              data/articles/multiple-citi-custom-cash-cards.yaml
+          }
+
+          queue_pages() {
+            node scripts/queue-social.js --type page --files \
+              data/social-pages/page-best.yaml \
+              data/social-pages/page-articles.yaml \
+              data/social-pages/page-compare.yaml \
+              data/social-pages/page-explore.yaml \
+              data/social-pages/page-check-odds.yaml \
+              data/social-pages/page-leaderboard.yaml \
+              data/social-pages/page-tools.yaml \
+              data/social-pages/tool-chase-ur.yaml \
+              data/social-pages/tool-amex-mr.yaml \
+              data/social-pages/tool-capital-one.yaml \
+              data/social-pages/tool-united.yaml \
+              data/social-pages/tool-delta.yaml \
+              data/social-pages/tool-hyatt.yaml
+          }
+
+          case "$batch" in
+            all)
+              queue_best
+              queue_articles
+              queue_pages
+              ;;
+            best)
+              queue_best
+              ;;
+            articles)
+              queue_articles
+              ;;
+            pages)
+              queue_pages
+              ;;
+            *)
+              echo "Unknown batch: $batch" >&2
+              exit 1
+              ;;
+          esac
