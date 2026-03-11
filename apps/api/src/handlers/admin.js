@@ -143,6 +143,21 @@ exports.AdminRecordsHandler = async (event) => {
       try {
         const limit = parseInt(event.queryStringParameters?.limit) || 100;
         const offset = parseInt(event.queryStringParameters?.offset) || 0;
+        const cardIdFilter = event.queryStringParameters?.card_id;
+
+        let whereClause = '';
+        const queryParams = [];
+
+        if (cardIdFilter) {
+          whereClause = 'WHERE r.card_id = ?';
+          queryParams.push(parseInt(cardIdFilter));
+        }
+
+        // Return extra fields when filtering by card
+        const extraFields = cardIdFilter
+          ? `, r.credit_score_source, r.starting_credit_limit, r.bank_customer, r.reason_denied,
+             r.inquiries_3, r.inquiries_12, r.inquiries_24, r.admin_review`
+          : '';
 
         const results = await mysql.query(`
           SELECT
@@ -159,13 +174,19 @@ exports.AdminRecordsHandler = async (event) => {
             c.card_name,
             c.card_image_link,
             c.bank
+            ${extraFields}
           FROM records r
           JOIN cards c ON r.card_id = c.card_id
+          ${whereClause}
           ORDER BY r.submit_datetime DESC
           LIMIT ? OFFSET ?
-        `, [limit, offset]);
+        `, [...queryParams, limit, offset]);
 
-        const countResult = await mysql.query("SELECT COUNT(*) as total FROM records");
+        const countQuery = cardIdFilter
+          ? "SELECT COUNT(*) as total FROM records WHERE card_id = ?"
+          : "SELECT COUNT(*) as total FROM records";
+        const countParams = cardIdFilter ? [parseInt(cardIdFilter)] : [];
+        const countResult = await mysql.query(countQuery, countParams);
         await mysql.end();
 
         return {
@@ -184,6 +205,92 @@ exports.AdminRecordsHandler = async (event) => {
           statusCode: 500,
           headers: responseHeaders,
           body: JSON.stringify({ error: `Failed to fetch records: ${error.message}` }),
+        };
+      }
+
+    case "PUT":
+      try {
+        const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+        const { record_id, ...updateData } = body;
+
+        if (!record_id) {
+          return {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "record_id is required" }),
+          };
+        }
+
+        // Fetch current record for audit log
+        const currentRecord = await mysql.query("SELECT * FROM records WHERE record_id = ?", [record_id]);
+        if (currentRecord.length === 0) {
+          return {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Record not found" }),
+          };
+        }
+
+        const updateSchema = yup.object().shape({
+          credit_score: yup.number().integer().min(300).max(850),
+          credit_score_source: yup.number().integer().min(0).max(4),
+          result: yup.boolean(),
+          listed_income: yup.number().integer().min(0).max(1000000),
+          length_credit: yup.number().integer().min(0).max(100).nullable(),
+          starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
+          reason_denied: yup.string().max(254).nullable(),
+          date_applied: yup.date(),
+          bank_customer: yup.boolean(),
+          inquiries_3: yup.number().integer().min(0).max(50).nullable(),
+          inquiries_12: yup.number().integer().min(0).max(50).nullable(),
+          inquiries_24: yup.number().integer().min(0).max(50).nullable(),
+        });
+
+        const validated = await updateSchema.validate(updateData, { stripUnknown: true });
+
+        // Clear irrelevant fields based on result
+        if (validated.result !== undefined) {
+          if (validated.result) {
+            validated.reason_denied = null;
+          } else {
+            validated.starting_credit_limit = null;
+          }
+        }
+
+        // Build SET clause from validated fields
+        const setFields = {};
+        for (const [key, value] of Object.entries(validated)) {
+          if (value !== undefined) {
+            setFields[key] = key === 'date_applied' ? new Date(value) : value;
+          }
+        }
+
+        if (Object.keys(setFields).length === 0) {
+          return {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "No valid fields to update" }),
+          };
+        }
+
+        await mysql.query("UPDATE records SET ? WHERE record_id = ?", [setFields, record_id]);
+        await logAuditAction(userId, 'UPDATE', 'record', record_id, {
+          before: currentRecord[0],
+          after: setFields,
+        });
+        await mysql.end();
+
+        return {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify({ message: "Record updated", record_id }),
+        };
+      } catch (error) {
+        console.error("Error updating record:", error);
+        return {
+          statusCode: 500,
+          headers: responseHeaders,
+          body: JSON.stringify({ error: `Failed to update record: ${error.message}` }),
         };
       }
 
