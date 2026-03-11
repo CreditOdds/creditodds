@@ -60,7 +60,7 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
   const hasRewards = cards.some(e => (e.card.rewards || []).length > 0);
 
   return (
-    <div className="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <div className="hidden sm:block mb-8 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       <div className="px-4 sm:px-6 py-4 bg-gray-50 border-b border-gray-200">
         <h2 className="text-lg font-bold text-gray-900">Quick Comparison</h2>
       </div>
