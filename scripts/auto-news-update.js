@@ -16,6 +16,7 @@ const yaml = require('js-yaml');
 const NEWS_DIR = path.join(__dirname, '..', 'data', 'news');
 const NEWS_JSON = path.join(__dirname, '..', 'data', 'news.json');
 const CARDS_JSON = path.join(__dirname, '..', 'data', 'cards.json');
+const REJECTED_NEWS_FILE = path.join(__dirname, '..', 'data', 'news-rejected.yaml');
 const MAX_NEWS_ITEMS = 3;
 
 // Valid tags from schema
@@ -65,6 +66,21 @@ function loadExistingNews() {
     return items;
   } catch (err) {
     console.warn('Warning: Could not load existing news:', err.message);
+    return [];
+  }
+}
+
+/**
+ * Load rejected news list to avoid re-suggesting declined items.
+ */
+function loadRejectedNews() {
+  try {
+    if (!fs.existsSync(REJECTED_NEWS_FILE)) return [];
+    const content = fs.readFileSync(REJECTED_NEWS_FILE, 'utf8');
+    const parsed = yaml.load(content);
+    return Array.isArray(parsed) ? parsed.filter(n => n && typeof n === 'object') : [];
+  } catch (err) {
+    console.warn('Warning: Could not load rejected news:', err.message);
     return [];
   }
 }
@@ -297,7 +313,7 @@ Output raw JSON only, no markdown fences.`,
 /**
  * Call Claude API to analyze search results and generate news items
  */
-async function generateNewsWithClaude(searchResults, existingNews, cards) {
+async function generateNewsWithClaude(searchResults, existingNews, rejectedNews, cards) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error('ANTHROPIC_API_KEY environment variable is required');
@@ -324,7 +340,19 @@ async function generateNewsWithClaude(searchResults, existingNews, cards) {
     .map(n => `- [${n.date}] "${n.title}" (ID: ${n.id})\n  Summary: ${n.summary}`)
     .join('\n');
 
+  const rejectedNewsContext = rejectedNews
+    .slice(0, 50)
+    .map(n => {
+      const labelDate = n.date || n.date_rejected || 'unknown-date';
+      const labelTitle = n.title || n.id || 'unknown-title';
+      const labelId = n.id ? ` (ID: ${n.id})` : '';
+      const labelSource = n.source_url ? `\n  Source: ${n.source_url}` : '';
+      return `- [${labelDate}] "${labelTitle}"${labelId}${labelSource}`;
+    })
+    .join('\n');
+
   const existingNewsIds = existingNews.map(n => n.id);
+  const rejectedNewsIds = rejectedNews.map(n => n.id);
 
   const prompt = `You are a highly selective credit card news analyst. Your job is to identify ONLY the most important, high-impact credit card news. Most days there will be NO news worth reporting - that is expected and acceptable.
 
@@ -339,8 +367,13 @@ The following news items have ALREADY been posted. Do NOT create news about the 
 
 ${existingNewsContext || 'No news posted yet this month.'}
 
+## CRITICAL: Rejected News (DO NOT RE-SUGGEST)
+The following items were reviewed and rejected. Do NOT suggest the same story/topic again, even if phrased differently.
+
+${rejectedNewsContext || 'None'}
+
 ## All Existing News IDs (for reference)
-${existingNewsIds.join(', ') || 'None'}
+${[...existingNewsIds, ...rejectedNewsIds].filter(Boolean).join(', ') || 'None'}
 
 ## STRICT Selection Criteria - Only include news that meets ALL of these:
 1. **High Impact**: Must significantly affect cardholders (major fee changes, significant benefit additions/removals, new card launches from major issuers)
@@ -709,11 +742,13 @@ async function main() {
   // Load existing data
   console.log('Loading existing data...');
   const existingNews = loadExistingNews();
+  const rejectedNews = loadRejectedNews();
   const cards = loadCards();
   const today = new Date().toISOString().split('T')[0];
   const currentMonth = today.substring(0, 7);
   const newsThisMonth = existingNews.filter(n => n.date.startsWith(currentMonth));
   console.log(`  Found ${existingNews.length} existing news items (${newsThisMonth.length} this month)`);
+  console.log(`  Found ${rejectedNews.length} rejected news items`);
   console.log(`  Found ${cards.length} cards\n`);
 
   // Build search queries
@@ -825,7 +860,7 @@ async function main() {
 
   // Generate news with Claude
   console.log('Analyzing results with Claude API...');
-  const claudeResponse = await generateNewsWithClaude(resultsForClaude, existingNews, cards);
+  const claudeResponse = await generateNewsWithClaude(resultsForClaude, existingNews, rejectedNews, cards);
 
   // Parse YAML blocks
   const newsItems = parseYamlBlocks(claudeResponse);
@@ -839,6 +874,8 @@ async function main() {
   // Validate and write news files
   console.log('Validating and writing news files...');
   let createdCount = 0;
+  const avoidNews = [...existingNews, ...rejectedNews];
+  const avoidNewsIds = new Set(avoidNews.map(n => n.id).filter(Boolean));
 
   for (const item of newsItems.slice(0, MAX_NEWS_ITEMS)) {
     const errors = validateNewsItem(item);
@@ -849,9 +886,8 @@ async function main() {
     }
 
     // Skip duplicates by ID
-    const existingNewsIds = existingNews.map(n => n.id);
-    if (existingNewsIds.includes(item.id)) {
-      console.log(`  Skipping "${item.id}": Already exists (exact ID match)`);
+    if (avoidNewsIds.has(item.id)) {
+      console.log(`  Skipping "${item.id}": Already exists or rejected (exact ID match)`);
       continue;
     }
 
@@ -859,18 +895,18 @@ async function main() {
     if (item.source_url) {
       const normalizeUrl = (u) => u.replace(/^https?:\/\//, '').replace(/\/+$/, '').replace(/\?.*$/, '');
       const newUrl = normalizeUrl(item.source_url);
-      const isDuplicateUrl = existingNews.some(existing =>
+      const isDuplicateUrl = avoidNews.some(existing =>
         existing.source_url && normalizeUrl(existing.source_url) === newUrl
       );
       if (isDuplicateUrl) {
-        console.log(`  Skipping "${item.id}": Duplicate source URL`);
+        console.log(`  Skipping "${item.id}": Duplicate or rejected source URL`);
         continue;
       }
     }
 
     // Ask Claude to check for semantic duplicates
     console.log(`  Checking "${item.id}" for duplicates...`);
-    const dupCheck = await checkDuplicateWithClaude(item, existingNews);
+    const dupCheck = await checkDuplicateWithClaude(item, avoidNews);
     if (dupCheck.isDuplicate) {
       console.log(`  Skipping "${item.id}": Duplicate of "${dupCheck.matchedId}" (${dupCheck.reason})`);
       continue;
