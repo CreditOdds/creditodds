@@ -135,20 +135,17 @@ INNER JOIN name_mappings nm ON c_old.card_name = nm.old_name
 INNER JOIN cards c_new ON c_new.card_name = nm.new_name
 SET uc.card_id = c_new.card_id;
 
--- Delete old-name card entries (only where new-name card exists)
+-- Delete old-name card entries (only where new-name card also exists)
 DELETE c_old FROM cards c_old
 INNER JOIN name_mappings nm ON c_old.card_name = nm.old_name
-WHERE EXISTS (
-  SELECT 1 FROM cards c_new WHERE c_new.card_name = nm.new_name AND c_new.card_id != c_old.card_id
-);
+INNER JOIN cards c_new ON c_new.card_name = nm.new_name AND c_new.card_id != c_old.card_id;
 
 -- If old name exists but new name doesn't, just rename the card
 UPDATE cards c
 INNER JOIN name_mappings nm ON c.card_name = nm.old_name
+LEFT JOIN cards c2 ON c2.card_name = nm.new_name
 SET c.card_name = nm.new_name
-WHERE NOT EXISTS (
-  SELECT 1 FROM cards c2 WHERE c2.card_name = nm.new_name
-);
+WHERE c2.card_id IS NULL;
 
 DROP TEMPORARY TABLE name_mappings;
 
@@ -162,7 +159,10 @@ DROP TEMPORARY TABLE name_mappings;
 -- Find duplicate card_names and merge records to the card_id with the most records.
 -- We keep the card_id with the highest record count (the "primary").
 
-CREATE TEMPORARY TABLE dup_cards AS
+DROP TABLE IF EXISTS _migration010_dup_cards;
+DROP TABLE IF EXISTS _migration010_dup_primary;
+
+CREATE TABLE _migration010_dup_cards AS
 SELECT c.card_id, c.card_name,
   COALESCE((SELECT COUNT(*) FROM records r WHERE r.card_id = c.card_id), 0) AS rec_count
 FROM cards c
@@ -171,44 +171,44 @@ WHERE c.card_name IN (
 );
 
 -- For each duplicate group, identify the primary (most records, ties broken by lowest card_id)
-CREATE TEMPORARY TABLE dup_primary AS
+CREATE TABLE _migration010_dup_primary AS
 SELECT d1.card_id, d1.card_name
-FROM dup_cards d1
+FROM _migration010_dup_cards d1
 WHERE d1.rec_count = (
-  SELECT MAX(d2.rec_count) FROM dup_cards d2 WHERE d2.card_name = d1.card_name
+  SELECT MAX(d2.rec_count) FROM _migration010_dup_cards d2 WHERE d2.card_name = d1.card_name
 )
 AND d1.card_id = (
-  SELECT MIN(d3.card_id) FROM dup_cards d3
+  SELECT MIN(d3.card_id) FROM _migration010_dup_cards d3
   WHERE d3.card_name = d1.card_name AND d3.rec_count = d1.rec_count
 );
 
 -- Move records from non-primary duplicates to primary
 UPDATE records r
-INNER JOIN dup_cards dc ON r.card_id = dc.card_id
-INNER JOIN dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
+INNER JOIN _migration010_dup_cards dc ON r.card_id = dc.card_id
+INNER JOIN _migration010_dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
 SET r.card_id = dp.card_id;
 
 -- Move referrals from non-primary duplicates to primary
 UPDATE referrals ref
-INNER JOIN dup_cards dc ON ref.card_id = dc.card_id
-INNER JOIN dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
+INNER JOIN _migration010_dup_cards dc ON ref.card_id = dc.card_id
+INNER JOIN _migration010_dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
 SET ref.card_id = dp.card_id;
 
 -- Handle user_cards duplicates
 DELETE uc_old FROM user_cards uc_old
-INNER JOIN dup_cards dc ON uc_old.card_id = dc.card_id
-INNER JOIN dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
+INNER JOIN _migration010_dup_cards dc ON uc_old.card_id = dc.card_id
+INNER JOIN _migration010_dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
 INNER JOIN user_cards uc_new ON uc_old.user_id = uc_new.user_id AND uc_new.card_id = dp.card_id;
 
 UPDATE user_cards uc
-INNER JOIN dup_cards dc ON uc.card_id = dc.card_id
-INNER JOIN dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
+INNER JOIN _migration010_dup_cards dc ON uc.card_id = dc.card_id
+INNER JOIN _migration010_dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id
 SET uc.card_id = dp.card_id;
 
 -- Delete non-primary duplicate card entries
 DELETE c FROM cards c
-INNER JOIN dup_cards dc ON c.card_id = dc.card_id
-INNER JOIN dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id;
+INNER JOIN _migration010_dup_cards dc ON c.card_id = dc.card_id
+INNER JOIN _migration010_dup_primary dp ON dc.card_name = dp.card_name AND dc.card_id != dp.card_id;
 
-DROP TEMPORARY TABLE dup_cards;
-DROP TEMPORARY TABLE dup_primary;
+DROP TABLE _migration010_dup_cards;
+DROP TABLE _migration010_dup_primary;
