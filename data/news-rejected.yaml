@@ -1,3 +1,6 @@
 # Rejected auto-news items (do not re-suggest)
 # Entries are appended by the "Record Rejected News" workflow.
-[]
+- id: "us-news-2026-credit-card-awards"
+  source_url: "https://www.usnews.com/info/blogs/press-room/articles/2026-03-10/u-s-news-world-report-debuts-2026-credit-card-awards"
+  rejected_at: "2026-03-11"
+  pr: 247
