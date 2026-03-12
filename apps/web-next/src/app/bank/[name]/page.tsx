@@ -57,9 +57,6 @@ export default async function BankPage({ params }: BankPageProps) {
   // Filter news for this bank
   const bankNews = allNews.filter(news => news.bank === bankName);
 
-  // Count active cards for the header
-  const activeCardCount = cards.filter(c => c.accepting_applications).length;
-
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* JSON-LD Structured Data */}
@@ -98,9 +95,6 @@ export default async function BankPage({ params }: BankPageProps) {
           <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
             {bankName}
           </h1>
-          <p className="mt-4 text-xl text-gray-500">
-            {activeCardCount} credit card{activeCardCount !== 1 ? 's' : ''} available
-          </p>
         </div>
 
         {/* Main Content Grid */}
