@@ -88,7 +88,7 @@ export default function BankCardsTable({ cards }: BankCardsTableProps) {
               <tr key={card.card_id} className="hover:bg-gray-50">
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                   <Link href={`/card/${card.slug}`} className="flex items-center group">
-                    <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
+                    <div className="h-10 w-16 flex-shrink-0 mr-4">
                       <Image
                         src={card.card_image_link
                           ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
