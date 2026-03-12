@@ -53,14 +53,31 @@ async function syncCardsToDatabase(cdnCards) {
       existingByName[card.card_name] = card;
     }
 
+    // Helper: find existing card by exact name, or fuzzy match (with/without suffix)
+    function findExistingCard(name) {
+      if (existingByName[name]) return existingByName[name];
+      // Try common suffixes that may still be in the DB from before name standardization
+      const suffixes = [' Card', ' Credit Card', ' card', ' credit card'];
+      for (const suffix of suffixes) {
+        if (existingByName[name + suffix]) return existingByName[name + suffix];
+      }
+      // Try stripping suffixes in case CDN has suffix but DB doesn't
+      for (const suffix of suffixes) {
+        if (name.endsWith(suffix) && existingByName[name.slice(0, -suffix.length)]) {
+          return existingByName[name.slice(0, -suffix.length)];
+        }
+      }
+      return null;
+    }
+
     for (const cdnCard of cdnCards) {
       try {
         const name = cdnCard.name;
         const bank = cdnCard.bank;
         const acceptingApplications = cdnCard.accepting_applications ? 1 : 0;
 
-        // Check if card exists by name
-        const existingCard = existingByName[name];
+        // Check if card exists by name (with fuzzy suffix matching)
+        const existingCard = findExistingCard(name);
 
         // Convert tags array to JSON string for database storage
         const tagsJson = cdnCard.tags ? JSON.stringify(cdnCard.tags) : null;
