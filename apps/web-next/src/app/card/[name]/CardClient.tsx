@@ -13,17 +13,13 @@ import {
   ExclamationTriangleIcon,
   PencilSquareIcon,
   NewspaperIcon,
-  XMarkIcon,
   InformationCircleIcon,
   BanknotesIcon,
   ScaleIcon,
   ShareIcon,
-  WalletIcon,
-  CheckIcon,
-  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent, getRecords, getCardRatings, getUserCardRating, submitCardRating, getWallet, addToWallet } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent, getCardRatings } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -53,19 +49,6 @@ function formatRewardValue(reward: Reward): string {
   return `${reward.value}x`;
 }
 
-const RATING_LABELS: Record<number, string> = {
-  1: 'Very Bad',
-  2: 'Bad',
-  3: 'Good',
-  4: 'Very Good',
-};
-
-const RATING_COLORS: Record<number, { bg: string; text: string; fill: string }> = {
-  1: { bg: 'bg-red-100', text: 'text-red-700', fill: 'text-red-400' },
-  2: { bg: 'bg-orange-100', text: 'text-orange-700', fill: 'text-orange-400' },
-  3: { bg: 'bg-green-100', text: 'text-green-700', fill: 'text-green-400' },
-  4: { bg: 'bg-emerald-100', text: 'text-emerald-700', fill: 'text-emerald-500' },
-};
 
 function StarIcon({ filled, half, className }: { filled?: boolean; half?: boolean; className?: string }) {
   if (half) {
@@ -93,202 +76,37 @@ function StarIcon({ filled, half, className }: { filled?: boolean; half?: boolea
   );
 }
 
-function CardRating({ cardName, dbCardId, isAuthenticated, getToken }: {
-  cardName: string;
-  dbCardId?: number;
-  isAuthenticated: boolean;
-  getToken: () => Promise<string | null>;
-}) {
+function CardRatingDisplay({ cardName }: { cardName: string }) {
   const [aggregate, setAggregate] = useState<{ count: number; average: number | null }>({ count: 0, average: null });
-  const [userRating, setUserRating] = useState<number | null>(null);
-  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [inWallet, setInWallet] = useState<boolean | null>(null);
-  const [showWalletPrompt, setShowWalletPrompt] = useState(false);
-  const [addingToWallet, setAddingToWallet] = useState(false);
-  const [walletAdded, setWalletAdded] = useState(false);
-  const [showSignInPrompt, setShowSignInPrompt] = useState(false);
 
   useEffect(() => {
     getCardRatings(cardName).then(setAggregate).catch(() => {});
   }, [cardName]);
 
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    let cancelled = false;
-    (async () => {
-      const token = await getToken();
-      if (!token || cancelled) return;
-      const [rating, wallet] = await Promise.all([
-        getUserCardRating(cardName, token),
-        getWallet(token).catch(() => []),
-      ]);
-      if (cancelled) return;
-      setUserRating(rating);
-      setInWallet(wallet.some(w => w.card_name === cardName));
-    })();
-    return () => { cancelled = true; };
-  }, [cardName, isAuthenticated, getToken]);
-
-  const handleRate = async (rating: number) => {
-    if (!isAuthenticated || submitting) return;
-    setSubmitting(true);
-    try {
-      const token = await getToken();
-      if (!token) return;
-      await submitCardRating(cardName, rating, token);
-      setUserRating(rating);
-      const updated = await getCardRatings(cardName);
-      setAggregate(updated);
-      // Show wallet prompt if card isn't in wallet
-      if (inWallet === false && !walletAdded) {
-        setShowWalletPrompt(true);
-      }
-    } catch {
-      // Silently fail
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleAddToWallet = async () => {
-    if (!dbCardId || addingToWallet) return;
-    setAddingToWallet(true);
-    try {
-      const token = await getToken();
-      if (!token) return;
-      await addToWallet(dbCardId, undefined, undefined, token);
-      setWalletAdded(true);
-      setInWallet(true);
-      setShowWalletPrompt(false);
-    } catch {
-      // Silently fail
-    } finally {
-      setAddingToWallet(false);
-    }
-  };
-
-  const displayRating = hoveredRating ?? userRating;
-  const ratingStyle = displayRating ? RATING_COLORS[displayRating] : null;
-
-  const handleStarClick = (rating: number) => {
-    if (!isAuthenticated) {
-      setShowSignInPrompt(true);
-      return;
-    }
-    setShowSignInPrompt(false);
-    handleRate(rating);
-  };
+  if (aggregate.count === 0 || aggregate.average === null) return null;
 
   return (
     <div className="mt-6 w-full rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">User Rating</p>
-        {aggregate.count > 0 && aggregate.average !== null && (
-          <span className="text-sm text-gray-500 whitespace-nowrap">
-            {aggregate.average.toFixed(1)}/4 from {aggregate.count} {aggregate.count === 1 ? 'rating' : 'ratings'}
-          </span>
-        )}
+        <span className="text-sm text-gray-500 whitespace-nowrap">
+          {aggregate.average.toFixed(1)}/4 from {aggregate.count} {aggregate.count === 1 ? 'rating' : 'ratings'}
+        </span>
       </div>
-
-      {/* Star display for aggregate */}
-      {aggregate.count > 0 && aggregate.average !== null && (
-        <div className="mb-4 flex items-center gap-0.5">
-          {[1, 2, 3, 4].map((star) => {
-            const filled = star <= Math.floor(aggregate.average!);
-            const half = !filled && star === Math.ceil(aggregate.average!) && aggregate.average! % 1 >= 0.25;
-            return (
-              <StarIcon
-                key={star}
-                filled={filled}
-                half={half}
-                className={`h-5 w-5 ${filled || half ? 'text-amber-400' : 'text-gray-300'}`}
-              />
-            );
-          })}
-        </div>
-      )}
-
-      <div className="rounded-lg border border-gray-100 bg-gray-50 px-3 py-3">
-        <div className="mb-2 flex items-center justify-between gap-3">
-          <p className="text-sm text-gray-700">
-            {isAuthenticated
-              ? (userRating ? 'Your rating (click to change):' : 'Rate this card:')
-              : 'Rate this card:'}
-          </p>
-          {displayRating && ratingStyle && (
-            <span className={`text-xs font-semibold ${ratingStyle.text}`}>
-              {RATING_LABELS[displayRating]}
-            </span>
-          )}
-        </div>
-        <div className="flex items-center gap-1">
-          {[1, 2, 3, 4].map((star) => {
-            const active = (hoveredRating ?? userRating ?? 0) >= star;
-            const colors = RATING_COLORS[hoveredRating ?? userRating ?? star];
-            return (
-              <button
-                key={star}
-                onClick={() => handleStarClick(star)}
-                onMouseEnter={() => setHoveredRating(star)}
-                onMouseLeave={() => setHoveredRating(null)}
-                disabled={isAuthenticated && submitting}
-                className={`rounded-lg p-1.5 transition-colors ${
-                  active ? colors.bg : 'hover:bg-white'
-                } ${(isAuthenticated && submitting) ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                title={RATING_LABELS[star]}
-              >
-                <StarIcon
-                  filled={active}
-                  className={`h-7 w-7 ${active ? colors.fill : 'text-gray-300'}`}
-                />
-              </button>
-            );
-          })}
-        </div>
+      <div className="flex items-center gap-0.5">
+        {[1, 2, 3, 4].map((star) => {
+          const filled = star <= Math.floor(aggregate.average!);
+          const half = !filled && star === Math.ceil(aggregate.average!) && aggregate.average! % 1 >= 0.25;
+          return (
+            <StarIcon
+              key={star}
+              filled={filled}
+              half={half}
+              className={`h-5 w-5 ${filled || half ? 'text-amber-400' : 'text-gray-300'}`}
+            />
+          );
+        })}
       </div>
-
-      {!isAuthenticated && showSignInPrompt && (
-        <div className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2.5">
-          <span className="text-sm text-indigo-900">Sign in to submit your rating.</span>
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-1 rounded-md bg-indigo-600 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500"
-          >
-            Sign in
-            <ArrowRightOnRectangleIcon className="h-3.5 w-3.5" />
-          </Link>
-        </div>
-      )}
-
-      {/* Add to wallet prompt */}
-      {isAuthenticated && showWalletPrompt && dbCardId && (
-        <div className="mt-3 flex items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2">
-          <WalletIcon className="h-4 w-4 flex-shrink-0 text-indigo-500" />
-          <span className="flex-1 text-sm text-indigo-700">Add this card to your wallet?</span>
-          <button
-            onClick={handleAddToWallet}
-            disabled={addingToWallet}
-            className="rounded-md bg-indigo-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-indigo-500 disabled:opacity-50"
-          >
-            {addingToWallet ? 'Adding...' : 'Add'}
-          </button>
-          <button
-            onClick={() => setShowWalletPrompt(false)}
-            className="text-indigo-400 hover:text-indigo-600"
-          >
-            <XMarkIcon className="h-4 w-4" />
-          </button>
-        </div>
-      )}
-
-      {/* Wallet added confirmation */}
-      {isAuthenticated && walletAdded && (
-        <div className="mt-3 flex items-center gap-2 text-sm text-green-600">
-          <CheckIcon className="h-4 w-4" />
-          Added to your wallet
-        </div>
-      )}
     </div>
   );
 }
@@ -302,14 +120,8 @@ interface CardClientProps {
 
 export default function CardClient({ card, graphData, news, articles }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
-  const [hasSubmittedForCard, setHasSubmittedForCard] = useState<boolean | null>(null);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
-  const [nudgeDismissed, setNudgeDismissed] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    const dismissed = localStorage.getItem('nudge_dismissed');
-    return dismissed === new Date().toISOString().slice(0, 10);
-  });
   const shareMenuRef = useRef<HTMLDivElement | null>(null);
   const { authState, getToken } = useAuth();
   const router = useRouter();
@@ -347,27 +159,6 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
       // Silently fail
     }
   };
-
-  // Check if user has already submitted a record for this card
-  useEffect(() => {
-    if (!authState.isAuthenticated || !card.accepting_applications) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const token = await getToken();
-        if (!token || cancelled) return;
-        const records = await getRecords(token);
-        if (cancelled) return;
-        const submitted = records.some(
-          (r: { card_name: string }) => r.card_name === card.card_name
-        );
-        setHasSubmittedForCard(submitted);
-      } catch {
-        // Silently fail
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [authState.isAuthenticated, getToken, card.card_name, card.accepting_applications]);
 
   const chartOne = graphData[0] || [];
   const chartTwo = graphData[1] || [];
@@ -416,7 +207,6 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
 
   // Refresh page data after successful submission (#8)
   const handleSubmitSuccess = () => {
-    setHasSubmittedForCard(true);
     router.refresh();
   };
 
@@ -480,35 +270,6 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
           )}
         </div>
       </nav>
-
-      {/* Contextual nudge for users who haven't submitted for this card */}
-      {card.accepting_applications && authState.isAuthenticated && hasSubmittedForCard === false && !nudgeDismissed && (
-        <div className="bg-amber-50 border-b border-amber-200 px-4 sm:px-6 lg:px-8 py-3">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <p className="text-sm text-amber-800">
-              You haven&apos;t shared your result for this card yet.
-            </p>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setShowModal(true)}
-                className="flex-shrink-0 text-sm font-semibold text-white bg-amber-600 hover:bg-amber-500 px-3 py-1.5 rounded-md transition-colors"
-              >
-                Submit now
-              </button>
-              <button
-                onClick={() => {
-                  localStorage.setItem('nudge_dismissed', new Date().toISOString().slice(0, 10));
-                  setNudgeDismissed(true);
-                }}
-                className="flex-shrink-0 p-1 text-amber-400 hover:text-amber-600 transition-colors"
-                aria-label="Dismiss"
-              >
-                <XMarkIcon className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Not accepting applications warning - full width */}
       {!card.accepting_applications && card.accepting_applications !== undefined && (
@@ -595,13 +356,8 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                   </div>
                 )}
 
-                {/* Card Rating */}
-                <CardRating
-                  cardName={card.card_name}
-                  dbCardId={typeof card.card_id === 'number' ? card.card_id : undefined}
-                  isAuthenticated={authState.isAuthenticated}
-                  getToken={getToken}
-                />
+                {/* Card Rating (read-only) */}
+                <CardRatingDisplay cardName={card.card_name} />
 
                 {/* Apply Buttons */}
                 {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
