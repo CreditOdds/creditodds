@@ -66,35 +66,43 @@ export function WebsiteSchema({
 
 interface CreditCardSchemaProps {
   card: Card;
+  ratings?: { count: number; average: number | null };
 }
 
-export function CreditCardSchema({ card }: CreditCardSchemaProps) {
+export function CreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'FinancialProduct',
+    '@type': 'Product',
     name: card.card_name,
-    provider: {
-      '@type': 'Organization',
+    brand: {
+      '@type': 'Brand',
       name: card.bank,
     },
-    category: 'Credit Card',
     description: `${card.card_name} by ${card.bank}. Average approved credit score: ${card.approved_median_credit_score || 'N/A'}, average approved income: $${card.approved_median_income?.toLocaleString() || 'N/A'}.`,
+    image: card.slug ? `https://creditodds.com/card/${card.slug}/opengraph-image` : undefined,
     offers: {
       '@type': 'Offer',
       availability: card.accepting_applications
         ? 'https://schema.org/InStock'
         : 'https://schema.org/Discontinued',
+      ...(card.annual_fee != null ? {
+        price: String(card.annual_fee),
+        priceCurrency: 'USD',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: String(card.annual_fee),
+          priceCurrency: 'USD',
+          unitText: 'ANNUAL',
+        },
+      } : {}),
     },
-    aggregateRating: card.approved_count && card.approved_count > 0 ? {
+    aggregateRating: ratings && ratings.count > 0 && ratings.average !== null ? {
       '@type': 'AggregateRating',
-      ratingValue: ((card.approved_count / ((card.approved_count || 0) + (card.rejected_count || 0))) * 5).toFixed(1),
-      ratingCount: (card.approved_count || 0) + (card.rejected_count || 0),
-      bestRating: 5,
+      ratingValue: ratings.average.toFixed(1),
+      ratingCount: ratings.count,
+      bestRating: 4,
       worstRating: 1,
     } : undefined,
-    ...(card.apr?.regular ? {
-      annualPercentageRate: card.apr.regular.max,
-    } : {}),
     additionalProperty: [
       {
         '@type': 'PropertyValue',

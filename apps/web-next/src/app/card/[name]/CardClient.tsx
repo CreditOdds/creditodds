@@ -19,7 +19,7 @@ import {
   ShareIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent, getCardRatings } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -76,27 +76,21 @@ function StarIcon({ filled, half, className }: { filled?: boolean; half?: boolea
   );
 }
 
-function CardRatingDisplay({ cardName }: { cardName: string }) {
-  const [aggregate, setAggregate] = useState<{ count: number; average: number | null }>({ count: 0, average: null });
-
-  useEffect(() => {
-    getCardRatings(cardName).then(setAggregate).catch(() => {});
-  }, [cardName]);
-
-  if (aggregate.count === 0 || aggregate.average === null) return null;
+function CardRatingDisplay({ ratings }: { ratings: { count: number; average: number | null } }) {
+  if (ratings.count === 0 || ratings.average === null) return null;
 
   return (
     <div className="mt-6 w-full rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">User Rating</p>
         <span className="text-sm text-gray-500 whitespace-nowrap">
-          {aggregate.average.toFixed(1)}/4 from {aggregate.count} {aggregate.count === 1 ? 'rating' : 'ratings'}
+          {ratings.average.toFixed(1)}/4 from {ratings.count} {ratings.count === 1 ? 'rating' : 'ratings'}
         </span>
       </div>
       <div className="flex items-center gap-0.5">
         {[1, 2, 3, 4].map((star) => {
-          const filled = star <= Math.floor(aggregate.average!);
-          const half = !filled && star === Math.ceil(aggregate.average!) && aggregate.average! % 1 >= 0.25;
+          const filled = star <= Math.floor(ratings.average!);
+          const half = !filled && star === Math.ceil(ratings.average!) && ratings.average! % 1 >= 0.25;
           return (
             <StarIcon
               key={star}
@@ -116,9 +110,10 @@ interface CardClientProps {
   graphData: GraphData[];
   news: NewsItem[];
   articles: Article[];
+  ratings: { count: number; average: number | null };
 }
 
-export default function CardClient({ card, graphData, news, articles }: CardClientProps) {
+export default function CardClient({ card, graphData, news, articles, ratings }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
@@ -223,7 +218,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* JSON-LD Structured Data (#12) */}
-      <CreditCardSchema card={card} />
+      <CreditCardSchema card={card} ratings={ratings} />
       <BreadcrumbSchema items={[
         { name: 'Home', url: 'https://creditodds.com' },
         { name: card.bank, url: `https://creditodds.com/bank/${encodeURIComponent(card.bank)}` },
@@ -357,7 +352,7 @@ export default function CardClient({ card, graphData, news, articles }: CardClie
                 )}
 
                 {/* Card Rating (read-only) */}
-                <CardRatingDisplay cardName={card.card_name} />
+                <CardRatingDisplay ratings={ratings} />
 
                 {/* Apply Buttons */}
                 {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
