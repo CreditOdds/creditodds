@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCard, getCardGraphs, getAllCards, GraphData } from "@/lib/api";
+import { getCard, getCardGraphs, getAllCards, getCardRatings, GraphData } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import CardClient from "./CardClient";
@@ -71,11 +71,14 @@ export default async function CardPage({ params }: CardPageProps) {
       getArticles().catch(() => [] as Article[]),
     ]);
 
+    // Fetch ratings after we have the card name
+    const ratings = await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null }));
+
     // Filter news and articles for this specific card
     const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));
     const cardArticles = allArticles.filter(a => a.related_cards?.includes(slug));
 
-    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} />;
+    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} ratings={ratings} />;
   } catch {
     notFound();
   }
