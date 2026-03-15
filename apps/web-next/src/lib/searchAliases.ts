@@ -34,7 +34,10 @@ export function expandSearchTerm(term: string): string[] {
 }
 
 /**
- * Check if a card matches the search input, including aliases
+ * Check if a card matches the search input, including aliases.
+ * Uses multi-word matching: all words in the query must appear
+ * somewhere in the card name or bank name (e.g. "Bank America"
+ * matches "Bank of America").
  */
 export function cardMatchesSearch(
   cardName: string,
@@ -46,8 +49,10 @@ export function cardMatchesSearch(
   const searchTerms = expandSearchTerm(searchInput);
   const lowerCardName = cardName.toLowerCase();
   const lowerBank = bank.toLowerCase();
+  const combined = lowerCardName + ' ' + lowerBank;
 
-  return searchTerms.some(term =>
-    lowerCardName.includes(term) || lowerBank.includes(term)
-  );
+  return searchTerms.some(term => {
+    const words = term.split(/\s+/).filter(Boolean);
+    return words.every(word => combined.includes(word));
+  });
 }
