@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 
 export const metadata: Metadata = {
@@ -7,74 +8,79 @@ export const metadata: Metadata = {
   description: 'Free credit card tools and calculators. Convert miles and points to dollars for Chase, Amex, Delta, United, Southwest, Capital One, Marriott, Hilton, Hyatt, IHG, Bilt, and Citi.',
 };
 
-const dollarIcon = (
-  <svg className="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-  </svg>
-);
+interface Tool {
+  name: string;
+  description: string;
+  href: string;
+  cpp: number;
+  unit: 'point' | 'mile';
+  logo?: string; // path to /public/logos/<brand>.svg — add later
+}
 
-const tools = [
+interface ToolCategory {
+  label: string;
+  tools: Tool[];
+}
+
+const categories: ToolCategory[] = [
   {
-    name: 'Chase Ultimate Rewards to USD',
-    description: 'Convert Chase UR points to dollars. 1.25¢/point.',
-    href: '/tools/chase-ultimate-rewards-to-usd',
+    label: 'Bank Points',
+    tools: [
+      { name: 'Chase Ultimate Rewards', description: 'Convert Chase UR points to dollars.', href: '/tools/chase-ultimate-rewards-to-usd', cpp: 1.25, unit: 'point', logo: '/logos/chase.svg' },
+      { name: 'Amex Membership Rewards', description: 'Convert Amex MR points to dollars.', href: '/tools/amex-membership-rewards-to-usd', cpp: 1.2, unit: 'point', logo: '/logos/amex.svg' },
+      { name: 'Capital One Miles', description: 'Convert Capital One miles to dollars.', href: '/tools/capital-one-miles-to-usd', cpp: 1.0, unit: 'mile', logo: '/logos/capital-one.svg' },
+      { name: 'Citi ThankYou Points', description: 'Convert Citi ThankYou points to dollars.', href: '/tools/citi-thankyou-points-to-usd', cpp: 1.0, unit: 'point', logo: '/logos/citi.svg' },
+      { name: 'Bilt Rewards', description: 'Convert Bilt Rewards points to dollars.', href: '/tools/bilt-rewards-points-to-usd', cpp: 1.5, unit: 'point', logo: '/logos/bilt.svg' },
+    ],
   },
   {
-    name: 'Amex Membership Rewards to USD',
-    description: 'Convert Amex MR points to dollars. 1.2¢/point.',
-    href: '/tools/amex-membership-rewards-to-usd',
+    label: 'Airline Miles',
+    tools: [
+      { name: 'United MileagePlus', description: 'Convert United MileagePlus miles to dollars.', href: '/tools/united-miles-to-usd', cpp: 1.2, unit: 'mile', logo: '/logos/united.svg' },
+      { name: 'Delta SkyMiles', description: 'Convert Delta SkyMiles to dollars.', href: '/tools/delta-skymiles-to-usd', cpp: 1.1, unit: 'mile', logo: '/logos/delta.svg' },
+      { name: 'Southwest Rapid Rewards', description: 'Convert Southwest points to dollars.', href: '/tools/southwest-rapid-rewards-to-usd', cpp: 1.4, unit: 'point', logo: '/logos/southwest.svg' },
+    ],
   },
   {
-    name: 'United Miles to USD',
-    description: 'Convert United MileagePlus miles to dollars. 1.2¢/mile.',
-    href: '/tools/united-miles-to-usd',
-  },
-  {
-    name: 'Delta SkyMiles to USD',
-    description: 'Convert Delta SkyMiles to dollars. 1.1¢/mile.',
-    href: '/tools/delta-skymiles-to-usd',
-  },
-  {
-    name: 'Southwest Rapid Rewards to USD',
-    description: 'Convert Southwest points to dollars. 1.4¢/point.',
-    href: '/tools/southwest-rapid-rewards-to-usd',
-  },
-  {
-    name: 'Capital One Miles to USD',
-    description: 'Convert Capital One miles to dollars. 1.0¢/mile.',
-    href: '/tools/capital-one-miles-to-usd',
-  },
-  {
-    name: 'Marriott Bonvoy Points to USD',
-    description: 'Convert Marriott Bonvoy points to dollars. 0.7¢/point.',
-    href: '/tools/marriott-bonvoy-points-to-usd',
-  },
-  {
-    name: 'Hilton Honors Points to USD',
-    description: 'Convert Hilton Honors points to dollars. 0.5¢/point.',
-    href: '/tools/hilton-honors-points-to-usd',
-  },
-  {
-    name: 'World of Hyatt Points to USD',
-    description: 'Convert World of Hyatt points to dollars. 2.0¢/point.',
-    href: '/tools/world-of-hyatt-points-to-usd',
-  },
-  {
-    name: 'IHG One Rewards Points to USD',
-    description: 'Convert IHG One Rewards points to dollars. 0.5¢/point.',
-    href: '/tools/ihg-one-rewards-points-to-usd',
-  },
-  {
-    name: 'Bilt Rewards Points to USD',
-    description: 'Convert Bilt Rewards points to dollars. 1.5¢/point.',
-    href: '/tools/bilt-rewards-points-to-usd',
-  },
-  {
-    name: 'Citi ThankYou Points to USD',
-    description: 'Convert Citi ThankYou points to dollars. 1.0¢/point.',
-    href: '/tools/citi-thankyou-points-to-usd',
+    label: 'Hotel Points',
+    tools: [
+      { name: 'World of Hyatt', description: 'Convert World of Hyatt points to dollars.', href: '/tools/world-of-hyatt-points-to-usd', cpp: 2.0, unit: 'point', logo: '/logos/hyatt.svg' },
+      { name: 'Marriott Bonvoy', description: 'Convert Marriott Bonvoy points to dollars.', href: '/tools/marriott-bonvoy-points-to-usd', cpp: 0.7, unit: 'point', logo: '/logos/marriott.svg' },
+      { name: 'Hilton Honors', description: 'Convert Hilton Honors points to dollars.', href: '/tools/hilton-honors-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/hilton.svg' },
+      { name: 'IHG One Rewards', description: 'Convert IHG One Rewards points to dollars.', href: '/tools/ihg-one-rewards-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/ihg.svg' },
+    ],
   },
 ];
+
+function cppColor(cpp: number): string {
+  if (cpp >= 1.5) return 'text-emerald-700 bg-emerald-50 ring-emerald-600/20';
+  if (cpp >= 1.0) return 'text-indigo-700 bg-indigo-50 ring-indigo-600/20';
+  return 'text-gray-600 bg-gray-50 ring-gray-500/20';
+}
+
+function CppBadge({ cpp, unit }: { cpp: number; unit: string }) {
+  return (
+    <span className={`inline-flex items-center rounded-md px-2 py-1 text-sm font-semibold ring-1 ring-inset ${cppColor(cpp)}`}>
+      {cpp.toFixed(1)}¢/{unit}
+    </span>
+  );
+}
+
+function BrandIcon({ tool }: { tool: Tool }) {
+  // Placeholder icon until real logos are added to /public/logos/
+  // Once logos exist, the Image component will render them automatically.
+  const initials = tool.name
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2);
+
+  return (
+    <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
+      {initials}
+    </div>
+  );
+}
 
 export default function ToolsPage() {
   return (
@@ -86,7 +92,7 @@ export default function ToolsPage() {
 
       <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ol className="flex items-center space-x-4 py-4">
+          <ol className="flex items-center space-x-4 py-4 overflow-hidden">
             <li>
               <Link href="/" className="text-gray-400 hover:text-gray-500">Home</Link>
             </li>
@@ -106,25 +112,32 @@ export default function ToolsPage() {
         <h1 className="text-2xl font-bold text-gray-900">Tools</h1>
         <p className="mt-2 text-gray-600">Free calculators and converters for credit card rewards.</p>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow group"
-            >
-              <div className="flex items-center gap-4">
-                {dollarIcon}
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900 group-hover:text-indigo-600">
-                    {tool.name}
-                  </h2>
-                  <p className="mt-1 text-sm text-gray-500">{tool.description}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {/* Categorized tool cards */}
+        {categories.map((category) => (
+          <div key={category.label} className="mt-10">
+            <h2 className="text-lg font-semibold text-gray-900">{category.label}</h2>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {category.tools.map((tool) => (
+                <Link
+                  key={tool.href}
+                  href={tool.href}
+                  className="bg-white rounded-lg shadow p-5 hover:shadow-md transition-shadow group flex items-start gap-4"
+                >
+                  <BrandIcon tool={tool} />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-base font-semibold text-gray-900 group-hover:text-indigo-600 truncate">
+                        {tool.name}
+                      </h3>
+                      <CppBadge cpp={tool.cpp} unit={tool.unit} />
+                    </div>
+                    <p className="mt-1 text-sm text-gray-500">{tool.description}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
