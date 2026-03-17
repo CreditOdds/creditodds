@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   BuildingLibraryIcon,
 } from "@heroicons/react/24/solid";
-import { getValuation } from "@/lib/valuations";
+import { getValuationDetails } from "@/lib/valuations";
 import {
   ExclamationTriangleIcon,
   PencilSquareIcon,
@@ -17,6 +17,7 @@ import {
   BanknotesIcon,
   ScaleIcon,
   ShareIcon,
+  CalculatorIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, Reward, trackReferralEvent } from "@/lib/api";
@@ -338,7 +339,7 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
                             : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
                           {card.signup_bonus.type !== "cash" && (
                             <span className="text-sm font-medium text-amber-700/70 ml-1.5">
-                              (~${(card.signup_bonus.value * getValuation(card.card_name) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
+                              (~${(card.signup_bonus.value * (getValuationDetails(card.card_name)?.cpp ?? 1.0) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                             </span>
                           )}
                         </p>
@@ -484,6 +485,23 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
                       </span>
                     </>
                   )}
+                  {card.reward_type && card.reward_type !== 'cashback' && (() => {
+                    const valuation = getValuationDetails(card.card_name);
+                    if (!valuation?.toolSlug) return null;
+                    const unit = card.reward_type === 'miles' ? 'mile' : 'point';
+                    return (
+                      <>
+                        <span className="text-gray-300">&middot;</span>
+                        <Link
+                          href={`/tools/${valuation.toolSlug}-to-usd`}
+                          className="inline-flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                        >
+                          {valuation.cpp.toFixed(1)}¢/{unit}
+                          <CalculatorIcon className="h-3.5 w-3.5" />
+                        </Link>
+                      </>
+                    );
+                  })()}
                 </div>
 
                 {/* Rewards Section - 2-column grid, sorted highest first */}
@@ -581,7 +599,7 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
                             : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
                           {card.signup_bonus.type !== "cash" && (
                             <span className="ml-1.5 text-sm font-medium text-amber-700/70">
-                              (~${(card.signup_bonus.value * getValuation(card.card_name) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
+                              (~${(card.signup_bonus.value * (getValuationDetails(card.card_name)?.cpp ?? 1.0) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                             </span>
                           )}
                         </p>
