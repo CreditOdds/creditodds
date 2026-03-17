@@ -677,74 +677,9 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
                   </div>
                 )}
 
-                {/* Compact submit CTA */}
-                {card.accepting_applications && (
-                  <div className="mt-6 hidden rounded-xl border border-indigo-200 bg-indigo-50/70 px-4 py-4 sm:px-5 lg:block">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <p className="text-sm font-semibold text-indigo-900">
-                          Have you applied for this card?
-                        </p>
-                        <p className="mt-0.5 text-sm text-indigo-700">
-                          Share your result to help others compare approval odds.
-                        </p>
-                      </div>
-                      <div className="sm:flex-shrink-0">
-                        {authState.isAuthenticated ? (
-                          <button
-                            onClick={() => setShowModal(true)}
-                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
-                          >
-                            Submit Data Point
-                          </button>
-                        ) : (
-                          <Link
-                            href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
-                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
-                          >
-                            Log In to Submit
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
 
               </div>
             </div>
-
-            {/* Mobile-only: keep "Have you applied" as last item in top card */}
-            {card.accepting_applications && (
-              <div className="mt-8 rounded-xl border border-indigo-200 bg-indigo-50/70 px-4 py-4 sm:px-5 lg:hidden">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-indigo-900">
-                      Have you applied for this card?
-                    </p>
-                    <p className="mt-0.5 text-sm text-indigo-700">
-                      Share your result to help others compare approval odds.
-                    </p>
-                  </div>
-                  <div className="sm:flex-shrink-0">
-                    {authState.isAuthenticated ? (
-                      <button
-                        onClick={() => setShowModal(true)}
-                        className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
-                      >
-                        Submit Data Point
-                      </button>
-                    ) : (
-                      <Link
-                        href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
-                        className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
-                      >
-                        Log In to Submit
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -758,8 +693,25 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
                 We&apos;re still collecting data on this card
               </h3>
               <p className="text-base text-gray-600">
-                If you&apos;ve applied for this card, please submit your data above. We need at least 1 data point to show the charts and statistics.
+                We need at least 1 data point to show the charts and statistics.
               </p>
+              <div className="mt-4">
+                {authState.isAuthenticated ? (
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
+                  >
+                    Submit Data Point
+                  </button>
+                ) : (
+                  <Link
+                    href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                    className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
+                  >
+                    Log In to Submit
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -771,15 +723,43 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
               <div className="p-6 sm:p-10 border-b border-gray-100 bg-gradient-to-br from-indigo-50/70 to-white">
-                <h2 className="text-xs text-indigo-600 font-semibold tracking-[0.18em] uppercase">
-                  Data Points
-                </h2>
-                <p className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
-                  How other people did
-                </p>
-                <p className="mt-3 text-sm sm:text-base text-gray-600 max-w-3xl">
-                  User-reported application outcomes for the {card.card_name}.
-                </p>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h2 className="text-xs text-indigo-600 font-semibold tracking-[0.18em] uppercase">
+                      Data Points
+                    </h2>
+                    <p className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
+                      How other people did
+                    </p>
+                    <p className="mt-3 text-sm sm:text-base text-gray-600 max-w-3xl">
+                      User-reported application outcomes for the {card.card_name}.
+                    </p>
+                  </div>
+                  {card.accepting_applications && (
+                    <div className="flex-shrink-0">
+                      <p className="text-sm font-semibold text-indigo-900 sm:text-right">
+                        Have you applied for this card?
+                      </p>
+                      <div className="mt-2">
+                        {authState.isAuthenticated ? (
+                          <button
+                            onClick={() => setShowModal(true)}
+                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 w-full sm:w-auto"
+                          >
+                            Submit Data Point
+                          </button>
+                        ) : (
+                          <Link
+                            href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 w-full sm:w-auto"
+                          >
+                            Log In to Submit
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="p-6 sm:p-10 space-y-6">
