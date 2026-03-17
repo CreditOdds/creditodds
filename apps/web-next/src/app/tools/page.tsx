@@ -14,7 +14,7 @@ interface Tool {
   href: string;
   cpp: number;
   unit: 'point' | 'mile';
-  logo?: string; // path to /public/logos/<brand>.svg — add later
+  logo: string;
 }
 
 interface ToolCategory {
@@ -26,28 +26,28 @@ const categories: ToolCategory[] = [
   {
     label: 'Bank Points',
     tools: [
-      { name: 'Chase Ultimate Rewards', description: 'Convert Chase UR points to dollars.', href: '/tools/chase-ultimate-rewards-to-usd', cpp: 1.25, unit: 'point', logo: '/logos/chase.svg' },
-      { name: 'Amex Membership Rewards', description: 'Convert Amex MR points to dollars.', href: '/tools/amex-membership-rewards-to-usd', cpp: 1.2, unit: 'point', logo: '/logos/amex.svg' },
-      { name: 'Capital One Miles', description: 'Convert Capital One miles to dollars.', href: '/tools/capital-one-miles-to-usd', cpp: 1.0, unit: 'mile', logo: '/logos/capital-one.svg' },
-      { name: 'Citi ThankYou Points', description: 'Convert Citi ThankYou points to dollars.', href: '/tools/citi-thankyou-points-to-usd', cpp: 1.0, unit: 'point', logo: '/logos/citi.svg' },
-      { name: 'Bilt Rewards', description: 'Convert Bilt Rewards points to dollars.', href: '/tools/bilt-rewards-points-to-usd', cpp: 1.5, unit: 'point', logo: '/logos/bilt.svg' },
+      { name: 'Chase Ultimate Rewards', description: 'Convert Chase UR points to dollars.', href: '/tools/chase-ultimate-rewards-to-usd', cpp: 1.25, unit: 'point', logo: '/logos/chase.jpg' },
+      { name: 'Amex Membership Rewards', description: 'Convert Amex MR points to dollars.', href: '/tools/amex-membership-rewards-to-usd', cpp: 1.2, unit: 'point', logo: '/logos/amex.jpg' },
+      { name: 'Capital One Miles', description: 'Convert Capital One miles to dollars.', href: '/tools/capital-one-miles-to-usd', cpp: 1.0, unit: 'mile', logo: '/logos/capital-one.jpg' },
+      { name: 'Citi ThankYou Points', description: 'Convert Citi ThankYou points to dollars.', href: '/tools/citi-thankyou-points-to-usd', cpp: 1.0, unit: 'point', logo: '/logos/citi.png' },
+      { name: 'Bilt Rewards', description: 'Convert Bilt Rewards points to dollars.', href: '/tools/bilt-rewards-points-to-usd', cpp: 1.5, unit: 'point', logo: '/logos/bilt.jpg' },
     ],
   },
   {
     label: 'Airline Miles',
     tools: [
-      { name: 'United MileagePlus', description: 'Convert United MileagePlus miles to dollars.', href: '/tools/united-miles-to-usd', cpp: 1.2, unit: 'mile', logo: '/logos/united.svg' },
-      { name: 'Delta SkyMiles', description: 'Convert Delta SkyMiles to dollars.', href: '/tools/delta-skymiles-to-usd', cpp: 1.1, unit: 'mile', logo: '/logos/delta.svg' },
-      { name: 'Southwest Rapid Rewards', description: 'Convert Southwest points to dollars.', href: '/tools/southwest-rapid-rewards-to-usd', cpp: 1.4, unit: 'point', logo: '/logos/southwest.svg' },
+      { name: 'United MileagePlus', description: 'Convert United MileagePlus miles to dollars.', href: '/tools/united-miles-to-usd', cpp: 1.2, unit: 'mile', logo: '/logos/united.jpg' },
+      { name: 'Delta SkyMiles', description: 'Convert Delta SkyMiles to dollars.', href: '/tools/delta-skymiles-to-usd', cpp: 1.1, unit: 'mile', logo: '/logos/delta.jpg' },
+      { name: 'Southwest Rapid Rewards', description: 'Convert Southwest points to dollars.', href: '/tools/southwest-rapid-rewards-to-usd', cpp: 1.4, unit: 'point', logo: '/logos/southwest.jpg' },
     ],
   },
   {
     label: 'Hotel Points',
     tools: [
-      { name: 'World of Hyatt', description: 'Convert World of Hyatt points to dollars.', href: '/tools/world-of-hyatt-points-to-usd', cpp: 2.0, unit: 'point', logo: '/logos/hyatt.svg' },
-      { name: 'Marriott Bonvoy', description: 'Convert Marriott Bonvoy points to dollars.', href: '/tools/marriott-bonvoy-points-to-usd', cpp: 0.7, unit: 'point', logo: '/logos/marriott.svg' },
-      { name: 'Hilton Honors', description: 'Convert Hilton Honors points to dollars.', href: '/tools/hilton-honors-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/hilton.svg' },
-      { name: 'IHG One Rewards', description: 'Convert IHG One Rewards points to dollars.', href: '/tools/ihg-one-rewards-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/ihg.svg' },
+      { name: 'World of Hyatt', description: 'Convert World of Hyatt points to dollars.', href: '/tools/world-of-hyatt-points-to-usd', cpp: 2.0, unit: 'point', logo: '/logos/hyatt.jpg' },
+      { name: 'Marriott Bonvoy', description: 'Convert Marriott Bonvoy points to dollars.', href: '/tools/marriott-bonvoy-points-to-usd', cpp: 0.7, unit: 'point', logo: '/logos/marriott.jpg' },
+      { name: 'Hilton Honors', description: 'Convert Hilton Honors points to dollars.', href: '/tools/hilton-honors-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/hilton.jpg' },
+      { name: 'IHG One Rewards', description: 'Convert IHG One Rewards points to dollars.', href: '/tools/ihg-one-rewards-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/ihg.jpg' },
     ],
   },
 ];
@@ -67,17 +67,9 @@ function CppBadge({ cpp, unit }: { cpp: number; unit: string }) {
 }
 
 function BrandIcon({ tool }: { tool: Tool }) {
-  // Placeholder icon until real logos are added to /public/logos/
-  // Once logos exist, the Image component will render them automatically.
-  const initials = tool.name
-    .split(' ')
-    .map((w) => w[0])
-    .join('')
-    .slice(0, 2);
-
   return (
-    <div className="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
-      {initials}
+    <div className="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden bg-gray-100">
+      <Image src={tool.logo} alt={tool.name} width={40} height={40} className="object-cover w-full h-full" />
     </div>
   );
 }
