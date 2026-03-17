@@ -57,7 +57,10 @@ export default async function CapitalOneMilesToUsdPage() {
       </nav>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-2xl font-bold text-gray-900">Capital One Miles to USD Converter</h1>
+        <div className="flex items-center gap-3">
+          <Image src="/logos/capital-one.jpg" alt="Capital One" width={32} height={32} className="rounded-md" />
+          <h1 className="text-2xl font-bold text-gray-900">Capital One Miles to USD Converter</h1>
+        </div>
         <p className="mt-2 text-gray-600">
           Estimate the dollar value of your Capital One miles.
         </p>
