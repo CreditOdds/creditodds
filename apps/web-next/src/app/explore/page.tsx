@@ -84,6 +84,34 @@ export default async function ExplorePage() {
         {/* Client component for filtering/search */}
         <ExploreClient cards={sortedCards} banks={banks} />
       </div>
+
+      {/* Missing card CTA */}
+      <div className="border-t border-gray-200 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+          <p className="text-lg font-medium text-gray-900">
+            Don&apos;t see the card you&apos;re looking for?
+          </p>
+          <p className="mt-2 text-gray-500">
+            <a
+              href="https://github.com/CreditOdds/creditodds/issues/new?title=Add+card:+&labels=new+card"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-600 hover:text-indigo-800 font-medium"
+            >
+              Let us know
+            </a>
+            {" "}to add it, or{" "}
+            <a
+              href="https://github.com/CreditOdds/creditodds/blob/main/CONTRIBUTING.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-indigo-600 hover:text-indigo-800 font-medium"
+            >
+              add it yourself
+            </a>.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
