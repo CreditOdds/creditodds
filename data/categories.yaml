@@ -59,5 +59,7 @@ categories:
     label: Shipping
   - id: foreign_transactions
     label: Foreign Transactions
+  - id: military_base
+    label: Military Base
   - id: everything_else
     label: Everything Else

@@ -1,0 +1,16 @@
+name: "USAA Rate Advantage"
+bank: "USAA"
+slug: "usaa-rate-advantage"
+image: "usaa-rate-advantage.png"
+accepting_applications: true
+category: "balance_transfer"
+annual_fee: 0
+tags:
+  - balance_transfer
+apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 10.40
+    max: 24.40
