@@ -1,0 +1,14 @@
+name: "USAA Secured Visa Platinum"
+bank: "USAA"
+slug: "usaa-secured-visa-platinum"
+image: "usaa-secured-visa-platinum.png"
+accepting_applications: true
+category: "secured"
+annual_fee: 0
+tags:
+  - secured
+  - credit_builder
+apr:
+  regular:
+    min: 11.40
+    max: 21.40

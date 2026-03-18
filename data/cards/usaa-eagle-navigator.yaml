@@ -1,0 +1,30 @@
+name: "USAA Eagle Navigator"
+bank: "USAA"
+slug: "usaa-eagle-navigator"
+image: "usaa-eagle-navigator.png"
+accepting_applications: true
+category: "travel"
+annual_fee: 95
+tags:
+  - travel
+  - rewards
+reward_type: "points"
+rewards:
+  - category: travel
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+signup_bonus:
+  value: 30000
+  type: points
+  spend_requirement: 3000
+  timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 18.99
+    max: 28.99

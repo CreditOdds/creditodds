@@ -1,0 +1,31 @@
+name: "USAA Cashback Rewards Plus"
+bank: "USAA"
+slug: "usaa-cashback-rewards-plus"
+image: "usaa-cashback-rewards-plus.png"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0
+tags:
+  - cashback
+  - rewards
+reward_type: "cashback"
+rewards:
+  - category: military_base
+    value: 5
+    unit: percent
+    note: "First $5,000/year"
+  - category: gas
+    value: 5
+    unit: percent
+    note: "First $3,000/year"
+  - category: groceries
+    value: 3
+    unit: percent
+    note: "First $3,000/year"
+  - category: everything_else
+    value: 1
+    unit: percent
+apr:
+  regular:
+    min: 16.90
+    max: 30.90

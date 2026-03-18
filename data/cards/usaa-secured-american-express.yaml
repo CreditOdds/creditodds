@@ -1,0 +1,14 @@
+name: "USAA Secured American Express"
+bank: "USAA"
+slug: "usaa-secured-american-express"
+image: "usaa-secured-american-express.png"
+accepting_applications: true
+category: "secured"
+annual_fee: 35
+tags:
+  - secured
+  - credit_builder
+apr:
+  regular:
+    min: 11.40
+    max: 21.40
