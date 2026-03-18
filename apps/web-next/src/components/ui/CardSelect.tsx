@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import Downshift from "downshift";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import { ClockIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Card } from "@/lib/api";
 import { cardMatchesSearch } from "@/lib/searchAliases";
@@ -162,11 +162,8 @@ export default function CardSelect({ allCards }: CardSelectProps) {
                     >
                       <div className={`flex items-center ${isArchived ? 'opacity-60' : ''}`}>
                         <div className={`flex-shrink-0 h-8 w-12 relative ${isArchived ? 'grayscale' : ''}`}>
-                          <Image
-                            src={item.card_image_link
-                              ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`
-                              : '/assets/generic-card.svg'
-                            }
+                          <CardImage
+                            cardImageLink={item.card_image_link}
                             alt=""
                             fill
                             className="object-contain"

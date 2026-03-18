@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import { RecentRecord } from '@/lib/api';
 
 interface RecordsTickerProps {
@@ -24,10 +24,8 @@ export default function RecordsTicker({ records }: RecordsTickerProps) {
             >
               {/* Card Image */}
               <div className="h-8 w-12 flex-shrink-0 relative mr-3">
-                <Image
-                  src={record.card_image_link
-                    ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`
-                    : '/assets/generic-card.svg'}
+                <CardImage
+                  cardImageLink={record.card_image_link}
                   alt={record.card_name}
                   fill
                   className="object-contain"

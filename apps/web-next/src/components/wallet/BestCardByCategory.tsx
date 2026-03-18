@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import { Card, WalletCard, Reward } from '@/lib/api';
 import { formatRewardWithUsdEquivalent, getRewardUsdRate } from '@/lib/cardDisplayUtils';
 
@@ -128,10 +128,8 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center gap-3">
                     <div className="flex-shrink-0 h-8 w-12 relative">
-                      <Image
-                        src={card.card_image_link
-                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                          : '/assets/generic-card.svg'}
+                      <CardImage
+                        cardImageLink={card.card_image_link}
                         alt={card.card_name}
                         fill
                         className="object-contain"
@@ -163,10 +161,8 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
             <span className="text-sm font-medium text-gray-900">{label}</span>
             <div className="flex items-center gap-2">
               <div className="flex-shrink-0 h-6 w-10 relative">
-                <Image
-                  src={card.card_image_link
-                    ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                    : '/assets/generic-card.svg'}
+                <CardImage
+                  cardImageLink={card.card_image_link}
                   alt={card.card_name}
                   fill
                   className="object-contain"

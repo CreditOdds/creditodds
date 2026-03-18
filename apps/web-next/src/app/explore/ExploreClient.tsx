@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import { Card } from "@/lib/api";
 import { cardMatchesSearch } from "@/lib/searchAliases";
 
@@ -123,10 +123,8 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                 className="flex-shrink-0 bg-white rounded-lg shadow p-2 hover:shadow-md transition-shadow flex items-center gap-2 w-[200px] sm:w-[220px]"
               >
                 <div className="h-10 w-16 relative flex-shrink-0">
-                  <Image
-                    src={card.card_image_link
-                      ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                      : '/assets/generic-card.svg'}
+                  <CardImage
+                    cardImageLink={card.card_image_link}
                     alt={card.card_name}
                     fill
                     className="object-contain"
@@ -319,10 +317,8 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                         <td className="py-3 pl-3 pr-2 sm:py-4 sm:pl-6 sm:pr-3">
                           <Link href={`/card/${card.slug}`} className="flex items-center group">
                             <div className="h-8 w-12 sm:h-10 sm:w-16 flex-shrink-0 mr-3">
-                              <Image
-                                src={card.card_image_link
-                                  ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                                  : '/assets/generic-card.svg'}
+                              <CardImage
+                                cardImageLink={card.card_image_link}
                                 alt={card.card_name}
                                 width={64}
                                 height={40}

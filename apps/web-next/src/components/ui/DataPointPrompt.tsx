@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import Downshift from 'downshift';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -94,12 +94,8 @@ function CardPicker({
                     >
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-7 w-11 relative">
-                          <Image
-                            src={
-                              item.card_image_link
-                                ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`
-                                : '/assets/generic-card.svg'
-                            }
+                          <CardImage
+                            cardImageLink={item.card_image_link}
                             alt=""
                             fill
                             className="object-contain"

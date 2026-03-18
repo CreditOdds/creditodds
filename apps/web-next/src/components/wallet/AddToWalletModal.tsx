@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import CardImage from '@/components/ui/CardImage';
 import { Card, getAllCards, addToWallet } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
 
@@ -153,10 +153,8 @@ export default function AddToWalletModal({ show, onClose, onSuccess, existingCar
                       className="w-full flex items-center p-3 rounded-lg border border-gray-200 hover:border-indigo-500 hover:bg-indigo-50 transition-colors text-left"
                     >
                       <div className="h-10 w-16 flex-shrink-0 mr-3">
-                        <Image
-                          src={card.card_image_link
-                            ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                            : '/assets/generic-card.svg'}
+                        <CardImage
+                          cardImageLink={card.card_image_link}
                           alt={card.card_name}
                           width={64}
                           height={40}
@@ -185,10 +183,8 @@ export default function AddToWalletModal({ show, onClose, onSuccess, existingCar
                 <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center">
                     <div className="h-12 w-20 flex-shrink-0 mr-4">
-                      <Image
-                        src={selectedCard.card_image_link
-                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${selectedCard.card_image_link}`
-                          : '/assets/generic-card.svg'}
+                      <CardImage
+                        cardImageLink={selectedCard.card_image_link}
                         alt={selectedCard.card_name}
                         width={80}
                         height={48}

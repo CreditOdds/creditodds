@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -290,10 +290,8 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
             {/* Mobile card image first */}
             <div className="mb-6 lg:hidden">
               <div className="w-full max-w-sm mx-auto">
-                <Image
-                  src={card.card_image_link
-                    ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                    : '/assets/generic-card.svg'}
+                <CardImage
+                  cardImageLink={card.card_image_link}
                   alt={card.card_name}
                   className="w-full rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
                   width={360}
@@ -311,10 +309,8 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
               <div className="order-2 mt-8 flex flex-col items-center lg:order-1 lg:col-span-4 lg:mt-0">
                 {/* Card Image */}
                 <div className="hidden w-full max-w-sm lg:mx-0 lg:block lg:max-w-[330px]">
-                  <Image
-                    src={card.card_image_link
-                      ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                      : '/assets/generic-card.svg'}
+                  <CardImage
+                    cardImageLink={card.card_image_link}
                     alt={card.card_name}
                     className="w-full rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
                     width={360}

@@ -2,8 +2,8 @@
 
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
+import CardImage from '@/components/ui/CardImage';
 import Downshift from 'downshift';
 import {
   MagnifyingGlassIcon,
@@ -50,10 +50,8 @@ function CardPicker({
     return (
       <div className="bg-white rounded-lg border border-gray-200 p-3 flex items-center gap-3">
         <div className="flex-shrink-0 h-10 w-16 relative">
-          <Image
-            src={selectedCard.card_image_link
-              ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${selectedCard.card_image_link}`
-              : '/assets/generic-card.svg'}
+          <CardImage
+            cardImageLink={selectedCard.card_image_link}
             alt={selectedCard.card_name}
             fill
             className="object-contain rounded"
@@ -153,10 +151,8 @@ function CardPicker({
                   >
                     <div className={`flex items-center gap-2 ${isArchived ? 'opacity-60' : ''}`}>
                       <div className={`flex-shrink-0 h-6 w-10 relative ${isArchived ? 'grayscale' : ''}`}>
-                        <Image
-                          src={item.card_image_link
-                            ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`
-                            : '/assets/generic-card.svg'}
+                        <CardImage
+                          cardImageLink={item.card_image_link}
                           alt=""
                           fill
                           className="object-contain"
@@ -391,10 +387,8 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                 {/* Card header */}
                 <div className="px-4 py-4 bg-gray-50 border-b border-gray-200 flex items-center gap-3">
                   <div className="flex-shrink-0 h-12 w-20 relative">
-                    <Image
-                      src={card.card_image_link
-                        ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                        : '/assets/generic-card.svg'}
+                    <CardImage
+                      cardImageLink={card.card_image_link}
                       alt={card.card_name}
                       fill
                       className="object-contain rounded"
@@ -553,10 +547,8 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                 {activeCards.map((card) => (
                   <td key={card.slug} className="px-4 py-3 text-center">
                     <div className="mx-auto w-32 h-20 relative">
-                      <Image
-                        src={card.card_image_link
-                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                          : '/assets/generic-card.svg'}
+                      <CardImage
+                        cardImageLink={card.card_image_link}
                         alt={card.card_name}
                         fill
                         className="object-contain rounded-lg"
