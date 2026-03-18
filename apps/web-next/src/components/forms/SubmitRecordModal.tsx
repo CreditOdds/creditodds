@@ -6,7 +6,7 @@ import { XMarkIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NumericFormat } from "react-number-format";
-import Image from "next/image";
+import CardImage from '@/components/ui/CardImage';
 import { useAuth } from "@/auth/AuthProvider";
 import { toast } from "react-toastify";
 import { getRecords } from "@/lib/api";
@@ -262,17 +262,15 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                     <div className="p-8">
                       {/* Card image and name */}
                       <div className="mb-6">
-                        {card.card_image_link && (
-                          <div className="block w-full rounded-lg overflow-hidden mb-4 relative h-48">
-                            <Image
-                              src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                              alt={card.card_name}
-                              fill
-                              className="object-contain"
-                              sizes="(max-width: 448px) 100vw, 448px"
-                            />
-                          </div>
-                        )}
+                        <div className="block w-full rounded-lg overflow-hidden mb-4 relative h-48">
+                          <CardImage
+                            cardImageLink={card.card_image_link}
+                            alt={card.card_name}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 448px) 100vw, 448px"
+                          />
+                        </div>
                         <h2 className="text-lg font-medium text-gray-900">{card.card_name}</h2>
                       </div>
 

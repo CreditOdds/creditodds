@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from "react";
-import Image from "next/image";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle, Listbox, ListboxButton, ListboxOption, ListboxOptions, Label } from "@headlessui/react";
+import CardImage from '@/components/ui/CardImage';
 import { LinkIcon, CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -131,8 +131,8 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
                         <span className="flex items-center">
                           {selected.card_image_link && (
                             <div className="h-8 w-12 flex-shrink-0 relative">
-                              <Image
-                                src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${selected.card_image_link}`}
+                              <CardImage
+                                cardImageLink={selected.card_image_link}
                                 alt=""
                                 fill
                                 className="object-contain"
@@ -164,8 +164,8 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
                                 <div className="flex items-center">
                                   {card.card_image_link && (
                                     <div className="h-8 w-12 flex-shrink-0 relative">
-                                      <Image
-                                        src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
+                                      <CardImage
+                                        cardImageLink={card.card_image_link}
                                         alt=""
                                         fill
                                         className="object-contain"

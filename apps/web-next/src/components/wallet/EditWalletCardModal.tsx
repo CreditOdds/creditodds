@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
 import { XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { addToWallet, removeFromWallet, WalletCard, getCardRatings, getUserCardRating, submitCardRating } from '@/lib/api';
@@ -179,10 +179,8 @@ export default function EditWalletCardModal({ show, card, cardSlug, onClose, onS
             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center">
                 <div className="h-12 w-20 flex-shrink-0 mr-4">
-                  <Image
-                    src={card.card_image_link
-                      ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                      : '/assets/generic-card.svg'}
+                  <CardImage
+                    cardImageLink={card.card_image_link}
                     alt={card.card_name}
                     width={80}
                     height={48}

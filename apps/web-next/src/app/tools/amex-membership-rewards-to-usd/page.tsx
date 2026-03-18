@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 import { getAllCards } from '@/lib/api';
 import { getNews } from '@/lib/news';
@@ -81,10 +82,8 @@ export default async function AmexMRToUsdPage() {
                   className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow flex items-center gap-4 group"
                 >
                   <div className="h-10 w-16 flex-shrink-0 relative">
-                    <Image
-                      src={card.card_image_link
-                        ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                        : '/assets/generic-card.svg'}
+                    <CardImage
+                      cardImageLink={card.card_image_link}
                       alt={card.card_name}
                       fill
                       className="object-contain"

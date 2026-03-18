@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import { useAuth } from "@/auth/AuthProvider";
 import { checkOdds, CheckOddsCard, CheckOddsResponse, getWallet, WalletCard } from "@/lib/api";
 import { calculateApplicationRules, RuleResult } from "@/lib/applicationRules";
@@ -386,10 +386,8 @@ export default function CheckOddsClient() {
                             <td className="py-3 pl-3 pr-2 sm:py-4 sm:pl-6 sm:pr-3">
                               <Link href={`/card/${card.slug}`} className="flex items-center group">
                                 <div className="h-8 w-12 sm:h-10 sm:w-16 flex-shrink-0 mr-3">
-                                  <Image
-                                    src={card.card_image_link
-                                      ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                                      : '/assets/generic-card.svg'}
+                                  <CardImage
+                                    cardImageLink={card.card_image_link}
                                     alt={card.card_name}
                                     width={64}
                                     height={40}

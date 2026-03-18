@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import { useAuth } from "@/auth/AuthProvider";
 import {
   getAdminStats,
@@ -507,17 +507,15 @@ function RecordsTab({
               <tr key={record.record_id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center">
-                    {record.card_image_link && (
-                      <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                        <Image
-                          src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
-                          alt={record.card_name}
-                          fill
-                          className="object-contain"
-                          sizes="48px"
-                        />
-                      </div>
-                    )}
+                    <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                      <CardImage
+                        cardImageLink={record.card_image_link}
+                        alt={record.card_name}
+                        fill
+                        className="object-contain"
+                        sizes="48px"
+                      />
+                    </div>
                     <div>
                       <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
                         {record.card_name}
@@ -607,17 +605,15 @@ function ReferralsTab({
               >
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center">
-                    {referral.card_image_link && (
-                      <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                        <Image
-                          src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
-                          alt={referral.card_name}
-                          fill
-                          className="object-contain"
-                          sizes="48px"
-                        />
-                      </div>
-                    )}
+                    <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                      <CardImage
+                        cardImageLink={referral.card_image_link}
+                        alt={referral.card_name}
+                        fill
+                        className="object-contain"
+                        sizes="48px"
+                      />
+                    </div>
                     <div>
                       <div className="text-sm font-medium text-gray-900 truncate max-w-[150px]">
                         {referral.card_name}
@@ -906,17 +902,15 @@ function UserLookupTab({
                       <tr key={card.id} className="hover:bg-gray-50">
                         <td className="px-4 py-3 whitespace-nowrap">
                           <div className="flex items-center">
-                            {card.card_image_link && (
-                              <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                                <Image
-                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                                  alt={card.card_name}
-                                  fill
-                                  className="object-contain"
-                                  sizes="48px"
-                                />
-                              </div>
-                            )}
+                            <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                              <CardImage
+                                cardImageLink={card.card_image_link}
+                                alt={card.card_name}
+                                fill
+                                className="object-contain"
+                                sizes="48px"
+                              />
+                            </div>
                             <span className="text-sm font-medium text-gray-900">{card.card_name}</span>
                           </div>
                         </td>
@@ -961,17 +955,15 @@ function UserLookupTab({
                       <tr key={record.record_id} className="hover:bg-gray-50">
                         <td className="px-4 py-3 whitespace-nowrap">
                           <div className="flex items-center">
-                            {record.card_image_link && (
-                              <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                                <Image
-                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
-                                  alt={record.card_name}
-                                  fill
-                                  className="object-contain"
-                                  sizes="48px"
-                                />
-                              </div>
-                            )}
+                            <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                              <CardImage
+                                cardImageLink={record.card_image_link}
+                                alt={record.card_name}
+                                fill
+                                className="object-contain"
+                                sizes="48px"
+                              />
+                            </div>
                             <div>
                               <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
                                 {record.card_name}
@@ -1065,17 +1057,15 @@ function UserLookupTab({
                       <tr key={referral.referral_id} className="hover:bg-gray-50">
                         <td className="px-4 py-3 whitespace-nowrap">
                           <div className="flex items-center">
-                            {referral.card_image_link && (
-                              <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                                <Image
-                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
-                                  alt={referral.card_name}
-                                  fill
-                                  className="object-contain"
-                                  sizes="48px"
-                                />
-                              </div>
-                            )}
+                            <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                              <CardImage
+                                cardImageLink={referral.card_image_link}
+                                alt={referral.card_name}
+                                fill
+                                className="object-contain"
+                                sizes="48px"
+                              />
+                            </div>
                             <div>
                               <div className="text-sm font-medium text-gray-900 truncate max-w-[150px]">
                                 {referral.card_name}
@@ -1225,17 +1215,15 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
           {selectedCard ? (
             <div className="flex items-center justify-between border border-gray-300 rounded-md px-3 py-2">
               <div className="flex items-center gap-2">
-                {selectedCard.card_image_link && (
-                  <div className="flex-shrink-0 h-6 w-10 relative">
-                    <Image
-                      src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${selectedCard.card_image_link}`}
-                      alt={selectedCard.card_name}
-                      fill
-                      className="object-contain"
-                      sizes="40px"
-                    />
-                  </div>
-                )}
+                <div className="flex-shrink-0 h-6 w-10 relative">
+                  <CardImage
+                    cardImageLink={selectedCard.card_image_link}
+                    alt={selectedCard.card_name}
+                    fill
+                    className="object-contain"
+                    sizes="40px"
+                  />
+                </div>
                 <span className="text-sm text-gray-900">{selectedCard.card_name}</span>
                 <span className="text-xs text-gray-500">({selectedCard.bank})</span>
               </div>
@@ -1265,17 +1253,15 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
                       onClick={() => handleSelectCard(card)}
                       className="px-3 py-2 hover:bg-indigo-50 cursor-pointer text-sm flex items-center gap-2"
                     >
-                      {card.card_image_link && (
-                        <div className="flex-shrink-0 h-5 w-8 relative">
-                          <Image
-                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                            alt={card.card_name}
-                            fill
-                            className="object-contain"
-                            sizes="32px"
-                          />
-                        </div>
-                      )}
+                      <div className="flex-shrink-0 h-5 w-8 relative">
+                        <CardImage
+                          cardImageLink={card.card_image_link}
+                          alt={card.card_name}
+                          fill
+                          className="object-contain"
+                          sizes="32px"
+                        />
+                      </div>
                       <span>{card.card_name}</span>
                       <span className="text-gray-400 text-xs">({card.bank})</span>
                     </li>
@@ -1750,17 +1736,15 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
           {selectedCard ? (
             <div className="flex items-center justify-between border border-gray-300 rounded-md px-3 py-2">
               <div className="flex items-center gap-2">
-                {selectedCard.card_image_link && (
-                  <div className="flex-shrink-0 h-6 w-10 relative">
-                    <Image
-                      src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${selectedCard.card_image_link}`}
-                      alt={selectedCard.card_name}
-                      fill
-                      className="object-contain"
-                      sizes="40px"
-                    />
-                  </div>
-                )}
+                <div className="flex-shrink-0 h-6 w-10 relative">
+                  <CardImage
+                    cardImageLink={selectedCard.card_image_link}
+                    alt={selectedCard.card_name}
+                    fill
+                    className="object-contain"
+                    sizes="40px"
+                  />
+                </div>
                 <span className="text-sm text-gray-900">{selectedCard.card_name}</span>
                 <span className="text-xs text-gray-500">({selectedCard.bank})</span>
               </div>
@@ -1794,17 +1778,15 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
                       }}
                       className="px-3 py-2 hover:bg-indigo-50 cursor-pointer text-sm flex items-center gap-2"
                     >
-                      {card.card_image_link && (
-                        <div className="flex-shrink-0 h-5 w-8 relative">
-                          <Image
-                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                            alt={card.card_name}
-                            fill
-                            className="object-contain"
-                            sizes="32px"
-                          />
-                        </div>
-                      )}
+                      <div className="flex-shrink-0 h-5 w-8 relative">
+                        <CardImage
+                          cardImageLink={card.card_image_link}
+                          alt={card.card_name}
+                          fill
+                          className="object-contain"
+                          sizes="32px"
+                        />
+                      </div>
                       <span>{card.card_name}</span>
                       <span className="text-gray-400 text-xs">({card.bank})</span>
                     </li>

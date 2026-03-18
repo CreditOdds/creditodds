@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import { BuildingLibraryIcon, CreditCardIcon } from "@heroicons/react/24/outline";
 import { NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ExpandableText } from "@/components/ui/ExpandableText";
@@ -26,8 +26,6 @@ function TagBadge({ tag }: { tag: NewsTag }) {
   );
 }
 
-const CARD_IMG_CDN = 'https://d3ay3etzd1512y.cloudfront.net/card_images/';
-
 function CardStack({ item }: { item: NewsItem }) {
   const slugs = item.card_slugs ?? [];
   const names = item.card_names ?? [];
@@ -41,8 +39,8 @@ function CardStack({ item }: { item: NewsItem }) {
         className="flex items-center text-sm text-indigo-600 hover:text-indigo-900 whitespace-nowrap"
       >
         {images[0] ? (
-          <Image
-            src={`${CARD_IMG_CDN}${images[0]}`}
+          <CardImage
+            cardImageLink={images[0]}
             alt={names[0]}
             width={32}
             height={20}
@@ -70,8 +68,8 @@ function CardStack({ item }: { item: NewsItem }) {
               style={{ zIndex: slugs.length - i }}
             >
               {images[i] ? (
-                <Image
-                  src={`${CARD_IMG_CDN}${images[i]}`}
+                <CardImage
+                  cardImageLink={images[i]}
                   alt={names[i] || slug}
                   width={36}
                   height={23}
@@ -170,8 +168,8 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
                           href={`/card/${item.card_slugs?.[i] ?? item.card_slug}`}
                           style={{ zIndex: (item.card_image_links?.length ?? 1) - i }}
                         >
-                          <Image
-                            src={`${CARD_IMG_CDN}${img}`}
+                          <CardImage
+                            cardImageLink={img}
                             alt={item.card_names?.[i] ?? item.card_name ?? ''}
                             width={36}
                             height={23}

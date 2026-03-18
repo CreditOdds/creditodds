@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
@@ -565,10 +565,8 @@ export default function ProfileClient() {
                     className={`relative text-left rounded-lg p-3 transition-colors cursor-pointer ${inactive ? 'bg-gray-100 opacity-60' : 'bg-gray-50 hover:bg-gray-100'}`}
                   >
                     <div className="aspect-[1.586/1] relative mb-2">
-                      <Image
-                        src={card.card_image_link
-                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                          : '/assets/generic-card.svg'}
+                      <CardImage
+                        cardImageLink={card.card_image_link}
                         alt={card.card_name}
                         fill
                         className={`object-contain ${inactive ? 'grayscale' : ''}`}
@@ -648,17 +646,15 @@ export default function ProfileClient() {
                 {records.map((record, index) => (
                   <div key={record.record_id || index} className="p-4">
                     <div className="flex items-start gap-3">
-                      {record.card_image_link && (
-                        <div className="flex-shrink-0 h-12 w-20 relative">
-                          <Image
-                            className="object-contain"
-                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
-                            alt={record.card_name}
-                            fill
-                            sizes="80px"
-                          />
-                        </div>
-                      )}
+                      <div className="flex-shrink-0 h-12 w-20 relative">
+                        <CardImage
+                          className="object-contain"
+                          cardImageLink={record.card_image_link}
+                          alt={record.card_name}
+                          fill
+                          sizes="80px"
+                        />
+                      </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between">
                           <p className="text-sm font-medium text-gray-900 truncate">{record.card_name}</p>
@@ -720,17 +716,15 @@ export default function ProfileClient() {
                       <tr key={record.record_id || index}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            {record.card_image_link && (
-                              <div className="flex-shrink-0 h-10 w-16 relative">
-                                <Image
-                                  className="object-contain"
-                                  src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${record.card_image_link}`}
-                                  alt={record.card_name}
-                                  fill
-                                  sizes="64px"
-                                />
-                              </div>
-                            )}
+                            <div className="flex-shrink-0 h-10 w-16 relative">
+                              <CardImage
+                                className="object-contain"
+                                cardImageLink={record.card_image_link}
+                                alt={record.card_name}
+                                fill
+                                sizes="64px"
+                              />
+                            </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
                                 {record.card_name}
@@ -829,17 +823,15 @@ export default function ProfileClient() {
               <tr key={referral.referral_id} className={isArchived ? 'opacity-60' : ''}>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center">
-                    {referral.card_image_link && (
-                      <div className={`flex-shrink-0 h-8 w-12 relative ${isArchived ? 'grayscale' : ''}`}>
-                        <Image
-                          className="object-contain"
-                          src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
-                          alt={referral.card_name}
-                          fill
-                          sizes="48px"
-                        />
-                      </div>
-                    )}
+                    <div className={`flex-shrink-0 h-8 w-12 relative ${isArchived ? 'grayscale' : ''}`}>
+                      <CardImage
+                        className="object-contain"
+                        cardImageLink={referral.card_image_link}
+                        alt={referral.card_name}
+                        fill
+                        sizes="48px"
+                      />
+                    </div>
                     <div className="ml-3">
                       <div className="text-sm font-medium text-gray-900">{referral.card_name}</div>
                     </div>
@@ -896,17 +888,15 @@ export default function ProfileClient() {
             const renderReferralMobileCard = (referral: Referral, isArchived: boolean) => (
               <div key={referral.referral_id} className={`p-4 ${isArchived ? 'opacity-60' : ''}`}>
                 <div className="flex items-start gap-3">
-                  {referral.card_image_link && (
-                    <div className={`flex-shrink-0 h-12 w-20 relative ${isArchived ? 'grayscale' : ''}`}>
-                      <Image
-                        className="object-contain"
-                        src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${referral.card_image_link}`}
-                        alt={referral.card_name}
-                        fill
-                        sizes="80px"
-                      />
-                    </div>
-                  )}
+                  <div className={`flex-shrink-0 h-12 w-20 relative ${isArchived ? 'grayscale' : ''}`}>
+                    <CardImage
+                      className="object-contain"
+                      cardImageLink={referral.card_image_link}
+                      alt={referral.card_name}
+                      fill
+                      sizes="80px"
+                    />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <p className="text-sm font-medium text-gray-900 truncate">{referral.card_name}</p>

@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard } from '@/lib/best';
@@ -53,19 +53,13 @@ export function BestCardList({ cards }: BestCardListProps) {
                 {/* Card image */}
                 <div className="flex-shrink-0">
                   <Link href={`/card/${card.slug}`}>
-                    {card.card_image_link ? (
-                      <Image
-                        src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                        alt={card.card_name}
-                        width={160}
-                        height={100}
-                        className="rounded-lg shadow-sm"
-                      />
-                    ) : (
-                      <div className="w-40 h-25 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-400 text-xs">No image</span>
-                      </div>
-                    )}
+                    <CardImage
+                      cardImageLink={card.card_image_link}
+                      alt={card.card_name}
+                      width={160}
+                      height={100}
+                      className="rounded-lg shadow-sm"
+                    />
                   </Link>
                 </div>
 

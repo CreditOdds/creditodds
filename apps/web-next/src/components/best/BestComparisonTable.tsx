@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard } from '@/lib/best';
@@ -98,17 +98,13 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
                   <td className="px-4 py-3 align-top">
                     <div className="flex items-start gap-3 min-w-0">
                       <Link href={`/card/${card.slug}`} className="flex-shrink-0">
-                        {card.card_image_link ? (
-                          <Image
-                            src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                            alt={card.card_name}
-                            width={48}
-                            height={30}
-                            className="rounded shadow-sm"
-                          />
-                        ) : (
-                          <div className="w-12 h-[30px] bg-gray-200 rounded" />
-                        )}
+                        <CardImage
+                          cardImageLink={card.card_image_link}
+                          alt={card.card_name}
+                          width={48}
+                          height={30}
+                          className="rounded shadow-sm"
+                        />
                       </Link>
                       <div className="min-w-0">
                         <Link

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import CardImage from '@/components/ui/CardImage';
 import { Card } from '@/lib/api';
 
 interface BankCardsTableProps {
@@ -89,10 +89,8 @@ export default function BankCardsTable({ cards }: BankCardsTableProps) {
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                   <Link href={`/card/${card.slug}`} className="flex items-center group">
                     <div className="h-10 w-16 flex-shrink-0 mr-4">
-                      <Image
-                        src={card.card_image_link
-                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                          : '/assets/generic-card.svg'}
+                      <CardImage
+                        cardImageLink={card.card_image_link}
                         alt={card.card_name}
                         width={64}
                         height={40}

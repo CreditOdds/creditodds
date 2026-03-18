@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 import { CreditCardIcon } from "@heroicons/react/24/outline";
 import { RelatedCardInfo } from "@/lib/articles";
 
@@ -25,20 +25,14 @@ export function RelatedCards({ cards }: RelatedCardsProps) {
             href={`/card/${card.slug}`}
             className="flex items-center gap-4 p-4 bg-white rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-sm transition-all"
           >
-            {card.image ? (
-              <Image
-                src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.image}`}
-                alt={card.name}
-                width={64}
-                height={40}
-                className="rounded object-contain flex-shrink-0"
-                sizes="64px"
-              />
-            ) : (
-              <div className="w-16 h-10 bg-gray-100 rounded flex items-center justify-center flex-shrink-0">
-                <CreditCardIcon className="h-6 w-6 text-gray-400" />
-              </div>
-            )}
+            <CardImage
+              cardImageLink={card.image}
+              alt={card.name}
+              width={64}
+              height={40}
+              className="rounded object-contain flex-shrink-0"
+              sizes="64px"
+            />
             <div className="min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">{card.name}</p>
               <p className="text-xs text-gray-500">{card.bank}</p>

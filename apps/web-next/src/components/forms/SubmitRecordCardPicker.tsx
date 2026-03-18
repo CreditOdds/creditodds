@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
+import CardImage from "@/components/ui/CardImage";
 
 interface WalletCard {
   id: number;
@@ -79,10 +79,8 @@ export default function SubmitRecordCardPicker({ show, onClose, cards, onSelectC
                           className="w-full flex items-center gap-4 p-3 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors text-left"
                         >
                           <div className="flex-shrink-0 h-10 w-16 relative">
-                            <Image
-                              src={card.card_image_link
-                                ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                                : '/assets/generic-card.svg'}
+                            <CardImage
+                              cardImageLink={card.card_image_link}
                               alt={card.card_name}
                               fill
                               className="object-contain"
