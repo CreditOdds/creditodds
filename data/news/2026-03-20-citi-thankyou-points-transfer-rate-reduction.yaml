@@ -1,14 +1,24 @@
 id: "citi-thankyou-points-transfer-rate-reduction"
 date: "2026-03-20"
 title: "Citi Reducing ThankYou Points Transfer Rates to Choice Privileges and I Prefer"
-summary: "Effective April 19, 2026, Citi is lowering the transfer rates for ThankYou Points from the Citi Double Cash to Choice Privileges and I Prefer hotel loyalty programs. Choice Privileges drops from 1,000:1,400 to 1,000:1,050 and I Prefer drops from 1,000:2,000 to 1,000:1,400."
+summary: "Effective April 19, 2026, Citi is lowering ThankYou Points transfer rates to Choice Privileges and I Prefer hotel loyalty programs. Choice Privileges drops from 1,000:1,400 to 1,000:1,050 and I Prefer drops from 1,000:2,000 to 1,000:1,400. Cardholders have until April 18 to transfer at the current rates."
 tags:
   - "benefit-change"
 bank: "Citi"
-card_slug: "citi-double-cash"
-card_name: "Citi Double Cash"
+card_slugs:
+  - "citi-strata-premier"
+  - "citi-strata-elite"
+  - "citi-strata"
+  - "citi-rewards"
+  - "citi-prestige"
+card_names:
+  - "Citi Strata Premier"
+  - "Citi Strata Elite"
+  - "Citi Strata"
+  - "Citi Rewards+"
+  - "Citi Prestige"
 body: |
-  Citi is reducing the transfer rates for ThankYou Points sent from the **Citi Double Cash** card to two hotel travel loyalty partners. The changes take effect **April 19, 2026**, giving cardholders about a month to transfer at the current, more favorable rates.
+  Citi is reducing the transfer rates for ThankYou Points to two hotel travel loyalty partners. The changes take effect **April 19, 2026**, giving cardholders about a month to transfer at the current, more favorable rates.
 
   ## What's Changing
 
@@ -21,6 +31,6 @@ body: |
 
   ## What You Should Do
 
-  If you have ThankYou Points on your Citi Double Cash and were planning to transfer to either Choice Privileges or I Prefer, you have until **April 18, 2026** to lock in the current higher rates. After that date, the reduced rates will apply automatically.
+  If you have ThankYou Points and were planning to transfer to either Choice Privileges or I Prefer, you have until **April 18, 2026** to lock in the current higher rates. After that date, the reduced rates will apply automatically.
 
-  It's worth noting that this change specifically applies to the ThankYou Points account associated with the Citi Double Cash card. Transfer rates from other ThankYou-earning cards like the **Citi Strata Premier** may differ.
+  This affects cardholders earning ThankYou Points through cards like the **Citi Strata Premier**, **Citi Strata Elite**, and other ThankYou-earning cards with transfer partner access.
