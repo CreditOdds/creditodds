@@ -18,6 +18,7 @@ import {
   ScaleIcon,
   ShareIcon,
   CalculatorIcon,
+  CreditCardIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
 import { Card, GraphData, Reward, trackReferralEvent } from "@/lib/api";
@@ -112,9 +113,10 @@ interface CardClientProps {
   news: NewsItem[];
   articles: Article[];
   ratings: { count: number; average: number | null };
+  similarCards?: Card[];
 }
 
-export default function CardClient({ card, graphData, news, articles, ratings }: CardClientProps) {
+export default function CardClient({ card, graphData, news, articles, ratings, similarCards = [] }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
@@ -913,6 +915,42 @@ export default function CardClient({ card, graphData, news, articles, ratings }:
                   <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
                     <span>{article.author}</span>
                     <span>{article.reading_time} min read</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Similar Cards Section */}
+      {similarCards.length > 0 && (
+        <div className="bg-white py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 mb-6">
+              <CreditCardIcon className="h-6 w-6 text-indigo-600" />
+              <h2 className="text-2xl font-bold text-gray-900">
+                Similar Cards
+              </h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {similarCards.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/card/${c.slug}`}
+                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-sm transition-all"
+                >
+                  <CardImage
+                    cardImageLink={c.card_image_link}
+                    alt={c.card_name}
+                    width={64}
+                    height={40}
+                    className="rounded object-contain flex-shrink-0"
+                    sizes="64px"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">{c.card_name}</p>
+                    <p className="text-xs text-gray-500">{c.bank}</p>
                   </div>
                 </Link>
               ))}
