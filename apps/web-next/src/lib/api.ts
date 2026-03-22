@@ -302,6 +302,27 @@ export async function getRecentRecords(): Promise<RecentRecord[]> {
   return res.json();
 }
 
+// Track card page views (no auth required, fire-and-forget)
+export async function trackCardView(cardId: number): Promise<void> {
+  await fetch(`${API_BASE}/card-view`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ card_id: cardId }),
+  });
+  // Fire and forget - don't throw on error
+}
+
+// Get card view counts for explore page sorting
+export async function getCardViewCounts(period: 'trending' | 'all-time' = 'trending'): Promise<Record<number, number>> {
+  const days = period === 'trending' ? 30 : 0;
+  const res = await fetch(`${API_BASE}/card-view?period=${days}`, {
+    next: { revalidate: 300 },
+  });
+  if (!res.ok) return {};
+  const data = await res.json();
+  return data.views || {};
+}
+
 // Track referral impressions and clicks (no auth required)
 export async function trackReferralEvent(
   referralId: number,
