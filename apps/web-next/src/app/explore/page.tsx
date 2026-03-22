@@ -79,9 +79,6 @@ export default async function ExplorePage() {
             Explore Credit Cards
           </h1>
         </div>
-        <p className="mt-2 text-center text-lg text-gray-500">
-          {cards.length} credit cards from {banks.length} banks
-        </p>
 
         {/* Client component for filtering/search */}
         <ExploreClient cards={sortedCards} banks={banks} trendingViews={trendingViews} allTimeViews={allTimeViews} />

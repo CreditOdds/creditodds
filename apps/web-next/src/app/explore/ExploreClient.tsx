@@ -3,8 +3,9 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import CardImage from "@/components/ui/CardImage";
-import { Card } from "@/lib/api";
+import { Card, Reward } from "@/lib/api";
 import { cardMatchesSearch } from "@/lib/searchAliases";
+import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
 
 interface ExploreClientProps {
   cards: Card[];
@@ -15,25 +16,18 @@ interface ExploreClientProps {
 
 type SortOption = 'popular' | 'trending' | 'all-time-views' | 'name' | 'recent' | 'bank';
 
-// Emoji quick filters - maps to card tags
-const emojiFilters = [
-  { emoji: '✈️', label: 'Travel', tag: 'travel' },
-  { emoji: '💰', label: 'Cash Back', tag: 'cashback' },
-  { emoji: '🏨', label: 'Hotels', tag: 'hotel' },
-  { emoji: '🛒', label: 'Shopping', tag: 'shopping' },
-  { emoji: '🎓', label: 'Student', tag: 'student' },
-  { emoji: '🔒', label: 'Secured', tag: 'secured' },
-  { emoji: '💎', label: 'Premium', tag: 'premium' },
-  { emoji: '💼', label: 'Business', tag: 'business' },
-  { emoji: '🍽️', label: 'Dining', tag: 'dining' },
-  { emoji: '⭐', label: 'Rewards', tag: 'rewards' },
-];
+function getTopReward(rewards: Reward[] | undefined): Reward | null {
+  if (!rewards || rewards.length === 0) return null;
+  // Prefer the best non-base category, but fall back to everything_else for flat-rate cards
+  const sorted = [...rewards].sort((a, b) => b.value - a.value);
+  const best = sorted.find(r => r.category !== 'everything_else');
+  return best || sorted[0];
+}
 
 export default function ExploreClient({ cards, banks, trendingViews, allTimeViews }: ExploreClientProps) {
   const [search, setSearch] = useState("");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [sortBy, setSortBy] = useState<SortOption>('popular');
-  const [activeEmoji, setActiveEmoji] = useState<string | null>(null);
   const [showArchived, setShowArchived] = useState(false);
   const [showBusiness, setShowBusiness] = useState(false);
 
@@ -49,24 +43,11 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
     let filtered = cards.filter(card => {
       const matchesSearch = cardMatchesSearch(card.card_name, card.bank, search);
       const matchesBank = selectedBank === "" || card.bank === selectedBank;
-
-      // Apply emoji filter if active (filter by tag)
-      let matchesEmoji = true;
-      if (activeEmoji) {
-        const filter = emojiFilters.find(f => f.emoji === activeEmoji);
-        if (filter) {
-          matchesEmoji = card.tags?.includes(filter.tag) || false;
-        }
-      }
-
-      // Hide archived cards unless showArchived is true
       const matchesStatus = showArchived || card.accepting_applications;
-
-      // Hide business cards unless showBusiness is true or actively filtering for business
       const isBusiness = card.tags?.includes('business') || card.category === 'business';
-      const matchesBusiness = showBusiness || !isBusiness || activeEmoji === '💼';
+      const matchesBusiness = showBusiness || !isBusiness;
 
-      return matchesSearch && matchesBank && matchesEmoji && matchesStatus && matchesBusiness;
+      return matchesSearch && matchesBank && matchesStatus && matchesBusiness;
     });
 
     // Sort based on selected option
@@ -115,7 +96,7 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
     }
 
     return filtered;
-  }, [cards, search, selectedBank, sortBy, activeEmoji, showArchived, showBusiness, trendingViews, allTimeViews]);
+  }, [cards, search, selectedBank, sortBy, showArchived, showBusiness, trendingViews, allTimeViews]);
 
   // Count archived cards
   const archivedCount = useMemo(() => {
@@ -129,24 +110,24 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
 
   return (
     <>
-      {/* Recently Released Section */}
+      {/* Recently Released */}
       {recentlyReleased.length > 0 && !search && !selectedBank && (
         <div className="mt-4">
-          <h2 className="text-sm font-semibold text-gray-900 mb-2">Recently Released</h2>
-          <div className="flex gap-2 overflow-x-auto pb-2">
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">New Arrivals</h2>
+          <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
             {recentlyReleased.map((card) => (
               <Link
                 key={card.card_id}
                 href={`/card/${card.slug}`}
-                className="flex-shrink-0 bg-white rounded-lg shadow p-2 hover:shadow-md transition-shadow flex items-center gap-2 w-[200px] sm:w-[220px]"
+                className="flex-shrink-0 bg-white rounded-lg border border-gray-200 px-3 py-2 hover:border-indigo-300 hover:shadow-sm transition-all flex items-center gap-2.5 w-[200px]"
               >
-                <div className="h-10 w-16 relative flex-shrink-0">
+                <div className="h-8 w-12 relative flex-shrink-0">
                   <CardImage
                     cardImageLink={card.card_image_link}
                     alt={card.card_name}
                     fill
                     className="object-contain"
-                    sizes="64px"
+                    sizes="48px"
                   />
                 </div>
                 <div className="min-w-0">
@@ -159,128 +140,98 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
         </div>
       )}
 
-      {/* Emoji Quick Filters */}
-      <div className="mt-8">
-        <div className="flex flex-wrap gap-2">
-          {emojiFilters.map((filter) => (
-            <button
-              key={filter.emoji}
-              onClick={() => setActiveEmoji(activeEmoji === filter.emoji ? null : filter.emoji)}
-              aria-label={`Filter by ${filter.label} cards`}
-              aria-pressed={activeEmoji === filter.emoji}
-              className={`inline-flex items-center px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                activeEmoji === filter.emoji
-                  ? 'bg-indigo-100 text-indigo-700 ring-2 ring-indigo-500'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <span className="mr-1.5 text-lg" aria-hidden="true">{filter.emoji}</span>
-              {filter.label}
-            </button>
-          ))}
-          {activeEmoji && (
-            <button
-              onClick={() => setActiveEmoji(null)}
-              aria-label="Clear filter"
-              className="inline-flex items-center px-3 py-2 rounded-full text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200"
-            >
-              <span aria-hidden="true">✕</span> Clear
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="mt-4 flex flex-col sm:flex-row gap-4">
-        <div className="flex-1">
+      {/* Filters — single row */}
+      <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex-1 relative">
           <label htmlFor="search" className="sr-only">Search cards</label>
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </div>
           <input
             type="text"
             id="search"
-            placeholder="Search cards..."
+            placeholder="Search cards or banks..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="block w-full rounded-md border-gray-300 pl-9 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
-        <div className="sm:w-48">
-          <label htmlFor="bank" className="sr-only">Filter by bank</label>
-          <select
-            id="bank"
-            value={selectedBank}
-            onChange={(e) => setSelectedBank(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          >
-            <option value="">All Banks</option>
-            {banks.map(bank => (
-              <option key={bank} value={bank}>{bank}</option>
-            ))}
-          </select>
-        </div>
-        <div className="sm:w-48">
-          <label htmlFor="sort" className="sr-only">Sort by</label>
-          <select
-            id="sort"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          >
-            <option value="popular">Sort by Most Popular</option>
-            <option value="trending">Sort by Trending (30 days)</option>
-            <option value="all-time-views">Sort by Most Viewed</option>
-            <option value="name">Sort by Name</option>
-            <option value="recent">Sort by Release Date</option>
-            <option value="bank">Sort by Bank</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Results count and toggles */}
-      <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <p className="text-sm text-gray-500">
-          Showing {filteredCards.length} of {cards.length} cards
-        </p>
-        <div className="flex items-center gap-4">
-          <label className="flex items-center cursor-pointer">
-            <span className="text-sm text-gray-500 mr-2">
-              Business ({businessCount})
-            </span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={showBusiness}
-              onClick={() => setShowBusiness(!showBusiness)}
-              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-                showBusiness ? 'bg-indigo-600' : 'bg-gray-200'
-              }`}
+        <div className="flex items-center gap-2">
+          <div className="w-full sm:w-40">
+            <label htmlFor="bank" className="sr-only">Filter by bank</label>
+            <select
+              id="bank"
+              value={selectedBank}
+              onChange={(e) => setSelectedBank(e.target.value)}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             >
-              <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                  showBusiness ? 'translate-x-5' : 'translate-x-0'
-                }`}
-              />
-            </button>
-          </label>
-          <label className="flex items-center cursor-pointer">
-            <span className="text-sm text-gray-500 mr-2">
-              Archived ({archivedCount})
-            </span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={showArchived}
-              onClick={() => setShowArchived(!showArchived)}
-              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-                showArchived ? 'bg-indigo-600' : 'bg-gray-200'
-              }`}
+              <option value="">All Banks</option>
+              {banks.map(bank => (
+                <option key={bank} value={bank}>{bank}</option>
+              ))}
+            </select>
+          </div>
+          <div className="w-full sm:w-44">
+            <label htmlFor="sort" className="sr-only">Sort by</label>
+            <select
+              id="sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             >
-              <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                  showArchived ? 'translate-x-5' : 'translate-x-0'
-                }`}
-              />
-            </button>
-          </label>
+              <option value="popular">Most Popular</option>
+              <option value="trending">Trending (30 days)</option>
+              <option value="all-time-views">Most Viewed</option>
+              <option value="name">Name</option>
+              <option value="recent">Release Date</option>
+              <option value="bank">Bank</option>
+            </select>
+          </div>
+          <button
+            onClick={() => setShowBusiness(!showBusiness)}
+            className={`hidden sm:inline-flex whitespace-nowrap px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              showBusiness
+                ? 'bg-indigo-100 text-indigo-700'
+                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+            }`}
+          >
+            Business
+          </button>
+          <button
+            onClick={() => setShowArchived(!showArchived)}
+            className={`hidden sm:inline-flex whitespace-nowrap px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              showArchived
+                ? 'bg-indigo-100 text-indigo-700'
+                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+            }`}
+          >
+            Archived
+          </button>
+        </div>
+        {/* Mobile toggles */}
+        <div className="flex gap-2 sm:hidden">
+          <button
+            onClick={() => setShowBusiness(!showBusiness)}
+            className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              showBusiness
+                ? 'bg-indigo-100 text-indigo-700'
+                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+            }`}
+          >
+            Business ({businessCount})
+          </button>
+          <button
+            onClick={() => setShowArchived(!showArchived)}
+            className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              showArchived
+                ? 'bg-indigo-100 text-indigo-700'
+                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+            }`}
+          >
+            Archived ({archivedCount})
+          </button>
         </div>
       </div>
 
@@ -299,17 +250,23 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                       Annual Fee
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">
-                      Approval Rate
+                      Reward Type
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden lg:table-cell">
+                      Top Reward
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden lg:table-cell">
+                      Signup Bonus
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900 hidden sm:table-cell">
-                      Reward Type
+                      Approval Rate
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {filteredCards.length === 0 ? (
                     <tr>
-                      <td colSpan={4} className="py-12 text-center">
+                      <td colSpan={6} className="py-12 text-center">
                         <div className="text-gray-500">
                           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -320,7 +277,6 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                             onClick={() => {
                               setSearch('');
                               setSelectedBank('');
-                              setActiveEmoji(null);
                               setShowArchived(false);
                               setShowBusiness(false);
                             }}
@@ -373,6 +329,62 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                           ) : '—'}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm hidden sm:table-cell">
+                          {card.reward_type ? (
+                            <span className="inline-flex items-center gap-1 text-gray-600 text-xs font-medium">
+                              <span aria-hidden="true">
+                                {card.reward_type === 'cashback' ? '💵' :
+                                 card.reward_type === 'points' ? '✨' :
+                                 card.reward_type === 'miles' ? '✈️' : ''}
+                              </span>
+                              {card.reward_type === 'cashback' ? 'Cash Back' :
+                               card.reward_type === 'points' ? 'Points' :
+                               card.reward_type === 'miles' ? 'Miles' :
+                               card.reward_type}
+                            </span>
+                          ) : (
+                            <span className="text-gray-400">—</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-4 text-sm hidden lg:table-cell">
+                          {(() => {
+                            const top = getTopReward(card.rewards);
+                            if (!top) return <span className="text-gray-400">—</span>;
+                            const rateStr = top.unit === 'percent' ? `${top.value}%` : `${top.value}x`;
+                            const label = categoryLabels[top.category] || top.category;
+                            return (
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-gray-400 flex-shrink-0">
+                                  <CategoryIcon category={top.category} className="h-4 w-4" />
+                                </span>
+                                <div className="min-w-0">
+                                  <span className="font-semibold text-gray-900">{rateStr}</span>
+                                  <span className="text-gray-500 ml-1 text-xs">{label}</span>
+                                </div>
+                              </div>
+                            );
+                          })()}
+                        </td>
+                        <td className="px-3 py-4 text-sm hidden lg:table-cell">
+                          {(() => {
+                            const bonus = card.signup_bonus;
+                            if (!bonus || !bonus.value) return <span className="text-gray-400">—</span>;
+                            const isCash = bonus.type === 'cash' || bonus.type === 'cashback';
+                            const valueStr = isCash
+                              ? `$${bonus.value.toLocaleString()}`
+                              : bonus.value >= 1000
+                                ? `${Math.round(bonus.value / 1000)}K ${bonus.type}`
+                                : `${bonus.value.toLocaleString()} ${bonus.type}`;
+                            return (
+                              <div>
+                                <div className="font-semibold text-gray-900">{valueStr}</div>
+                                <div className="text-xs text-gray-500">
+                                  ${bonus.spend_requirement.toLocaleString()} in {bonus.timeframe_months}mo
+                                </div>
+                              </div>
+                            );
+                          })()}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-right hidden sm:table-cell">
                           {(() => {
                             const total = (card.approved_count || 0) + (card.rejected_count || 0);
                             if (total === 0) return <span className="text-gray-400">—</span>;
@@ -384,23 +396,6 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                               </div>
                             );
                           })()}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-right hidden sm:table-cell">
-                          {card.reward_type ? (
-                            <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                              card.reward_type === 'cashback' ? 'bg-green-100 text-green-800' :
-                              card.reward_type === 'points' ? 'bg-indigo-100 text-indigo-800' :
-                              card.reward_type === 'miles' ? 'bg-purple-100 text-purple-800' :
-                              'bg-gray-100 text-gray-800'
-                            }`}>
-                              {card.reward_type === 'cashback' ? 'Cash Back' :
-                               card.reward_type === 'points' ? 'Points' :
-                               card.reward_type === 'miles' ? 'Miles' :
-                               card.reward_type}
-                            </span>
-                          ) : (
-                            <span className="text-gray-400">—</span>
-                          )}
                         </td>
                       </tr>
                     ))
