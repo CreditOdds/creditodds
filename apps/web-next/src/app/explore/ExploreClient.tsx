@@ -351,6 +351,7 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                             if (!top) return <span className="text-gray-400">—</span>;
                             const rateStr = top.unit === 'percent' ? `${top.value}%` : `${top.value}x`;
                             const label = categoryLabels[top.category] || top.category;
+                            const hasBookingRestriction = top.note && /book|portal|through|travel center/i.test(top.note);
                             return (
                               <div className="flex items-center gap-1.5">
                                 <span className="text-gray-400 flex-shrink-0">
@@ -359,6 +360,9 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                                 <div className="min-w-0">
                                   <span className="font-semibold text-gray-900">{rateStr}</span>
                                   <span className="text-gray-500 ml-1 text-xs">{label}</span>
+                                  {hasBookingRestriction && (
+                                    <span className="text-gray-400 ml-1 text-[10px]">*</span>
+                                  )}
                                 </div>
                               </div>
                             );
