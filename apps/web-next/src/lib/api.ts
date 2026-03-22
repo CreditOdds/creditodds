@@ -467,7 +467,7 @@ export interface CardRatingAggregates {
 
 export async function getCardRatings(cardName: string): Promise<CardRatingAggregates> {
   const res = await fetch(`${API_BASE}/ratings?card_name=${encodeURIComponent(cardName)}`, {
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
   if (!res.ok) return { count: 0, average: null };
   return res.json();
