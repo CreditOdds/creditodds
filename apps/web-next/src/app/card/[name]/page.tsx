@@ -84,17 +84,20 @@ export default async function CardPage({ params }: CardPageProps) {
   const { name: slug } = await params;
 
   try {
-    // Fetch card, graph data, news, articles, and all cards in parallel for faster loading
-    const [card, graphData, allNews, allArticles, allCards] = await Promise.all([
-      getCard(slug),
-      getCardGraphs(slug).catch(() => [] as GraphData[]), // Empty array for new cards with no data
+    // Fetch all data in parallel — chain getCard → getCardRatings together
+    // so ratings fetches concurrently with graphs/news/articles instead of after them all
+    const [cardWithRatings, graphData, allNews, allArticles, allCards] = await Promise.all([
+      getCard(slug).then(async (card) => ({
+        card,
+        ratings: await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null })),
+      })),
+      getCardGraphs(slug).catch(() => [] as GraphData[]),
       getNews().catch(() => [] as NewsItem[]),
       getArticles().catch(() => [] as Article[]),
       getAllCards().catch(() => [] as Card[]),
     ]);
 
-    // Fetch ratings after we have the card name
-    const ratings = await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null }));
+    const { card, ratings } = cardWithRatings;
 
     // Filter news and articles for this specific card
     const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));
