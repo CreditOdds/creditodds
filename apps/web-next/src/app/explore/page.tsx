@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { getAllCards, getRecentRecords } from "@/lib/api";
+import { getAllCards, getRecentRecords, getCardViewCounts } from "@/lib/api";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import ExploreClient from "./ExploreClient";
@@ -21,9 +21,11 @@ export const metadata: Metadata = {
 };
 
 export default async function ExplorePage() {
-  const [cards, recentRecords] = await Promise.all([
+  const [cards, recentRecords, trendingViews, allTimeViews] = await Promise.all([
     getAllCards(),
     getRecentRecords(),
+    getCardViewCounts('trending').catch(() => ({})),
+    getCardViewCounts('all-time').catch(() => ({})),
   ]);
 
   // Sort cards: by total records (most first), then by bank, then by name
@@ -82,7 +84,7 @@ export default async function ExplorePage() {
         </p>
 
         {/* Client component for filtering/search */}
-        <ExploreClient cards={sortedCards} banks={banks} />
+        <ExploreClient cards={sortedCards} banks={banks} trendingViews={trendingViews} allTimeViews={allTimeViews} />
       </div>
 
       {/* Missing card CTA */}

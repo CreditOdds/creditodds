@@ -9,9 +9,11 @@ import { cardMatchesSearch } from "@/lib/searchAliases";
 interface ExploreClientProps {
   cards: Card[];
   banks: string[];
+  trendingViews?: Record<number, number>;
+  allTimeViews?: Record<number, number>;
 }
 
-type SortOption = 'popular' | 'name' | 'recent' | 'bank';
+type SortOption = 'popular' | 'trending' | 'all-time-views' | 'name' | 'recent' | 'bank';
 
 // Emoji quick filters - maps to card tags
 const emojiFilters = [
@@ -27,7 +29,7 @@ const emojiFilters = [
   { emoji: '⭐', label: 'Rewards', tag: 'rewards' },
 ];
 
-export default function ExploreClient({ cards, banks }: ExploreClientProps) {
+export default function ExploreClient({ cards, banks, trendingViews, allTimeViews }: ExploreClientProps) {
   const [search, setSearch] = useState("");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [sortBy, setSortBy] = useState<SortOption>('popular');
@@ -77,6 +79,22 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
           return a.card_name.localeCompare(b.card_name);
         });
         break;
+      case 'trending':
+        filtered = [...filtered].sort((a, b) => {
+          const aViews = trendingViews?.[Number(a.db_card_id || a.card_id)] || 0;
+          const bViews = trendingViews?.[Number(b.db_card_id || b.card_id)] || 0;
+          if (aViews !== bViews) return bViews - aViews;
+          return a.card_name.localeCompare(b.card_name);
+        });
+        break;
+      case 'all-time-views':
+        filtered = [...filtered].sort((a, b) => {
+          const aViews = allTimeViews?.[Number(a.db_card_id || a.card_id)] || 0;
+          const bViews = allTimeViews?.[Number(b.db_card_id || b.card_id)] || 0;
+          if (aViews !== bViews) return bViews - aViews;
+          return a.card_name.localeCompare(b.card_name);
+        });
+        break;
       case 'recent':
         filtered = [...filtered].sort((a, b) => {
           // Cards with release_date come first, sorted by most recent
@@ -97,7 +115,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
     }
 
     return filtered;
-  }, [cards, search, selectedBank, sortBy, activeEmoji, showArchived, showBusiness]);
+  }, [cards, search, selectedBank, sortBy, activeEmoji, showArchived, showBusiness, trendingViews, allTimeViews]);
 
   // Count archived cards
   const archivedCount = useMemo(() => {
@@ -208,6 +226,8 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           >
             <option value="popular">Sort by Most Popular</option>
+            <option value="trending">Sort by Trending (30 days)</option>
+            <option value="all-time-views">Sort by Most Viewed</option>
             <option value="name">Sort by Name</option>
             <option value="recent">Sort by Release Date</option>
             <option value="bank">Sort by Bank</option>

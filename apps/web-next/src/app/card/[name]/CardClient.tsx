@@ -21,7 +21,7 @@ import {
   CreditCardIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent, trackCardView } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -178,6 +178,17 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
     }
     return null;
   }, [selectedReferral]);
+
+  // Track card page view
+  const viewTracked = useRef(false);
+  useEffect(() => {
+    if (card.card_id && !viewTracked.current) {
+      viewTracked.current = true;
+      trackCardView(Number(card.card_id)).catch(() => {
+        // Silently fail - tracking shouldn't break the page
+      });
+    }
+  }, [card.card_id]);
 
   // Track impression when referral is shown
   const impressionTracked = useRef(false);

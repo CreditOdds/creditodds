@@ -411,6 +411,49 @@ Resources:
             Auth:
               Authorizer: NONE
 
+  CardViewFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/card-view.CardViewHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Track card page views and return view counts
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        TrackView:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-view
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        GetViews:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-view
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        CardViewOptions:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-view
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   LeaderboardFunction:
     Type: AWS::Serverless::Function
     Properties:
