@@ -130,6 +130,8 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                   height={600}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
+                  placeholder="blur"
+                  blurDataURL="data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAADQAQCdASoQAAwABUB8JYwAAxf/Ug7MgAD98G5365+TmYmXkkJzx1GgAAA="
                 />
               </div>
             </div>
@@ -181,6 +183,8 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                   width={800}
                   height={600}
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  placeholder="blur"
+                  blurDataURL="data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACQAQCdASoQAAwABUB8JZQC7ACgBIAA1t6nPF1bW0fC/zmmxIcAAA=="
                 />
               </div>
             </div>
@@ -236,6 +240,8 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
                   width={800}
                   height={600}
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  placeholder="blur"
+                  blurDataURL="data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAACwAQCdASoQAAwABUB8JZwAAuTtV66AAP7vyhAm0B73UYijyoRWdQhSOiOHiwZCCt/xE/hoFCr3jgAA"
                 />
               </div>
             </div>
