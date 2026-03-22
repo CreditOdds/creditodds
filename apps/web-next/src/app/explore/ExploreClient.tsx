@@ -361,7 +361,7 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                                   <span className="font-semibold text-gray-900">{rateStr}</span>
                                   <span className="text-gray-500 ml-1 text-xs">{label}</span>
                                   {hasBookingRestriction && (
-                                    <span className="ml-1 text-[10px] text-amber-600 bg-amber-50 rounded px-1 py-0.5 font-medium whitespace-nowrap" title={top.note || ''}>conditions apply</span>
+                                    <span className="ml-1 text-[10px] text-gray-500 bg-gray-100 rounded px-1 py-0.5 font-medium whitespace-nowrap" title={top.note || ''}>conditions apply</span>
                                   )}
                                 </div>
                               </div>
