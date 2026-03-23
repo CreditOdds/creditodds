@@ -9,7 +9,7 @@ import { NumericFormat } from "react-number-format";
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from "@/auth/AuthProvider";
 import { toast } from "react-toastify";
-import { getRecords } from "@/lib/api";
+import { getRecords, getWallet, addToWallet } from "@/lib/api";
 import confetti from "canvas-confetti";
 
 // Form persistence key prefix (#7)
@@ -179,6 +179,18 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(errorText || 'Failed to submit record');
+        }
+
+        // Auto-add card to wallet if not already there (silent — don't block on failure)
+        try {
+          const wallet = await getWallet(token);
+          const alreadyInWallet = wallet.some((w) => w.card_id === card.card_id);
+          if (!alreadyInWallet) {
+            const [year, month] = values.date_applied.split('-').map(Number);
+            await addToWallet(card.card_id as number, month, year, token);
+          }
+        } catch (walletError) {
+          console.warn("Auto-add to wallet failed (non-blocking):", walletError);
         }
 
         toast.success("Your record was submitted successfully!", {
