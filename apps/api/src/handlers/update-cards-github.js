@@ -33,18 +33,85 @@ async function fetchCardsFromCDN() {
   });
 }
 
+// Extract metric values from a CDN card for change detection
+function extractMetrics(cdnCard) {
+  let rewardTopRate = null;
+  let rewardTopUnit = null;
+  if (cdnCard.rewards && cdnCard.rewards.length > 0) {
+    const topReward = cdnCard.rewards.reduce(
+      (best, r) => (r.value > (best?.value || 0) ? r : best),
+      null
+    );
+    if (topReward) {
+      rewardTopRate = topReward.value;
+      rewardTopUnit = topReward.unit;
+    }
+  }
+
+  return {
+    annual_fee: cdnCard.annual_fee ?? null,
+    signup_bonus_value: cdnCard.signup_bonus?.value ?? null,
+    signup_bonus_type: cdnCard.signup_bonus?.type ?? null,
+    reward_top_rate: rewardTopRate,
+    reward_top_unit: rewardTopUnit,
+    apr_min: cdnCard.apr?.regular?.min ?? null,
+    apr_max: cdnCard.apr?.regular?.max ?? null,
+  };
+}
+
+// Compare old and new metrics, insert card_wire rows for any changes
+async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
+  const trackedFields = [
+    { field: "annual_fee", old: oldMetrics.annual_fee, new: newMetrics.annual_fee },
+    { field: "signup_bonus_value", old: oldMetrics.signup_bonus_value, new: newMetrics.signup_bonus_value },
+    { field: "reward_top_rate", old: oldMetrics.reward_top_rate, new: newMetrics.reward_top_rate },
+    { field: "apr_min", old: oldMetrics.apr_min, new: newMetrics.apr_min },
+    { field: "apr_max", old: oldMetrics.apr_max, new: newMetrics.apr_max },
+  ];
+
+  const changes = [];
+  for (const t of trackedFields) {
+    const oldStr = t.old != null ? String(t.old) : null;
+    const newStr = t.new != null ? String(t.new) : null;
+
+    // Skip if values match or both null
+    if (oldStr === newStr) continue;
+
+    // Skip initial backfill (old is null = first time populating metrics)
+    if (oldStr === null) continue;
+
+    changes.push({ field: t.field, old_value: oldStr, new_value: newStr });
+  }
+
+  if (changes.length > 0) {
+    const placeholders = changes.map(() => "(?, ?, ?, ?)").join(", ");
+    const flat = changes.flatMap((c) => [cardId, c.field, c.old_value, c.new_value]);
+    await mysql.query(
+      `INSERT INTO card_wire (card_id, field, old_value, new_value) VALUES ${placeholders}`,
+      flat
+    );
+  }
+
+  return changes;
+}
+
 // Sync cards from CDN to MySQL database
 async function syncCardsToDatabase(cdnCards) {
   const results = {
     added: [],
     updated: [],
     errors: [],
+    wire_changes: [],
   };
 
   try {
-    // Get existing cards from database
+    // Get existing cards from database (include metric columns for change detection)
     const existingCards = await mysql.query(
-      "SELECT card_id, card_name, bank FROM cards"
+      `SELECT card_id, card_name, bank, annual_fee,
+              signup_bonus_value, signup_bonus_type,
+              reward_top_rate, reward_top_unit,
+              apr_min, apr_max
+       FROM cards`
     );
 
     // Create lookup map by card_name
@@ -83,7 +150,18 @@ async function syncCardsToDatabase(cdnCards) {
         const tagsJson = cdnCard.tags ? JSON.stringify(cdnCard.tags) : null;
 
         if (existingCard) {
-          // Update existing card
+          // Detect metric changes before updating
+          const newMetrics = extractMetrics(cdnCard);
+          const changes = await detectAndRecordChanges(
+            existingCard.card_id,
+            existingCard,
+            newMetrics
+          );
+          if (changes.length > 0) {
+            results.wire_changes.push({ card: name, changes });
+          }
+
+          // Update existing card (including metric snapshot columns)
           await mysql.query(
             `UPDATE cards SET
               card_name = ?,
@@ -94,19 +172,44 @@ async function syncCardsToDatabase(cdnCards) {
               tags = ?,
               annual_fee = ?,
               apply_link = ?,
-              card_referral_link = ?
+              card_referral_link = ?,
+              signup_bonus_value = ?,
+              signup_bonus_type = ?,
+              reward_top_rate = ?,
+              reward_top_unit = ?,
+              apr_min = ?,
+              apr_max = ?
             WHERE card_id = ?`,
-            [name, bank, acceptingApplications, cdnCard.image || null, cdnCard.release_date || null, tagsJson, cdnCard.annual_fee || null, cdnCard.apply_link || null, cdnCard.card_referral_link || null, existingCard.card_id]
+            [
+              name, bank, acceptingApplications,
+              cdnCard.image || null, cdnCard.release_date || null, tagsJson,
+              newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
+              newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
+              newMetrics.reward_top_rate, newMetrics.reward_top_unit,
+              newMetrics.apr_min, newMetrics.apr_max,
+              existingCard.card_id,
+            ]
           );
           results.updated.push(name);
         } else {
           // Insert new card - get next available card_id
+          const newMetrics = extractMetrics(cdnCard);
           const maxIdResult = await mysql.query("SELECT MAX(card_id) as max_id FROM cards");
           const nextId = (maxIdResult[0]?.max_id || 0) + 1;
           await mysql.query(
-            `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link, release_date, tags, annual_fee, apply_link, card_referral_link, active)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
-            [nextId, name, bank, acceptingApplications, cdnCard.image || null, cdnCard.release_date || null, tagsJson, cdnCard.annual_fee || null, cdnCard.apply_link || null, cdnCard.card_referral_link || null]
+            `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link,
+              release_date, tags, annual_fee, apply_link, card_referral_link,
+              signup_bonus_value, signup_bonus_type, reward_top_rate, reward_top_unit,
+              apr_min, apr_max, active)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+            [
+              nextId, name, bank, acceptingApplications,
+              cdnCard.image || null, cdnCard.release_date || null, tagsJson,
+              newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
+              newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
+              newMetrics.reward_top_rate, newMetrics.reward_top_unit,
+              newMetrics.apr_min, newMetrics.apr_max,
+            ]
           );
           results.added.push(name);
         }

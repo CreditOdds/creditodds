@@ -323,6 +323,27 @@ export async function getCardViewCounts(period: 'trending' | 'all-time' = 'trend
   return data.views || {};
 }
 
+// CardWire - card metric change history
+export interface CardWireEntry {
+  id: number;
+  card_id: number;
+  card_name: string;
+  card_image_link?: string;
+  field: string;
+  old_value: string | null;
+  new_value: string | null;
+  changed_at: string;
+}
+
+export async function getCardWire(cardId: number): Promise<CardWireEntry[]> {
+  const res = await fetch(`${API_BASE}/card-wire?card_id=${cardId}&limit=20`, {
+    next: { revalidate: 300 },
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.changes || [];
+}
+
 // Track referral impressions and clicks (no auth required)
 export async function trackReferralEvent(
   referralId: number,
