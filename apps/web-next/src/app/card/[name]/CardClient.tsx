@@ -19,9 +19,10 @@ import {
   ShareIcon,
   CalculatorIcon,
   CreditCardIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent, trackCardView } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent, trackCardView, CardWireEntry } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -114,9 +115,10 @@ interface CardClientProps {
   articles: Article[];
   ratings: { count: number; average: number | null };
   similarCards?: Card[];
+  wire?: CardWireEntry[];
 }
 
-export default function CardClient({ card, graphData, news, articles, ratings, similarCards = [] }: CardClientProps) {
+export default function CardClient({ card, graphData, news, articles, ratings, similarCards = [], wire = [] }: CardClientProps) {
   const [showModal, setShowModal] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
@@ -887,6 +889,90 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CardWire - Metric Changes Timeline */}
+      {wire.length > 0 && (
+        <div className="bg-white py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 mb-6">
+              <ClockIcon className="h-6 w-6 text-indigo-600" />
+              <h2 className="text-2xl font-bold text-gray-900">CardWire</h2>
+              <span className="text-sm text-gray-500">Metric changes</span>
+            </div>
+            <div className="space-y-3">
+              {wire.map((entry) => {
+                const fieldLabel: Record<string, string> = {
+                  annual_fee: "Annual Fee",
+                  signup_bonus_value: "Signup Bonus",
+                  reward_top_rate: "Top Reward Rate",
+                  apr_min: "APR (Min)",
+                  apr_max: "APR (Max)",
+                };
+
+                const formatValue = (val: string | null, field: string) => {
+                  if (val === null) return "N/A";
+                  if (field === "annual_fee") return `$${Number(val).toLocaleString()}`;
+                  if (field === "signup_bonus_value") return Number(val).toLocaleString();
+                  if (field.startsWith("apr_")) return `${val}%`;
+                  if (field === "reward_top_rate") return `${val}x`;
+                  return val;
+                };
+
+                const isIncrease =
+                  entry.old_value !== null &&
+                  entry.new_value !== null &&
+                  Number(entry.new_value) > Number(entry.old_value);
+                const isDecrease =
+                  entry.old_value !== null &&
+                  entry.new_value !== null &&
+                  Number(entry.new_value) < Number(entry.old_value);
+
+                return (
+                  <div
+                    key={entry.id}
+                    className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200"
+                  >
+                    <div className="flex-shrink-0 mt-0.5">
+                      <div
+                        className={`h-2.5 w-2.5 rounded-full ${
+                          isIncrease ? "bg-green-400" : isDecrease ? "bg-red-400" : "bg-gray-400"
+                        }`}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900">
+                        {fieldLabel[entry.field] || entry.field}:{" "}
+                        <span className="text-gray-500 line-through">
+                          {formatValue(entry.old_value, entry.field)}
+                        </span>
+                        {" → "}
+                        <span
+                          className={
+                            isIncrease
+                              ? "text-green-700 font-semibold"
+                              : isDecrease
+                                ? "text-red-700 font-semibold"
+                                : "font-semibold"
+                          }
+                        >
+                          {formatValue(entry.new_value, entry.field)}
+                        </span>
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        {new Date(entry.changed_at).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

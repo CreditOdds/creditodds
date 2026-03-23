@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Card, getCard, getCardGraphs, getAllCards, getCardRatings, GraphData } from "@/lib/api";
+import { Card, getCard, getCardGraphs, getAllCards, getCardRatings, getCardWire, GraphData, CardWireEntry } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import CardClient from "./CardClient";
@@ -86,10 +86,11 @@ export default async function CardPage({ params }: CardPageProps) {
   try {
     // Fetch all data in parallel — chain getCard → getCardRatings together
     // so ratings fetches concurrently with graphs/news/articles instead of after them all
-    const [cardWithRatings, graphData, allNews, allArticles, allCards] = await Promise.all([
+    const [cardWithRatingsAndWire, graphData, allNews, allArticles, allCards] = await Promise.all([
       getCard(slug).then(async (card) => ({
         card,
         ratings: await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null })),
+        wire: await getCardWire(Number(card.card_id)).catch(() => [] as CardWireEntry[]),
       })),
       getCardGraphs(slug).catch(() => [] as GraphData[]),
       getNews().catch(() => [] as NewsItem[]),
@@ -97,7 +98,7 @@ export default async function CardPage({ params }: CardPageProps) {
       getAllCards().catch(() => [] as Card[]),
     ]);
 
-    const { card, ratings } = cardWithRatings;
+    const { card, ratings, wire } = cardWithRatingsAndWire;
 
     // Filter news and articles for this specific card
     const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));
@@ -106,7 +107,7 @@ export default async function CardPage({ params }: CardPageProps) {
     // Find similar cards based on reward type, bank, tags, and category
     const similarCards = getSimilarCards(card, allCards);
 
-    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} />;
+    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} />;
   } catch {
     notFound();
   }
