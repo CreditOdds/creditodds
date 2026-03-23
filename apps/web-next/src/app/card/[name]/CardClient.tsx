@@ -697,33 +697,32 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
       {/* Still collecting data - shown when no approval data */}
       {(card.approved_count || 0) === 0 && card.accepting_applications && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="py-8 bg-blue-50 rounded-lg">
-            <div className="text-center px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900 mb-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="py-3 px-5 bg-blue-50 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3 text-center sm:text-left">
+              <h3 className="text-sm font-medium text-gray-900">
                 We&apos;re still collecting data on this card
               </h3>
-              <p className="text-base text-gray-600">
-                We need at least 1 data point to show the charts and statistics.
+              <span className="hidden sm:inline text-gray-300">·</span>
+              <p className="text-sm text-gray-600">
+                We need at least 1 data point to show charts and statistics.
               </p>
-              <div className="mt-4">
-                {authState.isAuthenticated ? (
-                  <button
-                    onClick={() => setShowModal(true)}
-                    className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
-                  >
-                    Submit Data Point
-                  </button>
-                ) : (
-                  <Link
-                    href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
-                    className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
-                  >
-                    Log In to Submit
-                  </Link>
-                )}
-              </div>
             </div>
+            {authState.isAuthenticated ? (
+              <button
+                onClick={() => setShowModal(true)}
+                className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 whitespace-nowrap"
+              >
+                Submit Data Point
+              </button>
+            ) : (
+              <Link
+                href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 whitespace-nowrap"
+              >
+                Log In to Submit
+              </Link>
+            )}
           </div>
         </div>
       )}
