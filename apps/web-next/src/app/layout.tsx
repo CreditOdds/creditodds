@@ -4,7 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
-import LogRocketInit from "@/components/ui/LogRocketInit";
+import ClarityInit from "@/components/ui/ClarityInit";
 import DataPointPrompt from "@/components/ui/DataPointPrompt";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
@@ -67,7 +67,7 @@ export default function RootLayout({
           <Footer />
           <ToastContainer />
           <WebVitalsReporter />
-          <LogRocketInit />
+          <ClarityInit />
         </AuthProvider>
       </body>
     </html>
