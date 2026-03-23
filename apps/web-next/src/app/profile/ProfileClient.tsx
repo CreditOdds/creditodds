@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 
 // Lazy load modals - only loaded when user opens them
@@ -108,7 +108,7 @@ export default function ProfileClient() {
   const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
-  const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals' | 'advanced'>('wallet');
+  const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals' | 'applications' | 'settings'>('wallet');
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
@@ -497,15 +497,26 @@ export default function ProfileClient() {
               </span>
             </button>
             <button
-              onClick={() => setActiveTab('advanced')}
+              onClick={() => setActiveTab('applications')}
               className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'advanced'
+                activeTab === 'applications'
                   ? 'border-indigo-500 text-indigo-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
               <ChartBarIcon className="h-5 w-5" />
-              Advanced
+              Applications
+            </button>
+            <button
+              onClick={() => setActiveTab('settings')}
+              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'settings'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <Cog6ToothIcon className="h-5 w-5" />
+              Settings
             </button>
           </nav>
         </div>
@@ -1016,8 +1027,8 @@ export default function ProfileClient() {
           )
         )}
 
-        {/* Advanced Tab */}
-        {activeTab === 'advanced' && (
+        {/* Applications Tab */}
+        {activeTab === 'applications' && (
           <div className="bg-white shadow rounded-lg p-6">
             <div className="mb-6">
               <h2 className="text-lg font-semibold text-gray-900">Application Rules Tracker</h2>
@@ -1097,9 +1108,21 @@ export default function ProfileClient() {
                 </div>
               </>
             )}
+          </div>
+        )}
+
+        {/* Settings Tab */}
+        {activeTab === 'settings' && (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold text-gray-900">Settings</h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Manage your account settings.
+              </p>
+            </div>
 
             {/* Danger Zone */}
-            <div className="mt-8 border-t border-gray-200 pt-6">
+            <div>
               <h3 className="text-sm font-medium text-red-600 uppercase tracking-wide mb-4">Danger Zone</h3>
               <div className="rounded-lg border border-red-200 bg-red-50 p-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
