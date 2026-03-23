@@ -1,0 +1,25 @@
+name: Weekly Top Cards Post
+
+on:
+  schedule:
+    # Every Wednesday at 3pm UTC (10am ET / 11am ET during DST)
+    - cron: '0 15 * * 3'
+  workflow_dispatch: {}
+
+jobs:
+  post-top-cards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: npm ci
+
+      - name: Queue weekly top viewed cards post
+        env:
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+        run: node scripts/post-weekly-top-cards.js
