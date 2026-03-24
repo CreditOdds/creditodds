@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-03-06T19:21:40.289Z",
-  "count": 147,
+  "generated_at": "2026-03-24T19:46:19.750Z",
+  "count": 154,
   "categories": [
     {
       "id": "dining",
@@ -71,6 +71,10 @@
       "label": "Flights (via Portal)"
     },
     {
+      "id": "car_rentals_portal",
+      "label": "Car Rentals (via Portal)"
+    },
+    {
       "id": "hotels_car_portal",
       "label": "Hotels & Car Rentals (via Portal)"
     },
@@ -121,6 +125,10 @@
     {
       "id": "foreign_transactions",
       "label": "Foreign Transactions"
+    },
+    {
+      "id": "military_base",
+      "label": "Military Base"
     },
     {
       "id": "everything_else",
@@ -1856,6 +1864,14 @@
       "accepting_applications": false,
       "annual_fee": 0,
       "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent",
+          "note": "1.5% unlimited cash back on all eligible purchases"
+        }
+      ],
       "card_id": "cash-magnet-card",
       "card_name": "Cash Magnet"
     },
@@ -2237,10 +2253,10 @@
         }
       ],
       "signup_bonus": {
-        "value": 90000,
+        "value": 60000,
         "type": "miles",
-        "spend_requirement": 5000,
-        "timeframe_months": 4
+        "spend_requirement": 4000,
+        "timeframe_months": 3
       },
       "apr": {
         "regular": {
@@ -3533,7 +3549,7 @@
       "card_name": "Gemini Credit"
     },
     {
-      "name": "Gold Card",
+      "name": "Gold",
       "bank": "Robinhood",
       "slug": "robinhood-gold-card",
       "accepting_applications": true,
@@ -3565,7 +3581,7 @@
         }
       },
       "card_id": "robinhood-gold-card",
-      "card_name": "Gold Card"
+      "card_name": "Gold"
     },
     {
       "name": "Hawaiian Airlines World Elite Mastercard",
@@ -4485,7 +4501,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 100000,
+        "value": 200000,
         "type": "points",
         "spend_requirement": 6000,
         "timeframe_months": 6
@@ -4546,6 +4562,55 @@
       },
       "card_id": "nhl-discover-it",
       "card_name": "NHL Discover it"
+    },
+    {
+      "name": "Platinum",
+      "bank": "Robinhood",
+      "slug": "robinhood-platinum",
+      "accepting_applications": true,
+      "image": "robinhood-platinum.png",
+      "release_date": "2026-03-05",
+      "category": "travel",
+      "annual_fee": 695,
+      "tags": [
+        "premium",
+        "travel",
+        "dining",
+        "rewards"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "hotels_portal",
+          "value": 10,
+          "unit": "percent",
+          "note": "Booked through the Robinhood Banking app"
+        },
+        {
+          "category": "car_rentals_portal",
+          "value": 10,
+          "unit": "percent",
+          "note": "Booked through the Robinhood Banking app"
+        },
+        {
+          "category": "flights_portal",
+          "value": 5,
+          "unit": "percent",
+          "note": "Flights booked through the Robinhood Banking app"
+        },
+        {
+          "category": "dining",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "card_id": "robinhood-platinum",
+      "card_name": "Platinum"
     },
     {
       "name": "Princess Cruises Rewards Visa",
@@ -4633,7 +4698,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 75,
+        "value": 200,
         "type": "cash",
         "spend_requirement": 2000,
         "timeframe_months": 3
@@ -4691,53 +4756,6 @@
       },
       "card_id": "rei-co-op-mastercard",
       "card_name": "REI Co-op Mastercard"
-    },
-    {
-      "name": "Robinhood Platinum",
-      "bank": "Robinhood",
-      "slug": "robinhood-platinum",
-      "accepting_applications": true,
-      "image": "robinhood-platinum.png",
-      "release_date": "2026-03-05",
-      "category": "travel",
-      "annual_fee": 695,
-      "tags": [
-        "premium",
-        "travel",
-        "dining",
-        "rewards"
-      ],
-      "reward_type": "cashback",
-      "rewards": [
-        {
-          "category": "hotels",
-          "value": 10,
-          "unit": "percent"
-        },
-        {
-          "category": "car_rentals",
-          "value": 10,
-          "unit": "percent"
-        },
-        {
-          "category": "flights_portal",
-          "value": 5,
-          "unit": "percent",
-          "note": "Flights booked through the Robinhood Banking app"
-        },
-        {
-          "category": "dining",
-          "value": 5,
-          "unit": "percent"
-        },
-        {
-          "category": "everything_else",
-          "value": 1,
-          "unit": "percent"
-        }
-      ],
-      "card_id": "robinhood-platinum",
-      "card_name": "Robinhood Platinum"
     },
     {
       "name": "Serve",
@@ -5362,7 +5380,7 @@
           "note": "United purchases"
         },
         {
-          "category": "hotels",
+          "category": "hotels_portal",
           "value": 5,
           "unit": "points_per_dollar",
           "note": "Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers"
@@ -5562,7 +5580,7 @@
           "note": "Choose 1 everyday category each quarter, up to $1,500"
         },
         {
-          "category": "travel",
+          "category": "hotels_car_portal",
           "value": 5.5,
           "unit": "percent",
           "note": "Hotel and car reservations booked in the Travel Center"
@@ -5601,6 +5619,245 @@
       ],
       "card_id": "us-bank-split",
       "card_name": "US Bank Split"
+    },
+    {
+      "name": "USAA Cashback Rewards Plus",
+      "bank": "USAA",
+      "slug": "usaa-cashback-rewards-plus",
+      "image": "usaa-cashback-rewards-plus.png",
+      "accepting_applications": true,
+      "category": "cashback",
+      "annual_fee": 0,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "military_base",
+          "value": 5,
+          "unit": "percent",
+          "note": "First $5,000/year"
+        },
+        {
+          "category": "gas",
+          "value": 5,
+          "unit": "percent",
+          "note": "First $3,000/year"
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "percent",
+          "note": "First $3,000/year"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 16.9,
+          "max": 30.9
+        }
+      },
+      "card_id": "usaa-cashback-rewards-plus",
+      "card_name": "USAA Cashback Rewards Plus"
+    },
+    {
+      "name": "USAA Eagle Navigator",
+      "bank": "USAA",
+      "slug": "usaa-eagle-navigator",
+      "image": "usaa-eagle-navigator.png",
+      "accepting_applications": true,
+      "category": "travel",
+      "annual_fee": 95,
+      "tags": [
+        "travel",
+        "rewards"
+      ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 30000,
+        "type": "points",
+        "spend_requirement": 3000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.99,
+          "max": 28.99
+        }
+      },
+      "card_id": "usaa-eagle-navigator",
+      "card_name": "USAA Eagle Navigator"
+    },
+    {
+      "name": "USAA Preferred Cash Rewards",
+      "bank": "USAA",
+      "slug": "usaa-preferred-cash-rewards",
+      "image": "usaa-preferred-cash-rewards.png",
+      "accepting_applications": true,
+      "category": "cashback",
+      "annual_fee": 0,
+      "tags": [
+        "cashback",
+        "rewards",
+        "balance_transfer"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "everything_else",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 250,
+        "type": "cash",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "purchase_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 18.49,
+          "max": 28.49
+        }
+      },
+      "card_id": "usaa-preferred-cash-rewards",
+      "card_name": "USAA Preferred Cash Rewards"
+    },
+    {
+      "name": "USAA Rate Advantage",
+      "bank": "USAA",
+      "slug": "usaa-rate-advantage",
+      "image": "usaa-rate-advantage.png",
+      "accepting_applications": true,
+      "category": "balance_transfer",
+      "annual_fee": 0,
+      "tags": [
+        "balance_transfer"
+      ],
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 15
+        },
+        "regular": {
+          "min": 10.4,
+          "max": 24.4
+        }
+      },
+      "card_id": "usaa-rate-advantage",
+      "card_name": "USAA Rate Advantage"
+    },
+    {
+      "name": "USAA Rewards",
+      "bank": "USAA",
+      "slug": "usaa-rewards",
+      "image": "usaa-rewards.png",
+      "accepting_applications": true,
+      "category": "rewards",
+      "annual_fee": 0,
+      "tags": [
+        "rewards"
+      ],
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 13.4,
+          "max": 27.4
+        }
+      },
+      "card_id": "usaa-rewards",
+      "card_name": "USAA Rewards"
+    },
+    {
+      "name": "USAA Secured American Express",
+      "bank": "USAA",
+      "slug": "usaa-secured-american-express",
+      "image": "usaa-secured-american-express.png",
+      "accepting_applications": true,
+      "category": "secured",
+      "annual_fee": 35,
+      "tags": [
+        "secured",
+        "credit_builder"
+      ],
+      "apr": {
+        "regular": {
+          "min": 11.4,
+          "max": 21.4
+        }
+      },
+      "card_id": "usaa-secured-american-express",
+      "card_name": "USAA Secured American Express"
+    },
+    {
+      "name": "USAA Secured Visa Platinum",
+      "bank": "USAA",
+      "slug": "usaa-secured-visa-platinum",
+      "image": "usaa-secured-visa-platinum.png",
+      "accepting_applications": true,
+      "category": "secured",
+      "annual_fee": 0,
+      "tags": [
+        "secured",
+        "credit_builder"
+      ],
+      "apr": {
+        "regular": {
+          "min": 11.4,
+          "max": 21.4
+        }
+      },
+      "card_id": "usaa-secured-visa-platinum",
+      "card_name": "USAA Secured Visa Platinum"
     },
     {
       "name": "Wells Fargo Active Cash",
@@ -6122,7 +6379,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 30000,
+        "value": 60000,
         "type": "points",
         "spend_requirement": 3000,
         "timeframe_months": 3
@@ -6171,9 +6428,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 80000,
         "type": "points",
-        "spend_requirement": 5000,
+        "spend_requirement": 10000,
         "timeframe_months": 3
       },
       "card_id": "world-of-hyatt-business-credit-card",
