@@ -33,6 +33,8 @@ categories:
     label: Hotels (via Portal)
   - id: flights_portal
     label: Flights (via Portal)
+  - id: car_rentals_portal
+    label: Car Rentals (via Portal)
   - id: hotels_car_portal
     label: Hotels & Car Rentals (via Portal)
   - id: amazon
