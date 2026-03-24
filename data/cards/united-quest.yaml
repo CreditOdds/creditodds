@@ -10,7 +10,7 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "United purchases"
-  - category: hotels
+  - category: hotels_portal
     value: 5
     unit: points_per_dollar
     note: "Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers"
