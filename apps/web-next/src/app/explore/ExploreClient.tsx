@@ -302,17 +302,24 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                               />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900 truncate">
+                              <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900 sm:truncate">
                                 {card.card_name}
                               </div>
                               <div className="text-xs text-gray-500 flex flex-wrap items-center gap-x-2">
                                 <span>{card.bank}</span>
-                                {/* Show fee and status on mobile inline */}
+                                {/* Show fee, reward type, and SUB on mobile inline */}
                                 <span className="sm:hidden">
                                   {card.annual_fee !== undefined && card.annual_fee > 0 && (
                                     <span className="text-amber-600 font-medium">· ${card.annual_fee}/yr</span>
                                   )}
                                 </span>
+                                {card.reward_type && (
+                                  <span className="sm:hidden">
+                                    · {card.reward_type === 'cashback' ? '💵 Cash Back' :
+                                       card.reward_type === 'points' ? '✨ Points' :
+                                       card.reward_type === 'miles' ? '✈️ Miles' : card.reward_type}
+                                  </span>
+                                )}
                                 {!card.accepting_applications && (
                                   <span className="sm:hidden inline-flex rounded-full bg-gray-100 px-1.5 text-xs font-medium text-gray-600">
                                     Archived
