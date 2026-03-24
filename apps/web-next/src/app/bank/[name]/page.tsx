@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getCardsByBank, getAllBanks } from "@/lib/api";
+import { getCardsByBank, getAllBanks, getCardViewCounts } from "@/lib/api";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
 import { NewspaperIcon } from "@heroicons/react/24/outline";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
@@ -45,9 +45,10 @@ export default async function BankPage({ params }: BankPageProps) {
   const { name } = await params;
   const bankName = decodeURIComponent(name);
 
-  const [cards, allNews] = await Promise.all([
+  const [cards, allNews, trendingViews] = await Promise.all([
     getCardsByBank(bankName),
     getNews(),
+    getCardViewCounts('trending').catch(() => ({})),
   ]);
 
   if (cards.length === 0) {
@@ -88,25 +89,21 @@ export default async function BankPage({ params }: BankPageProps) {
 
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center">
-          <div className="flex justify-center items-center mb-4">
-            <BuildingLibraryIcon className="h-12 w-12 text-indigo-600" aria-hidden="true" />
-          </div>
+        <div className="flex justify-center items-center gap-3">
+          <BuildingLibraryIcon className="h-10 w-10 text-indigo-600 flex-shrink-0" aria-hidden="true" />
           <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
             {bankName}
           </h1>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Cards Table - Full width on mobile, 2/3 on desktop */}
-          <div className="col-span-1 lg:col-span-2 -mx-4 sm:mx-0">
-            <BankCardsTable cards={cards} />
-          </div>
+        {/* Cards Table - Full width */}
+        <div className="mt-8 -mx-4 sm:mx-0">
+          <BankCardsTable cards={cards} trendingViews={trendingViews} />
+        </div>
 
-          {/* News Sidebar - Below cards on mobile, 1/3 on desktop */}
-          <div className="col-span-1">
-            <div className="bg-white shadow ring-1 ring-black ring-opacity-5 rounded-lg overflow-hidden sticky top-4">
+        {/* News Section */}
+        <div className="mt-8 -mx-4 sm:mx-0">
+          <div className="bg-white sm:shadow sm:ring-1 sm:ring-black sm:ring-opacity-5 sm:rounded-lg overflow-hidden">
               <div className="px-4 py-4 border-b border-gray-200">
                 <div className="flex items-center gap-2">
                   <NewspaperIcon className="h-5 w-5 text-indigo-600" />
@@ -171,7 +168,6 @@ export default async function BankPage({ params }: BankPageProps) {
                   View all card news →
                 </Link>
               </div>
-            </div>
           </div>
         </div>
       </div>
