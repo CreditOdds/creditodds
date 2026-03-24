@@ -31,6 +31,7 @@ export const categoryLabels: Record<string, string> = {
   hotels_portal: "Hotels (via Portal)",
   flights_portal: "Flights (via Portal)",
   hotels_car_portal: "Hotels & Car Rentals (via Portal)",
+  car_rentals_portal: "Car Rentals (via Portal)",
   amazon: "Amazon.com",
   rei: "REI",
   everything_else: "Everything Else",
@@ -80,6 +81,7 @@ export function CategoryIcon({ category, className }: { category: string; classN
         </svg>
       );
     case "car_rentals":
+    case "car_rentals_portal":
       return <TruckIcon className={iconClass} />;
     case "entertainment":
       return <FilmIcon className={iconClass} />;

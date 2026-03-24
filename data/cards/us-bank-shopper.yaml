@@ -22,7 +22,7 @@ rewards:
     choices: 1
     eligible_categories: [gas, wholesale_clubs, utilities]
     note: "Choose 1 everyday category each quarter, up to $1,500"
-  - category: travel
+  - category: hotels_car_portal
     value: 5.5
     unit: percent
     note: "Hotel and car reservations booked in the Travel Center"

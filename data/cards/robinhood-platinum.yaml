@@ -1,4 +1,4 @@
-name: "Robinhood Platinum"
+name: "Platinum"
 bank: "Robinhood"
 slug: "robinhood-platinum"
 accepting_applications: true
@@ -13,12 +13,14 @@ tags:
   - rewards
 reward_type: "cashback"
 rewards:
-  - category: hotels
+  - category: hotels_portal
     value: 10
     unit: percent
-  - category: car_rentals
+    note: "Booked through the Robinhood Banking app"
+  - category: car_rentals_portal
     value: 10
     unit: percent
+    note: "Booked through the Robinhood Banking app"
   - category: flights_portal
     value: 5
     unit: percent
