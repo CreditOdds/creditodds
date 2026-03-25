@@ -18,15 +18,17 @@ interface EditWalletCardModalProps {
 const RATING_LABELS: Record<number, string> = {
   1: 'Very Bad',
   2: 'Bad',
-  3: 'Good',
-  4: 'Very Good',
+  3: 'Average',
+  4: 'Good',
+  5: 'Very Good',
 };
 
 const RATING_COLORS: Record<number, { bg: string; text: string; fill: string }> = {
   1: { bg: 'bg-red-100', text: 'text-red-700', fill: 'text-red-400' },
   2: { bg: 'bg-orange-100', text: 'text-orange-700', fill: 'text-orange-400' },
-  3: { bg: 'bg-green-100', text: 'text-green-700', fill: 'text-green-400' },
-  4: { bg: 'bg-emerald-100', text: 'text-emerald-700', fill: 'text-emerald-500' },
+  3: { bg: 'bg-yellow-100', text: 'text-yellow-700', fill: 'text-yellow-400' },
+  4: { bg: 'bg-green-100', text: 'text-green-700', fill: 'text-green-400' },
+  5: { bg: 'bg-emerald-100', text: 'text-emerald-700', fill: 'text-emerald-500' },
 };
 
 function StarIcon({ filled, className }: { filled?: boolean; className?: string }) {
@@ -214,7 +216,7 @@ export default function EditWalletCardModal({ show, card, cardSlug, onClose, onS
                 {userRating ? 'Your rating (click to change):' : 'Rate this card:'}
               </label>
               <div className="flex items-center gap-1">
-                {[1, 2, 3, 4].map((star) => {
+                {[1, 2, 3, 4, 5].map((star) => {
                   const active = (hoveredRating ?? userRating ?? 0) >= star;
                   const colors = RATING_COLORS[hoveredRating ?? userRating ?? star];
                   return (
