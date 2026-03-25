@@ -87,11 +87,11 @@ function CardRatingDisplay({ ratings }: { ratings: { count: number; average: num
       <div className="mb-3 flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">User Rating</p>
         <span className="text-sm text-gray-500 whitespace-nowrap">
-          {ratings.average.toFixed(1)}/4 from {ratings.count} {ratings.count === 1 ? 'rating' : 'ratings'}
+          {ratings.average.toFixed(1)}/5 from {ratings.count} {ratings.count === 1 ? 'rating' : 'ratings'}
         </span>
       </div>
       <div className="flex items-center gap-0.5">
-        {[1, 2, 3, 4].map((star) => {
+        {[1, 2, 3, 4, 5].map((star) => {
           const filled = star <= Math.floor(ratings.average!);
           const half = !filled && star === Math.ceil(ratings.average!) && ratings.average! % 1 >= 0.25;
           return (

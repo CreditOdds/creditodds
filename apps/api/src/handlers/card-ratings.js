@@ -178,11 +178,11 @@ exports.CardRatingsUserHandler = async (event) => {
           break;
         }
 
-        if (rating < 1 || rating > 4 || !Number.isInteger(rating)) {
+        if (rating < 0 || rating > 5 || !Number.isInteger(rating)) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "rating must be an integer between 1 and 4" }),
+            body: JSON.stringify({ error: "rating must be an integer between 0 and 5" }),
           };
           break;
         }

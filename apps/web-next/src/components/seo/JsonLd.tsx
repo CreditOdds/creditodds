@@ -100,8 +100,8 @@ export function CreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
       '@type': 'AggregateRating',
       ratingValue: ratings.average.toFixed(1),
       ratingCount: ratings.count,
-      bestRating: 4,
-      worstRating: 1,
+      bestRating: 5,
+      worstRating: 0,
     } : undefined,
     additionalProperty: [
       {

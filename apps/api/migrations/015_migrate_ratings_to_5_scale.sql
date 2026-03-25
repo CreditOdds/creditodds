@@ -1,0 +1,6 @@
+-- Migrate ratings from 1-4 scale to 0-5 scale
+-- Mapping: 1->0, 2->2, 3->4, 4->5
+-- Run as 3 separate invocations (Lambda doesn't support multi-statement SQL):
+-- 1) 015a - drop CHECK constraint
+-- 2) 015b - remap values with CASE
+-- 3) 015c - add new CHECK constraint
