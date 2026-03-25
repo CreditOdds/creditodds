@@ -9,15 +9,28 @@ tags:
   - cashback
   - rewards
 rewards:
-  - category: rotating
+  - category: "rotating"
     value: 5
-    unit: percent
-    mode: auto_top_spend
-    eligible_categories: [dining, gas, groceries, transit, travel, streaming, drugstores, home_improvement, entertainment]
+    unit: "percent"
+    mode: "auto_top_spend"
+    eligible_categories:
+      - "dining"
+      - "gas"
+      - "groceries"
+      - "transit"
+      - "travel"
+      - "streaming"
+      - "drugstores"
+      - "home_improvement"
+      - "entertainment"
     note: "Automatically on your top eligible spend category each billing cycle, up to $500/month"
-  - category: everything_else
+  - category: "hotels_car_portal"
+    value: 4
+    unit: "points_per_dollar"
+    note: "Additional 4 ThankYou Points per $1 on hotels, car rentals, and attractions booked on Citi Travel portal (through June 30, 2026)"
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 200
   type: cash
