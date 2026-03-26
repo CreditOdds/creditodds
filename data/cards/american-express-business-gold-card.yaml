@@ -27,6 +27,12 @@ benefits:
     frequency: "monthly"
     category: "other"
     enrollment_required: true
+  - name: "ChatGPT Credits"
+    value: 300
+    description: "$300 in annual ChatGPT credits for AI-powered productivity tools"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: true
   - name: "Walmart+ Credit"
     value: 155
     description: "Up to $12.95/month plus applicable taxes toward one monthly Walmart+ membership"
