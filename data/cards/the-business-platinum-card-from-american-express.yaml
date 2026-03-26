@@ -25,6 +25,12 @@ signup_bonus:
   spend_requirement: 20000
   timeframe_months: 3
 benefits:
+  - name: "ChatGPT Credits"
+    value: 300
+    description: "$300 in annual ChatGPT credits for AI-powered productivity tools"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: true
   - name: "Airline Fee Credit"
     value: 200
     description: "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades"
