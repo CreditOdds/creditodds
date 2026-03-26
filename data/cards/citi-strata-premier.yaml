@@ -9,14 +9,9 @@ reward_type: "points"
 benefits:
   - name: "Annual Hotel Credit"
     value: 100
-    description: "Credit for hotel bookings through the ThankYou Rewards portal"
+    description: "$100 off a single hotel stay of $500 or more booked through Citi Travel once per calendar year"
     frequency: "annual"
     category: "hotel"
-  - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
 tags:
   - travel
   - rewards

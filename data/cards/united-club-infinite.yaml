@@ -31,12 +31,12 @@ apr:
 benefits:
   - name: "United Club Membership"
     value: 0
-    description: "Full United Club lounge membership for cardholder"
+    description: "United Club membership for the primary cardholder, including eligible travel companions"
     frequency: "ongoing"
     category: "lounge"
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
     category: "security"
   - name: "2 Free Checked Bags"
@@ -48,6 +48,36 @@ benefits:
     value: 0
     description: "Priority check-in, security, boarding, and baggage handling on United"
     frequency: "ongoing"
+    category: "travel"
+  - name: "Award Flight Discounts"
+    value: 0
+    description: "Earn a 10,000-mile award flight discount after $20,000 in purchases, up to two times each calendar year"
+    frequency: "annual"
+    category: "travel"
+  - name: "Renowned Hotels Credit"
+    value: 200
+    description: "Up to $200 each anniversary year on prepaid Renowned Hotels and Resorts for United Cardmembers bookings"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Rideshare Credit"
+    value: 150
+    description: "Up to $12 monthly from January through November and $18 in December after annual opt-in"
+    frequency: "monthly"
+    category: "rideshare"
+  - name: "Avis / Budget TravelBank Credit"
+    value: 100
+    description: "Up to $100 each anniversary year in United TravelBank cash on Avis or Budget bookings through cars.united.com"
+    frequency: "annual"
+    category: "travel"
+  - name: "Instacart Credit"
+    value: 240
+    description: "Two $10 Instacart credits each month through 12/31/27"
+    frequency: "monthly"
+    category: "grocery"
+  - name: "JSX Credit"
+    value: 200
+    description: "Up to $200 each anniversary year on flights purchased directly with JSX"
+    frequency: "annual"
     category: "travel"
 tags:
   - airline

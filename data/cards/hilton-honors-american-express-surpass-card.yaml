@@ -42,9 +42,14 @@ apr:
     min: 17.49
     max: 27.49
 benefits:
+  - name: "Hilton Credit"
+    value: 200
+    description: "Up to $50 per quarter on eligible purchases made directly with Hilton portfolio properties"
+    frequency: "quarterly"
+    category: "hotel"
   - name: "Free Night Award"
     value: 0
-    description: "1 complimentary night annually at most Hilton hotels and resorts worldwide"
+    description: "Earn a Free Night Reward after $15,000 in purchases in a calendar year"
     frequency: "annual"
     category: "hotel"
   - name: "Gold Status"
@@ -52,11 +57,11 @@ benefits:
     description: "Complimentary Hilton Honors Gold status with room upgrades, late checkout, and 5th night free on reward stays"
     frequency: "ongoing"
     category: "hotel"
-  - name: "Priority Pass Select"
+  - name: "Diamond Status Through Spend"
     value: 0
-    description: "Complimentary Priority Pass Select membership after spending $15,000 in a calendar year"
+    description: "Upgrade to Hilton Honors Diamond status through the end of the next calendar year after $40,000 in annual purchases"
     frequency: "ongoing"
-    category: "lounge"
+    category: "hotel"
 tags:
   - hotel
   - travel

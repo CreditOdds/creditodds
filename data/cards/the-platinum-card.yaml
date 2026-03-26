@@ -42,6 +42,12 @@ benefits:
     frequency: "annual"
     category: "hotel"
     enrollment_required: false
+  - name: "Uber One Credit"
+    value: 120
+    description: "Up to $10/month back on an auto-renewing Uber One membership"
+    frequency: "monthly"
+    category: "rideshare"
+    enrollment_required: true
   - name: "Digital Entertainment Credit"
     value: 240
     description: "$20/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM"
@@ -49,7 +55,7 @@ benefits:
     category: "streaming"
     enrollment_required: true
   - name: "CLEAR Plus Credit"
-    value: 189
+    value: 209
     description: "Statement credit for CLEAR Plus airport security membership"
     frequency: "annual"
     category: "security"
@@ -67,8 +73,8 @@ benefits:
     category: "shopping"
     enrollment_required: true
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     category: "travel"
     enrollment_required: false

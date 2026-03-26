@@ -11,9 +11,9 @@ benefits:
     description: "Automatic Marriott Bonvoy Silver Elite status"
     frequency: "ongoing"
     category: "hotel"
-  - name: "15 Elite Night Credits"
+  - name: "5 Elite Night Credits"
     value: 0
-    description: "15 elite night credits toward Marriott Bonvoy status each year"
+    description: "5 elite night credits toward Marriott Bonvoy status each year"
     frequency: "annual"
     category: "hotel"
 tags:

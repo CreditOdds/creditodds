@@ -21,11 +21,18 @@ signup_bonus:
   spend_requirement: 15000
   timeframe_months: 3
 benefits:
-  - name: "Flexible Business Credit"
-    value: 150
-    description: "Choose 2 categories from Indeed, Adobe, FedEx, Grubhub, wireless providers, and transit for annual statement credits"
-    frequency: "annual"
+  - name: "Business Statement Credits"
+    value: 240
+    description: "Up to $20/month in statement credits on eligible U.S. purchases at FedEx, Grubhub, and office supply stores"
+    frequency: "monthly"
     category: "other"
+    enrollment_required: true
+  - name: "Walmart+ Credit"
+    value: 155
+    description: "Up to $12.95/month plus applicable taxes toward one monthly Walmart+ membership"
+    frequency: "monthly"
+    category: "shopping"
+    enrollment_required: true
 tags:
   - business
   - rewards

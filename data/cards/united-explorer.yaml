@@ -30,8 +30,8 @@ apr:
     max: 28.24
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
     category: "security"
   - name: "First Checked Bag Free"
@@ -48,6 +48,36 @@ benefits:
     value: 0
     description: "Priority boarding on United flights"
     frequency: "ongoing"
+    category: "travel"
+  - name: "Award Flight Discount"
+    value: 0
+    description: "Earn a 10,000-mile award flight discount after $20,000 in annual purchases"
+    frequency: "annual"
+    category: "travel"
+  - name: "United Hotels Credit"
+    value: 100
+    description: "Up to $100 each anniversary year on prepaid hotel stays booked directly through United Hotels"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Rideshare Credit"
+    value: 60
+    description: "Up to $5 back each month on eligible rideshare purchases after annual opt-in"
+    frequency: "monthly"
+    category: "rideshare"
+  - name: "Avis / Budget TravelBank Credit"
+    value: 50
+    description: "Up to $50 each anniversary year in United TravelBank cash on Avis or Budget bookings through cars.united.com"
+    frequency: "annual"
+    category: "travel"
+  - name: "Instacart Credit"
+    value: 120
+    description: "$10 monthly Instacart credit through 12/31/27"
+    frequency: "monthly"
+    category: "grocery"
+  - name: "JSX Credit"
+    value: 100
+    description: "Up to $100 each anniversary year on flights purchased directly with JSX"
+    frequency: "annual"
     category: "travel"
 tags:
   - airline

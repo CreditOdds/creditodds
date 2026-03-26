@@ -8,8 +8,8 @@ annual_fee: 95
 reward_type: "miles"
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     category: "security"
 tags:

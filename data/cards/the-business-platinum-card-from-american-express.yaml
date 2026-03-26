@@ -32,20 +32,26 @@ benefits:
     category: "travel"
     enrollment_required: true
   - name: "Dell Technologies Credit"
-    value: 400
-    description: "$200 semiannually in statement credits for purchases at Dell Technologies"
-    frequency: "semi_annual"
+    value: 1150
+    description: "Up to $150 back on U.S. Dell purchases, plus another $1,000 after $5,000 in annual Dell spend"
+    frequency: "annual"
     category: "shopping"
+    enrollment_required: true
+  - name: "Hilton for Business Credit"
+    value: 200
+    description: "Up to $50 per quarter on eligible purchases made directly with Hilton portfolio properties"
+    frequency: "quarterly"
+    category: "hotel"
     enrollment_required: true
   - name: "Indeed Credit"
     value: 360
     description: "$90 per quarter in statement credits for Indeed job postings and sponsored jobs"
-    frequency: "annual"
+    frequency: "quarterly"
     category: "other"
     enrollment_required: true
-  - name: "Adobe Creative Cloud Credit"
-    value: 150
-    description: "Annual statement credit for Adobe Creative Cloud subscriptions"
+  - name: "Adobe Creative Solutions Credit"
+    value: 250
+    description: "$250 statement credit after $600 or more in annual U.S. purchases made directly with Adobe"
     frequency: "annual"
     category: "streaming"
     enrollment_required: true
@@ -56,10 +62,16 @@ benefits:
     category: "other"
     enrollment_required: true
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     category: "security"
+  - name: "CLEAR Plus Credit"
+    value: 209
+    description: "Statement credit for CLEAR Plus airport security membership"
+    frequency: "annual"
+    category: "security"
+    enrollment_required: true
   - name: "Centurion Lounge Access"
     value: 0
     description: "Complimentary access to The Centurion Lounge network at major airports worldwide"

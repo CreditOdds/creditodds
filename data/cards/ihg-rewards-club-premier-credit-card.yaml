@@ -8,14 +8,9 @@ reward_type: "points"
 benefits:
   - name: "Free Night Award"
     value: 0
-    description: "One annual free night award at any IHG hotel"
+    description: "One anniversary free night valid at properties costing up to 40,000 points, with option to top off using points"
     frequency: "annual"
     category: "hotel"
-  - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
   - name: "4th Reward Night Free"
     value: 0
     description: "4th night free on IHG reward night stays"
@@ -25,6 +20,11 @@ benefits:
     value: 0
     description: "Automatic IHG One Rewards Platinum Elite status"
     frequency: "ongoing"
+    category: "hotel"
+  - name: "Anniversary Bonus Points"
+    value: 0
+    description: "10,000 bonus points and a $100 statement credit after $20,000 in annual purchases"
+    frequency: "annual"
     category: "hotel"
 tags:
   - hotel

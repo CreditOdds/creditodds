@@ -23,12 +23,12 @@ benefits:
     category: "lounge"
   - name: "Priority Pass Select"
     value: 0
-    description: "Unlimited Priority Pass lounge access for cardholder and 2 guests"
+    description: "Complimentary Priority Pass Select membership with access to 1,300+ lounges worldwide"
     frequency: "ongoing"
     category: "lounge"
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     category: "security"
   - name: "Hertz President's Circle Status"

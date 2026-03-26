@@ -10,31 +10,31 @@ benefits:
     description: "Automatic statement credit for travel purchases"
     frequency: "annual"
     category: "travel"
+  - name: "The Edit Credit"
+    value: 500
+    description: "Up to $250 biannually for prepaid bookings made through The Edit by Chase Travel"
+    frequency: "semi_annual"
+    category: "hotel"
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
     category: "security"
-  - name: "Priority Pass Select"
+  - name: "Sapphire Lounge by The Club Access"
     value: 0
-    description: "Complimentary Priority Pass Select lounge membership"
+    description: "Access to Chase Sapphire Lounge by The Club with up to two complimentary guests"
     frequency: "ongoing"
     category: "lounge"
-  - name: "DoorDash DashPass"
+  - name: "Priority Pass Select"
     value: 0
-    description: "Complimentary DashPass membership and delivery credits"
+    description: "Priority Pass Select membership with access to 1,300+ lounges worldwide"
     frequency: "ongoing"
-    category: "dining"
-  - name: "Lyft Pink"
+    category: "lounge"
+  - name: "Air Canada Lounge Access"
     value: 0
-    description: "Complimentary Lyft Pink membership"
+    description: "Eligible boarding pass holders also get access to select Air Canada Maple Leaf Lounges and Cafes"
     frequency: "ongoing"
-    category: "rideshare"
-  - name: "Instacart+"
-    value: 0
-    description: "Complimentary Instacart+ membership"
-    frequency: "ongoing"
-    category: "grocery"
+    category: "lounge"
 tags:
   - travel
   - premium
