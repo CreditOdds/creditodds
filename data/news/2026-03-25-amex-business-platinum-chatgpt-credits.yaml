@@ -5,8 +5,12 @@ summary: "American Express announced that cardholders of The Business Platinum C
 tags:
   - "benefit-change"
 bank: "American Express"
-card_slug: "the-business-platinum-card-from-american-express"
-card_name: "The Business Platinum Card"
+card_slugs:
+  - "the-business-platinum-card-from-american-express"
+  - "american-express-business-gold-card"
+card_names:
+  - "The Business Platinum Card"
+  - "American Express Business Gold"
 source: "American Express Newsroom"
 source_url: "https://www.americanexpress.com/en-us/newsroom/articles/amex-for-business/american-express-launches-new-graphite-business-cash-unlimited-c.html"
 body: |
