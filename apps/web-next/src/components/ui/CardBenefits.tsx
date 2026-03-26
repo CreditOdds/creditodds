@@ -40,7 +40,10 @@ interface CardBenefitsProps {
 export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) {
   const credits = benefits.filter((b) => b.value > 0);
   const perks = benefits.filter((b) => b.value === 0);
-  const totalAnnualValue = credits.reduce((sum, b) => sum + b.value, 0);
+  const totalAnnualValue = credits.reduce((sum, b) => {
+    if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
+    return sum + b.value;
+  }, 0);
 
   return (
     <div className="py-12">
