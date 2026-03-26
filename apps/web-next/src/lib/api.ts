@@ -45,6 +45,15 @@ export interface CardAPR {
   regular?: RegularAPR;
 }
 
+export interface CardBenefit {
+  name: string;
+  value: number;
+  description: string;
+  frequency: 'monthly' | 'quarterly' | 'semi_annual' | 'annual' | 'multi_year' | 'ongoing';
+  category: 'dining' | 'dining_travel' | 'travel' | 'hotel' | 'entertainment' | 'shopping' | 'fitness' | 'lounge' | 'security' | 'gas' | 'streaming' | 'grocery' | 'rideshare' | 'other';
+  enrollment_required?: boolean;
+}
+
 export interface Card {
   card_id: string | number;
   db_card_id?: number;
@@ -71,6 +80,7 @@ export interface Card {
   rewards?: Reward[];
   signup_bonus?: SignupBonus;
   apr?: CardAPR;
+  benefits?: CardBenefit[];
 }
 
 // GraphData is an array of series data

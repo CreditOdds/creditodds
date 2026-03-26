@@ -5,6 +5,27 @@ image: "amex_delta_skymiles_reserve.png"
 accepting_applications: true
 annual_fee: 650
 reward_type: "miles"
+benefits:
+  - name: "Delta Sky Club Access"
+    value: 0
+    description: "Complimentary access to Delta Sky Clubs when flying Delta"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Companion Certificate"
+    value: 0
+    description: "Annual domestic First Class companion certificate after spending $30,000 in a year"
+    frequency: "annual"
+    category: "travel"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "TakeOff 15"
+    value: 0
+    description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
+    frequency: "ongoing"
+    category: "travel"
 tags:
   - airline
   - travel

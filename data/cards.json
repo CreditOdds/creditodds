@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-25T14:21:37.983Z",
+  "generated_at": "2026-03-26T04:59:19.224Z",
   "count": 155,
   "categories": [
     {
@@ -370,6 +370,15 @@
         "spend_requirement": 15000,
         "timeframe_months": 3
       },
+      "benefits": [
+        {
+          "name": "Flexible Business Credit",
+          "value": 150,
+          "description": "Choose 2 categories from Indeed, Adobe, FedEx, Grubhub, wireless providers, and transit for annual statement credits",
+          "frequency": "annual",
+          "category": "other"
+        }
+      ],
       "tags": [
         "business",
         "rewards",
@@ -386,6 +395,24 @@
       "accepting_applications": true,
       "card_referral_link": "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref=",
       "annual_fee": 325,
+      "benefits": [
+        {
+          "name": "Uber Cash",
+          "value": 120,
+          "description": "$10/month in Uber Cash for Uber Eats orders or Uber rides",
+          "frequency": "monthly",
+          "category": "rideshare",
+          "enrollment_required": true
+        },
+        {
+          "name": "Dining Credit",
+          "value": 120,
+          "description": "$10/month in statement credits at Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, Milk Bar, and select Shake Shack locations",
+          "frequency": "monthly",
+          "category": "dining",
+          "enrollment_required": true
+        }
+      ],
       "tags": [
         "travel",
         "dining",
@@ -460,6 +487,23 @@
         "spend_requirement": 3000,
         "timeframe_months": 6
       },
+      "benefits": [
+        {
+          "name": "CLEAR Plus Credit",
+          "value": 189,
+          "description": "Statement credit for CLEAR Plus airport security membership",
+          "frequency": "annual",
+          "category": "security",
+          "enrollment_required": true
+        },
+        {
+          "name": "LoungeBuddy Credit",
+          "value": 100,
+          "description": "$100 annual credit for airport lounge access through LoungeBuddy",
+          "frequency": "annual",
+          "category": "lounge"
+        }
+      ],
       "tags": [
         "travel",
         "dining",
@@ -808,6 +852,15 @@
       "category": "travel",
       "annual_fee": 95,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        }
+      ],
       "tags": [
         "travel",
         "rewards"
@@ -853,6 +906,38 @@
       "category": "travel",
       "annual_fee": 550,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Lifestyle Credit",
+          "value": 150,
+          "description": "Annual credit for airlines, rideshare, or streaming services",
+          "frequency": "annual",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Airline Incidental Credit",
+          "value": 100,
+          "description": "Annual credit for airline incidental fees like baggage and seat upgrades",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Unlimited Priority Pass lounge access",
+          "frequency": "ongoing",
+          "category": "lounge"
+        }
+      ],
       "tags": [
         "travel",
         "rewards",
@@ -1009,6 +1094,15 @@
       "annual_fee": 0,
       "reward_type": "points",
       "release_date": "2025-01-15",
+      "benefits": [
+        {
+          "name": "Rent Payment Without Fees",
+          "value": 0,
+          "description": "Pay rent with your credit card and earn points with no transaction fees",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
       "tags": [
         "rewards",
         "travel"
@@ -1047,6 +1141,15 @@
       "annual_fee": 95,
       "reward_type": "points",
       "release_date": "2025-01-15",
+      "benefits": [
+        {
+          "name": "Rent Payment Without Fees",
+          "value": 0,
+          "description": "Pay rent with your credit card and earn points with no transaction fees",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
       "tags": [
         "rewards",
         "travel",
@@ -1083,6 +1186,15 @@
       "annual_fee": 495,
       "reward_type": "points",
       "release_date": "2025-01-15",
+      "benefits": [
+        {
+          "name": "Rent Payment Without Fees",
+          "value": 0,
+          "description": "Pay rent with your credit card and earn points with no transaction fees",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
       "tags": [
         "rewards",
         "travel",
@@ -1318,6 +1430,16 @@
           "max": 28.49
         }
       },
+      "benefits": [
+        {
+          "name": "Disney Bundle Discount",
+          "value": 84,
+          "description": "$7/month statement credit toward the Disney Bundle (Disney+, Hulu, ESPN+)",
+          "frequency": "monthly",
+          "category": "streaming",
+          "enrollment_required": true
+        }
+      ],
       "tags": [
         "cashback",
         "shopping"
@@ -1735,6 +1857,15 @@
       "image": "capital-one-venture-rewards.png",
       "annual_fee": 95,
       "reward_type": "miles",
+      "benefits": [
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        }
+      ],
       "tags": [
         "travel",
         "rewards"
@@ -1774,6 +1905,50 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 395,
+      "benefits": [
+        {
+          "name": "Annual Travel Credit",
+          "value": 300,
+          "description": "Credit for bookings through Capital One Travel portal",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Anniversary Miles Bonus",
+          "value": 0,
+          "description": "10,000 bonus miles on account anniversary",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Capital One Lounge Access",
+          "value": 0,
+          "description": "Complimentary access to Capital One Lounges",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Unlimited Priority Pass lounge access for cardholder and 2 guests",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Hertz President's Circle Status",
+          "value": 0,
+          "description": "Complimentary Hertz President's Circle elite status",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "travel",
         "premium",
@@ -2034,6 +2209,29 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 95,
+      "benefits": [
+        {
+          "name": "Annual Hotel Credit",
+          "value": 50,
+          "description": "Statement credit for hotel stays booked through Chase Travel",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "DoorDash DashPass",
+          "value": 0,
+          "description": "Complimentary DoorDash DashPass membership",
+          "frequency": "ongoing",
+          "category": "dining"
+        }
+      ],
       "tags": [
         "travel",
         "dining",
@@ -2095,6 +2293,50 @@
       "image": "chase_sapphire_reserve.png",
       "accepting_applications": true,
       "annual_fee": 795,
+      "benefits": [
+        {
+          "name": "Annual Travel Credit",
+          "value": 300,
+          "description": "Automatic statement credit for travel purchases",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Complimentary Priority Pass Select lounge membership",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "DoorDash DashPass",
+          "value": 0,
+          "description": "Complimentary DashPass membership and delivery credits",
+          "frequency": "ongoing",
+          "category": "dining"
+        },
+        {
+          "name": "Lyft Pink",
+          "value": 0,
+          "description": "Complimentary Lyft Pink membership",
+          "frequency": "ongoing",
+          "category": "rideshare"
+        },
+        {
+          "name": "Instacart+",
+          "value": 0,
+          "description": "Complimentary Instacart+ membership",
+          "frequency": "ongoing",
+          "category": "grocery"
+        }
+      ],
       "tags": [
         "travel",
         "premium",
@@ -2171,6 +2413,36 @@
       "annual_fee": 595,
       "reward_type": "miles",
       "image": "citi-aadvantage-executive-world-elite.png",
+      "benefits": [
+        {
+          "name": "Admirals Club Membership",
+          "value": 0,
+          "description": "Full Admirals Club lounge access for cardholder and authorized users",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "First Checked Bag Free",
+          "value": 0,
+          "description": "First checked bag free on domestic American Airlines itineraries",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Preferred Boarding",
+          "value": 0,
+          "description": "Preferred boarding on American Airlines flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "travel",
         "airline",
@@ -2218,6 +2490,22 @@
       "annual_fee": 350,
       "reward_type": "miles",
       "image": "citi-aadvantage-globe.png",
+      "benefits": [
+        {
+          "name": "First Checked Bag Free",
+          "value": 0,
+          "description": "First checked bag free on domestic American Airlines itineraries",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Preferred Boarding",
+          "value": 0,
+          "description": "Preferred boarding on American Airlines flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "travel",
         "airline"
@@ -2275,6 +2563,22 @@
       "annual_fee": 99,
       "reward_type": "miles",
       "image": "citi-aadvantage-platinum-select-world-elite.png",
+      "benefits": [
+        {
+          "name": "First Checked Bag Free",
+          "value": 0,
+          "description": "First checked bag free on domestic American Airlines itineraries",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Preferred Boarding",
+          "value": 0,
+          "description": "Preferred boarding on American Airlines flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "travel",
         "airline"
@@ -2347,6 +2651,12 @@
             "entertainment"
           ],
           "note": "Automatically on your top eligible spend category each billing cycle, up to $500/month"
+        },
+        {
+          "category": "hotels_car_portal",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "Additional 4 ThankYou Points per $1 on hotels, car rentals, and attractions booked on Citi Travel portal (through June 30, 2026)"
         },
         {
           "category": "everything_else",
@@ -2601,6 +2911,45 @@
       "image": "citi-strata-elite.png",
       "annual_fee": 595,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Annual Hotel Credit",
+          "value": 200,
+          "description": "Credit for hotel bookings through the ThankYou Rewards portal",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Annual Dining Credit",
+          "value": 120,
+          "description": "$10/month dining credit at eligible restaurants",
+          "frequency": "monthly",
+          "category": "dining",
+          "enrollment_required": true
+        },
+        {
+          "name": "Lifestyle Credit",
+          "value": 120,
+          "description": "Annual credit for Peloton, SoulCycle, Equinox, and other fitness brands",
+          "frequency": "annual",
+          "category": "fitness",
+          "enrollment_required": true
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Unlimited Priority Pass lounge access",
+          "frequency": "ongoing",
+          "category": "lounge"
+        }
+      ],
       "tags": [
         "travel",
         "rewards",
@@ -2655,6 +3004,22 @@
       "category": "travel",
       "annual_fee": 95,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Annual Hotel Credit",
+          "value": 100,
+          "description": "Credit for hotel bookings through the ThankYou Rewards portal",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        }
+      ],
       "tags": [
         "travel",
         "rewards"
@@ -2935,6 +3300,29 @@
       "accepting_applications": true,
       "annual_fee": 150,
       "reward_type": "miles",
+      "benefits": [
+        {
+          "name": "First Checked Bag Free",
+          "value": 0,
+          "description": "First checked bag free on Delta flights for you and up to 8 companions on the same reservation",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Priority Boarding",
+          "value": 0,
+          "description": "Priority boarding on Delta flights (Main Cabin 1 priority)",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "TakeOff 15",
+          "value": 0,
+          "description": "15% off Delta award flights when booking through delta.com or the Fly Delta app",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel",
@@ -2987,6 +3375,36 @@
       "accepting_applications": true,
       "annual_fee": 350,
       "reward_type": "miles",
+      "benefits": [
+        {
+          "name": "Companion Certificate",
+          "value": 0,
+          "description": "Annual domestic Main Cabin companion certificate after meeting spend requirements",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "TakeOff 15",
+          "value": 0,
+          "description": "15% off Delta award flights when booking through delta.com or the Fly Delta app",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "First Checked Bag Free",
+          "value": 0,
+          "description": "First checked bag free on Delta flights for you and up to 8 companions on the same reservation",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel",
@@ -3045,6 +3463,36 @@
       "accepting_applications": true,
       "annual_fee": 650,
       "reward_type": "miles",
+      "benefits": [
+        {
+          "name": "Delta Sky Club Access",
+          "value": 0,
+          "description": "Complimentary access to Delta Sky Clubs when flying Delta",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Companion Certificate",
+          "value": 0,
+          "description": "Annual domestic First Class companion certificate after spending $30,000 in a year",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "TakeOff 15",
+          "value": 0,
+          "description": "15% off Delta award flights when booking through delta.com or the Fly Delta app",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel",
@@ -3315,6 +3763,15 @@
       "category": "rewards",
       "annual_fee": 149,
       "reward_type": "cashback",
+      "benefits": [
+        {
+          "name": "Annual Disney Statement Credit",
+          "value": 50,
+          "description": "Annual statement credit for Disney purchases",
+          "frequency": "annual",
+          "category": "entertainment"
+        }
+      ],
       "tags": [
         "rewards",
         "shopping"
@@ -3549,41 +4006,6 @@
       "card_name": "Gemini Credit"
     },
     {
-      "name": "Gold",
-      "bank": "Robinhood",
-      "slug": "robinhood-gold-card",
-      "accepting_applications": true,
-      "image": "robinhood-gold-card.png",
-      "release_date": "2024-03-26",
-      "annual_fee": 0,
-      "tags": [
-        "cashback",
-        "rewards"
-      ],
-      "reward_type": "cashback",
-      "rewards": [
-        {
-          "category": "travel_portal",
-          "value": 5,
-          "unit": "percent",
-          "note": "Travel booked through Robinhood travel portal"
-        },
-        {
-          "category": "everything_else",
-          "value": 3,
-          "unit": "percent"
-        }
-      ],
-      "apr": {
-        "regular": {
-          "min": 29.99,
-          "max": 29.99
-        }
-      },
-      "card_id": "robinhood-gold-card",
-      "card_name": "Gold"
-    },
-    {
       "name": "Graphite Business Cash Unlimited",
       "bank": "American Express",
       "slug": "graphite-business-cash-unlimited",
@@ -3741,6 +4163,15 @@
           "max": 28.49
         }
       },
+      "benefits": [
+        {
+          "name": "Silver Status",
+          "value": 0,
+          "description": "Complimentary Hilton Honors Silver status with 5th night free on reward stays",
+          "frequency": "ongoing",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel"
@@ -3799,6 +4230,51 @@
           "max": 28.49
         }
       },
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "1 complimentary night annually at most Hilton hotels and resorts worldwide",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Hilton Resort Credit",
+          "value": 400,
+          "description": "$400 annual statement credit for eligible purchases at Hilton resorts",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Airline Fee Credit",
+          "value": 200,
+          "description": "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Diamond Status",
+          "value": 0,
+          "description": "Complimentary Hilton Honors Diamond status with room upgrades, executive lounge access, and late checkout",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Diamond Property Credit",
+          "value": 0,
+          "description": "$100 credit on stays of 2+ nights at Hilton properties when you have Diamond status",
+          "frequency": "ongoing",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",
@@ -3868,6 +4344,29 @@
           "max": 27.49
         }
       },
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "1 complimentary night annually at most Hilton hotels and resorts worldwide",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Gold Status",
+          "value": 0,
+          "description": "Complimentary Hilton Honors Gold status with room upgrades, late checkout, and 5th night free on reward stays",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Complimentary Priority Pass Select membership after spending $15,000 in a calendar year",
+          "frequency": "ongoing",
+          "category": "lounge"
+        }
+      ],
       "tags": [
         "hotel",
         "travel"
@@ -3940,6 +4439,36 @@
       "image": "chase-ihg-one-rewards-premier.png",
       "annual_fee": 99,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "One annual free night award at any IHG hotel",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "4th Reward Night Free",
+          "value": 0,
+          "description": "4th night free on IHG reward night stays",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "Platinum Elite Status",
+          "value": 0,
+          "description": "Automatic IHG One Rewards Platinum Elite status",
+          "frequency": "ongoing",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",
@@ -3996,6 +4525,29 @@
       "annual_fee": 99,
       "reward_type": "points",
       "image": "chase-ihg-one-rewards-premier-business.png",
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "One annual free night award at any IHG hotel",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "4th Reward Night Free",
+          "value": 0,
+          "description": "4th night free on IHG reward night stays",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "Platinum Elite Status",
+          "value": 0,
+          "description": "Automatic IHG One Rewards Platinum Elite status",
+          "frequency": "ongoing",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",
@@ -4409,6 +4961,22 @@
       "accepting_applications": true,
       "annual_fee": 0,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Silver Elite Status",
+          "value": 0,
+          "description": "Automatic Marriott Bonvoy Silver Elite status",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "15 Elite Night Credits",
+          "value": 0,
+          "description": "15 elite night credits toward Marriott Bonvoy status each year",
+          "frequency": "annual",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel"
@@ -4461,6 +5029,29 @@
       "accepting_applications": true,
       "annual_fee": 95,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "One annual free night award up to 35,000 points value",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "15 Elite Night Credits",
+          "value": 0,
+          "description": "15 elite night credits toward Marriott Bonvoy status each year",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Silver Elite Status",
+          "value": 0,
+          "description": "Automatic Marriott Bonvoy Silver Elite status",
+          "frequency": "ongoing",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",
@@ -4557,6 +5148,57 @@
           "max": 28.49
         }
       },
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "1 annual free night award at Marriott properties valued up to 85,000 points",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Dining Credit",
+          "value": 300,
+          "description": "$25/month in statement credits at restaurants worldwide",
+          "frequency": "monthly",
+          "category": "dining"
+        },
+        {
+          "name": "Marriott Property Credit",
+          "value": 100,
+          "description": "$100 statement credit for stays of 2+ consecutive nights at Marriott Bonvoy properties",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Platinum Elite Status",
+          "value": 0,
+          "description": "Complimentary Marriott Bonvoy Platinum Elite status with room upgrades, late checkout, and lounge access",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "25 Elite Night Credits",
+          "value": 0,
+          "description": "25 Elite Night Credits annually toward Marriott Bonvoy elite status qualification",
+          "frequency": "annual",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",
@@ -4607,55 +5249,6 @@
       },
       "card_id": "nhl-discover-it",
       "card_name": "NHL Discover it"
-    },
-    {
-      "name": "Platinum",
-      "bank": "Robinhood",
-      "slug": "robinhood-platinum",
-      "accepting_applications": true,
-      "image": "robinhood-platinum.png",
-      "release_date": "2026-03-05",
-      "category": "travel",
-      "annual_fee": 695,
-      "tags": [
-        "premium",
-        "travel",
-        "dining",
-        "rewards"
-      ],
-      "reward_type": "cashback",
-      "rewards": [
-        {
-          "category": "hotels_portal",
-          "value": 10,
-          "unit": "percent",
-          "note": "Booked through the Robinhood Banking app"
-        },
-        {
-          "category": "car_rentals_portal",
-          "value": 10,
-          "unit": "percent",
-          "note": "Booked through the Robinhood Banking app"
-        },
-        {
-          "category": "flights_portal",
-          "value": 5,
-          "unit": "percent",
-          "note": "Flights booked through the Robinhood Banking app"
-        },
-        {
-          "category": "dining",
-          "value": 5,
-          "unit": "percent"
-        },
-        {
-          "category": "everything_else",
-          "value": 1,
-          "unit": "percent"
-        }
-      ],
-      "card_id": "robinhood-platinum",
-      "card_name": "Platinum"
     },
     {
       "name": "Princess Cruises Rewards Visa",
@@ -4803,6 +5396,136 @@
       "card_name": "REI Co-op Mastercard"
     },
     {
+      "name": "Robinhood Gold",
+      "bank": "Robinhood",
+      "slug": "robinhood-gold-card",
+      "accepting_applications": true,
+      "image": "robinhood-gold-card.png",
+      "release_date": "2024-03-26",
+      "annual_fee": 0,
+      "benefits": [
+        {
+          "name": "Travel Insurance",
+          "value": 0,
+          "description": "Trip cancellation, trip delay, and lost luggage protection",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Cell Phone Protection",
+          "value": 0,
+          "description": "Cell phone damage and theft protection when you pay your bill with the card",
+          "frequency": "ongoing",
+          "category": "other"
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "value": 0,
+          "description": "No foreign transaction fees on purchases made abroad",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "travel_portal",
+          "value": 5,
+          "unit": "percent",
+          "note": "Travel booked through Robinhood travel portal"
+        },
+        {
+          "category": "everything_else",
+          "value": 3,
+          "unit": "percent"
+        }
+      ],
+      "apr": {
+        "regular": {
+          "min": 29.99,
+          "max": 29.99
+        }
+      },
+      "card_id": "robinhood-gold-card",
+      "card_name": "Robinhood Gold"
+    },
+    {
+      "name": "Robinhood Platinum",
+      "bank": "Robinhood",
+      "slug": "robinhood-platinum",
+      "accepting_applications": true,
+      "image": "robinhood-platinum.png",
+      "release_date": "2026-03-05",
+      "category": "travel",
+      "annual_fee": 695,
+      "benefits": [
+        {
+          "name": "Airport Lounge Access",
+          "value": 0,
+          "description": "Complimentary airport lounge access",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Concierge Service",
+          "value": 0,
+          "description": "24/7 premium concierge service",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
+      "tags": [
+        "premium",
+        "travel",
+        "dining",
+        "rewards"
+      ],
+      "reward_type": "cashback",
+      "rewards": [
+        {
+          "category": "hotels_portal",
+          "value": 10,
+          "unit": "percent",
+          "note": "Booked through the Robinhood Banking app"
+        },
+        {
+          "category": "car_rentals_portal",
+          "value": 10,
+          "unit": "percent",
+          "note": "Booked through the Robinhood Banking app"
+        },
+        {
+          "category": "flights_portal",
+          "value": 5,
+          "unit": "percent",
+          "note": "Flights booked through the Robinhood Banking app"
+        },
+        {
+          "category": "dining",
+          "value": 5,
+          "unit": "percent"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "card_id": "robinhood-platinum",
+      "card_name": "Robinhood Platinum"
+    },
+    {
       "name": "Serve",
       "bank": "American Express",
       "slug": "serve-from-american-express",
@@ -4945,6 +5668,15 @@
           "max": 27.74
         }
       },
+      "benefits": [
+        {
+          "name": "6,000 Anniversary Points",
+          "value": 0,
+          "description": "6,000 bonus points on card anniversary each year",
+          "frequency": "annual",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel"
@@ -4995,6 +5727,29 @@
           "max": 27.74
         }
       },
+      "benefits": [
+        {
+          "name": "Annual Travel Credit",
+          "value": 75,
+          "description": "Statement credit for Southwest Airlines purchases",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "7,500 Anniversary Points",
+          "value": 0,
+          "description": "7,500 bonus points on card anniversary each year",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "4 Upgraded Boardings",
+          "value": 0,
+          "description": "4 upgraded boardings per year when available",
+          "frequency": "annual",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel",
@@ -5049,6 +5804,69 @@
         "spend_requirement": 20000,
         "timeframe_months": 3
       },
+      "benefits": [
+        {
+          "name": "Airline Fee Credit",
+          "value": 200,
+          "description": "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Dell Technologies Credit",
+          "value": 400,
+          "description": "$200 semiannually in statement credits for purchases at Dell Technologies",
+          "frequency": "semi_annual",
+          "category": "shopping",
+          "enrollment_required": true
+        },
+        {
+          "name": "Indeed Credit",
+          "value": 360,
+          "description": "$90 per quarter in statement credits for Indeed job postings and sponsored jobs",
+          "frequency": "annual",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Adobe Creative Cloud Credit",
+          "value": 150,
+          "description": "Annual statement credit for Adobe Creative Cloud subscriptions",
+          "frequency": "annual",
+          "category": "streaming",
+          "enrollment_required": true
+        },
+        {
+          "name": "Wireless Telephone Credit",
+          "value": 120,
+          "description": "$10/month in statement credits toward wireless telephone services purchased directly from U.S. providers",
+          "frequency": "monthly",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Centurion Lounge Access",
+          "value": 0,
+          "description": "Complimentary access to The Centurion Lounge network at major airports worldwide",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass",
+          "frequency": "ongoing",
+          "category": "lounge"
+        }
+      ],
       "tags": [
         "business",
         "travel",
@@ -5091,6 +5909,128 @@
         "spend_requirement": 12000,
         "timeframe_months": 6
       },
+      "benefits": [
+        {
+          "name": "Uber Cash",
+          "value": 200,
+          "description": "$15/month in Uber Cash for Uber Eats or rides ($20 in December)",
+          "frequency": "monthly",
+          "category": "dining_travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Airline Fee Credit",
+          "value": 200,
+          "description": "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Hotel Credit",
+          "value": 200,
+          "description": "Statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Digital Entertainment Credit",
+          "value": 240,
+          "description": "$20/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM",
+          "frequency": "monthly",
+          "category": "streaming",
+          "enrollment_required": true
+        },
+        {
+          "name": "CLEAR Plus Credit",
+          "value": 189,
+          "description": "Statement credit for CLEAR Plus airport security membership",
+          "frequency": "annual",
+          "category": "security",
+          "enrollment_required": true
+        },
+        {
+          "name": "Walmart+ Credit",
+          "value": 155,
+          "description": "Monthly credit covering Walmart+ membership ($12.95/month)",
+          "frequency": "monthly",
+          "category": "shopping",
+          "enrollment_required": true
+        },
+        {
+          "name": "Saks Fifth Avenue Credit",
+          "value": 100,
+          "description": "$50 semiannually (Jan–Jun and Jul–Dec) at Saks Fifth Avenue",
+          "frequency": "semi_annual",
+          "category": "shopping",
+          "enrollment_required": true
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Equinox Credit",
+          "value": 300,
+          "description": "$25/month toward an Equinox gym membership",
+          "frequency": "monthly",
+          "category": "fitness",
+          "enrollment_required": true
+        },
+        {
+          "name": "Lululemon Credit",
+          "value": 300,
+          "description": "$75 per quarter toward purchases at Lululemon",
+          "frequency": "quarterly",
+          "category": "shopping",
+          "enrollment_required": true
+        },
+        {
+          "name": "Global Dining Access by Resy",
+          "value": 0,
+          "description": "Priority reservations and special access at select restaurants nationwide",
+          "frequency": "ongoing",
+          "category": "dining",
+          "enrollment_required": false
+        },
+        {
+          "name": "Centurion Lounge Access",
+          "value": 0,
+          "description": "Complimentary access to The Centurion Lounge network at major airports worldwide",
+          "frequency": "ongoing",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass",
+          "frequency": "ongoing",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "Fine Hotels + Resorts",
+          "value": 0,
+          "description": "Room upgrade on arrival, daily breakfast for two, $100 experience credit, guaranteed 4pm late checkout",
+          "frequency": "ongoing",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "The Hotel Collection",
+          "value": 0,
+          "description": "$100 hotel credit when booking 2+ consecutive nights at The Hotel Collection properties",
+          "frequency": "ongoing",
+          "category": "hotel",
+          "enrollment_required": false
+        }
+      ],
       "tags": [
         "travel",
         "premium",
@@ -5168,6 +6108,29 @@
       "image": "us-bank-altitude-reserve.png",
       "annual_fee": 400,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Annual Travel Credit",
+          "value": 325,
+          "description": "Credit for travel purchases made with a mobile wallet",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Unlimited Priority Pass lounge access",
+          "frequency": "ongoing",
+          "category": "lounge"
+        }
+      ],
       "card_id": "us-bank-altitude-reserve-visa-infinite",
       "card_name": "U.S. Bank Altitude Reserve Visa Infinite"
     },
@@ -5280,6 +6243,36 @@
           "max": 28.24
         }
       },
+      "benefits": [
+        {
+          "name": "United Club Membership",
+          "value": 0,
+          "description": "Full United Club lounge membership for cardholder",
+          "frequency": "ongoing",
+          "category": "lounge"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "2 Free Checked Bags",
+          "value": 0,
+          "description": "First and second checked bags free on United flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Premier Access",
+          "value": 0,
+          "description": "Priority check-in, security, boarding, and baggage handling on United",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel",
@@ -5331,6 +6324,36 @@
           "max": 28.24
         }
       },
+      "benefits": [
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "First Checked Bag Free",
+          "value": 0,
+          "description": "First checked bag free on United flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "2 United Club One-Time Passes",
+          "value": 0,
+          "description": "Two complimentary United Club lounge passes per year",
+          "frequency": "annual",
+          "category": "lounge"
+        },
+        {
+          "name": "Priority Boarding",
+          "value": 0,
+          "description": "Priority boarding on United flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel",
@@ -5464,6 +6487,29 @@
           "max": 28.24
         }
       },
+      "benefits": [
+        {
+          "name": "Annual United Travel Credit",
+          "value": 125,
+          "description": "Statement credit for United Airlines purchases",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "2 Free Checked Bags",
+          "value": 0,
+          "description": "First and second checked bags free on United flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        }
+      ],
       "tags": [
         "airline",
         "travel",
@@ -5481,6 +6527,29 @@
       "category": "travel",
       "annual_fee": 0,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Annual Streaming Credit",
+          "value": 30,
+          "description": "Annual credit for eligible streaming service purchases",
+          "frequency": "annual",
+          "category": "streaming"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "4th Night Free",
+          "value": 0,
+          "description": "4th night free on hotel bookings redeemed through Real-Time Rewards",
+          "frequency": "ongoing",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "travel",
         "rewards"
@@ -6000,6 +7069,15 @@
       "accepting_applications": true,
       "category": "rewards",
       "annual_fee": 0,
+      "benefits": [
+        {
+          "name": "Cell Phone Protection",
+          "value": 0,
+          "description": "Up to $600 per claim for cell phone damage or theft when you pay your bill with the card",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
       "tags": [
         "travel",
         "dining",
@@ -6066,6 +7144,22 @@
       "category": "travel",
       "annual_fee": 95,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Annual Airline Credit",
+          "value": 100,
+          "description": "Annual credit for airline purchases",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Cell Phone Protection",
+          "value": 0,
+          "description": "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
       "tags": [
         "travel",
         "rewards",
@@ -6389,6 +7483,29 @@
       "image": "chase-world-of-hyatt.png",
       "annual_fee": 95,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "One annual free night award at any Category 1-4 Hyatt hotel",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Discoverist Status",
+          "value": 0,
+          "description": "Automatic World of Hyatt Discoverist elite status",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "5 Qualifying Night Credits",
+          "value": 0,
+          "description": "5 qualifying night credits toward Hyatt elite status each year",
+          "frequency": "annual",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",
@@ -6447,6 +7564,29 @@
       "category": "business",
       "annual_fee": 199,
       "reward_type": "points",
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "One annual free night award at any Category 1-4 Hyatt hotel",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Discoverist Status",
+          "value": 0,
+          "description": "Automatic World of Hyatt Discoverist elite status",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "5 Qualifying Night Credits",
+          "value": 0,
+          "description": "5 qualifying night credits toward Hyatt elite status each year",
+          "frequency": "annual",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",

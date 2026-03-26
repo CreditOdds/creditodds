@@ -5,6 +5,22 @@ image: "chase-sapphire-preferred.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
+benefits:
+  - name: "Annual Hotel Credit"
+    value: 50
+    description: "Statement credit for hotel stays booked through Chase Travel"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "DoorDash DashPass"
+    value: 0
+    description: "Complimentary DoorDash DashPass membership"
+    frequency: "ongoing"
+    category: "dining"
 tags:
   - travel
   - dining

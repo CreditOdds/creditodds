@@ -28,6 +28,27 @@ apr:
   regular:
     min: 19.74
     max: 28.24
+benefits:
+  - name: "United Club Membership"
+    value: 0
+    description: "Full United Club lounge membership for cardholder"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "2 Free Checked Bags"
+    value: 0
+    description: "First and second checked bags free on United flights"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Premier Access"
+    value: 0
+    description: "Priority check-in, security, boarding, and baggage handling on United"
+    frequency: "ongoing"
+    category: "travel"
 tags:
   - airline
   - travel

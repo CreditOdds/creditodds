@@ -30,6 +30,12 @@ apr:
   regular:
     min: 19.24
     max: 27.74
+benefits:
+  - name: "6,000 Anniversary Points"
+    value: 0
+    description: "6,000 bonus points on card anniversary each year"
+    frequency: "annual"
+    category: "travel"
 tags:
   - airline
   - travel

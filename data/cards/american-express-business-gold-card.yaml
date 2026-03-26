@@ -20,6 +20,12 @@ signup_bonus:
   type: points
   spend_requirement: 15000
   timeframe_months: 3
+benefits:
+  - name: "Flexible Business Credit"
+    value: 150
+    description: "Choose 2 categories from Indeed, Adobe, FedEx, Grubhub, wireless providers, and transit for annual statement credits"
+    frequency: "annual"
+    category: "other"
 tags:
   - business
   - rewards

@@ -28,6 +28,22 @@ apr:
   regular:
     min: 19.24
     max: 27.74
+benefits:
+  - name: "Annual Travel Credit"
+    value: 75
+    description: "Statement credit for Southwest Airlines purchases"
+    frequency: "annual"
+    category: "travel"
+  - name: "7,500 Anniversary Points"
+    value: 0
+    description: "7,500 bonus points on card anniversary each year"
+    frequency: "annual"
+    category: "travel"
+  - name: "4 Upgraded Boardings"
+    value: 0
+    description: "4 upgraded boardings per year when available"
+    frequency: "annual"
+    category: "travel"
 tags:
   - airline
   - travel

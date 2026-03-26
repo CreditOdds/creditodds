@@ -22,12 +22,13 @@ import {
   ClockIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent, trackCardView, CardWireEntry } from "@/lib/api";
+import { Card, GraphData, Reward, trackReferralEvent, trackCardView, CardWireEntry, CardBenefit } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import CardBenefits from "@/components/ui/CardBenefits";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
 
 // Dynamic import for Highcharts (client-side only)
@@ -694,6 +695,11 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
           </div>
         </div>
       </div>
+
+      {/* Card Benefits Section */}
+      {card.benefits && card.benefits.length > 0 && (
+        <CardBenefits benefits={card.benefits} cardName={card.card_name} />
+      )}
 
       {/* Still collecting data - shown when no approval data */}
       {(card.approved_count || 0) === 0 && card.accepting_applications && (

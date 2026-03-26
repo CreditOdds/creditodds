@@ -4,6 +4,37 @@ slug: "chase-sapphire-reserve"
 image: "chase_sapphire_reserve.png"
 accepting_applications: true
 annual_fee: 795
+benefits:
+  - name: "Annual Travel Credit"
+    value: 300
+    description: "Automatic statement credit for travel purchases"
+    frequency: "annual"
+    category: "travel"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Complimentary Priority Pass Select lounge membership"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "DoorDash DashPass"
+    value: 0
+    description: "Complimentary DashPass membership and delivery credits"
+    frequency: "ongoing"
+    category: "dining"
+  - name: "Lyft Pink"
+    value: 0
+    description: "Complimentary Lyft Pink membership"
+    frequency: "ongoing"
+    category: "rideshare"
+  - name: "Instacart+"
+    value: 0
+    description: "Complimentary Instacart+ membership"
+    frequency: "ongoing"
+    category: "grocery"
 tags:
   - travel
   - premium

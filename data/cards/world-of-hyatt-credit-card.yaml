@@ -5,6 +5,22 @@ accepting_applications: true
 image: "chase-world-of-hyatt.png"
 annual_fee: 95
 reward_type: "points"
+benefits:
+  - name: "Free Night Award"
+    value: 0
+    description: "One annual free night award at any Category 1-4 Hyatt hotel"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Discoverist Status"
+    value: 0
+    description: "Automatic World of Hyatt Discoverist elite status"
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "5 Qualifying Night Credits"
+    value: 0
+    description: "5 qualifying night credits toward Hyatt elite status each year"
+    frequency: "annual"
+    category: "hotel"
 tags:
   - hotel
   - travel

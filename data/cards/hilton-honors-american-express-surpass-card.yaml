@@ -41,6 +41,22 @@ apr:
   regular:
     min: 17.49
     max: 27.49
+benefits:
+  - name: "Free Night Award"
+    value: 0
+    description: "1 complimentary night annually at most Hilton hotels and resorts worldwide"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Gold Status"
+    value: 0
+    description: "Complimentary Hilton Honors Gold status with room upgrades, late checkout, and 5th night free on reward stays"
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Complimentary Priority Pass Select membership after spending $15,000 in a calendar year"
+    frequency: "ongoing"
+    category: "lounge"
 tags:
   - hotel
   - travel

@@ -6,6 +6,34 @@ category: "travel"
 image: "citi-strata-elite.png"
 annual_fee: 595
 reward_type: "points"
+benefits:
+  - name: "Annual Hotel Credit"
+    value: 200
+    description: "Credit for hotel bookings through the ThankYou Rewards portal"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Annual Dining Credit"
+    value: 120
+    description: "$10/month dining credit at eligible restaurants"
+    frequency: "monthly"
+    category: "dining"
+    enrollment_required: true
+  - name: "Lifestyle Credit"
+    value: 120
+    description: "Annual credit for Peloton, SoulCycle, Equinox, and other fitness brands"
+    frequency: "annual"
+    category: "fitness"
+    enrollment_required: true
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Unlimited Priority Pass lounge access"
+    frequency: "ongoing"
+    category: "lounge"
 tags:
   - travel
   - rewards

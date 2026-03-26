@@ -5,6 +5,37 @@ image: "capital_one_venture_x.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 395
+benefits:
+  - name: "Annual Travel Credit"
+    value: 300
+    description: "Credit for bookings through Capital One Travel portal"
+    frequency: "annual"
+    category: "travel"
+  - name: "Anniversary Miles Bonus"
+    value: 0
+    description: "10,000 bonus miles on account anniversary"
+    frequency: "annual"
+    category: "travel"
+  - name: "Capital One Lounge Access"
+    value: 0
+    description: "Complimentary access to Capital One Lounges"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Unlimited Priority Pass lounge access for cardholder and 2 guests"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "Hertz President's Circle Status"
+    value: 0
+    description: "Complimentary Hertz President's Circle elite status"
+    frequency: "ongoing"
+    category: "travel"
 tags:
   - travel
   - premium
