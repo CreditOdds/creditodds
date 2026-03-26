@@ -1,0 +1,13 @@
+{
+  "name": "creditodds-functions",
+  "version": "1.0.0",
+  "description": "Firebase Cloud Functions for CreditOdds",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.3.0"
+  }
+}
