@@ -1,4 +1,5 @@
-const functions = require("firebase-functions");
+const functions = require("firebase-functions/v1");
+const { logger } = require("firebase-functions");
 const admin = require("firebase-admin");
 
 admin.initializeApp();
@@ -6,7 +7,7 @@ admin.initializeApp();
 exports.onUserCreated = functions.auth.user().onCreate(async (user) => {
   const webhookUrl = process.env.SLACK_WEBHOOK_URL;
   if (!webhookUrl) {
-    functions.logger.warn("SLACK_WEBHOOK_URL not set — skipping notification");
+    logger.warn("SLACK_WEBHOOK_URL not set — skipping notification");
     return;
   }
 
@@ -29,7 +30,7 @@ exports.onUserCreated = functions.auth.user().onCreate(async (user) => {
   });
 
   if (!response.ok) {
-    functions.logger.error("Slack webhook failed", {
+    logger.error("Slack webhook failed", {
       status: response.status,
       body: await response.text(),
     });
