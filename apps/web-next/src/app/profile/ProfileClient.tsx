@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 
 // Lazy load modals - only loaded when user opens them
@@ -29,6 +29,11 @@ const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWallet
 });
 
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), {
+  ssr: false,
+  loading: () => null,
+});
+
+const WalletBenefits = dynamic(() => import("@/components/wallet/WalletBenefits"), {
   ssr: false,
   loading: () => null,
 });
@@ -108,7 +113,7 @@ export default function ProfileClient() {
   const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
-  const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals' | 'applications' | 'settings'>('wallet');
+  const [activeTab, setActiveTab] = useState<'wallet' | 'benefits' | 'records' | 'referrals' | 'applications' | 'settings'>('wallet');
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
@@ -465,6 +470,17 @@ export default function ProfileClient() {
               </span>
             </button>
             <button
+              onClick={() => setActiveTab('benefits')}
+              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'benefits'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <GiftIcon className="h-5 w-5" />
+              Benefits
+            </button>
+            <button
               onClick={() => setActiveTab('records')}
               className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'records'
@@ -633,6 +649,19 @@ export default function ProfileClient() {
           </div>
           <BestCardByCategory walletCards={walletCards} allCards={allCards} />
           </>
+          )
+        )}
+
+        {/* Benefits Tab */}
+        {activeTab === 'benefits' && (
+          !walletLoaded ? (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+            </div>
+          </div>
+          ) : (
+          <WalletBenefits walletCards={walletCards} allCards={allCards} />
           )
         )}
 
