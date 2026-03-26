@@ -30,6 +30,42 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: "Free Night Award"
+    value: 0
+    description: "1 annual free night award at Marriott properties valued up to 85,000 points"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Dining Credit"
+    value: 300
+    description: "$25/month in statement credits at restaurants worldwide"
+    frequency: "monthly"
+    category: "dining"
+  - name: "Marriott Property Credit"
+    value: 100
+    description: "$100 statement credit for stays of 2+ consecutive nights at Marriott Bonvoy properties"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Platinum Elite Status"
+    value: 0
+    description: "Complimentary Marriott Bonvoy Platinum Elite status with room upgrades, late checkout, and lounge access"
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "25 Elite Night Credits"
+    value: 0
+    description: "25 Elite Night Credits annually toward Marriott Bonvoy elite status qualification"
+    frequency: "annual"
+    category: "hotel"
 tags:
   - hotel
   - travel

@@ -37,6 +37,13 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: "Disney Bundle Discount"
+    value: 84
+    description: "$7/month statement credit toward the Disney Bundle (Disney+, Hulu, ESPN+)"
+    frequency: "monthly"
+    category: "streaming"
+    enrollment_required: true
 tags:
   - cashback
   - shopping

@@ -6,6 +6,29 @@ image: "premium-rewards.png"
 category: "travel"
 annual_fee: 550
 reward_type: "points"
+benefits:
+  - name: "Lifestyle Credit"
+    value: 150
+    description: "Annual credit for airlines, rideshare, or streaming services"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: true
+  - name: "Airline Incidental Credit"
+    value: 100
+    description: "Annual credit for airline incidental fees like baggage and seat upgrades"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Unlimited Priority Pass lounge access"
+    frequency: "ongoing"
+    category: "lounge"
 tags:
   - travel
   - rewards

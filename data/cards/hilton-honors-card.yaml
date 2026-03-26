@@ -35,6 +35,12 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: "Silver Status"
+    value: 0
+    description: "Complimentary Hilton Honors Silver status with 5th night free on reward stays"
+    frequency: "ongoing"
+    category: "hotel"
 tags:
   - hotel
   - travel

@@ -6,6 +6,17 @@ image: "wells-fargo-autograph-journey.png"
 category: "travel"
 annual_fee: 95
 reward_type: "points"
+benefits:
+  - name: "Annual Airline Credit"
+    value: 100
+    description: "Annual credit for airline purchases"
+    frequency: "annual"
+    category: "travel"
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card"
+    frequency: "ongoing"
+    category: "other"
 tags:
   - travel
   - rewards

@@ -34,6 +34,38 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: "Free Night Award"
+    value: 0
+    description: "1 complimentary night annually at most Hilton hotels and resorts worldwide"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Hilton Resort Credit"
+    value: 400
+    description: "$400 annual statement credit for eligible purchases at Hilton resorts"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Airline Fee Credit"
+    value: 200
+    description: "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Diamond Status"
+    value: 0
+    description: "Complimentary Hilton Honors Diamond status with room upgrades, executive lounge access, and late checkout"
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Diamond Property Credit"
+    value: 0
+    description: "$100 credit on stays of 2+ nights at Hilton properties when you have Diamond status"
+    frequency: "ongoing"
+    category: "hotel"
 tags:
   - hotel
   - travel

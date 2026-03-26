@@ -6,3 +6,19 @@ category: "travel"
 image: "us-bank-altitude-reserve.png"
 annual_fee: 400
 reward_type: "points"
+benefits:
+  - name: "Annual Travel Credit"
+    value: 325
+    description: "Credit for travel purchases made with a mobile wallet"
+    frequency: "annual"
+    category: "travel"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Unlimited Priority Pass lounge access"
+    frequency: "ongoing"
+    category: "lounge"

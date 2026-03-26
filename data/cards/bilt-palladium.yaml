@@ -6,6 +6,12 @@ accepting_applications: true
 annual_fee: 495
 reward_type: "points"
 release_date: "2025-01-15"
+benefits:
+  - name: "Rent Payment Without Fees"
+    value: 0
+    description: "Pay rent with your credit card and earn points with no transaction fees"
+    frequency: "ongoing"
+    category: "other"
 tags:
   - rewards
   - travel

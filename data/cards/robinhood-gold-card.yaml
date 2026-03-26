@@ -5,6 +5,22 @@ accepting_applications: true
 image: "robinhood-gold-card.png"
 release_date: "2024-03-26"
 annual_fee: 0
+benefits:
+  - name: "Travel Insurance"
+    value: 0
+    description: "Trip cancellation, trip delay, and lost luggage protection"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Cell phone damage and theft protection when you pay your bill with the card"
+    frequency: "ongoing"
+    category: "other"
+  - name: "No Foreign Transaction Fees"
+    value: 0
+    description: "No foreign transaction fees on purchases made abroad"
+    frequency: "ongoing"
+    category: "travel"
 tags:
   - cashback
   - rewards

@@ -23,6 +23,18 @@ signup_bonus:
   type: points
   spend_requirement: 3000
   timeframe_months: 6
+benefits:
+  - name: "CLEAR Plus Credit"
+    value: 189
+    description: "Statement credit for CLEAR Plus airport security membership"
+    frequency: "annual"
+    category: "security"
+    enrollment_required: true
+  - name: "LoungeBuddy Credit"
+    value: 100
+    description: "$100 annual credit for airport lounge access through LoungeBuddy"
+    frequency: "annual"
+    category: "lounge"
 tags:
   - travel
   - dining

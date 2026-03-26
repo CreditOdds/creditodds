@@ -1,6 +1,8 @@
+import { readFileSync } from "fs";
+import { join } from "path";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Card, getCard, getCardGraphs, getAllCards, getCardRatings, getCardWire, GraphData, CardWireEntry } from "@/lib/api";
+import { Card, CardBenefit, getCard, getCardGraphs, getAllCards, getCardRatings, getCardWire, GraphData, CardWireEntry } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import CardClient from "./CardClient";
@@ -99,6 +101,19 @@ export default async function CardPage({ params }: CardPageProps) {
     ]);
 
     const { card, ratings, wire } = cardWithRatingsAndWire;
+
+    // Merge benefits from local cards.json if not present in API response
+    if (!card.benefits) {
+      try {
+        const localData = JSON.parse(readFileSync(join(process.cwd(), '../../data/cards.json'), 'utf8'));
+        const localCard = localData.cards.find((c: { slug: string; benefits?: CardBenefit[] }) => c.slug === slug);
+        if (localCard?.benefits) {
+          card.benefits = localCard.benefits;
+        }
+      } catch {
+        // Silently fail - benefits will appear once CDN is updated
+      }
+    }
 
     // Filter news and articles for this specific card
     const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));

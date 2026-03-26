@@ -6,6 +6,12 @@ accepting_applications: true
 category: "rewards"
 annual_fee: 149
 reward_type: "cashback"
+benefits:
+  - name: "Annual Disney Statement Credit"
+    value: 50
+    description: "Annual statement credit for Disney purchases"
+    frequency: "annual"
+    category: "entertainment"
 tags:
   - rewards
   - shopping

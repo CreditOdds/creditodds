@@ -5,6 +5,17 @@ accepting_applications: true
 annual_fee: 350
 reward_type: "miles"
 image: "citi-aadvantage-globe.png"
+benefits:
+  - name: "First Checked Bag Free"
+    value: 0
+    description: "First checked bag free on domestic American Airlines itineraries"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Preferred Boarding"
+    value: 0
+    description: "Preferred boarding on American Airlines flights"
+    frequency: "ongoing"
+    category: "travel"
 tags:
   - travel
   - airline

@@ -23,6 +23,97 @@ signup_bonus:
   type: points
   spend_requirement: 12000
   timeframe_months: 6
+benefits:
+  - name: "Uber Cash"
+    value: 200
+    description: "$15/month in Uber Cash for Uber Eats or rides ($20 in December)"
+    frequency: "monthly"
+    category: "dining_travel"
+    enrollment_required: true
+  - name: "Airline Fee Credit"
+    value: 200
+    description: "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Hotel Credit"
+    value: 200
+    description: "Statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Digital Entertainment Credit"
+    value: 240
+    description: "$20/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM"
+    frequency: "monthly"
+    category: "streaming"
+    enrollment_required: true
+  - name: "CLEAR Plus Credit"
+    value: 189
+    description: "Statement credit for CLEAR Plus airport security membership"
+    frequency: "annual"
+    category: "security"
+    enrollment_required: true
+  - name: "Walmart+ Credit"
+    value: 155
+    description: "Monthly credit covering Walmart+ membership ($12.95/month)"
+    frequency: "monthly"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Saks Fifth Avenue Credit"
+    value: 100
+    description: "$50 semiannually (Jan–Jun and Jul–Dec) at Saks Fifth Avenue"
+    frequency: "semi_annual"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "travel"
+    enrollment_required: false
+  - name: "Equinox Credit"
+    value: 300
+    description: "$25/month toward an Equinox gym membership"
+    frequency: "monthly"
+    category: "fitness"
+    enrollment_required: true
+  - name: "Lululemon Credit"
+    value: 300
+    description: "$75 per quarter toward purchases at Lululemon"
+    frequency: "quarterly"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Global Dining Access by Resy"
+    value: 0
+    description: "Priority reservations and special access at select restaurants nationwide"
+    frequency: "ongoing"
+    category: "dining"
+    enrollment_required: false
+  - name: "Centurion Lounge Access"
+    value: 0
+    description: "Complimentary access to The Centurion Lounge network at major airports worldwide"
+    frequency: "ongoing"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
+    frequency: "ongoing"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Fine Hotels + Resorts"
+    value: 0
+    description: "Room upgrade on arrival, daily breakfast for two, $100 experience credit, guaranteed 4pm late checkout"
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: false
+  - name: "The Hotel Collection"
+    value: 0
+    description: "$100 hotel credit when booking 2+ consecutive nights at The Hotel Collection properties"
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - travel
   - premium

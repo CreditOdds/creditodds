@@ -5,6 +5,12 @@ image: "wells_fargo_autograph.png"
 accepting_applications: true
 category: "rewards"
 annual_fee: 0
+benefits:
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Up to $600 per claim for cell phone damage or theft when you pay your bill with the card"
+    frequency: "ongoing"
+    category: "other"
 tags:
   - travel
   - dining

@@ -24,6 +24,52 @@ signup_bonus:
   type: points
   spend_requirement: 20000
   timeframe_months: 3
+benefits:
+  - name: "Airline Fee Credit"
+    value: 200
+    description: "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Dell Technologies Credit"
+    value: 400
+    description: "$200 semiannually in statement credits for purchases at Dell Technologies"
+    frequency: "semi_annual"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Indeed Credit"
+    value: 360
+    description: "$90 per quarter in statement credits for Indeed job postings and sponsored jobs"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: true
+  - name: "Adobe Creative Cloud Credit"
+    value: 150
+    description: "Annual statement credit for Adobe Creative Cloud subscriptions"
+    frequency: "annual"
+    category: "streaming"
+    enrollment_required: true
+  - name: "Wireless Telephone Credit"
+    value: 120
+    description: "$10/month in statement credits toward wireless telephone services purchased directly from U.S. providers"
+    frequency: "monthly"
+    category: "other"
+    enrollment_required: true
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
+    frequency: "multi_year"
+    category: "security"
+  - name: "Centurion Lounge Access"
+    value: 0
+    description: "Complimentary access to The Centurion Lounge network at major airports worldwide"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
+    frequency: "ongoing"
+    category: "lounge"
 tags:
   - business
   - travel

@@ -5,6 +5,22 @@ image: "amex_delta_skymiles_gold.png"
 accepting_applications: true
 annual_fee: 150
 reward_type: "miles"
+benefits:
+  - name: "First Checked Bag Free"
+    value: 0
+    description: "First checked bag free on Delta flights for you and up to 8 companions on the same reservation"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Priority Boarding"
+    value: 0
+    description: "Priority boarding on Delta flights (Main Cabin 1 priority)"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "TakeOff 15"
+    value: 0
+    description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
+    frequency: "ongoing"
+    category: "travel"
 tags:
   - airline
   - travel

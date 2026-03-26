@@ -5,6 +5,22 @@ accepting_applications: true
 annual_fee: 99
 reward_type: "points"
 image: "chase-ihg-one-rewards-premier-business.png"
+benefits:
+  - name: "Free Night Award"
+    value: 0
+    description: "One annual free night award at any IHG hotel"
+    frequency: "annual"
+    category: "hotel"
+  - name: "4th Reward Night Free"
+    value: 0
+    description: "4th night free on IHG reward night stays"
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "Platinum Elite Status"
+    value: 0
+    description: "Automatic IHG One Rewards Platinum Elite status"
+    frequency: "ongoing"
+    category: "hotel"
 tags:
   - hotel
   - travel
