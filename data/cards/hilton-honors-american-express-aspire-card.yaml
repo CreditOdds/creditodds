@@ -42,29 +42,30 @@ benefits:
     category: "hotel"
   - name: "Hilton Resort Credit"
     value: 400
-    description: "$400 annual statement credit for eligible purchases at Hilton resorts"
-    frequency: "annual"
+    description: "Up to $200 semiannually for eligible purchases at participating Hilton resorts"
+    frequency: "semi_annual"
     category: "hotel"
-  - name: "Airline Fee Credit"
+  - name: "Flight Credit"
     value: 200
-    description: "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades"
-    frequency: "annual"
+    description: "Up to $50 per quarter on eligible flight purchases made directly with airlines or through amextravel.com"
+    frequency: "quarterly"
     category: "travel"
+    enrollment_required: true
+  - name: "CLEAR Plus Credit"
+    value: 209
+    description: "Statement credit for CLEAR Plus airport security membership"
+    frequency: "annual"
+    category: "security"
     enrollment_required: true
   - name: "Diamond Status"
     value: 0
     description: "Complimentary Hilton Honors Diamond status with room upgrades, executive lounge access, and late checkout"
     frequency: "ongoing"
     category: "hotel"
-  - name: "Priority Pass Select"
+  - name: "Additional Free Night Awards"
     value: 0
-    description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
-    frequency: "ongoing"
-    category: "lounge"
-  - name: "Diamond Property Credit"
-    value: 0
-    description: "$100 credit on stays of 2+ nights at Hilton properties when you have Diamond status"
-    frequency: "ongoing"
+    description: "Earn another Free Night Reward after $30,000 in purchases and one more after $60,000 in a calendar year"
+    frequency: "annual"
     category: "hotel"
 tags:
   - hotel

@@ -14,8 +14,20 @@ benefits:
     enrollment_required: true
   - name: "Dining Credit"
     value: 120
-    description: "$10/month in statement credits at Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, Milk Bar, and select Shake Shack locations"
+    description: "$10/month in statement credits at Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, and Five Guys"
     frequency: "monthly"
+    category: "dining"
+    enrollment_required: true
+  - name: "Dunkin' Credit"
+    value: 84
+    description: "Up to $7/month in statement credits on eligible purchases at U.S. Dunkin' locations"
+    frequency: "monthly"
+    category: "dining"
+    enrollment_required: true
+  - name: "Resy Credit"
+    value: 100
+    description: "Up to $50 semiannually at U.S. Resy restaurants and other eligible Resy purchases"
+    frequency: "semi_annual"
     category: "dining"
     enrollment_required: true
 tags:

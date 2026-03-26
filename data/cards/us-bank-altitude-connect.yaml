@@ -7,21 +7,16 @@ category: "travel"
 annual_fee: 0
 reward_type: "points"
 benefits:
-  - name: "Annual Streaming Credit"
-    value: 30
-    description: "Annual credit for eligible streaming service purchases"
-    frequency: "annual"
-    category: "streaming"
   - name: "Global Entry / TSA PreCheck Credit"
     value: 100
     description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     category: "security"
-  - name: "4th Night Free"
+  - name: "Airport Lounge Access"
     value: 0
-    description: "4th night free on hotel bookings redeemed through Real-Time Rewards"
+    description: "Complimentary airport lounge access through the Visa Airport Companion program"
     frequency: "ongoing"
-    category: "hotel"
+    category: "lounge"
 tags:
   - travel
   - rewards
