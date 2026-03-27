@@ -31,9 +31,10 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 130000
-  type: points
+  type: "points"
   spend_requirement: 3000
   timeframe_months: 6
+  note: "Also includes a Free Night Reward"
 apr:
   purchase_intro:
     rate: 0

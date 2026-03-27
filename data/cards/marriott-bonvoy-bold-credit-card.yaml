@@ -43,3 +43,8 @@ apr:
   regular:
     min: 19.24
     max: 27.74
+signup_bonus:
+  value: 175000
+  type: "points"
+  spend_requirement: 5000
+  timeframe_months: 6
