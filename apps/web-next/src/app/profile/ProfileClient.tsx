@@ -11,6 +11,15 @@ import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
+import {
+  createCardLookups,
+  getEligibleRecordCards,
+  getEligibleReferralCards,
+  getRelevantNews,
+  getTotalAnnualFees,
+  getWalletVisibility,
+  isCardInactive,
+} from "./profileSelectors";
 
 // Lazy load modals - only loaded when user opens them
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), {
@@ -119,51 +128,28 @@ export default function ProfileClient() {
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
   const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
+  const cardLookups = useMemo(() => createCardLookups(allCards), [allCards]);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
-  const eligibleReferralCards = useMemo(() => {
-    const recordCardNames = new Set(records.map(r => r.card_name));
-    const walletCardNames = new Set(walletCards.map(w => w.card_name));
-    return openReferrals.filter(card =>
-      recordCardNames.has(card.card_name) || walletCardNames.has(card.card_name)
-    );
-  }, [records, openReferrals, walletCards]);
+  const eligibleReferralCards = useMemo(
+    () => getEligibleReferralCards(records, walletCards, openReferrals),
+    [records, openReferrals, walletCards]
+  );
 
   // Calculate total annual fees for wallet cards
-  const totalAnnualFees = useMemo(() => {
-    if (walletCards.length === 0 || allCards.length === 0) return 0;
-    return walletCards.reduce((total, walletCard) => {
-      const cardData = allCards.find(c => c.card_name === walletCard.card_name);
-      return total + (cardData?.annual_fee || 0);
-    }, 0);
-  }, [walletCards, allCards]);
+  const totalAnnualFees = useMemo(
+    () => getTotalAnnualFees(walletCards, cardLookups),
+    [walletCards, cardLookups]
+  );
 
   // Filter wallet cards based on active status
-  const { activeWalletCards, inactiveCount } = useMemo(() => {
-    if (allCards.length === 0) {
-      return { activeWalletCards: walletCards, inactiveCount: 0 };
-    }
-    const active: WalletCard[] = [];
-    let inactive = 0;
-    for (const walletCard of walletCards) {
-      const cardData = allCards.find(c => c.card_name === walletCard.card_name);
-      if (cardData?.active === false) {
-        inactive++;
-        if (showInactiveCards) {
-          active.push(walletCard);
-        }
-      } else {
-        active.push(walletCard);
-      }
-    }
-    return { activeWalletCards: active, inactiveCount: inactive };
-  }, [walletCards, allCards, showInactiveCards]);
+  const { activeWalletCards, inactiveCount } = useMemo(
+    () => getWalletVisibility(walletCards, cardLookups, showInactiveCards),
+    [walletCards, cardLookups, showInactiveCards]
+  );
 
   // Helper to check if a card is inactive
-  const isCardInactive = (cardName: string) => {
-    const cardData = allCards.find(c => c.card_name === cardName);
-    return cardData?.active === false;
-  };
+  const isInactiveCard = (cardName: string) => isCardInactive(cardName, cardLookups);
 
   // Track which cards have records or referrals
   const cardsWithRecords = useMemo(() =>
@@ -172,9 +158,10 @@ export default function ProfileClient() {
     new Set(referrals.map(r => r.card_name)), [referrals]);
 
   // Get cards eligible for record submission (in wallet, no record yet)
-  const eligibleRecordCards = useMemo(() => {
-    return walletCards.filter(card => !cardsWithRecords.has(card.card_name));
-  }, [walletCards, cardsWithRecords]);
+  const eligibleRecordCards = useMemo(
+    () => getEligibleRecordCards(walletCards, records),
+    [walletCards, records]
+  );
 
   // Calculate application rules from wallet cards
   const applicationRules = useMemo(() => {
@@ -187,30 +174,10 @@ export default function ProfileClient() {
   }, [walletCards]);
 
   // Filter news to cards in user's wallet (only match by card slug, not bank)
-  const relevantNews = useMemo(() => {
-    if (walletCards.length === 0 || newsItems.length === 0) return [];
-
-    // Build set of slugs from wallet cards (lookup by card_id first, then card_name)
-    const walletCardSlugs = new Set<string>();
-    walletCards.forEach(w => {
-      // Try to find by card_id first (more reliable)
-      let cardData = allCards.find(c =>
-        Number(c.card_id) === w.card_id || c.db_card_id === w.card_id
-      );
-      // Fallback to card_name matching
-      if (!cardData) {
-        cardData = allCards.find(c => c.card_name === w.card_name);
-      }
-      if (cardData?.slug) {
-        walletCardSlugs.add(cardData.slug);
-      }
-    });
-
-    // Only show news for specific cards the user owns
-    return newsItems.filter(news =>
-      news.card_slugs?.some(s => walletCardSlugs.has(s))
-    );
-  }, [walletCards, newsItems, allCards]);
+  const relevantNews = useMemo(
+    () => getRelevantNews(walletCards, newsItems, cardLookups),
+    [walletCards, newsItems, cardLookups]
+  );
 
   // Fetch public data client-side on mount — runs immediately, overlaps with Firebase auth
   useEffect(() => {
@@ -584,7 +551,7 @@ export default function ProfileClient() {
           {activeWalletCards.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {activeWalletCards.map((card) => {
-                const inactive = isCardInactive(card.card_name);
+                            const inactive = isInactiveCard(card.card_name);
                 return (
                   <button
                     key={card.id}
