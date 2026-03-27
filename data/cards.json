@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-03-26T05:26:33.149Z",
-  "count": 155,
+  "generated_at": "2026-03-27T16:29:05.145Z",
+  "count": 156,
   "categories": [
     {
       "id": "dining",
@@ -376,6 +376,14 @@
           "value": 240,
           "description": "Up to $20/month in statement credits on eligible U.S. purchases at FedEx, Grubhub, and office supply stores",
           "frequency": "monthly",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "ChatGPT Credits",
+          "value": 300,
+          "description": "$300 in annual ChatGPT credits for AI-powered productivity tools",
+          "frequency": "annual",
           "category": "other",
           "enrollment_required": true
         },
@@ -4980,6 +4988,81 @@
       "card_name": "JetBlue Plus"
     },
     {
+      "name": "Marriott Bonvoy Bevy American Express",
+      "bank": "American Express",
+      "slug": "marriott-bonvoy-bevy-american-express",
+      "image": "marriott-bonvoy-bevy.png",
+      "accepting_applications": true,
+      "annual_fee": 250,
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "hotels",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "Hotels participating in Marriott Bonvoy"
+        },
+        {
+          "category": "dining",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "Restaurants worldwide and U.S. supermarkets (up to $15,000/yr combined, then 2x)"
+        },
+        {
+          "category": "groceries",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "U.S. supermarkets and restaurants (up to $15,000/yr combined, then 2x)"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 175000,
+        "type": "points",
+        "spend_requirement": 5000,
+        "timeframe_months": 6
+      },
+      "apr": {
+        "regular": {
+          "min": 21.49,
+          "max": 29.49
+        }
+      },
+      "benefits": [
+        {
+          "name": "Free Night Award",
+          "value": 0,
+          "description": "1 Free Night Award after spending $15,000 on eligible purchases in a calendar year, redeemable at properties up to 50,000 points",
+          "frequency": "annual",
+          "category": "hotel"
+        },
+        {
+          "name": "Gold Elite Status",
+          "value": 0,
+          "description": "Complimentary Marriott Bonvoy Gold Elite status with room upgrades, 25% bonus points, and late checkout at select properties",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "15 Elite Night Credits",
+          "value": 0,
+          "description": "15 Elite Night Credits each calendar year toward Marriott Bonvoy elite status qualification",
+          "frequency": "annual",
+          "category": "hotel"
+        }
+      ],
+      "tags": [
+        "hotel",
+        "travel"
+      ],
+      "card_id": "marriott-bonvoy-bevy-american-express",
+      "card_name": "Marriott Bonvoy Bevy American Express"
+    },
+    {
       "name": "Marriott Bonvoy Bold",
       "bank": "Chase",
       "slug": "marriott-bonvoy-bold-credit-card",
@@ -5866,6 +5949,14 @@
         "timeframe_months": 3
       },
       "benefits": [
+        {
+          "name": "ChatGPT Credits",
+          "value": 300,
+          "description": "$300 in annual ChatGPT credits for AI-powered productivity tools",
+          "frequency": "annual",
+          "category": "other",
+          "enrollment_required": true
+        },
         {
           "name": "Airline Fee Credit",
           "value": 200,
