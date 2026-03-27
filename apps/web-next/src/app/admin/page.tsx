@@ -28,6 +28,7 @@ import {
   Card
 } from "@/lib/api";
 import dynamic from "next/dynamic";
+import { filterCardCatalog, useCardCatalog } from "@/hooks/useCardCatalog";
 
 const TimeSeriesChart = dynamic(() => import("@/components/charts/TimeSeriesChart"), { ssr: false });
 import { NumericFormat } from "react-number-format";
@@ -1119,11 +1120,10 @@ function UserLookupTab({
 }
 
 // ============ CARD DATA TAB ============
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 const CREDIT_SCORE_SOURCES = ['FICO: *', 'FICO: Experian', 'FICO: TransUnion', 'FICO: Equifax', 'VantageScore'];
 
 function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
-  const [cards, setCards] = useState<Card[]>([]);
+  const { cards } = useCardCatalog();
   const [cardSearch, setCardSearch] = useState('');
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -1133,22 +1133,7 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
   const [processingId, setProcessingId] = useState<number | null>(null);
   const [editingRecord, setEditingRecord] = useState<AdminRecordDetail | null>(null);
 
-  useEffect(() => {
-    fetch(`${API_BASE}/cards`)
-      .then(res => res.json())
-      .then((data: Card[]) => {
-        const sorted = [...data].sort((a, b) => a.card_name.localeCompare(b.card_name));
-        setCards(sorted);
-      })
-      .catch(() => {});
-  }, []);
-
-  const filteredCards = cardSearch.trim()
-    ? cards.filter(c =>
-        c.card_name.toLowerCase().includes(cardSearch.toLowerCase()) ||
-        c.bank.toLowerCase().includes(cardSearch.toLowerCase())
-      )
-    : cards;
+  const filteredCards = filterCardCatalog(cards, cardSearch);
 
   const loadCardRecords = async (card: Card) => {
     setLoadingRecords(true);
@@ -1602,7 +1587,7 @@ function EditRecordModal({
 // ============ SUBMIT RECORD TAB ============
 
 function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<string | null>; onSuccess: () => void }) {
-  const [cards, setCards] = useState<Card[]>([]);
+  const { cards, error: cardCatalogError } = useCardCatalog({ activeOnly: true });
   const [cardSearch, setCardSearch] = useState('');
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -1626,22 +1611,12 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch(`${API_BASE}/cards`)
-      .then(res => res.json())
-      .then((data: Card[]) => {
-        const active = data.filter(c => c.accepting_applications !== false);
-        active.sort((a, b) => a.card_name.localeCompare(b.card_name));
-        setCards(active);
-      })
-      .catch(() => setErrorMessage('Failed to load cards'));
-  }, []);
+    if (cardCatalogError) {
+      setErrorMessage(cardCatalogError);
+    }
+  }, [cardCatalogError]);
 
-  const filteredCards = cardSearch.trim()
-    ? cards.filter(c =>
-        c.card_name.toLowerCase().includes(cardSearch.toLowerCase()) ||
-        c.bank.toLowerCase().includes(cardSearch.toLowerCase())
-      )
-    : cards;
+  const filteredCards = filterCardCatalog(cards, cardSearch);
 
   const resetForm = () => {
     setSelectedCard(null);
