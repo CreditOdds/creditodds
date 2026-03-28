@@ -47,8 +47,9 @@ rewards:
   - category: everything_else
     value: 3
     unit: points_per_dollar
+apply_link: "https://creditcards.chase.com/a1/ihg/PremierQ203NAEP?pvid=a16e02f1f9444c1a9d05cfbcc5dad731&AFFID=SWlnSnn6x54-kXfzfaVDhtkVJusTB.ndmw&CELL=6H8X"
 signup_bonus:
-  value: 175000
+  value: 140000
   type: points
   spend_requirement: 5000
   timeframe_months: 3
