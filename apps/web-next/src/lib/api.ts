@@ -354,6 +354,15 @@ export async function getCardWire(cardId: number): Promise<CardWireEntry[]> {
   return data.changes || [];
 }
 
+export async function getAllCardWire(limit = 100): Promise<CardWireEntry[]> {
+  const res = await fetch(`${API_BASE}/card-wire?limit=${limit}`, {
+    next: { revalidate: 300 },
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.changes || [];
+}
+
 // Track referral impressions and clicks (no auth required)
 export async function trackReferralEvent(
   referralId: number,
