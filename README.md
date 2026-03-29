@@ -10,7 +10,7 @@ This is a monorepo containing all CreditOdds applications and shared code:
 creditodds/
 ├── apps/
 │   ├── api/                 # AWS Lambda serverless API
-│   └── web-next/            # Next.js 14+ frontend application
+│   └── web-next/            # Next.js 16 frontend application
 ├── packages/
 │   └── shared/              # Shared utilities and validation schemas
 ├── data/
@@ -24,7 +24,7 @@ creditodds/
 ## Tech Stack
 
 ### Frontend (`apps/web-next`)
-- Next.js 14+ with App Router
+- Next.js 16 with App Router
 - TypeScript
 - Tailwind CSS
 - Highcharts for data visualization
@@ -33,7 +33,7 @@ creditodds/
 - Deployed on AWS Amplify
 
 ### Backend (`apps/api`)
-- AWS Lambda (Node.js 18)
+- AWS Lambda (Node.js 22)
 - AWS API Gateway with Firebase Token Authorizer
 - AWS SAM for infrastructure
 - MySQL (AWS RDS) for user records
@@ -108,9 +108,13 @@ npm run build:cards
 - **Explore Cards**: Browse all credit cards with search and filter by bank
 - **Bank Pages**: View all cards from a specific bank
 - **Card Details**: See approval odds with interactive charts
+- **Card Wire**: Live feed of card changes — annual fees, sign-up bonuses, reward rates, APR
+- **Card News**: Curated news and updates about credit cards
+- **Best Cards**: Ranked lists by category
 - **User Submissions**: Submit your credit card application results
 - **Wallet**: Track cards you own with acquisition dates
 - **Referral Links**: Share and earn from referral links
+- **Rewards Tools**: Convert points/miles to USD for major loyalty programs
 
 ## Contributing
 
