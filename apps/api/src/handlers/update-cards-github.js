@@ -69,10 +69,17 @@ async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
     { field: "apr_max", old: oldMetrics.apr_max, new: newMetrics.apr_max },
   ];
 
+  // Normalize values: parse through float so DECIMAL(5,2) "3.00" and integer 3 compare equal
+  function normalize(v) {
+    if (v == null) return null;
+    const n = parseFloat(v);
+    return isNaN(n) ? String(v) : String(n);
+  }
+
   const changes = [];
   for (const t of trackedFields) {
-    const oldStr = t.old != null ? String(t.old) : null;
-    const newStr = t.new != null ? String(t.new) : null;
+    const oldStr = normalize(t.old);
+    const newStr = normalize(t.new);
 
     // Skip if values match or both null
     if (oldStr === newStr) continue;
