@@ -29,8 +29,19 @@ export default async function CardWirePage() {
 
   // Build card_name → slug map for linking
   const slugMap: Record<string, string> = {};
+  const bonusTypeMap: Record<string, string> = {};
   for (const card of cards) {
     slugMap[card.card_name] = String(card.slug ?? card.card_id);
+    if (card.signup_bonus?.type) {
+      const typeLabels: Record<string, string> = {
+        points: 'pts',
+        miles: 'miles',
+        cashback: 'cash',
+        cash: 'cash',
+        free_nights: 'free nights',
+      };
+      bonusTypeMap[card.card_name] = typeLabels[card.signup_bonus.type] || card.signup_bonus.type;
+    }
   }
 
   return (
@@ -75,7 +86,7 @@ export default async function CardWirePage() {
 
         {/* Table */}
         <div className="mt-8 -mx-4 sm:mx-0">
-          <CardWireTable entries={entries} slugMap={slugMap} />
+          <CardWireTable entries={entries} slugMap={slugMap} bonusTypeMap={bonusTypeMap} />
         </div>
 
         {/* CTA */}
