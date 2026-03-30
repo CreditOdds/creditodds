@@ -46,7 +46,7 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 200000
+  value: "4 Free Night Awards"
   type: "free_nights"
   spend_requirement: 7000
   timeframe_months: 4
