@@ -1,0 +1,74 @@
+name: Check Card Pages
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6 AM UTC / 2 AM EST (offset from auto-card-update at 3 PM UTC)
+  workflow_dispatch:
+    inputs:
+      card_slug:
+        description: 'Specific card slug to check (leave empty to check all)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-card-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check card pages
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CARD_SLUG: ${{ github.event.inputs.card_slug || '' }}
+        run: node scripts/check-card-pages.js
+
+      - name: Validate card data
+        run: |
+          if [ -n "$(git status --porcelain data/cards/)" ]; then
+            echo "Validating updated card data..."
+            if ! npm run build:cards; then
+              echo "::error::Card validation failed — reverting changes."
+              git checkout -- data/cards/
+              exit 1
+            fi
+          fi
+
+      - name: Create PR if changes found
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "$(git status --porcelain data/cards/)" ]; then
+            BRANCH="card-page-check-$(date +%Y-%m-%d-%H%M%S)"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git checkout -b "$BRANCH"
+            git add data/cards/
+            git commit -m "Card page check — $(date +%Y-%m-%d)"
+            git push -u origin "$BRANCH"
+
+            if [ -f .card-page-check-summary.md ]; then
+              gh pr create \
+                --title "Card Page Check $(date +%Y-%m-%d)" \
+                --body-file .card-page-check-summary.md
+            else
+              gh pr create \
+                --title "Card Page Check $(date +%Y-%m-%d)" \
+                --body "Card page check. Please review changes to card YAML files."
+            fi
+          else
+            echo "No changes detected."
+          fi
