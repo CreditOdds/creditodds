@@ -34,7 +34,7 @@ signup_bonus:
   timeframe_months: 3
 apr:
   regular:
-    min: 19.74
+    min: 21.24
     max: 28.24
 benefits:
   - name: "Annual United Travel Credit"

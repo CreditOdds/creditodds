@@ -30,6 +30,6 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 19.24
-    max: 27.74
+    min: 18.49
+    max: 28.49
 apply_link: https://creditcards.chase.com/travel-credit-cards/aer-lingus

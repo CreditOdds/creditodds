@@ -169,16 +169,11 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
     "spend_requirement": <number or null>,
     "timeframe_months": <number or null>
   },
-  "apr": {
-    "regular_min": <number or null>,
-    "regular_max": <number or null>
-  },
 }
 
 Rules:
 - annual_fee: use 0 if no annual fee is mentioned. null if not stated at all.
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points"). null if absent.
-- apr: ongoing regular APR as a percentage number (e.g. 21.24). Not intro/promotional APR. null if not found.
 - Return null for any field you cannot determine with confidence.`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -248,23 +243,6 @@ function detectChanges(card, extracted) {
     }
   }
 
-  // APR — only compare if the card already has regular APR
-  if (extracted.apr && current.apr?.regular) {
-    const { regular_min, regular_max } = extracted.apr;
-    const cur = current.apr.regular;
-
-    if (regular_min !== null && regular_min !== undefined && cur.min !== undefined) {
-      if (regular_min !== cur.min) {
-        changes.push({ field: 'apr.regular.min', old_value: cur.min, new_value: regular_min });
-      }
-    }
-    if (regular_max !== null && regular_max !== undefined && cur.max !== undefined) {
-      if (regular_max !== cur.max) {
-        changes.push({ field: 'apr.regular.max', old_value: cur.max, new_value: regular_max });
-      }
-    }
-  }
-
   return changes;
 }
 
@@ -297,13 +275,6 @@ function applyChanges(allChanges, allCards) {
         if (!parsedData.signup_bonus) parsedData.signup_bonus = {};
         parsedData.signup_bonus[subfield] = new_value;
         yamlText = replaceYamlBlock(yamlText, 'signup_bonus', parsedData.signup_bonus);
-        modified = true;
-      } else if (field.startsWith('apr.regular.')) {
-        const subfield = field.split('.')[2];
-        if (!parsedData.apr) parsedData.apr = {};
-        if (!parsedData.apr.regular) parsedData.apr.regular = {};
-        parsedData.apr.regular[subfield] = new_value;
-        yamlText = replaceYamlBlock(yamlText, 'apr', parsedData.apr);
         modified = true;
       }
 

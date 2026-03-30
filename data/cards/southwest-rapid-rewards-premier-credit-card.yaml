@@ -29,7 +29,7 @@ signup_bonus:
 apr:
   regular:
     min: 19.24
-    max: 29.99
+    max: 27.74
 benefits:
   - name: "6,000 Anniversary Points"
     value: 0

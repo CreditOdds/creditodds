@@ -27,8 +27,8 @@ signup_bonus:
   timeframe_months: 3
 apr:
   regular:
-    min: 19.24
-    max: 27.74
+    min: 20.49
+    max: 27.49
 image: "chase-southwest-rapid-rewards-plus.png"
 tags:
   - airline

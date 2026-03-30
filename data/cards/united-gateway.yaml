@@ -29,8 +29,8 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 19.74
-    max: 28.24
+    min: 20.24
+    max: 28.74
 tags:
   - airline
   - travel
