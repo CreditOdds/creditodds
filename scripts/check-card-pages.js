@@ -172,7 +172,7 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
 }
 
 Rules:
-- annual_fee: use 0 if no annual fee is mentioned. null if not stated at all.
+- annual_fee: the ongoing annual fee, NOT an introductory/$0 first year rate. If the card says "$0 intro annual fee" but $99 after, use 99. Use 0 only if the card truly has no annual fee. null if not stated at all.
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points"). null if absent.
 - Return null for any field you cannot determine with confidence.`;
 
