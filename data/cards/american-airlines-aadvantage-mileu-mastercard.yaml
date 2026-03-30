@@ -1,7 +1,7 @@
 name: "American Airlines AAdvantage MileU Mastercard"
 bank: "Citi"
 slug: "american-airlines-aadvantage-mileu-mastercard"
-accepting_applications: true
+accepting_applications: false
 image: "american-aadvantage.jpeg"
 annual_fee: 0
 reward_type: "miles"

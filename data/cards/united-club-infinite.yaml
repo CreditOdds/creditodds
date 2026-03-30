@@ -27,7 +27,7 @@ signup_bonus:
 apr:
   regular:
     min: 19.74
-    max: 28.24
+    max: 29.99
 benefits:
   - name: "United Club Membership"
     value: 0

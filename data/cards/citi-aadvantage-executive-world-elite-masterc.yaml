@@ -2,7 +2,7 @@ name: "Citi AAdvantage Executive World Elite Mastercard"
 bank: "Citi"
 slug: "citi-aadvantage-executive-world-elite-masterc"
 accepting_applications: true
-annual_fee: 595
+annual_fee: 695
 reward_type: "miles"
 image: "citi-aadvantage-executive-world-elite.png"
 benefits:

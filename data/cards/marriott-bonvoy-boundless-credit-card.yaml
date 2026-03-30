@@ -46,12 +46,12 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: "5 Free Night Awards"
-  type: free_nights
-  spend_requirement: 3000
-  timeframe_months: 3
+  value: 200000
+  type: "free_nights"
+  spend_requirement: 7000
+  timeframe_months: 4
 apr:
   regular:
-    min: 20.49
-    max: 27.49
+    min: 19.24
+    max: 29.99
 apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/boundless

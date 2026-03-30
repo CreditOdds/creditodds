@@ -2,7 +2,7 @@ name: "Bank of America Premium Rewards"
 bank: "Bank of America"
 slug: "bank-of-america-premium-rewards"
 image: "premium-rewards.png"
-accepting_applications: true
+accepting_applications: false
 category: "travel"
 annual_fee: 95
 reward_type: "points"

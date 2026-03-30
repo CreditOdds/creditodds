@@ -1,7 +1,7 @@
 name: "Bank of America Customized Cash Rewards"
 bank: "Bank of America"
 slug: "bank-of-america-customized-cash-rewards"
-accepting_applications: true
+accepting_applications: false
 image: "customized-cash-rewards.png"
 category: "cashback"
 annual_fee: 0

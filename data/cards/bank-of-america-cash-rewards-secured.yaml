@@ -1,7 +1,7 @@
 name: "Bank of America Cash Rewards Secured"
 bank: "Bank of America"
 slug: "bank-of-america-cash-rewards-secured"
-accepting_applications: true
+accepting_applications: false
 category: "secured"
 image: "bank-of-america-customized-cash-secured.png"
 annual_fee: 0

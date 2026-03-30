@@ -1,7 +1,7 @@
 name: "Citi Secured Mastercard"
 bank: "Citi"
 slug: "citi-secured-mastercard"
-accepting_applications: true
+accepting_applications: false
 image: "citi-secured.png"
 annual_fee: 0
 tags:

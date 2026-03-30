@@ -12,6 +12,6 @@ rewards:
     unit: percent
 apr:
   regular:
-    min: 25.24
-    max: 25.24
+    min: 6.75
+    max: 29.99
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise

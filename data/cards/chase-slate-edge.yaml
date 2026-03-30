@@ -12,6 +12,6 @@ apr:
     rate: 0
     months: 21
   regular:
-    min: 22.49
-    max: 31.24
+    min: 6.75
+    max: 29.99
 apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge

@@ -1,7 +1,7 @@
 name: "Blue Business Cash from American Express"
 bank: "American Express"
 slug: "blue-business-cash-card-from-american-express"
-accepting_applications: true
+accepting_applications: false
 category: "business"
 annual_fee: 0
 reward_type: "cashback"
