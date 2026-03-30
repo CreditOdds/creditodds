@@ -169,18 +169,11 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
     "spend_requirement": <number or null>,
     "timeframe_months": <number or null>
   },
-  "apr": {
-    "regular_min": <number or null>,
-    "regular_max": <number or null>
-  },
-  "accepting_applications": <true|false|null>
 }
 
 Rules:
-- annual_fee: use 0 if no annual fee is mentioned. null if not stated at all.
+- annual_fee: the ongoing annual fee, NOT an introductory/$0 first year rate. If the card says "$0 intro annual fee" but $99 after, use 99. Use 0 only if the card truly has no annual fee. null if not stated at all.
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points"). null if absent.
-- apr: ongoing regular APR as a percentage number (e.g. 21.24). Not intro/promotional APR. null if not found.
-- accepting_applications: set to false ONLY if the page clearly indicates the card is unavailable, discontinued, or redirects to a generic page unrelated to this specific card. Set to true if an apply button/form is present. null if unclear.
 - Return null for any field you cannot determine with confidence.`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -250,32 +243,6 @@ function detectChanges(card, extracted) {
     }
   }
 
-  // APR — only compare if the card already has regular APR
-  if (extracted.apr && current.apr?.regular) {
-    const { regular_min, regular_max } = extracted.apr;
-    const cur = current.apr.regular;
-
-    if (regular_min !== null && regular_min !== undefined && cur.min !== undefined) {
-      if (regular_min !== cur.min) {
-        changes.push({ field: 'apr.regular.min', old_value: cur.min, new_value: regular_min });
-      }
-    }
-    if (regular_max !== null && regular_max !== undefined && cur.max !== undefined) {
-      if (regular_max !== cur.max) {
-        changes.push({ field: 'apr.regular.max', old_value: cur.max, new_value: regular_max });
-      }
-    }
-  }
-
-  // accepting_applications — flag if card appears to be discontinued
-  if (extracted.accepting_applications === false) {
-    changes.push({
-      field: 'accepting_applications',
-      old_value: true,
-      new_value: false,
-    });
-  }
-
   return changes;
 }
 
@@ -300,7 +267,7 @@ function applyChanges(allChanges, allCards) {
     for (const change of changes) {
       const { field, new_value } = change;
 
-      if (field === 'annual_fee' || field === 'accepting_applications') {
+      if (field === 'annual_fee') {
         yamlText = replaceYamlField(yamlText, field, new_value);
         modified = true;
       } else if (field.startsWith('signup_bonus.')) {
@@ -308,13 +275,6 @@ function applyChanges(allChanges, allCards) {
         if (!parsedData.signup_bonus) parsedData.signup_bonus = {};
         parsedData.signup_bonus[subfield] = new_value;
         yamlText = replaceYamlBlock(yamlText, 'signup_bonus', parsedData.signup_bonus);
-        modified = true;
-      } else if (field.startsWith('apr.regular.')) {
-        const subfield = field.split('.')[2];
-        if (!parsedData.apr) parsedData.apr = {};
-        if (!parsedData.apr.regular) parsedData.apr.regular = {};
-        parsedData.apr.regular[subfield] = new_value;
-        yamlText = replaceYamlBlock(yamlText, 'apr', parsedData.apr);
         modified = true;
       }
 
@@ -339,39 +299,21 @@ function generateSummary(applied) {
 
   const today = new Date().toISOString().slice(0, 10);
 
-  // Split into availability changes vs data changes
-  const discontinued = applied.filter(c =>
-    c.changes.some(ch => ch.field === 'accepting_applications')
-  );
-  const dataChanges = applied.filter(c =>
-    c.changes.some(ch => ch.field !== 'accepting_applications')
-  );
-
   let md = `## Card Page Check — ${today}\n\n`;
   md += 'Detected by fetching official apply pages and extracting card terms with Claude Haiku.\n';
   md += '**Verify each change against the source page before merging.**\n\n';
 
-  if (dataChanges.length > 0) {
-    md += '### Term Changes\n\n';
-    md += '| Card | Field | Current | Detected | Source |\n';
-    md += '|------|-------|---------|----------|--------|\n';
-    for (const card of dataChanges) {
-      for (const ch of card.changes.filter(c => c.field !== 'accepting_applications')) {
-        const oldStr = ch.old_value !== null ? String(ch.old_value) : '—';
-        const newStr = ch.new_value !== null ? String(ch.new_value) : '—';
-        md += `| ${card.card_name} | ${ch.field} | ${oldStr} | ${newStr} | [apply page](${card.apply_link}) |\n`;
-      }
+  md += '### Term Changes\n\n';
+  md += '| Card | Field | Current | Detected | Source |\n';
+  md += '|------|-------|---------|----------|--------|\n';
+  for (const card of applied) {
+    for (const ch of card.changes) {
+      const oldStr = ch.old_value !== null ? String(ch.old_value) : '—';
+      const newStr = ch.new_value !== null ? String(ch.new_value) : '—';
+      md += `| ${card.card_name} | ${ch.field} | ${oldStr} | ${newStr} | [apply page](${card.apply_link}) |\n`;
     }
-    md += '\n';
   }
-
-  if (discontinued.length > 0) {
-    md += '### Cards No Longer Accepting Applications\n\n';
-    for (const card of discontinued) {
-      md += `- **${card.card_name}**: Apply page indicates card is no longer available. [Source](${card.apply_link})\n`;
-    }
-    md += '\n';
-  }
+  md += '\n';
 
   md += '### How to Review\n';
   md += '1. Click each source link and verify the detected value on the issuer\'s page\n';

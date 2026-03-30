@@ -37,10 +37,11 @@ rewards:
     value: 1
     unit: percent
 signup_bonus:
-  value: 300
-  type: cash
+  value: 600
+  type: "cash"
   spend_requirement: 1000
   timeframe_months: 3
+  note: "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
 apr:
   regular:
     min: 18.24
