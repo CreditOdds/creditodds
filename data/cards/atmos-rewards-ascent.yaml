@@ -2,7 +2,7 @@ name: "Atmos Rewards Ascent"
 bank: "Bank of America"
 slug: "atmos-rewards-ascent"
 image: "atmos-rewards-ascent.png"
-accepting_applications: false
+accepting_applications: true
 category: "travel"
 annual_fee: 95
 tags:

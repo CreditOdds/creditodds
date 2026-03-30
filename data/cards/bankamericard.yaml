@@ -1,7 +1,7 @@
 name: "BankAmericard"
 bank: "Bank of America"
 slug: "bankamericard"
-accepting_applications: false
+accepting_applications: true
 image: "bankamericard.png"
 category: "balance_transfer"
 annual_fee: 0

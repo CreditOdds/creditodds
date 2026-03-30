@@ -1,7 +1,7 @@
 name: "Bank of America Premium Rewards Elite"
 bank: "Bank of America"
 slug: "bank-of-america-premium-rewards-elite"
-accepting_applications: false
+accepting_applications: true
 image: "premium-rewards.png"
 category: "travel"
 annual_fee: 550

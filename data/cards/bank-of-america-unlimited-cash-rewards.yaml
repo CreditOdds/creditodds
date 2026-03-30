@@ -1,7 +1,7 @@
 name: "Bank of America Unlimited Cash Rewards"
 bank: "Bank of America"
 slug: "bank-of-america-unlimited-cash-rewards"
-accepting_applications: false
+accepting_applications: true
 category: "cashback"
 image: "unlimited-cash-rewards.png"
 annual_fee: 0
