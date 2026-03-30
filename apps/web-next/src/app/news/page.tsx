@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { NewspaperIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { NewspaperIcon, PlusCircleIcon, BoltIcon } from "@heroicons/react/24/outline";
 import { getNews } from "@/lib/news";
 import NewsTable from "@/components/news/NewsTable";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
@@ -85,8 +85,23 @@ export default async function NewsPage() {
           Stay up to date with the latest credit card updates and changes
         </p>
 
+        {/* Card Wire Link */}
+        <div className="mt-4 flex justify-center">
+          <Link
+            href="/card-wire"
+            className="inline-flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+          >
+            <BoltIcon className="h-4 w-4" />
+            See latest card changes on Card Wire
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+          </Link>
+        </div>
+
         {/* Add News Link */}
-        <div className="mt-4 text-center">
+        <div className="mt-2 text-center">
           <a
             href="https://github.com/CreditOdds/creditodds/blob/main/data/news/README.md"
             target="_blank"
