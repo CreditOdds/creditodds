@@ -1,0 +1,64 @@
+name: Refresh Best Pages
+
+on:
+  schedule:
+    - cron: '0 12 1,15 * *'  # 1st and 15th of each month, noon UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build cards.json (ensure fresh data)
+        run: npm run build:cards
+
+      - name: Refresh best page highlights
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/refresh-best-pages.js
+
+      - name: Validate best.json
+        run: npm run build:best
+
+      - name: Create PR if changes found
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "$(git status --porcelain data/best/)" ]; then
+            BRANCH="refresh-best-$(date +%Y-%m-%d)"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git checkout -b "$BRANCH"
+            git add data/best/
+            git commit -m "Refresh best page highlights — $(date +%Y-%m-%d)"
+            git push -u origin "$BRANCH"
+
+            if [ -f .refresh-best-summary.md ]; then
+              gh pr create \
+                --title "Refresh Best Pages $(date +%Y-%m-%d)" \
+                --body-file .refresh-best-summary.md
+            else
+              gh pr create \
+                --title "Refresh Best Pages $(date +%Y-%m-%d)" \
+                --body "Refreshed best page highlights with current card data. Please review."
+            fi
+          else
+            echo "No changes detected — highlights are up to date."
+          fi
