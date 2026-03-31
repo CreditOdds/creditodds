@@ -93,6 +93,7 @@ slug: best-travel-cards
 title: Best Travel Credit Cards
 description: The top travel credit cards ranked by rewards, travel perks, and overall value — from premium to no-annual-fee options.
 date: "2026-03-01"
+updated_at: "2026-03-31"
 seo_title: Best Travel Credit Cards of 2026
 seo_description: Compare the best travel credit cards of 2026. From Chase Sapphire Reserve to no-fee options — ranked by rewards and perks.
 intro: |
@@ -101,47 +102,47 @@ intro: |
 cards:
   - slug: chase-sapphire-reserve
     badge: Best Premium
-    highlight: 8x on all travel through Chase Travel portal, 3x on dining and travel booked directly. The $300 annual travel credit and Priority Pass lounge access help offset the $795 fee. A 125,000-point signup bonus and points worth 50% more through Chase Travel.
+    highlight: Earn 8x points on travel booked through Chase Travel, 3x on dining and travel booked directly. The $300 annual travel credit and Priority Pass lounge access help offset the $795 annual fee. A 125,000-point signup bonus (after $6,000 spend) and points worth 50% more through Chase Travel add substantial value.
 
   - slug: capital-one-venture-x
     badge: Best Value Premium
-    highlight: 10x on hotels and 5x on flights through the Capital One portal, 2x on everything else. The $300 travel credit and 10,000 anniversary miles make the effective annual fee close to $0. Includes Capital One Lounges and Priority Pass.
+    highlight: Earn 10x miles on hotels and 5x on flights through the Capital One Travel portal, plus 2x on everything else. The $300 travel credit and 10,000 anniversary miles bring the effective annual fee close to $0. Includes Capital One Lounges and Priority Pass access, plus a 75,000-mile signup bonus after $4,000 spend.
 
   - slug: chase-sapphire-preferred
     badge: Best Mid-Tier
-    highlight: 5x on Chase Travel, 3x on dining, streaming, and online groceries, 2x on other travel. The 75,000-point signup bonus is worth at least $937. The most popular travel card for good reason at just $95/year.
+    highlight: Earn 5x points on Chase Travel, 3x on dining, streaming, and online groceries, and 2x on other travel. At just $95 annually, this card's 75,000-point signup bonus (after $5,000 spend) is worth substantial value. One of the most popular travel cards for good reason.
 
   - slug: american-express-gold-card
     highlight: 4x on dining and groceries, 3x on flights. Monthly dining and Uber credits help offset the $325 fee. Membership Rewards points transfer to a huge list of airline and hotel partners. 60,000-point signup bonus.
 
   - slug: citi-strata-premier
-    highlight: 10x on hotels and car rentals through Citi Travel, 3x on airlines, hotels, dining, groceries, and gas — the widest 3x coverage of any mid-tier card. 60,000-point signup bonus. ThankYou points transfer to airline partners. All for $95/year.
+    highlight: Earn 10x points on hotels and car rentals through Citi Travel, 3x on airlines, hotels, dining, groceries, and gas — the widest 3x coverage of any mid-tier card. At $95 annually, you get a 60,000-point signup bonus after $4,000 spend, and ThankYou points transfer to airline partners.
 
   - slug: capital-one-venture-rewards
-    highlight: 5x on hotels and car rentals through the portal, 2x miles on every other purchase with no category tracking. A 75,000-mile signup bonus after $4,000 spend makes this one of the best mid-tier values at $95/year. Miles transfer to partners or erase travel purchases.
+    highlight: Earn 5x miles on hotels and car rentals through the Capital One Travel portal and 2x miles on every other purchase with no category tracking. At $95 annually, the 75,000-mile signup bonus after $4,000 spend offers solid value. Miles transfer to partners or erase travel purchases directly.
 
   - slug: wells-fargo-autograph
     badge: Best No-Fee
-    highlight: 3x on dining, travel, gas, transit, and streaming with no annual fee. A 20,000-point signup bonus after $1,000 spend. Hard to beat for a free travel card.
+    highlight: Earn 3x points on dining, travel, gas, transit, and streaming with no annual fee. A 20,000-point signup bonus after just $1,000 spend, plus a 12-month intro APR of 0% on purchases. Hard to beat for a free travel card.
 
   - slug: bank-of-america-travel-rewards
-    highlight: 1.5x points on everything with no annual fee and no foreign transaction fees. A 25,000-point signup bonus after $1,000 spend. Simple and effective for occasional travelers.
+    highlight: Earn 1.5x points on all purchases with no annual fee and no foreign transaction fees. A 25,000-point signup bonus after $1,000 spend, plus a 15-month intro APR of 0% on both purchases and balance transfers. Simple and effective for occasional travelers.
 
   - slug: bilt-palladium
-    highlight: Earn points on rent payments with no transaction fees — a unique feature no other card offers. 3x on dining, 2x on travel and everything else. Points transfer to Hyatt, AA, United, and more. The $495 fee is steep but pays off for high-rent payers.
+    highlight: Earn points on rent payments with no transaction fees — a unique feature no other card offers. Earn 3x on dining, 2x on travel and everything else, with points transferring to Hyatt, American Airlines, United, and more. The $495 annual fee is steep but pays off for high-rent payers, especially with the 50,000-point signup bonus after $4,000 spend.
 
   - slug: world-of-hyatt-business-credit-card
     badge: Best Hotel Card
-    highlight: 60,000 World of Hyatt points can be worth $1,200+ in hotel stays. Hyatt offers the best cents-per-point value of any major hotel program. 4x at Hyatt properties, 2x on dining. Automatic Discoverist status at $199/year.
+    highlight: Earn 80,000 World of Hyatt points (after $10,000 spend), worth $1,200+ in hotel stays. Hyatt offers strong cents-per-point value among hotel programs. Earn 4x at Hyatt properties, 2x on dining, with automatic Discoverist status at $199 annually.
 
   - slug: citi-strata-elite
-    highlight: 12x on hotels and car rentals through Citi Travel, 6x on flights through the portal, 3x on dining. 75,000-point signup bonus. At $595/year, a strong premium option for travelers who book through Citi Travel.
+    highlight: Earn 12x points on hotels and car rentals through Citi Travel, 6x on flights, and 3x on dining. A 75,000-point signup bonus after $6,000 spend. At $595 annually, this is a strong premium option for travelers who book frequently through Citi Travel.
 
   - slug: atmos-rewards-summit
-    highlight: 80,000-point signup bonus with 3x on airlines, dining, and foreign transactions. A newer premium entrant at $395/year competing with the established travel cards.
+    highlight: Earn 3x points on airlines, dining, and foreign transactions, plus 1x on everything else. An 80,000-point signup bonus after $4,000 spend. At $395 annually, this newer premium card competes directly with established travel card options.
 
   - slug: atmos-rewards-ascent
-    highlight: 70,000-point signup bonus with only $3,000 in spending required — one of the lowest thresholds on the list. 3x on airlines, 2x on gas, streaming, and transit. A solid option at $95/year.
+    highlight: Earn 3x points on airlines, 2x on gas, streaming, and transit, plus 1x on everything else. A 70,000-point signup bonus after just $3,000 spend — one of the lowest thresholds available. At $95 annually, this offers solid value for airline-focused travelers.
 
   - slug: us-bank-altitude-go-visa-signature
-    highlight: 4x points on dining and takeout, 2x on groceries, gas, and streaming with no annual fee. A strong no-fee option for diners who want travel-redeemable rewards.
+    highlight: Earn 4x points on dining and takeout, 2x on groceries, gas, and streaming with no annual fee. A 20,000-point signup bonus after $1,000 spend, plus a 15-month intro APR of 0% on purchases. A strong no-fee option for diners who want travel-redeemable rewards.
