@@ -158,24 +158,65 @@ Return ONLY valid JSON (no markdown fences) in this exact format:
   }
 }
 
-// ─── YAML update ─────────────────────────────────────────────────────────────
+// ─── YAML update (line-based to avoid regex $ replacement bugs) ──────────────
+
+function updateHighlightByLine(lines, slug, newHighlight) {
+  let inCard = false;
+  for (let i = 0; i < lines.length; i++) {
+    // Detect start of target card entry
+    if (/^\s+- slug:\s+/.test(lines[i]) && lines[i].trim() === `- slug: ${slug}`) {
+      inCard = true;
+      continue;
+    }
+    // Detect start of next card entry — stop searching
+    if (inCard && /^\s+- slug:\s+/.test(lines[i])) {
+      break;
+    }
+    // Find and replace the highlight line
+    if (inCard && /^\s+highlight:\s/.test(lines[i])) {
+      const indent = lines[i].match(/^(\s+)highlight:\s/)[1];
+      lines[i] = `${indent}highlight: ${newHighlight}`;
+      return true;
+    }
+  }
+  return false;
+}
+
+function updateIntroByLine(lines, newIntro) {
+  let introStart = -1;
+  for (let i = 0; i < lines.length; i++) {
+    if (/^intro:\s*\|/.test(lines[i])) {
+      introStart = i;
+      break;
+    }
+  }
+  if (introStart === -1) return false;
+
+  // Find end of indented block: continues while lines are indented or empty
+  let introEnd = introStart + 1;
+  while (introEnd < lines.length) {
+    const line = lines[introEnd];
+    if (line.trim() === '' || /^\s/.test(line)) {
+      introEnd++;
+    } else {
+      break; // hit a non-indented, non-empty line (next top-level key)
+    }
+  }
+
+  // Build new intro block
+  const introLines = newIntro.split('\n').map(l => '  ' + l);
+  lines.splice(introStart + 1, introEnd - introStart - 1, ...introLines, '');
+  return true;
+}
 
 function applyUpdates(page, updates, today) {
-  let yamlContent = page.raw;
+  const lines = page.raw.split('\n');
   const changes = [];
 
   // Update intro
   if (updates.intro && updates.intro !== page.data.intro?.trim()) {
     const oldIntro = page.data.intro?.trim();
-    // Replace the intro block in YAML
-    // Intro is a multi-line scalar using |
-    const introPattern = /^intro:\s*\|\n([\s\S]*?)(?=\n\w|\n$)/m;
-    if (introPattern.test(yamlContent)) {
-      const indentedIntro = updates.intro
-        .split('\n')
-        .map(line => '  ' + line)
-        .join('\n');
-      yamlContent = yamlContent.replace(introPattern, `intro: |\n${indentedIntro}`);
+    if (updateIntroByLine(lines, updates.intro)) {
       changes.push({
         field: 'intro',
         old: oldIntro?.slice(0, 80) + (oldIntro?.length > 80 ? '...' : ''),
@@ -195,50 +236,39 @@ function applyUpdates(page, updates, today) {
       const newHighlight = updatedCard.highlight.trim();
       if (oldHighlight === newHighlight) continue;
 
-      // Find and replace this card's highlight in the YAML
-      // Cards are listed under `cards:` with `- slug:` entries
-      // We need to find the specific card block and replace its highlight
-      const escapedOld = oldHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const highlightPattern = new RegExp(
-        `(- slug: ${updatedCard.slug}\\n(?:    \\w+:.*\\n)*    highlight: )${escapedOld}`,
-        'm'
-      );
-
-      if (highlightPattern.test(yamlContent)) {
-        yamlContent = yamlContent.replace(highlightPattern, `$1${newHighlight}`);
+      if (updateHighlightByLine(lines, updatedCard.slug, newHighlight)) {
         changes.push({
           field: `${updatedCard.slug} highlight`,
           old: oldHighlight.slice(0, 60) + (oldHighlight.length > 60 ? '...' : ''),
           new: newHighlight.slice(0, 60) + (newHighlight.length > 60 ? '...' : ''),
         });
       } else {
-        // Fallback: replace the highlight string directly if unique in file
-        if (yamlContent.includes(oldHighlight) &&
-            yamlContent.indexOf(oldHighlight) === yamlContent.lastIndexOf(oldHighlight)) {
-          yamlContent = yamlContent.replace(oldHighlight, newHighlight);
-          changes.push({
-            field: `${updatedCard.slug} highlight`,
-            old: oldHighlight.slice(0, 60) + (oldHighlight.length > 60 ? '...' : ''),
-            new: newHighlight.slice(0, 60) + (newHighlight.length > 60 ? '...' : ''),
-          });
-        } else {
-          console.warn(`    Could not find unique highlight for ${updatedCard.slug} — skipping`);
-        }
+        console.warn(`    Could not find highlight line for ${updatedCard.slug} — skipping`);
       }
     }
   }
 
   // Update updated_at date
   if (changes.length > 0) {
-    if (/^updated_at:/m.test(yamlContent)) {
-      yamlContent = yamlContent.replace(/^(updated_at:\s*).*$/m, `$1"${today}"`);
-    } else {
-      // Insert after date field
-      yamlContent = yamlContent.replace(/^(date:\s*".*")$/m, `$1\nupdated_at: "${today}"`);
+    let foundDate = false;
+    for (let i = 0; i < lines.length; i++) {
+      if (/^updated_at:/.test(lines[i])) {
+        lines[i] = `updated_at: "${today}"`;
+        foundDate = true;
+        break;
+      }
+    }
+    if (!foundDate) {
+      for (let i = 0; i < lines.length; i++) {
+        if (/^date:/.test(lines[i])) {
+          lines.splice(i + 1, 0, `updated_at: "${today}"`);
+          break;
+        }
+      }
     }
   }
 
-  return { yamlContent, changes };
+  return { yamlContent: lines.join('\n'), changes };
 }
 
 // ─── PR summary ──────────────────────────────────────────────────────────────
