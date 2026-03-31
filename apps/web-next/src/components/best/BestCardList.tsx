@@ -20,6 +20,25 @@ interface BestCardListProps {
   cards: EnrichedCard[];
 }
 
+function RankChange({ currentRank, previousRank }: { currentRank: number; previousRank?: number }) {
+  if (!previousRank || previousRank === currentRank) return null;
+  const moved = previousRank - currentRank; // positive = moved up
+  if (moved > 0) {
+    return (
+      <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-emerald-600" title={`Up from #${previousRank}`}>
+        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clipRule="evenodd" /></svg>
+        {moved}
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-red-500" title={`Down from #${previousRank}`}>
+      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clipRule="evenodd" /></svg>
+      {Math.abs(moved)}
+    </span>
+  );
+}
+
 export function BestCardList({ cards }: BestCardListProps) {
   return (
     <div className="space-y-6">
@@ -33,7 +52,7 @@ export function BestCardList({ cards }: BestCardListProps) {
             key={card.slug}
             className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
           >
-            {/* Header with rank and badge */}
+            {/* Header with rank, badge, and rank change */}
             <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-gray-50 border-b border-gray-200">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex-shrink-0">
                 {rank}
@@ -46,6 +65,9 @@ export function BestCardList({ cards }: BestCardListProps) {
                   {entry.badge}
                 </span>
               )}
+              <span className="ml-auto flex-shrink-0">
+                <RankChange currentRank={rank} previousRank={entry.previous_rank} />
+              </span>
             </div>
 
             <div className="p-4 sm:p-6">

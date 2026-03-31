@@ -51,6 +51,25 @@ function getIntroAPR(card: Card): string {
   return parts.length > 0 ? parts.join(', ') : '-';
 }
 
+function RankChangeSmall({ currentRank, previousRank }: { currentRank: number; previousRank?: number }) {
+  if (!previousRank || previousRank === currentRank) return null;
+  const moved = previousRank - currentRank;
+  if (moved > 0) {
+    return (
+      <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold text-emerald-600" title={`Up from #${previousRank}`}>
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clipRule="evenodd" /></svg>
+        {moved}
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold text-red-500" title={`Down from #${previousRank}`}>
+      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clipRule="evenodd" /></svg>
+      {Math.abs(moved)}
+    </span>
+  );
+}
+
 export function BestComparisonTable({ cards }: BestComparisonTableProps) {
   if (cards.length === 0) return null;
 
@@ -91,9 +110,12 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
               return (
                 <tr key={card.slug} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3 whitespace-nowrap">
-                    <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold">
-                      {index + 1}
-                    </span>
+                    <div className="flex items-center gap-1">
+                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold">
+                        {index + 1}
+                      </span>
+                      <RankChangeSmall currentRank={index + 1} previousRank={entry.previous_rank} />
+                    </div>
                   </td>
                   <td className="px-4 py-3 align-top">
                     <div className="flex items-start gap-3 min-w-0">

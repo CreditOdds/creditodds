@@ -4,6 +4,7 @@ export interface BestPageCard {
   slug: string;
   highlight?: string;
   badge?: string;
+  previous_rank?: number;
 }
 
 export interface BestPage {

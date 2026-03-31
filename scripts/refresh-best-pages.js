@@ -251,13 +251,20 @@ function buildYaml(page, updates, today) {
     }
   }
 
-  // Cards
+  // Cards — include previous_rank when position changed
+  const oldOrder = page.data.cards.map(c => c.slug);
   lines.push('');
   lines.push('cards:');
-  for (const card of updates.cards) {
+  for (let i = 0; i < updates.cards.length; i++) {
+    const card = updates.cards[i];
+    const newRank = i + 1;
+    const oldRank = oldOrder.indexOf(card.slug) + 1;
     lines.push(`  - slug: ${card.slug}`);
     if (card.badge) {
       lines.push(`    badge: ${card.badge}`);
+    }
+    if (oldRank > 0 && oldRank !== newRank) {
+      lines.push(`    previous_rank: ${oldRank}`);
     }
     lines.push(`    highlight: ${card.highlight}`);
     lines.push('');

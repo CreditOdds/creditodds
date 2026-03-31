@@ -78,6 +78,11 @@
           "badge": {
             "type": "string",
             "description": "Badge label (e.g. 'Best Overall', 'Best Value')"
+          },
+          "previous_rank": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Previous rank position (only present if card moved since last ranking)"
           }
         }
       },
