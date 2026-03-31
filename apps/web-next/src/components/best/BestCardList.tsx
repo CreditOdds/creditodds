@@ -157,13 +157,8 @@ export function BestCardList({ cards }: BestCardListProps) {
                     </p>
                   )}
 
-                  {/* Apply buttons */}
-                  <ApplyButtons
-                    slug={card.slug}
-                    applyLink={card.apply_link}
-                    referrals={card.referrals}
-                    acceptingApplications={card.accepting_applications}
-                  />
+                  {/* Card details link */}
+                  <ApplyButtons slug={card.slug} />
                 </div>
               </div>
             </div>
