@@ -6,6 +6,7 @@ import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 import { getAllCards } from '@/lib/api';
 import { getNews } from '@/lib/news';
 import ConverterClient from './ConverterClient';
+import PaginatedNewsList from '@/components/tools/PaginatedNewsList';
 
 export const metadata: Metadata = {
   title: 'Amex Membership Rewards to USD (Converter/Calculator) | CreditOdds',
@@ -100,34 +101,7 @@ export default async function AmexMRToUsdPage() {
           </div>
         )}
 
-        {news.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-lg font-semibold text-gray-900">Amex News</h2>
-            <div className="mt-4 space-y-3">
-              {news.map(item => (
-                <div key={item.id} className="bg-white rounded-lg shadow p-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      <p className="text-xs text-gray-500">
-                        {new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                      </p>
-                      <p className="text-sm font-medium text-gray-900 mt-1">
-                        {item.body ? (
-                          <Link href={`/news/${item.id}`} className="hover:text-indigo-600 transition-colors">
-                            {item.title}
-                          </Link>
-                        ) : (
-                          item.title
-                        )}
-                      </p>
-                      <p className="text-sm text-gray-500 mt-1 line-clamp-2">{item.summary}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <PaginatedNewsList news={news} heading="Amex News" />
       </div>
     </div>
   );
