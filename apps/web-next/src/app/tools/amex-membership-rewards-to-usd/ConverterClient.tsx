@@ -7,6 +7,7 @@ export default function ConverterClient() {
       inputLabel="Amex Membership Rewards Points"
       unitLabel="point"
       valuationSlug="amex-membership-rewards"
+      statementCreditCpp={0.6}
     />
   );
 }
