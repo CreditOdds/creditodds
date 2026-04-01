@@ -174,6 +174,7 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
 Rules:
 - annual_fee: the ongoing annual fee, NOT an introductory/$0 first year rate. If the card says "$0 intro annual fee" but $99 after, use 99. Use 0 only if the card truly has no annual fee. null if not stated at all.
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points"). null if absent.
+- TIERED BONUSES: Many cards have tiered signup bonuses (e.g., "earn X after spending $3,000 in 3 months, earn additional Y after spending $6,000 total in 6 months"). When a card has tiered/multi-level bonuses, ALWAYS extract the values for the MAXIMUM total bonus — use the highest spend_requirement and longest timeframe_months needed to earn the full combined bonus. Do NOT extract the first/lower tier.
 - Return null for any field you cannot determine with confidence.`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -230,7 +231,23 @@ function detectChanges(card, extracted) {
     const sb = extracted.signup_bonus;
     const cur = current.signup_bonus;
 
+    // Tiered bonus safety net: if both spend_requirement and timeframe_months
+    // are lower than current, it's likely the model extracted a lower tier
+    // instead of the full bonus — skip both fields.
+    const spendGoingDown = sb.spend_requirement != null && cur.spend_requirement != null
+      && sb.spend_requirement < cur.spend_requirement;
+    const timeGoingDown = sb.timeframe_months != null && cur.timeframe_months != null
+      && sb.timeframe_months < cur.timeframe_months;
+    const skipTieredFields = spendGoingDown && timeGoingDown;
+
+    if (skipTieredFields) {
+      console.log(`  Skipping spend_requirement & timeframe_months — likely lower tier detected`);
+    }
+
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
+      if (skipTieredFields && (key === 'spend_requirement' || key === 'timeframe_months')) {
+        continue;
+      }
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         if (sb[key] !== cur[key]) {
           changes.push({
