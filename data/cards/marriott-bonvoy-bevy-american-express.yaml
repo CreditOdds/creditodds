@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "marriott-bonvoy-bevy-american-express"
 image: "marriott-bonvoy-bevy.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-bevy/
 annual_fee: 250
 reward_type: "points"
 rewards:

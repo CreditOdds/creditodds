@@ -2,6 +2,7 @@ name: "Rakuten American Express"
 bank: "American Express"
 slug: "rakuten-american-express"
 accepting_applications: true
+apply_link: https://www.rakuten.com/american-express-card
 category: "cashback"
 image: "rakuten-american-express.png"
 annual_fee: 0

@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "american-express-gold-card"
 image: "amex_gold_card.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/gold-card/
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref=" 
 annual_fee: 325
 benefits:

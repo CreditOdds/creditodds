@@ -3,6 +3,7 @@ bank: "U.S. Bank"
 slug: "us-bank-smartly-visa-signature"
 image: "smartly-signature.png"
 accepting_applications: true
+apply_link: https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html
 category: "cashback"
 annual_fee: 0
 reward_type: "cashback"

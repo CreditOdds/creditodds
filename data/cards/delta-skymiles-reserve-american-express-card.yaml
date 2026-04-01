@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "delta-skymiles-reserve-american-express-card"
 image: "amex_delta_skymiles_reserve.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-reserve-american-express-card/
 annual_fee: 650
 reward_type: "miles"
 benefits:

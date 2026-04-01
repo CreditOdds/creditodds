@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "delta-skymiles-blue-american-express-card"
 image: "amex_delta_blue_skymiles.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-blue-american-express-card/
 annual_fee: 0
 reward_type: "miles"
 tags:

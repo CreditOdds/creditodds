@@ -2,6 +2,7 @@ name: "JetBlue Business"
 bank: "Barclays"
 slug: "jetblue-business-card"
 accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/cards/jetblue-business-card/
 category: "business"
 image: "barclays-jetblue-business.png"
 annual_fee: 99

@@ -3,6 +3,7 @@ bank: "Bank of America"
 slug: "atmos-rewards-business"
 image: "atmos-rewards-business.png"
 accepting_applications: true
+apply_link: https://www.alaskaair.com/atmosrewards/content/credit-cards/visa-small-business
 category: "business"
 annual_fee: 95
 tags:

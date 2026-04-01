@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "delta-skymiles-gold-american-express-card"
 image: "amex_delta_skymiles_gold.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-gold-american-express-card/
 annual_fee: 150
 reward_type: "miles"
 benefits:
