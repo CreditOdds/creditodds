@@ -8,6 +8,7 @@ interface RewardValueConverterProps {
   inputLabel: string;
   unitLabel: string;
   valuationSlug: string;
+  statementCreditCpp?: number;
 }
 
 function formatNumber(value: string): string {
@@ -25,6 +26,7 @@ export default function RewardValueConverter({
   inputLabel,
   unitLabel,
   valuationSlug,
+  statementCreditCpp,
 }: RewardValueConverterProps) {
   const [amount, setAmount] = useState('');
   const parsedAmount = parseNumber(amount);
@@ -33,6 +35,9 @@ export default function RewardValueConverter({
     [fallbackCpp, valuationSlug]
   );
   const usdValue = parsedAmount * (centsPerUnit / 100);
+  const statementCreditValue = statementCreditCpp
+    ? parsedAmount * (statementCreditCpp / 100)
+    : null;
 
   return (
     <div className="mt-6 max-w-lg">
@@ -53,20 +58,33 @@ export default function RewardValueConverter({
         </div>
 
         {parsedAmount > 0 && (
-          <div className="mt-4 p-4 bg-indigo-50 rounded-md">
-            <p className="text-sm text-gray-600">Estimated Value</p>
-            <p className="text-3xl font-bold text-indigo-600">
-              ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </p>
-            <p className="mt-1 text-xs text-gray-500">
-              {formatNumber(String(parsedAmount))} {inputLabel.toLowerCase()} &times; {centsPerUnit}&cent; per {unitLabel}
-            </p>
+          <div className={`mt-4 ${statementCreditCpp ? 'grid grid-cols-2 gap-3' : ''}`}>
+            <div className="p-4 bg-indigo-50 rounded-md">
+              <p className="text-sm text-gray-600">{statementCreditCpp ? 'Travel / Transfer' : 'Estimated Value'}</p>
+              <p className="text-3xl font-bold text-indigo-600">
+                ${usdValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+              <p className="mt-1 text-xs text-gray-500">
+                {centsPerUnit}&cent; per {unitLabel}
+              </p>
+            </div>
+            {statementCreditValue !== null && (
+              <div className="p-4 bg-gray-50 rounded-md">
+                <p className="text-sm text-gray-600">Statement Credit</p>
+                <p className="text-3xl font-bold text-gray-600">
+                  ${statementCreditValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  {statementCreditCpp}&cent; per {unitLabel}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
 
       <p className="mt-4 text-xs text-gray-400">
-        Based on a valuation of {centsPerUnit} cents per {unitLabel}. Actual redemption value varies by booking.
+        Based on a valuation of {centsPerUnit} cents per {unitLabel}{statementCreditCpp ? ` for travel, ${statementCreditCpp} cents for statement credit` : ''}. Actual redemption value varies by booking.
       </p>
     </div>
   );
