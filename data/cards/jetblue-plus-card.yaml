@@ -2,6 +2,7 @@ name: "JetBlue Plus"
 bank: "Barclays"
 slug: "jetblue-plus-card"
 accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/cards/jetblue-plus-card/
 category: "travel"
 image: "barclays-jetblue-plus.png"
 annual_fee: 99

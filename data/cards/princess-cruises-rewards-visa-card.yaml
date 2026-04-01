@@ -2,6 +2,7 @@ name: "Princess Cruises Rewards Visa"
 bank: "Barclays"
 slug: "princess-cruises-rewards-visa-card"
 accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/cards/princess-cruises-rewards-visa-card/
 category: "travel"
 image: "barclays-princess.png"
 annual_fee: 0

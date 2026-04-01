@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-27T16:29:05.145Z",
+  "generated_at": "2026-04-01T15:49:07.758Z",
   "count": 156,
   "categories": [
     {
@@ -183,6 +183,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/aer-lingus",
       "card_id": "aer-lingus-visa-signature-card",
       "card_name": "Aer Lingus Visa Signature"
     },
@@ -237,6 +238,7 @@
         "cashback",
         "shopping"
       ],
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/amazon-business-prime-card/",
       "card_id": "amazon-business-prime-american-express-card",
       "card_name": "Amazon Business Prime American Express"
     },
@@ -283,7 +285,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 200,
+        "value": 150,
         "type": "cash",
         "spend_requirement": 0,
         "timeframe_months": 0
@@ -294,6 +296,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards",
       "card_id": "amazon-prime-rewards-visa-signature-card",
       "card_name": "Amazon Prime Rewards Visa Signature"
     },
@@ -338,6 +341,7 @@
           "max": 29.49
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/american-airlines-aadvantage-mileu-mastercard",
       "card_id": "american-airlines-aadvantage-mileu-mastercard",
       "card_name": "American Airlines AAdvantage MileU Mastercard"
     },
@@ -401,6 +405,7 @@
         "rewards",
         "premium"
       ],
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-gold-card-amex/",
       "card_id": "american-express-business-gold-card",
       "card_name": "American Express Business Gold"
     },
@@ -410,6 +415,7 @@
       "slug": "american-express-gold-card",
       "image": "amex_gold_card.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
       "card_referral_link": "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref=",
       "annual_fee": 325,
       "benefits": [
@@ -490,6 +496,7 @@
       "slug": "american-express-green-card",
       "image": "amex_green_card.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/green/",
       "annual_fee": 150,
       "reward_type": "points",
       "rewards": [
@@ -546,6 +553,7 @@
       "accepting_applications": false,
       "annual_fee": 0,
       "reward_type": "points",
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday/",
       "card_id": "amex-everyday-credit-card",
       "card_name": "Amex Everyday"
     },
@@ -557,6 +565,7 @@
       "image": "everyday-preferred.png",
       "annual_fee": 95,
       "reward_type": "points",
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday-preferred/",
       "card_id": "amex-everyday-preferred-credit-card",
       "card_name": "Amex Everyday Preferred"
     },
@@ -608,6 +617,7 @@
           "max": 27.74
         }
       },
+      "apply_link": "https://www.apple.com/apple-card/",
       "card_id": "apple-card",
       "card_name": "Apple Card"
     },
@@ -669,6 +679,7 @@
         "spend_requirement": 3000,
         "timeframe_months": 3
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/",
       "card_id": "atmos-rewards-ascent",
       "card_name": "Atmos Rewards Ascent"
     },
@@ -678,6 +689,7 @@
       "slug": "atmos-rewards-business",
       "image": "atmos-rewards-business.png",
       "accepting_applications": true,
+      "apply_link": "https://www.alaskaair.com/atmosrewards/content/credit-cards/visa-small-business",
       "category": "business",
       "annual_fee": 95,
       "tags": [
@@ -729,6 +741,7 @@
       "slug": "atmos-rewards-summit",
       "image": "atmos-rewards-summit.png",
       "accepting_applications": true,
+      "apply_link": "https://www.alaskaair.com/atmosrewards/content/credit-cards/visa-summit",
       "category": "travel",
       "annual_fee": 395,
       "tags": [
@@ -809,6 +822,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/secured-credit-card/",
       "card_id": "bank-of-america-cash-rewards-secured",
       "card_name": "Bank of America Cash Rewards Secured"
     },
@@ -866,6 +880,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/cash-back-credit-card/",
       "card_id": "bank-of-america-customized-cash-rewards",
       "card_name": "Bank of America Customized Cash Rewards"
     },
@@ -927,6 +942,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-credit-card/",
       "card_id": "bank-of-america-premium-rewards",
       "card_name": "Bank of America Premium Rewards"
     },
@@ -1005,6 +1021,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/",
       "card_id": "bank-of-america-premium-rewards-elite",
       "card_name": "Bank of America Premium Rewards Elite"
     },
@@ -1044,6 +1061,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/travel-rewards-credit-card/",
       "card_id": "bank-of-america-travel-rewards",
       "card_name": "Bank of America Travel Rewards"
     },
@@ -1087,6 +1105,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/unlimited-cash-back-credit-card/",
       "card_id": "bank-of-america-unlimited-cash-rewards",
       "card_name": "Bank of America Unlimited Cash Rewards"
     },
@@ -1115,6 +1134,7 @@
           "max": 24.49
         }
       },
+      "apply_link": "https://www.bankofamerica.com/credit-cards/products/bankamericard-credit-card/",
       "card_id": "bankamericard",
       "card_name": "BankAmericard"
     },
@@ -1309,6 +1329,7 @@
         "business",
         "cashback"
       ],
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/amex-blue-business-cash-credit-card/",
       "card_id": "blue-business-cash-card-from-american-express",
       "card_name": "Blue Business Cash from American Express"
     },
@@ -1349,6 +1370,7 @@
         "business",
         "rewards"
       ],
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-blue-business-plus-credit-card-amex/",
       "card_id": "blue-business-plus-credit-card-from-american-express",
       "card_name": "Blue Business Plus from American Express"
     },
@@ -1358,6 +1380,7 @@
       "slug": "blue-cash-everyday-card",
       "image": "amex_blue_cash_everyday.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/",
       "card_referral_link": "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref=",
       "annual_fee": 0,
       "reward_type": "cashback",
@@ -1414,6 +1437,7 @@
       "slug": "blue-cash-preferred-card",
       "image": "amex_blue_cash_preferred.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/",
       "annual_fee": 95,
       "reward_type": "cashback",
       "rewards": [
@@ -1523,6 +1547,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/british-airways",
       "card_id": "british-airways-visa-signature-card",
       "card_name": "British Airways Visa Signature"
     },
@@ -1543,6 +1568,7 @@
           "max": 28.99
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/platinum/",
       "card_id": "capital-one-platinum",
       "card_name": "Capital One Platinum"
     },
@@ -1564,6 +1590,7 @@
           "max": 28.99
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/platinum-secured/",
       "card_id": "capital-one-platinum-secured",
       "card_name": "Capital One Platinum Secured"
     },
@@ -1612,6 +1639,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/quicksilver/",
       "card_id": "capital-one-quicksilver",
       "card_name": "Capital One Quicksilver Cash Rewards"
     },
@@ -1650,6 +1678,7 @@
           "max": 26.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/quicksilver-secured/",
       "card_id": "capital-one-quicksilver-secured",
       "card_name": "Capital One Quicksilver Secured Cash Rewards"
     },
@@ -1680,6 +1709,7 @@
           "max": 28.99
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/quicksilverone/",
       "card_id": "capital-one-quicksilverone",
       "card_name": "Capital One QuicksilverOne Cash Rewards"
     },
@@ -1751,6 +1781,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/savor/",
       "card_id": "capital-one-savor",
       "card_name": "Capital One Savor Cash Rewards"
     },
@@ -1813,6 +1844,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/savor-student/",
       "card_id": "capital-one-savor-student",
       "card_name": "Capital One Savor Student Cash Rewards"
     },
@@ -1823,7 +1855,7 @@
       "image": "capital_one_savorone.png",
       "accepting_applications": true,
       "category": "cashback",
-      "annual_fee": 0,
+      "annual_fee": 39,
       "tags": [
         "cashback",
         "dining",
@@ -1878,6 +1910,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/savorone/",
       "card_id": "capital-one-savorone",
       "card_name": "Capital One SavorOne Cash Rewards"
     },
@@ -1927,6 +1960,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/venture/",
       "card_id": "capital-one-venture-rewards",
       "card_name": "Capital One Venture Rewards"
     },
@@ -2017,6 +2051,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/venture-x/",
       "card_id": "capital-one-venture-x",
       "card_name": "Capital One Venture X Rewards"
     },
@@ -2061,6 +2096,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.capitalone.com/credit-cards/ventureone/",
       "card_id": "capital-one-ventureone-rewards",
       "card_name": "Capital One VentureOne Rewards"
     },
@@ -2080,6 +2116,7 @@
           "note": "1.5% unlimited cash back on all eligible purchases"
         }
       ],
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/cash-magnet/",
       "card_id": "cash-magnet-card",
       "card_name": "Cash Magnet"
     },
@@ -2148,6 +2185,7 @@
           "max": 27.74
         }
       },
+      "apply_link": "https://creditcards.chase.com/cash-back-credit-cards/freedom/flex",
       "card_id": "chase-freedom-flex",
       "card_name": "Chase Freedom Flex"
     },
@@ -2173,6 +2211,7 @@
           "max": 25.24
         }
       },
+      "apply_link": "https://creditcards.chase.com/cash-back-credit-cards/freedom/rise",
       "card_id": "chase-freedom-student",
       "card_name": "Chase Freedom Rise"
     },
@@ -2212,7 +2251,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 200,
+        "value": 250,
         "type": "cash",
         "spend_requirement": 500,
         "timeframe_months": 3
@@ -2231,6 +2270,7 @@
           "max": 27.74
         }
       },
+      "apply_link": "https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited",
       "card_id": "chase-freedom-unlimited",
       "card_name": "Chase Freedom Unlimited"
     },
@@ -2309,6 +2349,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred",
       "card_id": "chase-sapphire-preferred",
       "card_name": "Chase Sapphire Preferred"
     },
@@ -2404,6 +2445,7 @@
           "max": 27.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve",
       "card_id": "chase-sapphire-reserve",
       "card_name": "Chase Sapphire Reserve"
     },
@@ -2428,6 +2470,7 @@
           "max": 31.24
         }
       },
+      "apply_link": "https://creditcards.chase.com/credit-building-credit-cards/edge",
       "card_id": "chase-slate-edge",
       "card_name": "Chase Slate Edge"
     },
@@ -2494,9 +2537,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 100000,
+        "value": 70000,
         "type": "miles",
-        "spend_requirement": 10000,
+        "spend_requirement": 7000,
         "timeframe_months": 3
       },
       "apr": {
@@ -2505,6 +2548,7 @@
           "max": 29.49
         }
       },
+      "apply_link": "https://www.citi.com/usc/lpaca/aa/aadvantage/exec/ps/index0.html",
       "card_id": "citi-aadvantage-executive-world-elite-masterc",
       "card_name": "Citi AAdvantage Executive World Elite Mastercard"
     },
@@ -2578,6 +2622,7 @@
           "max": 29.49
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard",
       "card_id": "citi-aadvantage-globe",
       "card_name": "Citi AAdvantage Globe"
     },
@@ -2644,6 +2689,7 @@
           "max": 29.49
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-aadvantage-platinum-select-world-elite-mastercard",
       "card_id": "citi-aadvantage-platinum-select-world-elite-m",
       "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard"
     },
@@ -2710,6 +2756,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-custom-cash-credit-card",
       "card_id": "citi-custom-cash",
       "card_name": "Citi Custom Cash"
     },
@@ -2738,6 +2785,7 @@
           "max": 27.24
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card",
       "card_id": "citi-diamond-preferred",
       "card_name": "Citi Diamond Preferred"
     },
@@ -2777,6 +2825,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-double-cash-credit-card",
       "card_id": "citi-double-cash",
       "card_name": "Citi Double Cash"
     },
@@ -2819,6 +2868,7 @@
           "max": 26.74
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-secured-mastercard",
       "card_id": "citi-secured-mastercard",
       "card_name": "Citi Secured Mastercard"
     },
@@ -2847,6 +2897,7 @@
           "max": 28.24
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-simplicity-credit-card",
       "card_id": "citi-simplicity-card",
       "card_name": "Citi Simplicity"
     },
@@ -2925,6 +2976,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-strata-credit-card",
       "card_id": "citi-strata",
       "card_name": "Citi Strata"
     },
@@ -3018,6 +3070,7 @@
           "max": 29.24
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-strata-elite-credit-card",
       "card_id": "citi-strata-elite",
       "card_name": "Citi Strata Elite"
     },
@@ -3095,6 +3148,7 @@
           "max": 28.24
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card",
       "card_id": "citi-strata-premier",
       "card_name": "Citi Strata Premier"
     },
@@ -3146,6 +3200,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/citibusiness-aadvantage-platinum-select-mastercard",
       "card_id": "citibusiness-aadvantage-platinum-select-maste",
       "card_name": "CitiBusiness AAdvantage Platinum Select Mastercard"
     },
@@ -3217,6 +3272,7 @@
           "max": 26.74
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/costco-citi-business-card",
       "card_id": "costco-anywhere-visa-business-card-by-citi",
       "card_name": "Costco Anywhere Visa Business by Citi"
     },
@@ -3263,6 +3319,7 @@
           "max": 26.74
         }
       },
+      "apply_link": "https://www.citi.com/credit-cards/costco-citi-card",
       "card_id": "costco-anywhere-visa-card-by-citi",
       "card_name": "Costco Anywhere Visa by Citi"
     },
@@ -3272,6 +3329,7 @@
       "slug": "delta-skymiles-blue-american-express-card",
       "image": "amex_delta_blue_skymiles.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-blue-american-express-card/",
       "annual_fee": 0,
       "reward_type": "miles",
       "tags": [
@@ -3317,6 +3375,7 @@
       "slug": "delta-skymiles-gold-american-express-card",
       "image": "amex_delta_skymiles_gold.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-gold-american-express-card/",
       "annual_fee": 150,
       "reward_type": "miles",
       "benefits": [
@@ -3392,6 +3451,7 @@
       "slug": "delta-skymiles-platinum-american-express-card",
       "image": "amex_delta_skymiles_platinum.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-platinum-american-express-card/",
       "annual_fee": 350,
       "reward_type": "miles",
       "benefits": [
@@ -3480,6 +3540,7 @@
       "slug": "delta-skymiles-reserve-american-express-card",
       "image": "amex_delta_skymiles_reserve.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-reserve-american-express-card/",
       "annual_fee": 650,
       "reward_type": "miles",
       "benefits": [
@@ -3590,6 +3651,7 @@
           "max": 26.49
         }
       },
+      "apply_link": "https://www.discover.com/credit-cards/cash-back/it-card.html",
       "card_id": "discover-it-cash-back",
       "card_name": "Discover it Cash Back"
     },
@@ -3630,6 +3692,7 @@
           "max": 25.49
         }
       },
+      "apply_link": "https://www.discover.com/credit-cards/student/it-card.html",
       "card_id": "discover-it-for-students-card",
       "card_name": "Discover it for Students"
     },
@@ -3677,6 +3740,7 @@
           "max": 26.49
         }
       },
+      "apply_link": "https://www.discover.com/credit-cards/travel/",
       "card_id": "discover-it-miles",
       "card_name": "Discover it Miles"
     },
@@ -3721,6 +3785,7 @@
           "max": 26.49
         }
       },
+      "apply_link": "https://www.discover.com/credit-cards/secured-credit-card/",
       "card_id": "discover-it-secured-credit-card",
       "card_name": "Discover it Secured"
     },
@@ -3770,6 +3835,7 @@
           "max": 25.49
         }
       },
+      "apply_link": "https://www.discover.com/credit-cards/student/chrome-card.html",
       "card_id": "discover-it-student-chrome-card",
       "card_name": "Discover it Student Chrome"
     },
@@ -3830,10 +3896,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 300,
+        "value": 600,
         "type": "cash",
         "spend_requirement": 1000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
       },
       "apr": {
         "regular": {
@@ -3841,6 +3908,7 @@
           "max": 27.74
         }
       },
+      "apply_link": "https://creditcards.chase.com/rewards-credit-cards/disney/inspire",
       "card_id": "disney-inspire-visa",
       "card_name": "Disney Inspire Visa"
     },
@@ -3882,10 +3950,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 100,
+        "value": 300,
         "type": "cash",
         "spend_requirement": 500,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "$200 Disney eGift Card upon approval + $100 statement credit after spending $500 in first 3 months"
       },
       "apr": {
         "regular": {
@@ -3893,6 +3962,7 @@
           "max": 27.74
         }
       },
+      "apply_link": "https://creditcards.chase.com/rewards-credit-cards/disney/premier",
       "card_id": "disney-premier-visa-card",
       "card_name": "Disney Premier Visa"
     },
@@ -3913,10 +3983,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 50,
+        "value": 150,
         "type": "cash",
         "spend_requirement": 500,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "$100 Disney eGift Card upon approval + $50 statement credit after spending $500 in first 3 months"
       },
       "apr": {
         "regular": {
@@ -3924,6 +3995,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/rewards-credit-cards/disney/rewards",
       "card_id": "disney-visa-card",
       "card_name": "Disney Visa"
     },
@@ -3976,6 +4048,7 @@
           "max": 26.99
         }
       },
+      "apply_link": "https://www.fidelity.com/spend-save/visa-signature-card",
       "card_id": "fidelity-rewards-visa-signature",
       "card_name": "Fidelity Rewards Visa Signature"
     },
@@ -4021,6 +4094,7 @@
           "max": 34.99
         }
       },
+      "apply_link": "https://www.gemini.com/credit-card",
       "card_id": "gemini-credit",
       "card_name": "Gemini Credit"
     },
@@ -4136,6 +4210,7 @@
       "slug": "hilton-honors-card",
       "image": "amex_hilton_honors.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors/",
       "card_referral_link": "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref=",
       "annual_fee": 0,
       "reward_type": "points",
@@ -4204,6 +4279,7 @@
       "slug": "hilton-honors-american-express-aspire-card",
       "image": "amex_hilton_honors_aspire.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/",
       "annual_fee": 550,
       "reward_type": "points",
       "rewards": [
@@ -4309,6 +4385,7 @@
       "slug": "hilton-honors-american-express-surpass-card",
       "image": "amex_hilton_honors_surpass.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/",
       "annual_fee": 150,
       "reward_type": "points",
       "rewards": [
@@ -4455,6 +4532,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/iberia",
       "card_id": "iberia-visa-signature-card",
       "card_name": "Iberia Visa Signature"
     },
@@ -4530,9 +4608,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 175000,
+        "value": 140000,
         "type": "points",
-        "spend_requirement": 5000,
+        "spend_requirement": 3000,
         "timeframe_months": 3
       },
       "apr": {
@@ -4541,6 +4619,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/premier",
       "card_id": "ihg-rewards-club-premier-credit-card",
       "card_name": "IHG One Rewards Premier"
     },
@@ -4617,10 +4696,10 @@
         }
       ],
       "signup_bonus": {
-        "value": 140000,
+        "value": 200000,
         "type": "points",
-        "spend_requirement": 4000,
-        "timeframe_months": 3
+        "spend_requirement": 9000,
+        "timeframe_months": 6
       },
       "apr": {
         "regular": {
@@ -4628,6 +4707,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/business-credit-cards/IHG/business-premier",
       "card_id": "ihg-rewards-premier-business",
       "card_name": "IHG One Rewards Premier Business"
     },
@@ -4674,7 +4754,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 90000,
+        "value": 80000,
         "type": "points",
         "spend_requirement": 2000,
         "timeframe_months": 3
@@ -4685,6 +4765,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/traveler",
       "card_id": "ihg-rewards-club-traveler-credit-card",
       "card_name": "IHG Rewards Club Traveler"
     },
@@ -4742,6 +4823,7 @@
           "max": 24.74
         }
       },
+      "apply_link": "https://creditcards.chase.com/business-credit-cards/ink/cash",
       "card_id": "chase-ink-business-cash",
       "card_name": "Ink Business Cash"
     },
@@ -4784,6 +4866,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/business-credit-cards/ink/business-preferred",
       "card_id": "chase-ink-business-preferred",
       "card_name": "Ink Business Preferred"
     },
@@ -4823,6 +4906,7 @@
           "max": 24.74
         }
       },
+      "apply_link": "https://creditcards.chase.com/business-credit-cards/ink/unlimited",
       "card_id": "chase-ink-business-unlimited",
       "card_name": "Ink Business Unlimited"
     },
@@ -4831,6 +4915,7 @@
       "bank": "Barclays",
       "slug": "jetblue-card",
       "accepting_applications": true,
+      "apply_link": "https://cards.barclaycardus.com/banking/cards/jetblue-card/",
       "category": "travel",
       "image": "barclays-jetblue.png",
       "annual_fee": 0,
@@ -4887,6 +4972,7 @@
       "bank": "Barclays",
       "slug": "jetblue-business-card",
       "accepting_applications": true,
+      "apply_link": "https://cards.barclaycardus.com/banking/cards/jetblue-business-card/",
       "category": "business",
       "image": "barclays-jetblue-business.png",
       "annual_fee": 99,
@@ -4936,6 +5022,7 @@
       "bank": "Barclays",
       "slug": "jetblue-plus-card",
       "accepting_applications": true,
+      "apply_link": "https://cards.barclaycardus.com/banking/cards/jetblue-plus-card/",
       "category": "travel",
       "image": "barclays-jetblue-plus.png",
       "annual_fee": 99,
@@ -4993,6 +5080,7 @@
       "slug": "marriott-bonvoy-bevy-american-express",
       "image": "marriott-bonvoy-bevy.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-bevy/",
       "annual_fee": 250,
       "reward_type": "points",
       "rewards": [
@@ -5127,6 +5215,7 @@
           "max": 27.74
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bold",
       "card_id": "marriott-bonvoy-bold-credit-card",
       "card_name": "Marriott Bonvoy Bold"
     },
@@ -5198,10 +5287,10 @@
         }
       ],
       "signup_bonus": {
-        "value": "5 Free Night Awards",
+        "value": "4 Free Night Awards",
         "type": "free_nights",
-        "spend_requirement": 3000,
-        "timeframe_months": 3
+        "spend_requirement": 7000,
+        "timeframe_months": 4
       },
       "apr": {
         "regular": {
@@ -5209,6 +5298,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/boundless",
       "card_id": "marriott-bonvoy-boundless-credit-card",
       "card_name": "Marriott Bonvoy Boundless"
     },
@@ -5218,6 +5308,7 @@
       "slug": "marriott-bonvoy-brilliant-american-express",
       "image": "amex_marriott_bonvoy_brilliant.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/",
       "annual_fee": 650,
       "reward_type": "points",
       "rewards": [
@@ -5356,6 +5447,7 @@
           "max": 28.24
         }
       },
+      "apply_link": "https://www.discover.com/credit-cards/cash-back/nhl-card.html",
       "card_id": "nhl-discover-it",
       "card_name": "NHL Discover it"
     },
@@ -5364,6 +5456,7 @@
       "bank": "Barclays",
       "slug": "princess-cruises-rewards-visa-card",
       "accepting_applications": true,
+      "apply_link": "https://cards.barclaycardus.com/banking/cards/princess-cruises-rewards-visa-card/",
       "category": "travel",
       "image": "barclays-princess.png",
       "annual_fee": 0,
@@ -5405,6 +5498,7 @@
       "bank": "American Express",
       "slug": "rakuten-american-express",
       "accepting_applications": true,
+      "apply_link": "https://www.rakuten.com/american-express-card",
       "category": "cashback",
       "image": "rakuten-american-express.png",
       "annual_fee": 0,
@@ -5469,6 +5563,7 @@
       "slug": "rei-co-op-mastercard",
       "image": "rei-coop.png",
       "accepting_applications": true,
+      "apply_link": "https://www.capitalone.com/credit-cards/rei/",
       "annual_fee": 0,
       "reward_type": "cashback",
       "tags": [
@@ -5559,6 +5654,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://robinhood.com/creditcard/",
       "card_id": "robinhood-gold-card",
       "card_name": "Robinhood Gold"
     },
@@ -5666,6 +5762,7 @@
           "unit": "percent"
         }
       ],
+      "apply_link": "https://robinhood.com/us/en/creditcard/platinum/",
       "card_id": "robinhood-platinum",
       "card_name": "Robinhood Platinum"
     },
@@ -5684,6 +5781,7 @@
       "slug": "us-bank-smartly-visa-signature",
       "image": "smartly-signature.png",
       "accepting_applications": true,
+      "apply_link": "https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html",
       "category": "cashback",
       "annual_fee": 0,
       "reward_type": "cashback",
@@ -5748,9 +5846,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 20000,
+        "value": 50000,
         "type": "points",
-        "spend_requirement": 3000,
+        "spend_requirement": 1000,
         "timeframe_months": 3
       },
       "apr": {
@@ -5764,6 +5862,7 @@
         "airline",
         "travel"
       ],
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/southwest/plus",
       "card_id": "southwest-rapid-rewards-plus-credit-card",
       "card_name": "Southwest Rapid Rewards Plus"
     },
@@ -5801,9 +5900,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 30000,
+        "value": 55000,
         "type": "points",
-        "spend_requirement": 4000,
+        "spend_requirement": 1500,
         "timeframe_months": 3
       },
       "apr": {
@@ -5825,6 +5924,7 @@
         "airline",
         "travel"
       ],
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/southwest/premier",
       "card_id": "southwest-rapid-rewards-premier-credit-card",
       "card_name": "Southwest Rapid Rewards Premier"
     },
@@ -5860,9 +5960,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 40000,
+        "value": 60000,
         "type": "points",
-        "spend_requirement": 5000,
+        "spend_requirement": 2000,
         "timeframe_months": 3
       },
       "apr": {
@@ -5899,6 +5999,7 @@
         "travel",
         "rewards"
       ],
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/southwest/priority",
       "card_id": "southwest-rapid-rewards-priority-credit-card",
       "card_name": "Southwest Rapid Rewards Priority"
     },
@@ -6040,6 +6141,7 @@
         "travel",
         "premium"
       ],
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-credit-card-amex/",
       "card_id": "the-business-platinum-card-from-american-express",
       "card_name": "The Business Platinum Card"
     },
@@ -6049,6 +6151,7 @@
       "slug": "the-platinum-card",
       "image": "amex_the_platinum_card.png",
       "accepting_applications": true,
+      "apply_link": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
       "card_referral_link": "https://americanexpress.com/en-us/referral/platinum-card?ref=",
       "annual_fee": 895,
       "reward_type": "points",
@@ -6272,6 +6375,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.usbank.com/credit-cards/altitude-go-visa-signature-credit-card.html",
       "card_id": "us-bank-altitude-go-visa-signature",
       "card_name": "U.S. Bank Altitude Go Visa Signature"
     },
@@ -6373,6 +6477,7 @@
           "max": 27.99
         }
       },
+      "apply_link": "https://www.usbank.com/credit-cards/cash-plus-visa-signature-credit-card.html",
       "card_id": "us-bank-cash-plus-visa-signature",
       "card_name": "U.S. Bank Cash+ Visa Signature"
     },
@@ -6496,6 +6601,7 @@
         "travel",
         "premium"
       ],
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/united/club-infinite",
       "card_id": "united-club-infinite",
       "card_name": "United Club Infinite"
     },
@@ -6619,6 +6725,7 @@
         "travel",
         "rewards"
       ],
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/united/united-explorer",
       "card_id": "united-explorer",
       "card_name": "United Explorer"
     },
@@ -6673,6 +6780,7 @@
         "airline",
         "travel"
       ],
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/united/united-gateway",
       "card_id": "united-gateway",
       "card_name": "United Gateway"
     },
@@ -6775,6 +6883,7 @@
         "travel",
         "premium"
       ],
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/united/united-quest",
       "card_id": "united-quest",
       "card_name": "United Quest"
     },
@@ -6860,6 +6969,7 @@
           "max": 27.49
         }
       },
+      "apply_link": "https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html",
       "card_id": "us-bank-altitude-connect",
       "card_name": "US Bank Altitude Connect"
     },
@@ -6869,6 +6979,7 @@
       "slug": "us-bank-secured",
       "image": "us-bank-secured.png",
       "accepting_applications": true,
+      "apply_link": "https://www.usbank.com/credit-cards/secured-visa-credit-card.html",
       "annual_fee": 0,
       "category": "secured",
       "tags": [
@@ -6909,6 +7020,7 @@
           "max": 27.99
         }
       },
+      "apply_link": "https://www.usbank.com/credit-cards/pm/shield-visa-credit-card.html",
       "card_id": "us-bank-shield",
       "card_name": "US Bank Shield"
     },
@@ -6970,6 +7082,7 @@
           "max": 28.74
         }
       },
+      "apply_link": "https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html",
       "card_id": "us-bank-shopper",
       "card_name": "US Bank Shopper Cash Rewards"
     },
@@ -6984,6 +7097,7 @@
       "tags": [
         "rewards"
       ],
+      "apply_link": "https://www.usbank.com/credit-cards/offers/split-card-world-mastercard-credit-card.html",
       "card_id": "us-bank-split",
       "card_name": "US Bank Split"
     },
@@ -7266,6 +7380,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://creditcards.wellsfargo.com/active-cash-credit-card",
       "card_id": "wells-fargo-active-cash",
       "card_name": "Wells Fargo Active Cash"
     },
@@ -7311,6 +7426,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://creditcards.wellsfargo.com/attune-credit-card",
       "card_id": "wells-fargo-attune",
       "card_name": "Wells Fargo Attune"
     },
@@ -7385,6 +7501,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://creditcards.wellsfargo.com/autograph-visa-credit-card",
       "card_id": "wells-fargo-autograph",
       "card_name": "Wells Fargo Autograph"
     },
@@ -7457,6 +7574,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card",
       "card_id": "wells-fargo-autograph-journey",
       "card_name": "Wells Fargo Autograph Journey"
     },
@@ -7553,6 +7671,7 @@
           "max": 28.74
         }
       },
+      "apply_link": "https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard",
       "card_id": "wells-fargo-choice-privileges-mastercard",
       "card_name": "Wells Fargo Choice Privileges Mastercard"
     },
@@ -7615,6 +7734,7 @@
           "max": 28.49
         }
       },
+      "apply_link": "https://creditcards.wellsfargo.com/choice-hotels-privileges-select-mastercard",
       "card_id": "wells-fargo-choice-privileges-select-mastercard",
       "card_name": "Wells Fargo Choice Privileges Select Mastercard"
     },
@@ -7668,6 +7788,7 @@
           "max": 28.24
         }
       },
+      "apply_link": "https://creditcards.wellsfargo.com/reflect-visa-credit-card",
       "card_id": "wells-fargo-reflect",
       "card_name": "Wells Fargo Reflect"
     },
@@ -7687,6 +7808,7 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-signify-business-cash",
       "accepting_applications": true,
+      "apply_link": "https://creditcards.wellsfargo.com/business-credit-cards/signify-business-cash-credit-card/",
       "image": "wells-fargo-signify-business-cash.png",
       "category": "business",
       "annual_fee": 0,
@@ -7805,6 +7927,7 @@
           "max": 29.99
         }
       },
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/world-of-hyatt-credit-card",
       "card_id": "world-of-hyatt-credit-card",
       "card_name": "World of Hyatt"
     },
@@ -7871,6 +7994,7 @@
         "spend_requirement": 10000,
         "timeframe_months": 3
       },
+      "apply_link": "https://creditcards.chase.com/business-credit-cards/world-of-hyatt/hyatt-business-card",
       "card_id": "world-of-hyatt-business-credit-card",
       "card_name": "World of Hyatt Business"
     },
@@ -7891,6 +8015,7 @@
       "bank": "Barclays",
       "slug": "wyndham-rewards-earner-business-card",
       "accepting_applications": true,
+      "apply_link": "https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-business-card/",
       "category": "business",
       "image": "barclays-wyndham-earner-business.png",
       "annual_fee": 95,

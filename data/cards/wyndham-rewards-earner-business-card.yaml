@@ -2,6 +2,7 @@ name: "Wyndham Rewards Earner Business"
 bank: "Barclays"
 slug: "wyndham-rewards-earner-business-card"
 accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-business-card/
 category: "business"
 image: "barclays-wyndham-earner-business.png"
 annual_fee: 95

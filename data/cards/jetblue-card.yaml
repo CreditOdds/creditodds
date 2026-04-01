@@ -2,6 +2,7 @@ name: "JetBlue"
 bank: "Barclays"
 slug: "jetblue-card"
 accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/cards/jetblue-card/
 category: "travel"
 image: "barclays-jetblue.png"
 annual_fee: 0

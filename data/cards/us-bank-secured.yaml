@@ -3,6 +3,7 @@ bank: "U.S. Bank"
 slug: "us-bank-secured"
 image: "us-bank-secured.png"
 accepting_applications: true
+apply_link: https://www.usbank.com/credit-cards/secured-visa-credit-card.html
 annual_fee: 0
 category: "secured"
 tags:

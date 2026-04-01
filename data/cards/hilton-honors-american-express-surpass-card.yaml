@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "hilton-honors-american-express-surpass-card"
 image: "amex_hilton_honors_surpass.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/
 annual_fee: 150
 reward_type: "points"
 rewards:

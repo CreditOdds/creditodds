@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "marriott-bonvoy-brilliant-american-express"
 image: "amex_marriott_bonvoy_brilliant.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/
 annual_fee: 650
 reward_type: "points"
 rewards:

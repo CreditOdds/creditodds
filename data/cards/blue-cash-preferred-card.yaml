@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "blue-cash-preferred-card"
 image: "amex_blue_cash_preferred.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/
 annual_fee: 95
 reward_type: "cashback"
 rewards:

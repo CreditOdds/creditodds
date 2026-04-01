@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "american-express-green-card"
 image: "amex_green_card.png"
 accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 annual_fee: 150
 reward_type: "points"
 rewards:
