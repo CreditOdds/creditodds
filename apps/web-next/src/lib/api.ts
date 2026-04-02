@@ -188,17 +188,6 @@ export async function createReferral(data: unknown, token: string) {
   return res.json();
 }
 
-export async function deleteReferral(referralId: number, token: string) {
-  const res = await fetch(`${API_BASE}/referrals?referral_id=${referralId}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!res.ok) throw new Error('Failed to delete referral');
-  return res.json();
-}
-
 export async function archiveReferral(referralId: number, token: string) {
   const res = await fetch(`${API_BASE}/referrals`, {
     method: 'PATCH',

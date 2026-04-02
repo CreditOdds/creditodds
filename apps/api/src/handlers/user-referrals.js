@@ -12,7 +12,7 @@ const responseHeaders = {
   "Access-Control-Allow-Headers":
     "Content-Type,X-Amz-Date,X-Amz-Security-Token,x-api-key,Authorization,Origin,Host,X-Requested-With,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
+  "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,PATCH,POST,PUT",
   "X-Requested-With": "*",
 };
 
@@ -70,7 +70,7 @@ exports.UserReferralsHandler = async (event) => {
               WHERE card_id IN (?)
             `, [cardIds]) : [],
             referralIds.length > 0 ? mysql.query(`
-              SELECT referral_id, archived_at
+              SELECT referral_id, archived_at, archived_reason
               FROM referrals
               WHERE referral_id IN (?)
             `, [referralIds]) : []
@@ -91,10 +91,12 @@ exports.UserReferralsHandler = async (event) => {
             cardLinkMap[card.card_id] = card.card_referral_link;
           }
 
-          // Create a map of archived_at by referral_id
+          // Create maps of archived_at and archived_reason by referral_id
           const archivedMap = {};
+          const archivedReasonMap = {};
           for (const row of archivedResults) {
             archivedMap[row.referral_id] = row.archived_at;
+            archivedReasonMap[row.referral_id] = row.archived_reason;
           }
 
           // Add stats, card_referral_link, and archived_at to submitted referrals
@@ -104,6 +106,7 @@ exports.UserReferralsHandler = async (event) => {
             referral.clicks = stats.clicks;
             referral.card_referral_link = cardLinkMap[referral.card_id] || null;
             referral.archived_at = archivedMap[referral.referral_id] || null;
+            referral.archived_reason = archivedReasonMap[referral.referral_id] || null;
           }
         }
 
@@ -231,48 +234,10 @@ exports.UserReferralsHandler = async (event) => {
         };
       }
       break;
-    case "DELETE":
-      try {
-        const referralId = event.queryStringParameters?.referral_id;
-        if (!referralId) {
-          throw new Error("referral_id is required");
-        }
-
-        // Verify the referral belongs to this user before deleting
-        const referral = await mysql.query(
-          "SELECT referral_id FROM referrals WHERE referral_id = ? AND submitter_id = ?",
-          [referralId, event.requestContext.authorizer.sub]
-        );
-
-        if (referral.length === 0) {
-          throw new Error("Referral not found or you don't have permission to delete it");
-        }
-
-        // Delete associated stats first
-        await mysql.query("DELETE FROM referral_stats WHERE referral_id = ?", [referralId]);
-
-        // Delete the referral
-        await mysql.query("DELETE FROM referrals WHERE referral_id = ?", [referralId]);
-        await mysql.end();
-
-        response = {
-          statusCode: 200,
-          headers: responseHeaders,
-          body: JSON.stringify({ message: "Referral deleted successfully" }),
-        };
-      } catch (error) {
-        response = {
-          statusCode: 500,
-          body: `There was an error deleting the referral: ${error}`,
-          headers: responseHeaders,
-        };
-      }
-      break;
     default:
-      //Throw an error if the request method is not GET
       response = {
         statusCode: 405,
-        body: `UserReferrals only accepts GET, POST, PATCH, and DELETE methods, you tried: ${event.httpMethod}`,
+        body: `UserReferrals only accepts GET, POST, and PATCH methods, you tried: ${event.httpMethod}`,
         headers: responseHeaders,
       };
       break;

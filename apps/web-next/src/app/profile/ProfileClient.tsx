@@ -6,7 +6,7 @@ import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon } from "@heroicons/react/24/outline";
@@ -83,6 +83,7 @@ interface Referral {
   card_referral_link?: string;
   admin_approved: boolean;
   archived_at?: string | null;
+  archived_reason?: string | null;
   impressions?: number;
   clicks?: number;
 }
@@ -118,7 +119,6 @@ export default function ProfileClient() {
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
-  const [deletingReferralId, setDeletingReferralId] = useState<number | null>(null);
   const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
@@ -293,7 +293,7 @@ export default function ProfileClient() {
   };
 
   const handleArchiveReferral = async (referralId: number) => {
-    if (!confirm("Archive this referral? It will stop being shown to visitors but stats will be preserved.")) {
+    if (!confirm("Archive this referral? It will stop being shown to visitors.")) {
       return;
     }
 
@@ -302,36 +302,12 @@ export default function ProfileClient() {
       const token = await getToken();
       if (!token) return;
       await archiveReferral(referralId, token);
-      setReferrals(referrals.map(r =>
-        r.referral_id === referralId ? { ...r, archived_at: new Date().toISOString() } : r
-      ));
+      setReferrals(referrals.filter(r => r.referral_id !== referralId));
     } catch (error) {
       console.error("Error archiving referral:", error);
       alert("Failed to archive referral. Please try again.");
     } finally {
       setArchivingReferralId(null);
-    }
-  };
-
-  const handleDeleteReferral = async (referralId: number) => {
-    if (!confirm("Permanently delete this referral and all its stats? This cannot be undone.")) {
-      return;
-    }
-
-    setDeletingReferralId(referralId);
-    try {
-      const token = await getToken();
-      if (!token) {
-        console.error("No auth token available");
-        return;
-      }
-      await deleteReferral(referralId, token);
-      setReferrals(referrals.filter(r => r.referral_id !== referralId));
-    } catch (error) {
-      console.error("Error deleting referral:", error);
-      alert("Failed to delete referral. Please try again.");
-    } finally {
-      setDeletingReferralId(null);
     }
   };
 
@@ -409,7 +385,7 @@ export default function ProfileClient() {
               <div className="flex items-center gap-1 sm:gap-2 bg-amber-50 rounded-lg px-2 sm:px-3 py-2">
                 <LinkIcon className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
                 <div>
-                  <p className="text-base sm:text-xl font-bold text-amber-600">{referrals.length}</p>
+                  <p className="text-base sm:text-xl font-bold text-amber-600">{referrals.filter(r => !r.archived_at).length}</p>
                   <p className="text-[10px] sm:text-xs text-amber-600/70">Referrals</p>
                 </div>
               </div>
@@ -476,7 +452,7 @@ export default function ProfileClient() {
               <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
                 activeTab === 'referrals' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'
               }`}>
-                {referrals.length}
+                {referrals.filter(r => !r.archived_at).length}
               </span>
             </button>
             <button
@@ -824,13 +800,13 @@ export default function ProfileClient() {
           </div>
           {(() => {
             const activeReferrals = referrals.filter(r => !r.archived_at);
-            const archivedReferrals = referrals.filter(r => r.archived_at);
+            const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason);
 
-            const renderReferralRow = (referral: Referral, isArchived: boolean) => (
-              <tr key={referral.referral_id} className={isArchived ? 'opacity-60' : ''}>
+            const renderReferralRow = (referral: Referral) => (
+              <tr key={referral.referral_id}>
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div className={`flex-shrink-0 h-8 w-12 relative ${isArchived ? 'grayscale' : ''}`}>
+                    <div className="flex-shrink-0 h-8 w-12 relative">
                       <CardImage
                         className="object-contain"
                         cardImageLink={referral.card_image_link}
@@ -851,11 +827,7 @@ export default function ProfileClient() {
                   </a>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  {isArchived ? (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-600">
-                      Archived
-                    </span>
-                  ) : referral.admin_approved ? (
+                  {referral.admin_approved ? (
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                       Approved
                     </span>
@@ -870,32 +842,22 @@ export default function ProfileClient() {
                   <div>{referral.clicks ?? 0} clicks</div>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
-                  {!isArchived && (
-                    <button
-                      onClick={() => handleArchiveReferral(referral.referral_id)}
-                      disabled={archivingReferralId === referral.referral_id}
-                      className="text-gray-500 hover:text-gray-700 disabled:opacity-50 mr-3"
-                      title="Archive"
-                    >
-                      {archivingReferralId === referral.referral_id ? "..." : <ArchiveBoxIcon className="h-4 w-4 inline" />}
-                    </button>
-                  )}
                   <button
-                    onClick={() => handleDeleteReferral(referral.referral_id)}
-                    disabled={deletingReferralId === referral.referral_id}
-                    className="text-red-600 hover:text-red-900 disabled:opacity-50"
-                    title="Delete permanently"
+                    onClick={() => handleArchiveReferral(referral.referral_id)}
+                    disabled={archivingReferralId === referral.referral_id}
+                    className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                    title="Archive"
                   >
-                    {deletingReferralId === referral.referral_id ? "..." : <TrashIcon className="h-4 w-4 inline" />}
+                    {archivingReferralId === referral.referral_id ? "..." : <ArchiveBoxIcon className="h-4 w-4 inline" />}
                   </button>
                 </td>
               </tr>
             );
 
-            const renderReferralMobileCard = (referral: Referral, isArchived: boolean) => (
-              <div key={referral.referral_id} className={`p-4 ${isArchived ? 'opacity-60' : ''}`}>
+            const renderReferralMobileCard = (referral: Referral) => (
+              <div key={referral.referral_id} className="p-4">
                 <div className="flex items-start gap-3">
-                  <div className={`flex-shrink-0 h-12 w-20 relative ${isArchived ? 'grayscale' : ''}`}>
+                  <div className="flex-shrink-0 h-12 w-20 relative">
                     <CardImage
                       className="object-contain"
                       cardImageLink={referral.card_image_link}
@@ -907,11 +869,7 @@ export default function ProfileClient() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <p className="text-sm font-medium text-gray-900 truncate">{referral.card_name}</p>
-                      {isArchived ? (
-                        <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-600">
-                          Archived
-                        </span>
-                      ) : referral.admin_approved ? (
+                      {referral.admin_approved ? (
                         <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                           Approved
                         </span>
@@ -930,24 +888,13 @@ export default function ProfileClient() {
                         <span>{referral.impressions ?? 0} views</span>
                         <span>{referral.clicks ?? 0} clicks</span>
                       </div>
-                      <div className="flex gap-2">
-                        {!isArchived && (
-                          <button
-                            onClick={() => handleArchiveReferral(referral.referral_id)}
-                            disabled={archivingReferralId === referral.referral_id}
-                            className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-50"
-                          >
-                            {archivingReferralId === referral.referral_id ? "..." : "Archive"}
-                          </button>
-                        )}
-                        <button
-                          onClick={() => handleDeleteReferral(referral.referral_id)}
-                          disabled={deletingReferralId === referral.referral_id}
-                          className="text-xs text-red-600 hover:text-red-900 disabled:opacity-50"
-                        >
-                          {deletingReferralId === referral.referral_id ? "..." : "Delete"}
-                        </button>
-                      </div>
+                      <button
+                        onClick={() => handleArchiveReferral(referral.referral_id)}
+                        disabled={archivingReferralId === referral.referral_id}
+                        className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                      >
+                        {archivingReferralId === referral.referral_id ? "..." : "Archive"}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -959,7 +906,7 @@ export default function ProfileClient() {
                 {activeReferrals.length > 0 ? (
                   <div className="border-t border-gray-200">
                     <div className="sm:hidden divide-y divide-gray-200">
-                      {activeReferrals.map(r => renderReferralMobileCard(r, false))}
+                      {activeReferrals.map(r => renderReferralMobileCard(r))}
                     </div>
                     <div className="hidden sm:block">
                       <table className="min-w-full divide-y divide-gray-200">
@@ -973,7 +920,7 @@ export default function ProfileClient() {
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                          {activeReferrals.map(r => renderReferralRow(r, false))}
+                          {activeReferrals.map(r => renderReferralRow(r))}
                         </tbody>
                       </table>
                     </div>
@@ -984,21 +931,13 @@ export default function ProfileClient() {
                   </div>
                 )}
 
-                {archivedReferrals.length > 0 && (
-                  <div className="border-t border-gray-200">
-                    <div className="px-4 py-3 sm:px-6 bg-gray-50">
-                      <h3 className="text-sm font-medium text-gray-500">Archived ({archivedReferrals.length})</h3>
-                    </div>
-                    <div className="sm:hidden divide-y divide-gray-200">
-                      {archivedReferrals.map(r => renderReferralMobileCard(r, true))}
-                    </div>
-                    <div className="hidden sm:block">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {archivedReferrals.map(r => renderReferralRow(r, true))}
-                        </tbody>
-                      </table>
-                    </div>
+                {adminArchived.length > 0 && (
+                  <div className="border-t border-gray-200 px-4 py-3 sm:px-6 bg-amber-50">
+                    <p className="text-sm text-amber-700">
+                      {adminArchived.length === 1
+                        ? `Your referral for ${adminArchived[0].card_name} was removed because the link was no longer working. You can submit a new one anytime.`
+                        : `${adminArchived.length} of your referrals were removed because the links were no longer working. You can submit new ones anytime.`}
+                    </p>
                   </div>
                 )}
 

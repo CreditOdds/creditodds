@@ -1,0 +1,1 @@
+ALTER TABLE referrals ADD COLUMN archived_reason VARCHAR(255) NULL DEFAULT NULL;
