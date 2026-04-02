@@ -395,15 +395,17 @@ ${[...existingNewsIds, ...rejectedNewsIds].filter(Boolean).join(', ') || 'None'}
 ## Schema Requirements
 Each news item MUST have:
 - id: lowercase-with-hyphens, unique identifier
-- date: YYYY-MM-DD format - THIS MUST BE THE DATE THE ARTICLE WAS PUBLISHED, not a future effective date. Today is ${today}.
+- date: YYYY-MM-DD format - ALWAYS use today's date: ${today}. This is the publication date on our site, not the date the event occurred.
 - title: Concise headline, max 200 chars
 - summary: Factual summary with specific details (numbers, dates, requirements), max 500 chars
 - tags: Array of 1+ tags from: ${VALID_TAGS.join(', ')}
 
 Optional fields:
 - bank: Bank name if card-specific
-- card_slug: Must match a slug from the card database above
-- card_name: Full card name
+- card_slug: Must match a slug from the card database above (use for single-card news)
+- card_name: Full card name (use for single-card news)
+- card_slugs: Array of slugs when multiple cards are affected (use INSTEAD of card_slug)
+- card_names: Array of card names matching card_slugs (same length, same order)
 - source: Source name (e.g., "The Points Guy", "Doctor of Credit")
 - source_url: Full URL to the source article
 
@@ -489,22 +491,10 @@ function validateNewsItem(item) {
   }
   if (!item.date || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
     errors.push('Invalid or missing date');
-  } else {
-    const itemDate = new Date(item.date);
-    const today = new Date();
-    today.setHours(23, 59, 59, 999);
-    // Reject future dates
-    if (itemDate > today) {
-      errors.push('Date cannot be in the future (use publication date, not effective date)');
-    }
-    // Reject articles older than 7 days
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 7);
-    cutoff.setHours(0, 0, 0, 0);
-    if (itemDate < cutoff) {
-      errors.push(`Date ${item.date} is older than 7 days`);
-    }
   }
+  // Always override date to today (publication date on our site)
+  const todayStr = new Date().toISOString().slice(0, 10);
+  item.date = todayStr;
   if (!item.title || item.title.length > 200) {
     errors.push('Invalid or missing title');
   }
