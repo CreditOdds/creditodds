@@ -27,7 +27,7 @@ function getTopReward(rewards: Reward[] | undefined): Reward | null {
 export default function ExploreClient({ cards, banks, trendingViews, allTimeViews }: ExploreClientProps) {
   const [search, setSearch] = useState("");
   const [selectedBank, setSelectedBank] = useState<string>("");
-  const [sortBy, setSortBy] = useState<SortOption>('popular');
+  const [sortBy, setSortBy] = useState<SortOption>('trending');
   const [showArchived, setShowArchived] = useState(false);
   const [showBusiness, setShowBusiness] = useState(false);
 
