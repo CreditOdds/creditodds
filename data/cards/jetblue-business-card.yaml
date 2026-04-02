@@ -25,8 +25,8 @@ rewards:
     unit: points_per_dollar
     note: "2x on office supply stores"
 signup_bonus:
-  value: 50000
-  type: points
+  value: 60000
+  type: "points"
   spend_requirement: 2000
   timeframe_months: 3
 apr:

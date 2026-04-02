@@ -24,9 +24,9 @@ rewards:
     unit: points_per_dollar
     note: "5x on marketing, advertising, and utility purchases"
 signup_bonus:
-  value: 50000
-  type: points
-  spend_requirement: 4000
+  value: 45000
+  type: "points"
+  spend_requirement: 3000
   timeframe_months: 3
 apr:
   regular:
