@@ -100,6 +100,7 @@ function stripHtml(html) {
 }
 
 async function fetchPageContent(url) {
+  // Try simple fetch first
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
@@ -117,31 +118,74 @@ async function fetchPageContent(url) {
 
     clearTimeout(timer);
 
-    if (!response.ok) {
-      console.warn(`  HTTP ${response.status} — skipping`);
+    if (response.ok) {
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('text/html')) {
+        const html = await response.text();
+        const stripped = stripHtml(html);
+        if (stripped.length >= 100) {
+          return stripped;
+        }
+        console.warn(`  Simple fetch returned too little content (${stripped.length} chars) — falling back to browser`);
+      }
+    }
+  } catch (err) {
+    console.warn(`  Simple fetch failed: ${err.message} — falling back to browser`);
+  }
+
+  // Fall back to Playwright for JS-rendered pages
+  return fetchWithBrowser(url);
+}
+
+let _browser = null;
+
+async function getBrowser() {
+  if (!_browser) {
+    try {
+      const { chromium } = require('playwright');
+      _browser = await chromium.launch({ headless: true });
+    } catch (err) {
+      console.warn(`  Playwright not available: ${err.message}`);
       return null;
     }
+  }
+  return _browser;
+}
 
-    const contentType = response.headers.get('content-type') || '';
-    if (!contentType.includes('text/html')) {
-      console.warn(`  Non-HTML response (${contentType}) — skipping`);
-      return null;
-    }
+async function fetchWithBrowser(url) {
+  const browser = await getBrowser();
+  if (!browser) return null;
 
-    const html = await response.text();
+  let page;
+  try {
+    const context = await browser.newContext({
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    });
+    page = await context.newPage();
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    // Wait for content to render
+    await page.waitForTimeout(3000);
+    const html = await page.content();
+    await context.close();
+
     const stripped = stripHtml(html);
     if (stripped.length < 100) {
-      console.warn(`  Page content too short (${stripped.length} chars) — likely blocked`);
+      console.warn(`  Browser fetch still too short (${stripped.length} chars) — skipping`);
       return null;
     }
+    console.log(`  Browser fetch succeeded (${stripped.length} chars)`);
     return stripped;
   } catch (err) {
-    if (err.name === 'AbortError') {
-      console.warn(`  Timeout after ${FETCH_TIMEOUT_MS / 1000}s — skipping`);
-    } else {
-      console.warn(`  Fetch error: ${err.message} — skipping`);
-    }
+    console.warn(`  Browser fetch error: ${err.message} — skipping`);
+    if (page) await page.context().close().catch(() => {});
     return null;
+  }
+}
+
+async function closeBrowser() {
+  if (_browser) {
+    await _browser.close();
+    _browser = null;
   }
 }
 
@@ -427,10 +471,12 @@ async function main() {
     console.log(`\nPR summary written to ${SUMMARY_FILE}`);
   }
 
+  await closeBrowser();
   console.log('\n=== Complete ===');
 }
 
-main().catch(err => {
+main().catch(async (err) => {
   console.error('Fatal error:', err);
+  await closeBrowser();
   process.exit(1);
 });
