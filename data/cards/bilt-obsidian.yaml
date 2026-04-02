@@ -3,6 +3,7 @@ bank: "Bilt"
 slug: "bilt-obsidian"
 image: "bilt_obsidian.png"
 accepting_applications: true
+apply_link: https://www.biltrewards.com/card/apply
 annual_fee: 95
 reward_type: "points"
 release_date: "2025-01-15"
