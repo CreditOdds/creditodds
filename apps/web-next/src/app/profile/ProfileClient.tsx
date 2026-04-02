@@ -6,7 +6,7 @@ import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, getBenefitUsage, toggleBenefitUsage, removeBenefitUsage, WalletCard, Card, BenefitUsageRecord } from "@/lib/api";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon } from "@heroicons/react/24/outline";
@@ -114,6 +114,8 @@ export default function ProfileClient() {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [walletLoaded, setWalletLoaded] = useState(false);
+  const [benefitUsage, setBenefitUsage] = useState<BenefitUsageRecord[]>([]);
+  const [benefitUsageLoaded, setBenefitUsageLoaded] = useState(false);
   const [recordsLoaded, setRecordsLoaded] = useState(false);
   const [referralsLoaded, setReferralsLoaded] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
@@ -226,6 +228,17 @@ export default function ProfileClient() {
       setWalletLoaded(true);
     };
 
+    const loadBenefitUsage = async () => {
+      try {
+        const result = await getBenefitUsage(token);
+        setBenefitUsage(result || []);
+      } catch (error) {
+        console.error("Benefit usage error:", error);
+        setBenefitUsage([]);
+      }
+      setBenefitUsageLoaded(true);
+    };
+
     const loadRecords = async () => {
       try {
         const result = await getRecords(token);
@@ -257,6 +270,7 @@ export default function ProfileClient() {
 
     loadProfile();
     loadWallet();
+    loadBenefitUsage();
     loadRecords();
     loadReferrals();
   };
@@ -289,6 +303,43 @@ export default function ProfileClient() {
       alert("Failed to delete record. Please try again.");
     } finally {
       setDeletingRecordId(null);
+    }
+  };
+
+  const handleToggleBenefitUsage = async (
+    cardId: number, benefitName: string, frequency: string, periodStart: string, status: 'used' | 'dismissed'
+  ) => {
+    const token = await getToken();
+    if (!token) return;
+    // Optimistic update
+    setBenefitUsage(prev => {
+      const key = `${cardId}-${benefitName}-${periodStart}`;
+      const idx = prev.findIndex(r => `${r.card_id}-${r.benefit_name}-${r.period_start}` === key);
+      if (idx >= 0) {
+        const updated = [...prev];
+        updated[idx] = { ...updated[idx], status };
+        return updated;
+      }
+      return [...prev, { id: 0, card_id: cardId, benefit_name: benefitName, frequency: frequency as BenefitUsageRecord['frequency'], period_start: periodStart, status, created_at: '', updated_at: '' }];
+    });
+    try {
+      await toggleBenefitUsage({ card_id: cardId, benefit_name: benefitName, frequency, period_start: periodStart, status }, token);
+    } catch (error) {
+      console.error("Error toggling benefit usage:", error);
+    }
+  };
+
+  const handleRemoveBenefitUsage = async (cardId: number, benefitName: string, periodStart: string) => {
+    const token = await getToken();
+    if (!token) return;
+    // Optimistic update
+    setBenefitUsage(prev => prev.filter(r =>
+      !(r.card_id === cardId && r.benefit_name === benefitName && r.period_start === periodStart)
+    ));
+    try {
+      await removeBenefitUsage({ card_id: cardId, benefit_name: benefitName, period_start: periodStart }, token);
+    } catch (error) {
+      console.error("Error removing benefit usage:", error);
     }
   };
 
@@ -597,14 +648,20 @@ export default function ProfileClient() {
 
         {/* Benefits Tab */}
         {activeTab === 'benefits' && (
-          !walletLoaded ? (
+          !(walletLoaded && benefitUsageLoaded) ? (
           <div className="bg-white shadow rounded-lg p-6">
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
             </div>
           </div>
           ) : (
-          <WalletBenefits walletCards={walletCards} allCards={allCards} />
+          <WalletBenefits
+            walletCards={walletCards}
+            allCards={allCards}
+            usageRecords={benefitUsage}
+            onToggleUsage={handleToggleBenefitUsage}
+            onRemoveUsage={handleRemoveBenefitUsage}
+          />
           )
         )}
 
