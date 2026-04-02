@@ -53,9 +53,11 @@ jobs:
       - name: Create PR if changes found
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CARD_SLUG: ${{ github.event.inputs.card_slug || '' }}
         run: |
           if [ -n "$(git status --porcelain data/cards/)" ]; then
-            BRANCH="card-page-check-$(date +%Y-%m-%d-%H%M%S)"
+            SLUG="${CARD_SLUG:-all}"
+            BRANCH="card-page-check-${SLUG}-$(date +%Y-%m-%d-%H%M%S)"
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git checkout -b "$BRANCH"
