@@ -212,14 +212,11 @@ export default function CardWireTable({ entries, slugMap, bonusTypeMap }: Props)
         {pagination}
       </div>
 
-      {/* Desktop: table */}
+      {/* Desktop: table grouped by date */}
       <div className="hidden sm:block bg-white shadow sm:rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                Date
-              </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Card
               </th>
@@ -232,67 +229,84 @@ export default function CardWireTable({ entries, slugMap, bonusTypeMap }: Props)
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {visible.map((entry) => {
-              const { slug, label, chip, oldFmt, newFmt, newValueColor } = renderEntry(entry);
-
-              return (
-                <tr key={entry.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-2 whitespace-nowrap text-xs text-gray-500">
-                    {formatDate(entry.changed_at)}
-                  </td>
-                  <td className="px-6 py-2">
-                    {slug ? (
-                      <Link
-                        href={`/card/${slug}`}
-                        className="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-900"
-                      >
-                        {entry.card_image_link ? (
-                          <CardImage
-                            cardImageLink={entry.card_image_link}
-                            alt={entry.card_name}
-                            width={40}
-                            height={25}
-                            className="rounded-sm object-contain flex-shrink-0"
-                            sizes="40px"
-                          />
-                        ) : (
-                          <CreditCardIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
-                        )}
-                        <span className="whitespace-nowrap">{entry.card_name}</span>
-                      </Link>
-                    ) : (
-                      <div className="flex items-center gap-2 text-sm text-gray-900">
-                        {entry.card_image_link ? (
-                          <CardImage
-                            cardImageLink={entry.card_image_link}
-                            alt={entry.card_name}
-                            width={40}
-                            height={25}
-                            className="rounded-sm object-contain flex-shrink-0"
-                            sizes="40px"
-                          />
-                        ) : (
-                          <CreditCardIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
-                        )}
-                        <span className="whitespace-nowrap">{entry.card_name}</span>
-                      </div>
-                    )}
-                  </td>
-                  <td className="px-6 py-2">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${chip.bg} ${chip.text}`}>
-                      {label}
-                    </span>
-                  </td>
-                  <td className="px-6 py-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-500">{oldFmt}</span>
-                      <ArrowRightIcon className="h-3 w-3 text-gray-400 flex-shrink-0" />
-                      <span className={`text-sm font-medium ${newValueColor}`}>{newFmt}</span>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {(() => {
+              const groups: { date: string; entries: CardWireEntry[] }[] = [];
+              for (const entry of visible) {
+                const date = formatDate(entry.changed_at);
+                const last = groups[groups.length - 1];
+                if (last && last.date === date) {
+                  last.entries.push(entry);
+                } else {
+                  groups.push({ date, entries: [entry] });
+                }
+              }
+              return groups.map((group) => (
+                <>
+                  <tr key={`date-${group.date}`} className="bg-gray-100">
+                    <td colSpan={3} className="px-6 py-2">
+                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{group.date}</span>
+                    </td>
+                  </tr>
+                  {group.entries.map((entry) => {
+                    const { slug, label, chip, oldFmt, newFmt, newValueColor } = renderEntry(entry);
+                    return (
+                      <tr key={entry.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-2">
+                          {slug ? (
+                            <Link
+                              href={`/card/${slug}`}
+                              className="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-900"
+                            >
+                              {entry.card_image_link ? (
+                                <CardImage
+                                  cardImageLink={entry.card_image_link}
+                                  alt={entry.card_name}
+                                  width={40}
+                                  height={25}
+                                  className="rounded-sm object-contain flex-shrink-0"
+                                  sizes="40px"
+                                />
+                              ) : (
+                                <CreditCardIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                              )}
+                              <span className="whitespace-nowrap">{entry.card_name}</span>
+                            </Link>
+                          ) : (
+                            <div className="flex items-center gap-2 text-sm text-gray-900">
+                              {entry.card_image_link ? (
+                                <CardImage
+                                  cardImageLink={entry.card_image_link}
+                                  alt={entry.card_name}
+                                  width={40}
+                                  height={25}
+                                  className="rounded-sm object-contain flex-shrink-0"
+                                  sizes="40px"
+                                />
+                              ) : (
+                                <CreditCardIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                              )}
+                              <span className="whitespace-nowrap">{entry.card_name}</span>
+                            </div>
+                          )}
+                        </td>
+                        <td className="px-6 py-2">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${chip.bg} ${chip.text}`}>
+                            {label}
+                          </span>
+                        </td>
+                        <td className="px-6 py-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-500">{oldFmt}</span>
+                            <ArrowRightIcon className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                            <span className={`text-sm font-medium ${newValueColor}`}>{newFmt}</span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </>
+              ));
+            })()}
           </tbody>
         </table>
         {pagination}
