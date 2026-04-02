@@ -6,8 +6,18 @@ tags:
   - "bonus-change"
   - "general"
 bank: "American Express"
-card_slug: "delta-skymiles-gold-american-express-card"
-card_name: "Delta SkyMiles Gold American Express"
+card_slugs:
+  - "delta-skymiles-gold-american-express-card"
+  - "delta-skymiles-platinum-american-express-card"
+  - "delta-skymiles-reserve-american-express-card"
+  - "blue-cash-everyday-card"
+  - "blue-cash-preferred-card"
+card_names:
+  - "Delta SkyMiles Gold American Express"
+  - "Delta SkyMiles Platinum American Express"
+  - "Delta SkyMiles Reserve American Express"
+  - "Blue Cash Everyday"
+  - "Blue Cash Preferred"
 source: "Reddit r/CreditCards"
 source_url: "https://www.reddit.com/r/CreditCards/"
 body: |
