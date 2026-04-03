@@ -219,6 +219,7 @@ Rules:
 - annual_fee: the ongoing annual fee, NOT an introductory/$0 first year rate. If the card says "$0 intro annual fee" but $99 after, use 99. Use 0 only if the card truly has no annual fee. null if not stated at all.
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points"). null if absent.
 - TIERED BONUSES: Many cards have tiered signup bonuses (e.g., "earn X after spending $3,000 in 3 months, earn additional Y after spending $6,000 total in 6 months"). When a card has tiered/multi-level bonuses, ALWAYS extract the values for the MAXIMUM total bonus — use the highest spend_requirement and longest timeframe_months needed to earn the full combined bonus. Do NOT extract the first/lower tier.
+- AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000.
 - Return null for any field you cannot determine with confidence.`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
