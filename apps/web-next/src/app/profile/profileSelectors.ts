@@ -87,6 +87,14 @@ export function getEligibleRecordCards<T extends NamedCardRecord>(walletCards: W
   return walletCards.filter((walletCard) => !cardsWithRecords.has(walletCard.card_name));
 }
 
+// Tags relevant to existing cardholders (exclude signup bonus / new card news)
+const CARDHOLDER_RELEVANT_TAGS = new Set([
+  'benefit-change',
+  'fee-change',
+  'policy-change',
+  'discontinued',
+]);
+
 export function getRelevantNews(walletCards: WalletCard[], newsItems: NewsItem[], lookups: CardLookups) {
   const walletCardSlugs = new Set<string>();
 
@@ -97,5 +105,8 @@ export function getRelevantNews(walletCards: WalletCard[], newsItems: NewsItem[]
     }
   }
 
-  return newsItems.filter((newsItem) => newsItem.card_slugs?.some((slug) => walletCardSlugs.has(slug)));
+  return newsItems.filter((newsItem) =>
+    newsItem.card_slugs?.some((slug) => walletCardSlugs.has(slug))
+    && newsItem.tags?.some((tag) => CARDHOLDER_RELEVANT_TAGS.has(tag))
+  );
 }

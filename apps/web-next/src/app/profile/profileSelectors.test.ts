@@ -34,8 +34,9 @@ describe("profileSelectors", () => {
     ).toEqual(["Chase Sapphire Preferred"]);
 
     const relevantNews = getRelevantNews(walletCards as never, [
-      { id: "1", title: "Preferred gets a new offer", summary: "", card_slugs: ["chase-sapphire-preferred"] },
-      { id: "2", title: "Unrelated", summary: "", card_slugs: ["other-card"] },
+      { id: "1", title: "Annual fee increase", summary: "", tags: ["fee-change"], card_slugs: ["chase-sapphire-preferred"] },
+      { id: "2", title: "Unrelated", summary: "", tags: ["bonus-change"], card_slugs: ["other-card"] },
+      { id: "3", title: "New signup bonus", summary: "", tags: ["bonus-change"], card_slugs: ["chase-sapphire-preferred"] },
     ] as never, lookups);
 
     expect(relevantNews.map((item) => item.id)).toEqual(["1"]);
