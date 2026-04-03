@@ -282,6 +282,69 @@ export async function removeFromWallet(cardId: number, token: string): Promise<{
   return res.json();
 }
 
+// Benefit Usage tracking
+export interface BenefitUsageRecord {
+  id: number;
+  card_id: number;
+  benefit_name: string;
+  frequency: 'monthly' | 'quarterly' | 'semi_annual' | 'annual' | 'multi_year';
+  period_start: string;
+  status: 'used' | 'dismissed';
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getBenefitUsage(token: string, year?: number): Promise<BenefitUsageRecord[]> {
+  const yearParam = year || new Date().getFullYear();
+  const res = await fetch(`${API_BASE}/benefit-usage?year=${yearParam}&_=${Date.now()}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    console.error('getBenefitUsage error:', res.status, errorText);
+    throw new Error(`Failed to fetch benefit usage: ${res.status}`);
+  }
+  const data = await res.json();
+  // Normalize period_start to YYYY-MM-DD (MySQL DATE returns as ISO datetime string)
+  return (data.usages || []).map((r: BenefitUsageRecord) => ({
+    ...r,
+    period_start: r.period_start ? r.period_start.slice(0, 10) : r.period_start,
+  }));
+}
+
+export async function toggleBenefitUsage(
+  data: { card_id: number; benefit_name: string; frequency: string; period_start: string; status?: 'used' | 'dismissed' },
+  token: string,
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/benefit-usage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to toggle benefit usage');
+  return res.json();
+}
+
+export async function removeBenefitUsage(
+  data: { card_id: number; benefit_name: string; period_start: string },
+  token: string,
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/benefit-usage`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error('Failed to remove benefit usage');
+  return res.json();
+}
+
 // Recent records for ticker (no auth required)
 export interface RecentRecord {
   record_id: number;
