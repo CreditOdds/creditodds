@@ -12,6 +12,7 @@ const responseHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type,Authorization",
   "Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS",
+  "Cache-Control": "no-store",
 };
 
 exports.BenefitUsageHandler = async (event) => {
@@ -49,10 +50,18 @@ exports.BenefitUsageHandler = async (event) => {
         );
         await mysql.end();
 
+        // Normalize DATE fields to YYYY-MM-DD strings (MySQL returns JS Date objects)
+        const normalized = results.map(r => ({
+          ...r,
+          period_start: r.period_start instanceof Date
+            ? r.period_start.toISOString().slice(0, 10)
+            : String(r.period_start).slice(0, 10),
+        }));
+
         response = {
           statusCode: 200,
           headers: responseHeaders,
-          body: JSON.stringify({ usages: results }),
+          body: JSON.stringify({ usages: normalized }),
         };
       } catch (error) {
         console.error("Error fetching benefit usage:", error);

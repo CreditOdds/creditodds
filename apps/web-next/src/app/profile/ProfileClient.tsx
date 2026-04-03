@@ -199,6 +199,24 @@ export default function ProfileClient() {
     }
   }, [authState.isAuthenticated, authState.isLoading, router]);
 
+  // Refetch benefit usage when page becomes visible again (tab switch or navigate back)
+  useEffect(() => {
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'visible' && authState.isAuthenticated) {
+        const token = await getToken();
+        if (!token) return;
+        try {
+          const result = await getBenefitUsage(token);
+          setBenefitUsage(result || []);
+        } catch (error) {
+          console.error("Benefit usage refresh error:", error);
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [authState.isAuthenticated, getToken]);
+
   const loadData = async () => {
     const token = await getToken();
     if (!token) {

@@ -295,7 +295,7 @@ export interface BenefitUsageRecord {
 
 export async function getBenefitUsage(token: string, year?: number): Promise<BenefitUsageRecord[]> {
   const yearParam = year || new Date().getFullYear();
-  const res = await fetch(`${API_BASE}/benefit-usage?year=${yearParam}`, {
+  const res = await fetch(`${API_BASE}/benefit-usage?year=${yearParam}&_=${Date.now()}`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store',
   });
@@ -305,7 +305,11 @@ export async function getBenefitUsage(token: string, year?: number): Promise<Ben
     throw new Error(`Failed to fetch benefit usage: ${res.status}`);
   }
   const data = await res.json();
-  return data.usages || [];
+  // Normalize period_start to YYYY-MM-DD (MySQL DATE returns as ISO datetime string)
+  return (data.usages || []).map((r: BenefitUsageRecord) => ({
+    ...r,
+    period_start: r.period_start ? r.period_start.slice(0, 10) : r.period_start,
+  }));
 }
 
 export async function toggleBenefitUsage(
