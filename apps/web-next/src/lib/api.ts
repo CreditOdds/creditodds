@@ -27,6 +27,7 @@ export interface SignupBonus {
   type: string;
   spend_requirement: number;
   timeframe_months: number;
+  note?: string;
 }
 
 export interface IntroAPR {

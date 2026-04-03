@@ -361,6 +361,9 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                           After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
                           {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
                         </p>
+                        {card.signup_bonus.note && (
+                          <p className="text-xs text-amber-700/60 mt-1">{card.signup_bonus.note}</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -623,6 +626,9 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                           After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
                           {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
                         </p>
+                        {card.signup_bonus.note && (
+                          <p className="mt-1 text-xs text-amber-700/60">{card.signup_bonus.note}</p>
+                        )}
                       </div>
                     </div>
                   </div>
