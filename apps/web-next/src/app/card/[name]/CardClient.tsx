@@ -348,10 +348,12 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                         <p className="text-xl font-bold text-amber-900">
                           {card.signup_bonus.type === "cash"
                             ? `$${card.signup_bonus.value.toLocaleString()}`
-                            : typeof card.signup_bonus.value !== 'number'
-                              ? String(card.signup_bonus.value)
-                              : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
-                          {card.signup_bonus.type !== "cash" && typeof card.signup_bonus.value === 'number' && (
+                            : card.signup_bonus.type === "free_nights"
+                              ? `${card.signup_bonus.value} Free Night Award${card.signup_bonus.value !== 1 ? 's' : ''}`
+                              : typeof card.signup_bonus.value !== 'number'
+                                ? String(card.signup_bonus.value)
+                                : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
+                          {card.signup_bonus.type !== "cash" && card.signup_bonus.type !== "free_nights" && typeof card.signup_bonus.value === 'number' && (
                             <span className="text-sm font-medium text-amber-700/70 ml-1.5">
                               (~${(card.signup_bonus.value * (getValuationDetails(card.card_name)?.cpp ?? 1.0) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                             </span>
@@ -361,6 +363,9 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                           After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
                           {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
                         </p>
+                        {card.signup_bonus.note && (
+                          <p className="text-xs text-amber-700/60 mt-1">{card.signup_bonus.note}</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -610,10 +615,12 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                         <p className="text-xl font-bold text-amber-900">
                           {card.signup_bonus.type === "cash"
                             ? `$${card.signup_bonus.value.toLocaleString()}`
-                            : typeof card.signup_bonus.value !== 'number'
-                              ? String(card.signup_bonus.value)
-                              : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
-                          {card.signup_bonus.type !== "cash" && typeof card.signup_bonus.value === 'number' && (
+                            : card.signup_bonus.type === "free_nights"
+                              ? `${card.signup_bonus.value} Free Night Award${card.signup_bonus.value !== 1 ? 's' : ''}`
+                              : typeof card.signup_bonus.value !== 'number'
+                                ? String(card.signup_bonus.value)
+                                : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
+                          {card.signup_bonus.type !== "cash" && card.signup_bonus.type !== "free_nights" && typeof card.signup_bonus.value === 'number' && (
                             <span className="ml-1.5 text-sm font-medium text-amber-700/70">
                               (~${(card.signup_bonus.value * (getValuationDetails(card.card_name)?.cpp ?? 1.0) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                             </span>
@@ -623,6 +630,9 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                           After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
                           {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
                         </p>
+                        {card.signup_bonus.note && (
+                          <p className="mt-1 text-xs text-amber-700/60">{card.signup_bonus.note}</p>
+                        )}
                       </div>
                     </div>
                   </div>
