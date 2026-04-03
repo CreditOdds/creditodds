@@ -105,6 +105,7 @@ export function getCentsPerPoint(card: Card): number | null {
 export function formatEstimatedValue(card: Card): string | null {
   if (!card.signup_bonus) return null;
   if (typeof card.signup_bonus.value !== 'number') return null;
+  if (card.signup_bonus.type === 'free_nights') return null;
   const cpp = getCentsPerPoint(card);
   if (cpp === null) return null;
   const value = Math.round((card.signup_bonus.value * cpp) / 100);
@@ -116,6 +117,9 @@ export function formatBonusValue(card: Card): string {
   const { value, type } = card.signup_bonus;
   if (type === 'cash' || type === 'cashback') {
     return `$${value.toLocaleString()}`;
+  }
+  if (type === 'free_nights') {
+    return `${value} Free Night Award${value !== 1 ? 's' : ''}`;
   }
   if (typeof value !== 'number') return String(value);
   return `${value.toLocaleString()} ${type}`;
