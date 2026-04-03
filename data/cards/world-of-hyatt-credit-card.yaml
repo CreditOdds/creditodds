@@ -46,8 +46,8 @@ rewards:
 signup_bonus:
   value: 60000
   type: "points"
-  spend_requirement: 3000
-  timeframe_months: 3
+  spend_requirement: 15000
+  timeframe_months: 6
 apr:
   regular:
     min: 19.24
