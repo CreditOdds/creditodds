@@ -166,6 +166,7 @@ function buildCards() {
       // Add card_id based on slug for compatibility with existing system
       card.card_id = card.slug;
       card.card_name = card.name; // Alias for compatibility
+      delete card.check_ignore;
 
       cards.push(card);
       console.log(`  OK: ${card.name}`);

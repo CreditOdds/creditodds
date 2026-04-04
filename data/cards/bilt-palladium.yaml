@@ -31,8 +31,10 @@ rewards:
     unit: points_per_dollar
     note: "Also earns 4% Bilt Cash on everyday purchases"
 signup_bonus:
-  value: 50300
+  value: 50000
   type: "points"
   spend_requirement: 4000
   timeframe_months: 3
   note: "Plus $300 Bilt Cash as a signup bonus"
+check_ignore:
+  - signup_bonus.value

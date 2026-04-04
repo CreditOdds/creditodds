@@ -48,7 +48,7 @@ rewards:
 signup_bonus:
   value: 4
   type: "free_nights"
-  spend_requirement: 4000
+  spend_requirement: 7000
   timeframe_months: 4
 apr:
   regular:
