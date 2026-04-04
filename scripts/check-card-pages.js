@@ -222,6 +222,7 @@ Rules:
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
 - TIERED BONUSES: Many cards have tiered signup bonuses (e.g., "earn X after spending $3,000 in 3 months, earn additional Y after spending $6,000 total in 6 months"). When a card has tiered/multi-level bonuses, ALWAYS extract the values for the MAXIMUM total bonus — use the highest spend_requirement and longest timeframe_months needed to earn the full combined bonus. Do NOT extract the first/lower tier.
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
+- CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
 - Return null for any field you cannot determine with confidence.`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -264,11 +265,12 @@ function detectChanges(card, extracted) {
 
   const current = card.data;
   const changes = [];
+  const ignoreFields = new Set(current.check_ignore || []);
 
   // annual_fee
   if (extracted.annual_fee !== null && extracted.annual_fee !== undefined) {
     const cur = current.annual_fee ?? null;
-    if (cur !== null && extracted.annual_fee !== cur) {
+    if (cur !== null && extracted.annual_fee !== cur && !ignoreFields.has('annual_fee')) {
       changes.push({ field: 'annual_fee', old_value: cur, new_value: extracted.annual_fee });
     }
   }
@@ -296,9 +298,10 @@ function detectChanges(card, extracted) {
         continue;
       }
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
-        if (sb[key] !== cur[key]) {
+        const field = `signup_bonus.${key}`;
+        if (sb[key] !== cur[key] && !ignoreFields.has(field)) {
           changes.push({
-            field: `signup_bonus.${key}`,
+            field,
             old_value: cur[key],
             new_value: sb[key],
           });

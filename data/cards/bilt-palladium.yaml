@@ -36,3 +36,5 @@ signup_bonus:
   spend_requirement: 4000
   timeframe_months: 3
   note: "Plus $300 Bilt Cash as a signup bonus"
+check_ignore:
+  - signup_bonus.value
