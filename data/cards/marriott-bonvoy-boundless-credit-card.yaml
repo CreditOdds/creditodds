@@ -46,10 +46,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 4
+  value: 3
   type: "free_nights"
-  spend_requirement: 7000
-  timeframe_months: 4
+  spend_requirement: 3000
+  timeframe_months: 3
+  note: "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
 apr:
   regular:
     min: 20.49

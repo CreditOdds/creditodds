@@ -212,15 +212,16 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
     "type": <"points"|"miles"|"cashback"|"free_nights" or null>,
     "spend_requirement": <number or null>,
     "timeframe_months": <number or null>,
-    "authorized_user_bonus": <number or null>
-  },
+    "authorized_user_bonus": <number or null>,
+    "tiered_bonus_note": <string or null>
+  }
 }
 
 Rules:
 - annual_fee: the ongoing annual fee, NOT an introductory/$0 first year rate. If the card says "$0 intro annual fee" but $99 after, use 99. Use 0 only if the card truly has no annual fee. null if not stated at all.
-- signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 4 for "4 free night awards"). null if absent.
+- signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 3 for "3 free night awards"). null if absent.
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
-- TIERED BONUSES: Many cards have tiered signup bonuses (e.g., "earn X after spending $3,000 in 3 months, earn additional Y after spending $6,000 total in 6 months"). When a card has tiered/multi-level bonuses, ALWAYS extract the values for the MAXIMUM total bonus — use the highest spend_requirement and longest timeframe_months needed to earn the full combined bonus. Do NOT extract the first/lower tier.
+- TIERED BONUSES: Many cards have tiered signup bonuses (e.g., "earn 3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When a card has tiered/multi-level bonuses, extract ONLY the BASE/FIRST tier values for value, spend_requirement, and timeframe_months. Then describe the additional tier(s) in "tiered_bonus_note" as a short human-readable string (e.g. "Plus 1 additional Free Night Award after spending $4,000 total in 4 months" or "Plus up to 30,000 additional points (2x on purchases up to $15,000 spent in the first 6 months)"). If the bonus is NOT tiered, set tiered_bonus_note to null.
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
 - CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
 - Return null for any field you cannot determine with confidence.`;
@@ -280,23 +281,7 @@ function detectChanges(card, extracted) {
     const sb = extracted.signup_bonus;
     const cur = current.signup_bonus;
 
-    // Tiered bonus safety net: if both spend_requirement and timeframe_months
-    // are lower than current, it's likely the model extracted a lower tier
-    // instead of the full bonus — skip both fields.
-    const spendGoingDown = sb.spend_requirement != null && cur.spend_requirement != null
-      && sb.spend_requirement < cur.spend_requirement;
-    const timeGoingDown = sb.timeframe_months != null && cur.timeframe_months != null
-      && sb.timeframe_months < cur.timeframe_months;
-    const skipTieredFields = spendGoingDown && timeGoingDown;
-
-    if (skipTieredFields) {
-      console.log(`  Skipping spend_requirement & timeframe_months — likely lower tier detected`);
-    }
-
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
-      if (skipTieredFields && (key === 'spend_requirement' || key === 'timeframe_months')) {
-        continue;
-      }
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         const field = `signup_bonus.${key}`;
         if (sb[key] !== cur[key] && !ignoreFields.has(field)) {
@@ -317,6 +302,15 @@ function detectChanges(card, extracted) {
         field: 'signup_bonus.note',
         old_value: null,
         new_value: note,
+      });
+    }
+
+    // Tiered bonus note → suggest adding if detected and card has no note yet
+    if (sb.tiered_bonus_note && !cur.note) {
+      changes.push({
+        field: 'signup_bonus.note',
+        old_value: null,
+        new_value: sb.tiered_bonus_note,
       });
     }
   }
