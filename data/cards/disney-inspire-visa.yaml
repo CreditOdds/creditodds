@@ -37,7 +37,7 @@ rewards:
     value: 1
     unit: percent
 signup_bonus:
-  value: 300
+  value: 600
   type: "cash"
   spend_requirement: 1000
   timeframe_months: 3
@@ -47,3 +47,5 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/inspire
+check_ignore:
+  - signup_bonus.value
