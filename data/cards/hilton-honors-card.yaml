@@ -29,9 +29,10 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 70000
-  type: points
+  type: "points"
   spend_requirement: 2000
   timeframe_months: 6
+  note: "Plus a Free Night Reward after spending $2,000 in purchases in the first 6 months"
 apr:
   regular:
     min: 19.49
