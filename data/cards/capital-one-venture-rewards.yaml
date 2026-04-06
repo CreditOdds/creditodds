@@ -24,9 +24,10 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 75000
-  type: miles
+  type: "miles"
   spend_requirement: 4000
   timeframe_months: 3
+  note: "Plus $250 travel credit in first cardholder year"
 apr:
   regular:
     min: 19.49

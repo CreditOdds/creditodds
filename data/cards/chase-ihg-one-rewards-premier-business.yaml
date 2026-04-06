@@ -49,10 +49,11 @@ rewards:
     value: 3
     unit: points_per_dollar
 signup_bonus:
-  value: 200000
+  value: 140000
   type: "points"
-  spend_requirement: 9000
-  timeframe_months: 6
+  spend_requirement: 4000
+  timeframe_months: 3
+  note: "Plus 60,000 additional bonus points after spending a total of $9,000 in the first 6 months from account opening for a total of 200,000 bonus points"
 apr:
   regular:
     min: 19.24
