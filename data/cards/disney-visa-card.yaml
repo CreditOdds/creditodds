@@ -11,7 +11,7 @@ rewards:
     unit: percent
     note: "1% in Disney Rewards Dollars on all purchases"
 signup_bonus:
-  value: 150
+  value: 100
   type: "cash"
   spend_requirement: 500
   timeframe_months: 3
