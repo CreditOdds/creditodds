@@ -20,6 +20,19 @@ const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const SUMMARY_FILE = path.join(__dirname, '..', '.card-page-check-summary.md');
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
+const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
+const SCRIPT_TIMEOUT_MS = 20 * 60 * 1000; // 20 min overall safety net
+
+// ─── Timeout helpers ─────────────────────────────────────────────────────────
+
+function withTimeout(promise, ms, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`Timed out after ${ms}ms: ${label}`)), ms)
+    ),
+  ]);
+}
 
 // ─── YAML helpers (shared pattern with auto-card-update.js) ──────────────────
 
@@ -423,43 +436,53 @@ async function main() {
 
   const allChanges = [];
 
+  const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
+
   for (const card of cardsToCheck) {
+    if (Date.now() > scriptDeadline) {
+      console.warn(`\nScript timeout reached (${SCRIPT_TIMEOUT_MS / 60000} min) — stopping early.`);
+      break;
+    }
+
     const { name, bank, apply_link } = card.data;
     console.log(`Checking: ${name}`);
     console.log(`  URL: ${apply_link}`);
 
-    // Fetch page
-    const pageContent = await fetchPageContent(apply_link);
-    if (!pageContent) {
-      console.log('  Skipped (could not fetch page)\n');
-      await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
-      continue;
-    }
-    console.log(`  Fetched ${pageContent.length} chars`);
-
-    // Extract with Claude Haiku
-    let extracted;
     try {
-      extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+      await withTimeout((async () => {
+        // Fetch page
+        const pageContent = await fetchPageContent(apply_link);
+        if (!pageContent) {
+          console.log('  Skipped (could not fetch page)\n');
+          return;
+        }
+        console.log(`  Fetched ${pageContent.length} chars`);
+
+        // Extract with Claude Haiku
+        let extracted;
+        try {
+          extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+        } catch (err) {
+          console.warn(`  Extraction error: ${err.message} — skipping\n`);
+          return;
+        }
+
+        if (!extracted) {
+          console.log('  No data extracted — skipping\n');
+          return;
+        }
+
+        // Compare against YAML
+        const changes = detectChanges(card, extracted);
+        if (changes.length > 0) {
+          console.log(`  ${changes.length} change(s) detected`);
+          allChanges.push({ slug: card.slug, card_name: name, apply_link, changes });
+        } else {
+          console.log('  No changes');
+        }
+      })(), PER_CARD_TIMEOUT_MS, name);
     } catch (err) {
-      console.warn(`  Extraction error: ${err.message} — skipping\n`);
-      await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
-      continue;
-    }
-
-    if (!extracted) {
-      console.log('  No data extracted — skipping\n');
-      await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
-      continue;
-    }
-
-    // Compare against YAML
-    const changes = detectChanges(card, extracted);
-    if (changes.length > 0) {
-      console.log(`  ${changes.length} change(s) detected`);
-      allChanges.push({ slug: card.slug, card_name: name, apply_link, changes });
-    } else {
-      console.log('  No changes');
+      console.warn(`  ${err.message} — skipping\n`);
     }
 
     console.log('');
