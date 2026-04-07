@@ -34,5 +34,4 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/premier
-check_ignore:
-  - signup_bonus.value
+
