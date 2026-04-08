@@ -5,22 +5,17 @@
  *
  * Fetches the top 5 most viewed cards from the past week, generates a
  * "power rankings" PNG image with card images/names/rank movement,
- * and posts directly to Twitter with the image attached.
+ * and queues it via the Social Posting Service (which posts to all
+ * platforms with the image attached and URL as a reply).
  *
  * Usage: node scripts/post-weekly-top-cards.js [--dry-run]
  *
- * Env vars:
- *   TWITTER_API_KEY, TWITTER_API_SECRET,
- *   TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET
- *
- * Falls back to Social API queue (without image) if Twitter creds are missing:
- *   SOCIAL_API_URL, SOCIAL_API_KEY
+ * Env vars: SOCIAL_API_URL, SOCIAL_API_KEY
  */
 
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
-const { TwitterApi } = require('twitter-api-v2');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
 const CDN_IMAGES = 'https://d3ay3etzd1512y.cloudfront.net/card_images';
@@ -132,7 +127,6 @@ async function fetchCardImage(imageFilename) {
     const res = await fetch(url);
     if (!res.ok) return null;
     const buffer = Buffer.from(await res.arrayBuffer());
-    // Resize to consistent dimensions for the rankings image
     return await sharp(buffer)
       .resize(200, 126, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
       .png()
@@ -148,7 +142,6 @@ function escapeXml(str) {
 }
 
 async function generateRankingsImage(topCards) {
-  // Fetch all card images in parallel
   const cardImages = await Promise.all(
     topCards.map(card => card.image ? fetchCardImage(card.image) : Promise.resolve(null))
   );
@@ -159,10 +152,6 @@ async function generateRankingsImage(topCards) {
   const footerHeight = 60;
   const height = headerHeight + (rowHeight * 5) + footerHeight;
 
-  // Build composite layers
-  const composites = [];
-
-  // Movement indicator helper
   function getMovementSvg(card) {
     if (card.movement === 'up') {
       return `<g>
@@ -177,18 +166,14 @@ async function generateRankingsImage(topCards) {
     } else if (card.movement === 'new') {
       return `<text x="0" y="12" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#7c3aed">NEW</text>`;
     } else {
-      return `<text x="0" y="12" font-family="Arial,sans-serif" font-size="16" fill="#9ca3af">—</text>`;
+      return `<text x="0" y="12" font-family="Arial,sans-serif" font-size="16" fill="#9ca3af">\u2014</text>`;
     }
   }
 
-  // Date string
   const now = new Date();
   const weekStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-
-  // Row colors (alternating)
   const rowColors = ['#f8fafc', '#ffffff'];
 
-  // Build rows SVG
   let rowsSvg = '';
   for (let i = 0; i < 5; i++) {
     const card = topCards[i];
@@ -198,20 +183,16 @@ async function generateRankingsImage(topCards) {
 
     rowsSvg += `
       <rect x="0" y="${y}" width="${width}" height="${rowHeight}" fill="${bgColor}"/>
-      <!-- Rank circle -->
       <circle cx="55" cy="${y + rowHeight / 2}" r="28" fill="${rankColors[i]}"/>
       <text x="55" y="${y + rowHeight / 2 + 10}" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="white">${card.rank}</text>
-      <!-- Card name + bank -->
       <text x="310" y="${y + rowHeight / 2 - 8}" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#1e293b">${escapeXml(card.name)}</text>
       <text x="310" y="${y + rowHeight / 2 + 18}" font-family="Arial,sans-serif" font-size="16" fill="#64748b">${escapeXml(card.bank || '')}</text>
-      <!-- Movement indicator -->
       <g transform="translate(${width - 80}, ${y + rowHeight / 2 - 6})">
         ${getMovementSvg(card)}
       </g>
     `;
   }
 
-  // Full SVG
   const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -219,27 +200,17 @@ async function generateRankingsImage(topCards) {
         <stop offset="100%" style="stop-color:#7c3aed"/>
       </linearGradient>
     </defs>
-
-    <!-- Background -->
     <rect width="${width}" height="${height}" fill="#ffffff"/>
-
-    <!-- Header -->
     <rect x="0" y="0" width="${width}" height="${headerHeight}" fill="url(#headerGrad)"/>
     <text x="40" y="52" font-family="Arial,sans-serif" font-size="36" font-weight="bold" fill="white">Weekly Power Rankings</text>
-    <text x="40" y="85" font-family="Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.85)">Top 5 Most Viewed Credit Cards — Week of ${escapeXml(weekStr)}</text>
-
-    <!-- Rows -->
+    <text x="40" y="85" font-family="Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.85)">Top 5 Most Viewed Credit Cards \u2014 Week of ${escapeXml(weekStr)}</text>
     ${rowsSvg}
-
-    <!-- Footer -->
     <rect x="0" y="${height - footerHeight}" width="${width}" height="${footerHeight}" fill="#f1f5f9"/>
     <text x="${width / 2}" y="${height - 22}" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#64748b">creditodds.com</text>
   </svg>`;
 
-  // Render SVG to PNG base, then composite card images on top
   let image = sharp(Buffer.from(svg)).png();
 
-  // Overlay card images
   const overlays = [];
   for (let i = 0; i < 5; i++) {
     if (cardImages[i]) {
@@ -283,34 +254,23 @@ function buildLinkUrl() {
   return url.toString();
 }
 
-async function postToTwitter(tweetText, linkUrl, imageBuffer) {
-  const client = new TwitterApi({
-    appKey: process.env.TWITTER_API_KEY,
-    appSecret: process.env.TWITTER_API_SECRET,
-    accessToken: process.env.TWITTER_ACCESS_TOKEN,
-    accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-  });
-
-  // Upload image
-  const mediaId = await client.v1.uploadMedia(imageBuffer, { mimeType: 'image/png' });
-  console.log(`  Uploaded image, media ID: ${mediaId}`);
-
-  // Post tweet with image
-  const fullText = `${tweetText}\n\n${linkUrl}`;
-  const { data } = await client.v2.tweet({
-    text: fullText,
-    media: { media_ids: [mediaId] },
-  });
-
-  console.log(`  Tweet posted: https://x.com/creditodds/status/${data.id}`);
-  return data;
-}
-
-async function queuePost(textContent, linkUrl, sourceId) {
+async function queuePost(textContent, linkUrl, sourceId, imageBuffer) {
   const apiUrl = process.env.SOCIAL_API_URL;
   const apiKey = process.env.SOCIAL_API_KEY;
 
   if (!apiUrl || !apiKey) throw new Error('SOCIAL_API_URL and SOCIAL_API_KEY are required');
+
+  const body = {
+    text_content: textContent,
+    link_url: linkUrl,
+    source_type: 'weekly-top-cards',
+    source_id: sourceId,
+  };
+
+  if (imageBuffer) {
+    body.image_base64 = imageBuffer.toString('base64');
+    body.image_mime_type = 'image/png';
+  }
 
   const response = await fetchWithRetry(`${apiUrl}/social/queue`, {
     method: 'POST',
@@ -318,12 +278,7 @@ async function queuePost(textContent, linkUrl, sourceId) {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
     },
-    body: JSON.stringify({
-      text_content: textContent,
-      link_url: linkUrl,
-      source_type: 'weekly-top-cards',
-      source_id: sourceId,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -345,7 +300,7 @@ async function main() {
     const arrow = card.movement === 'up' ? `+${card.movementAmount}`
       : card.movement === 'down' ? `-${card.movementAmount}`
       : card.movement === 'new' ? 'NEW'
-      : '—';
+      : '\u2014';
     console.log(`  #${card.rank} ${card.name}: ${card.count} views (${arrow})`);
   }
 
@@ -357,34 +312,20 @@ async function main() {
   const linkUrl = buildLinkUrl();
   const sourceId = `weekly-${new Date().toISOString().slice(0, 10)}`;
 
-  console.log(`\nTweet text (${tweetText.length} chars):\n${tweetText}`);
-  console.log(`\nLink: ${linkUrl}`);
+  console.log(`\nPost text (${tweetText.length} chars):\n${tweetText}`);
+  console.log(`\nLink (posted as reply): ${linkUrl}`);
 
   if (dryRun) {
-    // Save image locally for preview
     const outPath = path.join(__dirname, '..', 'weekly-rankings-preview.png');
     fs.writeFileSync(outPath, imageBuffer);
     console.log(`\n[DRY RUN] Image saved to: ${outPath}`);
-    console.log('[DRY RUN] Skipping post.');
+    console.log('[DRY RUN] Skipping queue.');
     return;
   }
 
-  // Try direct Twitter post with image first
-  const twitterEnabled = process.env.TWITTER_API_KEY
-    && process.env.TWITTER_API_SECRET
-    && process.env.TWITTER_ACCESS_TOKEN
-    && process.env.TWITTER_ACCESS_TOKEN_SECRET;
-
-  if (twitterEnabled) {
-    console.log('\nPosting to Twitter with image...');
-    await postToTwitter(tweetText, linkUrl, imageBuffer);
-    console.log('\nDone!');
-  } else {
-    // Fallback: queue without image
-    console.log('\nTwitter creds not found — falling back to Social API queue (no image).');
-    const result = await queuePost(tweetText, linkUrl, sourceId);
-    console.log(`Queued successfully! Post ID: ${result.id}`);
-  }
+  console.log('\nQueuing post with image via Social Posting Service...');
+  const result = await queuePost(tweetText, linkUrl, sourceId, imageBuffer);
+  console.log(`Queued successfully! Post ID: ${result.id}`);
 }
 
 main().catch(err => {
