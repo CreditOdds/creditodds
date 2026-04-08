@@ -382,9 +382,11 @@ export default function ExploreClient({ cards, banks, trendingViews, allTimeView
                             const isCash = bonus.type === 'cash' || bonus.type === 'cashback';
                             const valueStr = isCash
                               ? `$${bonus.value.toLocaleString()}`
-                              : bonus.value >= 1000
-                                ? `${Math.round(bonus.value / 1000)}K ${bonus.type}`
-                                : `${bonus.value.toLocaleString()} ${bonus.type}`;
+                              : bonus.type === 'free_nights'
+                                ? `${bonus.value} Free Night Award${bonus.value !== 1 ? 's' : ''}`
+                                : bonus.value >= 1000
+                                  ? `${Math.round(bonus.value / 1000)}K ${bonus.type}`
+                                  : `${bonus.value.toLocaleString()} ${bonus.type}`;
                             return (
                               <div>
                                 <div className="font-semibold text-gray-900">{valueStr}</div>
