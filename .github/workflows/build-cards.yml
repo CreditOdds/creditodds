@@ -66,6 +66,7 @@ jobs:
           sleep 60
 
       - name: Sync cards to database
+        id: sync
         run: |
           echo "Triggering card sync to MySQL database..."
           response=$(curl -s -w "\n%{http_code}" -X POST "${{ secrets.API_BASE_URL }}/sync-cards" -H "Content-Type: application/json" -d '{"source": "github-action"}')
@@ -76,6 +77,18 @@ jobs:
           if [ "$http_code" -ne 200 ]; then
             echo "Warning: Card sync returned non-200 status"
           fi
+          # Extract wire_changes for social posting
+          wire_changes=$(echo "$body" | node -e "const c=[];process.stdin.on('data',d=>c.push(d));process.stdin.on('end',()=>{try{const j=JSON.parse(Buffer.concat(c));const w=j.details?.wire_changes||[];console.log(JSON.stringify(w))}catch{console.log('[]')}})")
+          echo "wire_changes=$wire_changes" >> "$GITHUB_OUTPUT"
+
+      - name: Post CardWire updates to Twitter
+        if: steps.sync.outputs.wire_changes != '[]'
+        env:
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+        run: |
+          echo "Posting CardWire changes..."
+          node scripts/post-card-wire.js --changes '${{ steps.sync.outputs.wire_changes }}'
 
       - name: Trigger Amplify rebuild
         env:
