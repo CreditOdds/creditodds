@@ -10,12 +10,18 @@ This is a monorepo containing all CreditOdds applications and shared code:
 creditodds/
 ├── apps/
 │   ├── api/                 # AWS Lambda serverless API
+│   ├── functions/           # Firebase Cloud Functions
 │   └── web-next/            # Next.js 16 frontend application
 ├── packages/
 │   └── shared/              # Shared utilities and validation schemas
 ├── data/
-│   └── cards/               # Credit card data (YAML files)
-│       └── images/          # Card images for PR submissions
+│   ├── articles/            # Long-form article content (Markdown)
+│   ├── best/                # "Best cards" category pages (Markdown)
+│   ├── cards/               # Credit card data (YAML files)
+│   │   └── images/          # Card images for PR submissions
+│   ├── news/                # News articles (Markdown)
+│   └── social-pages/        # Social page metadata (YAML)
+├── docs/                    # Project documentation
 ├── scripts/                 # Build and utility scripts
 └── .github/
     └── workflows/           # GitHub Actions for CI/CD
@@ -49,7 +55,7 @@ creditodds/
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - npm 9+
 - AWS CLI (for API deployment)
 - AWS SAM CLI (for API deployment)
@@ -99,9 +105,13 @@ npm run build:cards
 | Script | Description |
 |--------|-------------|
 | `npm run start:web-next` | Start the Next.js development server |
+| `npm run dev:web-next` | Start the Next.js development server (alias) |
 | `npm run build:web-next` | Build the Next.js app for production |
 | `npm run build:cards` | Build cards.json from YAML files |
-| `npm run test:api` | Run API tests |
+| `npm run build:news` | Build news.json from Markdown files |
+| `npm run build:articles` | Build articles.json from Markdown files |
+| `npm run build:best` | Build best.json from Markdown files |
+| `npm run lint` | Run ESLint across all workspaces |
 
 ## Key Features
 
@@ -110,11 +120,15 @@ npm run build:cards
 - **Card Details**: See approval odds with interactive charts
 - **Card Wire**: Live feed of card changes — annual fees, sign-up bonuses, reward rates, APR
 - **Card News**: Curated news and updates about credit cards
+- **Articles**: Long-form guides and analysis
 - **Best Cards**: Ranked lists by category
+- **Check Odds**: Estimate your approval odds for a specific card
+- **Compare**: Side-by-side credit card comparisons
+- **Leaderboard**: Top contributors ranked by submissions
 - **User Submissions**: Submit your credit card application results
 - **Wallet**: Track cards you own with acquisition dates
 - **Referral Links**: Share and earn from referral links
-- **Rewards Tools**: Convert points/miles to USD for major loyalty programs
+- **Rewards Tools**: 13 points/miles-to-USD converters (Chase UR, Amex MR, Capital One, airline & hotel programs)
 
 ## Contributing
 
@@ -136,6 +150,16 @@ Card data is automatically deployed when changes are merged to `main`:
 3. Uploads to S3 and invalidates CloudFront cache
 4. Triggers database sync via API
 
+### Content Deployment
+
+News, articles, and best-cards pages are also deployed via GitHub Actions on merge to `main`:
+
+- `build-news.yml` — builds and uploads `news.json`
+- `build-articles.yml` — builds and uploads `articles.json`
+- `build-best.yml` — builds and uploads `best.json`
+
+Additional workflows handle automated card updates, card page checks, and scheduled content refreshes.
+
 ### API Deployment
 
 ```bash
@@ -152,8 +176,8 @@ The Next.js app is deployed automatically via AWS Amplify when changes are merge
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   GitHub Repo   │────▶│   GitHub Action │────▶│   S3 + CloudFront│
-│  (YAML + Images)│     │   (Build/Upload)│     │   (cards.json)  │
+│   GitHub Repo   │────▶│  GitHub Actions  │────▶│  S3 + CloudFront│
+│ (YAML/MD/Images)│     │  (Build/Upload)  │     │ (cards/news/etc)│
 └─────────────────┘     └─────────────────┘     └────────┬────────┘
                                                          │
 ┌─────────────────┐     ┌─────────────────┐              │
@@ -165,4 +189,9 @@ The Next.js app is deployed automatically via AWS Amplify when changes are merge
          └─────────────▶│   MySQL (RDS)   │
           (API calls)   │ (User Records)  │
                         └─────────────────┘
+
+         ┌─────────────────┐
+         │ Firebase Cloud   │
+         │ Functions         │
+         └─────────────────┘
 ```
