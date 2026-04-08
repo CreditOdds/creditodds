@@ -300,7 +300,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
       )}
 
       {/* Main Content Card */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
           <div className="p-6 sm:p-10">
             {/* Mobile card image first */}
@@ -749,7 +749,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
       {/* Charts Section - only show if there's actual data points */}
       {(hasChartOneData || hasChartThreeData) && (
-        <div className="py-12">
+        <div className="py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
               <div className="p-6 sm:p-10 border-b border-gray-100 bg-gradient-to-br from-indigo-50/70 to-white">
@@ -858,7 +858,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
       {/* Card News Section */}
       {news.length > 0 && (
-        <div className="bg-white py-12">
+        <div className="bg-white py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-6">
               <NewspaperIcon className="h-6 w-6 text-indigo-600" />
@@ -915,7 +915,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
       {/* CardWire - Metric Changes Timeline */}
       {wire.length > 0 && (
-        <div className="bg-white py-12">
+        <div className="bg-white py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-6">
               <ClockIcon className="h-6 w-6 text-indigo-600" />
@@ -999,7 +999,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
       {/* Related Articles Section */}
       {articles.length > 0 && (
-        <div className="bg-white py-12">
+        <div className="bg-white py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-6">
               <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
@@ -1041,7 +1041,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
       {/* Similar Cards Section */}
       {similarCards.length > 0 && (
-        <div className="bg-white py-12">
+        <div className="bg-white py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-6">
               <CreditCardIcon className="h-6 w-6 text-indigo-600" />
