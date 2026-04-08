@@ -46,7 +46,7 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
   }, 0);
 
   return (
-    <div className="py-12">
+    <div className="py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
           <div className="p-6 sm:p-10 border-b border-gray-100 bg-gradient-to-br from-emerald-50/70 to-white">
