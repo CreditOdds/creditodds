@@ -496,6 +496,7 @@ async function main() {
   if (allChanges.length === 0) {
     console.log('No changes detected. Exiting.');
     if (fs.existsSync(SUMMARY_FILE)) fs.unlinkSync(SUMMARY_FILE);
+    await closeBrowser();
     return;
   }
 
