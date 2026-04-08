@@ -1,0 +1,56 @@
+name: Post Best Rankings
+
+on:
+  schedule:
+    # Days 3-9 and 17-23 at 3pm UTC (10am ET) — one category per day,
+    # spaced 2 days after the best-pages refresh on 1st/15th
+    - cron: '0 15 3-9,17-23 * *'
+  workflow_dispatch:
+    inputs:
+      category:
+        description: 'Category slug to post (overrides day-based selection)'
+        required: false
+        type: string
+
+jobs:
+  post-best-rankings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 18
+
+      - run: npm ci
+
+      - name: Determine category and post
+        env:
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+        run: |
+          CATEGORY="${{ inputs.category }}"
+
+          if [ -z "$CATEGORY" ]; then
+            DAY=$(date -u +%-d)
+
+            if [ "$DAY" -ge 17 ]; then
+              OFFSET=$((DAY - 17))
+            else
+              OFFSET=$((DAY - 3))
+            fi
+
+            case $OFFSET in
+              0) CATEGORY="best-travel-cards" ;;
+              1) CATEGORY="best-cash-back-cards" ;;
+              2) CATEGORY="best-signup-bonuses" ;;
+              3) CATEGORY="best-dining-grocery-cards" ;;
+              4) CATEGORY="best-airline-cards" ;;
+              5) CATEGORY="best-0-apr-cards" ;;
+              6) CATEGORY="best-secured-cards" ;;
+              *) echo "Unexpected offset: $OFFSET"; exit 1 ;;
+            esac
+          fi
+
+          echo "Posting for category: $CATEGORY"
+          node scripts/post-best-rankings.js --category "$CATEGORY"
