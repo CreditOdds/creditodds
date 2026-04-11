@@ -613,6 +613,21 @@ export default function WalletBenefits({ walletCards, allCards, usageRecords, on
           </div>
         </div>
       )}
+
+      {/* Community feedback note */}
+      <p className="text-xs text-gray-400 text-center">
+        Benefits data is community-maintained and may not be fully up to date.{" "}
+        See something wrong?{" "}
+        <a
+          href="https://github.com/CreditOdds/creditodds/issues/new?title=%5BBenefits%5D%20Incorrect%20or%20missing%20benefit&body=Card%3A%20%0A%0AWhat%20needs%20to%20be%20corrected%3F%0A%0A&labels=benefits"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2"
+        >
+          Let us know on GitHub
+        </a>
+        .
+      </p>
     </div>
   );
 }

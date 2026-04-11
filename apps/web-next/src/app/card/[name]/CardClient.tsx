@@ -702,7 +702,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
       {/* Card Benefits Section */}
       {card.benefits && card.benefits.length > 0 && (
-        <CardBenefits benefits={card.benefits} cardName={card.card_name} />
+        <CardBenefits benefits={card.benefits} cardName={card.card_name} slug={card.slug} />
       )}
 
       {/* Still collecting data - shown when no approval data */}
