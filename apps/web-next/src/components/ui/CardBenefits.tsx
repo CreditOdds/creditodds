@@ -35,9 +35,10 @@ const categoryIcons: Record<string, string> = {
 interface CardBenefitsProps {
   benefits: CardBenefit[];
   cardName: string;
+  slug?: string;
 }
 
-export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) {
+export default function CardBenefits({ benefits, cardName, slug }: CardBenefitsProps) {
   const credits = benefits.filter((b) => b.value > 0);
   const perks = benefits.filter((b) => b.value === 0);
   const totalAnnualValue = credits.reduce((sum, b) => {
@@ -140,6 +141,36 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
                 </div>
               </div>
             )}
+
+            {/* Community feedback note */}
+            <div className="mt-8 pt-6 border-t border-gray-100">
+              <p className="text-xs text-gray-400 text-center">
+                Benefits data is community-maintained and may not be fully up to date.{" "}
+                See something wrong?{" "}
+                <a
+                  href={`https://github.com/CreditOdds/creditodds/issues/new?title=${encodeURIComponent(`[Benefits] ${cardName}`)}&body=${encodeURIComponent(`Card: ${cardName}\n\nWhat needs to be corrected?\n\n`)}&labels=benefits`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2"
+                >
+                  Let us know
+                </a>
+                {slug && (
+                  <>
+                    {" or "}
+                    <a
+                      href={`https://github.com/CreditOdds/creditodds/edit/main/data/cards/${slug}.yaml`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2"
+                    >
+                      edit directly on GitHub
+                    </a>
+                  </>
+                )}
+                .
+              </p>
+            </div>
           </div>
         </div>
       </div>

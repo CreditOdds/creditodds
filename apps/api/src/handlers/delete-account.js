@@ -66,6 +66,12 @@ exports.DeleteAccountHandler = async (event) => {
       [userId]
     );
 
+    // 2b. Delete benefit usage records
+    await mysql.query(
+      "DELETE FROM benefit_usage WHERE user_id = ?",
+      [userId]
+    );
+
     // 3. Anonymize records (keep data points but remove user association)
     await mysql.query(
       "UPDATE records SET submitter_id = NULL WHERE submitter_id = ?",
