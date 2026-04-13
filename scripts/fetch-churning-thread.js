@@ -16,36 +16,15 @@ const USER_AGENT =
   process.env.REDDIT_USER_AGENT ||
   'web:creditodds-news:v0.1 (by /u/creditodds)';
 
-const PROXY_URL = process.env.REDDIT_PROXY_URL || null;
-const PROXY_SECRET = process.env.REDDIT_PROXY_SECRET || null;
-
 const TITLE_PATTERN = /^news and updates thread\b/i;
 
-/**
- * Fetch a Reddit JSON path. If REDDIT_PROXY_URL is set, route through the
- * Cloudflare worker (required from GitHub Actions because Reddit blocks
- * datacenter IPs); otherwise hit www.reddit.com directly (works locally).
- */
 async function redditJson(pathWithQuery) {
-  if (PROXY_URL) {
-    if (!PROXY_SECRET) {
-      throw new Error('REDDIT_PROXY_URL is set but REDDIT_PROXY_SECRET is not');
-    }
-    const proxied = `${PROXY_URL.replace(/\/$/, '')}/?path=${encodeURIComponent(pathWithQuery)}`;
-    const res = await fetch(proxied, {
-      headers: { Authorization: `Bearer ${PROXY_SECRET}`, Accept: 'application/json' },
-    });
-    if (!res.ok) {
-      throw new Error(`Reddit proxy ${proxied} -> ${res.status} ${res.statusText}`);
-    }
-    return res.json();
-  }
-  const direct = `https://www.reddit.com${pathWithQuery}`;
-  const res = await fetch(direct, {
+  const url = `https://www.reddit.com${pathWithQuery}`;
+  const res = await fetch(url, {
     headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
   });
   if (!res.ok) {
-    throw new Error(`Reddit fetch ${direct} -> ${res.status} ${res.statusText}`);
+    throw new Error(`Reddit fetch ${url} -> ${res.status} ${res.statusText}`);
   }
   return res.json();
 }

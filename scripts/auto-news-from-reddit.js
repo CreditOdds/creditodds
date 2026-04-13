@@ -24,6 +24,11 @@
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+
+// Load .env from repo root if present so ANTHROPIC_API_KEY / BRAVE_SEARCH_API_KEY
+// can be set once and reused for daily local runs (no new deps).
+loadDotenv(path.join(__dirname, '..', '.env'));
+
 const { fetchChurningThread } = require('./fetch-churning-thread');
 
 const NEWS_DIR = path.join(__dirname, '..', 'data', 'news');
@@ -623,6 +628,23 @@ async function fetchSpecificThread(id) {
     threadCreatedUtc: post.created_utc,
     comments: flat,
   };
+}
+
+function loadDotenv(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  const text = fs.readFileSync(filePath, 'utf8');
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq < 0) continue;
+    const key = line.slice(0, eq).trim();
+    let val = line.slice(eq + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = val;
+  }
 }
 
 main().catch((err) => {

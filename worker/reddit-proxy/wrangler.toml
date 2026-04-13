@@ -1,6 +1,0 @@
-name = "creditodds-reddit-proxy"
-main = "worker.js"
-compatibility_date = "2026-04-12"
-
-# PROXY_SECRET is set via:
-#   npx wrangler secret put PROXY_SECRET
