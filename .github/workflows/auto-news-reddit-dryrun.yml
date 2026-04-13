@@ -39,6 +39,8 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+          REDDIT_PROXY_URL: ${{ secrets.REDDIT_PROXY_URL }}
+          REDDIT_PROXY_SECRET: ${{ secrets.REDDIT_PROXY_SECRET }}
         run: |
           ARGS="--dry-run --min-score ${{ inputs.min_score }} --max-items ${{ inputs.max_items }}"
           if [ -n "${{ inputs.thread_id }}" ]; then

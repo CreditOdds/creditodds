@@ -14,24 +14,44 @@
 
 const USER_AGENT =
   process.env.REDDIT_USER_AGENT ||
-  'creditodds-news-bot/0.1 (+https://creditodds.com)';
+  'web:creditodds-news:v0.1 (by /u/creditodds)';
+
+const PROXY_URL = process.env.REDDIT_PROXY_URL || null;
+const PROXY_SECRET = process.env.REDDIT_PROXY_SECRET || null;
 
 const TITLE_PATTERN = /^news and updates thread\b/i;
 
-async function redditJson(url) {
-  const res = await fetch(url, {
+/**
+ * Fetch a Reddit JSON path. If REDDIT_PROXY_URL is set, route through the
+ * Cloudflare worker (required from GitHub Actions because Reddit blocks
+ * datacenter IPs); otherwise hit www.reddit.com directly (works locally).
+ */
+async function redditJson(pathWithQuery) {
+  if (PROXY_URL) {
+    if (!PROXY_SECRET) {
+      throw new Error('REDDIT_PROXY_URL is set but REDDIT_PROXY_SECRET is not');
+    }
+    const proxied = `${PROXY_URL.replace(/\/$/, '')}/?path=${encodeURIComponent(pathWithQuery)}`;
+    const res = await fetch(proxied, {
+      headers: { Authorization: `Bearer ${PROXY_SECRET}`, Accept: 'application/json' },
+    });
+    if (!res.ok) {
+      throw new Error(`Reddit proxy ${proxied} -> ${res.status} ${res.statusText}`);
+    }
+    return res.json();
+  }
+  const direct = `https://www.reddit.com${pathWithQuery}`;
+  const res = await fetch(direct, {
     headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
   });
   if (!res.ok) {
-    throw new Error(`Reddit fetch ${url} -> ${res.status} ${res.statusText}`);
+    throw new Error(`Reddit fetch ${direct} -> ${res.status} ${res.statusText}`);
   }
   return res.json();
 }
 
 async function findLatestNewsThread() {
-  const data = await redditJson(
-    'https://www.reddit.com/r/churning/new.json?limit=25'
-  );
+  const data = await redditJson('/r/churning/new.json?limit=25');
   const posts = (data?.data?.children || []).map((c) => c.data);
   const match = posts.find((p) => TITLE_PATTERN.test(p.title || ''));
   if (!match) {
@@ -72,7 +92,7 @@ function flattenComments(children, parentId = null, depth = 0, acc = []) {
 async function fetchChurningThread(opts = {}) {
   const thread = await findLatestNewsThread();
   const commentsJson = await redditJson(
-    `https://www.reddit.com/r/churning/comments/${thread.id}.json?limit=500&raw_json=1&sort=top`
+    `/r/churning/comments/${thread.id}.json?limit=500&raw_json=1&sort=top`
   );
   const commentsTree = commentsJson?.[1]?.data?.children || [];
   const comments = flattenComments(commentsTree);
@@ -117,4 +137,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { fetchChurningThread };
+module.exports = { fetchChurningThread, _redditJson: redditJson };

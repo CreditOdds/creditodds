@@ -538,12 +538,9 @@ async function main() {
 }
 
 async function fetchSpecificThread(id) {
-  const USER_AGENT = process.env.REDDIT_USER_AGENT || 'creditodds-news-bot/0.1';
-  const res = await fetch(`https://www.reddit.com/r/churning/comments/${id}.json?limit=500&raw_json=1`, {
-    headers: { 'User-Agent': USER_AGENT },
-  });
-  if (!res.ok) throw new Error(`Reddit ${res.status}`);
-  const j = await res.json();
+  // Reuse the shared OAuth/proxy-aware helper from fetch-churning-thread.js.
+  const { _redditJson } = require('./fetch-churning-thread');
+  const j = await _redditJson(`/r/churning/comments/${id}.json?limit=500&raw_json=1`);
   const post = j[0].data.children[0].data;
   const flat = [];
   const walk = (children, depth = 0, parentId = null) => {
