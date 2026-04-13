@@ -3,7 +3,7 @@ bank: "American Express"
 slug: "amazon-business-prime-american-express-card"
 accepting_applications: true
 category: "business"
-annual_fee: 0
+annual_fee: 375
 reward_type: "cashback"
 image: "amazon-business-prime.png"
 rewards:
@@ -23,10 +23,10 @@ rewards:
     value: 1
     unit: percent
 signup_bonus:
-  value: 125
-  type: cash
-  spend_requirement: 0
-  timeframe_months: 0
+  value: 200000
+  type: "cash"
+  spend_requirement: 15000
+  timeframe_months: 3
 apr:
   regular:
     min: 18.24
