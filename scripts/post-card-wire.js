@@ -44,6 +44,7 @@ async function fetchWithRetry(url, options, { maxRetries = 3, baseDelay = 2000 }
 // ── Formatting helpers (mirrors CardWireTable.tsx logic) ──
 
 const fieldLabels = {
+  accepting_applications: 'Applications',
   annual_fee: 'Annual Fee',
   signup_bonus_value: 'Sign-up Bonus',
   reward_top_rate: 'Top Reward Rate',
@@ -56,6 +57,11 @@ const higherIsBad = new Set(['annual_fee', 'apr_min', 'apr_max']);
 function formatValue(field, value) {
   if (value === null || value === '') return '\u2014';
   const num = parseFloat(value);
+  if (field === 'accepting_applications') {
+    if (value === '1' || value === 'true') return 'Accepting';
+    if (value === '0' || value === 'false') return 'No longer accepting';
+    return value;
+  }
   if (field === 'annual_fee') {
     return !isNaN(num) ? (num === 0 ? '$0' : `$${num.toLocaleString()}`) : value;
   }
