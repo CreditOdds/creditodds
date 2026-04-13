@@ -1,7 +1,7 @@
 name: "Amazon Business Prime American Express"
 bank: "American Express"
 slug: "amazon-business-prime-american-express-card"
-accepting_applications: true
+accepting_applications: false
 category: "business"
 annual_fee: 0
 reward_type: "cashback"
