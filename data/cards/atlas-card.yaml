@@ -1,0 +1,106 @@
+name: "Atlas"
+bank: "Lead Bank"
+slug: "atlas-card"
+accepting_applications: false
+apply_link: https://atlascard.com/
+annual_fee: 1000
+category: "travel"
+reward_type: "points"
+rewards:
+  - category: travel
+    value: 3
+    unit: points_per_dollar
+    note: "Hotels, private charters, and luxury car rentals"
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+benefits:
+  - name: "AI Concierge"
+    value: 0
+    description: "24/7 AI concierge via text for reservations, travel, and lifestyle requests"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Atlas Dining"
+    value: 0
+    description: "Priority and last-minute reservations at top restaurants in New York, Los Angeles, San Francisco, and Miami"
+    frequency: "ongoing"
+    category: "dining"
+  - name: "BLADE Airport Pass"
+    value: 0
+    description: "$100 off helicopter flights plus a companion pass; flights starting from $95"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Aero Travel Discount"
+    value: 0
+    description: "15% discount on Aero semi-private flights"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Private Jet Charters"
+    value: 0
+    description: "Access to private jet charters at pre-negotiated member rates"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Two complimentary visits per year to 1,300+ Priority Pass airport lounges worldwide"
+    frequency: "annual"
+    category: "lounge"
+  - name: "Luxury Hotel Bookings"
+    value: 0
+    description: "Curated luxury hotel bookings at preferred member rates"
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "Remedy Place Credit"
+    value: 250
+    description: "$250 credit toward first Remedy Place visit (saunas, cold plunges, NAD+ IV therapy); discounted or complimentary residency available"
+    frequency: "ongoing"
+    category: "fitness"
+  - name: "Sollis Health"
+    value: 0
+    description: "Complimentary guest visit or discounted membership for same-day medical care and house calls"
+    frequency: "ongoing"
+    category: "other"
+  - name: "One Medical Credit"
+    value: 199
+    description: "$199 statement credit when you join One Medical"
+    frequency: "annual"
+    category: "other"
+  - name: "Wander Credit"
+    value: 250
+    description: "$250 off Wander vacation home rentals"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Erewhon Membership"
+    value: 0
+    description: "Complimentary annual Erewhon Cafe membership"
+    frequency: "annual"
+    category: "dining"
+  - name: "Exclusive Event Access"
+    value: 0
+    description: "Access to concerts, sporting events, and member-only experiences"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Visa Infinite Benefits"
+    value: 0
+    description: "Concierge, trip cancellation and interruption coverage, rental car discounts, cell phone protection"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Purchase Protection"
+    value: 0
+    description: "Up to $50,000 per year in coverage for repairs, replacements, or reimbursement on new purchases within 90 days"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Personalized Metal Card"
+    value: 0
+    description: "21g mirror-finished steel card, CNC-milled and laser-engraved with cardholder's preferred first name"
+    frequency: "ongoing"
+    category: "other"
+tags:
+  - premium
+  - travel
+  - dining
+  - lifestyle
+  - invite-only
