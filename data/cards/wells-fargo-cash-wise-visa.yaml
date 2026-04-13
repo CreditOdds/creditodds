@@ -5,3 +5,8 @@ image: "cash_wise.png"
 accepting_applications: false
 annual_fee: 0
 reward_type: "cashback"
+rewards:
+  - category: "everything_else"
+    value: 1.5
+    unit: "percent"
+    note: "1.8% on digital wallet purchases (Google Pay/Apple Pay) for first 12 months, then 1.5% on all purchases. Card is no longer available for new applications."

@@ -22,3 +22,16 @@ benefits:
     description: "Unlimited Priority Pass lounge access"
     frequency: "ongoing"
     category: "lounge"
+rewards:
+  - category: "travel_portal"
+    value: 5
+    unit: "points_per_dollar"
+    note: "Prepaid hotels and rental cars booked through U.S. Bank Altitude Rewards Center"
+  - category: "everything_else"
+    value: 3
+    unit: "points_per_dollar"
+    note: "Mobile wallet purchases (Apple Pay, Google Pay, Samsung Pay)"
+  - category: "everything_else"
+    value: 1
+    unit: "points_per_dollar"
+    note: "All other purchases"
