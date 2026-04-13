@@ -16,7 +16,6 @@ const yaml = require('js-yaml');
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const SUMMARY_FILE = path.join(__dirname, '..', '.card-update-summary.md');
 const CARDS_PER_DAY = 20;
-const ACTIVE_PER_DAY = 15;
 const SEARCH_DELAY_MS = 1200;
 
 /**
@@ -41,16 +40,16 @@ function loadAllCards() {
 }
 
 /**
- * Select ~20 cards for today using day-of-year rotation.
- * Active cards (accepting applications) get more slots per day.
+ * Select ~20 cards for today using day-of-year rotation. Discontinued cards
+ * (accepting_applications: false) are excluded — they can't be applied for
+ * and their terms don't change in ways users care about.
  */
 function selectCardsForToday(allCards) {
   const active = allCards
     .filter(c => c.data.accepting_applications !== false)
     .sort((a, b) => a.slug.localeCompare(b.slug));
-  const inactive = allCards
-    .filter(c => c.data.accepting_applications === false)
-    .sort((a, b) => a.slug.localeCompare(b.slug));
+
+  if (active.length === 0) return [];
 
   const now = new Date();
   const dayOffset = parseInt(process.env.DAY_OFFSET || '0', 10);
@@ -58,26 +57,11 @@ function selectCardsForToday(allCards) {
     (now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24)
   ) + dayOffset;
 
-  const selected = [];
+  const perDay = Math.min(CARDS_PER_DAY, active.length);
+  const cycles = Math.ceil(active.length / perDay);
+  const start = (dayOfYear % cycles) * perDay;
 
-  // Active cards pool — more slots per day for faster rotation
-  const aPerDay = Math.min(ACTIVE_PER_DAY, active.length);
-  if (aPerDay > 0) {
-    const aCycles = Math.ceil(active.length / aPerDay);
-    const aStart = (dayOfYear % aCycles) * aPerDay;
-    selected.push(...active.slice(aStart, aStart + aPerDay));
-  }
-
-  // Inactive cards pool — fill remaining slots
-  const remaining = CARDS_PER_DAY - selected.length;
-  const iPerDay = Math.min(remaining, inactive.length);
-  if (iPerDay > 0) {
-    const iCycles = Math.ceil(inactive.length / iPerDay);
-    const iStart = (dayOfYear % iCycles) * iPerDay;
-    selected.push(...inactive.slice(iStart, iStart + iPerDay));
-  }
-
-  return selected.slice(0, CARDS_PER_DAY);
+  return active.slice(start, start + perDay);
 }
 
 /**
@@ -419,15 +403,9 @@ async function main() {
   const allCards = loadAllCards();
   console.log(`  Found ${allCards.length} cards\n`);
 
-  // Select today's batch
+  // Select today's batch (active cards only)
   const todayCards = selectCardsForToday(allCards);
-  const activeCount = todayCards.filter(
-    (c) => c.data.accepting_applications !== false
-  ).length;
-  const inactiveCount = todayCards.length - activeCount;
-  console.log(
-    `Selected ${todayCards.length} cards for today (${activeCount} active, ${inactiveCount} inactive):`
-  );
+  console.log(`Selected ${todayCards.length} active cards for today:`);
   todayCards.forEach((c) => console.log(`  - ${c.data.name} (${c.slug})`));
   console.log('');
 
