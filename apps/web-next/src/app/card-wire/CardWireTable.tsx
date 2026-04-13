@@ -9,6 +9,7 @@ import { CardWireEntry } from '@/lib/api';
 const PAGE_SIZE = 50;
 
 const fieldLabels: Record<string, string> = {
+  accepting_applications: 'Applications',
   annual_fee: 'Annual Fee',
   signup_bonus_value: 'Sign-up Bonus',
   reward_top_rate: 'Top Reward Rate',
@@ -17,6 +18,7 @@ const fieldLabels: Record<string, string> = {
 };
 
 const chipColors: Record<string, { bg: string; text: string }> = {
+  accepting_applications: { bg: 'bg-rose-100', text: 'text-rose-800' },
   annual_fee: { bg: 'bg-amber-100', text: 'text-amber-800' },
   signup_bonus_value: { bg: 'bg-blue-100', text: 'text-blue-800' },
   reward_top_rate: { bg: 'bg-emerald-100', text: 'text-emerald-800' },
@@ -31,6 +33,11 @@ function formatValue(field: string, value: string | null, bonusType?: string): s
   if (value === null || value === '') return '—';
   const num = parseFloat(value);
 
+  if (field === 'accepting_applications') {
+    if (value === '1' || value === 'true') return 'Accepting';
+    if (value === '0' || value === 'false') return 'No longer accepting';
+    return value;
+  }
   if (field === 'annual_fee') {
     if (!isNaN(num)) return num === 0 ? '$0' : `$${num.toLocaleString()}`;
     return value;

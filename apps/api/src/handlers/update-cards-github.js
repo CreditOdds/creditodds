@@ -49,6 +49,7 @@ function extractMetrics(cdnCard) {
   }
 
   return {
+    accepting_applications: cdnCard.accepting_applications === false ? 0 : 1,
     annual_fee: cdnCard.annual_fee ?? null,
     signup_bonus_value: cdnCard.signup_bonus?.value ?? null,
     signup_bonus_type: cdnCard.signup_bonus?.type ?? null,
@@ -62,6 +63,7 @@ function extractMetrics(cdnCard) {
 // Compare old and new metrics, insert card_wire rows for any changes
 async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
   const trackedFields = [
+    { field: "accepting_applications", old: oldMetrics.accepting_applications, new: newMetrics.accepting_applications },
     { field: "annual_fee", old: oldMetrics.annual_fee, new: newMetrics.annual_fee },
     { field: "signup_bonus_value", old: oldMetrics.signup_bonus_value, new: newMetrics.signup_bonus_value },
     { field: "reward_top_rate", old: oldMetrics.reward_top_rate, new: newMetrics.reward_top_rate },
@@ -114,7 +116,7 @@ async function syncCardsToDatabase(cdnCards) {
   try {
     // Get existing cards from database (include metric columns for change detection)
     const existingCards = await mysql.query(
-      `SELECT card_id, card_name, bank, annual_fee,
+      `SELECT card_id, card_name, bank, accepting_applications, annual_fee,
               signup_bonus_value, signup_bonus_type,
               reward_top_rate, reward_top_unit,
               apr_min, apr_max
