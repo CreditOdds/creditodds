@@ -2,6 +2,7 @@ name: "Atlas"
 bank: "Lead Bank"
 slug: "atlas-card"
 accepting_applications: false
+image: "atlas.png"
 apply_link: https://atlascard.com/
 annual_fee: 1000
 category: "travel"
