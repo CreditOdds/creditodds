@@ -24,6 +24,11 @@
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+
+// Load .env from repo root if present so ANTHROPIC_API_KEY / BRAVE_SEARCH_API_KEY
+// can be set once and reused for daily local runs (no new deps).
+loadDotenv(path.join(__dirname, '..', '.env'));
+
 const { fetchChurningThread } = require('./fetch-churning-thread');
 
 const NEWS_DIR = path.join(__dirname, '..', 'data', 'news');
@@ -47,10 +52,11 @@ const TODAY = new Date().toISOString().slice(0, 10);
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { dryRun: false, threadId: null, maxItems: 5, minScore: 2 };
+  const opts = { dryRun: false, threadId: null, date: null, maxItems: 5, minScore: 2 };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--dry-run') opts.dryRun = true;
     else if (args[i] === '--thread-id') opts.threadId = args[++i];
+    else if (args[i] === '--date') opts.date = args[++i];
     else if (args[i] === '--max-items') opts.maxItems = parseInt(args[++i], 10);
     else if (args[i] === '--min-score') opts.minScore = parseInt(args[++i], 10);
   }
@@ -94,6 +100,49 @@ function loadCards() {
     return data.cards || [];
   } catch {
     return [];
+  }
+}
+
+/**
+ * Strip card_slugs that don't exist in cards.json (Claude sometimes invents
+ * slugs); keep card_names paired with the surviving slugs. Drop the bank
+ * field if it lists multiple banks (schema expects a single bank or none).
+ */
+function sanitizeNewsItem(item, cards) {
+  const validSlugs = new Set(cards.map((c) => c.slug || c.card_id).filter(Boolean));
+
+  if (item.card_slugs && Array.isArray(item.card_slugs)) {
+    const keptIndices = [];
+    item.card_slugs = item.card_slugs.filter((slug, i) => {
+      const ok = validSlugs.has(slug);
+      if (ok) keptIndices.push(i);
+      return ok;
+    });
+    if (Array.isArray(item.card_names)) {
+      item.card_names = keptIndices.map((i) => item.card_names[i]).filter(Boolean);
+    }
+    if (item.card_slugs.length === 0) {
+      delete item.card_slugs;
+      delete item.card_names;
+    } else if (item.card_slugs.length === 1) {
+      // Collapse single-element arrays into the singular form.
+      item.card_slug = item.card_slugs[0];
+      if (item.card_names && item.card_names[0]) item.card_name = item.card_names[0];
+      delete item.card_slugs;
+      delete item.card_names;
+    }
+  }
+
+  if (item.card_slug && !validSlugs.has(item.card_slug)) {
+    delete item.card_slug;
+    delete item.card_name;
+  }
+
+  // Bank is a single string in the schema. If Claude returned a comma-joined
+  // list (e.g. "Capital One, American Express"), drop it — the related cards
+  // already convey the issuers.
+  if (typeof item.bank === 'string' && item.bank.includes(',')) {
+    delete item.bank;
   }
 }
 
@@ -236,9 +285,17 @@ Return ONLY the JSON array, no prose. If nothing is newsworthy, return [].`;
 // ── Tier A verification: verify a linked URL confirms the claim ─────────────
 
 async function fetchUrlText(url, { maxChars = 12000 } = {}) {
+  // Many issuer/airline pages 403/404 a bot UA. Use a realistic browser UA
+  // so verification doesn't fail on legitimate first-party sources.
+  const BROWSER_UA =
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
   try {
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'creditodds-news-bot/0.1 (+https://creditodds.com)' },
+      headers: {
+        'User-Agent': BROWSER_UA,
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
       redirect: 'follow',
     });
     if (!res.ok) return null;
@@ -431,9 +488,13 @@ async function main() {
   console.log(`Today: ${TODAY}`);
 
   // 1. Fetch thread
-  const thread = opts.threadId
-    ? await fetchSpecificThread(opts.threadId)
-    : await fetchChurningThread();
+  let thread;
+  if (opts.threadId) {
+    thread = await fetchSpecificThread(opts.threadId);
+  } else {
+    const targetDate = opts.date ? new Date(opts.date + 'T12:00:00Z') : undefined;
+    thread = await fetchChurningThread({ targetDate });
+  }
   console.log(`\nThread: ${thread.threadTitle}`);
   console.log(`URL:    ${thread.threadUrl}`);
   console.log(`Comments fetched: ${thread.comments.length}`);
@@ -491,6 +552,8 @@ async function main() {
       skipped.push({ ...cand, reason: 'YAML generation failed' });
       continue;
     }
+
+    sanitizeNewsItem(yamlItem, cards);
 
     const errors = validateNewsItem(yamlItem);
     if (errors.length) {
@@ -565,6 +628,23 @@ async function fetchSpecificThread(id) {
     threadCreatedUtc: post.created_utc,
     comments: flat,
   };
+}
+
+function loadDotenv(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  const text = fs.readFileSync(filePath, 'utf8');
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq < 0) continue;
+    const key = line.slice(0, eq).trim();
+    let val = line.slice(eq + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = val;
+  }
 }
 
 main().catch((err) => {
