@@ -1,7 +1,7 @@
 name: "Atlas"
 bank: "Lead Bank"
 slug: "atlas-card"
-accepting_applications: false
+accepting_applications: true
 image: "atlas.png"
 apply_link: https://atlascard.com/
 annual_fee: 1000
