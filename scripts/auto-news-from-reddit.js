@@ -346,16 +346,36 @@ FIRST-PARTY (issuer / official press)? ${isFirstParty(url) ? 'yes' : 'no — thi
 SOURCE PAGE TEXT (truncated):
 ${pageText}
 
-Does the page substantively CONFIRM the claim? Answer in exactly this format on one line:
-VERIFIED — <brief reason>
-UNVERIFIED — <brief reason>`;
+Classify the page's support for the claim into ONE of three outcomes:
 
-  const res = await callClaude(prompt, { maxTokens: 200 });
-  const line = res.trim().split('\n')[0] || '';
-  if (/^VERIFIED/i.test(line)) {
-    return { verified: true, reason: line.replace(/^VERIFIED\s*[—-]?\s*/i, '') };
+- VERIFIED — The page substantively confirms the full claim, including any "changed from X to Y" or "increased/decreased" framing.
+- PARTIAL — The page confirms the CURRENT STATE named in the claim (e.g. "rate is 3:1", "offer is 75k"), but does NOT confirm the historical-change angle (e.g. "increased from 2:1", "up from 50k"). In this case write a "revised claim" that asserts ONLY what the page actually supports — no "increased", "reduced", "up from", "new", or implied change language.
+- UNVERIFIED — The page does not confirm even the current state, or contradicts the claim.
+
+Output format — respond with exactly these lines and nothing else:
+
+OUTCOME: <VERIFIED | PARTIAL | UNVERIFIED>
+REASON: <one sentence>
+REVISED_CLAIM: <only required when OUTCOME is PARTIAL; rewrite the claim to a factual statement of the current state per the page; omit otherwise>`;
+
+  const res = await callClaude(prompt, { maxTokens: 400 });
+  const lines = (res || '').trim().split('\n');
+  const get = (prefix) => {
+    const line = lines.find((l) => l.trim().toUpperCase().startsWith(prefix));
+    if (!line) return '';
+    return line.slice(line.indexOf(':') + 1).trim();
+  };
+  const outcome = get('OUTCOME').toUpperCase();
+  const reason = get('REASON') || '';
+  const revised = get('REVISED_CLAIM') || '';
+
+  if (outcome === 'VERIFIED') {
+    return { verified: true, reason };
   }
-  return { verified: false, reason: line.replace(/^UNVERIFIED\s*[—-]?\s*/i, '') || 'claude marked unverified' };
+  if (outcome === 'PARTIAL' && revised) {
+    return { verified: true, reason: `partial: ${reason}`, revisedClaim: revised };
+  }
+  return { verified: false, reason: reason || 'claude marked unverified' };
 }
 
 // ── Tier B verification: discover a source via Brave web search ──────────────
@@ -402,11 +422,15 @@ async function generateNewsYaml({ claim, comment, verification, cards }) {
     ? `Verified against: ${verification.sourceUrl} (${verification.sourceTitle || 'searched'})`
     : `Verified against: ${verification.sourceUrl || 'the comment\'s own linked URL'}`;
 
+  const partialWarning = verification.revisedClaim
+    ? `\n## IMPORTANT — partial verification\nThe original Reddit comment framed this as a change ("increased from", "reduced to", etc.), but the source page only confirms the current state, not the historical change. Write the title, summary, and body to describe the CURRENT STATE only. Do NOT use words like "increased", "reduced", "up from", "down from", "new", "now offers", or any language that implies a change — even if the comment body uses them. Stick to what the CLAIM above asserts.\n`
+    : '';
+
   const prompt = `You are turning a verified credit-card news claim into a structured news item.
 
 ## CLAIM
 ${claim}
-
+${partialWarning}
 ## SOURCE COMMENT (r/churning)
 Permalink: ${comment.permalink}
 Body:
@@ -546,8 +570,12 @@ async function main() {
       continue;
     }
     console.log(`  ✓ VERIFIED via ${verification.sourceUrl} — ${verification.reason}`);
+    if (verification.revisedClaim) {
+      console.log(`    revised claim: ${verification.revisedClaim}`);
+    }
 
-    const yamlItem = await generateNewsYaml({ claim: cand.claim, comment, verification, cards });
+    const effectiveClaim = verification.revisedClaim || cand.claim;
+    const yamlItem = await generateNewsYaml({ claim: effectiveClaim, comment, verification, cards });
     if (!yamlItem) {
       skipped.push({ ...cand, reason: 'YAML generation failed' });
       continue;
