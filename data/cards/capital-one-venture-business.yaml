@@ -2,6 +2,7 @@ name: "Capital One Venture Business"
 bank: "Capital One"
 slug: "capital-one-venture-business"
 accepting_applications: true
+image: "capital-one-venture-business.png"
 category: "business"
 annual_fee: 95
 reward_type: "miles"
