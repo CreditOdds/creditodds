@@ -1,108 +1,111 @@
 # ============================================================
-# Best Credit Card Signup Bonuses — Ranking Reasoning (2026-04-01)
+# Best Credit Card Signup Bonuses — Ranking Reasoning (2026-04-15)
 # ============================================================
 #
 # #1 the-platinum-card (Best Overall)
-#   The Platinum Card delivers the single largest signup bonus on the market
-#   with clear redemption value through transfer partners. While the $895
-#   annual fee is steep, the bonus and ongoing 5x travel earning justify it
-#   for those meeting the spend requirement.
+#   The Platinum Card's 175,000-point bonus significantly outpaces all
+#   competitors in raw value, and the 5x earning on travel categories
+#   justifies the $895 annual fee for travel-focused cardholders. This remains
+#   the strongest overall offer on the market despite the high fee and spend
+#   requirement.
 #
 # #2 chase-sapphire-reserve (Best Premium Travel)
-#   The Sapphire Reserve ranks second due to its strong bonus, generous travel
-#   credit that cuts the effective annual fee in half, and category-leading 8x
-#   earning on Chase Travel bookings. It's the best premium card for flexible,
-#   transfer-friendly rewards.
+#   The Sapphire Reserve balances a strong bonus with substantial credits and
+#   benefits that reduce its effective cost to just $495 annually. The 8x
+#   portal multiplier and 4x travel/3x dining categories make it ideal for
+#   premium travelers who can leverage the travel credit.
 #
-# #3 world-of-hyatt-business-credit-card (Best Hotel Value)
-#   While the spend requirement is high, Hyatt points deliver exceptional
-#   value—often 2+ cents per point—making this bonus worth $1,600+ in actual
-#   stays. The $199 annual fee is reasonable for hotel-focused travelers, and
-#   4x earning at Hyatt properties adds strong ongoing value.
+# #3 chase-sapphire-preferred (Best Mid-Tier Travel)
+#   Sapphire Preferred delivers strong value at a low price point with a
+#   reasonable $5,000 spend requirement and 5x portal earning. For travelers
+#   who don't justify a $795 fee but want flexible, transferable rewards, this
+#   is the clear choice in the mid-tier space.
 #
-# #4 ihg-rewards-club-premier-credit-card
-#   The IHG personal card offers excellent attainability with a low spend
-#   requirement and modest annual fee, making it ideal for casual hotel users.
-#   The generous 26x category earning at IHG hotels provides strong year-round
-#   value despite lower per-point redemption rates than Hyatt.
+# #4 chase-ink-business-preferred (Best Business Card)
+#   The Ink Business Preferred combines a competitive 100,000-point bonus with
+#   a minimal $95 fee and transferable points that match the personal Sapphire
+#   cards' value. It's the strongest business option for owners seeking travel
+#   flexibility without premium costs.
 #
-# #5 ihg-rewards-premier-business
-#   The IHG Business card delivers the largest point count in the hotel
-#   category, though the higher spend requirement ($9,000 vs. $3,000) and
-#   longer timeline (6 vs. 3 months) make it less accessible than the personal
-#   version. It's ranked lower due to attainability, not value.
+# #5 world-of-hyatt-business-credit-card (Best Hotel Value)
+#   Hyatt points offer the highest per-point value among hotel programs,
+#   making this card's 80,000-point bonus worth significantly more in real
+#   hotel nights than competitors. The 4x earning on Hyatt stays provides
+#   sustained value for loyal Hyatt users.
 #
-# #6 chase-ink-business-preferred (Best Business Card)
-#   The Ink Business Preferred ranks highly due to its strong bonus-to-fee
-#   ratio and transfer flexibility, making it exceptional for business owners.
-#   The $95 annual fee is minimal, and Ultimate Rewards points transfer to 12+
-#   partners, providing flexibility comparable to premium personal cards.
+# #6 ihg-rewards-club-premier-credit-card
+#   While IHG points have lower redemption value per point than Hyatt, the
+#   140,000-point bonus is substantial and extremely easy to earn with just
+#   $3,000 spending. The low $99 fee and massive 26x earning at IHG properties
+#   justify inclusion for IHG-focused travelers.
 #
-# #7 chase-sapphire-preferred (Best Mid-Tier Travel)
-#   The Sapphire Preferred offers the best entry point for flexible travel
-#   rewards with a modest $95 fee and strong bonus value. Its 5x travel portal
-#   earning and transferability to 12+ partners make it competitive despite
-#   lower absolute bonus size than premium alternatives.
+# #7 ihg-rewards-premier-business
+#   The business version of IHG's card offers the same strong bonus and
+#   earning rates as the personal card at an identical $99 fee, making it the
+#   best choice for self-employed IHG loyalists. The $4,000 spend requirement
+#   is only slightly higher than the personal version.
 #
 # #8 capital-one-venture-x
-#   Venture X combines a reasonable bonus with valuable travel credits that
-#   substantially reduce the effective cost, making the $395 fee manageable.
-#   The 10x portal earning is competitive, though the lower bonus size and
-#   less flexible mile redemption rank it below premium Chase cards.
+#   Venture X's $300 travel credit and 10,000 anniversary miles dramatically
+#   reduce its $395 annual fee to an effective $95, making it competitive with
+#   mid-tier cards. The 10x portal earning on hotels and cars, combined with
+#   the $4,000 spend requirement, makes this a strong choice for
+#   portal-focused travelers.
 #
-# #9 delta-skymiles-reserve-american-express-card
-#   The Delta Reserve delivers a strong bonus and premium perks like Sky Club
-#   access and a companion certificate for $650 annually. It ranks lower than
-#   non-airline cards due to higher annual cost and airline-specific
-#   redemption, making it primarily valuable for frequent Delta passengers.
+# #9 american-express-gold-card
+#   Gold's 100,000-point bonus is solid, and the 4x earning on dining and
+#   groceries makes it one of the best everyday rewards cards for non-travel
+#   spending. However, the longer 6-month timeframe and $325 annual fee limit
+#   its appeal compared to travel-focused alternatives.
 #
-# #10 american-express-gold-card
-#   The Gold Card excels for dining and grocery spenders with 4x earning, but
-#   the $325 annual fee and modest 60,000-point bonus limit its appeal
-#   compared to more flexible travel cards. It's best for users who can
-#   maximize the dining and grocery categories.
+# #10 united-quest
+#   United Quest combines a respectable 90,000-mile bonus with valuable
+#   airline perks including checked bags and award flight discounts. The $350
+#   annual fee is justified for frequent United flyers, though the bonus value
+#   is lower than competing premium airline cards.
 #
-# #11 delta-skymiles-platinum-american-express-card
-#   The Delta Platinum offers a solid bonus and companion certificate at $350
-#   annual fee, sitting between the basic and Reserve tiers. It appeals
-#   specifically to Delta flyers but lacks the flexibility and bonus value of
-#   general travel cards.
+# #11 delta-skymiles-reserve-american-express-card
+#   Delta Reserve's 100,000-mile bonus and companion certificate appeal to
+#   frequent Delta flyers, but the $650 annual fee and 6-month earning window
+#   make it less attractive than competing cards. The Sky Club access has
+#   value for heavy Delta users but doesn't offset the high cost for casual
+#   travelers.
 #
-# #12 united-quest
-#   United Quest delivers a respectable 80,000-mile bonus with valuable perks
-#   for United flyers, but the $350 annual fee and United-only redemption
-#   narrow its audience. It ranks lower than flexible travel cards due to less
-#   versatile rewards.
+# #12 delta-skymiles-platinum-american-express-card
+#   Delta Platinum offers a moderate 90,000-mile bonus with a companion
+#   certificate at a reasonable $350 fee. The 3x earning on airlines and
+#   hotels provides decent ongoing value, but the 6-month earning window and
+#   lower bonus put it behind other mid-tier cards.
 #
-# #13 delta-skymiles-gold-american-express-card
-#   The Delta Gold offers exceptional value for budget-conscious Delta flyers
-#   with a low $150 annual fee and solid 90,000-mile bonus. The longer 6-month
-#   timeline and airline-specific earning limit its appeal compared to general
-#   travel cards, but it's the best Delta card for value-seekers.
+# #13 delta-skymiles-gold-american-express-card (Best for Beginners)
+#   Delta Gold's $150 annual fee and modest $2,000 spend requirement make it
+#   the most accessible Delta card on the market. While the bonus and earning
+#   rates are modest, the low cost and easy threshold make it ideal for those
+#   testing airline loyalty program value.
 #
 # #14 wells-fargo-signify-business-cash (Best Cash Back)
-#   The Wells Fargo Signify Business Cash ranks atop cash back cards with a
-#   $500 bonus, zero annual fee, and straightforward 2% earnings on
-#   everything. It's the most accessible high-value cash back offer for
-#   business owners avoiding complex category tracking.
+#   Signify Business Cash offers a competitive $500 bonus with zero annual fee
+#   and straightforward 2% rewards on all spending. For business owners
+#   seeking uncomplicated cash back without category tracking, this is the
+#   strongest value proposition available.
 #
-# #15 chase-freedom-flex
-#   The Freedom Flex offers the lowest spending barrier ($500) of any card and
-#   zero annual fee, making it ideal for beginners or those testing out
-#   rewards. Its 5% rotating categories and flexible structure justify the
-#   lower bonus despite strong attainability.
+# #15 chase-freedom-flex (Best No-Fee Card)
+#   Freedom Flex stands out with an exceptionally easy $500 spend requirement
+#   and zero annual fee, making it accessible to anyone building credit or
+#   testing rewards cards. The rotating 5% categories and 5% portal earning
+#   provide solid ongoing value without any cost.
 #
 # #16 wells-fargo-active-cash
-#   Wells Fargo Active Cash matches Freedom Flex's $200 bonus and zero fee but
-#   trades rotating categories for simplicity—2% flat on everything. The intro
-#   APR adds value for balance transfer users, though the bonus is modest
-#   compared to other no-fee options.
+#   Active Cash matches Freedom Flex's easy bonus and zero fee with simple 2%
+#   flat-rate rewards and a valuable 0% intro APR offer. For those who prefer
+#   straightforward cash back over rotating categories, this is an excellent
+#   no-fee alternative.
 #
 # #17 capital-one-savorone
-#   Capital One SavorOne provides category-focused 3% cash back for just $39
-#   annually, positioning it as an affordable alternative to premium cards.
-#   The modest $200 bonus and lower category caps make it secondary to no-fee
-#   alternatives with broader appeal.
+#   SavorOne provides $200 cash back at a low $500 spend threshold with $39
+#   annual fee and solid 3% earning on popular categories. However, the fee
+#   and category limits make it less competitive than no-fee alternatives
+#   offering comparable or better ongoing rewards.
 #
 # ============================================================
 
@@ -111,7 +114,7 @@ slug: best-signup-bonuses
 title: Best Credit Card Signup Bonuses
 description: The most valuable credit card signup bonuses available right now, ranked by bonus value and overall appeal.
 date: "2026-03-01"
-updated_at: "2026-04-01"
+updated_at: "2026-04-15"
 seo_title: Best Credit Card Signup Bonuses of 2026
 seo_description: Compare the best credit card signup bonuses of 2026. Ranked by value — from 175k points to $200 cash back.
 intro: |
@@ -124,60 +127,60 @@ cards:
 
   - slug: chase-sapphire-reserve
     badge: Best Premium Travel
-    previous_rank: 4
     highlight: 125,000 Ultimate Rewards points after $6,000 in 3 months — worth up to $1,875 through Chase Travel. The $300 annual travel credit significantly offsets the $795 fee, and 8x points on Chase Travel portal bookings provide excellent ongoing value.
-
-  - slug: world-of-hyatt-business-credit-card
-    badge: Best Hotel Value
-    previous_rank: 8
-    highlight: 80,000 World of Hyatt points after $10,000 in 3 months — easily worth $1,600+ in hotel stays at roughly 2 cents per point. Hyatt points consistently offer the best redemption value among hotel loyalty programs.
-
-  - slug: ihg-rewards-club-premier-credit-card
-    previous_rank: 2
-    highlight: 140,000 IHG points after $3,000 in 3 months — worth roughly $700 in hotel stays at 0.5 cents per point. The $99 annual fee and easy $3,000 spend requirement make this one of the most attainable hotel bonuses, with 26x earning at IHG properties.
-
-  - slug: ihg-rewards-premier-business
-    previous_rank: 3
-    highlight: 200,000 IHG points after $9,000 in 6 months — the highest raw point count among hotel cards. The $99 annual fee matches the personal version with identical 26x earning at IHG properties.
-
-  - slug: chase-ink-business-preferred
-    badge: Best Business Card
-    previous_rank: 9
-    highlight: 100,000 Ultimate Rewards points after $8,000 in 3 months — worth up to $1,500 through Chase Travel. At just $95 annual fee, this delivers one of the best business card values available with flexible transfer-friendly rewards.
 
   - slug: chase-sapphire-preferred
     badge: Best Mid-Tier Travel
-    previous_rank: 5
+    previous_rank: 7
     highlight: 75,000 Ultimate Rewards points after $5,000 in 3 months — worth at least $937 through Chase Travel. The $95 annual fee and transfer-friendly points make this ideal for casual to moderate travelers seeking flexibility without premium pricing.
 
+  - slug: chase-ink-business-preferred
+    badge: Best Business Card
+    previous_rank: 6
+    highlight: 100,000 Ultimate Rewards points after $8,000 in 3 months — worth up to $1,500 through Chase Travel. At just $95 annual fee, this delivers one of the best business card values available with flexible transfer-friendly rewards.
+
+  - slug: world-of-hyatt-business-credit-card
+    badge: Best Hotel Value
+    previous_rank: 3
+    highlight: 80,000 World of Hyatt points after $10,000 in 3 months — easily worth $1,600+ in hotel stays at roughly 2 cents per point. Hyatt points consistently offer the best redemption value among hotel loyalty programs.
+
+  - slug: ihg-rewards-club-premier-credit-card
+    previous_rank: 4
+    highlight: 140,000 IHG points after $3,000 in 3 months — worth roughly $700 in hotel stays at 0.5 cents per point. The $99 annual fee and easy $3,000 spend requirement make this one of the most attainable hotel bonuses, with 26x earning at IHG properties.
+
+  - slug: ihg-rewards-premier-business
+    previous_rank: 5
+    highlight: 140,000 IHG points after $4,000 in 3 months — worth roughly $700 in hotel stays. The $99 annual fee matches the personal version with identical 26x earning at IHG properties.
+
   - slug: capital-one-venture-x
-    previous_rank: 7
     highlight: 75,000 miles after $4,000 in 3 months, plus $300 annual travel credit and 10,000 anniversary miles. The effective annual cost drops to just $95 after travel credits, and 10x earning on hotel and car bookings through the portal delivers strong ongoing value.
 
-  - slug: delta-skymiles-reserve-american-express-card
-    previous_rank: 6
-    highlight: 125,000 Delta SkyMiles after $9,000 in 6 months, plus Delta Sky Club access and a companion certificate. The $650 annual fee is steep but justified for frequent Delta flyers with strong perks.
-
   - slug: american-express-gold-card
-    previous_rank: 12
-    highlight: 60,000 Membership Rewards points after $6,000 in 6 months. Exceptional 4x earning on dining and groceries pairs with the $325 annual fee for strong everyday rewards.
-
-  - slug: delta-skymiles-platinum-american-express-card
     previous_rank: 10
-    highlight: 100,000 SkyMiles after $6,000 in 6 months, plus a companion certificate and 3x earning on airlines and hotels. The $350 annual fee makes this a mid-tier option for Delta-focused travelers.
+    highlight: 100,000 Membership Rewards points after $6,000 in 6 months. Exceptional 4x earning on dining and groceries pairs with the $325 annual fee for strong everyday rewards.
 
   - slug: united-quest
+    previous_rank: 12
+    highlight: 90,000 United miles after $4,000 in 3 months. Includes two free checked bags annually and 25% back on United award flights, with 5x earning on hotel bookings through the portal.
+
+  - slug: delta-skymiles-reserve-american-express-card
+    previous_rank: 9
+    highlight: 100,000 Delta SkyMiles after $5,000 in 6 months, plus Delta Sky Club access and a companion certificate. The $650 annual fee is steep but justified for frequent Delta flyers with strong perks.
+
+  - slug: delta-skymiles-platinum-american-express-card
     previous_rank: 11
-    highlight: 80,000 United miles after $4,000 in 3 months. Includes two free checked bags annually and 25% back on United award flights, with $350 annual fee.
+    highlight: 90,000 SkyMiles after $3,000 in 6 months, plus a companion certificate and 3x earning on airlines and hotels. The $350 annual fee makes this a mid-tier option for Delta-focused travelers.
 
   - slug: delta-skymiles-gold-american-express-card
-    highlight: 90,000 SkyMiles after $5,000 in 6 months. At just $150 annual fee, this is the most affordable entry point into the Delta ecosystem for casual flyers.
+    badge: Best for Beginners
+    highlight: 80,000 SkyMiles after just $2,000 in 6 months. At only $150 annual fee, this is the most affordable entry point into the Delta ecosystem for casual flyers.
 
   - slug: wells-fargo-signify-business-cash
     badge: Best Cash Back
     highlight: $500 cash back after $5,000 in 3 months with zero annual fee. Simple 2% flat cash back on all business purchases with no categories to track.
 
   - slug: chase-freedom-flex
+    badge: Best No-Fee Card
     highlight: $200 cash back after just $500 in spending — one of the easiest bonuses to earn. Zero annual fee with 5% rotating categories, 5% on Chase Travel portal, and 3% on dining and drugstores.
 
   - slug: wells-fargo-active-cash
