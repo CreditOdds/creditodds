@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-01T15:49:07.758Z",
-  "count": 156,
+  "generated_at": "2026-04-15T04:04:45.653Z",
+  "count": 158,
   "categories": [
     {
       "id": "dining",
@@ -191,7 +191,7 @@
       "name": "Amazon Business Prime American Express",
       "bank": "American Express",
       "slug": "amazon-business-prime-american-express-card",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "category": "business",
       "annual_fee": 0,
       "reward_type": "cashback",
@@ -482,7 +482,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 100000,
         "type": "points",
         "spend_requirement": 6000,
         "timeframe_months": 6
@@ -633,6 +633,158 @@
       "card_name": "AT&T Access from Citi"
     },
     {
+      "name": "Atlas",
+      "bank": "Lead Bank",
+      "slug": "atlas-card",
+      "accepting_applications": true,
+      "image": "atlas.png",
+      "apply_link": "https://atlascard.com/",
+      "annual_fee": 1000,
+      "category": "travel",
+      "reward_type": "points",
+      "rewards": [
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Hotels, private charters, and luxury car rentals"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "benefits": [
+        {
+          "name": "AI Concierge",
+          "value": 0,
+          "description": "24/7 AI concierge via text for reservations, travel, and lifestyle requests",
+          "frequency": "ongoing",
+          "category": "other"
+        },
+        {
+          "name": "Atlas Dining",
+          "value": 0,
+          "description": "Priority and last-minute reservations at top restaurants in New York, Los Angeles, San Francisco, and Miami",
+          "frequency": "ongoing",
+          "category": "dining"
+        },
+        {
+          "name": "BLADE Airport Pass",
+          "value": 0,
+          "description": "$100 off helicopter flights plus a companion pass; flights starting from $95",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Aero Travel Discount",
+          "value": 0,
+          "description": "15% discount on Aero semi-private flights",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Private Jet Charters",
+          "value": 0,
+          "description": "Access to private jet charters at pre-negotiated member rates",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Priority Pass Select",
+          "value": 0,
+          "description": "Two complimentary visits per year to 1,300+ Priority Pass airport lounges worldwide",
+          "frequency": "annual",
+          "category": "lounge"
+        },
+        {
+          "name": "Luxury Hotel Bookings",
+          "value": 0,
+          "description": "Curated luxury hotel bookings at preferred member rates",
+          "frequency": "ongoing",
+          "category": "hotel"
+        },
+        {
+          "name": "Remedy Place Credit",
+          "value": 250,
+          "description": "$250 credit toward first Remedy Place visit (saunas, cold plunges, NAD+ IV therapy); discounted or complimentary residency available",
+          "frequency": "ongoing",
+          "category": "fitness"
+        },
+        {
+          "name": "Sollis Health",
+          "value": 0,
+          "description": "Complimentary guest visit or discounted membership for same-day medical care and house calls",
+          "frequency": "ongoing",
+          "category": "other"
+        },
+        {
+          "name": "One Medical Credit",
+          "value": 199,
+          "description": "$199 statement credit when you join One Medical",
+          "frequency": "annual",
+          "category": "other"
+        },
+        {
+          "name": "Wander Credit",
+          "value": 250,
+          "description": "$250 off Wander vacation home rentals",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Erewhon Membership",
+          "value": 0,
+          "description": "Complimentary annual Erewhon Cafe membership",
+          "frequency": "annual",
+          "category": "dining"
+        },
+        {
+          "name": "Exclusive Event Access",
+          "value": 0,
+          "description": "Access to concerts, sporting events, and member-only experiences",
+          "frequency": "ongoing",
+          "category": "other"
+        },
+        {
+          "name": "Visa Infinite Benefits",
+          "value": 0,
+          "description": "Concierge, trip cancellation and interruption coverage, rental car discounts, cell phone protection",
+          "frequency": "ongoing",
+          "category": "travel"
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 0,
+          "description": "Up to $50,000 per year in coverage for repairs, replacements, or reimbursement on new purchases within 90 days",
+          "frequency": "ongoing",
+          "category": "other"
+        },
+        {
+          "name": "Personalized Metal Card",
+          "value": 0,
+          "description": "21g mirror-finished steel card, CNC-milled and laser-engraved with cardholder's preferred first name",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
+      "tags": [
+        "premium",
+        "travel",
+        "dining",
+        "lifestyle",
+        "invite-only"
+      ],
+      "card_id": "atlas-card",
+      "card_name": "Atlas"
+    },
+    {
       "name": "Atmos Rewards Ascent",
       "bank": "Bank of America",
       "slug": "atmos-rewards-ascent",
@@ -774,7 +926,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 100000,
         "type": "points",
         "spend_requirement": 4000,
         "timeframe_months": 3
@@ -1144,6 +1296,7 @@
       "slug": "bilt-blue",
       "image": "bilt_blue.png",
       "accepting_applications": true,
+      "apply_link": "https://www.biltrewards.com/card/apply",
       "annual_fee": 0,
       "reward_type": "points",
       "release_date": "2025-01-15",
@@ -1191,6 +1344,7 @@
       "slug": "bilt-obsidian",
       "image": "bilt_obsidian.png",
       "accepting_applications": true,
+      "apply_link": "https://www.biltrewards.com/card/apply",
       "annual_fee": 95,
       "reward_type": "points",
       "release_date": "2025-01-15",
@@ -1236,6 +1390,7 @@
       "slug": "bilt-palladium",
       "image": "bilt_palladium.png",
       "accepting_applications": true,
+      "apply_link": "https://www.biltrewards.com/card/apply",
       "annual_fee": 495,
       "reward_type": "points",
       "release_date": "2025-01-15",
@@ -1277,7 +1432,8 @@
         "value": 50000,
         "type": "points",
         "spend_requirement": 4000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus $300 Bilt Cash as a signup bonus"
       },
       "card_id": "bilt-palladium",
       "card_name": "Bilt Palladium"
@@ -1472,7 +1628,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 250,
+        "value": 300,
         "type": "cash",
         "spend_requirement": 3000,
         "timeframe_months": 6
@@ -1890,12 +2046,7 @@
           "unit": "percent"
         }
       ],
-      "signup_bonus": {
-        "value": 200,
-        "type": "cash",
-        "spend_requirement": 500,
-        "timeframe_months": 3
-      },
+      "signup_bonus": null,
       "apr": {
         "purchase_intro": {
           "rate": 0,
@@ -1913,6 +2064,74 @@
       "apply_link": "https://www.capitalone.com/credit-cards/savorone/",
       "card_id": "capital-one-savorone",
       "card_name": "Capital One SavorOne Cash Rewards"
+    },
+    {
+      "name": "Capital One Venture Business",
+      "bank": "Capital One",
+      "slug": "capital-one-venture-business",
+      "accepting_applications": true,
+      "category": "business",
+      "annual_fee": 95,
+      "reward_type": "miles",
+      "release_date": "2026-04-14",
+      "tags": [
+        "business",
+        "travel",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "hotels_car_portal",
+          "value": 5,
+          "unit": "points_per_dollar",
+          "note": "Hotels, vacation rentals, and rental cars booked through Capital One Business Travel"
+        },
+        {
+          "category": "everything_else",
+          "value": 2,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 150000,
+        "type": "miles",
+        "spend_requirement": 7500,
+        "timeframe_months": 3,
+        "note": "75,000 miles after $7,500 in 3 months, plus 75,000 miles after $30,000 in 6 months"
+      },
+      "benefits": [
+        {
+          "name": "Business Travel Credit",
+          "value": 50,
+          "description": "$50 annual credit for purchases made through Capital One Business Travel",
+          "frequency": "annual",
+          "category": "travel"
+        },
+        {
+          "name": "Software and Advertising Credit",
+          "value": 50,
+          "description": "Up to $50 annual statement credit for qualifying software and advertising purchases",
+          "frequency": "annual",
+          "category": "other"
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 120,
+          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee",
+          "frequency": "multi_year",
+          "category": "security"
+        },
+        {
+          "name": "Free Employee Cards",
+          "value": 0,
+          "description": "Add employee cards at no additional cost; employee purchases earn miles on the primary account",
+          "frequency": "ongoing",
+          "category": "other"
+        }
+      ],
+      "apply_link": "https://www.capitalone.com/small-business/credit-cards/venture-business/",
+      "card_id": "capital-one-venture-business",
+      "card_name": "Capital One Venture Business"
     },
     {
       "name": "Capital One Venture Rewards",
@@ -1952,7 +2171,8 @@
         "value": 75000,
         "type": "miles",
         "spend_requirement": 4000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus $250 travel credit in first cardholder year"
       },
       "apr": {
         "regular": {
@@ -2139,10 +2359,12 @@
           "unit": "percent",
           "mode": "quarterly_rotating",
           "current_categories": [
-            "groceries",
-            "online_shopping"
+            "amazon",
+            "travel_portal",
+            "everything_else"
           ],
-          "current_period": "Q1 2026"
+          "current_period": "Q2 2026",
+          "note": "Q2 2026: Amazon, Chase Travel, and donations to Feeding America (up to $1,500)"
         },
         {
           "category": "travel_portal",
@@ -3431,9 +3653,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 90000,
+        "value": 80000,
         "type": "miles",
-        "spend_requirement": 5000,
+        "spend_requirement": 2000,
         "timeframe_months": 6
       },
       "apr": {
@@ -3520,9 +3742,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 100000,
+        "value": 90000,
         "type": "miles",
-        "spend_requirement": 6000,
+        "spend_requirement": 3000,
         "timeframe_months": 6
       },
       "apr": {
@@ -3592,9 +3814,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 125000,
+        "value": 100000,
         "type": "miles",
-        "spend_requirement": 9000,
+        "spend_requirement": 5000,
         "timeframe_months": 6
       },
       "apr": {
@@ -4249,7 +4471,8 @@
         "value": 70000,
         "type": "points",
         "spend_requirement": 2000,
-        "timeframe_months": 6
+        "timeframe_months": 6,
+        "note": "Plus a Free Night Reward after spending $2,000 in purchases in the first 6 months"
       },
       "apr": {
         "regular": {
@@ -4429,7 +4652,8 @@
         "value": 130000,
         "type": "points",
         "spend_requirement": 3000,
-        "timeframe_months": 6
+        "timeframe_months": 6,
+        "note": "Plus a Free Night Reward after meeting the $3,000 spend requirement"
       },
       "apr": {
         "purchase_intro": {
@@ -4696,10 +4920,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 200000,
+        "value": 140000,
         "type": "points",
-        "spend_requirement": 9000,
-        "timeframe_months": 6
+        "spend_requirement": 4000,
+        "timeframe_months": 3,
+        "note": "Plus 60,000 additional bonus points after spending a total of $9,000 in the first 6 months from account opening for a total of 200,000 bonus points"
       },
       "apr": {
         "regular": {
@@ -4719,6 +4944,15 @@
       "annual_fee": 0,
       "reward_type": "points",
       "image": "chase-ihg-one-rewards-traveler.png",
+      "benefits": [
+        {
+          "name": "Anniversary Bonus Points",
+          "value": 0,
+          "description": "10,000 bonus points after spending $10,000 each calendar year",
+          "frequency": "annual",
+          "category": "hotel"
+        }
+      ],
       "tags": [
         "hotel",
         "travel",
@@ -5003,7 +5237,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 50000,
+        "value": 60000,
         "type": "points",
         "spend_requirement": 2000,
         "timeframe_months": 3
@@ -5287,10 +5521,11 @@
         }
       ],
       "signup_bonus": {
-        "value": "4 Free Night Awards",
+        "value": 3,
         "type": "free_nights",
-        "spend_requirement": 7000,
-        "timeframe_months": 4
+        "spend_requirement": 3000,
+        "timeframe_months": 3,
+        "note": "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
       },
       "apr": {
         "regular": {
@@ -6513,10 +6748,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 90000,
+        "value": 100000,
         "type": "miles",
         "spend_requirement": 5000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 10,000 bonus miles for adding an authorized user"
       },
       "apr": {
         "regular": {
@@ -6640,7 +6876,8 @@
         "value": 70000,
         "type": "miles",
         "spend_requirement": 3000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 10,000 bonus miles for adding an authorized user"
       },
       "apr": {
         "regular": {
@@ -6764,7 +7001,8 @@
         "value": 30000,
         "type": "miles",
         "spend_requirement": 1000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 10,000 bonus miles for adding an authorized user"
       },
       "apr": {
         "purchase_intro": {
@@ -6844,10 +7082,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 90000,
         "type": "miles",
         "spend_requirement": 4000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 10,000 bonus miles for adding an authorized user"
       },
       "apr": {
         "regular": {
@@ -7305,7 +7544,7 @@
       "image": "usaa-secured-american-express.png",
       "accepting_applications": true,
       "category": "secured",
-      "annual_fee": 35,
+      "annual_fee": 0,
       "tags": [
         "secured",
         "credit_builder"
@@ -7660,7 +7899,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 40000,
         "type": "points",
         "spend_requirement": 1000,
         "timeframe_months": 3
@@ -7760,6 +7999,40 @@
       "accepting_applications": false,
       "annual_fee": 0,
       "reward_type": "points",
+      "rewards": [
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Includes flights, hotels, homestays, car rentals"
+        },
+        {
+          "category": "transit",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Select streaming services"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
       "card_id": "wells-fargo-propel-american-express",
       "card_name": "Wells Fargo Propel American Express"
     },
@@ -7916,10 +8189,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 30000,
         "type": "points",
         "spend_requirement": 3000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus up to 30,000 additional points (2x on purchases up to $15,000 spent in the first 6 months)"
       },
       "apr": {
         "regular": {
@@ -8045,9 +8319,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 50000,
+        "value": 45000,
         "type": "points",
-        "spend_requirement": 4000,
+        "spend_requirement": 3000,
         "timeframe_months": 3
       },
       "apr": {
