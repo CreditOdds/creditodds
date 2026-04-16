@@ -1,0 +1,16 @@
+id: "amex-ai-agent-purchase-protection"
+date: "2026-04-16"
+title: "American Express Extends Purchase Protection to AI Agent Purchases"
+summary: "American Express announced Amex Agent Purchase Protection, extending eligible purchase protections to transactions made by registered AI agents on behalf of cardholders. Amex also acquired Hyper, an AI-focused expense management startup backed by OpenAI CEO Sam Altman, to expand AI-powered expense tools for cardholders."
+tags:
+  - "benefit-change"
+  - "policy-change"
+bank: "American Express"
+source: "Fortune, PYMNTS, Reuters"
+source_url: "https://fortune.com/2026/04/14/american-express-ai-payments-developers-purchase-protection/"
+body: |
+  American Express has introduced **Amex Agent Purchase Protection**, extending its eligible purchase protections to transactions made by registered AI agents acting on behalf of cardholders. The new protection applies when cardholders authorize AI agents to make purchases in their name, bringing the same fraud and dispute resolution safeguards to agent-initiated transactions as traditional cardholder purchases.
+  
+  The announcement comes as American Express moves to strengthen its AI capabilities. The company **acquired Hyper**, an AI-focused expense management startup backed by OpenAI CEO Sam Altman. Amex plans to integrate Hyper's technology to expand its AI-powered expense management tools available to cardholders, allowing for more automated tracking and categorization of spending.
+  
+  The timing reflects the growing adoption of AI agents for personal financial management and business expenses. By extending purchase protections to these automated transactions, American Express is positioning itself ahead of potential fraud risks as AI-driven purchasing becomes more common among its customer base.
