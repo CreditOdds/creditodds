@@ -40,14 +40,8 @@ async function fetchCardStatsAndMetadata() {
   try {
     const [statsResults, cardResults] = await Promise.all([
       mysql.query(`
-        SELECT
-          card_id,
-          COUNT(*) as total_records,
-          SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
-          SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as rejected_count
-        FROM records
-        WHERE admin_review = 1
-        GROUP BY card_id
+        SELECT card_id, total_records, approved_count, rejected_count
+        FROM card_stats
       `),
       mysql.query(`
         SELECT card_id, card_name, card_image_link, accepting_applications, tags
