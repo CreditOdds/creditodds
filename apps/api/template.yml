@@ -892,7 +892,7 @@ Resources:
       Runtime: nodejs22.x
       MemorySize: 256
       Timeout: 300
-      Description: Recomputes per-card stats (totals + medians) into card_stats. Triggered via admin HTTP endpoint (scheduled trigger pending IAM grant for events:*)
+      Description: Recomputes per-card stats (totals + medians) into card_stats every 5 minutes; also callable via admin HTTP endpoint
       Environment:
         Variables:
           ENDPOINT: !Ref ENDPOINT
@@ -900,6 +900,12 @@ Resources:
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
       Events:
+        ScheduledRefresh:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Description: Refresh precomputed card stats
+            Enabled: true
         ManualRefresh:
           Type: Api
           Properties:
