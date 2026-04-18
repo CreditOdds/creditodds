@@ -885,23 +885,6 @@ Resources:
             Auth:
               Authorizer: NONE
 
-  # TEMPORARY: wired up only to run migration 019 (create card_stats).
-  # Remove this block in a follow-up PR once migration is applied.
-  RunMigrationFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/run-migration.RunMigrationHandler
-      Runtime: nodejs22.x
-      MemorySize: 256
-      Timeout: 300
-      Description: One-shot migration runner; invoke with {"migration":"<file>"}
-      Environment:
-        Variables:
-          ENDPOINT: !Ref ENDPOINT
-          DATABASE: !Ref DATABASE
-          USERNAME: !Ref USERNAME
-          PASSWORD: !Ref PASSWORD
-
   RefreshCardStatsFunction:
     Type: AWS::Serverless::Function
     Properties:
