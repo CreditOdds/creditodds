@@ -1,0 +1,71 @@
+name: "Aeroplan"
+bank: "Chase"
+slug: "chase-aeroplan"
+image: "chase-aeroplan.png"
+accepting_applications: true
+annual_fee: 95
+reward_type: "points"
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Air Canada direct purchases"
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: groceries
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 75000
+  type: points
+  spend_requirement: 4000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 19.74
+    max: 28.24
+benefits:
+  - name: "First Checked Bag Free"
+    value: 0
+    description: "Free first checked bag for cardmember and up to 8 companions on Air Canada flights"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Aeroplan 25K Elite Status"
+    value: 0
+    description: "Two years of Aeroplan 25K Elite Status for new cardmembers"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Global Entry / TSA PreCheck / NEXUS Credit"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees every 4 years"
+    frequency: "multi_year"
+    category: "security"
+  - name: "No Foreign Transaction Fees"
+    value: 0
+    description: "Pay no foreign transaction fees on purchases made outside the United States"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Monthly Spend Bonus"
+    value: 0
+    description: "Earn 500 bonus points for every $2,000 spent monthly, up to 1,500 bonus points per month"
+    frequency: "monthly"
+    category: "rewards"
+  - name: "Ultimate Rewards Transfer Bonus"
+    value: 0
+    description: "10% bonus when transferring 50,000 or more Ultimate Rewards points to Aeroplan"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "24/7 Concierge"
+    value: 0
+    description: "Complimentary Visa Infinite 24/7 concierge service"
+    frequency: "ongoing"
+    category: "travel"
+tags:
+  - airline
+  - travel
+  - rewards
+apply_link: https://creditcards.chase.com/travel-credit-cards/aircanada/aeroplan
