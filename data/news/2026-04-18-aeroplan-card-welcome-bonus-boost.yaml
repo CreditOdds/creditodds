@@ -6,7 +6,8 @@ tags:
   - "bonus-change"
   - "limited-time"
 bank: "Chase"
-card_name: "Aeroplan Credit Card"
+card_slug: "chase-aeroplan"
+card_name: "Aeroplan"
 source: "NerdWallet"
 source_url: "https://www.nerdwallet.com/credit-cards/news/chase-aeroplan-card-boosts-bonus-limited-time-april-2026"
 body: |
