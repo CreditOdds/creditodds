@@ -13,17 +13,19 @@ tags:
   - business
   - rewards
 rewards:
-  - category: airlines
+  - category: "airlines"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "JetBlue purchases"
-  - category: dining
+  - category: "dining"
     value: 2
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "office_supplies"
+    value: 2
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
-    note: "2x on office supply stores"
+    unit: "points_per_dollar"
 signup_bonus:
   value: 60000
   type: "points"
