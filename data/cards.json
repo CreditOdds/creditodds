@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-19T17:32:49.950Z",
-  "count": 159,
+  "generated_at": "2026-04-20T15:48:05.705Z",
+  "count": 160,
   "categories": [
     {
       "id": "dining",
@@ -734,6 +734,91 @@
       "reward_type": "points",
       "card_id": "at-t-access-card-from-citi",
       "card_name": "AT&T Access from Citi"
+    },
+    {
+      "name": "AT&T Points Plus from Citi",
+      "bank": "Citi",
+      "slug": "att-points-plus-from-citi",
+      "image": "citi-att-points-plus.png",
+      "accepting_applications": true,
+      "apply_link": "https://www.citi.com/credit-cards/citi-att-pointsplus-credit-card",
+      "annual_fee": 0,
+      "reward_type": "points",
+      "tags": [
+        "rewards",
+        "co-branded"
+      ],
+      "rewards": [
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Includes EV charging stations"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "phone",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "AT&T products, services, and bill payments"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 250,
+        "type": "cash",
+        "spend_requirement": 500,
+        "timeframe_months": 3,
+        "note": "$250 statement credit after $500 spend in first 3 months"
+      },
+      "benefits": [
+        {
+          "name": "AT&T Wireless Discount",
+          "value": 120,
+          "description": "$10/line monthly discount on AT&T wireless bill (requires AutoPay and paperless billing)",
+          "frequency": "monthly",
+          "category": "telecom",
+          "enrollment_required": true
+        },
+        {
+          "name": "AT&T Internet Credit",
+          "value": 120,
+          "description": "$10 monthly discount on eligible AT&T internet bill (requires AutoPay and paperless billing)",
+          "frequency": "monthly",
+          "category": "telecom",
+          "enrollment_required": true
+        },
+        {
+          "name": "Monthly Spend Statement Credit",
+          "value": 240,
+          "description": "$10 statement credit after $500 spend or $20 after $1,000 spend per billing cycle, up to $240/year",
+          "frequency": "monthly",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases abroad",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "ThankYou Points Pooling",
+          "description": "Pool points with other Citi ThankYou cards to access transfer partners",
+          "category": "rewards",
+          "enrollment_required": false
+        }
+      ],
+      "card_id": "att-points-plus-from-citi",
+      "card_name": "AT&T Points Plus from Citi"
     },
     {
       "name": "Atlas",
@@ -3617,9 +3702,9 @@
       "rewards": [
         {
           "category": "gas",
-          "value": 4,
+          "value": 5,
           "unit": "percent",
-          "note": "On eligible gas and EV charging worldwide, first $7,000/year combined. 5% at Costco gas stations."
+          "note": "5% at Costco gas stations. 4% on other eligible gas and EV charging worldwide, first $7,000/year combined."
         },
         {
           "category": "dining",
@@ -5334,10 +5419,14 @@
           "unit": "points_per_dollar"
         },
         {
+          "category": "office_supplies",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
           "category": "everything_else",
           "value": 1,
-          "unit": "points_per_dollar",
-          "note": "2x on office supply stores"
+          "unit": "points_per_dollar"
         }
       ],
       "signup_bonus": {
