@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { V2TopBar, V2Footer } from '@/components/landing-v2/Chrome';
+import { V2Footer } from '@/components/landing-v2/Chrome';
 import CardImage from '@/components/ui/CardImage';
 import type { NewsItem, NewsTag } from '@/lib/news';
 import '../landing.css';
@@ -71,7 +71,6 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
 
   return (
     <div className="landing-v2">
-      <V2TopBar active="news" />
       <section className="page-hero wrap">
         <div className="eyebrow">
           <span
@@ -95,26 +94,20 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
 
       <div className="wrap">
         <div className="filter-bar" style={{ paddingTop: 20 }}>
-          {TAG_FILTERS.map((t) => (
-            <button
-              key={t.key}
-              type="button"
-              className={'filter-chip ' + (filter === t.key ? 'active' : '')}
-              onClick={() => setFilter(t.key)}
-            >
-              {t.label}
-            </button>
-          ))}
-          <div style={{ flex: 1 }} />
-          <span
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11,
-              color: 'var(--muted)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-            }}
-          >
+          <div className="filter-chip-row">
+            {TAG_FILTERS.map((t) => (
+              <button
+                key={t.key}
+                type="button"
+                className={'filter-chip ' + (filter === t.key ? 'active' : '')}
+                onClick={() => setFilter(t.key)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+          <div className="filter-spacer" />
+          <span className="filter-summary">
             {filtered.length} article{filtered.length === 1 ? '' : 's'}
             {featured ? ` · ${formatDate(featured.date)}` : ''}
           </span>
@@ -150,18 +143,7 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
             </Link>
 
             <div className="news-side">
-              <div
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: 11,
-                  color: 'var(--muted)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  marginBottom: 4,
-                }}
-              >
-                Top stories this week
-              </div>
+              <div className="news-side-label">Top stories this week</div>
               {topStories.map((item) => (
                 <Link key={item.id} href={`/news/${item.id}`} className="news-item">
                   <div className="ni-meta">
@@ -175,7 +157,7 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
             </div>
           </div>
         ) : (
-          <div style={{ padding: '60px 0', textAlign: 'center', color: 'var(--muted)' }}>
+          <div className="empty-state" style={{ padding: '60px 0' }}>
             No articles match this filter.
           </div>
         )}

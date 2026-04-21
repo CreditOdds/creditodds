@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
-import { V2TopBar, V2Footer } from '@/components/landing-v2/Chrome';
+import { V2Footer } from '@/components/landing-v2/Chrome';
 import type { Card, Reward } from '@/lib/api';
 import { categoryLabels } from '@/lib/cardDisplayUtils';
 import '../landing.css';
@@ -162,7 +162,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
 
   return (
     <div className="landing-v2">
-      <V2TopBar active="explore" />
       <section className="page-hero wrap">
         <div className="eyebrow">
           <span
@@ -205,31 +204,27 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-          {CATEGORIES.map((c) => (
+          <div className="filter-chip-row">
+            {CATEGORIES.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className={'filter-chip ' + (cat === c ? 'active' : '')}
+                onClick={() => setCat(c)}
+              >
+                {c} <span className="ct">{catCounts[c]}</span>
+              </button>
+            ))}
             <button
-              key={c}
               type="button"
-              className={'filter-chip ' + (cat === c ? 'active' : '')}
-              onClick={() => setCat(c)}
+              className={'filter-chip ' + (includeArchived ? 'active' : '')}
+              onClick={() => setIncludeArchived((v) => !v)}
             >
-              {c} <span className="ct">{catCounts[c]}</span>
+              Archived
             </button>
-          ))}
-          <button
-            type="button"
-            className={'filter-chip ' + (includeArchived ? 'active' : '')}
-            onClick={() => setIncludeArchived((v) => !v)}
-          >
-            Archived
-          </button>
-          <div style={{ flex: 1 }} />
-          <div
-            style={{
-              display: 'flex',
-              gap: 6,
-              alignItems: 'center',
-            }}
-          >
+          </div>
+          <div className="filter-spacer" />
+          <div className="filter-actions">
             <span className="sort-label">Sort</span>
             {(
               [

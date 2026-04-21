@@ -1,108 +1,164 @@
 'use client';
 
 import { Fragment } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon, WalletIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, WalletIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import Image from "next/image";
 
-function classNames(...classes: string[]) {
+type NavItem = {
+  href: string;
+  label: string;
+  matches: (pathname: string) => boolean;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    href: "/explore",
+    label: "Explore Cards",
+    matches: (pathname) => pathname === "/explore" || pathname.startsWith("/explore/"),
+  },
+  {
+    href: "/check-odds",
+    label: "Check Odds",
+    matches: (pathname) => pathname === "/check-odds" || pathname.startsWith("/check-odds/"),
+  },
+  {
+    href: "/news",
+    label: "Card News",
+    matches: (pathname) => pathname === "/news" || pathname.startsWith("/news/"),
+  },
+  {
+    href: "/best",
+    label: "Best Cards",
+    matches: (pathname) => pathname === "/best" || pathname.startsWith("/best/"),
+  },
+];
+
+function classNames(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+function DesktopNavLink({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={classNames(
+        "inline-flex h-full items-center px-0.5 text-[14px] font-medium tracking-[-0.01em] transition-all",
+        active
+          ? "font-semibold text-[#1a1330] [box-shadow:inset_0_-2px_0_0_#6d3fe8]"
+          : "text-[#3a2f55] hover:text-[#1a1330] hover:[box-shadow:inset_0_-1px_0_0_#1a1330]"
+      )}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function MobileNavLink({
+  href,
+  label,
+  active,
+  onClick,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className={classNames(
+        "block rounded-[10px] border px-4 py-3 text-sm font-medium transition-colors",
+        active
+          ? "border-[#ddd7ec] bg-[#f7f5fc] text-[#1a1330] [box-shadow:inset_3px_0_0_0_#6d3fe8]"
+          : "border-transparent text-[#3a2f55] hover:border-[#ece8f5] hover:bg-[#f7f5fc] hover:text-[#1a1330]"
+      )}
+    >
+      {label}
+    </Link>
+  );
+}
+
 export default function Navbar() {
-  const { logout, authState } = useAuth();
+  const { authState, logout } = useAuth();
   const pathname = usePathname();
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (item: NavItem) => item.matches(pathname);
+  const isProfileActive = pathname === "/profile" || pathname.startsWith("/profile/");
 
   return (
-    <Disclosure as="nav" className="bg-white shadow">
+    <Disclosure
+      as="nav"
+      className="sticky top-0 z-40 border-b border-[#ece8f5] bg-[rgba(255,255,255,0.85)] backdrop-blur-[10px]"
+    >
       {({ open, close }) => (
         <>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <Link href="/">
+          <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+            <div className="flex h-14 items-stretch justify-between gap-3 sm:h-16 lg:gap-6">
+              <div className="flex min-w-0 items-stretch gap-3 lg:gap-6">
+                <div className="flex shrink-0 items-center">
+                  <Link href="/" aria-label="CreditOdds home" className="inline-flex items-center">
                     <Image
-                      className="h-12 w-auto"
+                      className="h-10 w-auto sm:h-12"
                       src="/assets/CreditOdds_LogoText_with Icon-01.svg"
                       alt="CreditOdds"
                       width={150}
                       height={48}
+                      priority
                     />
                   </Link>
                 </div>
-                <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  <Link
-                    href="/explore"
-                    className={classNames(
-                      isActive('/explore')
-                        ? 'border-indigo-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-md font-medium'
-                    )}
-                  >
-                    Explore Cards
-                  </Link>
-                  <Link
-                    href="/check-odds"
-                    className={classNames(
-                      isActive('/check-odds')
-                        ? 'border-indigo-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-md font-medium'
-                    )}
-                  >
-                    Check Your Odds
-                  </Link>
-                  <Link
-                    href="/news"
-                    className={classNames(
-                      isActive('/news')
-                        ? 'border-indigo-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-md font-medium'
-                    )}
-                  >
-                    Card News
-                  </Link>
-                  <Link
-                    href="/best"
-                    className={classNames(
-                      isActive('/best') || pathname.startsWith('/best/')
-                        ? 'border-indigo-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-md font-medium'
-                    )}
-                  >
-                    Best Cards
-                  </Link>
-                </nav>
+
+                <div className="hidden lg:flex items-stretch gap-5 lg:gap-[22px]">
+                  {NAV_ITEMS.map((item) => (
+                    <DesktopNavLink
+                      key={item.href}
+                      href={item.href}
+                      label={item.label}
+                      active={isActive(item)}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="hidden sm:ml-6 sm:flex sm:items-center">
+
+              <div className="hidden lg:flex items-center gap-2 lg:gap-3">
+                <div className="hidden xl:flex items-center gap-2 rounded-full border border-[#ece8f5] bg-white px-3 py-1.5 font-['JetBrains_Mono'] text-[11.5px] text-[#6b6384]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#6d3fe8] shadow-[0_0_0_3px_rgba(109,63,232,0.18)]" />
+                  <span>LIVE · 3,482 records</span>
+                </div>
+
                 {authState.isAuthenticated ? (
                   <>
                     <Link
                       href="/profile"
                       className={classNames(
-                        isActive('/profile')
-                          ? 'text-indigo-600'
-                          : 'text-gray-500 hover:text-gray-700',
-                        'flex items-center gap-1.5 px-3 py-2 text-sm font-medium'
+                        "inline-flex items-center gap-2 rounded-[8px] px-4 py-2 text-sm font-semibold transition-colors",
+                        isProfileActive
+                          ? "bg-[#3a2f55] text-white"
+                          : "bg-[#1a1330] text-white hover:bg-[#3a2f55]"
                       )}
                     >
-                      <WalletIcon className="h-5 w-5" aria-hidden="true" />
+                      <WalletIcon className="h-[18px] w-[18px]" aria-hidden="true" />
                       Your Wallet
                     </Link>
-                    <Menu as="div" className="ml-3 relative z-10">
-                    {({ open: menuOpen }) => (
-                      <>
-                        <div>
-                          <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+
+                    <Menu as="div" className="relative z-10">
+                      {({ open: menuOpen }) => (
+                        <>
+                          <Menu.Button className="inline-flex rounded-full border border-[#ece8f5] bg-white p-1 text-sm shadow-sm transition-colors hover:border-[#ddd7ec] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
                             <Image
                               className="h-8 w-8 rounded-full"
@@ -112,159 +168,145 @@ export default function Navbar() {
                               height={32}
                             />
                           </Menu.Button>
-                        </div>
-                        <Transition
-                          show={menuOpen}
-                          as={Fragment}
-                          enter="transition ease-out duration-200"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <Menu.Items
-                            static
-                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none cursor-pointer"
+                          <Transition
+                            show={menuOpen}
+                            as={Fragment}
+                            enter="transition ease-out duration-150"
+                            enterFrom="scale-95 opacity-0"
+                            enterTo="scale-100 opacity-100"
+                            leave="transition ease-in duration-100"
+                            leaveFrom="scale-100 opacity-100"
+                            leaveTo="scale-95 opacity-0"
                           >
-                            <Menu.Item>
-                              {({ active }) => (
-                                <Link
-                                  href="/profile"
-                                  className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700"
-                                  )}
-                                >
-                                  Profile
-                                </Link>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <button
-                                  onClick={logout}
-                                  className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block w-full text-left px-4 py-2 text-sm text-gray-700"
-                                  )}
-                                >
-                                  Sign Out
-                                </button>
-                              )}
-                            </Menu.Item>
-                          </Menu.Items>
-                        </Transition>
-                      </>
-                    )}
-                  </Menu>
+                            <Menu.Items
+                              static
+                              className="absolute right-0 mt-2 w-48 origin-top-right rounded-[12px] border border-[#ece8f5] bg-white p-1.5 shadow-lg focus:outline-none"
+                            >
+                              <Menu.Item>
+                                {({ active }) => (
+                                  <Link
+                                    href="/profile"
+                                    className={classNames(
+                                      "block rounded-[8px] px-3 py-2 text-sm text-[#3a2f55] transition-colors",
+                                      active && "bg-[#f7f5fc] text-[#1a1330]"
+                                    )}
+                                  >
+                                    Profile
+                                  </Link>
+                                )}
+                              </Menu.Item>
+                              <Menu.Item>
+                                {({ active }) => (
+                                  <button
+                                    onClick={logout}
+                                    className={classNames(
+                                      "block w-full rounded-[8px] px-3 py-2 text-left text-sm text-[#3a2f55] transition-colors",
+                                      active && "bg-[#f7f5fc] text-[#1a1330]"
+                                    )}
+                                  >
+                                    Sign Out
+                                  </button>
+                                )}
+                              </Menu.Item>
+                            </Menu.Items>
+                          </Transition>
+                        </>
+                      )}
+                    </Menu>
                   </>
                 ) : (
-                  <Link href="/login">
-                    <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <>
+                    <Link
+                      href="/login"
+                      className="inline-flex items-center rounded-[8px] px-3 py-2 text-sm font-semibold text-[#1a1330] transition-colors hover:bg-[#f7f5fc]"
+                    >
                       Sign In
-                    </button>
-                  </Link>
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="inline-flex items-center rounded-[8px] bg-[#1a1330] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3a2f55]"
+                    >
+                      Sign up free
+                    </Link>
+                  </>
                 )}
               </div>
-              <div className="-mr-2 flex items-center sm:hidden">
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+
+              <div className="flex items-center lg:hidden">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-[10px] border border-[#ece8f5] bg-white p-2 text-[#3a2f55] transition-colors hover:border-[#ddd7ec] hover:text-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
-            <nav className="pt-2 pb-3 space-y-1">
-              <Link
-                href="/explore"
-                onClick={() => close()}
-                className={classNames(
-                  isActive('/explore')
-                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
-                  'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                )}
-              >
-                Explore Cards
-              </Link>
-              <Link
-                href="/check-odds"
-                onClick={() => close()}
-                className={classNames(
-                  isActive('/check-odds')
-                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
-                  'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                )}
-              >
-                Check Your Odds
-              </Link>
-              <Link
-                href="/news"
-                onClick={() => close()}
-                className={classNames(
-                  isActive('/news')
-                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
-                  'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                )}
-              >
-                Card News
-              </Link>
-              <Link
-                href="/best"
-                onClick={() => close()}
-                className={classNames(
-                  isActive('/best') || pathname.startsWith('/best/')
-                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
-                  'block pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                )}
-              >
-                Best Cards
-              </Link>
-            </nav>
-            <div className="pb-3 border-t border-gray-200">
-              <div className="mt-3 space-y-1">
-                {authState.isAuthenticated ? (
-                  <>
-                    <Link
-                      href="/profile"
-                      onClick={() => close()}
-                      className={classNames(
-                        isActive('/profile')
-                          ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                          : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700',
-                        'flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 text-base font-medium'
-                      )}
-                    >
-                      <WalletIcon className="h-5 w-5" aria-hidden="true" />
-                      Your Wallet
-                    </Link>
-                    <button
-                      onClick={() => { close(); logout(); }}
-                      className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                    >
-                      Sign out
-                    </button>
-                  </>
-                ) : (
+          <Disclosure.Panel className="max-h-[calc(100vh-3.5rem)] overflow-y-auto border-t border-[#ece8f5] bg-[rgba(255,255,255,0.97)] px-4 pb-4 pt-3 lg:hidden">
+            <div className="space-y-2">
+              {NAV_ITEMS.map((item) => (
+                <MobileNavLink
+                  key={item.href}
+                  href={item.href}
+                  label={item.label}
+                  active={isActive(item)}
+                  onClick={() => close()}
+                />
+              ))}
+            </div>
+
+            <div className="mt-4 rounded-[12px] border border-[#ece8f5] bg-white p-3">
+              <div className="mb-3 flex items-center gap-2 font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.08em] text-[#6b6384]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6d3fe8] shadow-[0_0_0_3px_rgba(109,63,232,0.18)]" />
+                <span>Live data · 3,482 records</span>
+              </div>
+
+              {authState.isAuthenticated ? (
+                <div className="space-y-2">
+                  <Link
+                    href="/profile"
+                    onClick={() => close()}
+                    className={classNames(
+                      "flex items-center gap-2 rounded-[10px] px-4 py-3 text-sm font-semibold transition-colors",
+                      isProfileActive
+                        ? "bg-[#1a1330] text-white"
+                        : "bg-[#f7f5fc] text-[#1a1330]"
+                    )}
+                  >
+                    <WalletIcon className="h-5 w-5" aria-hidden="true" />
+                    Your Wallet
+                  </Link>
+                  <button
+                    onClick={() => {
+                      close();
+                      logout();
+                    }}
+                    className="block w-full rounded-[10px] border border-[#ece8f5] px-4 py-3 text-left text-sm font-medium text-[#3a2f55] transition-colors hover:bg-[#f7f5fc] hover:text-[#1a1330]"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
                   <Link
                     href="/login"
                     onClick={() => close()}
-                    className="block px-4 py-2 text-base font-medium text-indigo-600 hover:text-indigo-800 hover:bg-gray-100"
+                    className="block rounded-[10px] border border-[#ece8f5] px-4 py-3 text-sm font-medium text-[#3a2f55] transition-colors hover:bg-[#f7f5fc] hover:text-[#1a1330]"
                   >
                     Sign In
                   </Link>
-                )}
-              </div>
+                  <Link
+                    href="/register"
+                    onClick={() => close()}
+                    className="block rounded-[10px] bg-[#1a1330] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#3a2f55]"
+                  >
+                    Sign up free
+                  </Link>
+                </div>
+              )}
             </div>
           </Disclosure.Panel>
         </>

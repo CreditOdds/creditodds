@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
 import { Card } from '@/lib/api';
-import { V2TopBar, V2Footer } from '@/components/landing-v2/Chrome';
+import { V2Footer } from '@/components/landing-v2/Chrome';
 import './landing.css';
 
 interface LandingClientProps {
@@ -148,6 +148,30 @@ function OddsWidget({ cards }: { cards: Card[] }) {
             onFocus={() => setListOpen(true)}
           />
         </div>
+        <button
+          type="button"
+          className="selected-card"
+          onClick={() => setListOpen((open) => !open)}
+          aria-label={`Selected card: ${sel.card_name}. Open card picker.`}
+        >
+          <div className="selected-card-thumb">
+            <CardImage
+              cardImageLink={sel.card_image_link}
+              alt=""
+              fill
+              sizes="48px"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+          <div className="selected-card-meta">
+            <div className="selected-card-label">Selected card</div>
+            <div className="selected-card-name">{sel.card_name}</div>
+            <div className="selected-card-sub">
+              {sel.bank} · {total} record{total === 1 ? '' : 's'}
+            </div>
+          </div>
+          <div className="selected-card-action">{listOpen ? 'Hide' : 'Change'}</div>
+        </button>
         {listOpen && filtered.length > 0 && (
           <div className="card-list">
             {filtered.slice(0, 6).map((c) => (
@@ -269,7 +293,7 @@ function Hero({ cards }: { cards: Card[] }) {
     <section className="hero wrap">
       <div className="hero-grid">
         <div>
-          <div className="eyebrow">
+          <div className="eyebrow hero-eyebrow">
             <span
               style={{
                 width: 6,
@@ -506,15 +530,17 @@ function Records() {
                     </div>
                     <div className="d">{r.d}</div>
                   </div>
-                  <div className="num">
-                    <span className="l">Score</span>
-                    {r.score}
+                  <div className="rec-details">
+                    <div className="num">
+                      <span className="l">Score</span>
+                      {r.score}
+                    </div>
+                    <div className="num">
+                      <span className="l">Income</span>
+                      {r.income}
+                    </div>
+                    <div className={'status-chip ' + r.status}>{statusLabel[r.status]}</div>
                   </div>
-                  <div className="num">
-                    <span className="l">Income</span>
-                    {r.income}
-                  </div>
-                  <div className={'status-chip ' + r.status}>{statusLabel[r.status]}</div>
                 </div>
               ))}
             </div>
@@ -525,27 +551,12 @@ function Records() {
           <h2 className="sec-title" style={{ marginBottom: 20 }}>
             Read the <em>room</em> before you read the fine print.
           </h2>
-          <p
-            style={{
-              fontSize: 17,
-              lineHeight: 1.55,
-              color: 'var(--ink-2)',
-              maxWidth: 520,
-              margin: '0 0 28px',
-            }}
-          >
+          <p className="body-copy">
             Each record is a real application: FICO, income, credit length, recent
             inquiries, and whether the issuer said yes. No affiliate spin, no editorial
             bias. Just what people actually submitted.
           </p>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 16,
-              maxWidth: 480,
-            }}
-          >
+          <div className="feature-grid">
             {[
               ['Anonymous', 'Nothing identifying is required or shown.'],
               ['Verified', 'Records flagged as suspicious are removed.'],
@@ -605,20 +616,12 @@ function Referrals({ cards }: { cards: Card[] }) {
           <h2 className="sec-title" style={{ marginBottom: 20 }}>
             Submit a record. <em>Earn</em> on every click.
           </h2>
-          <p
-            style={{
-              fontSize: 17,
-              lineHeight: 1.55,
-              color: 'var(--ink-2)',
-              maxWidth: 520,
-              margin: '0 0 28px',
-            }}
-          >
+          <p className="body-copy">
             When you share your outcome, attach your referral link. We inject it for
             applicants whose profiles match yours — so the data you gave keeps paying you
             back.
           </p>
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div className="cta-row">
             <Link href="/register" className="btn btn-primary">
               Start earning
             </Link>
@@ -757,20 +760,12 @@ function Wallet({ cards }: { cards: Card[] }) {
           <h2 className="sec-title" style={{ marginBottom: 20 }}>
             All your cards. <em>One page.</em>
           </h2>
-          <p
-            style={{
-              fontSize: 17,
-              lineHeight: 1.55,
-              color: 'var(--ink-2)',
-              maxWidth: 520,
-              margin: '0 0 28px',
-            }}
-          >
+          <p className="body-copy">
             Track annual fees, renewal dates, and which cards you&apos;ve submitted records
             and referrals for. Get personalized card news and benefit reminders — things
             your issuer won&apos;t tell you.
           </p>
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div className="cta-row">
             <Link href="/register" className="btn btn-primary">
               Create free wallet
             </Link>
@@ -832,7 +827,7 @@ function Final() {
           Hundreds of real approvals and denials. No soft-pull sales funnel. Just the
           data.
         </p>
-        <div style={{ display: 'inline-flex', gap: 10 }}>
+        <div className="final-actions">
           <Link
             href="/check-odds"
             className="btn btn-primary"
@@ -866,7 +861,6 @@ function Final() {
 export default function LandingClient({ initialCards }: LandingClientProps) {
   return (
     <div className="landing-v2">
-      <V2TopBar active={undefined} />
       <Hero cards={initialCards} />
       <Ticker cards={initialCards} />
       <HowItWorks />
