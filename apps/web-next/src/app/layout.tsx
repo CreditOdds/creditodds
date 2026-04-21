@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { AuthProvider } from "@/auth/AuthProvider";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import { ConditionalNavbar, ConditionalFooter } from "@/components/layout/ConditionalChrome";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
 import ClarityInit from "@/components/ui/ClarityInit";
@@ -53,18 +52,25 @@ export default function RootLayout({
         <link rel="preconnect" href="https://d2ojrhbh2dincr.cloudfront.net" />
         <link rel="dns-prefetch" href="https://d3ay3etzd1512y.cloudfront.net" />
         <link rel="dns-prefetch" href="https://d2ojrhbh2dincr.cloudfront.net" />
+        {/* Landing v2 fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="min-h-screen flex flex-col">
         <OrganizationSchema />
         <WebsiteSchema />
         <AuthProvider>
           <SkipLink />
-          <Navbar />
+          <ConditionalNavbar />
           <main id="main-content" className="flex-grow">
             {children}
             <DataPointPrompt />
           </main>
-          <Footer />
+          <ConditionalFooter />
           <ToastContainer />
           <WebVitalsReporter />
           <ClarityInit />
