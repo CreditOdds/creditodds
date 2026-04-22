@@ -67,7 +67,7 @@ export default function BestV2Client({
           <span>Best cards · ranked by data</span>
         </div>
         <h1 className="page-title">
-          The best cards, ranked by <em>who got in.</em>
+          The best cards, ranked by <em>the data.</em>
         </h1>
         <p className="page-sub">
           Not paid placements. Not editorial vibes. Every ranking here is a function of
