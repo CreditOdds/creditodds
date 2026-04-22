@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { OGBackground, OGLogo, loadInterFonts, formatStatNumber } from '@/components/og/og-utils';
+import { OGBackground, loadInterFonts } from '@/components/og/og-utils';
 
 export const size = {
   width: 1200,
@@ -10,40 +10,8 @@ export const contentType = 'image/png';
 
 export const runtime = 'edge';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
-
 export default async function OGImage() {
-  let totalRecords = 0;
-  let totalContributors = 0;
-  let cardCount = 0;
-
-  try {
-    const [leaderboardRes, cardsRes] = await Promise.all([
-      fetch(`${API_BASE}/leaderboard?limit=1`, { next: { revalidate: 300 } }),
-      fetch(`${API_BASE}/cards`, { next: { revalidate: 300 } }),
-    ]);
-
-    if (leaderboardRes.ok) {
-      const data = await leaderboardRes.json();
-      totalRecords = data.stats?.total_records || 0;
-      totalContributors = data.stats?.total_contributors || 0;
-    }
-
-    if (cardsRes.ok) {
-      const cards = await cardsRes.json();
-      cardCount = Array.isArray(cards) ? cards.length : 0;
-    }
-  } catch {
-    // Graceful fallback — use zeros
-  }
-
   const fonts = await loadInterFonts();
-
-  const pills = [
-    totalRecords > 0 ? `${formatStatNumber(totalRecords)} Data Points` : 'Real Data Points',
-    totalContributors > 0 ? `${formatStatNumber(totalContributors)} Users` : 'Community Powered',
-    cardCount > 0 ? `${formatStatNumber(cardCount)} Cards Tracked` : '100% Free',
-  ];
 
   return new ImageResponse(
     (
@@ -103,32 +71,6 @@ export default async function OGImage() {
             }}
           >
             Discover Your Credit Card Approval Odds
-          </div>
-
-          {/* Dynamic stat pills */}
-          <div
-            style={{
-              display: 'flex',
-              marginTop: 40,
-              gap: 20,
-            }}
-          >
-            {pills.map((pill) => (
-              <div
-                key={pill}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '12px 24px',
-                  background: 'rgba(255,255,255,0.15)',
-                  borderRadius: 50,
-                  color: 'white',
-                  fontSize: 20,
-                }}
-              >
-                {pill}
-              </div>
-            ))}
           </div>
         </div>
       </OGBackground>
