@@ -18,6 +18,7 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 const sharp = require('sharp');
+const { V2, darkBackground, footerBar } = require('./lib/og-style');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
 const CDN_IMAGES = 'https://d3ay3etzd1512y.cloudfront.net/card_images';
@@ -142,8 +143,8 @@ function getBadgeOrMovementSvg(card) {
     const pillWidth = textWidth + 24;
     const x = -pillWidth;
     return `<g>
-      <rect x="${x}" y="-10" width="${pillWidth}" height="24" rx="12" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
-      <text x="${x + pillWidth / 2}" y="7" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#4f46e5">${badgeText}</text>
+      <rect x="${x}" y="-10" width="${pillWidth}" height="24" rx="12" fill="rgba(109,63,232,0.18)" stroke="rgba(109,63,232,0.45)" stroke-width="1"/>
+      <text x="${x + pillWidth / 2}" y="7" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#ffffff">${badgeText}</text>
     </g>`;
   }
 
@@ -151,13 +152,13 @@ function getBadgeOrMovementSvg(card) {
     const movement = card.previousRank - card.rank;
     if (movement > 0) {
       return `<g>
-        <polygon points="0,12 8,0 16,12" fill="#16a34a"/>
-        <text x="20" y="12" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#16a34a">+${movement}</text>
+        <polygon points="0,12 8,0 16,12" fill="${V2.emerald}"/>
+        <text x="20" y="12" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="${V2.emerald}">+${movement}</text>
       </g>`;
     } else if (movement < 0) {
       return `<g>
-        <polygon points="0,0 8,12 16,0" fill="#dc2626"/>
-        <text x="20" y="12" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#dc2626">${movement}</text>
+        <polygon points="0,0 8,12 16,0" fill="${V2.warn}"/>
+        <text x="20" y="12" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="${V2.warn}">${movement}</text>
       </g>`;
     }
   }
@@ -180,41 +181,36 @@ async function generateBestRankingsImage(categoryTitle, updatedAt, topCards) {
     ? new Date(updatedAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-  const rankColors = ['#4f46e5', '#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe'];
-  const rowColors = ['#f8fafc', '#ffffff'];
-
   let rowsSvg = '';
   for (let i = 0; i < 5; i++) {
     const card = topCards[i];
     const y = headerHeight + (i * rowHeight);
-    const bgColor = rowColors[i % 2];
+    const bgFill = i % 2 === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0)';
 
     rowsSvg += `
-      <rect x="0" y="${y}" width="${width}" height="${rowHeight}" fill="${bgColor}"/>
-      <circle cx="55" cy="${y + rowHeight / 2}" r="28" fill="${rankColors[i]}"/>
+      <rect x="0" y="${y}" width="${width}" height="${rowHeight}" fill="${bgFill}"/>
+      <line x1="40" y1="${y}" x2="${width - 40}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+      <circle cx="55" cy="${y + rowHeight / 2}" r="28" fill="${V2.accent}"/>
       <text x="55" y="${y + rowHeight / 2 + 10}" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="white">${card.rank}</text>
-      <text x="310" y="${y + rowHeight / 2 - 8}" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#1e293b">${escapeXml(card.name)}</text>
-      <text x="310" y="${y + rowHeight / 2 + 18}" font-family="Arial,sans-serif" font-size="16" fill="#64748b">${escapeXml(card.bank)}</text>
+      <text x="310" y="${y + rowHeight / 2 - 8}" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#ffffff">${escapeXml(card.name)}</text>
+      <text x="310" y="${y + rowHeight / 2 + 18}" font-family="Arial,sans-serif" font-size="16" fill="rgba(255,255,255,0.6)">${escapeXml(card.bank)}</text>
       <g transform="translate(${width - 30}, ${y + rowHeight / 2 - 6})">
         ${getBadgeOrMovementSvg(card)}
       </g>
     `;
   }
 
+  const bg = darkBackground({ width, height, accent: V2.accent });
+
   const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#4f46e5"/>
-        <stop offset="100%" style="stop-color:#7c3aed"/>
-      </linearGradient>
+      ${bg.defs}
     </defs>
-    <rect width="${width}" height="${height}" fill="#ffffff"/>
-    <rect x="0" y="0" width="${width}" height="${headerHeight}" fill="url(#headerGrad)"/>
-    <text x="40" y="52" font-family="Arial,sans-serif" font-size="36" font-weight="bold" fill="white">${escapeXml(categoryTitle)}</text>
-    <text x="40" y="85" font-family="Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.85)">Updated ${escapeXml(updatedDate)}</text>
+    ${bg.rects}
+    <text x="40" y="58" font-family="Arial,sans-serif" font-size="36" font-weight="bold" fill="#ffffff" letter-spacing="-0.5">${escapeXml(categoryTitle)}</text>
+    <text x="40" y="92" font-family="Arial,sans-serif" font-size="16" fill="${V2.accent}" letter-spacing="1.5">UPDATED \u00B7 ${escapeXml(updatedDate).toUpperCase()}</text>
     ${rowsSvg}
-    <rect x="0" y="${height - footerHeight}" width="${width}" height="${footerHeight}" fill="#f1f5f9"/>
-    <text x="${width / 2}" y="${height - 22}" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#64748b">creditodds.com</text>
+    ${footerBar({ width, y: height - footerHeight, height: footerHeight })}
   </svg>`;
 
   let image = sharp(Buffer.from(svg)).png();
