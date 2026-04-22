@@ -122,17 +122,27 @@ export default async function BestDetailPage({ params }: Props) {
             letterSpacing: '0.08em',
           }}
         >
-          <span>
-            Published · <b style={{ color: 'var(--ink)' }}>{formatDate(page.date)}</b>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '4px 10px',
+              borderRadius: 6,
+              background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
+              color: 'var(--accent)',
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: 'var(--accent)',
+              }}
+            />
+            Updated · <b>{formatDate(page.updated_at || page.date)}</b>
           </span>
-          {page.updated_at && page.updated_at !== page.date && (
-            <>
-              <span>·</span>
-              <span style={{ color: 'var(--accent)' }}>
-                Updated <b>{formatDate(page.updated_at)}</b>
-              </span>
-            </>
-          )}
           <span>·</span>
           <span>
             <b style={{ color: 'var(--ink)' }}>{enrichedCards.length}</b> card
