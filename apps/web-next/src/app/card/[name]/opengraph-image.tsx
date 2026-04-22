@@ -153,11 +153,11 @@ export default async function OGImage({ params }: Props) {
           )}
         </div>
 
-        {/* Logo in bottom left */}
+        {/* Logo in top left */}
         <div
           style={{
             position: 'absolute',
-            bottom: 30,
+            top: 30,
             left: 40,
             display: 'flex',
           }}
