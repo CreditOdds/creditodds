@@ -23,7 +23,7 @@ function feeTone(fee: number | undefined): 'none' | 'mid' | 'high' {
   return 'mid';
 }
 
-const CATEGORIES = ['All', 'Travel', 'Cashback', 'Dining', 'Business', 'Rent'] as const;
+const CATEGORIES = ['All', 'Travel', 'Cashback', 'Dining', 'Business'] as const;
 type CategoryKey = (typeof CATEGORIES)[number];
 
 function cardCategory(card: Card): CategoryKey {
@@ -32,13 +32,11 @@ function cardCategory(card: Card): CategoryKey {
   if (explicit.includes('cash') || explicit.includes('cashback')) return 'Cashback';
   if (explicit.includes('dining')) return 'Dining';
   if (explicit.includes('business')) return 'Business';
-  if (explicit.includes('rent')) return 'Rent';
 
   const tags = (card.tags ?? []).map((t) => t.toLowerCase());
   if (/business/i.test(card.card_name)) return 'Business';
   if (tags.some((t) => t.includes('travel') || t.includes('miles') || t.includes('airline') || t.includes('hotel'))) return 'Travel';
   if (tags.some((t) => t.includes('dining'))) return 'Dining';
-  if (tags.some((t) => t.includes('rent') || t.includes('bilt'))) return 'Rent';
 
   if (card.reward_type === 'cashback') return 'Cashback';
   if (card.reward_type === 'miles') return 'Travel';
@@ -111,7 +109,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       Cashback: 0,
       Dining: 0,
       Business: 0,
-      Rent: 0,
     };
     for (const c of cards) {
       if (!includeArchived && !c.accepting_applications) continue;

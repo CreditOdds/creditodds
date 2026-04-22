@@ -57,7 +57,7 @@ export function V2Footer() {
       <div className="wrap">
         <div className="foot-grid">
           <div>
-            <div style={{ marginBottom: 14 }}>
+            <div style={{ marginBottom: 14, marginLeft: -14 }}>
               <Image
                 src="/assets/CreditOdds_LogoText_white-01.svg"
                 alt="CreditOdds"

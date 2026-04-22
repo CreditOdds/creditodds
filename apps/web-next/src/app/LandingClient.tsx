@@ -270,16 +270,8 @@ function OddsWidget({ cards }: { cards: Card[] }) {
         <span>No soft pull · No account required</span>
         <button
           type="button"
+          className="widget-cta"
           onClick={() => router.push(`/card/${sel.slug}`)}
-          style={{
-            background: 'transparent',
-            border: 0,
-            cursor: 'pointer',
-            color: 'var(--ink)',
-            fontWeight: 500,
-            fontSize: 11,
-            fontFamily: "'JetBrains Mono', monospace",
-          }}
         >
           See full breakdown →
         </button>

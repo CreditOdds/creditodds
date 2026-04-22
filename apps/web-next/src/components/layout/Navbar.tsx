@@ -31,6 +31,11 @@ const NAV_ITEMS: NavItem[] = [
     matches: (pathname) => pathname === "/news" || pathname.startsWith("/news/"),
   },
   {
+    href: "/card-wire",
+    label: "Card Wire",
+    matches: (pathname) => pathname === "/card-wire" || pathname.startsWith("/card-wire/"),
+  },
+  {
     href: "/best",
     label: "Best Cards",
     matches: (pathname) => pathname === "/best" || pathname.startsWith("/best/"),

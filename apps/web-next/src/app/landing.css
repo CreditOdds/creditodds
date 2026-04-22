@@ -683,6 +683,28 @@
 .landing-v2 .widget-foot a:hover {
   text-decoration: underline;
 }
+.landing-v2 .widget-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.landing-v2 .widget-cta:hover {
+  background: color-mix(in oklab, var(--accent) 88%, black);
+}
+.landing-v2 .widget-cta:active {
+  transform: translateY(1px);
+}
 .landing-v2 .feature-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2009,6 +2031,28 @@
   }
   .landing-v2 .foot-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+  }
+  .landing-v2 .foot-grid > div:nth-child(1),
+  .landing-v2 .foot-grid > div:nth-child(4) {
+    grid-column: 1 / -1;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) h4 {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) > a {
+    display: inline-flex;
+    padding: 0;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) > a span {
+    display: none;
   }
 }
 
@@ -2166,8 +2210,7 @@
   .landing-v2 .inputs-row,
   .landing-v2 .feature-grid,
   .landing-v2 .wallet-grid,
-  .landing-v2 .proof-grid,
-  .landing-v2 .foot-grid {
+  .landing-v2 .proof-grid {
     grid-template-columns: 1fr;
   }
   .landing-v2 .result {
@@ -2560,16 +2603,53 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+.landing-v2 .wire-mobile-summary {
+  display: none;
+}
 @media (max-width: 640px) {
-  .landing-v2 .wire-ts {
-    display: none;
+  .landing-v2 .wire-table-wrap {
+    margin-left: -14px;
+    margin-right: -14px;
+    padding-top: 16px;
+    padding-bottom: 48px;
+    overflow-x: hidden;
   }
-  .landing-v2 .wire-card .wc-name {
-    max-width: 140px;
+  .landing-v2 .wire-table {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
     font-size: 12px;
   }
-  .landing-v2 .wire-change {
-    font-size: 11.5px;
+  .landing-v2 .wire-table thead th.hide-sm,
+  .landing-v2 .wire-table tbody td.hide-sm {
+    display: none;
+  }
+  .landing-v2 .wire-table thead th {
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+  .landing-v2 .wire-table tbody td {
+    padding: 12px;
+  }
+  .landing-v2 .wire-card .wc-name {
+    max-width: none;
+    white-space: normal;
+    font-size: 13px;
+  }
+  .landing-v2 .wire-mobile-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    margin-left: 50px;
+  }
+  .landing-v2 .wire-mobile-summary .wire-field-chip {
+    font-size: 9.5px;
+    padding: 2px 6px;
+  }
+  .landing-v2 .wire-mobile-summary .wire-change {
+    font-size: 11px;
   }
 }
 
