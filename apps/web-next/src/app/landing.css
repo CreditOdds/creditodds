@@ -191,7 +191,7 @@
 
 /* ---------- Hero ---------- */
 .landing-v2 .hero {
-  padding-block: 72px 40px;
+  padding-block: 32px 40px;
   position: relative;
 }
 .landing-v2 .hero-grid {
@@ -2017,7 +2017,7 @@
     /* aligned with Navbar px-4/sm:px-6 — see main .wrap rule */
   }
   .landing-v2 .hero {
-    padding-block: 44px 28px;
+    padding-block: 20px 28px;
   }
   .landing-v2 .page-hero {
     padding-block: 20px 24px;
