@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { getArticle } from '@/lib/articles';
-import { OGBackground, OGLogo, loadInterFonts, ARTICLE_TAG_COLORS, ARTICLE_TAG_LABELS } from '@/components/og/og-utils';
+import { OGBackground, OGLogo, loadInterFonts, OG_CACHE_HEADERS, ARTICLE_TAG_COLORS, ARTICLE_TAG_LABELS } from '@/components/og/og-utils';
 
 export const size = {
   width: 1200,
@@ -38,7 +38,7 @@ export default async function OGImage({ params }: Props) {
           </div>
         </OGBackground>
       ),
-      { ...size, fonts }
+      { ...size, fonts, headers: OG_CACHE_HEADERS }
     );
   }
 
@@ -181,6 +181,6 @@ export default async function OGImage({ params }: Props) {
         </div>
       </OGBackground>
     ),
-    { ...size, fonts }
+    { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }

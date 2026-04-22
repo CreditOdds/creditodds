@@ -73,19 +73,40 @@ export function formatStatNumber(n: number): string {
 }
 
 // ── Load Inter fonts from Google Fonts CDN ──
+//
+// Memoized per module instance — the Inter TTFs don't change, so refetching
+// them on every OG request just burned latency. First request within a warm
+// container pays the fetch cost; every subsequent OG render reuses the bytes.
 
-export async function loadInterFonts(): Promise<{ name: string; data: ArrayBuffer; style: 'normal'; weight: 400 | 700 }[]> {
-  // Satori requires TTF format (not woff2)
-  const [regular, bold] = await Promise.all([
-    fetch('https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf').then(r => r.arrayBuffer()),
-    fetch('https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf').then(r => r.arrayBuffer()),
-  ]);
+type InterFonts = { name: string; data: ArrayBuffer; style: 'normal'; weight: 400 | 700 }[];
+let interFontsPromise: Promise<InterFonts> | null = null;
 
-  return [
-    { name: 'Inter', data: regular, style: 'normal' as const, weight: 400 as const },
-    { name: 'Inter', data: bold, style: 'normal' as const, weight: 700 as const },
-  ];
+export function loadInterFonts(): Promise<InterFonts> {
+  if (!interFontsPromise) {
+    // Satori requires TTF format (not woff2)
+    interFontsPromise = Promise.all([
+      fetch('https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf').then(r => r.arrayBuffer()),
+      fetch('https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf').then(r => r.arrayBuffer()),
+    ]).then(([regular, bold]) => [
+      { name: 'Inter', data: regular, style: 'normal' as const, weight: 400 as const },
+      { name: 'Inter', data: bold, style: 'normal' as const, weight: 700 as const },
+    ]);
+    // If the fetch fails, clear the cache so we retry next request.
+    interFontsPromise.catch(() => { interFontsPromise = null; });
+  }
+  return interFontsPromise;
 }
+
+// ── Cache headers for ImageResponse ──
+//
+// Lets CloudFront cache OG images so social unfurlers get cached bytes in
+// ~50ms instead of a 5s cold render. Content changes when the page data
+// changes (bonus value, card fee, etc.) — s-maxage is short enough for edits
+// to propagate within a week and stale-while-revalidate covers the rest.
+
+export const OG_CACHE_HEADERS = {
+  'cache-control': 'public, max-age=3600, s-maxage=604800, stale-while-revalidate=86400',
+};
 
 // ── OGLogo component ──
 
