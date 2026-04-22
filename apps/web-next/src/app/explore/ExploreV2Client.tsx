@@ -6,6 +6,7 @@ import CardImage from '@/components/ui/CardImage';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import type { Card, Reward } from '@/lib/api';
 import { categoryLabels } from '@/lib/cardDisplayUtils';
+import { cardMatchesSearch } from '@/lib/searchAliases';
 import '../landing.css';
 
 interface ExploreV2ClientProps {
@@ -121,14 +122,11 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
   }, [cards, includeArchived]);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = query.trim();
     const pool = cards.filter((c) => {
       if (!includeArchived && !c.accepting_applications) return false;
       if (cat !== 'All' && cardCategory(c) !== cat) return false;
-      if (q) {
-        const haystack = `${c.card_name} ${c.bank}`.toLowerCase();
-        if (!haystack.includes(q)) return false;
-      }
+      if (q && !cardMatchesSearch(c.card_name, c.bank, q)) return false;
       return true;
     });
     const sorted = [...pool];
