@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
 import { Card } from '@/lib/api';
+import { cardMatchesSearch } from '@/lib/searchAliases';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import './landing.css';
 
@@ -103,9 +104,8 @@ function OddsWidget({ cards }: { cards: Card[] }) {
 
   const filtered = useMemo(() => {
     if (!query) return activeCards;
-    const q = query.toLowerCase();
-    return activeCards.filter(
-      (c) => c.card_name.toLowerCase().includes(q) || c.bank.toLowerCase().includes(q)
+    return activeCards.filter((c) =>
+      cardMatchesSearch(c.card_name, c.bank, query)
     );
   }, [query, activeCards]);
 
