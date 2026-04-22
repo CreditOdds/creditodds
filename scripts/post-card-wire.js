@@ -17,6 +17,7 @@
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
+const { V2, darkBackground, footerBar, hexToRgba } = require('./lib/og-style');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
 const CDN_IMAGES = 'https://d3ay3etzd1512y.cloudfront.net/card_images';
@@ -133,7 +134,7 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer) {
   // Section header
   const sectionHeaderY = headerHeight + cardImageAreaHeight;
   changesSvg += `
-    <text x="40" y="${sectionHeaderY + 26}" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#6b7280" letter-spacing="0.1em">WHAT CHANGED</text>
+    <text x="40" y="${sectionHeaderY + 26}" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="${V2.accent}" letter-spacing="1.5">WHAT CHANGED</text>
   `;
 
   for (let i = 0; i < changes.length; i++) {
@@ -144,58 +145,65 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer) {
     const oldFormatted = formatValue(c.field, c.old_value);
     const newFormatted = formatValue(c.field, c.new_value);
 
-    const arrowColor = dir === 'positive' ? '#16a34a' : dir === 'negative' ? '#dc2626' : '#6b7280';
-    const arrowBg = dir === 'positive' ? '#f0fdf4' : dir === 'negative' ? '#fef2f2' : '#f9fafb';
-    const valueBg = dir === 'positive' ? '#dcfce7' : dir === 'negative' ? '#fee2e2' : '#f3f4f6';
+    const accentColor = dir === 'positive' ? V2.emerald : dir === 'negative' ? V2.warn : V2.muted;
+    const rowBg = dir === 'positive'
+      ? hexToRgba(V2.emerald, 0.12)
+      : dir === 'negative'
+      ? hexToRgba(V2.warn, 0.14)
+      : 'rgba(255,255,255,0.05)';
+    const pillBg = dir === 'positive'
+      ? hexToRgba(V2.emerald, 0.22)
+      : dir === 'negative'
+      ? hexToRgba(V2.warn, 0.22)
+      : 'rgba(255,255,255,0.12)';
 
     // Row background
-    changesSvg += `<rect x="30" y="${y}" width="${width - 60}" height="${changeRowHeight - 10}" rx="12" fill="${arrowBg}"/>`;
+    changesSvg += `<rect x="30" y="${y}" width="${width - 60}" height="${changeRowHeight - 10}" rx="12" fill="${rowBg}" stroke="${hexToRgba(accentColor, 0.3)}" stroke-width="1"/>`;
 
     // Field label
-    changesSvg += `<text x="55" y="${y + 35}" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#374151">${escapeXml(label)}</text>`;
+    changesSvg += `<text x="55" y="${y + 35}" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#ffffff">${escapeXml(label)}</text>`;
 
     // Old value → New value
-    changesSvg += `<text x="55" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" fill="#9ca3af">${escapeXml(oldFormatted)}</text>`;
-    changesSvg += `<text x="${55 + oldFormatted.length * 13 + 15}" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" fill="#9ca3af">\u2192</text>`;
-    changesSvg += `<text x="${55 + oldFormatted.length * 13 + 40}" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="${arrowColor}">${escapeXml(newFormatted)}</text>`;
+    changesSvg += `<text x="55" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" fill="rgba(255,255,255,0.5)">${escapeXml(oldFormatted)}</text>`;
+    changesSvg += `<text x="${55 + oldFormatted.length * 13 + 15}" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" fill="rgba(255,255,255,0.5)">\u2192</text>`;
+    changesSvg += `<text x="${55 + oldFormatted.length * 13 + 40}" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="${accentColor}">${escapeXml(newFormatted)}</text>`;
 
     // Direction badge on right
     const badgeText = dir === 'positive' ? '\u2B06 Better' : dir === 'negative' ? '\u2B07 Worse' : '\u2796 Changed';
     changesSvg += `
-      <rect x="${width - 195}" y="${y + 25}" width="130" height="36" rx="18" fill="${valueBg}"/>
-      <text x="${width - 130}" y="${y + 49}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="${arrowColor}">${badgeText}</text>
+      <rect x="${width - 195}" y="${y + 25}" width="130" height="36" rx="18" fill="${pillBg}"/>
+      <text x="${width - 130}" y="${y + 49}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="${accentColor}">${badgeText}</text>
     `;
   }
 
-  // Header gradient color based on overall sentiment
+  // Header accent color based on overall sentiment
   const allPositive = changes.every(c => getDirection(c.field, c.old_value, c.new_value) === 'positive');
   const allNegative = changes.every(c => getDirection(c.field, c.old_value, c.new_value) === 'negative');
-  const gradStart = allPositive ? '#059669' : allNegative ? '#dc2626' : '#4f46e5';
-  const gradEnd = allPositive ? '#10b981' : allNegative ? '#ef4444' : '#7c3aed';
+  const accentColor = allPositive ? V2.emerald : allNegative ? V2.warn : V2.accent;
+
+  const bg = darkBackground({ width, height, accent: accentColor });
 
   const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:${gradStart}"/>
-        <stop offset="100%" style="stop-color:${gradEnd}"/>
-      </linearGradient>
+      ${bg.defs}
     </defs>
-    <rect width="${width}" height="${height}" fill="#ffffff"/>
+    ${bg.rects}
+
+    <!-- Accent bar above title -->
+    <rect x="40" y="32" width="60" height="3" fill="${accentColor}"/>
 
     <!-- Header -->
-    <rect x="0" y="0" width="${width}" height="${headerHeight}" fill="url(#hg)"/>
-    <text x="40" y="42" font-family="Arial,sans-serif" font-size="32" font-weight="bold" fill="white">${escapeXml(cardName)}</text>
-    <text x="40" y="72" font-family="Arial,sans-serif" font-size="18" fill="rgba(255,255,255,0.85)">${escapeXml(bank || '')} \u2022 CardWire Update</text>
+    <text x="40" y="66" font-family="Arial,sans-serif" font-size="32" font-weight="bold" fill="#ffffff" letter-spacing="-0.5">${escapeXml(cardName)}</text>
+    <text x="40" y="92" font-family="Arial,sans-serif" font-size="16" fill="${accentColor}" letter-spacing="1.2">${escapeXml((bank || '').toUpperCase())} \u00B7 CARDWIRE UPDATE</text>
 
-    <!-- Card image area (white background, image composited later) -->
-    <rect x="0" y="${headerHeight}" width="${width}" height="${cardImageAreaHeight}" fill="#f8fafc"/>
+    <!-- Card image area (darker inset) -->
+    <rect x="0" y="${headerHeight}" width="${width}" height="${cardImageAreaHeight}" fill="rgba(0,0,0,0.18)"/>
 
     <!-- Changes -->
     ${changesSvg}
 
     <!-- Footer -->
-    <rect x="0" y="${height - footerHeight}" width="${width}" height="${footerHeight}" fill="#f1f5f9"/>
-    <text x="${width / 2}" y="${height - 17}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="600" fill="#64748b">creditodds.com/card-wire</text>
+    ${footerBar({ width, y: height - footerHeight, height: footerHeight, text: 'creditodds.com/card-wire' })}
   </svg>`;
 
   let image = sharp(Buffer.from(svg)).png();
