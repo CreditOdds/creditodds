@@ -683,6 +683,28 @@
 .landing-v2 .widget-foot a:hover {
   text-decoration: underline;
 }
+.landing-v2 .widget-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.landing-v2 .widget-cta:hover {
+  background: color-mix(in oklab, var(--accent) 88%, black);
+}
+.landing-v2 .widget-cta:active {
+  transform: translateY(1px);
+}
 .landing-v2 .feature-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
