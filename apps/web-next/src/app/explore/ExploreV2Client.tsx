@@ -101,7 +101,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
   const [cat, setCat] = useState<CategoryKey>('All');
   const [sort, setSort] = useState<SortKey>('trending');
   const [includeArchived, setIncludeArchived] = useState(false);
-  const [view, setView] = useState<ViewMode>('grid');
+  const [view, setView] = useState<ViewMode>('table');
 
   const catCounts = useMemo(() => {
     const counts: Record<CategoryKey, number> = {
@@ -185,65 +185,26 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
 
       <div className="wrap">
         <div className="filter-bar">
-          <div className="search-wrap">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-            <input
-              type="search"
-              placeholder="Search by card name or issuer…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div>
-          <div className="filter-chip-row">
-            {CATEGORIES.map((c) => (
-              <button
-                key={c}
-                type="button"
-                className={'filter-chip ' + (cat === c ? 'active' : '')}
-                onClick={() => setCat(c)}
+          <div className="search-row">
+            <div className="search-wrap">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                {c} <span className="ct">{catCounts[c]}</span>
-              </button>
-            ))}
-            <button
-              type="button"
-              className={'filter-chip ' + (includeArchived ? 'active' : '')}
-              onClick={() => setIncludeArchived((v) => !v)}
-            >
-              Archived
-            </button>
-          </div>
-          <div className="filter-spacer" />
-          <div className="filter-actions">
-            <span className="sort-label">Sort</span>
-            {(
-              [
-                ['trending', 'Trending'],
-                ['odds', 'Odds'],
-                ['records', 'Records'],
-                ['fee', 'Fee'],
-              ] as [SortKey, string][]
-            ).map(([k, l]) => (
-              <button
-                key={k}
-                type="button"
-                className={'filter-chip ' + (sort === k ? 'active' : '')}
-                style={{ padding: '6px 10px', fontSize: 11 }}
-                onClick={() => setSort(k)}
-              >
-                {l}
-              </button>
-            ))}
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input
+                type="search"
+                placeholder="Search by card name or issuer…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
             <div className="view-toggle" role="group" aria-label="View mode">
               <button
                 type="button"
@@ -285,6 +246,47 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                 </svg>
               </button>
             </div>
+          </div>
+          <div className="filter-chip-row">
+            {CATEGORIES.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className={'filter-chip ' + (cat === c ? 'active' : '')}
+                onClick={() => setCat(c)}
+              >
+                {c} <span className="ct">{catCounts[c]}</span>
+              </button>
+            ))}
+            <button
+              type="button"
+              className={'filter-chip ' + (includeArchived ? 'active' : '')}
+              onClick={() => setIncludeArchived((v) => !v)}
+            >
+              Archived
+            </button>
+          </div>
+          <div className="filter-spacer" />
+          <div className="filter-actions">
+            <span className="sort-label">Sort</span>
+            {(
+              [
+                ['trending', 'Trending'],
+                ['odds', 'Odds'],
+                ['records', 'Records'],
+                ['fee', 'Fee'],
+              ] as [SortKey, string][]
+            ).map(([k, l]) => (
+              <button
+                key={k}
+                type="button"
+                className={'filter-chip ' + (sort === k ? 'active' : '')}
+                style={{ padding: '6px 10px', fontSize: 11 }}
+                onClick={() => setSort(k)}
+              >
+                {l}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -380,11 +382,11 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
               <thead>
                 <tr>
                   <th>Card</th>
-                  <th className="num">Annual fee</th>
-                  <th>Reward type</th>
-                  <th>Top reward</th>
-                  <th>Welcome bonus</th>
-                  <th className="num">Approval</th>
+                  <th className="num hide-sm">Annual fee</th>
+                  <th className="hide-sm">Reward type</th>
+                  <th className="hide-md">Top reward</th>
+                  <th className="hide-sm">Welcome bonus</th>
+                  <th className="num ct-approval-col">Approval</th>
                 </tr>
               </thead>
               <tbody>
@@ -394,6 +396,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                     (c.approved_count ?? 0) + (c.rejected_count ?? 0);
                   const archived = !c.accepting_applications;
                   const bonus = formatBonus(c);
+                  const feeLabel = `$${c.annual_fee ?? 0}`;
                   return (
                     <tr key={c.slug}>
                       <td>
@@ -413,21 +416,34 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                               {c.bank}
                               {archived ? ' · archived' : ''}
                             </div>
+                            <div className="ct-mobile-summary">
+                              <span className={'ct-mobile-fee fee-' + feeTone(c.annual_fee)}>
+                                {feeLabel}
+                              </span>
+                              <span className="ct-mobile-sep">·</span>
+                              <span>{rewardTypeLabel(c)}</span>
+                              {bonus.main !== '—' && (
+                                <>
+                                  <span className="ct-mobile-sep">·</span>
+                                  <span>{bonus.main}</span>
+                                </>
+                              )}
+                            </div>
                           </div>
                         </Link>
                       </td>
-                      <td className={'num fee-' + feeTone(c.annual_fee)}>
-                        ${c.annual_fee ?? 0}
+                      <td className={'num hide-sm fee-' + feeTone(c.annual_fee)}>
+                        {feeLabel}
                       </td>
-                      <td>{rewardTypeLabel(c)}</td>
-                      <td>{formatTopReward(c)}</td>
-                      <td>
+                      <td className="hide-sm">{rewardTypeLabel(c)}</td>
+                      <td className="hide-md">{formatTopReward(c)}</td>
+                      <td className="hide-sm">
                         {bonus.main}
                         {bonus.sub ? (
                           <span className="ct-sub">{bonus.sub}</span>
                         ) : null}
                       </td>
-                      <td className="num">
+                      <td className="num ct-approval-col">
                         {odds == null ? (
                           <span className="muted">—</span>
                         ) : (

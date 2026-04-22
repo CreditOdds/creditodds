@@ -6,7 +6,9 @@ import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
+import { V2Footer } from "@/components/landing-v2/Chrome";
 import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
+import "../landing.css";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon } from "@heroicons/react/24/outline";
@@ -344,141 +346,81 @@ export default function ProfileClient() {
     return null;
   }
 
+  const tabs: { key: typeof activeTab; label: string; icon: typeof WalletIcon; count?: number }[] = [
+    { key: 'wallet', label: 'Wallet', icon: WalletIcon, count: walletCards.length },
+    { key: 'benefits', label: 'Benefits', icon: GiftIcon },
+    { key: 'records', label: 'Records', icon: DocumentTextIcon, count: records.length },
+    { key: 'referrals', label: 'Referrals', icon: LinkIcon, count: referrals.filter(r => !r.archived_at).length },
+    { key: 'applications', label: 'Applications', icon: ChartBarIcon },
+    { key: 'settings', label: 'Settings', icon: Cog6ToothIcon },
+  ];
+
+  const displayName = authState.user?.displayName || authState.user?.email?.split('@')[0] || 'there';
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        {/* Profile Header - Compact */}
-        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                  {authState.user?.displayName || 'My Profile'}
-                </h1>
-                {authState.user?.email && (
-                  <p className="text-sm text-gray-500">{authState.user.email}</p>
-                )}
-              </div>
+    <div className="landing-v2 profile-v2">
+      <div className="profile-wrap">
+        {/* Profile page hero */}
+        <section className="profile-hero">
+          <div className="eyebrow">
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: 'var(--accent)',
+              }}
+            />
+            <span>Your profile · signed in</span>
+          </div>
+          <h1 className="profile-greeting">
+            Welcome back, <em>{displayName}.</em>
+          </h1>
+          {authState.user?.email && (
+            <p className="profile-email">{authState.user.email}</p>
+          )}
+          <div className="profile-stats">
+            <div className="pstat">
+              <span className="k">Cards in wallet</span>
+              <span className="v accent">{walletCards.length}</span>
             </div>
-            <div className="grid grid-cols-4 gap-2 sm:flex sm:items-center sm:gap-3">
-              <div className="flex items-center gap-1 sm:gap-2 bg-indigo-50 rounded-lg px-2 sm:px-3 py-2">
-                <WalletIcon className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600" />
-                <div>
-                  <p className="text-base sm:text-xl font-bold text-indigo-600">{walletCards.length}</p>
-                  <p className="text-[10px] sm:text-xs text-indigo-600/70">Cards</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-2 bg-red-50 rounded-lg px-2 sm:px-3 py-2">
-                <span className="text-red-500 font-medium text-xs sm:text-sm">$</span>
-                <div>
-                  <p className="text-base sm:text-xl font-bold text-red-600">{totalAnnualFees.toLocaleString()}</p>
-                  <p className="text-[10px] sm:text-xs text-red-600/70">Fees/yr</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-2 bg-green-50 rounded-lg px-2 sm:px-3 py-2">
-                <DocumentTextIcon className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
-                <div>
-                  <p className="text-base sm:text-xl font-bold text-green-600">{records.length}</p>
-                  <p className="text-[10px] sm:text-xs text-green-600/70">Records</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-1 sm:gap-2 bg-amber-50 rounded-lg px-2 sm:px-3 py-2">
-                <LinkIcon className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
-                <div>
-                  <p className="text-base sm:text-xl font-bold text-amber-600">{referrals.filter(r => !r.archived_at).length}</p>
-                  <p className="text-[10px] sm:text-xs text-amber-600/70">Referrals</p>
-                </div>
-              </div>
+            <div className="pstat">
+              <span className="k">Annual fees</span>
+              <span className={'v ' + (totalAnnualFees > 0 ? 'warn' : '')}>
+                ${totalAnnualFees.toLocaleString()}
+              </span>
+            </div>
+            <div className="pstat">
+              <span className="k">Records submitted</span>
+              <span className="v">{records.length}</span>
+            </div>
+            <div className="pstat">
+              <span className="k">Active referrals</span>
+              <span className="v">{referrals.filter(r => !r.archived_at).length}</span>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 mb-6 overflow-x-auto overflow-y-hidden scrollbar-hide">
-          <nav className="-mb-px flex space-x-4 sm:space-x-8 whitespace-nowrap">
-            <button
-              onClick={() => setActiveTab('wallet')}
-              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'wallet'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              <WalletIcon className="h-5 w-5" />
-              Wallet
-              <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
-                activeTab === 'wallet' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'
-              }`}>
-                {walletCards.length}
-              </span>
-            </button>
-            <button
-              onClick={() => setActiveTab('benefits')}
-              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'benefits'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              <GiftIcon className="h-5 w-5" />
-              Benefits
-            </button>
-            <button
-              onClick={() => setActiveTab('records')}
-              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'records'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              <DocumentTextIcon className="h-5 w-5" />
-              Records
-              <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
-                activeTab === 'records' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'
-              }`}>
-                {records.length}
-              </span>
-            </button>
-            <button
-              onClick={() => setActiveTab('referrals')}
-              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'referrals'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              <LinkIcon className="h-5 w-5" />
-              Referrals
-              <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
-                activeTab === 'referrals' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'
-              }`}>
-                {referrals.filter(r => !r.archived_at).length}
-              </span>
-            </button>
-            <button
-              onClick={() => setActiveTab('applications')}
-              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'applications'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              <ChartBarIcon className="h-5 w-5" />
-              Applications
-            </button>
-            <button
-              onClick={() => setActiveTab('settings')}
-              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'settings'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              <Cog6ToothIcon className="h-5 w-5" />
-              Settings
-            </button>
-          </nav>
-        </div>
+        <nav className="profile-tabs" aria-label="Profile sections">
+          {tabs.map((t) => {
+            const Icon = t.icon;
+            return (
+              <button
+                key={t.key}
+                type="button"
+                onClick={() => setActiveTab(t.key)}
+                className={'profile-tab ' + (activeTab === t.key ? 'active' : '')}
+              >
+                <Icon />
+                {t.label}
+                {typeof t.count === 'number' && (
+                  <span className="tab-count">{t.count}</span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -1235,6 +1177,7 @@ export default function ProfileClient() {
         )}
 
       </div>
+      <V2Footer />
     </div>
   );
 }

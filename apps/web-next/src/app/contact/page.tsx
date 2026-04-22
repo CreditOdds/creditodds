@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import { V2Footer } from "@/components/landing-v2/Chrome";
+import "../landing.css";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -13,40 +15,60 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="relative py-16 bg-white overflow-hidden">
-      <div className="relative px-4 sm:px-6 lg:px-8">
-        <div className="text-lg max-w-prose mx-auto">
-          <h1>
-            <span className="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">
-              CONTACT
-            </span>
-            <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Get in touch
-            </span>
-          </h1>
+    <div className="landing-v2">
+      <section className="page-hero wrap">
+        <div className="eyebrow">
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: '50%',
+              background: 'var(--accent)',
+            }}
+          />
+          <span>Contact · we&apos;re listening</span>
         </div>
-        <div className="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
-          <p>
-            Have questions, feedback, or suggestions? We&apos;d love to hear from you!
-          </p>
+        <h1 className="page-title">
+          Get in <em>touch.</em>
+        </h1>
+        <p className="page-sub">
+          Questions, feedback, or ideas for the site? CreditOdds is community-powered,
+          so every message actually moves the roadmap.
+        </p>
+      </section>
 
-          <h2>Twitter</h2>
+      <div className="wrap">
+        <article className="page-body">
+          <h3>Twitter / X</h3>
           <p>
-            Follow us on Twitter:{" "}
+            Fastest way to reach me:{' '}
             <a href="https://twitter.com/MaxwellMelcher" target="_blank" rel="noreferrer">
               @MaxwellMelcher
             </a>
+            .
           </p>
 
-          <h2>GitHub</h2>
+          <h3>GitHub</h3>
           <p>
-            Contribute to CreditOdds:{" "}
-            <a href="https://github.com/CreditOdds/creditodds" target="_blank" rel="noreferrer">
+            Contribute cards, news, articles, or fixes on GitHub:{' '}
+            <a
+              href="https://github.com/CreditOdds/creditodds"
+              target="_blank"
+              rel="noreferrer"
+            >
               github.com/CreditOdds/creditodds
             </a>
+            . Open an issue if you spot missing or wrong data — we&apos;ll jump on it.
           </p>
-        </div>
+
+          <h3>Email</h3>
+          <p>
+            For anything longer-form,{' '}
+            <a href="mailto:hello@creditodds.com">hello@creditodds.com</a>.
+          </p>
+        </article>
       </div>
+      <V2Footer />
     </div>
   );
 }

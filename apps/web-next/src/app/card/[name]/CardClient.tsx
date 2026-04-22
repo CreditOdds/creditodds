@@ -30,6 +30,8 @@ import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import CardBenefits from "@/components/ui/CardBenefits";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
+import { V2Footer } from "@/components/landing-v2/Chrome";
+import "../../landing.css";
 
 // Dynamic import for Highcharts (client-side only)
 const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
@@ -233,7 +235,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
   const creditLength = formatCreditLength(card.approved_median_length_credit);
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="landing-v2 card-v2">
       {/* JSON-LD Structured Data (#12) */}
       <CreditCardSchema card={card} ratings={ratings} />
       <BreadcrumbSchema items={[
@@ -1124,6 +1126,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
         card={card}
         onSuccess={handleSubmitSuccess}
       />
+      <V2Footer />
     </div>
   );
 }

@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import CardImage from '@/components/ui/CardImage';
 import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 import { getAllCards } from '@/lib/api';
 import { getNews } from '@/lib/news';
 import ConverterClient from './ConverterClient';
 import PaginatedNewsList from '@/components/tools/PaginatedNewsList';
+import { V2Footer } from '@/components/landing-v2/Chrome';
+import '../../landing.css';
 
 export const metadata: Metadata = {
   title: 'Amex Membership Rewards to USD (Converter/Calculator) | CreditOdds',
@@ -28,48 +29,34 @@ export default async function AmexMRToUsdPage() {
   });
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="landing-v2 tools-v2">
       <BreadcrumbSchema items={[
         { name: 'Home', url: 'https://creditodds.com' },
         { name: 'Tools', url: 'https://creditodds.com/tools' },
         { name: 'Amex Membership Rewards to USD', url: 'https://creditodds.com/tools/amex-membership-rewards-to-usd' },
       ]} />
 
-      <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ol className="flex items-center space-x-4 py-4 overflow-hidden">
-            <li>
-              <Link href="/" className="text-gray-400 hover:text-gray-500">Home</Link>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                <Link href="/tools" className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-500">Tools</Link>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                <span className="ml-4 text-sm font-medium text-gray-500 truncate">Amex Membership Rewards to USD</span>
-              </div>
-            </li>
-          </ol>
+      <section className="page-hero wrap">
+        <div className="eyebrow">
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: '50%',
+              background: 'var(--accent)',
+            }}
+          />
+          <span>Tools · converter</span>
         </div>
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center gap-3">
-          <Image src="/logos/amex.jpg" alt="Amex" width={32} height={32} className="rounded-md" />
-          <h1 className="text-2xl font-bold text-gray-900">Amex Membership Rewards to USD Converter</h1>
-        </div>
-        <p className="mt-2 text-gray-600">
+        <h1 className="page-title">
+          Amex Membership Rewards to USD Converter.
+        </h1>
+        <p className="page-sub">
           Estimate the dollar value of your Amex Membership Rewards points.
         </p>
+      </section>
 
+      <div className="wrap" style={{ paddingTop: 24, paddingBottom: 64 }}>
         <ConverterClient />
 
         {cards.length > 0 && (
@@ -103,6 +90,7 @@ export default async function AmexMRToUsdPage() {
 
         <PaginatedNewsList news={news} heading="Amex News" />
       </div>
+      <V2Footer />
     </div>
   );
 }

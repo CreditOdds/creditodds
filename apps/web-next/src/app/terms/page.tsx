@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import { V2Footer } from "@/components/landing-v2/Chrome";
+import "../landing.css";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -7,121 +9,30 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="relative py-16 bg-white overflow-hidden">
-      <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full">
-        <div
-          className="relative h-full text-base max-w-prose mx-auto"
-          aria-hidden="true"
-        >
-          <svg
-            className="absolute top-12 left-full transform translate-x-32"
-            width="404"
-            height="384"
-            fill="none"
-            viewBox="0 0 404 384"
-          >
-            <defs>
-              <pattern
-                id="74b3fd99-0a6f-4271-bef2-e80eeafdf357"
-                x="0"
-                y="0"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x="0"
-                  y="0"
-                  width="4"
-                  height="4"
-                  className="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width="404"
-              height="384"
-              fill="url(#74b3fd99-0a6f-4271-bef2-e80eeafdf357)"
-            />
-          </svg>
-          <svg
-            className="absolute top-1/2 right-full transform -translate-y-1/2 -translate-x-32"
-            width="404"
-            height="384"
-            fill="none"
-            viewBox="0 0 404 384"
-          >
-            <defs>
-              <pattern
-                id="f210dbf6-a58d-4871-961e-36d5016a0f49"
-                x="0"
-                y="0"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x="0"
-                  y="0"
-                  width="4"
-                  height="4"
-                  className="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width="404"
-              height="384"
-              fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"
-            />
-          </svg>
-          <svg
-            className="absolute bottom-12 left-full transform translate-x-32"
-            width="404"
-            height="384"
-            fill="none"
-            viewBox="0 0 404 384"
-          >
-            <defs>
-              <pattern
-                id="d3eb07ae-5182-43e6-857d-35c643af9034"
-                x="0"
-                y="0"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x="0"
-                  y="0"
-                  width="4"
-                  height="4"
-                  className="text-gray-200"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width="404"
-              height="384"
-              fill="url(#d3eb07ae-5182-43e6-857d-35c643af9034)"
-            />
-          </svg>
+    <div className="landing-v2">
+      <section className="page-hero wrap">
+        <div className="eyebrow">
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "var(--accent)",
+            }}
+          />
+          <span>Terms · the legal bit</span>
         </div>
-      </div>
-      <div className="relative px-4 sm:px-6 lg:px-8">
-        <div className="text-lg max-w-screen-lg mx-auto">
-          <h1>
-            <span className="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">
-              Terms
-            </span>
-            <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Terms of Use
-            </span>
-          </h1>
-          <ol className="list-decimal list-inside mt-8 text-base text-gray-500 leading-8">
+        <h1 className="page-title">
+          Terms of <em>use.</em>
+        </h1>
+        <p className="page-sub">
+          The rules that govern how you use CreditOdds. The short version: be decent,
+          don&apos;t resell the data, and we&apos;re not legal advice.
+        </p>
+      </section>
+      <div className="wrap">
+        <article className="page-body wide">
+          <ol>
             <li>
               <b>TERMS OF USE (TOU) -</b> Welcome to CreditOdds. We provide
               an Internet service (&quot;Service&quot;). Your use of the Service is
@@ -610,12 +521,13 @@ export default function TermsPage() {
               Terms of Service Group.
             </li>
           </ol>
-          <br />
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+          <span className="stamp">
+            <span className="dot" />
             Updated 4/8/21
           </span>
-        </div>
+        </article>
       </div>
+      <V2Footer />
     </div>
   );
 }
