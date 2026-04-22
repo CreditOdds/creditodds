@@ -1,6 +1,8 @@
+import "../../landing.css";
+
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="landing-v2 card-v2 min-h-screen">
       {/* Hero section skeleton */}
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">

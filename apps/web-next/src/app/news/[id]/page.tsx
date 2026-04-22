@@ -1,13 +1,15 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CalendarIcon } from "@heroicons/react/24/outline";
-import { getNews, getNewsItem, tagLabels, tagColors } from "@/lib/news";
+import { getNews, getNewsItem, tagLabels } from "@/lib/news";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ReadingProgressBar } from "@/components/articles/ReadingProgressBar";
 import { RelatedCards } from "@/components/articles/RelatedCards";
 import { RelatedCardInfo } from "@/lib/articles";
+import CardImage from "@/components/ui/CardImage";
+import { V2Footer } from "@/components/landing-v2/Chrome";
+import "../../landing.css";
 
 interface NewsDetailPageProps {
   params: Promise<{ id: string }>;
@@ -17,19 +19,13 @@ export const revalidate = 300;
 
 export async function generateStaticParams() {
   const items = await getNews();
-  return items
-    .filter(item => item.body)
-    .map(item => ({ id: item.id }));
+  return items.filter(item => item.body).map(item => ({ id: item.id }));
 }
 
 export async function generateMetadata({ params }: NewsDetailPageProps): Promise<Metadata> {
   const { id } = await params;
   const item = await getNewsItem(id);
-
-  if (!item) {
-    return { title: "News Not Found" };
-  }
-
+  if (!item) return { title: "News Not Found" };
   return {
     title: `${item.title} | Card News`,
     description: item.summary,
@@ -57,12 +53,8 @@ function formatDate(dateString: string): string {
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { id } = await params;
   const item = await getNewsItem(id);
+  if (!item) notFound();
 
-  if (!item) {
-    notFound();
-  }
-
-  // Build related cards info from news item data
   const relatedCards: RelatedCardInfo[] = [];
   if (item.card_slugs && item.card_names && item.card_image_links) {
     for (let i = 0; i < item.card_slugs.length; i++) {
@@ -85,167 +77,102 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     dateModified: item.date,
     url,
     image: `https://creditodds.com/news/${item.id}/opengraph-image`,
-    author: {
-      "@type": "Organization",
-      name: "CreditOdds",
-    },
+    author: { "@type": "Organization", name: "CreditOdds" },
     publisher: {
       "@type": "Organization",
       name: "CreditOdds",
       url: "https://creditodds.com",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://creditodds.com/logo.png",
-      },
+      logo: { "@type": "ImageObject", url: "https://creditodds.com/logo.png" },
     },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": url,
-    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
     isAccessibleForFree: true,
   };
 
   return (
     <>
       <ReadingProgressBar />
-      <div className="min-h-screen bg-gray-50">
-      {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://creditodds.com' },
-        { name: 'Card News', url: 'https://creditodds.com/news' },
-        { name: item.title, url: `https://creditodds.com/news/${item.id}` },
-      ]} />
+      <div className="landing-v2">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <BreadcrumbSchema
+          items={[
+            { name: 'Home', url: 'https://creditodds.com' },
+            { name: 'Card News', url: 'https://creditodds.com/news' },
+            { name: item.title, url: `https://creditodds.com/news/${item.id}` },
+          ]}
+        />
 
-      {/* Breadcrumbs */}
-      <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ol className="flex items-center space-x-4 py-4 overflow-hidden">
-            <li>
-              <Link href="/" className="text-gray-400 hover:text-gray-500">
-                Home
-              </Link>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                <Link href="/news" className="ml-4 text-gray-400 hover:text-gray-500">
-                  Card News
-                </Link>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                <span className="ml-4 text-sm font-medium text-gray-500 truncate">
-                  {item.title}
-                </span>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </nav>
+        <article className="article-layout">
+          <Link href="/news" className="article-back" style={{ marginTop: 24, marginBottom: 14 }}>
+            ← Back to Card News
+          </Link>
 
-      {/* Article */}
-      <article className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Header */}
-        <header className="mb-10">
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="article-tags">
             {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tagColors[tag]}`}
-              >
-                {tagLabels[tag]}
+              <span key={tag} className="tag">
+                {tagLabels[tag].replace(/^[^\w]+\s*/, '')}
               </span>
             ))}
           </div>
 
-          {/* Title */}
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
-            {item.title}
-          </h1>
+          <h1 className="article-title">{item.title}</h1>
 
-          {/* Meta row */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
-            <div className="flex items-center gap-1.5">
-              <CalendarIcon className="h-4 w-4" />
-              <time dateTime={item.date}>{formatDate(item.date)}</time>
-            </div>
+          <div className="article-meta">
+            <time dateTime={item.date}>
+              <b>{formatDate(item.date)}</b>
+            </time>
             {item.bank && (
-              <span>{item.bank}</span>
+              <>
+                <span>·</span>
+                <span>{item.bank}</span>
+              </>
             )}
           </div>
 
-          {/* Card links */}
           {item.card_slugs && item.card_names && item.card_slugs.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-4">
+            <div className="article-card-chips">
               {item.card_slugs.map((slug, i) => (
-                <Link
-                  key={slug}
-                  href={`/card/${slug}`}
-                  className="inline-flex items-center px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-100 transition-colors"
-                >
+                <Link key={slug} href={`/card/${slug}`} className="article-card-chip">
+                  <span className="thumb">
+                    <CardImage
+                      cardImageLink={item.card_image_links?.[i]}
+                      alt=""
+                      fill
+                      sizes="28px"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </span>
                   {item.card_names![i]}
                 </Link>
               ))}
             </div>
           )}
-        </header>
 
-        {/* Body */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-10">
-          {item.body ? (
-            <ArticleContent content={item.body} />
-          ) : (
-            <p className="text-gray-600 text-lg leading-relaxed">{item.summary}</p>
-          )}
+          <div className="article-body">
+            {item.body ? (
+              <ArticleContent content={item.body} />
+            ) : (
+              <p style={{ color: 'var(--ink-2)', fontSize: 17, lineHeight: 1.6, margin: 0 }}>
+                {item.summary}
+              </p>
+            )}
 
-          {/* Related Cards */}
-          {relatedCards.length > 0 && (
-            <RelatedCards cards={relatedCards} />
-          )}
-        </div>
+            {relatedCards.length > 0 && <RelatedCards cards={relatedCards} />}
+          </div>
 
-        {/* Source attribution */}
-        {item.source_url && (
-          <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-            <p className="text-sm text-gray-500">
-              Source:{' '}
-              <a
-                href={item.source_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-600 hover:text-indigo-800 underline"
-              >
+          {item.source_url && (
+            <div className="article-source">
+              Source:
+              <a href={item.source_url} target="_blank" rel="noopener noreferrer">
                 {item.source || item.source_url}
               </a>
-            </p>
-          </div>
-        )}
-
-        {/* Back link */}
-        <div className="mt-8 text-center">
-          <Link
-            href="/news"
-            className="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
-          >
-            <svg className="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Card News
-          </Link>
-        </div>
-      </article>
-    </div>
+            </div>
+          )}
+        </article>
+        <V2Footer />
+      </div>
     </>
   );
 }

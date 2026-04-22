@@ -1,40 +1,8 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import {
-  CalendarIcon,
-} from "@heroicons/react/24/outline";
-import {
-  TrophyIcon,
-  GiftIcon,
-  PaperAirplaneIcon,
-  PercentBadgeIcon,
-  ShieldCheckIcon,
-  ShoppingCartIcon,
-  BanknotesIcon,
-  GlobeAltIcon,
-} from "@heroicons/react/24/solid";
-
-const pageIcons: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
-  'best-signup-bonuses': GiftIcon,
-  'best-airline-cards': PaperAirplaneIcon,
-  'best-0-apr-cards': PercentBadgeIcon,
-  'best-dining-grocery-cards': ShoppingCartIcon,
-  'best-secured-cards': ShieldCheckIcon,
-  'best-cash-back-cards': BanknotesIcon,
-  'best-travel-cards': GlobeAltIcon,
-};
-
-const pageCoverGradients: Record<string, string> = {
-  'best-signup-bonuses': 'from-fuchsia-600 via-purple-600 to-indigo-700',
-  'best-airline-cards': 'from-violet-600 via-indigo-600 to-purple-700',
-  'best-0-apr-cards': 'from-indigo-600 via-purple-600 to-violet-700',
-  'best-dining-grocery-cards': 'from-purple-600 via-indigo-600 to-violet-700',
-  'best-secured-cards': 'from-indigo-700 via-purple-700 to-violet-800',
-  'best-cash-back-cards': 'from-violet-700 via-purple-600 to-indigo-700',
-  'best-travel-cards': 'from-purple-700 via-indigo-600 to-violet-600',
-};
 import { getBestPages } from "@/lib/best";
+import { getAllCards } from "@/lib/api";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
+import BestV2Client from "./BestV2Client";
 
 export const metadata: Metadata = {
   title: "Best Credit Cards of 2026 - Top Picks & Comparisons",
@@ -52,17 +20,13 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
-
 export default async function BestIndexPage() {
-  const pages = await getBestPages();
+  const [pages, cards] = await Promise.all([getBestPages(), getAllCards()]);
+
+  const totalRecords = cards.reduce(
+    (acc, c) => acc + (c.approved_count ?? 0) + (c.rejected_count ?? 0),
+    0
+  );
 
   const collectionJsonLd = {
     "@context": "https://schema.org",
@@ -81,115 +45,18 @@ export default async function BestIndexPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
       />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://creditodds.com' },
-        { name: 'Best Cards', url: 'https://creditodds.com/best' },
-      ]} />
-
-      {/* Breadcrumbs */}
-      <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ol className="flex items-center space-x-4 py-4">
-            <li>
-              <Link href="/" className="text-gray-400 hover:text-gray-500">
-                Home
-              </Link>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                <span className="ml-4 text-sm font-medium text-gray-500">Best Cards</span>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <TrophyIcon className="h-8 w-8 text-indigo-600" aria-hidden="true" />
-            <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              Best Cards
-            </h1>
-          </div>
-          <p className="mt-2 text-lg text-gray-500 max-w-2xl mx-auto">
-            Curated rankings of the best credit cards, updated with live data
-          </p>
-        </div>
-
-        {/* Pages Grid */}
-        {pages.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {pages.map((page) => (
-              <Link
-                key={page.id}
-                href={`/best/${page.slug}`}
-                className="group bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-indigo-200 transition-all"
-              >
-                <div
-                  className={`relative mb-4 h-28 w-full overflow-hidden rounded-md bg-gradient-to-br ${pageCoverGradients[page.slug] ?? 'from-indigo-600 via-purple-600 to-violet-700'}`}
-                >
-                  <span className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/10" />
-                  <span className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-white/10" />
-                  <div className="relative flex h-full w-full items-center justify-center">
-                    {(() => {
-                      const Icon = pageIcons[page.slug];
-                      return Icon ? <Icon className="h-12 w-12 text-white drop-shadow-sm" aria-hidden="true" /> : null;
-                    })()}
-                  </div>
-                </div>
-                <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-2">
-                  {(() => {
-                    const Icon = pageIcons[page.slug];
-                    return Icon ? <Icon className="h-5 w-5 text-indigo-500 flex-shrink-0" aria-hidden="true" /> : null;
-                  })()}
-                  {page.title}
-                </h2>
-                <p className="text-sm text-gray-500 mb-4">
-                  {page.description}
-                </p>
-                <div className="flex items-center justify-between text-xs text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <CalendarIcon className="h-3.5 w-3.5" />
-                    <span>{formatDate(page.updated_at || page.date)}</span>
-                  </div>
-                  <span className="font-medium text-indigo-600">
-                    {page.cards.length} cards
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <TrophyIcon className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No rankings yet</h3>
-            <p className="mt-1 text-sm text-gray-500">Check back soon for curated card rankings.</p>
-          </div>
-        )}
-
-        {/* CTA */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-600 mb-4">
-            Want to explore all cards?
-          </p>
-          <Link
-            href="/explore"
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-          >
-            Explore All Cards
-          </Link>
-        </div>
-      </div>
-    </div>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: 'https://creditodds.com' },
+          { name: 'Best Cards', url: 'https://creditodds.com/best' },
+        ]}
+      />
+      <BestV2Client pages={pages} totalRecords={totalRecords} totalCards={cards.length} />
+    </>
   );
 }

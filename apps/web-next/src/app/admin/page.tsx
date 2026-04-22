@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CardImage from "@/components/ui/CardImage";
 import { useAuth } from "@/auth/AuthProvider";
+import { V2Footer } from "@/components/landing-v2/Chrome";
+import "../landing.css";
 import {
   getAdminStats,
   getAdminRecords,
@@ -245,8 +247,10 @@ export default function AdminPage() {
 
   if (authState.isLoading || loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-500">Loading admin dashboard...</div>
+      <div className="landing-v2 admin-v2" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ color: 'var(--muted)', fontFamily: "'JetBrains Mono', monospace", fontSize: 13 }}>
+          Loading admin dashboard…
+        </div>
       </div>
     );
   }
@@ -267,7 +271,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="landing-v2 admin-v2">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
@@ -362,6 +366,7 @@ export default function AdminPage() {
         )}
         {activeTab === 'submit' && <SubmitRecordTab getToken={getToken} onSuccess={loadData} />}
       </div>
+      <V2Footer />
     </div>
   );
 }
