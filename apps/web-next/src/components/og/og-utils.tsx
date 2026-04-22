@@ -1,24 +1,44 @@
 import React from 'react';
 
-// ── Color constants for OG images (hex equivalents of Tailwind classes) ──
+// ── v2 palette anchors (match .landing-v2 CSS tokens) ──
+// --ink: #1a1330, --accent: #6d3fe8, --accent-2: #f0e9ff, --paper: #ffffff,
+// --paper-2: #f7f5fc, --line: #ece8f5, --warn: #d23a62, --gold: #a8792a
+
+export const V2 = {
+  ink: '#1a1330',
+  ink2: '#3a2f55',
+  accent: '#6d3fe8',
+  accent2: '#f0e9ff',
+  paper: '#ffffff',
+  paper2: '#f7f5fc',
+  line: '#ece8f5',
+  line2: '#ddd7ec',
+  muted: '#6b6384',
+  warn: '#d23a62',
+  gold: '#a8792a',
+} as const;
+
+// ── Color constants for OG images (aligned with v2 accent palette) ──
+// Structure preserved for backward compat — each tag has a soft bg (used as chip),
+// a text color (readable against bg), and an accent (used as subtle glow hint).
 
 export const NEWS_TAG_COLORS: Record<string, { bg: string; text: string; accent: string }> = {
-  'new-card':       { bg: '#ecfdf5', text: '#047857', accent: '#10b981' },
-  'discontinued':   { bg: '#fef2f2', text: '#b91c1c', accent: '#ef4444' },
-  'bonus-change':   { bg: '#eff6ff', text: '#1d4ed8', accent: '#3b82f6' },
-  'fee-change':     { bg: '#fffbeb', text: '#b45309', accent: '#f59e0b' },
-  'benefit-change': { bg: '#f5f3ff', text: '#6d28d9', accent: '#8b5cf6' },
-  'limited-time':   { bg: '#fff7ed', text: '#c2410c', accent: '#f97316' },
-  'policy-change':  { bg: '#f8fafc', text: '#334155', accent: '#64748b' },
-  'general':        { bg: '#eef2ff', text: '#4338ca', accent: '#6366f1' },
+  'new-card':       { bg: '#e6f7ee', text: '#0c8450', accent: '#0c8450' }, // emerald (positive)
+  'discontinued':   { bg: '#ffe6ed', text: '#d23a62', accent: '#d23a62' }, // warn
+  'bonus-change':   { bg: '#f0e9ff', text: '#6d3fe8', accent: '#6d3fe8' }, // accent
+  'fee-change':     { bg: '#faf0d9', text: '#a8792a', accent: '#a8792a' }, // gold
+  'benefit-change': { bg: '#f0e9ff', text: '#6d3fe8', accent: '#6d3fe8' }, // accent
+  'limited-time':   { bg: '#faf0d9', text: '#a8792a', accent: '#a8792a' }, // gold
+  'policy-change':  { bg: '#f7f5fc', text: '#3a2f55', accent: '#6b6384' }, // neutral
+  'general':        { bg: '#f7f5fc', text: '#3a2f55', accent: '#6b6384' }, // neutral
 };
 
 export const ARTICLE_TAG_COLORS: Record<string, { bg: string; text: string; accent: string }> = {
-  'strategy':      { bg: '#f3e8ff', text: '#6b21a8', accent: '#a855f7' },
-  'guide':         { bg: '#dbeafe', text: '#1e40af', accent: '#3b82f6' },
-  'analysis':      { bg: '#dcfce7', text: '#166534', accent: '#22c55e' },
-  'news-analysis': { bg: '#ffedd5', text: '#9a3412', accent: '#f97316' },
-  'beginner':      { bg: '#ccfbf1', text: '#115e59', accent: '#14b8a6' },
+  'strategy':      { bg: '#f0e9ff', text: '#6d3fe8', accent: '#6d3fe8' }, // accent
+  'guide':         { bg: '#f7f5fc', text: '#3a2f55', accent: '#6b6384' }, // neutral
+  'analysis':      { bg: '#e6f7ee', text: '#0c8450', accent: '#0c8450' }, // emerald
+  'news-analysis': { bg: '#faf0d9', text: '#a8792a', accent: '#a8792a' }, // gold
+  'beginner':      { bg: '#f0e9ff', text: '#6d3fe8', accent: '#6d3fe8' }, // accent
 };
 
 export const NEWS_TAG_LABELS: Record<string, string> = {
@@ -98,7 +118,11 @@ export function OGLogo({ size = 48 }: { size?: number }) {
   );
 }
 
-// ── OGBackground component ──
+// ── OGBackground component (v2 editorial style) ──
+//
+// Deep ink base (#1a1330) with a soft purple accent glow — matches the
+// .landing-v2 aesthetic. Kept dark so white text in the 40+ call-sites still
+// reads; social-preview contrast is also better on dark.
 
 export function OGBackground({
   children,
@@ -107,7 +131,7 @@ export function OGBackground({
   children: React.ReactNode;
   accentColor?: string;
 }) {
-  const warmGlow = accentColor || '#f59e0b';
+  const glow = accentColor || V2.accent;
 
   return (
     <div
@@ -115,12 +139,12 @@ export function OGBackground({
         width: '100%',
         height: '100%',
         display: 'flex',
-        background: 'linear-gradient(115deg, #e8e8e8 0%, #9a9a9a 8%, #f0f0f0 16%, #858585 24%, #d8d8d8 32%, #a8a8a8 40%, #ececec 48%, #929292 56%, #dcdcdc 64%, #b0b0b0 72%, #f2f2f2 80%, #8e8e8e 88%, #d0d0d0 96%)',
+        background: V2.paper2,
         fontFamily: 'Inter, system-ui, sans-serif',
         padding: 8,
       }}
     >
-      {/* Inner rounded content area */}
+      {/* Inner rounded content area — editorial paper frame around ink canvas */}
       <div
         style={{
           display: 'flex',
@@ -128,10 +152,11 @@ export function OGBackground({
           position: 'relative',
           borderRadius: 16,
           overflow: 'hidden',
-          background: 'linear-gradient(135deg, #3730A3 0%, #504DE1 30%, #7C3AED 60%, #4F46E5 100%)',
+          background: V2.ink,
+          boxShadow: `inset 0 0 0 1px ${hexToRgba('#ffffff', 0.06)}`,
         }}
       >
-        {/* Dot grid pattern overlay */}
+        {/* Subtle mono grid */}
         <div
           style={{
             position: 'absolute',
@@ -139,13 +164,14 @@ export function OGBackground({
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
+            backgroundImage:
+              'radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
             display: 'flex',
           }}
         />
 
-        {/* Cool indigo glow — top left */}
+        {/* Primary purple accent glow — top right */}
         <div
           style={{
             position: 'absolute',
@@ -153,12 +179,15 @@ export function OGBackground({
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: 'radial-gradient(circle at 15% 20%, rgba(99,102,241,0.4) 0%, transparent 50%)',
+            backgroundImage: `radial-gradient(circle at 85% 15%, ${hexToRgba(
+              glow,
+              0.28
+            )} 0%, transparent 55%)`,
             display: 'flex',
           }}
         />
 
-        {/* Warm accent glow — bottom right */}
+        {/* Secondary cooler accent glow — bottom left */}
         <div
           style={{
             position: 'absolute',
@@ -166,7 +195,10 @@ export function OGBackground({
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: `radial-gradient(circle at 85% 80%, ${hexToRgba(warmGlow, 0.25)} 0%, transparent 50%)`,
+            backgroundImage: `radial-gradient(circle at 10% 90%, ${hexToRgba(
+              glow,
+              0.16
+            )} 0%, transparent 50%)`,
             display: 'flex',
           }}
         />
