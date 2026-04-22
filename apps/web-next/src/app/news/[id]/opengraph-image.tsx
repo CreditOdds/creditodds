@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { getNewsItem } from '@/lib/news';
-import { OGBackground, OGLogo, loadInterFonts, NEWS_TAG_COLORS, NEWS_TAG_LABELS } from '@/components/og/og-utils';
+import { OGBackground, OGLogo, loadInterFonts, OG_CACHE_HEADERS, NEWS_TAG_COLORS, NEWS_TAG_LABELS } from '@/components/og/og-utils';
 
 export const size = {
   width: 1200,
@@ -176,6 +176,6 @@ export default async function OGImage({ params }: { params: Promise<{ id: string
         </div>
       </OGBackground>
     ),
-    { ...size, fonts }
+    { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }

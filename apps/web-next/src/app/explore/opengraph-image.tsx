@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { OGBackground, OGLogo, loadInterFonts } from '@/components/og/og-utils';
+import { OGBackground, OGLogo, loadInterFonts, OG_CACHE_HEADERS } from '@/components/og/og-utils';
 
 export const size = {
   width: 1200,
@@ -128,6 +128,6 @@ export default async function OGImage() {
         </div>
       </OGBackground>
     ),
-    { ...size, fonts }
+    { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
