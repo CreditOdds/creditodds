@@ -1,17 +1,17 @@
 'use client';
 
 import { useEffect } from 'react';
-import Clarity from '@microsoft/clarity';
+import LogRocket from 'logrocket';
 import { useAuth } from '@/auth/AuthProvider';
 
 let initialized = false;
 
-export default function ClarityInit() {
+export default function LogRocketInit() {
   const { authState } = useAuth();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production' && !initialized) {
-      Clarity.init('w0ejzgxumv');
+      LogRocket.init('8ouxn1/creditodds');
       initialized = true;
     }
   }, []);
@@ -20,7 +20,10 @@ export default function ClarityInit() {
     if (!initialized) return;
 
     if (authState.user) {
-      Clarity.identify(authState.user.uid, undefined, undefined, authState.user.displayName || '');
+      LogRocket.identify(authState.user.uid, {
+        name: authState.user.displayName || '',
+        email: authState.user.email || '',
+      });
     }
   }, [authState.user]);
 

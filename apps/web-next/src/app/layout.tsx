@@ -3,7 +3,7 @@ import { AuthProvider } from "@/auth/AuthProvider";
 import { ConditionalNavbar, ConditionalFooter } from "@/components/layout/ConditionalChrome";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
-import ClarityInit from "@/components/ui/ClarityInit";
+import LogRocketInit from "@/components/ui/LogRocketInit";
 import DataPointPrompt from "@/components/ui/DataPointPrompt";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
@@ -73,7 +73,7 @@ export default function RootLayout({
           <ConditionalFooter />
           <ToastContainer />
           <WebVitalsReporter />
-          <ClarityInit />
+          <LogRocketInit />
         </AuthProvider>
       </body>
     </html>
