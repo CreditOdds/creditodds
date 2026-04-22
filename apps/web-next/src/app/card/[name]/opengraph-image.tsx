@@ -94,8 +94,11 @@ export default async function OGImage({ params }: Props) {
               <div
                 style={{
                   display: 'flex',
-                  borderRadius: 16,
-                  boxShadow: '0 25px 80px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.3)',
+                  padding: 6,
+                  borderRadius: 20,
+                  background: 'rgba(255,255,255,0.08)',
+                  boxShadow:
+                    '0 0 0 1px rgba(255,255,255,0.12), 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(109,63,232,0.25)',
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -104,7 +107,7 @@ export default async function OGImage({ params }: Props) {
                   alt={card.card_name}
                   width={420}
                   height={265}
-                  style={{ borderRadius: 16 }}
+                  style={{ borderRadius: 14 }}
                 />
               </div>
             </div>
