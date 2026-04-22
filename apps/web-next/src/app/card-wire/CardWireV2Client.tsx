@@ -245,10 +245,10 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
             <table className="wire-table">
               <thead>
                 <tr>
-                  <th style={{ width: 72 }}>Time</th>
+                  <th className="hide-sm" style={{ width: 72 }}>Time</th>
                   <th>Card</th>
-                  <th>Field</th>
-                  <th>Change</th>
+                  <th className="hide-sm">Field</th>
+                  <th className="hide-sm">Change</th>
                 </tr>
               </thead>
               <tbody>
@@ -336,9 +336,19 @@ function GroupRows({
             <span className="wc-name">{entry.card_name}</span>
           </span>
         );
+        const changeBlock = (
+          <span className={'wire-change ' + dir}>
+            <span className="old">{oldFmt}</span>
+            <span className="arrow">→</span>
+            <span className="new">{newFmt}</span>
+          </span>
+        );
+        const fieldChip = (
+          <span className={'wire-field-chip ' + group}>{label}</span>
+        );
         return (
           <tr key={entry.id}>
-            <td className="wire-ts">{formatTime(entry.changed_at)}</td>
+            <td className="wire-ts hide-sm">{formatTime(entry.changed_at)}</td>
             <td>
               {slug ? (
                 <Link href={`/card/${slug}`} style={{ textDecoration: 'none' }}>
@@ -347,17 +357,13 @@ function GroupRows({
               ) : (
                 cardContent
               )}
+              <div className="wire-mobile-summary">
+                {fieldChip}
+                {changeBlock}
+              </div>
             </td>
-            <td>
-              <span className={'wire-field-chip ' + group}>{label}</span>
-            </td>
-            <td>
-              <span className={'wire-change ' + dir}>
-                <span className="old">{oldFmt}</span>
-                <span className="arrow">→</span>
-                <span className="new">{newFmt}</span>
-              </span>
-            </td>
+            <td className="hide-sm">{fieldChip}</td>
+            <td className="hide-sm">{changeBlock}</td>
           </tr>
         );
       })}
