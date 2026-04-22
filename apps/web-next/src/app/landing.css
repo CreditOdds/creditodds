@@ -2031,6 +2031,28 @@
   }
   .landing-v2 .foot-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+  }
+  .landing-v2 .foot-grid > div:nth-child(1),
+  .landing-v2 .foot-grid > div:nth-child(4) {
+    grid-column: 1 / -1;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) h4 {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) > a {
+    display: inline-flex;
+    padding: 0;
+  }
+  .landing-v2 .foot-grid > div:nth-child(4) > a span {
+    display: none;
   }
 }
 
@@ -2188,8 +2210,7 @@
   .landing-v2 .inputs-row,
   .landing-v2 .feature-grid,
   .landing-v2 .wallet-grid,
-  .landing-v2 .proof-grid,
-  .landing-v2 .foot-grid {
+  .landing-v2 .proof-grid {
     grid-template-columns: 1fr;
   }
   .landing-v2 .result {
