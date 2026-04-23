@@ -108,15 +108,6 @@ function formatDay(ts: string): string {
   });
 }
 
-function formatTime(ts: string): string {
-  const d = new Date(ts);
-  if (Number.isNaN(d.getTime())) return '';
-  return d.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  });
-}
-
 export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Props) {
   const [filter, setFilter] = useState<FilterKey>('all');
   const [page, setPage] = useState(1);
@@ -245,7 +236,6 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
             <table className="wire-table">
               <thead>
                 <tr>
-                  <th className="hide-sm" style={{ width: 72 }}>Time</th>
                   <th>Card</th>
                   <th className="hide-sm">Field</th>
                   <th className="hide-sm">Change</th>
@@ -307,7 +297,7 @@ function GroupRows({
   return (
     <>
       <tr className="wire-date-row">
-        <td colSpan={4}>
+        <td colSpan={3}>
           {date}
           <span className="wire-date-count">
             {entries.length} change{entries.length === 1 ? '' : 's'}
@@ -348,7 +338,6 @@ function GroupRows({
         );
         return (
           <tr key={entry.id}>
-            <td className="wire-ts hide-sm">{formatTime(entry.changed_at)}</td>
             <td>
               {slug ? (
                 <Link href={`/card/${slug}`} style={{ textDecoration: 'none' }}>
