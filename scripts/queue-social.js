@@ -12,6 +12,7 @@
 
 const fs = require('fs');
 const yaml = require('js-yaml');
+const { appendBankHandles, resolveBanksFromCardNames } = require('./lib/bank-handles');
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -98,16 +99,25 @@ function getSummary(item) {
   return text.split(/\n{2,}/)[0].trim();
 }
 
+function getCardNameList(item) {
+  if (item.card_name) return [item.card_name];
+  if (Array.isArray(item.related_cards) && item.related_cards.length > 0) {
+    return item.related_cards.slice();
+  }
+  if (Array.isArray(item.cards) && item.cards.length > 0) {
+    return item.cards
+      .map((card) => card.card_name || card.slug || card)
+      .filter(Boolean);
+  }
+  return [];
+}
+
 async function generatePost(type, item) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY is required');
 
-  const cardNames = item.card_name
-    || (item.related_cards && item.related_cards.length > 0
-      ? item.related_cards.join(', ')
-      : (item.cards && item.cards.length > 0
-        ? item.cards.map((card) => card.card_name || card.slug || card).join(', ')
-        : 'N/A'));
+  const cardList = getCardNameList(item);
+  const cardNames = cardList.length > 0 ? cardList.join(', ') : 'N/A';
 
   const summary = getSummary(item);
   const label = type === 'news'
@@ -159,11 +169,21 @@ Rules:
   return text;
 }
 
-async function queuePost(textContent, linkUrl, sourceType, sourceId) {
+async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId) {
   const apiUrl = process.env.SOCIAL_API_URL;
   const apiKey = process.env.SOCIAL_API_KEY;
 
   if (!apiUrl || !apiKey) throw new Error('SOCIAL_API_URL and SOCIAL_API_KEY are required');
+
+  const body = {
+    text_content: textContent,
+    link_url: linkUrl,
+    source_type: sourceType,
+    source_id: sourceId,
+  };
+  if (twitterText && twitterText !== textContent) {
+    body.twitter_text = twitterText;
+  }
 
   const response = await fetchWithRetry(`${apiUrl}/social/queue`, {
     method: 'POST',
@@ -171,12 +191,7 @@ async function queuePost(textContent, linkUrl, sourceType, sourceId) {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
     },
-    body: JSON.stringify({
-      text_content: textContent,
-      link_url: linkUrl,
-      source_type: sourceType,
-      source_id: sourceId,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
@@ -214,16 +229,25 @@ async function main() {
     console.log(`  URL: ${url}`);
 
     let postText;
+    let twitterText = null;
     try {
       postText = await generatePost(type, item);
       console.log(`  Generated post (${postText.length} chars): ${postText}`);
+      const banks = resolveBanksFromCardNames(getCardNameList(item));
+      if (banks.length > 0) {
+        const withHandles = appendBankHandles(postText, banks, 260);
+        if (withHandles !== postText) {
+          twitterText = withHandles;
+          console.log(`  Twitter variant (${twitterText.length} chars): ${twitterText}`);
+        }
+      }
     } catch (err) {
       console.error(`  Failed to generate post: ${err.message}`);
       continue;
     }
 
     try {
-      const result = await queuePost(postText, url, sourceType, sourceId);
+      const result = await queuePost(postText, twitterText, url, sourceType, sourceId);
       console.log(`  Queued successfully! Post ID: ${result.id}\n`);
     } catch (err) {
       console.error(`  Failed to queue: ${err.message}\n`);

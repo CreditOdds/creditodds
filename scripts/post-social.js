@@ -16,6 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 const { TwitterApi } = require('twitter-api-v2');
+const { appendBankHandles, resolveBanksFromCardNames } = require('./lib/bank-handles');
 
 // Parse CLI args
 function parseArgs() {
@@ -65,16 +66,22 @@ function buildUrl(type, item) {
 /**
  * Generate an engaging social media post using Claude Haiku.
  */
+function getCardNameList(item) {
+  if (item.card_name) return [item.card_name];
+  if (Array.isArray(item.related_cards) && item.related_cards.length > 0) {
+    return item.related_cards.slice();
+  }
+  return [];
+}
+
 async function generatePost(type, item) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error('ANTHROPIC_API_KEY environment variable is required');
   }
 
-  const cardNames = item.card_name
-    || (item.related_cards && item.related_cards.length > 0
-      ? item.related_cards.join(', ')
-      : 'N/A');
+  const cardList = getCardNameList(item);
+  const cardNames = cardList.length > 0 ? cardList.join(', ') : 'N/A';
 
   const prompt = `Write a short tweet for CreditOdds about this credit card ${type}:
 Title: ${item.title}
@@ -193,6 +200,14 @@ async function main() {
     let postText;
     try {
       postText = await generatePost(type, item);
+      const banks = resolveBanksFromCardNames(getCardNameList(item));
+      if (banks.length > 0) {
+        const withHandles = appendBankHandles(postText, banks, 260);
+        if (withHandles !== postText) {
+          console.log(`  Appended bank handles: ${withHandles.slice(postText.length).trim()}`);
+          postText = withHandles;
+        }
+      }
       console.log(`  Generated post (${postText.length} chars): ${postText}`);
     } catch (err) {
       console.error(`  Failed to generate post: ${err.message}`);

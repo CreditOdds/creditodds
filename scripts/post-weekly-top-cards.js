@@ -17,6 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 const { V2, darkBackground, footerBar } = require('./lib/og-style');
+const { appendBankHandles } = require('./lib/bank-handles');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
 const CDN_IMAGES = 'https://d3ay3etzd1512y.cloudfront.net/card_images';
@@ -227,7 +228,7 @@ async function generateRankingsImage(topCards) {
   return image.toBuffer();
 }
 
-function buildTweetText(topCards) {
+function buildPostText(topCards) {
   const list = topCards
     .map((card) => {
       const arrow = card.movement === 'up' ? '\u2B06\uFE0F'
@@ -238,7 +239,13 @@ function buildTweetText(topCards) {
     })
     .join('\n');
 
-  return `Credit Card Power Rankings \u2014 This Week\u2019s Top 5 Most Viewed:\n\n${list}`;
+  const base = `Credit Card Power Rankings \u2014 This Week\u2019s Top 5 Most Viewed:\n\n${list}`;
+  const banks = topCards.map(c => c.bank).filter(Boolean);
+  const withHandles = appendBankHandles(base, banks, 260);
+  return {
+    textContent: base,
+    twitterText: withHandles !== base ? withHandles : null,
+  };
 }
 
 function buildLinkUrl() {
@@ -251,7 +258,7 @@ function buildLinkUrl() {
   return url.toString();
 }
 
-async function queuePost(textContent, linkUrl, sourceId, imageBuffer) {
+async function queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffer) {
   const apiUrl = process.env.SOCIAL_API_URL;
   const apiKey = process.env.SOCIAL_API_KEY;
 
@@ -263,6 +270,9 @@ async function queuePost(textContent, linkUrl, sourceId, imageBuffer) {
     source_type: 'weekly-top-cards',
     source_id: sourceId,
   };
+  if (twitterText && twitterText !== textContent) {
+    body.twitter_text = twitterText;
+  }
 
   if (imageBuffer) {
     body.image_base64 = imageBuffer.toString('base64');
@@ -305,11 +315,14 @@ async function main() {
   const imageBuffer = await generateRankingsImage(topCards);
   console.log(`  Image generated: ${(imageBuffer.length / 1024).toFixed(0)}KB`);
 
-  const tweetText = buildTweetText(topCards);
+  const { textContent, twitterText } = buildPostText(topCards);
   const linkUrl = buildLinkUrl();
   const sourceId = `weekly-${new Date().toISOString().slice(0, 10)}`;
 
-  console.log(`\nPost text (${tweetText.length} chars):\n${tweetText}`);
+  console.log(`\nPost text (${textContent.length} chars):\n${textContent}`);
+  if (twitterText) {
+    console.log(`\nTwitter variant (${twitterText.length} chars):\n${twitterText}`);
+  }
   console.log(`\nLink (posted as reply): ${linkUrl}`);
 
   if (dryRun) {
@@ -321,7 +334,7 @@ async function main() {
   }
 
   console.log('\nQueuing post with image via Social Posting Service...');
-  const result = await queuePost(tweetText, linkUrl, sourceId, imageBuffer);
+  const result = await queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffer);
   console.log(`Queued successfully! Post ID: ${result.id}`);
 }
 
