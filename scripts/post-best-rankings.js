@@ -19,6 +19,7 @@ const path = require('path');
 const yaml = require('js-yaml');
 const sharp = require('sharp');
 const { V2, darkBackground, footerBar } = require('./lib/og-style');
+const { appendBankHandles } = require('./lib/bank-handles');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
 const CDN_IMAGES = 'https://d3ay3etzd1512y.cloudfront.net/card_images';
@@ -236,8 +237,10 @@ async function generateBestRankingsImage(categoryTitle, updatedAt, topCards) {
 
 // ─── Tweet text ──────────────────────────────────────────────────────────────
 
-function buildTweetText(categoryTitle, topCards) {
-  // Try with badges first, fall back to without if over 280 chars
+function buildPostText(categoryTitle, topCards) {
+  const banks = topCards.map(c => c.bank).filter(Boolean);
+
+  // Try with badges first, fall back to without if text goes over 280
   for (const includeBadges of [true, false]) {
     const list = topCards
       .map(card => {
@@ -246,13 +249,24 @@ function buildTweetText(categoryTitle, topCards) {
       })
       .join('\n');
 
-    const text = `${categoryTitle} \u2014 Our Top 5:\n\n${list}`;
-    if (text.length <= 280) return text;
+    const base = `${categoryTitle} \u2014 Our Top 5:\n\n${list}`;
+    if (base.length <= 280) {
+      const withHandles = appendBankHandles(base, banks, 280);
+      return {
+        textContent: base,
+        twitterText: withHandles !== base ? withHandles : null,
+      };
+    }
   }
 
   // Shouldn't happen, but truncate if still over
   const list = topCards.map(card => `${card.rank}. ${card.name}`).join('\n');
-  return `${categoryTitle} \u2014 Our Top 5:\n\n${list}`.slice(0, 280);
+  const base = (`${categoryTitle} \u2014 Our Top 5:\n\n${list}`).slice(0, 280);
+  const withHandles = appendBankHandles(base, banks, 280);
+  return {
+    textContent: base,
+    twitterText: withHandles !== base ? withHandles : null,
+  };
 }
 
 function buildLinkUrl(slug) {
@@ -266,7 +280,7 @@ function buildLinkUrl(slug) {
 
 // ─── Queue post ──────────────────────────────────────────────────────────────
 
-async function queuePost(textContent, linkUrl, sourceId, imageBuffer) {
+async function queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffer) {
   const apiUrl = process.env.SOCIAL_API_URL;
   const apiKey = process.env.SOCIAL_API_KEY;
 
@@ -278,6 +292,9 @@ async function queuePost(textContent, linkUrl, sourceId, imageBuffer) {
     source_type: 'best-rankings',
     source_id: sourceId,
   };
+  if (twitterText && twitterText !== textContent) {
+    body.twitter_text = twitterText;
+  }
 
   if (imageBuffer) {
     body.image_base64 = imageBuffer.toString('base64');
@@ -323,11 +340,14 @@ async function main() {
   const imageBuffer = await generateBestRankingsImage(bestData.title, bestData.updatedAt, enrichedCards);
   console.log(`  Image generated: ${(imageBuffer.length / 1024).toFixed(0)}KB`);
 
-  const tweetText = buildTweetText(bestData.title, enrichedCards);
+  const { textContent, twitterText } = buildPostText(bestData.title, enrichedCards);
   const linkUrl = buildLinkUrl(bestData.slug);
   const sourceId = `best-${bestData.slug}-${new Date().toISOString().slice(0, 10)}`;
 
-  console.log(`\nPost text (${tweetText.length} chars):\n${tweetText}`);
+  console.log(`\nPost text (${textContent.length} chars):\n${textContent}`);
+  if (twitterText) {
+    console.log(`\nTwitter variant (${twitterText.length} chars):\n${twitterText}`);
+  }
   console.log(`\nLink (posted as reply): ${linkUrl}`);
 
   if (dryRun) {
@@ -339,7 +359,7 @@ async function main() {
   }
 
   console.log('\nQueuing post with image via Social Posting Service...');
-  const result = await queuePost(tweetText, linkUrl, sourceId, imageBuffer);
+  const result = await queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffer);
   console.log(`Queued successfully! Post ID: ${result.id}`);
 }
 

@@ -1,0 +1,20 @@
+{
+  "_comment": "Twitter/X handles for card issuers, keyed by bank name as it appears in cards.json. Include the leading '@'. Set to null or omit the bank to skip mentions. Used by scripts/lib/bank-handles.js to append @mentions to tweets only.",
+  "American Express": "@AmericanExpress",
+  "Bank of America": "@BankofAmerica",
+  "Barclays": "@BarclaysUS",
+  "Bilt": "@biltrewards",
+  "Capital One": "@CapitalOne",
+  "Chase": "@Chase",
+  "Citi": "@Citi",
+  "Discover": "@Discover",
+  "Elan Financial Services": null,
+  "First Electronic Bank": null,
+  "Goldman Sachs": "@GoldmanSachs",
+  "Lead Bank": null,
+  "Robinhood": "@RobinhoodApp",
+  "U.S. Bank": "@usbank",
+  "USAA": "@USAA",
+  "WebBank": null,
+  "Wells Fargo": "@WellsFargo"
+}

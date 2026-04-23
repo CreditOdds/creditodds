@@ -18,6 +18,7 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 const { V2, darkBackground, footerBar, hexToRgba } = require('./lib/og-style');
+const { appendBankHandles } = require('./lib/bank-handles');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
 const CDN_IMAGES = 'https://d3ay3etzd1512y.cloudfront.net/card_images';
@@ -223,7 +224,7 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer) {
 
 // ── Tweet text ──
 
-function buildTweetText(cardName, changes) {
+function buildPostText(cardName, changes, bank) {
   const parts = changes.map(c => {
     const label = fieldLabels[c.field] || c.field;
     const dir = getDirection(c.field, c.old_value, c.new_value);
@@ -237,7 +238,11 @@ function buildTweetText(cardName, changes) {
   if (text.length > 270) {
     text = text.substring(0, 267) + '...';
   }
-  return text;
+  const withHandles = appendBankHandles(text, bank ? [bank] : [], 280);
+  return {
+    textContent: text,
+    twitterText: withHandles !== text ? withHandles : null,
+  };
 }
 
 function buildLinkUrl(slug) {
@@ -250,7 +255,7 @@ function buildLinkUrl(slug) {
 
 // ── Social API queue ──
 
-async function queuePost(textContent, linkUrl, sourceId, imageBuffer) {
+async function queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffer) {
   const apiUrl = process.env.SOCIAL_API_URL;
   const apiKey = process.env.SOCIAL_API_KEY;
   if (!apiUrl || !apiKey) throw new Error('SOCIAL_API_URL and SOCIAL_API_KEY are required');
@@ -262,6 +267,9 @@ async function queuePost(textContent, linkUrl, sourceId, imageBuffer) {
     source_id: sourceId,
     platforms: ['twitter'],
   };
+  if (twitterText && twitterText !== textContent) {
+    body.twitter_text = twitterText;
+  }
 
   if (imageBuffer) {
     body.image_base64 = imageBuffer.toString('base64');
@@ -349,11 +357,14 @@ async function main() {
     console.log(`  Image: ${(imageBuffer.length / 1024).toFixed(0)}KB`);
 
     // Build post text
-    const tweetText = buildTweetText(cardName, cardChanges);
+    const { textContent, twitterText } = buildPostText(cardName, cardChanges, bank);
     const linkUrl = buildLinkUrl(slug);
     const sourceId = `wire-${slug}-${new Date().toISOString().slice(0, 10)}`;
 
-    console.log(`  Text (${tweetText.length} chars): ${tweetText.replace(/\n/g, ' | ')}`);
+    console.log(`  Text (${textContent.length} chars): ${textContent.replace(/\n/g, ' | ')}`);
+    if (twitterText) {
+      console.log(`  Twitter variant (${twitterText.length} chars): ${twitterText.replace(/\n/g, ' | ')}`);
+    }
 
     if (dryRun) {
       const outPath = path.join(__dirname, '..', `card-wire-preview-${slug}.png`);
@@ -363,7 +374,7 @@ async function main() {
     }
 
     try {
-      const result = await queuePost(tweetText, linkUrl, sourceId, imageBuffer);
+      const result = await queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffer);
       console.log(`  Queued! Post ID: ${result.id}\n`);
     } catch (err) {
       console.error(`  Failed to queue: ${err.message}\n`);
