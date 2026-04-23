@@ -72,7 +72,7 @@ interface CreditCardSchemaProps {
 export function CreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'CreditCard',
     name: card.card_name,
     brand: {
       '@type': 'Brand',
