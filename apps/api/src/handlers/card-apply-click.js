@@ -17,6 +17,22 @@ const responseHeaders = {
 };
 
 const VALID_CLICK_SOURCES = new Set(["direct", "referral"]);
+const ENSURE_TABLE_SQL = `
+  CREATE TABLE IF NOT EXISTS card_apply_click_counts (
+    card_id INT NOT NULL,
+    click_date DATE NOT NULL,
+    click_source ENUM('direct', 'referral') NOT NULL DEFAULT 'direct',
+    click_count INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (card_id, click_date, click_source),
+    INDEX idx_click_date (click_date),
+    INDEX idx_click_source (click_source),
+    CONSTRAINT fk_card_apply_click_card FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
+  )
+`;
+
+async function ensureCardApplyClickTable() {
+  await mysql.query(ENSURE_TABLE_SQL);
+}
 
 exports.CardApplyClickHandler = async (event) => {
   console.info("received:", event);
@@ -65,6 +81,7 @@ exports.CardApplyClickHandler = async (event) => {
           break;
         }
 
+        await ensureCardApplyClickTable();
         await mysql.query(
           `INSERT INTO card_apply_click_counts (card_id, click_date, click_source, click_count)
            VALUES (?, CURDATE(), ?, 1)
@@ -117,6 +134,7 @@ exports.CardApplyClickHandler = async (event) => {
         }
 
         const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
+        await ensureCardApplyClickTable();
         const rows = await mysql.query(
           `SELECT card_id, SUM(click_count) AS clicks
            FROM card_apply_click_counts
