@@ -30,6 +30,7 @@ import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import CardBenefits from "@/components/ui/CardBenefits";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
+import { withApplySource } from "@/lib/applyLink";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import "../../landing.css";
 
@@ -381,7 +382,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                   <div className="mt-5 w-full flex flex-col gap-2.5">
                     {card.apply_link && (
                       <a
-                        href={card.apply_link}
+                        href={withApplySource(card.apply_link)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center px-5 py-3.5 border border-transparent text-sm font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm"
@@ -1087,7 +1088,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {card.apply_link && (
                 <a
-                  href={card.apply_link}
+                  href={withApplySource(card.apply_link)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-lg"
