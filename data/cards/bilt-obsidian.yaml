@@ -18,14 +18,15 @@ tags:
   - travel
   - premium
 rewards:
-  - category: "dining"
+  - category: "rotating"
     value: 3
     unit: "points_per_dollar"
-    note: "Choose dining or groceries, up to $25,000/year. Grocery cap applies to grocery category."
-  - category: "groceries"
-    value: 3
-    unit: "points_per_dollar"
-    note: "Choose dining or groceries annually, grocery up to $25,000/year"
+    mode: "user_choice"
+    choices: 1
+    eligible_categories:
+      - "dining"
+      - "groceries"
+    note: "Choose dining (default) or groceries as your 3x category annually; grocery earns 3x on up to $25,000/year, then 1x."
   - category: "travel"
     value: 2
     unit: "points_per_dollar"
