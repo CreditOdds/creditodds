@@ -307,6 +307,7 @@ export async function trackCardView(cardId: number): Promise<void> {
   await fetch(`${API_BASE}/card-view`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    keepalive: true,
     body: JSON.stringify({ card_id: cardId }),
   });
   // Fire and forget - don't throw on error
@@ -321,6 +322,24 @@ export async function getCardViewCounts(period: 'trending' | 'all-time' = 'trend
   if (!res.ok) return {};
   const data = await res.json();
   return data.views || {};
+}
+
+export type CardApplyClickSource = 'direct' | 'referral';
+
+export async function trackCardApplyClick(
+  cardId: number,
+  clickSource: CardApplyClickSource = 'direct'
+): Promise<void> {
+  await fetch(`${API_BASE}/card-apply-click`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    keepalive: true,
+    body: JSON.stringify({
+      card_id: cardId,
+      click_source: clickSource,
+    }),
+  });
+  // Fire and forget - don't throw on error
 }
 
 // CardWire - card metric change history
@@ -363,6 +382,7 @@ export async function trackReferralEvent(
     headers: {
       'Content-Type': 'application/json',
     },
+    keepalive: true,
     body: JSON.stringify({
       referral_id: referralId,
       event_type: eventType,

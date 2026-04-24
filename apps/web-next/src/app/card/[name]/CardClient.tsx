@@ -22,7 +22,7 @@ import {
   ClockIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackReferralEvent, trackCardView, CardWireEntry, CardBenefit } from "@/lib/api";
+import { Card, GraphData, Reward, trackCardApplyClick, trackReferralEvent, trackCardView, CardWireEntry, CardBenefit } from "@/lib/api";
 import { NewsItem, tagLabels, tagColors } from "@/lib/news";
 import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -54,6 +54,14 @@ function formatRewardValue(reward: Reward): string {
     return `${reward.value}%`;
   }
   return `${reward.value}x`;
+}
+
+function getStableReferralIndex(cardKey: string, referralCount: number): number {
+  let hash = 0;
+  for (let i = 0; i < cardKey.length; i++) {
+    hash = (hash * 31 + cardKey.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash) % referralCount;
 }
 
 
@@ -138,8 +146,9 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
   // Auto-open submit modal when ?submit=true is present
   useEffect(() => {
     if (searchParams.get('submit') === 'true' && authState.isAuthenticated) {
-      setShowModal(true);
+      const timeoutId = window.setTimeout(() => setShowModal(true), 0);
       router.replace(`/card/${card.slug}`, { scroll: false });
+      return () => window.clearTimeout(timeoutId);
     }
   }, [searchParams, authState.isAuthenticated, card.slug, router]);
 
@@ -171,11 +180,11 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
   // Randomly select a referral if available
   const selectedReferral = useMemo(() => {
     if (card.referrals && card.referrals.length > 0) {
-      const randomIndex = Math.floor(Math.random() * card.referrals.length);
-      return card.referrals[randomIndex];
+      const referralIndex = getStableReferralIndex(`${card.card_id}:${card.slug}`, card.referrals.length);
+      return card.referrals[referralIndex];
     }
     return null;
-  }, [card.referrals]);
+  }, [card.card_id, card.referrals, card.slug]);
 
   // Build full referral URL
   const randomReferralUrl = useMemo(() => {
@@ -208,12 +217,22 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
   }, [selectedReferral]);
 
   // Handle referral click
+  const handleCardApplyClick = (clickSource: "direct" | "referral") => {
+    const cardId = Number(card.card_id);
+    if (Number.isInteger(cardId) && cardId > 0) {
+      trackCardApplyClick(cardId, clickSource).catch(() => {
+        // Silently fail
+      });
+    }
+  };
+
   const handleReferralClick = () => {
     if (selectedReferral) {
       trackReferralEvent(selectedReferral.referral_id, 'click').catch(() => {
         // Silently fail
       });
     }
+    handleCardApplyClick("referral");
   };
 
   // Check if charts have actual data points (not just empty structure)
@@ -385,6 +404,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                         href={withApplySource(card.apply_link)}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => handleCardApplyClick("direct")}
                         className="inline-flex items-center justify-center px-5 py-3.5 border border-transparent text-sm font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm"
                       >
                         Apply Now
@@ -1091,6 +1111,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                   href={withApplySource(card.apply_link)}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => handleCardApplyClick("direct")}
                   className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-lg"
                 >
                   Apply Now

@@ -454,6 +454,49 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
+  CardApplyClickFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/card-apply-click.CardApplyClickHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Track outbound apply clicks per card and return click counts
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        TrackClick:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-apply-click
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        GetClicks:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-apply-click
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        CardApplyClickOptions:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-apply-click
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   LeaderboardFunction:
     Type: AWS::Serverless::Function
     Properties:
