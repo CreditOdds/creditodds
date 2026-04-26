@@ -109,6 +109,7 @@ exports.CardApplyClickHandler = async (event) => {
       try {
         const period = event.queryStringParameters?.period;
         const clickSource = event.queryStringParameters?.click_source;
+        const breakdown = event.queryStringParameters?.breakdown;
 
         if (clickSource && !VALID_CLICK_SOURCES.has(clickSource)) {
           response = {
@@ -135,6 +136,34 @@ exports.CardApplyClickHandler = async (event) => {
 
         const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
         await ensureCardApplyClickTable();
+
+        if (breakdown === "source") {
+          const rows = await mysql.query(
+            `SELECT card_id, click_source, SUM(click_count) AS clicks
+             FROM card_apply_click_counts
+             ${whereClause}
+             GROUP BY card_id, click_source`,
+            params
+          );
+          await mysql.end();
+
+          const clicks = {};
+          for (const row of rows) {
+            const id = row.card_id;
+            if (!clicks[id]) clicks[id] = { direct: 0, referral: 0, total: 0 };
+            const count = Number(row.clicks);
+            clicks[id][row.click_source] = count;
+            clicks[id].total += count;
+          }
+
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({ clicks }),
+          };
+          break;
+        }
+
         const rows = await mysql.query(
           `SELECT card_id, SUM(click_count) AS clicks
            FROM card_apply_click_counts
