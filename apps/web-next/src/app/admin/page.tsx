@@ -55,7 +55,12 @@ import {
 // Master admin user ID (Firebase UID)
 const ADMIN_USER_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
 
-type TabType = 'stats' | 'records' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit' | 'carddata' | 'applyclicks';
+// Visible tabs after the Apr 2026 condensation:
+//   - 'submit' merged into 'records' (toggle button)
+//   - 'searches' + 'audit' merged into 'activity' (sub-tab toggle)
+//   - 'applyclicks' merged into 'stats' (rendered as a section)
+type TabType = 'stats' | 'records' | 'referrals' | 'activity' | 'user' | 'carddata';
+type ActivitySection = 'searches' | 'audit';
 
 export default function AdminPage() {
   const { authState, getToken } = useAuth();
@@ -77,6 +82,10 @@ export default function AdminPage() {
   const [graphData, setGraphData] = useState<AdminGraphsData | null>(null);
   const [graphDays, setGraphDays] = useState(30);
   const [userLookupId, setUserLookupId] = useState('');
+
+  // UI states for condensed tabs
+  const [showSubmitPanel, setShowSubmitPanel] = useState(false);
+  const [activitySection, setActivitySection] = useState<ActivitySection>('searches');
 
   // Processing states
   const [processingId, setProcessingId] = useState<number | null>(null);
@@ -266,12 +275,9 @@ export default function AdminPage() {
     { id: 'stats' as TabType, name: 'Overview', icon: ChartBarIcon },
     { id: 'records' as TabType, name: 'Records', icon: DocumentTextIcon, count: recordsTotal },
     { id: 'referrals' as TabType, name: 'Referrals', icon: LinkIcon, count: referralsTotal, badge: stats?.pending_referrals },
-    { id: 'applyclicks' as TabType, name: 'Apply Clicks', icon: CursorArrowRaysIcon },
-    { id: 'searches' as TabType, name: 'Searches', icon: MagnifyingGlassIcon, count: searchesTotal },
+    { id: 'activity' as TabType, name: 'Activity', icon: ClipboardDocumentListIcon },
     { id: 'user' as TabType, name: 'User Lookup', icon: UserIcon },
-    { id: 'audit' as TabType, name: 'Audit Log', icon: ClipboardDocumentListIcon },
     { id: 'carddata' as TabType, name: 'Card Data', icon: CreditCardIcon },
-    { id: 'submit' as TabType, name: 'Submit Record', icon: PlusCircleIcon },
   ];
 
   return (
@@ -326,20 +332,43 @@ export default function AdminPage() {
 
         {/* Tab Content */}
         {activeTab === 'stats' && stats && (
-          <StatsTab
-            stats={stats}
-            graphData={graphData}
-            graphDays={graphDays}
-            onGraphDaysChange={handleGraphDaysChange}
-          />
+          <div className="space-y-8">
+            <StatsTab
+              stats={stats}
+              graphData={graphData}
+              graphDays={graphDays}
+              onGraphDaysChange={handleGraphDaysChange}
+            />
+            <ApplyClicksTab />
+          </div>
         )}
         {activeTab === 'records' && (
-          <RecordsTab
-            records={records}
-            total={recordsTotal}
-            processingId={processingId}
-            onDelete={handleDeleteRecord}
-          />
+          <div className="space-y-4">
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowSubmitPanel((v) => !v)}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-indigo-200 text-indigo-700 bg-white hover:bg-indigo-50"
+              >
+                <PlusCircleIcon className="h-5 w-5" />
+                {showSubmitPanel ? 'Hide submit form' : 'Submit Record'}
+              </button>
+            </div>
+            {showSubmitPanel && (
+              <SubmitRecordTab
+                getToken={getToken}
+                onSuccess={() => {
+                  setShowSubmitPanel(false);
+                  loadData();
+                }}
+              />
+            )}
+            <RecordsTab
+              records={records}
+              total={recordsTotal}
+              processingId={processingId}
+              onDelete={handleDeleteRecord}
+            />
+          </div>
         )}
         {activeTab === 'referrals' && (
           <ReferralsTab
@@ -351,12 +380,48 @@ export default function AdminPage() {
             onEdit={handleEditReferral}
           />
         )}
-        {activeTab === 'searches' && (
-          <SearchesTab
-            searches={searches}
-            total={searchesTotal}
-            onUserClick={handleUserLookup}
-          />
+        {activeTab === 'activity' && (
+          <div className="space-y-4">
+            <div className="inline-flex rounded-md shadow-sm border border-gray-200 bg-white p-1">
+              <button
+                onClick={() => setActivitySection('searches')}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded ${
+                  activitySection === 'searches'
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <MagnifyingGlassIcon className="h-4 w-4" />
+                Searches
+                <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
+                  activitySection === 'searches' ? 'bg-indigo-500/30 text-white' : 'bg-gray-100 text-gray-700'
+                }`}>{searchesTotal}</span>
+              </button>
+              <button
+                onClick={() => setActivitySection('audit')}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded ${
+                  activitySection === 'audit'
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <ClipboardDocumentListIcon className="h-4 w-4" />
+                Audit Log
+                <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
+                  activitySection === 'audit' ? 'bg-indigo-500/30 text-white' : 'bg-gray-100 text-gray-700'
+                }`}>{auditTotal}</span>
+              </button>
+            </div>
+            {activitySection === 'searches' ? (
+              <SearchesTab
+                searches={searches}
+                total={searchesTotal}
+                onUserClick={handleUserLookup}
+              />
+            ) : (
+              <AuditTab logs={auditLogs} total={auditTotal} />
+            )}
+          </div>
         )}
         {activeTab === 'user' && (
           <UserLookupTab
@@ -364,12 +429,9 @@ export default function AdminPage() {
             initialUserId={userLookupId}
           />
         )}
-        {activeTab === 'applyclicks' && <ApplyClicksTab />}
-        {activeTab === 'audit' && <AuditTab logs={auditLogs} total={auditTotal} />}
         {activeTab === 'carddata' && (
           <CardDataTab getToken={getToken} />
         )}
-        {activeTab === 'submit' && <SubmitRecordTab getToken={getToken} onSuccess={loadData} />}
       </div>
       <V2Footer />
     </div>
@@ -573,7 +635,10 @@ function ApplyClicksTab() {
       {/* Header + Range Picker */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 className="text-lg font-medium text-gray-900">Apply Clicks</h3>
+          <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
+            <CursorArrowRaysIcon className="h-5 w-5 text-indigo-500" />
+            Apply Clicks
+          </h3>
           <p className="mt-1 text-sm text-gray-500">
             Outbound clicks on card apply buttons, broken down by direct vs referral.
           </p>
