@@ -14,6 +14,7 @@ import {
   getAdminSearches,
   getAdminUser,
   getAdminGraphs,
+  getCardApplyClicksBreakdown,
   deleteAdminRecord,
   deleteAdminReferral,
   updateReferralApproval,
@@ -27,6 +28,7 @@ import {
   AdminUserData,
   AuditLogEntry,
   AdminGraphsData,
+  CardApplyClickBreakdown,
   Card
 } from "@/lib/api";
 import dynamic from "next/dynamic";
@@ -46,13 +48,14 @@ import {
   PlusCircleIcon,
   MagnifyingGlassIcon,
   UserIcon,
-  CreditCardIcon
+  CreditCardIcon,
+  CursorArrowRaysIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
 const ADMIN_USER_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
 
-type TabType = 'stats' | 'records' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit' | 'carddata';
+type TabType = 'stats' | 'records' | 'referrals' | 'searches' | 'user' | 'audit' | 'submit' | 'carddata' | 'applyclicks';
 
 export default function AdminPage() {
   const { authState, getToken } = useAuth();
@@ -263,6 +266,7 @@ export default function AdminPage() {
     { id: 'stats' as TabType, name: 'Overview', icon: ChartBarIcon },
     { id: 'records' as TabType, name: 'Records', icon: DocumentTextIcon, count: recordsTotal },
     { id: 'referrals' as TabType, name: 'Referrals', icon: LinkIcon, count: referralsTotal, badge: stats?.pending_referrals },
+    { id: 'applyclicks' as TabType, name: 'Apply Clicks', icon: CursorArrowRaysIcon },
     { id: 'searches' as TabType, name: 'Searches', icon: MagnifyingGlassIcon, count: searchesTotal },
     { id: 'user' as TabType, name: 'User Lookup', icon: UserIcon },
     { id: 'audit' as TabType, name: 'Audit Log', icon: ClipboardDocumentListIcon },
@@ -360,6 +364,7 @@ export default function AdminPage() {
             initialUserId={userLookupId}
           />
         )}
+        {activeTab === 'applyclicks' && <ApplyClicksTab />}
         {activeTab === 'audit' && <AuditTab logs={auditLogs} total={auditTotal} />}
         {activeTab === 'carddata' && (
           <CardDataTab getToken={getToken} />
@@ -475,6 +480,239 @@ function StatCard({ title, value, highlight = false }: { title: string; value: n
         {value.toLocaleString()}
       </dd>
     </div>
+  );
+}
+
+// ============ APPLY CLICKS TAB ============
+const APPLY_CLICK_RANGES = [
+  { label: '7d', days: 7 },
+  { label: '30d', days: 30 },
+  { label: '90d', days: 90 },
+  { label: '1y', days: 365 },
+  { label: 'All', days: 0 },
+];
+
+type ApplyClickSortKey = 'total' | 'direct' | 'referral';
+
+interface ApplyClickRow {
+  cardId: number;
+  cardName: string;
+  cardImageLink?: string;
+  direct: number;
+  referral: number;
+  total: number;
+}
+
+function ApplyClicksTab() {
+  const { cards } = useCardCatalog();
+  const [periodDays, setPeriodDays] = useState(30);
+  const [breakdown, setBreakdown] = useState<Record<number, CardApplyClickBreakdown>>({});
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [sortKey, setSortKey] = useState<ApplyClickSortKey>('total');
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    setLoadError(null);
+    getCardApplyClicksBreakdown(periodDays)
+      .then((data) => {
+        if (!isMounted) return;
+        setBreakdown(data);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setLoadError('Failed to load apply click data');
+        setBreakdown({});
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, [periodDays]);
+
+  const cardsByDbId = new Map<number, Card>();
+  for (const card of cards) {
+    if (typeof card.db_card_id === 'number') {
+      cardsByDbId.set(card.db_card_id, card);
+    }
+  }
+
+  const rows: ApplyClickRow[] = Object.entries(breakdown).map(([id, counts]) => {
+    const dbId = Number(id);
+    const card = cardsByDbId.get(dbId);
+    return {
+      cardId: dbId,
+      cardName: card?.card_name ?? `Card #${dbId}`,
+      cardImageLink: card?.card_image_link,
+      direct: counts.direct,
+      referral: counts.referral,
+      total: counts.total,
+    };
+  });
+
+  rows.sort((a, b) => b[sortKey] - a[sortKey] || b.total - a.total);
+
+  const totals = rows.reduce(
+    (acc, row) => {
+      acc.direct += row.direct;
+      acc.referral += row.referral;
+      acc.total += row.total;
+      return acc;
+    },
+    { direct: 0, referral: 0, total: 0 }
+  );
+
+  const rangeLabel =
+    APPLY_CLICK_RANGES.find((r) => r.days === periodDays)?.label ?? `${periodDays}d`;
+
+  return (
+    <div className="space-y-6">
+      {/* Header + Range Picker */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 className="text-lg font-medium text-gray-900">Apply Clicks</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Outbound clicks on card apply buttons, broken down by direct vs referral.
+          </p>
+        </div>
+        <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+          {APPLY_CLICK_RANGES.map((range) => (
+            <button
+              key={range.days}
+              onClick={() => setPeriodDays(range.days)}
+              className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                periodDays === range.days
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              {range.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Summary stat cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <StatCard title={`Total Clicks (${rangeLabel})`} value={totals.total} />
+        <StatCard title="Direct Apply" value={totals.direct} />
+        <StatCard title="Referral Apply" value={totals.referral} />
+      </div>
+
+      {loadError && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
+          {loadError}
+        </div>
+      )}
+
+      {/* Per-card table */}
+      <div className="bg-white shadow rounded-lg overflow-hidden">
+        <div className="px-4 py-5 sm:px-6 border-b border-gray-200 flex items-center justify-between">
+          <h3 className="text-lg font-medium text-gray-900">
+            Top Cards by Apply Clicks ({rangeLabel})
+          </h3>
+          <span className="text-xs text-gray-500">{rows.length} cards</span>
+        </div>
+        {loading ? (
+          <div className="px-6 py-10 text-center text-sm text-gray-500">Loading…</div>
+        ) : rows.length === 0 ? (
+          <div className="px-6 py-10 text-center text-sm text-gray-500">
+            No apply clicks recorded in this window.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    #
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Card
+                  </th>
+                  <SortableHeader
+                    label="Direct"
+                    active={sortKey === 'direct'}
+                    onClick={() => setSortKey('direct')}
+                  />
+                  <SortableHeader
+                    label="Referral"
+                    active={sortKey === 'referral'}
+                    onClick={() => setSortKey('referral')}
+                  />
+                  <SortableHeader
+                    label="Total"
+                    active={sortKey === 'total'}
+                    onClick={() => setSortKey('total')}
+                  />
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {rows.map((row, index) => (
+                  <tr key={row.cardId} className="hover:bg-gray-50">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                      {index + 1}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-8 w-12 relative mr-3">
+                          <CardImage
+                            cardImageLink={row.cardImageLink}
+                            alt={row.cardName}
+                            width={48}
+                            height={32}
+                          />
+                        </div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {row.cardName}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 tabular-nums">
+                      {row.direct.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 tabular-nums">
+                      {row.referral.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900 tabular-nums">
+                      {row.total.toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SortableHeader({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+      <button
+        type="button"
+        onClick={onClick}
+        className={`inline-flex items-center gap-1 ${
+          active ? 'text-indigo-600' : 'hover:text-gray-700'
+        }`}
+      >
+        {label}
+        {active && <span aria-hidden>↓</span>}
+      </button>
+    </th>
   );
 }
 

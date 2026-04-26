@@ -342,6 +342,46 @@ export async function trackCardApplyClick(
   // Fire and forget - don't throw on error
 }
 
+export interface CardApplyClickBreakdown {
+  direct: number;
+  referral: number;
+  total: number;
+}
+
+// Aggregated apply-click counts per card, broken down by click source.
+// `period` is in days; pass 0 for all-time. Used by the admin dashboard.
+// Normalizes the response so older API deployments (which return
+// `{[id]: number}` instead of `{[id]: {direct, referral, total}}`) still
+// produce sane totals — direct/referral will both be 0 until the backend
+// catches up.
+export async function getCardApplyClicksBreakdown(
+  period: number = 30
+): Promise<Record<number, CardApplyClickBreakdown>> {
+  const res = await fetch(
+    `${API_BASE}/card-apply-click?period=${period}&breakdown=source`,
+    { cache: 'no-store' }
+  );
+  if (!res.ok) return {};
+  const data = await res.json();
+  const raw = (data.clicks || {}) as Record<string, number | Partial<CardApplyClickBreakdown>>;
+  const normalized: Record<number, CardApplyClickBreakdown> = {};
+  for (const [id, value] of Object.entries(raw)) {
+    const cardId = Number(id);
+    if (typeof value === 'number') {
+      normalized[cardId] = { direct: 0, referral: 0, total: value };
+    } else {
+      const direct = value.direct ?? 0;
+      const referral = value.referral ?? 0;
+      normalized[cardId] = {
+        direct,
+        referral,
+        total: value.total ?? direct + referral,
+      };
+    }
+  }
+  return normalized;
+}
+
 // CardWire - card metric change history
 export interface CardWireEntry {
   id: number;
