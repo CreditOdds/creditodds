@@ -23,6 +23,13 @@ const V2_FOOTER_ROUTES = new Set<string>([
   '/forgot',
   '/contact',
   '/admin',
+  // /_admin is the underscore-prefixed entry that next.config.mjs rewrites
+  // to /admin. The rewrite preserves the URL bar, so usePathname() returns
+  // '/_admin' here even though the rendered page is admin/page.tsx
+  // (which already renders its own V2Footer). Without this entry,
+  // ConditionalFooter would also render the legacy <Footer /> and the
+  // admin page would show two footers stacked.
+  '/_admin',
   '/tools',
 ]);
 
@@ -35,9 +42,15 @@ const V2_FOOTER_PREFIXES = [
   '/tools/',
 ];
 
-function isV2FooterRoute(pathname: string): boolean {
-  if (V2_FOOTER_ROUTES.has(pathname)) return true;
-  return V2_FOOTER_PREFIXES.some((p) => pathname.startsWith(p));
+function isV2FooterRoute(pathname: string | null | undefined): boolean {
+  if (!pathname) return false;
+  // Strip a single trailing slash so '/admin/' matches '/admin'.
+  const normalized =
+    pathname.length > 1 && pathname.endsWith('/')
+      ? pathname.slice(0, -1)
+      : pathname;
+  if (V2_FOOTER_ROUTES.has(normalized)) return true;
+  return V2_FOOTER_PREFIXES.some((p) => normalized.startsWith(p));
 }
 
 export function ConditionalNavbar() {
