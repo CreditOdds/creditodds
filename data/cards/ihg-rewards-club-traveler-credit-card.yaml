@@ -38,6 +38,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 2000
   timeframe_months: 3
+  note: "Plus 10,000 bonus points after spending $10,000 each calendar year"
 apr:
   regular:
     min: 19.24
