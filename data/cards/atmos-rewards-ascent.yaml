@@ -27,8 +27,8 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 70000
-  type: points
-  spend_requirement: 3000
-  timeframe_months: 3
+  value: 80000
+  type: "points"
+  spend_requirement: 4000
+  timeframe_months: 4
 apply_link: https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/
