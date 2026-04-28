@@ -139,7 +139,7 @@ async function fetchPageContent(url) {
         const html = await response.text();
         const stripped = stripHtml(html);
         if (stripped.length >= 100) {
-          return stripped;
+          return { content: stripped, usedBrowser: false };
         }
         console.warn(`  Simple fetch returned too little content (${stripped.length} chars) — falling back to browser`);
       }
@@ -149,7 +149,8 @@ async function fetchPageContent(url) {
   }
 
   // Fall back to Playwright for JS-rendered pages
-  return fetchWithBrowser(url);
+  const content = await fetchWithBrowser(url);
+  return content ? { content, usedBrowser: true } : null;
 }
 
 let _browser = null;
@@ -276,6 +277,20 @@ Rules:
 }
 
 // ─── Change detection ─────────────────────────────────────────────────────────
+
+// True when Haiku returned no signal — every primary field is null/undefined.
+// Used to decide whether to retry a simple-fetch result with the browser, since
+// JS-rendered pages (e.g. citi.com) return real HTML but with empty bonus
+// placeholders that Haiku can't extract from.
+function isExtractionEmpty(extracted) {
+  if (!extracted) return true;
+  if (extracted.annual_fee != null) return false;
+  const sb = extracted.signup_bonus;
+  if (sb && (sb.value != null || sb.spend_requirement != null || sb.timeframe_months != null)) {
+    return false;
+  }
+  return true;
+}
 
 function detectChanges(card, extracted) {
   if (!extracted) return [];
@@ -458,11 +473,12 @@ async function main() {
     try {
       await withTimeout((async () => {
         // Fetch page
-        const pageContent = await fetchPageContent(apply_link);
-        if (!pageContent) {
+        const fetchResult = await fetchPageContent(apply_link);
+        if (!fetchResult) {
           console.log('  Skipped (could not fetch page)\n');
           return;
         }
+        let { content: pageContent, usedBrowser } = fetchResult;
         console.log(`  Fetched ${pageContent.length} chars`);
 
         // Extract with Claude Haiku
@@ -472,6 +488,23 @@ async function main() {
         } catch (err) {
           console.warn(`  Extraction error: ${err.message} — skipping\n`);
           return;
+        }
+
+        // Self-heal: simple-fetch HTML can be 200 OK but missing JS-rendered
+        // bonus values (e.g. citi.com). Haiku then returns all-null, which the
+        // detector silently treats as "no changes". Retry once with the browser.
+        if (!usedBrowser && isExtractionEmpty(extracted)) {
+          console.log('  Extraction returned no signal — retrying with browser');
+          const browserContent = await fetchWithBrowser(apply_link);
+          if (browserContent) {
+            pageContent = browserContent;
+            try {
+              extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+            } catch (err) {
+              console.warn(`  Retry extraction error: ${err.message} — skipping\n`);
+              return;
+            }
+          }
         }
 
         if (!extracted) {
