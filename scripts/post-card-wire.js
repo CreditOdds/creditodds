@@ -17,7 +17,14 @@
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
-const { V2, darkBackground, footerBar, hexToRgba } = require('./lib/og-style');
+const {
+  SO,
+  getTone,
+  escapeXml,
+  soFrame,
+  soFooter,
+  soEyebrow,
+} = require('./lib/og-style');
 const { appendBankHandles } = require('./lib/bank-handles');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
@@ -103,124 +110,337 @@ async function fetchCardImage(imageFilename) {
     const url = `${CDN_IMAGES}/${imageFilename}`;
     const res = await fetch(url);
     if (!res.ok) return null;
-    const buffer = Buffer.from(await res.arrayBuffer());
-    return await sharp(buffer)
-      .resize(280, 176, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
-      .png()
-      .toBuffer();
+    return Buffer.from(await res.arrayBuffer());
   } catch {
     return null;
   }
 }
 
 // ── Image generation ──
+//
+// Layout follows the "T2 — CardWire" template in the design system:
+//   1200×630 frame, dot-grid + tone-tinted glow backdrop, hairline accent at top.
+//   Left column: eyebrow + card name title + "What changed" stat block (single
+//   primary change, with "+N more" badge if multiple). Right column: tilted
+//   card art with a back-glow placeholder card behind.
 
-function escapeXml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const FRAME_W = 1200;
+const FRAME_H = 630;
+const FOOTER_H = 56;
+const CONTENT_TOP = 40;
+const PADDING_X = 56;
+const COL_GAP = 36;
+const RIGHT_COL_W = 420;
+const CARD_ART_W = 360;
+const CARD_ART_H = Math.round(CARD_ART_W / 1.6);
+
+// Pick the most-noteworthy change (positive/negative beats neutral; first wins ties)
+function pickPrimaryChange(changes) {
+  const ranked = changes.map((c, i) => ({
+    c,
+    dir: getDirection(c.field, c.old_value, c.new_value),
+    idx: i,
+  }));
+  ranked.sort((a, b) => {
+    const aScore = a.dir === 'neutral' ? 1 : 0;
+    const bScore = b.dir === 'neutral' ? 1 : 0;
+    if (aScore !== bScore) return aScore - bScore;
+    return a.idx - b.idx;
+  });
+  return { primary: ranked[0], rest: ranked.slice(1) };
 }
 
-async function generateCardWireImage(cardName, bank, changes, cardImageBuffer) {
-  const width = 1080;
-  const headerHeight = 100;
-  const cardImageAreaHeight = 200;
-  const changeRowHeight = 100;
-  const footerHeight = 50;
-  const changesHeight = changes.length * changeRowHeight + 40; // 40 for section header
-  const height = headerHeight + cardImageAreaHeight + changesHeight + footerHeight;
-
-  // Build change rows
-  let changesSvg = '';
-  const changesStartY = headerHeight + cardImageAreaHeight + 40; // after section header
-
-  // Section header
-  const sectionHeaderY = headerHeight + cardImageAreaHeight;
-  changesSvg += `
-    <text x="40" y="${sectionHeaderY + 26}" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="${V2.accent}" letter-spacing="1.5">WHAT CHANGED</text>
-  `;
-
-  for (let i = 0; i < changes.length; i++) {
-    const c = changes[i];
-    const y = changesStartY + (i * changeRowHeight);
-    const dir = getDirection(c.field, c.old_value, c.new_value);
-    const label = fieldLabels[c.field] || c.field;
-    const oldFormatted = formatValue(c.field, c.old_value);
-    const newFormatted = formatValue(c.field, c.new_value);
-
-    const accentColor = dir === 'positive' ? V2.emerald : dir === 'negative' ? V2.warn : V2.muted;
-    const rowBg = dir === 'positive'
-      ? hexToRgba(V2.emerald, 0.12)
-      : dir === 'negative'
-      ? hexToRgba(V2.warn, 0.14)
-      : 'rgba(255,255,255,0.05)';
-    const pillBg = dir === 'positive'
-      ? hexToRgba(V2.emerald, 0.22)
-      : dir === 'negative'
-      ? hexToRgba(V2.warn, 0.22)
-      : 'rgba(255,255,255,0.12)';
-
-    // Row background
-    changesSvg += `<rect x="30" y="${y}" width="${width - 60}" height="${changeRowHeight - 10}" rx="12" fill="${rowBg}" stroke="${hexToRgba(accentColor, 0.3)}" stroke-width="1"/>`;
-
-    // Field label
-    changesSvg += `<text x="55" y="${y + 35}" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#ffffff">${escapeXml(label)}</text>`;
-
-    // Old value → New value
-    changesSvg += `<text x="55" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" fill="rgba(255,255,255,0.5)">${escapeXml(oldFormatted)}</text>`;
-    changesSvg += `<text x="${55 + oldFormatted.length * 13 + 15}" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" fill="rgba(255,255,255,0.5)">\u2192</text>`;
-    changesSvg += `<text x="${55 + oldFormatted.length * 13 + 40}" y="${y + 62}" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="${accentColor}">${escapeXml(newFormatted)}</text>`;
-
-    // Direction badge on right
-    const badgeText = dir === 'positive' ? '\u2B06 Better' : dir === 'negative' ? '\u2B07 Worse' : '\u2796 Changed';
-    changesSvg += `
-      <rect x="${width - 195}" y="${y + 25}" width="130" height="36" rx="18" fill="${pillBg}"/>
-      <text x="${width - 130}" y="${y + 49}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="${accentColor}">${badgeText}</text>
-    `;
-  }
-
-  // Header accent color based on overall sentiment
+function overallTone(changes) {
   const allPositive = changes.every(c => getDirection(c.field, c.old_value, c.new_value) === 'positive');
   const allNegative = changes.every(c => getDirection(c.field, c.old_value, c.new_value) === 'negative');
-  const accentColor = allPositive ? V2.emerald : allNegative ? V2.warn : V2.accent;
+  if (allPositive) return 'good';
+  if (allNegative) return 'warn';
+  return 'purple';
+}
 
-  const bg = darkBackground({ width, height, accent: accentColor });
+function eyebrowVerb(tone) {
+  return tone === 'good' ? 'CardWire · improvement'
+       : tone === 'warn' ? 'CardWire · downgrade'
+       :                   'CardWire · update';
+}
 
-  const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+// Word-wrap a string into up to maxLines lines of approximately maxChars each.
+function wrapText(text, maxChars, maxLines) {
+  const words = String(text).trim().split(/\s+/);
+  const lines = [];
+  let current = '';
+  for (const word of words) {
+    if (!current) { current = word; continue; }
+    if ((current + ' ' + word).length <= maxChars) {
+      current += ' ' + word;
+    } else {
+      lines.push(current);
+      if (lines.length >= maxLines) break;
+      current = word;
+    }
+  }
+  if (current && lines.length < maxLines) lines.push(current);
+  // Tail truncation if we overflowed
+  if (lines.length === maxLines) {
+    const used = lines.join(' ');
+    if (used.length < text.length - 2) {
+      const last = lines[maxLines - 1];
+      lines[maxLines - 1] = (last.length > maxChars - 1 ? last.slice(0, maxChars - 1) : last) + '…';
+    }
+  }
+  return lines.length ? lines : [text];
+}
+
+function estimateMonoWidth(s, fontSize) {
+  return Math.ceil(String(s).length * fontSize * 0.6);
+}
+
+// Render the card image inside a tilted, rounded frame with a soft drop shadow.
+// Returns { buffer, width, height } for compositing onto the main canvas.
+async function renderTiltedCardArt(cardImageBuffer) {
+  const innerW = CARD_ART_W;
+  const innerH = CARD_ART_H;
+
+  // Inner card frame: rounded background with the issuer image centered inside
+  const innerSvg = `<svg width="${innerW}" height="${innerH}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="${innerW}" height="${innerH}" rx="14" ry="14" fill="${SO.card2}"/>
+  </svg>`;
+  let inner = sharp(Buffer.from(innerSvg)).png();
+
+  if (cardImageBuffer) {
+    const padding = 18;
+    const fitted = await sharp(cardImageBuffer)
+      .resize(innerW - padding * 2, innerH - padding * 2, {
+        fit: 'contain',
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .png()
+      .toBuffer();
+    inner = sharp(await inner.toBuffer()).composite([{ input: fitted, left: padding, top: padding }]).png();
+  }
+
+  // Subtle gloss + 1px inner border to match `.so-cardart::after`
+  const glossSvg = `<svg width="${innerW}" height="${innerH}" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      ${bg.defs}
+      <linearGradient id="gloss" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="rgba(255,255,255,0.10)"/>
+        <stop offset="35%" stop-color="rgba(255,255,255,0)"/>
+        <stop offset="65%" stop-color="rgba(255,255,255,0)"/>
+        <stop offset="100%" stop-color="rgba(255,255,255,0.04)"/>
+      </linearGradient>
+      <clipPath id="round"><rect x="0" y="0" width="${innerW}" height="${innerH}" rx="14" ry="14"/></clipPath>
     </defs>
-    ${bg.rects}
+    <g clip-path="url(#round)">
+      <rect x="0" y="0" width="${innerW}" height="${innerH}" fill="url(#gloss)"/>
+    </g>
+    <rect x="0.5" y="0.5" width="${innerW - 1}" height="${innerH - 1}" rx="14" ry="14" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  </svg>`;
+  inner = sharp(await inner.toBuffer()).composite([{ input: Buffer.from(glossSvg), left: 0, top: 0 }]).png();
 
-    <!-- Accent bar above title -->
-    <rect x="40" y="32" width="60" height="3" fill="${accentColor}"/>
+  // Pad onto a transparent canvas large enough to fit -3deg rotation and shadow
+  const padW = 480;
+  const padH = 320;
+  const offsetX = Math.round((padW - innerW) / 2);
+  const offsetY = Math.round((padH - innerH) / 2);
+  const canvasSvg = `<svg width="${padW}" height="${padH}" xmlns="http://www.w3.org/2000/svg"></svg>`;
+  let padded = sharp(Buffer.from(canvasSvg)).composite([{ input: await inner.toBuffer(), left: offsetX, top: offsetY }]).png();
 
-    <!-- Header -->
-    <text x="40" y="66" font-family="Arial,sans-serif" font-size="32" font-weight="bold" fill="#ffffff" letter-spacing="-0.5">${escapeXml(cardName)}</text>
-    <text x="40" y="92" font-family="Arial,sans-serif" font-size="16" fill="${accentColor}" letter-spacing="1.2">${escapeXml((bank || '').toUpperCase())} \u00B7 CARDWIRE UPDATE</text>
+  // Rotate -3deg (canvas auto-expands to fit)
+  const rotated = await sharp(await padded.toBuffer())
+    .rotate(-3, { background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .toBuffer();
+  const rotMeta = await sharp(rotated).metadata();
 
-    <!-- Card image area (darker inset) -->
-    <rect x="0" y="${headerHeight}" width="${width}" height="${cardImageAreaHeight}" fill="rgba(0,0,0,0.18)"/>
+  // Approximate drop shadow: blur the alpha channel into a dark layer
+  const alphaBlur = await sharp(rotated)
+    .extractChannel('alpha')
+    .blur(18)
+    .toBuffer();
+  const shadow = await sharp({
+    create: {
+      width: rotMeta.width,
+      height: rotMeta.height,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0.65 },
+    },
+  })
+    .joinChannel(alphaBlur)
+    .png()
+    .toBuffer();
 
-    <!-- Changes -->
-    ${changesSvg}
+  const finalH = rotMeta.height + 14;
+  const finalCanvasSvg = `<svg width="${rotMeta.width}" height="${finalH}" xmlns="http://www.w3.org/2000/svg"></svg>`;
+  const finalImg = await sharp(Buffer.from(finalCanvasSvg))
+    .composite([
+      { input: shadow, left: 0, top: 14 },
+      { input: rotated, left: 0, top: 0 },
+    ])
+    .png()
+    .toBuffer();
 
-    <!-- Footer -->
-    ${footerBar({ width, y: height - footerHeight, height: footerHeight, text: 'creditodds.com/card-wire' })}
+  return { buffer: finalImg, width: rotMeta.width, height: finalH };
+}
+
+async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, timestamp = 'Just now') {
+  const tone = overallTone(changes);
+  const t = getTone(tone);
+  const { primary, rest } = pickPrimaryChange(changes);
+
+  const dir = primary.dir;
+  const fieldLabel = fieldLabels[primary.c.field] || primary.c.field;
+  const oldFormatted = formatValue(primary.c.field, primary.c.old_value);
+  const newFormatted = formatValue(primary.c.field, primary.c.new_value);
+
+  const pillText = dir === 'positive' ? '↑ BETTER'
+                 : dir === 'negative' ? '↓ WORSE'
+                 : '• CHANGED';
+  const pillColor = dir === 'positive' ? SO.good
+                  : dir === 'negative' ? SO.warn
+                  : SO.accent;
+  const pillBg = dir === 'positive' ? 'rgba(62,204,170,0.12)'
+               : dir === 'negative' ? 'rgba(255,122,163,0.12)'
+               : 'rgba(183,148,255,0.12)';
+  const toColor = dir === 'positive' ? SO.good
+                : dir === 'negative' ? SO.warn
+                : SO.accent;
+
+  // ── Layout coords (left text column + right card art column) ──
+  const leftX = PADDING_X;
+  const leftColW = FRAME_W - PADDING_X * 2 - RIGHT_COL_W - COL_GAP;
+  const rightColX = PADDING_X + leftColW + COL_GAP;
+
+  const eyebrowY = CONTENT_TOP + 18;
+  const titleSize = 40;
+  const titleLineH = Math.round(titleSize * 1.05);
+  const titleLines = wrapText(cardName, 22, 2);
+  const titleBaseY = eyebrowY + 26 + titleSize - 4;
+  const issuerLabelY = titleBaseY + (titleLines.length - 1) * titleLineH + 26;
+
+  const changeBlockH = 132;
+  const remainingTop = issuerLabelY + 12;
+  const remainingBottom = FRAME_H - FOOTER_H - 16;
+  const changeBlockY = Math.round(remainingTop + (remainingBottom - remainingTop - changeBlockH) / 2);
+
+  // ── Build SVG ──
+  const frame = soFrame({ width: FRAME_W, height: FRAME_H, tone });
+
+  const eyebrowSvg = soEyebrow({
+    x: leftX,
+    y: eyebrowY,
+    key: (bank || 'CARD').toUpperCase(),
+    text: eyebrowVerb(tone),
+    tone,
+    size: 13,
+  });
+
+  const titleSvg = titleLines.map((line, i) => `
+    <text x="${leftX}" y="${titleBaseY + i * titleLineH}" font-family="Arial,sans-serif" font-size="${titleSize}" font-weight="600" fill="${SO.ink}" letter-spacing="-1">${escapeXml(line)}</text>
+  `).join('');
+
+  // "What changed" block (`.so-change` in design)
+  const blockX = leftX;
+  const blockW = leftColW;
+  const accentBarW = 3;
+
+  const pillW = 110;
+  const pillH = 30;
+  const pillX = blockX + blockW - 24 - pillW;
+  const pillY = changeBlockY + 20;
+
+  const valueY = changeBlockY + changeBlockH - 28;
+  const valueSize = 28;
+  const fromX = blockX + 24;
+  const fromW = estimateMonoWidth(oldFormatted, valueSize);
+  const arrowX = fromX + fromW + 18;
+  const arrowW = estimateMonoWidth('→', valueSize - 2);
+  const toX = arrowX + arrowW + 18;
+  const fromCenterY = valueY - Math.round(valueSize * 0.32);
+
+  const changeBlockSvg = `
+    <rect x="${blockX}" y="${changeBlockY}" width="${blockW}" height="${changeBlockH}" rx="12" ry="12"
+          fill="${SO.card2}" stroke="${SO.line}" stroke-width="1"/>
+    <rect x="${blockX}" y="${changeBlockY}" width="${blockW}" height="${changeBlockH}" rx="12" ry="12"
+          fill="rgba(0,0,0,0.18)"/>
+    <rect x="${blockX}" y="${changeBlockY + 12}" width="${accentBarW}" height="${changeBlockH - 24}" rx="2" ry="2" fill="${t.hair}"/>
+
+    <text x="${blockX + 24}" y="${changeBlockY + 30}" font-family="Menlo,Consolas,monospace" font-size="11" fill="${SO.muted}" letter-spacing="1.4" font-weight="500">WHAT CHANGED${rest.length ? `  ·  +${rest.length} MORE` : ''}</text>
+
+    <text x="${blockX + 24}" y="${changeBlockY + 56}" font-family="Arial,sans-serif" font-size="19" font-weight="600" fill="${SO.ink}" letter-spacing="-0.2">${escapeXml(fieldLabel)}</text>
+
+    <text x="${fromX}" y="${valueY}" font-family="Menlo,Consolas,monospace" font-size="${valueSize}" font-weight="500" fill="${SO.muted}" letter-spacing="-0.3">${escapeXml(oldFormatted)}</text>
+    <line x1="${fromX}" y1="${fromCenterY}" x2="${fromX + fromW}" y2="${fromCenterY}" stroke="${SO.muted2}" stroke-width="2"/>
+    <text x="${arrowX}" y="${valueY}" font-family="Menlo,Consolas,monospace" font-size="${valueSize - 2}" fill="${SO.muted2}">→</text>
+    <text x="${toX}" y="${valueY}" font-family="Menlo,Consolas,monospace" font-size="${valueSize}" font-weight="500" fill="${toColor}" letter-spacing="-0.3">${escapeXml(newFormatted)}</text>
+
+    <rect x="${pillX}" y="${pillY}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" ry="${pillH / 2}"
+          fill="${pillBg}" stroke="${pillColor}" stroke-width="1"/>
+    <text x="${pillX + pillW / 2}" y="${pillY + pillH / 2 + 4}" text-anchor="middle"
+          font-family="Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="${pillColor}" letter-spacing="0.8">${pillText}</text>
+  `;
+
+  // Right column: decorative back-glow card behind the foreground card art
+  const rightColCenterX = rightColX + RIGHT_COL_W / 2;
+  const rightColCenterY = CONTENT_TOP + (FRAME_H - FOOTER_H - CONTENT_TOP) / 2;
+  const backGlowW = 340;
+  const backGlowH = Math.round(backGlowW / 1.6);
+  const backGlowX = rightColCenterX - backGlowW / 2 + 20;
+  const backGlowY = rightColCenterY - backGlowH / 2 - 10;
+
+  const backGlowSvg = `
+    <defs>
+      <linearGradient id="backGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="rgba(183,148,255,0.18)"/>
+        <stop offset="100%" stop-color="rgba(109,63,232,0.06)"/>
+      </linearGradient>
+    </defs>
+    <g transform="rotate(6 ${backGlowX + backGlowW / 2} ${backGlowY + backGlowH / 2})">
+      <rect x="${backGlowX}" y="${backGlowY}" width="${backGlowW}" height="${backGlowH}" rx="14" ry="14"
+            fill="url(#backGlowGrad)" stroke="${SO.line}" stroke-width="1"/>
+    </g>
+  `;
+
+  const footerSvg = soFooter({
+    width: FRAME_W,
+    height: FOOTER_H,
+    y: FRAME_H - FOOTER_H,
+    sectionPath: 'card-wire',
+    meta: timestamp,
+    tone,
+  });
+
+  const svg = `<svg width="${FRAME_W}" height="${FRAME_H}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      ${frame.defs}
+    </defs>
+    ${frame.rects}
+
+    ${eyebrowSvg}
+    ${titleSvg}
+
+    <text x="${leftX}" y="${issuerLabelY - 4}" font-family="Menlo,Consolas,monospace" font-size="13" fill="${SO.muted}" letter-spacing="1.2">${escapeXml(bank ? bank.toUpperCase() : '')}</text>
+
+    ${changeBlockSvg}
+
+    ${backGlowSvg}
+
+    ${footerSvg}
   </svg>`;
 
   let image = sharp(Buffer.from(svg)).png();
 
-  // Overlay card image centered in the card image area
-  if (cardImageBuffer) {
-    const imgTop = headerHeight + Math.round((cardImageAreaHeight - 176) / 2);
-    image = sharp(await image.toBuffer()).composite([{
-      input: cardImageBuffer,
-      left: Math.round((width - 280) / 2),
-      top: imgTop,
-    }]).png();
-  }
+  // Composite the tilted card art on top of the back-glow rect
+  const cardArt = await renderTiltedCardArt(cardImageBuffer);
+  const cardLeft = Math.round(rightColCenterX - cardArt.width / 2);
+  const cardTop = Math.round(rightColCenterY - cardArt.height / 2);
+  image = sharp(await image.toBuffer()).composite([{
+    input: cardArt.buffer,
+    left: cardLeft,
+    top: cardTop,
+  }]).png();
 
   return image.toBuffer();
 }
+
 
 // ── Tweet text ──
 
