@@ -65,9 +65,14 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
     return items.filter((i) => (i.tags ?? []).includes(filter));
   }, [filter, items]);
 
-  const [featured, ...rest] = filtered;
-  const topStories = rest.slice(0, 5);
-  const secondary = rest.slice(5, 8);
+  const imaged = filtered.filter((i) => Boolean(i.card_image_link));
+  const featured = imaged[0];
+  const secondary = imaged.slice(1, 4);
+  const usedIds = new Set(
+    [featured?.id, ...secondary.map((s) => s.id)].filter(Boolean),
+  );
+  const topStories = filtered.filter((i) => !usedIds.has(i.id)).slice(0, 5);
+  const newest = filtered[0];
 
   return (
     <div className="landing-v2">
@@ -109,25 +114,27 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
           <div className="filter-spacer" />
           <span className="filter-summary">
             {filtered.length} article{filtered.length === 1 ? '' : 's'}
-            {featured ? ` · ${formatDate(featured.date)}` : ''}
+            {newest ? ` · ${formatDate(newest.date)}` : ''}
           </span>
         </div>
 
-        {featured ? (
+        {filtered.length === 0 ? (
+          <div className="empty-state" style={{ padding: '60px 0' }}>
+            No articles match this filter.
+          </div>
+        ) : featured ? (
           <div className="news-grid">
             <Link href={`/news/${featured.id}`} className="feat-article">
               <div className="feat-cover">
                 <div className="cover-pattern" />
                 <div className="cover-card">
-                  {featured.card_image_link ? (
-                    <CardImage
-                      cardImageLink={featured.card_image_link}
-                      alt=""
-                      fill
-                      sizes="240px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  ) : null}
+                  <CardImage
+                    cardImageLink={featured.card_image_link}
+                    alt=""
+                    fill
+                    sizes="240px"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
               </div>
               <div className="feat-body">
@@ -157,8 +164,18 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
             </div>
           </div>
         ) : (
-          <div className="empty-state" style={{ padding: '60px 0' }}>
-            No articles match this filter.
+          <div className="news-side" style={{ paddingTop: 20 }}>
+            <div className="news-side-label">Recent stories</div>
+            {topStories.map((item) => (
+              <Link key={item.id} href={`/news/${item.id}`} className="news-item">
+                <div className="ni-meta">
+                  <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
+                  <span>{formatDateShort(item.date)}</span>
+                </div>
+                <h3 className="ni-title">{item.title}</h3>
+                <p className="ni-excerpt">{item.summary}</p>
+              </Link>
+            ))}
           </div>
         )}
 
@@ -169,15 +186,13 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
                 <div className="nc-cover">
                   <div className="nc-pattern" />
                   <div className="nc-card-thumb">
-                    {item.card_image_link ? (
-                      <CardImage
-                        cardImageLink={item.card_image_link}
-                        alt=""
-                        fill
-                        sizes="160px"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    ) : null}
+                    <CardImage
+                      cardImageLink={item.card_image_link}
+                      alt=""
+                      fill
+                      sizes="160px"
+                      style={{ objectFit: 'cover' }}
+                    />
                   </div>
                 </div>
                 <div className="nc-body">
