@@ -80,11 +80,9 @@ export default async function BankPage({ params }: BankPageProps) {
             gap: 14,
             flexWrap: 'wrap',
             marginTop: 14,
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 11.5,
+            fontSize: 13,
+            fontWeight: 500,
             color: 'var(--muted)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
           }}
         >
           <span>
@@ -117,11 +115,9 @@ export default async function BankPage({ params }: BankPageProps) {
                 <li key={news.id} className="px-4 py-3 hover:bg-gray-50">
                   <div className="flex items-center gap-2 mb-1">
                     <span
-                      className="text-xs text-gray-400"
+                      className="text-xs text-gray-500"
                       style={{
                         fontFamily: "'JetBrains Mono', monospace",
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.08em',
                       }}
                     >
                       {new Date(news.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -135,11 +131,8 @@ export default async function BankPage({ params }: BankPageProps) {
                           borderRadius: 4,
                           background: 'var(--accent-2)',
                           color: 'var(--accent)',
-                          fontFamily: "'JetBrains Mono', monospace",
-                          fontSize: 10.5,
+                          fontSize: 12,
                           fontWeight: 600,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.06em',
                         }}
                       >
                         {stripEmoji(tagLabels[tag])}

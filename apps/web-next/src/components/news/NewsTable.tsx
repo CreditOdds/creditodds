@@ -115,13 +115,13 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-semibold text-gray-500">
               Update
             </th>
-            <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell whitespace-nowrap" style={{ minWidth: '18rem' }}>
+            <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-semibold text-gray-500 hidden sm:table-cell whitespace-nowrap" style={{ minWidth: '18rem' }}>
               Bank / Card
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 hidden md:table-cell">
               Tags
             </th>
           </tr>

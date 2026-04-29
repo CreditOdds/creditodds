@@ -692,10 +692,10 @@ function ApplyClicksTab() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">
                     #
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">
                     Card
                   </th>
                   <SortableHeader
@@ -766,7 +766,7 @@ function SortableHeader({
   onClick: () => void;
 }) {
   return (
-    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">
       <button
         type="button"
         onClick={onClick}
@@ -802,12 +802,12 @@ function RecordsTab({
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Result</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitter</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Score</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Result</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Submitter</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
               <th className="px-4 py-3"></th>
             </tr>
           </thead>
@@ -897,12 +897,12 @@ function ReferralsTab({
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Referral Link</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stats</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitter</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Referral Link</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Stats</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Submitter</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
               <th className="px-4 py-3"></th>
             </tr>
           </thead>
@@ -1078,11 +1078,11 @@ function SearchesTab({
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User ID</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Score</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Length</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">User ID</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Score</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Length</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -1200,10 +1200,10 @@ function UserLookupTab({
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Bank</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acquired</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Added</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Bank</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Acquired</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Added</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -1252,11 +1252,11 @@ function UserLookupTab({
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Result</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Score</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Result</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -1315,10 +1315,10 @@ function UserLookupTab({
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Score</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Length</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Score</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Length</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -1354,11 +1354,11 @@ function UserLookupTab({
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Card</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Link</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stats</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Link</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Stats</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -1584,17 +1584,17 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Income</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Credit Age</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Result</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Limit</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Bank Cust.</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Inquiries</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Applied</th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitter</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">ID</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Score</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Source</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Credit Age</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Result</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Limit</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Bank Cust.</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Inquiries</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Applied</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Submitter</th>
                     <th className="px-3 py-3"></th>
                   </tr>
                 </thead>
@@ -2279,11 +2279,11 @@ function AuditTab({ logs, total }: { logs: AuditLogEntry[]; total: number }) {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entity</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Admin</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Action</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Entity</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Admin</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Details</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">

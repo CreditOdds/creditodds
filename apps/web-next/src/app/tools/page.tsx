@@ -103,11 +103,9 @@ export default function ToolsPage() {
           <div key={category.label} className="mt-10">
             <h2
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 11.5,
+                fontSize: 14,
+                fontWeight: 600,
                 color: 'var(--muted)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.12em',
                 margin: '0 0 16px',
               }}
             >

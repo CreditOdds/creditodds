@@ -104,11 +104,9 @@ export default async function BestDetailPage({ params }: Props) {
             alignItems: 'center',
             flexWrap: 'wrap',
             marginTop: 14,
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 11.5,
+            fontSize: 13,
+            fontWeight: 500,
             color: 'var(--muted)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
           }}
         >
           <span

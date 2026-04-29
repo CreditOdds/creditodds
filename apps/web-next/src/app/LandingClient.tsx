@@ -120,7 +120,7 @@ function OddsWidget({ cards }: { cards: Card[] }) {
     <div className="widget">
       <div className="widget-head">
         <div className="t">
-          <b>ODDS CALCULATOR</b> · real data, not a soft pull
+          <b>Approval odds calculator</b> · built from real applications, not a soft pull
         </div>
         <div className="t">v2.6</div>
       </div>
@@ -312,7 +312,7 @@ function Hero({ cards }: { cards: Card[] }) {
             <Link href="/explore" className="btn btn-outline">
               Explore 140+ cards
             </Link>
-            <span className="note">free · no signup required</span>
+            <span className="note">Free &mdash; just click through to see your odds.</span>
           </div>
           <div className="hero-stats">
             <div className="stat">
@@ -323,7 +323,10 @@ function Hero({ cards }: { cards: Card[] }) {
               <div className="l">Cards tracked</div>
             </div>
             <div className="stat">
-              <div className="n">500+</div>
+              <div className="n">
+                500
+                <span className="sup">+</span>
+              </div>
               <div className="l">Records submitted</div>
             </div>
             <div className="stat">
@@ -367,7 +370,7 @@ function Ticker({ cards }: { cards: Card[] }) {
             <span className="sep">·</span>
             <span>{t.age} history</span>
             <span className={'pill ' + t.verdict}>
-              {t.verdict === 'app' ? 'APPROVED' : 'DENIED'}
+              {t.verdict === 'app' ? 'Approved' : 'Denied'}
             </span>
           </span>
         ))}
@@ -394,7 +397,7 @@ function HowItWorks() {
       </div>
       <div className="steps">
         <div className="step">
-          <div className="num">01 / SEARCH</div>
+          <div className="num">Step 1 &mdash; Search</div>
           <h3>Pick a card.</h3>
           <p>
             Browse 140+ consumer and business cards across every major issuer. Each has a
@@ -420,7 +423,7 @@ function HowItWorks() {
           </div>
         </div>
         <div className="step">
-          <div className="num">02 / COMPARE</div>
+          <div className="num">Step 2 &mdash; Compare</div>
           <h3>Match your profile.</h3>
           <p>
             Score, income, credit length, existing cards. We filter records down to
@@ -446,7 +449,7 @@ function HowItWorks() {
           </div>
         </div>
         <div className="step">
-          <div className="num">03 / DECIDE</div>
+          <div className="num">Step 3 &mdash; Decide</div>
           <h3>Know your odds.</h3>
           <p>
             Get a real approval probability based on real data — plus the referral link
@@ -519,7 +522,7 @@ function Referrals({ cards }: { cards: Card[] }) {
                 <span />
               </div>
               <span style={{ marginLeft: 6 }}>@you · referral dashboard</span>
-              <span style={{ marginLeft: 'auto' }}>LAST 30D</span>
+              <span style={{ marginLeft: 'auto' }}>Last 30 days</span>
             </div>
             <div className="ref-panel">
               {featured.map((c, i) => (
@@ -668,7 +671,7 @@ function Proof({ cards }: { cards: Card[] }) {
         <div className="proof-grid">
           <div className="proof-cell">
             <div className="pn">
-              {totalRecords.toLocaleString()}
+              428
               <span className="sup">+</span>
             </div>
             <div className="pl">Records in the database</div>
@@ -681,10 +684,8 @@ function Proof({ cards }: { cards: Card[] }) {
             <div className="pl">Cards tracked · {issuers} issuers</div>
           </div>
           <div className="proof-cell">
-            <div className="pn">
-              87<span className="sup">%</span>
-            </div>
-            <div className="pl">Users who reported correct odds</div>
+            <div className="pn">0</div>
+            <div className="pl">Sponsored rankings</div>
           </div>
           <div className="proof-cell">
             <div className="pn">$0</div>

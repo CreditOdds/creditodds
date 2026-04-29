@@ -140,9 +140,9 @@ export default function Navbar() {
               </div>
 
               <div className="hidden lg:flex items-center gap-2 lg:gap-3">
-                <div className="hidden xl:flex items-center gap-2 rounded-full border border-[#ece8f5] bg-white px-3 py-1.5 font-['JetBrains_Mono'] text-[11.5px] text-[#6b6384]">
+                <div className="hidden xl:flex items-center gap-2 rounded-full border border-[#ece8f5] bg-white px-3 py-1.5 text-[13px] font-medium text-[#6b6384]">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#6d3fe8] shadow-[0_0_0_3px_rgba(109,63,232,0.18)]" />
-                  <span>LIVE · 3,482 data points</span>
+                  <span>Live · <span className="font-['JetBrains_Mono']">3,482</span> data points</span>
                 </div>
 
                 {authState.isAuthenticated ? (
@@ -264,9 +264,9 @@ export default function Navbar() {
             </div>
 
             <div className="mt-4 rounded-[12px] border border-[#ece8f5] bg-white p-3">
-              <div className="mb-3 flex items-center gap-2 font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.08em] text-[#6b6384]">
+              <div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-[#6b6384]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#6d3fe8] shadow-[0_0_0_3px_rgba(109,63,232,0.18)]" />
-                <span>Live data · 3,482 data points</span>
+                <span>Live · <span className="font-['JetBrains_Mono']">3,482</span> data points</span>
               </div>
 
               {authState.isAuthenticated ? (

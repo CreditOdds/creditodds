@@ -165,11 +165,8 @@ export default async function ArticlePage({ params }: Props) {
                 borderRadius: 999,
                 background: 'var(--accent-2)',
                 color: 'var(--accent)',
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
                 marginBottom: 20,
               }}
             >

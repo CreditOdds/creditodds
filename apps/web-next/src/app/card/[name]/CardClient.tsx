@@ -97,7 +97,7 @@ function CardRatingDisplay({ ratings }: { ratings: { count: number; average: num
   return (
     <div className="mt-6 w-full rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">User Rating</p>
+        <p className="text-sm font-semibold text-gray-500">User rating</p>
         <span className="text-sm text-gray-500 whitespace-nowrap">
           {ratings.average.toFixed(1)}/5 from {ratings.count} {ratings.count === 1 ? 'rating' : 'ratings'}
         </span>
@@ -366,7 +366,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                         <BanknotesIcon className="h-5 w-5 text-amber-700" />
                       </div>
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-amber-600 mb-1">Signup Bonus</p>
+                        <p className="text-sm font-semibold text-amber-600 mb-1">Signup bonus</p>
                         <p className="text-xl font-bold text-amber-900">
                           {card.signup_bonus.type === "cash"
                             ? `$${card.signup_bonus.value.toLocaleString()}`
@@ -602,7 +602,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
 
                   return (
                     <div className="mt-6">
-                      <p className="text-xs uppercase text-gray-400 font-semibold tracking-wider mb-2">Rewards</p>
+                      <p className="text-sm font-semibold text-gray-500 mb-2">Rewards</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
                         <div>{leftCol.map(renderReward)}</div>
                         <div>{rightCol.map(renderReward)}</div>
@@ -634,7 +634,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                         <BanknotesIcon className="h-5 w-5 text-amber-700" />
                       </div>
                       <div>
-                        <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-amber-600">Signup Bonus</p>
+                        <p className="mb-1 text-sm font-semibold text-amber-600">Signup bonus</p>
                         <p className="text-xl font-bold text-amber-900">
                           {card.signup_bonus.type === "cash"
                             ? `$${card.signup_bonus.value.toLocaleString()}`
@@ -664,7 +664,7 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                 {/* Intro APR Section */}
                 {card.apr && (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (
                   <div className="mt-6 bg-cyan-50/50 border border-cyan-100 rounded-xl px-5 py-4">
-                    <p className="text-xs uppercase text-cyan-600 font-semibold tracking-wider mb-2">Intro APR</p>
+                    <p className="text-sm font-semibold text-cyan-600 mb-2">Intro APR</p>
                     <div className="text-sm text-cyan-900">
                       {card.apr.balance_transfer_intro && (
                         <p>
@@ -689,8 +689,8 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
                 {(card.approved_count || 0) > 0 && (
                   <div className="mt-6 bg-slate-50 border border-slate-200/80 rounded-xl p-5">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                        Median Accepted Applicant
+                      <h3 className="text-sm font-semibold text-gray-500">
+                        Median accepted applicant
                       </h3>
                       <span className="relative group">
                         <InformationCircleIcon className="h-4 w-4 text-gray-300 hover:text-gray-500 cursor-help" />
@@ -778,8 +778,8 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
               <div className="p-6 sm:p-10 border-b border-gray-100 bg-gradient-to-br from-indigo-50/70 to-white">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <h2 className="text-xs text-indigo-600 font-semibold tracking-[0.18em] uppercase">
-                      Data Points
+                    <h2 className="text-sm font-semibold text-indigo-600">
+                      Data points
                     </h2>
                     <p className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
                       How other people did

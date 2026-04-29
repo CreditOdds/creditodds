@@ -52,8 +52,8 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
           <div className="p-6 sm:p-10 border-b border-gray-100 bg-gradient-to-br from-emerald-50/70 to-white">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-xs text-emerald-600 font-semibold tracking-[0.18em] uppercase">
-                  Card Benefits
+                <h2 className="text-sm font-semibold text-emerald-600">
+                  Card benefits
                 </h2>
                 <p className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
                   Credits &amp; Perks
@@ -63,8 +63,8 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
                 </p>
               </div>
               <div className="mt-4 sm:mt-0 flex-shrink-0 text-center sm:text-right">
-                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">
-                  Total Annual Credits
+                <p className="text-sm font-semibold text-emerald-600">
+                  Total annual credits
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-emerald-700 mt-1">
                   ${totalAnnualValue.toLocaleString()}
@@ -116,8 +116,8 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
               <div className="mt-8">
                 <div className="flex items-center gap-2 mb-4">
                   <GiftIcon className="h-5 w-5 text-indigo-500" />
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-                    Additional Perks
+                  <h3 className="text-base font-semibold text-gray-700">
+                    Additional perks
                   </h3>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

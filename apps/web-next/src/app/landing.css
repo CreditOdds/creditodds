@@ -204,10 +204,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
   padding: 6px 10px;
   border: 1px solid var(--line);
@@ -287,12 +285,10 @@
   font-weight: 500;
 }
 .landing-v2 .hero-stats .stat .l {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 15px;
+  font-weight: 500;
   color: var(--muted);
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 /* ---------- Odds widget ---------- */
@@ -314,11 +310,9 @@
   background: var(--paper-2);
 }
 .landing-v2 .widget-head .t {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
 }
 .landing-v2 .widget-head .t b {
   color: var(--ink);
@@ -400,10 +394,8 @@
   flex: 1;
 }
 .landing-v2 .selected-card-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--accent);
   margin-bottom: 3px;
 }
@@ -426,11 +418,9 @@
   text-overflow: ellipsis;
 }
 .landing-v2 .selected-card-action {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   flex-shrink: 0;
 }
 .landing-v2 .card-list::-webkit-scrollbar {
@@ -493,10 +483,8 @@
   gap: 10px;
 }
 .landing-v2 .field label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
   display: block;
   margin-bottom: 6px;
@@ -603,11 +591,9 @@
   letter-spacing: -0.03em;
 }
 .landing-v2 .odds-ring .pct-s {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-top: 4px;
 }
 .landing-v2 .result .meta .verdict {
@@ -621,14 +607,11 @@
   display: inline-block;
   vertical-align: middle;
   margin-left: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12px;
   padding: 3px 7px;
   border-radius: 4px;
   background: var(--accent-2);
   color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   font-weight: 600;
 }
 .landing-v2 .result .meta .verdict .chip.warn {
@@ -775,15 +758,9 @@
   margin-bottom: 48px;
 }
 .landing-v2 .sec-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-}
-.landing-v2 .sec-label::before {
-  content: '§ ';
-  color: var(--muted-2);
 }
 .landing-v2 h2.sec-title {
   font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -827,8 +804,7 @@
   padding-right: 0;
 }
 .landing-v2 .step .num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--accent);
   font-weight: 600;
   margin-bottom: 18px;
@@ -975,19 +951,15 @@
 }
 .landing-v2 .rec .num .l {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .rec .status-chip {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 .landing-v2 .rec .status-chip.app {
   background: var(--accent-2);
@@ -1062,13 +1034,10 @@
   flex-wrap: wrap;
 }
 .landing-v2 .w-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
+  font-size: 12px;
   padding: 2px 6px;
   border-radius: 3px;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 .landing-v2 .w-tag.ref {
   background: var(--accent-2);
@@ -1127,11 +1096,9 @@
   line-height: 1;
 }
 .landing-v2 .ref-stats .lbl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-top: 4px;
 }
 .landing-v2 .ref-earnings {
@@ -1185,10 +1152,8 @@
   margin-left: 2px;
 }
 .landing-v2 .proof-cell .pl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--muted);
   margin-top: 12px;
 }
@@ -1239,13 +1204,10 @@
   gap: 48px;
 }
 .landing-v2 .foot h4 {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  font-size: 14px;
   color: var(--muted-2);
   margin: 0 0 14px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .landing-v2 .foot a {
   display: block;
@@ -1380,20 +1342,16 @@
   color: rgba(255, 255, 255, 0.6);
 }
 .landing-v2 .sort-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-right: 4px;
 }
 .landing-v2 .filter-summary,
 .landing-v2 .news-side-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .news-side-label {
   margin-bottom: 4px;
@@ -1481,10 +1439,8 @@
   line-height: 1;
 }
 .landing-v2 .cc-odds .lbl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--muted);
 }
 .landing-v2 .cc-odds .pct.dim {
@@ -1538,9 +1494,7 @@
   background: var(--accent-2);
   color: var(--accent);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 10px;
+  font-size: 12px;
   flex-shrink: 0;
 }
 .landing-v2 .cc-foot .cat-tag.archived {
@@ -1608,12 +1562,9 @@
 }
 .landing-v2 .card-table thead th {
   text-align: left;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 13px;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 600;
   padding: 14px 16px;
   background: var(--paper-2);
   border-bottom: 1px solid var(--line);
@@ -1837,10 +1788,8 @@
   padding: 28px;
 }
 .landing-v2 .feat-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
   margin-bottom: 14px;
   display: flex;
@@ -1888,11 +1837,9 @@
   padding-top: 0;
 }
 .landing-v2 .news-item .ni-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12.5px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 8px;
 }
 .landing-v2 .news-item .ni-meta .news-tag {
@@ -1975,11 +1922,9 @@
   padding: 18px;
 }
 .landing-v2 .news-card .nc-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12.5px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 10px;
 }
 .landing-v2 .news-card .nc-title {
@@ -2420,11 +2365,9 @@
   gap: 14px;
   margin-top: 18px;
   flex-wrap: wrap;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .wire-hero-meta b {
   color: var(--ink);
@@ -2446,12 +2389,9 @@
 }
 .landing-v2 .wire-table thead th {
   text-align: left;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 13px;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 600;
   padding: 14px 16px;
   background: var(--paper-2);
   border-bottom: 1px solid var(--line);
@@ -2473,11 +2413,9 @@
   background: var(--paper-2);
   padding: 8px 16px;
   border-bottom: 1px dashed var(--line-2);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
 }
 .landing-v2 .wire-table tr.wire-date-row td .wire-date-count {
   color: var(--muted-2);
@@ -2519,11 +2457,8 @@
   align-items: center;
   padding: 3px 8px;
   border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   white-space: nowrap;
 }
 .landing-v2 .wire-field-chip.fee {
@@ -2670,11 +2605,9 @@
   padding: 18px 22px;
 }
 .landing-v2 .bhs .k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 6px;
 }
 .landing-v2 .bhs .v {
@@ -2752,11 +2685,8 @@
   position: absolute;
   left: 20px;
   top: 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
   color: color-mix(in oklab, var(--accent) 80%, var(--ink));
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
   font-weight: 600;
 }
 .landing-v2 .best-cover .best-cover-icon {
@@ -2800,11 +2730,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 .landing-v2 .best-body .best-meta .count {
   color: var(--accent);
@@ -2826,11 +2754,9 @@
   }
 }
 .landing-v2 .best-method .bm-kicker {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 10px;
 }
 .landing-v2 .best-method h3 {
@@ -3017,11 +2943,9 @@
   gap: 4px;
 }
 .landing-v2.profile-v2 .profile-stats .pstat .k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2.profile-v2 .profile-stats .pstat .v {
   font-family: 'Inter Tight', sans-serif;
@@ -3145,13 +3069,11 @@
   margin-top: 24px;
   padding: 6px 12px;
   border-radius: 999px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
   background: var(--paper-2);
   border: 1px solid var(--line);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .page-body .stamp .dot {
   width: 5px;
@@ -3163,10 +3085,8 @@
   margin-top: 40px;
   padding-top: 20px;
   border-top: 1px dashed var(--line-2);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--muted);
-  letter-spacing: 0.04em;
 }
 
 /* ---------- Card detail page (/card/[name]) ---------- */
@@ -3237,10 +3157,8 @@
 }
 .landing-v2.card-v2 nav[aria-label="Breadcrumb"] a {
   color: var(--muted);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 13px;
+  font-weight: 500;
 }
 .landing-v2.card-v2 nav[aria-label="Breadcrumb"] a:hover {
   color: var(--ink);
@@ -3248,10 +3166,8 @@
 .landing-v2.card-v2 nav[aria-label="Breadcrumb"] span.truncate,
 .landing-v2.card-v2 nav[aria-label="Breadcrumb"] .text-gray-500 {
   color: var(--ink);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 13px;
+  font-weight: 500;
 }
 /* Not-accepting banner — warn palette */
 .landing-v2.card-v2 .bg-yellow-50 {
@@ -3447,10 +3363,8 @@
   flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 18px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 500;
 }
 .landing-v2 .article-tags .tag {
   padding: 4px 10px;
@@ -3470,11 +3384,9 @@
   text-wrap: balance;
 }
 .landing-v2 .article-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
+  font-size: 13.5px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 28px;
   display: flex;
   gap: 14px;
@@ -3530,31 +3442,24 @@
   border-radius: 10px;
   background: var(--paper-2);
   border: 1px solid var(--line);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
+  font-size: 13.5px;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .article-source a {
   color: var(--accent);
   text-decoration: none;
   border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
   margin-left: 6px;
-  letter-spacing: 0;
-  text-transform: none;
 }
 .landing-v2 .article-back {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   margin-top: 36px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--muted);
   text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .article-back:hover {
   color: var(--ink);
@@ -3653,11 +3558,9 @@
   background: var(--paper-2);
 }
 .landing-v2 .cj-intro-apr-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   padding-top: 2px;
 }
 .landing-v2 .cj-intro-apr-rows {
@@ -3697,11 +3600,9 @@
 @media (min-width: 1024px) { .landing-v2 .cj-toc { display: block; } }
 .landing-v2 .cj-toc-heading {
   padding: 0 20px 18px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .landing-v2 .cj-toc-link {
   display: flex;
@@ -3727,11 +3628,9 @@
   padding-top: 20px;
 }
 .landing-v2 .cj-toc-block-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 6px;
 }
 .landing-v2 .cj-toc-block-big {
@@ -3764,11 +3663,9 @@
 .landing-v2 .cj-section:first-child { padding-top: 4px; }
 .landing-v2 .cj-section:last-child { border-bottom: 0; }
 .landing-v2 .cj-section-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .landing-v2 .cj-section-h1 {
   font-family: 'Inter Tight', sans-serif;
@@ -3836,10 +3733,9 @@
   overflow: hidden;
 }
 .landing-v2 .cj-readoff-k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
+  font-size: 12.5px;
+  font-weight: 500;
   color: var(--muted);
-  letter-spacing: 0.12em;
 }
 .landing-v2 .cj-readoff-v {
   font-family: 'Inter Tight', sans-serif;
@@ -3852,10 +3748,9 @@
 @media (min-width: 1280px) { .landing-v2 .cj-readoff-v { font-size: 22px; line-height: 1; } }
 .landing-v2 .cj-readoff-foot {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11.5px;
   color: var(--muted);
   margin-top: 5px;
-  letter-spacing: 0.02em;
 }
 .landing-v2 .cj-readoff-v.cj-accent { color: var(--accent); }
 
@@ -3880,11 +3775,9 @@
 }
 
 .landing-v2 .cj-table-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 8px;
 }
 .landing-v2 .cj-table {
@@ -3897,12 +3790,9 @@
 .landing-v2 .cj-table th {
   text-align: left;
   padding: 9px 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
+  font-size: 13px;
   color: var(--muted);
-  letter-spacing: 0.08em;
-  font-weight: 500;
+  font-weight: 600;
 }
 .landing-v2 .cj-table th.cj-tr { text-align: right; }
 .landing-v2 .cj-table td { padding: 10px 12px; vertical-align: top; }
@@ -3932,10 +3822,8 @@
   color: #fff;
 }
 .landing-v2 .cj-row-total .cj-row-total-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted-2);
 }
 .landing-v2 .cj-row-total .cj-row-total-v {
@@ -3945,12 +3833,10 @@
   text-align: right;
 }
 .landing-v2 .cj-pill {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   padding: 2px 5px;
   border-radius: 2px;
-  letter-spacing: 0.06em;
   background: var(--paper-2);
   color: var(--muted);
   display: inline-block;
@@ -3965,11 +3851,9 @@
 .landing-v2 .cj-pnl-header {
   padding: 10px 14px;
   background: var(--paper-2);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .cj-pnl-row {
   display: flex;
@@ -4026,10 +3910,9 @@
   padding: 16px 18px;
 }
 .landing-v2 .cj-stat-k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  letter-spacing: 0.12em;
 }
 .landing-v2 .cj-stat-v {
   font-family: 'Inter Tight', sans-serif;
@@ -4089,11 +3972,9 @@
   padding: 8px 14px;
   background: var(--paper-2);
   border-bottom: 1px solid var(--line);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 12.5px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .cj-tape-row {
   display: grid;
@@ -4145,11 +4026,9 @@
   margin-bottom: 20px;
 }
 .landing-v2 .cj-apply-k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted-2);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .landing-v2 .cj-apply-v {
   font-family: 'Inter Tight', sans-serif;
@@ -4209,11 +4088,9 @@
 }
 
 .landing-v2 .cj-rail-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 10px;
 }
 .landing-v2 .cj-rail-block { margin-bottom: 24px; }
@@ -4230,7 +4107,7 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
 }
-.landing-v2 .cj-news-tag { color: var(--accent); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.landing-v2 .cj-news-tag { color: var(--accent); font-weight: 600; }
 .landing-v2 .cj-news-date { color: var(--muted); }
 .landing-v2 .cj-news-title { font-size: 13px; font-weight: 500; line-height: 1.35; color: var(--ink); }
 .landing-v2 .cj-news-item a:hover .cj-news-title { color: var(--accent); }
@@ -4401,10 +4278,9 @@
   padding: 10px 20px;
   background: var(--warn-2);
   color: var(--warn);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
   text-align: center;
-  letter-spacing: 0.04em;
 }
 
 .landing-v2 .ed-hero {
@@ -4431,11 +4307,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   flex-wrap: wrap;
 }
 .landing-v2 .ed-eyebrow .ed-dot { color: var(--muted-2); }
@@ -4480,11 +4354,9 @@
 @media (min-width: 768px) { .landing-v2 .ed-metric:nth-child(even) { border-right: 1px solid var(--line); } }
 .landing-v2 .ed-metric:nth-last-child(-n+2) { border-bottom: 0; }
 .landing-v2 .ed-metric-k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .landing-v2 .ed-metric-v {
   font-family: 'Inter Tight', sans-serif;
@@ -4585,11 +4457,9 @@
   .landing-v2 .ed-section-head { grid-template-columns: 1fr 1.2fr; gap: 56px; margin-bottom: 26px; }
 }
 .landing-v2 .ed-section-kicker {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .landing-v2 .ed-h2 {
   font-family: 'Inter Tight', sans-serif;
@@ -4636,11 +4506,9 @@
 }
 @media (min-width: 768px) { .landing-v2 .ed-walkthrough { padding: 28px; } }
 .landing-v2 .ed-walkthrough-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 14px;
 }
 .landing-v2 .ed-walk-row {
@@ -4682,11 +4550,9 @@
   align-items: center;
 }
 .landing-v2 .ed-walk-total-k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted-2);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .landing-v2 .ed-walk-total-v {
   font-family: 'Inter Tight', sans-serif;
@@ -4713,11 +4579,9 @@
 }
 @media (min-width: 768px) { .landing-v2 .ed-sub-side { padding: 24px; } }
 .landing-v2 .ed-sub-side-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 14px;
 }
 .landing-v2 .ed-sub-kv {
@@ -4751,11 +4615,9 @@
 }
 @media (min-width: 1024px) { .landing-v2 .ed-earn-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; } }
 .landing-v2 .ed-panel-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 10px;
 }
 .landing-v2 .ed-panel-label-row {
@@ -4828,12 +4690,10 @@
 }
 .landing-v2 .ed-credit-v .ed-dim { color: var(--muted); font-size: 13px; font-weight: 400; font-family: inherit; }
 .landing-v2 .ed-pill {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   padding: 3px 6px;
   border-radius: 3px;
-  letter-spacing: 0.06em;
   background: var(--paper-2);
   color: var(--muted);
   white-space: nowrap;
@@ -4854,11 +4714,9 @@
   border-radius: 0 8px 8px 0;
 }
 .landing-v2 .ed-intro-apr-k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   padding-top: 2px;
 }
 .landing-v2 .ed-intro-apr-body { font-size: 13px; color: var(--ink); line-height: 1.5; }
@@ -4902,11 +4760,9 @@
 }
 .landing-v2 .ed-median-item:last-child { border-bottom: 0; padding-bottom: 0; }
 .landing-v2 .ed-median-k {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .landing-v2 .ed-median-v {
   display: flex;
@@ -5061,12 +4917,9 @@
 .landing-v2 .ed-news-item:first-child { border-top: 0; }
 .landing-v2 .ed-news-meta { display: flex; gap: 10px; margin-bottom: 4px; align-items: center; }
 .landing-v2 .ed-news-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--accent);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 .landing-v2 .ed-news-date { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted); }
 .landing-v2 .ed-news-title { font-size: 16px; font-weight: 500; letter-spacing: -0.005em; color: var(--ink); }
@@ -5123,12 +4976,10 @@
 }
 .landing-v2 .ed-article:hover { border-color: var(--accent); }
 .landing-v2 .ed-article-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12.5px;
+  font-weight: 500;
   color: var(--muted);
   margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 .landing-v2 .ed-article-title { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -0.005em; }
 .landing-v2 .ed-article-excerpt { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
@@ -5159,10 +5010,8 @@
   padding: 12px 20px;
   background: var(--warn-2);
   color: var(--warn);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 13.5px;
+  font-weight: 500;
   border-bottom: 1px solid var(--warn);
 }
 
