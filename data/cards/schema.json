@@ -7,6 +7,11 @@
       "type": "string",
       "description": "Full name of the credit card"
     },
+    "previous_names": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Prior names this card was known by, e.g. before a rebrand. Rendered on the card detail page."
+    },
     "bank": {
       "type": "string",
       "description": "Issuing bank or financial institution"
