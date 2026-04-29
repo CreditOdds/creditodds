@@ -202,7 +202,7 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
               color: 'var(--muted)',
             }}
           >
-            <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>{filtered.length}</span> change{filtered.length === 1 ? '' : 's'}
+            <span style={{ fontFamily: "'Inter', sans-serif" }}>{filtered.length}</span> change{filtered.length === 1 ? '' : 's'}
           </span>
         </div>
 
@@ -212,7 +212,7 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
               padding: '80px 0',
               textAlign: 'center',
               color: 'var(--muted)',
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Inter', sans-serif",
               fontSize: 13,
             }}
           >
