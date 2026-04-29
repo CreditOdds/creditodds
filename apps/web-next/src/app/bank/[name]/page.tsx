@@ -117,7 +117,7 @@ export default async function BankPage({ params }: BankPageProps) {
                     <span
                       className="text-xs text-gray-500"
                       style={{
-                        fontFamily: "'JetBrains Mono', monospace",
+                        fontFamily: "'Inter', sans-serif",
                       }}
                     >
                       {new Date(news.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}

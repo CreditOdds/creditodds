@@ -1418,7 +1418,7 @@
   letter-spacing: -0.01em;
 }
 .landing-v2 .cc-iss {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   color: var(--muted);
   margin-top: 3px;
@@ -1638,7 +1638,7 @@
   color: var(--accent);
 }
 .landing-v2 .ct-iss {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   color: var(--muted);
   margin-top: 2px;
@@ -1646,6 +1646,14 @@
 .landing-v2 .ct-sub {
   display: block;
   font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 2px;
+}
+.landing-v2 .bonus-sub {
+  display: block;
+  font-family: 'Inter', sans-serif;
   font-size: 10.5px;
   color: var(--muted);
   font-weight: 400;
@@ -5022,4 +5030,3 @@
   font-weight: 500;
   border-bottom: 1px solid var(--warn);
 }
-

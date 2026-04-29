@@ -332,15 +332,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                     <span className="v">
                       {bonus.main}
                       {bonus.sub ? (
-                        <span
-                          style={{
-                            display: 'block',
-                            color: 'var(--muted)',
-                            fontWeight: 400,
-                            fontSize: 10.5,
-                            marginTop: 2,
-                          }}
-                        >
+                        <span className="bonus-sub">
                           {bonus.sub}
                         </span>
                       ) : null}
@@ -424,7 +416,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                       <td className="hide-sm">
                         {bonus.main}
                         {bonus.sub ? (
-                          <span className="ct-sub">{bonus.sub}</span>
+                          <span className="bonus-sub">{bonus.sub}</span>
                         ) : null}
                       </td>
                       <td className="num ct-approval-col">
