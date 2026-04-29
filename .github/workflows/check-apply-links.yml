@@ -48,6 +48,11 @@ jobs:
           TOTAL=$(jq -r '.total' "$RESULT_FILE")
           CHECKED_AT=$(jq -r '.checked_at' "$RESULT_FILE")
 
+          # Ensure the label exists (idempotent — ignore if already created)
+          gh label create "apply-link-check" \
+            --description "Tracks broken card apply_link URLs detected by the daily health check" \
+            --color "d73a4a" 2>/dev/null || true
+
           # Find any open issue tagged with our label
           EXISTING_ISSUE=$(gh issue list \
             --state open \
