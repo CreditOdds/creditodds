@@ -285,19 +285,6 @@ function Hero({ cards }: { cards: Card[] }) {
     <section className="hero wrap">
       <div className="hero-grid">
         <div>
-          <div className="eyebrow hero-eyebrow">
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: 'var(--accent)',
-              }}
-            />
-            <span>
-              <b>Community-powered</b> · crowdsourced approval data
-            </span>
-          </div>
           <h1 className="hero-title">
             {HEADLINE.pre}
             <em>{HEADLINE.em}</em>

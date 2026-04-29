@@ -159,17 +159,6 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Card wire · live feed</span>
-        </div>
         <h1 className="page-title">
           The wire. <em>Every change.</em>
         </h1>

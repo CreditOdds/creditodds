@@ -18,17 +18,6 @@ export default function HowPage() {
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>How it works · the method</span>
-        </div>
         <h1 className="page-title">
           Our approach to <em>credit card odds.</em>
         </h1>

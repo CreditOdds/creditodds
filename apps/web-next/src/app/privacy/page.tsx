@@ -64,17 +64,6 @@ export default function PrivacyPage() {
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Privacy · plain English</span>
-        </div>
         <h1 className="page-title">
           Use of private <em>information policy.</em>
         </h1>

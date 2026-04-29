@@ -362,17 +362,6 @@ export default function ProfileClient() {
       <div className="profile-wrap">
         {/* Profile page hero */}
         <section className="profile-hero">
-          <div className="eyebrow">
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: 'var(--accent)',
-              }}
-            />
-            <span>Your profile · signed in</span>
-          </div>
           <h1 className="profile-greeting">
             Welcome back, <em>{displayName}.</em>
           </h1>

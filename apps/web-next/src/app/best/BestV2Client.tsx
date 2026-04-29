@@ -55,17 +55,6 @@ export default function BestV2Client({
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Best cards · ranked by data</span>
-        </div>
         <h1 className="page-title">
           The best cards, ranked by <em>the data.</em>
         </h1>

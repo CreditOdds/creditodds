@@ -54,17 +54,6 @@ export default async function ArticlesPage() {
       />
 
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Articles · guides &amp; strategies</span>
-        </div>
         <h1 className="page-title">
           Deeper reads, <em>same data discipline.</em>
         </h1>

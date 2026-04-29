@@ -82,17 +82,6 @@ export default async function AuthorPage({ params }: Props) {
       />
 
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Articles · by author</span>
-        </div>
         <h1 className="page-title">
           Everything by <em>{author.name}.</em>
         </h1>

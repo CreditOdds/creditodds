@@ -66,17 +66,6 @@ export default async function BankPage({ params }: BankPageProps) {
       />
 
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Issuer · {cards.length} card{cards.length === 1 ? '' : 's'}</span>
-        </div>
         <h1 className="page-title">
           {bankName}
           <em>.</em>

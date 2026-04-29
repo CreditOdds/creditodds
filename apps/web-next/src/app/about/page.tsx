@@ -18,17 +18,6 @@ export default function AboutPage() {
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>About · the story behind the site</span>
-        </div>
         <h1 className="page-title">
           Can I get <em>this card?</em>
         </h1>

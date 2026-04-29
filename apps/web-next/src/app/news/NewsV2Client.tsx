@@ -77,17 +77,6 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Card news · updated daily</span>
-        </div>
         <h1 className="page-title">
           News without the <em>affiliate spin.</em>
         </h1>
