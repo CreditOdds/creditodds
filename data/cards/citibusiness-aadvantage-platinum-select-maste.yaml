@@ -1,6 +1,8 @@
-name: "CitiBusiness AAdvantage Platinum Select Mastercard"
+name: "Citi AAdvantage Business World Elite Mastercard"
 bank: "Citi"
 slug: "citibusiness-aadvantage-platinum-select-maste"
+previous_names:
+  - "CitiBusiness AAdvantage Platinum Select Mastercard"
 accepting_applications: true
 image: "citi-business-aadvantage-platinum-select.png"
 annual_fee: 99
@@ -32,4 +34,4 @@ apr:
   regular:
     min: 21.24
     max: 29.99
-apply_link: https://www.citi.com/credit-cards/citibusiness-aadvantage-platinum-select-mastercard
+apply_link: https://www.citi.com/credit-cards/citi-aadvantage-business-credit-card

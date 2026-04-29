@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T21:19:03.663Z",
+  "generated_at": "2026-04-29T21:31:18.199Z",
   "count": 160,
   "categories": [
     {
@@ -2901,6 +2901,61 @@
       "card_name": "Chase Slate Edge"
     },
     {
+      "name": "Citi AAdvantage Business World Elite Mastercard",
+      "bank": "Citi",
+      "slug": "citibusiness-aadvantage-platinum-select-maste",
+      "previous_names": [
+        "CitiBusiness AAdvantage Platinum Select Mastercard"
+      ],
+      "accepting_applications": true,
+      "image": "citi-business-aadvantage-platinum-select.png",
+      "annual_fee": 99,
+      "reward_type": "miles",
+      "tags": [
+        "travel",
+        "airline",
+        "business"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "On eligible American Airlines purchases"
+        },
+        {
+          "category": "car_rentals",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "gas",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 65000,
+        "type": "miles",
+        "spend_requirement": 4000,
+        "timeframe_months": 4
+      },
+      "apr": {
+        "regular": {
+          "min": 21.24,
+          "max": 29.99
+        }
+      },
+      "apply_link": "https://www.citi.com/credit-cards/citi-aadvantage-business-credit-card",
+      "card_id": "citibusiness-aadvantage-platinum-select-maste",
+      "card_name": "Citi AAdvantage Business World Elite Mastercard"
+    },
+    {
       "name": "Citi AAdvantage Executive World Elite Mastercard",
       "bank": "Citi",
       "slug": "citi-aadvantage-executive-world-elite-masterc",
@@ -3294,7 +3349,7 @@
           "max": 26.74
         }
       },
-      "apply_link": "https://www.citi.com/credit-cards/citi-secured-mastercard",
+      "apply_link": "https://www.citi.com/credit-cards/citi-secured-credit-card",
       "card_id": "citi-secured-mastercard",
       "card_name": "Citi Secured Mastercard"
     },
@@ -3577,58 +3632,6 @@
       "apply_link": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card",
       "card_id": "citi-strata-premier",
       "card_name": "Citi Strata Premier"
-    },
-    {
-      "name": "CitiBusiness AAdvantage Platinum Select Mastercard",
-      "bank": "Citi",
-      "slug": "citibusiness-aadvantage-platinum-select-maste",
-      "accepting_applications": true,
-      "image": "citi-business-aadvantage-platinum-select.png",
-      "annual_fee": 99,
-      "reward_type": "miles",
-      "tags": [
-        "travel",
-        "airline",
-        "business"
-      ],
-      "rewards": [
-        {
-          "category": "airlines",
-          "value": 2,
-          "unit": "points_per_dollar",
-          "note": "On eligible American Airlines purchases"
-        },
-        {
-          "category": "car_rentals",
-          "value": 2,
-          "unit": "points_per_dollar"
-        },
-        {
-          "category": "gas",
-          "value": 2,
-          "unit": "points_per_dollar"
-        },
-        {
-          "category": "everything_else",
-          "value": 1,
-          "unit": "points_per_dollar"
-        }
-      ],
-      "signup_bonus": {
-        "value": 65000,
-        "type": "miles",
-        "spend_requirement": 4000,
-        "timeframe_months": 4
-      },
-      "apr": {
-        "regular": {
-          "min": 21.24,
-          "max": 29.99
-        }
-      },
-      "apply_link": "https://www.citi.com/credit-cards/citibusiness-aadvantage-platinum-select-mastercard",
-      "card_id": "citibusiness-aadvantage-platinum-select-maste",
-      "card_name": "CitiBusiness AAdvantage Platinum Select Mastercard"
     },
     {
       "name": "Coinbase One",

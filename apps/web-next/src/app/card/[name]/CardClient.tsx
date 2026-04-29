@@ -432,9 +432,16 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
               <div className="order-1 lg:order-2 lg:col-span-8">
                 {/* Title */}
                 <div className="flex flex-col items-center gap-2 lg:flex-row lg:items-start lg:justify-between">
-                  <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight text-center lg:text-left">
-                    {card.card_name}
-                  </h1>
+                  <div className="text-center lg:text-left">
+                    <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                      {card.card_name}
+                    </h1>
+                    {card.previous_names && card.previous_names.length > 0 && (
+                      <p className="mt-1 text-sm italic text-gray-500">
+                        Previously {card.previous_names.join(', ')}
+                      </p>
+                    )}
+                  </div>
                   <div className="relative lg:mt-1 lg:flex-shrink-0" ref={shareMenuRef}>
                     <div className="flex items-center gap-3">
                       <Link

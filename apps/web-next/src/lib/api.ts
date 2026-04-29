@@ -59,6 +59,7 @@ export interface Card {
   card_id: string | number;
   db_card_id?: number;
   card_name: string;
+  previous_names?: string[];
   slug: string;
   bank: string;
   card_image_link?: string;
