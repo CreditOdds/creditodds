@@ -130,9 +130,9 @@ export default function CardSelect({ allCards }: CardSelectProps) {
               >
                 {/* Recent searches header */}
                 {showRecent && (
-                  <li className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
+                  <li className="px-3 py-2 text-sm font-semibold text-gray-500 bg-gray-50">
                     <ClockIcon className="h-4 w-4 inline mr-1" />
-                    Recent Searches
+                    Recent searches
                   </li>
                 )}
 

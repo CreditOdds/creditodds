@@ -87,20 +87,20 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
         <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr className="bg-gray-50">
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Card</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Annual Fee</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">#</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Annual Fee</th>
               {hasBonus && (
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Signup Bonus</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Signup Bonus</th>
               )}
               {hasRewards && (
                 <>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Top Category</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Base Rate</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Top Category</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Base Rate</th>
                 </>
               )}
               {hasIntroAPR && (
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Intro APR</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Intro APR</th>
               )}
             </tr>
           </thead>

@@ -608,16 +608,16 @@ export default function ProfileClient() {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
                         Card
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
                         Credit Score
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
                         Income
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
                         Result
                       </th>
                       <th className="relative px-6 py-3">
@@ -843,10 +843,10 @@ export default function ProfileClient() {
                       <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                           <tr>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Card</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Referral Link</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stats</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Referral Link</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Stats</th>
                             <th className="relative px-4 py-3"><span className="sr-only">Actions</span></th>
                           </tr>
                         </thead>
@@ -989,7 +989,7 @@ export default function ProfileClient() {
 
             {/* Danger Zone */}
             <div>
-              <h3 className="text-sm font-medium text-red-600 uppercase tracking-wide mb-4">Danger Zone</h3>
+              <h3 className="text-sm font-semibold text-red-600 mb-4">Danger zone</h3>
               <div className="rounded-lg border border-red-200 bg-red-50 p-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>

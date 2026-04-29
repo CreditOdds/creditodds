@@ -197,14 +197,12 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
           <div style={{ flex: 1 }} />
           <span
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11,
+              fontSize: 13,
+              fontWeight: 500,
               color: 'var(--muted)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
             }}
           >
-            {filtered.length} change{filtered.length === 1 ? '' : 's'}
+            <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>{filtered.length}</span> change{filtered.length === 1 ? '' : 's'}
           </span>
         </div>
 

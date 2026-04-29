@@ -103,7 +103,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
             </p>
           </div>
           <div className="text-center sm:text-right">
-            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">Total Annual Credits</p>
+            <p className="text-sm font-semibold text-emerald-600">Total annual credits</p>
             <p className="text-3xl font-extrabold text-emerald-700">${totalAnnualValue.toLocaleString()}</p>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
         <div className="bg-white shadow rounded-lg divide-y divide-gray-100">
           {/* Credits Table */}
           <div className="p-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Statement Credits</h3>
+            <h3 className="text-base font-semibold text-gray-700 mb-4">Statement credits</h3>
             <div className="space-y-3">
               {allCredits.map((credit, i) => (
                 <div key={`${credit.cardName}-${credit.name}-${i}`} className="flex items-center gap-4 rounded-lg border border-gray-100 bg-gray-50/50 px-4 py-3">
@@ -166,7 +166,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
           {/* Perks */}
           {allPerks.length > 0 && (
             <div className="p-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Additional Perks</h3>
+              <h3 className="text-base font-semibold text-gray-700 mb-4">Additional perks</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {allPerks.map((perk, i) => (
                   <div key={`${perk.cardName}-${perk.name}-${i}`} className="flex items-start gap-3 rounded-lg border border-gray-100 bg-gray-50/50 px-4 py-3">
