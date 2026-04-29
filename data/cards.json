@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-20T15:48:05.705Z",
+  "generated_at": "2026-04-29T21:19:03.663Z",
   "count": 160,
   "categories": [
     {
@@ -404,7 +404,7 @@
       "card_name": "Amazon Prime Rewards Visa Signature"
     },
     {
-      "name": "American Airlines AAdvantage MileU Mastercard",
+      "name": "American Airlines AAdvantage MileUp Mastercard",
       "bank": "Citi",
       "slug": "american-airlines-aadvantage-mileu-mastercard",
       "accepting_applications": true,
@@ -444,9 +444,9 @@
           "max": 29.49
         }
       },
-      "apply_link": "https://www.citi.com/credit-cards/american-airlines-aadvantage-mileu-mastercard",
+      "apply_link": "https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card",
       "card_id": "american-airlines-aadvantage-mileu-mastercard",
-      "card_name": "American Airlines AAdvantage MileU Mastercard"
+      "card_name": "American Airlines AAdvantage MileUp Mastercard"
     },
     {
       "name": "American Express Business Gold",
@@ -1014,11 +1014,21 @@
         }
       ],
       "signup_bonus": {
-        "value": 70000,
+        "value": 80000,
         "type": "points",
-        "spend_requirement": 3000,
-        "timeframe_months": 3
+        "spend_requirement": 4000,
+        "timeframe_months": 4,
+        "note": "Plus a $99 Companion Fare (plus taxes and fees from $23)"
       },
+      "benefits": [
+        {
+          "name": "Companion Fare",
+          "value": 0,
+          "description": "$99 Companion Fare (plus taxes and fees from $23) each account anniversary after spending $6,000 or more in purchases within the prior anniversary year",
+          "frequency": "annual",
+          "category": "travel"
+        }
+      ],
       "apply_link": "https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/",
       "card_id": "atmos-rewards-ascent",
       "card_name": "Atmos Rewards Ascent"
@@ -1552,10 +1562,16 @@
       ],
       "rewards": [
         {
-          "category": "dining",
+          "category": "rotating",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "Choose dining or groceries, up to $25,000/year"
+          "mode": "user_choice",
+          "choices": 1,
+          "eligible_categories": [
+            "dining",
+            "groceries"
+          ],
+          "note": "Choose dining (default) or groceries as your 3x category annually; grocery earns 3x on up to $25,000/year, then 1x."
         },
         {
           "category": "travel",
@@ -1565,8 +1581,7 @@
         {
           "category": "everything_else",
           "value": 1,
-          "unit": "points_per_dollar",
-          "note": "Also earns 4% Bilt Cash on everyday purchases"
+          "unit": "points_per_dollar"
         }
       ],
       "card_id": "bilt-obsidian",
@@ -1673,7 +1688,7 @@
         "business",
         "cashback"
       ],
-      "apply_link": "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/amex-blue-business-cash-credit-card/",
+      "apply_link": "https://www.americanexpress.com/en-us/business/credit-cards/blue-business-cash",
       "card_id": "blue-business-cash-card-from-american-express",
       "card_name": "Blue Business Cash from American Express"
     },
@@ -3089,10 +3104,10 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 50000,
         "type": "miles",
-        "spend_requirement": 3500,
-        "timeframe_months": 4
+        "spend_requirement": 2500,
+        "timeframe_months": 3
       },
       "apr": {
         "regular": {

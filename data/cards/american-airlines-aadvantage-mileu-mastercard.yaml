@@ -1,4 +1,4 @@
-name: "American Airlines AAdvantage MileU Mastercard"
+name: "American Airlines AAdvantage MileUp Mastercard"
 bank: "Citi"
 slug: "american-airlines-aadvantage-mileu-mastercard"
 accepting_applications: true
@@ -27,4 +27,4 @@ apr:
   regular:
     min: 19.49
     max: 29.49
-apply_link: https://www.citi.com/credit-cards/american-airlines-aadvantage-mileu-mastercard
+apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
