@@ -485,105 +485,6 @@ function HowItWorks() {
   );
 }
 
-function Records() {
-  const rows = [
-    { u: 'JK', user: '@jkolin', d: '2d · CHI', card: 'Sapphire Reserve', score: 762, income: '$120K', status: 'app' as const },
-    { u: 'RP', user: '@raelle_p', d: '3d · NYC', card: 'Amex Platinum', score: 710, income: '$95K', status: 'den' as const },
-    { u: 'DS', user: '@dsirota', d: '5d · SF', card: 'Venture X', score: 741, income: '$84K', status: 'app' as const },
-    { u: 'MN', user: '@m_nair', d: '6d · AUS', card: 'Citi Double Cash', score: 684, income: '$52K', status: 'app' as const },
-    { u: 'TK', user: '@tkang', d: '1w · SEA', card: 'Bilt', score: 722, income: '$110K', status: 'pen' as const },
-    { u: 'AL', user: '@alee', d: '1w · BOS', card: 'Amex Gold', score: 698, income: '$68K', status: 'den' as const },
-  ];
-  const statusLabel = { app: 'Approved', den: 'Denied', pen: 'Pending' };
-  return (
-    <section className="sec wrap" id="records">
-      <div className="split reverse">
-        <div className="visual">
-          <div className="visual-card">
-            <div className="vc-head">
-              <div className="dot-row">
-                <span />
-                <span />
-                <span />
-              </div>
-              <span style={{ marginLeft: 6 }}>records.creditodds.com</span>
-              <span style={{ marginLeft: 'auto' }}>FILTER · FICO 680–760</span>
-            </div>
-            <div className="records-table">
-              {rows.map((r, i) => (
-                <div className="rec" key={i}>
-                  <div className="avatar">{r.u}</div>
-                  <div className="meta-user">
-                    <div className="u">
-                      {r.user} ·{' '}
-                      <span style={{ color: 'var(--muted)', fontWeight: 400 }}>
-                        {r.card}
-                      </span>
-                    </div>
-                    <div className="d">{r.d}</div>
-                  </div>
-                  <div className="rec-details">
-                    <div className="num">
-                      <span className="l">Score</span>
-                      {r.score}
-                    </div>
-                    <div className="num">
-                      <span className="l">Income</span>
-                      {r.income}
-                    </div>
-                    <div className={'status-chip ' + r.status}>{statusLabel[r.status]}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="sec-label">Records</div>
-          <h2 className="sec-title" style={{ marginBottom: 20 }}>
-            Read the <em>room</em> before you read the fine print.
-          </h2>
-          <p className="body-copy">
-            Each record is a real application: FICO, income, credit length, recent
-            inquiries, and whether the issuer said yes. No affiliate spin, no editorial
-            bias. Just what people actually submitted.
-          </p>
-          <div className="feature-grid">
-            {[
-              ['Anonymous', 'Nothing identifying is required or shown.'],
-              ['Verified', 'Records flagged as suspicious are removed.'],
-              ['Open data', 'Every record is queryable, not buried in blog posts.'],
-              ['Freshness', 'Approval criteria change. Filter by recency.'],
-            ].map(([t, d]) => (
-              <div key={t} style={{ borderTop: '1px solid var(--line)', paddingTop: 12 }}>
-                <div
-                  style={{
-                    fontFamily: "'Inter Tight', 'Inter', sans-serif",
-                    fontSize: 18,
-                    letterSpacing: '-0.01em',
-                  }}
-                >
-                  {t}
-                </div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: 'var(--muted)',
-                    marginTop: 4,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {d}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Referrals({ cards }: { cards: Card[] }) {
   const featured = useMemo(() => {
     const bySlug = (slug: string) => cards.find((c) => c.slug === slug);
@@ -856,7 +757,6 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
       <Hero cards={initialCards} />
       <Ticker cards={initialCards} />
       <HowItWorks />
-      <Records />
       <Referrals cards={initialCards} />
       <Wallet cards={initialCards} />
       <Proof cards={initialCards} />
