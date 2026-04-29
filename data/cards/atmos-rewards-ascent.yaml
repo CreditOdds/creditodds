@@ -32,4 +32,10 @@ signup_bonus:
   spend_requirement: 4000
   timeframe_months: 4
   note: "Plus a $99 Companion Fare (plus taxes and fees from $23)"
+benefits:
+  - name: "Companion Fare"
+    value: 0
+    description: "$99 Companion Fare (plus taxes and fees from $23) each account anniversary after spending $6,000 or more in purchases within the prior anniversary year"
+    frequency: "annual"
+    category: "travel"
 apply_link: https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/
