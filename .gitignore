@@ -36,6 +36,11 @@ coverage/
 *.tmp
 *.temp
 
+# Workflow artifacts
+.apply-link-check-result.json
+.issue-body.md
+.card-page-check-summary.md
+
 # Claude Code local settings
 .claude/
 
