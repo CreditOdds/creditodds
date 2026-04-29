@@ -319,6 +319,7 @@
   font-weight: 600;
 }
 .landing-v2 .widget-body {
+  flex: 1;
   padding: 20px;
   display: grid;
   gap: 18px;
