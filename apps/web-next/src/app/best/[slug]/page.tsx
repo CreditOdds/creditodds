@@ -95,17 +95,6 @@ export default async function BestDetailPage({ params }: Props) {
       />
 
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Best cards · ranked by data</span>
-        </div>
         <h1 className="page-title">{page.title}</h1>
         <p className="page-sub">{page.description}</p>
         <div

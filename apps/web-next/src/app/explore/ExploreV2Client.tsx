@@ -158,17 +158,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Explore · {cards.length} cards</span>
-        </div>
         <h1 className="page-title">
           Every card, <em>every outcome.</em>
         </h1>

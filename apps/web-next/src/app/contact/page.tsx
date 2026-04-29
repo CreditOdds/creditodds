@@ -17,17 +17,6 @@ export default function ContactPage() {
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Contact · we&apos;re listening</span>
-        </div>
         <h1 className="page-title">
           Get in <em>touch.</em>
         </h1>

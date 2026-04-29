@@ -62,17 +62,6 @@ export default async function ComparePage() {
       />
 
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Compare · side by side</span>
-        </div>
         <h1 className="page-title">
           Compare <em>credit cards.</em>
         </h1>

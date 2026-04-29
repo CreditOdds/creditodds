@@ -34,17 +34,6 @@ export default async function IHGToUsdPage() {
       ]} />
 
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Tools · converter</span>
-        </div>
         <h1 className="page-title">
           IHG One Rewards Points to USD Converter.
         </h1>

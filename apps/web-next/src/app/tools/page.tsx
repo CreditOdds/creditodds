@@ -89,17 +89,6 @@ export default function ToolsPage() {
       />
 
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Tools · {totalTools} calculators</span>
-        </div>
         <h1 className="page-title">
           Free calculators. <em>Real math.</em>
         </h1>

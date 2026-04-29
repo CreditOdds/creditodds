@@ -6,17 +6,6 @@ export default function NotFound() {
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>404 · not found</span>
-        </div>
         <h1 className="page-title">
           This page doesn&apos;t <em>exist.</em>
         </h1>

@@ -26,17 +26,6 @@ export default function CheckOddsPage() {
         ]}
       />
       <section className="page-hero wrap">
-        <div className="eyebrow">
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-            }}
-          />
-          <span>Check odds · your profile vs. the data</span>
-        </div>
         <h1 className="page-title">
           Check your <em>odds.</em>
         </h1>
