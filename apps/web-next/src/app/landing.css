@@ -1588,7 +1588,7 @@
 }
 .landing-v2 .card-table td.num {
   text-align: right;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
@@ -1645,7 +1645,7 @@
 }
 .landing-v2 .ct-sub {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 10.5px;
   color: var(--muted);
   font-weight: 400;
@@ -1669,13 +1669,48 @@
 .landing-v2 .card-table .muted {
   color: var(--muted-2);
 }
+.landing-v2 .ct-reward-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-2);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.landing-v2 .ct-reward-type-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+.landing-v2 .ct-top-reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.landing-v2 .ct-top-reward-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--muted-2);
+  flex-shrink: 0;
+}
+.landing-v2 .ct-top-reward-rate {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 13px;
+}
+.landing-v2 .ct-top-reward-label {
+  font-family: 'Inter', sans-serif;
+  color: var(--muted);
+  font-size: 12px;
+}
 .landing-v2 .card-table .ct-mobile-summary {
   display: none;
   margin-top: 6px;
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   color: var(--ink-2);
 }
