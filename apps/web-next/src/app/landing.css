@@ -2137,11 +2137,18 @@
   }
   .landing-v2 .hero-stats {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
   }
-  .landing-v2 .hero-stats .stat:last-child {
-    grid-column: 1 / -1;
+  .landing-v2 .hero-stats .stat .n {
+    font-size: 30px;
+  }
+  .landing-v2 .hero-stats .stat .n .sup {
+    font-size: 15px;
+  }
+  .landing-v2 .hero-stats .stat .l {
+    font-size: 12px;
+    margin-top: 4px;
   }
   .landing-v2 .widget-head {
     flex-wrap: wrap;
