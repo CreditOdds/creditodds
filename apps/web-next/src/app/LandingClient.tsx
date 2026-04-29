@@ -122,7 +122,6 @@ function OddsWidget({ cards }: { cards: Card[] }) {
         <div className="t">
           <b>Approval odds calculator</b> · built from real applications, not a soft pull
         </div>
-        <div className="t">v2.6</div>
       </div>
       <div className="widget-body">
         <div className="card-search">
@@ -659,44 +658,6 @@ function Wallet({ cards }: { cards: Card[] }) {
   );
 }
 
-function Proof({ cards }: { cards: Card[] }) {
-  const totalRecords = cards.reduce(
-    (acc, c) => acc + (c.approved_count ?? 0) + (c.rejected_count ?? 0),
-    0
-  );
-  const issuers = new Set(cards.map((c) => c.bank)).size;
-  return (
-    <section className="proof">
-      <div className="wrap">
-        <div className="proof-grid">
-          <div className="proof-cell">
-            <div className="pn">
-              428
-              <span className="sup">+</span>
-            </div>
-            <div className="pl">Records in the database</div>
-          </div>
-          <div className="proof-cell">
-            <div className="pn">
-              {cards.length}
-              <span className="sup">+</span>
-            </div>
-            <div className="pl">Cards tracked · {issuers} issuers</div>
-          </div>
-          <div className="proof-cell">
-            <div className="pn">0</div>
-            <div className="pl">Sponsored rankings</div>
-          </div>
-          <div className="proof-cell">
-            <div className="pn">$0</div>
-            <div className="pl">Cost to use · forever</div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Final() {
   return (
     <section className="final">
@@ -747,7 +708,6 @@ export default function LandingClient({ initialCards }: LandingClientProps) {
       <HowItWorks />
       <Referrals cards={initialCards} />
       <Wallet cards={initialCards} />
-      <Proof cards={initialCards} />
       <Final />
       <V2Footer />
     </div>
