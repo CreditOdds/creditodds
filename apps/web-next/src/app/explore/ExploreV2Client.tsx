@@ -5,7 +5,7 @@ import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import type { Card, Reward } from '@/lib/api';
-import { categoryLabels } from '@/lib/cardDisplayUtils';
+import { categoryLabels, CategoryIcon } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import '../landing.css';
 
@@ -93,6 +93,44 @@ function rewardTypeLabel(card: Card): string {
     default:
       return '—';
   }
+}
+
+function rewardTypeEmoji(card: Card): string | null {
+  switch (card.reward_type) {
+    case 'cashback':
+      return '💵';
+    case 'points':
+      return '✨';
+    case 'miles':
+      return '✈️';
+    default:
+      return null;
+  }
+}
+
+function RewardTypeCell({ card }: { card: Card }) {
+  if (!card.reward_type) return <span className="muted">—</span>;
+  const emoji = rewardTypeEmoji(card);
+  return (
+    <span className="ct-reward-type">
+      {emoji && <span aria-hidden="true" className="ct-reward-type-icon">{emoji}</span>}
+      <span className="ct-reward-type-label">{rewardTypeLabel(card)}</span>
+    </span>
+  );
+}
+
+function TopRewardCell({ card }: { card: Card }) {
+  const top = topReward(card);
+  if (!top) return <span className="muted">—</span>;
+  const rate = top.unit === 'percent' ? `${top.value}%` : `${top.value}x`;
+  const label = categoryLabels[top.category] || top.category;
+  return (
+    <span className="ct-top-reward">
+      <CategoryIcon category={top.category} className="ct-top-reward-icon" />
+      <span className="ct-top-reward-rate">{rate}</span>
+      <span className="ct-top-reward-label">{label}</span>
+    </span>
+  );
 }
 
 export default function ExploreV2Client({ cards, trendingViews }: ExploreV2ClientProps) {
@@ -411,8 +449,8 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                       <td className={'num hide-sm fee-' + feeTone(c.annual_fee)}>
                         {feeLabel}
                       </td>
-                      <td className="hide-sm">{rewardTypeLabel(c)}</td>
-                      <td className="hide-md">{formatTopReward(c)}</td>
+                      <td className="hide-sm"><RewardTypeCell card={c} /></td>
+                      <td className="hide-md"><TopRewardCell card={c} /></td>
                       <td className="hide-sm">
                         {bonus.main}
                         {bonus.sub ? (
