@@ -260,7 +260,7 @@ export default function AdminPage() {
   if (authState.isLoading || loading) {
     return (
       <div className="landing-v2 admin-v2" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ color: 'var(--muted)', fontFamily: "'JetBrains Mono', monospace", fontSize: 13 }}>
+        <div style={{ color: 'var(--muted)', fontFamily: "'Inter', sans-serif", fontSize: 13 }}>
           Loading admin dashboard…
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { V2Footer } from '@/components/landing-v2/Chrome';
@@ -14,8 +14,126 @@ interface ExploreV2ClientProps {
   trendingViews?: Record<number, number>;
 }
 
-type SortKey = 'trending' | 'odds' | 'records' | 'fee';
+type SortKey = 'trending' | 'records' | 'fee';
 type ViewMode = 'grid' | 'table';
+type RewardTypeFilter = 'all' | 'cashback' | 'points' | 'miles';
+type FeeBucket = 'all' | 'free' | 'low' | 'mid' | 'high';
+
+const REWARD_TYPES: [RewardTypeFilter, string, string | null][] = [
+  ['all', 'All', null],
+  ['cashback', 'Cashback', '💵'],
+  ['points', 'Points', '✨'],
+  ['miles', 'Miles', '✈️'],
+];
+
+const FEE_BUCKETS: [FeeBucket, string][] = [
+  ['all', 'Any'],
+  ['free', 'No fee'],
+  ['low', 'Under $100'],
+  ['mid', '$100–$250'],
+  ['high', 'Over $250'],
+];
+
+function feeMatchesBucket(fee: number | undefined, bucket: FeeBucket): boolean {
+  if (bucket === 'all') return true;
+  const f = fee ?? 0;
+  if (bucket === 'free') return f === 0;
+  if (bucket === 'low') return f > 0 && f < 100;
+  if (bucket === 'mid') return f >= 100 && f <= 250;
+  if (bucket === 'high') return f > 250;
+  return true;
+}
+
+function IssuerDropdown({
+  banks,
+  selected,
+  onChange,
+}: {
+  banks: { name: string; count: number }[];
+  selected: Set<string>;
+  onChange: (next: Set<string>) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [open]);
+
+  const label = selected.size === 0 ? 'Issuer' : `Issuer (${selected.size})`;
+
+  function toggle(bank: string) {
+    const next = new Set(selected);
+    if (next.has(bank)) next.delete(bank);
+    else next.add(bank);
+    onChange(next);
+  }
+
+  return (
+    <div className="issuer-dropdown" ref={ref}>
+      <button
+        type="button"
+        className={'filter-chip ' + (selected.size > 0 ? 'active' : '')}
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+      >
+        {label}
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+      {open && (
+        <div className="issuer-panel" role="listbox">
+          {selected.size > 0 && (
+            <button
+              type="button"
+              className="issuer-clear"
+              onClick={() => onChange(new Set())}
+            >
+              Clear all
+            </button>
+          )}
+          <div className="issuer-options">
+            {banks.map((b) => (
+              <label key={b.name} className="issuer-option">
+                <input
+                  type="checkbox"
+                  checked={selected.has(b.name)}
+                  onChange={() => toggle(b.name)}
+                />
+                <span className="issuer-name">{b.name}</span>
+                <span className="issuer-count">{b.count}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function feeTone(fee: number | undefined): 'none' | 'mid' | 'high' {
   if (!fee) return 'none';
@@ -23,24 +141,18 @@ function feeTone(fee: number | undefined): 'none' | 'mid' | 'high' {
   return 'mid';
 }
 
-const CATEGORIES = ['All', 'Travel', 'Cashback', 'Dining', 'Business'] as const;
-type CategoryKey = (typeof CATEGORIES)[number];
-
-function cardCategory(card: Card): CategoryKey {
+function cardCategory(card: Card): 'Travel' | 'Business' | null {
   const explicit = (card.category || '').toLowerCase();
-  if (explicit.includes('travel')) return 'Travel';
-  if (explicit.includes('cash') || explicit.includes('cashback')) return 'Cashback';
-  if (explicit.includes('dining')) return 'Dining';
   if (explicit.includes('business')) return 'Business';
+  if (explicit.includes('travel')) return 'Travel';
 
   const tags = (card.tags ?? []).map((t) => t.toLowerCase());
   if (/business/i.test(card.card_name)) return 'Business';
+  if (tags.some((t) => t.includes('business'))) return 'Business';
   if (tags.some((t) => t.includes('travel') || t.includes('miles') || t.includes('airline') || t.includes('hotel'))) return 'Travel';
-  if (tags.some((t) => t.includes('dining'))) return 'Dining';
 
-  if (card.reward_type === 'cashback') return 'Cashback';
   if (card.reward_type === 'miles') return 'Travel';
-  return 'Cashback';
+  return null;
 }
 
 function approvalOdds(card: Card): number | null {
@@ -135,32 +247,34 @@ function TopRewardCell({ card }: { card: Card }) {
 
 export default function ExploreV2Client({ cards, trendingViews }: ExploreV2ClientProps) {
   const [query, setQuery] = useState('');
-  const [cat, setCat] = useState<CategoryKey>('All');
   const [sort, setSort] = useState<SortKey>('trending');
   const [includeArchived, setIncludeArchived] = useState(false);
   const [view, setView] = useState<ViewMode>('table');
+  const [rewardType, setRewardType] = useState<RewardTypeFilter>('all');
+  const [feeBucket, setFeeBucket] = useState<FeeBucket>('all');
+  const [selectedBanks, setSelectedBanks] = useState<Set<string>>(new Set());
+  const [businessOnly, setBusinessOnly] = useState(false);
 
-  const catCounts = useMemo(() => {
-    const counts: Record<CategoryKey, number> = {
-      All: 0,
-      Travel: 0,
-      Cashback: 0,
-      Dining: 0,
-      Business: 0,
-    };
+  const banksList = useMemo(() => {
+    const counts: Record<string, number> = {};
     for (const c of cards) {
       if (!includeArchived && !c.accepting_applications) continue;
-      counts.All += 1;
-      counts[cardCategory(c)] += 1;
+      if (!c.bank) continue;
+      counts[c.bank] = (counts[c.bank] ?? 0) + 1;
     }
-    return counts;
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }, [cards, includeArchived]);
 
   const filtered = useMemo(() => {
     const q = query.trim();
     const pool = cards.filter((c) => {
       if (!includeArchived && !c.accepting_applications) return false;
-      if (cat !== 'All' && cardCategory(c) !== cat) return false;
+      if (businessOnly && cardCategory(c) !== 'Business') return false;
+      if (rewardType !== 'all' && c.reward_type !== rewardType) return false;
+      if (!feeMatchesBucket(c.annual_fee, feeBucket)) return false;
+      if (selectedBanks.size > 0 && !selectedBanks.has(c.bank)) return false;
       if (q && !cardMatchesSearch(c.card_name, c.bank, q)) return false;
       return true;
     });
@@ -178,8 +292,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
           ((a.approved_count ?? 0) + (a.rejected_count ?? 0))
         );
       });
-    } else if (sort === 'odds') {
-      sorted.sort((a, b) => (approvalOdds(b) ?? -1) - (approvalOdds(a) ?? -1));
     } else if (sort === 'records') {
       sorted.sort(
         (a, b) =>
@@ -191,17 +303,17 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       sorted.sort((a, b) => (a.annual_fee ?? 0) - (b.annual_fee ?? 0));
     }
     return sorted;
-  }, [cards, cat, query, sort, includeArchived, trendingViews]);
+  }, [cards, query, sort, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly]);
 
   return (
     <div className="landing-v2">
       <section className="page-hero wrap">
         <h1 className="page-title">
-          Every card, <em>every outcome.</em>
+          Every card. <em>Everything you need.</em>
         </h1>
         <p className="page-sub">
-          Browse the full catalog with live approval odds pulled from the community
-          database. No affiliate ranking — just the math.
+          The complete credit card catalog — rewards, fees, welcome bonuses, and real
+          approval odds from the community. No affiliate rankings, just the data.
         </p>
       </section>
 
@@ -270,45 +382,74 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
             </div>
           </div>
           <div className="filter-chip-row">
-            {CATEGORIES.map((c) => (
-              <button
-                key={c}
-                type="button"
-                className={'filter-chip ' + (cat === c ? 'active' : '')}
-                onClick={() => setCat(c)}
-              >
-                {c} <span className="ct">{catCounts[c]}</span>
-              </button>
-            ))}
-            <button
-              type="button"
-              className={'filter-chip ' + (includeArchived ? 'active' : '')}
-              onClick={() => setIncludeArchived((v) => !v)}
-            >
-              Archived
-            </button>
-          </div>
-          <div className="filter-spacer" />
-          <div className="filter-actions">
-            <span className="sort-label">Sort</span>
-            {(
-              [
-                ['trending', 'Trending'],
-                ['odds', 'Odds'],
-                ['records', 'Records'],
-                ['fee', 'Fee'],
-              ] as [SortKey, string][]
-            ).map(([k, l]) => (
+            <span className="filter-group-label">Type</span>
+            {REWARD_TYPES.map(([k, l, emoji]) => (
               <button
                 key={k}
                 type="button"
-                className={'filter-chip ' + (sort === k ? 'active' : '')}
-                style={{ padding: '6px 10px', fontSize: 11 }}
-                onClick={() => setSort(k)}
+                className={'filter-chip ' + (rewardType === k ? 'active' : '')}
+                onClick={() => setRewardType(k)}
+              >
+                {emoji && <span aria-hidden="true">{emoji}</span>}
+                {l}
+              </button>
+            ))}
+          </div>
+          <div className="filter-chip-row">
+            <span className="filter-group-label">Fee</span>
+            {FEE_BUCKETS.map(([k, l]) => (
+              <button
+                key={k}
+                type="button"
+                className={'filter-chip ' + (feeBucket === k ? 'active' : '')}
+                onClick={() => setFeeBucket(k)}
               >
                 {l}
               </button>
             ))}
+            <IssuerDropdown
+              banks={banksList}
+              selected={selectedBanks}
+              onChange={setSelectedBanks}
+            />
+          </div>
+          <div className="filter-bottom-row">
+            <div className="filter-chip-row">
+              <span className="filter-group-label">Sort</span>
+              {(
+                [
+                  ['trending', 'Trending'],
+                  ['records', 'Records'],
+                  ['fee', 'Fee'],
+                ] as [SortKey, string][]
+              ).map(([k, l]) => (
+                <button
+                  key={k}
+                  type="button"
+                  className={'filter-chip ' + (sort === k ? 'active' : '')}
+                  onClick={() => setSort(k)}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+            <div className="filter-chip-row">
+              <span className="filter-group-label">Show</span>
+              <button
+                type="button"
+                className={'filter-chip ' + (businessOnly ? 'active' : '')}
+                onClick={() => setBusinessOnly((v) => !v)}
+              >
+                Business only
+              </button>
+              <button
+                type="button"
+                className={'filter-chip ' + (includeArchived ? 'active' : '')}
+                onClick={() => setIncludeArchived((v) => !v)}
+              >
+                Archived
+              </button>
+            </div>
           </div>
         </div>
 
@@ -318,7 +459,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
               padding: '80px 0',
               textAlign: 'center',
               color: 'var(--muted)',
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Inter', sans-serif",
               fontSize: 13,
             }}
           >
@@ -363,9 +504,9 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                       ${c.annual_fee ?? 0}
                     </span>
                     <span className="k">Reward type</span>
-                    <span className="v">{rewardTypeLabel(c)}</span>
+                    <span className="v"><RewardTypeCell card={c} /></span>
                     <span className="k">Top reward</span>
-                    <span className="v">{formatTopReward(c)}</span>
+                    <span className="v"><TopRewardCell card={c} /></span>
                     <span className="k">Welcome bonus</span>
                     <span className="v">
                       {bonus.main}
