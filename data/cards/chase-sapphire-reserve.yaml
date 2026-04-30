@@ -55,8 +55,8 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 125000
-  type: points
+  value: 150000
+  type: "points"
   spend_requirement: 6000
   timeframe_months: 3
 apr:
