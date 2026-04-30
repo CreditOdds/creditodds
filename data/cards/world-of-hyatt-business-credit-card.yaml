@@ -40,8 +40,8 @@ rewards:
     unit: points_per_dollar
     note: "2x on top 3 spend categories each quarter"
 signup_bonus:
-  value: 80000
+  value: 60000
   type: "points"
-  spend_requirement: 10000
+  spend_requirement: 5000
   timeframe_months: 3
 apply_link: https://creditcards.chase.com/business-credit-cards/world-of-hyatt/hyatt-business-card
