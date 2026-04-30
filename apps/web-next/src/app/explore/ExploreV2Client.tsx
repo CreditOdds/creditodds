@@ -14,7 +14,8 @@ interface ExploreV2ClientProps {
   trendingViews?: Record<number, number>;
 }
 
-type SortKey = 'trending' | 'records' | 'fee';
+type SortKey = 'trending' | 'records' | 'fee' | 'bonus' | 'approval';
+type SortDir = 'asc' | 'desc';
 type ViewMode = 'grid' | 'table';
 type RewardTypeFilter = 'all' | 'cashback' | 'points' | 'miles';
 type FeeBucket = 'all' | 'free' | 'low' | 'mid' | 'high';
@@ -42,6 +43,32 @@ function feeMatchesBucket(fee: number | undefined, bucket: FeeBucket): boolean {
   if (bucket === 'mid') return f >= 100 && f <= 250;
   if (bucket === 'high') return f > 250;
   return true;
+}
+
+function SortChevron({ active, dir }: { active: boolean; dir: SortDir }) {
+  return (
+    <svg
+      className={'sort-chevron' + (active ? ' sort-chevron-active' : '')}
+      width="10"
+      height="10"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      aria-hidden="true"
+    >
+      {active && dir === 'asc' ? (
+        <polyline points="18 15 12 9 6 15" />
+      ) : active && dir === 'desc' ? (
+        <polyline points="6 9 12 15 18 9" />
+      ) : (
+        <>
+          <polyline points="18 9 12 3 6 9" />
+          <polyline points="6 15 12 21 18 15" />
+        </>
+      )}
+    </svg>
+  );
 }
 
 function IssuerDropdown({
@@ -163,6 +190,12 @@ function approvalOdds(card: Card): number | null {
   return Math.round((a / t) * 100);
 }
 
+function oddsColor(odds: number): 'odds-green' | 'odds-amber' | 'odds-red' {
+  if (odds >= 70) return 'odds-green';
+  if (odds >= 40) return 'odds-amber';
+  return 'odds-red';
+}
+
 function formatBonus(card: Card): { main: string; sub: string | null } {
   const bonus = card.signup_bonus;
   if (!bonus || !bonus.value) return { main: '—', sub: null };
@@ -248,12 +281,45 @@ function TopRewardCell({ card }: { card: Card }) {
 export default function ExploreV2Client({ cards, trendingViews }: ExploreV2ClientProps) {
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<SortKey>('trending');
+  const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [includeArchived, setIncludeArchived] = useState(false);
   const [view, setView] = useState<ViewMode>('table');
   const [rewardType, setRewardType] = useState<RewardTypeFilter>('all');
   const [feeBucket, setFeeBucket] = useState<FeeBucket>('all');
   const [selectedBanks, setSelectedBanks] = useState<Set<string>>(new Set());
   const [businessOnly, setBusinessOnly] = useState(false);
+
+  function handleColSort(col: SortKey) {
+    const defaultDir: SortDir = col === 'fee' ? 'asc' : 'desc';
+    if (sort === col) {
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSort(col);
+      setSortDir(defaultDir);
+    }
+  }
+
+  const totalCount = useMemo(
+    () => cards.filter((c) => includeArchived || c.accepting_applications).length,
+    [cards, includeArchived]
+  );
+
+  const hasActiveFilters =
+    query.trim() !== '' ||
+    rewardType !== 'all' ||
+    feeBucket !== 'all' ||
+    selectedBanks.size > 0 ||
+    businessOnly ||
+    includeArchived;
+
+  function clearFilters() {
+    setQuery('');
+    setRewardType('all');
+    setFeeBucket('all');
+    setSelectedBanks(new Set());
+    setBusinessOnly(false);
+    setIncludeArchived(false);
+  }
 
   const banksList = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -300,10 +366,26 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
           ((a.approved_count ?? 0) + (a.rejected_count ?? 0))
       );
     } else if (sort === 'fee') {
-      sorted.sort((a, b) => (a.annual_fee ?? 0) - (b.annual_fee ?? 0));
+      sorted.sort((a, b) =>
+        sortDir === 'asc'
+          ? (a.annual_fee ?? 0) - (b.annual_fee ?? 0)
+          : (b.annual_fee ?? 0) - (a.annual_fee ?? 0)
+      );
+    } else if (sort === 'approval') {
+      sorted.sort((a, b) => {
+        const ao = approvalOdds(a) ?? (sortDir === 'desc' ? -1 : 101);
+        const bo = approvalOdds(b) ?? (sortDir === 'desc' ? -1 : 101);
+        return sortDir === 'desc' ? bo - ao : ao - bo;
+      });
+    } else if (sort === 'bonus') {
+      sorted.sort((a, b) => {
+        const av = a.signup_bonus?.value ?? (sortDir === 'desc' ? -1 : Infinity);
+        const bv = b.signup_bonus?.value ?? (sortDir === 'desc' ? -1 : Infinity);
+        return sortDir === 'desc' ? bv - av : av - bv;
+      });
     }
     return sorted;
-  }, [cards, query, sort, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly]);
+  }, [cards, query, sort, sortDir, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly]);
 
   return (
     <div className="landing-v2">
@@ -420,7 +502,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                 [
                   ['trending', 'Trending'],
                   ['records', 'Records'],
-                  ['fee', 'Fee'],
                 ] as [SortKey, string][]
               ).map(([k, l]) => (
                 <button
@@ -453,6 +534,17 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
           </div>
         </div>
 
+        <div className="filter-results-bar">
+          <span className="filter-results-count">
+            Showing {filtered.length} of {totalCount} cards
+          </span>
+          {hasActiveFilters && (
+            <button type="button" className="filter-clear-btn" onClick={clearFilters}>
+              Clear filters
+            </button>
+          )}
+        </div>
+
         {filtered.length === 0 ? (
           <div
             style={{
@@ -470,7 +562,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
             {filtered.map((c) => {
               const odds = approvalOdds(c);
               const records = (c.approved_count ?? 0) + (c.rejected_count ?? 0);
-              const category = cardCategory(c);
               const archived = !c.accepting_applications;
               const bonus = formatBonus(c);
               return (
@@ -492,7 +583,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                       </div>
                     </div>
                     <div className="cc-odds">
-                      <span className={'pct ' + (odds == null ? 'dim' : '')}>
+                      <span className={'pct ' + (odds == null ? 'dim' : oddsColor(odds))}>
                         {odds == null ? '—' : `${odds}%`}
                       </span>
                       <span className="lbl">Approval</span>
@@ -523,9 +614,9 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                         ? 'No records yet'
                         : `${records} record${records === 1 ? '' : 's'}`}
                     </span>
-                    <span className={'cat-tag ' + (archived ? 'archived' : '')}>
-                      {archived ? 'Archived' : category}
-                    </span>
+                    {archived && (
+                      <span className="cat-tag archived">Archived</span>
+                    )}
                   </div>
                 </Link>
               );
@@ -537,11 +628,29 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
               <thead>
                 <tr>
                   <th>Card</th>
-                  <th className="num hide-sm">Annual fee</th>
+                  <th
+                    className={'num hide-sm sort-th' + (sort === 'fee' ? ' sort-th-active' : '')}
+                    onClick={() => handleColSort('fee')}
+                  >
+                    Annual fee
+                    <SortChevron active={sort === 'fee'} dir={sortDir} />
+                  </th>
                   <th className="hide-sm">Reward type</th>
                   <th className="hide-md">Top reward</th>
-                  <th className="hide-sm">Welcome bonus</th>
-                  <th className="num ct-approval-col">Approval</th>
+                  <th
+                    className={'hide-sm sort-th' + (sort === 'bonus' ? ' sort-th-active' : '')}
+                    onClick={() => handleColSort('bonus')}
+                  >
+                    Welcome bonus
+                    <SortChevron active={sort === 'bonus'} dir={sortDir} />
+                  </th>
+                  <th
+                    className={'num ct-approval-col sort-th' + (sort === 'approval' ? ' sort-th-active' : '')}
+                    onClick={() => handleColSort('approval')}
+                  >
+                    Approval
+                    <SortChevron active={sort === 'approval'} dir={sortDir} />
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -603,7 +712,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                           <span className="muted">—</span>
                         ) : (
                           <>
-                            <span className="ct-odds">{odds}%</span>
+                            <span className={'ct-odds ' + oddsColor(odds)}>{odds}%</span>
                             <span className="ct-sub">({records})</span>
                           </>
                         )}
