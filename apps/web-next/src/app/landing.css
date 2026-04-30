@@ -1627,12 +1627,13 @@
   font-weight: 600;
   color: var(--ink);
   font-size: 14px;
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: -0.005em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 320px;
+  max-width: 360px;
 }
 .landing-v2 .ct-card:hover .ct-name {
   color: var(--accent);
