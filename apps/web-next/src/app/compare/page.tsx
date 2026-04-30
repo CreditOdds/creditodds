@@ -78,7 +78,7 @@ export default async function ComparePage() {
               style={{
                 padding: '48px 0',
                 color: 'var(--muted)',
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'Inter', sans-serif",
                 fontSize: 13,
               }}
             >

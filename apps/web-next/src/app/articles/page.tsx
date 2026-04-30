@@ -72,7 +72,7 @@ export default async function ArticlesPage() {
               padding: '80px 0',
               textAlign: 'center',
               color: 'var(--muted)',
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Inter', sans-serif",
               fontSize: 13,
             }}
           >

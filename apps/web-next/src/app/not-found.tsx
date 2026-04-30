@@ -20,7 +20,7 @@ export default function NotFound() {
             display: 'flex',
             flexWrap: 'wrap',
             gap: 12,
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'Inter', sans-serif",
             fontSize: 12,
           }}
         >
