@@ -1348,6 +1348,62 @@
   color: var(--muted);
   margin-right: 4px;
 }
+.landing-v2 .sort-th {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.landing-v2 .sort-th:hover {
+  color: var(--ink);
+}
+.landing-v2 .sort-th-active {
+  color: var(--ink);
+}
+.landing-v2 .sort-chevron {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 4px;
+  color: var(--muted-2);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.landing-v2 .sort-th:hover .sort-chevron,
+.landing-v2 .sort-chevron-active {
+  opacity: 1;
+}
+.landing-v2 .sort-chevron-active {
+  color: var(--accent);
+}
+.landing-v2 .filter-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 4px;
+  gap: 12px;
+}
+.landing-v2 .filter-results-count {
+  font-size: 13px;
+  color: var(--muted);
+}
+.landing-v2 .filter-clear-btn {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+.landing-v2 .filter-clear-btn:hover {
+  text-decoration: underline;
+}
+.landing-v2 .ct-odds.odds-green,
+.landing-v2 .cc-odds .pct.odds-green { color: #15803d; }
+.landing-v2 .ct-odds.odds-amber,
+.landing-v2 .cc-odds .pct.odds-amber { color: #b45309; }
+.landing-v2 .ct-odds.odds-red,
+.landing-v2 .cc-odds .pct.odds-red   { color: #b91c1c; }
 .landing-v2 .filter-bottom-row {
   display: flex;
   flex-wrap: wrap;
