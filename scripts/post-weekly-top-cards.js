@@ -16,7 +16,14 @@
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
-const { V2, darkBackground, footerBar } = require('./lib/og-style');
+const {
+  SO,
+  getTone,
+  escapeXml,
+  soFrame,
+  soFooter,
+  soEyebrow,
+} = require('./lib/og-style');
 const { appendBankHandles } = require('./lib/bank-handles');
 
 const API_BASE = 'https://d2ojrhbh2dincr.cloudfront.net';
@@ -123,14 +130,52 @@ async function fetchTopCards() {
   return thisWeek;
 }
 
+// ─── Image generation ────────────────────────────────────────────────────────
+//
+// Layout follows the "T1 — Ranking" template in the design system, matching
+// post-best-rankings.js: 1200×630 frame, dot-grid + tone-tinted glow backdrop,
+// hairline accent at top. Header row: eyebrow + title on the left, count +
+// "Most viewed" on the right. List: 5 evenly-spaced rows with rank num
+// (vertical accent bar + "01"), small card art (1.6:1), name + issuer, and a
+// movement pill on the right.
+
+const FRAME_W = 1200;
+const FRAME_H = 630;
+const FOOTER_H = 56;
+const PADDING_X = 56;
+const CONTENT_TOP = 40;
+
+const RANK_ART_W = 86;
+const RANK_ART_H = Math.round(RANK_ART_W / 1.6); // 54
+
+const TONE = 'purple';
+
 async function fetchCardImage(imageFilename) {
   try {
     const url = `${CDN_IMAGES}/${imageFilename}`;
     const res = await fetch(url);
     if (!res.ok) return null;
     const buffer = Buffer.from(await res.arrayBuffer());
-    return await sharp(buffer)
-      .resize(200, 126, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
+    const inner = await sharp(buffer)
+      .resize(RANK_ART_W - 6, RANK_ART_H - 6, {
+        fit: 'contain',
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .png()
+      .toBuffer();
+    const slotSvg = `<svg width="${RANK_ART_W}" height="${RANK_ART_H}" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="${RANK_ART_W}" height="${RANK_ART_H}" rx="6" ry="6" fill="${SO.card2}"/>
+    </svg>`;
+    return await sharp(Buffer.from(slotSvg))
+      .composite([
+        { input: inner, left: 3, top: 3 },
+        {
+          input: Buffer.from(`<svg width="${RANK_ART_W}" height="${RANK_ART_H}" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="${RANK_ART_W - 1}" height="${RANK_ART_H - 1}" rx="6" ry="6" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          </svg>`),
+          left: 0, top: 0,
+        },
+      ])
       .png()
       .toBuffer();
   } catch (err) {
@@ -139,89 +184,172 @@ async function fetchCardImage(imageFilename) {
   }
 }
 
-function escapeXml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function getMovementPillSvg(card, tone, rightX, centerY) {
+  const t = getTone(tone);
+
+  if (card.movement === 'new') {
+    const text = 'NEW';
+    const textW = Math.ceil(text.length * 11 * 0.6);
+    const pillW = textW + 20;
+    const pillH = 22;
+    const x = rightX - pillW;
+    const y = centerY - pillH / 2;
+    return `
+      <rect x="${x}" y="${y}" width="${pillW}" height="${pillH}" rx="4" ry="4" fill="${SO.accent2}" stroke="none"/>
+      <text x="${x + pillW / 2}" y="${y + pillH / 2 + 4}" text-anchor="middle"
+            font-family="Menlo,Consolas,monospace" font-size="11" font-weight="600" fill="${t.accent}" letter-spacing="0.8">${text}</text>
+    `;
+  }
+
+  if (card.movement === 'up' || card.movement === 'down') {
+    const positive = card.movement === 'up';
+    const color = positive ? SO.good : SO.warn;
+    const arrow = positive ? '▲' : '▼';
+    const text = `${arrow} ${card.movementAmount}`;
+    const textW = Math.ceil(text.length * 12 * 0.6);
+    const pillW = textW + 18;
+    const pillH = 22;
+    const x = rightX - pillW;
+    const y = centerY - pillH / 2;
+    return `
+      <rect x="${x}" y="${y}" width="${pillW}" height="${pillH}" rx="4" ry="4"
+            fill="${positive ? 'rgba(62,204,170,0.12)' : 'rgba(255,122,163,0.12)'}" stroke="none"/>
+      <text x="${x + pillW / 2}" y="${y + pillH / 2 + 4}" text-anchor="middle"
+            font-family="Menlo,Consolas,monospace" font-size="11" font-weight="600" fill="${color}" letter-spacing="0.8">${escapeXml(text)}</text>
+    `;
+  }
+
+  // 'same' — no pill
+  return '';
+}
+
+function fitName(name, maxChars) {
+  if (name.length <= maxChars) return name;
+  return name.slice(0, maxChars - 1).trim() + '…';
 }
 
 async function generateRankingsImage(topCards) {
+  const tone = TONE;
+  const t = getTone(tone);
+
   const cardImages = await Promise.all(
     topCards.map(card => card.image ? fetchCardImage(card.image) : Promise.resolve(null))
   );
 
-  const width = 1080;
-  const rowHeight = 140;
-  const headerHeight = 120;
-  const footerHeight = 60;
-  const height = headerHeight + (rowHeight * 5) + footerHeight;
-
-  function getMovementSvg(card) {
-    if (card.movement === 'up') {
-      return `<g>
-        <polygon points="0,12 8,0 16,12" fill="${V2.emerald}"/>
-        <text x="20" y="12" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="${V2.emerald}">+${card.movementAmount}</text>
-      </g>`;
-    } else if (card.movement === 'down') {
-      return `<g>
-        <polygon points="0,0 8,12 16,0" fill="${V2.warn}"/>
-        <text x="20" y="12" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="${V2.warn}">-${card.movementAmount}</text>
-      </g>`;
-    } else if (card.movement === 'new') {
-      return `<text x="0" y="12" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="${V2.accent}">NEW</text>`;
-    } else {
-      return `<text x="0" y="12" font-family="Arial,sans-serif" font-size="16" fill="rgba(255,255,255,0.45)">\u2014</text>`;
-    }
-  }
-
   const now = new Date();
   const weekStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-  let rowsSvg = '';
-  for (let i = 0; i < 5; i++) {
-    const card = topCards[i];
-    const y = headerHeight + (i * rowHeight);
-    const bgFill = i % 2 === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0)';
+  // ── Header layout ──
+  const eyebrowY = CONTENT_TOP + 18;
+  const titleSize = 44;
+  const titleBaseY = eyebrowY + 26 + titleSize - 4;
 
-    rowsSvg += `
-      <rect x="0" y="${y}" width="${width}" height="${rowHeight}" fill="${bgFill}"/>
-      <line x1="40" y1="${y}" x2="${width - 40}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-      <circle cx="55" cy="${y + rowHeight / 2}" r="28" fill="${V2.accent}"/>
-      <text x="55" y="${y + rowHeight / 2 + 10}" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="white">${card.rank}</text>
-      <text x="310" y="${y + rowHeight / 2 - 8}" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#ffffff">${escapeXml(card.name)}</text>
-      <text x="310" y="${y + rowHeight / 2 + 18}" font-family="Arial,sans-serif" font-size="16" fill="rgba(255,255,255,0.6)">${escapeXml(card.bank || '')}</text>
-      <g transform="translate(${width - 80}, ${y + rowHeight / 2 - 6})">
-        ${getMovementSvg(card)}
-      </g>
-    `;
+  const countSize = 44;
+  const rightEdge = FRAME_W - PADDING_X;
+  const countText = String(topCards.length);
+  const countBaseY = titleBaseY;
+  const countLabelY = countBaseY + 22;
+  const headerBottom = countLabelY + 16;
+
+  // ── List layout: evenly-spaced rows ──
+  const listTop = headerBottom + 8;
+  const listBottom = FRAME_H - FOOTER_H - 12;
+  const listH = listBottom - listTop;
+  const numRows = topCards.length;
+  const rowH = listH / numRows;
+
+  const numColW = 44;
+  const numColX = PADDING_X;
+  const artColX = numColX + numColW + 18;
+  const nameColX = artColX + RANK_ART_W + 18;
+
+  const frame = soFrame({ width: FRAME_W, height: FRAME_H, tone });
+
+  const eyebrowSvg = soEyebrow({
+    x: PADDING_X,
+    y: eyebrowY,
+    key: 'Power Rankings',
+    text: `Week of ${weekStr}`,
+    tone,
+    size: 13,
+  });
+
+  const titleSvg = `
+    <text x="${PADDING_X}" y="${titleBaseY}" font-family="Arial,sans-serif" font-size="${titleSize}" font-weight="600" fill="${SO.ink}" letter-spacing="-1.1">Top 5 Most Viewed</text>
+  `;
+
+  const countCluster = `
+    <text x="${rightEdge}" y="${countBaseY}" text-anchor="end" font-family="Arial,sans-serif" font-size="${countSize}" font-weight="500" fill="${t.accent}" letter-spacing="-1.3">${countText}</text>
+    <text x="${rightEdge}" y="${countLabelY}" text-anchor="end" font-family="Menlo,Consolas,monospace" font-size="10" font-weight="500" fill="${SO.muted}" letter-spacing="1.4">MOST VIEWED</text>
+  `;
+
+  let rowsSvg = '';
+  for (let i = 0; i < numRows; i++) {
+    const card = topCards[i];
+    const yTop = listTop + i * rowH;
+    const yCenter = yTop + rowH / 2;
+    const isFirst = i === 0;
+    const numColor = isFirst ? t.accent : SO.muted;
+    const barColor = isFirst ? t.accent : SO.line;
+
+    if (i > 0) {
+      rowsSvg += `<line x1="${PADDING_X}" y1="${yTop}" x2="${FRAME_W - PADDING_X}" y2="${yTop}" stroke="${SO.line}" stroke-width="1"/>`;
+    }
+
+    rowsSvg += `<rect x="${PADDING_X - 6}" y="${yCenter - 11}" width="3" height="22" rx="2" ry="2" fill="${barColor}"/>`;
+    const numText = String(i + 1).padStart(2, '0');
+    rowsSvg += `<text x="${numColX + numColW / 2 + 4}" y="${yCenter + 9}" text-anchor="middle" font-family="Arial,sans-serif" font-size="26" font-weight="500" fill="${numColor}" letter-spacing="-0.8">${numText}</text>`;
+
+    const artY = yCenter - RANK_ART_H / 2;
+    rowsSvg += `<rect x="${artColX}" y="${artY}" width="${RANK_ART_W}" height="${RANK_ART_H}" rx="6" ry="6" fill="${SO.card2}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;
+
+    const nameMaxChars = 38;
+    const nameText = fitName(card.name, nameMaxChars);
+    rowsSvg += `<text x="${nameColX}" y="${yCenter - 4}" font-family="Arial,sans-serif" font-size="19" font-weight="600" fill="${SO.ink}" letter-spacing="-0.3">${escapeXml(nameText)}</text>`;
+    rowsSvg += `<text x="${nameColX}" y="${yCenter + 16}" font-family="Menlo,Consolas,monospace" font-size="11" fill="${SO.muted}" letter-spacing="0.8">${escapeXml((card.bank || '').toUpperCase())}</text>`;
+
+    rowsSvg += getMovementPillSvg(card, tone, FRAME_W - PADDING_X, yCenter);
   }
 
-  const bg = darkBackground({ width, height, accent: V2.accent });
+  const footerSvg = soFooter({
+    width: FRAME_W,
+    height: FOOTER_H,
+    y: FRAME_H - FOOTER_H,
+    sectionPath: 'explore',
+    meta: `${numRows} cards · ${weekStr}`,
+    tone,
+  });
 
-  const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  const svg = `<svg width="${FRAME_W}" height="${FRAME_H}" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      ${bg.defs}
+      ${frame.defs}
     </defs>
-    ${bg.rects}
-    <text x="40" y="58" font-family="Arial,sans-serif" font-size="36" font-weight="bold" fill="#ffffff" letter-spacing="-0.5">Weekly Power Rankings</text>
-    <text x="40" y="92" font-family="Arial,sans-serif" font-size="16" fill="${V2.accent}" letter-spacing="1.5">TOP 5 MOST VIEWED \u00B7 WEEK OF ${escapeXml(weekStr).toUpperCase()}</text>
+    ${frame.rects}
+
+    ${eyebrowSvg}
+    ${titleSvg}
+    ${countCluster}
+
     ${rowsSvg}
-    ${footerBar({ width, y: height - footerHeight, height: footerHeight })}
+
+    ${footerSvg}
   </svg>`;
 
   let image = sharp(Buffer.from(svg)).png();
 
   const overlays = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < numRows; i++) {
     if (cardImages[i]) {
-      const y = headerHeight + (i * rowHeight) + Math.round((rowHeight - 86) / 2);
+      const yTop = listTop + i * rowH;
+      const yCenter = yTop + rowH / 2;
       overlays.push({
-        input: await sharp(cardImages[i]).resize(136, 86, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer(),
-        left: 110,
-        top: y,
+        input: cardImages[i],
+        left: artColX,
+        top: Math.round(yCenter - RANK_ART_H / 2),
       });
     }
   }
-
-  if (overlays.length > 0) {
+  if (overlays.length) {
     image = sharp(await image.toBuffer()).composite(overlays).png();
   }
 
@@ -231,15 +359,15 @@ async function generateRankingsImage(topCards) {
 function buildPostText(topCards) {
   const list = topCards
     .map((card) => {
-      const arrow = card.movement === 'up' ? '\u2B06\uFE0F'
-        : card.movement === 'down' ? '\u2B07\uFE0F'
-        : card.movement === 'new' ? '\uD83C\uDD95'
-        : '\u2796';
+      const arrow = card.movement === 'up' ? '⬆️'
+        : card.movement === 'down' ? '⬇️'
+        : card.movement === 'new' ? '🆕'
+        : '➖';
       return `${card.rank}. ${card.name} ${arrow}`;
     })
     .join('\n');
 
-  const base = `Credit Card Power Rankings \u2014 This Week\u2019s Top 5 Most Viewed:\n\n${list}`;
+  const base = `Credit Card Power Rankings — This Week’s Top 5 Most Viewed:\n\n${list}`;
   const banks = topCards.map(c => c.bank).filter(Boolean);
   const withHandles = appendBankHandles(base, banks, 260);
   return {
@@ -307,7 +435,7 @@ async function main() {
     const arrow = card.movement === 'up' ? `+${card.movementAmount}`
       : card.movement === 'down' ? `-${card.movementAmount}`
       : card.movement === 'new' ? 'NEW'
-      : '\u2014';
+      : '—';
     console.log(`  #${card.rank} ${card.name}: ${card.count} views (${arrow})`);
   }
 
