@@ -5,6 +5,7 @@ image: "capital_one_quicksilverone.png"
 accepting_applications: true
 category: "cashback"
 annual_fee: 39
+foreign_transaction_fee: false
 reward_type: "cashback"
 rewards:
   - category: "hotels_car_portal"
