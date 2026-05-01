@@ -19,6 +19,9 @@ rewards:
   - category: gas
     value: 2
     unit: points_per_dollar
+  - category: ev_charging
+    value: 2
+    unit: points_per_dollar
   - category: transit
     value: 2
     unit: points_per_dollar
@@ -29,9 +32,9 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 70000
+  value: 80000
   type: points
-  spend_requirement: 4000
+  spend_requirement: 5000
   timeframe_months: 3
 benefits:
   - name: "Coach Companion Fare"

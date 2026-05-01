@@ -56,6 +56,11 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
+  - name: "Complimentary Standard Seat"
+    description: "Select a Standard seat within 48 hours prior to departure for the cardmember plus up to 8 passengers on the same reservation, when available"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
   - name: "25% Inflight Purchase Credit"
     description: "25% back on inflight drinks and Wi-Fi purchases when paid with the card"
     frequency: "per_purchase"
@@ -71,4 +76,9 @@ benefits:
     frequency: "annual"
     category: "rewards"
     enrollment_required: true
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/plus

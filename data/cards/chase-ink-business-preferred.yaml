@@ -29,8 +29,8 @@ apr:
     max: 29.99
 benefits:
   - name: "Cell Phone Protection"
-    value: 600
-    description: "Up to $600 per claim ($25 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    value: 1000
+    description: "Up to $1,000 per claim ($100 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card"
     frequency: "per_claim"
     category: "telecom"
     enrollment_required: false
