@@ -5,8 +5,11 @@ interface NamedCardRecord {
   card_name: string;
 }
 
-interface NamedOpenReferral {
+export interface EligibleReferralCard {
+  card_id: string;
   card_name: string;
+  card_image_link?: string;
+  card_referral_link?: string;
 }
 
 export interface CardLookups {
@@ -38,17 +41,45 @@ function getCardForWalletCard(walletCard: WalletCard, lookups: CardLookups) {
   return lookups.byWalletId.get(walletCard.card_id) ?? lookups.byName.get(walletCard.card_name);
 }
 
-export function getEligibleReferralCards<T extends NamedOpenReferral>(
+export function getEligibleReferralCards(
   records: NamedCardRecord[],
   walletCards: WalletCard[],
-  openReferrals: T[]
-): T[] {
-  const recordCardNames = new Set(records.map((record) => record.card_name));
-  const walletCardNames = new Set(walletCards.map((walletCard) => walletCard.card_name));
+  activeReferrals: { card_name: string }[],
+  lookups: CardLookups
+): EligibleReferralCard[] {
+  const excluded = new Set(activeReferrals.map((r) => r.card_name));
+  const seen = new Set<string>();
+  const result: EligibleReferralCard[] = [];
 
-  return openReferrals.filter((card) =>
-    recordCardNames.has(card.card_name) || walletCardNames.has(card.card_name)
-  );
+  for (const w of walletCards) {
+    if (excluded.has(w.card_name) || seen.has(w.card_name)) continue;
+    seen.add(w.card_name);
+    const card = lookups.byName.get(w.card_name);
+    result.push({
+      card_id: String(w.card_id),
+      card_name: w.card_name,
+      card_image_link: w.card_image_link ?? card?.card_image_link,
+      card_referral_link: card?.card_referral_link,
+    });
+  }
+
+  for (const r of records) {
+    if (excluded.has(r.card_name) || seen.has(r.card_name)) continue;
+    const card = lookups.byName.get(r.card_name);
+    if (!card) continue;
+    const dbId = card.db_card_id ?? Number(card.card_id);
+    if (!Number.isFinite(dbId)) continue;
+    seen.add(r.card_name);
+    result.push({
+      card_id: String(dbId),
+      card_name: r.card_name,
+      card_image_link: card.card_image_link,
+      card_referral_link: card.card_referral_link,
+    });
+  }
+
+  result.sort((a, b) => a.card_name.localeCompare(b.card_name));
+  return result;
 }
 
 export function getTotalAnnualFees(walletCards: WalletCard[], lookups: CardLookups) {
