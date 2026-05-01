@@ -38,4 +38,35 @@ apr:
   regular:
     min: 18.49
     max: 28.49
+benefits:
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Capital One Entertainment Access"
+    description: "Earn 8% cash back on tickets to concerts, sporting events, and other live experiences booked through Capital One Entertainment"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Capital One Travel Discounts"
+    description: "5% cash back on hotels and rental cars booked through Capital One Travel"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "$0 Fraud Liability"
+    description: "Not responsible for unauthorized charges if your card is lost or stolen"
+    frequency: "annual"
+    category: "security"
+    enrollment_required: false
+  - name: "Eno Virtual Card Numbers"
+    description: "Generate one-time virtual card numbers for online purchases without exposing your real card details"
+    frequency: "per_purchase"
+    category: "security"
+    enrollment_required: false
+  - name: "CreditWise Credit Monitoring"
+    description: "Free credit score monitoring with TransUnion and Experian alerts"
+    frequency: "monthly"
+    category: "security"
+    enrollment_required: true
 apply_link: https://www.capitalone.com/credit-cards/savorone/
