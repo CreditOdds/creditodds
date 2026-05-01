@@ -6,53 +6,69 @@ import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  BuildingLibraryIcon,
-} from "@heroicons/react/24/solid";
-import { getValuationDetails } from "@/lib/valuations";
-import {
   ExclamationTriangleIcon,
-  PencilSquareIcon,
-  NewspaperIcon,
-  InformationCircleIcon,
-  BanknotesIcon,
   ScaleIcon,
   ShareIcon,
-  CalculatorIcon,
-  CreditCardIcon,
-  ClockIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
-import { Card, GraphData, Reward, trackCardApplyClick, trackReferralEvent, trackCardView, CardWireEntry, CardBenefit } from "@/lib/api";
-import { NewsItem, tagLabels, tagColors } from "@/lib/news";
-import { Article, tagLabels as articleTagLabels, tagColors as articleTagColors } from "@/lib/articles";
+import {
+  Card,
+  GraphData,
+  Reward,
+  trackCardApplyClick,
+  trackReferralEvent,
+  trackCardView,
+  CardWireEntry,
+} from "@/lib/api";
+import { getValuationDetails } from "@/lib/valuations";
+import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
+import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import CardBenefits from "@/components/ui/CardBenefits";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
 import { withApplySource } from "@/lib/applyLink";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import "../../landing.css";
 
-// Dynamic import for Highcharts (client-side only)
 const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
   ssr: false,
-  loading: () => <div className="h-64 flex items-center justify-center">Loading chart...</div>,
+  loading: () => (
+    <div
+      style={{
+        height: 256,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 13,
+        color: "var(--muted)",
+      }}
+    >
+      Loading chart…
+    </div>
+  ),
 });
 
-// Chart error fallback component (#10)
 function ChartErrorFallback() {
   return (
-    <div className="h-64 flex items-center justify-center bg-gray-100 rounded-lg">
-      <p className="text-gray-500">Unable to load chart. Please refresh the page.</p>
+    <div
+      style={{
+        height: 256,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 13,
+        color: "var(--muted)",
+      }}
+    >
+      Unable to load chart.
     </div>
   );
 }
 
 function formatRewardValue(reward: Reward): string {
-  if (reward.unit === "percent") {
-    return `${reward.value}%`;
-  }
+  if (reward.unit === "percent") return `${reward.value}%`;
   return `${reward.value}x`;
 }
 
@@ -64,59 +80,42 @@ function getStableReferralIndex(cardKey: string, referralCount: number): number 
   return Math.abs(hash) % referralCount;
 }
 
-
-function StarIcon({ filled, half, className }: { filled?: boolean; half?: boolean; className?: string }) {
-  if (half) {
-    return (
-      <svg className={className} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="halfGrad">
-            <stop offset="50%" stopColor="currentColor" />
-            <stop offset="50%" stopColor="transparent" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-          fill="url(#halfGrad)"
-          stroke="currentColor"
-          strokeWidth="1"
-        />
-      </svg>
-    );
-  }
+function StarIcon({
+  filled,
+  size = 14,
+}: {
+  filled: boolean;
+  size?: number;
+}) {
   return (
-    <svg className={className} viewBox="0 0 20 20" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth={filled ? "0" : "1.5"} xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 20 20"
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth={filled ? 0 : 1.4}
+    >
       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
     </svg>
   );
 }
 
-function CardRatingDisplay({ ratings }: { ratings: { count: number; average: number | null } }) {
-  if (ratings.count === 0 || ratings.average === null) return null;
+const FICO_BUCKETS: { label: string; min: number; max: number }[] = [
+  { label: "790+", min: 790, max: 850 },
+  { label: "760–789", min: 760, max: 789 },
+  { label: "730–759", min: 730, max: 759 },
+  { label: "700–729", min: 700, max: 729 },
+  { label: "670–699", min: 670, max: 699 },
+  { label: "< 670", min: 0, max: 669 },
+];
 
-  return (
-    <div className="mt-6 w-full rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
-      <div className="mb-3 flex items-center justify-between">
-        <p className="text-sm font-semibold text-gray-500">User rating</p>
-        <span className="text-sm text-gray-500 whitespace-nowrap">
-          {ratings.average.toFixed(1)}/5 from {ratings.count} {ratings.count === 1 ? 'rating' : 'ratings'}
-        </span>
-      </div>
-      <div className="flex items-center gap-0.5">
-        {[1, 2, 3, 4, 5].map((star) => {
-          const filled = star <= Math.floor(ratings.average!);
-          const half = !filled && star === Math.ceil(ratings.average!) && ratings.average! % 1 >= 0.25;
-          return (
-            <StarIcon
-              key={star}
-              filled={filled}
-              half={half}
-              className={`h-5 w-5 ${filled || half ? 'text-amber-400' : 'text-gray-300'}`}
-            />
-          );
-        })}
-      </div>
-    </div>
+function bucketize(
+  pairs: [number, number][],
+  buckets: { min: number; max: number }[],
+): number[] {
+  return buckets.map(
+    (b) => pairs.filter((p) => p[0] >= b.min && p[0] <= b.max).length,
   );
 }
 
@@ -130,37 +129,53 @@ interface CardClientProps {
   wire?: CardWireEntry[];
 }
 
-export default function CardClient({ card, graphData, news, articles, ratings, similarCards = [], wire = [] }: CardClientProps) {
+export default function CardClient({
+  card,
+  graphData,
+  news,
+  articles,
+  ratings,
+  similarCards = [],
+  wire = [],
+}: CardClientProps) {
+  // ---------- State + chrome ----------
   const [showModal, setShowModal] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
+  const [activeChart, setActiveChart] = useState<"score" | "history" | "limit">("score");
   const shareMenuRef = useRef<HTMLDivElement | null>(null);
-  const { authState, getToken } = useAuth();
+  const { authState } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const cardUrl = `https://creditodds.com/card/${card.slug}`;
   const shareTitle = `${card.card_name} on CreditOdds`;
   const encodedShareTitle = encodeURIComponent(shareTitle);
   const encodedCardUrl = encodeURIComponent(cardUrl);
 
-  // Auto-open submit modal when ?submit=true is present
   useEffect(() => {
-    if (searchParams.get('submit') === 'true' && authState.isAuthenticated) {
-      const timeoutId = window.setTimeout(() => setShowModal(true), 0);
+    if (
+      searchParams.get("submit") === "true" &&
+      authState.isAuthenticated
+    ) {
+      const id = window.setTimeout(() => setShowModal(true), 0);
       router.replace(`/card/${card.slug}`, { scroll: false });
-      return () => window.clearTimeout(timeoutId);
+      return () => window.clearTimeout(id);
     }
   }, [searchParams, authState.isAuthenticated, card.slug, router]);
 
   useEffect(() => {
     if (!showShareMenu) return;
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (shareMenuRef.current && !shareMenuRef.current.contains(event.target as Node)) {
+    const handler = (e: MouseEvent) => {
+      if (
+        shareMenuRef.current &&
+        !shareMenuRef.current.contains(e.target as Node)
+      ) {
         setShowShareMenu(false);
       }
     };
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, [showShareMenu]);
 
   const handleCopyShareLink = async () => {
@@ -169,986 +184,1194 @@ export default function CardClient({ card, graphData, news, articles, ratings, s
       setCopiedShareLink(true);
       setTimeout(() => setCopiedShareLink(false), 2000);
     } catch {
-      // Silently fail
+      // ignore
     }
   };
 
-  const chartOne = graphData[0] || [];
-  const chartTwo = graphData[1] || [];
-  const chartThree = graphData[2] || [];
-
-  // Randomly select a referral if available
+  // ---------- Tracking + referrals ----------
   const selectedReferral = useMemo(() => {
     if (card.referrals && card.referrals.length > 0) {
-      const referralIndex = getStableReferralIndex(`${card.card_id}:${card.slug}`, card.referrals.length);
-      return card.referrals[referralIndex];
+      const idx = getStableReferralIndex(
+        `${card.card_id}:${card.slug}`,
+        card.referrals.length,
+      );
+      return card.referrals[idx];
     }
     return null;
   }, [card.card_id, card.referrals, card.slug]);
 
-  // Build full referral URL
-  const randomReferralUrl = useMemo(() => {
-    if (selectedReferral) {
-      return selectedReferral.referral_link;
-    }
-    return null;
-  }, [selectedReferral]);
+  const randomReferralUrl = selectedReferral?.referral_link ?? null;
 
-  // Track card page view
   const viewTracked = useRef(false);
   useEffect(() => {
     if (card.card_id && !viewTracked.current) {
       viewTracked.current = true;
-      trackCardView(Number(card.card_id)).catch(() => {
-        // Silently fail - tracking shouldn't break the page
-      });
+      trackCardView(Number(card.card_id)).catch(() => {});
     }
   }, [card.card_id]);
 
-  // Track impression when referral is shown
   const impressionTracked = useRef(false);
   useEffect(() => {
     if (selectedReferral && !impressionTracked.current) {
       impressionTracked.current = true;
-      trackReferralEvent(selectedReferral.referral_id, 'impression').catch(() => {
-        // Silently fail - tracking shouldn't break the page
-      });
+      trackReferralEvent(selectedReferral.referral_id, "impression").catch(
+        () => {},
+      );
     }
   }, [selectedReferral]);
 
-  // Handle referral click
   const handleCardApplyClick = (clickSource: "direct" | "referral") => {
     const cardId = Number(card.card_id);
     if (Number.isInteger(cardId) && cardId > 0) {
-      trackCardApplyClick(cardId, clickSource).catch(() => {
-        // Silently fail
-      });
+      trackCardApplyClick(cardId, clickSource).catch(() => {});
     }
   };
 
   const handleReferralClick = () => {
     if (selectedReferral) {
-      trackReferralEvent(selectedReferral.referral_id, 'click').catch(() => {
-        // Silently fail
-      });
+      trackReferralEvent(selectedReferral.referral_id, "click").catch(
+        () => {},
+      );
     }
     handleCardApplyClick("referral");
   };
 
-  // Check if charts have actual data points (not just empty structure)
-  const hasChartOneData = chartOne.some(series => Array.isArray(series) && series.length > 0);
-  const hasChartThreeData = chartThree.some(series => Array.isArray(series) && series.length > 0);
+  const handleSubmitSuccess = () => router.refresh();
 
-  // Refresh page data after successful submission (#8)
-  const handleSubmitSuccess = () => {
-    router.refresh();
+  // ---------- Computed ----------
+  const chartOne = graphData[0] || [];
+  const chartTwo = graphData[1] || [];
+  const chartThree = graphData[2] || [];
+  const hasChartOne = chartOne.some(
+    (s) => Array.isArray(s) && s.length > 0,
+  );
+  const hasChartTwo = chartTwo.some(
+    (s) => Array.isArray(s) && s.length > 0,
+  );
+  const hasChartThree = chartThree.some(
+    (s) => Array.isArray(s) && s.length > 0,
+  );
+
+  const acceptedBuckets = bucketize(chartOne[0] || [], FICO_BUCKETS);
+  const rejectedBuckets = bucketize(chartOne[1] || [], FICO_BUCKETS);
+  const totalRecordsFromChart =
+    (chartOne[0]?.length || 0) + (chartOne[1]?.length || 0);
+  const maxBucketTotal = Math.max(
+    1,
+    ...FICO_BUCKETS.map(
+      (_, i) => acceptedBuckets[i] + rejectedBuckets[i],
+    ),
+  );
+
+  const sortedRewards = useMemo<Reward[]>(
+    () => (card.rewards ? [...card.rewards].sort((a, b) => b.value - a.value) : []),
+    [card.rewards],
+  );
+
+  const creditBenefits = (card.benefits || []).filter((b) => b.value > 0);
+  const totalCredits = creditBenefits.reduce((sum, b) => {
+    if (b.frequency === "ongoing") return sum;
+    if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
+    return sum + b.value;
+  }, 0);
+
+  const tagline = useMemo(() => {
+    const parts: string[] = [];
+    const sb = card.signup_bonus;
+    if (sb) {
+      if (sb.type === "cash") parts.push(`$${sb.value.toLocaleString()} welcome bonus`);
+      else if (sb.type === "free_nights")
+        parts.push(`${sb.value} free night${sb.value !== 1 ? "s" : ""}`);
+      else parts.push(`${sb.value.toLocaleString()} ${sb.type} welcome`);
+    }
+    const top = sortedRewards[0];
+    if (top) {
+      const lbl = categoryLabels[top.category] || top.category;
+      parts.push(`${formatRewardValue(top)} on ${lbl.toLowerCase()}`);
+    }
+    if (card.annual_fee !== undefined) {
+      parts.push(card.annual_fee === 0 ? "$0 annual fee" : `$${card.annual_fee.toLocaleString()}/yr`);
+    }
+    return parts.join(" · ");
+  }, [card, sortedRewards]);
+
+  // Headline: split on last space so the closing word can take the accent color.
+  const { headlineMain, headlineAccent } = useMemo(() => {
+    const words = card.card_name.trim().split(/\s+/);
+    if (words.length < 2) return { headlineMain: "", headlineAccent: card.card_name };
+    return {
+      headlineMain: words.slice(0, -1).join(" "),
+      headlineAccent: words[words.length - 1],
+    };
+  }, [card.card_name]);
+
+  const bonusDisplay = useMemo(() => {
+    const sb = card.signup_bonus;
+    if (!sb) return null;
+    let value: string;
+    if (sb.type === "cash") value = `$${sb.value.toLocaleString()}`;
+    else if (sb.type === "free_nights")
+      value = `${sb.value} night${sb.value !== 1 ? "s" : ""}`;
+    else {
+      const compact =
+        sb.value >= 1000
+          ? `${(sb.value / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 })}K`
+          : sb.value.toLocaleString();
+      const unit = sb.type === "miles" ? "mi" : "pts";
+      value = `${compact} ${unit}`;
+    }
+    const cpp =
+      sb.type !== "cash" && sb.type !== "free_nights"
+        ? getValuationDetails(card.card_name)?.cpp ?? null
+        : null;
+    const cashEquiv =
+      cpp && typeof sb.value === "number"
+        ? Math.round((sb.value * cpp) / 100)
+        : null;
+    const sub = `After $${sb.spend_requirement.toLocaleString()} in ${sb.timeframe_months} mo${cashEquiv ? ` · ≈ $${cashEquiv.toLocaleString()}` : ""}`;
+    return { value, sub };
+  }, [card.card_name, card.signup_bonus]);
+
+  const approvalRate =
+    card.approved_count !== undefined &&
+    card.total_records &&
+    card.total_records > 0
+      ? Math.round((card.approved_count / card.total_records) * 100)
+      : null;
+
+  const creditLength = (() => {
+    const v = card.approved_median_length_credit;
+    if (v === undefined || v === null) return null;
+    const n = typeof v === "string" ? parseFloat(v) : v;
+    if (Number.isNaN(n)) return String(v);
+    return `${n} yr${n === 1 ? "" : "s"}`;
+  })();
+
+  // Combine news + wire into a single tape, newest first.
+  type TapeNews = { kind: "news"; date: string; raw: NewsItem };
+  type TapeWire = { kind: "wire"; date: string; raw: CardWireEntry };
+  const tapeEntries: (TapeNews | TapeWire)[] = useMemo(() => {
+    const arr: (TapeNews | TapeWire)[] = [
+      ...news.map<TapeNews>((n) => ({ kind: "news", date: n.date, raw: n })),
+      ...wire.map<TapeWire>((w) => ({
+        kind: "wire",
+        date: w.changed_at,
+        raw: w,
+      })),
+    ];
+    return arr
+      .sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      )
+      .slice(0, 12);
+  }, [news, wire]);
+
+  const fieldLabel: Record<string, string> = {
+    annual_fee: "Annual fee",
+    signup_bonus_value: "Signup bonus",
+    reward_top_rate: "Top reward",
+    apr_min: "APR min",
+    apr_max: "APR max",
+  };
+  const formatWireValue = (val: string | null, field: string) => {
+    if (val === null) return "N/A";
+    if (field === "annual_fee") return `$${Number(val).toLocaleString()}`;
+    if (field === "signup_bonus_value") return Number(val).toLocaleString();
+    if (field.startsWith("apr_")) return `${val}%`;
+    if (field === "reward_top_rate") return `${val}x`;
+    return val;
   };
 
-  // Format credit length with "Years" unit
-  const formatCreditLength = (value: string | number | undefined) => {
-    if (value === undefined || value === null) return { number: "—", unit: "" };
-    const num = typeof value === "string" ? parseFloat(value) : value;
-    if (isNaN(num)) return { number: String(value), unit: "" };
-    return { number: String(num), unit: num === 1 ? "Year" : "Years" };
-  };
-
-  const creditLength = formatCreditLength(card.approved_median_length_credit);
-
+  // ---------- Render ----------
   return (
-    <div className="landing-v2 card-v2">
-      {/* JSON-LD Structured Data (#12) */}
+    <div className="landing-v2 card-journal">
       <CreditCardSchema card={card} ratings={ratings} />
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://creditodds.com' },
-        { name: card.bank, url: `https://creditodds.com/bank/${encodeURIComponent(card.bank)}` },
-        { name: card.card_name, url: `https://creditodds.com/card/${card.slug}` }
-      ]} />
-      {/* Breadcrumbs */}
-      <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <ol className="flex items-center space-x-4 py-4 overflow-hidden">
-            <li>
-              <Link href="/" className="text-gray-400 hover:text-gray-500">
-                Home
-              </Link>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-500">
-                  {card.bank}
-                </Link>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-                <span className="ml-4 text-sm font-medium text-gray-500 truncate">{card.card_name}</span>
-              </div>
-            </li>
-          </ol>
-          {card.slug && (
-            <a
-              href={`https://github.com/CreditOdds/creditodds/edit/main/data/cards/${card.slug}.yaml`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center text-xs text-gray-400 hover:text-indigo-600"
-            >
-              <PencilSquareIcon className="h-3.5 w-3.5 mr-1" />
-              Edit this page
-            </a>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "https://creditodds.com" },
+          {
+            name: card.bank,
+            url: `https://creditodds.com/bank/${encodeURIComponent(card.bank)}`,
+          },
+          {
+            name: card.card_name,
+            url: `https://creditodds.com/card/${card.slug}`,
+          },
+        ]}
+      />
+
+      {/* Terminal bar */}
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <Link href="/explore" className="cj-crumb">Cards</Link>
+          <span className="cj-sep">/</span>
+          <Link
+            href={`/bank/${encodeURIComponent(card.bank)}`}
+            className="cj-crumb"
+          >
+            {card.bank}
+          </Link>
+          <span className="cj-sep">/</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">
+            {card.card_name}
+          </span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+        <span>
+          <span
+            className={`cj-status-dot${card.accepting_applications === false ? " cj-status-off" : ""}`}
+          />
+          {card.accepting_applications === false ? "closed" : "live"}
+        </span>
+        <div className="cj-term-share" ref={shareMenuRef}>
+          <button
+            type="button"
+            className="cj-term-link"
+            onClick={() => setShowShareMenu((p) => !p)}
+            aria-expanded={showShareMenu}
+          >
+            <ShareIcon className="cj-term-icon" />
+            share
+          </button>
+          {showShareMenu && (
+            <div className="cj-share-menu">
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodedShareTitle}&url=${encodedCardUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Share on X
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodedCardUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Share on Facebook
+              </a>
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedCardUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Share on LinkedIn
+              </a>
+              <a
+                href={`https://www.reddit.com/submit?url=${encodedCardUrl}&title=${encodedShareTitle}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Share on Reddit
+              </a>
+              <button type="button" onClick={handleCopyShareLink}>
+                {copiedShareLink ? "Copied" : "Copy link"}
+              </button>
+            </div>
           )}
         </div>
-      </nav>
+        {card.slug && (
+          <a
+            href={`https://github.com/CreditOdds/creditodds/edit/main/data/cards/${card.slug}.yaml`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cj-term-link"
+          >
+            <PencilSquareIcon className="cj-term-icon" />
+            edit
+          </a>
+        )}
+        </div>
+      </div>
 
-      {/* Not accepting applications warning - full width */}
-      {!card.accepting_applications && card.accepting_applications !== undefined && (
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-          <div className="flex max-w-7xl mx-auto">
-            <div className="flex-shrink-0">
-              <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-yellow-700">
-                This credit card is no longer accepting applications and has been archived.
-              </p>
-            </div>
-          </div>
+      {/* Discontinued banner — card has been pulled entirely. */}
+      {card.active === false && (
+        <div
+          style={{
+            padding: "10px 24px",
+            background: "var(--ink)",
+            color: "#fff",
+            fontSize: 13,
+            fontWeight: 500,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <ExclamationTriangleIcon style={{ height: 16, width: 16 }} />
+          This card has been discontinued and is no longer offered.
         </div>
       )}
 
-      {/* Main Content Card */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
-          <div className="p-6 sm:p-10">
-            {/* Mobile card image first */}
-            <div className="mb-6 lg:hidden">
-              <div className="w-full max-w-sm mx-auto">
+      {/* Closed banner — card exists but isn't taking new applicants. */}
+      {card.active !== false && card.accepting_applications === false && (
+        <div
+          style={{
+            padding: "10px 24px",
+            background: "var(--warn-2)",
+            color: "var(--warn)",
+            fontSize: 13,
+            fontWeight: 500,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <ExclamationTriangleIcon style={{ height: 16, width: 16 }} />
+          This card is no longer accepting applications.
+        </div>
+      )}
+
+      <div className="cj-layout">
+        {/* Left ToC */}
+        <aside className="cj-toc">
+          <div className="cj-toc-heading">Contents</div>
+          <a href="#overview" className="cj-toc-link">
+            <span className="cj-toc-num">01</span>Overview
+          </a>
+          <a href="#earn" className="cj-toc-link">
+            <span className="cj-toc-num">02</span>Earn &amp; credits
+          </a>
+          <a href="#odds" className="cj-toc-link">
+            <span className="cj-toc-num">03</span>Approval odds
+          </a>
+          {tapeEntries.length > 0 && (
+            <a href="#wire" className="cj-toc-link">
+              <span className="cj-toc-num">04</span>News &amp; wire
+            </a>
+          )}
+          {articles.length > 0 && (
+            <a href="#reading" className="cj-toc-link">
+              <span className="cj-toc-num">05</span>Reading
+            </a>
+          )}
+        </aside>
+
+        {/* Main */}
+        <main className="cj-main">
+          {/* 01 Overview */}
+          <section id="overview" className="cj-section">
+            <div className="cj-section-num">01 · overview</div>
+            <div className="cj-overview-grid">
+              <div>
+                <h1 className="cj-section-h1">
+                  {headlineMain}
+                  {headlineMain && " "}
+                  <em className="cj-section-accent">{headlineAccent}</em>
+                </h1>
+                <div className="cj-issuer">
+                  <span>
+                    by{" "}
+                    <Link
+                      href={`/bank/${encodeURIComponent(card.bank)}`}
+                      className="cj-issuer-link"
+                    >
+                      {card.bank}
+                    </Link>
+                  </span>
+                  {card.reward_type && (
+                    <span
+                      className={`cj-reward-chip cj-reward-chip-${card.reward_type}`}
+                    >
+                      {card.reward_type === "cashback"
+                        ? "Cashback"
+                        : card.reward_type === "miles"
+                          ? "Miles"
+                          : "Points"}
+                    </span>
+                  )}
+                </div>
+                {card.previous_names && card.previous_names.length > 0 && (
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "var(--muted)",
+                      marginTop: 8,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Previously {card.previous_names.join(", ")}
+                  </div>
+                )}
+                {tagline && <p className="cj-overview-tagline">{tagline}</p>}
+              </div>
+              <div className="cj-overview-img">
                 <CardImage
                   cardImageLink={card.card_image_link}
                   alt={card.card_name}
-                  className="w-full rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
-                  width={360}
-                  height={227}
+                  width={260}
+                  height={164}
                   priority
-                  sizes="75vw"
+                  sizes="(max-width: 768px) 240px, 260px"
                 />
               </div>
             </div>
 
-            {/* Two-column layout */}
-            <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-12">
-
-              {/* Left Column - Card Image & Signup Bonus */}
-              <div className="order-2 mt-8 flex flex-col items-center lg:order-1 lg:col-span-4 lg:mt-0">
-                {/* Card Image */}
-                <div className="hidden w-full max-w-sm lg:mx-0 lg:block lg:max-w-[330px]">
-                  <CardImage
-                    cardImageLink={card.card_image_link}
-                    alt={card.card_name}
-                    className="w-full rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
-                    width={360}
-                    height={227}
-                    priority
-                    sizes="(max-width: 768px) 75vw, (max-width: 1024px) 40vw, 330px"
-                  />
+            <div className="cj-readoff">
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Annual fee</div>
+                <div className="cj-readoff-v">
+                  {card.annual_fee !== undefined
+                    ? card.annual_fee === 0
+                      ? "$0"
+                      : `$${card.annual_fee.toLocaleString()}`
+                    : "—"}
                 </div>
+                <div className="cj-readoff-foot">
+                  {card.annual_fee === 0 ? "No fee" : "Per year"}
+                </div>
+              </div>
+              <div
+                className={`cj-readoff-cell${bonusDisplay ? " cj-readoff-bonus" : ""}`}
+              >
+                <div className="cj-readoff-k">Sign up bonus</div>
+                <div className="cj-readoff-v cj-accent">
+                  {bonusDisplay ? bonusDisplay.value : "—"}
+                </div>
+                <div className="cj-readoff-foot">
+                  {bonusDisplay ? bonusDisplay.sub : "No current offer"}
+                </div>
+              </div>
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Credits</div>
+                <div className="cj-readoff-v">
+                  {totalCredits > 0
+                    ? `$${totalCredits.toLocaleString()}`
+                    : "—"}
+                </div>
+                <div className="cj-readoff-foot">
+                  {creditBenefits.length > 0
+                    ? `${creditBenefits.length} credit${creditBenefits.length !== 1 ? "s" : ""}`
+                    : "No tracked credits"}
+                </div>
+              </div>
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Median FICO</div>
+                <div className="cj-readoff-v">
+                  {card.approved_median_credit_score ?? "—"}
+                </div>
+                <div className="cj-readoff-foot">Approved</div>
+              </div>
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Median income</div>
+                <div className="cj-readoff-v">
+                  {card.approved_median_income
+                    ? `$${card.approved_median_income.toLocaleString()}`
+                    : "—"}
+                </div>
+                <div className="cj-readoff-foot">Approved</div>
+              </div>
+            </div>
+          </section>
 
-                {/* Signup Bonus Card - below image */}
-                {card.signup_bonus && (
-                  <div className="mt-6 hidden w-full rounded-xl border border-amber-200/60 bg-gradient-to-br from-amber-50 to-amber-100/80 p-5 lg:block">
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 p-2 bg-amber-200/50 rounded-lg">
-                        <BanknotesIcon className="h-5 w-5 text-amber-700" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-amber-600 mb-1">Signup bonus</p>
-                        <p className="text-xl font-bold text-amber-900">
-                          {card.signup_bonus.type === "cash"
-                            ? `$${card.signup_bonus.value.toLocaleString()}`
-                            : card.signup_bonus.type === "free_nights"
-                              ? `${card.signup_bonus.value} Free Night Award${card.signup_bonus.value !== 1 ? 's' : ''}`
-                              : typeof card.signup_bonus.value !== 'number'
-                                ? String(card.signup_bonus.value)
-                                : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
-                          {card.signup_bonus.type !== "cash" && card.signup_bonus.type !== "free_nights" && typeof card.signup_bonus.value === 'number' && (
-                            <span className="text-sm font-medium text-amber-700/70 ml-1.5">
-                              (~${(card.signup_bonus.value * (getValuationDetails(card.card_name)?.cpp ?? 1.0) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
-                            </span>
-                          )}
-                        </p>
-                        <p className="text-sm text-amber-800/70 mt-1">
-                          After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
-                          {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
-                        </p>
-                        {card.signup_bonus.note && (
-                          <p className="text-xs text-amber-700/60 mt-1">{card.signup_bonus.note}</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+          {/* 02 Earn & credits */}
+          <section id="earn" className="cj-section">
+            <div className="cj-section-num">02 · earn &amp; credits</div>
+            <h2 className="cj-section-h2">
+              Earn rates <em className="cj-section-accent">&amp; credits</em>
+            </h2>
+
+            <div className="cj-two-up">
+              <div>
+                <div className="cj-table-label">Earn rates</div>
+                {sortedRewards.length > 0 ? (
+                  <table className="cj-table">
+                    <thead>
+                      <tr>
+                        <th>Category</th>
+                        <th className="cj-tr">Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedRewards.map((r) => {
+                        const lbl =
+                          r.category === "rotating" && r.mode
+                            ? r.mode === "quarterly_rotating"
+                              ? "Rotating categories"
+                              : r.mode === "user_choice"
+                                ? `Choose ${r.choices ?? ""} categories`
+                                : "Top spend category"
+                            : categoryLabels[r.category] || r.category;
+                        return (
+                          <tr key={`${r.category}-${r.value}-${r.unit}`}>
+                            <td>
+                              <div className="cj-cell-primary cj-reward-cat">
+                                <CategoryIcon
+                                  category={r.category}
+                                  className={`cj-reward-icon${r.category === "everything_else" ? " cj-reward-icon-muted" : ""}`}
+                                />
+                                <span>{lbl}</span>
+                              </div>
+                              {r.note && (
+                                <div className="cj-cell-detail">{r.note}</div>
+                              )}
+                              {r.current_categories && r.current_period && (
+                                <div className="cj-cell-detail">
+                                  {r.current_period}:{" "}
+                                  {r.current_categories
+                                    .map((c) => categoryLabels[c] || c)
+                                    .join(", ")}
+                                </div>
+                              )}
+                              {r.eligible_categories &&
+                                (r.mode === "user_choice" ||
+                                  r.mode === "auto_top_spend") && (
+                                  <div className="cj-cell-detail">
+                                    Eligible:{" "}
+                                    {r.eligible_categories
+                                      .map((c) => categoryLabels[c] || c)
+                                      .join(", ")}
+                                  </div>
+                                )}
+                            </td>
+                            <td className="cj-tr">
+                              <span className="cj-rate-mono cj-eff-pct">
+                                {formatRewardValue(r)}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="cj-cell-detail">No rewards listed.</div>
                 )}
-
-                {/* Card Rating (read-only) */}
-                <CardRatingDisplay ratings={ratings} />
-
-                {/* Apply Buttons */}
-                {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
-                  <div className="mt-5 w-full flex flex-col gap-2.5">
-                    {card.apply_link && (
-                      <a
-                        href={withApplySource(card.apply_link)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => handleCardApplyClick("direct")}
-                        className="inline-flex items-center justify-center px-5 py-3.5 border border-transparent text-sm font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm"
-                      >
-                        Apply Now
-                      </a>
-                    )}
-                    {randomReferralUrl && (
-                      <a
-                        href={randomReferralUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={handleReferralClick}
-                        className="inline-flex items-center justify-center px-5 py-3.5 border border-transparent text-sm font-semibold rounded-xl text-white transition-colors shadow-sm animate-shimmer bg-[length:200%_100%]"
+                {card.reward_type &&
+                  card.reward_type !== "cashback" &&
+                  (() => {
+                    const v = getValuationDetails(card.card_name);
+                    if (!v?.toolSlug) return null;
+                    const unit = card.reward_type === "miles" ? "mile" : "point";
+                    return (
+                      <div
                         style={{
-                          backgroundImage: 'linear-gradient(110deg, #5b21b6 0%, #6d28d9 45%, #8b5cf6 55%, #6d28d9 100%)',
+                          marginTop: 10,
+                          fontSize: 12,
+                          color: "var(--muted)",
                         }}
                       >
-                        Apply with Referral
-                      </a>
-                    )}
+                        Estimated value:{" "}
+                        <Link
+                          href={`/tools/${v.toolSlug}-to-usd`}
+                          style={{ color: "var(--accent)" }}
+                        >
+                          {v.cpp.toFixed(1)}¢/{unit}
+                        </Link>
+                      </div>
+                    );
+                  })()}
+              </div>
+
+              <div>
+                <div className="cj-table-label">Statement credits</div>
+                {creditBenefits.length > 0 ? (
+                  <table className="cj-table">
+                    <thead>
+                      <tr>
+                        <th>Credit</th>
+                        <th className="cj-tr">Annual</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {creditBenefits.map((b, i) => (
+                        <tr key={`${b.name}-${i}`}>
+                          <td>
+                            <div className="cj-cell-primary">{b.name}</div>
+                            <div className="cj-cell-detail">{b.description}</div>
+                          </td>
+                          <td className="cj-tr">
+                            ${b.value.toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
+                      {totalCredits > 0 && (
+                        <tr className="cj-row-total">
+                          <td>
+                            <span className="cj-row-total-label">
+                              Total annual value
+                            </span>
+                          </td>
+                          <td className="cj-tr">
+                            <span className="cj-row-total-v">
+                              ${totalCredits.toLocaleString()}
+                            </span>
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="cj-cell-detail">
+                    No statement credits tracked.
                   </div>
                 )}
               </div>
+            </div>
 
-              {/* Right Column - Details */}
-              <div className="order-1 lg:order-2 lg:col-span-8">
-                {/* Title */}
-                <div className="flex flex-col items-center gap-2 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="text-center lg:text-left">
-                    <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-                      {card.card_name}
-                    </h1>
-                    {card.previous_names && card.previous_names.length > 0 && (
-                      <p className="mt-1 text-sm italic text-gray-500">
-                        Previously {card.previous_names.join(', ')}
-                      </p>
+            {card.apr &&
+              (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (
+                <div className="cj-intro-apr">
+                  <div className="cj-intro-apr-label">Intro APR</div>
+                  <div className="cj-intro-apr-rows">
+                    {card.apr.balance_transfer_intro && (
+                      <div>
+                        <b>{card.apr.balance_transfer_intro.rate}%</b> for{" "}
+                        {card.apr.balance_transfer_intro.months} months on
+                        balance transfers
+                      </div>
+                    )}
+                    {card.apr.purchase_intro && (
+                      <div>
+                        <b>{card.apr.purchase_intro.rate}%</b> for{" "}
+                        {card.apr.purchase_intro.months} months on purchases
+                      </div>
+                    )}
+                    {card.apr.regular && (
+                      <div className="cj-intro-apr-then">
+                        Then {card.apr.regular.min}%–{card.apr.regular.max}%
+                        variable APR
+                      </div>
                     )}
                   </div>
-                  <div className="relative lg:mt-1 lg:flex-shrink-0" ref={shareMenuRef}>
-                    <div className="flex items-center gap-3">
-                      <Link
-                        href={`/compare?cards=${card.slug}`}
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-indigo-600 transition-colors"
-                      >
-                        <ScaleIcon className="h-4 w-4" />
-                        Compare
-                      </Link>
-                      <button
-                        onClick={() => setShowShareMenu((prev) => !prev)}
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-indigo-600 transition-colors"
-                      >
-                        <ShareIcon className="h-4 w-4" />
-                        Share
-                      </button>
+                </div>
+              )}
+          </section>
+
+          {/* 03 Approval odds */}
+          <section id="odds" className="cj-section">
+            <div className="cj-section-num">03 · approval odds</div>
+            <div className="cj-odds-header">
+              <h2 className="cj-section-h2">
+                Approval <em className="cj-section-accent">odds</em>
+              </h2>
+              {(card.total_records || 0) > 0 && (
+                <div className="cj-odds-meta">
+                  n = {card.total_records!.toLocaleString()}
+                  {(card.approved_count || 0) > 0 && (
+                    <>
+                      {" · "}
+                      {card.approved_count!.toLocaleString()} approved
+                    </>
+                  )}
+                  {(card.rejected_count || 0) > 0 && (
+                    <>
+                      {" · "}
+                      {card.rejected_count!.toLocaleString()} denied
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {(card.approved_count || 0) > 0 ? (
+              <>
+                <div className="cj-stat-strip">
+                  <div className="cj-stat">
+                    <div className="cj-stat-k">Median FICO</div>
+                    <div className="cj-stat-v">
+                      {card.approved_median_credit_score ?? "—"}
                     </div>
-
-                    {showShareMenu && (
-                      <div className="absolute right-0 z-20 mt-2 w-52 rounded-lg border border-gray-200 bg-white p-1.5 shadow-lg">
-                        <a
-                          href={`https://twitter.com/intent/tweet?text=${encodedShareTitle}&url=${encodedCardUrl}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Share on X
-                        </a>
-                        <a
-                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedCardUrl}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Share on Facebook
-                        </a>
-                        <a
-                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedCardUrl}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Share on LinkedIn
-                        </a>
-                        <a
-                          href={`https://www.reddit.com/submit?url=${encodedCardUrl}&title=${encodedShareTitle}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Share on Reddit
-                        </a>
-                        <button
-                          onClick={handleCopyShareLink}
-                          className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Copy link
-                          {copiedShareLink && <span className="text-xs font-semibold text-green-600">Copied</span>}
-                        </button>
-                      </div>
-                    )}
+                  </div>
+                  <div className="cj-stat">
+                    <div className="cj-stat-k">Median income</div>
+                    <div className="cj-stat-v">
+                      {card.approved_median_income
+                        ? `$${card.approved_median_income.toLocaleString()}`
+                        : "—"}
+                    </div>
+                  </div>
+                  <div className="cj-stat">
+                    <div className="cj-stat-k">Credit history</div>
+                    <div className="cj-stat-v">{creditLength ?? "—"}</div>
                   </div>
                 </div>
 
-                {/* Metadata Row */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-2 mt-3">
-                  <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="inline-flex items-center group">
-                    <BuildingLibraryIcon className="h-4 w-4 text-gray-400 group-hover:text-indigo-500 mr-1" aria-hidden="true" />
-                    <span className="text-sm text-gray-600 group-hover:text-indigo-600 font-medium">{card.bank}</span>
-                  </Link>
-                  {card.annual_fee !== undefined && (
-                    <>
-                      <span className="text-gray-300">&middot;</span>
-                      <span className="text-sm text-gray-600 font-medium">
-                        {card.annual_fee === 0 ? "$0 Annual Fee" : `$${card.annual_fee.toLocaleString()} Annual Fee`}
-                      </span>
-                    </>
-                  )}
-                  {card.reward_type && (
-                    <>
-                      <span className="text-gray-300">&middot;</span>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                        card.reward_type === 'cashback'
-                          ? "border-green-200 text-green-700 bg-green-50/50"
-                          : card.reward_type === 'points'
-                            ? "border-blue-200 text-blue-700 bg-blue-50/50"
-                            : "border-purple-200 text-purple-700 bg-purple-50/50"
-                      }`}>
-                        {card.reward_type === 'cashback' ? 'Cashback' : card.reward_type === 'points' ? 'Points' : 'Miles'}
-                      </span>
-                    </>
-                  )}
-                  {card.reward_type && card.reward_type !== 'cashback' && (() => {
-                    const valuation = getValuationDetails(card.card_name);
-                    if (!valuation?.toolSlug) return null;
-                    const unit = card.reward_type === 'miles' ? 'mile' : 'point';
-                    return (
-                      <>
-                        <span className="text-gray-300">&middot;</span>
-                        <Link
-                          href={`/tools/${valuation.toolSlug}-to-usd`}
-                          className="inline-flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 font-medium"
-                        >
-                          {valuation.cpp.toFixed(1)}¢/{unit}
-                          <CalculatorIcon className="h-3.5 w-3.5" />
-                        </Link>
-                      </>
-                    );
-                  })()}
+                <div style={{ marginTop: 24 }}>
+                  <div className="cj-table-label">
+                    Approval rate by FICO score
+                  </div>
+                  <div className="cj-bars">
+                    {FICO_BUCKETS.map((b, i) => {
+                      const a = acceptedBuckets[i];
+                      const r = rejectedBuckets[i];
+                      const total = a + r;
+                      const aPct =
+                        total > 0 ? (a / maxBucketTotal) * 100 : 0;
+                      const rPct =
+                        total > 0 ? (r / maxBucketTotal) * 100 : 0;
+                      const rate =
+                        total > 0 ? Math.round((a / total) * 100) : null;
+                      return (
+                        <div key={b.label} className="cj-bar-row">
+                          <span className="cj-bar-label">{b.label}</span>
+                          {total > 0 ? (
+                            <span className="cj-bar-track">
+                              <span
+                                className="cj-bar-app"
+                                style={{ width: `${aPct}%` }}
+                              />
+                              <span
+                                className="cj-bar-den"
+                                style={{ width: `${rPct}%` }}
+                              />
+                            </span>
+                          ) : (
+                            <span className="cj-bar-track">
+                              <span
+                                className="cj-bar-empty"
+                                style={{ padding: "0 6px", fontSize: 10 }}
+                              >
+                                no data
+                              </span>
+                            </span>
+                          )}
+                          <span className="cj-bar-n">
+                            {rate !== null ? `${rate}%` : "—"}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="cj-bar-legend">
+                    <span>
+                      <span
+                        className="cj-bar-legend-swatch"
+                        style={{ background: "var(--accent)" }}
+                      />
+                      Approved
+                    </span>
+                    <span>
+                      <span
+                        className="cj-bar-legend-swatch"
+                        style={{ background: "var(--warn)", opacity: 0.4 }}
+                      />
+                      Denied
+                    </span>
+                  </div>
                 </div>
 
-                {/* Rewards Section - 2-column grid, sorted highest first */}
-                {card.rewards && card.rewards.length > 0 && (() => {
-                  // Sort rewards by value descending
-                  const sorted = [...card.rewards].sort((a, b) => b.value - a.value);
-                  // Split into 2 columns (column-major: fill left column top-down, then right)
-                  const mid = Math.ceil(sorted.length / 2);
-                  const leftCol = sorted.slice(0, mid);
-                  const rightCol = sorted.slice(mid);
-
-                  const rewardTypeLabel = card.reward_type === 'cashback' ? 'Cashback' : card.reward_type === 'miles' ? 'Miles' : 'Points';
-
-                  const renderReward = (reward: Reward) => {
-                    const label = reward.category === "rotating" && reward.mode
-                      ? reward.mode === "quarterly_rotating"
-                        ? "Rotating Categories"
-                        : reward.mode === "user_choice"
-                          ? `Choose ${reward.choices || ''} Categories`
-                          : reward.mode === "auto_top_spend"
-                            ? "Top Spend Category"
-                            : categoryLabels[reward.category] || reward.category
-                      : categoryLabels[reward.category] || reward.category;
-
-                    return (
-                      <div key={reward.category} className="flex items-center gap-2.5 py-1.5">
-                        <span className={`flex-shrink-0 ${
-                          reward.category === "everything_else" ? "text-gray-300" : "text-indigo-500"
-                        }`}>
-                          <CategoryIcon category={reward.category} className="h-5 w-5" />
-                        </span>
-                        <span className={`text-base font-bold flex-shrink-0 tabular-nums ${
-                          reward.category === "everything_else" ? "text-gray-400" : "text-indigo-600"
-                        }`}>
-                          {formatRewardValue(reward)}
-                        </span>
-                        <span className={`text-sm text-gray-400 flex-shrink-0`}>
-                          {reward.unit === "percent" ? "Cashback" : rewardTypeLabel}
-                        </span>
-                        <span className={`text-sm leading-tight ${
-                          reward.category === "everything_else" ? "text-gray-500" : "text-gray-700"
-                        }`}>
-                          {label}
-                        </span>
-                        {reward.note && (
-                          <span className="relative group">
-                            <InformationCircleIcon className="h-3.5 w-3.5 text-gray-300 hover:text-gray-500 cursor-help" />
-                            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-800 text-white text-xs rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                              {reward.note}
-                            </span>
-                          </span>
-                        )}
-                      </div>
-                    );
-                  };
-
+                {(() => {
+                  const tabs: {
+                    id: "score" | "history" | "limit";
+                    label: string;
+                    chart: React.ReactNode;
+                  }[] = [];
+                  if (hasChartOne) {
+                    tabs.push({
+                      id: "score",
+                      label: "Score / Income",
+                      chart: (
+                        <ScatterPlot
+                          title="Credit Score vs Income"
+                          xAxis="Credit Score"
+                          yAxis="Income (USD)"
+                          yPrefix="$"
+                          series={[
+                            { name: "Accepted", color: "#6d3fe8", data: chartOne[0] || [] },
+                            { name: "Rejected", color: "#d23a62", data: chartOne[1] || [] },
+                          ]}
+                        />
+                      ),
+                    });
+                  }
+                  if (hasChartTwo) {
+                    tabs.push({
+                      id: "history",
+                      label: "History / Score",
+                      chart: (
+                        <ScatterPlot
+                          title="Length of Credit vs Credit Score"
+                          xAxis="Length of Credit (Year)"
+                          yAxis="Credit Score"
+                          xSuffix=" yr"
+                          series={[
+                            { name: "Accepted", color: "#6d3fe8", data: chartTwo[0] || [] },
+                            { name: "Rejected", color: "#d23a62", data: chartTwo[1] || [] },
+                          ]}
+                        />
+                      ),
+                    });
+                  }
+                  if (hasChartThree) {
+                    tabs.push({
+                      id: "limit",
+                      label: "Income / Limit",
+                      chart: (
+                        <ScatterPlot
+                          title="Income vs Starting Credit Limit"
+                          xAxis="Income (USD)"
+                          yAxis="Starting Credit Limit (USD)"
+                          xPrefix="$"
+                          yPrefix="$"
+                          series={[
+                            { name: "Accepted", color: "#6d3fe8", data: chartThree[0] || [] },
+                          ]}
+                        />
+                      ),
+                    });
+                  }
+                  if (tabs.length === 0) return null;
+                  const current =
+                    tabs.find((t) => t.id === activeChart) ?? tabs[0];
                   return (
-                    <div className="mt-6">
-                      <p className="text-sm font-semibold text-gray-500 mb-2">Rewards</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-                        <div>{leftCol.map(renderReward)}</div>
-                        <div>{rightCol.map(renderReward)}</div>
-                      </div>
-                      {/* Rotating category details */}
-                      {card.rewards.filter(r => r.category === "rotating" && r.mode).map((reward) => (
-                        <div key={`${reward.category}-detail`} className="text-xs text-gray-400 mt-2 pl-[2.875rem]">
-                          {reward.mode === "quarterly_rotating" && reward.current_categories && reward.current_period && (
-                            <span>
-                              {reward.current_period}: {reward.current_categories.map(c => categoryLabels[c] || c).join(', ')}
-                            </span>
-                          )}
-                          {(reward.mode === "user_choice" || reward.mode === "auto_top_spend") && reward.eligible_categories && (
-                            <span>
-                              Eligible: {reward.eligible_categories.map(c => categoryLabels[c] || c).join(', ')}
-                            </span>
-                          )}
+                    <div className="cj-chart-stage" style={{ marginTop: 24 }}>
+                      {tabs.length > 1 && (
+                        <div className="cj-graph-tabs" role="tablist">
+                          {tabs.map((t) => (
+                            <button
+                              key={t.id}
+                              role="tab"
+                              type="button"
+                              aria-selected={current.id === t.id}
+                              className={`cj-graph-tab${current.id === t.id ? " active" : ""}`}
+                              onClick={() => setActiveChart(t.id)}
+                            >
+                              {t.label}
+                            </button>
+                          ))}
                         </div>
-                      ))}
+                      )}
+                      <div className="cj-chart-body">
+                        <ErrorBoundary fallback={<ChartErrorFallback />}>
+                          {current.chart}
+                        </ErrorBoundary>
+                      </div>
                     </div>
                   );
                 })()}
 
-                {/* Mobile-only Signup Bonus placement: after rewards, before Intro APR */}
-                {card.signup_bonus && (
-                  <div className="mt-6 w-full rounded-xl border border-amber-200/60 bg-gradient-to-br from-amber-50 to-amber-100/80 p-5 lg:hidden">
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 rounded-lg bg-amber-200/50 p-2">
-                        <BanknotesIcon className="h-5 w-5 text-amber-700" />
-                      </div>
-                      <div>
-                        <p className="mb-1 text-sm font-semibold text-amber-600">Signup bonus</p>
-                        <p className="text-xl font-bold text-amber-900">
-                          {card.signup_bonus.type === "cash"
-                            ? `$${card.signup_bonus.value.toLocaleString()}`
-                            : card.signup_bonus.type === "free_nights"
-                              ? `${card.signup_bonus.value} Free Night Award${card.signup_bonus.value !== 1 ? 's' : ''}`
-                              : typeof card.signup_bonus.value !== 'number'
-                                ? String(card.signup_bonus.value)
-                                : `${card.signup_bonus.value.toLocaleString()} ${card.signup_bonus.type.charAt(0).toUpperCase() + card.signup_bonus.type.slice(1)}`}
-                          {card.signup_bonus.type !== "cash" && card.signup_bonus.type !== "free_nights" && typeof card.signup_bonus.value === 'number' && (
-                            <span className="ml-1.5 text-sm font-medium text-amber-700/70">
-                              (~${(card.signup_bonus.value * (getValuationDetails(card.card_name)?.cpp ?? 1.0) / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
-                            </span>
-                          )}
-                        </p>
-                        <p className="mt-1 text-sm text-amber-800/70">
-                          After spending ${card.signup_bonus.spend_requirement.toLocaleString()} in{" "}
-                          {card.signup_bonus.timeframe_months} month{card.signup_bonus.timeframe_months !== 1 ? "s" : ""}
-                        </p>
-                        {card.signup_bonus.note && (
-                          <p className="mt-1 text-xs text-amber-700/60">{card.signup_bonus.note}</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Intro APR Section */}
-                {card.apr && (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (
-                  <div className="mt-6 bg-cyan-50/50 border border-cyan-100 rounded-xl px-5 py-4">
-                    <p className="text-sm font-semibold text-cyan-600 mb-2">Intro APR</p>
-                    <div className="text-sm text-cyan-900">
-                      {card.apr.balance_transfer_intro && (
-                        <p>
-                          <span className="font-bold">{card.apr.balance_transfer_intro.rate}%</span> for {card.apr.balance_transfer_intro.months} months on balance transfers
-                        </p>
-                      )}
-                      {card.apr.purchase_intro && (
-                        <p className={card.apr.balance_transfer_intro ? "mt-1" : ""}>
-                          <span className="font-bold">{card.apr.purchase_intro.rate}%</span> for {card.apr.purchase_intro.months} months on purchases
-                        </p>
-                      )}
-                    </div>
-                    {card.apr.regular && (
-                      <p className="text-xs text-cyan-500 mt-2">
-                        Then {card.apr.regular.min}%&ndash;{card.apr.regular.max}% variable APR
-                      </p>
+                {card.accepting_applications && (
+                  <div className="cj-verdict" style={{ marginTop: 20 }}>
+                    Have you applied for this card?{" "}
+                    {authState.isAuthenticated ? (
+                      <button
+                        type="button"
+                        onClick={() => setShowModal(true)}
+                        style={{
+                          background: "transparent",
+                          border: 0,
+                          color: "var(--accent)",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          padding: 0,
+                        }}
+                      >
+                        Submit a data point →
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                        style={{ color: "var(--accent)", fontWeight: 600 }}
+                      >
+                        Log in to submit a data point →
+                      </Link>
                     )}
                   </div>
                 )}
+              </>
+            ) : (
+              <div className="cj-verdict">
+                We&apos;re still collecting data on this card. Submit a data
+                point to help.{" "}
+                {authState.isAuthenticated ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                    style={{
+                      background: "transparent",
+                      border: 0,
+                      color: "var(--accent)",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      padding: 0,
+                    }}
+                  >
+                    Submit →
+                  </button>
+                ) : (
+                  <Link
+                    href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                    style={{ color: "var(--accent)", fontWeight: 600 }}
+                  >
+                    Log in to submit →
+                  </Link>
+                )}
+              </div>
+            )}
+          </section>
 
-                {/* Acceptance Odds Dashboard - inside right column */}
-                {(card.approved_count || 0) > 0 && (
-                  <div className="mt-6 bg-slate-50 border border-slate-200/80 rounded-xl p-5">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-sm font-semibold text-gray-500">
-                        Median accepted applicant
-                      </h3>
-                      <span className="relative group">
-                        <InformationCircleIcon className="h-4 w-4 text-gray-300 hover:text-gray-500 cursor-help" />
-                        <span className="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-gray-800 text-white text-xs rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                          Based on {(card.rejected_count || 0) + (card.approved_count || 0)} records
-                          — {card.approved_count} approved, {card.rejected_count || 0} rejected
+          {/* 04 News & wire */}
+          {tapeEntries.length > 0 && (
+            <section id="wire" className="cj-section">
+              <div className="cj-section-num">04 · news &amp; wire</div>
+              <h2 className="cj-section-h2">
+                News &amp; <em className="cj-section-accent">wire</em>
+              </h2>
+              <div className="cj-tape">
+                <div className="cj-tape-head">
+                  <div>When</div>
+                  <div>Event</div>
+                  <div className="cj-tape-res">Source</div>
+                </div>
+                {tapeEntries.map((t, i) => {
+                  const dateText = new Date(t.date).toLocaleDateString(
+                    "en-US",
+                    { year: "numeric", month: "short", day: "numeric" },
+                  );
+                  if (t.kind === "news") {
+                    const n = t.raw;
+                    const tag = n.tags[0] as NewsTag | undefined;
+                    return (
+                      <Link
+                        key={`n-${n.id}-${i}`}
+                        href={`/news/${n.id}`}
+                        className="cj-tape-row"
+                      >
+                        <div className="cj-tape-when">{dateText}</div>
+                        <div className="cj-tape-event">
+                          <span className="cj-tape-field">{n.title}</span>
+                        </div>
+                        <div className="cj-tape-res">
+                          <span className="cj-news-tag">
+                            {tag ? tagLabels[tag] : "NEWS"}
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  }
+                  const w = t.raw;
+                  const isUp =
+                    w.old_value !== null &&
+                    w.new_value !== null &&
+                    Number(w.new_value) > Number(w.old_value);
+                  const isDn =
+                    w.old_value !== null &&
+                    w.new_value !== null &&
+                    Number(w.new_value) < Number(w.old_value);
+                  return (
+                    <div key={`w-${w.id}`} className="cj-tape-row">
+                      <div className="cj-tape-when">{dateText}</div>
+                      <div className="cj-tape-event">
+                        <span className="cj-tape-field">
+                          {fieldLabel[w.field] || w.field}
                         </span>
-                      </span>
+                        <span className="cj-tape-change">
+                          <span className="cj-tape-old">
+                            {formatWireValue(w.old_value, w.field)}
+                          </span>
+                          {" → "}
+                          <span
+                            className={`cj-tape-new${isUp ? " cj-pos" : isDn ? " cj-neg" : ""}`}
+                          >
+                            {formatWireValue(w.new_value, w.field)}
+                          </span>
+                        </span>
+                      </div>
+                      <div className="cj-tape-res">
+                        <span className="cj-pill">WIRE</span>
+                      </div>
                     </div>
-                    <dl className="grid grid-cols-1 divide-y divide-slate-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
-                      <div className="py-3 text-left sm:py-0 sm:text-center sm:px-2">
-                        <dt className="text-xs font-medium text-gray-400 mb-1">Credit Score</dt>
-                        <dd className="text-2xl sm:text-3xl font-bold text-gray-900">
-                          {card.approved_median_credit_score}
-                        </dd>
-                      </div>
-                      <div className="py-3 text-left sm:py-0 sm:text-center sm:px-2">
-                        <dt className="text-xs font-medium text-gray-400 mb-1">Income</dt>
-                        <dd className="text-2xl sm:text-3xl font-bold text-gray-900">
-                          ${card.approved_median_income?.toLocaleString()}
-                        </dd>
-                      </div>
-                      <div className="pt-3 text-left sm:pt-0 sm:text-center sm:px-2">
-                        <dt className="text-xs font-medium text-gray-400 mb-1">Credit History</dt>
-                        <dd className="text-2xl sm:text-3xl font-bold text-gray-900">
-                          {creditLength.number}
-                        </dd>
-                        {creditLength.unit && (
-                          <dd className="text-xs text-gray-400 font-medium -mt-0.5">{creditLength.unit}</dd>
-                        )}
-                      </div>
-                    </dl>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* 05 Reading */}
+          {articles.length > 0 && (
+            <section id="reading" className="cj-section">
+              <div className="cj-section-num">05 · reading</div>
+              <h2 className="cj-section-h2">
+                Further <em className="cj-section-accent">reading</em>
+              </h2>
+              <div className="cj-tape">
+                <div className="cj-tape-head">
+                  <div>By</div>
+                  <div>Title</div>
+                  <div className="cj-tape-res">Read</div>
+                </div>
+                {articles.slice(0, 8).map((a) => (
+                  <Link
+                    key={a.id}
+                    href={`/articles/${a.slug}`}
+                    className="cj-tape-row"
+                  >
+                    <div className="cj-tape-when">{a.author}</div>
+                    <div className="cj-tape-event">
+                      <span className="cj-tape-field">{a.title}</span>
+                    </div>
+                    <div className="cj-tape-res">{a.reading_time} min</div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+        </main>
+
+        {/* Right rail */}
+        <aside className="cj-rail">
+          <div className="cj-apply">
+            <div className="cj-apply-k">Welcome bonus</div>
+            <div className="cj-apply-v">
+              {bonusDisplay?.value ?? "No current offer"}
+            </div>
+            {bonusDisplay && (
+              <div className="cj-apply-sub">{bonusDisplay.sub}</div>
+            )}
+            {card.signup_bonus?.note && (
+              <div className="cj-apply-note">{card.signup_bonus.note}</div>
+            )}
+            {card.accepting_applications ? (
+              <>
+                {card.apply_link && (
+                  <a
+                    href={withApplySource(card.apply_link)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => handleCardApplyClick("direct")}
+                    className="cj-apply-btn"
+                  >
+                    Apply now
+                  </a>
+                )}
+                {randomReferralUrl && (
+                  <a
+                    href={randomReferralUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleReferralClick}
+                    className="cj-apply-btn-outline"
+                  >
+                    Apply with referral
+                  </a>
+                )}
+                {!card.apply_link && !randomReferralUrl && (
+                  <div className="cj-apply-closed">
+                    Apply link not available yet
                   </div>
                 )}
-
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Card Benefits Section */}
-      {card.benefits && card.benefits.length > 0 && (
-        <CardBenefits benefits={card.benefits} cardName={card.card_name} />
-      )}
-
-      {/* Still collecting data - shown when no approval data */}
-      {(card.approved_count || 0) === 0 && card.accepting_applications && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="py-3 px-5 bg-blue-50 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-3 text-center sm:text-left">
-              <h3 className="text-sm font-medium text-gray-900">
-                We&apos;re still collecting data on this card
-              </h3>
-              <span className="hidden sm:inline text-gray-300">·</span>
-              <p className="text-sm text-gray-600">
-                We need at least 1 data point to show charts and statistics.
-              </p>
-            </div>
-            {authState.isAuthenticated ? (
-              <button
-                onClick={() => setShowModal(true)}
-                className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 whitespace-nowrap"
-              >
-                Submit Data Point
-              </button>
+              </>
             ) : (
-              <Link
-                href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
-                className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 whitespace-nowrap"
-              >
-                Log In to Submit
-              </Link>
+              <div className="cj-apply-closed">
+                Not accepting applications
+              </div>
             )}
           </div>
-        </div>
-      )}
 
-      {/* Charts Section - only show if there's actual data points */}
-      {(hasChartOneData || hasChartThreeData) && (
-        <div className="py-6">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.08)] overflow-hidden">
-              <div className="p-6 sm:p-10 border-b border-gray-100 bg-gradient-to-br from-indigo-50/70 to-white">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <h2 className="text-sm font-semibold text-indigo-600">
-                      Data points
-                    </h2>
-                    <p className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
-                      How other people did
-                    </p>
-                    <p className="mt-3 text-sm sm:text-base text-gray-600 max-w-3xl">
-                      User-reported application outcomes for the {card.card_name}.
-                    </p>
-                  </div>
-                  {card.accepting_applications && (
-                    <div className="flex-shrink-0">
-                      <p className="text-sm font-semibold text-indigo-900 sm:text-right">
-                        Have you applied for this card?
-                      </p>
-                      <div className="mt-2">
-                        {authState.isAuthenticated ? (
-                          <button
-                            onClick={() => setShowModal(true)}
-                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 w-full sm:w-auto"
-                          >
-                            Submit Data Point
-                          </button>
-                        ) : (
-                          <Link
-                            href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
-                            className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 w-full sm:w-auto"
-                          >
-                            Log In to Submit
-                          </Link>
+          {ratings.average !== null && ratings.count > 0 && (
+            <div className="cj-rating">
+              <div>
+                <div className="cj-rating-v">
+                  {ratings.average.toFixed(1)}{" "}
+                  <small>/ 5</small>
+                </div>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "var(--muted)",
+                    marginTop: 2,
+                  }}
+                >
+                  {ratings.count}{" "}
+                  {ratings.count === 1 ? "rating" : "ratings"}
+                </div>
+              </div>
+              <div className="cj-rating-stars">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <StarIcon
+                    key={s}
+                    filled={s <= Math.round(ratings.average ?? 0)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <Link
+            href={`/compare?cards=${card.slug}`}
+            className="cj-rail-cta"
+          >
+            <ScaleIcon className="cj-rail-cta-icon" />
+            Compare cards
+          </Link>
+
+          {news.length > 0 && (
+            <div className="cj-rail-block">
+              <div className="cj-rail-label">Card news</div>
+              {news.slice(0, 3).map((n) => {
+                const tag = n.tags[0] as NewsTag | undefined;
+                return (
+                  <div key={n.id} className="cj-news-item">
+                    <Link href={`/news/${n.id}`}>
+                      <div className="cj-news-meta">
+                        <span className="cj-news-date">
+                          {new Date(n.date).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                        {tag && (
+                          <span className="cj-news-tag">
+                            {tagLabels[tag]}
+                          </span>
                         )}
                       </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="p-6 sm:p-10 space-y-6">
-                {hasChartOneData && (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-3 sm:p-5">
-                      <ErrorBoundary fallback={<ChartErrorFallback />}>
-                        <ScatterPlot
-                          title="Credit Score vs Income"
-                          yAxis="Income (USD)"
-                          xAxis="Credit Score"
-                          yPrefix="$"
-                          series={[
-                            { name: "Accepted", color: "#71AC49", data: chartOne[0] || [] },
-                            { name: "Rejected", color: "#e53936", data: chartOne[1] || [] },
-                          ]}
-                        />
-                      </ErrorBoundary>
-                    </div>
-                    <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-3 sm:p-5">
-                      <ErrorBoundary fallback={<ChartErrorFallback />}>
-                        <ScatterPlot
-                          title="Length of Credit vs Credit Score"
-                          yAxis="Credit Score"
-                          xAxis="Length of Credit (Year)"
-                          xSuffix=" yr"
-                          series={[
-                            { name: "Accepted", color: "#71AC49", data: chartTwo[0] || [] },
-                            { name: "Rejected", color: "#e53936", data: chartTwo[1] || [] },
-                          ]}
-                        />
-                      </ErrorBoundary>
-                    </div>
-                  </div>
-                )}
-
-                {hasChartThreeData && (
-                  <div className="rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50/60 to-white p-4 sm:p-6">
-                    <div className="mb-4">
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900">For approved applicants</h3>
-                      <p className="text-sm text-gray-600 mt-1">
-                        How income related to starting credit limits.
-                      </p>
-                    </div>
-                    <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-3 sm:p-5">
-                      <ErrorBoundary fallback={<ChartErrorFallback />}>
-                        <ScatterPlot
-                          title="Income vs Starting Credit Limit"
-                          yAxis="Starting Credit Limit (USD)"
-                          xAxis="Income (USD)"
-                          xPrefix="$"
-                          yPrefix="$"
-                          series={[
-                            { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree[0] || [] },
-                          ]}
-                        />
-                      </ErrorBoundary>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Card News Section */}
-      {news.length > 0 && (
-        <div className="bg-white py-6">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 mb-6">
-              <NewspaperIcon className="h-6 w-6 text-indigo-600" />
-              <h2 className="text-2xl font-bold text-gray-900">
-                {card.card_name} News
-              </h2>
-            </div>
-            <div className="space-y-4">
-              {news.map((item) => (
-                <div key={item.id} className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-sm text-gray-500">
-                      {new Date(item.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </span>
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${tagColors[tag]}`}
-                      >
-                        {tagLabels[tag]}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                    {item.body ? (
-                      <Link href={`/news/${item.id}`} className="hover:text-indigo-600 transition-colors">
-                        {item.title}
-                      </Link>
-                    ) : (
-                      item.title
-                    )}
-                  </h3>
-                  <p className="text-gray-600">{item.summary}</p>
-                  {item.source_url && (
-                    <a
-                      href={item.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 inline-flex text-sm text-indigo-600 hover:text-indigo-800"
-                    >
-                      Read more →
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* CardWire - Metric Changes Timeline */}
-      {wire.length > 0 && (
-        <div className="bg-white py-6">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 mb-6">
-              <ClockIcon className="h-6 w-6 text-indigo-600" />
-              <h2 className="text-2xl font-bold text-gray-900">CardWire</h2>
-              <span className="text-sm text-gray-500">Metric changes</span>
-            </div>
-            <div className="space-y-3">
-              {wire.map((entry) => {
-                const fieldLabel: Record<string, string> = {
-                  annual_fee: "Annual Fee",
-                  signup_bonus_value: "Signup Bonus",
-                  reward_top_rate: "Top Reward Rate",
-                  apr_min: "APR (Min)",
-                  apr_max: "APR (Max)",
-                };
-
-                const formatValue = (val: string | null, field: string) => {
-                  if (val === null) return "N/A";
-                  if (field === "annual_fee") return `$${Number(val).toLocaleString()}`;
-                  if (field === "signup_bonus_value") return Number(val).toLocaleString();
-                  if (field.startsWith("apr_")) return `${val}%`;
-                  if (field === "reward_top_rate") return `${val}x`;
-                  return val;
-                };
-
-                const isIncrease =
-                  entry.old_value !== null &&
-                  entry.new_value !== null &&
-                  Number(entry.new_value) > Number(entry.old_value);
-                const isDecrease =
-                  entry.old_value !== null &&
-                  entry.new_value !== null &&
-                  Number(entry.new_value) < Number(entry.old_value);
-
-                return (
-                  <div
-                    key={entry.id}
-                    className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200"
-                  >
-                    <div className="flex-shrink-0 mt-0.5">
-                      <div
-                        className={`h-2.5 w-2.5 rounded-full ${
-                          isIncrease ? "bg-green-400" : isDecrease ? "bg-red-400" : "bg-gray-400"
-                        }`}
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
-                        {fieldLabel[entry.field] || entry.field}:{" "}
-                        <span className="text-gray-500 line-through">
-                          {formatValue(entry.old_value, entry.field)}
-                        </span>
-                        {" → "}
-                        <span
-                          className={
-                            isIncrease
-                              ? "text-green-700 font-semibold"
-                              : isDecrease
-                                ? "text-red-700 font-semibold"
-                                : "font-semibold"
-                          }
-                        >
-                          {formatValue(entry.new_value, entry.field)}
-                        </span>
-                      </p>
-                      <p className="text-xs text-gray-500 mt-0.5">
-                        {new Date(entry.changed_at).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </p>
-                    </div>
+                      <div className="cj-news-title">{n.title}</div>
+                    </Link>
                   </div>
                 );
               })}
             </div>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* Related Articles Section */}
-      {articles.length > 0 && (
-        <div className="bg-white py-6">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 mb-6">
-              <PencilSquareIcon className="h-6 w-6 text-indigo-600" />
-              <h2 className="text-2xl font-bold text-gray-900">
-                Articles about {card.card_name}
-              </h2>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article) => (
-                <Link
-                  key={article.id}
-                  href={`/articles/${article.slug}`}
-                  className="block bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md hover:border-indigo-300 transition-all duration-200 p-5"
-                >
-                  <div className="flex flex-wrap gap-1.5 mb-2">
-                    {article.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${articleTagColors[tag]}`}
+          {similarCards.length > 0 && (
+            <div className="cj-rail-block">
+              <div className="cj-rail-label">Alternatives</div>
+              {similarCards.slice(0, 4).map((c) => {
+                const fee =
+                  c.annual_fee !== undefined
+                    ? c.annual_fee === 0
+                      ? "$0"
+                      : `$${c.annual_fee}`
+                    : "—";
+                return (
+                  <Link
+                    key={c.slug}
+                    href={`/card/${c.slug}`}
+                    className="cj-sim-row"
+                  >
+                    <div className="cj-sim-img">
+                      <CardImage
+                        cardImageLink={c.card_image_link}
+                        alt={c.card_name}
+                        width={48}
+                        height={30}
+                        sizes="48px"
+                      />
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div
+                        className="cj-sim-name"
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
                       >
-                        {articleTagLabels[tag]}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
-                    {article.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 line-clamp-2">{article.summary}</p>
-                  <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
-                    <span>{article.author}</span>
-                    <span>{article.reading_time} min read</span>
-                  </div>
-                </Link>
-              ))}
+                        {c.card_name}
+                      </div>
+                      <div className="cj-sim-meta">{c.bank}</div>
+                    </div>
+                    <span className="cj-sim-rate">{fee}</span>
+                  </Link>
+                );
+              })}
             </div>
-          </div>
-        </div>
-      )}
+          )}
+        </aside>
+      </div>
 
-      {/* Similar Cards Section */}
-      {similarCards.length > 0 && (
-        <div className="bg-white py-6">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 mb-6">
-              <CreditCardIcon className="h-6 w-6 text-indigo-600" />
-              <h2 className="text-2xl font-bold text-gray-900">
-                Similar Cards
-              </h2>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {similarCards.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={`/card/${c.slug}`}
-                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-sm transition-all"
-                >
-                  <CardImage
-                    cardImageLink={c.card_image_link}
-                    alt={c.card_name}
-                    width={64}
-                    height={40}
-                    className="rounded object-contain flex-shrink-0"
-                    sizes="64px"
-                  />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{c.card_name}</p>
-                    <p className="text-xs text-gray-500">{c.bank}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Bottom Apply Section */}
-      {card.accepting_applications && (card.apply_link || randomReferralUrl) && (
-        <div className="bg-gray-100 py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Ready to apply for the {card.card_name}?
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {card.apply_link && (
-                <a
-                  href={withApplySource(card.apply_link)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => handleCardApplyClick("direct")}
-                  className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-lg"
-                >
-                  Apply Now
-                </a>
-              )}
-              {randomReferralUrl && (
-                <a
-                  href={randomReferralUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleReferralClick}
-                  className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white shadow-lg animate-shimmer bg-[length:200%_100%]"
-                  style={{
-                    backgroundImage: 'linear-gradient(110deg, #5b21b6 0%, #6d28d9 45%, #8b5cf6 55%, #6d28d9 100%)',
-                  }}
-                >
-                  Apply with Referral
-                </a>
-              )}
-            </div>
-            {randomReferralUrl && (
-              <p className="mt-3 text-sm text-gray-500">
-                Using a referral link helps support our community members
-              </p>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Submit Record Modal */}
       <SubmitRecordModal
         show={showModal}
         handleClose={() => setShowModal(false)}
