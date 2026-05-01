@@ -96,6 +96,7 @@ signup_bonus:
 | `image` | string | Image filename | `"chase-sapphire-preferred.png"` |
 | `category` | string | Card category | `"travel"` |
 | `annual_fee` | number | Annual fee in USD | `95` |
+| `foreign_transaction_fee` | boolean | `true` if the card charges a foreign transaction fee, `false` if not. Omit if unknown. | `false` |
 | `tags` | array | Tags for filtering (see Valid Tags below) | `["travel", "dining"]` |
 | `reward_type` | string | Type of rewards: `cashback`, `points`, or `miles` | `"points"` |
 | `rewards` | array | Reward rates by spend category (see Rewards below) | See example |

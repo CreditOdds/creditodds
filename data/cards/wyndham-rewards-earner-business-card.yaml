@@ -6,6 +6,7 @@ apply_link: https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner
 category: "business"
 image: "barclays-wyndham-earner-business.png"
 annual_fee: 95
+foreign_transaction_fee: false
 reward_type: "points"
 tags:
   - hotel
@@ -32,3 +33,15 @@ apr:
   regular:
     min: 19.49
     max: 29.49
+benefits:
+  - name: "Anniversary Points Bonus"
+    value: 15000
+    description: "15,000 bonus Wyndham Rewards points each anniversary year — enough for up to 2 free award nights at participating Wyndham hotels"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Wyndham Rewards Diamond Status"
+    description: "Automatic Diamond level status — Wyndham's top elite tier — for as long as you're a cardmember"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
