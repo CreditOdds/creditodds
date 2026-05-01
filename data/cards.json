@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-01T22:23:00.547Z",
+  "generated_at": "2026-05-01T22:31:34.138Z",
   "count": 160,
   "categories": [
     {
@@ -5046,7 +5046,7 @@
       "category": "travel",
       "image": "barclays-hawaiian.png",
       "annual_fee": 99,
-      "reward_type": "miles",
+      "reward_type": "points",
       "tags": [
         "travel",
         "airline",
@@ -5081,10 +5081,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 50000,
         "type": "points",
-        "spend_requirement": 1000,
-        "timeframe_months": 3
+        "spend_requirement": 2000,
+        "timeframe_months": 3,
+        "note": "Plus 30,000 additional points after spending a total of $5,000 in the first 180 days (80,000 points total)"
       },
       "apr": {
         "balance_transfer_intro": {
@@ -5098,16 +5099,24 @@
       },
       "benefits": [
         {
-          "name": "First Checked Bag Free",
-          "description": "Two free checked bags on eligible Hawaiian Airlines and Alaska Airlines flights",
+          "name": "Two Free Checked Bags",
+          "description": "Two free checked bags on eligible Hawaiian Airlines and Alaska Airlines flights when the primary cardmember uses the card to purchase eligible tickets",
           "frequency": "per_flight",
           "category": "travel",
           "enrollment_required": false
         },
         {
           "name": "50% Off Companion Discount",
-          "description": "Receive a one-time 50% off companion discount for roundtrip main cabin travel on eligible flights",
+          "description": "One-time 50% off companion discount for roundtrip coach travel between Hawaii and North America (Hawaiian Airlines) or roundtrip North America coach travel (Alaska Airlines)",
           "frequency": "one_time",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "$100 Annual Companion Discount",
+          "value": 100,
+          "description": "Annual $100 companion discount for roundtrip coach travel between Hawaii and North America (Hawaiian Airlines) or roundtrip North America coach travel (Alaska Airlines)",
+          "frequency": "annual",
           "category": "travel",
           "enrollment_required": false
         },
