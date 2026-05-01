@@ -191,90 +191,72 @@ export default function CheckOddsClient() {
   return (
     <>
       {/* Input Form */}
-      <div className="bg-white shadow rounded-lg p-6 max-w-2xl mx-auto">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-          className="space-y-4"
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label htmlFor="credit-score" className="block text-sm font-medium text-gray-700">
-                Credit Score
-              </label>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <div className="check-tool">
+          <div className="check-field">
+            <label htmlFor="credit-score">Credit score</label>
+            <div className="input-wrap">
               <input
                 id="credit-score"
                 type="number"
                 min={300}
                 max={850}
                 required
-                placeholder="300-850"
+                placeholder="300–850"
                 value={creditScore}
                 onChange={(e) => setCreditScore(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
             </div>
-            <div>
-              <label htmlFor="income" className="block text-sm font-medium text-gray-700">
-                Annual Income
-              </label>
-              <div className="mt-1 relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500 sm:text-sm">$</span>
-                </div>
-                <input
-                  id="income"
-                  type="text"
-                  inputMode="numeric"
-                  required
-                  placeholder="75,000"
-                  value={income}
-                  onChange={(e) => setIncome(formatIncome(e.target.value))}
-                  className="block w-full pl-7 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
+          </div>
+          <div className="check-field">
+            <label htmlFor="income">Annual income</label>
+            <div className="input-wrap has-prefix">
+              <span className="prefix">$</span>
+              <input
+                id="income"
+                type="text"
+                inputMode="numeric"
+                required
+                placeholder="75,000"
+                value={income}
+                onChange={(e) => setIncome(formatIncome(e.target.value))}
+              />
             </div>
-            <div>
-              <label htmlFor="length-credit" className="block text-sm font-medium text-gray-700">
-                Credit History (years)
-              </label>
+          </div>
+          <div className="check-field">
+            <label htmlFor="length-credit">Credit history (years)</label>
+            <div className="input-wrap">
               <input
                 id="length-credit"
                 type="number"
                 min={0}
                 max={100}
                 required
-                placeholder="0-100"
+                placeholder="0–100"
                 value={lengthCredit}
                 onChange={(e) => setLengthCredit(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
             </div>
           </div>
+          <div className="check-field check-submit-wrap">
+            <label aria-hidden="true" style={{ visibility: 'hidden' }}>·</label>
+            <button type="submit" disabled={loading} className="check-submit">
+              {loading ? 'Checking…' : 'Check odds →'}
+            </button>
+          </div>
+        </div>
 
-          {error && (
-            <div className="rounded-md bg-red-50 p-3">
-              <p className="text-sm text-red-800">{error}</p>
-            </div>
-          )}
+        {error && <div className="check-error">{error}</div>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? 'Checking...' : 'Check Odds'}
-          </button>
-
-          {!authState.isAuthenticated && (
-            <p className="text-xs text-center text-gray-500">
-              Sign in is required to view results
-            </p>
-          )}
-        </form>
-      </div>
+        {!authState.isAuthenticated && (
+          <p className="check-hint">Sign in is required to view results.</p>
+        )}
+      </form>
 
       {/* Results */}
       {results && (

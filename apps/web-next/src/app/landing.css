@@ -1238,6 +1238,118 @@
   padding-block: 20px 24px;
   border-bottom: 1px solid var(--line);
 }
+.landing-v2.check-v2 .page-hero {
+  border-bottom: 0;
+  padding-block: 20px 8px;
+}
+
+/* ---------- Check odds tool bar ---------- */
+.landing-v2 .check-tool {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr auto;
+  gap: 14px;
+  align-items: end;
+  padding: 20px 0 16px;
+  border-top: 1px solid var(--line);
+}
+.landing-v2 .check-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.landing-v2 .check-field label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.landing-v2 .check-field .input-wrap {
+  position: relative;
+}
+.landing-v2 .check-field input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line-2);
+  background: var(--paper);
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.landing-v2 .check-field input::placeholder {
+  color: var(--muted-2);
+}
+.landing-v2 .check-field input:focus {
+  border-color: var(--accent);
+}
+.landing-v2 .check-field .prefix {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 15px;
+  pointer-events: none;
+}
+.landing-v2 .check-field .input-wrap.has-prefix input {
+  padding-left: 28px;
+}
+.landing-v2 .check-submit {
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 10px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease;
+  white-space: nowrap;
+}
+.landing-v2 .check-submit:hover {
+  background: var(--ink-2);
+}
+.landing-v2 .check-submit:active {
+  transform: translateY(1px);
+}
+.landing-v2 .check-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.landing-v2 .check-error {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: color-mix(in oklab, #c4302b 8%, transparent);
+  border: 1px solid color-mix(in oklab, #c4302b 25%, transparent);
+  color: #802520;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.landing-v2 .check-hint {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+@media (max-width: 768px) {
+  .landing-v2 .check-tool {
+    grid-template-columns: 1fr 1fr;
+  }
+  .landing-v2 .check-submit-wrap {
+    grid-column: 1 / -1;
+  }
+  .landing-v2 .check-submit {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  .landing-v2 .check-tool {
+    grid-template-columns: 1fr;
+  }
+}
 .landing-v2 .page-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
   font-weight: 500;
