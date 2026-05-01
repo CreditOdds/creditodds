@@ -41,6 +41,7 @@ apr:
 benefits:
   - name: "Anniversary Points Bonus"
     value: 5000
+    value_unit: "points"
     description: "5,000 bonus TrueBlue points each year after your account anniversary"
     frequency: "annual"
     category: "rewards"

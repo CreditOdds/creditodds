@@ -36,12 +36,14 @@ tags:
 benefits:
   - name: "Anniversary Points Bonus"
     value: 3000
+    value_unit: "points"
     description: "3,000 bonus points credited to your Rapid Rewards account each year on your account anniversary"
     frequency: "annual"
     category: "rewards"
     enrollment_required: false
   - name: "Companion Pass Boost"
     value: 10000
+    value_unit: "points"
     description: "10,000 Companion Pass qualifying points deposited each year by January 31"
     frequency: "annual"
     category: "rewards"

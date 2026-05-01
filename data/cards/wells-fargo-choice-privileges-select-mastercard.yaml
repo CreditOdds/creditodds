@@ -43,6 +43,7 @@ apr:
 benefits:
   - name: "Anniversary Points Bonus"
     value: 30000
+    value_unit: "points"
     description: "30,000 bonus Choice Privileges points each anniversary year — about 3 reward nights at participating Choice hotels"
     frequency: "annual"
     category: "rewards"

@@ -12,6 +12,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Card, Reward } from '@/lib/api';
+import { formatBenefitValue, isMonetaryBenefit } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import {
   categoryLabels,
@@ -525,6 +526,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                     const credits = card.benefits.filter(b => b.value > 0);
                     const perks = card.benefits.filter(b => b.value === 0);
                     const totalAnnual = credits.reduce((sum, b) => {
+                      if (!isMonetaryBenefit(b)) return sum;
                       if (b.frequency === 'multi_year') return sum + Math.round(b.value / 4);
                       return sum + b.value;
                     }, 0);
@@ -536,7 +538,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                         )}
                         <div className="text-xs text-gray-500 space-y-0.5">
                           {credits.map(b => (
-                            <div key={b.name}>{b.name} (${b.value}{b.frequency === 'annual' ? '/yr' : b.frequency === 'monthly' ? '/mo' : b.frequency === 'quarterly' ? '/qtr' : ''})</div>
+                            <div key={b.name}>{b.name} ({formatBenefitValue(b)}{b.frequency === 'annual' ? '/yr' : b.frequency === 'monthly' ? '/mo' : b.frequency === 'quarterly' ? '/qtr' : ''})</div>
                           ))}
                           {perks.length > 0 && (
                             <div className="text-gray-400 mt-1">+{perks.length} perk{perks.length !== 1 ? 's' : ''}</div>
@@ -813,6 +815,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                 const totalCredits = activeCards.map(c => {
                   if (!c.benefits) return 0;
                   return c.benefits.filter(b => b.value > 0).reduce((sum, b) => {
+                    if (!isMonetaryBenefit(b)) return sum;
                     if (b.frequency === 'multi_year') return sum + Math.round(b.value / 4);
                     return sum + b.value;
                   }, 0);
@@ -832,7 +835,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                             )}
                             <div className="text-xs text-gray-500 space-y-0.5">
                               {card.benefits.filter(b => b.value > 0).map(b => (
-                                <div key={b.name}>{b.name} (${b.value}{b.frequency === 'annual' ? '/yr' : b.frequency === 'monthly' ? '/mo' : b.frequency === 'quarterly' ? '/qtr' : ''})</div>
+                                <div key={b.name}>{b.name} ({formatBenefitValue(b)}{b.frequency === 'annual' ? '/yr' : b.frequency === 'monthly' ? '/mo' : b.frequency === 'quarterly' ? '/qtr' : ''})</div>
                               ))}
                               {card.benefits.filter(b => b.value === 0).length > 0 && (
                                 <div className="text-gray-400 mt-1">

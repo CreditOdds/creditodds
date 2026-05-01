@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import CardImage from "@/components/ui/CardImage";
 import { Card, CardBenefit, WalletCard } from "@/lib/api";
+import { formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
 import {
   CheckCircleIcon,
   GiftIcon,
@@ -74,6 +75,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
 
   const totalAnnualValue = useMemo(() => {
     return allCredits.reduce((sum, b) => {
+      if (!isMonetaryBenefit(b)) return sum;
       if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
       return sum + b.value;
     }, 0);
@@ -150,7 +152,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
                     <CardImage cardImageLink={credit.cardImage} alt={credit.cardName} width={48} height={30} className="rounded object-contain" sizes="48px" />
                   </Link>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-lg font-bold text-emerald-700">${credit.value}</p>
+                    <p className="text-lg font-bold text-emerald-700">{formatBenefitValue(credit)}</p>
                     <p className="text-xs text-gray-400">{frequencyLabels[credit.frequency]}</p>
                   </div>
                   {credit.enrollment_required && (
@@ -191,6 +193,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
             const credits = benefits.filter(b => b.value > 0);
             const perks = benefits.filter(b => b.value === 0);
             const cardTotal = credits.reduce((sum, b) => {
+              if (!isMonetaryBenefit(b)) return sum;
               if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
               return sum + b.value;
             }, 0);
@@ -229,7 +232,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
                             )}
                           </div>
                           <div className="flex items-baseline gap-1 flex-shrink-0">
-                            <span className="text-sm font-bold text-emerald-700">${b.value}</span>
+                            <span className="text-sm font-bold text-emerald-700">{formatBenefitValue(b)}</span>
                             <span className="text-xs text-gray-400">{frequencyLabels[b.frequency]}</span>
                           </div>
                         </div>
