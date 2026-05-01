@@ -38,4 +38,17 @@ apr:
   regular:
     min: 18.74
     max: 28.74
+benefits:
+  - name: "First-Year Annual Fee Waiver"
+    value: 95
+    description: "$0 annual fee for the first year, then $95"
+    frequency: "one_time"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 600
+    description: "Up to $600 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
 apply_link: https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html
