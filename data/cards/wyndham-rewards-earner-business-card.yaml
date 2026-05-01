@@ -36,6 +36,7 @@ apr:
 benefits:
   - name: "Anniversary Points Bonus"
     value: 15000
+    value_unit: "points"
     description: "15,000 bonus Wyndham Rewards points each anniversary year — enough for up to 2 free award nights at participating Wyndham hotels"
     frequency: "annual"
     category: "rewards"

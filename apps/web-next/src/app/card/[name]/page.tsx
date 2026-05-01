@@ -102,17 +102,25 @@ export default async function CardPage({ params }: CardPageProps) {
 
     const { card, ratings, wire } = cardWithRatingsAndWire;
 
-    // Merge benefits from local cards.json if not present in API response
-    if (!card.benefits) {
-      try {
-        const localData = JSON.parse(readFileSync(join(process.cwd(), '../../data/cards.json'), 'utf8'));
-        const localCard = localData.cards.find((c: { slug: string; benefits?: CardBenefit[] }) => c.slug === slug);
-        if (localCard?.benefits) {
+    // Merge benefits from local cards.json: use as fallback when API has none,
+    // and overlay value_unit on API benefits while CloudFront catches up to the
+    // schema (so points-valued benefits render correctly even before CDN refresh).
+    try {
+      const localData = JSON.parse(readFileSync(join(process.cwd(), '../../data/cards.json'), 'utf8'));
+      const localCard = localData.cards.find((c: { slug: string; benefits?: CardBenefit[] }) => c.slug === slug);
+      if (localCard?.benefits) {
+        if (!card.benefits) {
           card.benefits = localCard.benefits;
+        } else {
+          const localByName = new Map(localCard.benefits.map((b: CardBenefit) => [b.name, b]));
+          card.benefits = card.benefits.map((b) => {
+            const local = localByName.get(b.name) as CardBenefit | undefined;
+            return local?.value_unit ? { ...b, value_unit: local.value_unit } : b;
+          });
         }
-      } catch {
-        // Silently fail - benefits will appear once CDN is updated
       }
+    } catch {
+      // Silently fail - benefits will appear once CDN is updated
     }
 
     // Filter news and articles for this specific card

@@ -22,6 +22,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
+import { formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -270,6 +271,7 @@ export default function CardClient({
 
   const creditBenefits = (card.benefits || []).filter((b) => b.value > 0);
   const totalCredits = creditBenefits.reduce((sum, b) => {
+    if (!isMonetaryBenefit(b)) return sum;
     if (b.frequency === "ongoing") return sum;
     if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
     return sum + b.value;
@@ -781,7 +783,7 @@ export default function CardClient({
                             <div className="cj-cell-detail">{b.description}</div>
                           </td>
                           <td className="cj-tr">
-                            ${b.value.toLocaleString()}
+                            {formatBenefitValue(b)}
                           </td>
                         </tr>
                       ))}

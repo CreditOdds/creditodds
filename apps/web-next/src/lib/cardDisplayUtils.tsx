@@ -9,7 +9,7 @@ import {
   ComputerDesktopIcon,
   CreditCardIcon,
 } from "@heroicons/react/24/outline";
-import { Card, Reward } from "@/lib/api";
+import { Card, CardBenefit, Reward } from "@/lib/api";
 import { getValuation } from "@/lib/valuations";
 
 export const categoryLabels: Record<string, string> = {
@@ -92,6 +92,20 @@ export function CategoryIcon({ category, className }: { category: string; classN
     default:
       return <CreditCardIcon className={iconClass} />;
   }
+}
+
+// Benefit value rendering helpers — distinguishes USD-valued benefits from
+// points/miles-valued ones so a "10,000 points" Companion Pass Boost doesn't
+// render as "$10,000" or get summed into Total Annual Credits.
+export function isMonetaryBenefit(benefit: { value_unit?: string }): boolean {
+  return !benefit.value_unit || benefit.value_unit === 'usd';
+}
+
+export function formatBenefitValue(benefit: CardBenefit): string {
+  const v = benefit.value.toLocaleString();
+  if (benefit.value_unit === 'points') return `${v} points`;
+  if (benefit.value_unit === 'miles') return `${v} miles`;
+  return `$${v}`;
 }
 
 // Cents-per-point estimates by program (driven by data/valuations.yaml)
