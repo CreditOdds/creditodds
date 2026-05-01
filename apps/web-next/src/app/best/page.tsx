@@ -23,10 +23,9 @@ export const revalidate = 300;
 export default async function BestIndexPage() {
   const [pages, cards] = await Promise.all([getBestPages(), getAllCards()]);
 
-  const totalRecords = cards.reduce(
-    (acc, c) => acc + (c.approved_count ?? 0) + (c.rejected_count ?? 0),
-    0
-  );
+  const totalIssuers = new Set(
+    cards.map((c) => c.bank?.trim()).filter(Boolean)
+  ).size;
 
   const collectionJsonLd = {
     "@context": "https://schema.org",
@@ -56,7 +55,7 @@ export default async function BestIndexPage() {
           { name: 'Best Cards', url: 'https://creditodds.com/best' },
         ]}
       />
-      <BestV2Client pages={pages} totalRecords={totalRecords} totalCards={cards.length} />
+      <BestV2Client pages={pages} totalIssuers={totalIssuers} totalCards={cards.length} />
     </>
   );
 }

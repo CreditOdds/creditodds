@@ -18,7 +18,7 @@ import '../landing.css';
 
 interface BestV2ClientProps {
   pages: BestPage[];
-  totalRecords: number;
+  totalIssuers: number;
   totalCards: number;
 }
 
@@ -44,7 +44,7 @@ function formatShortDate(iso?: string): string {
 
 export default function BestV2Client({
   pages,
-  totalRecords,
+  totalIssuers,
   totalCards,
 }: BestV2ClientProps) {
   const latestUpdate = pages
@@ -67,8 +67,8 @@ export default function BestV2Client({
       <div className="wrap">
         <div className="best-hero-stats">
           <div className="bhs">
-            <div className="k">Records analyzed</div>
-            <div className="v">{totalRecords.toLocaleString()}</div>
+            <div className="k">Issuers covered</div>
+            <div className="v">{totalIssuers}</div>
           </div>
           <div className="bhs">
             <div className="k">Cards ranked</div>
