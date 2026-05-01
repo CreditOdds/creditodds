@@ -251,17 +251,19 @@ async function renderTiltedCardArt(cardImageBuffer) {
     .toBuffer();
   const rotMeta = await sharp(rotated).metadata();
 
-  // Approximate drop shadow: blur the alpha channel into a dark layer
+  // Approximate drop shadow: blur the alpha channel and use it as the alpha
+  // of a black layer (scaled down so the shadow is soft, not a solid box).
   const alphaBlur = await sharp(rotated)
     .extractChannel('alpha')
-    .blur(18)
+    .blur(22)
+    .linear(0.55, 0)
     .toBuffer();
   const shadow = await sharp({
     create: {
       width: rotMeta.width,
       height: rotMeta.height,
-      channels: 4,
-      background: { r: 0, g: 0, b: 0, alpha: 0.65 },
+      channels: 3,
+      background: { r: 0, g: 0, b: 0 },
     },
   })
     .joinChannel(alphaBlur)
@@ -309,14 +311,14 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
   const leftColW = FRAME_W - PADDING_X * 2 - RIGHT_COL_W - COL_GAP;
   const rightColX = PADDING_X + leftColW + COL_GAP;
 
-  const eyebrowY = CONTENT_TOP + 18;
-  const titleSize = 40;
+  const eyebrowY = CONTENT_TOP + 20;
+  const titleSize = 60;
   const titleLineH = Math.round(titleSize * 1.05);
-  const titleLines = wrapText(cardName, 22, 2);
-  const titleBaseY = eyebrowY + 26 + titleSize - 4;
-  const issuerLabelY = titleBaseY + (titleLines.length - 1) * titleLineH + 26;
+  const titleLines = wrapText(cardName, 18, 2);
+  const titleBaseY = eyebrowY + 30 + titleSize - 4;
+  const issuerLabelY = titleBaseY + (titleLines.length - 1) * titleLineH + 30;
 
-  const changeBlockH = 132;
+  const changeBlockH = 168;
   const remainingTop = issuerLabelY + 12;
   const remainingBottom = FRAME_H - FOOTER_H - 16;
   const changeBlockY = Math.round(remainingTop + (remainingBottom - remainingTop - changeBlockH) / 2);
@@ -330,11 +332,11 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
     key: (bank || 'CARD').toUpperCase(),
     text: eyebrowVerb(tone),
     tone,
-    size: 13,
+    size: 16,
   });
 
   const titleSvg = titleLines.map((line, i) => `
-    <text x="${leftX}" y="${titleBaseY + i * titleLineH}" font-family="Arial,sans-serif" font-size="${titleSize}" font-weight="600" fill="${SO.ink}" letter-spacing="-1">${escapeXml(line)}</text>
+    <text x="${leftX}" y="${titleBaseY + i * titleLineH}" font-family="Arial,sans-serif" font-size="${titleSize}" font-weight="600" fill="${SO.ink}" letter-spacing="-1.2">${escapeXml(line)}</text>
   `).join('');
 
   // "What changed" block (`.so-change` in design)
@@ -342,13 +344,13 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
   const blockW = leftColW;
   const accentBarW = 3;
 
-  const pillW = 110;
-  const pillH = 30;
+  const pillW = 134;
+  const pillH = 38;
   const pillX = blockX + blockW - 24 - pillW;
-  const pillY = changeBlockY + 20;
+  const pillY = changeBlockY + 24;
 
-  const valueY = changeBlockY + changeBlockH - 28;
-  const valueSize = 28;
+  const valueY = changeBlockY + changeBlockH - 36;
+  const valueSize = 40;
   const fromX = blockX + 24;
   const fromW = estimateMonoWidth(oldFormatted, valueSize);
   const arrowX = fromX + fromW + 18;
@@ -363,9 +365,9 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
           fill="rgba(0,0,0,0.18)"/>
     <rect x="${blockX}" y="${changeBlockY + 12}" width="${accentBarW}" height="${changeBlockH - 24}" rx="2" ry="2" fill="${t.hair}"/>
 
-    <text x="${blockX + 24}" y="${changeBlockY + 30}" font-family="Menlo,Consolas,monospace" font-size="11" fill="${SO.muted}" letter-spacing="1.4" font-weight="500">WHAT CHANGED${rest.length ? `  ·  +${rest.length} MORE` : ''}</text>
+    <text x="${blockX + 24}" y="${changeBlockY + 36}" font-family="Menlo,Consolas,monospace" font-size="14" fill="${SO.muted}" letter-spacing="1.4" font-weight="500">WHAT CHANGED${rest.length ? `  ·  +${rest.length} MORE` : ''}</text>
 
-    <text x="${blockX + 24}" y="${changeBlockY + 56}" font-family="Arial,sans-serif" font-size="19" font-weight="600" fill="${SO.ink}" letter-spacing="-0.2">${escapeXml(fieldLabel)}</text>
+    <text x="${blockX + 24}" y="${changeBlockY + 74}" font-family="Arial,sans-serif" font-size="26" font-weight="600" fill="${SO.ink}" letter-spacing="-0.3">${escapeXml(fieldLabel)}</text>
 
     <text x="${fromX}" y="${valueY}" font-family="Menlo,Consolas,monospace" font-size="${valueSize}" font-weight="500" fill="${SO.muted}" letter-spacing="-0.3">${escapeXml(oldFormatted)}</text>
     <line x1="${fromX}" y1="${fromCenterY}" x2="${fromX + fromW}" y2="${fromCenterY}" stroke="${SO.muted2}" stroke-width="2"/>
@@ -374,8 +376,8 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
 
     <rect x="${pillX}" y="${pillY}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" ry="${pillH / 2}"
           fill="${pillBg}" stroke="${pillColor}" stroke-width="1"/>
-    <text x="${pillX + pillW / 2}" y="${pillY + pillH / 2 + 4}" text-anchor="middle"
-          font-family="Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="${pillColor}" letter-spacing="0.8">${pillText}</text>
+    <text x="${pillX + pillW / 2}" y="${pillY + pillH / 2 + 5}" text-anchor="middle"
+          font-family="Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="${pillColor}" letter-spacing="0.8">${pillText}</text>
   `;
 
   // Right column: decorative back-glow card behind the foreground card art
@@ -417,7 +419,7 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
     ${eyebrowSvg}
     ${titleSvg}
 
-    <text x="${leftX}" y="${issuerLabelY - 4}" font-family="Menlo,Consolas,monospace" font-size="13" fill="${SO.muted}" letter-spacing="1.2">${escapeXml(bank ? bank.toUpperCase() : '')}</text>
+    <text x="${leftX}" y="${issuerLabelY - 4}" font-family="Menlo,Consolas,monospace" font-size="16" fill="${SO.muted}" letter-spacing="1.4">${escapeXml(bank ? bank.toUpperCase() : '')}</text>
 
     ${changeBlockSvg}
 
