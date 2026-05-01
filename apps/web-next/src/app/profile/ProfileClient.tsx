@@ -90,13 +90,6 @@ interface Referral {
   clicks?: number;
 }
 
-interface OpenReferral {
-  card_id: string;
-  card_name: string;
-  card_image_link?: string;
-  card_referral_link?: string;
-}
-
 interface Profile {
   username: string;
   email: string;
@@ -110,7 +103,6 @@ export default function ProfileClient() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [records, setRecords] = useState<Record[]>([]);
   const [referrals, setReferrals] = useState<Referral[]>([]);
-  const [openReferrals, setOpenReferrals] = useState<OpenReferral[]>([]);
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
   const [allCards, setAllCards] = useState<Card[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
@@ -132,10 +124,16 @@ export default function ProfileClient() {
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
   const cardLookups = useMemo(() => createCardLookups(allCards), [allCards]);
 
-  // Allow referrals for cards where user has submitted a record OR has in wallet
+  // Allow referrals for any card the user has in wallet or has submitted a record for,
+  // excluding cards with an existing active referral.
   const eligibleReferralCards = useMemo(
-    () => getEligibleReferralCards(records, walletCards, openReferrals),
-    [records, openReferrals, walletCards]
+    () => getEligibleReferralCards(
+      records,
+      walletCards,
+      referrals.filter((r) => !r.archived_at),
+      cardLookups,
+    ),
+    [records, walletCards, referrals, cardLookups]
   );
 
   // Calculate total annual fees for wallet cards
@@ -242,17 +240,14 @@ export default function ProfileClient() {
     const loadReferrals = async () => {
       try {
         const referralsData = await getReferrals(token);
-        if (Array.isArray(referralsData) && referralsData.length >= 2) {
+        if (Array.isArray(referralsData) && referralsData.length >= 1) {
           setReferrals(referralsData[0] || []);
-          setOpenReferrals(referralsData[1] || []);
         } else {
           setReferrals([]);
-          setOpenReferrals([]);
         }
       } catch (error) {
         console.error("Referrals error:", error);
         setReferrals([]);
-        setOpenReferrals([]);
       }
       setReferralsLoaded(true);
     };
