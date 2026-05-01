@@ -25,7 +25,7 @@ benefits:
     value: 240
     description: "Up to $20/month in statement credits on eligible U.S. purchases at FedEx, Grubhub, and office supply stores"
     frequency: "monthly"
-    category: "other"
+    category: "statement_credit"
     enrollment_required: true
   - name: "ChatGPT Credits"
     value: 300
@@ -39,6 +39,73 @@ benefits:
     frequency: "monthly"
     category: "shopping"
     enrollment_required: true
+  - name: "25% Airfare Pay-With-Points Rebate"
+    description: "Get 25% of points back when redeeming Pay With Points for eligible flights through Amex Travel (up to 250,000 points back per calendar year)"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Free Employee Cards"
+    description: "Add employee cards at no additional cost; spend on those cards earns rewards on the main account"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Pay Over Time"
+    description: "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
+  - name: "Vendor Pay by Bill.com"
+    description: "Pay vendors that don't accept credit cards directly through Bill.com using your Amex"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
+  - name: "Expanded Buying Power"
+    description: "Spend above your credit limit subject to approval based on credit history and other factors"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "Year-End Spending Summary"
+    description: "Detailed annual report of business spending broken down by category for tax and budgeting purposes"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Baggage Insurance Plan"
+    value: 1250
+    description: "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Car Rental Loss & Damage Insurance"
+    description: "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Global Assist Hotline"
+    description: "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 10000
+    description: "Up to $10,000 per occurrence for theft or accidental damage on new purchases for 90 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Adds up to 1 extra year to the original manufacturer's warranty (5 years or less)"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Amex Offers"
+    description: "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - business
   - rewards

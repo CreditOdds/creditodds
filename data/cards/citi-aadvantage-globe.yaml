@@ -7,15 +7,70 @@ reward_type: "miles"
 image: "citi-aadvantage-globe.png"
 benefits:
   - name: "First Checked Bag Free"
-    value: 0
-    description: "First checked bag free on domestic American Airlines itineraries"
-    frequency: "ongoing"
+    description: "First checked bag free on domestic American Airlines itineraries for the cardmember and up to 8 companions on the same reservation"
+    frequency: "per_flight"
     category: "travel"
+    enrollment_required: false
   - name: "Preferred Boarding"
-    value: 0
-    description: "Preferred boarding on American Airlines flights"
-    frequency: "ongoing"
+    description: "Preferred boarding on American Airlines flights for the cardmember and up to 8 companions on the same reservation"
+    frequency: "per_flight"
     category: "travel"
+    enrollment_required: false
+  - name: "Admirals Club Globe Passes"
+    value: 300
+    description: "4 Admirals Club Globe single-visit passes each calendar year (approximately $300 value)"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Turo Credit"
+    value: 240
+    description: "Up to $240 in annual statement credits on Turo car-rental purchases"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Inflight Purchase Credit"
+    value: 100
+    description: "Up to $100 in statement credits each calendar year on American Airlines inflight purchases"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Annual Splurge Credit"
+    value: 100
+    description: "Up to $100 in statement credits each calendar year on a qualifying lifestyle merchant"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Companion Certificate"
+    description: "One American Airlines domestic round-trip Companion Certificate annually starting in year 2 ($99 ticketing fee plus taxes and fees)"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Streak Bonus"
+    description: "Earn 5,000 Loyalty Points for every 4 qualifying flights (up to 15,000 Loyalty Points per year)"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Trip Cancellation/Interruption and Travel Protections"
+    description: "Trip cancellation/interruption insurance, lost luggage coverage, and rental-car loss-and-damage coverage"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Citi Entertainment"
+    description: "Special access to presale tickets and exclusive experiences for music, sports, dining, and more"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - airline

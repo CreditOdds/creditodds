@@ -7,21 +7,66 @@ category: "business"
 annual_fee: 199
 reward_type: "points"
 benefits:
-  - name: "Free Night Award"
-    value: 0
-    description: "One annual free night award at any Category 1-4 Hyatt hotel"
-    frequency: "annual"
+  - name: "Hyatt Spending Credits"
+    value: 100
+    description: "Up to $100 in statement credits per anniversary year as $50 statement credits on qualifying Hyatt purchases (twice per year)"
+    frequency: "semi_annual"
     category: "hotel"
+    enrollment_required: false
   - name: "Discoverist Status"
-    value: 0
-    description: "Automatic World of Hyatt Discoverist elite status"
-    frequency: "ongoing"
-    category: "hotel"
-  - name: "5 Qualifying Night Credits"
-    value: 0
-    description: "5 qualifying night credits toward Hyatt elite status each year"
+    description: "Automatic World of Hyatt Discoverist elite status with perks like complimentary bottled water and 2pm late checkout when available"
     frequency: "annual"
     category: "hotel"
+    enrollment_required: false
+  - name: "Anniversary Qualifying Nights"
+    description: "5 qualifying night credits each anniversary year toward higher elite status, plus 2 additional for every $10,000 spent"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Bonus Free Night After $50,000 Spend"
+    description: "Earn a free-night award (up to 30,000 points) after spending $50,000 on the card in a calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Free Employee Cards"
+    description: "Add employee cards at no additional cost; spend on those cards earns rewards on the main account"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Trip Cancellation/Interruption Insurance"
+    value: 5000
+    description: "Up to $5,000 per trip in nonrefundable expenses if your trip is cancelled or cut short by covered events"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Lost Luggage Reimbursement"
+    value: 3000
+    description: "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Auto Rental Coverage"
+    description: "Primary collision damage waiver coverage on rentals for business purposes"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 1000
+    description: "Up to $1,000 per claim ($25 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 10000
+    description: "Up to $10,000 per item for theft or damage on new purchases for 120 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - hotel
   - travel

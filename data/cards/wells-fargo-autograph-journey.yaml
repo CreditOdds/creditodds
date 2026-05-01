@@ -8,15 +8,52 @@ annual_fee: 95
 reward_type: "points"
 benefits:
   - name: "Annual Airline Credit"
-    value: 100
-    description: "Annual credit for airline purchases"
+    value: 50
+    description: "$50 in statement credits each anniversary year after a minimum of $50 spent on airline purchases"
     frequency: "annual"
     category: "travel"
+    enrollment_required: false
   - name: "Cell Phone Protection"
-    value: 0
-    description: "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card"
-    frequency: "ongoing"
-    category: "other"
+    value: 1000
+    description: "Up to $1,000 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
+  - name: "Trip Cancellation/Interruption Insurance"
+    description: "Reimbursement for nonrefundable trip expenses if your trip is cancelled or cut short by covered events"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Delay Reimbursement"
+    description: "Reimbursement for meals and lodging when your common-carrier trip is delayed 6+ hours"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Lost Luggage Reimbursement"
+    description: "Coverage for lost, stolen, or damaged baggage during common-carrier travel"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Auto Rental Coverage"
+    description: "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Travel and Emergency Services"
+    description: "24/7 access to legal and medical referrals plus emergency transportation services worldwide"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Visa Signature Concierge"
+    description: "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - rewards

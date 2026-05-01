@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T21:31:18.199Z",
+  "generated_at": "2026-05-01T22:05:21.824Z",
   "count": 160,
   "categories": [
     {
@@ -483,7 +483,7 @@
           "value": 240,
           "description": "Up to $20/month in statement credits on eligible U.S. purchases at FedEx, Grubhub, and office supply stores",
           "frequency": "monthly",
-          "category": "other",
+          "category": "statement_credit",
           "enrollment_required": true
         },
         {
@@ -501,6 +501,99 @@
           "frequency": "monthly",
           "category": "shopping",
           "enrollment_required": true
+        },
+        {
+          "name": "25% Airfare Pay-With-Points Rebate",
+          "description": "Get 25% of points back when redeeming Pay With Points for eligible flights through Amex Travel (up to 250,000 points back per calendar year)",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Employee Cards",
+          "description": "Add employee cards at no additional cost; spend on those cards earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Pay Over Time",
+          "description": "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Vendor Pay by Bill.com",
+          "description": "Pay vendors that don't accept credit cards directly through Bill.com using your Amex",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Expanded Buying Power",
+          "description": "Spend above your credit limit subject to approval based on credit history and other factors",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": false
+        },
+        {
+          "name": "Year-End Spending Summary",
+          "description": "Detailed annual report of business spending broken down by category for tax and budgeting purposes",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Insurance Plan",
+          "value": 1250,
+          "description": "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Car Rental Loss & Damage Insurance",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Assist Hotline",
+          "description": "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 10000,
+          "description": "Up to $10,000 per occurrence for theft or accidental damage on new purchases for 90 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Adds up to 1 extra year to the original manufacturer's warranty (5 years or less)",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Amex Offers",
+          "description": "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": true
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -553,6 +646,58 @@
           "frequency": "semi_annual",
           "category": "dining",
           "enrollment_required": true
+        },
+        {
+          "name": "The Hotel Collection",
+          "description": "$100 experience credit and room upgrade when available on 2+ night prepaid Hotel Collection bookings through Amex Travel",
+          "frequency": "per_purchase",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Insurance Plan",
+          "value": 1250,
+          "description": "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Return Protection",
+          "value": 300,
+          "description": "Up to $300 per item ($1,000 per year) when a retailer won't accept a return within 90 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 10000,
+          "description": "Up to $10,000 per occurrence ($50,000 per year) for theft or accidental damage on new purchases for 90 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Adds up to 1 extra year to the original manufacturer's warranty (5 years or less)",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Pay Over Time",
+          "description": "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": true
         }
       ],
       "tags": [
@@ -587,7 +732,7 @@
       "signup_bonus": {
         "value": 100000,
         "type": "points",
-        "spend_requirement": 6000,
+        "spend_requirement": 8000,
         "timeframe_months": 6
       },
       "card_id": "american-express-gold-card",
@@ -634,9 +779,54 @@
         {
           "name": "CLEAR Plus Credit",
           "value": 209,
-          "description": "Statement credit for CLEAR Plus airport security membership",
+          "description": "Up to $209 in annual statement credits for a CLEAR Plus airport security membership",
           "frequency": "annual",
           "category": "security",
+          "enrollment_required": true
+        },
+        {
+          "name": "LoungeBuddy Credit",
+          "value": 100,
+          "description": "Up to $100 in annual statement credits for purchasing airport lounge passes through LoungeBuddy",
+          "frequency": "annual",
+          "category": "lounge",
+          "enrollment_required": true
+        },
+        {
+          "name": "Trip Delay Insurance",
+          "value": 500,
+          "description": "Up to $500 per trip when a covered trip is delayed 12+ hours (max 2 claims per 12 months)",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Insurance Plan",
+          "value": 1250,
+          "description": "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Assist Hotline",
+          "description": "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Pay Over Time",
+          "description": "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest",
+          "frequency": "per_purchase",
+          "category": "other",
           "enrollment_required": true
         }
       ],
@@ -1023,10 +1213,46 @@
       "benefits": [
         {
           "name": "Companion Fare",
-          "value": 0,
-          "description": "$99 Companion Fare (plus taxes and fees from $23) each account anniversary after spending $6,000 or more in purchases within the prior anniversary year",
+          "description": "$99 Companion Fare (plus taxes and fees from $23) each account anniversary after spending $6,000 or more in purchases in the prior anniversary year",
           "frequency": "annual",
-          "category": "travel"
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Checked Bag",
+          "description": "First checked bag free for the cardmember and up to 6 guests on the same reservation when paid with the card",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Priority Boarding",
+          "description": "Preferred boarding for the cardmember and up to 6 guests on Alaska Airlines flights",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Alaska Lounge+ Membership Discount",
+          "value": 100,
+          "description": "$100 off an annual Alaska Lounge+ Membership purchased with the card",
+          "frequency": "annual",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "20% Inflight Purchase Rebate",
+          "description": "20% back on Alaska Airlines and Hawaiian Airlines inflight purchases when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Bonus on Points Earned",
+          "description": "10% bonus on all points earned with an eligible Bank of America banking account",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": true
         }
       ],
       "apply_link": "https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/",
@@ -1247,16 +1473,60 @@
         {
           "name": "Airline Incidental Credit",
           "value": 100,
-          "description": "Annual statement credit for qualifying airline incidentals like seat upgrades, baggage fees, and in-flight services",
+          "description": "Up to $100 in annual statement credits for qualifying airline incidentals like seat upgrades, baggage fees, in-flight services, and airline lounge fees — automatically applied",
           "frequency": "annual",
-          "category": "travel"
+          "category": "travel",
+          "enrollment_required": false
         },
         {
-          "name": "Global Entry / TSA PreCheck Credit",
-          "value": 120,
-          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee",
-          "frequency": "multi_year",
-          "category": "security"
+          "name": "Airport Security Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit toward TSA PreCheck or Global Entry application fees, every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Preferred Rewards Bonus",
+          "description": "Earn a 25%-75% bonus on points based on your Preferred Rewards tier (Gold, Platinum, Platinum Honors, or Diamond)",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": true
+        },
+        {
+          "name": "Travel Insurance Protections",
+          "description": "Coverage for trip delays, cancellations, interruptions, baggage delays, lost luggage, and emergency evacuation and transportation",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Auto Rental Collision Damage Waiver",
+          "description": "Coverage for collision and theft damage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Visa Signature Luxury Hotel Collection",
+          "description": "Room upgrade upon arrival when available, complimentary daily breakfast, and other premium perks at participating luxury hotels",
+          "frequency": "per_purchase",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Visa Signature Concierge",
+          "description": "24/7 access to a Visa Signature concierge for travel planning, restaurant recommendations, and event reservations",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -1850,9 +2120,45 @@
         {
           "name": "Disney Bundle Discount",
           "value": 84,
-          "description": "$7/month statement credit toward the Disney Bundle (Disney+, Hulu, ESPN+)",
+          "description": "$7/month statement credit toward the Disney Bundle (Disney+, Hulu, ESPN+) when you spend $9.99+ in a single transaction",
           "frequency": "monthly",
           "category": "streaming",
+          "enrollment_required": true
+        },
+        {
+          "name": "Return Protection",
+          "value": 300,
+          "description": "Up to $300 per item ($1,000 per year) when a retailer won't accept a return within 90 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Car Rental Loss & Damage Insurance",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage and pay with the card",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Assist Hotline",
+          "description": "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Pay Over Time",
+          "description": "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Amex Offers",
+          "description": "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
           "enrollment_required": true
         }
       ],
@@ -2305,32 +2611,63 @@
       },
       "benefits": [
         {
-          "name": "Business Travel Credit",
+          "name": "Advertising / Software Credit",
           "value": 50,
-          "description": "$50 annual credit for purchases made through Capital One Business Travel",
+          "description": "Up to $50 in annual statement credits for qualifying advertising or software merchant purchases",
           "frequency": "annual",
-          "category": "travel"
-        },
-        {
-          "name": "Software and Advertising Credit",
-          "value": 50,
-          "description": "Up to $50 annual statement credit for qualifying software and advertising purchases",
-          "frequency": "annual",
-          "category": "other"
+          "category": "statement_credit",
+          "enrollment_required": false
         },
         {
           "name": "Global Entry / TSA PreCheck Credit",
           "value": 120,
-          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee",
-          "frequency": "multi_year",
-          "category": "security"
+          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Hertz Five Star Status",
+          "description": "Complimentary Hertz Five Star elite status with skip-the-counter access at select locations, wider vehicle selection, and bonus points",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Lifestyle Collection Hotel Benefits",
+          "value": 50,
+          "description": "$50 experience credit, room upgrade when available, and Wi-Fi on Lifestyle Collection bookings via Capital One Business Travel",
+          "frequency": "per_purchase",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Capital One Business Travel",
+          "description": "Complimentary access to Capital One Business Travel — an all-in-one travel management solution for booking and expense tracking",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
         },
         {
           "name": "Free Employee Cards",
-          "value": 0,
-          "description": "Add employee cards at no additional cost; employee purchases earn miles on the primary account",
-          "frequency": "ongoing",
-          "category": "other"
+          "description": "Add employee cards at no additional cost; spend on those cards earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Eno Virtual Card Numbers",
+          "description": "Generate one-time virtual card numbers for online purchases without exposing your real card details",
+          "frequency": "per_purchase",
+          "category": "security",
+          "enrollment_required": false
         }
       ],
       "apply_link": "https://www.capitalone.com/small-business/credit-cards/venture-business/",
@@ -2350,9 +2687,67 @@
         {
           "name": "Global Entry / TSA PreCheck Credit",
           "value": 120,
-          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee",
-          "frequency": "multi_year",
-          "category": "security"
+          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Hertz Five Star Status",
+          "description": "Complimentary Hertz Five Star elite status with upgrades when available, faster service, and bonus points",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Lifestyle Collection Hotel Benefits",
+          "value": 50,
+          "description": "$50 experience credit, room upgrade when available, and Wi-Fi on Lifestyle Collection bookings via Capital One Travel",
+          "frequency": "per_purchase",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Travel Accident Insurance",
+          "description": "Accidental death and dismemberment coverage when you pay for a common-carrier ticket with the card",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Auto Rental Coverage",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals worldwide when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Adds up to 1 extra year to the original manufacturer's warranty on eligible purchases",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Visa Signature Concierge",
+          "description": "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Eno Virtual Card Numbers",
+          "description": "Generate one-time virtual card numbers for online purchases without exposing your real card details",
+          "frequency": "per_purchase",
+          "category": "security",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -2400,44 +2795,130 @@
         {
           "name": "Annual Travel Credit",
           "value": 300,
-          "description": "Credit for bookings through Capital One Travel portal",
+          "description": "Up to $300 in statement credits annually for bookings made through Capital One Travel",
           "frequency": "annual",
-          "category": "travel"
+          "category": "travel",
+          "enrollment_required": false
         },
         {
           "name": "Anniversary Miles Bonus",
-          "value": 0,
-          "description": "10,000 bonus miles on account anniversary",
+          "value": 100,
+          "description": "10,000 bonus miles on each account anniversary (worth at least $100 toward travel)",
           "frequency": "annual",
-          "category": "travel"
+          "category": "rewards",
+          "enrollment_required": false
         },
         {
           "name": "Capital One Lounge Access",
-          "value": 0,
-          "description": "Complimentary access to Capital One Lounges",
-          "frequency": "ongoing",
-          "category": "lounge"
+          "description": "Complimentary access to Capital One Lounges plus up to two complimentary guests per visit",
+          "frequency": "per_visit",
+          "category": "lounge",
+          "enrollment_required": false
         },
         {
           "name": "Priority Pass Select",
-          "value": 0,
-          "description": "Complimentary Priority Pass Select membership with access to 1,300+ lounges worldwide",
-          "frequency": "ongoing",
-          "category": "lounge"
+          "description": "Complimentary Priority Pass Select membership with unlimited lounge access at 1,300+ lounges worldwide; up to two complimentary guests",
+          "frequency": "per_visit",
+          "category": "lounge",
+          "enrollment_required": true
+        },
+        {
+          "name": "Plaza Premium Lounge Access",
+          "description": "Complimentary access to Plaza Premium Lounges worldwide for the cardmember and up to two guests",
+          "frequency": "per_visit",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "Premier Collection Hotel Benefits",
+          "value": 100,
+          "description": "$100 experience credit, room upgrade when available, daily breakfast for two, early check-in / late check-out on Premier Collection bookings",
+          "frequency": "per_purchase",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lifestyle Collection Hotel Benefits",
+          "value": 50,
+          "description": "$50 experience credit, room upgrade when available, and Wi-Fi on Lifestyle Collection bookings",
+          "frequency": "per_purchase",
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
           "name": "Global Entry / TSA PreCheck Credit",
           "value": 120,
-          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee",
-          "frequency": "multi_year",
-          "category": "security"
+          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
         },
         {
           "name": "Hertz President's Circle Status",
-          "value": 0,
-          "description": "Complimentary Hertz President's Circle elite status",
-          "frequency": "ongoing",
-          "category": "travel"
+          "description": "Complimentary Hertz President's Circle elite status — top-tier benefits including upgrades and priority service",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Cell Phone Protection",
+          "value": 800,
+          "description": "Up to $800 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card",
+          "frequency": "per_claim",
+          "category": "telecom",
+          "enrollment_required": false
+        },
+        {
+          "name": "Primary Auto Rental Coverage",
+          "description": "Primary collision damage waiver on rental cars worldwide (subject to terms)",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 2000,
+          "description": "Up to $2,000 per traveler for nonrefundable expenses if your trip is cancelled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Delay Reimbursement",
+          "value": 500,
+          "description": "Up to $500 per traveler when a common-carrier trip is delayed 6+ hours or requires an overnight stay",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "value": 3000,
+          "description": "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Adds up to 1 extra year to the original manufacturer's warranty on eligible purchases",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Eno Virtual Card Numbers",
+          "description": "Generate one-time virtual card numbers for online purchases without exposing your real card details",
+          "frequency": "per_purchase",
+          "category": "security",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -2677,7 +3158,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 250,
+        "value": 200,
         "type": "cash",
         "spend_requirement": 500,
         "timeframe_months": 3
@@ -2712,16 +3193,92 @@
         {
           "name": "Annual Hotel Credit",
           "value": 50,
-          "description": "Statement credit for hotel stays booked through Chase Travel",
+          "description": "$50 annual statement credit for hotel stays booked through Chase Travel",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
-          "name": "DoorDash DashPass",
-          "value": 0,
-          "description": "Complimentary DoorDash DashPass membership",
-          "frequency": "ongoing",
-          "category": "dining"
+          "name": "Anniversary Bonus Points",
+          "description": "10% anniversary bonus points on the previous year's total purchases (e.g., $25,000 spent earns an additional 2,500 points)",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% More Value via Chase Travel",
+          "description": "Points are worth 25% more when redeemed for travel through Chase Travel",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary DashPass for at least one year plus $10/month off non-restaurant DoorDash orders when activated by Dec 31, 2027",
+          "frequency": "monthly",
+          "category": "dining",
+          "enrollment_required": true
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 10000,
+          "description": "Up to $10,000 per traveler ($20,000 per trip) in nonrefundable expenses if your trip is canceled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Delay Reimbursement",
+          "value": 500,
+          "description": "Up to $500 per traveler for meals and lodging when a common-carrier trip is delayed 12+ hours or requires an overnight stay",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Delay Insurance",
+          "value": 500,
+          "description": "Up to $100/day for up to 5 days for essential purchases when checked baggage is delayed 6+ hours",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Primary Auto Rental Coverage",
+          "value": 60000,
+          "description": "Primary collision damage waiver up to $60,000 on rentals (secondary in New York), no need to use personal auto insurance",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 500,
+          "description": "Up to $500 per item ($50,000 per account) for theft or damage on new purchases for 120 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Extends US manufacturer warranties of three years or less by an additional year",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Travel & Emergency Assistance",
+          "description": "24/7 access to legal and medical referrals and travel assistance services worldwide",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -2790,44 +3347,218 @@
         {
           "name": "Annual Travel Credit",
           "value": 300,
-          "description": "Automatic statement credit for travel purchases",
+          "description": "Automatic $300 statement credit each anniversary year for travel purchases — applies to nearly any travel-coded merchant",
           "frequency": "annual",
-          "category": "travel"
+          "category": "travel",
+          "enrollment_required": false
         },
         {
           "name": "The Edit Credit",
           "value": 500,
-          "description": "Up to $250 biannually for prepaid bookings made through The Edit by Chase Travel",
+          "description": "Up to $250 each half (Jan-Jun and Jul-Dec) for prepaid 2+ night bookings at The Edit luxury hotels via Chase Travel",
           "frequency": "semi_annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
-          "name": "Global Entry / TSA PreCheck Credit",
+          "name": "Chase Travel Hotel Credit",
+          "value": 250,
+          "description": "Up to $250 in statement credits annually for prepaid 2+ night stays at IHG, Montage, Pendry, Omni, Virgin, Minor, and Pan Pacific hotels via Chase Travel (through 12/31/26)",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Sapphire Exclusive Tables Dining Credit",
+          "value": 300,
+          "description": "Up to $150 in statement credits each half (Jan-Jun and Jul-Dec) at select Sapphire Exclusive Tables restaurants on OpenTable",
+          "frequency": "semi_annual",
+          "category": "dining",
+          "enrollment_required": false
+        },
+        {
+          "name": "StubHub Credit",
+          "value": 300,
+          "description": "Up to $150 each half (Jan-Jun and Jul-Dec) for StubHub and viagogo event purchases (through 12/31/27)",
+          "frequency": "semi_annual",
+          "category": "entertainment",
+          "enrollment_required": true
+        },
+        {
+          "name": "DashPass Membership",
           "value": 120,
-          "description": "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees",
-          "frequency": "multi_year",
-          "category": "security"
+          "description": "Complimentary DashPass premium membership with $0 delivery fees on eligible DoorDash orders",
+          "frequency": "annual",
+          "category": "dining",
+          "enrollment_required": true
+        },
+        {
+          "name": "DoorDash Monthly Promos",
+          "value": 300,
+          "description": "$5/month restaurant promo plus two $10/month grocery and retail promos through 12/31/27",
+          "frequency": "monthly",
+          "category": "dining",
+          "enrollment_required": true
+        },
+        {
+          "name": "Lyft Credits",
+          "value": 120,
+          "description": "$10 monthly Lyft in-app credit (through 9/30/27)",
+          "frequency": "monthly",
+          "category": "rideshare",
+          "enrollment_required": true
+        },
+        {
+          "name": "Apple TV+ and Apple Music",
+          "value": 288,
+          "description": "Complimentary Apple TV+ and Apple Music individual subscriptions (through 6/22/27)",
+          "frequency": "annual",
+          "category": "streaming",
+          "enrollment_required": true
+        },
+        {
+          "name": "Peloton Membership Credit",
+          "value": 120,
+          "description": "$10/month statement credit for eligible Peloton memberships (through 12/31/27)",
+          "frequency": "monthly",
+          "category": "fitness",
+          "enrollment_required": true
+        },
+        {
+          "name": "IHG One Rewards Platinum Elite",
+          "description": "Automatic IHG One Rewards Platinum Elite status (through 12/31/27); link IHG account to activate",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
         },
         {
           "name": "Sapphire Lounge by The Club Access",
-          "value": 0,
-          "description": "Access to Chase Sapphire Lounge by The Club with up to two complimentary guests",
-          "frequency": "ongoing",
-          "category": "lounge"
+          "description": "Access to Chase Sapphire Lounge by The Club locations with up to two complimentary guests",
+          "frequency": "per_visit",
+          "category": "lounge",
+          "enrollment_required": false
         },
         {
           "name": "Priority Pass Select",
-          "value": 0,
-          "description": "Priority Pass Select membership with access to 1,300+ lounges worldwide",
-          "frequency": "ongoing",
-          "category": "lounge"
+          "description": "Priority Pass Select membership with access to 1,300+ lounges worldwide; additional guests $27",
+          "frequency": "per_visit",
+          "category": "lounge",
+          "enrollment_required": true
         },
         {
-          "name": "Air Canada Lounge Access",
-          "value": 0,
-          "description": "Eligible boarding pass holders also get access to select Air Canada Maple Leaf Lounges and Cafes",
-          "frequency": "ongoing",
-          "category": "lounge"
+          "name": "Air Canada Maple Leaf Lounges",
+          "description": "Complimentary access to select Air Canada Maple Leaf Lounges in the US, Canada, and Europe with eligible Star Alliance boarding pass",
+          "frequency": "per_visit",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Entry / TSA PreCheck / NEXUS Credit",
+          "value": 120,
+          "description": "Up to $120 statement credit for application fees, every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Reserve Travel Designer",
+          "description": "Complimentary personalized itinerary planning service for trips of $300+ in travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Primary Auto Rental Coverage",
+          "value": 75000,
+          "description": "Primary collision and theft coverage on most rentals worldwide up to $75,000",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 10000,
+          "description": "Up to $10,000 per traveler ($20,000 per trip) for nonrefundable expenses if your trip is cancelled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Delay Reimbursement",
+          "value": 500,
+          "description": "Up to $500 per traveler for meals and lodging when a common-carrier trip is delayed 6+ hours or requires an overnight stay",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "value": 3000,
+          "description": "Up to $3,000 per traveler for lost, damaged, or stolen baggage",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Delay Insurance",
+          "value": 500,
+          "description": "Up to $100/day for up to 5 days for essential purchases when checked baggage is delayed 6+ hours",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Emergency Evacuation & Transportation",
+          "value": 100000,
+          "description": "Up to $100,000 in medical services and transport for emergencies 100+ miles from home",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Travel Accident Insurance",
+          "value": 1000000,
+          "description": "Up to $1,000,000 in accidental death/dismemberment coverage on paid air, rail, or cruise transportation",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 10000,
+          "description": "Up to $10,000 per item ($50,000 per account) for theft or damage on new purchases for 120 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Return Protection",
+          "value": 500,
+          "description": "Up to $500 per item ($1,000 per 12 months) when a retailer won't accept a return within 90 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Extends US manufacturer warranties of three years or less by an additional year",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Roadside Assistance",
+          "description": "Up to $50 per incident for towing, battery, tire, locksmith, or fuel service (4 incidents per year)",
+          "frequency": "per_claim",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -2860,7 +3591,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 125000,
+        "value": 150000,
         "type": "points",
         "spend_requirement": 6000,
         "timeframe_months": 3
@@ -2940,10 +3671,10 @@
         }
       ],
       "signup_bonus": {
-        "value": 65000,
+        "value": 75000,
         "type": "miles",
-        "spend_requirement": 4000,
-        "timeframe_months": 4
+        "spend_requirement": 5000,
+        "timeframe_months": 5
       },
       "apr": {
         "regular": {
@@ -3044,17 +3775,92 @@
       "benefits": [
         {
           "name": "First Checked Bag Free",
-          "value": 0,
-          "description": "First checked bag free on domestic American Airlines itineraries",
-          "frequency": "ongoing",
-          "category": "travel"
+          "description": "First checked bag free on domestic American Airlines itineraries for the cardmember and up to 8 companions on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
         },
         {
           "name": "Preferred Boarding",
-          "value": 0,
-          "description": "Preferred boarding on American Airlines flights",
-          "frequency": "ongoing",
-          "category": "travel"
+          "description": "Preferred boarding on American Airlines flights for the cardmember and up to 8 companions on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Admirals Club Globe Passes",
+          "value": 300,
+          "description": "4 Admirals Club Globe single-visit passes each calendar year (approximately $300 value)",
+          "frequency": "annual",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "Turo Credit",
+          "value": 240,
+          "description": "Up to $240 in annual statement credits on Turo car-rental purchases",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Inflight Purchase Credit",
+          "value": 100,
+          "description": "Up to $100 in statement credits each calendar year on American Airlines inflight purchases",
+          "frequency": "annual",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Annual Splurge Credit",
+          "value": 100,
+          "description": "Up to $100 in statement credits each calendar year on a qualifying lifestyle merchant",
+          "frequency": "annual",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 120,
+          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Companion Certificate",
+          "description": "One American Airlines domestic round-trip Companion Certificate annually starting in year 2 ($99 ticketing fee plus taxes and fees)",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Flight Streak Bonus",
+          "description": "Earn 5,000 Loyalty Points for every 4 qualifying flights (up to 15,000 Loyalty Points per year)",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption and Travel Protections",
+          "description": "Trip cancellation/interruption insurance, lost luggage coverage, and rental-car loss-and-damage coverage",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Citi Entertainment",
+          "description": "Special access to presale tickets and exclusive experiences for music, sports, dining, and more",
+          "frequency": "per_purchase",
+          "category": "entertainment",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -3118,17 +3924,52 @@
       "benefits": [
         {
           "name": "First Checked Bag Free",
-          "value": 0,
-          "description": "First checked bag free on domestic American Airlines itineraries",
-          "frequency": "ongoing",
-          "category": "travel"
+          "description": "First checked bag free on domestic American Airlines itineraries for the cardmember and up to 4 companions on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
         },
         {
           "name": "Preferred Boarding",
-          "value": 0,
-          "description": "Preferred boarding on American Airlines flights",
-          "frequency": "ongoing",
-          "category": "travel"
+          "description": "Preferred boarding on American Airlines flights for the cardmember and up to 4 companions on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% Inflight Purchase Savings",
+          "description": "25% off in-flight food and beverage purchases on American Airlines flights when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "AAdvantage Loyalty Points",
+          "description": "Earn 1 Loyalty Point for every eligible AAdvantage mile earned from purchases — counts toward AAdvantage elite status",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Citi Quick Lock",
+          "description": "Quickly lock the card via the Citi Mobile app or online banking to prevent new charges if it is misplaced",
+          "frequency": "annual",
+          "category": "security",
+          "enrollment_required": false
+        },
+        {
+          "name": "Mastercard ID Theft Protection",
+          "description": "Free identity theft monitoring and resolution support through Mastercard",
+          "frequency": "annual",
+          "category": "security",
+          "enrollment_required": true
         }
       ],
       "tags": [
@@ -3568,9 +4409,62 @@
         {
           "name": "Annual Hotel Credit",
           "value": 100,
-          "description": "$100 off a single hotel stay of $500 or more booked through Citi Travel once per calendar year",
+          "description": "$100 off a single hotel stay of $500 or more (excluding taxes and fees) booked through Citi Travel once per calendar year",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 5000,
+          "description": "Up to $5,000 per trip in nonrefundable expenses if your trip is cancelled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Delay Coverage",
+          "value": 500,
+          "description": "Up to $500 per trip when a common-carrier trip is delayed 6+ hours or requires an overnight stay",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "value": 3000,
+          "description": "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Worldwide Car Rental Insurance",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Travel & Emergency Assistance",
+          "description": "24/7 access to medical, legal, and travel assistance referrals worldwide",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Citi Entertainment",
+          "description": "Special access to presale tickets and exclusive experiences for music, sports, dining, and more",
+          "frequency": "per_purchase",
+          "category": "entertainment",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -3701,7 +4595,7 @@
           "max": 26.74
         }
       },
-      "apply_link": "https://www.citi.com/credit-cards/costco-citi-business-card",
+      "apply_link": "https://www.citi.com/credit-cards/costco-anywhere-visa-business-card",
       "card_id": "costco-anywhere-visa-business-card-by-citi",
       "card_name": "Costco Anywhere Visa Business by Citi"
     },
@@ -3748,7 +4642,7 @@
           "max": 26.74
         }
       },
-      "apply_link": "https://www.citi.com/credit-cards/costco-citi-card",
+      "apply_link": "https://www.citi.com/credit-cards/costco-anywhere-visa-card",
       "card_id": "costco-anywhere-visa-card-by-citi",
       "card_name": "Costco Anywhere Visa by Citi"
     },
@@ -3810,24 +4704,90 @@
       "benefits": [
         {
           "name": "First Checked Bag Free",
-          "value": 0,
-          "description": "First checked bag free on Delta flights for you and up to 8 companions on the same reservation",
-          "frequency": "ongoing",
-          "category": "travel"
+          "description": "First checked bag free on Delta flights for the cardmember and up to 8 companions on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
         },
         {
-          "name": "Priority Boarding",
-          "value": 0,
-          "description": "Priority boarding on Delta flights (Main Cabin 1 priority)",
-          "frequency": "ongoing",
-          "category": "travel"
+          "name": "Main Cabin 1 Priority Boarding",
+          "description": "Main Cabin 1 priority boarding on Delta flights",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
         },
         {
           "name": "TakeOff 15",
-          "value": 0,
           "description": "15% off Delta award flights when booking through delta.com or the Fly Delta app",
-          "frequency": "ongoing",
-          "category": "travel"
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Delta Flight Credit",
+          "value": 200,
+          "description": "$200 Delta flight credit after spending $10,000 on the card in a calendar year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "20% Inflight Rebate",
+          "description": "20% back as a statement credit on inflight food, drinks, and audio headsets on Delta-operated flights",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Insurance Plan",
+          "value": 1250,
+          "description": "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Car Rental Loss & Damage Insurance",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Assist Hotline",
+          "description": "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 10000,
+          "description": "Up to $10,000 per occurrence for theft or accidental damage on new purchases for 90 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Adds up to 1 extra year to the original manufacturer's warranty (5 years or less)",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Amex Offers",
+          "description": "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": true
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -4279,11 +5239,84 @@
       "reward_type": "cashback",
       "benefits": [
         {
-          "name": "Annual Disney Statement Credit",
-          "value": 50,
-          "description": "Annual statement credit for Disney purchases",
+          "name": "Disney Resort & Cruise Anniversary Bonus",
+          "value": 200,
+          "description": "$200 in Disney Rewards Dollars after spending $2,000 per anniversary year on U.S. Disney Resort stays and Disney Cruise Line bookings",
           "frequency": "annual",
-          "category": "entertainment"
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Disney Theme Park Tickets Credit",
+          "value": 100,
+          "description": "$100 statement credit after spending $200 per anniversary year on U.S. Disney Theme Park tickets",
+          "frequency": "annual",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Disney Streaming Credit",
+          "value": 120,
+          "description": "Up to $10/month statement credit on Disney+, Hulu, or ESPN+ subscriptions of $10+ per transaction",
+          "frequency": "monthly",
+          "category": "streaming",
+          "enrollment_required": true
+        },
+        {
+          "name": "Disney Park Merchandise Discount",
+          "description": "10% off select merchandise purchases of $50 or more at Disneyland and Walt Disney World Resort locations",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Disney Park Dining Discount",
+          "description": "10% off select dining locations at Disneyland and Walt Disney World Resort",
+          "frequency": "per_purchase",
+          "category": "dining",
+          "enrollment_required": false
+        },
+        {
+          "name": "Disney Guided Tour Discount",
+          "description": "15% off non-discounted price for select guided tours at Disneyland and Walt Disney World Resort",
+          "frequency": "per_purchase",
+          "category": "entertainment",
+          "enrollment_required": false
+        },
+        {
+          "name": "Cardmember Photo Locations",
+          "description": "Private cardmember photo opportunities with complimentary digital downloads at Disneyland and Walt Disney World",
+          "frequency": "per_visit",
+          "category": "entertainment",
+          "enrollment_required": false
+        },
+        {
+          "name": "DisneyStore.com Discount",
+          "description": "10% savings on select purchases at shopDisney.com",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary one-year DashPass membership for $0 delivery fees on eligible DoorDash orders",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": true
+        },
+        {
+          "name": "0% APR on Disney Vacation Packages",
+          "description": "0% promotional APR for 6 months on select Disney vacation package purchases",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -5039,10 +6072,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 140000,
+        "value": 150000,
         "type": "points",
         "spend_requirement": 3000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 35,000 bonus points after spending a total of $6,000 in the first 6 months from account opening for a total of 185,000 bonus points"
       },
       "apr": {
         "regular": {
@@ -5195,10 +6229,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 90000,
         "type": "points",
         "spend_requirement": 2000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 35,000 bonus points after spending a total of $4,000 in the first 6 months from account opening for a total of 125,000 bonus points"
       },
       "apr": {
         "regular": {
@@ -5567,25 +6602,84 @@
       },
       "benefits": [
         {
-          "name": "Free Night Award",
-          "value": 0,
-          "description": "1 Free Night Award after spending $15,000 on eligible purchases in a calendar year, redeemable at properties up to 50,000 points",
+          "name": "Free Night Award (Spend Earned)",
+          "description": "1 Free Night Award after spending $15,000 on the card in a calendar year, redeemable at properties with redemption rates up to 50,000 points",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
           "name": "Gold Elite Status",
-          "value": 0,
-          "description": "Complimentary Marriott Bonvoy Gold Elite status with room upgrades, 25% bonus points, and late checkout at select properties",
-          "frequency": "ongoing",
-          "category": "hotel"
+          "description": "Complimentary Marriott Bonvoy Gold Elite status with 25% bonus points, room upgrades, 2pm late checkout, and enhanced in-room internet when available",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
           "name": "15 Elite Night Credits",
-          "value": 0,
-          "description": "15 Elite Night Credits each calendar year toward Marriott Bonvoy elite status qualification",
+          "description": "15 Elite Night Credits each calendar year toward higher Marriott Bonvoy elite status qualification",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Insurance Plan",
+          "value": 1250,
+          "description": "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Delay Insurance",
+          "value": 500,
+          "description": "Up to $500 per trip when a covered trip is delayed 6+ hours (max 2 claims per 12 months)",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Car Rental Loss & Damage Insurance",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 10000,
+          "description": "Up to $10,000 per occurrence for theft or accidental damage on new purchases for 90 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Adds up to 1 extra year to the original manufacturer's warranty (5 years or less)",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Assist Hotline",
+          "description": "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Amex Offers",
+          "description": "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": true
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -5675,24 +6769,85 @@
       "benefits": [
         {
           "name": "Free Night Award",
-          "value": 0,
-          "description": "One annual free night award up to 35,000 points value",
+          "description": "One annual free night award redeemable at properties with redemption rates up to 35,000 points (taxes and fees apply)",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
           "name": "15 Elite Night Credits",
-          "value": 0,
-          "description": "15 elite night credits toward Marriott Bonvoy status each year",
+          "description": "15 elite night credits each calendar year toward Marriott Bonvoy elite status qualification",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
           "name": "Silver Elite Status",
-          "value": 0,
-          "description": "Automatic Marriott Bonvoy Silver Elite status",
-          "frequency": "ongoing",
-          "category": "hotel"
+          "description": "Automatic Marriott Bonvoy Silver Elite status; spend $35,000+ in a calendar year for Gold Elite status",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 5000,
+          "description": "Up to $5,000 per trip in nonrefundable expenses if your trip is canceled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Delay Reimbursement",
+          "value": 500,
+          "description": "Up to $500 per traveler for meals and lodging when a common-carrier trip is delayed 12+ hours or requires an overnight stay",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "value": 3000,
+          "description": "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Delay Insurance",
+          "value": 100,
+          "description": "Up to $100/day for up to 5 days for essential purchases when checked baggage is delayed 6+ hours",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Auto Rental Coverage",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 500,
+          "description": "Up to $500 per item for theft or damage on new purchases for 120 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Extends US manufacturer warranties of three years or less by an additional year",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -6359,11 +7514,69 @@
       },
       "benefits": [
         {
-          "name": "6,000 Anniversary Points",
-          "value": 0,
-          "description": "6,000 bonus points on card anniversary each year",
+          "name": "Anniversary Points Bonus",
+          "value": 6000,
+          "description": "6,000 bonus points credited to your Rapid Rewards account each year on your account anniversary",
           "frequency": "annual",
-          "category": "travel"
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "First Checked Bag Free",
+          "description": "First checked bag free for the cardmember plus up to 8 passengers on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Complimentary Preferred Seat Selection",
+          "description": "Select a Preferred seat within 48 hours of departure (~$70 round trip value) when available",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "15% Flight Discount",
+          "description": "15% off promo code each anniversary year for one Southwest flight (excludes Basic fare)",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Companion Pass Boost",
+          "value": 10000,
+          "description": "10,000 Companion Pass qualifying points deposited each year by January 31",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "A-List Qualifying Points Boost",
+          "description": "Earn 1,500 Tier Qualifying Points for every $5,000 spent on the card toward A-List elite status",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% Inflight Purchase Credit",
+          "description": "25% back on inflight drinks and Wi-Fi purchases when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Group 5 Boarding",
+          "description": "Cardmember plus up to 8 passengers on the same reservation receive Group 5 priority boarding when available",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -6419,25 +7632,107 @@
       },
       "benefits": [
         {
-          "name": "Annual Travel Credit",
-          "value": 75,
-          "description": "Statement credit for Southwest Airlines purchases",
+          "name": "Anniversary Points Bonus",
+          "value": 7500,
+          "description": "7,500 bonus points credited to your Rapid Rewards account each year on your account anniversary",
           "frequency": "annual",
-          "category": "travel"
+          "category": "rewards",
+          "enrollment_required": false
         },
         {
-          "name": "7,500 Anniversary Points",
-          "value": 0,
-          "description": "7,500 bonus points on card anniversary each year",
-          "frequency": "annual",
-          "category": "travel"
+          "name": "First Checked Bag Free",
+          "description": "First checked bag free for the cardmember plus up to 8 passengers on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
         },
         {
-          "name": "4 Upgraded Boardings",
-          "value": 0,
-          "description": "4 upgraded boardings per year when available",
+          "name": "Preferred Seat at Booking",
+          "description": "Select a Preferred seat at booking at no additional charge when available (~$70 round-trip value)",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extra Legroom Seat Upgrades",
+          "description": "Unlimited upgrades to Extra Legroom seats within 48 hours of departure when available",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Group 5 Boarding",
+          "description": "Cardmember plus up to 8 passengers on the same reservation receive Group 5 priority boarding when available",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Companion Pass Boost",
+          "value": 10000,
+          "description": "10,000 Companion Pass qualifying points deposited each year by January 31",
           "frequency": "annual",
-          "category": "travel"
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "A-List Qualifying Points Boost",
+          "description": "Earn 2,500 Tier Qualifying Points for every $5,000 spent on the card toward A-List elite status",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% Inflight Purchase Credit",
+          "description": "25% back on inflight drinks and Wi-Fi purchases when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary DashPass for at least one year for $0 delivery fees on eligible DoorDash orders",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": true
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "value": 3000,
+          "description": "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Delay Insurance",
+          "value": 300,
+          "description": "Up to $100/day for up to 3 days for essential purchases when checked baggage is delayed 6+ hours",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 500,
+          "description": "Up to $500 per item for theft or damage on new purchases for 120 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Extends US manufacturer warranties of three years or less by an additional year",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -6645,11 +7940,19 @@
         },
         {
           "name": "Hotel Credit",
-          "value": 200,
-          "description": "Statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel",
-          "frequency": "annual",
+          "value": 600,
+          "description": "Up to $300 in statement credits each half (Jan-Jun and Jul-Dec) on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel",
+          "frequency": "semi_annual",
           "category": "hotel",
           "enrollment_required": false
+        },
+        {
+          "name": "Resy Dining Credit",
+          "value": 400,
+          "description": "Up to $100 in statement credits each quarter at participating U.S. Resy restaurants",
+          "frequency": "quarterly",
+          "category": "dining",
+          "enrollment_required": true
         },
         {
           "name": "Uber One Credit",
@@ -6661,10 +7964,18 @@
         },
         {
           "name": "Digital Entertainment Credit",
-          "value": 240,
-          "description": "$20/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM",
+          "value": 300,
+          "description": "$25/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM, YouTube",
           "frequency": "monthly",
           "category": "streaming",
+          "enrollment_required": true
+        },
+        {
+          "name": "Oura Ring Credit",
+          "value": 200,
+          "description": "Annual statement credit toward an Oura Ring purchase",
+          "frequency": "annual",
+          "category": "shopping",
           "enrollment_required": true
         },
         {
@@ -6904,7 +8215,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 200,
+        "value": 250,
         "type": "cash",
         "spend_requirement": 1000,
         "timeframe_months": 3
@@ -7307,25 +8618,102 @@
       },
       "benefits": [
         {
-          "name": "Annual United Travel Credit",
+          "name": "United Travel Credit",
           "value": 125,
-          "description": "Statement credit for United Airlines purchases",
+          "description": "Up to $125 annual statement credit for United Airlines purchases",
           "frequency": "annual",
-          "category": "travel"
+          "category": "travel",
+          "enrollment_required": false
         },
         {
-          "name": "Global Entry / TSA PreCheck Credit",
+          "name": "Renowned Hotels and Resorts Credit",
+          "value": 150,
+          "description": "Up to $150 annual statement credit for prepaid stays at Renowned Hotels and Resorts via United",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "JSX Travel Credit",
+          "value": 150,
+          "description": "Up to $150 annual statement credit toward JSX semi-private flight bookings",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Avis/Budget Car Rental Credit",
+          "value": 80,
+          "description": "Up to $80 annual statement credit for prepaid Avis or Budget car rental bookings",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Instacart+ Membership and Credits",
+          "value": 180,
+          "description": "Complimentary Instacart+ membership plus up to $180/year in Instacart credits ($10/month plus $5/month)",
+          "frequency": "monthly",
+          "category": "grocery",
+          "enrollment_required": true
+        },
+        {
+          "name": "Rideshare Credit",
           "value": 100,
-          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
-          "frequency": "multi_year",
-          "category": "security"
+          "description": "Up to $100 annually in rideshare credits ($8/month plus $12 in December) on participating rideshare apps",
+          "frequency": "monthly",
+          "category": "rideshare",
+          "enrollment_required": true
+        },
+        {
+          "name": "5,000-Mile Award Flight Rebate",
+          "value": 10000,
+          "description": "5,000 miles back twice per anniversary year on award flight redemptions paid with the card",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
         },
         {
           "name": "2 Free Checked Bags",
-          "value": 0,
-          "description": "First and second checked bags free on United flights",
-          "frequency": "ongoing",
-          "category": "travel"
+          "description": "First and second checked bags free on United flights for the cardmember and one travel companion on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Premier Access Boarding",
+          "description": "Premier Access priority boarding and check-in privileges on United flights",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% Inflight Purchase Rebate",
+          "description": "25% back on inflight food, drinks, and Wi-Fi purchases when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Premier Qualifying Points Boost",
+          "description": "Earn 1,000 PQP for every $5,000 spent (up to 10,000 PQP per calendar year) toward MileagePlus Premier elite status",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "DoorDash + DashPass",
+          "description": "Complimentary DashPass for at least one year plus monthly DoorDash credits when activated by Dec 31, 2027",
+          "frequency": "monthly",
+          "category": "dining",
+          "enrollment_required": true
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -7967,17 +9355,68 @@
       "benefits": [
         {
           "name": "Annual Airline Credit",
-          "value": 100,
-          "description": "Annual credit for airline purchases",
+          "value": 50,
+          "description": "$50 in statement credits each anniversary year after a minimum of $50 spent on airline purchases",
           "frequency": "annual",
-          "category": "travel"
+          "category": "travel",
+          "enrollment_required": false
         },
         {
           "name": "Cell Phone Protection",
-          "value": 0,
-          "description": "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card",
-          "frequency": "ongoing",
-          "category": "other"
+          "value": 1000,
+          "description": "Up to $1,000 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card",
+          "frequency": "per_claim",
+          "category": "telecom",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "description": "Reimbursement for nonrefundable trip expenses if your trip is cancelled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Delay Reimbursement",
+          "description": "Reimbursement for meals and lodging when your common-carrier trip is delayed 6+ hours",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "description": "Coverage for lost, stolen, or damaged baggage during common-carrier travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Auto Rental Coverage",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Travel and Emergency Services",
+          "description": "24/7 access to legal and medical referrals plus emergency transportation services worldwide",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Visa Signature Concierge",
+          "description": "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -8345,24 +9784,77 @@
       "benefits": [
         {
           "name": "Free Night Award",
-          "value": 0,
-          "description": "One annual free night award at any Category 1-4 Hyatt hotel",
+          "description": "One free night award annually at any Category 1-4 Hyatt hotel; valid through your account anniversary date",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
           "name": "Discoverist Status",
-          "value": 0,
-          "description": "Automatic World of Hyatt Discoverist elite status",
-          "frequency": "ongoing",
-          "category": "hotel"
+          "description": "Automatic World of Hyatt Discoverist elite status with perks like complimentary bottled water and 2pm late checkout when available",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
-          "name": "5 Qualifying Night Credits",
-          "value": 0,
-          "description": "5 qualifying night credits toward Hyatt elite status each year",
+          "name": "Anniversary Qualifying Nights",
+          "description": "5 qualifying night credits each anniversary year toward higher elite status, plus 2 additional for every $5,000 spent on the card",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Bonus Free Night After $15,000 Spend",
+          "description": "Earn a second free-night award (Category 1-4) after spending $15,000 on the card in a calendar year",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 5000,
+          "description": "Up to $5,000 per trip in nonrefundable expenses if your trip is canceled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "value": 3000,
+          "description": "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Baggage Delay Insurance",
+          "value": 500,
+          "description": "Up to $100/day for up to 5 days for essential purchases when checked baggage is delayed 6+ hours",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Auto Rental Coverage",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 500,
+          "description": "Up to $500 per item for theft or damage on new purchases for 120 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -8427,25 +9919,86 @@
       "reward_type": "points",
       "benefits": [
         {
-          "name": "Free Night Award",
-          "value": 0,
-          "description": "One annual free night award at any Category 1-4 Hyatt hotel",
-          "frequency": "annual",
-          "category": "hotel"
+          "name": "Hyatt Spending Credits",
+          "value": 100,
+          "description": "Up to $100 in statement credits per anniversary year as $50 statement credits on qualifying Hyatt purchases (twice per year)",
+          "frequency": "semi_annual",
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
           "name": "Discoverist Status",
-          "value": 0,
-          "description": "Automatic World of Hyatt Discoverist elite status",
-          "frequency": "ongoing",
-          "category": "hotel"
+          "description": "Automatic World of Hyatt Discoverist elite status with perks like complimentary bottled water and 2pm late checkout when available",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
         },
         {
-          "name": "5 Qualifying Night Credits",
-          "value": 0,
-          "description": "5 qualifying night credits toward Hyatt elite status each year",
+          "name": "Anniversary Qualifying Nights",
+          "description": "5 qualifying night credits each anniversary year toward higher elite status, plus 2 additional for every $10,000 spent",
           "frequency": "annual",
-          "category": "hotel"
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Bonus Free Night After $50,000 Spend",
+          "description": "Earn a free-night award (up to 30,000 points) after spending $50,000 on the card in a calendar year",
+          "frequency": "annual",
+          "category": "hotel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Employee Cards",
+          "description": "Add employee cards at no additional cost; spend on those cards earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 5000,
+          "description": "Up to $5,000 per trip in nonrefundable expenses if your trip is cancelled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Lost Luggage Reimbursement",
+          "value": 3000,
+          "description": "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Auto Rental Coverage",
+          "description": "Primary collision damage waiver coverage on rentals for business purposes",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Cell Phone Protection",
+          "value": 1000,
+          "description": "Up to $1,000 per claim ($25 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card",
+          "frequency": "per_claim",
+          "category": "telecom",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 10000,
+          "description": "Up to $10,000 per item for theft or damage on new purchases for 120 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "tags": [
@@ -8474,9 +10027,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 60000,
         "type": "points",
-        "spend_requirement": 10000,
+        "spend_requirement": 5000,
         "timeframe_months": 3
       },
       "apply_link": "https://creditcards.chase.com/business-credit-cards/world-of-hyatt/hyatt-business-card",

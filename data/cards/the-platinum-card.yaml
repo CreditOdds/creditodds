@@ -38,11 +38,17 @@ benefits:
     category: "travel"
     enrollment_required: true
   - name: "Hotel Credit"
-    value: 200
-    description: "Statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel"
-    frequency: "annual"
+    value: 600
+    description: "Up to $300 in statement credits each half (Jan-Jun and Jul-Dec) on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel"
+    frequency: "semi_annual"
     category: "hotel"
     enrollment_required: false
+  - name: "Resy Dining Credit"
+    value: 400
+    description: "Up to $100 in statement credits each quarter at participating U.S. Resy restaurants"
+    frequency: "quarterly"
+    category: "dining"
+    enrollment_required: true
   - name: "Uber One Credit"
     value: 120
     description: "Up to $10/month back on an auto-renewing Uber One membership"
@@ -50,10 +56,16 @@ benefits:
     category: "rideshare"
     enrollment_required: true
   - name: "Digital Entertainment Credit"
-    value: 240
-    description: "$20/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM"
+    value: 300
+    description: "$25/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM, YouTube"
     frequency: "monthly"
     category: "streaming"
+    enrollment_required: true
+  - name: "Oura Ring Credit"
+    value: 200
+    description: "Annual statement credit toward an Oura Ring purchase"
+    frequency: "annual"
+    category: "shopping"
     enrollment_required: true
   - name: "CLEAR Plus Credit"
     value: 209

@@ -8,34 +8,98 @@ annual_fee: 395
 benefits:
   - name: "Annual Travel Credit"
     value: 300
-    description: "Credit for bookings through Capital One Travel portal"
+    description: "Up to $300 in statement credits annually for bookings made through Capital One Travel"
     frequency: "annual"
     category: "travel"
+    enrollment_required: false
   - name: "Anniversary Miles Bonus"
-    value: 0
-    description: "10,000 bonus miles on account anniversary"
+    value: 100
+    description: "10,000 bonus miles on each account anniversary (worth at least $100 toward travel)"
     frequency: "annual"
-    category: "travel"
+    category: "rewards"
+    enrollment_required: false
   - name: "Capital One Lounge Access"
-    value: 0
-    description: "Complimentary access to Capital One Lounges"
-    frequency: "ongoing"
+    description: "Complimentary access to Capital One Lounges plus up to two complimentary guests per visit"
+    frequency: "per_visit"
     category: "lounge"
+    enrollment_required: false
   - name: "Priority Pass Select"
-    value: 0
-    description: "Complimentary Priority Pass Select membership with access to 1,300+ lounges worldwide"
-    frequency: "ongoing"
+    description: "Complimentary Priority Pass Select membership with unlimited lounge access at 1,300+ lounges worldwide; up to two complimentary guests"
+    frequency: "per_visit"
     category: "lounge"
+    enrollment_required: true
+  - name: "Plaza Premium Lounge Access"
+    description: "Complimentary access to Plaza Premium Lounges worldwide for the cardmember and up to two guests"
+    frequency: "per_visit"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Premier Collection Hotel Benefits"
+    value: 100
+    description: "$100 experience credit, room upgrade when available, daily breakfast for two, early check-in / late check-out on Premier Collection bookings"
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Lifestyle Collection Hotel Benefits"
+    value: 50
+    description: "$50 experience credit, room upgrade when available, and Wi-Fi on Lifestyle Collection bookings"
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120
-    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
-  - name: "Hertz President's Circle Status"
-    value: 0
-    description: "Complimentary Hertz President's Circle elite status"
-    frequency: "ongoing"
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years"
+    frequency: "every_4_years"
     category: "travel"
+    enrollment_required: false
+  - name: "Hertz President's Circle Status"
+    description: "Complimentary Hertz President's Circle elite status — top-tier benefits including upgrades and priority service"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Cell Phone Protection"
+    value: 800
+    description: "Up to $800 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
+  - name: "Primary Auto Rental Coverage"
+    description: "Primary collision damage waiver on rental cars worldwide (subject to terms)"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Cancellation/Interruption Insurance"
+    value: 2000
+    description: "Up to $2,000 per traveler for nonrefundable expenses if your trip is cancelled or cut short by covered events"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Delay Reimbursement"
+    value: 500
+    description: "Up to $500 per traveler when a common-carrier trip is delayed 6+ hours or requires an overnight stay"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Lost Luggage Reimbursement"
+    value: 3000
+    description: "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Adds up to 1 extra year to the original manufacturer's warranty on eligible purchases"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Eno Virtual Card Numbers"
+    description: "Generate one-time virtual card numbers for online purchases without exposing your real card details"
+    frequency: "per_purchase"
+    category: "security"
+    enrollment_required: false
 tags:
   - travel
   - premium

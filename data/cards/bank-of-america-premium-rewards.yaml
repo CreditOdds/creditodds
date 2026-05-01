@@ -9,14 +9,46 @@ reward_type: "points"
 benefits:
   - name: "Airline Incidental Credit"
     value: 100
-    description: "Annual statement credit for qualifying airline incidentals like seat upgrades, baggage fees, and in-flight services"
+    description: "Up to $100 in annual statement credits for qualifying airline incidentals like seat upgrades, baggage fees, in-flight services, and airline lounge fees — automatically applied"
     frequency: "annual"
     category: "travel"
-  - name: "Global Entry / TSA PreCheck Credit"
-    value: 120
-    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
+    enrollment_required: false
+  - name: "Airport Security Credit"
+    value: 100
+    description: "Up to $100 statement credit toward TSA PreCheck or Global Entry application fees, every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Preferred Rewards Bonus"
+    description: "Earn a 25%-75% bonus on points based on your Preferred Rewards tier (Gold, Platinum, Platinum Honors, or Diamond)"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: true
+  - name: "Travel Insurance Protections"
+    description: "Coverage for trip delays, cancellations, interruptions, baggage delays, lost luggage, and emergency evacuation and transportation"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Auto Rental Collision Damage Waiver"
+    description: "Coverage for collision and theft damage on eligible auto rentals when you decline the rental company's coverage"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Visa Signature Luxury Hotel Collection"
+    description: "Room upgrade upon arrival when available, complimentary daily breakfast, and other premium perks at participating luxury hotels"
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Visa Signature Concierge"
+    description: "24/7 access to a Visa Signature concierge for travel planning, restaurant recommendations, and event reservations"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - rewards

@@ -27,9 +27,42 @@ signup_bonus:
 benefits:
   - name: "CLEAR Plus Credit"
     value: 209
-    description: "Statement credit for CLEAR Plus airport security membership"
+    description: "Up to $209 in annual statement credits for a CLEAR Plus airport security membership"
     frequency: "annual"
     category: "security"
+    enrollment_required: true
+  - name: "LoungeBuddy Credit"
+    value: 100
+    description: "Up to $100 in annual statement credits for purchasing airport lounge passes through LoungeBuddy"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: true
+  - name: "Trip Delay Insurance"
+    value: 500
+    description: "Up to $500 per trip when a covered trip is delayed 12+ hours (max 2 claims per 12 months)"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Baggage Insurance Plan"
+    value: 1250
+    description: "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Global Assist Hotline"
+    description: "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Pay Over Time"
+    description: "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest"
+    frequency: "per_purchase"
+    category: "other"
     enrollment_required: true
 tags:
   - travel

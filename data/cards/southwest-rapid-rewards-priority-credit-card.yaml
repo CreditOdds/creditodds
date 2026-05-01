@@ -29,21 +29,81 @@ apr:
     min: 19.24
     max: 27.74
 benefits:
-  - name: "Annual Travel Credit"
-    value: 75
-    description: "Statement credit for Southwest Airlines purchases"
+  - name: "Anniversary Points Bonus"
+    value: 7500
+    description: "7,500 bonus points credited to your Rapid Rewards account each year on your account anniversary"
     frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "First Checked Bag Free"
+    description: "First checked bag free for the cardmember plus up to 8 passengers on the same reservation"
+    frequency: "per_flight"
     category: "travel"
-  - name: "7,500 Anniversary Points"
-    value: 0
-    description: "7,500 bonus points on card anniversary each year"
+    enrollment_required: false
+  - name: "Preferred Seat at Booking"
+    description: "Select a Preferred seat at booking at no additional charge when available (~$70 round-trip value)"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Extra Legroom Seat Upgrades"
+    description: "Unlimited upgrades to Extra Legroom seats within 48 hours of departure when available"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Group 5 Boarding"
+    description: "Cardmember plus up to 8 passengers on the same reservation receive Group 5 priority boarding when available"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Companion Pass Boost"
+    value: 10000
+    description: "10,000 Companion Pass qualifying points deposited each year by January 31"
     frequency: "annual"
-    category: "travel"
-  - name: "4 Upgraded Boardings"
-    value: 0
-    description: "4 upgraded boardings per year when available"
+    category: "rewards"
+    enrollment_required: false
+  - name: "A-List Qualifying Points Boost"
+    description: "Earn 2,500 Tier Qualifying Points for every $5,000 spent on the card toward A-List elite status"
     frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "25% Inflight Purchase Credit"
+    description: "25% back on inflight drinks and Wi-Fi purchases when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    description: "Complimentary DashPass for at least one year for $0 delivery fees on eligible DoorDash orders"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: true
+  - name: "Lost Luggage Reimbursement"
+    value: 3000
+    description: "Up to $3,000 per traveler for lost, damaged, or stolen baggage on common-carrier travel"
+    frequency: "per_trip"
     category: "travel"
+    enrollment_required: false
+  - name: "Baggage Delay Insurance"
+    value: 300
+    description: "Up to $100/day for up to 3 days for essential purchases when checked baggage is delayed 6+ hours"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 500
+    description: "Up to $500 per item for theft or damage on new purchases for 120 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Extends US manufacturer warranties of three years or less by an additional year"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - airline
   - travel

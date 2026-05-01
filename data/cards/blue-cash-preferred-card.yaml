@@ -41,9 +41,35 @@ apr:
 benefits:
   - name: "Disney Bundle Discount"
     value: 84
-    description: "$7/month statement credit toward the Disney Bundle (Disney+, Hulu, ESPN+)"
+    description: "$7/month statement credit toward the Disney Bundle (Disney+, Hulu, ESPN+) when you spend $9.99+ in a single transaction"
     frequency: "monthly"
     category: "streaming"
+    enrollment_required: true
+  - name: "Return Protection"
+    value: 300
+    description: "Up to $300 per item ($1,000 per year) when a retailer won't accept a return within 90 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Car Rental Loss & Damage Insurance"
+    description: "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage and pay with the card"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Global Assist Hotline"
+    description: "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Pay Over Time"
+    description: "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
+  - name: "Amex Offers"
+    description: "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card"
+    frequency: "per_purchase"
+    category: "statement_credit"
     enrollment_required: true
 tags:
   - cashback

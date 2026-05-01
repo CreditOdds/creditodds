@@ -7,34 +7,164 @@ annual_fee: 795
 benefits:
   - name: "Annual Travel Credit"
     value: 300
-    description: "Automatic statement credit for travel purchases"
+    description: "Automatic $300 statement credit each anniversary year for travel purchases — applies to nearly any travel-coded merchant"
     frequency: "annual"
     category: "travel"
+    enrollment_required: false
   - name: "The Edit Credit"
     value: 500
-    description: "Up to $250 biannually for prepaid bookings made through The Edit by Chase Travel"
+    description: "Up to $250 each half (Jan-Jun and Jul-Dec) for prepaid 2+ night bookings at The Edit luxury hotels via Chase Travel"
     frequency: "semi_annual"
     category: "hotel"
-  - name: "Global Entry / TSA PreCheck Credit"
+    enrollment_required: false
+  - name: "Chase Travel Hotel Credit"
+    value: 250
+    description: "Up to $250 in statement credits annually for prepaid 2+ night stays at IHG, Montage, Pendry, Omni, Virgin, Minor, and Pan Pacific hotels via Chase Travel (through 12/31/26)"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Sapphire Exclusive Tables Dining Credit"
+    value: 300
+    description: "Up to $150 in statement credits each half (Jan-Jun and Jul-Dec) at select Sapphire Exclusive Tables restaurants on OpenTable"
+    frequency: "semi_annual"
+    category: "dining"
+    enrollment_required: false
+  - name: "StubHub Credit"
+    value: 300
+    description: "Up to $150 each half (Jan-Jun and Jul-Dec) for StubHub and viagogo event purchases (through 12/31/27)"
+    frequency: "semi_annual"
+    category: "entertainment"
+    enrollment_required: true
+  - name: "DashPass Membership"
     value: 120
-    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
-    frequency: "multi_year"
-    category: "security"
+    description: "Complimentary DashPass premium membership with $0 delivery fees on eligible DoorDash orders"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "DoorDash Monthly Promos"
+    value: 300
+    description: "$5/month restaurant promo plus two $10/month grocery and retail promos through 12/31/27"
+    frequency: "monthly"
+    category: "dining"
+    enrollment_required: true
+  - name: "Lyft Credits"
+    value: 120
+    description: "$10 monthly Lyft in-app credit (through 9/30/27)"
+    frequency: "monthly"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "Apple TV+ and Apple Music"
+    value: 288
+    description: "Complimentary Apple TV+ and Apple Music individual subscriptions (through 6/22/27)"
+    frequency: "annual"
+    category: "streaming"
+    enrollment_required: true
+  - name: "Peloton Membership Credit"
+    value: 120
+    description: "$10/month statement credit for eligible Peloton memberships (through 12/31/27)"
+    frequency: "monthly"
+    category: "fitness"
+    enrollment_required: true
+  - name: "IHG One Rewards Platinum Elite"
+    description: "Automatic IHG One Rewards Platinum Elite status (through 12/31/27); link IHG account to activate"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
   - name: "Sapphire Lounge by The Club Access"
-    value: 0
-    description: "Access to Chase Sapphire Lounge by The Club with up to two complimentary guests"
-    frequency: "ongoing"
+    description: "Access to Chase Sapphire Lounge by The Club locations with up to two complimentary guests"
+    frequency: "per_visit"
     category: "lounge"
+    enrollment_required: false
   - name: "Priority Pass Select"
-    value: 0
-    description: "Priority Pass Select membership with access to 1,300+ lounges worldwide"
-    frequency: "ongoing"
+    description: "Priority Pass Select membership with access to 1,300+ lounges worldwide; additional guests $27"
+    frequency: "per_visit"
     category: "lounge"
-  - name: "Air Canada Lounge Access"
-    value: 0
-    description: "Eligible boarding pass holders also get access to select Air Canada Maple Leaf Lounges and Cafes"
-    frequency: "ongoing"
+    enrollment_required: true
+  - name: "Air Canada Maple Leaf Lounges"
+    description: "Complimentary access to select Air Canada Maple Leaf Lounges in the US, Canada, and Europe with eligible Star Alliance boarding pass"
+    frequency: "per_visit"
     category: "lounge"
+    enrollment_required: false
+  - name: "Global Entry / TSA PreCheck / NEXUS Credit"
+    value: 120
+    description: "Up to $120 statement credit for application fees, every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Reserve Travel Designer"
+    description: "Complimentary personalized itinerary planning service for trips of $300+ in travel"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Primary Auto Rental Coverage"
+    value: 75000
+    description: "Primary collision and theft coverage on most rentals worldwide up to $75,000"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Cancellation/Interruption Insurance"
+    value: 10000
+    description: "Up to $10,000 per traveler ($20,000 per trip) for nonrefundable expenses if your trip is cancelled or cut short by covered events"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Delay Reimbursement"
+    value: 500
+    description: "Up to $500 per traveler for meals and lodging when a common-carrier trip is delayed 6+ hours or requires an overnight stay"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Lost Luggage Reimbursement"
+    value: 3000
+    description: "Up to $3,000 per traveler for lost, damaged, or stolen baggage"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Baggage Delay Insurance"
+    value: 500
+    description: "Up to $100/day for up to 5 days for essential purchases when checked baggage is delayed 6+ hours"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Emergency Evacuation & Transportation"
+    value: 100000
+    description: "Up to $100,000 in medical services and transport for emergencies 100+ miles from home"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Travel Accident Insurance"
+    value: 1000000
+    description: "Up to $1,000,000 in accidental death/dismemberment coverage on paid air, rail, or cruise transportation"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 10000
+    description: "Up to $10,000 per item ($50,000 per account) for theft or damage on new purchases for 120 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Return Protection"
+    value: 500
+    description: "Up to $500 per item ($1,000 per 12 months) when a retailer won't accept a return within 90 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Extends US manufacturer warranties of three years or less by an additional year"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Roadside Assistance"
+    description: "Up to $50 per incident for towing, battery, tire, locksmith, or fuel service (4 incidents per year)"
+    frequency: "per_claim"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - premium

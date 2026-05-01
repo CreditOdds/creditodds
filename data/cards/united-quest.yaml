@@ -38,21 +38,78 @@ apr:
     min: 21.24
     max: 28.24
 benefits:
-  - name: "Annual United Travel Credit"
+  - name: "United Travel Credit"
     value: 125
-    description: "Statement credit for United Airlines purchases"
+    description: "Up to $125 annual statement credit for United Airlines purchases"
     frequency: "annual"
     category: "travel"
-  - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
-  - name: "2 Free Checked Bags"
-    value: 0
-    description: "First and second checked bags free on United flights"
-    frequency: "ongoing"
+    enrollment_required: false
+  - name: "Renowned Hotels and Resorts Credit"
+    value: 150
+    description: "Up to $150 annual statement credit for prepaid stays at Renowned Hotels and Resorts via United"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "JSX Travel Credit"
+    value: 150
+    description: "Up to $150 annual statement credit toward JSX semi-private flight bookings"
+    frequency: "annual"
     category: "travel"
+    enrollment_required: false
+  - name: "Avis/Budget Car Rental Credit"
+    value: 80
+    description: "Up to $80 annual statement credit for prepaid Avis or Budget car rental bookings"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Instacart+ Membership and Credits"
+    value: 180
+    description: "Complimentary Instacart+ membership plus up to $180/year in Instacart credits ($10/month plus $5/month)"
+    frequency: "monthly"
+    category: "grocery"
+    enrollment_required: true
+  - name: "Rideshare Credit"
+    value: 100
+    description: "Up to $100 annually in rideshare credits ($8/month plus $12 in December) on participating rideshare apps"
+    frequency: "monthly"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "5,000-Mile Award Flight Rebate"
+    value: 10000
+    description: "5,000 miles back twice per anniversary year on award flight redemptions paid with the card"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "2 Free Checked Bags"
+    description: "First and second checked bags free on United flights for the cardmember and one travel companion on the same reservation"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Premier Access Boarding"
+    description: "Premier Access priority boarding and check-in privileges on United flights"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "25% Inflight Purchase Rebate"
+    description: "25% back on inflight food, drinks, and Wi-Fi purchases when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Premier Qualifying Points Boost"
+    description: "Earn 1,000 PQP for every $5,000 spent (up to 10,000 PQP per calendar year) toward MileagePlus Premier elite status"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "DoorDash + DashPass"
+    description: "Complimentary DashPass for at least one year plus monthly DoorDash credits when activated by Dec 31, 2027"
+    frequency: "monthly"
+    category: "dining"
+    enrollment_required: true
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - airline
   - travel

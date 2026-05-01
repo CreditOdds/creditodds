@@ -7,11 +7,64 @@ category: "rewards"
 annual_fee: 149
 reward_type: "cashback"
 benefits:
-  - name: "Annual Disney Statement Credit"
-    value: 50
-    description: "Annual statement credit for Disney purchases"
+  - name: "Disney Resort & Cruise Anniversary Bonus"
+    value: 200
+    description: "$200 in Disney Rewards Dollars after spending $2,000 per anniversary year on U.S. Disney Resort stays and Disney Cruise Line bookings"
     frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Disney Theme Park Tickets Credit"
+    value: 100
+    description: "$100 statement credit after spending $200 per anniversary year on U.S. Disney Theme Park tickets"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Disney Streaming Credit"
+    value: 120
+    description: "Up to $10/month statement credit on Disney+, Hulu, or ESPN+ subscriptions of $10+ per transaction"
+    frequency: "monthly"
+    category: "streaming"
+    enrollment_required: true
+  - name: "Disney Park Merchandise Discount"
+    description: "10% off select merchandise purchases of $50 or more at Disneyland and Walt Disney World Resort locations"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Disney Park Dining Discount"
+    description: "10% off select dining locations at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
+  - name: "Disney Guided Tour Discount"
+    description: "15% off non-discounted price for select guided tours at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
     category: "entertainment"
+    enrollment_required: false
+  - name: "Cardmember Photo Locations"
+    description: "Private cardmember photo opportunities with complimentary digital downloads at Disneyland and Walt Disney World"
+    frequency: "per_visit"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "DisneyStore.com Discount"
+    description: "10% savings on select purchases at shopDisney.com"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    description: "Complimentary one-year DashPass membership for $0 delivery fees on eligible DoorDash orders"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: true
+  - name: "0% APR on Disney Vacation Packages"
+    description: "0% promotional APR for 6 months on select Disney vacation package purchases"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - rewards
   - shopping

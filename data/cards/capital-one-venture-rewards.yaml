@@ -9,9 +9,51 @@ reward_type: "miles"
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120
-    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Hertz Five Star Status"
+    description: "Complimentary Hertz Five Star elite status with upgrades when available, faster service, and bonus points"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Lifestyle Collection Hotel Benefits"
+    value: 50
+    description: "$50 experience credit, room upgrade when available, and Wi-Fi on Lifestyle Collection bookings via Capital One Travel"
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Travel Accident Insurance"
+    description: "Accidental death and dismemberment coverage when you pay for a common-carrier ticket with the card"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Auto Rental Coverage"
+    description: "Secondary collision damage waiver coverage on eligible auto rentals worldwide when you decline the rental company's coverage"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Adds up to 1 extra year to the original manufacturer's warranty on eligible purchases"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Visa Signature Concierge"
+    description: "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Eno Virtual Card Numbers"
+    description: "Generate one-time virtual card numbers for online purchases without exposing your real card details"
+    frequency: "per_purchase"
     category: "security"
+    enrollment_required: false
 tags:
   - travel
   - rewards

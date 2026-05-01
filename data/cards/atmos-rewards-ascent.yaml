@@ -34,8 +34,34 @@ signup_bonus:
   note: "Plus a $99 Companion Fare (plus taxes and fees from $23)"
 benefits:
   - name: "Companion Fare"
-    value: 0
-    description: "$99 Companion Fare (plus taxes and fees from $23) each account anniversary after spending $6,000 or more in purchases within the prior anniversary year"
+    description: "$99 Companion Fare (plus taxes and fees from $23) each account anniversary after spending $6,000 or more in purchases in the prior anniversary year"
     frequency: "annual"
     category: "travel"
+    enrollment_required: false
+  - name: "Free Checked Bag"
+    description: "First checked bag free for the cardmember and up to 6 guests on the same reservation when paid with the card"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Priority Boarding"
+    description: "Preferred boarding for the cardmember and up to 6 guests on Alaska Airlines flights"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Alaska Lounge+ Membership Discount"
+    value: 100
+    description: "$100 off an annual Alaska Lounge+ Membership purchased with the card"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "20% Inflight Purchase Rebate"
+    description: "20% back on Alaska Airlines and Hawaiian Airlines inflight purchases when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "10% Bonus on Points Earned"
+    description: "10% bonus on all points earned with an eligible Bank of America banking account"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: true
 apply_link: https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/

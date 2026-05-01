@@ -26,24 +26,47 @@ signup_bonus:
   timeframe_months: 3
   note: "75,000 miles after $7,500 in 3 months, plus 75,000 miles after $30,000 in 6 months"
 benefits:
-  - name: "Business Travel Credit"
+  - name: "Advertising / Software Credit"
     value: 50
-    description: "$50 annual credit for purchases made through Capital One Business Travel"
+    description: "Up to $50 in annual statement credits for qualifying advertising or software merchant purchases"
     frequency: "annual"
-    category: "travel"
-  - name: "Software and Advertising Credit"
-    value: 50
-    description: "Up to $50 annual statement credit for qualifying software and advertising purchases"
-    frequency: "annual"
-    category: "other"
+    category: "statement_credit"
+    enrollment_required: false
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120
-    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Hertz Five Star Status"
+    description: "Complimentary Hertz Five Star elite status with skip-the-counter access at select locations, wider vehicle selection, and bonus points"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Lifestyle Collection Hotel Benefits"
+    value: 50
+    description: "$50 experience credit, room upgrade when available, and Wi-Fi on Lifestyle Collection bookings via Capital One Business Travel"
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Capital One Business Travel"
+    description: "Complimentary access to Capital One Business Travel — an all-in-one travel management solution for booking and expense tracking"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
   - name: "Free Employee Cards"
-    value: 0
-    description: "Add employee cards at no additional cost; employee purchases earn miles on the primary account"
-    frequency: "ongoing"
-    category: "other"
+    description: "Add employee cards at no additional cost; spend on those cards earns rewards on the main account"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Eno Virtual Card Numbers"
+    description: "Generate one-time virtual card numbers for online purchases without exposing your real card details"
+    frequency: "per_purchase"
+    category: "security"
+    enrollment_required: false
 apply_link: https://www.capitalone.com/small-business/credit-cards/venture-business/

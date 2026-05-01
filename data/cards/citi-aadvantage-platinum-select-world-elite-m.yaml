@@ -7,15 +7,40 @@ reward_type: "miles"
 image: "citi-aadvantage-platinum-select-world-elite.png"
 benefits:
   - name: "First Checked Bag Free"
-    value: 0
-    description: "First checked bag free on domestic American Airlines itineraries"
-    frequency: "ongoing"
+    description: "First checked bag free on domestic American Airlines itineraries for the cardmember and up to 4 companions on the same reservation"
+    frequency: "per_flight"
     category: "travel"
+    enrollment_required: false
   - name: "Preferred Boarding"
-    value: 0
-    description: "Preferred boarding on American Airlines flights"
-    frequency: "ongoing"
+    description: "Preferred boarding on American Airlines flights for the cardmember and up to 4 companions on the same reservation"
+    frequency: "per_flight"
     category: "travel"
+    enrollment_required: false
+  - name: "25% Inflight Purchase Savings"
+    description: "25% off in-flight food and beverage purchases on American Airlines flights when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "AAdvantage Loyalty Points"
+    description: "Earn 1 Loyalty Point for every eligible AAdvantage mile earned from purchases — counts toward AAdvantage elite status"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Citi Quick Lock"
+    description: "Quickly lock the card via the Citi Mobile app or online banking to prevent new charges if it is misplaced"
+    frequency: "annual"
+    category: "security"
+    enrollment_required: false
+  - name: "Mastercard ID Theft Protection"
+    description: "Free identity theft monitoring and resolution support through Mastercard"
+    frequency: "annual"
+    category: "security"
+    enrollment_required: true
 tags:
   - travel
   - airline

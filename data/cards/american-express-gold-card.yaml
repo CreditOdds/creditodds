@@ -31,6 +31,44 @@ benefits:
     frequency: "semi_annual"
     category: "dining"
     enrollment_required: true
+  - name: "The Hotel Collection"
+    description: "$100 experience credit and room upgrade when available on 2+ night prepaid Hotel Collection bookings through Amex Travel"
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Baggage Insurance Plan"
+    value: 1250
+    description: "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Return Protection"
+    value: 300
+    description: "Up to $300 per item ($1,000 per year) when a retailer won't accept a return within 90 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 10000
+    description: "Up to $10,000 per occurrence ($50,000 per year) for theft or accidental damage on new purchases for 90 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Adds up to 1 extra year to the original manufacturer's warranty (5 years or less)"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Pay Over Time"
+    description: "Plan It allows splitting eligible $100+ purchases into fixed monthly payments with a fixed fee instead of interest"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
 tags:
   - travel
   - dining

@@ -8,14 +8,70 @@ annual_fee: 95
 benefits:
   - name: "Annual Hotel Credit"
     value: 50
-    description: "Statement credit for hotel stays booked through Chase Travel"
+    description: "$50 annual statement credit for hotel stays booked through Chase Travel"
     frequency: "annual"
     category: "hotel"
-  - name: "DoorDash DashPass"
-    value: 0
-    description: "Complimentary DoorDash DashPass membership"
-    frequency: "ongoing"
+    enrollment_required: false
+  - name: "Anniversary Bonus Points"
+    description: "10% anniversary bonus points on the previous year's total purchases (e.g., $25,000 spent earns an additional 2,500 points)"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "25% More Value via Chase Travel"
+    description: "Points are worth 25% more when redeemed for travel through Chase Travel"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    description: "Complimentary DashPass for at least one year plus $10/month off non-restaurant DoorDash orders when activated by Dec 31, 2027"
+    frequency: "monthly"
     category: "dining"
+    enrollment_required: true
+  - name: "Trip Cancellation/Interruption Insurance"
+    value: 10000
+    description: "Up to $10,000 per traveler ($20,000 per trip) in nonrefundable expenses if your trip is canceled or cut short by covered events"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Delay Reimbursement"
+    value: 500
+    description: "Up to $500 per traveler for meals and lodging when a common-carrier trip is delayed 12+ hours or requires an overnight stay"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Baggage Delay Insurance"
+    value: 500
+    description: "Up to $100/day for up to 5 days for essential purchases when checked baggage is delayed 6+ hours"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Primary Auto Rental Coverage"
+    value: 60000
+    description: "Primary collision damage waiver up to $60,000 on rentals (secondary in New York), no need to use personal auto insurance"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 500
+    description: "Up to $500 per item ($50,000 per account) for theft or damage on new purchases for 120 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Extends US manufacturer warranties of three years or less by an additional year"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Travel & Emergency Assistance"
+    description: "24/7 access to legal and medical referrals and travel assistance services worldwide"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - dining

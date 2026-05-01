@@ -8,20 +8,68 @@ annual_fee: 150
 reward_type: "miles"
 benefits:
   - name: "First Checked Bag Free"
-    value: 0
-    description: "First checked bag free on Delta flights for you and up to 8 companions on the same reservation"
-    frequency: "ongoing"
+    description: "First checked bag free on Delta flights for the cardmember and up to 8 companions on the same reservation"
+    frequency: "per_flight"
     category: "travel"
-  - name: "Priority Boarding"
-    value: 0
-    description: "Priority boarding on Delta flights (Main Cabin 1 priority)"
-    frequency: "ongoing"
+    enrollment_required: false
+  - name: "Main Cabin 1 Priority Boarding"
+    description: "Main Cabin 1 priority boarding on Delta flights"
+    frequency: "per_flight"
     category: "travel"
+    enrollment_required: false
   - name: "TakeOff 15"
-    value: 0
     description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
-    frequency: "ongoing"
+    frequency: "per_purchase"
     category: "travel"
+    enrollment_required: false
+  - name: "Delta Flight Credit"
+    value: 200
+    description: "$200 Delta flight credit after spending $10,000 on the card in a calendar year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "20% Inflight Rebate"
+    description: "20% back as a statement credit on inflight food, drinks, and audio headsets on Delta-operated flights"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Baggage Insurance Plan"
+    value: 1250
+    description: "Up to $1,250 for carry-on and $500 for checked baggage when lost or damaged on a common carrier paid with the card"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Car Rental Loss & Damage Insurance"
+    description: "Secondary collision damage waiver coverage on eligible auto rentals when you decline the rental company's coverage"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Global Assist Hotline"
+    description: "24/7 access to medical, legal, financial, and travel assistance services when more than 100 miles from home"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 10000
+    description: "Up to $10,000 per occurrence for theft or accidental damage on new purchases for 90 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Adds up to 1 extra year to the original manufacturer's warranty (5 years or less)"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Amex Offers"
+    description: "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - airline
   - travel
