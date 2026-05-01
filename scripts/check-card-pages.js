@@ -105,8 +105,13 @@ function stripHtml(html) {
     .replace(/<nav\b[^<]*(?:(?!<\/nav>)<[^<]*)*<\/nav>/gi, '')
     .replace(/<header\b[^<]*(?:(?!<\/header>)<[^<]*)*<\/header>/gi, '')
     .replace(/<footer\b[^<]*(?:(?!<\/footer>)<[^<]*)*<\/footer>/gi, '')
-    // Mark strikethrough content so the model knows to ignore it
+    // Mark strikethrough content so the model knows to ignore it.
+    // Covers semantic tags, CSS class tokens (strike/strikethrough/strike-through/line-through),
+    // and inline `text-decoration: line-through` styles. The class regex requires a token
+    // boundary so e.g. Chase's sibling class `strikeThroughFollow` is NOT matched.
     .replace(/<(s|del|strike)\b[^>]*>([\s\S]*?)<\/\1>/gi, ' [STRIKETHROUGH: $2] ')
+    .replace(/<(\w+)\b[^>]*\sclass\s*=\s*["']([^"']*\s)?(?:strike|strikethrough|strike-through|line-through)(\s[^"']*)?["'][^>]*>([\s\S]*?)<\/\1>/gi, ' [STRIKETHROUGH: $4] ')
+    .replace(/<(\w+)\b[^>]*\sstyle\s*=\s*["'][^"']*\bline-through\b[^"']*["'][^>]*>([\s\S]*?)<\/\1>/gi, ' [STRIKETHROUGH: $2] ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
