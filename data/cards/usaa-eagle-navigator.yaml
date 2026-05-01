@@ -5,6 +5,7 @@ image: "usaa-eagle-navigator.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
+foreign_transaction_fee: false
 tags:
   - travel
   - rewards
@@ -28,3 +29,15 @@ apr:
   regular:
     min: 18.99
     max: 28.99
+benefits:
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Active Duty Military Benefits"
+    description: "$0 annual fee while on active duty plus reduced APR under Servicemembers Civil Relief Act for eligible service members"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
