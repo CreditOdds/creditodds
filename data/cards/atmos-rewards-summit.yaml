@@ -31,9 +31,15 @@ signup_bonus:
   spend_requirement: 4000
   timeframe_months: 3
 benefits:
-  - name: "Global 100K Companion Award"
+  - name: "Annual Global 25K Companion Award"
     value: 25000
-    description: "Receive a Global 100K Companion Award every year you spend $60,000 or more on purchases"
+    description: "Receive a 25,000-point Global Companion Award each card anniversary year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Global 100K Companion Award"
+    value: 100000
+    description: "Earn a 100,000-point Global Companion Award after spending $60,000 or more on purchases in a card anniversary year"
     frequency: "annual"
     category: "travel"
     enrollment_required: false

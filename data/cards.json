@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-01T21:11:09.253Z",
+  "generated_at": "2026-05-01T22:23:00.547Z",
   "count": 160,
   "categories": [
     {
@@ -1098,6 +1098,11 @@
           "unit": "points_per_dollar"
         },
         {
+          "category": "ev_charging",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
           "category": "transit",
           "value": 2,
           "unit": "points_per_dollar"
@@ -1114,9 +1119,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 70000,
+        "value": 80000,
         "type": "points",
-        "spend_requirement": 4000,
+        "spend_requirement": 5000,
         "timeframe_months": 3
       },
       "benefits": [
@@ -1227,9 +1232,17 @@
       },
       "benefits": [
         {
-          "name": "Global 100K Companion Award",
+          "name": "Annual Global 25K Companion Award",
           "value": 25000,
-          "description": "Receive a Global 100K Companion Award every year you spend $60,000 or more on purchases",
+          "description": "Receive a 25,000-point Global Companion Award each card anniversary year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global 100K Companion Award",
+          "value": 100000,
+          "description": "Earn a 100,000-point Global Companion Award after spending $60,000 or more on purchases in a card anniversary year",
           "frequency": "annual",
           "category": "travel",
           "enrollment_required": false
@@ -5029,6 +5042,7 @@
       "bank": "Barclays",
       "slug": "hawaiian-airlines-world-elite-mastercard",
       "accepting_applications": true,
+      "apply_link": "https://cards.barclaycardus.com/banking/credit-card/hawaiian-air/mastercard-mastercard-world-elite/boh-banner/db1f6e1d-b9df-4e81-a0e2-9894f3a3690d/?referrerid=PTRBABOHHAL-pp",
       "category": "travel",
       "image": "barclays-hawaiian.png",
       "annual_fee": 99,
@@ -5043,7 +5057,7 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "Hawaiian Airlines purchases"
+          "note": "Eligible Hawaiian Airlines and Alaska Airlines purchases"
         },
         {
           "category": "gas",
@@ -5067,9 +5081,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 50000,
-        "type": "miles",
-        "spend_requirement": 2000,
+        "value": 60000,
+        "type": "points",
+        "spend_requirement": 1000,
         "timeframe_months": 3
       },
       "apr": {
@@ -5085,15 +5099,15 @@
       "benefits": [
         {
           "name": "First Checked Bag Free",
-          "description": "Free first checked bag for the primary cardmember and up to one travel companion on Hawaiian Airlines flights when the card is used to book",
+          "description": "Two free checked bags on eligible Hawaiian Airlines and Alaska Airlines flights",
           "frequency": "per_flight",
           "category": "travel",
           "enrollment_required": false
         },
         {
           "name": "50% Off Companion Discount",
-          "description": "Receive a one-time 50% off companion discount code each year on a round-trip coach flight on Hawaiian Airlines after the account anniversary",
-          "frequency": "annual",
+          "description": "Receive a one-time 50% off companion discount for roundtrip main cabin travel on eligible flights",
+          "frequency": "one_time",
           "category": "travel",
           "enrollment_required": false
         },
@@ -5825,8 +5839,8 @@
       "benefits": [
         {
           "name": "Cell Phone Protection",
-          "value": 600,
-          "description": "Up to $600 per claim ($25 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card",
+          "value": 1000,
+          "description": "Up to $1,000 per claim ($100 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card",
           "frequency": "per_claim",
           "category": "telecom",
           "enrollment_required": false
@@ -7036,6 +7050,13 @@
           "enrollment_required": false
         },
         {
+          "name": "Complimentary Standard Seat",
+          "description": "Select a Standard seat within 48 hours prior to departure for the cardmember plus up to 8 passengers on the same reservation, when available",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
           "name": "25% Inflight Purchase Credit",
           "description": "25% back on inflight drinks and Wi-Fi purchases when paid with the card",
           "frequency": "per_purchase",
@@ -7055,6 +7076,13 @@
           "frequency": "annual",
           "category": "rewards",
           "enrollment_required": true
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
         }
       ],
       "apply_link": "https://creditcards.chase.com/travel-credit-cards/southwest/plus",
