@@ -6,6 +6,7 @@ apply_link: https://cards.barclaycardus.com/banking/cards/jetblue-business-card/
 category: "business"
 image: "barclays-jetblue-business.png"
 annual_fee: 99
+foreign_transaction_fee: false
 reward_type: "points"
 tags:
   - travel
@@ -35,3 +36,25 @@ apr:
   regular:
     min: 19.49
     max: 29.49
+benefits:
+  - name: "Anniversary Points Bonus"
+    value: 5000
+    description: "5,000 bonus TrueBlue points each year after your account anniversary"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "First Checked Bag Free"
+    description: "First checked bag free for the cardmember and up to 3 traveling companions on JetBlue-operated flights when the card is used to book"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "50% Off Inflight Purchases"
+    description: "50% savings on eligible food, drinks, and Wi-Fi purchased on JetBlue-operated flights"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Mosaic Status Boost"
+    description: "Earn Mosaic elite status after $50,000 in eligible purchases per calendar year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
