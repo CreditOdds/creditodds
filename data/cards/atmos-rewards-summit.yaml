@@ -30,3 +30,65 @@ signup_bonus:
   type: points
   spend_requirement: 4000
   timeframe_months: 3
+benefits:
+  - name: "Global 100K Companion Award"
+    value: 25000
+    description: "Receive a Global 100K Companion Award every year you spend $60,000 or more on purchases"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Free Checked Bag and Preferred Boarding"
+    description: "First checked bag free and priority boarding for the cardmember and up to 6 guests on the same reservation when paid with the card"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Alaska Lounge Passes"
+    value: 500
+    description: "8 Alaska Lounge passes plus 8 Wi-Fi passes each anniversary year"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Same-Day Confirmed Change Fee Waiver"
+    description: "Same-day confirmed flight change fees waived (excludes Saver fares)"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Partner Award Booking Fee Waiver"
+    value: 25
+    description: "Up to $25 per person, per round-trip booking fee waived on partner award flights"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Travel Delay Voucher"
+    value: 50
+    description: "$50 voucher for meals or drinks on same-day cancellations or delays of 2+ hours on Alaska or Hawaiian flights"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "20% Inflight Purchase Rebate"
+    description: "20% back on Alaska and Hawaiian Airlines inflight purchases when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Status Points Boost"
+    value: 10000
+    description: "10,000 annual status points each card anniversary plus 1 status point per $2 spent toward Atmos Rewards elite status"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "10% Bonus on Points Earned"
+    description: "10% bonus on all points earned with eligible Bank of America banking accounts"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false

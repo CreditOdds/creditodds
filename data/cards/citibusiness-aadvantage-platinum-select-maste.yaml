@@ -22,6 +22,10 @@ rewards:
   - category: gas
     value: 2
     unit: points_per_dollar
+  - category: phone
+    value: 2
+    unit: points_per_dollar
+    note: "Telecommunications merchants, cable, and satellite providers"
   - category: everything_else
     value: 1
     unit: points_per_dollar
@@ -34,4 +38,40 @@ apr:
   regular:
     min: 21.24
     max: 29.99
+benefits:
+  - name: "First Checked Bag Free"
+    description: "First checked bag free on domestic American Airlines itineraries for the cardmember and up to 4 companions on the same reservation"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Preferred Boarding"
+    description: "Group 5 boarding on American Airlines flights for the cardmember and up to 4 companions on the same reservation"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Companion Certificate"
+    description: "American Airlines Companion Certificate good for domestic main-cabin travel for up to two companions ($99 ticketing fee plus taxes) after $30,000 in purchases each cardmembership year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "25% Inflight Purchase Savings"
+    description: "25% off in-flight food, beverages, and Wi-Fi purchases on American Airlines flights when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Free Employee Cards"
+    description: "Add employee cards at no additional cost; spend on those cards earns AAdvantage miles"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "AAdvantage Loyalty Points"
+    description: "Earn 1 Loyalty Point per $1 spent toward AAdvantage elite status qualification"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-business-credit-card

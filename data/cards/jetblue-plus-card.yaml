@@ -37,3 +37,46 @@ apr:
   regular:
     min: 20.24
     max: 29.99
+benefits:
+  - name: "Anniversary Points Bonus"
+    value: 5000
+    description: "5,000 bonus TrueBlue points each year after your account anniversary"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "First Checked Bag Free"
+    description: "First checked bag free for the cardmember and up to 3 traveling companions on JetBlue-operated flights when the card is used to book"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "JetBlue Vacations Credit"
+    value: 100
+    description: "$100 statement credit after purchasing a JetBlue Vacations package of $100 or more (one credit per calendar year)"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "50% Off Inflight Purchases"
+    description: "50% savings on eligible food, drinks, and Wi-Fi purchased on JetBlue-operated flights"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Mosaic Status Boost"
+    description: "Earn Mosaic elite status after $50,000 in eligible purchases per calendar year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "10% Points Back on Award Flights"
+    description: "Get 10% of your TrueBlue points back after redeeming for and traveling on a JetBlue-operated award flight"
+    frequency: "per_flight"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Points Payback"
+    description: "Redeem points for statement credits on purchases over $25 within 90 days (up to $1,000 in credits per year)"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false

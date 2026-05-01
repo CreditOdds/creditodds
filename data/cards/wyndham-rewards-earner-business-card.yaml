@@ -32,3 +32,30 @@ apr:
   regular:
     min: 19.49
     max: 29.49
+benefits:
+  - name: "Anniversary Points Bonus"
+    value: 15000
+    description: "15,000 bonus Wyndham Rewards points each anniversary year — enough for up to 2 free award nights at participating Wyndham hotels"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Wyndham Rewards Diamond Status"
+    description: "Automatic Diamond level status — Wyndham's top elite tier — for as long as you're a cardmember"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Caesars Rewards Platinum Status"
+    description: "Automatic complimentary Caesars Rewards Platinum tier for the cardmember"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Free Employee Cards"
+    description: "Add employee cards at no additional cost; spend on those cards earns rewards on the main account"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false

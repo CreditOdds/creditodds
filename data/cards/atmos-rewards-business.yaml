@@ -33,3 +33,45 @@ signup_bonus:
   type: points
   spend_requirement: 4000
   timeframe_months: 3
+benefits:
+  - name: "Coach Companion Fare"
+    description: "Annual Coach Companion Fare from $121 (taxes and fees apply) on a paid Alaska Airlines flight"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Free Checked Bag"
+    description: "First checked bag free for the cardmember on Alaska Airlines flights when paid with the card"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Priority Boarding"
+    description: "Priority boarding on Alaska Airlines flights when paid with the card"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Alaska Lounge+ Membership Discount"
+    value: 100
+    description: "$100 off an annual Alaska Lounge+ Membership"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "10% Bonus on Points Earned"
+    description: "10% bonus on all points earned with an eligible Bank of America business banking account"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Free Employee Cards"
+    description: "Add employee cards at no additional cost; spend on those cards earns rewards on the main account"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Personal Credit Reporting"
+    description: "Card activity does not report to personal credit bureaus, helpful for managing personal credit utilization and 5/24-style limits"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false

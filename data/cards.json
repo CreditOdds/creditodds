@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T21:31:18.199Z",
+  "generated_at": "2026-05-01T21:11:09.253Z",
   "count": 160,
   "categories": [
     {
@@ -183,6 +183,43 @@
           "max": 28.49
         }
       },
+      "benefits": [
+        {
+          "name": "Companion Pass",
+          "description": "Complimentary economy companion ticket valid for 12 months when you spend $30,000 on the card in a calendar year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Priority Boarding",
+          "description": "Priority boarding for the cardmember and authorized users on Aer Lingus flights between the US and Ireland",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Flight Discount",
+          "description": "10% off Aer Lingus flights from the US to Europe when booking via the designated cardmember website",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary DashPass for at least one year when activated by Dec 31, 2027",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": true
+        }
+      ],
       "apply_link": "https://creditcards.chase.com/travel-credit-cards/aer-lingus",
       "card_id": "aer-lingus-visa-signature-card",
       "card_name": "Aer Lingus Visa Signature"
@@ -587,7 +624,7 @@
       "signup_bonus": {
         "value": 100000,
         "type": "points",
-        "spend_requirement": 6000,
+        "spend_requirement": 8000,
         "timeframe_months": 6
       },
       "card_id": "american-express-gold-card",
@@ -1082,6 +1119,65 @@
         "spend_requirement": 4000,
         "timeframe_months": 3
       },
+      "benefits": [
+        {
+          "name": "Coach Companion Fare",
+          "description": "Annual Coach Companion Fare from $121 (taxes and fees apply) on a paid Alaska Airlines flight",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Checked Bag",
+          "description": "First checked bag free for the cardmember on Alaska Airlines flights when paid with the card",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Priority Boarding",
+          "description": "Priority boarding on Alaska Airlines flights when paid with the card",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Alaska Lounge+ Membership Discount",
+          "value": 100,
+          "description": "$100 off an annual Alaska Lounge+ Membership",
+          "frequency": "annual",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Bonus on Points Earned",
+          "description": "10% bonus on all points earned with an eligible Bank of America business banking account",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Employee Cards",
+          "description": "Add employee cards at no additional cost; spend on those cards earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Personal Credit Reporting",
+          "description": "Card activity does not report to personal credit bureaus, helpful for managing personal credit utilization and 5/24-style limits",
+          "frequency": "annual",
+          "category": "other",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "card_id": "atmos-rewards-business",
       "card_name": "Atmos Rewards Business"
     },
@@ -1129,6 +1225,91 @@
         "spend_requirement": 4000,
         "timeframe_months": 3
       },
+      "benefits": [
+        {
+          "name": "Global 100K Companion Award",
+          "value": 25000,
+          "description": "Receive a Global 100K Companion Award every year you spend $60,000 or more on purchases",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Checked Bag and Preferred Boarding",
+          "description": "First checked bag free and priority boarding for the cardmember and up to 6 guests on the same reservation when paid with the card",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Alaska Lounge Passes",
+          "value": 500,
+          "description": "8 Alaska Lounge passes plus 8 Wi-Fi passes each anniversary year",
+          "frequency": "annual",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 120,
+          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Same-Day Confirmed Change Fee Waiver",
+          "description": "Same-day confirmed flight change fees waived (excludes Saver fares)",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Partner Award Booking Fee Waiver",
+          "value": 25,
+          "description": "Up to $25 per person, per round-trip booking fee waived on partner award flights",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Travel Delay Voucher",
+          "value": 50,
+          "description": "$50 voucher for meals or drinks on same-day cancellations or delays of 2+ hours on Alaska or Hawaiian flights",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "20% Inflight Purchase Rebate",
+          "description": "20% back on Alaska and Hawaiian Airlines inflight purchases when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Status Points Boost",
+          "value": 10000,
+          "description": "10,000 annual status points each card anniversary plus 1 status point per $2 spent toward Atmos Rewards elite status",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Bonus on Points Earned",
+          "description": "10% bonus on all points earned with eligible Bank of America banking accounts",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "card_id": "atmos-rewards-summit",
       "card_name": "Atmos Rewards Summit"
     },
@@ -1906,6 +2087,44 @@
           "max": 29.99
         }
       },
+      "benefits": [
+        {
+          "name": "Travel Together Ticket",
+          "description": "Companion travel ticket (or 50% Avios discount for solo travel) when you spend $30,000 in a calendar year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Reward Flight Statement Credit",
+          "value": 600,
+          "description": "Up to three statement credits per year — $100 for Economy/Premium Economy or $200 for Business/First — on taxes and carrier charges paid for British Airways reward flights",
+          "frequency": "annual",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Flight Discount",
+          "description": "10% off British Airways flights from the US to London booked via the designated cardmember website",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary DashPass for at least one year when activated by Dec 31, 2027",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": true
+        }
+      ],
       "apply_link": "https://creditcards.chase.com/travel-credit-cards/british-airways",
       "card_id": "british-airways-visa-signature-card",
       "card_name": "British Airways Visa Signature"
@@ -2068,6 +2287,43 @@
           "max": 28.99
         }
       },
+      "benefits": [
+        {
+          "name": "Automatic Credit Line Review",
+          "description": "Be considered for a higher credit line in as little as 6 months with on-time payments",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "$0 Fraud Liability",
+          "description": "Not responsible for unauthorized charges if your card is lost or stolen",
+          "frequency": "annual",
+          "category": "security",
+          "enrollment_required": false
+        },
+        {
+          "name": "Eno Virtual Card Numbers",
+          "description": "Generate one-time virtual card numbers for online purchases without exposing your real card details",
+          "frequency": "per_purchase",
+          "category": "security",
+          "enrollment_required": false
+        },
+        {
+          "name": "CreditWise Credit Monitoring",
+          "description": "Free credit score monitoring with TransUnion and Experian alerts",
+          "frequency": "monthly",
+          "category": "security",
+          "enrollment_required": true
+        }
+      ],
       "apply_link": "https://www.capitalone.com/credit-cards/quicksilverone/",
       "card_id": "capital-one-quicksilverone",
       "card_name": "Capital One QuicksilverOne Cash Rewards"
@@ -2264,6 +2520,50 @@
           "max": 28.49
         }
       },
+      "benefits": [
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Capital One Entertainment Access",
+          "description": "Earn 8% cash back on tickets to concerts, sporting events, and other live experiences booked through Capital One Entertainment",
+          "frequency": "per_purchase",
+          "category": "entertainment",
+          "enrollment_required": false
+        },
+        {
+          "name": "Capital One Travel Discounts",
+          "description": "5% cash back on hotels and rental cars booked through Capital One Travel",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "$0 Fraud Liability",
+          "description": "Not responsible for unauthorized charges if your card is lost or stolen",
+          "frequency": "annual",
+          "category": "security",
+          "enrollment_required": false
+        },
+        {
+          "name": "Eno Virtual Card Numbers",
+          "description": "Generate one-time virtual card numbers for online purchases without exposing your real card details",
+          "frequency": "per_purchase",
+          "category": "security",
+          "enrollment_required": false
+        },
+        {
+          "name": "CreditWise Credit Monitoring",
+          "description": "Free credit score monitoring with TransUnion and Experian alerts",
+          "frequency": "monthly",
+          "category": "security",
+          "enrollment_required": true
+        }
+      ],
       "apply_link": "https://www.capitalone.com/credit-cards/savorone/",
       "card_id": "capital-one-savorone",
       "card_name": "Capital One SavorOne Cash Rewards"
@@ -2677,7 +2977,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 250,
+        "value": 200,
         "type": "cash",
         "spend_requirement": 500,
         "timeframe_months": 3
@@ -2860,7 +3160,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 125000,
+        "value": 150000,
         "type": "points",
         "spend_requirement": 6000,
         "timeframe_months": 3
@@ -2934,16 +3234,22 @@
           "unit": "points_per_dollar"
         },
         {
+          "category": "phone",
+          "value": 2,
+          "unit": "points_per_dollar",
+          "note": "Telecommunications merchants, cable, and satellite providers"
+        },
+        {
           "category": "everything_else",
           "value": 1,
           "unit": "points_per_dollar"
         }
       ],
       "signup_bonus": {
-        "value": 65000,
+        "value": 75000,
         "type": "miles",
-        "spend_requirement": 4000,
-        "timeframe_months": 4
+        "spend_requirement": 5000,
+        "timeframe_months": 5
       },
       "apr": {
         "regular": {
@@ -2951,6 +3257,57 @@
           "max": 29.99
         }
       },
+      "benefits": [
+        {
+          "name": "First Checked Bag Free",
+          "description": "First checked bag free on domestic American Airlines itineraries for the cardmember and up to 4 companions on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Preferred Boarding",
+          "description": "Group 5 boarding on American Airlines flights for the cardmember and up to 4 companions on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Companion Certificate",
+          "description": "American Airlines Companion Certificate good for domestic main-cabin travel for up to two companions ($99 ticketing fee plus taxes) after $30,000 in purchases each cardmembership year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% Inflight Purchase Savings",
+          "description": "25% off in-flight food, beverages, and Wi-Fi purchases on American Airlines flights when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Employee Cards",
+          "description": "Add employee cards at no additional cost; spend on those cards earns AAdvantage miles",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "AAdvantage Loyalty Points",
+          "description": "Earn 1 Loyalty Point per $1 spent toward AAdvantage elite status qualification",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "apply_link": "https://www.citi.com/credit-cards/citi-aadvantage-business-credit-card",
       "card_id": "citibusiness-aadvantage-platinum-select-maste",
       "card_name": "Citi AAdvantage Business World Elite Mastercard"
@@ -3701,7 +4058,7 @@
           "max": 26.74
         }
       },
-      "apply_link": "https://www.citi.com/credit-cards/costco-citi-business-card",
+      "apply_link": "https://www.citi.com/credit-cards/costco-anywhere-visa-business-card",
       "card_id": "costco-anywhere-visa-business-card-by-citi",
       "card_name": "Costco Anywhere Visa Business by Citi"
     },
@@ -3748,7 +4105,7 @@
           "max": 26.74
         }
       },
-      "apply_link": "https://www.citi.com/credit-cards/costco-citi-card",
+      "apply_link": "https://www.citi.com/credit-cards/costco-anywhere-visa-card",
       "card_id": "costco-anywhere-visa-card-by-citi",
       "card_name": "Costco Anywhere Visa by Citi"
     },
@@ -4391,6 +4748,57 @@
           "max": 27.74
         }
       },
+      "benefits": [
+        {
+          "name": "Disney Park Merchandise Discount",
+          "description": "10% off select merchandise purchases of $50 or more at Disneyland and Walt Disney World Resort locations",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Disney Park Dining Discount",
+          "description": "10% off select dining locations at Disneyland and Walt Disney World Resort on most days",
+          "frequency": "per_purchase",
+          "category": "dining",
+          "enrollment_required": false
+        },
+        {
+          "name": "Disney Guided Tour Discount",
+          "description": "15% off non-discounted price for select guided tours at Disneyland and Walt Disney World Resort",
+          "frequency": "per_purchase",
+          "category": "entertainment",
+          "enrollment_required": false
+        },
+        {
+          "name": "Cardmember Photo Locations",
+          "description": "Private cardmember photo opportunities with complimentary digital downloads via Disney PhotoPass",
+          "frequency": "per_visit",
+          "category": "entertainment",
+          "enrollment_required": false
+        },
+        {
+          "name": "DisneyStore.com Discount",
+          "description": "10% savings on select purchases at shopDisney.com",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "0% APR on Disney Vacations",
+          "description": "0% intro APR for 6 months on select Disney vacation package purchases",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Disney Rewards Dollars",
+          "description": "Redeem rewards toward theme park tickets, resort stays, dining, and shopping with no blackout dates",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": false
+        }
+      ],
       "apply_link": "https://creditcards.chase.com/rewards-credit-cards/disney/premier",
       "card_id": "disney-premier-visa-card",
       "card_name": "Disney Premier Visa"
@@ -4569,6 +4977,50 @@
         "spend_requirement": 50000,
         "timeframe_months": 6
       },
+      "benefits": [
+        {
+          "name": "Free Employee Cards",
+          "description": "Add employee cards at no additional cost; spend on those cards earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Pay Over Time",
+          "description": "Flexibility to pay eligible charges of $100 or more over time with interest, instead of in full",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Vendor Pay by Bill.com",
+          "description": "Pay vendors that don't accept credit cards directly through Bill.com using your Amex",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Expanded Buying Power",
+          "description": "Spend above your credit limit subject to approval based on credit history, payment history, and other factors",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": false
+        },
+        {
+          "name": "Year-End Spending Summary",
+          "description": "Detailed annual report of business spending broken down by category for tax and budgeting purposes",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Amex Offers",
+          "description": "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": true
+        }
+      ],
       "card_id": "graphite-business-cash-unlimited",
       "card_name": "Graphite Business Cash Unlimited"
     },
@@ -4630,6 +5082,36 @@
           "max": 29.99
         }
       },
+      "benefits": [
+        {
+          "name": "First Checked Bag Free",
+          "description": "Free first checked bag for the primary cardmember and up to one travel companion on Hawaiian Airlines flights when the card is used to book",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "50% Off Companion Discount",
+          "description": "Receive a one-time 50% off companion discount code each year on a round-trip coach flight on Hawaiian Airlines after the account anniversary",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Inflight Purchase Discount",
+          "description": "Save on eligible inflight purchases on Hawaiian Airlines flights when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "card_id": "hawaiian-airlines-world-elite-mastercard",
       "card_name": "Hawaiian Airlines World Elite Mastercard"
     },
@@ -4963,6 +5445,37 @@
           "max": 29.99
         }
       },
+      "benefits": [
+        {
+          "name": "Iberia Companion Voucher",
+          "value": 1000,
+          "description": "Companion voucher worth up to $1,000 for two tickets on the same Iberia flight when you spend $30,000 in a calendar year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Flight Discount",
+          "description": "10% off Iberia flights when booking via the designated cardmember website",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary DashPass for at least one year when activated by Dec 31, 2027",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": true
+        }
+      ],
       "apply_link": "https://creditcards.chase.com/travel-credit-cards/iberia",
       "card_id": "iberia-visa-signature-card",
       "card_name": "Iberia Visa Signature"
@@ -5039,10 +5552,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 140000,
+        "value": 150000,
         "type": "points",
         "spend_requirement": 3000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 35,000 bonus points after spending a total of $6,000 in the first 6 months from account opening for a total of 185,000 bonus points"
       },
       "apr": {
         "regular": {
@@ -5195,10 +5709,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 90000,
         "type": "points",
         "spend_requirement": 2000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Plus 35,000 bonus points after spending a total of $4,000 in the first 6 months from account opening for a total of 125,000 bonus points"
       },
       "apr": {
         "regular": {
@@ -5307,6 +5822,67 @@
           "max": 29.99
         }
       },
+      "benefits": [
+        {
+          "name": "Cell Phone Protection",
+          "value": 600,
+          "description": "Up to $600 per claim ($25 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card",
+          "frequency": "per_claim",
+          "category": "telecom",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% More Value via Chase Travel",
+          "description": "Points are worth 25% more when redeemed for travel through Chase Travel",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Primary Auto Rental Coverage",
+          "description": "Primary collision damage waiver on rentals for business purposes (up to the cash value of the vehicle)",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Trip Cancellation/Interruption Insurance",
+          "value": 5000,
+          "description": "Up to $5,000 per trip in nonrefundable expenses if your trip is cancelled or cut short by covered events",
+          "frequency": "per_trip",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Purchase Protection",
+          "value": 10000,
+          "description": "Up to $10,000 per item ($50,000 per account per year) for theft or damage on new purchases for 120 days",
+          "frequency": "per_claim",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Extended Warranty",
+          "description": "Extends US manufacturer warranties of three years or less by an additional year",
+          "frequency": "per_purchase",
+          "category": "shopping",
+          "enrollment_required": false
+        },
+        {
+          "name": "Employee Cards",
+          "description": "Free employee cards with individual spending limits; all spend earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary DashPass for at least one year plus $10/month off non-restaurant DoorDash orders when activated by Dec 31, 2027",
+          "frequency": "monthly",
+          "category": "rewards",
+          "enrollment_required": true
+        }
+      ],
       "apply_link": "https://creditcards.chase.com/business-credit-cards/ink/business-preferred",
       "card_id": "chase-ink-business-preferred",
       "card_name": "Ink Business Preferred"
@@ -5459,6 +6035,66 @@
           "max": 29.49
         }
       },
+      "benefits": [
+        {
+          "name": "Anniversary Points Bonus",
+          "value": 5000,
+          "description": "5,000 bonus TrueBlue points each year after your account anniversary",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "First Checked Bag Free",
+          "description": "First checked bag free for the cardmember and up to 3 traveling companions on JetBlue-operated flights when the card is used to book",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "JetBlue Vacations Credit",
+          "value": 100,
+          "description": "$100 statement credit after purchasing a JetBlue Vacations package of $100 or more (one credit per calendar year)",
+          "frequency": "annual",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "50% Off Inflight Purchases",
+          "description": "50% savings on eligible food, drinks, and Wi-Fi purchased on JetBlue-operated flights",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Mosaic Status Boost",
+          "description": "Earn Mosaic elite status after $50,000 in eligible purchases per calendar year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Points Back on Award Flights",
+          "description": "Get 10% of your TrueBlue points back after redeeming for and traveling on a JetBlue-operated award flight",
+          "frequency": "per_flight",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Employee Cards",
+          "description": "Add employee cards at no additional cost; spend on those cards earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "card_id": "jetblue-business-card",
       "card_name": "JetBlue Business"
     },
@@ -5516,6 +6152,66 @@
           "max": 29.99
         }
       },
+      "benefits": [
+        {
+          "name": "Anniversary Points Bonus",
+          "value": 5000,
+          "description": "5,000 bonus TrueBlue points each year after your account anniversary",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "First Checked Bag Free",
+          "description": "First checked bag free for the cardmember and up to 3 traveling companions on JetBlue-operated flights when the card is used to book",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "JetBlue Vacations Credit",
+          "value": 100,
+          "description": "$100 statement credit after purchasing a JetBlue Vacations package of $100 or more (one credit per calendar year)",
+          "frequency": "annual",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "50% Off Inflight Purchases",
+          "description": "50% savings on eligible food, drinks, and Wi-Fi purchased on JetBlue-operated flights",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Mosaic Status Boost",
+          "description": "Earn Mosaic elite status after $50,000 in eligible purchases per calendar year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Points Back on Award Flights",
+          "description": "Get 10% of your TrueBlue points back after redeeming for and traveling on a JetBlue-operated award flight",
+          "frequency": "per_flight",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Points Payback",
+          "description": "Redeem points for statement credits on purchases over $25 within 90 days (up to $1,000 in credits per year)",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "card_id": "jetblue-plus-card",
       "card_name": "JetBlue Plus"
     },
@@ -6308,6 +7004,59 @@
         "airline",
         "travel"
       ],
+      "benefits": [
+        {
+          "name": "Anniversary Points Bonus",
+          "value": 3000,
+          "description": "3,000 bonus points credited to your Rapid Rewards account each year on your account anniversary",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Companion Pass Boost",
+          "value": 10000,
+          "description": "10,000 Companion Pass qualifying points deposited each year by January 31",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "First Checked Bag Free",
+          "description": "First checked bag free for the cardmember plus up to 8 passengers on the same reservation",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "10% Flight Discount",
+          "description": "10% off promo code for one Southwest flight per anniversary year (excludes Basic fare)",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "25% Inflight Purchase Credit",
+          "description": "25% back on inflight drinks and Wi-Fi purchases when paid with the card",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Group 5 Boarding",
+          "description": "Cardmember plus up to 8 passengers on the same reservation receive Group 5 priority boarding when available",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "DashPass Membership",
+          "description": "Complimentary DashPass for at least one year plus $10 quarterly off non-restaurant DoorDash orders when activated by Dec 31, 2027",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": true
+        }
+      ],
       "apply_link": "https://creditcards.chase.com/travel-credit-cards/southwest/plus",
       "card_id": "southwest-rapid-rewards-plus-credit-card",
       "card_name": "Southwest Rapid Rewards Plus"
@@ -6904,7 +7653,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 200,
+        "value": 250,
         "type": "cash",
         "spend_requirement": 1000,
         "timeframe_months": 3
@@ -7532,6 +8281,52 @@
           "max": 28.74
         }
       },
+      "benefits": [
+        {
+          "name": "First-Year Annual Fee Waiver",
+          "value": 95,
+          "description": "$0 annual fee for the first year, then $95",
+          "frequency": "one_time",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "ExtendPay Plan",
+          "description": "Split eligible purchases into fixed monthly payments with no interest, just a fixed monthly fee (waived during a promotional window after account opening)",
+          "frequency": "per_purchase",
+          "category": "other",
+          "enrollment_required": true
+        },
+        {
+          "name": "Real-Time Rewards",
+          "description": "Get a text alert and instantly redeem rewards as a statement credit on qualifying purchases when they post",
+          "frequency": "per_purchase",
+          "category": "rewards",
+          "enrollment_required": true
+        },
+        {
+          "name": "Cash-Back Deals",
+          "description": "Targeted, personalized merchant offers loaded directly to your card via mobile or online banking",
+          "frequency": "per_purchase",
+          "category": "statement_credit",
+          "enrollment_required": true
+        },
+        {
+          "name": "Visa Signature Concierge",
+          "description": "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Cell Phone Protection",
+          "value": 600,
+          "description": "Up to $600 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card",
+          "frequency": "per_claim",
+          "category": "telecom",
+          "enrollment_required": false
+        }
+      ],
       "apply_link": "https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html",
       "card_id": "us-bank-shopper",
       "card_name": "US Bank Shopper Cash Rewards"
@@ -7639,6 +8434,51 @@
           "max": 28.99
         }
       },
+      "benefits": [
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 100,
+          "description": "Up to $100 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Complimentary TripIt Pro",
+          "description": "Complimentary TripIt Pro subscription for travel itinerary management, real-time alerts, and seat tracking",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": true
+        },
+        {
+          "name": "Active Duty Military Benefits",
+          "description": "$0 annual fee while on active duty plus reduced APR under Servicemembers Civil Relief Act for eligible service members",
+          "frequency": "annual",
+          "category": "other",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Visa Signature Concierge",
+          "description": "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Auto Rental Coverage",
+          "description": "Secondary collision damage waiver coverage on eligible auto rentals worldwide",
+          "frequency": "per_rental",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "card_id": "usaa-eagle-navigator",
       "card_name": "USAA Eagle Navigator"
     },
@@ -8184,6 +9024,61 @@
           "max": 28.49
         }
       },
+      "benefits": [
+        {
+          "name": "Anniversary Points Bonus",
+          "value": 30000,
+          "description": "30,000 bonus Choice Privileges points each anniversary year — about 3 reward nights at participating Choice hotels",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Choice Privileges Platinum Elite Status",
+          "description": "Automatic Platinum Elite membership; earn 25% bonus points on Choice Hotels stays plus elite perks like room upgrades when available",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "20 Elite Qualifying Nights Annually",
+          "value": 20,
+          "description": "Receive 20 Elite Qualifying Nights each anniversary year toward Choice Privileges elite status",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value": 120,
+          "description": "Up to $120 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years",
+          "frequency": "every_4_years",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Cell Phone Protection",
+          "value": 800,
+          "description": "Up to $800 per claim ($25 deductible) for damage or theft when you pay your monthly cell phone bill with the card",
+          "frequency": "per_claim",
+          "category": "telecom",
+          "enrollment_required": false
+        },
+        {
+          "name": "Mastercard World Elite Benefits",
+          "description": "World Elite Concierge service, travel and lifestyle perks via Mastercard Travel & Lifestyle Services",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "apply_link": "https://creditcards.wellsfargo.com/choice-hotels-privileges-select-mastercard",
       "card_id": "wells-fargo-choice-privileges-select-mastercard",
       "card_name": "Wells Fargo Choice Privileges Select Mastercard"
@@ -8474,9 +9369,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 60000,
         "type": "points",
-        "spend_requirement": 10000,
+        "spend_requirement": 5000,
         "timeframe_months": 3
       },
       "apply_link": "https://creditcards.chase.com/business-credit-cards/world-of-hyatt/hyatt-business-card",
@@ -8541,6 +9436,44 @@
           "max": 29.49
         }
       },
+      "benefits": [
+        {
+          "name": "Anniversary Points Bonus",
+          "value": 15000,
+          "description": "15,000 bonus Wyndham Rewards points each anniversary year — enough for up to 2 free award nights at participating Wyndham hotels",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Wyndham Rewards Diamond Status",
+          "description": "Automatic Diamond level status — Wyndham's top elite tier — for as long as you're a cardmember",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Caesars Rewards Platinum Status",
+          "description": "Automatic complimentary Caesars Rewards Platinum tier for the cardmember",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Free Employee Cards",
+          "description": "Add employee cards at no additional cost; spend on those cards earns rewards on the main account",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "No Foreign Transaction Fees",
+          "description": "No foreign transaction fees on purchases made outside the US",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
       "card_id": "wyndham-rewards-earner-business-card",
       "card_name": "Wyndham Rewards Earner Business"
     },

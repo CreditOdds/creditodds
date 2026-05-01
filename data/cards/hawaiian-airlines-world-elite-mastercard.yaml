@@ -39,3 +39,24 @@ apr:
   regular:
     min: 20.24
     max: 29.99
+benefits:
+  - name: "First Checked Bag Free"
+    description: "Free first checked bag for the primary cardmember and up to one travel companion on Hawaiian Airlines flights when the card is used to book"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "50% Off Companion Discount"
+    description: "Receive a one-time 50% off companion discount code each year on a round-trip coach flight on Hawaiian Airlines after the account anniversary"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Inflight Purchase Discount"
+    description: "Save on eligible inflight purchases on Hawaiian Airlines flights when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false

@@ -39,4 +39,44 @@ apr:
   regular:
     min: 19.74
     max: 28.49
+benefits:
+  - name: "Anniversary Points Bonus"
+    value: 30000
+    description: "30,000 bonus Choice Privileges points each anniversary year — about 3 reward nights at participating Choice hotels"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Choice Privileges Platinum Elite Status"
+    description: "Automatic Platinum Elite membership; earn 25% bonus points on Choice Hotels stays plus elite perks like room upgrades when available"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "20 Elite Qualifying Nights Annually"
+    value: 20
+    description: "Receive 20 Elite Qualifying Nights each anniversary year toward Choice Privileges elite status"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 800
+    description: "Up to $800 per claim ($25 deductible) for damage or theft when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
+  - name: "Mastercard World Elite Benefits"
+    description: "World Elite Concierge service, travel and lifestyle perks via Mastercard Travel & Lifestyle Services"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 apply_link: https://creditcards.wellsfargo.com/choice-hotels-privileges-select-mastercard

@@ -27,4 +27,48 @@ apr:
   regular:
     min: 19.49
     max: 29.99
+benefits:
+  - name: "Cell Phone Protection"
+    value: 600
+    description: "Up to $600 per claim ($25 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
+  - name: "25% More Value via Chase Travel"
+    description: "Points are worth 25% more when redeemed for travel through Chase Travel"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Primary Auto Rental Coverage"
+    description: "Primary collision damage waiver on rentals for business purposes (up to the cash value of the vehicle)"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Cancellation/Interruption Insurance"
+    value: 5000
+    description: "Up to $5,000 per trip in nonrefundable expenses if your trip is cancelled or cut short by covered events"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    value: 10000
+    description: "Up to $10,000 per item ($50,000 per account per year) for theft or damage on new purchases for 120 days"
+    frequency: "per_claim"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Extends US manufacturer warranties of three years or less by an additional year"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Employee Cards"
+    description: "Free employee cards with individual spending limits; all spend earns rewards on the main account"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    description: "Complimentary DashPass for at least one year plus $10/month off non-restaurant DoorDash orders when activated by Dec 31, 2027"
+    frequency: "monthly"
+    category: "rewards"
+    enrollment_required: true
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/business-preferred

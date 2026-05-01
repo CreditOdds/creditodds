@@ -30,3 +30,34 @@ signup_bonus:
   type: cash
   spend_requirement: 50000
   timeframe_months: 6
+benefits:
+  - name: "Free Employee Cards"
+    description: "Add employee cards at no additional cost; spend on those cards earns rewards on the main account"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Pay Over Time"
+    description: "Flexibility to pay eligible charges of $100 or more over time with interest, instead of in full"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
+  - name: "Vendor Pay by Bill.com"
+    description: "Pay vendors that don't accept credit cards directly through Bill.com using your Amex"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
+  - name: "Expanded Buying Power"
+    description: "Spend above your credit limit subject to approval based on credit history, payment history, and other factors"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "Year-End Spending Summary"
+    description: "Detailed annual report of business spending broken down by category for tax and budgeting purposes"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Amex Offers"
+    description: "Targeted statement credits and bonus rewards on purchases at participating merchants when you enroll the offers on your card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: true

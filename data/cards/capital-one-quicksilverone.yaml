@@ -17,4 +17,30 @@ apr:
   regular:
     min: 28.99
     max: 28.99
+benefits:
+  - name: "Automatic Credit Line Review"
+    description: "Be considered for a higher credit line in as little as 6 months with on-time payments"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "$0 Fraud Liability"
+    description: "Not responsible for unauthorized charges if your card is lost or stolen"
+    frequency: "annual"
+    category: "security"
+    enrollment_required: false
+  - name: "Eno Virtual Card Numbers"
+    description: "Generate one-time virtual card numbers for online purchases without exposing your real card details"
+    frequency: "per_purchase"
+    category: "security"
+    enrollment_required: false
+  - name: "CreditWise Credit Monitoring"
+    description: "Free credit score monitoring with TransUnion and Experian alerts"
+    frequency: "monthly"
+    category: "security"
+    enrollment_required: true
 apply_link: https://www.capitalone.com/credit-cards/quicksilverone/

@@ -29,4 +29,31 @@ apr:
   regular:
     min: 19.24
     max: 29.99
+benefits:
+  - name: "Travel Together Ticket"
+    description: "Companion travel ticket (or 50% Avios discount for solo travel) when you spend $30,000 in a calendar year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Reward Flight Statement Credit"
+    value: 600
+    description: "Up to three statement credits per year — $100 for Economy/Premium Economy or $200 for Business/First — on taxes and carrier charges paid for British Airways reward flights"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "10% Flight Discount"
+    description: "10% off British Airways flights from the US to London booked via the designated cardmember website"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    description: "Complimentary DashPass for at least one year when activated by Dec 31, 2027"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: true
 apply_link: https://creditcards.chase.com/travel-credit-cards/british-airways

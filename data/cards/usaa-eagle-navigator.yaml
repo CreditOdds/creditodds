@@ -28,3 +28,35 @@ apr:
   regular:
     min: 18.99
     max: 28.99
+benefits:
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 100
+    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Complimentary TripIt Pro"
+    description: "Complimentary TripIt Pro subscription for travel itinerary management, real-time alerts, and seat tracking"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Active Duty Military Benefits"
+    description: "$0 annual fee while on active duty plus reduced APR under Servicemembers Civil Relief Act for eligible service members"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the US"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Visa Signature Concierge"
+    description: "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Auto Rental Coverage"
+    description: "Secondary collision damage waiver coverage on eligible auto rentals worldwide"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false

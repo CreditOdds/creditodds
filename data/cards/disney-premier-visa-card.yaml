@@ -33,5 +33,41 @@ apr:
   regular:
     min: 18.24
     max: 27.74
+benefits:
+  - name: "Disney Park Merchandise Discount"
+    description: "10% off select merchandise purchases of $50 or more at Disneyland and Walt Disney World Resort locations"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Disney Park Dining Discount"
+    description: "10% off select dining locations at Disneyland and Walt Disney World Resort on most days"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
+  - name: "Disney Guided Tour Discount"
+    description: "15% off non-discounted price for select guided tours at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Cardmember Photo Locations"
+    description: "Private cardmember photo opportunities with complimentary digital downloads via Disney PhotoPass"
+    frequency: "per_visit"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "DisneyStore.com Discount"
+    description: "10% savings on select purchases at shopDisney.com"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "0% APR on Disney Vacations"
+    description: "0% intro APR for 6 months on select Disney vacation package purchases"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Disney Rewards Dollars"
+    description: "Redeem rewards toward theme park tickets, resort stays, dining, and shopping with no blackout dates"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/premier
 

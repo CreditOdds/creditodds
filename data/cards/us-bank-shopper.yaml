@@ -38,4 +38,37 @@ apr:
   regular:
     min: 18.74
     max: 28.74
+benefits:
+  - name: "First-Year Annual Fee Waiver"
+    value: 95
+    description: "$0 annual fee for the first year, then $95"
+    frequency: "one_time"
+    category: "rewards"
+    enrollment_required: false
+  - name: "ExtendPay Plan"
+    description: "Split eligible purchases into fixed monthly payments with no interest, just a fixed monthly fee (waived during a promotional window after account opening)"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
+  - name: "Real-Time Rewards"
+    description: "Get a text alert and instantly redeem rewards as a statement credit on qualifying purchases when they post"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: true
+  - name: "Cash-Back Deals"
+    description: "Targeted, personalized merchant offers loaded directly to your card via mobile or online banking"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "Visa Signature Concierge"
+    description: "24/7 access to a Visa Signature concierge for travel, dining, and entertainment requests"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 600
+    description: "Up to $600 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
 apply_link: https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html
