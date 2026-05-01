@@ -1,97 +1,85 @@
 # ============================================================
-# Best Credit Cards for Dining and Groceries — Ranking Reasoning (2026-04-15)
+# Best Credit Cards for Dining and Groceries — Ranking Reasoning (2026-05-01)
 # ============================================================
 #
 # #1 american-express-gold-card (Best Overall)
-#   The Amex Gold offers the highest combined earning rates (4x on both
-#   categories) with credits that effectively reduce its annual fee, making it
-#   the best choice for frequent diners and grocery shoppers who can meet the
-#   spending requirement. The 100,000-point signup bonus provides significant
-#   immediate value for those who qualify.
+#   The Gold Card offers the best combination of earning rates (4x on both
+#   categories), strong offset credits, and a substantial signup bonus. For
+#   frequent dining and grocery spenders, the rewards earned typically exceed
+#   the net annual fee cost, making it the top choice for maximizing rewards
+#   in this category.
 #
 # #2 blue-cash-preferred-card (Best for Groceries)
-#   The Blue Cash Preferred dominates on grocery rewards with its 6% rate,
-#   significantly outpacing competitors, and the $300 signup bonus is
-#   achievable with a low $3,000 spend requirement. The $95 annual fee is
-#   reasonable given the high ongoing grocery earning rate and additional
-#   streaming category bonus.
+#   This card delivers the industry-leading 6% grocery cashback rate, making
+#   it unmatched for grocery-focused spending. The low annual fee of $95 and
+#   easy $300 signup bonus make it an excellent choice for anyone who wants to
+#   maximize grocery rewards without the premium pricing of the Gold Card.
 #
-# #3 citi-custom-cash (Best No-Fee Value)
-#   The Citi Custom Cash offers excellent value with its rotating 5% category
-#   that captures either dining or groceries plus no annual fee, making it
-#   ideal for those who prioritize one category over the other. The quick $200
-#   signup bonus ($1,500 spend) and extended 0% APR add flexibility without
-#   ongoing costs.
+# #3 us-bank-altitude-go-visa-signature (Best No-Fee Dining)
+#   This card stands out for delivering the highest no-annual-fee dining rate
+#   (4x) alongside 2x on groceries, making it ideal for cardholders who want
+#   premium earning without paying an annual fee. The 20,000-point bonus on
+#   minimal spend ($1,000) is highly accessible and valuable.
 #
-# #4 blue-cash-everyday-card (Best Budget No-Fee)
-#   The Blue Cash Everyday provides solid 3% grocery rewards without an annual
-#   fee, making it a strong choice for budget-conscious shoppers who want
-#   ongoing rewards without paying for premium features. The $200 signup bonus
-#   and extended 0% APR make it accessible for those with lower spending
-#   patterns.
+# #4 citi-custom-cash (Best No-Fee Value)
+#   With no annual fee and flexible 5% cash back on either dining or groceries
+#   (whichever is your highest spend category), this card offers excellent
+#   value for flexible spenders. The accessible $200 bonus on low $1,500 spend
+#   and extended 0% APR on purchases and transfers add significant value.
 #
-# #5 us-bank-altitude-go-visa-signature (Best No-Fee Dining)
-#   The U.S. Bank Altitude Go delivers the highest dining rewards rate among
-#   no-fee cards at 4x (with quarterly caps), and its quick 20,000-point bonus
-#   on minimal $1,000 spend makes it one of the easiest bonuses to earn. The
-#   2x grocery rate and 15-month 0% APR on purchases add utility beyond
-#   dining.
+# #5 capital-one-savorone
+#   The SavorOne offers solid 3% cash back on both dining and groceries with a
+#   minimal $39 annual fee, making the net cost very low. The easy $200 bonus
+#   on $500 spend is one of the most accessible on this list, appealing to
+#   those who want straightforward rewards at minimal annual cost.
 #
-# #6 capital-one-savorone
-#   The Capital One SavorOne provides consistent 3% across dining and
-#   groceries with the lowest annual fee in the premium tier at just $39,
-#   making it attractive for those who want category coverage without a high
-#   cost. The $200 bonus on just $500 spend is the lowest barrier to entry
-#   among paid cards.
+# #6 blue-cash-everyday-card (Best Budget No-Fee)
+#   This no-fee option delivers solid 3% grocery cashback (up to the annual
+#   cap) with no annual fee burden. It's an excellent choice for
+#   budget-conscious cardholders who want reliable grocery rewards without
+#   paying for premium card features.
 #
 # #7 citi-strata-premier
-#   The Citi Strata Premier offers a balanced 3x earning on both dining and
-#   groceries with a reasonable $95 fee and strong 60,000-point bonus, but
-#   it's eclipsed by the Amex Gold's higher 4x earning rates and the Citi
-#   Custom Cash's flexible 5% category at no annual fee. It appeals to those
-#   who want dining-grocery rewards plus travel category coverage.
+#   The Strata Premier offers consistent 3x earning across dining and
+#   groceries with a reasonable $95 annual fee and strong 60,000-point signup
+#   bonus. However, it's slightly outpaced by cards offering higher category
+#   rates or better ongoing value in this specific category.
 #
 # #8 chase-sapphire-preferred
-#   Chase Sapphire Preferred ranks lower on this page because it only earns 3x
-#   on online groceries (not all groceries) while charging a $95 annual fee,
-#   limiting its appeal for a dining-and-groceries focused ranking. The strong
-#   signup bonus and travel transfer partners make it valuable for
-#   travel-focused spenders, but it's not optimized for this category.
+#   While the Sapphire Preferred offers a strong 75,000-point bonus and 3x on
+#   dining, its grocery rewards are limited to online purchases only, making
+#   it less ideal for a dining-and-groceries focused strategy. It's better
+#   suited for cardholders prioritizing travel transfers and benefits.
 #
-# #9 chase-freedom-unlimited
-#   Chase Freedom Unlimited offers solid 3% dining rewards at no cost with an
-#   easy $250 bonus, but earns only 1% on groceries (through the catch-all),
-#   making it weaker than alternatives like Citi Custom Cash or Blue Cash
-#   Everyday for this category. It's best as a complementary card rather than
-#   a primary dining-and-groceries option.
+# #9 wells-fargo-autograph
+#   The Autograph delivers strong 3x dining rewards with no annual fee, but
+#   the 1x return on groceries limits its value for this specific category.
+#   It's better positioned as a general spending card than a
+#   dining-and-groceries specialist.
 #
-# #10 chase-freedom-flex
-#   Chase Freedom Flex provides 3% on dining consistently but its grocery
-#   rewards depend on rotating 5% categories, creating uncertainty compared to
-#   cards with fixed grocery rates. The no-annual-fee structure and easy bonus
-#   are valuable, but the reliance on rotating categories makes it less
-#   reliable for consistent grocery earning.
+# #10 chase-freedom-unlimited
+#   Freedom Unlimited offers an accessible 3% cash back on dining but provides
+#   no dedicated grocery earning rate, making it less optimized for this
+#   category. It's a general-purpose card best used alongside other Chase
+#   cards rather than as a primary dining-and-groceries card.
 #
-# #11 wells-fargo-autograph
-#   Wells Fargo Autograph's 1x earning on groceries is a significant weakness
-#   for a page focused on dining and groceries rewards, limiting its
-#   competitiveness despite strong 3x dining rewards and no annual fee. It's
-#   better suited for travel and dining spenders who prioritize other
-#   categories over grocery purchases.
+# #11 chase-freedom-flex
+#   While Freedom Flex offers 3% on dining and occasional 5% on groceries when
+#   in the rotating category, the unpredictable rotating categories make it
+#   less reliable for consistent grocery rewards compared to dedicated grocery
+#   cards.
 #
 # #12 delta-skymiles-gold-american-express-card
-#   The Delta SkyMiles Gold's 2x earning on dining and groceries is
-#   competitive only for frequent Delta flyers who can redeem airline miles
-#   for value; for general rewards optimization, it underperforms cards like
-#   Amex Gold or Blue Cash Preferred. The $150 annual fee and airline-specific
-#   focus make it niche rather than broadly compelling.
+#   At only 2x earning on dining and groceries with a $150 annual fee, this
+#   card is outpaced by nearly every other option on this list. It's
+#   positioned for Delta loyalists seeking airline benefits rather than
+#   maximum dining-and-grocery rewards.
 #
 # #13 chase-sapphire-reserve
-#   Chase Sapphire Reserve is poorly positioned for a dining-and-groceries
-#   ranking due to its 1x grocery earning rate paired with a premium $795
-#   annual fee that's justified only for travel spending and luxury benefits,
-#   not grocery rewards. It ranks last because it directly underperforms
-#   multiple no-fee and lower-fee alternatives on this specific category.
+#   Despite the strong 150,000-point signup bonus, the Reserve's high $795
+#   annual fee and weak 1x earning on groceries make it poorly suited for
+#   dining-and-groceries optimization. This premium card is designed for
+#   travel-focused spenders, not category-specific grocery and dining rewards.
 #
 # ============================================================
 
@@ -100,57 +88,60 @@ slug: best-dining-grocery-cards
 title: Best Credit Cards for Dining and Groceries
 description: The top credit cards for earning rewards on restaurants and grocery store purchases, from premium to no-annual-fee options.
 date: "2026-03-01"
-updated_at: "2026-04-15"
+updated_at: "2026-05-01"
 seo_title: Best Credit Cards for Dining and Groceries of 2026
 seo_description: Compare the best dining and grocery credit cards of 2026. Earn 3-4x points or up to 6% cash back on food spending.
 intro: |
-  Dining and groceries are two of the biggest spending categories for most people. The right card can earn you serious rewards on money you're already spending. We've ranked these cards by their earning rates on dining and groceries, factoring in annual fees, signup bonuses, and overall card value.
+  Dining and groceries represent major spending categories for most households. The right card can earn substantial rewards on these purchases, whether you prioritize maximum earning rates, signup bonuses, or cards without annual fees.
 
 cards:
   - slug: american-express-gold-card
     badge: Best Overall
-    highlight: Earns 4x Membership Rewards points on both dining and groceries—the highest ongoing earn rate available. A $325 annual fee is offset by $240 in combined dining and Uber credits, plus a 100,000-point signup bonus on $6,000 spend.
+    highlight: Earns 4x Membership Rewards points on both dining and groceries—the highest ongoing earn rate available. A $325 annual fee is offset by $240 in combined dining and Uber credits, plus a 100,000-point signup bonus on $8,000 spend.
 
   - slug: blue-cash-preferred-card
     badge: Best for Groceries
-    highlight: Earns 6% cash back at U.S. supermarkets up to $6,000/year, then 1%—the highest grocery earn rate available—plus 6% on streaming and 3% on transit and gas. A $95 annual fee comes with a $300 cash signup bonus on $3,000 spend and 12-month 0% APR on purchases.
-
-  - slug: citi-custom-cash
-    badge: Best No-Fee Value
-    previous_rank: 6
-    highlight: Earns 5% cash back on your top spending category each billing cycle—including dining or groceries (up to $500/month)—with no annual fee. Includes a $200 cash bonus on $1,500 spend and 15-month 0% APR on purchases and balance transfers.
-
-  - slug: blue-cash-everyday-card
-    badge: Best Budget No-Fee
-    previous_rank: 5
-    highlight: Earns 3% cash back at U.S. supermarkets up to $6,000/year, then 1%, with no annual fee, plus 3% on gas and online shopping. Includes a $200 cash signup bonus on $2,000 spend and 15-month 0% APR on purchases.
+    highlight: Earns 6% cash back at U.S. supermarkets up to $6,000/year, then 1%—the highest grocery earn rate available—plus 6% on streaming and 3% on transit and gas. The $95 annual fee is paired with a $300 cash signup bonus on $3,000 spend and 12-month 0% APR on purchases.
 
   - slug: us-bank-altitude-go-visa-signature
     badge: Best No-Fee Dining
+    previous_rank: 5
+    highlight: Earns 4x points on dining up to $2,000/quarter, then 1x—the highest no-fee dining earn rate available—plus 2x on groceries, gas, and streaming with no annual fee. Includes a 20,000-point bonus on just $1,000 spend.
+
+  - slug: citi-custom-cash
+    badge: Best No-Fee Value
     previous_rank: 3
-    highlight: Earns 4x points on dining up to $2,000/quarter, then 1x, with no annual fee—the highest no-fee dining rate available. Also earns 2x on groceries, gas, and streaming, plus a 20,000-point bonus on just $1,000 spend.
+    highlight: Earns 5% cash back on your top spending category each billing cycle—including dining or groceries (up to $500/month)—with no annual fee. Includes a $200 cash bonus on $1,500 spend and 15-month 0% APR on purchases and balance transfers.
 
   - slug: capital-one-savorone
+    previous_rank: 6
+    highlight: Earns 3% cash back on dining and groceries (plus entertainment and streaming) with a $39 annual fee. Includes a $200 cash bonus on just $500 spend and 12-month 0% APR on purchases and balance transfers.
+
+  - slug: blue-cash-everyday-card
+    badge: Best Budget No-Fee
     previous_rank: 4
-    highlight: Earns 3% cash back on dining, groceries, entertainment, and streaming with a $39 annual fee. Includes a $200 cash signup bonus on $500 spend and 12-month 0% APR on purchases and balance transfers.
+    highlight: Earns 3% cash back at U.S. supermarkets up to $6,000/year, then 1%, with no annual fee, plus 3% on gas and online shopping. Includes a $200 cash bonus on $2,000 spend and 15-month 0% APR on purchases.
 
   - slug: citi-strata-premier
-    highlight: Earns 3x points on both dining and groceries, plus 3x on airlines, hotels, and gas, for a $95 annual fee. Includes a 60,000-point signup bonus on $4,000 spend.
+    highlight: Earns 3x points on both dining and groceries, plus 3x on airlines, hotels, and gas for a $95 annual fee. Includes a 60,000-point signup bonus on $4,000 spend.
 
   - slug: chase-sapphire-preferred
-    highlight: Earns 3x points on dining but only 3x on online grocery purchases for a $95 annual fee. Includes a 75,000-point signup bonus on $5,000 spend with point transfers to travel partners like Hyatt and United.
-
-  - slug: chase-freedom-unlimited
-    highlight: Earns 3% cash back on dining with no annual fee, plus 1.5% on everything else. Includes a $250 cash bonus on $500 spend and pairs well with other Chase cards for point transfers.
-
-  - slug: chase-freedom-flex
-    highlight: Earns 3% cash back on dining with no annual fee, plus rotating 5% categories that sometimes include grocery stores. Includes a $200 cash bonus on $500 spend and 15-month 0% APR on purchases.
+    highlight: Earns 3x points on dining but only 3x on online grocery purchases (not in-store) for a $95 annual fee. Includes a 75,000-point signup bonus on $5,000 spend with point transfers to travel partners like Hyatt and United.
 
   - slug: wells-fargo-autograph
+    previous_rank: 11
     highlight: Earns 3x points on dining with no annual fee, plus 3x on travel, gas, transit, and streaming, but only 1x on groceries. Includes a 20,000-point bonus on $1,000 spend.
 
+  - slug: chase-freedom-unlimited
+    previous_rank: 9
+    highlight: Earns 3% cash back on dining with no annual fee, plus 1.5% on everything else. Includes a $200 cash bonus on $500 spend and pairs well with other Chase cards for point transfers.
+
+  - slug: chase-freedom-flex
+    previous_rank: 10
+    highlight: Earns 3% cash back on dining with no annual fee, plus rotating 5% categories that sometimes include grocery stores. Includes a $200 cash bonus on $500 spend and 15-month 0% APR on purchases.
+
   - slug: delta-skymiles-gold-american-express-card
-    highlight: Earns 2x miles on dining and U.S. supermarkets for a $150 annual fee, with an 80,000-mile signup bonus on $2,000 spend. Best for frequent Delta flyers rather than general dining-and-grocery rewards optimization.
+    highlight: Earns 2x miles on dining and U.S. supermarkets for a $150 annual fee, with an 80,000-mile signup bonus on $2,000 spend. Better suited for frequent Delta flyers than for optimizing general dining-and-grocery rewards.
 
   - slug: chase-sapphire-reserve
-    highlight: Earns 3x points on dining but only 1x on groceries for a $795 annual fee plus premium travel benefits. Includes a 125,000-point signup bonus on $6,000 spend.
+    highlight: Earns 3x points on dining but only 1x on groceries for a $795 annual fee plus premium travel benefits. Includes a 150,000-point signup bonus on $6,000 spend.
