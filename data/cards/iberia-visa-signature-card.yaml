@@ -4,6 +4,7 @@ slug: "iberia-visa-signature-card"
 accepting_applications: true
 image: "iberia-plus.png"
 annual_fee: 95
+foreign_transaction_fee: false
 reward_type: "miles"
 tags:
   - airline
@@ -29,4 +30,21 @@ apr:
   regular:
     min: 19.24
     max: 29.99
+benefits:
+  - name: "Iberia Companion Voucher"
+    value: 1000
+    description: "Companion voucher worth up to $1,000 for two tickets on the same Iberia flight when you spend $30,000 in a calendar year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "10% Flight Discount"
+    description: "10% off Iberia flights when booking via the designated cardmember website"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    description: "Complimentary DashPass for at least one year when activated by Dec 31, 2027"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: true
 apply_link: https://creditcards.chase.com/travel-credit-cards/iberia
