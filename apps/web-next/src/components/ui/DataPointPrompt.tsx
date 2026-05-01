@@ -7,8 +7,9 @@ import Downshift from 'downshift';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '@/auth/AuthProvider';
-import { getProfile, Card } from '@/lib/api';
+import { getProfile, getWallet, addToWallet, Card } from '@/lib/api';
 import { cardMatchesSearch } from '@/lib/searchAliases';
+import { toast } from 'react-toastify';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 const DISMISSED_KEY = 'clippy_prompt_dismissed';
@@ -24,21 +25,21 @@ function CardPicker({
   searchInputRef,
   onCardSelect,
   onDismiss,
+  title,
+  subtitle,
 }: {
   cards: Card[];
   loadingCards: boolean;
   searchInputRef: React.RefObject<HTMLInputElement | null>;
   onCardSelect: (card: Card | null) => void;
   onDismiss: () => void;
+  title: string;
+  subtitle: string;
 }) {
   return (
     <>
-      <h3 className="text-lg font-semibold text-gray-900 mb-1">
-        Which card have you applied for?
-      </h3>
-      <p className="text-sm text-gray-500 mb-4">
-        Search and select your card to submit a data point.
-      </p>
+      <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
+      <p className="text-sm text-gray-500 mb-4">{subtitle}</p>
 
       {loadingCards ? (
         <div className="py-8 text-sm text-gray-500">Loading cards...</div>
@@ -150,10 +151,13 @@ export default function DataPointPrompt() {
       try {
         const token = await getToken();
         if (!token) return;
-        const profile = await getProfile(token);
+        const [profile, wallet] = await Promise.all([
+          getProfile(token),
+          getWallet(token).catch(() => []),
+        ]);
 
-        if (profile.records_count === 0) {
-          // New user: show modal (unless permanently dismissed)
+        if (profile.records_count === 0 && wallet.length === 0) {
+          // Truly new user (no records and no wallet): show wallet-add modal
           if (localStorage.getItem(DISMISSED_KEY) !== 'true') {
             setShowModal(true);
           }
@@ -232,12 +236,28 @@ export default function DataPointPrompt() {
     setStep(2);
   };
 
-  const handleCardSelect = (card: Card | null) => {
+  // New user flow: add the picked card to their wallet directly.
+  const handleWalletAdd = async (card: Card | null) => {
     if (!card) return;
-    setShowModal(false);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      const numericId = Number(card.db_card_id ?? card.card_id);
+      if (!Number.isFinite(numericId)) return;
+      await addToWallet(numericId, undefined, undefined, token);
+      toast.success(`${card.card_name} added to your wallet`);
+      setShowModal(false);
+      localStorage.setItem(DISMISSED_KEY, 'true');
+    } catch {
+      toast.error('Could not add card to your wallet. Please try again.');
+    }
+  };
+
+  // Returning user flow (banner): collect a data point.
+  const handleDataPointSubmit = (card: Card | null) => {
+    if (!card) return;
     setShowBanner(false);
     setShowBannerPicker(false);
-    localStorage.setItem(DISMISSED_KEY, 'true');
     localStorage.setItem(BANNER_LAST_SHOWN_KEY, new Date().toISOString());
     router.push(`/card/${card.slug}?submit=true`);
   };
@@ -281,8 +301,10 @@ export default function DataPointPrompt() {
                   cards={cards}
                   loadingCards={loadingCards}
                   searchInputRef={searchInputRef}
-                  onCardSelect={handleCardSelect}
+                  onCardSelect={handleDataPointSubmit}
                   onDismiss={dismissBanner}
+                  title="Which card have you applied for?"
+                  subtitle="Search and select your card to submit a data point."
                 />
               </div>
             )}
@@ -335,10 +357,10 @@ export default function DataPointPrompt() {
                   </div>
 
                   <h3 className="text-lg font-semibold text-gray-900 mt-2">
-                    Share your first data point!
+                    Add your first card!
                   </h3>
                   <p className="mt-2 text-sm text-gray-600">
-                    Help the community by sharing your credit card approval result. It only takes a minute!
+                    Add a card to your wallet to track benefits, fees, and time your next application. Takes a few seconds.
                   </p>
 
                   <div className="mt-6 flex flex-col gap-3">
@@ -363,8 +385,10 @@ export default function DataPointPrompt() {
                   cards={cards}
                   loadingCards={loadingCards}
                   searchInputRef={searchInputRef}
-                  onCardSelect={handleCardSelect}
+                  onCardSelect={handleWalletAdd}
                   onDismiss={dismissModal}
+                  title="Which card do you have?"
+                  subtitle="Add it to your wallet to track its benefits and fees."
                 />
               )}
 
