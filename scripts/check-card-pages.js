@@ -34,7 +34,7 @@ function withTimeout(promise, ms, label) {
   ]);
 }
 
-// ─── YAML helpers (shared pattern with auto-card-update.js) ──────────────────
+// ─── YAML helpers ────────────────────────────────────────────────────────────
 
 function replaceYamlField(yamlText, field, newValue) {
   const pattern = new RegExp(`^(${field}:\\s*).*$`, 'm');
