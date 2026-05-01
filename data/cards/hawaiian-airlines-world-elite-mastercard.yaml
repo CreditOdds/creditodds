@@ -2,10 +2,12 @@ name: "Hawaiian Airlines World Elite Mastercard"
 bank: "Barclays"
 slug: "hawaiian-airlines-world-elite-mastercard"
 accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/credit-card/hawaiian-air/mastercard-mastercard-world-elite/boh-banner/db1f6e1d-b9df-4e81-a0e2-9894f3a3690d/?referrerid=PTRBABOHHAL-pp
 category: "travel"
 image: "barclays-hawaiian.png"
 annual_fee: 99
-reward_type: "miles"
+foreign_transaction_fee: false
+reward_type: "points"
 tags:
   - travel
   - airline
@@ -14,7 +16,7 @@ rewards:
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "Hawaiian Airlines purchases"
+    note: "Eligible Hawaiian Airlines and Alaska Airlines purchases"
   - category: gas
     value: 2
     unit: points_per_dollar
@@ -29,9 +31,10 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 50000
-  type: miles
+  type: points
   spend_requirement: 2000
   timeframe_months: 3
+  note: "Plus 30,000 additional points after spending a total of $5,000 in the first 180 days (80,000 points total)"
 apr:
   balance_transfer_intro:
     rate: 0
@@ -39,3 +42,25 @@ apr:
   regular:
     min: 20.24
     max: 29.99
+benefits:
+  - name: "Two Free Checked Bags"
+    description: "Two free checked bags on eligible Hawaiian Airlines and Alaska Airlines flights when the primary cardmember uses the card to purchase eligible tickets"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "50% Off Companion Discount"
+    description: "One-time 50% off companion discount for roundtrip coach travel between Hawaii and North America (Hawaiian Airlines) or roundtrip North America coach travel (Alaska Airlines)"
+    frequency: "one_time"
+    category: "travel"
+    enrollment_required: false
+  - name: "$100 Annual Companion Discount"
+    value: 100
+    description: "Annual $100 companion discount for roundtrip coach travel between Hawaii and North America (Hawaiian Airlines) or roundtrip North America coach travel (Alaska Airlines)"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Inflight Purchase Discount"
+    description: "Save on eligible inflight purchases on Hawaiian Airlines flights when paid with the card"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
