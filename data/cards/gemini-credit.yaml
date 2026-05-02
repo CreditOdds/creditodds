@@ -29,10 +29,3 @@ apr:
     max: 34.99
 apply_link: https://www.gemini.com/credit-card
 foreign_transaction_fee: false
-benefits:
-  - name: "Referral Bonus"
-    value: 5000
-    description: "Earn up to $5,000 in crypto through referrals: $50 per referral plus $250 bonus every 5 referrals, up to 50 referrals per year"
-    frequency: "annual"
-    category: "rewards"
-    enrollment_required: false
