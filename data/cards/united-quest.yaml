@@ -1,19 +1,19 @@
-name: "United Quest"
-bank: "Chase"
-slug: "united-quest"
-image: "united_quest.png"
+name: United Quest
+bank: Chase
+slug: united-quest
+image: united_quest.png
 accepting_applications: true
 annual_fee: 350
-reward_type: "miles"
+reward_type: miles
 rewards:
   - category: airlines
-    value: 3
+    value: 4
     unit: points_per_dollar
-    note: "United purchases"
+    note: All other eligible United purchases
   - category: hotels_portal
     value: 5
     unit: points_per_dollar
-    note: "Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers"
+    note: Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers
   - category: travel
     value: 2
     unit: points_per_dollar
@@ -23,7 +23,7 @@ rewards:
   - category: streaming
     value: 2
     unit: points_per_dollar
-    note: "Select streaming services"
+    note: Select streaming services
   - category: everything_else
     value: 1
     unit: points_per_dollar
@@ -32,29 +32,124 @@ signup_bonus:
   type: miles
   spend_requirement: 4000
   timeframe_months: 3
-  note: "Plus 10,000 bonus miles for adding an authorized user"
+  note: Plus 10,000 bonus miles for adding an authorized user
 apr:
   regular:
     min: 21.24
     max: 28.24
 benefits:
-  - name: "Annual United Travel Credit"
+  - name: Annual United Travel Credit
     value: 125
-    description: "Statement credit for United Airlines purchases"
-    frequency: "annual"
-    category: "travel"
-  - name: "Global Entry / TSA PreCheck Credit"
+    description: Statement credit for United Airlines purchases
+    frequency: annual
+    category: travel
+  - name: Global Entry / TSA PreCheck Credit
     value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
-  - name: "2 Free Checked Bags"
+    description: Statement credit for Global Entry or TSA PreCheck application fee
+    frequency: multi_year
+    category: security
+  - name: 2 Free Checked Bags
     value: 0
-    description: "First and second checked bags free on United flights"
-    frequency: "ongoing"
-    category: "travel"
+    description: First and second checked bags free on United flights
+    frequency: ongoing
+    category: travel
+  - name: United Travel Credit
+    value: 200
+    description: Statement credit to book United or United Express flights, received after account opening and each anniversary.
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Anniversary Award Flight Discount
+    value: 10000
+    value_unit: miles
+    description: 10,000-mile discount toward an eligible award flight starting with first anniversary and annually thereafter.
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Spending Bonus Award Flight Discount
+    value: 10000
+    value_unit: miles
+    description: 10,000-mile discount toward an eligible award flight after spending $20,000 each calendar year.
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Free Checked Bags
+    description: Primary cardmember and one companion receive two free checked bags on United-operated flights.
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Economy Plus Seat Upgrades
+    value: 2
+    value_unit: miles
+    description: Earn 2 global Economy Plus seat upgrades after spending $40,000 each calendar year.
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Priority Boarding
+    description: Primary cardmember and companions on same reservation invited to board before general boarding.
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Global Entry/TSA PreCheck Credit
+    value: 120
+    description: Statement credit of up to $120 for Global Entry, TSA PreCheck, or NEXUS application fees.
+    frequency: every_4_years
+    category: security
+    enrollment_required: false
+  - name: Inflight Purchases Discount
+    value: 25
+    value_unit: percent
+    description: 25% statement credit on food, beverages, Wi-Fi, and Club premium drinks on United-operated flights.
+    frequency: per_purchase
+    category: statement_credit
+    enrollment_required: false
+  - name: Renowned Hotels Credit
+    value: 150
+    description: Statement credit up to $150 annually on prepaid hotel stays through Renowned Hotels and Resorts for United Cardmembers.
+    frequency: annual
+    category: hotel
+    enrollment_required: true
+  - name: Rideshare Credit
+    value: 100
+    description: Statement credit up to $100 each calendar year on rideshare purchases.
+    frequency: annual
+    category: rideshare
+    enrollment_required: true
+  - name: Avis/Budget Car Rental Credit
+    value: 80
+    description: Statement credit up to $80 annually on Avis or Budget car rentals booked through cars.united.com.
+    frequency: annual
+    category: travel
+    enrollment_required: true
+  - name: Instacart Credit
+    value: 180
+    description: Statement credit up to $180 each calendar year for purchases through Instacart.
+    frequency: annual
+    category: grocery
+    enrollment_required: true
+  - name: JSX Flight Credit
+    value: 150
+    description: Statement credit up to $150 annually on flights purchased directly through JSX.
+    frequency: annual
+    category: travel
+    enrollment_required: true
+  - name: Card Bonus Premier Qualifying Points
+    value: 1000
+    value_unit: points
+    description: 1,000 Premier qualifying points annually awarded within 8 weeks of February 1.
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: Award Flight Booking Discount
+    value: 10
+    value_unit: percent
+    description: Save at least 10% when booking United flights with miles.
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
 tags:
   - airline
   - travel
   - premium
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-quest
+foreign_transaction_fee: false
