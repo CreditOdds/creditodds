@@ -7,27 +7,27 @@ category: "business"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - business
-  - cashback
+  - "business"
+  - "cashback"
 rewards:
-  - category: online_shopping
+  - category: "online_shopping"
     value: 5
-    unit: percent
+    unit: "percent"
     note: "Office supply stores, internet, cable, and phone services (first $25,000/year)"
-  - category: gas
+  - category: "gas"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Gas stations and restaurants (first $25,000/year)"
-  - category: dining
+  - category: "dining"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Gas stations and restaurants (first $25,000/year)"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 750
-  type: cash
+  type: "cash"
   spend_requirement: 6000
   timeframe_months: 3
 apr:
@@ -37,4 +37,17 @@ apr:
   regular:
     min: 16.74
     max: 24.74
-apply_link: https://creditcards.chase.com/business-credit-cards/ink/cash
+apply_link: "https://creditcards.chase.com/business-credit-cards/ink/cash"
+benefits:
+  - name: "Automatic Credit Line Review"
+    description: "Automatically checked for a credit line increase every 6 months or sooner"
+    frequency: "semi_annual"
+    category: "other"
+    enrollment_required: false
+  - name: "Referral Bonus"
+    value: 20000
+    value_unit: "points"
+    description: "Earn 20,000 bonus points for each business that gets approved for any Chase for Business credit card, up to 100,000 points per year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
