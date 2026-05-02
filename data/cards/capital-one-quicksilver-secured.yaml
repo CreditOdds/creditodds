@@ -7,15 +7,15 @@ image: "capital-one-quicksilver-secured.png"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - secured
-  - cashback
+  - "secured"
+  - "cashback"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 5
-    unit: percent
-  - category: everything_else
+    unit: "percent"
+  - category: "everything_else"
     value: 1.5
-    unit: percent
+    unit: "percent"
 apr:
   balance_transfer_intro:
     rate: 10.99
@@ -23,4 +23,15 @@ apr:
   regular:
     min: 26.49
     max: 26.49
-apply_link: https://www.capitalone.com/credit-cards/quicksilver-secured/
+apply_link: "https://www.capitalone.com/credit-cards/quicksilver-secured/"
+benefits:
+  - name: "Security Deposit Return"
+    description: "Security deposit can be earned back as a statement credit through responsible card use or refunded when closing the account with a paid balance."
+    frequency: "one_time"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Credit Bureau Reporting"
+    description: "Card activity is regularly reported to the three major credit bureaus to help build credit history."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
