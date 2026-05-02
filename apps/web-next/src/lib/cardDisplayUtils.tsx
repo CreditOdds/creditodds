@@ -118,19 +118,43 @@ export function formatBenefitValue(benefit: CardBenefit): string {
 export const DEFAULT_MULTI_YEAR_CYCLE = 4;
 
 // Per-year USD contribution of a benefit, used to roll up "Total Annual
-// Credits" across all monetary benefits on a card. `multi_year` divides by
-// `frequency_years` (default 4); `ongoing` returns 0 because we can't
-// estimate a per-year credit amount for it; everything else returns the raw
-// value (the unit caller is responsible for treating annual/monthly/etc.
-// consistently in its own context).
+// Credits" across all monetary benefits on a card.
+//
+// The repo convention for recurring credits is to store the PER-OCCURRENCE
+// value plus the matching `frequency`. So Hilton Aspire's "$200 every 6
+// months" lives as `value: 200, frequency: semi_annual` (NOT value: 400 /
+// annual). To compute the per-year contribution we multiply by the number
+// of occurrences in a year for sub-annual frequencies.
+//
+// Frequencies handled:
+//   - `monthly`     — value × 12
+//   - `quarterly`   — value × 4
+//   - `semi_annual` — value × 2
+//   - `annual`      — value × 1
+//   - `multi_year`  — value ÷ frequency_years (default 4)
+//   - `ongoing`     — 0 (no quantifiable per-year amount)
+//   - everything else (per_purchase, per_flight, one_time, etc.) — 0,
+//     since we can't estimate how often a user will trigger them.
+//
+// Older bug: this used to return `value` for monthly/quarterly/semi_annual,
+// which silently undercounted every recurring credit on the site (e.g. the
+// Platinum's $15/mo Uber Cash counted as $15/yr instead of $180/yr).
 export function amortizedAnnualValue(benefit: CardBenefit): number {
   if (!isMonetaryBenefit(benefit)) return 0;
-  if (benefit.frequency === 'ongoing') return 0;
-  if (benefit.frequency === 'multi_year') {
-    const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
-    return Math.round(benefit.value / years);
+  switch (benefit.frequency) {
+    case 'monthly': return benefit.value * 12;
+    case 'quarterly': return benefit.value * 4;
+    case 'semi_annual': return benefit.value * 2;
+    case 'annual': return benefit.value;
+    case 'multi_year': {
+      const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
+      return Math.round(benefit.value / years);
+    }
+    case 'ongoing': return 0;
+    // per_purchase, per_flight, per_trip, per_visit, per_rental, per_claim,
+    // one_time — usage-frequency unknown, can't roll up.
+    default: return 0;
   }
-  return benefit.value;
 }
 
 // Human-readable frequency label shown next to a benefit's value in the UI
