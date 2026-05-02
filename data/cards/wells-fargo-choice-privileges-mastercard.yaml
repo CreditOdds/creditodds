@@ -7,29 +7,29 @@ category: "travel"
 annual_fee: 0
 reward_type: "points"
 tags:
-  - travel
-  - hotel
-  - rewards
+  - "travel"
+  - "hotel"
+  - "rewards"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "At participating Choice Hotels properties"
-  - category: gas
+  - category: "gas"
     value: 3
-    unit: points_per_dollar
-  - category: groceries
+    unit: "points_per_dollar"
+  - category: "groceries"
     value: 3
-    unit: points_per_dollar
-  - category: home_improvement
+    unit: "points_per_dollar"
+  - category: "home_improvement"
     value: 3
-    unit: points_per_dollar
-  - category: phone
+    unit: "points_per_dollar"
+  - category: "phone"
     value: 3
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 40000
   type: "points"
@@ -39,4 +39,22 @@ apr:
   regular:
     min: 19.99
     max: 28.74
-apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard
+apply_link: "https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard"
+foreign_transaction_fee: false
+benefits:
+  - name: "Automatic Gold Elite Status"
+    description: "Automatic Gold Elite membership with Choice Privileges program and 10% bonus points on qualifying stays"
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Elite Qualifying Nights"
+    description: "10 Elite Qualifying Nights each calendar year guaranteeing Gold Elite status and benefits"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Cellular Telephone Protection"
+    value: 800
+    description: "Up to $800 of cell phone protection against damage or theft when paying monthly cell phone bill with the card (subject to $25 deductible)"
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
