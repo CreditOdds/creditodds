@@ -47,8 +47,8 @@ benefits:
     frequency: "ongoing"
     category: "other"
   - name: "Lifestyle Collection Benefits"
-    value: 50
-    description: "Premium hotel benefits including $50 experience credit, room upgrades when available, plus 5X miles on hotel stays booked through Capital One Business Travel."
+    value: 0
+    description: "$50 experience credit and room upgrades when available on Lifestyle Collection hotel bookings through Capital One Business Travel."
     frequency: "per_trip"
     category: "hotel"
     enrollment_required: false
