@@ -1,35 +1,35 @@
-name: "Amazon Prime Rewards Visa Signature"
-bank: "Chase"
-slug: "amazon-prime-rewards-visa-signature-card"
+name: Amazon Prime Rewards Visa Signature
+bank: Chase
+slug: amazon-prime-rewards-visa-signature-card
 accepting_applications: true
-image: "amazon-prime-visa.png"
+image: amazon-prime-visa.png
 annual_fee: 0
 tags:
   - shopping
   - cashback
   - rewards
-reward_type: "cashback"
+reward_type: cashback
 rewards:
-  - category: "amazon"
+  - category: amazon
     value: 5
-    unit: "percent"
-    note: "Amazon, Whole Foods Market, Shopbop, Chase Travel (Prime members); 3% without Prime"
-  - category: "dining"
+    unit: percent
+    note: Amazon, Whole Foods Market, Shopbop, Chase Travel (Prime members); 3% without Prime
+  - category: dining
     value: 2
-    unit: "percent"
-  - category: "gas"
+    unit: percent
+  - category: gas
     value: 2
-    unit: "percent"
-  - category: "transit"
+    unit: percent
+  - category: transit
     value: 2
-    unit: "percent"
-    note: "Local transit, commuting, and rideshare"
-  - category: "everything_else"
+    unit: percent
+    note: Local transit, commuting, and rideshare
+  - category: everything_else
     value: 1
-    unit: "percent"
+    unit: percent
 signup_bonus:
   value: 150
-  type: "cash"
+  type: cash
   spend_requirement: 0
   timeframe_months: 0
 apr:
@@ -37,3 +37,16 @@ apr:
     min: 18.74
     max: 27.49
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
+foreign_transaction_fee: false
+benefits:
+  - name: Welcome Bonus
+    value: 150
+    description: $150 Amazon Gift Card instantly loaded upon approval for Prime members
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Travel and Emergency Assistance
+    description: Access to legal and medical referrals and travel assistance services when away from home
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
