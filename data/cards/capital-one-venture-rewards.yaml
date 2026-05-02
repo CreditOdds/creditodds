@@ -1,17 +1,47 @@
-name: "Capital One Venture Rewards"
-bank: "Capital One"
-slug: "capital-one-venture-rewards"
+name: Capital One Venture Rewards
+bank: Capital One
+slug: capital-one-venture-rewards
 accepting_applications: true
-category: "travel"
-image: "capital-one-venture-rewards.png"
+category: travel
+image: capital-one-venture-rewards.png
 annual_fee: 95
-reward_type: "miles"
+reward_type: miles
 benefits:
-  - name: "Global Entry / TSA PreCheck Credit"
+  - name: Global Entry / TSA PreCheck Credit
     value: 120
-    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
+    description: Up to $120 statement credit for Global Entry or TSA PreCheck application fee
+    frequency: multi_year
+    category: security
+  - name: Global Entry or TSA PreCheck Credit
+    value: 120
+    description: Up to $120 statement credit when you use your Venture card to apply for Global Entry or TSA PreCheck.
+    frequency: one_time
+    category: travel
+    enrollment_required: false
+  - name: Lifestyle Collection Experience Credit
+    value: 50
+    description: Receive a $50 experience credit on every Lifestyle Collection stay at hotels, resorts and vacation rentals.
+    frequency: per_visit
+    category: hotel
+    enrollment_required: false
+  - name: Capital One Entertainment 5X Miles
+    value: 5
+    value_unit: miles
+    description: Earn 5X miles on qualifying purchases through Capital One Entertainment.
+    frequency: per_purchase
+    category: entertainment
+    enrollment_required: false
+  - name: Hertz Five Star Status
+    description: Complimentary Hertz Five Star status with skip-the-counter service and wider vehicle selection.
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: Capital One Café Beverage Discount
+    value: 50
+    description: 50% off all handcrafted beverages every day at any Capital One Café nationwide.
+    frequency: per_purchase
+    category: dining
+    enrollment_required: false
 tags:
   - travel
   - rewards
@@ -24,12 +54,13 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 75000
-  type: "miles"
+  type: miles
   spend_requirement: 4000
   timeframe_months: 3
-  note: "Plus $250 travel credit in first cardholder year"
+  note: Plus $250 travel credit in first cardholder year
 apr:
   regular:
     min: 19.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/venture/
+foreign_transaction_fee: false
