@@ -1,7 +1,7 @@
-name: "Apple Card"
-bank: "Goldman Sachs"
-slug: "apple-card"
-image: "apple_card.png"
+name: Apple Card
+bank: Goldman Sachs
+slug: apple-card
+image: apple_card.png
 accepting_applications: true
 annual_fee: 0
 reward_type: cashback
@@ -9,19 +9,19 @@ rewards:
   - category: online_shopping
     value: 3
     unit: percent
-    note: "Apple purchases and select merchants"
+    note: Apple purchases and select merchants
   - category: dining
     value: 2
     unit: percent
-    note: "Via Apple Pay"
+    note: Via Apple Pay
   - category: transit
     value: 2
     unit: percent
-    note: "Via Apple Pay"
+    note: Via Apple Pay
   - category: groceries
     value: 2
     unit: percent
-    note: "Via Apple Pay"
+    note: Via Apple Pay
   - category: everything_else
     value: 1
     unit: percent
@@ -32,3 +32,36 @@ apr:
     min: 17.49
     max: 27.74
 apply_link: https://www.apple.com/apple-card/
+foreign_transaction_fee: false
+benefits:
+  - name: Booking.com Travel Credits
+    value: 2
+    description: 2% in Booking.com Travel Credits on eligible stays and car rentals booked through Booking.com portal, in addition to 3% Daily Cash
+    frequency: per_purchase
+    category: travel
+    enrollment_required: true
+  - name: Uber One Trial
+    description: Six-month free trial of Uber One membership when signing up through Apple Card exclusive link with Apple Pay
+    frequency: one_time
+    category: rideshare
+    enrollment_required: true
+  - name: Hertz Rental Car Benefits
+    description: Exclusive Hertz benefits including at least 5% off Pay Later rates, free emergency roadside service, discounted loss damage waiver, and free additional driver
+    frequency: per_rental
+    category: travel
+    enrollment_required: true
+  - name: High-Yield Savings Account
+    description: Option to open a Savings account through Apple Card where Daily Cash can be automatically deposited and earn interest
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: No Annual Fee
+    description: No annual, over-the-limit, foreign-transaction, or late fees
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Interest Payment Estimator
+    description: Real-time interest payment estimation tool to help you make informed payment decisions
+    frequency: ongoing
+    category: other
+    enrollment_required: false
