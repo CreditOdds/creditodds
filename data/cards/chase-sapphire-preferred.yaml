@@ -16,6 +16,11 @@ benefits:
     description: "Complimentary DoorDash DashPass membership"
     frequency: "ongoing"
     category: "dining"
+  - name: "Anniversary Bonus Points"
+    description: "Earn bonus points equal to 10% of total purchases made the previous year on each account anniversary."
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - travel
   - dining
@@ -51,3 +56,4 @@ apr:
     min: 19.24
     max: 27.49
 apply_link: https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred
+foreign_transaction_fee: false
