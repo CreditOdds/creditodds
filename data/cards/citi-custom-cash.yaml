@@ -6,8 +6,8 @@ accepting_applications: true
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
   - category: "rotating"
     value: 5
@@ -33,7 +33,7 @@ rewards:
     unit: "percent"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 1500
   timeframe_months: 6
 apr:
@@ -46,4 +46,50 @@ apr:
   regular:
     min: 17.49
     max: 27.49
-apply_link: https://www.citi.com/credit-cards/citi-custom-cash-credit-card
+apply_link: "https://www.citi.com/credit-cards/citi-custom-cash-credit-card"
+benefits:
+  - name: "Automatic Account Alerts"
+    description: "Alerts for balance levels, payment due dates, and credit limit warnings via email or mobile."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Contactless Pay"
+    description: "Contactless-chip enabled card for quick and safe tap-to-pay transactions."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Digital Wallets"
+    description: "Shop safely with digital wallets in millions of places online, within apps, and in stores."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Citi Mobile App"
+    description: "View balance, available credit, spend summary, and make payments from anywhere."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Flexible Payment Due Date"
+    description: "Choose your payment due date at the beginning, middle, or end of the month."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Free FICO Score Access"
+    description: "View your FICO Score anytime with no impact to your score, updated monthly."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Fraud Early Warning"
+    description: "Account monitoring for suspicious activity with alerts and protective action."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "24/7 Customer Service"
+    description: "Customer service representatives available around the clock for assistance."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Citi Entertainment"
+    description: "Access to music, sports, culinary experiences and entertainment from virtually anywhere."
+    frequency: "ongoing"
+    category: "entertainment"
+    enrollment_required: false
