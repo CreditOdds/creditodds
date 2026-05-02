@@ -7,6 +7,16 @@ on:
     paths:
       - 'data/articles/**'
   workflow_dispatch:  # Allow manual trigger
+    inputs:
+      force_regenerate_slug:
+        description: "Slug of an article to force-regenerate the image for (optional)"
+        required: false
+        type: string
+      force_regenerate_all:
+        description: "Regenerate every article image (expensive — only use when style changes)"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   id-token: write
@@ -39,6 +49,19 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
           aws-region: us-east-2
+
+      - name: Sync article hero images (generate missing via OpenAI)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          S3_IMAGES_BUCKET_NAME: ${{ secrets.S3_IMAGES_BUCKET_NAME }}
+        run: |
+          ARGS=""
+          if [ "${{ inputs.force_regenerate_all }}" = "true" ]; then
+            ARGS="--force-all"
+          elif [ -n "${{ inputs.force_regenerate_slug }}" ]; then
+            ARGS="--force ${{ inputs.force_regenerate_slug }}"
+          fi
+          node scripts/sync-article-images.js $ARGS
 
       - name: Upload articles.json to S3
         run: aws s3 cp data/articles.json s3://${{ secrets.S3_BUCKET_NAME }}/articles.json --content-type application/json --cache-control "max-age=300"

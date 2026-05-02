@@ -93,7 +93,7 @@ export default async function ArticlePage({ params }: Props) {
     datePublished: article.date,
     dateModified: article.updated_at || article.date,
     image: article.image
-      ? `https://d2hxvzw7msbtvt.cloudfront.net/article_images/${article.image}`
+      ? `https://d3ay3etzd1512y.cloudfront.net/article_images/${article.image}`
       : `https://creditodds.com/articles/${article.slug}/opengraph-image`,
     publisher: {
       "@type": "Organization",
@@ -190,7 +190,7 @@ export default async function ArticlePage({ params }: Props) {
               }}
             >
               <Image
-                src={`https://d2hxvzw7msbtvt.cloudfront.net/article_images/${article.image}`}
+                src={`https://d3ay3etzd1512y.cloudfront.net/article_images/${article.image}`}
                 alt={article.image_alt || article.title}
                 width={1080}
                 height={608}
