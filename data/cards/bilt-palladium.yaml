@@ -27,7 +27,7 @@ benefits:
     category: "statement_credit"
     enrollment_required: false
   - name: "Priority Pass"
-    value: 469
+    value: 0
     description: "Complimentary Priority Pass lounge access"
     frequency: "annual"
     category: "lounge"
