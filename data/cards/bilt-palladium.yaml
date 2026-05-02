@@ -1,18 +1,58 @@
-name: "Bilt Palladium"
-bank: "Bilt"
-slug: "bilt-palladium"
-image: "bilt_palladium.png"
+name: Bilt Palladium
+bank: Bilt
+slug: bilt-palladium
+image: bilt_palladium.png
 accepting_applications: true
 apply_link: https://www.biltrewards.com/card/apply
 annual_fee: 495
-reward_type: "points"
+reward_type: points
 release_date: "2025-01-15"
 benefits:
-  - name: "Rent Payment Without Fees"
+  - name: Rent Payment Without Fees
     value: 0
-    description: "Pay rent with your credit card and earn points with no transaction fees"
-    frequency: "ongoing"
-    category: "other"
+    description: Pay rent with your credit card and earn points with no transaction fees
+    frequency: ongoing
+    category: other
+  - name: Sign-up Bonus
+    value: 50000
+    value_unit: points
+    description: 50,000 Bilt Points as sign-up bonus after spending $4,000 on purchases (excluding rent or mortgage) in first 90 days
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Sign-up Bonus Cash
+    value: 300
+    description: $300 of Bilt Cash as sign-up bonus
+    frequency: one_time
+    category: statement_credit
+    enrollment_required: false
+  - name: Gold Status
+    description: Gold Status earned upon meeting $4,000 spending threshold in first 90 days
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Bilt Travel Hotel Credit
+    value: 400
+    description: $400 Bilt Travel Hotel credit applied twice a year as $200 statement credits for qualifying Bilt Travel Portal hotel bookings
+    frequency: semi_annual
+    category: hotel
+    enrollment_required: false
+  - name: Annual Bilt Cash Award
+    value: 200
+    description: $200 of Bilt Cash awarded annually, with up to $100 rolling over into next calendar year
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Priority Pass
+    description: Priority Pass membership with $469 annual value
+    frequency: ongoing
+    category: lounge
+    enrollment_required: false
+  - name: No Transaction Fees on Housing Payments
+    description: No transaction fees on rent and mortgage payments made through Bilt
+    frequency: ongoing
+    category: other
+    enrollment_required: false
 tags:
   - rewards
   - travel
@@ -22,18 +62,18 @@ rewards:
   - category: dining
     value: 3
     unit: points_per_dollar
-    note: "Choose dining or groceries, up to $25,000/year"
+    note: Choose dining or groceries, up to $25,000/year
   - category: travel
     value: 2
     unit: points_per_dollar
   - category: everything_else
-    value: 2
-    unit: points_per_dollar
-    note: "Also earns 4% Bilt Cash on everyday purchases"
+    value: 4
+    unit: percent
+    note: "Alternative: 4% back in Bilt Cash on everyday spend instead of points on rent/mortgage"
 signup_bonus:
   value: 50000
-  type: "points"
+  type: points
   spend_requirement: 4000
   timeframe_months: 3
-  note: "Plus $300 Bilt Cash as a signup bonus"
-
+  note: Plus $300 Bilt Cash as a signup bonus
+foreign_transaction_fee: false
