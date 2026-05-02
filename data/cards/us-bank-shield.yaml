@@ -18,3 +18,16 @@ apr:
     min: 16.99
     max: 27.99
 apply_link: https://www.usbank.com/credit-cards/pm/shield-visa-credit-card.html
+benefits:
+  - name: "Annual Statement Credit"
+    value: 20
+    description: "Earn a $20 annual statement credit for 11 consecutive months of purchases"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Up to $600 per claim if your cell phone is stolen or damaged when you pay your monthly cellular bill with the card"
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
