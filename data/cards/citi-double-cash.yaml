@@ -1,18 +1,18 @@
-name: "Citi Double Cash"
-bank: "Citi"
-slug: "citi-double-cash"
-image: "citi_double_cash.png"
+name: Citi Double Cash
+bank: Citi
+slug: citi-double-cash
+image: citi_double_cash.png
 accepting_applications: true
 annual_fee: 0
 tags:
   - cashback
   - rewards
-reward_type: "cashback"
+reward_type: cashback
 rewards:
   - category: everything_else
-    value: 2
+    value: 1
     unit: percent
-    note: "1% when you buy, 1% when you pay"
+    note: Additional 1% cash back as you pay
 signup_bonus:
   value: 200
   type: cash
@@ -26,3 +26,29 @@ apr:
     min: 17.49
     max: 27.49
 apply_link: https://www.citi.com/credit-cards/citi-double-cash-credit-card
+benefits:
+  - name: Citi Entertainment Access
+    description: Special access to purchase tickets to thousands of events including presale tickets and exclusive experiences
+    frequency: ongoing
+    category: entertainment
+    enrollment_required: false
+  - name: Citi Merchant Offers
+    description: Statement credit program offering savings on shopping, dining, travel and more with qualifying purchases
+    frequency: per_purchase
+    category: statement_credit
+    enrollment_required: true
+  - name: Citi Flex Pay
+    description: Pay over time in fixed monthly payments on eligible purchases of $75 or more while continuing to earn points
+    frequency: per_purchase
+    category: other
+    enrollment_required: false
+  - name: FICO Score Access
+    description: Free access to view your FICO Score online anytime without impacting your score, updated monthly
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: 24-Hour Fraud Protection
+    description: Citi alerts you if unusual activity is detected on your account
+    frequency: ongoing
+    category: security
+    enrollment_required: false
