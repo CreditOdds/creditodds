@@ -1,34 +1,34 @@
-name: "Hilton Honors American Express Aspire"
-bank: "American Express"
-slug: "hilton-honors-american-express-aspire-card"
-image: "amex_hilton_honors_aspire.png"
+name: Hilton Honors American Express Aspire
+bank: American Express
+slug: hilton-honors-american-express-aspire-card
+image: amex_hilton_honors_aspire.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/
 annual_fee: 550
-reward_type: "points"
+reward_type: points
 rewards:
   - category: hotels
     value: 14
     unit: points_per_dollar
-    note: "Eligible purchases at Hilton hotels and resorts"
+    note: Eligible purchases at Hilton hotels and resorts
   - category: airlines
     value: 7
     unit: points_per_dollar
-    note: "Flights booked directly with airlines or through AmexTravel.com"
+    note: Flights booked directly with airlines or through AmexTravel.com
   - category: car_rentals
     value: 7
     unit: points_per_dollar
-    note: "Booked directly with select car rental companies"
+    note: Booked directly with select car rental companies
   - category: dining
     value: 7
     unit: points_per_dollar
-    note: "U.S. restaurants"
+    note: U.S. restaurants
   - category: everything_else
     value: 3
     unit: points_per_dollar
 signup_bonus:
   value: 150000
-  type: "points"
+  type: points
   spend_requirement: 6000
   timeframe_months: 6
 apr:
@@ -36,38 +36,54 @@ apr:
     min: 19.49
     max: 28.49
 benefits:
-  - name: "Free Night Award"
+  - name: Free Night Award
     value: 0
-    description: "1 complimentary night annually at most Hilton hotels and resorts worldwide"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Hilton Resort Credit"
+    description: 1 complimentary night annually at most Hilton hotels and resorts worldwide
+    frequency: annual
+    category: hotel
+  - name: Hilton Resort Credit
     value: 400
-    description: "Up to $200 semiannually for eligible purchases at participating Hilton resorts"
-    frequency: "semi_annual"
-    category: "hotel"
-  - name: "Flight Credit"
+    description: Up to $200 semiannually for eligible purchases at participating Hilton resorts
+    frequency: semi_annual
+    category: hotel
+  - name: Flight Credit
     value: 200
-    description: "Up to $50 per quarter on eligible flight purchases made directly with airlines or through amextravel.com"
-    frequency: "quarterly"
-    category: "travel"
+    description: Up to $50 per quarter on eligible flight purchases made directly with airlines or through amextravel.com
+    frequency: quarterly
+    category: travel
     enrollment_required: true
-  - name: "CLEAR Plus Credit"
+  - name: CLEAR Plus Credit
     value: 209
-    description: "Statement credit for CLEAR Plus airport security membership"
-    frequency: "annual"
-    category: "security"
+    description: Statement credit for CLEAR Plus airport security membership
+    frequency: annual
+    category: security
     enrollment_required: true
-  - name: "Diamond Status"
+  - name: Diamond Status
     value: 0
-    description: "Complimentary Hilton Honors Diamond status with room upgrades, executive lounge access, and late checkout"
-    frequency: "ongoing"
-    category: "hotel"
-  - name: "Additional Free Night Awards"
+    description: Complimentary Hilton Honors Diamond status with room upgrades, executive lounge access, and late checkout
+    frequency: ongoing
+    category: hotel
+  - name: Additional Free Night Awards
     value: 0
-    description: "Earn another Free Night Reward after $30,000 in purchases and one more after $60,000 in a calendar year"
-    frequency: "annual"
-    category: "hotel"
+    description: Earn another Free Night Reward after $30,000 in purchases and one more after $60,000 in a calendar year
+    frequency: annual
+    category: hotel
+  - name: Hilton Honors Diamond Status
+    description: Complimentary Diamond elite status with 100% bonus on base points per stay, premium Wi-Fi, room upgrades, and executive lounge access
+    frequency: ongoing
+    category: hotel
+    enrollment_required: false
+  - name: Annual Free Night Reward
+    description: Complimentary free night reward from Hilton Honors each year upon card membership and renewal
+    frequency: annual
+    category: hotel
+    enrollment_required: false
+  - name: CLEAR+ Credit
+    value: 209
+    description: Up to $209 in statement credits per calendar year after paying for CLEAR+ membership for expedited airport security
+    frequency: annual
+    category: travel
+    enrollment_required: true
 tags:
   - hotel
   - travel
