@@ -8,23 +8,37 @@ category: "rewards"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - rewards
+  - "rewards"
 rewards:
-  - category: gas
+  - category: "gas"
     value: 4
-    unit: percent
+    unit: "percent"
     note: "First $300/month on gas and EV charging"
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: percent
-  - category: groceries
+    unit: "percent"
+  - category: "groceries"
     value: 2
-    unit: percent
-  - category: everything_else
+    unit: "percent"
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 apr:
   regular:
     min: 18.99
     max: 34.99
-apply_link: https://www.gemini.com/credit-card
+apply_link: "https://www.gemini.com/credit-card"
+foreign_transaction_fee: false
+benefits:
+  - name: "Referral Bonus"
+    value: 5000
+    description: "Earn up to $5,000 in crypto through referrals: $50 per referral plus $250 bonus every 5 referrals, up to 50 referrals per year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Vault Rewards"
+    value: 10
+    description: "Earn 10% back on select internet brands with limited monthly cap"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
