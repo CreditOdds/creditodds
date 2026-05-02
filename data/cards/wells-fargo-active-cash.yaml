@@ -32,8 +32,8 @@ apply_link: https://creditcards.wellsfargo.com/active-cash-credit-card
 foreign_transaction_fee: true
 benefits:
   - name: "Cellular Telephone Protection"
-    value: 600
-    description: "Up to $600 of cell phone protection against damage or theft, subject to a $25 deductible."
+    value: 0
+    description: "Up to $600 per claim against damage or theft when monthly cell phone bill is paid with the card, subject to a $25 deductible"
     frequency: "per_claim"
     category: "other"
     enrollment_required: false
