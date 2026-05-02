@@ -3,23 +3,23 @@ bank: "Capital One"
 slug: "rei-co-op-mastercard"
 image: "rei-coop.png"
 accepting_applications: true
-apply_link: https://www.capitalone.com/credit-cards/rei/
+apply_link: "https://www.capitalone.com/credit-cards/rei/"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: rei
+  - category: "rei"
     value: 5
-    unit: percent
+    unit: "percent"
     note: "At REI retail locations and REI.com"
-  - category: everything_else
+  - category: "everything_else"
     value: 1.5
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 100
-  type: cash
+  type: "cash"
   spend_requirement: 0
   timeframe_months: 2
   note: "$100 REI gift card after first purchase outside REI within 60 days"
@@ -27,3 +27,4 @@ apr:
   regular:
     min: 17.49
     max: 28.49
+foreign_transaction_fee: false
