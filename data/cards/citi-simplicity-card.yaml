@@ -6,7 +6,7 @@ image: "citi-simplicity.png"
 annual_fee: 0
 category: "balance_transfer"
 tags:
-  - balance_transfer
+  - "balance_transfer"
 apr:
   purchase_intro:
     rate: 0
@@ -17,4 +17,26 @@ apr:
   regular:
     min: 17.49
     max: 28.24
-apply_link: https://www.citi.com/credit-cards/citi-simplicity-credit-card
+apply_link: "https://www.citi.com/credit-cards/citi-simplicity-credit-card"
+foreign_transaction_fee: true
+benefits:
+  - name: "Flexible Payment Due Date"
+    description: "Choose to pay your bill on any available due date in the beginning, middle or end of the month."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Contactless Payment"
+    description: "Tap your card on the payment reader for fast, secure contactless transactions."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "Account Alerts"
+    description: "Automatic alerts for balance levels, payment due dates, and credit limit notifications via email or mobile."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "24/7 Customer Service"
+    description: "Access to live customer service representatives available 24 hours a day, 365 days a year."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
