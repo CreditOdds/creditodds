@@ -1,10 +1,21 @@
-name: "US Bank Split"
-bank: "U.S. Bank"
-slug: "us-bank-split"
-image: "us-bank-split.png"
+name: US Bank Split
+bank: U.S. Bank
+slug: us-bank-split
+image: us-bank-split.png
 accepting_applications: true
 annual_fee: 0
-category: "other"
+category: other
 tags:
   - rewards
 apply_link: https://www.usbank.com/credit-cards/offers/split-card-world-mastercard-credit-card.html
+benefits:
+  - name: No Annual Fee
+    description: No annual fee charged on the card.
+    frequency: annual
+    category: other
+    enrollment_required: false
+  - name: 3-Month Interest-Free Plans
+    description: No interest and no plan fees on automatic 3-month payment plans for all purchases.
+    frequency: per_purchase
+    category: other
+    enrollment_required: false
