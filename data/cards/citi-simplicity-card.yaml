@@ -1,10 +1,10 @@
-name: "Citi Simplicity"
-bank: "Citi"
-slug: "citi-simplicity-card"
+name: Citi Simplicity
+bank: Citi
+slug: citi-simplicity-card
 accepting_applications: true
-image: "citi-simplicity.png"
+image: citi-simplicity.png
 annual_fee: 0
-category: "balance_transfer"
+category: balance_transfer
 tags:
   - balance_transfer
 apr:
@@ -18,3 +18,25 @@ apr:
     min: 17.49
     max: 28.24
 apply_link: https://www.citi.com/credit-cards/citi-simplicity-credit-card
+foreign_transaction_fee: true
+benefits:
+  - name: No Annual Fee
+    description: No annual fee ever on this card.
+    frequency: annual
+    category: other
+    enrollment_required: false
+  - name: No Late Fees
+    description: No late fees charged on this card.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: No Penalty Rate
+    description: No penalty APR applied to this card.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Flexible Payment Due Date
+    description: Choose your payment due date in the beginning, middle, or end of the month.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
