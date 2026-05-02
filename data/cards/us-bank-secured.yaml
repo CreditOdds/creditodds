@@ -1,11 +1,11 @@
-name: "US Bank Secured"
-bank: "U.S. Bank"
-slug: "us-bank-secured"
-image: "us-bank-secured.png"
+name: US Bank Secured
+bank: U.S. Bank
+slug: us-bank-secured
+image: us-bank-secured.png
 accepting_applications: true
 apply_link: https://www.usbank.com/credit-cards/secured-visa-credit-card.html
 annual_fee: 0
-category: "secured"
+category: secured
 tags:
   - secured
   - credit_builder
@@ -13,3 +13,44 @@ apr:
   regular:
     min: 27.49
     max: 27.49
+benefits:
+  - name: No Annual Fee
+    description: No annual fee to maintain the card.
+    frequency: annual
+    category: other
+    enrollment_required: false
+  - name: Free Credit Score Access
+    description: View your credit score anytime in the mobile app or online banking through TransUnion CreditView.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Flexible Payment Due Date
+    description: Choose your payment due date based on your schedule.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: FDIC-Insured Savings Account
+    description: Security deposit is held in an FDIC-insured savings account that earns interest.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: 24/7 Account Access
+    description: Access your account anytime through U.S. Bank mobile app or online banking.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Contactless Payments
+    description: Pay with a tap using contactless technology.
+    frequency: per_purchase
+    category: other
+    enrollment_required: false
+  - name: Mobile Wallet Support
+    description: Add your card to your mobile wallet for convenient and secure payments.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Automatic Payment Options
+    description: Set up autopay to pay on time and avoid late fees.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
