@@ -282,9 +282,15 @@ async function main() {
     // For articles, attach the social-composite image as media on the post.
     // The link unfurl below the post still uses the article URL's OG image
     // (the editorial illustration) — these are two different images by design.
+    //
+    // Default to the convention <slug>-social.png because sync-article-images.js
+    // stamps the social_image field on articles.json, NOT back into the YAML
+    // we're reading here. fetchImageAsBase64 in queuePost falls back gracefully
+    // if the image doesn't exist on the CDN.
     let imageUrl = null;
-    if (type === 'article' && item.social_image) {
-      imageUrl = `https://d3ay3etzd1512y.cloudfront.net/article_images/${item.social_image}`;
+    if (type === 'article' && item.slug) {
+      const socialFilename = item.social_image || `${item.slug}-social.png`;
+      imageUrl = `https://d3ay3etzd1512y.cloudfront.net/article_images/${socialFilename}`;
       console.log(`  Image: ${imageUrl}`);
     }
 
