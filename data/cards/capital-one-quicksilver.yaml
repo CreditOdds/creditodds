@@ -1,11 +1,11 @@
-name: "Capital One Quicksilver Cash Rewards"
-bank: "Capital One"
-slug: "capital-one-quicksilver"
-image: "capital_one_quicksilver.png"
+name: Capital One Quicksilver Cash Rewards
+bank: Capital One
+slug: capital-one-quicksilver
+image: capital_one_quicksilver.png
 accepting_applications: true
-category: "cashback"
+category: cashback
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 tags:
   - cashback
   - rewards
@@ -32,3 +32,31 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/quicksilver/
+benefits:
+  - name: Welcome Bonus
+    value: 200
+    description: Earn a $200 cash bonus as a new cardmember.
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Capital One Travel Price Drop Protection
+    value: 50
+    description: Get up to $50 in travel credit if your flight price drops within 10 days of booking when recommended.
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Capital One Travel Price Matching
+    description: Capital One will match a better price on flights, hotels, or rental cars if reported within 24 hours.
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Capital One Travel Flight Cancellation Option
+    description: Add the option to cancel your flight up to 3 hours before departure and get most of your booking cost refunded.
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Capital One Travel Price Alerts
+    description: Set price alerts and receive 24/7 notifications when flight prices drop.
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
