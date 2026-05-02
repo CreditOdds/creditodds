@@ -37,3 +37,10 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: "Disney Streaming Credit"
+    value: 84
+    description: "Up to $7 monthly statement credit for Disney+, Hulu, or ESPN+ subscription purchases"
+    frequency: "annual"
+    category: "streaming"
+    enrollment_required: true
