@@ -88,9 +88,9 @@ benefits:
     description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
     frequency: "ongoing"
     category: "lounge"
-  - name: "Hotel Credit - Fine Hotels + Resorts"
+  - name: "Hotel Credit"
     value: 300
-    description: "Statement credits up to $300 semi-annually on prepaid bookings through Amex Travel with Fine Hotels + Resorts"
+    description: "Statement credits up to $300 semi-annually on prepaid bookings through Amex Travel with Fine Hotels + Resorts or The Hotel Collection (Hotel Collection requires a two-night minimum)"
     frequency: "semi_annual"
     category: "hotel"
     enrollment_required: false
@@ -101,14 +101,16 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "Marriott Bonvoy Gold Elite Status"
+    value: 0
     description: "Automatic Marriott Bonvoy Gold Elite Status without meeting stay requirements"
     frequency: "ongoing"
     category: "hotel"
     enrollment_required: true
   - name: "Car Rental Privileges"
+    value: 0
     description: "Complimentary premium status for select car rental programs with Avis, Hertz, and National"
     frequency: "ongoing"
-    category: "travel"
+    category: "car_rental"
     enrollment_required: true
 tags:
   - business
