@@ -108,6 +108,46 @@ export function formatBenefitValue(benefit: CardBenefit): string {
   return `$${v}`;
 }
 
+// Default cycle length for `multi_year` benefits when `frequency_years` is
+// missing — covers existing Global Entry/TSA PreCheck entries that didn't
+// specify a cycle. New entries should set `frequency_years` explicitly.
+export const DEFAULT_MULTI_YEAR_CYCLE = 4;
+
+// Per-year USD contribution of a benefit, used to roll up "Total Annual
+// Credits" across all monetary benefits on a card. `multi_year` divides by
+// `frequency_years` (default 4); `ongoing` returns 0 because we can't
+// estimate a per-year credit amount for it; everything else returns the raw
+// value (the unit caller is responsible for treating annual/monthly/etc.
+// consistently in its own context).
+export function amortizedAnnualValue(benefit: CardBenefit): number {
+  if (!isMonetaryBenefit(benefit)) return 0;
+  if (benefit.frequency === 'ongoing') return 0;
+  if (benefit.frequency === 'multi_year') {
+    const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
+    return Math.round(benefit.value / years);
+  }
+  return benefit.value;
+}
+
+// Human-readable frequency label shown next to a benefit's value in the UI
+// (e.g. "$120 every 5 yr" for Global Entry on a 5-year cycle, "$300 /yr" for
+// an annual travel credit). Multi-year is dynamic so the label matches the
+// benefit's `frequency_years` instead of always saying "every 4 yr".
+export function frequencyLabel(benefit: CardBenefit): string {
+  switch (benefit.frequency) {
+    case 'monthly': return '/mo';
+    case 'quarterly': return '/qtr';
+    case 'semi_annual': return '/6 mo';
+    case 'annual': return '/yr';
+    case 'multi_year': {
+      const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
+      return `every ${years} yr`;
+    }
+    case 'ongoing': return '';
+    default: return '';
+  }
+}
+
 // Cents-per-point estimates by program (driven by data/valuations.yaml)
 export function getCentsPerPoint(card: Card): number | null {
   if (!card.signup_bonus) return null;

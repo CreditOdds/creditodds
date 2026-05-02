@@ -12,7 +12,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Card, Reward } from '@/lib/api';
-import { formatBenefitValue, isMonetaryBenefit } from '@/lib/cardDisplayUtils';
+import { amortizedAnnualValue, formatBenefitValue } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import {
   categoryLabels,
@@ -525,11 +525,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                   {card.benefits && card.benefits.length > 0 && (() => {
                     const credits = card.benefits.filter(b => b.value > 0);
                     const perks = card.benefits.filter(b => b.value === 0);
-                    const totalAnnual = credits.reduce((sum, b) => {
-                      if (!isMonetaryBenefit(b)) return sum;
-                      if (b.frequency === 'multi_year') return sum + Math.round(b.value / 4);
-                      return sum + b.value;
-                    }, 0);
+                    const totalAnnual = credits.reduce((sum, b) => sum + amortizedAnnualValue(b), 0);
                     return (
                       <div className="px-4 py-2.5 text-sm">
                         <span className="text-gray-500 font-medium block mb-1">Benefits</span>
@@ -814,11 +810,10 @@ export default function CompareClient({ allCards }: CompareClientProps) {
               {activeCards.some(c => c.benefits && c.benefits.length > 0) && (() => {
                 const totalCredits = activeCards.map(c => {
                   if (!c.benefits) return 0;
-                  return c.benefits.filter(b => b.value > 0).reduce((sum, b) => {
-                    if (!isMonetaryBenefit(b)) return sum;
-                    if (b.frequency === 'multi_year') return sum + Math.round(b.value / 4);
-                    return sum + b.value;
-                  }, 0);
+                  return c.benefits.filter(b => b.value > 0).reduce(
+                    (sum, b) => sum + amortizedAnnualValue(b),
+                    0
+                  );
                 });
                 const bestSet = getBestIndices(totalCredits.map(v => v || null), 'max');
                 return (

@@ -5,16 +5,7 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import { CardBenefit } from "@/lib/api";
-import { formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
-
-const frequencyLabels: Record<string, string> = {
-  monthly: "/mo",
-  quarterly: "/qtr",
-  semi_annual: "/6 mo",
-  annual: "/yr",
-  multi_year: "every 4 yr",
-  ongoing: "",
-};
+import { amortizedAnnualValue, formatBenefitValue, frequencyLabel } from "@/lib/cardDisplayUtils";
 
 const categoryIcons: Record<string, string> = {
   dining: "🍽️",
@@ -43,11 +34,7 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
   const credits = benefits.filter((b) => b.value > 0);
   const perks = benefits.filter((b) => b.value === 0);
   // Only sum USD-valued credits — points/miles can't be meaningfully added in dollars.
-  const totalAnnualValue = credits.reduce((sum, b) => {
-    if (!isMonetaryBenefit(b)) return sum;
-    if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
-    return sum + b.value;
-  }, 0);
+  const totalAnnualValue = credits.reduce((sum, b) => sum + amortizedAnnualValue(b), 0);
 
   return (
     <div className="py-6">
@@ -105,7 +92,7 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
                       {formatBenefitValue(benefit)}
                     </span>
                     <span className="text-sm text-gray-400 font-medium">
-                      {frequencyLabels[benefit.frequency]}
+                      {frequencyLabel(benefit)}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">

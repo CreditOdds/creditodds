@@ -4,20 +4,11 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import CardImage from "@/components/ui/CardImage";
 import { Card, CardBenefit, WalletCard } from "@/lib/api";
-import { formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
+import { amortizedAnnualValue, formatBenefitValue, frequencyLabel } from "@/lib/cardDisplayUtils";
 import {
   CheckCircleIcon,
   GiftIcon,
 } from "@heroicons/react/24/outline";
-
-const frequencyLabels: Record<string, string> = {
-  monthly: "/mo",
-  quarterly: "/qtr",
-  semi_annual: "/6 mo",
-  annual: "/yr",
-  multi_year: "every 4 yr",
-  ongoing: "",
-};
 
 const categoryIcons: Record<string, string> = {
   dining: "🍽️",
@@ -75,11 +66,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
   }, [cardsWithBenefits]);
 
   const totalAnnualValue = useMemo(() => {
-    return allCredits.reduce((sum, b) => {
-      if (!isMonetaryBenefit(b)) return sum;
-      if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
-      return sum + b.value;
-    }, 0);
+    return allCredits.reduce((sum, b) => sum + amortizedAnnualValue(b), 0);
   }, [allCredits]);
 
   if (cardsWithBenefits.length === 0) {
@@ -154,7 +141,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
                   </Link>
                   <div className="text-right flex-shrink-0">
                     <p className="text-lg font-bold text-emerald-700">{formatBenefitValue(credit)}</p>
-                    <p className="text-xs text-gray-400">{frequencyLabels[credit.frequency]}</p>
+                    <p className="text-xs text-gray-400">{frequencyLabel(credit)}</p>
                   </div>
                   {credit.enrollment_required && (
                     <span className="hidden sm:inline-flex flex-shrink-0 items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 border border-amber-200">
@@ -193,11 +180,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
           {cardsWithBenefits.map(({ walletCard, cardData, benefits }) => {
             const credits = benefits.filter(b => b.value > 0);
             const perks = benefits.filter(b => b.value === 0);
-            const cardTotal = credits.reduce((sum, b) => {
-              if (!isMonetaryBenefit(b)) return sum;
-              if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
-              return sum + b.value;
-            }, 0);
+            const cardTotal = credits.reduce((sum, b) => sum + amortizedAnnualValue(b), 0);
 
             return (
               <div key={walletCard.id} className="bg-white shadow rounded-lg overflow-hidden">
@@ -234,7 +217,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
                           </div>
                           <div className="flex items-baseline gap-1 flex-shrink-0">
                             <span className="text-sm font-bold text-emerald-700">{formatBenefitValue(b)}</span>
-                            <span className="text-xs text-gray-400">{frequencyLabels[b.frequency]}</span>
+                            <span className="text-xs text-gray-400">{frequencyLabel(b)}</span>
                           </div>
                         </div>
                       ))}

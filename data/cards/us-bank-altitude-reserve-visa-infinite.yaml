@@ -16,6 +16,7 @@ benefits:
     value: 100
     description: "Statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
+    frequency_years: 5
     category: "security"
   - name: "Priority Pass Select"
     value: 0
