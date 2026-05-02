@@ -3,25 +3,25 @@ bank: "American Express"
 slug: "marriott-bonvoy-brilliant-american-express"
 image: "amex_marriott_bonvoy_brilliant.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/
+apply_link: "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/"
 annual_fee: 650
 reward_type: "points"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Hotels participating in Marriott Bonvoy"
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Restaurants worldwide"
-  - category: airlines
+  - category: "airlines"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Flights booked directly with airlines"
-  - category: everything_else
+  - category: "everything_else"
     value: 2
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 200000
   type: "points"
@@ -67,7 +67,13 @@ benefits:
     description: "25 Elite Night Credits annually toward Marriott Bonvoy elite status qualification"
     frequency: "annual"
     category: "hotel"
+  - name: "Brilliant Earned Choice Award"
+    description: "Eligible to select one Brilliant Earned Choice Award benefit annually after spending $60,000 on eligible purchases."
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
 tags:
-  - hotel
-  - travel
-  - premium
+  - "hotel"
+  - "travel"
+  - "premium"
+foreign_transaction_fee: false
