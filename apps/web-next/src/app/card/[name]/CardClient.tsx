@@ -1333,35 +1333,6 @@ export default function CardClient({
             Compare cards
           </Link>
 
-          {news.length > 0 && (
-            <div className="cj-rail-block">
-              <div className="cj-rail-label">Card news</div>
-              {news.slice(0, 3).map((n) => {
-                const tag = n.tags[0] as NewsTag | undefined;
-                return (
-                  <div key={n.id} className="cj-news-item">
-                    <Link href={`/news/${n.id}`}>
-                      <div className="cj-news-meta">
-                        <span className="cj-news-date">
-                          {new Date(n.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </span>
-                        {tag && (
-                          <span className="cj-news-tag">
-                            {tagLabels[tag]}
-                          </span>
-                        )}
-                      </div>
-                      <div className="cj-news-title">{n.title}</div>
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
           {similarCards.length > 0 && (
             <div className="cj-rail-block">
               <div className="cj-rail-label">Alternatives</div>
