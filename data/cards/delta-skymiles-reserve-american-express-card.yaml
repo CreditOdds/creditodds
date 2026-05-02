@@ -27,6 +27,30 @@ benefits:
     description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
     frequency: "ongoing"
     category: "travel"
+  - name: "MQD Headstart"
+    value: 2500
+    value_unit: "miles"
+    description: "Receive $2,500 Medallion Qualification Dollars each Medallion Qualification Year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Resy Dining Credit"
+    value: 240
+    description: "Up to $20 in statement credits each month for dining at U.S. Resy restaurants"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "Delta Stays Hotel Credit"
+    value: 200
+    description: "Annual statement credit for prepaid hotels or vacation rentals booked through Delta Stays"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "MQD Boost"
+    description: "Earn $1 Medallion Qualification Dollar for each $10 in purchases made on your Card"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - airline
   - travel
