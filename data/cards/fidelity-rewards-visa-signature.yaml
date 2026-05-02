@@ -23,8 +23,8 @@ foreign_transaction_fee: false
 benefits:
   - name: "Global Entry or TSA PreCheck Credit"
     value: 100
-    value_unit: "points"
-    description: "Up to $100 in Reward Points when you apply for Global Entry or TSA PreCheck."
-    frequency: "one_time"
-    category: "travel"
+    description: "Up to $100 in Reward Points (worth $100 toward the application fee) when you apply for Global Entry or TSA PreCheck."
+    frequency: "multi_year"
+    frequency_years: 5
+    category: "security"
     enrollment_required: false
