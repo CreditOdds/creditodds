@@ -1,11 +1,11 @@
-name: "Capital One Savor Student Cash Rewards"
-bank: "Capital One"
-slug: "capital-one-savor-student"
+name: Capital One Savor Student Cash Rewards
+bank: Capital One
+slug: capital-one-savor-student
 accepting_applications: true
-image: "capital-one-savor-student.png"
-category: "student"
+image: capital-one-savor-student.png
+category: student
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 tags:
   - student
   - cashback
@@ -40,3 +40,31 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/savor-student/
+benefits:
+  - name: New Cardmember Bonus
+    value: 50
+    description: Earn a $50 cash bonus when you spend at least $100 within 3 months of account opening
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Price Drop Protection
+    value: 50
+    description: Receive up to $50 in travel credit if a booked flight price drops within 10 days
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Price Match Guarantee
+    description: Get a travel credit if you find a better price within 24 hours of booking an eligible flight, hotel, or rental car
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Flexible Flight Cancellation
+    description: Cancel your flight up to 3 hours before departure and receive most of your booking cost refunded
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Price Alert Service
+    description: Set a price alert and receive 24/7 notifications when flight prices drop
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
