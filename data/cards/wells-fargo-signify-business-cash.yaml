@@ -1,16 +1,16 @@
-name: "Wells Fargo Signify Business Cash"
-bank: "Wells Fargo"
-slug: "wells-fargo-signify-business-cash"
+name: Wells Fargo Signify Business Cash
+bank: Wells Fargo
+slug: wells-fargo-signify-business-cash
 accepting_applications: true
 apply_link: https://creditcards.wellsfargo.com/business-credit-cards/signify-business-cash-credit-card/
-image: "wells-fargo-signify-business-cash.png"
-category: "business"
+image: wells-fargo-signify-business-cash.png
+category: business
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 rewards:
-  - category: "everything_else"
+  - category: everything_else
     value: 2
-    unit: "percent"
+    unit: percent
 signup_bonus:
   value: 500
   type: cash
@@ -23,3 +23,20 @@ apr:
   regular:
     min: 18.49
     max: 26.49
+benefits:
+  - name: Sign-Up Bonus
+    value: 500
+    description: Earn $500 cash rewards bonus when you spend $5,000 in purchases in the first 3 months.
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Priority Pass Lounge Access
+    description: Complimentary membership access to more than 1,300 participating airport lounges worldwide.
+    frequency: ongoing
+    category: lounge
+    enrollment_required: false
+  - name: Rental Car Insurance
+    description: Coverage against damage to or theft of a vehicle rented using your card.
+    frequency: per_rental
+    category: travel
+    enrollment_required: false
