@@ -31,6 +31,12 @@ benefits:
     frequency: "semi_annual"
     category: "dining"
     enrollment_required: true
+  - name: "Hertz Elite Status"
+    value: 0
+    description: "Complimentary Hertz elite status for Amex Gold cardholders"
+    frequency: "ongoing"
+    category: "car_rental"
+    enrollment_required: true
 tags:
   - travel
   - dining
@@ -47,6 +53,10 @@ rewards:
   - category: airlines
     value: 3
     unit: points_per_dollar
+  - category: hotels_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Hotels prepaid through Amex Travel"
   - category: everything_else
     value: 1
     unit: points_per_dollar
