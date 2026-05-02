@@ -9,7 +9,7 @@ rewards:
   - category: airlines
     value: 2
     unit: points_per_dollar
-    note: "United purchases"
+    note: "On eligible United purchases"
   - category: gas
     value: 2
     unit: points_per_dollar
@@ -36,3 +36,18 @@ tags:
   - airline
   - travel
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-gateway
+foreign_transaction_fee: false
+benefits:
+  - name: "Checked Bags"
+    value: 0
+    description: "2 free checked bags each year after spending $10,000 in a calendar year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Booking Discount"
+    value: 10
+    value_unit: "percent"
+    description: "10% off flights booked with miles after spending $10,000 in a calendar year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
