@@ -3,13 +3,34 @@ bank: "U.S. Bank"
 slug: "us-bank-secured"
 image: "us-bank-secured.png"
 accepting_applications: true
-apply_link: https://www.usbank.com/credit-cards/secured-visa-credit-card.html
+apply_link: "https://www.usbank.com/credit-cards/secured-visa-credit-card.html"
 annual_fee: 0
 category: "secured"
 tags:
-  - secured
-  - credit_builder
+  - "secured"
+  - "credit_builder"
 apr:
   regular:
     min: 27.49
     max: 27.49
+benefits:
+  - name: "Free Credit Score Access"
+    description: "View your credit score anytime in the mobile app or online banking through TransUnion's CreditView Dashboard."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Flexible Payment Due Date"
+    description: "Choose your own payment due date to fit your schedule."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "FDIC-Insured Savings Account"
+    description: "Security deposit is held in an FDIC-insured savings account that earns interest."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "No Annual Fee"
+    description: "No annual fee to maintain the card."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
