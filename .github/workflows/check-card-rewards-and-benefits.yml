@@ -76,7 +76,7 @@ jobs:
           git stash push -m "rewards-and-benefits-check" -- data/cards/
 
           DATE=$(date +%Y-%m-%d)
-          for FILE in $(git stash show stash@{0} --name-only -- data/cards/); do
+          for FILE in $(git stash show stash@{0} --name-only); do
             SLUG=$(basename "$FILE" .yaml)
             BRANCH="auto/${SLUG}-rewards-benefits-${DATE}"
 
