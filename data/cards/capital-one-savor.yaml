@@ -47,3 +47,16 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/savor/
+foreign_transaction_fee: false
+benefits:
+  - name: "Price Drop Protection"
+    value: 0
+    description: "Up to $50 travel credit if a booked flight price drops within 10 days when booked through Capital One Travel."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for the difference if you find a better price on eligible flights, hotels, or rental cars within 24 hours of booking."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
