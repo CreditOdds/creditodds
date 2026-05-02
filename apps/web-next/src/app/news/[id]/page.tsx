@@ -104,7 +104,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           ]}
         />
 
-        <article className="article-layout">
+        <article className="article-layout wide">
           <Link href="/news" className="article-back" style={{ marginTop: 24, marginBottom: 14 }}>
             ← Back to Card News
           </Link>

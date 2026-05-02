@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-02T14:44:33.774Z",
+  "generated_at": "2026-05-02T15:10:27.128Z",
   "count": 4,
   "articles": [
     {
@@ -15,10 +15,12 @@
         "strategy"
       ],
       "related_cards": [
-        "citi-simplicity-card",
+        "us-bank-shield",
         "wells-fargo-reflect",
         "bankamericard",
-        "citi-diamond-preferred"
+        "citi-simplicity-card",
+        "citi-diamond-preferred",
+        "chase-slate-edge"
       ],
       "seo_title": "Balance Transfer Credit Cards Explained (2026) | CreditOdds",
       "seo_description": "How balance transfer cards work, what fees to expect, typical credit limits ($1K–$25K), and the FAQ most guides skip. Updated for May 2026.",
@@ -30,10 +32,10 @@
       "author_slug": "creditodds",
       "related_cards_info": [
         {
-          "slug": "citi-simplicity-card",
-          "name": "Citi Simplicity",
-          "image": "citi-simplicity.png",
-          "bank": "Citi"
+          "slug": "us-bank-shield",
+          "name": "US Bank Shield",
+          "image": "us-bank-shield.png",
+          "bank": "U.S. Bank"
         },
         {
           "slug": "wells-fargo-reflect",
@@ -48,10 +50,22 @@
           "bank": "Bank of America"
         },
         {
+          "slug": "citi-simplicity-card",
+          "name": "Citi Simplicity",
+          "image": "citi-simplicity.png",
+          "bank": "Citi"
+        },
+        {
           "slug": "citi-diamond-preferred",
           "name": "Citi Diamond Preferred",
           "image": "citi_diamond_preferred.png",
           "bank": "Citi"
+        },
+        {
+          "slug": "chase-slate-edge",
+          "name": "Chase Slate Edge",
+          "image": "chase-slate-edge.png",
+          "bank": "Chase"
         }
       ]
     },

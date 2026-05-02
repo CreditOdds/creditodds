@@ -3667,6 +3667,46 @@
 .landing-v2 .article-layout.wide {
   max-width: 1180px;
 }
+
+/* Magazine-style layout: 1280px outer, masthead centered at ~860px,
+   body grid with prose (max ~760px) + sticky sidebar on desktop. */
+.landing-v2 .article-layout.magazine {
+  max-width: 1280px;
+}
+.landing-v2 .article-layout.magazine .article-masthead {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.landing-v2 .article-layout.magazine .article-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 760px) 280px;
+  grid-template-areas: "main side";
+  gap: 56px;
+  justify-content: center;
+  align-items: start;
+  margin-top: 8px;
+}
+.landing-v2 .article-layout.magazine .article-main {
+  grid-area: main;
+  min-width: 0;
+}
+.landing-v2 .article-layout.magazine .article-sidebar {
+  grid-area: side;
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+@media (max-width: 1024px) {
+  .landing-v2 .article-layout.magazine .article-grid {
+    grid-template-columns: minmax(0, 760px);
+    grid-template-areas: "side" "main";
+    gap: 0;
+  }
+  .landing-v2 .article-layout.magazine .article-sidebar {
+    position: static;
+    margin-bottom: 8px;
+  }
+}
 .landing-v2 .article-tags {
   display: flex;
   flex-wrap: wrap;
