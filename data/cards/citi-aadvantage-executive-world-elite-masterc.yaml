@@ -26,22 +26,40 @@ benefits:
     description: "Preferred boarding on American Airlines flights"
     frequency: "ongoing"
     category: "travel"
+  - name: "Lyft Credits"
+    value: 120
+    description: "Up to $120 in annual Lyft statement credits ($10 per month after 3 eligible rides)"
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: false
+  - name: "Grubhub Statement Credit"
+    value: 120
+    description: "Up to $120 annual statement credit on eligible Grubhub purchases ($10 per billing statement)"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: false
+  - name: "Avis and Budget Rental Credits"
+    value: 120
+    description: "Up to $120 in annual statement credits for eligible prepaid car rentals booked directly on avis.com or budget.com"
+    frequency: "annual"
+    category: "car_rental"
+    enrollment_required: false
 tags:
-  - travel
-  - airline
-  - premium
+  - "travel"
+  - "airline"
+  - "premium"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 10
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "On eligible hotels and car rentals booked through AA portals"
-  - category: airlines
+  - category: "airlines"
     value: 4
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "On eligible American Airlines purchases"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 70000
   type: "miles"
@@ -51,4 +69,5 @@ apr:
   regular:
     min: 19.49
     max: 29.49
-apply_link: https://www.citi.com/usc/lpaca/aa/aadvantage/exec/ps/index0.html
+apply_link: "https://www.citi.com/usc/lpaca/aa/aadvantage/exec/ps/index0.html"
+foreign_transaction_fee: false
