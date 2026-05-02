@@ -1,9 +1,9 @@
-name: "Chase Slate Edge"
-bank: "Chase"
-slug: "chase-slate-edge"
-image: "chase-slate-edge.png"
+name: Chase Slate Edge
+bank: Chase
+slug: chase-slate-edge
+image: chase-slate-edge.png
 accepting_applications: true
-category: "balance_transfer"
+category: balance_transfer
 tags:
   - balance_transfer
 annual_fee: 0
@@ -15,3 +15,15 @@ apr:
     min: 22.49
     max: 31.24
 apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge
+benefits:
+  - name: Complimentary DashPass
+    description: 6 months of complimentary DashPass membership for DoorDash and Caviar.
+    frequency: one_time
+    category: dining
+    enrollment_required: true
+  - name: Quarterly DoorDash Credit
+    value: 10
+    description: $10 off discount each quarter on one qualifying DoorDash non-restaurant order.
+    frequency: quarterly
+    category: dining
+    enrollment_required: true
