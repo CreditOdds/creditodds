@@ -1,10 +1,10 @@
-name: "Citi Diamond Preferred"
-bank: "Citi"
-slug: "citi-diamond-preferred"
-image: "citi_diamond_preferred.png"
+name: Citi Diamond Preferred
+bank: Citi
+slug: citi-diamond-preferred
+image: citi_diamond_preferred.png
 accepting_applications: true
 annual_fee: 0
-category: "balance_transfer"
+category: balance_transfer
 tags:
   - balance_transfer
 apr:
@@ -18,3 +18,40 @@ apr:
     min: 16.49
     max: 27.24
 apply_link: https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card
+foreign_transaction_fee: true
+benefits:
+  - name: 24/7 Customer Service
+    description: Customer service representatives available 24 hours a day, 7 days a week.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Automatic Account Alerts
+    description: Alerts about balance levels, payments due, or credit limit exceedances via email or mobile phone.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Flexible Payment Due Date
+    description: Choose your payment due date in the beginning, middle, or end of the month.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Digital Wallets
+    description: Shop with digital wallets in millions of places online, within apps, and in stores.
+    frequency: ongoing
+    category: shopping
+    enrollment_required: false
+  - name: Contactless Pay
+    description: Tap your contactless-chip enabled card on payment readers for secure, quick checkout.
+    frequency: per_purchase
+    category: security
+    enrollment_required: false
+  - name: Citi Entertainment
+    description: Special access to purchase tickets to thousands of events including presale tickets and exclusive experiences.
+    frequency: ongoing
+    category: entertainment
+    enrollment_required: false
+  - name: Free FICO Score
+    description: Free access to your FICO score.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
