@@ -169,6 +169,25 @@ Rules:
   return text;
 }
 
+// Fetch a remote image and return { base64, mimeType } suitable for the
+// social-posting-service queue payload. Returns null on any error so the
+// post can still be queued without media.
+async function fetchImageAsBase64(imageUrl) {
+  try {
+    const res = await fetch(imageUrl);
+    if (!res.ok) {
+      console.error(`  Image fetch failed: ${res.status} ${imageUrl}`);
+      return null;
+    }
+    const buf = Buffer.from(await res.arrayBuffer());
+    const mimeType = res.headers.get('content-type') || 'image/png';
+    return { base64: buf.toString('base64'), mimeType };
+  } catch (err) {
+    console.error(`  Image fetch error: ${err.message}`);
+    return null;
+  }
+}
+
 async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId, imageUrl) {
   const apiUrl = process.env.SOCIAL_API_URL;
   const apiKey = process.env.SOCIAL_API_KEY;
@@ -184,12 +203,19 @@ async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId
   if (twitterText && twitterText !== textContent) {
     body.twitter_text = twitterText;
   }
-  // Attached media (uploaded INTO the post itself, not the link unfurl).
-  // The link unfurl card is still driven by the article URL's OG image, which
-  // is the editorial illustration. The image_url here is the social composite
-  // (photo + brand panel), uploaded as the post's own image attachment.
+  // Attach media (uploaded INTO the post itself, not the link unfurl).
+  // The link unfurl card is still driven by the article URL's OG image,
+  // which is the editorial illustration. The image attached here is the
+  // social composite (photo + brand panel), uploaded as the post's own
+  // media attachment. The social-posting-service expects image_base64 +
+  // image_mime_type — it uploads the bytes to its own S3 and stores the
+  // resulting CDN URL on the queued post.
   if (imageUrl) {
-    body.image_url = imageUrl;
+    const img = await fetchImageAsBase64(imageUrl);
+    if (img) {
+      body.image_base64 = img.base64;
+      body.image_mime_type = img.mimeType;
+    }
   }
 
   const response = await fetchWithRetry(`${apiUrl}/social/queue`, {
