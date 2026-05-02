@@ -15,3 +15,21 @@ apr:
     min: 25.24
     max: 25.24
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
+benefits:
+  - name: "Automatic Payments Statement Credit"
+    value: 25
+    description: "$25 statement credit when you enroll in automatic payments within 3 months and remain enrolled for 90 days"
+    frequency: "one_time"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "DashPass Complimentary Membership"
+    description: "6 months of complimentary DashPass membership unlocking $0 delivery fees and lower service fees on DoorDash and Caviar orders"
+    frequency: "multi_year"
+    category: "dining"
+    enrollment_required: true
+  - name: "Referral Bonus"
+    value: 250
+    description: "Earn up to $250 cash back per year by referring friends ($25 per approved referral)"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
