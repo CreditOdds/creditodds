@@ -473,11 +473,12 @@ function tokenizeBenefitName(name) {
   );
 }
 
-// Two benefit names are likely the same benefit if they share at least 2
-// meaningful tokens, OR if one's meaningful-token set is fully contained in
-// the other (handles cases like "Cell Phone Protection" vs
-// "Cellular Telephone Protection" → "phone" + "protection" overlap; Set logic
-// would also catch "Cell Phone Protection" vs "Cell Phone Protection Plus").
+// Two benefit names are likely the same benefit if EITHER:
+//  - they share at least 2 meaningful tokens, OR
+//  - one's meaningful-token set is a subset of the other AND ≥1 token is shared, OR
+//  - the smaller set is ≤2 tokens AND ≥1 token is shared
+//    (catches things like "5 Qualifying Night Credits" vs "Elite Night Credits"
+//     — only 'night' is shared, but with 2-token sets that's plenty of signal)
 function looksLikeSameBenefit(a, b) {
   if (a.toLowerCase() === b.toLowerCase()) return true;
   const ta = tokenizeBenefitName(a);
@@ -485,11 +486,14 @@ function looksLikeSameBenefit(a, b) {
   if (ta.size === 0 || tb.size === 0) return false;
   const shared = [...ta].filter(t => tb.has(t)).length;
   if (shared >= 2) return true;
-  // If one set is a subset of the other AND has at least 1 meaningful token,
-  // call it a match (e.g. {"phone","protection"} ⊂ {"phone","protection","plus"})
-  const aSubsetOfB = [...ta].every(t => tb.has(t));
-  const bSubsetOfA = [...tb].every(t => ta.has(t));
-  if ((aSubsetOfB || bSubsetOfA) && shared >= 1) return true;
+  if (shared >= 1) {
+    const aSubsetOfB = [...ta].every(t => tb.has(t));
+    const bSubsetOfA = [...tb].every(t => ta.has(t));
+    if (aSubsetOfB || bSubsetOfA) return true;
+    // Small-set rule: when both names have ≤2 meaningful tokens, sharing 1
+    // out of 2 is a strong signal (and the alternative is to add a near-dup).
+    if (Math.min(ta.size, tb.size) <= 2) return true;
+  }
   return false;
 }
 
