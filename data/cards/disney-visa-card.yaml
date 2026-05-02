@@ -21,3 +21,40 @@ apr:
     min: 18.24
     max: 29.99
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
+benefits:
+  - name: "Disney Park Merchandise Discount"
+    value: 10
+    description: "10% off select merchandise purchases at Disneyland Resort and Walt Disney World Resort locations"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Disney Park Dining Discount"
+    value: 10
+    description: "10% off select dining locations at Disneyland Resort and Walt Disney World Resort on most days"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
+  - name: "Disney Guided Tour Discount"
+    value: 15
+    description: "15% off non-discounted price of select guided tours at Disneyland Resort and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "DisneyStore.com Discount"
+    value: 10
+    description: "10% off select purchases at DisneyStore.com"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "DoorDash DashPass"
+    description: "Complimentary one-year DashPass membership providing unlimited deliveries with $0 delivery fees on eligible orders"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "Refer Friends Bonus"
+    value: 500
+    value_unit: "points"
+    description: "Earn up to 500 Disney Rewards Dollars per year by referring friends (up to 100 per approved friend, maximum 5 per year)"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
