@@ -21,6 +21,17 @@ benefits:
     description: "Automatic Marriott Bonvoy Silver Elite status"
     frequency: "ongoing"
     category: "hotel"
+  - name: "Airline Statement Credits"
+    value: 100
+    description: "Up to $100 in annual statement credits on airline purchases ($50 semi-annually after $250 spend)"
+    frequency: "semi_annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "DoorDash DashPass"
+    description: "One-year complimentary DashPass membership with unlimited deliveries and $0 delivery fees"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
 tags:
   - hotel
   - travel
@@ -56,3 +67,4 @@ apr:
     min: 20.49
     max: 27.49
 apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/boundless
+foreign_transaction_fee: false
