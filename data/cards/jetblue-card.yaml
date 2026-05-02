@@ -3,6 +3,7 @@ bank: "Barclays"
 slug: "jetblue-card"
 accepting_applications: true
 apply_link: https://cards.barclaycardus.com/banking/cards/jetblue-card/
+foreign_transaction_fee: false
 category: "travel"
 image: "barclays-jetblue.png"
 annual_fee: 0
@@ -37,3 +38,11 @@ apr:
   regular:
     min: 19.74
     max: 29.74
+benefits:
+  - name: "50% Off Inflight Purchases"
+    value: 50
+    value_unit: "percent"
+    description: "50% savings on eligible inflight purchases on JetBlue-operated flights"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
