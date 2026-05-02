@@ -3,33 +3,33 @@ bank: "American Express"
 slug: "hilton-honors-american-express-surpass-card"
 image: "amex_hilton_honors_surpass.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/
+apply_link: "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/"
 annual_fee: 150
 reward_type: "points"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 12
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Eligible purchases at Hilton hotels and resorts"
-  - category: dining
+  - category: "dining"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. restaurants"
-  - category: groceries
+  - category: "groceries"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. supermarkets"
-  - category: gas
+  - category: "gas"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. gas stations"
-  - category: online_shopping
+  - category: "online_shopping"
     value: 4
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. online retail purchases"
-  - category: everything_else
+  - category: "everything_else"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 130000
   type: "points"
@@ -64,6 +64,11 @@ benefits:
     description: "Upgrade to Hilton Honors Diamond status through the end of the next calendar year after $40,000 in annual purchases"
     frequency: "ongoing"
     category: "hotel"
+  - name: "National Car Rental Emerald Club Executive Status"
+    description: "Complimentary National Car Rental Emerald Club Executive status with perks like Executive Area Access"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: true
 tags:
-  - hotel
-  - travel
+  - "hotel"
+  - "travel"
