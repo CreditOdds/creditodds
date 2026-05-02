@@ -1,22 +1,44 @@
-name: "US Bank Altitude Connect"
-bank: "U.S. Bank"
-slug: "us-bank-altitude-connect"
-image: "altitude-connect.png"
+name: US Bank Altitude Connect
+bank: U.S. Bank
+slug: us-bank-altitude-connect
+image: altitude-connect.png
 accepting_applications: true
-category: "travel"
+category: travel
 annual_fee: 0
-reward_type: "points"
+reward_type: points
 benefits:
-  - name: "Global Entry / TSA PreCheck Credit"
+  - name: Global Entry / TSA PreCheck Credit
     value: 100
-    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
-  - name: "Airport Lounge Access"
+    description: Up to $100 statement credit for Global Entry or TSA PreCheck application fee
+    frequency: multi_year
+    category: security
+  - name: Airport Lounge Access
     value: 0
-    description: "Complimentary airport lounge access through the Visa Airport Companion program"
-    frequency: "ongoing"
-    category: "lounge"
+    description: Complimentary airport lounge access through the Visa Airport Companion program
+    frequency: ongoing
+    category: lounge
+  - name: Welcome Bonus
+    value: 20000
+    value_unit: points
+    description: Earn 20,000 bonus points when you spend $1,000 in net purchases within 90 days of account opening
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: TSA PreCheck
+    description: TSA PreCheck benefit included
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: Travel Protections
+    description: Peace of mind with travel protections
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: Global Mobile Data
+    description: Complimentary GigSky global mobile data plans in over 175 countries
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
 tags:
   - travel
   - rewards
@@ -27,7 +49,7 @@ rewards:
   - category: travel
     value: 4
     unit: points_per_dollar
-    note: "Also gas stations and EV charging, up to $1,000/quarter"
+    note: Also gas stations and EV charging, up to $1,000/quarter
   - category: groceries
     value: 2
     unit: points_per_dollar
@@ -56,3 +78,4 @@ apr:
     min: 17.49
     max: 27.49
 apply_link: https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html
+foreign_transaction_fee: false
