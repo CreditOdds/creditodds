@@ -16,31 +16,37 @@ benefits:
     description: "5 elite night credits toward Marriott Bonvoy status each year"
     frequency: "annual"
     category: "hotel"
+  - name: "DoorDash DashPass"
+    description: "One-year complimentary DashPass membership providing unlimited deliveries with $0 delivery fees and lower service fees on eligible orders."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
 tags:
-  - hotel
-  - travel
+  - "hotel"
+  - "travel"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Marriott Bonvoy hotels"
-  - category: groceries
-    value: 3
-    unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: gas
-    value: 3
-    unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: dining
-    value: 3
-    unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: everything_else
+  - category: "groceries"
     value: 2
-    unit: points_per_dollar
+    unit: "points_per_dollar"
+    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+  - category: "gas"
+    value: 3
+    unit: "points_per_dollar"
+    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+  - category: "dining"
+    value: 2
+    unit: "points_per_dollar"
+    note: "Select food delivery"
+  - category: "everything_else"
+    value: 1
+    unit: "points_per_dollar"
 apr:
   regular:
     min: 19.24
     max: 27.74
-apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bold
+apply_link: "https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bold"
+foreign_transaction_fee: false
