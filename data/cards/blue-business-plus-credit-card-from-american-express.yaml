@@ -7,13 +7,13 @@ image: "blue-business-plus.png"
 annual_fee: 0
 reward_type: "points"
 rewards:
-  - category: everything_else
-    value: 2
-    unit: points_per_dollar
-    note: "On first $50,000 in purchases per calendar year, then 1x"
+  - category: "everything_else"
+    value: 1
+    unit: "points_per_dollar"
+    note: "On eligible purchases thereafter"
 signup_bonus:
   value: 15000
-  type: points
+  type: "points"
   spend_requirement: 3000
   timeframe_months: 3
 apr:
@@ -24,6 +24,6 @@ apr:
     min: 17.49
     max: 25.49
 tags:
-  - business
-  - rewards
-apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-blue-business-plus-credit-card-amex/
+  - "business"
+  - "rewards"
+apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-blue-business-plus-credit-card-amex/"
