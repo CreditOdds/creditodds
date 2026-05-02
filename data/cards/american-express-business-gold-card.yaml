@@ -8,7 +8,7 @@ annual_fee: 375
 reward_type: "points"
 rewards:
   - category: everything_else
-    value: 4
+    value: 1
     unit: points_per_dollar
     note: "4x on top 2 categories where you spend the most each billing cycle (from 6 eligible categories), on first $150,000/year"
   - category: travel_portal
