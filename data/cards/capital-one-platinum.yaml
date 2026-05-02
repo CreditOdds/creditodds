@@ -6,9 +6,15 @@ accepting_applications: true
 category: "other"
 annual_fee: 0
 tags:
-  - credit_builder
+  - "credit_builder"
 apr:
   regular:
     min: 28.99
     max: 28.99
-apply_link: https://www.capitalone.com/credit-cards/platinum/
+apply_link: "https://www.capitalone.com/credit-cards/platinum/"
+benefits:
+  - name: "No Annual Fee"
+    description: "No annual fee to maintain this credit card account."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
