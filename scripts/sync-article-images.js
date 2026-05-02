@@ -217,8 +217,9 @@ the image. The photo is purely a portrait against a clean background.
 }
 
 // Break a title into N short lines for the side panel. Greedy by word, max
-// chars per line is the constraint.
-function breakTitleIntoLines(title, maxCharsPerLine = 16, maxLines = 3) {
+// chars per line is the constraint. The panel can comfortably fit up to 5
+// lines, so we only ellipsize titles that genuinely don't fit.
+function breakTitleIntoLines(title, maxCharsPerLine = 17, maxLines = 5) {
   const words = title.split(/\s+/);
   const lines = [];
   let current = '';
@@ -281,9 +282,9 @@ const PANEL_H = 1024;
 function buildSocialPanelSvg(article) {
   const lines = breakTitleIntoLines(getSocialHeadline(article));
   const eyebrow = getEyebrow(article);
-  const HEAD_SIZE = 64;
-  const HEAD_LH = 76;
-  const HEAD_TOP = 240;
+  const HEAD_SIZE = 60;
+  const HEAD_LH = 72;
+  const HEAD_TOP = 220;
   const PAD_X = 56;
   const FONT = "-apple-system, 'Helvetica Neue', Arial, sans-serif";
   const headlineEndY = HEAD_TOP + (lines.length - 1) * HEAD_LH;
