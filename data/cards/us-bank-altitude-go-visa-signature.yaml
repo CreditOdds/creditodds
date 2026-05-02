@@ -39,3 +39,10 @@ apr:
     min: 17.49
     max: 27.49
 apply_link: https://www.usbank.com/credit-cards/altitude-go-visa-signature-credit-card.html
+benefits:
+  - name: "Streaming Service Credit"
+    value: 15
+    description: "Annual $15 statement credit for streaming service purchases after 11 months of streaming activity."
+    frequency: "annual"
+    category: "streaming"
+    enrollment_required: true
