@@ -7,21 +7,21 @@ image: "business-platinum.png"
 annual_fee: 895
 reward_type: "points"
 rewards:
-  - category: flights_portal
+  - category: "flights_portal"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Flights booked through Amex Travel"
-  - category: hotels_portal
+  - category: "hotels_portal"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Prepaid hotels booked through Amex Travel"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "2x on purchases of $5,000 or more (up to $2M/year)"
 signup_bonus:
   value: 200000
-  type: points
+  type: "points"
   spend_requirement: 20000
   timeframe_months: 3
 benefits:
@@ -88,8 +88,51 @@ benefits:
     description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
     frequency: "ongoing"
     category: "lounge"
+  - name: "Hotel Credit"
+    value: 600
+    description: "Statement credits up to $300 semi-annually on prepaid bookings through Amex Travel with Fine Hotels + Resorts or The Hotel Collection"
+    frequency: "semi_annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Airline Bonus Points Back"
+    description: "Earn 35% points back after using Pay with Points for flights booked through Amex Travel, up to 1,000,000 points back per calendar year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "The Hotel Collection Credit"
+    value: 100
+    description: "Statement credit towards eligible charges when booking two nights or more with The Hotel Collection on AmexTravel.com"
+    frequency: "per_trip"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Marriott Bonvoy Gold Elite Status"
+    description: "Complimentary Gold Elite Status with Marriott Bonvoy without meeting stay requirements"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: true
+  - name: "Hilton Honors Gold Status"
+    description: "Complimentary Gold Status with Hilton Honors for benefits at Hilton Portfolio hotels"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Car Rental Loss and Damage Insurance"
+    description: "Secondary coverage for rental vehicle damage or theft when paying entirely with the card"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "Leaders Club Sterling Status"
+    description: "Complimentary Leaders Club Sterling Status from The Leading Hotels of the World at over 400 independent luxury hotels globally"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: true
+  - name: "Car Rental Privileges"
+    description: "Complimentary premium status for select car rental programs including Avis, Hertz, and National"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: true
 tags:
-  - business
-  - travel
-  - premium
-apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-credit-card-amex/
+  - "business"
+  - "travel"
+  - "premium"
+apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-credit-card-amex/"
+foreign_transaction_fee: false
