@@ -16,6 +16,42 @@ benefits:
     description: "Preferred boarding on American Airlines flights"
     frequency: "ongoing"
     category: "travel"
+  - name: "Turo Statement Credits"
+    value: 240
+    description: "Up to $240 in annual statement credits on eligible Turo car rental trips"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "Inflight Purchase Credit"
+    value: 100
+    description: "Up to $100 in annual statement credits on inflight purchases when using the card on American Airlines flights"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Annual Splurge Credit"
+    value: 100
+    description: "Up to $100 in annual statement credits on eligible purchases from up to 2 of the following: 1stDibs, AAdvantage Hotels, Future Personal Training, and Live Nation"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Streak Bonus"
+    value: 5000
+    value_unit: "miles"
+    description: "5,000 Loyalty Point bonus after every 4 qualifying American Airlines flights, up to 15,000 additional Loyalty Points per status qualification year"
+    frequency: "per_flight"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Companion Certificate"
+    description: "American Airlines Companion Certificate for a single qualifying round-trip main cabin domestic flight starting in the second cardmembership year upon renewal"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - airline
@@ -48,3 +84,4 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard
+foreign_transaction_fee: false
