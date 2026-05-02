@@ -982,6 +982,62 @@ function appendReviewEntries(cardName, applyLink, reviewItems, rewardsDiff, ftxn
   fs.appendFileSync(REVIEW_SUMMARY, lines.join('\n') + '\n');
 }
 
+// ─── Rotating-period staleness check ────────────────────────────────────────
+//
+// Discover It / Chase Freedom Flex / NHL Discover It / etc. rotate their
+// 5% bonus categories every quarter. The team has surfaced the same failure
+// mode multiple times: the new quarter starts but nobody updates the YAML,
+// so the site keeps showing last quarter's categories.
+//
+// Each weekly run we audit every rotating-category card. If `current_period`
+// doesn't match the current calendar quarter — or is missing entirely — we
+// surface it at the TOP of the review issue so the team sees it before
+// triaging the per-card benefit/reward proposals.
+
+function currentQuarterLabel(now = new Date()) {
+  const quarter = Math.floor(now.getUTCMonth() / 3) + 1;
+  return `Q${quarter} ${now.getUTCFullYear()}`;
+}
+
+function findStaleRotatingPeriods(allCards) {
+  const expected = currentQuarterLabel();
+  const stale = [];
+  for (const card of allCards) {
+    const rewards = card.data?.rewards;
+    if (!Array.isArray(rewards)) continue;
+    for (const reward of rewards) {
+      if (reward.mode !== 'quarterly_rotating') continue;
+      const cur = reward.current_period;
+      if (!cur) {
+        stale.push({ name: card.data.name, applyLink: card.data.apply_link, currentPeriod: '(missing)', expected });
+        continue;
+      }
+      if (String(cur).trim().toUpperCase() !== expected.toUpperCase()) {
+        stale.push({ name: card.data.name, applyLink: card.data.apply_link, currentPeriod: String(cur), expected });
+      }
+    }
+  }
+  return stale;
+}
+
+// Prepend stale-rotation entries to the review summary so they sit above
+// the per-card sections. We write before any per-card appendReviewEntries
+// calls (in main()), so the order is: header → stale rotations → cards.
+function writeRotatingPeriodSection(stale) {
+  if (stale.length === 0) return;
+  const lines = [];
+  lines.push(`## ⚠️ Stale rotating-category periods (${stale.length})`);
+  lines.push(``);
+  lines.push(`These cards rotate their 5% bonus categories every quarter, but their \`current_period\` doesn't match **${stale[0].expected}** (or is missing). Update \`current_categories\` and \`current_period\` in the YAML — the site is otherwise still serving last quarter's categories on the card page and rewards filters.`);
+  lines.push(``);
+  for (const s of stale) {
+    const link = s.applyLink ? ` ([apply page](${s.applyLink}))` : '';
+    lines.push(`- **${s.name}** — currently \`${s.currentPeriod}\`, expected \`${s.expected}\`${link}`);
+  }
+  lines.push(``);
+  fs.writeFileSync(REVIEW_SUMMARY, lines.join('\n') + '\n');
+}
+
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -991,8 +1047,17 @@ async function main() {
   const policy = loadPolicy();
   const examples = buildFewShotExamples(allCards, policy.exampleCards);
 
-  // Reset review summary for this run
+  // Reset review summary for this run, then immediately write the
+  // rotating-period staleness section so it sits at the top.
   if (fs.existsSync(REVIEW_SUMMARY)) fs.unlinkSync(REVIEW_SUMMARY);
+  const staleRotations = findStaleRotatingPeriods(allCards);
+  writeRotatingPeriodSection(staleRotations);
+  if (staleRotations.length > 0) {
+    console.log(`\n⚠️  ${staleRotations.length} card(s) have stale rotating-category period (expected ${currentQuarterLabel()}):`);
+    for (const s of staleRotations) {
+      console.log(`  - ${s.name}: current_period="${s.currentPeriod}"`);
+    }
+  }
 
   console.log(`\nChecking ${cards.length} active card(s) with apply_link...\n`);
 
@@ -1004,6 +1069,7 @@ async function main() {
     cardsModified: 0,
     autoChanges: 0,
     reviewItems: 0,
+    staleRotatingPeriods: staleRotations.length,
   };
 
   const startMs = Date.now();

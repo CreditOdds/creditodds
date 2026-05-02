@@ -115,18 +115,21 @@ jobs:
           # Drop the stash
           git stash drop stash@{0} || true
 
-      - name: Open weekly review issue for borderline items
+      - name: Open weekly review issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ ! -s .card-rewards-benefits-review.md ]; then
-            echo "No borderline items to review."
+            echo "Nothing to review (no borderline items, no stale rotating periods)."
             exit 0
           fi
 
           DATE=$(date +%Y-%m-%d)
+          # Issue body has two sections (either may be absent in any given week):
+          #   1. Stale rotating-category periods (Discover It / Freedom Flex)
+          #   2. Borderline benefits the script flagged for human triage
           ISSUE_BODY=$(printf '%s\n\n%s' \
-            "Weekly review queue from \`check-card-rewards-and-benefits\`. These are benefits the auto-checker spotted on apply pages but flagged as borderline — generic travel insurance, secondary CDW, purchase protection, and similar — that we've gone both ways on. Triage manually." \
+            "Weekly review queue from \`check-card-rewards-and-benefits\`. Two kinds of items can show up here: (a) **stale rotating-category periods** — quarterly cards (Discover It, Freedom Flex, etc.) whose \`current_period\` doesn't match this quarter, and (b) **borderline benefits** the auto-checker spotted on apply pages but couldn't auto-PR (generic travel insurance, secondary CDW, purchase protection, and similar). Triage each manually." \
             "$(cat .card-rewards-benefits-review.md)")
 
           # Skip labels — they may not exist in the repo and we'd rather create
