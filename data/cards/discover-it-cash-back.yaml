@@ -13,8 +13,8 @@ rewards:
     value: 5
     unit: percent
     mode: quarterly_rotating
-    current_categories: [groceries, online_shopping]
-    current_period: "Q1 2026"
+    current_categories: [restaurants, home_improvement]
+    current_period: "Q2 2026"
     note: "Up to $1,500/quarter when activated"
   - category: everything_else
     value: 1
