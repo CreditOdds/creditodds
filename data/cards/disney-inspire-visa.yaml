@@ -1,17 +1,36 @@
-name: "Disney Inspire Visa"
-bank: "Chase"
-slug: "disney-inspire-visa"
-image: "chase-disney-inspire.png"
+name: Disney Inspire Visa
+bank: Chase
+slug: disney-inspire-visa
+image: chase-disney-inspire.png
 accepting_applications: true
-category: "rewards"
+category: rewards
 annual_fee: 149
-reward_type: "cashback"
+reward_type: cashback
 benefits:
-  - name: "Annual Disney Statement Credit"
+  - name: Annual Disney Statement Credit
     value: 50
-    description: "Annual statement credit for Disney purchases"
-    frequency: "annual"
-    category: "entertainment"
+    description: Annual statement credit for Disney purchases
+    frequency: annual
+    category: entertainment
+  - name: Disney Streaming Credit
+    value: 10
+    description: Monthly $10 statement credit after spending $10+ on qualifying Disney streaming subscriptions
+    frequency: monthly
+    category: streaming
+    enrollment_required: true
+  - name: Disney Resort Stay Bonus
+    value: 200
+    value_unit: points
+    description: Earn $200 Disney Rewards Dollars after spending $2,000 per anniversary year on U.S. Disney Resort stays and Disney Cruise Line bookings
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: Disney Theme Park Ticket Credit
+    value: 100
+    description: Earn $100 statement credit after spending $200 per anniversary year on U.S. Disney Theme Park tickets
+    frequency: annual
+    category: entertainment
+    enrollment_required: false
 tags:
   - rewards
   - shopping
@@ -19,14 +38,14 @@ rewards:
   - category: streaming
     value: 10
     unit: percent
-    note: "Disney+, Hulu, and ESPN+ purchases"
+    note: Disney+, Hulu, and ESPN+ purchases
   - category: gas
     value: 3
     unit: percent
   - category: entertainment
     value: 3
     unit: percent
-    note: "Most U.S. Disney locations"
+    note: Most U.S. Disney locations
   - category: groceries
     value: 2
     unit: percent
@@ -38,13 +57,13 @@ rewards:
     unit: percent
 signup_bonus:
   value: 600
-  type: "cash"
+  type: cash
   spend_requirement: 1000
   timeframe_months: 3
-  note: "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
+  note: $400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months
 apr:
   regular:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/inspire
-
+foreign_transaction_fee: false
