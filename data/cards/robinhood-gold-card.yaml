@@ -38,3 +38,4 @@ apr:
     min: 29.99
     max: 29.99
 apply_link: https://robinhood.com/creditcard/
+foreign_transaction_fee: false
