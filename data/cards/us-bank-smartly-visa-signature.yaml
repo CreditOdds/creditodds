@@ -3,17 +3,18 @@ bank: "U.S. Bank"
 slug: "us-bank-smartly-visa-signature"
 image: "smartly-signature.png"
 accepting_applications: true
-apply_link: https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html
+apply_link: "https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html"
 category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: everything_else
-    value: 2
-    unit: percent
+  - category: "everything_else"
+    value: 4
+    unit: "percent"
+    note: "On first $10,000 in eligible Net Purchases each billing cycle with U.S. Bank Smartly Savings account plus qualifying balance of $100,000+ in Checking/Safe Debit"
 apr:
   purchase_intro:
     rate: 0
@@ -24,3 +25,14 @@ apr:
   regular:
     min: 17.74
     max: 27.99
+benefits:
+  - name: "Cash Back Deals"
+    description: "Personalized cash back offers from brands based on previous spending accessed through U.S. Bank Mobile App or online banking."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: false
+  - name: "ExtendPay $0 Fee Offer"
+    description: "New cardmember $0 fee offer on U.S. Bank ExtendPay Plans opened within 60 days of account opening."
+    frequency: "one_time"
+    category: "other"
+    enrollment_required: false
