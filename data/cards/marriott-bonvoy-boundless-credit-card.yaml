@@ -23,13 +23,14 @@ benefits:
     category: "hotel"
   - name: "Airline Statement Credits"
     value: 100
-    description: "Up to $100 in annual statement credits on airline purchases ($50 semi-annually after $250 spend)"
-    frequency: "semi_annual"
+    description: "Up to $100 in annual statement credits on airline purchases ($50 semi-annually after $250 spend in airline purchases each half)"
+    frequency: "annual"
     category: "statement_credit"
     enrollment_required: false
   - name: "DoorDash DashPass"
+    value: 0
     description: "One-year complimentary DashPass membership with unlimited deliveries and $0 delivery fees"
-    frequency: "annual"
+    frequency: "one_time"
     category: "dining"
     enrollment_required: true
 tags:
