@@ -6,17 +6,17 @@ image: "discover-it-nhl.png"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: rotating
+  - category: "rotating"
     value: 5
-    unit: percent
-    mode: quarterly_rotating
+    unit: "percent"
+    mode: "quarterly_rotating"
     note: "Up to $1,500/quarter when activated"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 apr:
   purchase_intro:
     rate: 0
@@ -27,4 +27,10 @@ apr:
   regular:
     min: 18.24
     max: 28.24
-apply_link: https://www.discover.com/credit-cards/cash-back/nhl-card.html
+apply_link: "https://www.discover.com/credit-cards/cash-back/nhl-card.html"
+benefits:
+  - name: "Unlimited Cash Back Match"
+    description: "Unlimited dollar-for-dollar match of all cash back earned at the end of your first year"
+    frequency: "one_time"
+    category: "rewards"
+    enrollment_required: false
