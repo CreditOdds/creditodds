@@ -66,6 +66,21 @@ exclude:
 
   # Misc network/platform features
   - "Group 5 Boarding"   # (Southwest's; default boarding group, not a perk)
+  - "Roadside Dispatch"
+  - "Emergency Cash Disbursement"
+  - "Emergency Cash"
+  - "Emergency Card Replacement"
+  - "Card Replacement"
+
+  # Welcome/signup bonus belongs in `signup_bonus:`, not `benefits[]`
+  - "Welcome Bonus"
+  - "Welcome Offer"
+  - "Sign-Up Bonus"
+  - "Signup Bonus"
+  - "New Cardmember Bonus"
+  - "New Cardmember Offer"
+  - "New Account Bonus"
+  - "Introductory Bonus"
 
 # ────────────────────────────────────────────────────────────────────────────
 # 2. Borderline — surface in the weekly review issue, do NOT auto-PR.
@@ -87,6 +102,8 @@ borderline:
   - "Purchase Protection"
   - "Extended Warranty"
   - "Lost Luggage Reimbursement"
+  - "Lost Baggage Reimbursement"
+  - "Lost Baggage"
   - "Baggage Delay Insurance"
   - "Baggage Insurance Plan"
   - "Travel Accident Insurance"

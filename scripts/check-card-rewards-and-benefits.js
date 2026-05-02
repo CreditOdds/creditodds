@@ -308,6 +308,8 @@ Rules:
 - DO NOT include "Pay Over Time", "ExtendPay", "0% intro APR" entries — those are financing features, not benefits.
 - DO NOT include earning multipliers (e.g. "10% bonus on points earned") — describe earn rates only in "rewards".
 - DO NOT include "Free Employee Cards" or other generic business-card platform features.
+- DO NOT include the welcome/signup bonus as a benefit. The card's signup bonus is captured separately in the YAML's \`signup_bonus:\` block. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
+- DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — those are Visa/Mastercard network-tier features available on every card on the network.
 - STRIKETHROUGH TEXT in [STRIKETHROUGH: ...] markers is expired/old; ignore those values.
 
 EXAMPLES — what good extraction looks like for our team:
@@ -428,15 +430,74 @@ function diffRewards(current, proposed) {
   return { added, removed, changed };
 }
 
+// Tokenize a benefit name into meaningful words for fuzzy duplicate detection.
+// Drops short words and a small stop-list of glue words that show up across
+// many benefits (Annual, Statement, Credit, etc.) and would otherwise
+// produce false positives.
+const BENEFIT_NAME_STOP_WORDS = new Set([
+  'annual', 'statement', 'credit', 'credits', 'free', 'on', 'and', 'the', 'a',
+  'of', 'for', 'in', 'with', 'plan', 'membership', 'rewards', 'reward',
+]);
+// Normalize synonyms so the tokenizer treats "cell"/"cellular" and
+// "phone"/"telephone" as the same word — apply pages frequently use both.
+const BENEFIT_NAME_ALIASES = new Map([
+  ['cellular', 'cell'],
+  ['telephone', 'phone'],
+  ['baggage', 'luggage'],
+  ['waiver', 'damage'],
+  ['cdw', 'damage'],
+]);
+function tokenizeBenefitName(name) {
+  return new Set(
+    String(name || '')
+      .toLowerCase()
+      .replace(/[^\w\s]/g, ' ')
+      .split(/\s+/)
+      .map(t => BENEFIT_NAME_ALIASES.get(t) || t)
+      .filter(t => t.length > 2 && !BENEFIT_NAME_STOP_WORDS.has(t))
+  );
+}
+
+// Two benefit names are likely the same benefit if they share at least 2
+// meaningful tokens, OR if one's meaningful-token set is fully contained in
+// the other (handles cases like "Cell Phone Protection" vs
+// "Cellular Telephone Protection" → "phone" + "protection" overlap; Set logic
+// would also catch "Cell Phone Protection" vs "Cell Phone Protection Plus").
+function looksLikeSameBenefit(a, b) {
+  if (a.toLowerCase() === b.toLowerCase()) return true;
+  const ta = tokenizeBenefitName(a);
+  const tb = tokenizeBenefitName(b);
+  if (ta.size === 0 || tb.size === 0) return false;
+  const shared = [...ta].filter(t => tb.has(t)).length;
+  if (shared >= 2) return true;
+  // If one set is a subset of the other AND has at least 1 meaningful token,
+  // call it a match (e.g. {"phone","protection"} ⊂ {"phone","protection","plus"})
+  const aSubsetOfB = [...ta].every(t => tb.has(t));
+  const bSubsetOfA = [...tb].every(t => ta.has(t));
+  if ((aSubsetOfB || bSubsetOfA) && shared >= 1) return true;
+  return false;
+}
+
 function diffBenefits(current, proposed, policy, removedFromThisCard) {
   // Each proposed benefit is routed by classifyBenefit(); only "auto" routes
   // into the YAML. Existing benefits aren't touched (the human curated those).
-  const currentNames = new Set((current || []).map(b => b.name));
+  const currentNames = (current || []).map(b => b.name);
   const auto = [];
   const review = [];
   const skipped = [];
   for (const b of proposed || []) {
-    if (currentNames.has(b.name)) continue; // already there
+    // Exact-name dedup
+    if (currentNames.includes(b.name)) {
+      skipped.push({ ...b, tier: 'duplicate_exact' });
+      continue;
+    }
+    // Fuzzy dedup — skip a proposal that probably refers to an existing benefit
+    // (the human curated the existing wording; we won't replace it).
+    const fuzzyMatch = currentNames.find(n => looksLikeSameBenefit(n, b.name));
+    if (fuzzyMatch) {
+      skipped.push({ ...b, tier: 'duplicate_fuzzy', fuzzyMatch });
+      continue;
+    }
     const tier = classifyBenefit(b.name, policy, removedFromThisCard);
     if (tier === 'auto') auto.push(b);
     else if (tier === 'borderline') review.push({ ...b, tier });
@@ -502,8 +563,13 @@ function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
   // Re-serialize. We use full re-dump to avoid the regex-based field-replacement
   // hairiness in check-card-pages.js — the diff size is small per card so a
   // re-dump is fine and gives stable formatting.
+  // forceQuotes:true matches the existing repo style (most YAMLs already
+  // double-quote string values) and keeps the diff stable — without it,
+  // js-yaml strips quotes from already-quoted simple strings like `bank: "Chase"`,
+  // producing huge cosmetic diffs across every card the script touches.
   const newYaml = yaml.dump(data, {
     quotingType: '"',
+    forceQuotes: true,
     lineWidth: -1,
     sortKeys: false,
     noRefs: true,
