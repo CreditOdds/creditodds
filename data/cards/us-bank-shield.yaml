@@ -6,7 +6,7 @@ accepting_applications: true
 annual_fee: 0
 category: "balance_transfer"
 tags:
-  - balance_transfer
+  - "balance_transfer"
 apr:
   purchase_intro:
     rate: 0
@@ -17,4 +17,22 @@ apr:
   regular:
     min: 16.99
     max: 27.99
-apply_link: https://www.usbank.com/credit-cards/pm/shield-visa-credit-card.html
+apply_link: "https://www.usbank.com/credit-cards/pm/shield-visa-credit-card.html"
+benefits:
+  - name: "Annual Statement Credit"
+    value: 20
+    description: "Earn a $20 annual statement credit for 11 consecutive months of purchases."
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 600
+    description: "Get up to $600 reimbursed if your cell phone is stolen or damaged when you pay your monthly cellular bill with your card."
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
+  - name: "Free Credit Score Access"
+    description: "Stay aware of your credit score through mobile app and online banking enrollment."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: true
