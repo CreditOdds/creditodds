@@ -1,23 +1,69 @@
-name: "Disney Visa"
-bank: "Chase"
-slug: "disney-visa-card"
+name: Disney Visa
+bank: Chase
+slug: disney-visa-card
 accepting_applications: true
-image: "chase-disney.png"
+image: chase-disney.png
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 rewards:
   - category: everything_else
     value: 1
     unit: percent
-    note: "1% in Disney Rewards Dollars on all purchases"
+    note: 1% in Disney Rewards Dollars on all purchases
 signup_bonus:
   value: 150
-  type: "cash"
+  type: cash
   spend_requirement: 500
   timeframe_months: 3
-  note: "$100 Disney eGift Card upon approval + $50 statement credit after spending $500 in first 3 months"
+  note: $100 Disney eGift Card upon approval + $50 statement credit after spending $500 in first 3 months
 apr:
   regular:
     min: 18.24
     max: 29.99
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
+benefits:
+  - name: New Cardmember Offer
+    value: 150
+    description: $100 Disney Gift Card eGift upon approval plus $50 statement credit after spending $500 in first 3 months
+    frequency: one_time
+    category: statement_credit
+    enrollment_required: false
+  - name: Disney Park Merchandise Discount
+    value: 10
+    description: 10% off select merchandise purchases at select locations at Disneyland Resort and Walt Disney World Resort
+    frequency: per_purchase
+    category: shopping
+    enrollment_required: false
+  - name: Disney Park Dining Discount
+    value: 10
+    description: 10% off select dining locations most days at Disneyland Resort and Walt Disney World Resort
+    frequency: per_purchase
+    category: dining
+    enrollment_required: false
+  - name: Disney Guided Tour Discount
+    value: 15
+    description: 15% off the non-discounted price of select guided tours at Disneyland Resort and Walt Disney World Resort
+    frequency: per_purchase
+    category: entertainment
+    enrollment_required: false
+  - name: Cardmember Photo Locations
+    description: Special photos at private Cardmember locations at Disneyland Resort and Walt Disney World Resort with complimentary downloads
+    frequency: per_visit
+    category: entertainment
+    enrollment_required: false
+  - name: DisneyStore.com Discount
+    value: 10
+    description: 10% off select purchases at DisneyStore.com
+    frequency: per_purchase
+    category: shopping
+    enrollment_required: false
+  - name: Disney Vacation Financing
+    description: 0% promotional APR for 6 months on select Disney vacation packages
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: DoorDash DashPass
+    description: One-year complimentary DashPass membership providing unlimited deliveries with $0 delivery fees
+    frequency: annual
+    category: dining
+    enrollment_required: true
