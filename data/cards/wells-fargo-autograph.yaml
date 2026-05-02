@@ -11,33 +11,43 @@ benefits:
     description: "Up to $600 per claim for cell phone damage or theft when you pay your bill with the card"
     frequency: "ongoing"
     category: "other"
+  - name: "My Wells Fargo Deals"
+    description: "Access to personalized deals from merchants to earn cash back as account credit."
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "Credit Close-Up FICO Score Tracking"
+    description: "Complimentary monthly FICO Score updates and personalized credit insights for Wells Fargo Online customers."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: true
 tags:
-  - travel
-  - dining
-  - rewards
+  - "travel"
+  - "dining"
+  - "rewards"
 reward_type: "points"
 rewards:
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: points_per_dollar
-  - category: travel
+    unit: "points_per_dollar"
+  - category: "travel"
     value: 3
-    unit: points_per_dollar
-  - category: gas
+    unit: "points_per_dollar"
+  - category: "gas"
     value: 3
-    unit: points_per_dollar
-  - category: transit
+    unit: "points_per_dollar"
+  - category: "transit"
     value: 3
-    unit: points_per_dollar
-  - category: streaming
+    unit: "points_per_dollar"
+  - category: "streaming"
     value: 3
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 20000
-  type: points
+  type: "points"
   spend_requirement: 1000
   timeframe_months: 3
 apr:
@@ -47,4 +57,5 @@ apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://creditcards.wellsfargo.com/autograph-visa-credit-card
+apply_link: "https://creditcards.wellsfargo.com/autograph-visa-credit-card"
+foreign_transaction_fee: false
