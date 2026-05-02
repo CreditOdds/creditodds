@@ -8,25 +8,32 @@ category: "business"
 annual_fee: 295
 apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/graphite-business-cash-unlimited-card/"
 tags:
-  - business
-  - cashback
-  - premium
+  - "business"
+  - "cashback"
+  - "premium"
 reward_type: "cashback"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Unlimited 2% cash back on eligible purchases"
-  - category: flights_portal
+  - category: "flights_portal"
     value: 5
-    unit: percent
+    unit: "percent"
     note: "Flights booked through American Express Travel"
-  - category: hotels_portal
+  - category: "hotels_portal"
     value: 5
-    unit: percent
+    unit: "percent"
     note: "Prepaid hotels booked through American Express Travel"
 signup_bonus:
   value: 1500
-  type: cash
+  type: "cash"
   spend_requirement: 50000
   timeframe_months: 6
+benefits:
+  - name: "One AP Statement Credits"
+    value: 2400
+    description: "Up to $2,400 in annual statement credits for American Express One AP monthly fees after $250,000 in eligible purchases"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
