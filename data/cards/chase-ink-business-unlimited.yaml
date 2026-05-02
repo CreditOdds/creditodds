@@ -7,15 +7,15 @@ category: "business"
 annual_fee: 0
 reward_type: "points"
 tags:
-  - business
-  - cashback
+  - "business"
+  - "cashback"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 1.5
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 750
-  type: cash
+  type: "cash"
   spend_requirement: 6000
   timeframe_months: 3
 apr:
@@ -25,4 +25,5 @@ apr:
   regular:
     min: 16.74
     max: 24.74
-apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
+apply_link: "https://creditcards.chase.com/business-credit-cards/ink/unlimited"
+foreign_transaction_fee: false
