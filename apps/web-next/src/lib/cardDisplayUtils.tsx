@@ -27,6 +27,8 @@ export const categoryLabels: Record<string, string> = {
   car_rentals: "Car Rentals",
   entertainment: "Entertainment",
   rotating: "Rotating Categories",
+  top_category: "Top Spend Category",
+  selected_categories: "Selected Categories",
   travel_portal: "Travel (via Portal)",
   hotels_portal: "Hotels (via Portal)",
   flights_portal: "Flights (via Portal)",
@@ -86,6 +88,8 @@ export function CategoryIcon({ category, className }: { category: string; classN
     case "entertainment":
       return <FilmIcon className={iconClass} />;
     case "rotating":
+    case "top_category":
+    case "selected_categories":
       return <SparklesIcon className={iconClass} />;
     case "everything_else":
       return <GlobeAltIcon className={iconClass} />;

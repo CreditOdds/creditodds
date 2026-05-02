@@ -24,10 +24,9 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "Includes EV charging stations"
-  - category: rotating
+  - category: selected_categories
     value: 3
     unit: points_per_dollar
-    mode: user_choice
     choices: 1
     note: "3x on one eligible self-select category of your choice"
   - category: dining

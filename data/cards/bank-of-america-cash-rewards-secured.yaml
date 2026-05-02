@@ -10,10 +10,9 @@ tags:
   - secured
   - cashback
 rewards:
-  - category: rotating
+  - category: selected_categories
     value: 3
     unit: percent
-    mode: user_choice
     choices: 1
     note: "3% in choice category, up to $2,500/quarter"
   - category: groceries
