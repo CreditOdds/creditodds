@@ -5,7 +5,7 @@ image: "chase-slate-edge.png"
 accepting_applications: true
 category: "balance_transfer"
 tags:
-  - balance_transfer
+  - "balance_transfer"
 annual_fee: 0
 apr:
   balance_transfer_intro:
@@ -14,4 +14,26 @@ apr:
   regular:
     min: 22.49
     max: 31.24
-apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge
+apply_link: "https://creditcards.chase.com/credit-building-credit-cards/edge"
+benefits:
+  - name: "Complimentary DashPass"
+    description: "6 months of complimentary DashPass membership for DoorDash and Caviar."
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true
+  - name: "Quarterly DoorDash Credit"
+    value: 10
+    description: "$10 off quarterly on one qualifying DoorDash non-restaurant order."
+    frequency: "quarterly"
+    category: "dining"
+    enrollment_required: true
+  - name: "Credit Score Monitoring"
+    description: "Access to VantageScore 3.0 credit score and educational score improvement resources."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Account Alerts"
+    description: "Complimentary account alerts for suspicious activity and account changes."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
