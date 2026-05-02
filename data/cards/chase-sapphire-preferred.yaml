@@ -16,10 +16,30 @@ benefits:
     description: "Complimentary DoorDash DashPass membership"
     frequency: "ongoing"
     category: "dining"
+  - name: "Lyft 5x Points"
+    description: "Earn 5x total points on Lyft rides through September 30, 2027."
+    frequency: "ongoing"
+    category: "rideshare"
+    enrollment_required: false
+  - name: "Peloton 5x Points"
+    description: "Earn 5x total points on eligible Peloton equipment and accessory purchases over $150 through December 31, 2027."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Travel and Emergency Assistance"
+    description: "Access to legal and medical referrals and travel and emergency assistance services when away from home."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees on purchases made outside the United States."
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
-  - travel
-  - dining
-  - rewards
+  - "travel"
+  - "dining"
+  - "rewards"
 reward_type: "points"
 rewards:
   - category: "travel_portal"
@@ -43,11 +63,12 @@ rewards:
     unit: "points_per_dollar"
 signup_bonus:
   value: 75000
-  type: points
+  type: "points"
   spend_requirement: 5000
   timeframe_months: 3
 apr:
   regular:
     min: 19.24
     max: 27.49
-apply_link: https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred
+apply_link: "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred"
+foreign_transaction_fee: false
