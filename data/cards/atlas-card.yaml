@@ -1,17 +1,17 @@
-name: "Atlas"
-bank: "Lead Bank"
-slug: "atlas-card"
+name: Atlas
+bank: Lead Bank
+slug: atlas-card
 accepting_applications: true
-image: "atlas.png"
+image: atlas.png
 apply_link: https://atlascard.com/
 annual_fee: 1000
-category: "travel"
-reward_type: "points"
+category: travel
+reward_type: points
 rewards:
   - category: travel
     value: 3
     unit: points_per_dollar
-    note: "Hotels, private charters, and luxury car rentals"
+    note: Hotels, private charters, and luxury car rentals
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -19,86 +19,108 @@ rewards:
     value: 1
     unit: points_per_dollar
 benefits:
-  - name: "AI Concierge"
+  - name: AI Concierge
     value: 0
-    description: "24/7 AI concierge via text for reservations, travel, and lifestyle requests"
-    frequency: "ongoing"
-    category: "other"
-  - name: "Atlas Dining"
+    description: 24/7 AI concierge via text for reservations, travel, and lifestyle requests
+    frequency: ongoing
+    category: other
+  - name: Atlas Dining
     value: 0
-    description: "Priority and last-minute reservations at top restaurants in New York, Los Angeles, San Francisco, and Miami"
-    frequency: "ongoing"
-    category: "dining"
-  - name: "BLADE Airport Pass"
+    description: Priority and last-minute reservations at top restaurants in New York, Los Angeles, San Francisco, and Miami
+    frequency: ongoing
+    category: dining
+  - name: BLADE Airport Pass
     value: 0
-    description: "$100 off helicopter flights plus a companion pass; flights starting from $95"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Aero Travel Discount"
+    description: $100 off helicopter flights plus a companion pass; flights starting from $95
+    frequency: ongoing
+    category: travel
+  - name: Aero Travel Discount
     value: 0
-    description: "15% discount on Aero semi-private flights"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Private Jet Charters"
+    description: 15% discount on Aero semi-private flights
+    frequency: ongoing
+    category: travel
+  - name: Private Jet Charters
     value: 0
-    description: "Access to private jet charters at pre-negotiated member rates"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Priority Pass Select"
+    description: Access to private jet charters at pre-negotiated member rates
+    frequency: ongoing
+    category: travel
+  - name: Priority Pass Select
     value: 0
-    description: "Two complimentary visits per year to 1,300+ Priority Pass airport lounges worldwide"
-    frequency: "annual"
-    category: "lounge"
-  - name: "Luxury Hotel Bookings"
+    description: Two complimentary visits per year to 1,300+ Priority Pass airport lounges worldwide
+    frequency: annual
+    category: lounge
+  - name: Luxury Hotel Bookings
     value: 0
-    description: "Curated luxury hotel bookings at preferred member rates"
-    frequency: "ongoing"
-    category: "hotel"
-  - name: "Remedy Place Credit"
+    description: Curated luxury hotel bookings at preferred member rates
+    frequency: ongoing
+    category: hotel
+  - name: Remedy Place Credit
     value: 250
-    description: "$250 credit toward first Remedy Place visit (saunas, cold plunges, NAD+ IV therapy); discounted or complimentary residency available"
-    frequency: "ongoing"
-    category: "fitness"
-  - name: "Sollis Health"
+    description: $250 credit toward first Remedy Place visit (saunas, cold plunges, NAD+ IV therapy); discounted or complimentary residency available
+    frequency: ongoing
+    category: fitness
+  - name: Sollis Health
     value: 0
-    description: "Complimentary guest visit or discounted membership for same-day medical care and house calls"
-    frequency: "ongoing"
-    category: "other"
-  - name: "One Medical Credit"
+    description: Complimentary guest visit or discounted membership for same-day medical care and house calls
+    frequency: ongoing
+    category: other
+  - name: One Medical Credit
     value: 199
-    description: "$199 statement credit when you join One Medical"
-    frequency: "annual"
-    category: "other"
-  - name: "Wander Credit"
+    description: $199 statement credit when you join One Medical
+    frequency: annual
+    category: other
+  - name: Wander Credit
     value: 250
-    description: "$250 off Wander vacation home rentals"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Erewhon Membership"
+    description: $250 off Wander vacation home rentals
+    frequency: ongoing
+    category: travel
+  - name: Erewhon Membership
     value: 0
-    description: "Complimentary annual Erewhon Cafe membership"
-    frequency: "annual"
-    category: "dining"
-  - name: "Exclusive Event Access"
+    description: Complimentary annual Erewhon Cafe membership
+    frequency: annual
+    category: dining
+  - name: Exclusive Event Access
     value: 0
-    description: "Access to concerts, sporting events, and member-only experiences"
-    frequency: "ongoing"
-    category: "other"
-  - name: "Visa Infinite Benefits"
+    description: Access to concerts, sporting events, and member-only experiences
+    frequency: ongoing
+    category: other
+  - name: Visa Infinite Benefits
     value: 0
-    description: "Concierge, trip cancellation and interruption coverage, rental car discounts, cell phone protection"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Purchase Protection"
+    description: Concierge, trip cancellation and interruption coverage, rental car discounts, cell phone protection
+    frequency: ongoing
+    category: travel
+  - name: Purchase Protection
     value: 0
-    description: "Up to $50,000 per year in coverage for repairs, replacements, or reimbursement on new purchases within 90 days"
-    frequency: "ongoing"
-    category: "other"
-  - name: "Personalized Metal Card"
+    description: Up to $50,000 per year in coverage for repairs, replacements, or reimbursement on new purchases within 90 days
+    frequency: ongoing
+    category: other
+  - name: Personalized Metal Card
     value: 0
-    description: "21g mirror-finished steel card, CNC-milled and laser-engraved with cardholder's preferred first name"
-    frequency: "ongoing"
-    category: "other"
+    description: 21g mirror-finished steel card, CNC-milled and laser-engraved with cardholder's preferred first name
+    frequency: ongoing
+    category: other
+  - name: Atlas Dining Reservations
+    description: Access to exclusive restaurant reservations at top dining establishments in NYC, LA, SF, Miami, and worldwide through the Atlas app or concierge.
+    frequency: ongoing
+    category: dining
+    enrollment_required: false
+  - name: Atlas Hotels Booking
+    description: Curated selection of luxury hotels worldwide with ability to book using points at preferred rates.
+    frequency: ongoing
+    category: hotel
+    enrollment_required: false
+  - name: 3x Points on Hotel Bookings
+    value: 3
+    value_unit: points
+    description: Earn 3x points for every dollar spent on hotel bookings inside the Atlas app.
+    frequency: per_purchase
+    category: hotel
+    enrollment_required: false
+  - name: Atlas Concierge Service
+    description: Text-based concierge service to secure event passes, restaurant reservations, and hotel bookings.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
 tags:
   - premium
   - travel
