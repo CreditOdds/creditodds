@@ -1,33 +1,33 @@
-name: "Blue Cash Everyday"
-bank: "American Express"
-slug: "blue-cash-everyday-card"
-image: "amex_blue_cash_everyday.png"
+name: Blue Cash Everyday
+bank: American Express
+slug: blue-cash-everyday-card
+image: amex_blue_cash_everyday.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/
-card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
+card_referral_link: https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref=
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 tags:
   - cashback
 rewards:
-  - category: "groceries"
+  - category: groceries
     value: 3
-    unit: "percent"
-    note: "U.S. supermarkets, up to $6,000 per year then 1%"
-  - category: "gas"
+    unit: percent
+    note: U.S. supermarkets, up to $6,000 per year then 1%
+  - category: gas
     value: 3
-    unit: "percent"
-    note: "U.S. gas stations, up to $6,000 per year then 1%"
-  - category: "online_shopping"
+    unit: percent
+    note: U.S. gas stations, up to $6,000 per year then 1%
+  - category: online_shopping
     value: 3
-    unit: "percent"
-    note: "U.S. online retail purchases, up to $6,000 per year then 1%"
-  - category: "everything_else"
+    unit: percent
+    note: U.S. online retail purchases, up to $6,000 per year then 1%
+  - category: everything_else
     value: 1
-    unit: "percent"
+    unit: percent
 signup_bonus:
   value: 200
-  type: "cash"
+  type: cash
   spend_requirement: 2000
   timeframe_months: 6
 apr:
@@ -37,3 +37,20 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: Disney Streaming Credit
+    value: 84
+    description: Up to $7 monthly statement credit for Disney+, Hulu, or ESPN+ subscription purchases
+    frequency: annual
+    category: streaming
+    enrollment_required: true
+  - name: Cash Back at Amazon Checkout
+    description: Redeem Reward Dollars as statement credit directly at Amazon.com checkout
+    frequency: ongoing
+    category: shopping
+    enrollment_required: false
+  - name: Amex Presale & Reserved Tickets
+    description: Access to presale and reserved ticket purchases for sports, music, and entertainment events
+    frequency: per_purchase
+    category: entertainment
+    enrollment_required: false
