@@ -30,3 +30,10 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/attune-credit-card
+benefits:
+  - name: "Cellular Telephone Protection"
+    value: 600
+    description: "Up to $600 per claim for cell phone protection against damage, theft, and unintended separation when you pay your monthly phone bill with the card; $25 deductible applies."
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
