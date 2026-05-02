@@ -35,6 +35,18 @@ benefits:
     description: "Unlimited Priority Pass lounge access"
     frequency: "ongoing"
     category: "lounge"
+  - name: "Annual Splurge Credit"
+    value: 200
+    description: "Up to $200 annual statement credit on select brands: 1stDibs, American Airlines, Best Buy, Future Personal Training, or Live Nation."
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Annual Blacklane Credit"
+    value: 200
+    description: "Up to $200 annual statement credit when booking with Blacklane premium chauffeur service ($100 Jan-Jun, $100 Jul-Dec)."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - rewards
@@ -65,3 +77,4 @@ apr:
     min: 21.24
     max: 29.24
 apply_link: https://www.citi.com/credit-cards/citi-strata-elite-credit-card
+foreign_transaction_fee: false
