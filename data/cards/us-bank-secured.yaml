@@ -3,13 +3,49 @@ bank: "U.S. Bank"
 slug: "us-bank-secured"
 image: "us-bank-secured.png"
 accepting_applications: true
-apply_link: https://www.usbank.com/credit-cards/secured-visa-credit-card.html
+apply_link: "https://www.usbank.com/credit-cards/secured-visa-credit-card.html"
 annual_fee: 0
 category: "secured"
 tags:
-  - secured
-  - credit_builder
+  - "secured"
+  - "credit_builder"
 apr:
   regular:
     min: 27.49
     max: 27.49
+benefits:
+  - name: "Free Credit Score Access"
+    description: "View your credit score anytime in the mobile app or online banking."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Flexible Payment Due Date"
+    description: "Choose your own payment due date to fit your schedule."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "24/7 Account Access"
+    description: "Manage your account anytime through U.S. Bank Mobile App or online banking."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Contactless Payments"
+    description: "Pay with a tap using your contactless card."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "Mobile Wallet Support"
+    description: "Add your card to your Mobile Wallet for convenient and secure payments."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Automatic Payment Option"
+    description: "Set up autopay to pay on time and avoid late fees."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Interest-Bearing Security Deposit"
+    description: "Your security deposit is held in an FDIC-insured savings account that earns interest."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
