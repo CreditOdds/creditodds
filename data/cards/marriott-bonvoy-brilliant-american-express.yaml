@@ -55,7 +55,7 @@ benefits:
     category: "hotel"
   - name: "Global Entry / TSA PreCheck Credit"
     value: 100
-    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
+    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     frequency_years: 5
     category: "security"

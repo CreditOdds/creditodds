@@ -41,7 +41,7 @@ benefits:
     category: "travel"
   - name: "Global Entry / TSA PreCheck / NEXUS Credit"
     value: 120
-    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees every 4 years"
+    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
     frequency_years: 5
     category: "security"

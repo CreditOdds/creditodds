@@ -28,6 +28,8 @@ exclude:
   - "$0 Fraud Liability"
   - "Zero Fraud Liability"
   - "0 Liability"
+  - "Fraud Liability Protection"
+  - "Fraud Protection"
 
   # Issuer platform features available to all the issuer's cardholders
   - "Eno Virtual Card Numbers"
@@ -44,6 +46,9 @@ exclude:
   - "Chase Pay Over Time"
   - "0% intro APR on Disney Vacations"
   - "0% APR on Disney Vacations"
+  - "Citi Flex Pay"                 # buy-now-pay-later financing feature
+  - "Flex Pay"
+  - "My Chase Plan"
 
   # Redemption mechanics — describes how rewards are earned/redeemed,
   # not a perk you "get" from holding the card
@@ -54,6 +59,11 @@ exclude:
   - "Real-Time Rewards"
   - "Cash-Back Deals"
   - "Ultimate Rewards Transfer Bonus"
+  - "Points Transfer Partners"      # describes the transfer network, not a perk
+  - "Transfer Partners"
+  - "Pay with Miles"                # specific Delta-style miles-for-flights mechanic
+  - "Pay with Miles Discount"
+  - "MileagePlus Pay with Points"
 
   # Generic business-card platform features (not card-differentiators)
   - "Free Employee Cards"
@@ -107,6 +117,18 @@ exclude:
   - "Bill Pay"
   - "Refer-a-Friend"
   - "Refer a Friend"
+  - "Referral Bonus"                # active recruiting, not a passive benefit
+  - "Refer Friends Bonus"
+  - "Refer Friends"
+  - "Friend Referral"
+  - "Automatic Payments Statement Credit"   # one-time enrollment carrot
+  - "Autopay Enrollment Credit"
+  - "DisneyStore.com Discount"      # store discount, not a free perk
+  - "DisneyStore Discount"
+  - "Disney Park Merchandise Discount"
+  - "Disney Park Dining Discount"
+  - "Disney Guided Tour Discount"
+  - "The Cultivist Membership Discount"  # discount on a paid membership
 
   # Issuer-platform "deals" portals — available to all cardholders of that
   # issuer, not card-specific perks. Treated like Amex Offers.
