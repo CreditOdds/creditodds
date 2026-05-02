@@ -3,12 +3,12 @@ bank: "American Express"
 slug: "blue-cash-everyday-card"
 image: "amex_blue_cash_everyday.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/
+apply_link: "https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/"
 card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
+  - "cashback"
 rewards:
   - category: "groceries"
     value: 3
@@ -37,3 +37,25 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: "Disney Streaming Credit"
+    value: 84
+    description: "Up to $7 monthly statement credit for Disney+, Hulu, or ESPN+ subscription purchases"
+    frequency: "annual"
+    category: "streaming"
+    enrollment_required: true
+  - name: "Cash Back at Amazon Checkout"
+    description: "Redeem Reward Dollars earned on the card directly at Amazon.com checkout"
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Send Split with Venmo and PayPal"
+    description: "Send money and split purchases with other Venmo or PayPal users directly from the Amex App"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: true
+  - name: "Amex Special Ticket Access"
+    description: "Access to purchase tickets through Amex Presale Tickets and Amex Reserved Tickets for select events"
+    frequency: "ongoing"
+    category: "entertainment"
+    enrollment_required: false
