@@ -5,8 +5,8 @@ image: "freedom_flex_card.png"
 accepting_applications: true
 annual_fee: 0
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 reward_type: "cashback"
 rewards:
   - category: "rotating"
@@ -33,7 +33,7 @@ rewards:
     unit: "percent"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -46,4 +46,5 @@ apr:
   regular:
     min: 18.24
     max: 27.74
-apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/flex
+apply_link: "https://creditcards.chase.com/cash-back-credit-cards/freedom/flex"
+foreign_transaction_fee: false
