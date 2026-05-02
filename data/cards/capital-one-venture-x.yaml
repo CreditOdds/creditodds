@@ -36,6 +36,28 @@ benefits:
     description: "Complimentary Hertz President's Circle elite status"
     frequency: "ongoing"
     category: "travel"
+  - name: "Price Drop Protection"
+    value: 50
+    description: "Up to $50 travel credit if booked flight price drops within 10 days"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for price difference on flights, hotels, or rental cars if better price found within 24 hours of booking"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "PRIOR Subscription"
+    value: 149
+    description: "Complimentary PRIOR subscription for extraordinary travel experiences and destination guides"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "The Cultivist Membership Discount"
+    description: "50% off The Cultivist Enthusiast membership (museum access) for up to 2 years"
+    frequency: "multi_year"
+    category: "other"
+    enrollment_required: false
 tags:
   - travel
   - premium
@@ -61,3 +83,4 @@ apr:
     min: 19.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/venture-x/
+foreign_transaction_fee: false
