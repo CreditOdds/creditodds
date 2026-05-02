@@ -50,3 +50,4 @@ apr:
     min: 20.24
     max: 28.24
 apply_link: https://www.citi.com/credit-cards/citi-strata-premier-credit-card
+foreign_transaction_fee: false
