@@ -1,38 +1,38 @@
-name: "Rakuten American Express"
-bank: "American Express"
-slug: "rakuten-american-express"
+name: Rakuten American Express
+bank: American Express
+slug: rakuten-american-express
 accepting_applications: true
 apply_link: https://www.rakuten.com/american-express-card
-category: "cashback"
-image: "rakuten-american-express.png"
+category: cashback
+image: rakuten-american-express.png
 annual_fee: 0
 tags:
   - cashback
   - shopping
   - dining
   - rewards
-reward_type: "cashback"
+reward_type: cashback
 rewards:
-  - category: "rakuten"
+  - category: rakuten
     value: 4
-    unit: "percent"
-    note: "Rakuten.com purchases, up to $7,000 in spend per calendar year (then 1%)"
-  - category: "rakuten_dining"
+    unit: percent
+    note: Rakuten.com purchases, up to $7,000 in spend per calendar year (then 1%)
+  - category: rakuten_dining
     value: 5
-    unit: "percent"
-    note: "Rakuten Dining purchases"
-  - category: "groceries"
+    unit: percent
+    note: Rakuten Dining purchases
+  - category: groceries
     value: 2
-    unit: "percent"
-  - category: "dining"
+    unit: percent
+  - category: dining
     value: 2
-    unit: "percent"
-  - category: "everything_else"
-    value: 1
-    unit: "percent"
+    unit: percent
+  - category: everything_else
+    value: 4
+    unit: percent
 signup_bonus:
   value: 200
-  type: "cash"
+  type: cash
   spend_requirement: 2000
   timeframe_months: 3
 apr:
