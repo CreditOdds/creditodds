@@ -97,18 +97,17 @@ jobs:
             git commit -m "Auto: ${CARD_NAME} rewards/benefits check ${DATE}"
             git push -u origin "$BRANCH"
 
+            BODY_FILE=$(mktemp)
+            {
+              printf 'Automated weekly check picked up changes on the apply page for **%s**.\n\n' "$CARD_NAME"
+              printf '**Apply link (verify):** %s\n\n' "$APPLY_LINK"
+              printf 'This PR was opened by `scripts/check-card-rewards-and-benefits.js`. Only changes that passed the editorial filter in [`data/benefit-policy.yaml`](../blob/main/data/benefit-policy.yaml) made it here — borderline items (generic travel insurance, etc.) were routed to the weekly review issue instead, and benefits previously removed from this card were skipped.\n\n'
+              printf '🤖 Auto-generated. Review before merging.\n'
+            } > "$BODY_FILE"
             gh pr create \
               --title "Auto: ${CARD_NAME} rewards/benefits update — ${DATE}" \
-              --body "$(cat <<EOF
-Automated weekly check picked up changes on the apply page for **${CARD_NAME}**.
-
-**Apply link (verify):** ${APPLY_LINK}
-
-This PR was opened by \`scripts/check-card-rewards-and-benefits.js\`. Only changes that passed the editorial filter in [\`data/benefit-policy.yaml\`](../blob/main/data/benefit-policy.yaml) made it here — borderline items (generic travel insurance, etc.) were routed to the weekly review issue instead, and benefits previously removed from this card were skipped.
-
-🤖 Auto-generated. Review before merging.
-EOF
-)" || echo "PR creation failed for $SLUG (continuing)"
+              --body-file "$BODY_FILE" || echo "PR creation failed for $SLUG (continuing)"
+            rm -f "$BODY_FILE"
           done
 
           # Drop the stash
