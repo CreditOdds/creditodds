@@ -4,31 +4,59 @@ slug: "apple-card"
 image: "apple_card.png"
 accepting_applications: true
 annual_fee: 0
-reward_type: cashback
+reward_type: "cashback"
 rewards:
-  - category: online_shopping
+  - category: "online_shopping"
     value: 3
-    unit: percent
+    unit: "percent"
     note: "Apple purchases and select merchants"
-  - category: dining
+  - category: "dining"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Via Apple Pay"
-  - category: transit
+  - category: "transit"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Via Apple Pay"
-  - category: groceries
+  - category: "groceries"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Via Apple Pay"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 tags:
-  - cashback
+  - "cashback"
 apr:
   regular:
     min: 17.49
     max: 27.74
-apply_link: https://www.apple.com/apple-card/
+apply_link: "https://www.apple.com/apple-card/"
+foreign_transaction_fee: false
+benefits:
+  - name: "No Annual Fee"
+    description: "No annual, over-the-limit, foreign-transaction, or late fees"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "High-Yield Savings Account"
+    description: "Open a Savings account through Apple Card to earn interest on Daily Cash and other deposits"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: true
+  - name: "Booking.com Travel Credits"
+    value: 2
+    description: "2% in Booking.com Travel Credits on eligible stays and car rentals booked through the Apple Card portal"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: true
+  - name: "Uber One Free Trial"
+    description: "Six-month free trial of Uber One when signing up with Apple Card using Apple Pay"
+    frequency: "one_time"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "Hertz Rental Car Benefits"
+    description: "At least 5% off Pay Later base rates, free emergency roadside service, discounted loss damage waiver, and free additional driver at pickup"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: true
