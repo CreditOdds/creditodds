@@ -1,15 +1,15 @@
-name: "United Club Infinite"
-bank: "Chase"
-slug: "united-club-infinite"
-image: "united_club_infinite.png"
+name: United Club Infinite
+bank: Chase
+slug: united-club-infinite
+image: united_club_infinite.png
 accepting_applications: true
 annual_fee: 695
-reward_type: "miles"
+reward_type: miles
 rewards:
   - category: airlines
-    value: 4
+    value: 5
     unit: points_per_dollar
-    note: "United purchases"
+    note: Other eligible United purchases
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -17,69 +17,135 @@ rewards:
     value: 2
     unit: points_per_dollar
   - category: everything_else
-    value: 1.5
+    value: 1
     unit: points_per_dollar
 signup_bonus:
   value: 100000
   type: miles
   spend_requirement: 5000
   timeframe_months: 3
-  note: "Plus 10,000 bonus miles for adding an authorized user"
+  note: Plus 10,000 bonus miles for adding an authorized user
 apr:
   regular:
     min: 19.74
     max: 28.24
 benefits:
-  - name: "United Club Membership"
+  - name: United Club Membership
     value: 0
-    description: "United Club membership for the primary cardholder, including eligible travel companions"
-    frequency: "ongoing"
-    category: "lounge"
-  - name: "Global Entry / TSA PreCheck Credit"
+    description: United Club membership for the primary cardholder, including eligible travel companions
+    frequency: ongoing
+    category: lounge
+  - name: Global Entry / TSA PreCheck Credit
     value: 120
-    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
-    frequency: "multi_year"
-    category: "security"
-  - name: "2 Free Checked Bags"
+    description: Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees
+    frequency: multi_year
+    category: security
+  - name: 2 Free Checked Bags
     value: 0
-    description: "First and second checked bags free on United flights"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Premier Access"
+    description: First and second checked bags free on United flights
+    frequency: ongoing
+    category: travel
+  - name: Premier Access
     value: 0
-    description: "Priority check-in, security, boarding, and baggage handling on United"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Award Flight Discounts"
+    description: Priority check-in, security, boarding, and baggage handling on United
+    frequency: ongoing
+    category: travel
+  - name: Award Flight Discounts
     value: 0
-    description: "Earn a 10,000-mile award flight discount after $20,000 in purchases, up to two times each calendar year"
-    frequency: "annual"
-    category: "travel"
-  - name: "Renowned Hotels Credit"
+    description: Earn a 10,000-mile award flight discount after $20,000 in purchases, up to two times each calendar year
+    frequency: annual
+    category: travel
+  - name: Renowned Hotels Credit
     value: 200
-    description: "Up to $200 each anniversary year on prepaid Renowned Hotels and Resorts for United Cardmembers bookings"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Rideshare Credit"
+    description: Up to $200 each anniversary year on prepaid Renowned Hotels and Resorts for United Cardmembers bookings
+    frequency: annual
+    category: hotel
+  - name: Rideshare Credit
     value: 150
-    description: "Up to $12 monthly from January through November and $18 in December after annual opt-in"
-    frequency: "monthly"
-    category: "rideshare"
-  - name: "Avis / Budget TravelBank Credit"
+    description: Up to $12 monthly from January through November and $18 in December after annual opt-in
+    frequency: monthly
+    category: rideshare
+  - name: Avis / Budget TravelBank Credit
     value: 100
-    description: "Up to $100 each anniversary year in United TravelBank cash on Avis or Budget bookings through cars.united.com"
-    frequency: "annual"
-    category: "travel"
-  - name: "Instacart Credit"
+    description: Up to $100 each anniversary year in United TravelBank cash on Avis or Budget bookings through cars.united.com
+    frequency: annual
+    category: travel
+  - name: Instacart Credit
     value: 240
-    description: "Two $10 Instacart credits each month through 12/31/27"
-    frequency: "monthly"
-    category: "grocery"
-  - name: "JSX Credit"
+    description: Two $10 Instacart credits each month through 12/31/27
+    frequency: monthly
+    category: grocery
+  - name: JSX Credit
     value: 200
-    description: "Up to $200 each anniversary year on flights purchased directly with JSX"
-    frequency: "annual"
-    category: "travel"
+    description: Up to $200 each anniversary year on flights purchased directly with JSX
+    frequency: annual
+    category: travel
+  - name: New Cardmember Bonus
+    value: 100000
+    value_unit: miles
+    description: Earn 100,000 bonus miles after $5,000 in purchases in first 3 months
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: New Cardmember Bonus PQP
+    value: 3000
+    value_unit: points
+    description: Earn 3,000 Premier qualifying points after qualifying activities in first 3 months
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Authorized User Bonus
+    value: 10000
+    value_unit: miles
+    description: Earn 10,000 bonus miles when you add an authorized user in first 3 months
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Free Checked Bags
+    value: 360
+    description: First and second checked bags free for primary cardmember and one companion
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Annual PQP Bonus
+    value: 1500
+    value_unit: points
+    description: 1,500 Card Bonus Premier qualifying points awarded each year
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: Award Flight Discount
+    value: 10000
+    value_unit: miles
+    description: 10,000-mile award flight discount after $20,000 in purchases (up to twice per calendar year)
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: Avis/Budget Car Rental Credit
+    value: 100
+    description: Statement credit for Avis or Budget car rentals booked through cars.united.com
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: JSX Flight Credit
+    value: 200
+    description: Statement credit for flights purchased directly through JSX
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Club All Access Passes
+    value: 200
+    description: Four one-time United Club passes for authorized users annually (when All Access membership earned)
+    frequency: annual
+    category: lounge
+    enrollment_required: false
+  - name: Miles Award Discount
+    value: 10
+    value_unit: percent
+    description: Save at least 10% when booking United flights with miles
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
 tags:
   - airline
   - travel
