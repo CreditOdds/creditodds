@@ -4,6 +4,7 @@ slug: "rei-co-op-mastercard"
 image: "rei-coop.png"
 accepting_applications: true
 apply_link: https://www.capitalone.com/credit-cards/rei/
+foreign_transaction_fee: false
 annual_fee: 0
 reward_type: "cashback"
 tags:
@@ -27,3 +28,9 @@ apr:
   regular:
     min: 17.49
     max: 28.49
+benefits:
+  - name: "Annual Donation to REI Cooperative Action Fund"
+    description: "$2 million annual donation from the REI Co-op Mastercard program to a nonprofit creating a more equitable outdoors"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
