@@ -18,3 +18,4 @@ apr:
     min: 17.49
     max: 28.24
 apply_link: https://www.citi.com/credit-cards/citi-simplicity-credit-card
+foreign_transaction_fee: true
