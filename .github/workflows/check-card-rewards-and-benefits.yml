@@ -1,0 +1,142 @@
+name: Check Card Rewards and Benefits
+
+# Sibling of check-card-pages.yml. The signup-bonus checker handles annual_fee
+# and signup_bonus; this one handles rewards[], benefits[], and
+# foreign_transaction_fee. Splitting the two so a parsing failure on the
+# (newer, more complex) benefits flow can't take down the working SUB flow.
+
+on:
+  schedule:
+    - cron: '0 9 * * 0'  # Sundays 9 AM UTC
+  workflow_dispatch:
+    inputs:
+      card_slug:
+        description: 'Specific card slug to check (leave empty for all)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  check-rewards-and-benefits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0   # full git history — needed for removed-benefit detection
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run rewards-and-benefits check
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CARD_SLUG: ${{ github.event.inputs.card_slug || '' }}
+        run: node scripts/check-card-rewards-and-benefits.js
+
+      - name: Validate updated card YAMLs
+        run: |
+          if [ -n "$(git status --porcelain data/cards/)" ]; then
+            echo "Validating updated card data..."
+            if ! npm run build:cards; then
+              echo "::error::Card validation failed — reverting changes."
+              git checkout -- data/cards/
+              exit 1
+            fi
+          fi
+
+      - name: Open one PR per modified card
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # No changes? Nothing to PR.
+          if [ -z "$(git status --porcelain data/cards/)" ]; then
+            echo "No card YAMLs changed."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stash all modifications, then re-apply one card at a time.
+          git stash push -m "rewards-and-benefits-check" -- data/cards/
+
+          DATE=$(date +%Y-%m-%d)
+          for FILE in $(git stash show stash@{0} --name-only -- data/cards/); do
+            SLUG=$(basename "$FILE" .yaml)
+            BRANCH="auto/${SLUG}-rewards-benefits-${DATE}"
+
+            # Skip if this branch already exists on origin (idempotency — don't
+            # spam an extra PR if last week's PR is still open).
+            if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+              echo "Branch $BRANCH already exists on origin — skipping $SLUG"
+              continue
+            fi
+
+            git checkout -B "$BRANCH" origin/main
+            git checkout stash@{0} -- "$FILE"
+
+            CARD_NAME=$(awk -F'"' '/^name:/{print $2; exit}' "$FILE")
+            APPLY_LINK=$(awk '/^apply_link:/{$1=""; sub(/^[[:space:]]*"?/,""); sub(/"?$/,""); print; exit}' "$FILE")
+
+            git add "$FILE"
+            git commit -m "Auto: ${CARD_NAME} rewards/benefits check ${DATE}"
+            git push -u origin "$BRANCH"
+
+            gh pr create \
+              --title "Auto: ${CARD_NAME} rewards/benefits update — ${DATE}" \
+              --body "$(cat <<EOF
+Automated weekly check picked up changes on the apply page for **${CARD_NAME}**.
+
+**Apply link (verify):** ${APPLY_LINK}
+
+This PR was opened by \`scripts/check-card-rewards-and-benefits.js\`. Only changes that passed the editorial filter in [\`data/benefit-policy.yaml\`](../blob/main/data/benefit-policy.yaml) made it here — borderline items (generic travel insurance, etc.) were routed to the weekly review issue instead, and benefits previously removed from this card were skipped.
+
+🤖 Auto-generated. Review before merging.
+EOF
+)" || echo "PR creation failed for $SLUG (continuing)"
+          done
+
+          # Drop the stash
+          git stash drop stash@{0} || true
+
+      - name: Open weekly review issue for borderline items
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ ! -s .card-rewards-benefits-review.md ]; then
+            echo "No borderline items to review."
+            exit 0
+          fi
+
+          DATE=$(date +%Y-%m-%d)
+          ISSUE_BODY=$(printf '%s\n\n%s' \
+            "Weekly review queue from \`check-card-rewards-and-benefits\`. These are benefits the auto-checker spotted on apply pages but flagged as borderline — generic travel insurance, secondary CDW, purchase protection, and similar — that we've gone both ways on. Triage manually." \
+            "$(cat .card-rewards-benefits-review.md)")
+
+          gh issue create \
+            --title "Card benefits review — ${DATE}" \
+            --label "auto-generated,review-queue" \
+            --body "$ISSUE_BODY" || echo "Issue creation failed (continuing)"
+
+      - name: Print run summary
+        if: always()
+        run: |
+          if [ -f .card-rewards-benefits-summary.md ]; then
+            echo "=== Run summary ==="
+            cat .card-rewards-benefits-summary.md
+          fi

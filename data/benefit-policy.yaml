@@ -1,0 +1,116 @@
+# Benefit policy for the weekly card-rewards-and-benefits checker.
+#
+# When the LLM extracts a proposed benefit from an issuer's apply page, this
+# file decides whether to (a) auto-PR it, (b) surface it for manual review, or
+# (c) skip silently. See scripts/check-card-rewards-and-benefits.js.
+#
+# Match is case-insensitive substring on the proposed benefit name (or the
+# `match:` patterns where given). Update this list as taste evolves; the system
+# is opinionated by design — we never auto-add the kinds of "benefits" the team
+# has consistently removed by hand.
+
+# ────────────────────────────────────────────────────────────────────────────
+# 1. Skip silently — never propose adding these as a benefit.
+#
+# These are network-tier perks, federal-law standards, generic platform
+# features, financing tools, or "redemption mechanics" that describe how
+# rewards work rather than being card-specific perks.
+# ────────────────────────────────────────────────────────────────────────────
+exclude:
+  # Network-tier perks (every Visa Signature / World Elite Mastercard has these)
+  - "Visa Signature Concierge"
+  - "Visa Infinite Concierge"
+  - "Mastercard World Elite Benefits"
+  - "World Elite Mastercard"
+  - "Visa Signature Luxury Hotel Collection"
+
+  # Federal-law standards (all credit cards have these)
+  - "$0 Fraud Liability"
+  - "Zero Fraud Liability"
+  - "0 Liability"
+
+  # Issuer platform features available to all the issuer's cardholders
+  - "Eno Virtual Card Numbers"
+  - "Eno Virtual"
+  - "CreditWise"
+  - "TripIt Pro"
+  - "Citi Quick Lock"
+  - "Mastercard ID Theft Protection"
+
+  # Financing features (these belong in the `apr` section if anywhere)
+  - "Pay Over Time"
+  - "Plan It"
+  - "ExtendPay Plan"
+  - "Chase Pay Over Time"
+  - "0% intro APR on Disney Vacations"
+  - "0% APR on Disney Vacations"
+
+  # Redemption mechanics — describes how rewards are earned/redeemed,
+  # not a perk you "get" from holding the card
+  - "Points Payback"
+  - "Disney Rewards Dollars"
+  - "AAdvantage Loyalty Points"
+  - "10% Points Back on Award Flights"
+  - "Real-Time Rewards"
+  - "Cash-Back Deals"
+  - "Ultimate Rewards Transfer Bonus"
+
+  # Generic business-card platform features (not card-differentiators)
+  - "Free Employee Cards"
+  - "Employee Cards"
+  - "Year-End Spending Summary"
+  - "Vendor Pay by Bill.com"
+  - "Vendor Pay"
+  - "Expanded Buying Power"
+  - "Amex Offers"
+
+  # Misc network/platform features
+  - "Group 5 Boarding"   # (Southwest's; default boarding group, not a perk)
+
+# ────────────────────────────────────────────────────────────────────────────
+# 2. Borderline — surface in the weekly review issue, do NOT auto-PR.
+#
+# These are real benefits but are generic Visa/Mastercard "protections" that
+# the team has gone both ways on. We log them in the summary so a human can
+# decide on a case-by-case basis whether they belong on a given card.
+# ────────────────────────────────────────────────────────────────────────────
+borderline:
+  - "Trip Cancellation/Interruption Insurance"
+  - "Trip Cancellation"
+  - "Trip Interruption Insurance"
+  - "Trip Delay Reimbursement"
+  - "Trip Delay Insurance"
+  - "Auto Rental Coverage"
+  - "Auto Rental Collision Damage Waiver"
+  - "Car Rental Loss & Damage Insurance"
+  - "Worldwide Car Rental Insurance"
+  - "Purchase Protection"
+  - "Extended Warranty"
+  - "Lost Luggage Reimbursement"
+  - "Baggage Delay Insurance"
+  - "Baggage Insurance Plan"
+  - "Travel Accident Insurance"
+  - "Travel & Emergency Assistance"
+  - "Global Assist Hotline"
+  - "Roadside Assistance"
+  - "Return Protection"
+  - "Emergency Evacuation"
+  - "Emergency Medical"
+
+# ────────────────────────────────────────────────────────────────────────────
+# 3. Auto-PR — anything not matched above is eligible for an auto-PR.
+#
+# The extractor is also given a few-shot example showing what "good" looks
+# like (pulled at runtime from a hand-picked list of cards), which is why
+# there's no explicit `include:` list here — anything that isn't excluded
+# or borderline is presumed to be a real card-specific perk worth proposing.
+# ────────────────────────────────────────────────────────────────────────────
+
+# Cards used as few-shot examples in the extractor prompt. Their current
+# YAML is the ground truth for "what level of granularity I want".
+example_cards:
+  - chase-sapphire-preferred
+  - jetblue-plus-card
+  - disney-premier-visa-card
+  - wells-fargo-choice-privileges-select-mastercard
+  - atmos-rewards-summit
