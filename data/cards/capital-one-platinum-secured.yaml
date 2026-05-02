@@ -6,10 +6,16 @@ image: "capital-one-platinum-secured.png"
 category: "secured"
 annual_fee: 0
 tags:
-  - secured
-  - credit_builder
+  - "secured"
+  - "credit_builder"
 apr:
   regular:
     min: 28.99
     max: 28.99
-apply_link: https://www.capitalone.com/credit-cards/platinum-secured/
+apply_link: "https://www.capitalone.com/credit-cards/platinum-secured/"
+benefits:
+  - name: "Credit Bureau Reporting"
+    description: "Card activity is reported to all three major credit bureaus to help build credit history."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
