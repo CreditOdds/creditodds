@@ -133,6 +133,43 @@ function validateCard(card, schema, categoryIds) {
   return errors;
 }
 
+// Compute the current calendar quarter as a "Q<N> YYYY" string. Used to
+// surface stale `current_period` values on rotating-category cards
+// (Discover It, Chase Freedom Flex, etc.) so we don't silently keep
+// last quarter's bonus categories live on the site.
+function currentQuarterLabel(now = new Date()) {
+  const month = now.getUTCMonth(); // 0-indexed
+  const quarter = Math.floor(month / 3) + 1; // 1..4
+  return `Q${quarter} ${now.getUTCFullYear()}`;
+}
+
+// Walk the loaded cards looking for rotating-category rewards whose
+// `current_period` doesn't match the current calendar quarter. Returns an
+// array of { file, cardName, currentPeriod } entries — non-fatal warnings.
+function findStaleRotatingPeriods(cardsWithFiles) {
+  const expected = currentQuarterLabel();
+  const stale = [];
+  for (const { file, card } of cardsWithFiles) {
+    if (!card.rewards) continue;
+    for (const reward of card.rewards) {
+      if (reward.mode !== 'quarterly_rotating') continue;
+      if (!reward.current_period) {
+        // Card declares quarterly rotation but has no current_period set —
+        // worth flagging so the team fills it in once the new quarter's
+        // categories are announced.
+        stale.push({ file, cardName: card.name, currentPeriod: '(missing)', expected });
+        continue;
+      }
+      // Tolerate trivial whitespace / Q vs. q variations.
+      const norm = String(reward.current_period).trim().toUpperCase();
+      if (norm !== expected.toUpperCase()) {
+        stale.push({ file, cardName: card.name, currentPeriod: reward.current_period, expected });
+      }
+    }
+  }
+  return stale;
+}
+
 function buildCards() {
   console.log('Building cards.json from YAML files...\n');
 
@@ -140,6 +177,7 @@ function buildCards() {
   const categories = loadCategories();
   const categoryIds = new Set(categories.map(c => c.id));
   const cards = [];
+  const cardsWithFiles = [];
   const errors = [];
 
   // Read all YAML files in the cards directory
@@ -169,6 +207,7 @@ function buildCards() {
       delete card.check_ignore;
 
       cards.push(card);
+      cardsWithFiles.push({ file, card });
       console.log(`  OK: ${card.name}`);
     } catch (err) {
       errors.push({ file, errors: [err.message] });
@@ -187,6 +226,23 @@ function buildCards() {
       }
     }
     process.exit(1);
+  }
+
+  // Non-fatal warning: rotating-category cards whose current_period is stale.
+  // This protects against the failure mode where a card silently keeps last
+  // quarter's bonus categories live on the site after the new quarter starts —
+  // surfaced manually multiple times (e.g. Discover It Cash Back).
+  const staleRotations = findStaleRotatingPeriods(cardsWithFiles);
+  if (staleRotations.length > 0) {
+    console.warn(
+      `\n⚠️  ${staleRotations.length} card(s) have stale or missing rotating-category period (expected ${currentQuarterLabel()}):`
+    );
+    for (const { file, cardName, currentPeriod, expected } of staleRotations) {
+      console.warn(`  - ${cardName} (${file}): current_period="${currentPeriod}", expected "${expected}"`);
+    }
+    console.warn(
+      `  These won't fail the build — fix the YAML when you have the new quarter's categories.\n`
+    );
   }
 
   // Sort cards by name

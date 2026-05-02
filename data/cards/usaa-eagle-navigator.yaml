@@ -32,7 +32,7 @@ apr:
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
     value: 100
-    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fees, once every 4 years"
+    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fees, once"
     frequency: "every_4_years"
     category: "travel"
     enrollment_required: false
