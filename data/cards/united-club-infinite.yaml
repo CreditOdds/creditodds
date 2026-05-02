@@ -39,6 +39,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
+    frequency_years: 5
     category: "security"
   - name: "2 Free Checked Bags"
     value: 0

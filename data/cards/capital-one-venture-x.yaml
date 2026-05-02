@@ -30,6 +30,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
+    frequency_years: 5
     category: "security"
   - name: "Hertz President's Circle Status"
     value: 0
