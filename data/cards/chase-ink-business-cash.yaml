@@ -1,11 +1,11 @@
-name: "Ink Business Cash"
-bank: "Chase"
-slug: "chase-ink-business-cash"
-image: "chase_ink_business_cash.png"
+name: Ink Business Cash
+bank: Chase
+slug: chase-ink-business-cash
+image: chase_ink_business_cash.png
 accepting_applications: true
-category: "business"
+category: business
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 tags:
   - business
   - cashback
@@ -13,15 +13,15 @@ rewards:
   - category: online_shopping
     value: 5
     unit: percent
-    note: "Office supply stores, internet, cable, and phone services (first $25,000/year)"
+    note: Office supply stores, internet, cable, and phone services (first $25,000/year)
   - category: gas
     value: 2
     unit: percent
-    note: "Gas stations and restaurants (first $25,000/year)"
+    note: Gas stations and restaurants (first $25,000/year)
   - category: dining
     value: 2
     unit: percent
-    note: "Gas stations and restaurants (first $25,000/year)"
+    note: Gas stations and restaurants (first $25,000/year)
   - category: everything_else
     value: 1
     unit: percent
@@ -38,3 +38,15 @@ apr:
     min: 16.74
     max: 24.74
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/cash
+benefits:
+  - name: New Cardmember Bonus
+    value: 750
+    description: Earn $750 bonus cash back after you spend $6,000 on purchases in the first 3 months after account opening
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Automatic Credit Line Review
+    description: Automatically checked for a credit line increase every 6 months or sooner
+    frequency: semi_annual
+    category: other
+    enrollment_required: false
