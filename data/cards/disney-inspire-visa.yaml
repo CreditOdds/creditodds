@@ -12,11 +12,6 @@ benefits:
     description: "Annual statement credit for Disney purchases"
     frequency: "annual"
     category: "entertainment"
-  - name: "DisneyStore.com Discount"
-    description: "10% off select purchases at DisneyStore.com"
-    frequency: "per_purchase"
-    category: "shopping"
-    enrollment_required: false
 tags:
   - rewards
   - shopping
@@ -52,5 +47,5 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/inspire
-foreign_transaction_fee: false
+foreign_transaction_fee: true
 
