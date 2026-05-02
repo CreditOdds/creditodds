@@ -1,44 +1,50 @@
-name: "American Express Business Gold"
-bank: "American Express"
-slug: "american-express-business-gold-card"
+name: American Express Business Gold
+bank: American Express
+slug: american-express-business-gold-card
 accepting_applications: true
-category: "business"
-image: "american-express-business-gold.png"
+category: business
+image: american-express-business-gold.png
 annual_fee: 375
-reward_type: "points"
+reward_type: points
 rewards:
   - category: everything_else
-    value: 4
+    value: 1
     unit: points_per_dollar
-    note: "4x on top 2 categories where you spend the most each billing cycle (from 6 eligible categories), on first $150,000/year"
+    note: 4x on top 2 categories where you spend the most each billing cycle (from 6 eligible categories), on first $150,000/year
   - category: travel_portal
     value: 3
     unit: points_per_dollar
-    note: "Flights and prepaid hotels booked via AmexTravel.com"
+    note: Flights and prepaid hotels booked via AmexTravel.com
 signup_bonus:
   value: 100000
   type: points
   spend_requirement: 15000
   timeframe_months: 3
 benefits:
-  - name: "Business Statement Credits"
+  - name: Business Statement Credits
     value: 240
-    description: "Up to $20/month in statement credits on eligible U.S. purchases at FedEx, Grubhub, and office supply stores"
-    frequency: "monthly"
-    category: "other"
+    description: Up to $20/month in statement credits on eligible U.S. purchases at FedEx, Grubhub, and office supply stores
+    frequency: monthly
+    category: other
     enrollment_required: true
-  - name: "ChatGPT Credits"
+  - name: ChatGPT Credits
     value: 300
-    description: "$300 in annual ChatGPT credits for AI-powered productivity tools"
-    frequency: "annual"
-    category: "other"
+    description: $300 in annual ChatGPT credits for AI-powered productivity tools
+    frequency: annual
+    category: other
     enrollment_required: true
-  - name: "Walmart+ Credit"
+  - name: Walmart+ Credit
     value: 155
-    description: "Up to $12.95/month plus applicable taxes toward one monthly Walmart+ membership"
-    frequency: "monthly"
-    category: "shopping"
+    description: Up to $12.95/month plus applicable taxes toward one monthly Walmart+ membership
+    frequency: monthly
+    category: shopping
     enrollment_required: true
+  - name: Walmart+ Monthly Membership Credit
+    value: 155
+    description: Statement credit for monthly Walmart+ membership subscription.
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
 tags:
   - business
   - rewards
