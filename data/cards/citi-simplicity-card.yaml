@@ -6,7 +6,7 @@ image: "citi-simplicity.png"
 annual_fee: 0
 category: "balance_transfer"
 tags:
-  - balance_transfer
+  - "balance_transfer"
 apr:
   purchase_intro:
     rate: 0
@@ -17,4 +17,46 @@ apr:
   regular:
     min: 17.49
     max: 28.24
-apply_link: https://www.citi.com/credit-cards/citi-simplicity-credit-card
+apply_link: "https://www.citi.com/credit-cards/citi-simplicity-credit-card"
+foreign_transaction_fee: true
+benefits:
+  - name: "No Late Fees"
+    description: "No late fees charged on missed payments."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "No Penalty Rate"
+    description: "No penalty APR applied for late payments."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "No Annual Fee"
+    description: "No annual fee ever charged on the card."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Flexible Payment Due Date"
+    description: "Choose your payment due date in the beginning, middle, or end of the month."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Automatic Account Alerts"
+    description: "Alerts keep you informed about balance levels, payments due, or credit limit status via email or mobile phone."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Contactless Pay"
+    description: "Tap your card on payment readers for quick, secure transactions."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "Digital Wallets"
+    description: "Shop with confidence using digital wallets in millions of places online, within apps, and in stores."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "24/7 Customer Service"
+    description: "Access to live customer service representatives 24 hours a day, 365 days a year."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
