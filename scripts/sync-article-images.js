@@ -284,7 +284,9 @@ function buildSocialPanelSvg(article) {
   const eyebrow = getEyebrow(article);
   const HEAD_SIZE = 60;
   const HEAD_LH = 72;
-  const HEAD_TOP = 220;
+  // Eyebrow baseline is at y=172. Headline top ≈ HEAD_TOP - HEAD_SIZE,
+  // so HEAD_TOP=248 leaves ~16px of breathing room between them.
+  const HEAD_TOP = 248;
   const PAD_X = 56;
   const FONT = "-apple-system, 'Helvetica Neue', Arial, sans-serif";
   const headlineEndY = HEAD_TOP + (lines.length - 1) * HEAD_LH;
