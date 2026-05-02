@@ -36,28 +36,60 @@ benefits:
     description: "Complimentary Hertz President's Circle elite status"
     frequency: "ongoing"
     category: "travel"
+  - name: "Price Drop Protection"
+    value: 50
+    description: "Up to $50 in travel credit if booked flight price drops within 10 days"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for the difference if better price found within 24 hours of booking flight, hotel, or rental car"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Cancellation Option"
+    description: "Cancel flight up to 3 hours before departure and receive refund of most booking cost"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Alert Monitoring"
+    description: "24/7 flight price monitoring with notifications when prices drop"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "PRIOR Subscription"
+    value: 149
+    description: "Complimentary PRIOR Subscription for access to travel experiences and destination guides"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "The Cultivist Membership Discount"
+    description: "50% off Enthusiast membership to The Cultivist for up to 2 years with access to 60+ world museums"
+    frequency: "multi_year"
+    category: "entertainment"
+    enrollment_required: false
 tags:
-  - travel
-  - premium
-  - rewards
+  - "travel"
+  - "premium"
+  - "rewards"
 reward_type: "miles"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 10
-    unit: points_per_dollar
-  - category: flights_portal
+    unit: "points_per_dollar"
+  - category: "flights_portal"
     value: 5
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 2
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 75000
-  type: miles
+  type: "miles"
   spend_requirement: 4000
   timeframe_months: 3
 apr:
   regular:
     min: 19.49
     max: 28.49
-apply_link: https://www.capitalone.com/credit-cards/venture-x/
+apply_link: "https://www.capitalone.com/credit-cards/venture-x/"
