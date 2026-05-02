@@ -32,7 +32,7 @@ signup_bonus:
   timeframe_months: 6
 benefits:
   - name: "One AP Statement Credits"
-    value: 2400
+    value: 0
     description: "Up to $2,400 in statement credits for American Express One AP monthly fees after spending $250,000 on eligible purchases in the calendar year"
     frequency: "annual"
     category: "statement_credit"
