@@ -34,8 +34,8 @@ apr:
 apply_link: https://www.capitalone.com/credit-cards/quicksilver/
 benefits:
   - name: "Price Drop Protection"
-    value: 50
-    description: "Up to $50 in travel credit if booked flight price drops within 10 days."
+    value: 0
+    description: "Up to $50 in travel credit if a booked flight price drops within 10 days of purchase through Capital One Travel."
     frequency: "per_trip"
     category: "travel"
     enrollment_required: false
