@@ -28,3 +28,9 @@ apr:
     min: 26.49
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/secured-credit-card/
+benefits:
+  - name: "Fraud Liability Protection"
+    description: "$0 fraud liability on unauthorized purchases."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
