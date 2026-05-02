@@ -16,6 +16,16 @@ benefits:
     description: "Complimentary DoorDash DashPass membership"
     frequency: "ongoing"
     category: "dining"
+  - name: "Anniversary Bonus Points"
+    description: "Earn bonus points equal to 10% of total purchases made the previous year on each account anniversary."
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "5x Points on Peloton"
+    description: "Earn 5x total points on eligible Peloton equipment and accessory purchases over $150 through December 31, 2027."
+    frequency: "per_purchase"
+    category: "fitness"
+    enrollment_required: false
 tags:
   - travel
   - dining
@@ -51,3 +61,4 @@ apr:
     min: 19.24
     max: 27.49
 apply_link: https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred
+foreign_transaction_fee: false
