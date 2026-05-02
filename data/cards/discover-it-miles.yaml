@@ -6,12 +6,12 @@ image: "discover-it-miles.png"
 annual_fee: 0
 reward_type: "miles"
 tags:
-  - travel
-  - rewards
+  - "travel"
+  - "rewards"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 1.5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 apr:
   purchase_intro:
     rate: 0
@@ -22,4 +22,30 @@ apr:
   regular:
     min: 17.49
     max: 26.49
-apply_link: https://www.discover.com/credit-cards/travel/
+apply_link: "https://www.discover.com/credit-cards/travel/"
+benefits:
+  - name: "Miles Match Bonus"
+    description: "Discover automatically matches all Miles earned at the end of your first year with no limit, minimum spending, or maximum rewards."
+    frequency: "one_time"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Free Social Security Number Alerts"
+    description: "Get an alert if your Social Security number is found on the dark web."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: true
+  - name: "Account Freeze"
+    description: "Prevent new purchases and cash advances instantly using the on/off switch on the mobile app and website if your card is lost."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "Free FICO Score"
+    description: "Free access to check your FICO Score without impacting your credit."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "24/7 Customer Service"
+    description: "Access to real human customer service representatives available 24/7."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
