@@ -20,7 +20,7 @@ benefits:
     value: 240
     description: "Up to $240 in annual statement credits on eligible Turo car rental trips"
     frequency: "annual"
-    category: "statement_credit"
+    category: "car_rental"
     enrollment_required: true
   - name: "Inflight Purchase Credit"
     value: 100
@@ -37,15 +37,9 @@ benefits:
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
-    frequency: "every_4_years"
-    category: "travel"
-    enrollment_required: false
-  - name: "Flight Streak Bonus"
-    value: 5000
-    value_unit: "miles"
-    description: "5,000 Loyalty Point bonus after every 4 qualifying American Airlines flights, up to 15,000 additional Loyalty Points per status qualification year"
-    frequency: "per_flight"
-    category: "rewards"
+    frequency: "multi_year"
+    frequency_years: 5
+    category: "security"
     enrollment_required: false
   - name: "Companion Certificate"
     description: "American Airlines Companion Certificate for a single qualifying round-trip main cabin domestic flight starting in the second cardmembership year upon renewal"
