@@ -7,33 +7,33 @@ category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - dining
-  - entertainment
-  - rewards
+  - "cashback"
+  - "dining"
+  - "entertainment"
+  - "rewards"
 rewards:
-  - category: entertainment
+  - category: "entertainment"
     value: 3
-    unit: percent
+    unit: "percent"
     note: "Also 8% on Capital One Entertainment"
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: percent
-  - category: groceries
+    unit: "percent"
+  - category: "groceries"
     value: 3
-    unit: percent
-  - category: streaming
+    unit: "percent"
+  - category: "streaming"
     value: 3
-    unit: percent
-  - category: hotels_car_portal
+    unit: "percent"
+  - category: "hotels_car_portal"
     value: 5
-    unit: percent
-  - category: everything_else
+    unit: "percent"
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -46,4 +46,27 @@ apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://www.capitalone.com/credit-cards/savor/
+apply_link: "https://www.capitalone.com/credit-cards/savor/"
+foreign_transaction_fee: false
+benefits:
+  - name: "Price Drop Protection"
+    value: 50
+    description: "Up to $50 travel credit if your booked flight price drops within 10 days through Capital One Travel"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for the difference if you find a better price on flights, hotels or rental cars within 24 hours of booking"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Cancellation Flexibility"
+    description: "Cancel flights up to 3 hours before departure and get most of your booking cost refunded"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Price Alerts"
+    description: "24/7 price monitoring on flights with alerts when prices drop"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
