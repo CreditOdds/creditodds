@@ -1,22 +1,57 @@
-name: "Wells Fargo Autograph Journey"
-bank: "Wells Fargo"
-slug: "wells-fargo-autograph-journey"
+name: Wells Fargo Autograph Journey
+bank: Wells Fargo
+slug: wells-fargo-autograph-journey
 accepting_applications: true
-image: "wells-fargo-autograph-journey.png"
-category: "travel"
+image: wells-fargo-autograph-journey.png
+category: travel
 annual_fee: 95
-reward_type: "points"
+reward_type: points
 benefits:
-  - name: "Annual Airline Credit"
+  - name: Annual Airline Credit
     value: 100
-    description: "Annual credit for airline purchases"
-    frequency: "annual"
-    category: "travel"
-  - name: "Cell Phone Protection"
+    description: Annual credit for airline purchases
+    frequency: annual
+    category: travel
+  - name: Cell Phone Protection
     value: 0
-    description: "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card"
-    frequency: "ongoing"
-    category: "other"
+    description: Up to $800 per claim for cell phone damage or theft when you pay your bill with the card
+    frequency: ongoing
+    category: other
+  - name: Welcome Bonus
+    value: 60000
+    value_unit: points
+    description: Earn 60,000 bonus points when you spend $4,000 in purchases in the first 3 months
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Annual Airline Statement Credit
+    value: 50
+    description: $50 annual statement credit with $50 minimum airline purchase
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Lost Baggage Reimbursement
+    value: 3000
+    description: Receive up to $3,000 in luggage reimbursement per trip if bags are lost due to theft or misdirection
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Cellular Telephone Protection
+    value: 1000
+    description: Get up to $1,000 of cell phone protection against damage, theft, or unintended separation, subject to $25 deductible
+    frequency: per_claim
+    category: other
+    enrollment_required: false
+  - name: Roadside Dispatch
+    description: 24/7 roadside dispatch services with no membership required
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Emergency Cash Disbursement and Card Replacement
+    description: Get emergency cash advance or card replacement within one to three business days after approval
+    frequency: per_claim
+    category: other
+    enrollment_required: false
 tags:
   - travel
   - rewards
@@ -47,3 +82,4 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card
+foreign_transaction_fee: false
