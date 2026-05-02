@@ -21,6 +21,11 @@ benefits:
     description: "5 qualifying night credits toward Hyatt elite status each year"
     frequency: "annual"
     category: "hotel"
+  - name: "DoorDash DashPass"
+    description: "One-year complimentary DashPass membership with unlimited deliveries and $0 delivery fees"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
 tags:
   - hotel
   - travel
@@ -54,3 +59,4 @@ apr:
     min: 19.24
     max: 29.99
 apply_link: https://creditcards.chase.com/travel-credit-cards/world-of-hyatt-credit-card
+foreign_transaction_fee: false

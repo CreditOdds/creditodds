@@ -289,7 +289,7 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
     {
       "name": "<short benefit name>",
       "value": <number or 0 if perk has no monetary value>,
-      "value_unit": "usd" | "points" | "miles",
+      "value_unit": "usd" | "points" | "miles" | "percent",
       "description": "<one short sentence>",
       "frequency": "monthly" | "quarterly" | "semi_annual" | "annual" | "multi_year" | "ongoing" | "per_purchase" | "per_flight" | "per_trip" | "per_visit" | "per_rental" | "per_claim" | "every_4_years" | "one_time",
       "category": "dining" | "dining_travel" | "travel" | "hotel" | "entertainment" | "shopping" | "fitness" | "lounge" | "security" | "gas" | "streaming" | "grocery" | "rideshare" | "telecom" | "statement_credit" | "rewards" | "other",
@@ -359,8 +359,25 @@ bag"), an elite status tier, or a clearly free recurring service.
 - DO NOT include the welcome/signup bonus as a benefit. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
 - DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — Visa/Mastercard network-tier features on every card.
 
-# FIELD RULES
-- "value_unit": "usd" for dollar credits, "points" for point-denominated awards, "miles" for mile-denominated. Default is "usd".
+# FIELD RULES — value + value_unit
+The \`value\` is a number, paired with a \`value_unit\` that says what the
+number means. CRITICAL: never put a percentage in \`value\` without setting
+\`value_unit: "percent"\` — \`value: 5\` with no unit means "$5", which is
+WRONG for a "5% rebate" benefit.
+
+- \`value_unit: "usd"\` — dollar credits/rebates. Default. Examples:
+  "$300 travel credit" → value=300, value_unit=usd (or omitted).
+  "Up to $100 statement credit" → value=100.
+- \`value_unit: "points"\` — point-denominated awards. Examples:
+  "10,000 anniversary points" → value=10000, value_unit=points.
+- \`value_unit: "miles"\` — mile-denominated awards. Examples:
+  "10,000 mile award flight discount" → value=10000, value_unit=miles.
+- \`value_unit: "percent"\` — percentage rebates, discounts, or back-rates.
+  Use this whenever the value represents a percent of something. Examples:
+  "25% inflight purchase rebate" → value=25, value_unit=percent.
+  "5% off Hertz Pay Later rates" → value=5, value_unit=percent.
+  "2% Booking.com travel credit" → value=2, value_unit=percent.
+
 - "foreign_transaction_fee": true if the card charges one, false if not. null only if the page truly doesn't say.
 - For ELITE-NIGHT-CREDIT or TIER-QUALIFYING-NIGHT type benefits, use \`value: 0\` and OMIT \`value_unit\` — non-monetary count perks. The count goes in the description (e.g. "5 elite night credits each year").
 - For elite STATUS perks (e.g. "Automatic Diamond Status"), use \`value: 0\` and put the tier name in the description.
@@ -475,6 +492,13 @@ function normalizeRewardsUnits(rewards) {
 
 function diffRewards(current, proposed) {
   // Returns { added, removed, changed } by category id.
+  //
+  // IMPORTANT: we only emit a "changed" entry when the unit MATCHES. A unit
+  // flip (e.g. points_per_dollar → percent) is almost always an LLM
+  // misreading — the apply page often advertises an alt-redemption rate
+  // ("4% Bilt Cash on everyday purchases") that the model treats as the
+  // earn rate. Drop those silently rather than overwriting the human-curated
+  // earn rate with the wrong unit.
   const cur = new Map((current || []).map(r => [r.category, r]));
   const prop = new Map((proposed || []).map(r => [r.category, r]));
   const added = [];
@@ -482,8 +506,14 @@ function diffRewards(current, proposed) {
   const changed = [];
   for (const [cat, p] of prop) {
     const c = cur.get(cat);
-    if (!c) added.push(p);
-    else if (c.value !== p.value || c.unit !== p.unit) changed.push({ from: c, to: p });
+    if (!c) {
+      added.push(p);
+    } else if (c.unit !== p.unit) {
+      // Unit mismatch — skip; almost always an LLM misread.
+      continue;
+    } else if (c.value !== p.value) {
+      changed.push({ from: c, to: p });
+    }
   }
   for (const [cat, c] of cur) {
     if (!prop.has(cat)) removed.push(c);
@@ -655,6 +685,23 @@ function hasMonetaryValue(b) {
   return false;
 }
 
+// If the LLM emitted a small `value` (≤100) and the description shows a
+// matching "N%" pattern but didn't set `value_unit`, infer "percent". This
+// is a safety net — the prompt now explicitly asks for value_unit:"percent"
+// for percentage rebates, but cheaper to also normalize here than re-run.
+function normalizeBenefitUnit(b) {
+  if (!b || typeof b !== 'object') return b;
+  if (b.value_unit) return b; // already set, trust it
+  if (typeof b.value !== 'number' || b.value <= 0 || b.value > 100) return b;
+  const desc = String(b.description || '');
+  // Match "<value>%" anywhere in the description.
+  const pctRe = new RegExp(`\\b${b.value}\\s*%`);
+  if (pctRe.test(desc)) {
+    return { ...b, value_unit: 'percent' };
+  }
+  return b;
+}
+
 function diffBenefits(current, proposed, policy, removedFromThisCard) {
   // Each proposed benefit is routed by classifyBenefit(); only "auto" routes
   // into the YAML. Existing benefits aren't touched (the human curated those).
@@ -662,7 +709,8 @@ function diffBenefits(current, proposed, policy, removedFromThisCard) {
   const auto = [];
   const review = [];
   const skipped = [];
-  for (const b of proposed || []) {
+  for (const raw of proposed || []) {
+    const b = normalizeBenefitUnit(raw);
     // Exact-name dedup
     if (currentNames.includes(b.name)) {
       skipped.push({ ...b, tier: 'duplicate_exact' });
@@ -697,68 +745,181 @@ function diffForeignTxn(current, proposed) {
 }
 
 // ─── YAML mutation ──────────────────────────────────────────────────────────
+//
+// We do NOT full-re-dump the YAML (`yaml.dump(data)`) because the repo's
+// hand-written cards have inconsistent quoting style — some fields are
+// quoted, some aren't, tags and category ids are usually unquoted, etc.
+// Any full re-dump produces 30+ lines of cosmetic diff per card, which
+// drowns the actual signal.
+//
+// Instead, we do surgical edits to the original file text:
+//   - FTF: regex-replace the existing `foreign_transaction_fee:` line, or
+//     insert a new one near the top of the file.
+//   - Rewards: find the `- category: <id>` block and edit just the `value:`
+//     line beneath it. (Unit edits are rejected by diffRewards now.)
+//   - Benefits: append YAML-formatted entries to the existing `benefits:`
+//     block, or create a new block at the end of the file if missing.
+//
+// The result: PR diffs show only the lines that actually changed.
+
+// YAML-quote a string value the way the repo's existing cards do — wrap
+// in double quotes and escape embedded quotes/backslashes.
+function ymlString(s) {
+  return '"' + String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+}
+
+// Render one benefit object as a YAML list-item block matching the repo
+// style. Field order mirrors the existing hand-curated cards. `indent` is
+// the column where the `-` lives; field lines sit at `indent + 2` so they
+// line up with the `name:` key after `- `.
+function renderBenefitBlock(b, indent = '  ') {
+  const fieldIndent = indent + '  ';
+  const lines = [];
+  lines.push(`${indent}- name: ${ymlString(b.name)}`);
+  if (typeof b.value === 'number' && b.value > 0) {
+    lines.push(`${fieldIndent}value: ${b.value}`);
+  }
+  if (b.value_unit && b.value_unit !== 'usd') {
+    lines.push(`${fieldIndent}value_unit: ${ymlString(b.value_unit)}`);
+  }
+  if (b.description) {
+    lines.push(`${fieldIndent}description: ${ymlString(b.description)}`);
+  }
+  if (b.frequency) {
+    lines.push(`${fieldIndent}frequency: ${ymlString(b.frequency)}`);
+  }
+  if (b.category) {
+    lines.push(`${fieldIndent}category: ${ymlString(b.category)}`);
+  }
+  lines.push(`${fieldIndent}enrollment_required: ${b.enrollment_required ? 'true' : 'false'}`);
+  return lines.join('\n');
+}
+
+// Edit the `value:` for a specific reward category in place. We locate the
+// `- category: <id>` line (allowing optional quotes around the id), then
+// edit the immediately-following `value:` line. We do NOT touch `unit:`
+// because diffRewards already rejected unit-mismatch updates.
+function editRewardValue(text, categoryId, newValue) {
+  // Match: `  - category: airlines` or `  - category: "airlines"` (with any leading indent).
+  const catRe = new RegExp(
+    String.raw`^(\s*-\s*category:\s*"?)${categoryId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}("?\s*)$`,
+    'm'
+  );
+  const m = text.match(catRe);
+  if (!m) return { text, changed: false };
+  // Find the `value:` line within the next ~6 lines after the category line.
+  const after = text.slice(m.index + m[0].length);
+  const lines = after.split('\n');
+  for (let i = 0; i < Math.min(lines.length, 8); i++) {
+    const valM = lines[i].match(/^(\s*)value:\s*[\d.]+(\s*)$/);
+    if (valM) {
+      lines[i] = `${valM[1]}value: ${newValue}${valM[2]}`;
+      const newAfter = lines.join('\n');
+      return { text: text.slice(0, m.index + m[0].length) + newAfter, changed: true };
+    }
+    // Bail if we hit the next list item or a non-indented line.
+    if (/^\s*-\s/.test(lines[i]) || /^\S/.test(lines[i])) break;
+  }
+  return { text, changed: false };
+}
+
+// Set or insert the foreign_transaction_fee field. If the line already
+// exists (true/false/null), edit it. Otherwise insert it after `apply_link:`
+// or at the end of the top-level fields (before any nested blocks).
+function setForeignTransactionFee(text, newVal) {
+  const valStr = newVal === true ? 'true' : newVal === false ? 'false' : 'null';
+  const re = /^foreign_transaction_fee:\s*(true|false|null|~)\s*$/m;
+  if (re.test(text)) {
+    return { text: text.replace(re, `foreign_transaction_fee: ${valStr}`), changed: true };
+  }
+  // Insert after apply_link (most common location in existing cards).
+  const applyRe = /^(apply_link:\s*[^\n]+)$/m;
+  const aM = text.match(applyRe);
+  if (aM) {
+    const insertAt = aM.index + aM[0].length;
+    return {
+      text: text.slice(0, insertAt) + `\nforeign_transaction_fee: ${valStr}` + text.slice(insertAt),
+      changed: true,
+    };
+  }
+  // Fallback: append before the first multiline block (rewards:/benefits:/apr:/tags:/signup_bonus:).
+  const blockRe = /^(rewards|benefits|apr|tags|signup_bonus):\s*$/m;
+  const bM = text.match(blockRe);
+  if (bM) {
+    return {
+      text: text.slice(0, bM.index) + `foreign_transaction_fee: ${valStr}\n` + text.slice(bM.index),
+      changed: true,
+    };
+  }
+  // Last-resort: append at end.
+  const trimmed = text.replace(/\n+$/, '');
+  return { text: `${trimmed}\nforeign_transaction_fee: ${valStr}\n`, changed: true };
+}
+
+// Append benefits to the existing `benefits:` block (preserving everything
+// already there), or create a new `benefits:` block at the end of the file
+// if no block exists.
+function appendBenefits(text, newBenefits) {
+  if (newBenefits.length === 0) return { text, changed: false };
+  const blocks = newBenefits.map(b => renderBenefitBlock(b)).join('\n');
+
+  // Locate `^benefits:` at column 0.
+  const bRe = /^benefits:\s*$/m;
+  const m = text.match(bRe);
+  if (m) {
+    // Find the end of the benefits block — the next top-level key or EOF.
+    // A top-level key starts with `[a-zA-Z_]` at column 0.
+    const after = text.slice(m.index + m[0].length);
+    const nextTopRe = /\n([a-zA-Z_][a-zA-Z0-9_]*:)/;
+    const nM = after.match(nextTopRe);
+    const blockEndOffset =
+      m.index + m[0].length + (nM ? nM.index + 1 : after.length);
+    const before = text.slice(0, blockEndOffset).replace(/\n+$/, '');
+    const tail = text.slice(blockEndOffset);
+    return {
+      text: `${before}\n${blocks}` + (tail ? `\n${tail.replace(/^\n+/, '')}` : '\n'),
+      changed: true,
+    };
+  }
+  // No existing block — append at end.
+  const trimmed = text.replace(/\n+$/, '');
+  return { text: `${trimmed}\nbenefits:\n${blocks}\n`, changed: true };
+}
 
 function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
-  let yamlText = card.content;
-  const data = yaml.load(yamlText);
+  let text = card.content;
   let modified = false;
 
-  // FTF — top-level flag
+  // FTF — single-line edit or insert
   if (ftxnDiff && ftxnDiff.to !== undefined) {
-    data.foreign_transaction_fee = ftxnDiff.to;
-    modified = true;
-  }
-
-  // Rewards — overwrite values for changed categories; do NOT auto-add new
-  // categories or remove existing ones (those need human review).
-  if (rewardsDiff.changed.length > 0) {
-    const cur = new Map((data.rewards || []).map(r => [r.category, r]));
-    for (const { to } of rewardsDiff.changed) {
-      const r = cur.get(to.category);
-      if (r) {
-        r.value = to.value;
-        r.unit = to.unit;
-        if (to.note) r.note = to.note;
-        modified = true;
-      }
+    const r = setForeignTransactionFee(text, ftxnDiff.to);
+    if (r.changed) {
+      text = r.text;
+      modified = true;
     }
-    data.rewards = Array.from(cur.values());
   }
 
-  // Benefits — append auto-tier additions
+  // Rewards — overwrite the `value:` line for changed categories only.
+  // (Unit changes are rejected upstream by diffRewards.)
+  for (const { to } of rewardsDiff.changed) {
+    const r = editRewardValue(text, to.category, to.value);
+    if (r.changed) {
+      text = r.text;
+      modified = true;
+    }
+  }
+
+  // Benefits — append-only, never rewrite existing entries.
   if (benefitsDiff.auto.length > 0) {
-    if (!data.benefits) data.benefits = [];
-    for (const b of benefitsDiff.auto) {
-      data.benefits.push({
-        name: b.name,
-        ...(b.value > 0 ? { value: b.value } : {}),
-        ...(b.value_unit && b.value_unit !== 'usd' ? { value_unit: b.value_unit } : {}),
-        description: b.description,
-        frequency: b.frequency,
-        category: b.category,
-        enrollment_required: !!b.enrollment_required,
-      });
+    const r = appendBenefits(text, benefitsDiff.auto);
+    if (r.changed) {
+      text = r.text;
+      modified = true;
     }
-    modified = true;
   }
 
   if (!modified) return false;
-
-  // Re-serialize. We use full re-dump to avoid the regex-based field-replacement
-  // hairiness in check-card-pages.js — the diff size is small per card so a
-  // re-dump is fine and gives stable formatting.
-  // forceQuotes:true matches the existing repo style (most YAMLs already
-  // double-quote string values) and keeps the diff stable — without it,
-  // js-yaml strips quotes from already-quoted simple strings like `bank: "Chase"`,
-  // producing huge cosmetic diffs across every card the script touches.
-  const newYaml = yaml.dump(data, {
-    quotingType: '"',
-    forceQuotes: true,
-    lineWidth: -1,
-    sortKeys: false,
-    noRefs: true,
-  });
-  fs.writeFileSync(card.filepath, newYaml);
+  fs.writeFileSync(card.filepath, text);
   return true;
 }
 
