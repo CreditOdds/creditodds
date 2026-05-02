@@ -1,12 +1,12 @@
-name: "JetBlue"
-bank: "Barclays"
-slug: "jetblue-card"
+name: JetBlue
+bank: Barclays
+slug: jetblue-card
 accepting_applications: true
 apply_link: https://cards.barclaycardus.com/banking/cards/jetblue-card/
-category: "travel"
-image: "barclays-jetblue.png"
+category: travel
+image: barclays-jetblue.png
 annual_fee: 0
-reward_type: "points"
+reward_type: points
 tags:
   - travel
   - airline
@@ -15,7 +15,7 @@ rewards:
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "JetBlue purchases"
+    note: JetBlue purchases
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -37,3 +37,22 @@ apr:
   regular:
     min: 19.74
     max: 29.74
+foreign_transaction_fee: false
+benefits:
+  - name: Welcome Bonus
+    value: 10000
+    value_unit: points
+    description: Earn 10,000 bonus TrueBlue points after spending $1,000 on purchases in the first 90 days
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: 50% Off Inflight Purchases
+    description: 50% savings on eligible inflight purchases on JetBlue-operated flights
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: Earn Mosaic Status
+    description: Earn toward Mosaic elite status with every purchase
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
