@@ -32,3 +32,17 @@ apr:
     min: 17.49
     max: 27.74
 apply_link: https://www.apple.com/apple-card/
+foreign_transaction_fee: false
+benefits:
+  - name: "Booking.com Travel Credits"
+    value: 2
+    description: "2% in Booking.com Travel Credits on eligible stays and car rentals (in addition to 3% Daily Cash back)"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: true
+  - name: "Hertz Rental Car Savings"
+    value: 5
+    description: "At least 5% off Pay Later base rates, free emergency roadside service, discounted loss damage waiver, and free additional driver"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: true
