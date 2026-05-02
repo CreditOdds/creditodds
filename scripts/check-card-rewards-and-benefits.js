@@ -300,18 +300,78 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
 }
 
 Rules:
-- "rewards" describes per-CATEGORY EARN RATES on spend (e.g. "5% on dining", "3x points on travel"). Use category ids that already appear in the example cards below.
-- "benefits" describes NON-SPEND PERKS — statement credits, free checked bag, lounge access, status, anniversary bonuses. Do NOT put earn rates here.
-- "value_unit": use "usd" for dollar credits ("$300 travel credit"), "points" for point-denominated awards (e.g. 10,000 anniversary points), "miles" for mile-denominated. The default is "usd".
-- "foreign_transaction_fee": true if the card charges a foreign transaction fee, false if not. null only if the page truly doesn't say.
-- DO NOT include redemption mechanics (e.g. "Points Payback", "no blackout dates"), generic federal-law standards (e.g. "$0 Fraud Liability"), or network-tier perks (e.g. "Visa Signature Concierge", "Mastercard World Elite Benefits"). Those are filtered out post-extraction but it's cleaner if you don't include them.
-- DO NOT include "Pay Over Time", "ExtendPay", "0% intro APR" entries — those are financing features, not benefits.
+
+# WHAT COUNTS AS A "BENEFIT"
+A benefit is a FREE thing of QUANTIFIABLE MONETARY VALUE that you get from
+holding this specific card. Examples of real benefits:
+  - "$300 annual travel credit"
+  - "Free checked bag for cardholder + 8 companions"
+  - "Companion certificate after $30K spend"
+  - "10,000 anniversary points each year"
+  - "Free unlimited Priority Pass lounge access"
+  - "Anniversary free night award (up to 35,000 points)"
+  - "25% inflight purchase rebate"
+  - "Automatic Diamond elite status"
+  - "Global Entry / TSA PreCheck application fee credit ($100)"
+
+When in doubt, UNDER-report. We'd rather miss a real benefit than list a
+non-benefit. Only include items you can clearly describe with either a
+dollar amount, a point/mile amount, a free count (e.g. "free first checked
+bag"), an elite status tier, or a clearly free recurring service.
+
+# DO NOT INCLUDE — these are CARD FEATURES, not benefits
+- "Paperless Statements", "eStatements", "Digital Statements" — features.
+- "No Annual Fee", "$0 Annual Fee" — that's the \`annual_fee\` field.
+- "Foreign Transaction Fee", "No Foreign Transaction Fees" — that's the
+  \`foreign_transaction_fee\` field. NEVER list this in \`benefits[]\`.
+- "Mobile Wallet", "Digital Wallet", "Apple Pay", "Google Pay",
+  "Contactless Payment", "Tap to Pay" — every modern card has these.
+- "Mobile App", "Online Banking", "Account Alerts", "Autopay" — features.
+- "Card Design", "Custom Card Design" — cosmetic.
+- "FICO Score", "Credit Close-Up", "Credit Monitoring" — issuer-platform
+  features available to all the bank's customers.
+
+# DO NOT INCLUDE — issuer-platform "deals" portals
+- "My Wells Fargo Deals", "Chase Offers", "BankAmeriDeals", "Citi Merchant
+  Offers", "Capital One Offers", "Card Exclusives", "Cardmember Exclusives",
+  "Autograph Card Exclusives" — vague platform-wide marketing programs, not
+  card-specific perks.
+
+# DO NOT INCLUDE — vague / unquantifiable
+- "Exclusive access to events" without a specific recurring value.
+- "Special offers" / "Hand-picked offers" / "Curated experiences".
+- "Concierge service" without a specific dollar value.
+- Anything described only with marketing adjectives ("premium", "elite",
+  "exclusive") and no concrete amount or quantity.
+
+# DO NOT INCLUDE — pay-to-use / opt-in-fee features
+- "LoungeKey" or "Pay-as-you-go Lounge Access" where you must pay per visit.
+- "Priority Pass" ONLY counts as a benefit if access is FREE (unlimited or
+  N free visits per year). If the page says "with pay-per-visit pricing"
+  or "members rate" or similar, OMIT it.
+
+# DO NOT INCLUDE — earn / redemption / finance mechanics
+- "rewards" describes per-CATEGORY EARN RATES on spend (e.g. "5% on dining"). Use category ids that already appear in the example cards below.
+- DO NOT include redemption mechanics (e.g. "Points Payback", "no blackout dates"), generic federal-law standards (e.g. "$0 Fraud Liability"), or network-tier perks (e.g. "Visa Signature Concierge", "Mastercard World Elite Benefits").
+- DO NOT include "Pay Over Time", "ExtendPay", "0% intro APR" entries — financing features, not benefits.
 - DO NOT include earning multipliers (e.g. "10% bonus on points earned") — describe earn rates only in "rewards".
 - DO NOT include "Free Employee Cards" or other generic business-card platform features.
-- DO NOT include the welcome/signup bonus as a benefit. The card's signup bonus is captured separately in the YAML's \`signup_bonus:\` block. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
-- DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — those are Visa/Mastercard network-tier features available on every card on the network.
-- For ELITE-NIGHT-CREDIT or TIER-QUALIFYING-NIGHT type benefits (hotel cobrand cards), use \`value: 0\` and OMIT the \`value_unit\` field — these are non-monetary count perks, not point or dollar values. The count itself goes in the description (e.g. "5 elite night credits each year toward Marriott Bonvoy elite status qualification").
+- DO NOT include the welcome/signup bonus as a benefit. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
+- DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — Visa/Mastercard network-tier features on every card.
+
+# FIELD RULES
+- "value_unit": "usd" for dollar credits, "points" for point-denominated awards, "miles" for mile-denominated. Default is "usd".
+- "foreign_transaction_fee": true if the card charges one, false if not. null only if the page truly doesn't say.
+- For ELITE-NIGHT-CREDIT or TIER-QUALIFYING-NIGHT type benefits, use \`value: 0\` and OMIT \`value_unit\` — non-monetary count perks. The count goes in the description (e.g. "5 elite night credits each year").
+- For elite STATUS perks (e.g. "Automatic Diamond Status"), use \`value: 0\` and put the tier name in the description.
 - STRIKETHROUGH TEXT in [STRIKETHROUGH: ...] markers is expired/old; ignore those values.
+
+# CALIBRATION
+We currently have ~80 cards. A typical week should produce ≤10–15 truly new
+benefits across all cards. If you find yourself listing more than 2–3 new
+benefits for one card, you're probably over-reporting — re-read each one and
+ask: "Is this a free thing with concrete monetary value, or is it just a
+feature of the card?"
 
 EXAMPLES — what good extraction looks like for our team:
 
@@ -497,6 +557,104 @@ function looksLikeSameBenefit(a, b) {
   return false;
 }
 
+// Monetary-value gate.
+//
+// A benefit must describe something with concrete, quantifiable VALUE — a
+// dollar credit, a point/mile award, a free recurring service, an elite
+// status tier, or a discount/rebate at a specific rate. Pure card features
+// (paperless statements, mobile wallet, FICO score access, "exclusive
+// access" with no specifics) get dropped here so we never auto-PR them
+// even if they slip past the policy file.
+//
+// We accept the proposal if ANY of these are true:
+//   1. b.value > 0 (the LLM gave it a numeric value)
+//   2. description contains a $-amount, percentage, or numeric quantity
+//      tied to a value-bearing word (off, back, rebate, discount, bonus,
+//      credit, points, miles, nights, visits, statements [credits])
+//   3. name matches a high-confidence "valuable perk" pattern
+//      (free X, complimentary X, anniversary, companion, lounge access,
+//      checked bag, status, night award, application fee credit, …)
+//
+// Anything else gets routed to `skipped` with tier 'no_monetary_value'.
+function hasMonetaryValue(b) {
+  if (!b || typeof b !== 'object') return false;
+  if (typeof b.value === 'number' && b.value > 0) return true;
+
+  const name = String(b.name || '').toLowerCase();
+  const desc = String(b.description || '').toLowerCase();
+  const text = `${name} ${desc}`;
+
+  // 1. Hard reject — names/descriptions that are inherently non-monetary
+  //    even if they pass other heuristics.
+  const HARD_REJECT_PATTERNS = [
+    /\bpaperless\b/, /\bestatement/, /\be-statement/,
+    /\bmobile wallet\b/, /\bdigital wallet\b/, /\bcontactless\b/,
+    /\btap to pay\b/, /\bapple pay\b/, /\bgoogle pay\b/, /\bsamsung pay\b/,
+    /\bcard design\b/, /\bcustom card\b/,
+    /\bfico\b/, /\bcredit close-?up\b/, /\bcredit monitoring\b/,
+    /\bcredit score\b/,
+    /\baccount alerts?\b/, /\bonline banking\b/, /\bmobile app\b/,
+    /\bautopay\b/, /\bauto pay\b/, /\bbill pay\b/,
+    /\bno annual fee\b/, /\$0 annual fee\b/,
+    /\bforeign transaction fee\b/,
+    /\brefer.a.friend\b/,
+  ];
+  for (const re of HARD_REJECT_PATTERNS) {
+    if (re.test(text)) return false;
+  }
+
+  // 2. Pay-per-visit lounges aren't free → not a benefit.
+  if (/lounge/i.test(text) && /(pay.as.you.go|pay.per.visit|members? rate|fee per visit|per.visit fee)/i.test(text)) {
+    return false;
+  }
+
+  // 3. Vague "exclusive access" without a concrete amount → not a benefit.
+  if (
+    /(exclusive|special|curated|hand.?picked|cardmember).{0,40}(access|offer|experience|event|deal)/i.test(text) &&
+    !/\$\s?\d/.test(text) &&
+    !/\d+\s?(%|percent|points|miles|nights?|visits?|times?)/i.test(text)
+  ) {
+    return false;
+  }
+
+  // 4. Numeric-value heuristics — a dollar amount, a percent rebate/off,
+  //    or a quantity of points/miles/nights/visits.
+  if (/\$\s?\d/.test(text)) return true;
+  if (/\d+\s*%\s*(off|back|rebate|discount|bonus|credit|cash)/i.test(text)) return true;
+  if (/\d[\d,]*\s*(points?|miles?|nights?|free visits?|free checked bag)/i.test(text)) return true;
+  if (/\d+\s*(free|complimentary)\s+(visits?|nights?|bags?|passes?|rounds?)/i.test(text)) return true;
+
+  // 5. Allowlist of high-confidence "real benefit" name patterns. These are
+  //    types of perks our team consistently keeps even without a number in
+  //    the LLM's description.
+  const ALLOW_PATTERNS = [
+    /\bfree (checked|first|second) bag\b/,
+    /\bfree night\b/, /\bnight award\b/, /\banniversary night\b/,
+    /\bcompanion (certificate|fare|pass|ticket)\b/,
+    /\bglobal entry\b/, /\btsa pre.?check\b/,
+    /\bpriority pass\b/,                    // policy + pay-per-visit reject above will filter LoungeKey-only
+    /\bairport lounge\b/,
+    /\bfree lounge\b/, /\bcomplimentary lounge\b/, /\bunlimited lounge\b/,
+    /\b(automatic|complimentary)\s+\w+\s+status\b/,  // "Automatic Diamond Status"
+    /\b(diamond|platinum|gold|titanium|emerald)\s+(elite\s+)?status\b/,
+    /\belite night credits?\b/, /\bqualifying night\b/,
+    /\bstatement credit\b/,
+    /\btravel credit\b/, /\bdining credit\b/, /\bairline credit\b/,
+    /\buber credit\b/, /\blyft credit\b/,
+    /\bfree (delivery|membership|subscription)\b/,
+    /\bcomplimentary \w+ membership\b/,
+    /\bin.?flight (rebate|discount|credit)\b/,
+    /\bsaver award\b/,
+    /\bpoints? (back|payback|rebate|bonus)\b/,
+    /\bearn.{0,10}bonus\b/,
+  ];
+  for (const re of ALLOW_PATTERNS) {
+    if (re.test(text)) return true;
+  }
+
+  return false;
+}
+
 function diffBenefits(current, proposed, policy, removedFromThisCard) {
   // Each proposed benefit is routed by classifyBenefit(); only "auto" routes
   // into the YAML. Existing benefits aren't touched (the human curated those).
@@ -515,6 +673,13 @@ function diffBenefits(current, proposed, policy, removedFromThisCard) {
     const fuzzyMatch = currentNames.find(n => looksLikeSameBenefit(n, b.name));
     if (fuzzyMatch) {
       skipped.push({ ...b, tier: 'duplicate_fuzzy', fuzzyMatch });
+      continue;
+    }
+    // Monetary-value gate — drop card-features-not-benefits even if the
+    // policy file doesn't have an exact-string match for them. The team's
+    // standing rule: "benefits are free things with VALUE, not features."
+    if (!hasMonetaryValue(b)) {
+      skipped.push({ ...b, tier: 'no_monetary_value' });
       continue;
     }
     const tier = classifyBenefit(b.name, policy, removedFromThisCard);

@@ -72,6 +72,77 @@ exclude:
   - "Emergency Card Replacement"
   - "Card Replacement"
 
+  # Card-feature-not-a-benefit. These describe HOW the card works, not a
+  # monetary perk you get from holding it. The team has consistently called
+  # these out as noise — "benefits are free things you get with VALUE, not
+  # just a feature of the card."
+  - "Paperless Statements"
+  - "Paperless Statement"
+  - "Digital Statements"
+  - "Online Statements"
+  - "eStatements"
+  - "No Annual Fee"               # belongs in `annual_fee:`, not benefits[]
+  - "$0 Annual Fee"
+  - "No Foreign Transaction Fee"  # belongs in `foreign_transaction_fee:`
+  - "No Foreign Transaction Fees"
+  - "Foreign Transaction Fee"     # the field, never a benefit
+  - "Mobile Wallet"
+  - "Digital Wallet"
+  - "Apple Pay"
+  - "Google Pay"
+  - "Samsung Pay"
+  - "Contactless Payment"
+  - "Contactless Pay"
+  - "Tap to Pay"
+  - "Card Design"
+  - "Custom Card Design"
+  - "Account Alerts"
+  - "Account Manager"
+  - "Online Banking"
+  - "Mobile Banking"
+  - "Mobile App"
+  - "Autopay"
+  - "Auto Pay"
+  - "Online Bill Pay"
+  - "Bill Pay"
+  - "Refer-a-Friend"
+  - "Refer a Friend"
+
+  # Issuer-platform "deals" portals — available to all cardholders of that
+  # issuer, not card-specific perks. Treated like Amex Offers.
+  - "My Wells Fargo Deals"
+  - "Wells Fargo Deals"
+  - "Chase Offers"
+  - "BankAmeriDeals"
+  - "Bank of America Deals"
+  - "Citi Merchant Offers"
+  - "Citi Easy Deals"
+  - "Capital One Offers"
+  - "Capital One Shopping"
+  - "Card Exclusives"          # vague platform-tier marketing perks
+  - "Cardmember Exclusives"
+  - "Autograph Card Exclusives"
+  - "Visa Savings Edge"
+
+  # Credit-monitoring / FICO — available platform-wide on most issuers'
+  # apps; not a card-specific perk.
+  - "Credit Close-Up"
+  - "FICO Score"
+  - "Free FICO Score"
+  - "FICO Score Access"
+  - "Credit Score"
+  - "Credit Score Monitoring"
+  - "Credit Monitoring"
+  - "Free Credit Score"
+
+  # Pay-per-visit lounge programs are not benefits — if you pay to enter
+  # the lounge it isn't free, it's just a referral. (Free unlimited Priority
+  # Pass, on the other hand, is a real benefit and stays.)
+  - "LoungeKey"
+  - "LoungeKey Pass"
+  - "Pay-as-you-go Lounge"
+  - "Pay-Per-Visit Lounge"
+
   # Welcome/signup bonus belongs in `signup_bonus:`, not `benefits[]`
   - "Welcome Bonus"
   - "Welcome Offer"
@@ -113,6 +184,9 @@ borderline:
   - "Return Protection"
   - "Emergency Evacuation"
   - "Emergency Medical"
+  - "Price Protection"
+  - "Rental Car Insurance"
+  - "Car Rental Insurance"
 
 # ────────────────────────────────────────────────────────────────────────────
 # 3. Auto-PR — anything not matched above is eligible for an auto-PR.
