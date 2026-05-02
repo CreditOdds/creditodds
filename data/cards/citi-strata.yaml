@@ -1,11 +1,11 @@
-name: "Citi Strata"
-bank: "Citi"
-slug: "citi-strata"
+name: Citi Strata
+bank: Citi
+slug: citi-strata
 accepting_applications: true
-category: "travel"
-image: "citi-strata.png"
+category: travel
+image: citi-strata.png
 annual_fee: 0
-reward_type: "points"
+reward_type: points
 tags:
   - travel
   - rewards
@@ -13,7 +13,7 @@ rewards:
   - category: hotels_car_portal
     value: 5
     unit: points_per_dollar
-    note: "On hotels, car rentals, and attractions booked through Citi Travel"
+    note: On hotels, car rentals, and attractions booked through Citi Travel
   - category: groceries
     value: 3
     unit: points_per_dollar
@@ -23,13 +23,13 @@ rewards:
   - category: gas
     value: 3
     unit: points_per_dollar
-    note: "Includes EV charging stations"
+    note: Includes EV charging stations
   - category: rotating
     value: 3
     unit: points_per_dollar
     mode: user_choice
     choices: 1
-    note: "3x on one eligible self-select category of your choice"
+    note: 3x on one eligible self-select category of your choice
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -52,3 +52,39 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.citi.com/credit-cards/citi-strata-credit-card
+benefits:
+  - name: Citi Travel
+    description: Book flights, hotels, car rentals and attractions with access to over 1.4 million hotels and resorts worldwide
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: Points Transfer
+    description: Transfer ThankYou Points to JetBlue, Virgin Atlantic, Cathay Pacific, Eva Air, Choice Hotels, and other partners with no fee and 1,000 point minimum
+    frequency: ongoing
+    category: rewards
+    enrollment_required: false
+  - name: Citi Entertainment
+    description: Special access to purchase tickets and presale access to concerts, sporting events, arts and culture experiences
+    frequency: ongoing
+    category: entertainment
+    enrollment_required: false
+  - name: Citi Flex Pay
+    description: Pay over time in fixed monthly payments on eligible purchases of $75 or more while continuing to earn points
+    frequency: per_purchase
+    category: other
+    enrollment_required: false
+  - name: Authorized User
+    description: Add an Authorized User at no additional cost
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Account Alerts
+    description: Automatic account alerts via email or text for balance, payments and credit limits
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: Free FICO Score
+    description: Access to free FICO Score online to review credit history
+    frequency: ongoing
+    category: other
+    enrollment_required: false
