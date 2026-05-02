@@ -4,6 +4,7 @@ slug: "delta-skymiles-blue-american-express-card"
 image: "amex_delta_blue_skymiles.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-blue-american-express-card/
+foreign_transaction_fee: false
 annual_fee: 0
 reward_type: "miles"
 tags:
@@ -29,3 +30,11 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+benefits:
+  - name: "Inflight Purchase Statement Credit"
+    value: 20
+    value_unit: "percent"
+    description: "Receive 20% savings as a statement credit after using your Card on eligible Delta in-flight food and beverage purchases."
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
