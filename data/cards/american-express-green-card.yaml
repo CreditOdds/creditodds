@@ -1,11 +1,11 @@
-name: "American Express Green"
-bank: "American Express"
-slug: "american-express-green-card"
-image: "amex_green_card.png"
+name: American Express Green
+bank: American Express
+slug: american-express-green-card
+image: amex_green_card.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 annual_fee: 150
-reward_type: "points"
+reward_type: points
 rewards:
   - category: travel
     value: 3
@@ -25,13 +25,35 @@ signup_bonus:
   spend_requirement: 3000
   timeframe_months: 6
 benefits:
-  - name: "CLEAR Plus Credit"
+  - name: CLEAR Plus Credit
     value: 209
-    description: "Statement credit for CLEAR Plus airport security membership"
-    frequency: "annual"
-    category: "security"
+    description: Statement credit for CLEAR Plus airport security membership
+    frequency: annual
+    category: security
+    enrollment_required: true
+  - name: CLEAR+ Credit
+    value: 209
+    description: Up to $209 annual statement credit for CLEAR+ membership after paying with the card
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Amex Special Ticket Access
+    description: Access to Amex Presale Tickets and Amex Reserved Tickets for select events across sports, music, and entertainment
+    frequency: ongoing
+    category: entertainment
+    enrollment_required: false
+  - name: No Foreign Transaction Fees
+    description: No foreign transaction fees from American Express on international purchases
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: Send Split
+    description: Send money and split purchases with Venmo or PayPal users directly from the Amex app without standard credit card fees
+    frequency: ongoing
+    category: other
     enrollment_required: true
 tags:
   - travel
   - dining
   - rewards
+foreign_transaction_fee: false
