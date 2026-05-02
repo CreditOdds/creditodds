@@ -1,21 +1,52 @@
-name: "Wells Fargo Autograph"
-bank: "Wells Fargo"
-slug: "wells-fargo-autograph"
-image: "wells_fargo_autograph.png"
+name: Wells Fargo Autograph
+bank: Wells Fargo
+slug: wells-fargo-autograph
+image: wells_fargo_autograph.png
 accepting_applications: true
-category: "rewards"
+category: rewards
 annual_fee: 0
 benefits:
-  - name: "Cell Phone Protection"
+  - name: Cell Phone Protection
     value: 0
-    description: "Up to $600 per claim for cell phone damage or theft when you pay your bill with the card"
-    frequency: "ongoing"
-    category: "other"
+    description: Up to $600 per claim for cell phone damage or theft when you pay your bill with the card
+    frequency: ongoing
+    category: other
+  - name: Cellular Telephone Protection
+    value: 600
+    description: Up to $600 of cell phone protection against damage or theft, subject to a $25 deductible.
+    frequency: per_claim
+    category: other
+    enrollment_required: false
+  - name: Roadside Dispatch
+    description: 24/7 roadside tow assistance with no membership required.
+    frequency: per_claim
+    category: travel
+    enrollment_required: false
+  - name: Emergency Cash Disbursement and Card Replacement
+    description: Emergency cash advance or card replacement within one to three business days after issuer approval.
+    frequency: per_claim
+    category: other
+    enrollment_required: false
+  - name: My Wells Fargo Deals
+    description: Access to personalized deals from merchants to earn cash back as account credit when shopping or dining.
+    frequency: per_purchase
+    category: statement_credit
+    enrollment_required: true
+  - name: Credit Close-Up
+    description: Complimentary monthly FICO Score updates and personalized credit insights with no negative impact on your score.
+    frequency: ongoing
+    category: other
+    enrollment_required: true
+  - name: No Foreign Transaction Fee
+    description: No fees charged for converting foreign purchases to U.S. dollars.
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
 tags:
   - travel
   - dining
   - rewards
-reward_type: "points"
+reward_type: points
 rewards:
   - category: dining
     value: 3
@@ -48,3 +79,4 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/autograph-visa-credit-card
+foreign_transaction_fee: false
