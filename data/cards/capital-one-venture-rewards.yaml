@@ -12,16 +12,47 @@ benefits:
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     category: "security"
+  - name: "Lifestyle Collection Experience Credit"
+    value: 50
+    description: "$50 experience credit on every Lifestyle Collection hotel or vacation rental stay"
+    frequency: "per_visit"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Hertz Five Star Status"
+    description: "Complimentary Hertz Five Star status with skip-the-counter service and wider vehicle selection"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "Capital One Travel Price Protection"
+    description: "Price drop protection and price match guarantee on flights, hotels, and rental cars booked through Capital One Travel"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Capital One Dining Access"
+    description: "Access to exclusive dining reservations at curated top restaurants"
+    frequency: "ongoing"
+    category: "dining"
+    enrollment_required: false
+  - name: "Capital One Entertainment Access"
+    description: "Access to VIP packages and thousands of event tickets in sports, music, theater, and dining with 5X miles on qualifying purchases"
+    frequency: "ongoing"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Capital One Café Beverage Discount"
+    description: "50% off all handcrafted beverages daily at any Capital One Café nationwide"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
 tags:
-  - travel
-  - rewards
+  - "travel"
+  - "rewards"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 5
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 2
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 75000
   type: "miles"
@@ -32,4 +63,5 @@ apr:
   regular:
     min: 19.49
     max: 28.49
-apply_link: https://www.capitalone.com/credit-cards/venture/
+apply_link: "https://www.capitalone.com/credit-cards/venture/"
+foreign_transaction_fee: false
