@@ -40,3 +40,21 @@ apr:
     min: 19.99
     max: 28.74
 apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard
+foreign_transaction_fee: false
+benefits:
+  - name: "Automatic Gold Elite Status"
+    description: "Automatic Gold Elite membership with Choice Hotels providing elite benefits"
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Elite Qualifying Nights"
+    description: "10 elite qualifying nights each calendar year guaranteeing Gold Elite status and benefits"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Cellular Telephone Protection"
+    value: 800
+    description: "Up to $800 cell phone protection against damage or theft when monthly cell phone bill is paid with card (subject to $25 deductible)"
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
