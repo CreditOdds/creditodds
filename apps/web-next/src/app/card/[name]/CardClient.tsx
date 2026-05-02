@@ -22,7 +22,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
-import { formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
+import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -276,7 +276,10 @@ export default function CardClient({
       const matches = unit === 'usd' ? isUsd : b.value_unit === unit;
       if (!matches) return sum;
       if (b.frequency === "ongoing") return sum;
-      if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
+      if (b.frequency === "multi_year") {
+        const years = b.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
+        return sum + Math.round(b.value / years);
+      }
       return sum + b.value;
     }, 0);
   const totalCredits = sumByUnit('usd');

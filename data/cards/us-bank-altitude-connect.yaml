@@ -11,6 +11,7 @@ benefits:
     value: 100
     description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
+    frequency_years: 5
     category: "security"
   - name: "Airport Lounge Access"
     value: 0

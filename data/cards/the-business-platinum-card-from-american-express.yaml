@@ -71,6 +71,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
+    frequency_years: 5
     category: "security"
   - name: "CLEAR Plus Credit"
     value: 209

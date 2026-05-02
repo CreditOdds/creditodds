@@ -291,7 +291,8 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
       "value": <number or 0 if perk has no monetary value>,
       "value_unit": "usd" | "points" | "miles" | "percent",
       "description": "<one short sentence>",
-      "frequency": "monthly" | "quarterly" | "semi_annual" | "annual" | "multi_year" | "ongoing" | "per_purchase" | "per_flight" | "per_trip" | "per_visit" | "per_rental" | "per_claim" | "every_4_years" | "one_time",
+      "frequency": "monthly" | "quarterly" | "semi_annual" | "annual" | "multi_year" | "ongoing" | "per_purchase" | "per_flight" | "per_trip" | "per_visit" | "per_rental" | "per_claim" | "one_time",
+      "frequency_years": <number, REQUIRED when frequency is "multi_year"; e.g. 5 for Global Entry / TSA PreCheck (5-year renewal cycle), 4 for benefits with explicit 4-year cycle, 2 for biennial perks>,
       "category": "dining" | "dining_travel" | "travel" | "hotel" | "entertainment" | "shopping" | "fitness" | "lounge" | "security" | "gas" | "streaming" | "grocery" | "rideshare" | "car_rental" | "telecom" | "statement_credit" | "rewards" | "other",
       "enrollment_required": <true|false>
     }
@@ -381,6 +382,11 @@ WRONG for a "5% rebate" benefit.
 - "foreign_transaction_fee": true if the card charges one, false if not. null only if the page truly doesn't say.
 - For ELITE-NIGHT-CREDIT or TIER-QUALIFYING-NIGHT type benefits, use \`value: 0\` and OMIT \`value_unit\` — non-monetary count perks. The count goes in the description (e.g. "5 elite night credits each year").
 - For elite STATUS perks (e.g. "Automatic Diamond Status"), use \`value: 0\` and put the tier name in the description.
+- When you set \`frequency: "multi_year"\` you MUST also set \`frequency_years\` to the actual cycle length. Examples:
+    Global Entry credit ($120, renews every 5 years) → \`frequency: "multi_year"\`, \`frequency_years: 5\`.
+    TSA PreCheck credit ($85, every 5 years) → same — 5.
+    A biennial fitness credit ($200 every 2 years) → \`frequency_years: 2\`.
+  The frontend uses \`frequency_years\` to amortize the credit per year (so a $120/5yr Global Entry contributes $24/yr to the card's total annual credits).
 - STRIKETHROUGH TEXT in [STRIKETHROUGH: ...] markers is expired/old; ignore those values.
 
 # CALIBRATION
@@ -787,6 +793,9 @@ function renderBenefitBlock(b, indent = '  ') {
   }
   if (b.frequency) {
     lines.push(`${fieldIndent}frequency: ${ymlString(b.frequency)}`);
+  }
+  if (b.frequency === 'multi_year' && typeof b.frequency_years === 'number' && b.frequency_years > 0) {
+    lines.push(`${fieldIndent}frequency_years: ${b.frequency_years}`);
   }
   if (b.category) {
     lines.push(`${fieldIndent}category: ${ymlString(b.category)}`);

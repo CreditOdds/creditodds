@@ -52,6 +52,11 @@ export interface CardBenefit {
   value_unit?: 'usd' | 'points' | 'miles';
   description: string;
   frequency: 'monthly' | 'quarterly' | 'semi_annual' | 'annual' | 'multi_year' | 'ongoing';
+  // For frequency: 'multi_year' — number of years between recurrences. Defaults
+  // to 4 if missing (preserves legacy behavior). Use 5 for Global Entry / TSA
+  // PreCheck (the actual renewal cycle), 2 for biennial perks, etc. Used by
+  // amortizedAnnualValue() to compute the per-year contribution.
+  frequency_years?: number;
   category: 'dining' | 'dining_travel' | 'travel' | 'hotel' | 'entertainment' | 'shopping' | 'fitness' | 'lounge' | 'security' | 'gas' | 'streaming' | 'grocery' | 'rideshare' | 'car_rental' | 'other';
   enrollment_required?: boolean;
 }
