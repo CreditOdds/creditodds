@@ -5,17 +5,17 @@ image: "citi_double_cash.png"
 accepting_applications: true
 annual_fee: 0
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 reward_type: "cashback"
 rewards:
-  - category: everything_else
-    value: 2
-    unit: percent
-    note: "1% when you buy, 1% when you pay"
+  - category: "everything_else"
+    value: 1
+    unit: "percent"
+    note: "Additional 1% cash back as you pay"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 1500
   timeframe_months: 6
 apr:
@@ -25,4 +25,25 @@ apr:
   regular:
     min: 17.49
     max: 27.49
-apply_link: https://www.citi.com/credit-cards/citi-double-cash-credit-card
+apply_link: "https://www.citi.com/credit-cards/citi-double-cash-credit-card"
+benefits:
+  - name: "FICO Score Access"
+    description: "Free access to view your FICO Score online anytime without impacting your score, updated monthly."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Citi Entertainment Access"
+    description: "Special access to purchase presale and exclusive tickets to concerts, sporting events, and arts and culture experiences."
+    frequency: "ongoing"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Citi Merchant Offers"
+    description: "Statement credit rewards program offering savings on shopping, dining, travel and more with eligible purchases."
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "Citi Flex Pay"
+    description: "Pay over time in fixed monthly payments on eligible purchases of $75 or more while continuing to earn cash back."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
