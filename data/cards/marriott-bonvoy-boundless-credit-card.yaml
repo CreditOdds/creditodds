@@ -21,30 +21,36 @@ benefits:
     description: "Automatic Marriott Bonvoy Silver Elite status"
     frequency: "ongoing"
     category: "hotel"
+  - name: "Airline Statement Credit"
+    value: 100
+    description: "Up to $100 in annual statement credits on eligible airline purchases ($50 per semi-annual period)"
+    frequency: "semi_annual"
+    category: "statement_credit"
+    enrollment_required: false
 tags:
-  - hotel
-  - travel
-  - rewards
+  - "hotel"
+  - "travel"
+  - "rewards"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Marriott Bonvoy hotels"
-  - category: groceries
+  - category: "groceries"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: gas
+  - category: "gas"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: everything_else
+  - category: "everything_else"
     value: 2
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 3
   type: "free_nights"
@@ -55,4 +61,4 @@ apr:
   regular:
     min: 20.49
     max: 27.49
-apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/boundless
+apply_link: "https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/boundless"
