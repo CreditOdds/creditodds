@@ -5,6 +5,7 @@ image: "chase_ink_business_preferred.png"
 accepting_applications: true
 category: "business"
 annual_fee: 95
+foreign_transaction_fee: false
 reward_type: "points"
 tags:
   - business
@@ -27,4 +28,21 @@ apr:
   regular:
     min: 19.49
     max: 29.99
+benefits:
+  - name: "Cell Phone Protection"
+    value: 1000
+    description: "Up to $1,000 per claim ($100 deductible, 3 claims per 12 months) when you pay your monthly cell phone bill with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
+  - name: "Primary Auto Rental Coverage"
+    description: "Primary collision damage waiver on rentals for business purposes (up to the cash value of the vehicle)"
+    frequency: "per_rental"
+    category: "travel"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    description: "Complimentary DashPass for at least one year plus $10/month off non-restaurant DoorDash orders when activated by Dec 31, 2027"
+    frequency: "monthly"
+    category: "rewards"
+    enrollment_required: true
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/business-preferred
