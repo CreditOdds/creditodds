@@ -22,19 +22,20 @@ benefits:
     frequency: "ongoing"
     category: "travel"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 reward_type: "cashback"
 rewards:
-  - category: travel_portal
+  - category: "travel_portal"
     value: 5
-    unit: percent
+    unit: "percent"
     note: "Travel booked through Robinhood travel portal"
-  - category: everything_else
+  - category: "everything_else"
     value: 3
-    unit: percent
+    unit: "percent"
 apr:
   regular:
     min: 29.99
     max: 29.99
-apply_link: https://robinhood.com/creditcard/
+apply_link: "https://robinhood.com/creditcard/"
+foreign_transaction_fee: false
