@@ -1,11 +1,11 @@
-name: "Capital One VentureOne Rewards"
-bank: "Capital One"
-slug: "capital-one-ventureone-rewards"
-image: "capital_one_ventureone.png"
+name: Capital One VentureOne Rewards
+bank: Capital One
+slug: capital-one-ventureone-rewards
+image: capital_one_ventureone.png
 accepting_applications: true
-category: "travel"
+category: travel
 annual_fee: 0
-reward_type: "miles"
+reward_type: miles
 tags:
   - travel
   - rewards
@@ -14,7 +14,7 @@ rewards:
     value: 5
     unit: points_per_dollar
   - category: everything_else
-    value: 1.25
+    value: 1
     unit: points_per_dollar
 signup_bonus:
   value: 20000
@@ -29,3 +29,25 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/ventureone/
+benefits:
+  - name: Free Price Drop Protection
+    value: 50
+    description: Up to $50 travel credit if booked flight price drops within 10 days of booking.
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: Price Match Guarantee
+    description: Travel credit for the difference if you find a better price on eligible flights, hotels, or rental cars within 24 hours.
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: Flexible Flight Cancellation
+    description: Cancel flights up to 3 hours before departure and receive most of your booking cost refunded.
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Price Alert Notifications
+    description: 24/7 price monitoring for flights with notifications when prices drop.
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
