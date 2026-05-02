@@ -121,7 +121,8 @@ export default async function ArticlePage({ params }: Props) {
       <ReadingProgressBar />
 
       <div className="landing-v2 articles-v2">
-        <article className="article-layout">
+        <article className="article-layout magazine">
+          <div className="article-masthead">
           <Link href="/articles" className="article-back" style={{ marginTop: 24, marginBottom: 14 }}>
             ← Back to Articles
           </Link>
@@ -201,16 +202,23 @@ export default async function ArticlePage({ params }: Props) {
               />
             </figure>
           )}
+          </div>
 
-          <div className="article-body">
-            <TableOfContents content={article.content} />
-            <ArticleContent content={article.content} />
+          <div className="article-grid">
+            <div className="article-main">
+              <div className="article-body">
+                <ArticleContent content={article.content} />
 
-            {article.related_cards_info && article.related_cards_info.length > 0 && (
-              <RelatedCards cards={article.related_cards_info} />
-            )}
+                {article.related_cards_info && article.related_cards_info.length > 0 && (
+                  <RelatedCards cards={article.related_cards_info} />
+                )}
 
-            <RelatedArticles articles={relatedArticles} />
+                <RelatedArticles articles={relatedArticles} />
+              </div>
+            </div>
+            <aside className="article-sidebar">
+              <TableOfContents content={article.content} />
+            </aside>
           </div>
         </article>
         <V2Footer />
