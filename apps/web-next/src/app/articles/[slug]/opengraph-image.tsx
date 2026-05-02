@@ -42,6 +42,22 @@ export default async function OGImage({ params }: Props) {
     );
   }
 
+  // If a social-share image exists, use it directly as the OG output. It's
+  // already a finished card (photo + brand panel + title) so we just serve it
+  // full-bleed. This is what Twitter/LinkedIn unfurl when the article URL is
+  // shared.
+  if (article.social_image) {
+    const socialUrl = `https://d3ay3etzd1512y.cloudfront.net/article_images/${article.social_image}`;
+    return new ImageResponse(
+      (
+        <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+          <img src={socialUrl} alt="" width={size.width} height={size.height} style={{ objectFit: 'cover' }} />
+        </div>
+      ),
+      { ...size, headers: OG_CACHE_HEADERS }
+    );
+  }
+
   const firstTag = article.tags?.[0];
   const tagColor = firstTag ? ARTICLE_TAG_COLORS[firstTag] : null;
   const tagLabel = firstTag ? ARTICLE_TAG_LABELS[firstTag] : null;

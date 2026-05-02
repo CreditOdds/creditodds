@@ -30,6 +30,9 @@ export interface Article {
   seo_description?: string;
   image?: string;
   image_alt?: string;
+  social_image?: string;
+  social_title?: string;
+  social_image_subject?: string;
   content: string;
   reading_time: number;
   estimated_value?: string;
