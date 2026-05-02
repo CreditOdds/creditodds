@@ -270,12 +270,28 @@ export default function CardClient({
   );
 
   const creditBenefits = (card.benefits || []).filter((b) => b.value > 0);
-  const totalCredits = creditBenefits.reduce((sum, b) => {
-    if (!isMonetaryBenefit(b)) return sum;
-    if (b.frequency === "ongoing") return sum;
-    if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
-    return sum + b.value;
-  }, 0);
+  const sumByUnit = (unit: 'usd' | 'points' | 'miles') =>
+    creditBenefits.reduce((sum, b) => {
+      const isUsd = !b.value_unit || b.value_unit === 'usd';
+      const matches = unit === 'usd' ? isUsd : b.value_unit === unit;
+      if (!matches) return sum;
+      if (b.frequency === "ongoing") return sum;
+      if (b.frequency === "multi_year") return sum + Math.round(b.value / 4);
+      return sum + b.value;
+    }, 0);
+  const totalCredits = sumByUnit('usd');
+  const totalPoints = sumByUnit('points');
+  const totalMiles = sumByUnit('miles');
+  // Headline credits value, preferring USD when present, otherwise the dominant
+  // non-USD unit. Returns null when there's nothing to show.
+  const headlineCredits =
+    totalCredits > 0
+      ? `$${totalCredits.toLocaleString()}`
+      : totalPoints > 0
+        ? `${totalPoints.toLocaleString()} points`
+        : totalMiles > 0
+          ? `${totalMiles.toLocaleString()} miles`
+          : null;
 
   const tagline = useMemo(() => {
     const parts: string[] = [];
@@ -637,9 +653,7 @@ export default function CardClient({
               <div className="cj-readoff-cell">
                 <div className="cj-readoff-k">Credits</div>
                 <div className="cj-readoff-v">
-                  {totalCredits > 0
-                    ? `$${totalCredits.toLocaleString()}`
-                    : "—"}
+                  {headlineCredits ?? "—"}
                 </div>
                 <div className="cj-readoff-foot">
                   {creditBenefits.length > 0
@@ -787,7 +801,7 @@ export default function CardClient({
                           </td>
                         </tr>
                       ))}
-                      {totalCredits > 0 && (
+                      {headlineCredits && (
                         <tr className="cj-row-total">
                           <td>
                             <span className="cj-row-total-label">
@@ -796,7 +810,7 @@ export default function CardClient({
                           </td>
                           <td className="cj-tr">
                             <span className="cj-row-total-v">
-                              ${totalCredits.toLocaleString()}
+                              {headlineCredits}
                             </span>
                           </td>
                         </tr>
