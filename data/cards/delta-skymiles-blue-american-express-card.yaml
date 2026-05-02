@@ -1,11 +1,11 @@
-name: "Delta SkyMiles Blue American Express"
-bank: "American Express"
-slug: "delta-skymiles-blue-american-express-card"
-image: "amex_delta_blue_skymiles.png"
+name: Delta SkyMiles Blue American Express
+bank: American Express
+slug: delta-skymiles-blue-american-express-card
+image: amex_delta_blue_skymiles.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-blue-american-express-card/
 annual_fee: 0
-reward_type: "miles"
+reward_type: miles
 tags:
   - airline
   - travel
@@ -13,7 +13,7 @@ rewards:
   - category: airlines
     value: 2
     unit: points_per_dollar
-    note: "Delta purchases"
+    note: Delta purchases
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -29,3 +29,26 @@ apr:
   regular:
     min: 19.49
     max: 28.49
+foreign_transaction_fee: false
+benefits:
+  - name: 20% Back on In-flight Purchases
+    value: 20
+    description: 20% savings as a statement credit on eligible Delta in-flight food and beverage purchases
+    frequency: per_purchase
+    category: statement_credit
+    enrollment_required: false
+  - name: Pay with Miles
+    description: Take up to $50 off flight costs for every 5,000 miles redeemed when booking on delta.com
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: Amex Special Ticket Access
+    description: Access to Amex Presale Tickets and Amex Reserved Tickets to select events across sports, music, and more
+    frequency: ongoing
+    category: entertainment
+    enrollment_required: false
+  - name: Send Split
+    description: Send money and split purchases with Venmo or PayPal users directly from the Amex App
+    frequency: ongoing
+    category: other
+    enrollment_required: true
