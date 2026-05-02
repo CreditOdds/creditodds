@@ -278,25 +278,28 @@ export default function CardClient({
   );
 
   const creditBenefits = (card.benefits || []).filter((b) => b.value > 0);
-  // Sub-annual frequencies multiply by occurrence count to get a per-year
-  // total (e.g. $15/mo Uber Cash = $180/yr). Mirrors the math in
-  // amortizedAnnualValue() but supports unit-filtering for points/miles.
+  // Mirrors amortizedAnnualValue() but supports unit filtering so we can
+  // roll up USD / points / miles totals separately. Convention: `value` is
+  // the annual total; `frequency` is just a display hint (monthly/quarterly
+  // /semi_annual all return value as-is). Only multi_year amortizes by
+  // dividing across `frequency_years`.
   const sumByUnit = (unit: 'usd' | 'points' | 'miles') =>
     creditBenefits.reduce((sum, b) => {
       const isUsd = !b.value_unit || b.value_unit === 'usd';
       const matches = unit === 'usd' ? isUsd : b.value_unit === unit;
       if (!matches) return sum;
       switch (b.frequency) {
-        case 'monthly':     return sum + b.value * 12;
-        case 'quarterly':   return sum + b.value * 4;
-        case 'semi_annual': return sum + b.value * 2;
-        case 'annual':      return sum + b.value;
+        case 'monthly':
+        case 'quarterly':
+        case 'semi_annual':
+        case 'annual':
+          return sum + b.value;
         case 'multi_year': {
           const years = b.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
           return sum + Math.round(b.value / years);
         }
         // ongoing / per_purchase / per_flight / one_time / etc. — usage
-        // unknown, can't roll up.
+        // frequency unknown, can't roll up annually.
         default: return sum;
       }
     }, 0);
