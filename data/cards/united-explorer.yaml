@@ -1,15 +1,15 @@
-name: "United Explorer"
-bank: "Chase"
-slug: "united-explorer"
-image: "united_explorer.png"
+name: United Explorer
+bank: Chase
+slug: united-explorer
+image: united_explorer.png
 accepting_applications: true
 annual_fee: 150
-reward_type: "miles"
+reward_type: miles
 rewards:
   - category: airlines
-    value: 2
+    value: 3
     unit: points_per_dollar
-    note: "United purchases, dining, and hotel stays"
+    note: All other eligible United purchases
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -24,64 +24,111 @@ signup_bonus:
   type: miles
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Plus 10,000 bonus miles for adding an authorized user"
+  note: Plus 10,000 bonus miles for adding an authorized user
 apr:
   regular:
     min: 19.74
     max: 28.24
 benefits:
-  - name: "Global Entry / TSA PreCheck Credit"
+  - name: Global Entry / TSA PreCheck Credit
     value: 120
-    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
-    frequency: "multi_year"
-    category: "security"
-  - name: "First Checked Bag Free"
+    description: Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees
+    frequency: multi_year
+    category: security
+  - name: First Checked Bag Free
     value: 0
-    description: "First checked bag free on United flights"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "2 United Club One-Time Passes"
+    description: First checked bag free on United flights
+    frequency: ongoing
+    category: travel
+  - name: 2 United Club One-Time Passes
     value: 0
-    description: "Two complimentary United Club lounge passes per year"
-    frequency: "annual"
-    category: "lounge"
-  - name: "Priority Boarding"
+    description: Two complimentary United Club lounge passes per year
+    frequency: annual
+    category: lounge
+  - name: Priority Boarding
     value: 0
-    description: "Priority boarding on United flights"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Award Flight Discount"
+    description: Priority boarding on United flights
+    frequency: ongoing
+    category: travel
+  - name: Award Flight Discount
     value: 0
-    description: "Earn a 10,000-mile award flight discount after $20,000 in annual purchases"
-    frequency: "annual"
-    category: "travel"
-  - name: "United Hotels Credit"
+    description: Earn a 10,000-mile award flight discount after $20,000 in annual purchases
+    frequency: annual
+    category: travel
+  - name: United Hotels Credit
     value: 100
-    description: "Up to $100 each anniversary year on prepaid hotel stays booked directly through United Hotels"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Rideshare Credit"
+    description: Up to $100 each anniversary year on prepaid hotel stays booked directly through United Hotels
+    frequency: annual
+    category: hotel
+  - name: Rideshare Credit
     value: 60
-    description: "Up to $5 back each month on eligible rideshare purchases after annual opt-in"
-    frequency: "monthly"
-    category: "rideshare"
-  - name: "Avis / Budget TravelBank Credit"
+    description: Up to $5 back each month on eligible rideshare purchases after annual opt-in
+    frequency: monthly
+    category: rideshare
+  - name: Avis / Budget TravelBank Credit
     value: 50
-    description: "Up to $50 each anniversary year in United TravelBank cash on Avis or Budget bookings through cars.united.com"
-    frequency: "annual"
-    category: "travel"
-  - name: "Instacart Credit"
+    description: Up to $50 each anniversary year in United TravelBank cash on Avis or Budget bookings through cars.united.com
+    frequency: annual
+    category: travel
+  - name: Instacart Credit
     value: 120
-    description: "$10 monthly Instacart credit through 12/31/27"
-    frequency: "monthly"
-    category: "grocery"
-  - name: "JSX Credit"
+    description: $10 monthly Instacart credit through 12/31/27
+    frequency: monthly
+    category: grocery
+  - name: JSX Credit
     value: 100
-    description: "Up to $100 each anniversary year on flights purchased directly with JSX"
-    frequency: "annual"
-    category: "travel"
+    description: Up to $100 each anniversary year on flights purchased directly with JSX
+    frequency: annual
+    category: travel
+  - name: Bonus Miles for New Cardmember
+    value: 80000
+    value_unit: miles
+    description: Earn 70,000 bonus miles after spending $3,000 in first 3 months plus 10,000 bonus miles after adding an authorized user
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: United Club One-Time Passes
+    description: Two United Club one-time passes per year with over $100 value
+    frequency: annual
+    category: lounge
+    enrollment_required: false
+  - name: Global Entry/TSA PreCheck Credit
+    value: 120
+    description: Statement credit for Global Entry, TSA PreCheck, or NEXUS application fee
+    frequency: every_4_years
+    category: statement_credit
+    enrollment_required: false
+  - name: Inflight Purchases Credit
+    description: 25% back as statement credit on food, beverages, Wi-Fi on United-operated flights and Club premium drinks
+    frequency: per_purchase
+    category: statement_credit
+    enrollment_required: false
+  - name: United Travel Credit
+    value: 100
+    description: $100 United travel credit after spending $10,000 in a calendar year
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Avis/Budget Rental Credit
+    value: 50
+    description: Up to $50 in United travel credits annually on Avis or Budget car rentals booked through cars.united.com
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: JSX Flight Credit
+    value: 100
+    description: Up to $100 in credits annually on flights purchased directly through JSX
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Award Flight Miles Discount
+    description: Save at least 10% when booking flights with miles
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
 tags:
   - airline
   - travel
   - rewards
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-explorer
+foreign_transaction_fee: false
