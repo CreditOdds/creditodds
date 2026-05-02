@@ -16,6 +16,12 @@ benefits:
     description: "5 elite night credits toward Marriott Bonvoy status each year"
     frequency: "annual"
     category: "hotel"
+  - name: "DoorDash DashPass"
+    value: 0
+    description: "One-year complimentary DashPass membership for DoorDash and Caviar with unlimited deliveries and $0 delivery fees."
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true
 tags:
   - hotel
   - travel
@@ -33,14 +39,15 @@ rewards:
     unit: points_per_dollar
     note: "Grocery stores, gas stations, and dining (first $6,000/year)"
   - category: dining
-    value: 3
+    value: 2
     unit: points_per_dollar
     note: "Grocery stores, gas stations, and dining (first $6,000/year)"
   - category: everything_else
-    value: 2
+    value: 1
     unit: points_per_dollar
 apr:
   regular:
     min: 19.24
     max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bold
+foreign_transaction_fee: false
