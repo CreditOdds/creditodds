@@ -9,7 +9,7 @@ rewards:
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "United purchases, dining, and hotel stays"
+    note: "On eligible United purchases"
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -82,6 +82,7 @@ benefits:
     category: "travel"
   - name: "Inflight Purchase Statement Credit"
     value: 25
+    value_unit: "percent"
     description: "25% back as statement credit on food, beverages, Wi-Fi on United-operated flights and Club premium drinks"
     frequency: "per_purchase"
     category: "statement_credit"
@@ -90,7 +91,7 @@ benefits:
     value: 50
     description: "Up to $50 in United travel credits annually for Avis or Budget car rentals booked through cars.united.com"
     frequency: "annual"
-    category: "statement_credit"
+    category: "car_rental"
     enrollment_required: false
 tags:
   - airline
