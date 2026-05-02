@@ -10,10 +10,9 @@ tags:
   - cashback
   - rewards
 rewards:
-  - category: rotating
+  - category: selected_categories
     value: 3
     unit: percent
-    mode: user_choice
     choices: 1
     note: "3% in choice category (gas, online shopping, dining, travel, drugstores, home improvement), up to $2,500/quarter"
   - category: groceries

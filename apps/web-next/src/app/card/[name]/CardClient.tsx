@@ -700,14 +700,32 @@ export default function CardClient({
                     </thead>
                     <tbody>
                       {sortedRewards.map((r) => {
-                        const lbl =
-                          r.category === "rotating" && r.mode
-                            ? r.mode === "quarterly_rotating"
-                              ? "Rotating categories"
-                              : r.mode === "user_choice"
-                                ? `Choose ${r.choices ?? ""} categories`
-                                : "Top spend category"
-                            : categoryLabels[r.category] || r.category;
+                        let lbl: string;
+                        if (r.category === "top_category") {
+                          lbl = r.choices && r.choices > 1
+                            ? `Top ${r.choices} spend categories`
+                            : "Top spend category";
+                        } else if (r.category === "selected_categories") {
+                          lbl = r.choices === 1
+                            ? "Choose 1 category"
+                            : `Choose ${r.choices ?? ""} categories`;
+                        } else if (r.category === "rotating") {
+                          // Legacy fallback for cards still served with the old
+                          // overloaded `rotating` category before CDN repropagates.
+                          if (r.mode === "user_choice") {
+                            lbl = r.choices === 1
+                              ? "Choose 1 category"
+                              : `Choose ${r.choices ?? ""} categories`;
+                          } else if (r.mode === "auto_top_spend") {
+                            lbl = r.choices && r.choices > 1
+                              ? `Top ${r.choices} spend categories`
+                              : "Top spend category";
+                          } else {
+                            lbl = "Rotating categories";
+                          }
+                        } else {
+                          lbl = categoryLabels[r.category] || r.category;
+                        }
                         return (
                           <tr key={`${r.category}-${r.value}-${r.unit}`}>
                             <td>

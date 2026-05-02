@@ -27,6 +27,10 @@ categories:
     label: Entertainment
   - id: rotating
     label: Rotating Categories
+  - id: top_category
+    label: Top Spend Category
+  - id: selected_categories
+    label: Selected Categories
   - id: travel_portal
     label: Travel (via Portal)
   - id: hotels_portal
