@@ -1,29 +1,29 @@
-name: "Southwest Rapid Rewards Premier"
-bank: "Chase"
-slug: "southwest-rapid-rewards-premier-credit-card"
+name: Southwest Rapid Rewards Premier
+bank: Chase
+slug: southwest-rapid-rewards-premier-credit-card
 accepting_applications: true
-image: "chase-southwest-rapid-rewards-premier.png"
+image: chase-southwest-rapid-rewards-premier.png
 annual_fee: 149
-reward_type: "points"
+reward_type: points
 rewards:
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "Southwest Airlines purchases"
+    note: Southwest Airlines purchases
   - category: groceries
     value: 2
     unit: points_per_dollar
-    note: "Grocery stores and restaurants (first $8,000/year)"
+    note: Grocery stores and restaurants (first $8,000/year)
   - category: dining
     value: 2
     unit: points_per_dollar
-    note: "Grocery stores and restaurants (first $8,000/year)"
+    note: Grocery stores and restaurants (first $8,000/year)
   - category: everything_else
     value: 1
     unit: points_per_dollar
 signup_bonus:
   value: 55000
-  type: "points"
+  type: points
   spend_requirement: 1500
   timeframe_months: 3
 apr:
@@ -31,12 +31,74 @@ apr:
     min: 19.24
     max: 27.74
 benefits:
-  - name: "6,000 Anniversary Points"
+  - name: 6,000 Anniversary Points
     value: 0
-    description: "6,000 bonus points on card anniversary each year"
-    frequency: "annual"
-    category: "travel"
+    description: 6,000 bonus points on card anniversary each year
+    frequency: annual
+    category: travel
+  - name: New Cardmember Bonus
+    value: 55000
+    value_unit: points
+    description: Earn 55,000 bonus points after you spend $1,500 in the first 3 months from account opening
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Anniversary Points Bonus
+    value: 6000
+    value_unit: points
+    description: Earn 6,000 bonus points each year on your cardmember anniversary
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: First Checked Bag Free
+    description: First checked bag free for cardmember and up to 8 additional passengers in same reservation
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Complimentary Preferred Seat
+    value: 70
+    description: Select a Preferred seat within 48 hours prior to departure, valued on average at $70 round trip when available
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Annual Flight Discount
+    value: 15
+    description: Receive a 15% promo code each year on your cardmember anniversary for flight purchases excluding Basic fare
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: A-List Tier Qualifying Points Boost
+    value: 1500
+    value_unit: points
+    description: Earn 1,500 tier qualifying points toward A-List status for every $5,000 spent in purchases annually
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Companion Pass Qualifying Points Boost
+    value: 10000
+    value_unit: points
+    description: Earn 10,000 Companion Pass qualifying points boost each year
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: Priority Boarding
+    description: Cardmember and up to 8 additional passengers board with Group 5 for earlier overhead bin access
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Inflight Purchase Discount
+    value: 25
+    description: Receive 25% back on inflight purchases
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: DoorDash DashPass
+    description: Complimentary one-year DashPass membership for both DoorDash and Caviar with unlimited deliveries and $0 delivery fees
+    frequency: annual
+    category: dining
+    enrollment_required: true
 tags:
   - airline
   - travel
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/premier
+foreign_transaction_fee: false
