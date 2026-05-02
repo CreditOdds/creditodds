@@ -1,11 +1,11 @@
-name: "Wells Fargo Choice Privileges Mastercard"
-bank: "Wells Fargo"
-slug: "wells-fargo-choice-privileges-mastercard"
-image: "choice-privileges.png"
+name: Wells Fargo Choice Privileges Mastercard
+bank: Wells Fargo
+slug: wells-fargo-choice-privileges-mastercard
+image: choice-privileges.png
 accepting_applications: true
-category: "travel"
+category: travel
 annual_fee: 0
-reward_type: "points"
+reward_type: points
 tags:
   - travel
   - hotel
@@ -14,7 +14,7 @@ rewards:
   - category: hotels
     value: 5
     unit: points_per_dollar
-    note: "At participating Choice Hotels properties"
+    note: At participating Choice Hotels properties
   - category: gas
     value: 3
     unit: points_per_dollar
@@ -32,7 +32,7 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 40000
-  type: "points"
+  type: points
   spend_requirement: 1000
   timeframe_months: 3
 apr:
@@ -40,3 +40,30 @@ apr:
     min: 19.99
     max: 28.74
 apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard
+foreign_transaction_fee: false
+benefits:
+  - name: Welcome Bonus
+    value: 40000
+    value_unit: points
+    description: Earn 40,000 bonus points when you spend $1,000 in purchases in the first 3 months
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Automatic Gold Elite Membership
+    description: Automatic Gold Elite status with 10% bonus points on qualifying Choice Hotels stays
+    frequency: annual
+    category: hotel
+    enrollment_required: false
+  - name: Elite Qualifying Nights
+    value: 10
+    value_unit: points
+    description: Receive 10 Elite Qualifying Nights guaranteeing Gold Elite status and benefits each calendar year
+    frequency: annual
+    category: hotel
+    enrollment_required: false
+  - name: Cellular Telephone Protection
+    value: 800
+    description: Up to $800 protection against cell phone damage or theft when paying monthly bill with card (subject to $25 deductible)
+    frequency: per_claim
+    category: security
+    enrollment_required: false
