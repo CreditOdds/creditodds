@@ -1,11 +1,11 @@
-name: "Capital One Savor Cash Rewards"
-bank: "Capital One"
-slug: "capital-one-savor"
+name: Capital One Savor Cash Rewards
+bank: Capital One
+slug: capital-one-savor
 accepting_applications: true
-image: "capital-one-savor-cash-rewards.png"
-category: "cashback"
+image: capital-one-savor-cash-rewards.png
+category: cashback
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 tags:
   - cashback
   - dining
@@ -15,7 +15,7 @@ rewards:
   - category: entertainment
     value: 3
     unit: percent
-    note: "Also 8% on Capital One Entertainment"
+    note: Also 8% on Capital One Entertainment
   - category: dining
     value: 3
     unit: percent
@@ -47,3 +47,32 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/savor/
+foreign_transaction_fee: false
+benefits:
+  - name: New Cardmember Bonus
+    value: 200
+    description: Earn a $200 cash bonus once you spend $500 within 3 months of account opening
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Price Drop Protection
+    value: 50
+    description: Receive up to $50 in travel credit if flight prices drop within 10 days of booking through Capital One Travel
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Price Match Guarantee
+    description: Capital One will match a better price on eligible flights, hotels, or rental cars if reported within 24 hours of booking
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Flexible Flight Cancellation
+    description: Cancel your flight up to 3 hours before departure and receive most of your booking cost refunded
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Price Alerts
+    description: Set price alerts and receive notifications when flight prices drop
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
