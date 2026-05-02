@@ -12,6 +12,12 @@ benefits:
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
     category: "security"
+  - name: "Lifestyle Collection Experience Credit"
+    value: 50
+    description: "$50 experience credit on every Lifestyle Collection hotel or vacation rental stay"
+    frequency: "per_stay"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - travel
   - rewards
@@ -33,3 +39,4 @@ apr:
     min: 19.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/venture/
+foreign_transaction_fee: false
