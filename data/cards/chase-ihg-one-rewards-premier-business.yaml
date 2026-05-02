@@ -26,28 +26,40 @@ benefits:
     description: "10,000 bonus points and a $100 statement credit after $20,000 in annual purchases"
     frequency: "annual"
     category: "hotel"
+  - name: "Anniversary Free Night"
+    value: 40000
+    value_unit: "points"
+    description: "Complimentary anniversary free night certificate redeemable at IHG hotels up to 40,000 points annually."
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Fourth Night Free Redemption"
+    description: "Receive a fourth reward night free when redeeming points for a consecutive four-night IHG hotel stay."
+    frequency: "per_trip"
+    category: "hotel"
+    enrollment_required: false
 tags:
-  - hotel
-  - travel
-  - rewards
+  - "hotel"
+  - "travel"
+  - "rewards"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 26
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Up to 26x total points at IHG hotels"
-  - category: travel
+  - category: "travel"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Travel, gas stations, select advertising, and restaurants"
-  - category: gas
+  - category: "gas"
     value: 5
-    unit: points_per_dollar
-  - category: dining
+    unit: "points_per_dollar"
+  - category: "dining"
     value: 5
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 140000
   type: "points"
@@ -58,4 +70,5 @@ apr:
   regular:
     min: 19.24
     max: 29.99
-apply_link: https://creditcards.chase.com/business-credit-cards/IHG/business-premier
+apply_link: "https://creditcards.chase.com/business-credit-cards/IHG/business-premier"
+foreign_transaction_fee: false
