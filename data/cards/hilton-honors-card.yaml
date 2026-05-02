@@ -3,30 +3,30 @@ bank: "American Express"
 slug: "hilton-honors-card"
 image: "amex_hilton_honors.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors/
+apply_link: "https://www.americanexpress.com/us/credit-cards/card/hilton-honors/"
 card_referral_link: "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref="
 annual_fee: 0
 reward_type: "points"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 7
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Eligible purchases at Hilton hotels and resorts"
-  - category: dining
+  - category: "dining"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. restaurants"
-  - category: groceries
+  - category: "groceries"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. supermarkets"
-  - category: gas
+  - category: "gas"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. gas stations"
-  - category: everything_else
+  - category: "everything_else"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 70000
   type: "points"
@@ -43,6 +43,22 @@ benefits:
     description: "Complimentary Hilton Honors Silver status with 5th night free on reward stays"
     frequency: "ongoing"
     category: "hotel"
+  - name: "No Foreign Transaction Fees"
+    description: "No foreign transaction fees from American Express on international purchases"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "Amex Special Ticket Access"
+    description: "Access to Amex Presale Tickets and Amex Reserved Tickets to select events across sports, music, and entertainment"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Send Split"
+    description: "Send money and split Card purchases with Venmo or PayPal users directly from the Amex App"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: true
 tags:
-  - hotel
-  - travel
+  - "hotel"
+  - "travel"
+foreign_transaction_fee: false
