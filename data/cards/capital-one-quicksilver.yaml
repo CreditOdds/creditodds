@@ -7,18 +7,18 @@ category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 5
-    unit: percent
-  - category: everything_else
+    unit: "percent"
+  - category: "everything_else"
     value: 1.5
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -31,4 +31,26 @@ apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://www.capitalone.com/credit-cards/quicksilver/
+apply_link: "https://www.capitalone.com/credit-cards/quicksilver/"
+benefits:
+  - name: "Free Price Drop Protection"
+    value: 50
+    description: "Up to $50 in travel credit if a booked flight price drops within 10 days of booking."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for the difference if you find a better price on eligible flights, hotels, or rental cars within 24 hours of booking."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flexible Flight Cancellation"
+    description: "Cancel flights up to 3 hours before departure and receive most of your booking cost refunded."
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Alert Monitoring"
+    description: "24/7 price monitoring for flights with notifications when prices drop."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
