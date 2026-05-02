@@ -37,8 +37,8 @@ benefits:
     frequency: "ongoing"
     category: "travel"
   - name: "Price Drop Protection"
-    value: 50
-    description: "Up to $50 travel credit if booked flight price drops within 10 days"
+    value: 0
+    description: "Up to $50 travel credit if a booked flight price drops within 10 days through Capital One Travel"
     frequency: "per_trip"
     category: "travel"
     enrollment_required: false
@@ -52,11 +52,6 @@ benefits:
     description: "Complimentary PRIOR subscription for extraordinary travel experiences and destination guides"
     frequency: "annual"
     category: "travel"
-    enrollment_required: false
-  - name: "The Cultivist Membership Discount"
-    description: "50% off The Cultivist Enthusiast membership (museum access) for up to 2 years"
-    frequency: "multi_year"
-    category: "other"
     enrollment_required: false
 tags:
   - travel
