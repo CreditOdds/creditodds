@@ -15,3 +15,10 @@ apr:
     min: 25.24
     max: 25.24
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
+benefits:
+  - name: "DashPass Complimentary Membership"
+    value: 0
+    description: "6 months of complimentary DashPass membership unlocking $0 delivery fees and lower service fees on DoorDash and Caviar orders"
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true
