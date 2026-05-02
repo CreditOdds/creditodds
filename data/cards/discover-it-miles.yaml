@@ -1,10 +1,10 @@
-name: "Discover it Miles"
-bank: "Discover"
-slug: "discover-it-miles"
+name: Discover it Miles
+bank: Discover
+slug: discover-it-miles
 accepting_applications: true
-image: "discover-it-miles.png"
+image: discover-it-miles.png
 annual_fee: 0
-reward_type: "miles"
+reward_type: miles
 tags:
   - travel
   - rewards
@@ -23,3 +23,10 @@ apr:
     min: 17.49
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/travel/
+benefits:
+  - name: First Year Miles Match
+    value_unit: miles
+    description: Discover automatically matches all Miles earned at the end of your first year with no limit, minimum spending, or signup required.
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
