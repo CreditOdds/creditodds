@@ -21,3 +21,11 @@ apr:
     min: 18.24
     max: 29.99
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
+foreign_transaction_fee: true
+benefits:
+  - name: "DoorDash DashPass"
+    value: 0
+    description: "Complimentary one-year DashPass membership providing unlimited deliveries with $0 delivery fees on eligible orders"
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true

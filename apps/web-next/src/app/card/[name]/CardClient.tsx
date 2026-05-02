@@ -703,14 +703,32 @@ export default function CardClient({
                     </thead>
                     <tbody>
                       {sortedRewards.map((r) => {
-                        const lbl =
-                          r.category === "rotating" && r.mode
-                            ? r.mode === "quarterly_rotating"
-                              ? "Rotating categories"
-                              : r.mode === "user_choice"
-                                ? `Choose ${r.choices ?? ""} categories`
-                                : "Top spend category"
-                            : categoryLabels[r.category] || r.category;
+                        let lbl: string;
+                        if (r.category === "top_category") {
+                          lbl = r.choices && r.choices > 1
+                            ? `Top ${r.choices} spend categories`
+                            : "Top spend category";
+                        } else if (r.category === "selected_categories") {
+                          lbl = r.choices === 1
+                            ? "Choose 1 category"
+                            : `Choose ${r.choices ?? ""} categories`;
+                        } else if (r.category === "rotating") {
+                          // Legacy fallback for cards still served with the old
+                          // overloaded `rotating` category before CDN repropagates.
+                          if (r.mode === "user_choice") {
+                            lbl = r.choices === 1
+                              ? "Choose 1 category"
+                              : `Choose ${r.choices ?? ""} categories`;
+                          } else if (r.mode === "auto_top_spend") {
+                            lbl = r.choices && r.choices > 1
+                              ? `Top ${r.choices} spend categories`
+                              : "Top spend category";
+                          } else {
+                            lbl = "Rotating categories";
+                          }
+                        } else {
+                          lbl = categoryLabels[r.category] || r.category;
+                        }
                         return (
                           <tr key={`${r.category}-${r.value}-${r.unit}`}>
                             <td>
@@ -1314,35 +1332,6 @@ export default function CardClient({
             <ScaleIcon className="cj-rail-cta-icon" />
             Compare cards
           </Link>
-
-          {news.length > 0 && (
-            <div className="cj-rail-block">
-              <div className="cj-rail-label">Card news</div>
-              {news.slice(0, 3).map((n) => {
-                const tag = n.tags[0] as NewsTag | undefined;
-                return (
-                  <div key={n.id} className="cj-news-item">
-                    <Link href={`/news/${n.id}`}>
-                      <div className="cj-news-meta">
-                        <span className="cj-news-date">
-                          {new Date(n.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </span>
-                        {tag && (
-                          <span className="cj-news-tag">
-                            {tagLabels[tag]}
-                          </span>
-                        )}
-                      </div>
-                      <div className="cj-news-title">{n.title}</div>
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
-          )}
 
           {similarCards.length > 0 && (
             <div className="cj-rail-block">

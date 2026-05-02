@@ -18,10 +18,9 @@ tags:
   - travel
   - premium
 rewards:
-  - category: "rotating"
+  - category: "selected_categories"
     value: 3
     unit: "points_per_dollar"
-    mode: "user_choice"
     choices: 1
     eligible_categories:
       - "dining"

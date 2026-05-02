@@ -7,14 +7,23 @@ image: "american-express-business-gold.png"
 annual_fee: 375
 reward_type: "points"
 rewards:
-  - category: everything_else
-    value: 1
+  - category: top_category
+    value: 4
     unit: points_per_dollar
-    note: "4x on top 2 categories where you spend the most each billing cycle (from 6 eligible categories), on first $150,000/year"
+    choices: 2
+    eligible_categories:
+      - airlines
+      - gas
+      - dining
+      - transit
+    note: "Automatically on your top 2 spending categories each billing cycle from 6 eligible (airfare, U.S. advertising, U.S. gas, U.S. restaurants, U.S. computer/cloud, transit), on the first $150,000/year"
   - category: travel_portal
     value: 3
     unit: points_per_dollar
     note: "Flights and prepaid hotels booked via AmexTravel.com"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
 signup_bonus:
   value: 100000
   type: points

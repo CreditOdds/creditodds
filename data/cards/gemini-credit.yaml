@@ -28,3 +28,4 @@ apr:
     min: 18.99
     max: 34.99
 apply_link: https://www.gemini.com/credit-card
+foreign_transaction_fee: false
