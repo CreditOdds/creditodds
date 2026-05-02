@@ -3,30 +3,30 @@ bank: "American Express"
 slug: "hilton-honors-card"
 image: "amex_hilton_honors.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors/
+apply_link: "https://www.americanexpress.com/us/credit-cards/card/hilton-honors/"
 card_referral_link: "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref="
 annual_fee: 0
 reward_type: "points"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 7
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Eligible purchases at Hilton hotels and resorts"
-  - category: dining
+  - category: "dining"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. restaurants"
-  - category: groceries
+  - category: "groceries"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. supermarkets"
-  - category: gas
+  - category: "gas"
     value: 5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. gas stations"
-  - category: everything_else
+  - category: "everything_else"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 70000
   type: "points"
@@ -44,5 +44,6 @@ benefits:
     frequency: "ongoing"
     category: "hotel"
 tags:
-  - hotel
-  - travel
+  - "hotel"
+  - "travel"
+foreign_transaction_fee: false
