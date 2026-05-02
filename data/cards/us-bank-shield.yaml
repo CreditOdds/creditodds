@@ -26,8 +26,8 @@ benefits:
     category: "statement_credit"
     enrollment_required: false
   - name: "Cell Phone Protection"
-    value: 600
-    description: "Up to $600 reimbursement if your cell phone is stolen or damaged when you pay your monthly cellular bill with the card"
+    value: 0
+    description: "Up to $600 per claim if your cell phone is stolen or damaged when you pay your monthly cellular bill with the card"
     frequency: "per_claim"
     category: "other"
     enrollment_required: false
