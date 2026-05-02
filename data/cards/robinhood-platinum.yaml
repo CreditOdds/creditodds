@@ -54,24 +54,26 @@ benefits:
     category: "dining"
     enrollment_required: false
   - name: "DashPass Membership"
-    description: "Complimentary DoorDash DashPass membership worth $120 annually."
+    value: 0
+    description: "Complimentary DoorDash DashPass membership."
     frequency: "ongoing"
     category: "dining"
     enrollment_required: false
   - name: "Global Entry or TSA PreCheck"
     value: 100
     description: "Application fee credit for Global Entry or TSA PreCheck."
-    frequency: "one_time"
-    category: "travel"
+    frequency: "multi_year"
+    frequency_years: 5
+    category: "security"
     enrollment_required: false
-  - name: "Annual Hotel Credit"
-    value: 500
+  - name: "Hotel Credit"
+    value: 250
     description: "Up to $250 in statement credit every 6 months for hotel stays booked through the Robinhood Banking app."
     frequency: "semi_annual"
     category: "hotel"
     enrollment_required: false
-  - name: "Annual Travel Credit"
-    value: 300
+  - name: "Travel Credit"
+    value: 150
     description: "$150 in statement credit every 6 months for travel purchases."
     frequency: "semi_annual"
     category: "travel"
