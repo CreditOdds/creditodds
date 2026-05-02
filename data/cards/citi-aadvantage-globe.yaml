@@ -16,28 +16,70 @@ benefits:
     description: "Preferred boarding on American Airlines flights"
     frequency: "ongoing"
     category: "travel"
+  - name: "Admirals Club Globe Passes"
+    value: 300
+    description: "Four annual Admirals Club Globe Passes providing lounge access to nearly 50 locations with complimentary drinks, snacks, and Wi-Fi."
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Turo Car Rental Credit"
+    value: 240
+    description: "Up to $240 annual statement credit ($30 per trip, up to 8 trips) on eligible Turo car rentals when linked to account."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "Inflight Purchase Credit"
+    value: 100
+    description: "Up to $100 annual statement credit on inflight purchases when using the card on American Airlines flights."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Annual Splurge Credit"
+    value: 100
+    description: "Up to $100 annual statement credit on up to 2 brands from 1stDibs, AAdvantage Hotels, Future Personal Training, or Live Nation."
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "Global Entry or TSA PreCheck Credit"
+    value: 120
+    description: "Statement credit up to $120 every 4 years for Global Entry or TSA PreCheck application fees."
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Streak Bonus"
+    value: 5000
+    value_unit: "miles"
+    description: "5,000 mile bonus after every 4 qualifying American Airlines flights (up to 15,000 additional miles per status qualification year)."
+    frequency: "per_flight"
+    category: "rewards"
+    enrollment_required: false
+  - name: "American Airlines Companion Certificate"
+    description: "Earn an American Airlines Companion Certificate starting in year two of cardmembership (valid for single qualifying round-trip main cabin domestic flight after $99 ticketing fee plus taxes)."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 tags:
-  - travel
-  - airline
+  - "travel"
+  - "airline"
 rewards:
-  - category: hotels_portal
+  - category: "hotels_portal"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "On eligible hotels booked through aadvantagehotels.com"
-  - category: airlines
+  - category: "airlines"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "On eligible American Airlines purchases"
-  - category: dining
+  - category: "dining"
     value: 2
-    unit: points_per_dollar
-  - category: transit
+    unit: "points_per_dollar"
+  - category: "transit"
     value: 2
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Rides and Rails including taxis, rideshares, and public transit"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 60000
   type: "miles"
@@ -47,4 +89,5 @@ apr:
   regular:
     min: 19.49
     max: 29.49
-apply_link: https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard
+apply_link: "https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard"
+foreign_transaction_fee: false
