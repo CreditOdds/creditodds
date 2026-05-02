@@ -1,26 +1,43 @@
-name: "World of Hyatt"
-bank: "Chase"
-slug: "world-of-hyatt-credit-card"
+name: World of Hyatt
+bank: Chase
+slug: world-of-hyatt-credit-card
 accepting_applications: true
-image: "chase-world-of-hyatt.png"
+image: chase-world-of-hyatt.png
 annual_fee: 95
-reward_type: "points"
+reward_type: points
 benefits:
-  - name: "Free Night Award"
+  - name: Free Night Award
     value: 0
-    description: "One annual free night award at any Category 1-4 Hyatt hotel"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Discoverist Status"
+    description: One annual free night award at any Category 1-4 Hyatt hotel
+    frequency: annual
+    category: hotel
+  - name: Discoverist Status
     value: 0
-    description: "Automatic World of Hyatt Discoverist elite status"
-    frequency: "ongoing"
-    category: "hotel"
-  - name: "5 Qualifying Night Credits"
+    description: Automatic World of Hyatt Discoverist elite status
+    frequency: ongoing
+    category: hotel
+  - name: 5 Qualifying Night Credits
     value: 0
-    description: "5 qualifying night credits toward Hyatt elite status each year"
-    frequency: "annual"
-    category: "hotel"
+    description: 5 qualifying night credits toward Hyatt elite status each year
+    frequency: annual
+    category: hotel
+  - name: Annual Free Night Award
+    description: One free night at any Category 1-4 Hyatt hotel or resort every year after cardmember anniversary.
+    frequency: annual
+    category: hotel
+    enrollment_required: false
+  - name: Bonus Free Night Award
+    description: An extra free night at any Category 1-4 Hyatt hotel or resort if you spend $15,000 in a calendar year.
+    frequency: annual
+    category: hotel
+    enrollment_required: false
+  - name: Tier Qualifying Night Credits
+    value: 5
+    value_unit: points
+    description: 5 tier qualifying night credits toward World of Hyatt status each year just for being a cardmember.
+    frequency: annual
+    category: hotel
+    enrollment_required: false
 tags:
   - hotel
   - travel
@@ -29,14 +46,14 @@ rewards:
   - category: hotels
     value: 4
     unit: points_per_dollar
-    note: "At Hyatt hotels, up to 9x total with World of Hyatt membership"
+    note: At Hyatt hotels, up to 9x total with World of Hyatt membership
   - category: dining
     value: 2
     unit: points_per_dollar
   - category: airlines
     value: 2
     unit: points_per_dollar
-    note: "Purchased directly from airlines"
+    note: Purchased directly from airlines
   - category: transit
     value: 2
     unit: points_per_dollar
@@ -45,10 +62,10 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 30000
-  type: "points"
+  type: points
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Plus up to 30,000 additional points (2x on purchases up to $15,000 spent in the first 6 months)"
+  note: Plus up to 30,000 additional points (2x on purchases up to $15,000 spent in the first 6 months)
 apr:
   regular:
     min: 19.24
