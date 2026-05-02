@@ -7,11 +7,54 @@ card_referral_link: "https://www.referyourchasecard.com/20r"
 annual_fee: 0
 reward_type: "cashback"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 1.5
-    unit: percent
+    unit: "percent"
 apr:
   regular:
     min: 25.24
     max: 25.24
-apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
+apply_link: "https://creditcards.chase.com/cash-back-credit-cards/freedom/rise"
+benefits:
+  - name: "Automatic Payments Statement Credit"
+    value: 25
+    description: "Earn $25 statement credit when you sign up for automatic payments within the first three months and remain enrolled for at least 90 days."
+    frequency: "one_time"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "DashPass Membership"
+    description: "6 months of complimentary DashPass membership with $0 delivery fees and lower service fees on eligible orders."
+    frequency: "multi_year"
+    category: "dining"
+    enrollment_required: true
+  - name: "Credit Line Increase Evaluation"
+    description: "Eligible for credit line increase evaluation as soon as 6 months after account opening."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Card Upgrade to Chase Freedom Unlimited"
+    description: "Automatically evaluated each year to upgrade to Chase Freedom Unlimited when account is open, purchase made in past 12 months, and all payments on time."
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
+  - name: "Chase Credit Journey"
+    description: "Free access to credit score tracking, educational resources, and identity monitoring."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "24/7 Fraud Monitoring"
+    description: "Sophisticated fraud monitoring available 24/7 with text, email or call alerts for unusual purchases."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "Card Lock/Unlock Feature"
+    description: "Quickly lock or unlock your card through the Chase Mobile app or Chase.com to block new purchases and transfers."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "Refer Friends Bonus"
+    value: 25
+    description: "Earn $25 cash back for each friend who gets approved for the Freedom Rise card, up to $250 per year."
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
