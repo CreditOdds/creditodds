@@ -289,7 +289,7 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
     {
       "name": "<short benefit name>",
       "value": <number or 0 if perk has no monetary value>,
-      "value_unit": "usd" | "points" | "miles",
+      "value_unit": "usd" | "points" | "miles" | "percent",
       "description": "<one short sentence>",
       "frequency": "monthly" | "quarterly" | "semi_annual" | "annual" | "multi_year" | "ongoing" | "per_purchase" | "per_flight" | "per_trip" | "per_visit" | "per_rental" | "per_claim" | "every_4_years" | "one_time",
       "category": "dining" | "dining_travel" | "travel" | "hotel" | "entertainment" | "shopping" | "fitness" | "lounge" | "security" | "gas" | "streaming" | "grocery" | "rideshare" | "telecom" | "statement_credit" | "rewards" | "other",
@@ -359,8 +359,25 @@ bag"), an elite status tier, or a clearly free recurring service.
 - DO NOT include the welcome/signup bonus as a benefit. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
 - DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — Visa/Mastercard network-tier features on every card.
 
-# FIELD RULES
-- "value_unit": "usd" for dollar credits, "points" for point-denominated awards, "miles" for mile-denominated. Default is "usd".
+# FIELD RULES — value + value_unit
+The \`value\` is a number, paired with a \`value_unit\` that says what the
+number means. CRITICAL: never put a percentage in \`value\` without setting
+\`value_unit: "percent"\` — \`value: 5\` with no unit means "$5", which is
+WRONG for a "5% rebate" benefit.
+
+- \`value_unit: "usd"\` — dollar credits/rebates. Default. Examples:
+  "$300 travel credit" → value=300, value_unit=usd (or omitted).
+  "Up to $100 statement credit" → value=100.
+- \`value_unit: "points"\` — point-denominated awards. Examples:
+  "10,000 anniversary points" → value=10000, value_unit=points.
+- \`value_unit: "miles"\` — mile-denominated awards. Examples:
+  "10,000 mile award flight discount" → value=10000, value_unit=miles.
+- \`value_unit: "percent"\` — percentage rebates, discounts, or back-rates.
+  Use this whenever the value represents a percent of something. Examples:
+  "25% inflight purchase rebate" → value=25, value_unit=percent.
+  "5% off Hertz Pay Later rates" → value=5, value_unit=percent.
+  "2% Booking.com travel credit" → value=2, value_unit=percent.
+
 - "foreign_transaction_fee": true if the card charges one, false if not. null only if the page truly doesn't say.
 - For ELITE-NIGHT-CREDIT or TIER-QUALIFYING-NIGHT type benefits, use \`value: 0\` and OMIT \`value_unit\` — non-monetary count perks. The count goes in the description (e.g. "5 elite night credits each year").
 - For elite STATUS perks (e.g. "Automatic Diamond Status"), use \`value: 0\` and put the tier name in the description.
@@ -668,6 +685,23 @@ function hasMonetaryValue(b) {
   return false;
 }
 
+// If the LLM emitted a small `value` (≤100) and the description shows a
+// matching "N%" pattern but didn't set `value_unit`, infer "percent". This
+// is a safety net — the prompt now explicitly asks for value_unit:"percent"
+// for percentage rebates, but cheaper to also normalize here than re-run.
+function normalizeBenefitUnit(b) {
+  if (!b || typeof b !== 'object') return b;
+  if (b.value_unit) return b; // already set, trust it
+  if (typeof b.value !== 'number' || b.value <= 0 || b.value > 100) return b;
+  const desc = String(b.description || '');
+  // Match "<value>%" anywhere in the description.
+  const pctRe = new RegExp(`\\b${b.value}\\s*%`);
+  if (pctRe.test(desc)) {
+    return { ...b, value_unit: 'percent' };
+  }
+  return b;
+}
+
 function diffBenefits(current, proposed, policy, removedFromThisCard) {
   // Each proposed benefit is routed by classifyBenefit(); only "auto" routes
   // into the YAML. Existing benefits aren't touched (the human curated those).
@@ -675,7 +709,8 @@ function diffBenefits(current, proposed, policy, removedFromThisCard) {
   const auto = [];
   const review = [];
   const skipped = [];
-  for (const b of proposed || []) {
+  for (const raw of proposed || []) {
+    const b = normalizeBenefitUnit(raw);
     // Exact-name dedup
     if (currentNames.includes(b.name)) {
       skipped.push({ ...b, tier: 'duplicate_exact' });
