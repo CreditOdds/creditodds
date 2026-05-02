@@ -28,15 +28,9 @@ benefits:
     frequency: "ongoing"
     category: "travel"
   - name: "MQD Headstart"
-    value: 2500
-    value_unit: "miles"
-    description: "Receive $2,500 Medallion Qualification Dollars each Medallion Qualification Year"
+    value: 0
+    description: "$2,500 Medallion Qualification Dollars (MQD) headstart each Medallion Qualification Year, applied toward Delta elite status qualification"
     frequency: "annual"
-    category: "travel"
-    enrollment_required: false
-  - name: "MQD Boost"
-    description: "Earn $1 Medallion Qualification Dollar for each $20 in card purchases"
-    frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
   - name: "Rideshare Credit"
