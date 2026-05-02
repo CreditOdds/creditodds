@@ -1,21 +1,21 @@
-name: "The Platinum Card"
-bank: "American Express"
-slug: "the-platinum-card"
-image: "amex_the_platinum_card.png"
+name: The Platinum Card
+bank: American Express
+slug: the-platinum-card
+image: amex_the_platinum_card.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/platinum/
-card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
+card_referral_link: https://americanexpress.com/en-us/referral/platinum-card?ref=
 annual_fee: 895
-reward_type: "points"
+reward_type: points
 rewards:
   - category: airlines
     value: 5
     unit: points_per_dollar
-    note: "Booked directly with airlines or through Amex Travel, up to $500,000 per calendar year"
+    note: Booked directly with airlines or through Amex Travel, up to $500,000 per calendar year
   - category: hotels_portal
     value: 5
     unit: points_per_dollar
-    note: "Prepaid hotels booked on AmexTravel.com"
+    note: Prepaid hotels booked on AmexTravel.com
   - category: everything_else
     value: 1
     unit: points_per_dollar
@@ -25,101 +25,123 @@ signup_bonus:
   spend_requirement: 12000
   timeframe_months: 6
 benefits:
-  - name: "Uber Cash"
+  - name: Uber Cash
     value: 200
-    description: "$15/month in Uber Cash for Uber Eats or rides ($20 in December)"
-    frequency: "monthly"
-    category: "dining_travel"
+    description: $15/month in Uber Cash for Uber Eats or rides ($20 in December)
+    frequency: monthly
+    category: dining_travel
     enrollment_required: true
-  - name: "Airline Fee Credit"
+  - name: Airline Fee Credit
     value: 200
-    description: "Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades"
-    frequency: "annual"
-    category: "travel"
+    description: Select one qualifying airline per year for incidental fee credits like baggage and seat upgrades
+    frequency: annual
+    category: travel
     enrollment_required: true
-  - name: "Hotel Credit"
+  - name: Hotel Credit
     value: 200
-    description: "Statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel"
-    frequency: "annual"
-    category: "hotel"
+    description: Statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel
+    frequency: annual
+    category: hotel
     enrollment_required: false
-  - name: "Uber One Credit"
+  - name: Uber One Credit
     value: 120
-    description: "Up to $10/month back on an auto-renewing Uber One membership"
-    frequency: "monthly"
-    category: "rideshare"
+    description: Up to $10/month back on an auto-renewing Uber One membership
+    frequency: monthly
+    category: rideshare
     enrollment_required: true
-  - name: "Digital Entertainment Credit"
+  - name: Digital Entertainment Credit
     value: 240
     description: "$20/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM"
-    frequency: "monthly"
-    category: "streaming"
+    frequency: monthly
+    category: streaming
     enrollment_required: true
-  - name: "CLEAR Plus Credit"
+  - name: CLEAR Plus Credit
     value: 209
-    description: "Statement credit for CLEAR Plus airport security membership"
-    frequency: "annual"
-    category: "security"
+    description: Statement credit for CLEAR Plus airport security membership
+    frequency: annual
+    category: security
     enrollment_required: true
-  - name: "Walmart+ Credit"
+  - name: Walmart+ Credit
     value: 155
-    description: "Monthly credit covering Walmart+ membership ($12.95/month)"
-    frequency: "monthly"
-    category: "shopping"
+    description: Monthly credit covering Walmart+ membership ($12.95/month)
+    frequency: monthly
+    category: shopping
     enrollment_required: true
-  - name: "Saks Fifth Avenue Credit"
+  - name: Saks Fifth Avenue Credit
     value: 100
-    description: "$50 semiannually (Jan–Jun and Jul–Dec) at Saks Fifth Avenue"
-    frequency: "semi_annual"
-    category: "shopping"
+    description: $50 semiannually (Jan–Jun and Jul–Dec) at Saks Fifth Avenue
+    frequency: semi_annual
+    category: shopping
     enrollment_required: true
-  - name: "Global Entry / TSA PreCheck Credit"
+  - name: Global Entry / TSA PreCheck Credit
     value: 120
-    description: "Up to $120 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "travel"
+    description: Up to $120 statement credit every 4 years for Global Entry or TSA PreCheck application fee
+    frequency: multi_year
+    category: travel
     enrollment_required: false
-  - name: "Equinox Credit"
+  - name: Equinox Credit
     value: 300
-    description: "$25/month toward an Equinox gym membership"
-    frequency: "monthly"
-    category: "fitness"
+    description: $25/month toward an Equinox gym membership
+    frequency: monthly
+    category: fitness
     enrollment_required: true
-  - name: "Lululemon Credit"
+  - name: Lululemon Credit
     value: 300
-    description: "$75 per quarter toward purchases at Lululemon"
-    frequency: "quarterly"
-    category: "shopping"
+    description: $75 per quarter toward purchases at Lululemon
+    frequency: quarterly
+    category: shopping
     enrollment_required: true
-  - name: "Global Dining Access by Resy"
+  - name: Global Dining Access by Resy
     value: 0
-    description: "Priority reservations and special access at select restaurants nationwide"
-    frequency: "ongoing"
-    category: "dining"
+    description: Priority reservations and special access at select restaurants nationwide
+    frequency: ongoing
+    category: dining
     enrollment_required: false
-  - name: "Centurion Lounge Access"
+  - name: Centurion Lounge Access
     value: 0
-    description: "Complimentary access to The Centurion Lounge network at major airports worldwide"
-    frequency: "ongoing"
-    category: "lounge"
+    description: Complimentary access to The Centurion Lounge network at major airports worldwide
+    frequency: ongoing
+    category: lounge
     enrollment_required: false
-  - name: "Priority Pass Select"
+  - name: Priority Pass Select
     value: 0
-    description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
-    frequency: "ongoing"
-    category: "lounge"
+    description: Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass
+    frequency: ongoing
+    category: lounge
     enrollment_required: false
-  - name: "Fine Hotels + Resorts"
+  - name: Fine Hotels + Resorts
     value: 0
-    description: "Room upgrade on arrival, daily breakfast for two, $100 experience credit, guaranteed 4pm late checkout"
-    frequency: "ongoing"
-    category: "hotel"
+    description: Room upgrade on arrival, daily breakfast for two, $100 experience credit, guaranteed 4pm late checkout
+    frequency: ongoing
+    category: hotel
     enrollment_required: false
-  - name: "The Hotel Collection"
+  - name: The Hotel Collection
     value: 0
-    description: "$100 hotel credit when booking 2+ consecutive nights at The Hotel Collection properties"
-    frequency: "ongoing"
-    category: "hotel"
+    description: $100 hotel credit when booking 2+ consecutive nights at The Hotel Collection properties
+    frequency: ongoing
+    category: hotel
+    enrollment_required: false
+  - name: Global Lounge Collection
+    description: Access to over 1,550 airport lounges including Centurion Lounges, 10 complimentary Delta Sky Club visits, and Priority Pass Select membership.
+    frequency: ongoing
+    category: lounge
+    enrollment_required: true
+  - name: Fine Hotels + Resorts Benefits
+    value: 550
+    description: Suite of perks at over 1,800 properties when booking through Amex Travel, including guaranteed 4PM checkout.
+    frequency: per_trip
+    category: hotel
+    enrollment_required: false
+  - name: CLEAR+ Credit
+    value: 209
+    description: Up to $209 in annual statement credits for CLEAR+ membership purchase.
+    frequency: annual
+    category: travel
+    enrollment_required: true
+  - name: Car Rental Loss and Damage Insurance
+    description: Coverage for damage to or theft of rental vehicles when paid with the card and collision damage waiver declined.
+    frequency: per_rental
+    category: travel
     enrollment_required: false
 tags:
   - travel
