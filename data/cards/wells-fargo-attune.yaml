@@ -7,19 +7,19 @@ image: "wells-fargo-attune.png"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: entertainment
+  - category: "entertainment"
     value: 4
-    unit: percent
+    unit: "percent"
     note: "Fitness, wellness, sports, recreation, live events, gardening, pet supplies, transit, EV charging, thrift stores"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 100
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -29,4 +29,21 @@ apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://creditcards.wellsfargo.com/attune-credit-card
+apply_link: "https://creditcards.wellsfargo.com/attune-credit-card"
+benefits:
+  - name: "Cellular Telephone Protection"
+    value: 600
+    description: "Up to $600 per claim for cell phone protection against damage, theft, and unintended separation when monthly bill is paid with card, subject to $25 deductible."
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
+  - name: "My Wells Fargo Deals"
+    description: "Access to personalized merchant deals with cash back rewards as account credit."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Credit Close-Up"
+    description: "Complimentary monthly FICO Score updates and personalized credit insights for Wells Fargo Online customers."
+    frequency: "monthly"
+    category: "other"
+    enrollment_required: true
