@@ -52,3 +52,14 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.citi.com/credit-cards/citi-strata-credit-card
+benefits:
+  - name: "Points Transfer Partners"
+    description: "Transfer ThankYou Points to JetBlue, Virgin Atlantic, Cathay Pacific, Eva Air, Choice Hotels, The Leading Hotels of the World, and others with no fee and 1,000 point minimum."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "Citi Flex Pay"
+    description: "Buy now, pay later option with fixed monthly payments on eligible purchases of $75 or more while earning points."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
