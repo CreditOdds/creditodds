@@ -351,6 +351,65 @@ Now extract for ${card.data.name}.`;
 
 // ─── Diff + classification ──────────────────────────────────────────────────
 
+// Load valid reward category ids from data/categories.yaml so we can drop
+// extractor-proposed rewards that wouldn't pass build:cards validation.
+let _validCategoryIds = null;
+function getValidCategoryIds() {
+  if (_validCategoryIds) return _validCategoryIds;
+  try {
+    const catYaml = yaml.load(
+      fs.readFileSync(path.join(ROOT, 'data', 'categories.yaml'), 'utf8')
+    );
+    const list = Array.isArray(catYaml) ? catYaml : (catYaml?.categories || []);
+    _validCategoryIds = new Set(
+      list.map(c => (typeof c === 'string' ? c : c.id)).filter(Boolean)
+    );
+  } catch {
+    _validCategoryIds = new Set();
+  }
+  return _validCategoryIds;
+}
+
+// Coerce LLM-emitted units/categories to schema-valid values. The schema only
+// accepts unit 'percent' or 'points_per_dollar' and category ids from
+// categories.yaml; an extractor that emits 'miles_per_dollar' or an unknown
+// category is technically wrong but salvageable — normalize where possible,
+// drop where not, rather than poison the whole card's changes.
+function normalizeRewardsUnits(rewards) {
+  if (!Array.isArray(rewards)) return [];
+  const validCats = getValidCategoryIds();
+  const cleaned = [];
+  for (const r of rewards) {
+    if (!r || typeof r !== 'object') continue;
+    let unit = typeof r.unit === 'string' ? r.unit.toLowerCase().trim() : '';
+    if (unit === '%' || unit === 'percent' || unit === 'pct') {
+      unit = 'percent';
+    } else if (
+      unit === 'points_per_dollar' ||
+      unit === 'miles_per_dollar' ||
+      unit === 'avios_per_dollar' ||
+      unit === 'points' ||
+      unit === 'miles' ||
+      unit === 'x' ||
+      unit === 'point' ||
+      unit === 'mile'
+    ) {
+      unit = 'points_per_dollar';
+    } else {
+      // Couldn't normalize — drop this reward rather than poison the YAML.
+      continue;
+    }
+
+    // Drop rewards with categories not in categories.yaml.
+    if (validCats.size > 0 && r.category && !validCats.has(r.category)) {
+      continue;
+    }
+
+    cleaned.push({ ...r, unit });
+  }
+  return cleaned;
+}
+
 function diffRewards(current, proposed) {
   // Returns { added, removed, changed } by category id.
   const cur = new Map((current || []).map(r => [r.category, r]));
@@ -565,7 +624,8 @@ async function main() {
     // removed and re-added; we only deny-list ones not currently present).
     for (const name of currentNames) removed.delete(name);
 
-    const rewardsDiff = diffRewards(card.data.rewards, extracted.rewards);
+    const normalizedRewards = normalizeRewardsUnits(extracted.rewards);
+    const rewardsDiff = diffRewards(card.data.rewards, normalizedRewards);
     const benefitsDiff = diffBenefits(card.data.benefits, extracted.benefits, policy, removed);
     const ftxnDiff = diffForeignTxn(card.data.foreign_transaction_fee, extracted.foreign_transaction_fee);
 
