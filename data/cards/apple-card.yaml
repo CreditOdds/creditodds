@@ -9,7 +9,7 @@ rewards:
   - category: online_shopping
     value: 3
     unit: percent
-    note: "Apple purchases and select merchants"
+    note: "Apple purchases and select merchants via Apple Pay (Nike, Uber, Walgreens, Booking.com, ChargePoint, Duane Reade, Exxon Mobil, Hertz, Ace Hardware)"
   - category: dining
     value: 2
     unit: percent
