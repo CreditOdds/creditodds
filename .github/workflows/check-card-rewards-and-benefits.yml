@@ -90,8 +90,10 @@ jobs:
             git checkout -B "$BRANCH" origin/main
             git checkout stash@{0} -- "$FILE"
 
-            CARD_NAME=$(awk -F'"' '/^name:/{print $2; exit}' "$FILE")
-            APPLY_LINK=$(awk '/^apply_link:/{$1=""; sub(/^[[:space:]]*"?/,""); sub(/"?$/,""); print; exit}' "$FILE")
+            # Use the YAML parser so quoting doesn't matter (the extractor's
+            # `yaml.dump` doesn't force quotes, so simple awk -F'"' returns empty).
+            CARD_NAME=$(node -e "console.log(require('js-yaml').load(require('fs').readFileSync('$FILE','utf8')).name || '')")
+            APPLY_LINK=$(node -e "console.log(require('js-yaml').load(require('fs').readFileSync('$FILE','utf8')).apply_link || '')")
 
             git add "$FILE"
             git commit -m "Auto: ${CARD_NAME} rewards/benefits check ${DATE}"
@@ -127,9 +129,10 @@ jobs:
             "Weekly review queue from \`check-card-rewards-and-benefits\`. These are benefits the auto-checker spotted on apply pages but flagged as borderline — generic travel insurance, secondary CDW, purchase protection, and similar — that we've gone both ways on. Triage manually." \
             "$(cat .card-rewards-benefits-review.md)")
 
+          # Skip labels — they may not exist in the repo and we'd rather create
+          # a label-less issue than fail the step.
           gh issue create \
             --title "Card benefits review — ${DATE}" \
-            --label "auto-generated,review-queue" \
             --body "$ISSUE_BODY" || echo "Issue creation failed (continuing)"
 
       - name: Print run summary
