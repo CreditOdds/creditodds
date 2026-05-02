@@ -1,14 +1,14 @@
-name: "Wells Fargo Active Cash"
-bank: "Wells Fargo"
-slug: "wells-fargo-active-cash"
-image: "wells_fargo_active_cash.png"
+name: Wells Fargo Active Cash
+bank: Wells Fargo
+slug: wells-fargo-active-cash
+image: wells_fargo_active_cash.png
 accepting_applications: true
-category: "cashback"
+category: cashback
 annual_fee: 0
 tags:
   - cashback
   - rewards
-reward_type: "cashback"
+reward_type: cashback
 rewards:
   - category: everything_else
     value: 2
@@ -29,3 +29,37 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/active-cash-credit-card
+foreign_transaction_fee: true
+benefits:
+  - name: Welcome Bonus
+    value: 200
+    description: Earn $200 cash rewards bonus when you spend $500 in purchases in the first 3 months
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Cellular Telephone Protection
+    value: 600
+    description: Up to $600 of cell phone protection against damage or theft with $25 deductible
+    frequency: per_claim
+    category: other
+    enrollment_required: false
+  - name: Roadside Dispatch
+    description: 24/7 towing assistance for eligible Wells Fargo cardholders with no membership required
+    frequency: per_claim
+    category: travel
+    enrollment_required: false
+  - name: Emergency Cash Disbursement and Card Replacement
+    description: Emergency cash advance or card replacement within one to three business days after issuer approval
+    frequency: per_claim
+    category: other
+    enrollment_required: false
+  - name: My Wells Fargo Deals
+    description: Access personalized deals from merchants to earn cash back as account credit when shopping, dining, or enjoying experiences
+    frequency: per_purchase
+    category: statement_credit
+    enrollment_required: true
+  - name: Credit Close-Up
+    description: Complimentary monthly FICO Score updates and personalized credit insights for Wells Fargo Online customers
+    frequency: monthly
+    category: other
+    enrollment_required: true
