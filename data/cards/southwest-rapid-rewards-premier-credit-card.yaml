@@ -36,7 +36,41 @@ benefits:
     description: "6,000 bonus points on card anniversary each year"
     frequency: "annual"
     category: "travel"
+  - name: "Complimentary Preferred Seat"
+    value: 0
+    description: "Complimentary Preferred seat selection within 48 hours prior to departure when available (valued at approximately $70 round trip)"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Anniversary Flight Discount"
+    value: 15
+    value_unit: "percent"
+    description: "15% promo code on your cardmember anniversary for flight purchases (excludes Basic fare)"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Companion Pass Qualifying Points Boost"
+    value: 10000
+    value_unit: "points"
+    description: "10,000 Companion Pass qualifying points boost each year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Inflight Purchase Rebate"
+    value: 25
+    value_unit: "percent"
+    description: "25% back on inflight purchases"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "DoorDash DashPass"
+    value: 0
+    description: "Complimentary one-year DashPass membership for DoorDash and Caviar with unlimited deliveries and $0 delivery fees"
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true
 tags:
   - airline
   - travel
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/premier
+foreign_transaction_fee: false
