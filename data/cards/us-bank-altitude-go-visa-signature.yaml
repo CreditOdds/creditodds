@@ -1,11 +1,11 @@
-name: "U.S. Bank Altitude Go Visa Signature"
-bank: "U.S. Bank"
-slug: "us-bank-altitude-go-visa-signature"
+name: U.S. Bank Altitude Go Visa Signature
+bank: U.S. Bank
+slug: us-bank-altitude-go-visa-signature
 accepting_applications: true
-category: "rewards"
-image: "us-bank-altitude-go.png"
+category: rewards
+image: us-bank-altitude-go.png
 annual_fee: 0
-reward_type: "points"
+reward_type: points
 tags:
   - dining
   - rewards
@@ -13,7 +13,7 @@ rewards:
   - category: dining
     value: 4
     unit: points_per_dollar
-    note: "Up to $2,000/quarter"
+    note: Up to $2,000/quarter
   - category: groceries
     value: 2
     unit: points_per_dollar
@@ -39,3 +39,17 @@ apr:
     min: 17.49
     max: 27.49
 apply_link: https://www.usbank.com/credit-cards/altitude-go-visa-signature-credit-card.html
+benefits:
+  - name: Streaming Service Credit
+    value: 15
+    description: $15 annual credit for streaming service purchases after 11 months of streaming activity.
+    frequency: annual
+    category: streaming
+    enrollment_required: true
+  - name: Sign-up Bonus
+    value: 20000
+    value_unit: points
+    description: Earn 20,000 bonus points after spending $1,000 in net purchases within the first 90 days.
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
