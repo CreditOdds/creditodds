@@ -5,9 +5,9 @@ accepting_applications: true
 image: "amazon-prime-visa.png"
 annual_fee: 0
 tags:
-  - shopping
-  - cashback
-  - rewards
+  - "shopping"
+  - "cashback"
+  - "rewards"
 reward_type: "cashback"
 rewards:
   - category: "amazon"
@@ -36,4 +36,13 @@ apr:
   regular:
     min: 18.74
     max: 27.49
-apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
+apply_link: "https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards"
+foreign_transaction_fee: false
+benefits:
+  - name: "Prime Rotating Bonus"
+    value: 10
+    value_unit: "percent"
+    description: "Eligible Prime cardmembers earn 10% back or more on a rotating selection of items and categories on Amazon.com"
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: false
