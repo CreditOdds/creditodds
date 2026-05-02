@@ -310,6 +310,7 @@ Rules:
 - DO NOT include "Free Employee Cards" or other generic business-card platform features.
 - DO NOT include the welcome/signup bonus as a benefit. The card's signup bonus is captured separately in the YAML's \`signup_bonus:\` block. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
 - DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — those are Visa/Mastercard network-tier features available on every card on the network.
+- For ELITE-NIGHT-CREDIT or TIER-QUALIFYING-NIGHT type benefits (hotel cobrand cards), use \`value: 0\` and OMIT the \`value_unit\` field — these are non-monetary count perks, not point or dollar values. The count itself goes in the description (e.g. "5 elite night credits each year toward Marriott Bonvoy elite status qualification").
 - STRIKETHROUGH TEXT in [STRIKETHROUGH: ...] markers is expired/old; ignore those values.
 
 EXAMPLES — what good extraction looks like for our team:
@@ -447,6 +448,19 @@ const BENEFIT_NAME_ALIASES = new Map([
   ['waiver', 'damage'],
   ['cdw', 'damage'],
 ]);
+// Naive plural normalization: 'nights' → 'night', 'miles' → 'mile',
+// 'passes' → 'pass'. Imperfect (won't catch 'companies' → 'company') but
+// covers the common cases for benefit names without pulling in a full stemmer.
+function depluralize(word) {
+  // 'passes' → 'pass', 'losses' → 'loss'
+  if (word.length > 4 && word.endsWith('sses')) return word.slice(0, -2);
+  // 'nights' → 'night', 'miles' → 'mile' (but not 'pass' or 'loss')
+  if (word.length > 3 && word.endsWith('s') && !word.endsWith('ss')) {
+    return word.slice(0, -1);
+  }
+  return word;
+}
+
 function tokenizeBenefitName(name) {
   return new Set(
     String(name || '')
@@ -454,6 +468,7 @@ function tokenizeBenefitName(name) {
       .replace(/[^\w\s]/g, ' ')
       .split(/\s+/)
       .map(t => BENEFIT_NAME_ALIASES.get(t) || t)
+      .map(depluralize)
       .filter(t => t.length > 2 && !BENEFIT_NAME_STOP_WORDS.has(t))
   );
 }
