@@ -7,15 +7,24 @@ category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "When deposited into an eligible Fidelity account"
 apr:
   regular:
     min: 16.99
     max: 26.99
-apply_link: https://www.fidelity.com/spend-save/visa-signature-card
+apply_link: "https://www.fidelity.com/spend-save/visa-signature-card"
+foreign_transaction_fee: false
+benefits:
+  - name: "Global Entry or TSA PreCheck"
+    value: 100
+    value_unit: "points"
+    description: "Earn up to $100 in Reward Points when you apply for Global Entry or TSA PreCheck."
+    frequency: "one_time"
+    category: "travel"
+    enrollment_required: false
