@@ -7,19 +7,19 @@ image: "wells-fargo-attune.png"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: entertainment
+  - category: "entertainment"
     value: 4
-    unit: percent
+    unit: "percent"
     note: "Fitness, wellness, sports, recreation, live events, gardening, pet supplies, transit, EV charging, thrift stores"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 100
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -29,4 +29,46 @@ apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://creditcards.wellsfargo.com/attune-credit-card
+apply_link: "https://creditcards.wellsfargo.com/attune-credit-card"
+benefits:
+  - name: "Cellular Telephone Protection"
+    value: 600
+    description: "Up to $600 of cell phone protection per claim against damage, theft, and unintended separation when you pay your monthly phone bill with the card, subject to a $25 deductible."
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
+  - name: "Concierge Service"
+    description: "Personal assistant available 24/7 worldwide through Mastercard."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "Mastercard Travel and Lifestyle Services"
+    description: "24/7 lifestyle concierge support for 3-star or higher rated hotels to help resolve issues."
+    frequency: "per_trip"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Recycled Material Card"
+    description: "Credit card made from recycled plastic."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Paperless Statements"
+    description: "Automatic digital delivery of statements and Terms and Conditions when enrolled in Wells Fargo Online."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: true
+  - name: "Contactless Cards"
+    description: "Tap-to-pay functionality for faster checkout."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "My Wells Fargo Deals"
+    description: "Access to personalized merchant deals for additional cash back as account credit."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Credit Close-Up"
+    description: "Monthly FICO Score updates and personalized credit insights, complimentary for Wells Fargo Online customers."
+    frequency: "monthly"
+    category: "other"
+    enrollment_required: true
