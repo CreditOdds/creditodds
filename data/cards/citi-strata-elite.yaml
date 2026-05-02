@@ -46,18 +46,6 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
-  - name: "Citigold Relationship Credit"
-    value: 145
-    description: "Annual $145 banking relationship credit for qualifying Citigold clients."
-    frequency: "annual"
-    category: "statement_credit"
-    enrollment_required: false
-  - name: "Citigold Private Client Relationship Credit"
-    value: 595
-    description: "First year $595 credit and $145 annually thereafter for qualifying Citigold Private Clients."
-    frequency: "annual"
-    category: "statement_credit"
-    enrollment_required: false
 tags:
   - travel
   - rewards
