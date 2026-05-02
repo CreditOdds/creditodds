@@ -30,6 +30,7 @@ const categoryIcons: Record<string, string> = {
   streaming: "📺",
   grocery: "🛒",
   rideshare: "🚗",
+  car_rental: "🚙",
   other: "✨",
 };
 

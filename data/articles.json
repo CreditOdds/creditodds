@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-02T15:41:31.874Z",
+  "generated_at": "2026-05-02T15:43:06.407Z",
   "count": 4,
   "articles": [
     {
@@ -68,8 +68,7 @@
           "image": "chase-slate-edge.png",
           "bank": "Chase"
         }
-      ],
-      "social_image": "balance-transfer-cards-explained-social.png"
+      ]
     },
     {
       "id": "multiple-citi-custom-cash-cards",
@@ -105,9 +104,7 @@
           "image": "citi_double_cash.png",
           "bank": "Citi"
         }
-      ],
-      "image": "multiple-citi-custom-cash-cards.png",
-      "social_image": "multiple-citi-custom-cash-cards-social.png"
+      ]
     },
     {
       "id": "chase-5-24-rule-explained",
@@ -150,9 +147,7 @@
           "image": "freedom_unlimited_card.png",
           "bank": "Chase"
         }
-      ],
-      "image": "chase-5-24-rule-explained.png",
-      "social_image": "chase-5-24-rule-explained-social.png"
+      ]
     },
     {
       "id": "best-no-annual-fee-cashback-2026",
@@ -209,9 +204,7 @@
           "image": "wells_fargo_active_cash.png",
           "bank": "Wells Fargo"
         }
-      ],
-      "image": "best-no-annual-fee-cashback-2026.png",
-      "social_image": "best-no-annual-fee-cashback-2026-social.png"
+      ]
     }
   ]
 }

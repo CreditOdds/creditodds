@@ -46,4 +46,11 @@ benefits:
     description: "Add employee cards at no additional cost; employee purchases earn miles on the primary account"
     frequency: "ongoing"
     category: "other"
+  - name: "Lifestyle Collection Benefits"
+    value: 0
+    description: "$50 experience credit and room upgrades when available on Lifestyle Collection hotel bookings through Capital One Business Travel."
+    frequency: "per_trip"
+    category: "hotel"
+    enrollment_required: false
 apply_link: https://www.capitalone.com/small-business/credit-cards/venture-business/
+foreign_transaction_fee: false

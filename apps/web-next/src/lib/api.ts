@@ -52,7 +52,7 @@ export interface CardBenefit {
   value_unit?: 'usd' | 'points' | 'miles';
   description: string;
   frequency: 'monthly' | 'quarterly' | 'semi_annual' | 'annual' | 'multi_year' | 'ongoing';
-  category: 'dining' | 'dining_travel' | 'travel' | 'hotel' | 'entertainment' | 'shopping' | 'fitness' | 'lounge' | 'security' | 'gas' | 'streaming' | 'grocery' | 'rideshare' | 'other';
+  category: 'dining' | 'dining_travel' | 'travel' | 'hotel' | 'entertainment' | 'shopping' | 'fitness' | 'lounge' | 'security' | 'gas' | 'streaming' | 'grocery' | 'rideshare' | 'car_rental' | 'other';
   enrollment_required?: boolean;
 }
 

@@ -292,7 +292,7 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
       "value_unit": "usd" | "points" | "miles" | "percent",
       "description": "<one short sentence>",
       "frequency": "monthly" | "quarterly" | "semi_annual" | "annual" | "multi_year" | "ongoing" | "per_purchase" | "per_flight" | "per_trip" | "per_visit" | "per_rental" | "per_claim" | "every_4_years" | "one_time",
-      "category": "dining" | "dining_travel" | "travel" | "hotel" | "entertainment" | "shopping" | "fitness" | "lounge" | "security" | "gas" | "streaming" | "grocery" | "rideshare" | "telecom" | "statement_credit" | "rewards" | "other",
+      "category": "dining" | "dining_travel" | "travel" | "hotel" | "entertainment" | "shopping" | "fitness" | "lounge" | "security" | "gas" | "streaming" | "grocery" | "rideshare" | "car_rental" | "telecom" | "statement_credit" | "rewards" | "other",
       "enrollment_required": <true|false>
     }
   ],

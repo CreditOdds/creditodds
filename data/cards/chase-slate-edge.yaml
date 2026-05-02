@@ -15,3 +15,10 @@ apr:
     min: 22.49
     max: 31.24
 apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge
+benefits:
+  - name: "Complimentary DashPass"
+    value: 0
+    description: "6 months of complimentary DashPass membership for DoorDash and Caviar; DashPass members also get up to $10 off quarterly on non-restaurant DoorDash orders through Dec 31, 2027."
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true

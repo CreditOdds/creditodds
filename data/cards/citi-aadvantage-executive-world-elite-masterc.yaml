@@ -26,6 +26,24 @@ benefits:
     description: "Preferred boarding on American Airlines flights"
     frequency: "ongoing"
     category: "travel"
+  - name: "Lyft Credits"
+    value: 120
+    description: "Up to $120 in annual Lyft credits ($10 per month after 3 eligible rides)"
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "Grubhub Statement Credit"
+    value: 120
+    description: "Up to $120 annual statement credit on eligible Grubhub purchases ($10 per monthly billing statement)"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "Avis and Budget Car Rental Credit"
+    value: 120
+    description: "Up to $120 annual statement credit for eligible prepaid car rentals booked directly on avis.com or budget.com"
+    frequency: "annual"
+    category: "car_rental"
+    enrollment_required: false
 tags:
   - travel
   - airline
@@ -52,3 +70,4 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/usc/lpaca/aa/aadvantage/exec/ps/index0.html
+foreign_transaction_fee: false
