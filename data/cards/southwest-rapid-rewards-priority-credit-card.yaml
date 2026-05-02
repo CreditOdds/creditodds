@@ -44,8 +44,39 @@ benefits:
     description: "4 upgraded boardings per year when available"
     frequency: "annual"
     category: "travel"
+  - name: "Complimentary Preferred Seat"
+    description: "Complimentary Preferred seat selection at booking when available, valued on average at $70 round trip"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "A-List Tier Qualifying Points Boost"
+    value: 2500
+    value_unit: "points"
+    description: "Earn 2,500 tier qualifying points toward A-List status for every $5,000 spent in purchases annually"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Companion Pass Qualifying Points Boost"
+    value: 10000
+    value_unit: "points"
+    description: "10,000 Companion Pass qualifying points boost each year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Inflight Purchase Rebate"
+    value: 25
+    description: "25% back on inflight purchases"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "DoorDash DashPass"
+    description: "Complimentary one-year DashPass membership providing unlimited deliveries with $0 delivery fees and lower service fees"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
 tags:
   - airline
   - travel
   - rewards
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/priority
+foreign_transaction_fee: false
