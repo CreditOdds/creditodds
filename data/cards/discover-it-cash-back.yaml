@@ -6,19 +6,21 @@ accepting_applications: true
 annual_fee: 0
 card_referral_link: "https://refer.discover.com/"
 tags:
-  - cashback
+  - "cashback"
 reward_type: "cashback"
 rewards:
-  - category: rotating
+  - category: "rotating"
     value: 5
-    unit: percent
-    mode: quarterly_rotating
-    current_categories: [groceries, online_shopping]
+    unit: "percent"
+    mode: "quarterly_rotating"
+    current_categories:
+      - "groceries"
+      - "online_shopping"
     current_period: "Q1 2026"
     note: "Up to $1,500/quarter when activated"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 apr:
   purchase_intro:
     rate: 0
@@ -29,4 +31,25 @@ apr:
   regular:
     min: 17.49
     max: 26.49
-apply_link: https://www.discover.com/credit-cards/cash-back/it-card.html
+apply_link: "https://www.discover.com/credit-cards/cash-back/it-card.html"
+benefits:
+  - name: "Cashback Match"
+    description: "Unlimited dollar-for-dollar match of all cash back earned at the end of first year, automatically with no limit"
+    frequency: "one_time"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Card Design Gallery"
+    description: "Choose from a gallery of colorful card designs when applying"
+    frequency: "one_time"
+    category: "other"
+    enrollment_required: false
+  - name: "Account Freeze"
+    description: "Prevent new purchases and cash advances in seconds via mobile app or website if card is misplaced"
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "Social Security Number Alerts"
+    description: "Free alert if your Social Security number is found on the dark web"
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: true
