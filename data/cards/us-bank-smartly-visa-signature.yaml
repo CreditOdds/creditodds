@@ -12,7 +12,7 @@ tags:
   - rewards
 rewards:
   - category: everything_else
-    value: 2
+    value: 4
     unit: percent
 apr:
   purchase_intro:
