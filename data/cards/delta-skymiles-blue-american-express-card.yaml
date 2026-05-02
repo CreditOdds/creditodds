@@ -31,12 +31,6 @@ apr:
     min: 19.49
     max: 28.49
 benefits:
-  - name: "Pay with Miles Discount"
-    value: 10
-    description: "Take up to $50 off the cost of a flight for every 5,000 miles redeemed with Pay with Miles when booking on delta.com."
-    frequency: "per_flight"
-    category: "travel"
-    enrollment_required: false
   - name: "Inflight Purchase Statement Credit"
     value: 20
     value_unit: "percent"
