@@ -7,9 +7,9 @@ annual_fee: 0
 reward_type: "miles"
 rewards:
   - category: airlines
-    value: 5
+    value: 2
     unit: points_per_dollar
-    note: "United purchases"
+    note: "On eligible United purchases"
   - category: gas
     value: 2
     unit: points_per_dollar
@@ -39,18 +39,15 @@ apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-gate
 foreign_transaction_fee: false
 benefits:
   - name: "Checked Bags"
+    value: 0
     description: "2 free checked bags each year after spending $10,000 in a calendar year"
     frequency: "annual"
     category: "travel"
     enrollment_required: false
-  - name: "Inflight Purchase Rebate"
-    value: 25
-    description: "25% back as statement credit on food, beverages, Wi-Fi on United-operated flights and Club premium drinks"
-    frequency: "per_purchase"
-    category: "statement_credit"
-    enrollment_required: false
   - name: "Flight Booking Discount"
-    description: "At least 10% discount on flights booked with miles after spending $10,000 in a calendar year"
+    value: 10
+    value_unit: "percent"
+    description: "10% off flights booked with miles after spending $10,000 in a calendar year"
     frequency: "annual"
     category: "travel"
     enrollment_required: false
