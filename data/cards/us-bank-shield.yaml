@@ -1,10 +1,10 @@
-name: "US Bank Shield"
-bank: "U.S. Bank"
-slug: "us-bank-shield"
-image: "us-bank-shield.png"
+name: US Bank Shield
+bank: U.S. Bank
+slug: us-bank-shield
+image: us-bank-shield.png
 accepting_applications: true
 annual_fee: 0
-category: "balance_transfer"
+category: balance_transfer
 tags:
   - balance_transfer
 apr:
@@ -18,3 +18,21 @@ apr:
     min: 16.99
     max: 27.99
 apply_link: https://www.usbank.com/credit-cards/pm/shield-visa-credit-card.html
+benefits:
+  - name: Annual Statement Credit
+    value: 20
+    description: Earn a $20 annual statement credit for 11 consecutive months of purchases.
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Cell Phone Protection
+    value: 600
+    description: Up to $600 reimbursed if your cell phone is stolen or damaged when you pay your monthly cellular bill with your card.
+    frequency: per_claim
+    category: other
+    enrollment_required: false
+  - name: Free Credit Score Access
+    description: Access your credit score anytime through the mobile app and online banking.
+    frequency: ongoing
+    category: other
+    enrollment_required: true
