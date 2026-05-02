@@ -6,7 +6,7 @@ accepting_applications: true
 category: "balance_transfer"
 annual_fee: 0
 tags:
-  - balance_transfer
+  - "balance_transfer"
 apr:
   purchase_intro:
     rate: 0
@@ -17,4 +17,22 @@ apr:
   regular:
     min: 17.49
     max: 28.24
-apply_link: https://creditcards.wellsfargo.com/reflect-visa-credit-card
+apply_link: "https://creditcards.wellsfargo.com/reflect-visa-credit-card"
+foreign_transaction_fee: true
+benefits:
+  - name: "Cellular Telephone Protection"
+    value: 600
+    description: "Up to $600 reimbursement for cell phone damage or theft with $25 deductible."
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
+  - name: "My Wells Fargo Deals"
+    description: "Access to personalized merchant deals with cash back earned as account credit."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Credit Close-Up"
+    description: "Complimentary monthly FICO Score updates and personalized credit insights."
+    frequency: "monthly"
+    category: "other"
+    enrollment_required: true
