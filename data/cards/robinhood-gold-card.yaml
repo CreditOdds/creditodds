@@ -1,35 +1,55 @@
-name: "Robinhood Gold"
-bank: "Robinhood"
-slug: "robinhood-gold-card"
+name: Robinhood Gold
+bank: Robinhood
+slug: robinhood-gold-card
 accepting_applications: true
-image: "robinhood-gold-card.png"
+image: robinhood-gold-card.png
 release_date: "2024-03-26"
 annual_fee: 0
 benefits:
-  - name: "Travel Insurance"
+  - name: Travel Insurance
     value: 0
-    description: "Trip cancellation, trip delay, and lost luggage protection"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Cell Phone Protection"
+    description: Trip cancellation, trip delay, and lost luggage protection
+    frequency: ongoing
+    category: travel
+  - name: Cell Phone Protection
     value: 0
-    description: "Cell phone damage and theft protection when you pay your bill with the card"
-    frequency: "ongoing"
-    category: "other"
-  - name: "No Foreign Transaction Fees"
+    description: Cell phone damage and theft protection when you pay your bill with the card
+    frequency: ongoing
+    category: other
+  - name: No Foreign Transaction Fees
     value: 0
-    description: "No foreign transaction fees on purchases made abroad"
-    frequency: "ongoing"
-    category: "travel"
+    description: No foreign transaction fees on purchases made abroad
+    frequency: ongoing
+    category: travel
+  - name: Virtual Cards
+    description: Pay with disposable card numbers for smarter, more private spending.
+    frequency: ongoing
+    category: security
+    enrollment_required: false
+  - name: Trip Interruption Protection
+    description: Trip Interruption Protection included.
+    frequency: per_trip
+    category: travel
+    enrollment_required: false
+  - name: Family Authorized Users
+    description: Add cardholders of any age, set spending limits, and lock lost cards instantly.
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: No Annual Fee
+    description: No annual fee.
+    frequency: annual
+    category: other
+    enrollment_required: false
 tags:
   - cashback
   - rewards
-reward_type: "cashback"
+reward_type: cashback
 rewards:
   - category: travel_portal
     value: 5
     unit: percent
-    note: "Travel booked through Robinhood travel portal"
+    note: Travel booked through Robinhood travel portal
   - category: everything_else
     value: 3
     unit: percent
@@ -38,3 +58,4 @@ apr:
     min: 29.99
     max: 29.99
 apply_link: https://robinhood.com/creditcard/
+foreign_transaction_fee: false
