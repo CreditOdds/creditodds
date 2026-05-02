@@ -37,22 +37,16 @@ benefits:
     frequency: "annual"
     category: "travel"
   - name: "Complimentary Preferred Seat"
-    value: 70
-    description: "Complimentary Preferred seat selection within 48 hours prior to departure, valued at approximately $70 round trip when available"
+    value: 0
+    description: "Complimentary Preferred seat selection within 48 hours prior to departure when available (valued at approximately $70 round trip)"
     frequency: "per_flight"
     category: "travel"
     enrollment_required: false
   - name: "Anniversary Flight Discount"
     value: 15
+    value_unit: "percent"
     description: "15% promo code on your cardmember anniversary for flight purchases (excludes Basic fare)"
     frequency: "annual"
-    category: "travel"
-    enrollment_required: false
-  - name: "A-List Tier Qualifying Points Boost"
-    value: 1500
-    value_unit: "points"
-    description: "Earn 1,500 tier qualifying points toward A-List status for every $5,000 spent in purchases annually"
-    frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
   - name: "Companion Pass Qualifying Points Boost"
@@ -64,13 +58,15 @@ benefits:
     enrollment_required: false
   - name: "Inflight Purchase Rebate"
     value: 25
+    value_unit: "percent"
     description: "25% back on inflight purchases"
     frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
   - name: "DoorDash DashPass"
+    value: 0
     description: "Complimentary one-year DashPass membership for DoorDash and Caviar with unlimited deliveries and $0 delivery fees"
-    frequency: "annual"
+    frequency: "one_time"
     category: "dining"
     enrollment_required: true
 tags:
