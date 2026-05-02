@@ -1,32 +1,58 @@
-name: "Delta SkyMiles Platinum American Express"
-bank: "American Express"
-slug: "delta-skymiles-platinum-american-express-card"
-image: "amex_delta_skymiles_platinum.png"
+name: Delta SkyMiles Platinum American Express
+bank: American Express
+slug: delta-skymiles-platinum-american-express-card
+image: amex_delta_skymiles_platinum.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-platinum-american-express-card/
 annual_fee: 350
-reward_type: "miles"
+reward_type: miles
 benefits:
-  - name: "Companion Certificate"
+  - name: Companion Certificate
     value: 0
-    description: "Annual domestic Main Cabin companion certificate after meeting spend requirements"
-    frequency: "annual"
-    category: "travel"
-  - name: "Global Entry / TSA PreCheck Credit"
+    description: Annual domestic Main Cabin companion certificate after meeting spend requirements
+    frequency: annual
+    category: travel
+  - name: Global Entry / TSA PreCheck Credit
     value: 100
-    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
-  - name: "TakeOff 15"
+    description: Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee
+    frequency: multi_year
+    category: security
+  - name: TakeOff 15
     value: 0
-    description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "First Checked Bag Free"
+    description: 15% off Delta award flights when booking through delta.com or the Fly Delta app
+    frequency: ongoing
+    category: travel
+  - name: First Checked Bag Free
     value: 0
-    description: "First checked bag free on Delta flights for you and up to 8 companions on the same reservation"
-    frequency: "ongoing"
-    category: "travel"
+    description: First checked bag free on Delta flights for you and up to 8 companions on the same reservation
+    frequency: ongoing
+    category: travel
+  - name: MQD Headstart
+    value: 2500
+    value_unit: miles
+    description: Receive $2,500 Medallion Qualification Dollars each Medallion Qualification Year toward Delta elite status
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: MQD Boost
+    value: 1
+    value_unit: miles
+    description: Earn $1 Medallion Qualification Dollar for each $20 in purchases made on your card
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: Rideshare Credit
+    value: 120
+    description: Earn up to $10 in statement credits each month after using your card on U.S. rideshare purchases with select providers
+    frequency: annual
+    category: rideshare
+    enrollment_required: true
+  - name: Delta Stays Credit
+    value: 150
+    description: Annual statement credit of up to $150 after using your card to book prepaid hotels or vacation rentals through Delta Stays on delta.com
+    frequency: annual
+    category: hotel
+    enrollment_required: false
 tags:
   - airline
   - travel
@@ -35,24 +61,24 @@ rewards:
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "Delta purchases"
+    note: Delta purchases
   - category: hotels
     value: 3
     unit: points_per_dollar
-    note: "Direct hotel purchases"
+    note: Direct hotel purchases
   - category: dining
     value: 2
     unit: points_per_dollar
   - category: groceries
     value: 2
     unit: points_per_dollar
-    note: "U.S. supermarkets"
+    note: U.S. supermarkets
   - category: everything_else
     value: 1
     unit: points_per_dollar
 signup_bonus:
   value: 90000
-  type: "miles"
+  type: miles
   spend_requirement: 3000
   timeframe_months: 6
 apr:
