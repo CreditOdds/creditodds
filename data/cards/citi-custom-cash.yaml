@@ -1,36 +1,36 @@
-name: "Citi Custom Cash"
-bank: "Citi"
-slug: "citi-custom-cash"
-image: "citi_custom_cash.png"
+name: Citi Custom Cash
+bank: Citi
+slug: citi-custom-cash
+image: citi_custom_cash.png
 accepting_applications: true
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 tags:
   - cashback
   - rewards
 rewards:
-  - category: "rotating"
+  - category: rotating
     value: 5
-    unit: "percent"
-    mode: "auto_top_spend"
+    unit: percent
+    mode: auto_top_spend
     eligible_categories:
-      - "dining"
-      - "gas"
-      - "groceries"
-      - "transit"
-      - "travel"
-      - "streaming"
-      - "drugstores"
-      - "home_improvement"
-      - "entertainment"
-    note: "Automatically on your top eligible spend category each billing cycle, up to $500/month"
-  - category: "hotels_car_portal"
+      - dining
+      - gas
+      - groceries
+      - transit
+      - travel
+      - streaming
+      - drugstores
+      - home_improvement
+      - entertainment
+    note: Automatically on your top eligible spend category each billing cycle, up to $500/month
+  - category: hotels_car_portal
     value: 4
-    unit: "points_per_dollar"
-    note: "Additional 4 ThankYou Points per $1 on hotels, car rentals, and attractions booked on Citi Travel portal (through June 30, 2026)"
-  - category: "everything_else"
+    unit: points_per_dollar
+    note: Additional 4 ThankYou Points per $1 on hotels, car rentals, and attractions booked on Citi Travel portal (through June 30, 2026)
+  - category: everything_else
     value: 1
-    unit: "percent"
+    unit: percent
 signup_bonus:
   value: 200
   type: cash
@@ -47,3 +47,25 @@ apr:
     min: 17.49
     max: 27.49
 apply_link: https://www.citi.com/credit-cards/citi-custom-cash-credit-card
+benefits:
+  - name: Welcome Bonus
+    value: 200
+    description: $200 cash back bonus after $1,500 in purchases in the first 6 months
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: FICO Score Access
+    description: Free access to your FICO Score online updated monthly
+    frequency: ongoing
+    category: other
+    enrollment_required: false
+  - name: 24-Hour Fraud Protection
+    description: Alerts for unusual account activity
+    frequency: ongoing
+    category: security
+    enrollment_required: false
+  - name: Citi Entertainment Access
+    description: Special access to purchase presale and exclusive concert, sports, and cultural event tickets
+    frequency: ongoing
+    category: entertainment
+    enrollment_required: false
