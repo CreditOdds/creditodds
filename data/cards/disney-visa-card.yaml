@@ -6,9 +6,9 @@ image: "chase-disney.png"
 annual_fee: 0
 reward_type: "cashback"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
     note: "1% in Disney Rewards Dollars on all purchases"
 signup_bonus:
   value: 150
@@ -20,4 +20,40 @@ apr:
   regular:
     min: 18.24
     max: 29.99
-apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
+apply_link: "https://creditcards.chase.com/rewards-credit-cards/disney/rewards"
+benefits:
+  - name: "Disney Park Merchandise Discount"
+    description: "10% off select merchandise purchases at Disneyland and Walt Disney World Resort locations when using the card"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Disney Park Dining Discount"
+    description: "10% off select dining locations at Disneyland and Walt Disney World Resort on most days when using the card"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
+  - name: "Disney Guided Tour Discount"
+    description: "15% off non-discounted price for select guided tours at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Cardmember Photo Locations"
+    description: "Private cardmember photo opportunities with complimentary digital downloads at Disneyland and Walt Disney World Resort"
+    frequency: "per_visit"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "DisneyStore.com Discount"
+    description: "10% savings on select purchases at DisneyStore.com when using the card"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Disney Vacation Financing"
+    description: "0% promotional APR for 6 months on select Disney vacation packages from the date of purchase"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "DoorDash DashPass"
+    description: "Complimentary DoorDash DashPass membership for one year providing unlimited deliveries with $0 delivery fees"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
