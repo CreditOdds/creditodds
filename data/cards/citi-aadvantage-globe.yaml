@@ -1,21 +1,68 @@
-name: "Citi AAdvantage Globe"
-bank: "Citi"
-slug: "citi-aadvantage-globe"
+name: Citi AAdvantage Globe
+bank: Citi
+slug: citi-aadvantage-globe
 accepting_applications: true
 annual_fee: 350
-reward_type: "miles"
-image: "citi-aadvantage-globe.png"
+reward_type: miles
+image: citi-aadvantage-globe.png
 benefits:
-  - name: "First Checked Bag Free"
+  - name: First Checked Bag Free
     value: 0
-    description: "First checked bag free on domestic American Airlines itineraries"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Preferred Boarding"
+    description: First checked bag free on domestic American Airlines itineraries
+    frequency: ongoing
+    category: travel
+  - name: Preferred Boarding
     value: 0
-    description: "Preferred boarding on American Airlines flights"
-    frequency: "ongoing"
-    category: "travel"
+    description: Preferred boarding on American Airlines flights
+    frequency: ongoing
+    category: travel
+  - name: Admirals Club Globe Passes
+    value: 300
+    description: Receive 4 Admirals Club Globe Passes annually for access to nearly 50 Admirals Club lounges with complimentary drinks, snacks, and Wi-Fi
+    frequency: annual
+    category: lounge
+    enrollment_required: false
+  - name: Turo Statement Credit
+    value: 240
+    description: Earn up to $30 in statement credits for each eligible Turo trip, up to $240 annually after linking your card to your Turo account
+    frequency: annual
+    category: statement_credit
+    enrollment_required: true
+  - name: Inflight Purchase Credit
+    value: 100
+    description: Earn up to $100 in statement credits annually on inflight purchases when using your card on American Airlines flights
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Annual Splurge Credit
+    value: 100
+    description: Earn up to $100 in statement credits annually on eligible purchases from 1stDibs, AAdvantage Hotels, Future Personal Training, or Live Nation (up to 2 brands)
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Global Entry or TSA PreCheck Credit
+    value: 120
+    description: Statement credit up to $120 as reimbursement for Global Entry or TSA PreCheck application fee
+    frequency: every_4_years
+    category: travel
+    enrollment_required: false
+  - name: Flight Streak Bonus
+    value: 5000
+    value_unit: miles
+    description: Earn a 5,000 Loyalty Point bonus after every 4 qualifying American Airlines flights, up to 15,000 additional Loyalty Points each status qualification year
+    frequency: per_flight
+    category: rewards
+    enrollment_required: false
+  - name: Companion Certificate
+    description: Earn an American Airlines Companion Certificate starting in your second cardmembership year upon renewal, good for a single qualifying round-trip main cabin domestic flight with $99 ticketing fee plus taxes and fees
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Authorized Users
+    description: Add up to 2 Authorized Users at no additional charge and earn AAdvantage miles on their purchases
+    frequency: ongoing
+    category: other
+    enrollment_required: false
 tags:
   - travel
   - airline
@@ -23,24 +70,24 @@ rewards:
   - category: hotels_portal
     value: 6
     unit: points_per_dollar
-    note: "On eligible hotels booked through aadvantagehotels.com"
+    note: On eligible hotels booked through aadvantagehotels.com
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "On eligible American Airlines purchases"
+    note: On eligible American Airlines purchases
   - category: dining
     value: 2
     unit: points_per_dollar
   - category: transit
     value: 2
     unit: points_per_dollar
-    note: "Rides and Rails including taxis, rideshares, and public transit"
+    note: Rides and Rails including taxis, rideshares, and public transit
   - category: everything_else
     value: 1
     unit: points_per_dollar
 signup_bonus:
   value: 60000
-  type: "miles"
+  type: miles
   spend_requirement: 4000
   timeframe_months: 3
 apr:
@@ -48,3 +95,4 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard
+foreign_transaction_fee: false
