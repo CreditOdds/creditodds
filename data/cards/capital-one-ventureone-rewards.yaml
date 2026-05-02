@@ -7,18 +7,18 @@ category: "travel"
 annual_fee: 0
 reward_type: "miles"
 tags:
-  - travel
-  - rewards
+  - "travel"
+  - "rewards"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 5
-    unit: points_per_dollar
-  - category: everything_else
-    value: 1.25
-    unit: points_per_dollar
+    unit: "points_per_dollar"
+  - category: "everything_else"
+    value: 1
+    unit: "points_per_dollar"
 signup_bonus:
   value: 20000
-  type: miles
+  type: "miles"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -28,4 +28,31 @@ apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://www.capitalone.com/credit-cards/ventureone/
+apply_link: "https://www.capitalone.com/credit-cards/ventureone/"
+benefits:
+  - name: "Capital One Travel Elevate"
+    description: "Access to Capital One Travel with special travel booking features and protections."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "Free Price Drop Protection"
+    value: 50
+    description: "Up to $50 in travel credit if booked flight price drops within 10 days."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for the price difference if you find a better rate on flights, hotels, or rental cars within 24 hours of booking."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flexible Flight Cancellation"
+    description: "Cancel flights up to 3 hours before departure and receive most of your booking cost refunded."
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Flight Price Alerts"
+    description: "24/7 price monitoring with notifications when flight prices drop."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
