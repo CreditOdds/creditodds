@@ -4,6 +4,7 @@ slug: "bilt-blue"
 image: "bilt_blue.png"
 accepting_applications: true
 apply_link: https://www.biltrewards.com/card/apply
+foreign_transaction_fee: false
 annual_fee: 0
 reward_type: "points"
 release_date: "2025-01-15"
