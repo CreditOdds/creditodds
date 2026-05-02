@@ -40,6 +40,8 @@ apr:
     max: 29.74
 benefits:
   - name: "50% Off Inflight Purchases"
+    value: 50
+    value_unit: "percent"
     description: "50% savings on eligible inflight purchases on JetBlue-operated flights"
     frequency: "per_purchase"
     category: "travel"
