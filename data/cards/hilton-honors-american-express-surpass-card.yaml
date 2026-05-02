@@ -1,41 +1,41 @@
-name: "Hilton Honors American Express Surpass"
-bank: "American Express"
-slug: "hilton-honors-american-express-surpass-card"
-image: "amex_hilton_honors_surpass.png"
+name: Hilton Honors American Express Surpass
+bank: American Express
+slug: hilton-honors-american-express-surpass-card
+image: amex_hilton_honors_surpass.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/
 annual_fee: 150
-reward_type: "points"
+reward_type: points
 rewards:
   - category: hotels
     value: 12
     unit: points_per_dollar
-    note: "Eligible purchases at Hilton hotels and resorts"
+    note: Eligible purchases at Hilton hotels and resorts
   - category: dining
     value: 6
     unit: points_per_dollar
-    note: "U.S. restaurants"
+    note: U.S. restaurants
   - category: groceries
     value: 6
     unit: points_per_dollar
-    note: "U.S. supermarkets"
+    note: U.S. supermarkets
   - category: gas
     value: 6
     unit: points_per_dollar
-    note: "U.S. gas stations"
+    note: U.S. gas stations
   - category: online_shopping
     value: 4
     unit: points_per_dollar
-    note: "U.S. online retail purchases"
+    note: U.S. online retail purchases
   - category: everything_else
     value: 3
     unit: points_per_dollar
 signup_bonus:
   value: 130000
-  type: "points"
+  type: points
   spend_requirement: 3000
   timeframe_months: 6
-  note: "Plus a Free Night Reward after meeting the $3,000 spend requirement"
+  note: Plus a Free Night Reward after meeting the $3,000 spend requirement
 apr:
   purchase_intro:
     rate: 0
@@ -44,26 +44,52 @@ apr:
     min: 17.49
     max: 27.49
 benefits:
-  - name: "Hilton Credit"
+  - name: Hilton Credit
     value: 200
-    description: "Up to $50 per quarter on eligible purchases made directly with Hilton portfolio properties"
-    frequency: "quarterly"
-    category: "hotel"
-  - name: "Free Night Award"
+    description: Up to $50 per quarter on eligible purchases made directly with Hilton portfolio properties
+    frequency: quarterly
+    category: hotel
+  - name: Free Night Award
     value: 0
-    description: "Earn a Free Night Reward after $15,000 in purchases in a calendar year"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Gold Status"
+    description: Earn a Free Night Reward after $15,000 in purchases in a calendar year
+    frequency: annual
+    category: hotel
+  - name: Gold Status
     value: 0
-    description: "Complimentary Hilton Honors Gold status with room upgrades, late checkout, and 5th night free on reward stays"
-    frequency: "ongoing"
-    category: "hotel"
-  - name: "Diamond Status Through Spend"
+    description: Complimentary Hilton Honors Gold status with room upgrades, late checkout, and 5th night free on reward stays
+    frequency: ongoing
+    category: hotel
+  - name: Diamond Status Through Spend
     value: 0
-    description: "Upgrade to Hilton Honors Diamond status through the end of the next calendar year after $40,000 in annual purchases"
-    frequency: "ongoing"
-    category: "hotel"
+    description: Upgrade to Hilton Honors Diamond status through the end of the next calendar year after $40,000 in annual purchases
+    frequency: ongoing
+    category: hotel
+  - name: Hilton Honors Gold Status
+    description: Complimentary Hilton Honors Gold status with your card
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: Hilton Statement Credit
+    value: 200
+    description: Up to $50 in statement credits each quarter for purchases made directly with a property in the Hilton portfolio
+    frequency: annual
+    category: statement_credit
+    enrollment_required: false
+  - name: Free Night Reward
+    description: Earn a Free Night Reward from Hilton Honors after you spend $15,000 on eligible purchases in a calendar year
+    frequency: annual
+    category: hotel
+    enrollment_required: false
+  - name: National Car Rental Emerald Club Executive Status
+    description: Complimentary National Car Rental Emerald Club Executive status including Executive Area Access
+    frequency: ongoing
+    category: travel
+    enrollment_required: true
+  - name: Hilton Honors Diamond Status Upgrade
+    description: Earn an upgrade to Hilton Honors Diamond status through the end of the next calendar year after spending $40,000 on eligible purchases in a calendar year
+    frequency: annual
+    category: travel
+    enrollment_required: false
 tags:
   - hotel
   - travel
