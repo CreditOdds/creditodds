@@ -1,9 +1,9 @@
-name: "Wells Fargo Reflect"
-bank: "Wells Fargo"
-slug: "wells-fargo-reflect"
-image: "wells_fargo_reflect.png"
+name: Wells Fargo Reflect
+bank: Wells Fargo
+slug: wells-fargo-reflect
+image: wells_fargo_reflect.png
 accepting_applications: true
-category: "balance_transfer"
+category: balance_transfer
 annual_fee: 0
 tags:
   - balance_transfer
@@ -18,3 +18,26 @@ apr:
     min: 17.49
     max: 28.24
 apply_link: https://creditcards.wellsfargo.com/reflect-visa-credit-card
+foreign_transaction_fee: true
+benefits:
+  - name: Cellular Telephone Protection
+    value: 600
+    description: Up to $600 reimbursement for cell phone damage or theft, subject to $25 deductible.
+    frequency: per_claim
+    category: other
+    enrollment_required: false
+  - name: Roadside Dispatch
+    description: 24/7 roadside towing assistance available with no membership required.
+    frequency: per_visit
+    category: travel
+    enrollment_required: false
+  - name: My Wells Fargo Deals
+    description: Access to personalized merchant deals and cash back rewards as account credit.
+    frequency: ongoing
+    category: shopping
+    enrollment_required: true
+  - name: Credit Close-Up
+    description: Monthly FICO Score updates and personalized credit insights at no cost.
+    frequency: monthly
+    category: other
+    enrollment_required: true
