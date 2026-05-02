@@ -7,11 +7,49 @@ card_referral_link: "https://www.referyourchasecard.com/20r"
 annual_fee: 0
 reward_type: "cashback"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 1.5
-    unit: percent
+    unit: "percent"
 apr:
   regular:
     min: 25.24
     max: 25.24
-apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
+apply_link: "https://creditcards.chase.com/cash-back-credit-cards/freedom/rise"
+benefits:
+  - name: "Automatic Payments Statement Credit"
+    value: 25
+    description: "$25 statement credit for enrolling in automatic payments within the first three months and remaining enrolled for at least 90 days"
+    frequency: "one_time"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "DashPass Complimentary Access"
+    description: "6 months of complimentary DashPass membership with $0 delivery fees and lower service fees on DoorDash and Caviar orders"
+    frequency: "multi_year"
+    category: "dining"
+    enrollment_required: true
+  - name: "Credit Journey"
+    description: "Free access to credit score tracking, educational resources, and identity monitoring alerts"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Credit Line Increase Evaluation"
+    description: "Automatic evaluation for credit line increase as soon as 6 months after account opening"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Card Lock/Unlock Feature"
+    description: "Ability to lock or unlock card through Chase Mobile app or Chase.com to instantly block new purchases and cash advances"
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "24/7 Fraud Monitoring"
+    description: "Sophisticated fraud monitoring with text, email, or call alerts for unusual purchases"
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "Refer Friends Bonus"
+    value: 250
+    description: "Earn up to $250 cash back per year by referring friends who open a Freedom Rise card, earning $25 per referral"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
