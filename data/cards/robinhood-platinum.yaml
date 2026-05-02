@@ -67,14 +67,14 @@ benefits:
     category: "security"
     enrollment_required: false
   - name: "Hotel Credit"
-    value: 250
-    description: "Up to $250 in statement credit every 6 months for hotel stays booked through the Robinhood Banking app."
+    value: 500
+    description: "Up to $500 in statement credits each year ($250 every 6 months) for hotel stays booked through the Robinhood Banking app."
     frequency: "semi_annual"
     category: "hotel"
     enrollment_required: false
   - name: "Travel Credit"
-    value: 150
-    description: "$150 in statement credit every 6 months for travel purchases."
+    value: 300
+    description: "$300 in statement credits each year ($150 every 6 months) for travel purchases."
     frequency: "semi_annual"
     category: "travel"
     enrollment_required: false

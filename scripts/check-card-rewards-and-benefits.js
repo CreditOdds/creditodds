@@ -360,11 +360,29 @@ bag"), an elite status tier, or a clearly free recurring service.
 - DO NOT include the welcome/signup bonus as a benefit. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
 - DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — Visa/Mastercard network-tier features on every card.
 
-# FIELD RULES — value + value_unit
+# FIELD RULES — value + value_unit + frequency
 The \`value\` is a number, paired with a \`value_unit\` that says what the
 number means. CRITICAL: never put a percentage in \`value\` without setting
 \`value_unit: "percent"\` — \`value: 5\` with no unit means "$5", which is
 WRONG for a "5% rebate" benefit.
+
+\`value\` is the ANNUAL TOTAL the cardholder gets in a typical year. The
+\`frequency\` field is just a display hint (renders as "$15/mo", "$50/qtr",
+"$200/6 mo", etc.) — it is NOT used as a multiplier. Examples that match
+the existing repo convention:
+  Amex Platinum Uber Cash ("$15/month"):
+    value: 200, frequency: monthly      ← value is the annual total ($200)
+  Hilton Aspire flight credit ("$50/quarter"):
+    value: 200, frequency: quarterly    ← annual total ($50 × 4 = $200)
+  Hilton Aspire resort credit ("$400 semi-annually"):
+    value: 800, frequency: semi_annual  ← annual total ($400 × 2 = $800)
+  Amex Biz Plat Indeed credit ("$90/quarter"):
+    value: 360, frequency: quarterly    ← annual total
+DO NOT store the per-occurrence value with a sub-annual frequency — the
+frontend would treat \`value: 15, frequency: monthly\` as $15/yr, not
+$180/yr. The only frequency that does cycle math is \`multi_year\`, where
+\`value\` is the amount per cycle and \`frequency_years\` is the cycle
+length (Global Entry: value=120, frequency=multi_year, frequency_years=5).
 
 - \`value_unit: "usd"\` — dollar credits/rebates. Default. Examples:
   "$300 travel credit" → value=300, value_unit=usd (or omitted).
