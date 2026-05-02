@@ -16,10 +16,36 @@ benefits:
     description: "Complimentary DoorDash DashPass membership"
     frequency: "ongoing"
     category: "dining"
+  - name: "Anniversary Bonus Points"
+    description: "Earn bonus points equal to 10% of total purchases made the previous year on your account anniversary."
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "DashPass Monthly Promo Credit"
+    value: 10
+    description: "DashPass members receive $10 promo credit each month ($120 annually) for groceries, retail orders, and more through December 31, 2027."
+    frequency: "monthly"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "5x Points on Peloton"
+    description: "Earn 5x total points on eligible Peloton equipment and accessory purchases over $150 through December 31, 2027."
+    frequency: "per_purchase"
+    category: "fitness"
+    enrollment_required: true
+  - name: "5x Points on Lyft"
+    description: "Earn 5x total points on Lyft rides through September 30, 2027."
+    frequency: "per_purchase"
+    category: "rideshare"
+    enrollment_required: false
+  - name: "1:1 Point Transfer to Travel Partners"
+    description: "Transfer points to leading airline and hotel frequent travel programs at 1 to 1 value."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
 tags:
-  - travel
-  - dining
-  - rewards
+  - "travel"
+  - "dining"
+  - "rewards"
 reward_type: "points"
 rewards:
   - category: "travel_portal"
@@ -43,11 +69,12 @@ rewards:
     unit: "points_per_dollar"
 signup_bonus:
   value: 75000
-  type: points
+  type: "points"
   spend_requirement: 5000
   timeframe_months: 3
 apr:
   regular:
     min: 19.24
     max: 27.49
-apply_link: https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred
+apply_link: "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred"
+foreign_transaction_fee: false
