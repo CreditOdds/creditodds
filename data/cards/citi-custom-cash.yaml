@@ -6,8 +6,8 @@ accepting_applications: true
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
   - category: "rotating"
     value: 5
@@ -33,7 +33,7 @@ rewards:
     unit: "percent"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 1500
   timeframe_months: 6
 apr:
@@ -46,4 +46,50 @@ apr:
   regular:
     min: 17.49
     max: 27.49
-apply_link: https://www.citi.com/credit-cards/citi-custom-cash-credit-card
+apply_link: "https://www.citi.com/credit-cards/citi-custom-cash-credit-card"
+benefits:
+  - name: "Automatic Account Alerts"
+    description: "Alerts keep you informed about balance levels, payments due, or credit limit exceeded by email or mobile phone."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: true
+  - name: "Contactless Pay"
+    description: "Shop safely with a contactless-chip enabled card."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Digital Wallets"
+    description: "Shop with confidence in millions of places online, within apps and in stores using digital wallets."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Citi Mobile App"
+    description: "Access your account virtually anywhere, anytime to view balance, available credit, spend summary, and make payments."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Choose Your Payment Due Date"
+    description: "Choose to pay your bill on any available due date in the beginning, middle or end of the month."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Free FICO Score Access"
+    description: "View your FICO Score anytime with no impact to your score, updated monthly and available on mobile app and online."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Fraud Early Warning"
+    description: "Monitors your account for suspicious activity and contacts you to validate and take appropriate action."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "24/7 Customer Service"
+    description: "Customer service representatives available 24 hours a day, 7 days a week."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Citi Entertainment"
+    description: "Access to music, sports, culinary experiences and more through the Citi Entertainment program."
+    frequency: "ongoing"
+    category: "entertainment"
+    enrollment_required: true
