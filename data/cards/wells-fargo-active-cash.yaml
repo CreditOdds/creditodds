@@ -6,16 +6,16 @@ accepting_applications: true
 category: "cashback"
 annual_fee: 0
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 reward_type: "cashback"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 2
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -28,4 +28,27 @@ apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://creditcards.wellsfargo.com/active-cash-credit-card
+apply_link: "https://creditcards.wellsfargo.com/active-cash-credit-card"
+foreign_transaction_fee: true
+benefits:
+  - name: "Cellular Telephone Protection"
+    value: 600
+    description: "Up to $600 of cell phone protection against damage or theft, subject to a $25 deductible."
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
+  - name: "Travel and Emergency Assistance Services"
+    description: "Emergency assistance while traveling anywhere in the world for covered cardholders."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "My Wells Fargo Deals"
+    description: "Access to personalized deals from merchants to earn cash back as account credit when shopping, dining, or enjoying experiences."
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Credit Close-Up"
+    description: "Monthly FICO Score updates and personalized credit insights available at no cost to Wells Fargo Online customers."
+    frequency: "monthly"
+    category: "other"
+    enrollment_required: true
