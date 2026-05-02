@@ -17,33 +17,49 @@ benefits:
     description: "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card"
     frequency: "ongoing"
     category: "other"
+  - name: "My Wells Fargo Deals"
+    description: "Access to personalized deals from merchants to earn cash back as account credit when shopping, dining, or enjoying experiences"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Autograph Card Exclusives"
+    description: "Access to exclusive tickets to live events featuring fan-favorite artists"
+    frequency: "ongoing"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Credit Close-Up"
+    description: "Complimentary monthly FICO Score updates and personalized credit insights for Wells Fargo Online customers"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: true
 tags:
-  - travel
-  - rewards
-  - premium
+  - "travel"
+  - "rewards"
+  - "premium"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 5
-    unit: points_per_dollar
-  - category: airlines
+    unit: "points_per_dollar"
+  - category: "airlines"
     value: 4
-    unit: points_per_dollar
-  - category: dining
+    unit: "points_per_dollar"
+  - category: "dining"
     value: 3
-    unit: points_per_dollar
-  - category: travel
+    unit: "points_per_dollar"
+  - category: "travel"
     value: 3
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 60000
-  type: points
+  type: "points"
   spend_requirement: 4000
   timeframe_months: 3
 apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card
+apply_link: "https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card"
+foreign_transaction_fee: false
