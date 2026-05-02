@@ -162,16 +162,23 @@ export function amortizedAnnualValue(benefit: CardBenefit): number {
   }
 }
 
-// Human-readable frequency label shown next to a benefit's value in the UI
-// (e.g. "$120 every 5 yr" for Global Entry on a 5-year cycle, "$300 /yr" for
-// an annual travel credit). Multi-year is dynamic so the label matches the
-// benefit's `frequency_years` instead of always saying "every 4 yr".
+// Human-readable frequency label shown next to a benefit's value in the UI.
+//
+// Because `value` is the ANNUAL TOTAL (see amortizedAnnualValue), all
+// sub-annual frequencies render as "/yr" — e.g. Amex Platinum Uber Cash
+// (value: 200, frequency: monthly) shows as "$200/yr", with the cadence
+// ("$15/month...") communicated in the description. Showing "$200/mo" was
+// the bug — that read as $2,400/yr to the user.
+//
+// `multi_year` is dynamic — "every N yr" using the benefit's
+// `frequency_years` field (default 4 for legacy Global Entry entries).
 export function frequencyLabel(benefit: CardBenefit): string {
   switch (benefit.frequency) {
-    case 'monthly': return '/mo';
-    case 'quarterly': return '/qtr';
-    case 'semi_annual': return '/6 mo';
-    case 'annual': return '/yr';
+    case 'monthly':
+    case 'quarterly':
+    case 'semi_annual':
+    case 'annual':
+      return '/yr';
     case 'multi_year': {
       const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
       return `every ${years} yr`;
