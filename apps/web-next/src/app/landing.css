@@ -1202,7 +1202,7 @@
 }
 .landing-v2 .foot-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
   gap: 48px;
 }
 .landing-v2 .foot h4 {
@@ -2279,24 +2279,24 @@
     gap: 24px 32px;
   }
   .landing-v2 .foot-grid > div:nth-child(1),
-  .landing-v2 .foot-grid > div:nth-child(4) {
+  .landing-v2 .foot-grid > div:nth-child(5) {
     grid-column: 1 / -1;
   }
-  .landing-v2 .foot-grid > div:nth-child(4) {
+  .landing-v2 .foot-grid > div:nth-child(5) {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 16px;
   }
-  .landing-v2 .foot-grid > div:nth-child(4) h4 {
+  .landing-v2 .foot-grid > div:nth-child(5) h4 {
     width: 100%;
     margin-bottom: 0;
   }
-  .landing-v2 .foot-grid > div:nth-child(4) > a {
+  .landing-v2 .foot-grid > div:nth-child(5) > a {
     display: inline-flex;
     padding: 0;
   }
-  .landing-v2 .foot-grid > div:nth-child(4) > a span {
+  .landing-v2 .foot-grid > div:nth-child(5) > a span {
     display: none;
   }
 }
