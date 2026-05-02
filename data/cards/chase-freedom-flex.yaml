@@ -5,8 +5,8 @@ image: "freedom_flex_card.png"
 accepting_applications: true
 annual_fee: 0
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 reward_type: "cashback"
 rewards:
   - category: "rotating"
@@ -33,7 +33,7 @@ rewards:
     unit: "percent"
 signup_bonus:
   value: 200
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
@@ -46,4 +46,16 @@ apr:
   regular:
     min: 18.24
     max: 27.74
-apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/flex
+apply_link: "https://creditcards.chase.com/cash-back-credit-cards/freedom/flex"
+benefits:
+  - name: "Cell Phone Protection"
+    value: 1000
+    description: "Up to $800 per claim and $1,000 per 12-month period against covered theft or damage for cell phones listed on monthly bill when paid with this card, maximum 2 claims per 12 months with $50 deductible"
+    frequency: "annual"
+    category: "telecom"
+    enrollment_required: false
+  - name: "Travel and Emergency Assistance"
+    description: "Legal and medical referrals and access to travel and emergency assistance services when traveling away from home"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
