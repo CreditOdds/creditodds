@@ -3,17 +3,18 @@ bank: "U.S. Bank"
 slug: "us-bank-smartly-visa-signature"
 image: "smartly-signature.png"
 accepting_applications: true
-apply_link: https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html
+apply_link: "https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html"
 category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 rewards:
-  - category: everything_else
-    value: 2
-    unit: percent
+  - category: "everything_else"
+    value: 4
+    unit: "percent"
+    note: "On first $10,000 in eligible purchases per billing cycle with U.S. Bank Smartly Savings account and qualifying balance of $100,000+ in checking/debit accounts"
 apr:
   purchase_intro:
     rate: 0
@@ -24,3 +25,14 @@ apr:
   regular:
     min: 17.74
     max: 27.99
+benefits:
+  - name: "Cash Back Deals"
+    description: "Personalized cash back offers from brands based on previous spending via mobile app or online banking."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Flexible Redemption"
+    description: "Redeem cash back as direct deposit, statement credit, rewards card, or merchant gift cards."
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
