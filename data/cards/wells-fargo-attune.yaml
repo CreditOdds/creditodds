@@ -1,11 +1,11 @@
-name: "Wells Fargo Attune"
-bank: "Wells Fargo"
-slug: "wells-fargo-attune"
+name: Wells Fargo Attune
+bank: Wells Fargo
+slug: wells-fargo-attune
 accepting_applications: true
-category: "cashback"
-image: "wells-fargo-attune.png"
+category: cashback
+image: wells-fargo-attune.png
 annual_fee: 0
-reward_type: "cashback"
+reward_type: cashback
 tags:
   - cashback
   - rewards
@@ -13,7 +13,7 @@ rewards:
   - category: entertainment
     value: 4
     unit: percent
-    note: "Fitness, wellness, sports, recreation, live events, gardening, pet supplies, transit, EV charging, thrift stores"
+    note: Fitness, wellness, sports, recreation, live events, gardening, pet supplies, transit, EV charging, thrift stores
   - category: everything_else
     value: 1
     unit: percent
@@ -30,3 +30,16 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/attune-credit-card
+benefits:
+  - name: Cellular Telephone Protection
+    value: 600
+    description: Up to $600 of cell phone protection per claim against damage, theft, and unintended separation when you pay your monthly phone bill with the card.
+    frequency: per_claim
+    category: telecom
+    enrollment_required: false
+  - name: Welcome Bonus
+    value: 100
+    description: $100 cash rewards bonus when you spend $500 in purchases in the first 3 months.
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
