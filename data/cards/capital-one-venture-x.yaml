@@ -36,28 +36,51 @@ benefits:
     description: "Complimentary Hertz President's Circle elite status"
     frequency: "ongoing"
     category: "travel"
+  - name: "PRIOR Subscription"
+    value: 149
+    description: "Complimentary annual PRIOR subscription providing access to extraordinary travel experiences and destination guides."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "The Cultivist Museum Membership Discount"
+    description: "50% off Enthusiast membership to The Cultivist for access to over 60 world-class museums for up to 2 years."
+    frequency: "multi_year"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Drop Protection"
+    value: 50
+    description: "Up to $50 in travel credit if flight price drops within 10 days of booking."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for the price difference if a better price is found within 24 hours of booking an eligible flight, hotel, or rental car."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
 tags:
-  - travel
-  - premium
-  - rewards
+  - "travel"
+  - "premium"
+  - "rewards"
 reward_type: "miles"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 10
-    unit: points_per_dollar
-  - category: flights_portal
+    unit: "points_per_dollar"
+  - category: "flights_portal"
     value: 5
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 2
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 75000
-  type: miles
+  type: "miles"
   spend_requirement: 4000
   timeframe_months: 3
 apr:
   regular:
     min: 19.49
     max: 28.49
-apply_link: https://www.capitalone.com/credit-cards/venture-x/
+apply_link: "https://www.capitalone.com/credit-cards/venture-x/"
+foreign_transaction_fee: false
