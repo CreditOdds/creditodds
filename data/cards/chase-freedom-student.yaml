@@ -7,11 +7,23 @@ card_referral_link: "https://www.referyourchasecard.com/20r"
 annual_fee: 0
 reward_type: "cashback"
 rewards:
-  - category: everything_else
+  - category: "everything_else"
     value: 1.5
-    unit: percent
+    unit: "percent"
 apr:
   regular:
     min: 25.24
     max: 25.24
-apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
+apply_link: "https://creditcards.chase.com/cash-back-credit-cards/freedom/rise"
+benefits:
+  - name: "Automatic Payments Statement Credit"
+    value: 25
+    description: "Receive a $25 statement credit after setting up automatic payments within the first 3 months and remaining enrolled for 90 consecutive days."
+    frequency: "one_time"
+    category: "statement_credit"
+    enrollment_required: true
+  - name: "Complimentary DashPass"
+    description: "6 months of complimentary DashPass membership on DoorDash and Caviar when activated between 02/01/2025 and 12/31/2027."
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true
