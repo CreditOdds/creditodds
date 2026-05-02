@@ -1,48 +1,69 @@
-name: "Hilton Honors"
-bank: "American Express"
-slug: "hilton-honors-card"
-image: "amex_hilton_honors.png"
+name: Hilton Honors
+bank: American Express
+slug: hilton-honors-card
+image: amex_hilton_honors.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors/
-card_referral_link: "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref="
+card_referral_link: https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref=
 annual_fee: 0
-reward_type: "points"
+reward_type: points
 rewards:
   - category: hotels
     value: 7
     unit: points_per_dollar
-    note: "Eligible purchases at Hilton hotels and resorts"
+    note: Eligible purchases at Hilton hotels and resorts
   - category: dining
     value: 5
     unit: points_per_dollar
-    note: "U.S. restaurants"
+    note: U.S. restaurants
   - category: groceries
     value: 5
     unit: points_per_dollar
-    note: "U.S. supermarkets"
+    note: U.S. supermarkets
   - category: gas
     value: 5
     unit: points_per_dollar
-    note: "U.S. gas stations"
+    note: U.S. gas stations
   - category: everything_else
     value: 3
     unit: points_per_dollar
 signup_bonus:
   value: 70000
-  type: "points"
+  type: points
   spend_requirement: 2000
   timeframe_months: 6
-  note: "Plus a Free Night Reward after spending $2,000 in purchases in the first 6 months"
+  note: Plus a Free Night Reward after spending $2,000 in purchases in the first 6 months
 apr:
   regular:
     min: 19.49
     max: 28.49
 benefits:
-  - name: "Silver Status"
+  - name: Silver Status
     value: 0
-    description: "Complimentary Hilton Honors Silver status with 5th night free on reward stays"
-    frequency: "ongoing"
-    category: "hotel"
+    description: Complimentary Hilton Honors Silver status with 5th night free on reward stays
+    frequency: ongoing
+    category: hotel
+  - name: Hilton Honors Silver Status
+    description: Hilton Honors Silver elite status membership with 20% bonus on all Base Points earned on every stay
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: No Foreign Transaction Fees
+    description: No foreign transaction fees from American Express on international purchases
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
+  - name: Amex Special Ticket Access
+    description: Access to Amex Presale Tickets and Amex Reserved Tickets for select events across sports, music, and more
+    frequency: per_purchase
+    category: entertainment
+    enrollment_required: false
+  - name: Send Split
+    description: Send money and split Card purchases with Venmo or PayPal users directly from the Amex App
+    frequency: per_purchase
+    category: other
+    enrollment_required: true
 tags:
   - hotel
   - travel
+foreign_transaction_fee: false
