@@ -6,20 +6,20 @@ image: "discover-it-secured.png"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - secured
-  - cashback
+  - "secured"
+  - "cashback"
 rewards:
-  - category: gas
+  - category: "gas"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Up to $1,000/quarter combined with dining"
-  - category: dining
+  - category: "dining"
     value: 2
-    unit: percent
+    unit: "percent"
     note: "Up to $1,000/quarter combined with gas"
-  - category: everything_else
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 apr:
   balance_transfer_intro:
     rate: 10.99
@@ -27,4 +27,20 @@ apr:
   regular:
     min: 26.49
     max: 26.49
-apply_link: https://www.discover.com/credit-cards/secured-credit-card/
+apply_link: "https://www.discover.com/credit-cards/secured-credit-card/"
+benefits:
+  - name: "No Annual Fee"
+    description: "No annual fee to maintain the account."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Refundable Security Deposit"
+    description: "Security deposit equals your credit line, starting at $200, and can be refunded after responsible use or upgrade to unsecured card."
+    frequency: "one_time"
+    category: "other"
+    enrollment_required: false
+  - name: "Automatic Upgrade Review"
+    description: "Automatic monthly account reviews beginning at 7 months to qualify for upgrade to unsecured card and deposit return."
+    frequency: "multi_year"
+    category: "other"
+    enrollment_required: false
