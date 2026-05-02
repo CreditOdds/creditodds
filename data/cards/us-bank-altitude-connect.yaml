@@ -18,31 +18,31 @@ benefits:
     frequency: "ongoing"
     category: "lounge"
 tags:
-  - travel
-  - rewards
+  - "travel"
+  - "rewards"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 5
-    unit: points_per_dollar
-  - category: travel
+    unit: "points_per_dollar"
+  - category: "travel"
     value: 4
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Also gas stations and EV charging, up to $1,000/quarter"
-  - category: groceries
+  - category: "groceries"
     value: 2
-    unit: points_per_dollar
-  - category: dining
+    unit: "points_per_dollar"
+  - category: "dining"
     value: 2
-    unit: points_per_dollar
-  - category: streaming
+    unit: "points_per_dollar"
+  - category: "streaming"
     value: 2
-    unit: points_per_dollar
-  - category: everything_else
+    unit: "points_per_dollar"
+  - category: "everything_else"
     value: 1
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 20000
-  type: points
+  type: "points"
   spend_requirement: 1000
   timeframe_months: 3
 apr:
@@ -55,4 +55,5 @@ apr:
   regular:
     min: 17.49
     max: 27.49
-apply_link: https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html
+apply_link: "https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html"
+foreign_transaction_fee: false
