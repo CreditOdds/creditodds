@@ -4,6 +4,7 @@ slug: "bilt-palladium"
 image: "bilt_palladium.png"
 accepting_applications: true
 apply_link: https://www.biltrewards.com/card/apply
+foreign_transaction_fee: false
 annual_fee: 495
 reward_type: "points"
 release_date: "2025-01-15"
@@ -13,6 +14,29 @@ benefits:
     description: "Pay rent with your credit card and earn points with no transaction fees"
     frequency: "ongoing"
     category: "other"
+  - name: "Bilt Travel Hotel Credit"
+    value: 400
+    description: "Annual hotel credit applied twice yearly as $200 statement credits for qualifying Bilt Travel Portal hotel bookings"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Annual Bilt Cash Award"
+    value: 200
+    description: "Annual Bilt Cash awarded with up to $100 rolling over into the next calendar year"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Priority Pass"
+    value: 469
+    description: "Complimentary Priority Pass lounge access"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Gold Status"
+    description: "Gold Status awarded after meeting $4,000 spend requirement on purchases (excluding rent or mortgage) in first 90 days"
+    frequency: "one_time"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - rewards
   - travel
