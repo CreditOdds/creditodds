@@ -21,20 +21,36 @@ benefits:
     description: "No foreign transaction fees on purchases made abroad"
     frequency: "ongoing"
     category: "travel"
+  - name: "Virtual Cards"
+    description: "Disposable card numbers for smarter, more private spending."
+    frequency: "ongoing"
+    category: "security"
+    enrollment_required: false
+  - name: "Family Cardholders"
+    description: "Add cardholders of any age to build credit with spending limits and instant card locks."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Trip Interruption Protection"
+    description: "Protection for unexpected trip interruptions."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
 tags:
-  - cashback
-  - rewards
+  - "cashback"
+  - "rewards"
 reward_type: "cashback"
 rewards:
-  - category: travel_portal
+  - category: "travel_portal"
     value: 5
-    unit: percent
+    unit: "percent"
     note: "Travel booked through Robinhood travel portal"
-  - category: everything_else
+  - category: "everything_else"
     value: 3
-    unit: percent
+    unit: "percent"
 apr:
   regular:
     min: 29.99
     max: 29.99
-apply_link: https://robinhood.com/creditcard/
+apply_link: "https://robinhood.com/creditcard/"
+foreign_transaction_fee: false
