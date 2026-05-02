@@ -13,8 +13,8 @@ benefits:
     frequency: "multi_year"
     category: "security"
   - name: "Lifestyle Collection Experience Credit"
-    value: 50
-    description: "$50 experience credit on every Lifestyle Collection hotel or vacation rental stay"
+    value: 0
+    description: "$50 experience credit on every Lifestyle Collection hotel or vacation rental stay (niche premium-property bookings only)"
     frequency: "per_stay"
     category: "hotel"
     enrollment_required: false
