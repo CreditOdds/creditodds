@@ -3,7 +3,7 @@ bank: "Bilt"
 slug: "bilt-palladium"
 image: "bilt_palladium.png"
 accepting_applications: true
-apply_link: https://www.biltrewards.com/card/apply
+apply_link: "https://www.biltrewards.com/card/apply"
 annual_fee: 495
 reward_type: "points"
 release_date: "2025-01-15"
@@ -13,27 +13,50 @@ benefits:
     description: "Pay rent with your credit card and earn points with no transaction fees"
     frequency: "ongoing"
     category: "other"
+  - name: "Bilt Travel Hotel Credit"
+    value: 400
+    description: "Applied twice a year as $200 statement credits for qualifying Bilt Travel Portal hotel bookings"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Annual Bilt Cash Award"
+    value: 200
+    description: "Awarded annually with up to $100 rolling over into the next calendar year"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Priority Pass"
+    value: 469
+    description: "Complimentary unlimited Priority Pass lounge access"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Gold Status"
+    description: "Gold Status upon meeting first spend requirement"
+    frequency: "one_time"
+    category: "rewards"
+    enrollment_required: false
 tags:
-  - rewards
-  - travel
-  - premium
-  - dining
+  - "rewards"
+  - "travel"
+  - "premium"
+  - "dining"
 rewards:
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Choose dining or groceries, up to $25,000/year"
-  - category: travel
+  - category: "travel"
     value: 2
-    unit: points_per_dollar
-  - category: everything_else
-    value: 2
-    unit: points_per_dollar
-    note: "Also earns 4% Bilt Cash on everyday purchases"
+    unit: "points_per_dollar"
+  - category: "everything_else"
+    value: 4
+    unit: "percent"
+    note: "Alternative earning option on everyday spend as Bilt Cash"
 signup_bonus:
   value: 50000
   type: "points"
   spend_requirement: 4000
   timeframe_months: 3
   note: "Plus $300 Bilt Cash as a signup bonus"
-
+foreign_transaction_fee: false
