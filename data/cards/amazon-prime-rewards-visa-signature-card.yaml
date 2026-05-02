@@ -37,3 +37,4 @@ apr:
     min: 18.74
     max: 27.49
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
+foreign_transaction_fee: false
