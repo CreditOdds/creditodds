@@ -3,29 +3,29 @@ bank: "American Express"
 slug: "hilton-honors-american-express-aspire-card"
 image: "amex_hilton_honors_aspire.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/
+apply_link: "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/"
 annual_fee: 550
 reward_type: "points"
 rewards:
-  - category: hotels
+  - category: "hotels"
     value: 14
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Eligible purchases at Hilton hotels and resorts"
-  - category: airlines
+  - category: "airlines"
     value: 7
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Flights booked directly with airlines or through AmexTravel.com"
-  - category: car_rentals
+  - category: "car_rentals"
     value: 7
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "Booked directly with select car rental companies"
-  - category: dining
+  - category: "dining"
     value: 7
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "U.S. restaurants"
-  - category: everything_else
+  - category: "everything_else"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 150000
   type: "points"
@@ -69,6 +69,7 @@ benefits:
     frequency: "annual"
     category: "hotel"
 tags:
-  - hotel
-  - travel
-  - premium
+  - "hotel"
+  - "travel"
+  - "premium"
+foreign_transaction_fee: false
