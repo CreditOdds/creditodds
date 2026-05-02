@@ -1,11 +1,11 @@
-name: "Ink Business Unlimited"
-bank: "Chase"
-slug: "chase-ink-business-unlimited"
-image: "chase_ink_business_unlimited.png"
+name: Ink Business Unlimited
+bank: Chase
+slug: chase-ink-business-unlimited
+image: chase_ink_business_unlimited.png
 accepting_applications: true
-category: "business"
+category: business
 annual_fee: 0
-reward_type: "points"
+reward_type: points
 tags:
   - business
   - cashback
@@ -26,3 +26,10 @@ apr:
     min: 16.74
     max: 24.74
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
+benefits:
+  - name: New Cardmember Bonus
+    value: 750
+    description: Earn $750 cash back after you spend $6,000 on purchases in the first 3 months after account opening
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
