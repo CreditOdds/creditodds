@@ -48,7 +48,7 @@ export default async function OGImage({ params }: Props) {
   const accentColor = tagColor?.accent;
 
   const articleImageUrl = article.image
-    ? `https://d2hxvzw7msbtvt.cloudfront.net/article_images/${article.image}`
+    ? `https://d3ay3etzd1512y.cloudfront.net/article_images/${article.image}`
     : null;
 
   // Scale title font size based on length and image presence
