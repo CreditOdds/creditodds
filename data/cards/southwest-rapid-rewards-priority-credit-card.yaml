@@ -1,15 +1,15 @@
-name: "Southwest Rapid Rewards Priority"
-bank: "Chase"
-slug: "southwest-rapid-rewards-priority-credit-card"
-image: "southwest_priority.png"
+name: Southwest Rapid Rewards Priority
+bank: Chase
+slug: southwest-rapid-rewards-priority-credit-card
+image: southwest_priority.png
 accepting_applications: true
 annual_fee: 229
-reward_type: "points"
+reward_type: points
 rewards:
   - category: airlines
     value: 4
     unit: points_per_dollar
-    note: "Southwest Airlines purchases (flights, in-flight, gift cards)"
+    note: Southwest Airlines purchases (flights, in-flight, gift cards)
   - category: gas
     value: 2
     unit: points_per_dollar
@@ -21,7 +21,7 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 60000
-  type: "points"
+  type: points
   spend_requirement: 2000
   timeframe_months: 3
 apr:
@@ -29,23 +29,79 @@ apr:
     min: 19.24
     max: 27.74
 benefits:
-  - name: "Annual Travel Credit"
+  - name: Annual Travel Credit
     value: 75
-    description: "Statement credit for Southwest Airlines purchases"
-    frequency: "annual"
-    category: "travel"
-  - name: "7,500 Anniversary Points"
+    description: Statement credit for Southwest Airlines purchases
+    frequency: annual
+    category: travel
+  - name: 7,500 Anniversary Points
     value: 0
-    description: "7,500 bonus points on card anniversary each year"
-    frequency: "annual"
-    category: "travel"
-  - name: "4 Upgraded Boardings"
+    description: 7,500 bonus points on card anniversary each year
+    frequency: annual
+    category: travel
+  - name: 4 Upgraded Boardings
     value: 0
-    description: "4 upgraded boardings per year when available"
-    frequency: "annual"
-    category: "travel"
+    description: 4 upgraded boardings per year when available
+    frequency: annual
+    category: travel
+  - name: New Cardmember Bonus
+    value: 60000
+    value_unit: points
+    description: Earn 60,000 bonus points after you spend $2,000 in the first 3 months from account opening
+    frequency: one_time
+    category: rewards
+    enrollment_required: false
+  - name: Anniversary Bonus Points
+    value: 7500
+    value_unit: points
+    description: Receive 7,500 bonus points each year on your account anniversary
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: First Checked Bag Free
+    description: First checked bag free for cardmember and up to 8 additional passengers on the same reservation
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Complimentary Preferred Seat
+    value: 70
+    description: Select a Preferred seat at booking at no additional charge, valued on average at $70 round trip when available
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Extra Legroom Seat Upgrades
+    description: Unlimited upgrades to Extra Legroom seats within 48 hours prior to departure at no additional charge when available
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
+  - name: A-List Tier Qualifying Points Boost
+    value: 2500
+    value_unit: points
+    description: Earn 2,500 tier qualifying points toward A-List status for every $5,000 spent in purchases annually
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Companion Pass Qualifying Points
+    value: 10000
+    value_unit: points
+    description: Earn 10,000 Companion Pass qualifying points each year
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: Early Boarding Benefit
+    description: Cardmember and up to 8 additional passengers board with Group 5 giving earlier access to overhead bins
+    frequency: per_flight
+    category: travel
+    enrollment_required: false
+  - name: Inflight Purchase Discount
+    value: 25
+    description: 25% back on inflight purchases
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
 tags:
   - airline
   - travel
   - rewards
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/priority
+foreign_transaction_fee: false
