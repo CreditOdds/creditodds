@@ -1,26 +1,56 @@
-name: "Marriott Bonvoy Boundless"
-bank: "Chase"
-slug: "marriott-bonvoy-boundless-credit-card"
-image: "marriott_bonvoy_boundless.png"
+name: Marriott Bonvoy Boundless
+bank: Chase
+slug: marriott-bonvoy-boundless-credit-card
+image: marriott_bonvoy_boundless.png
 accepting_applications: true
 annual_fee: 95
-reward_type: "points"
+reward_type: points
 benefits:
-  - name: "Free Night Award"
+  - name: Free Night Award
     value: 0
-    description: "One annual free night award up to 35,000 points value"
-    frequency: "annual"
-    category: "hotel"
-  - name: "15 Elite Night Credits"
+    description: One annual free night award up to 35,000 points value
+    frequency: annual
+    category: hotel
+  - name: 15 Elite Night Credits
     value: 0
-    description: "15 elite night credits toward Marriott Bonvoy status each year"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Silver Elite Status"
+    description: 15 elite night credits toward Marriott Bonvoy status each year
+    frequency: annual
+    category: hotel
+  - name: Silver Elite Status
     value: 0
-    description: "Automatic Marriott Bonvoy Silver Elite status"
-    frequency: "ongoing"
-    category: "hotel"
+    description: Automatic Marriott Bonvoy Silver Elite status
+    frequency: ongoing
+    category: hotel
+  - name: Annual Free Night Award
+    value: 35000
+    value_unit: points
+    description: Free Night Award valid for one night at a property with a redemption level up to 35,000 points, awarded each year after account anniversary
+    frequency: annual
+    category: hotel
+    enrollment_required: false
+  - name: Airline Statement Credits
+    value: 100
+    description: Up to $100 in statement credits on direct airline purchases ($50 semi-annually)
+    frequency: semi_annual
+    category: travel
+    enrollment_required: false
+  - name: Automatic Silver Elite Status
+    description: Complimentary Silver Elite Status in Marriott Bonvoy each calendar year
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Annual Elite Night Credits
+    value: 15
+    value_unit: points
+    description: 15 Elite Night Credits awarded each calendar year toward Marriott Bonvoy Elite Status
+    frequency: annual
+    category: travel
+    enrollment_required: false
+  - name: Elite Night Credit Earning
+    description: Earn 1 Elite Night Credit for every $5,000 spent on purchases
+    frequency: per_purchase
+    category: travel
+    enrollment_required: false
 tags:
   - hotel
   - travel
@@ -29,28 +59,28 @@ rewards:
   - category: hotels
     value: 6
     unit: points_per_dollar
-    note: "Marriott Bonvoy hotels"
+    note: Marriott Bonvoy hotels
   - category: groceries
     value: 3
     unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+    note: Grocery stores, gas stations, and dining (first $6,000/year)
   - category: gas
     value: 3
     unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+    note: Grocery stores, gas stations, and dining (first $6,000/year)
   - category: dining
     value: 3
     unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+    note: Grocery stores, gas stations, and dining (first $6,000/year)
   - category: everything_else
     value: 2
     unit: points_per_dollar
 signup_bonus:
   value: 3
-  type: "free_nights"
+  type: free_nights
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
+  note: Plus 1 additional Free Night Award after spending $4,000 total in 4 months
 apr:
   regular:
     min: 20.49
