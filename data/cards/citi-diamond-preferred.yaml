@@ -6,7 +6,7 @@ accepting_applications: true
 annual_fee: 0
 category: "balance_transfer"
 tags:
-  - balance_transfer
+  - "balance_transfer"
 apr:
   purchase_intro:
     rate: 0
@@ -17,4 +17,41 @@ apr:
   regular:
     min: 16.49
     max: 27.24
-apply_link: https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card
+apply_link: "https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card"
+foreign_transaction_fee: true
+benefits:
+  - name: "24/7 Customer Service"
+    description: "Customer service representatives available 24 hours a day, 7 days a week."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Automatic Account Alerts"
+    description: "Alerts via email or mobile phone for balance levels, payments due, or credit limit overages."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Flexible Payment Due Date"
+    description: "Choose your payment due date on any available date in the beginning, middle, or end of the month."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
+  - name: "Digital Wallets"
+    description: "Shop securely using digital wallets in millions of places online, in apps, and in stores."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Contactless Pay"
+    description: "Shop safely with a contactless-chip enabled card by tapping on payment readers."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "Citi Entertainment"
+    description: "Special access to presale tickets and exclusive experiences for concerts, sporting events, and dining."
+    frequency: "ongoing"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "Free FICO Score Access"
+    description: "Free access to your FICO score."
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
