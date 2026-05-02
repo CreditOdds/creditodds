@@ -34,33 +34,64 @@ benefits:
     description: "Unlimited Priority Pass lounge access"
     frequency: "ongoing"
     category: "lounge"
+  - name: "Annual Splurge Credit"
+    value: 200
+    description: "Up to $200 in statement credits annually on select brands including 1stDibs, American Airlines, Best Buy, Future Personal Training, and Live Nation"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Annual Blacklane Credit"
+    value: 200
+    description: "Up to $200 in statement credits annually when booking with Blacklane premium chauffeur service ($100 January-June, $100 July-December)"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "American Airlines Admirals Club Passes"
+    value: 300
+    description: "Four complimentary Admirals Club passes each calendar year for access to nearly 50 lounges with snacks, cocktails, and travel assistance"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Citigold Banking Relationship Credit"
+    value: 145
+    description: "Annual $145 banking relationship credit for qualifying Citigold clients with an active Strata Elite card"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Citigold Private Client Relationship Credit"
+    value: 595
+    description: "$595 first year credit and $145 annually thereafter for qualifying Citigold Private Clients with an active Strata Elite card"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
 tags:
-  - travel
-  - rewards
-  - premium
+  - "travel"
+  - "rewards"
+  - "premium"
 rewards:
-  - category: hotels_car_portal
+  - category: "hotels_car_portal"
     value: 12
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "On hotels, car rentals, and attractions booked through Citi Travel"
-  - category: flights_portal
+  - category: "flights_portal"
     value: 6
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "On air travel booked through Citi Travel"
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: points_per_dollar
+    unit: "points_per_dollar"
     note: "6x on Citi Nights (Fri-Sat 6PM-6AM ET)"
-  - category: everything_else
+  - category: "everything_else"
     value: 1.5
-    unit: points_per_dollar
+    unit: "points_per_dollar"
 signup_bonus:
   value: 75000
-  type: points
+  type: "points"
   spend_requirement: 6000
   timeframe_months: 3
 apr:
   regular:
     min: 21.24
     max: 29.24
-apply_link: https://www.citi.com/credit-cards/citi-strata-elite-credit-card
+apply_link: "https://www.citi.com/credit-cards/citi-strata-elite-credit-card"
+foreign_transaction_fee: false
