@@ -27,6 +27,30 @@ benefits:
     description: "First checked bag free on Delta flights for you and up to 8 companions on the same reservation"
     frequency: "ongoing"
     category: "travel"
+  - name: "MQD Headstart"
+    value: 2500
+    value_unit: "miles"
+    description: "Receive $2,500 Medallion Qualification Dollars each Medallion Qualification Year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "MQD Boost"
+    description: "Earn $1 Medallion Qualification Dollar for each $20 in card purchases"
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
+  - name: "Rideshare Credit"
+    value: 120
+    description: "Earn up to $10 in statement credits each month after using card on U.S. rideshare purchases with select providers"
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "Delta Stays Credit"
+    value: 150
+    description: "Annual statement credit after using card to book prepaid hotels or vacation rentals through Delta Stays on delta.com"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - airline
   - travel
