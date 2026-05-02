@@ -3660,12 +3660,12 @@
 
 /* ---------- Article detail (news/[id], articles/[slug]) ---------- */
 .landing-v2 .article-layout {
-  max-width: 820px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 16px 28px 72px;
 }
 .landing-v2 .article-layout.wide {
-  max-width: 1080px;
+  max-width: 1180px;
 }
 .landing-v2 .article-tags {
   display: flex;
