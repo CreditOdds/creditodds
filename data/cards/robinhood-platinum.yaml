@@ -47,6 +47,37 @@ benefits:
     description: "Complimentary Oura membership"
     frequency: "ongoing"
     category: "fitness"
+  - name: "Restaurant Credit"
+    value: 250
+    description: "Annual credit at 15,000+ eligible restaurants allotted monthly."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    value: 0
+    description: "Complimentary DoorDash DashPass membership."
+    frequency: "ongoing"
+    category: "dining"
+    enrollment_required: false
+  - name: "Global Entry or TSA PreCheck"
+    value: 100
+    description: "Application fee credit for Global Entry or TSA PreCheck."
+    frequency: "multi_year"
+    frequency_years: 5
+    category: "security"
+    enrollment_required: false
+  - name: "Hotel Credit"
+    value: 250
+    description: "Up to $250 in statement credit every 6 months for hotel stays booked through the Robinhood Banking app."
+    frequency: "semi_annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Travel Credit"
+    value: 150
+    description: "$150 in statement credit every 6 months for travel purchases."
+    frequency: "semi_annual"
+    category: "travel"
+    enrollment_required: false
 tags:
   - premium
   - travel
@@ -73,3 +104,4 @@ rewards:
     value: 1
     unit: percent
 apply_link: https://robinhood.com/us/en/creditcard/platinum/
+foreign_transaction_fee: false
