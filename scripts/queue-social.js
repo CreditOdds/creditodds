@@ -169,7 +169,7 @@ Rules:
   return text;
 }
 
-async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId) {
+async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId, imageUrl) {
   const apiUrl = process.env.SOCIAL_API_URL;
   const apiKey = process.env.SOCIAL_API_KEY;
 
@@ -183,6 +183,13 @@ async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId
   };
   if (twitterText && twitterText !== textContent) {
     body.twitter_text = twitterText;
+  }
+  // Attached media (uploaded INTO the post itself, not the link unfurl).
+  // The link unfurl card is still driven by the article URL's OG image, which
+  // is the editorial illustration. The image_url here is the social composite
+  // (photo + brand panel), uploaded as the post's own image attachment.
+  if (imageUrl) {
+    body.image_url = imageUrl;
   }
 
   const response = await fetchWithRetry(`${apiUrl}/social/queue`, {
@@ -246,8 +253,17 @@ async function main() {
       continue;
     }
 
+    // For articles, attach the social-composite image as media on the post.
+    // The link unfurl below the post still uses the article URL's OG image
+    // (the editorial illustration) — these are two different images by design.
+    let imageUrl = null;
+    if (type === 'article' && item.social_image) {
+      imageUrl = `https://d3ay3etzd1512y.cloudfront.net/article_images/${item.social_image}`;
+      console.log(`  Image: ${imageUrl}`);
+    }
+
     try {
-      const result = await queuePost(postText, twitterText, url, sourceType, sourceId);
+      const result = await queuePost(postText, twitterText, url, sourceType, sourceId, imageUrl);
       console.log(`  Queued successfully! Post ID: ${result.id}\n`);
     } catch (err) {
       console.error(`  Failed to queue: ${err.message}\n`);
