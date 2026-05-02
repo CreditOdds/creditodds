@@ -7,36 +7,49 @@ category: "student"
 annual_fee: 0
 reward_type: "cashback"
 tags:
-  - student
-  - cashback
-  - dining
-  - entertainment
+  - "student"
+  - "cashback"
+  - "dining"
+  - "entertainment"
 rewards:
-  - category: dining
+  - category: "dining"
     value: 3
-    unit: percent
-  - category: entertainment
+    unit: "percent"
+  - category: "entertainment"
     value: 3
-    unit: percent
-  - category: streaming
+    unit: "percent"
+  - category: "streaming"
     value: 3
-    unit: percent
-  - category: groceries
+    unit: "percent"
+  - category: "groceries"
     value: 3
-    unit: percent
-  - category: hotels_car_portal
+    unit: "percent"
+  - category: "hotels_car_portal"
     value: 5
-    unit: percent
-  - category: everything_else
+    unit: "percent"
+  - category: "everything_else"
     value: 1
-    unit: percent
+    unit: "percent"
 signup_bonus:
   value: 50
-  type: cash
+  type: "cash"
   spend_requirement: 100
   timeframe_months: 3
 apr:
   regular:
     min: 18.49
     max: 28.49
-apply_link: https://www.capitalone.com/credit-cards/savor-student/
+apply_link: "https://www.capitalone.com/credit-cards/savor-student/"
+foreign_transaction_fee: false
+benefits:
+  - name: "Free Price Drop Protection"
+    value: 50
+    description: "Up to $50 travel credit if a booked flight price drops within 10 days of booking"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Price Match Guarantee"
+    description: "Travel credit for the difference if you find a better price on flights, hotels, or rental cars within 24 hours of booking"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
