@@ -1,30 +1,30 @@
-name: "Marriott Bonvoy Brilliant American Express"
-bank: "American Express"
-slug: "marriott-bonvoy-brilliant-american-express"
-image: "amex_marriott_bonvoy_brilliant.png"
+name: Marriott Bonvoy Brilliant American Express
+bank: American Express
+slug: marriott-bonvoy-brilliant-american-express
+image: amex_marriott_bonvoy_brilliant.png
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/
 annual_fee: 650
-reward_type: "points"
+reward_type: points
 rewards:
   - category: hotels
     value: 6
     unit: points_per_dollar
-    note: "Hotels participating in Marriott Bonvoy"
+    note: Hotels participating in Marriott Bonvoy
   - category: dining
     value: 3
     unit: points_per_dollar
-    note: "Restaurants worldwide"
+    note: Restaurants worldwide
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "Flights booked directly with airlines"
+    note: Flights booked directly with airlines
   - category: everything_else
     value: 2
     unit: points_per_dollar
 signup_bonus:
   value: 200000
-  type: "points"
+  type: points
   spend_requirement: 6000
   timeframe_months: 6
 apr:
@@ -32,42 +32,59 @@ apr:
     min: 19.49
     max: 28.49
 benefits:
-  - name: "Free Night Award"
+  - name: Free Night Award
     value: 0
-    description: "1 annual free night award at Marriott properties valued up to 85,000 points"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Dining Credit"
+    description: 1 annual free night award at Marriott properties valued up to 85,000 points
+    frequency: annual
+    category: hotel
+  - name: Dining Credit
     value: 300
-    description: "$25/month in statement credits at restaurants worldwide"
-    frequency: "monthly"
-    category: "dining"
-  - name: "Marriott Property Credit"
+    description: $25/month in statement credits at restaurants worldwide
+    frequency: monthly
+    category: dining
+  - name: Marriott Property Credit
     value: 100
-    description: "$100 statement credit for stays of 2+ consecutive nights at Marriott Bonvoy properties"
-    frequency: "annual"
-    category: "hotel"
-  - name: "Platinum Elite Status"
+    description: $100 statement credit for stays of 2+ consecutive nights at Marriott Bonvoy properties
+    frequency: annual
+    category: hotel
+  - name: Platinum Elite Status
     value: 0
-    description: "Complimentary Marriott Bonvoy Platinum Elite status with room upgrades, late checkout, and lounge access"
-    frequency: "ongoing"
-    category: "hotel"
-  - name: "Global Entry / TSA PreCheck Credit"
+    description: Complimentary Marriott Bonvoy Platinum Elite status with room upgrades, late checkout, and lounge access
+    frequency: ongoing
+    category: hotel
+  - name: Global Entry / TSA PreCheck Credit
     value: 100
-    description: "Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee"
-    frequency: "multi_year"
-    category: "security"
-  - name: "Priority Pass Select"
+    description: Up to $100 statement credit every 4 years for Global Entry or TSA PreCheck application fee
+    frequency: multi_year
+    category: security
+  - name: Priority Pass Select
     value: 0
-    description: "Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass"
-    frequency: "ongoing"
-    category: "lounge"
-  - name: "25 Elite Night Credits"
+    description: Complimentary membership to 1,400+ airport lounges worldwide through Priority Pass
+    frequency: ongoing
+    category: lounge
+  - name: 25 Elite Night Credits
     value: 0
-    description: "25 Elite Night Credits annually toward Marriott Bonvoy elite status qualification"
-    frequency: "annual"
-    category: "hotel"
+    description: 25 Elite Night Credits annually toward Marriott Bonvoy elite status qualification
+    frequency: annual
+    category: hotel
+  - name: Brilliant Dining Credit
+    value: 300
+    description: Up to $300 in annual statement credits for eligible restaurant purchases worldwide, up to $25 per month.
+    frequency: annual
+    category: dining
+    enrollment_required: false
+  - name: Brilliant Earned Choice Award
+    description: Annual choice award benefit after spending $60,000 on eligible purchases in a calendar year.
+    frequency: annual
+    category: rewards
+    enrollment_required: false
+  - name: No Foreign Transaction Fees
+    description: No foreign transaction fees on purchases made abroad.
+    frequency: ongoing
+    category: travel
+    enrollment_required: false
 tags:
   - hotel
   - travel
   - premium
+foreign_transaction_fee: false
