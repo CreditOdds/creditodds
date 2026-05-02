@@ -28,8 +28,9 @@ apr:
 apply_link: https://www.discover.com/credit-cards/student/it-card.html
 foreign_transaction_fee: false
 benefits:
-  - name: "Unlimited Cashback Match"
-    description: "Unlimited dollar-for-dollar match of all cash back earned at the end of first year, automatically (e.g., $50 cash back becomes $100)."
+  - name: "Cashback Match"
+    value: 0
+    description: "Discover automatically matches all cash back earned at the end of your first year — uncapped, no fixed amount. New cardmembers only."
     frequency: "one_time"
     category: "rewards"
     enrollment_required: false
