@@ -1,13 +1,6 @@
 // Comprehensive admin handler
 const yup = require("yup");
-const mysql = require("serverless-mysql")({
-  config: {
-    host: process.env.ENDPOINT,
-    database: process.env.DATABASE,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-  },
-});
+const mysql = require("../db");
 
 // Fallback admin user IDs (Firebase UIDs) - used if custom claims not set
 const FALLBACK_ADMIN_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];

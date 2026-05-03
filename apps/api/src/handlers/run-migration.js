@@ -1,13 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const mysql = require("serverless-mysql")({
-  config: {
-    host: process.env.ENDPOINT,
-    database: process.env.DATABASE,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-  },
-});
+const mysql = require("../db");
 
 exports.RunMigrationHandler = async (event) => {
   const migrationFile = event.migration || event.queryStringParameters?.migration;
