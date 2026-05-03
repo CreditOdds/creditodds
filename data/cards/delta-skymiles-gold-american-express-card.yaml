@@ -22,6 +22,25 @@ benefits:
     description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
     frequency: "ongoing"
     category: "travel"
+  - name: "$200 Delta Flight Credit"
+    value: 200
+    description: "Receive a $200 Delta Flight Credit after you spend $10,000 in purchases in a calendar year."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "20% Inflight Purchase Credit"
+    value: 20
+    value_unit: "percent"
+    description: "Receive 20% savings in the form of a statement credit on eligible Delta in-flight food and beverage purchases."
+    frequency: "per_purchase"
+    category: "dining_travel"
+    enrollment_required: false
+  - name: "$100 Delta Stays Credit"
+    value: 100
+    description: "Annual statement credit of up to $100 after booking prepaid hotels or vacation rentals through Delta Stays on delta.com."
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - airline
   - travel
