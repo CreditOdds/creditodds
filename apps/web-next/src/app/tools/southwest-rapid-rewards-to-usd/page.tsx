@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Southwest Rapid Rewards to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Southwest Rapid Rewards points to their estimated USD value. Free calculator using the standard 1.4 cents per point valuation.',
+  openGraph: {
+    title: 'Southwest Rapid Rewards to USD | CreditOdds',
+    description: 'Convert Southwest Rapid Rewards points to USD using the 1.4 cents per point valuation.',
+    url: 'https://creditodds.com/tools/southwest-rapid-rewards-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/southwest-rapid-rewards-to-usd' },
 };
 
 export default async function SouthwestRRToUsdPage() {

@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Chase Ultimate Rewards to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Chase Ultimate Rewards points to their estimated USD value. Free calculator using the standard 1.25 cents per point valuation.',
+  openGraph: {
+    title: 'Chase Ultimate Rewards to USD | CreditOdds',
+    description: 'Convert Chase UR points to USD using the 1.25 cents per point valuation.',
+    url: 'https://creditodds.com/tools/chase-ultimate-rewards-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/chase-ultimate-rewards-to-usd' },
 };
 
 export default async function ChaseURToUsdPage() {

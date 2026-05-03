@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     url: "https://creditodds.com/check-odds",
     type: "website",
   },
+  alternates: {
+    canonical: "https://creditodds.com/check-odds",
+  },
 };
 
 export default function CheckOddsPage() {

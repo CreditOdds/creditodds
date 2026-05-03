@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Delta SkyMiles to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Delta SkyMiles to their estimated USD value. Free calculator using the standard 1.1 cents per mile valuation.',
+  openGraph: {
+    title: 'Delta SkyMiles to USD | CreditOdds',
+    description: 'Convert Delta SkyMiles to USD using the 1.1 cents per mile valuation.',
+    url: 'https://creditodds.com/tools/delta-skymiles-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/delta-skymiles-to-usd' },
 };
 
 export default async function DeltaSkyMilesToUsdPage() {

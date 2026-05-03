@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Hilton Honors Points to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Hilton Honors points to their estimated USD value. Free calculator using the standard 0.5 cents per point valuation.',
+  openGraph: {
+    title: 'Hilton Honors Points to USD | CreditOdds',
+    description: 'Convert Hilton Honors points to USD using the 0.5 cents per point valuation.',
+    url: 'https://creditodds.com/tools/hilton-honors-points-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/hilton-honors-points-to-usd' },
 };
 
 export default async function HiltonHonorsToUsdPage() {

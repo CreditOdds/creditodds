@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'United Miles to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert United MileagePlus miles to their estimated USD value. Free calculator using the standard 1.2 cents per mile valuation.',
+  openGraph: {
+    title: 'United Miles to USD | CreditOdds',
+    description: 'Convert United MileagePlus miles to USD using the 1.2 cents per mile valuation.',
+    url: 'https://creditodds.com/tools/united-miles-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/united-miles-to-usd' },
 };
 
 export default async function UnitedMilesToUsdPage() {

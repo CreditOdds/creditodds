@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'IHG One Rewards Points to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert IHG One Rewards points to their estimated USD value. Free calculator using the standard 0.5 cents per point valuation.',
+  openGraph: {
+    title: 'IHG One Rewards Points to USD | CreditOdds',
+    description: 'Convert IHG One Rewards points to USD using the 0.5 cents per point valuation.',
+    url: 'https://creditodds.com/tools/ihg-one-rewards-points-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/ihg-one-rewards-points-to-usd' },
 };
 
 export default async function IHGToUsdPage() {

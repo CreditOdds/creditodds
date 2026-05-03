@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Citi ThankYou Points to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Citi ThankYou points to their estimated USD value. Free calculator using the standard 1.0 cents per point valuation.',
+  openGraph: {
+    title: 'Citi ThankYou Points to USD | CreditOdds',
+    description: 'Convert Citi ThankYou points to USD using the 1.0 cents per point valuation.',
+    url: 'https://creditodds.com/tools/citi-thankyou-points-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/citi-thankyou-points-to-usd' },
 };
 
 export default async function CitiThankYouToUsdPage() {

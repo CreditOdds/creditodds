@@ -5,6 +5,15 @@ import "../landing.css";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "CreditOdds Use of Private Information Policy",
+  openGraph: {
+    title: "Privacy Policy | CreditOdds",
+    description: "CreditOdds Use of Private Information Policy",
+    url: "https://creditodds.com/privacy",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://creditodds.com/privacy",
+  },
 };
 
 const POLICY: { title: string; body: string }[] = [

@@ -8,6 +8,15 @@ import '../landing.css';
 export const metadata: Metadata = {
   title: 'Tools | CreditOdds',
   description: 'Free credit card tools and calculators. Convert miles and points to dollars for Chase, Amex, Delta, United, Southwest, Capital One, Marriott, Hilton, Hyatt, IHG, Bilt, and Citi.',
+  openGraph: {
+    title: 'Free Credit Card Tools | CreditOdds',
+    description: 'Convert miles and points to dollars across all major loyalty programs.',
+    url: 'https://creditodds.com/tools',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://creditodds.com/tools',
+  },
 };
 
 interface Tool {

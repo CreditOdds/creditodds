@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     url: "https://creditodds.com/explore",
     type: "website",
   },
+  alternates: {
+    canonical: "https://creditodds.com/explore",
+  },
 };
 
 export default async function ExplorePage() {

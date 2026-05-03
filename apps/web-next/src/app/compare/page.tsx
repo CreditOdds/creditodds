@@ -16,19 +16,40 @@ export async function generateMetadata({
   const params = await searchParams;
   const baseTitle = 'Compare Credit Cards | CreditOdds';
   const baseDescription = 'Compare up to 3 credit cards side-by-side. See rewards, signup bonuses, APR, annual fees, and approval odds all in one place.';
+  const baseCanonical = 'https://creditodds.com/compare';
 
-  if (!params.cards) return { title: baseTitle, description: baseDescription };
+  if (!params.cards) {
+    return {
+      title: baseTitle,
+      description: baseDescription,
+      alternates: { canonical: baseCanonical },
+    };
+  }
   const slugs = params.cards.split(',').filter(Boolean).slice(0, 3);
-  if (slugs.length === 0) return { title: baseTitle, description: baseDescription };
+  if (slugs.length === 0) {
+    return {
+      title: baseTitle,
+      description: baseDescription,
+      alternates: { canonical: baseCanonical },
+    };
+  }
 
   const allCards = await getAllCards();
   const matchedCards = slugs
     .map((slug) => allCards.find((c) => c.slug === slug))
     .filter(Boolean);
-  if (matchedCards.length === 0) return { title: baseTitle, description: baseDescription };
+  if (matchedCards.length === 0) {
+    return {
+      title: baseTitle,
+      description: baseDescription,
+      alternates: { canonical: baseCanonical },
+    };
+  }
 
   const cardNames = matchedCards.map((c) => c!.card_name);
   const title = `Compare ${cardNames.join(' vs ')} | CreditOdds`;
+  const sortedSlugs = [...slugs].sort();
+  const canonical = `${baseCanonical}?cards=${sortedSlugs.join(',')}`;
 
   return {
     title,
@@ -36,7 +57,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description: baseDescription,
-      url: `https://creditodds.com/compare?cards=${slugs.join(',')}`,
+      url: canonical,
       type: "website",
       images: [`/api/og/compare?cards=${slugs.join(',')}`],
     },
@@ -45,6 +66,9 @@ export async function generateMetadata({
       title,
       description: baseDescription,
       images: [`/api/og/compare?cards=${slugs.join(',')}`],
+    },
+    alternates: {
+      canonical,
     },
   };
 }

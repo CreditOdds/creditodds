@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     url: "https://creditodds.com/about",
     type: "website",
   },
+  alternates: {
+    canonical: "https://creditodds.com/about",
+  },
 };
 
 export default function AboutPage() {

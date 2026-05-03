@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Capital One Miles to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Capital One miles to their estimated USD value. Free calculator using the standard 1.0 cents per mile valuation.',
+  openGraph: {
+    title: 'Capital One Miles to USD | CreditOdds',
+    description: 'Convert Capital One miles to USD using the 1.0 cents per mile valuation.',
+    url: 'https://creditodds.com/tools/capital-one-miles-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/capital-one-miles-to-usd' },
 };
 
 export default async function CapitalOneMilesToUsdPage() {
