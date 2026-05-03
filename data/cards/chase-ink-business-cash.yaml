@@ -17,6 +17,9 @@ rewards:
     spend_cap: 25000
     cap_period: annual
     rate_after_cap: 1
+    # Bonus is gated to specific merchant types in note — exclude from
+    # generic store-page matching for arbitrary online retailers.
+    merchant_specific: true
   - category: gas
     value: 2
     unit: percent

@@ -1,0 +1,14 @@
+name: "Starbucks"
+slug: "starbucks"
+aliases:
+  - "Starbucks Coffee"
+categories:
+  - dining
+website: "https://www.starbucks.com"
+intro: |
+  Starbucks runs about 16,500 U.S. stores plus the Starbucks app, which is itself one of
+  the largest closed-loop payment systems in the country. Whether you pay through the app,
+  with a physical Starbucks card, or directly with a credit card, the underlying Starbucks
+  transaction codes as dining/restaurants on every card we track. Reloading your Starbucks
+  balance via card is the cleanest way to capture the dining bonus on cards that pay 3-5%
+  on dining.

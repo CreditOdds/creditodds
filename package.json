@@ -13,6 +13,7 @@
     "build:news": "node scripts/build-news.js",
     "build:articles": "node scripts/build-articles.js",
     "build:best": "node scripts/build-best.js",
+    "build:stores": "node scripts/build-stores.js",
     "start:web": "npm run start -w @creditodds/web",
     "start:web-next": "npm run dev -w @creditodds/web-next",
     "dev:web-next": "npm run dev -w @creditodds/web-next",

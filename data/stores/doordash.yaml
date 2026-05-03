@@ -1,0 +1,13 @@
+name: "DoorDash"
+slug: "doordash"
+aliases:
+  - "Door Dash"
+categories:
+  - dining
+website: "https://www.doordash.com"
+intro: |
+  DoorDash is the largest U.S. food-delivery service by market share, covering both
+  restaurant delivery and (via DashMart and grocery partners) household goods. Restaurant
+  orders code as dining/restaurants on every card we track, and several cards specifically
+  call out DoorDash for elevated dining bonuses or DashPass perks. DashMart and
+  grocery-partner orders typically code as the underlying merchant rather than as dining.

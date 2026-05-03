@@ -1,0 +1,18 @@
+name: "Ace Hardware"
+slug: "ace-hardware"
+aliases:
+  - "Ace"
+categories:
+  - home_improvement
+website: "https://www.acehardware.com"
+also_earns:
+  - card: "apple-card"
+    rate: 3
+    unit: percent
+    note: "Via Apple Pay"
+intro: |
+  Ace Hardware is a cooperative of about 5,000 independently-owned hardware stores in the
+  U.S., smaller and more service-oriented than Home Depot or Lowe's. Ace's own Ace Rewards
+  loyalty program layers on top of card cashback. Notably, Ace Hardware is one of the
+  merchants that earns 3% on the Apple Card via Apple Pay, alongside the home-improvement
+  category match on general-purpose cards.

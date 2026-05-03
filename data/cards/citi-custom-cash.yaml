@@ -12,6 +12,7 @@ rewards:
   - category: "top_category"
     value: 5
     unit: "percent"
+    mode: auto_top_spend
     eligible_categories:
       - "dining"
       - "gas"

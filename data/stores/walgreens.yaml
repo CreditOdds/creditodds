@@ -1,0 +1,17 @@
+name: "Walgreens"
+slug: "walgreens"
+aliases:
+  - "Walgreens Boots Alliance"
+categories:
+  - drugstores
+website: "https://www.walgreens.com"
+also_earns:
+  - card: "apple-card"
+    rate: 3
+    unit: percent
+    note: "Via Apple Pay"
+intro: |
+  Walgreens is the second-largest U.S. pharmacy chain at about 8,500 stores, with a big
+  convenience-goods footprint alongside the pharmacy business. Walgreens codes as a
+  drugstore and is one of the merchants that earns 3% on the Apple Card via Apple Pay, in
+  addition to general drugstore-category bonuses on other cards.

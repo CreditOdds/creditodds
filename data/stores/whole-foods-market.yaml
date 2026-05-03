@@ -1,0 +1,20 @@
+name: "Whole Foods Market"
+slug: "whole-foods-market"
+aliases:
+  - "Whole Foods"
+  - "WFM"
+categories:
+  - groceries
+website: "https://www.wholefoodsmarket.com"
+parent_company: "Amazon"
+also_earns:
+  - card: "amazon-prime-rewards-visa-signature-card"
+    rate: 5
+    unit: percent
+    note: "With Amazon Prime membership"
+intro: |
+  Whole Foods Market is Amazon's premium grocery arm, with about 530 U.S. stores. Pricing
+  is higher than at mass-market supermarkets, which makes a strong grocery-category card
+  more valuable per visit. The standout here is the Amazon Prime Rewards Visa: it earns 5%
+  at Whole Foods (with a Prime membership), which is the strongest non-promotional grocery
+  rate available. Without Prime, fall back to whichever 3-6% supermarket card you carry.

@@ -1,0 +1,12 @@
+name: "Wegmans"
+slug: "wegmans"
+aliases:
+  - "Wegmans Food Markets"
+categories:
+  - groceries
+website: "https://www.wegmans.com"
+intro: |
+  Wegmans is a regional supermarket chain with about 110 stores in the Northeast,
+  well-known for prepared foods, in-store dining, and a deep wine and beer selection.
+  Pricing skews mid-to-high and average tickets are larger than at typical mass-market
+  supermarkets. Wegmans codes as groceries on essentially every card we track.

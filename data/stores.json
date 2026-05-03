@@ -1,0 +1,682 @@
+{
+  "generated_at": "2026-05-03T18:26:47.759Z",
+  "count": 50,
+  "stores": [
+    {
+      "name": "7-Eleven",
+      "slug": "7-eleven",
+      "aliases": [
+        "7Eleven",
+        "Seven-Eleven"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.7-eleven.com",
+      "intro": "7-Eleven runs about 9,500 U.S. convenience stores, many with attached gas pumps. The\npumps code as gas on every card we track. In-store purchases (snacks, drinks, hot food)\ntypically code as convenience stores rather than as groceries or dining, which means\nmost 3-5% category bonuses don't apply to non-fuel purchases at 7-Eleven.\n"
+    },
+    {
+      "name": "Ace Hardware",
+      "slug": "ace-hardware",
+      "aliases": [
+        "Ace"
+      ],
+      "categories": [
+        "home_improvement"
+      ],
+      "website": "https://www.acehardware.com",
+      "also_earns": [
+        {
+          "card": "apple-card",
+          "rate": 3,
+          "unit": "percent",
+          "note": "Via Apple Pay"
+        }
+      ],
+      "intro": "Ace Hardware is a cooperative of about 5,000 independently-owned hardware stores in the\nU.S., smaller and more service-oriented than Home Depot or Lowe's. Ace's own Ace Rewards\nloyalty program layers on top of card cashback. Notably, Ace Hardware is one of the\nmerchants that earns 3% on the Apple Card via Apple Pay, alongside the home-improvement\ncategory match on general-purpose cards.\n"
+    },
+    {
+      "name": "Albertsons",
+      "slug": "albertsons",
+      "aliases": [
+        "Albertsons Companies"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.albertsons.com",
+      "intro": "Albertsons is a national supermarket operator with about 2,250 stores under the\nAlbertsons, Safeway, Vons, Jewel-Osco, Shaw's, Acme, Tom Thumb, and Randalls banners.\nAll banners code as groceries at the register and ship online through their respective\napps and sites. Albertsons' Just for U coupons stack with card-side rewards at checkout.\n"
+    },
+    {
+      "name": "Aldi",
+      "slug": "aldi",
+      "aliases": [
+        "ALDI"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.aldi.us",
+      "intro": "Aldi is the discount-focused private-label grocer with about 2,400 U.S. stores and a\nsharply lower price floor than full-line supermarkets. Average tickets are smaller, so\nthe absolute dollar value of a 3-6% grocery card is lower per visit, but the rate still\napplies. Aldi codes as groceries on every card we track. Note: Aldi historically only\naccepted debit and SNAP, but all U.S. stores now accept credit cards.\n"
+    },
+    {
+      "name": "Amazon",
+      "slug": "amazon",
+      "aliases": [
+        "Amazon.com"
+      ],
+      "categories": [
+        "amazon",
+        "online_shopping"
+      ],
+      "website": "https://www.amazon.com",
+      "also_earns": [
+        {
+          "card": "us-bank-shopper",
+          "rate": 6,
+          "unit": "percent",
+          "note": "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+        }
+      ],
+      "intro": "Amazon.com is the dominant U.S. online retailer and a category unto itself in many\ncredit-card rewards programs. Several cards explicitly bonus on Amazon purchases (often\nquarterly, often tied to Prime membership), and Amazon.com always codes as online\nshopping for cards with that as a generic bonus category. The rule of thumb: an\nAmazon-specific bonus almost always beats a generic online-shopping bonus, but caps and\nPrime requirements can flip the math for heavy shoppers.\n"
+    },
+    {
+      "name": "Apple",
+      "slug": "apple",
+      "aliases": [
+        "Apple Store",
+        "apple.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.apple.com",
+      "also_earns": [
+        {
+          "card": "us-bank-shopper",
+          "rate": 6,
+          "unit": "percent",
+          "note": "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+        }
+      ],
+      "intro": "Apple's own retail channels — apple.com, the Apple Store app, and ~270 physical Apple\nStores — code as online shopping for most cards on the .com side and as electronics\nin-store. Apple purchases through Apple Pay also enable several merchant-specific\nbonuses on cards that bonus Apple Pay, but those typically require the purchase to be\nmade via the Apple Pay button rather than chip-and-PIN. The Apple Card itself earns 3%\non Apple-branded purchases, which is the strongest non-promotional rate you'll find\nhere.\n"
+    },
+    {
+      "name": "Best Buy",
+      "slug": "best-buy",
+      "aliases": [
+        "BestBuy"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.bestbuy.com",
+      "intro": "Best Buy is the largest U.S. specialty electronics retailer, with about 950 stores and a\nstrong bestbuy.com presence. In-store and online purchases generally code as electronics\nor online shopping rather than as a department store, so the answer here usually comes\ndown to a flat online-retail card or a flat-rate card. The My Best Buy Visa offers\nin-house financing and 5-6% back at Best Buy specifically, but the math only works for\nshoppers spending several thousand dollars a year on electronics.\n"
+    },
+    {
+      "name": "BJ's Wholesale Club",
+      "slug": "bjs-wholesale",
+      "aliases": [
+        "BJ's",
+        "BJs Wholesale"
+      ],
+      "categories": [
+        "wholesale_clubs"
+      ],
+      "website": "https://www.bjs.com",
+      "intro": "BJ's Wholesale Club is the East Coast-focused warehouse retailer with about 240 clubs\nand a growing online catalog. Unlike Costco and Sam's Club, BJ's accepts manufacturer\ncoupons in addition to its own discounts, which can stack on top of card rewards. BJ's\naccepts all four card networks, and BJ's gas pumps code as wholesale clubs — not as gas\n— so a flat 5% gas card will not earn at the pump here.\n"
+    },
+    {
+      "name": "Bloomingdale's",
+      "slug": "bloomingdales",
+      "aliases": [
+        "Bloomies",
+        "Bloomingdales"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.bloomingdales.com",
+      "parent_company": "Macy's, Inc.",
+      "intro": "Bloomingdale's is a luxury-leaning department store with about 30 full-line locations\nin the U.S., plus the higher-end Bloomingdale's by Bloomingdale's outlet stores. Most\nshoppers are paying full price on apparel, beauty, and home goods, so the cashback rate\non your card matters more here than at a discount retailer.\n\nBloomingdale's accepts all four major networks (Visa, Mastercard, Amex, Discover) and\nApple Pay in stores. There is a co-branded Bloomingdale's American Express that earns\nLoyallist points, but most general-purpose cards will pay you better in cashback unless\nyou spend several thousand dollars a year at Bloomingdale's specifically.\n"
+    },
+    {
+      "name": "Chevron",
+      "slug": "chevron",
+      "aliases": [
+        "Chevron Texaco",
+        "Texaco"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.chevron.com",
+      "intro": "Chevron and Texaco-branded stations cover about 8,000 U.S. locations primarily in the\nWest and South. Pumps code cleanly as gas on every card we track. The Chevron Visa\noffers extra cents-per-gallon discounts at Chevron and Texaco stations, but most\ngeneral-purpose gas-bonus cards beat it on absolute cashback unless you're a heavy\nChevron-only buyer.\n"
+    },
+    {
+      "name": "Chewy",
+      "slug": "chewy",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.chewy.com",
+      "intro": "Chewy is the largest dedicated U.S. online pet retailer, with autoship being the\ndominant purchase pattern for repeat customers. All Chewy purchases code as online\nshopping on every card we track. Pet-supply spend doesn't fall into a dedicated card\ncategory on most general-purpose cards, so the right answer here is whichever U.S.\nonline retail card you carry — Blue Cash Everyday, Hilton Surpass, or a flat 2% card\ndepending on cap considerations.\n"
+    },
+    {
+      "name": "Chick-fil-A",
+      "slug": "chick-fil-a",
+      "aliases": [
+        "Chick fil A"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.chick-fil-a.com",
+      "intro": "Chick-fil-A is one of the highest-grossing U.S. fast-food chains by per-store revenue,\nwith about 3,000 locations and a closed-loop app/loyalty program. All Chick-fil-A\npurchases code as dining/restaurants on every card we track. App reloads of Chick-fil-A\nOne credits also trigger the dining category, which is a clean way to capture the bonus.\n"
+    },
+    {
+      "name": "Chipotle",
+      "slug": "chipotle",
+      "aliases": [
+        "Chipotle Mexican Grill"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.chipotle.com",
+      "intro": "Chipotle is one of the largest U.S. fast-casual chains at about 3,500 locations, with a\nwell-developed digital ordering app and Chipotle Rewards loyalty program. All Chipotle\npurchases code as dining/restaurants on every card we track, so 3-5% dining-bonus cards\nearn at the same rate whether you order in-store, on the app, or for delivery direct\nfrom Chipotle.\n"
+    },
+    {
+      "name": "Costco",
+      "slug": "costco",
+      "aliases": [
+        "Costco Wholesale"
+      ],
+      "categories": [
+        "wholesale_clubs"
+      ],
+      "website": "https://www.costco.com",
+      "co_brand_cards": [
+        "costco-anywhere-visa-card-by-citi",
+        "costco-anywhere-visa-business-card-by-citi"
+      ],
+      "also_earns": [
+        {
+          "card": "us-bank-shopper",
+          "rate": 6,
+          "unit": "percent",
+          "note": "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+        }
+      ],
+      "intro": "Costco Wholesale runs about 600 warehouses worldwide and a sizable online catalog at\ncostco.com. The pricing model revolves around member-only bulk buying, so card choice\nmatters most for people running weekly grocery and gas trips through the warehouse. Two\nquirks worth knowing: Costco accepts only Visa cards in-warehouse (no Mastercard, Amex,\nor Discover), and Costco gas pumps code as wholesale clubs — not gas — so a 5% gas card\nwill not trigger at the pump here.\n"
+    },
+    {
+      "name": "CVS",
+      "slug": "cvs",
+      "aliases": [
+        "CVS Pharmacy"
+      ],
+      "categories": [
+        "drugstores"
+      ],
+      "website": "https://www.cvs.com",
+      "intro": "CVS is the largest U.S. pharmacy chain by store count (about 9,000 locations) and a\nmajor convenience-goods retailer alongside the prescription business. CVS codes as a\ndrugstore on every card we track, so any 3-5% drugstore-category card will earn here.\nCVS's own ExtraCare loyalty program runs in parallel and stacks with card cashback.\n"
+    },
+    {
+      "name": "Domino's",
+      "slug": "dominos",
+      "aliases": [
+        "Dominos",
+        "Domino's Pizza"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.dominos.com",
+      "intro": "Domino's is the largest U.S. pizza chain at about 6,800 locations and a heavy digital\nordering footprint. All Domino's transactions — phone, app, and dominos.com — code as\ndining on every card we track, regardless of whether the food is delivered or picked up.\nThe Domino's Rewards program (free pizza after a points threshold) stacks on top of card\ncashback.\n"
+    },
+    {
+      "name": "DoorDash",
+      "slug": "doordash",
+      "aliases": [
+        "Door Dash"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.doordash.com",
+      "intro": "DoorDash is the largest U.S. food-delivery service by market share, covering both\nrestaurant delivery and (via DashMart and grocery partners) household goods. Restaurant\norders code as dining/restaurants on every card we track, and several cards specifically\ncall out DoorDash for elevated dining bonuses or DashPass perks. DashMart and\ngrocery-partner orders typically code as the underlying merchant rather than as dining.\n"
+    },
+    {
+      "name": "eBay",
+      "slug": "ebay",
+      "aliases": [
+        "Ebay"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.ebay.com",
+      "intro": "eBay is the largest U.S. online auction and resale marketplace and codes as online\nshopping on essentially every credit card we track. Unlike Amazon, eBay rarely has a\ncard-specific bonus carve-out, so the right card here is the strongest generic\nonline-shopping earner you carry. Watch for cards with a U.S. online retail cap — eBay\npayments via PayPal still count as eBay for category coding, but third-party processor\npurchases on eBay's classifieds side may not.\n"
+    },
+    {
+      "name": "Etsy",
+      "slug": "etsy",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.etsy.com",
+      "intro": "Etsy is the marketplace for handmade, vintage, and craft goods sold by independent\nmakers, with checkout handled by Etsy itself. Purchases code as online shopping on every\ngeneral-purpose card we track, which means Etsy is a good fit for any card with a flat\nU.S. online retail bonus (Blue Cash Everyday, Hilton Surpass, etc.). Etsy doesn't have a\nco-branded card and rarely shows up in card-specific bonus lists.\n"
+    },
+    {
+      "name": "ExxonMobil",
+      "slug": "exxonmobil",
+      "aliases": [
+        "Exxon",
+        "Mobil"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.exxon.com",
+      "also_earns": [
+        {
+          "card": "apple-card",
+          "rate": 3,
+          "unit": "percent",
+          "note": "Via Apple Pay"
+        }
+      ],
+      "intro": "ExxonMobil operates Exxon and Mobil-branded stations at about 11,500 U.S. locations,\nplus the ExxonMobil Rewards+ app for in-station discounts. ExxonMobil pumps code as gas\non every card we track, and one merchant-specific note: ExxonMobil purchases earn 3% on\nthe Apple Card when paid via Apple Pay.\n"
+    },
+    {
+      "name": "H-E-B",
+      "slug": "heb",
+      "aliases": [
+        "HEB",
+        "H-E-B Texas"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.heb.com",
+      "intro": "H-E-B is the dominant Texas supermarket chain, with about 425 stores under H-E-B,\nCentral Market, and Joe V's banners. The chain is privately held and well-regarded for\nstore-brand products and Texas-only specialty items. H-E-B codes as groceries on every\ncard we track and supports curbside pickup and delivery on most product lines.\n"
+    },
+    {
+      "name": "Home Depot",
+      "slug": "home-depot",
+      "aliases": [
+        "The Home Depot",
+        "HD"
+      ],
+      "categories": [
+        "home_improvement"
+      ],
+      "website": "https://www.homedepot.com",
+      "intro": "The Home Depot is the largest U.S. home-improvement retailer, with about 2,000 stores\nand a heavily-used Pro Xtra business loyalty program. The right card here depends a lot\non whether you're a homeowner doing one project a year or a contractor running steady\nvolume — the gap between the best home-improvement category card and a generic 2% card\nis meaningful at contractor spend levels. Home Depot codes as home improvement at the\nregister and on homedepot.com.\n"
+    },
+    {
+      "name": "JCPenney",
+      "slug": "jcpenney",
+      "aliases": [
+        "JC Penney",
+        "Penneys"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.jcpenney.com",
+      "intro": "JCPenney is a mid-tier department store with about 660 stores and a smaller online\ncatalog at jcpenney.com. Like other mid-tier department chains, the bulk of purchases\nhappen at promotional discount, so card rewards stack on already-reduced prices.\nJCPenney codes as a department store in-store and online shopping on the website, so\ncards bonusing on either category will trigger here.\n"
+    },
+    {
+      "name": "Kohl's",
+      "slug": "kohls",
+      "aliases": [
+        "Kohls"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.kohls.com",
+      "intro": "Kohl's is a mid-tier department store with about 1,150 stores and an aggressive Kohl's\nCash rewards program. Most regular shoppers stack manufacturer sales, Kohl's coupons,\nand Kohl's Cash, so card cashback is the smallest of several layers. The Kohl's Card\n(issued by Capital One) gives in-house discounts but no MasterCard/Visa-network rewards.\nFor most shoppers, a department-store-bonus general-purpose card is the right answer.\n"
+    },
+    {
+      "name": "Kroger",
+      "slug": "kroger",
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.kroger.com",
+      "intro": "Kroger is the largest dedicated U.S. supermarket operator, running about 2,700 stores\nunder Kroger and a stack of regional banners (Ralphs, Fred Meyer, Smith's, King Soopers,\nHarris Teeter, Fry's, and others). All code as groceries at the register and most do\nonline shopping via the Kroger app/site. Any standard supermarket-bonus card earns here.\nKroger's own fuel-points program layers on top of card cashback.\n"
+    },
+    {
+      "name": "Lowe's",
+      "slug": "lowes",
+      "aliases": [
+        "Lowes"
+      ],
+      "categories": [
+        "home_improvement"
+      ],
+      "website": "https://www.lowes.com",
+      "intro": "Lowe's is the second-largest U.S. home-improvement retailer at about 1,750 stores, with\na long-standing rivalry with Home Depot for both consumer and pro spend. Pricing is\nsimilar between the two, so the right card here is whichever home-improvement-bonus\ngeneral-purpose card you carry, plus the Lowe's Advantage credit line if you're\nfinancing a large project. Lowe's codes as home improvement in-store and on lowes.com.\n"
+    },
+    {
+      "name": "Lululemon",
+      "slug": "lululemon",
+      "aliases": [
+        "Lululemon Athletica"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.lululemon.com",
+      "intro": "Lululemon is the dominant U.S. athletic-apparel brand with about 700 stores and a heavy\nlululemon.com presence. Like other apparel retailers, Lululemon doesn't fall into a card\nbonus category in-store — the right answer there is a strong flat-rate cashback card.\nOnline purchases at lululemon.com code as online shopping, which opens up a different\nset of category bonuses.\n"
+    },
+    {
+      "name": "Macy's",
+      "slug": "macys",
+      "aliases": [
+        "Macys"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.macys.com",
+      "intro": "Macy's is the largest U.S. mid-tier department store, with about 500 full-line stores\nplus Backstage outlets and a heavy promotional calendar. Most shoppers buy at heavy\ndiscount, so the cashback rate stacks on already-reduced prices. Macy's codes as a\ndepartment store at the register and as online shopping on macys.com, which means cards\nbonusing on either category can earn here. The Macy's American Express has its own\nLoyallist points layer for shoppers doing several thousand a year at Macy's\nspecifically.\n"
+    },
+    {
+      "name": "McDonald's",
+      "slug": "mcdonalds",
+      "aliases": [
+        "Mcdonalds",
+        "Mickey Ds"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.mcdonalds.com",
+      "intro": "McDonald's is the largest U.S. quick-service restaurant chain at about 13,500 locations.\nAll purchases — in-store, drive-thru, and via the McDonald's app — code as\ndining/restaurants on every card we track, so any 3-5% dining-category card earns here.\nThe McDonald's app's MyMcDonald's Rewards program stacks on top of card cashback.\n"
+    },
+    {
+      "name": "Menards",
+      "slug": "menards",
+      "categories": [
+        "home_improvement"
+      ],
+      "website": "https://www.menards.com",
+      "intro": "Menards is a Midwest-focused home-improvement chain with about 350 stores, well-known\nfor its 11% mail-in rebate promotions that effectively act as in-house cashback on top\nof card rewards. The math here is interesting: an 11% Menards rebate stacked with a 2%\nflat-rate cashback card often beats most home-improvement category cards on net. Menards\ncodes as home improvement at the register and on menards.com.\n"
+    },
+    {
+      "name": "Neiman Marcus",
+      "slug": "neiman-marcus",
+      "aliases": [
+        "Neimans"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.neimanmarcus.com",
+      "intro": "Neiman Marcus is a luxury department store with about 35 full-line stores and a\nsignificant online presence. Average tickets here are among the highest in U.S.\ndepartment retail, which shifts the math toward cards that pay a high department-store\ncategory rate without a tight spend cap. NM's own InCircle loyalty program runs\nalongside any card cashback you earn at checkout.\n"
+    },
+    {
+      "name": "Nordstrom",
+      "slug": "nordstrom",
+      "aliases": [
+        "Nordstrom Rack"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.nordstrom.com",
+      "intro": "Nordstrom is a higher-end department store with about 100 full-line stores and a much\nlarger Nordstrom Rack outlet network. Pricing skews full-retail at the flagship\nlocations and steeply discounted at Rack, so the right card depends partly on which\nchannel you're shopping. Both code as department stores at the register and online\nshopping on nordstrom.com / nordstromrack.com. Nordstrom's own Nordy Club rewards layer\nin on top of card cashback.\n"
+    },
+    {
+      "name": "Old Navy",
+      "slug": "old-navy",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.oldnavy.gap.com",
+      "parent_company": "Gap, Inc.",
+      "intro": "Old Navy is Gap, Inc.'s value-priced apparel banner with about 1,200 U.S. stores and a\nstrong online catalog. Apparel doesn't have a dedicated reward category on most\ngeneral-purpose credit cards, so card choice usually comes down to whether you're\nshopping online (where online-shopping bonuses apply) or in-store (where you're\ntypically falling back to a strong flat-rate cashback card).\n"
+    },
+    {
+      "name": "PetSmart",
+      "slug": "petsmart",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.petsmart.com",
+      "intro": "PetSmart is the largest U.S. pet specialty retailer by store count at about 1,650\nlocations, with a sizable petsmart.com online catalog. Pet-supply purchases don't have a\ndedicated category on most credit cards, so in-store purchases generally fall back to a\nflat-rate cashback card. Online purchases at petsmart.com code as online shopping. The\nTreats Rewards loyalty program stacks on top of card cashback.\n"
+    },
+    {
+      "name": "Publix",
+      "slug": "publix",
+      "aliases": [
+        "Publix Super Markets"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.publix.com",
+      "intro": "Publix is the largest employee-owned U.S. supermarket chain, with about 1,400 stores\nconcentrated in the Southeast. Pricing skews higher than at mass-market grocers like\nWalmart Neighborhood Market or Aldi, which makes a strong grocery-category card more\nvaluable per visit. Publix codes cleanly as groceries on every card we track.\n"
+    },
+    {
+      "name": "Rite Aid",
+      "slug": "rite-aid",
+      "categories": [
+        "drugstores"
+      ],
+      "website": "https://www.riteaid.com",
+      "intro": "Rite Aid is the third-largest U.S. pharmacy chain at about 1,700 stores, primarily in\nthe Northeast and West Coast. Rite Aid codes cleanly as a drugstore on every card we\ntrack, so any drugstore-bonus card will earn here. The chain's BonusCash and wellness+\nrewards programs layer on top of card cashback.\n"
+    },
+    {
+      "name": "Safeway",
+      "slug": "safeway",
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.safeway.com",
+      "parent_company": "Albertsons Companies",
+      "intro": "Safeway is one of Albertsons' largest banners, running about 900 stores primarily in the\nWestern U.S. Safeway codes as groceries at the register and most online ordering happens\nthrough safeway.com or DoorDash partnerships. Safeway's own Just for U digital coupons\nstack with whatever card-side cashback you earn at checkout.\n"
+    },
+    {
+      "name": "Saks Fifth Avenue",
+      "slug": "saks-fifth-avenue",
+      "aliases": [
+        "Saks"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.saksfifthavenue.com",
+      "intro": "Saks Fifth Avenue is a high-end department store with about 40 full-line stores plus the\nmuch larger Saks Off 5th outlet network. Average ticket sizes are higher than at\nmass-market department chains, which makes a high-rate department-store category card\nmore valuable here than at, say, JCPenney. Saks codes as a department store in-store and\nonline shopping on saksfifthavenue.com, so general-purpose category bonuses apply.\n"
+    },
+    {
+      "name": "Sam's Club",
+      "slug": "sams-club",
+      "aliases": [
+        "Sams Club"
+      ],
+      "categories": [
+        "wholesale_clubs"
+      ],
+      "website": "https://www.samsclub.com",
+      "parent_company": "Walmart, Inc.",
+      "intro": "Sam's Club is Walmart's warehouse-club arm, with about 600 U.S. clubs and a steadily\ngrowing online and Scan & Go catalog. Member tiers (Club vs. Plus) affect free-shipping\nand curbside perks but not the rewards math at the register. Sam's accepts Visa,\nMastercard, Amex, and Discover, and Sam's Club gas pumps code as wholesale clubs rather\nthan gas stations — the same rule as Costco.\n"
+    },
+    {
+      "name": "Sephora",
+      "slug": "sephora",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.sephora.com",
+      "intro": "Sephora is the largest U.S. beauty specialty retailer at about 600 stores, plus a\nseparate shop-in-shop presence inside Kohl's. Beauty doesn't have its own reward\ncategory on most general-purpose cards, so in-store purchases at Sephora typically fall\nback to a flat-rate cashback card. Online purchases at sephora.com code as online\nshopping. Sephora's own Beauty Insider points layer on top of card cashback.\n"
+    },
+    {
+      "name": "Shell",
+      "slug": "shell",
+      "aliases": [
+        "Shell Oil",
+        "Shell USA"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.shell.us",
+      "intro": "Shell is one of the largest U.S. gasoline retailers by station count (about 13,000\nlocations), with a Fuel Rewards loyalty program tied to the Shell app. Shell pumps code\ncleanly as gas on every card we track. The Shell Fuel Rewards program offers stackable\nper-gallon discounts that are calculated separately from card cashback.\n"
+    },
+    {
+      "name": "Starbucks",
+      "slug": "starbucks",
+      "aliases": [
+        "Starbucks Coffee"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.starbucks.com",
+      "intro": "Starbucks runs about 16,500 U.S. stores plus the Starbucks app, which is itself one of\nthe largest closed-loop payment systems in the country. Whether you pay through the app,\nwith a physical Starbucks card, or directly with a credit card, the underlying Starbucks\ntransaction codes as dining/restaurants on every card we track. Reloading your Starbucks\nbalance via card is the cleanest way to capture the dining bonus on cards that pay 3-5%\non dining.\n"
+    },
+    {
+      "name": "Target",
+      "slug": "target",
+      "aliases": [
+        "Target Corp"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.target.com",
+      "also_earns": [
+        {
+          "card": "us-bank-shopper",
+          "rate": 6,
+          "unit": "percent",
+          "note": "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+        }
+      ],
+      "intro": "Target sits in the same awkward bucket as Walmart for general-purpose credit cards: it\ncodes as a discount store rather than a supermarket or department store, so most cards'\nbonus categories (grocery, dining, department stores) miss it entirely. Target.com\npurchases code as online shopping on most cards, which is where the highest\nnon-co-branded earn rates show up. In-store, you're typically falling back to a strong\nflat-rate card unless you carry a Target-issued card for the 5% RedCard discount applied\nat checkout.\n"
+    },
+    {
+      "name": "Trader Joe's",
+      "slug": "trader-joes",
+      "aliases": [
+        "Trader Joes",
+        "TJs"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.traderjoes.com",
+      "intro": "Trader Joe's is the smaller-format private-label grocer with about 600 stores\nnationwide, famous for store-brand goods and tight pricing. Average tickets are smaller\nthan at full-line supermarkets, but the visit frequency tends to be higher. TJ's codes\ncleanly as groceries (supermarket merchant code) on essentially every card we track, so\nany standard 3-6% grocery card will earn here.\n"
+    },
+    {
+      "name": "Uber Eats",
+      "slug": "uber-eats",
+      "aliases": [
+        "UberEats"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.ubereats.com",
+      "intro": "Uber Eats is the second-largest U.S. food-delivery service and is bundled with Uber\nrideshare for many users. Restaurant orders code as dining/restaurants on every card we\ntrack, and several cards (notably the Amex Gold and Platinum) include Uber Cash credits\nthat can be applied to Uber Eats orders. Grocery orders through Uber Eats typically code\nas the underlying merchant.\n"
+    },
+    {
+      "name": "Ulta Beauty",
+      "slug": "ulta",
+      "aliases": [
+        "Ulta"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.ulta.com",
+      "intro": "Ulta Beauty is the largest U.S. beauty retailer by store count at about 1,400 locations,\ncovering both prestige and mass-market lines under one roof. Like Sephora, Ulta in-store\npurchases don't trigger a dedicated card category, so the right card there is usually a\nstrong flat-rate. Online purchases at ulta.com code as online shopping. Ultamate Rewards\nloyalty points stack with card cashback.\n"
+    },
+    {
+      "name": "Walgreens",
+      "slug": "walgreens",
+      "aliases": [
+        "Walgreens Boots Alliance"
+      ],
+      "categories": [
+        "drugstores"
+      ],
+      "website": "https://www.walgreens.com",
+      "also_earns": [
+        {
+          "card": "apple-card",
+          "rate": 3,
+          "unit": "percent",
+          "note": "Via Apple Pay"
+        }
+      ],
+      "intro": "Walgreens is the second-largest U.S. pharmacy chain at about 8,500 stores, with a big\nconvenience-goods footprint alongside the pharmacy business. Walgreens codes as a\ndrugstore and is one of the merchants that earns 3% on the Apple Card via Apple Pay, in\naddition to general drugstore-category bonuses on other cards.\n"
+    },
+    {
+      "name": "Walmart",
+      "slug": "walmart",
+      "aliases": [
+        "Walmart Inc"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.walmart.com",
+      "also_earns": [
+        {
+          "card": "us-bank-shopper",
+          "rate": 6,
+          "unit": "percent",
+          "note": "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+        }
+      ],
+      "intro": "Walmart is the country's largest grocer and one of its largest general retailers, but it\nsits in an awkward spot for credit-card rewards. Most cards' grocery 3-5% bonuses\nexplicitly exclude Walmart (it codes as a discount store, not a supermarket), and\nWalmart's gas stations code as Walmart, not gas. Walmart.com purchases code as online\nshopping on most cards, which opens up the strongest non-co-branded earn rates —\nin-store purchases generally fall back to flat-rate cashback unless you're using a\nWalmart-issued card.\n"
+    },
+    {
+      "name": "Wegmans",
+      "slug": "wegmans",
+      "aliases": [
+        "Wegmans Food Markets"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.wegmans.com",
+      "intro": "Wegmans is a regional supermarket chain with about 110 stores in the Northeast,\nwell-known for prepared foods, in-store dining, and a deep wine and beer selection.\nPricing skews mid-to-high and average tickets are larger than at typical mass-market\nsupermarkets. Wegmans codes as groceries on essentially every card we track.\n"
+    },
+    {
+      "name": "Whole Foods Market",
+      "slug": "whole-foods-market",
+      "aliases": [
+        "Whole Foods",
+        "WFM"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.wholefoodsmarket.com",
+      "parent_company": "Amazon",
+      "also_earns": [
+        {
+          "card": "amazon-prime-rewards-visa-signature-card",
+          "rate": 5,
+          "unit": "percent",
+          "note": "With Amazon Prime membership"
+        }
+      ],
+      "intro": "Whole Foods Market is Amazon's premium grocery arm, with about 530 U.S. stores. Pricing\nis higher than at mass-market supermarkets, which makes a strong grocery-category card\nmore valuable per visit. The standout here is the Amazon Prime Rewards Visa: it earns 5%\nat Whole Foods (with a Prime membership), which is the strongest non-promotional grocery\nrate available. Without Prime, fall back to whichever 3-6% supermarket card you carry.\n"
+    }
+  ]
+}

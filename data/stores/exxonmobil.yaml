@@ -1,0 +1,18 @@
+name: "ExxonMobil"
+slug: "exxonmobil"
+aliases:
+  - "Exxon"
+  - "Mobil"
+categories:
+  - gas
+website: "https://www.exxon.com"
+also_earns:
+  - card: "apple-card"
+    rate: 3
+    unit: percent
+    note: "Via Apple Pay"
+intro: |
+  ExxonMobil operates Exxon and Mobil-branded stations at about 11,500 U.S. locations,
+  plus the ExxonMobil Rewards+ app for in-station discounts. ExxonMobil pumps code as gas
+  on every card we track, and one merchant-specific note: ExxonMobil purchases earn 3% on
+  the Apple Card when paid via Apple Pay.

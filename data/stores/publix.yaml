@@ -1,0 +1,12 @@
+name: "Publix"
+slug: "publix"
+aliases:
+  - "Publix Super Markets"
+categories:
+  - groceries
+website: "https://www.publix.com"
+intro: |
+  Publix is the largest employee-owned U.S. supermarket chain, with about 1,400 stores
+  concentrated in the Southeast. Pricing skews higher than at mass-market grocers like
+  Walmart Neighborhood Market or Aldi, which makes a strong grocery-category card more
+  valuable per visit. Publix codes cleanly as groceries on every card we track.

@@ -1,0 +1,14 @@
+name: "Sam's Club"
+slug: "sams-club"
+aliases:
+  - "Sams Club"
+categories:
+  - wholesale_clubs
+website: "https://www.samsclub.com"
+parent_company: "Walmart, Inc."
+intro: |
+  Sam's Club is Walmart's warehouse-club arm, with about 600 U.S. clubs and a steadily
+  growing online and Scan & Go catalog. Member tiers (Club vs. Plus) affect free-shipping
+  and curbside perks but not the rewards math at the register. Sam's accepts Visa,
+  Mastercard, Amex, and Discover, and Sam's Club gas pumps code as wholesale clubs rather
+  than gas stations — the same rule as Costco.

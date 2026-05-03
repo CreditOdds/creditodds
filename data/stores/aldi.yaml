@@ -1,0 +1,13 @@
+name: "Aldi"
+slug: "aldi"
+aliases:
+  - "ALDI"
+categories:
+  - groceries
+website: "https://www.aldi.us"
+intro: |
+  Aldi is the discount-focused private-label grocer with about 2,400 U.S. stores and a
+  sharply lower price floor than full-line supermarkets. Average tickets are smaller, so
+  the absolute dollar value of a 3-6% grocery card is lower per visit, but the rate still
+  applies. Aldi codes as groceries on every card we track. Note: Aldi historically only
+  accepted debit and SNAP, but all U.S. stores now accept credit cards.

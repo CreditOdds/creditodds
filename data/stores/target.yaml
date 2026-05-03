@@ -1,0 +1,20 @@
+name: "Target"
+slug: "target"
+aliases:
+  - "Target Corp"
+categories:
+  - online_shopping
+website: "https://www.target.com"
+also_earns:
+  - card: us-bank-shopper
+    rate: 6
+    unit: percent
+    note: "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+intro: |
+  Target sits in the same awkward bucket as Walmart for general-purpose credit cards: it
+  codes as a discount store rather than a supermarket or department store, so most cards'
+  bonus categories (grocery, dining, department stores) miss it entirely. Target.com
+  purchases code as online shopping on most cards, which is where the highest
+  non-co-branded earn rates show up. In-store, you're typically falling back to a strong
+  flat-rate card unless you carry a Target-issued card for the 5% RedCard discount applied
+  at checkout.

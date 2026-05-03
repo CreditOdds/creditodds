@@ -1,0 +1,12 @@
+name: "Chick-fil-A"
+slug: "chick-fil-a"
+aliases:
+  - "Chick fil A"
+categories:
+  - dining
+website: "https://www.chick-fil-a.com"
+intro: |
+  Chick-fil-A is one of the highest-grossing U.S. fast-food chains by per-store revenue,
+  with about 3,000 locations and a closed-loop app/loyalty program. All Chick-fil-A
+  purchases code as dining/restaurants on every card we track. App reloads of Chick-fil-A
+  One credits also trigger the dining category, which is a clean way to capture the bonus.

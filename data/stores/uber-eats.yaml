@@ -1,0 +1,13 @@
+name: "Uber Eats"
+slug: "uber-eats"
+aliases:
+  - "UberEats"
+categories:
+  - dining
+website: "https://www.ubereats.com"
+intro: |
+  Uber Eats is the second-largest U.S. food-delivery service and is bundled with Uber
+  rideshare for many users. Restaurant orders code as dining/restaurants on every card we
+  track, and several cards (notably the Amex Gold and Platinum) include Uber Cash credits
+  that can be applied to Uber Eats orders. Grocery orders through Uber Eats typically code
+  as the underlying merchant.

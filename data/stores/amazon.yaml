@@ -1,0 +1,20 @@
+name: "Amazon"
+slug: "amazon"
+aliases:
+  - "Amazon.com"
+categories:
+  - amazon
+  - online_shopping
+website: "https://www.amazon.com"
+also_earns:
+  - card: us-bank-shopper
+    rate: 6
+    unit: percent
+    note: "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+intro: |
+  Amazon.com is the dominant U.S. online retailer and a category unto itself in many
+  credit-card rewards programs. Several cards explicitly bonus on Amazon purchases (often
+  quarterly, often tied to Prime membership), and Amazon.com always codes as online
+  shopping for cards with that as a generic bonus category. The rule of thumb: an
+  Amazon-specific bonus almost always beats a generic online-shopping bonus, but caps and
+  Prime requirements can flip the math for heavy shoppers.

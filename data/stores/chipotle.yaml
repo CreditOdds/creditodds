@@ -1,0 +1,13 @@
+name: "Chipotle"
+slug: "chipotle"
+aliases:
+  - "Chipotle Mexican Grill"
+categories:
+  - dining
+website: "https://www.chipotle.com"
+intro: |
+  Chipotle is one of the largest U.S. fast-casual chains at about 3,500 locations, with a
+  well-developed digital ordering app and Chipotle Rewards loyalty program. All Chipotle
+  purchases code as dining/restaurants on every card we track, so 3-5% dining-bonus cards
+  earn at the same rate whether you order in-store, on the app, or for delivery direct
+  from Chipotle.

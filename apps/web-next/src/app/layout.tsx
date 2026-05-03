@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { AuthProvider } from "@/auth/AuthProvider";
-import { ConditionalNavbar, ConditionalFooter } from "@/components/layout/ConditionalChrome";
+import { ConditionalNavbar } from "@/components/layout/ConditionalChrome";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
 import LogRocketInit from "@/components/ui/LogRocketInit";
@@ -70,7 +70,8 @@ export default function RootLayout({
             {children}
             <DataPointPrompt />
           </main>
-          <ConditionalFooter />
+          {/* Footer is rendered per-page via <V2Footer /> from
+              @/components/landing-v2/Chrome — no global footer here. */}
           <ToastContainer />
           <WebVitalsReporter />
           <LogRocketInit />

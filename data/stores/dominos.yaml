@@ -1,0 +1,14 @@
+name: "Domino's"
+slug: "dominos"
+aliases:
+  - "Dominos"
+  - "Domino's Pizza"
+categories:
+  - dining
+website: "https://www.dominos.com"
+intro: |
+  Domino's is the largest U.S. pizza chain at about 6,800 locations and a heavy digital
+  ordering footprint. All Domino's transactions — phone, app, and dominos.com — code as
+  dining on every card we track, regardless of whether the food is delivered or picked up.
+  The Domino's Rewards program (free pizza after a points threshold) stacks on top of card
+  cashback.
