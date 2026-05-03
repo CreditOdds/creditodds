@@ -380,6 +380,28 @@ DO NOT propose dropping \`value\` to the post-cap rate. Examples:
   Chase Freedom Flex rotating "5% up to \$1,500/quarter when activated" →
     value: 5, unit: percent, spend_cap: 1500, cap_period: quarterly
 
+# REWARDS — time-limited promotional earn rates
+When an apply page describes a TIME-LIMITED earn-rate promo on a category
+(e.g. "5% cash back on Lyft rides through September 30, 2027",
+"3x on Peloton through 2027-12-31", "Earn 5x on streaming for the first
+6 months"), it goes in \`rewards[]\` with a \`note\` mentioning the sunset
+date. NEVER put time-limited earn rates in \`benefits[]\`.
+
+Examples:
+  Chase Ink Business Unlimited "5% on Lyft through Sep 30, 2027" →
+    rewards: [{ category: "transit", value: 5, unit: percent,
+                note: "On Lyft rides through September 30, 2027 (limited-time promo)" }]
+  Chase Sapphire Preferred "5x on Peloton through 2027-12-31" →
+    rewards: [{ category: "fitness" or "everything_else" if no better fit,
+                value: 5, unit: points_per_dollar,
+                note: "Peloton purchases through Dec 31, 2027 (limited-time promo)" }]
+
+If the existing card YAML already has a category-bonus row for the same
+spend type, prefer updating that row's \`note\` rather than adding a new
+one with overlapping coverage. Use the closest matching reward category
+from categories.yaml (rideshare → transit; streaming services → streaming;
+fitness equipment → fitness or shopping if no fitness).
+
 # DO NOT INCLUDE — earn / redemption / finance mechanics
 - "rewards" describes per-CATEGORY EARN RATES on spend (e.g. "5% on dining"). Use category ids that already appear in the example cards below.
 - DO NOT include redemption mechanics (e.g. "Points Payback", "no blackout dates"), generic federal-law standards (e.g. "$0 Fraud Liability"), or network-tier perks (e.g. "Visa Signature Concierge", "Mastercard World Elite Benefits").
