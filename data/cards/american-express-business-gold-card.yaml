@@ -10,6 +10,7 @@ rewards:
   - category: top_category
     value: 4
     unit: points_per_dollar
+    mode: auto_top_spend
     choices: 2
     eligible_categories:
       - airlines

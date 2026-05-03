@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-03T18:38:13.717Z",
+  "generated_at": "2026-05-03T18:44:41.687Z",
   "count": 160,
   "categories": [
     {
@@ -510,6 +510,7 @@
           "category": "top_category",
           "value": 4,
           "unit": "points_per_dollar",
+          "mode": "auto_top_spend",
           "choices": 2,
           "eligible_categories": [
             "airlines",
