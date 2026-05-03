@@ -1,14 +1,7 @@
 // Recomputes per-card stats and upserts them into the card_stats table.
 // Triggered by EventBridge on a schedule; also callable via HTTP for ops use.
 
-const mysql = require("serverless-mysql")({
-  config: {
-    host: process.env.ENDPOINT,
-    database: process.env.DATABASE,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-  },
-});
+const mysql = require("../db");
 
 const responseHeaders = {
   "Access-Control-Allow-Origin": "*",

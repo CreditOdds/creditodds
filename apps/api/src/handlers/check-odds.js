@@ -1,13 +1,5 @@
 const https = require('https');
-
-const mysql = require("serverless-mysql")({
-  config: {
-    host: process.env.ENDPOINT,
-    database: process.env.DATABASE,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-  },
-});
+const mysql = require("../db");
 
 const CARDS_URL = process.env.CARDS_JSON_URL || 'https://d2hxvzw7msbtvt.cloudfront.net/cards.json';
 
