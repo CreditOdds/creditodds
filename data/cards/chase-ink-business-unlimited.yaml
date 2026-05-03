@@ -10,6 +10,10 @@ tags:
   - business
   - cashback
 rewards:
+  - category: transit
+    value: 5
+    unit: percent
+    note: "On Lyft rides through September 30, 2027 (limited-time promo)"
   - category: everything_else
     value: 1.5
     unit: percent
