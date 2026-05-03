@@ -252,6 +252,28 @@ export function formatRewardWithUsdEquivalent(reward: Reward | undefined, card: 
   return `${raw} (~${formatPercent(usdRate)}%)`;
 }
 
+// Render the structured cap/post-cap caveat for a reward (e.g.
+// "on first $50K/yr, then 1x" for Blue Business Plus). Returns an empty
+// string when the reward isn't capped. Used as a small caveat next to or
+// below the headline rate so users can see the limit without parsing
+// the prose `note`.
+export function formatRewardCapCaveat(reward: Reward): string {
+  if (!reward.spend_cap || reward.spend_cap <= 0) return '';
+  const cap = `$${reward.spend_cap.toLocaleString()}`;
+  const periodLabels: Record<string, string> = {
+    monthly: '/mo',
+    quarterly: '/qtr',
+    semi_annual: '/6 mo',
+    annual: '/yr',
+    billing_cycle: '/billing cycle',
+    lifetime: ' lifetime',
+  };
+  const period = periodLabels[reward.cap_period || 'annual'] || '/yr';
+  const after = reward.rate_after_cap ?? 1;
+  const afterStr = reward.unit === 'percent' ? `${after}%` : `${after}x`;
+  return `on first ${cap}${period}, then ${afterStr}`;
+}
+
 export function RewardTypeBadge({ type }: { type?: string }) {
   if (!type) return null;
   const colors: Record<string, string> = {

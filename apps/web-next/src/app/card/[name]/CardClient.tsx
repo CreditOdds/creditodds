@@ -22,7 +22,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
-import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
+import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -762,6 +762,11 @@ export default function CardClient({
                               </div>
                               {r.note && (
                                 <div className="cj-cell-detail">{r.note}</div>
+                              )}
+                              {r.spend_cap && (
+                                <div className="cj-cell-detail">
+                                  {formatRewardCapCaveat(r)}
+                                </div>
                               )}
                               {r.current_categories && r.current_period && (
                                 <div className="cj-cell-detail">

@@ -116,6 +116,21 @@
           "current_period": {
             "type": "string",
             "description": "Current rotation period label, e.g. Q1 2026"
+          },
+          "spend_cap": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Maximum dollar spend that earns the headline `value` rate (e.g. 50000 for 'first $50K/yr'). Once exceeded, the cardholder earns `rate_after_cap` (or 1 if unspecified). Combined with `cap_period`."
+          },
+          "cap_period": {
+            "type": "string",
+            "enum": ["monthly", "quarterly", "semi_annual", "annual", "billing_cycle", "lifetime"],
+            "description": "Time window over which `spend_cap` resets. Defaults to 'annual'."
+          },
+          "rate_after_cap": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Reward rate (in the same `unit`) earned on spend above `spend_cap`. Defaults to 1 (i.e. 1% or 1x) when unspecified."
           }
         }
       },

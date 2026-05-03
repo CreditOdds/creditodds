@@ -16,7 +16,10 @@ rewards:
       - gas
       - dining
       - transit
-    note: "Automatically on your top 2 spending categories each billing cycle from 6 eligible (airfare, U.S. advertising, U.S. gas, U.S. restaurants, U.S. computer/cloud, transit), on the first $150,000/year"
+    note: "Automatically on your top 2 spending categories each billing cycle from 6 eligible (airfare, U.S. advertising, U.S. gas, U.S. restaurants, U.S. computer/cloud, transit) — combined cap"
+    spend_cap: 150000
+    cap_period: annual
+    rate_after_cap: 1
   - category: travel_portal
     value: 3
     unit: points_per_dollar

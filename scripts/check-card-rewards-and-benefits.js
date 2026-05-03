@@ -283,7 +283,15 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
 
 {
   "rewards": [
-    { "category": "<category id>", "value": <number>, "unit": "percent" | "points_per_dollar", "note": "<optional>" }
+    {
+      "category": "<category id>",
+      "value": <number>,
+      "unit": "percent" | "points_per_dollar",
+      "note": "<optional>",
+      "spend_cap": <optional number>,
+      "cap_period": "monthly" | "quarterly" | "semi_annual" | "annual" | "billing_cycle" | "lifetime",
+      "rate_after_cap": <optional number>
+    }
   ],
   "benefits": [
     {
@@ -350,6 +358,27 @@ bag"), an elite status tier, or a clearly free recurring service.
 - "Priority Pass" ONLY counts as a benefit if access is FREE (unlimited or
   N free visits per year). If the page says "with pay-per-visit pricing"
   or "members rate" or similar, OMIT it.
+
+# REWARDS — capped earn rates (CRITICAL)
+When an apply page describes a capped earn rate — "X on first \$Y per
+year, then Z" — \`value\` MUST be the headline rate (X), and the cap
+goes in the structured fields:
+  spend_cap: <Y>           ← the dollar threshold
+  cap_period: "annual"     ← or quarterly / monthly / billing_cycle / lifetime
+  rate_after_cap: <Z>      ← rate above the cap, in the same unit (defaults to 1)
+
+DO NOT propose dropping \`value\` to the post-cap rate. Examples:
+  Blue Business Plus "2x on first \$50K, then 1x" →
+    value: 2, unit: points_per_dollar, spend_cap: 50000,
+    cap_period: annual, rate_after_cap: 1
+  Blue Cash Preferred "6% at U.S. supermarkets up to \$6,000/yr, then 1%" →
+    value: 6, unit: percent, spend_cap: 6000,
+    cap_period: annual, rate_after_cap: 1
+  Citi Custom Cash "5% on top eligible category up to \$500/month" →
+    value: 5, unit: percent, spend_cap: 500,
+    cap_period: monthly, rate_after_cap: 1
+  Chase Freedom Flex rotating "5% up to \$1,500/quarter when activated" →
+    value: 5, unit: percent, spend_cap: 1500, cap_period: quarterly
 
 # DO NOT INCLUDE — earn / redemption / finance mechanics
 - "rewards" describes per-CATEGORY EARN RATES on spend (e.g. "5% on dining"). Use category ids that already appear in the example cards below.
@@ -523,6 +552,16 @@ function diffRewards(current, proposed) {
   // ("4% Bilt Cash on everyday purchases") that the model treats as the
   // earn rate. Drop those silently rather than overwriting the human-curated
   // earn rate with the wrong unit.
+  //
+  // Capped-rate guard: if the existing reward has a `spend_cap` (or its note
+  // mentions one) and the LLM proposes a value LOWER than current, the LLM
+  // is probably misreading the post-cap rate (e.g. "1x after $50K") as the
+  // headline. Skip those proposals — the schema's `rate_after_cap` already
+  // captures the post-cap rate.
+  const noteMentionsCap = (r) =>
+    typeof r?.note === 'string' &&
+    /(\bfirst\s+\$\d|\bup\s+to\s+\$\d|\bcap\b|then\s+\d+\s*(x|%)|combined\b)/i.test(r.note);
+
   const cur = new Map((current || []).map(r => [r.category, r]));
   const prop = new Map((proposed || []).map(r => [r.category, r]));
   const added = [];
@@ -535,7 +574,20 @@ function diffRewards(current, proposed) {
     } else if (c.unit !== p.unit) {
       // Unit mismatch — skip; almost always an LLM misread.
       continue;
-    } else if (c.value !== p.value) {
+    } else if (
+      p.value < c.value &&
+      (c.spend_cap !== undefined || noteMentionsCap(c))
+    ) {
+      // Downward proposal on a capped reward — the LLM is likely reading the
+      // post-cap rate as the headline. Skip; if there's a real change to the
+      // cap or rate_after_cap, those will get picked up in the field-merge.
+      continue;
+    } else if (
+      c.value !== p.value ||
+      c.spend_cap !== p.spend_cap ||
+      c.cap_period !== p.cap_period ||
+      c.rate_after_cap !== p.rate_after_cap
+    ) {
       changed.push({ from: c, to: p });
     }
   }

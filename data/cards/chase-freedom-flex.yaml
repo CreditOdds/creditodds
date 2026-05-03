@@ -18,7 +18,10 @@ rewards:
       - "travel_portal"
       - "everything_else"
     current_period: "Q2 2026"
-    note: "Q2 2026: Amazon, Chase Travel, and donations to Feeding America (up to $1,500)"
+    note: "Q2 2026: Amazon, Chase Travel, and donations to Feeding America"
+    spend_cap: 1500
+    cap_period: quarterly
+    rate_after_cap: 1
   - category: "travel_portal"
     value: 5
     unit: "percent"

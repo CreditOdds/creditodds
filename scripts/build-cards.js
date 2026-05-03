@@ -92,6 +92,23 @@ function validateCard(card, schema, categoryIds) {
       if (reward.choices !== undefined && (typeof reward.choices !== 'number' || reward.choices < 1 || !Number.isInteger(reward.choices))) {
         errors.push(`Invalid reward choices for ${reward.category}: must be a positive integer`);
       }
+      // Cap fields. spend_cap is the dollar threshold; cap_period is the
+      // window over which it resets; rate_after_cap is the rate earned on
+      // spend above the cap (defaults to 1 if unspecified).
+      if (reward.spend_cap !== undefined && (typeof reward.spend_cap !== 'number' || reward.spend_cap <= 0)) {
+        errors.push(`Invalid spend_cap for ${reward.category}: must be a positive number`);
+      }
+      const validCapPeriods = ['monthly', 'quarterly', 'semi_annual', 'annual', 'billing_cycle', 'lifetime'];
+      if (reward.cap_period !== undefined && !validCapPeriods.includes(reward.cap_period)) {
+        errors.push(`Invalid cap_period for ${reward.category}: ${reward.cap_period} (must be one of ${validCapPeriods.join(', ')})`);
+      }
+      if (reward.rate_after_cap !== undefined && (typeof reward.rate_after_cap !== 'number' || reward.rate_after_cap < 0)) {
+        errors.push(`Invalid rate_after_cap for ${reward.category}: must be a non-negative number`);
+      }
+      // Sanity: cap_period or rate_after_cap without spend_cap doesn't make sense.
+      if ((reward.cap_period !== undefined || reward.rate_after_cap !== undefined) && reward.spend_cap === undefined) {
+        errors.push(`${reward.category}: cap_period/rate_after_cap requires spend_cap to be set`);
+      }
     }
   }
 

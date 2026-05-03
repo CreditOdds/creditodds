@@ -22,6 +22,7 @@ import {
   formatBonusRequirement,
   formatAnnualFee,
   formatRewardWithUsdEquivalent,
+  formatRewardCapCaveat,
   getRewardUsdRate,
   RewardTypeBadge,
 } from '@/lib/cardDisplayUtils';
@@ -718,6 +719,9 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                               </span>
                             )}
                           </span>
+                          {!isFallback && reward?.spend_cap && (
+                            <div className="text-xs text-gray-500 mt-0.5">{formatRewardCapCaveat(reward)}</div>
+                          )}
                           {!isFallback && reward?.mode === 'quarterly_rotating' && (
                             <div className="text-xs text-gray-400 mt-0.5">Rotating</div>
                           )}

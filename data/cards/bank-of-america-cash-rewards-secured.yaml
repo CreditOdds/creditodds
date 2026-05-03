@@ -14,11 +14,17 @@ rewards:
     value: 3
     unit: percent
     choices: 1
-    note: "3% in choice category, up to $2,500/quarter"
+    note: "3% in choice category; cap is combined with groceries/wholesale-club row"
+    spend_cap: 2500
+    cap_period: quarterly
+    rate_after_cap: 1
   - category: groceries
     value: 2
     unit: percent
-    note: "Also includes wholesale clubs, up to $2,500/quarter combined"
+    note: "Also includes wholesale clubs; cap is combined with choice category"
+    spend_cap: 2500
+    cap_period: quarterly
+    rate_after_cap: 1
   - category: everything_else
     value: 1
     unit: percent

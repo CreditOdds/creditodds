@@ -11,7 +11,10 @@ rewards:
   - category: groceries
     value: 6
     unit: percent
-    note: "U.S. supermarkets, up to $6,000 per year then 1%"
+    note: "U.S. supermarkets"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 1
   - category: streaming
     value: 6
     unit: percent

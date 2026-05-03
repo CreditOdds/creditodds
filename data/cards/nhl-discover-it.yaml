@@ -15,7 +15,10 @@ rewards:
     mode: quarterly_rotating
     current_categories: [dining, home_improvement]
     current_period: "Q2 2026"
-    note: "Up to $1,500/quarter when activated"
+    note: "Activation required each quarter"
+    spend_cap: 1500
+    cap_period: quarterly
+    rate_after_cap: 1
   - category: everything_else
     value: 1
     unit: percent
