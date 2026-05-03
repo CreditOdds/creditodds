@@ -56,7 +56,6 @@ const fieldLabels = {
   accepting_applications: 'Applications',
   annual_fee: 'Annual Fee',
   signup_bonus_value: 'Sign-up Bonus',
-  reward_top_rate: 'Top Reward Rate',
   apr_min: 'APR Min',
   apr_max: 'APR Max',
 };
@@ -77,7 +76,7 @@ function formatValue(field, value) {
   if (field === 'signup_bonus_value') {
     return !isNaN(num) ? `${num.toLocaleString()} pts` : value;
   }
-  if (field === 'reward_top_rate' || field === 'apr_min' || field === 'apr_max') {
+  if (field === 'apr_min' || field === 'apr_max') {
     return !isNaN(num) ? `${num}%` : value;
   }
   return value;

@@ -35,26 +35,11 @@ async function fetchCardsFromCDN() {
 
 // Extract metric values from a CDN card for change detection
 function extractMetrics(cdnCard) {
-  let rewardTopRate = null;
-  let rewardTopUnit = null;
-  if (cdnCard.rewards && cdnCard.rewards.length > 0) {
-    const topReward = cdnCard.rewards.reduce(
-      (best, r) => (r.value > (best?.value || 0) ? r : best),
-      null
-    );
-    if (topReward) {
-      rewardTopRate = topReward.value;
-      rewardTopUnit = topReward.unit;
-    }
-  }
-
   return {
     accepting_applications: cdnCard.accepting_applications === false ? 0 : 1,
     annual_fee: cdnCard.annual_fee ?? null,
     signup_bonus_value: cdnCard.signup_bonus?.value ?? null,
     signup_bonus_type: cdnCard.signup_bonus?.type ?? null,
-    reward_top_rate: rewardTopRate,
-    reward_top_unit: rewardTopUnit,
     apr_min: cdnCard.apr?.regular?.min ?? null,
     apr_max: cdnCard.apr?.regular?.max ?? null,
   };
@@ -66,7 +51,6 @@ async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
     { field: "accepting_applications", old: oldMetrics.accepting_applications, new: newMetrics.accepting_applications },
     { field: "annual_fee", old: oldMetrics.annual_fee, new: newMetrics.annual_fee },
     { field: "signup_bonus_value", old: oldMetrics.signup_bonus_value, new: newMetrics.signup_bonus_value },
-    { field: "reward_top_rate", old: oldMetrics.reward_top_rate, new: newMetrics.reward_top_rate },
     { field: "apr_min", old: oldMetrics.apr_min, new: newMetrics.apr_min },
     { field: "apr_max", old: oldMetrics.apr_max, new: newMetrics.apr_max },
   ];
@@ -118,7 +102,6 @@ async function syncCardsToDatabase(cdnCards) {
     const existingCards = await mysql.query(
       `SELECT card_id, card_name, bank, accepting_applications, annual_fee,
               signup_bonus_value, signup_bonus_type,
-              reward_top_rate, reward_top_unit,
               apr_min, apr_max
        FROM cards`
     );
@@ -184,8 +167,6 @@ async function syncCardsToDatabase(cdnCards) {
               card_referral_link = ?,
               signup_bonus_value = ?,
               signup_bonus_type = ?,
-              reward_top_rate = ?,
-              reward_top_unit = ?,
               apr_min = ?,
               apr_max = ?
             WHERE card_id = ?`,
@@ -194,7 +175,6 @@ async function syncCardsToDatabase(cdnCards) {
               cdnCard.image || null, cdnCard.release_date || null, tagsJson,
               newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
               newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
-              newMetrics.reward_top_rate, newMetrics.reward_top_unit,
               newMetrics.apr_min, newMetrics.apr_max,
               existingCard.card_id,
             ]
@@ -208,15 +188,14 @@ async function syncCardsToDatabase(cdnCards) {
           await mysql.query(
             `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link,
               release_date, tags, annual_fee, apply_link, card_referral_link,
-              signup_bonus_value, signup_bonus_type, reward_top_rate, reward_top_unit,
+              signup_bonus_value, signup_bonus_type,
               apr_min, apr_max, active)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
             [
               nextId, name, bank, acceptingApplications,
               cdnCard.image || null, cdnCard.release_date || null, tagsJson,
               newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
               newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
-              newMetrics.reward_top_rate, newMetrics.reward_top_unit,
               newMetrics.apr_min, newMetrics.apr_max,
             ]
           );

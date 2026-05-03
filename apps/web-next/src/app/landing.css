@@ -4184,6 +4184,183 @@
 }
 .landing-v2 .cj-readoff-v.cj-accent { color: var(--accent); }
 
+/* Wire chip — inline "changed [date]" badge that opens a popover with the
+   most recent old → new diff for a field. Lets the readoff cell escape its
+   overflow:hidden when the popover is open. */
+.landing-v2 .cj-readoff-cell:has(.cj-wire-chip[aria-expanded="true"]),
+.landing-v2 td:has(.cj-wire-chip[aria-expanded="true"]) {
+  overflow: visible;
+  position: relative;
+  z-index: 5;
+}
+.landing-v2 .cj-wire-chip-wrap {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: baseline;
+}
+.landing-v2 .cj-wire-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-2);
+  border: 1px solid transparent;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  line-height: 1.2;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.landing-v2 .cj-wire-chip:hover {
+  border-color: var(--accent);
+}
+.landing-v2 .cj-wire-chip[aria-expanded="true"] {
+  background: var(--accent);
+  color: var(--paper);
+}
+/* Direction-tinted chips — green when the change benefits the cardholder
+   (bigger SUB, lower fee), red for the opposite. Triangle inside the chip
+   indicates raw value direction (up vs. down). */
+.landing-v2 .cj-wire-chip.cj-wire-pos {
+  background: #e0f6ea;
+  color: #0f8a5f;
+}
+.landing-v2 .cj-wire-chip.cj-wire-pos:hover { border-color: #0f8a5f; }
+.landing-v2 .cj-wire-chip.cj-wire-pos[aria-expanded="true"] {
+  background: #0f8a5f;
+  color: var(--paper);
+}
+.landing-v2 .cj-wire-chip.cj-wire-neg {
+  background: var(--warn-2);
+  color: var(--warn);
+}
+.landing-v2 .cj-wire-chip.cj-wire-neg:hover { border-color: var(--warn); }
+.landing-v2 .cj-wire-chip.cj-wire-neg[aria-expanded="true"] {
+  background: var(--warn);
+  color: var(--paper);
+}
+.landing-v2 .cj-wire-chip-pop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  min-width: 200px;
+  max-width: min(280px, calc(100vw - 32px));
+  padding: 10px 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  text-align: left;
+  white-space: normal;
+}
+.landing-v2 .cj-wire-chip-pop-k {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 500;
+}
+.landing-v2 .cj-wire-chip-pop-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+.landing-v2 .cj-wire-chip-old {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.landing-v2 .cj-wire-chip-arrow { color: var(--muted); }
+.landing-v2 .cj-wire-chip-new { color: var(--accent); font-weight: 600; }
+/* Direction colors — green for changes that benefit the cardholder
+   (bigger SUB, lower fee), red for the opposite. Applied to both the
+   chip popover arrow/new value and the rail row. */
+.landing-v2 .cj-wire-chip-arrow.cj-wire-pos,
+.landing-v2 .cj-wire-chip-new.cj-wire-pos,
+.landing-v2 .cj-wire-rail-arrow.cj-wire-pos,
+.landing-v2 .cj-wire-rail-new.cj-wire-pos {
+  color: #0f8a5f;
+}
+.landing-v2 .cj-wire-chip-arrow.cj-wire-neg,
+.landing-v2 .cj-wire-chip-new.cj-wire-neg,
+.landing-v2 .cj-wire-rail-arrow.cj-wire-neg,
+.landing-v2 .cj-wire-rail-new.cj-wire-neg {
+  color: var(--warn);
+}
+.landing-v2 .cj-wire-chip-pop-foot {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+@media (max-width: 640px) {
+  .landing-v2 .cj-wire-chip-pop {
+    left: auto;
+    right: 0;
+  }
+}
+
+/* Right-rail "Recent changes" block — compact list of wire diffs
+   sitting under the welcome-bonus apply card. */
+.landing-v2 .cj-wire-rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.landing-v2 .cj-wire-rail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--line);
+}
+.landing-v2 .cj-wire-rail-row:first-of-type {
+  border-top: 1px solid var(--line);
+}
+.landing-v2 .cj-wire-rail-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11px;
+}
+.landing-v2 .cj-wire-rail-date {
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.landing-v2 .cj-wire-rail-field {
+  color: var(--ink);
+  font-weight: 500;
+}
+.landing-v2 .cj-wire-rail-change {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+}
+.landing-v2 .cj-wire-rail-old {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.landing-v2 .cj-wire-rail-arrow {
+  color: var(--muted);
+}
+.landing-v2 .cj-wire-rail-new {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .landing-v2 .cj-two-up {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

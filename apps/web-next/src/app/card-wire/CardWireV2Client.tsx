@@ -15,13 +15,12 @@ interface Props {
   bonusTypeMap: Record<string, string>;
 }
 
-type FilterKey = 'all' | 'fee' | 'bonus' | 'reward' | 'apr' | 'apps';
+type FilterKey = 'all' | 'fee' | 'bonus' | 'apr' | 'apps';
 
 const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'all', label: 'All' },
   { key: 'fee', label: 'Annual fee' },
   { key: 'bonus', label: 'Sign-up bonus' },
-  { key: 'reward', label: 'Rewards' },
   { key: 'apr', label: 'APR' },
   { key: 'apps', label: 'Applications' },
 ];
@@ -30,7 +29,6 @@ const FIELD_LABELS: Record<string, string> = {
   accepting_applications: 'Applications',
   annual_fee: 'Annual fee',
   signup_bonus_value: 'Sign-up bonus',
-  reward_top_rate: 'Top reward',
   apr_min: 'APR min',
   apr_max: 'APR max',
 };
@@ -40,7 +38,6 @@ const HIGHER_IS_BAD = new Set(['annual_fee', 'apr_min', 'apr_max']);
 function fieldGroup(field: string): FilterKey {
   if (field === 'annual_fee') return 'fee';
   if (field === 'signup_bonus_value') return 'bonus';
-  if (field === 'reward_top_rate') return 'reward';
   if (field === 'apr_min' || field === 'apr_max') return 'apr';
   if (field === 'accepting_applications') return 'apps';
   return 'all';
@@ -69,7 +66,7 @@ function formatValue(
     }
     return value;
   }
-  if (field === 'reward_top_rate' || field === 'apr_min' || field === 'apr_max') {
+  if (field === 'apr_min' || field === 'apr_max') {
     if (!Number.isNaN(num)) return `${num}%`;
     return value;
   }

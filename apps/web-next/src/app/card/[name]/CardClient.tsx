@@ -128,6 +128,102 @@ function bucketize(
   );
 }
 
+// Returns 'pos' (good for the cardholder), 'neg' (worse), or null.
+// `annual_fee`, `apr_min`, `apr_max` are inverted — lower is better.
+function wireDirection(
+  field: string,
+  oldVal: string | null,
+  newVal: string | null,
+): "pos" | "neg" | null {
+  if (oldVal === null || newVal === null) return null;
+  if (field === "accepting_applications") {
+    const o = oldVal === "true" || oldVal === "1";
+    const n = newVal === "true" || newVal === "1";
+    if (o === n) return null;
+    return n ? "pos" : "neg";
+  }
+  const o = Number(oldVal);
+  const n = Number(newVal);
+  if (Number.isNaN(o) || Number.isNaN(n) || o === n) return null;
+  const lowerIsBetter = field === "annual_fee" || field.startsWith("apr_");
+  const wentUp = n > o;
+  if (lowerIsBetter) return wentUp ? "neg" : "pos";
+  return wentUp ? "pos" : "neg";
+}
+
+function WireChip({
+  entry,
+  label,
+  format,
+}: {
+  entry: CardWireEntry | undefined;
+  label: string;
+  format: (val: string | null) => string;
+}) {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  if (!entry) return null;
+
+  const date = new Date(entry.changed_at).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "2-digit",
+  });
+
+  const dir = wireDirection(entry.field, entry.old_value, entry.new_value);
+  const dirClass = dir ? ` cj-wire-${dir}` : "";
+  const oN = Number(entry.old_value);
+  const nN = Number(entry.new_value);
+  const arrow =
+    !Number.isNaN(oN) && !Number.isNaN(nN) && nN !== oN
+      ? nN > oN
+        ? "▲"
+        : "▼"
+      : "•";
+
+  return (
+    <span className="cj-wire-chip-wrap" ref={wrapRef}>
+      <button
+        type="button"
+        className={`cj-wire-chip${dirClass}`}
+        aria-expanded={open}
+        aria-label={`${label} changed ${date}`}
+        onClick={() => setOpen((o) => !o)}
+      >
+        {arrow} {date}
+      </button>
+      {open && (
+        <span className="cj-wire-chip-pop" role="dialog">
+          <span className="cj-wire-chip-pop-k">{label} changed</span>
+          <span className="cj-wire-chip-pop-row">
+            <span className="cj-wire-chip-old">{format(entry.old_value)}</span>
+            <span className={`cj-wire-chip-arrow${dirClass}`}>→</span>
+            <span className={`cj-wire-chip-new${dirClass}`}>{format(entry.new_value)}</span>
+          </span>
+          <span className="cj-wire-chip-pop-foot">{date}</span>
+        </span>
+      )}
+    </span>
+  );
+}
+
 interface CardClientProps {
   card: Card;
   graphData: GraphData[];
@@ -389,29 +485,33 @@ export default function CardClient({
     return `${n} yr${n === 1 ? "" : "s"}`;
   })();
 
-  // Combine news + wire into a single tape, newest first.
-  type TapeNews = { kind: "news"; date: string; raw: NewsItem };
-  type TapeWire = { kind: "wire"; date: string; raw: CardWireEntry };
-  const tapeEntries: (TapeNews | TapeWire)[] = useMemo(() => {
-    const arr: (TapeNews | TapeWire)[] = [
-      ...news.map<TapeNews>((n) => ({ kind: "news", date: n.date, raw: n })),
-      ...wire.map<TapeWire>((w) => ({
-        kind: "wire",
-        date: w.changed_at,
-        raw: w,
-      })),
-    ];
-    return arr
-      .sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      )
-      .slice(0, 12);
-  }, [news, wire]);
+  // Bottom tape is news-only — wire diffs live in the right rail.
+  const newsEntries = useMemo(
+    () =>
+      [...news]
+        .sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        )
+        .slice(0, 12),
+    [news],
+  );
+
+  // Wire entries for the right-rail block, newest first.
+  const wireEntries = useMemo(
+    () =>
+      [...wire]
+        .sort(
+          (a, b) =>
+            new Date(b.changed_at).getTime() -
+            new Date(a.changed_at).getTime(),
+        )
+        .slice(0, 8),
+    [wire],
+  );
 
   const fieldLabel: Record<string, string> = {
     annual_fee: "Annual fee",
     signup_bonus_value: "Signup bonus",
-    reward_top_rate: "Top reward",
     apr_min: "APR min",
     apr_max: "APR max",
   };
@@ -420,9 +520,22 @@ export default function CardClient({
     if (field === "annual_fee") return `$${Number(val).toLocaleString()}`;
     if (field === "signup_bonus_value") return Number(val).toLocaleString();
     if (field.startsWith("apr_")) return `${val}%`;
-    if (field === "reward_top_rate") return `${val}x`;
     return val;
   };
+
+  // Latest wire entry per field — drives inline change chips on the readoff
+  // values. Only the most recent diff per field is surfaced inline; the full
+  // history still lives in section 04.
+  const latestWireByField = useMemo(() => {
+    const map: Record<string, CardWireEntry> = {};
+    for (const w of wire) {
+      const prev = map[w.field];
+      if (!prev || new Date(w.changed_at) > new Date(prev.changed_at)) {
+        map[w.field] = w;
+      }
+    }
+    return map;
+  }, [wire]);
 
   // ---------- Render ----------
   return (
@@ -577,9 +690,9 @@ export default function CardClient({
           <a href="#odds" className="cj-toc-link">
             <span className="cj-toc-num">03</span>Approval odds
           </a>
-          {tapeEntries.length > 0 && (
+          {newsEntries.length > 0 && (
             <a href="#wire" className="cj-toc-link">
-              <span className="cj-toc-num">04</span>News &amp; wire
+              <span className="cj-toc-num">04</span>News
             </a>
           )}
           {articles.length > 0 && (
@@ -661,6 +774,11 @@ export default function CardClient({
                 </div>
                 <div className="cj-readoff-foot">
                   {card.annual_fee === 0 ? "No fee" : "Per year"}
+                  <WireChip
+                    entry={latestWireByField.annual_fee}
+                    label="Annual fee"
+                    format={(v) => formatWireValue(v, "annual_fee")}
+                  />
                 </div>
               </div>
               <div
@@ -672,6 +790,11 @@ export default function CardClient({
                 </div>
                 <div className="cj-readoff-foot">
                   {bonusDisplay ? bonusDisplay.sub : "No current offer"}
+                  <WireChip
+                    entry={latestWireByField.signup_bonus_value}
+                    label="Signup bonus"
+                    format={(v) => formatWireValue(v, "signup_bonus_value")}
+                  />
                 </div>
               </div>
               <div className="cj-readoff-cell">
@@ -1164,12 +1287,12 @@ export default function CardClient({
             )}
           </section>
 
-          {/* 04 News & wire */}
-          {tapeEntries.length > 0 && (
+          {/* 04 News */}
+          {newsEntries.length > 0 && (
             <section id="wire" className="cj-section">
-              <div className="cj-section-num">04 · news &amp; wire</div>
+              <div className="cj-section-num">04 · news</div>
               <h2 className="cj-section-h2">
-                News &amp; <em className="cj-section-accent">wire</em>
+                In the <em className="cj-section-accent">news</em>
               </h2>
               <div className="cj-tape">
                 <div className="cj-tape-head">
@@ -1177,64 +1300,28 @@ export default function CardClient({
                   <div>Event</div>
                   <div className="cj-tape-res">Source</div>
                 </div>
-                {tapeEntries.map((t, i) => {
-                  const dateText = new Date(t.date).toLocaleDateString(
+                {newsEntries.map((n, i) => {
+                  const dateText = new Date(n.date).toLocaleDateString(
                     "en-US",
                     { year: "numeric", month: "short", day: "numeric" },
                   );
-                  if (t.kind === "news") {
-                    const n = t.raw;
-                    const tag = n.tags[0] as NewsTag | undefined;
-                    return (
-                      <Link
-                        key={`n-${n.id}-${i}`}
-                        href={`/news/${n.id}`}
-                        className="cj-tape-row"
-                      >
-                        <div className="cj-tape-when">{dateText}</div>
-                        <div className="cj-tape-event">
-                          <span className="cj-tape-field">{n.title}</span>
-                        </div>
-                        <div className="cj-tape-res">
-                          <span className="cj-news-tag">
-                            {tag ? tagLabels[tag] : "NEWS"}
-                          </span>
-                        </div>
-                      </Link>
-                    );
-                  }
-                  const w = t.raw;
-                  const isUp =
-                    w.old_value !== null &&
-                    w.new_value !== null &&
-                    Number(w.new_value) > Number(w.old_value);
-                  const isDn =
-                    w.old_value !== null &&
-                    w.new_value !== null &&
-                    Number(w.new_value) < Number(w.old_value);
+                  const tag = n.tags[0] as NewsTag | undefined;
                   return (
-                    <div key={`w-${w.id}`} className="cj-tape-row">
+                    <Link
+                      key={`n-${n.id}-${i}`}
+                      href={`/news/${n.id}`}
+                      className="cj-tape-row"
+                    >
                       <div className="cj-tape-when">{dateText}</div>
                       <div className="cj-tape-event">
-                        <span className="cj-tape-field">
-                          {fieldLabel[w.field] || w.field}
-                        </span>
-                        <span className="cj-tape-change">
-                          <span className="cj-tape-old">
-                            {formatWireValue(w.old_value, w.field)}
-                          </span>
-                          {" → "}
-                          <span
-                            className={`cj-tape-new${isUp ? " cj-pos" : isDn ? " cj-neg" : ""}`}
-                          >
-                            {formatWireValue(w.new_value, w.field)}
-                          </span>
-                        </span>
+                        <span className="cj-tape-field">{n.title}</span>
                       </div>
                       <div className="cj-tape-res">
-                        <span className="cj-pill">WIRE</span>
+                        <span className="cj-news-tag">
+                          {tag ? tagLabels[tag] : "NEWS"}
+                        </span>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -1321,6 +1408,43 @@ export default function CardClient({
               </div>
             )}
           </div>
+
+          {wireEntries.length > 0 && (
+            <div className="cj-rail-block cj-wire-rail">
+              <div className="cj-rail-label">Card wire</div>
+              <ul className="cj-wire-rail-list">
+                {wireEntries.map((w) => {
+                  const dir = wireDirection(w.field, w.old_value, w.new_value);
+                  const dirClass = dir ? ` cj-wire-${dir}` : "";
+                  const date = new Date(w.changed_at).toLocaleDateString(
+                    "en-US",
+                    { month: "short", day: "numeric" },
+                  );
+                  return (
+                    <li key={w.id} className="cj-wire-rail-row">
+                      <div className="cj-wire-rail-meta">
+                        <span className="cj-wire-rail-date">{date}</span>
+                        <span className="cj-wire-rail-field">
+                          {fieldLabel[w.field] || w.field}
+                        </span>
+                      </div>
+                      <div className="cj-wire-rail-change">
+                        <span className="cj-wire-rail-old">
+                          {formatWireValue(w.old_value, w.field)}
+                        </span>
+                        <span className={`cj-wire-rail-arrow${dirClass}`}>
+                          →
+                        </span>
+                        <span className={`cj-wire-rail-new${dirClass}`}>
+                          {formatWireValue(w.new_value, w.field)}
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
 
           {ratings.average !== null && ratings.count > 0 && (
             <div className="cj-rating">
