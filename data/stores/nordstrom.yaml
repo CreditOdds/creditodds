@@ -1,0 +1,15 @@
+name: "Nordstrom"
+slug: "nordstrom"
+aliases:
+  - "Nordstrom Rack"
+categories:
+  - department_stores
+  - online_shopping
+website: "https://www.nordstrom.com"
+intro: |
+  Nordstrom is a higher-end department store with about 100 full-line stores and a much
+  larger Nordstrom Rack outlet network. Pricing skews full-retail at the flagship
+  locations and steeply discounted at Rack, so the right card depends partly on which
+  channel you're shopping. Both code as department stores at the register and online
+  shopping on nordstrom.com / nordstromrack.com. Nordstrom's own Nordy Club rewards layer
+  in on top of card cashback.

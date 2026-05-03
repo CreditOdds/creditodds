@@ -1,0 +1,21 @@
+name: "Apple"
+slug: "apple"
+aliases:
+  - "Apple Store"
+  - "apple.com"
+categories:
+  - online_shopping
+website: "https://www.apple.com"
+also_earns:
+  - card: us-bank-shopper
+    rate: 6
+    unit: percent
+    note: "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
+intro: |
+  Apple's own retail channels — apple.com, the Apple Store app, and ~270 physical Apple
+  Stores — code as online shopping for most cards on the .com side and as electronics
+  in-store. Apple purchases through Apple Pay also enable several merchant-specific
+  bonuses on cards that bonus Apple Pay, but those typically require the purchase to be
+  made via the Apple Pay button rather than chip-and-PIN. The Apple Card itself earns 3%
+  on Apple-branded purchases, which is the strongest non-promotional rate you'll find
+  here.

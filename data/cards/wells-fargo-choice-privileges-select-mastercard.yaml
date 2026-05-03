@@ -60,7 +60,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Cell Phone Protection"
-    value: 800
+    value: 0
     description: "Up to $800 per claim ($25 deductible) for damage or theft when you pay your monthly cell phone bill with the card"
     frequency: "per_claim"
     category: "telecom"

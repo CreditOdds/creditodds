@@ -1,0 +1,13 @@
+name: "McDonald's"
+slug: "mcdonalds"
+aliases:
+  - "Mcdonalds"
+  - "Mickey Ds"
+categories:
+  - dining
+website: "https://www.mcdonalds.com"
+intro: |
+  McDonald's is the largest U.S. quick-service restaurant chain at about 13,500 locations.
+  All purchases — in-store, drive-thru, and via the McDonald's app — code as
+  dining/restaurants on every card we track, so any 3-5% dining-category card earns here.
+  The McDonald's app's MyMcDonald's Rewards program stacks on top of card cashback.

@@ -1,0 +1,11 @@
+name: "Kroger"
+slug: "kroger"
+categories:
+  - groceries
+website: "https://www.kroger.com"
+intro: |
+  Kroger is the largest dedicated U.S. supermarket operator, running about 2,700 stores
+  under Kroger and a stack of regional banners (Ralphs, Fred Meyer, Smith's, King Soopers,
+  Harris Teeter, Fry's, and others). All code as groceries at the register and most do
+  online shopping via the Kroger app/site. Any standard supermarket-bonus card earns here.
+  Kroger's own fuel-points program layers on top of card cashback.

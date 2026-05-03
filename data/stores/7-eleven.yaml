@@ -1,0 +1,13 @@
+name: "7-Eleven"
+slug: "7-eleven"
+aliases:
+  - "7Eleven"
+  - "Seven-Eleven"
+categories:
+  - gas
+website: "https://www.7-eleven.com"
+intro: |
+  7-Eleven runs about 9,500 U.S. convenience stores, many with attached gas pumps. The
+  pumps code as gas on every card we track. In-store purchases (snacks, drinks, hot food)
+  typically code as convenience stores rather than as groceries or dining, which means
+  most 3-5% category bonuses don't apply to non-fuel purchases at 7-Eleven.

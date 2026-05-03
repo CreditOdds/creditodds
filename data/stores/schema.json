@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["name", "slug", "categories", "intro"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name of the store / merchant"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL-friendly identifier (lowercase, hyphens only). Stored separately from name; renames must keep the same slug."
+    },
+    "aliases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Alternate spellings or nicknames (e.g. 'Bloomies') for search/typo tolerance."
+    },
+    "categories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Reward categories (must exist in categories.yaml) the store maps to. Primary first. Drives card matching."
+    },
+    "website": {
+      "type": "string",
+      "description": "Canonical merchant URL (https)."
+    },
+    "logo": {
+      "type": "string",
+      "description": "Filename of the merchant logo (optional). Maintainer-only — do not accept user-submitted logos due to trademark risk."
+    },
+    "parent_company": {
+      "type": "string",
+      "description": "Parent/holding company (e.g. 'Macy's, Inc.' for Bloomingdale's). Used for cross-linking, not card matching."
+    },
+    "co_brand_cards": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+      "description": "Slugs of co-branded cards from data/cards/. Always rendered first on the page. Build fails if a slug doesn't exist."
+    },
+    "also_earns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["card", "rate", "unit"],
+        "properties": {
+          "card": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "rate": { "type": "number", "minimum": 0 },
+          "unit": { "enum": ["percent", "points_per_dollar"] },
+          "note": { "type": "string" }
+        }
+      },
+      "description": "Cards with merchant-specific bonuses NOT captured by category matching (e.g. Apple Card 3% at Nike via Apple Pay)."
+    },
+    "intro": {
+      "type": "string",
+      "minLength": 200,
+      "description": "Distinctive merchant intro (1-2 paragraphs). Min 200 chars to discourage templated submissions and avoid Google's doorway-page penalty."
+    },
+    "faq": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["q", "a"],
+        "properties": {
+          "q": { "type": "string" },
+          "a": { "type": "string" }
+        }
+      },
+      "description": "Optional FAQ entries; rendered with FAQPage JSON-LD on the page."
+    }
+  }
+}

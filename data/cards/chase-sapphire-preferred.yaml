@@ -40,6 +40,9 @@ rewards:
     value: 3
     unit: "points_per_dollar"
     note: "Online grocery purchases (excluding Target, Walmart, wholesale clubs)"
+    # Bonus is online grocery only, not generic online retail —
+    # exclude from store-page category matching.
+    merchant_specific: true
   - category: "travel"
     value: 2
     unit: "points_per_dollar"

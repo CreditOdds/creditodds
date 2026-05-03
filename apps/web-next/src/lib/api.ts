@@ -27,6 +27,10 @@ export interface Reward {
   spend_cap?: number;
   cap_period?: 'monthly' | 'quarterly' | 'semi_annual' | 'annual' | 'billing_cycle' | 'lifetime';
   rate_after_cap?: number;
+  // Set true when this bonus is gated by a fixed merchant list described
+  // in `note` rather than applying to the whole category. Used by store
+  // pages to skip false-positive matches (e.g. Apple Card 3% online).
+  merchant_specific?: boolean;
 }
 
 export interface SignupBonus {
@@ -104,8 +108,40 @@ export interface Card {
 // Each series is an array of [x, y] data points
 export type GraphData = [number, number][][];
 
-// Server-side fetch functions with ISR caching (5 minutes)
+// Server-side fetch functions with ISR caching (5 minutes).
+//
+// In local dev, fall back to reading data/cards.json directly so YAML edits
+// are visible without waiting for the build → S3 → CloudFront pipeline.
+// (Mirrors the dev fallback pattern used in lib/news.ts.) The local file is
+// produced by `npm run build:cards` and uses `image` where the API returns
+// `card_image_link` — we remap so the rest of the app sees the API shape.
+const isBrowser = typeof window !== 'undefined';
+
+interface LocalCard extends Omit<Card, 'card_id' | 'card_name'> {
+  image?: string;
+  name?: string;
+  card_id?: string | number;
+  card_name?: string;
+}
+
 export async function getAllCards(): Promise<Card[]> {
+  if (!isBrowser && process.env.NODE_ENV === 'development') {
+    try {
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const filePath = path.join(process.cwd(), '..', '..', 'data', 'cards.json');
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      const data = JSON.parse(fileContent) as { cards: LocalCard[] };
+      return (data.cards || []).map(c => ({
+        ...c,
+        card_id: c.card_id ?? c.slug,
+        card_name: c.card_name ?? c.name ?? '',
+        card_image_link: c.card_image_link ?? c.image,
+      })) as Card[];
+    } catch {
+      // Fall through to network fetch if local file isn't built yet.
+    }
+  }
   const res = await fetch(`${API_BASE}/cards`, {
     next: { revalidate: 300 },
   });

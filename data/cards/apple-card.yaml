@@ -10,6 +10,10 @@ rewards:
     value: 3
     unit: percent
     note: "Apple purchases and select merchants via Apple Pay (Nike, Uber, Walgreens, Booking.com, ChargePoint, Duane Reade, Exxon Mobil, Hertz, Ace Hardware)"
+    # Bonus is gated to a fixed merchant list — exclude from generic
+    # category matching so store pages don't surface this card for
+    # arbitrary online retailers (e.g. bloomingdales.com).
+    merchant_specific: true
   - category: dining
     value: 2
     unit: percent

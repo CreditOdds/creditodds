@@ -131,6 +131,10 @@
             "type": "number",
             "minimum": 0,
             "description": "Reward rate (in the same `unit`) earned on spend above `spend_cap`. Defaults to 1 (i.e. 1% or 1x) when unspecified."
+          },
+          "merchant_specific": {
+            "type": "boolean",
+            "description": "Set true when this category bonus is gated by a fixed merchant list (or sub-category) described in `note` rather than applying to the whole category. Used by store/merchant pages to skip cards that would otherwise falsely match (e.g. Apple Card 3% online_shopping is Apple Pay merchants only — does NOT apply to bloomingdales.com)."
           }
         }
       },

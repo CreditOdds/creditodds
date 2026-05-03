@@ -1,0 +1,14 @@
+name: "Trader Joe's"
+slug: "trader-joes"
+aliases:
+  - "Trader Joes"
+  - "TJs"
+categories:
+  - groceries
+website: "https://www.traderjoes.com"
+intro: |
+  Trader Joe's is the smaller-format private-label grocer with about 600 stores
+  nationwide, famous for store-brand goods and tight pricing. Average tickets are smaller
+  than at full-line supermarkets, but the visit frequency tends to be higher. TJ's codes
+  cleanly as groceries (supermarket merchant code) on essentially every card we track, so
+  any standard 3-6% grocery card will earn here.

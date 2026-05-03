@@ -105,6 +105,9 @@ function validateCard(card, schema, categoryIds) {
       if (reward.rate_after_cap !== undefined && (typeof reward.rate_after_cap !== 'number' || reward.rate_after_cap < 0)) {
         errors.push(`Invalid rate_after_cap for ${reward.category}: must be a non-negative number`);
       }
+      if (reward.merchant_specific !== undefined && typeof reward.merchant_specific !== 'boolean') {
+        errors.push(`Invalid merchant_specific for ${reward.category}: must be a boolean`);
+      }
       // Sanity: cap_period or rate_after_cap without spend_cap doesn't make sense.
       if ((reward.cap_period !== undefined || reward.rate_after_cap !== undefined) && reward.spend_cap === undefined) {
         errors.push(`${reward.category}: cap_period/rate_after_cap requires spend_cap to be set`);

@@ -13,7 +13,11 @@ rewards:
     value: 5
     unit: percent
     choices: 2
-    eligible_categories: [gas, groceries, online_shopping, streaming, transit, home_improvement, entertainment]
+    eligible_categories: [gas, groceries, online_shopping, streaming, transit, home_improvement, entertainment, department_stores]
+    spend_cap: 2000
+    cap_period: quarterly
+    rate_after_cap: 1
+    mode: user_choice
     note: "Choose 2 categories each quarter, up to $2,000 combined"
   - category: dining
     value: 2

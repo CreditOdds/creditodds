@@ -14,7 +14,15 @@ rewards:
     unit: percent
     mode: user_choice
     choices: 2
-    note: "Choose 2 retailers each quarter (Amazon, Apple, Costco, Target, Walmart, etc.), up to $1,500 combined"
+    note: "Choose 2 retailers each quarter (Amazon, Apple, Costco, Target, Walmart, etc.), up to $1,500 combined. Earns at chosen retailers in-store, online, or by phone — not generic online shopping."
+    spend_cap: 1500
+    cap_period: quarterly
+    rate_after_cap: 1.5
+    # Bonus is gated to a fixed list of partner retailers chosen quarterly,
+    # NOT generic online shopping. Excluded from category matching so the
+    # card doesn't falsely surface for arbitrary online stores. We surface
+    # it via `also_earns` on the specific stores where it actually applies.
+    merchant_specific: true
   - category: selected_categories
     value: 3
     unit: percent
@@ -45,7 +53,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "Cell Phone Protection"
-    value: 600
+    value: 0
     description: "Up to $600 per claim ($25 deductible, 2 claims per 12 months) when you pay your monthly cell phone bill with the card"
     frequency: "per_claim"
     category: "telecom"

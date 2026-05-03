@@ -20,10 +20,17 @@ rewards:
     value: 3
     unit: "percent"
     note: "Includes Costco Travel"
+  - category: "wholesale_clubs"
+    value: 2
+    unit: "percent"
+    note: "Costco and Costco.com purchases only — does not earn at Sam's Club, BJ's, or other warehouse clubs"
+    # Bonus is gated to Costco-branded purchases. Excluded from generic
+    # category matching so the card doesn't falsely surface for BJ's,
+    # Sam's, etc. Still rendered on Costco's own page via co_brand_cards.
+    merchant_specific: true
   - category: "everything_else"
     value: 1
     unit: "percent"
-    note: "2% on purchases at Costco and Costco.com"
 apr:
   regular:
     min: 18.74
