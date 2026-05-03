@@ -4030,11 +4030,11 @@
 }
 
 .landing-v2 .cj-main {
-  padding: 28px 20px 56px;
+  padding: 28px 20px 12px;
   border-right: 1px solid var(--line);
   min-width: 0;
 }
-@media (min-width: 768px) { .landing-v2 .cj-main { padding: 32px 32px 64px; } }
+@media (min-width: 768px) { .landing-v2 .cj-main { padding: 32px 32px 16px; } }
 @media (min-width: 1024px) { .landing-v2 .cj-main { padding: 32px 40px 64px; } }
 
 .landing-v2 .cj-section {
@@ -4676,7 +4676,7 @@
 
 /* Right rail */
 .landing-v2 .cj-rail {
-  padding: 28px 20px 56px;
+  padding: 4px 20px 56px;
 }
 @media (min-width: 1024px) {
   .landing-v2 .cj-rail {
