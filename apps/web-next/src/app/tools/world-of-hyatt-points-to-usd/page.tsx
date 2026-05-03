@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'World of Hyatt Points to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert World of Hyatt points to their estimated USD value. Free calculator using the standard 2.0 cents per point valuation.',
+  openGraph: {
+    title: 'World of Hyatt Points to USD | CreditOdds',
+    description: 'Convert World of Hyatt points to USD using the 2.0 cents per point valuation.',
+    url: 'https://creditodds.com/tools/world-of-hyatt-points-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/world-of-hyatt-points-to-usd' },
 };
 
 export default async function HyattToUsdPage() {

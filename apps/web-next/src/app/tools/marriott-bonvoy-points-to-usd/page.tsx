@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Marriott Bonvoy Points to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Marriott Bonvoy points to their estimated USD value. Free calculator using the standard 0.7 cents per point valuation.',
+  openGraph: {
+    title: 'Marriott Bonvoy Points to USD | CreditOdds',
+    description: 'Convert Marriott Bonvoy points to USD using the 0.7 cents per point valuation.',
+    url: 'https://creditodds.com/tools/marriott-bonvoy-points-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/marriott-bonvoy-points-to-usd' },
 };
 
 export default async function MarriottBonvoyToUsdPage() {

@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Bilt Rewards Points to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Bilt Rewards points to their estimated USD value. Free calculator using the standard 1.5 cents per point valuation.',
+  openGraph: {
+    title: 'Bilt Rewards Points to USD | CreditOdds',
+    description: 'Convert Bilt Rewards points to USD using the 1.5 cents per point valuation.',
+    url: 'https://creditodds.com/tools/bilt-rewards-points-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/bilt-rewards-points-to-usd' },
 };
 
 export default async function BiltToUsdPage() {

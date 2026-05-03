@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllCards, getAllBanks } from '@/lib/api';
 import { getNews } from '@/lib/news';
-import { getArticles } from '@/lib/articles';
+import { getArticles, generateAuthorSlug, tagLabels, type ArticleTag } from '@/lib/articles';
 import { getBestPages } from '@/lib/best';
 
 // Required for static export
@@ -59,18 +59,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/tools/united-miles-to-usd`,
+    ...[
+      'chase-ultimate-rewards-to-usd',
+      'amex-membership-rewards-to-usd',
+      'capital-one-miles-to-usd',
+      'citi-thankyou-points-to-usd',
+      'bilt-rewards-points-to-usd',
+      'united-miles-to-usd',
+      'delta-skymiles-to-usd',
+      'southwest-rapid-rewards-to-usd',
+      'world-of-hyatt-points-to-usd',
+      'marriott-bonvoy-points-to-usd',
+      'hilton-honors-points-to-usd',
+      'ihg-one-rewards-points-to-usd',
+    ].map((slug) => ({
+      url: `${baseUrl}/tools/${slug}`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'monthly' as const,
       priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/tools/delta-skymiles-to-usd`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
+    })),
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
@@ -147,8 +154,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap for news:', error);
   }
 
-  // Dynamic article pages
+  // Dynamic article pages + category and author hubs
   let articlePages: MetadataRoute.Sitemap = [];
+  let articleCategoryPages: MetadataRoute.Sitemap = [];
+  let articleAuthorPages: MetadataRoute.Sitemap = [];
   try {
     const articleItems = await getArticles();
     articlePages = articleItems.map((item) => ({
@@ -156,6 +165,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(item.updated_at || item.date),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
+    }));
+
+    // Article category hubs — one per tag actually used
+    const usedTags = new Set<ArticleTag>();
+    for (const a of articleItems) for (const t of a.tags) usedTags.add(t);
+    articleCategoryPages = Array.from(usedTags)
+      .filter((t) => t in tagLabels)
+      .map((tag) => ({
+        url: `${baseUrl}/articles/category/${tag}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.6,
+      }));
+
+    // Author hubs — one per unique author
+    const authors = new Map<string, string>();
+    for (const a of articleItems) {
+      const slug = a.author_slug || generateAuthorSlug(a.author);
+      if (!authors.has(slug)) authors.set(slug, a.author);
+    }
+    articleAuthorPages = Array.from(authors.keys()).map((slug) => ({
+      url: `${baseUrl}/articles/author/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.5,
     }));
   } catch (error) {
     console.error('Error generating sitemap for articles:', error);
@@ -175,5 +209,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap for best pages:', error);
   }
 
-  return [...staticPages, ...bankPages, ...cardPages, ...newsPages, ...articlePages, ...bestPages];
+  return [
+    ...staticPages,
+    ...bankPages,
+    ...cardPages,
+    ...newsPages,
+    ...articlePages,
+    ...articleCategoryPages,
+    ...articleAuthorPages,
+    ...bestPages,
+  ];
 }

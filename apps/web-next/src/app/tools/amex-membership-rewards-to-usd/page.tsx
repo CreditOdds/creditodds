@@ -12,6 +12,13 @@ import '../../landing.css';
 export const metadata: Metadata = {
   title: 'Amex Membership Rewards to USD (Converter/Calculator) | CreditOdds',
   description: 'Convert Amex Membership Rewards points to their estimated USD value. Free calculator using the standard 1.2 cents per point valuation.',
+  openGraph: {
+    title: 'Amex Membership Rewards to USD | CreditOdds',
+    description: 'Convert Amex MR points to USD using the 1.2 cents per point valuation.',
+    url: 'https://creditodds.com/tools/amex-membership-rewards-to-usd',
+    type: 'website',
+  },
+  alternates: { canonical: 'https://creditodds.com/tools/amex-membership-rewards-to-usd' },
 };
 
 export default async function AmexMRToUsdPage() {

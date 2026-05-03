@@ -5,6 +5,15 @@ import "../landing.css";
 export const metadata: Metadata = {
   title: "Terms of Use",
   description: "CreditOdds Terms of Use",
+  openGraph: {
+    title: "Terms of Use | CreditOdds",
+    description: "CreditOdds Terms of Use",
+    url: "https://creditodds.com/terms",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://creditodds.com/terms",
+  },
 };
 
 export default function TermsPage() {

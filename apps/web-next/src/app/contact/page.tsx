@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     url: "https://creditodds.com/contact",
     type: "website",
   },
+  alternates: {
+    canonical: "https://creditodds.com/contact",
+  },
 };
 
 export default function ContactPage() {
@@ -53,7 +56,7 @@ export default function ContactPage() {
           <h3>Email</h3>
           <p>
             For anything longer-form,{' '}
-            <a href="mailto:hello@creditodds.com">hello@creditodds.com</a>.
+            <a href="mailto:max@creditodds.com">max@creditodds.com</a>.
           </p>
         </article>
       </div>

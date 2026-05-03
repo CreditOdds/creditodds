@@ -34,6 +34,9 @@ export async function generateMetadata({ params }: BankPageProps): Promise<Metad
       url: `https://creditodds.com/bank/${encodeURIComponent(bankName)}`,
       type: "website",
     },
+    alternates: {
+      canonical: `https://creditodds.com/bank/${encodeURIComponent(bankName)}`,
+    },
   };
 }
 
