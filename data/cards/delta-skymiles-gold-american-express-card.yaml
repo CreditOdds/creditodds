@@ -23,8 +23,8 @@ benefits:
     frequency: "ongoing"
     category: "travel"
   - name: "$200 Delta Flight Credit"
-    value: 200
-    description: "Receive a $200 Delta Flight Credit after you spend $10,000 in purchases in a calendar year."
+    value: 0
+    description: "$200 Delta Flight Credit after spending $10,000 in purchases in a calendar year."
     frequency: "annual"
     category: "travel"
     enrollment_required: false
@@ -36,8 +36,8 @@ benefits:
     category: "dining_travel"
     enrollment_required: false
   - name: "$100 Delta Stays Credit"
-    value: 100
-    description: "Annual statement credit of up to $100 after booking prepaid hotels or vacation rentals through Delta Stays on delta.com."
+    value: 0
+    description: "Up to $100 annual statement credit on prepaid hotels or vacation rentals booked through Delta Stays on delta.com."
     frequency: "annual"
     category: "hotel"
     enrollment_required: false
