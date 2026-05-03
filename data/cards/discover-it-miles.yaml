@@ -23,3 +23,4 @@ apr:
     min: 17.49
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/travel/
+foreign_transaction_fee: false
