@@ -46,7 +46,10 @@ rewards:
   - category: dining
     value: 3
     unit: points_per_dollar
-    note: "Choose dining or groceries, up to $25,000/year"
+    note: "Choose dining or groceries as the 3x category"
+    spend_cap: 25000
+    cap_period: annual
+    rate_after_cap: 1
   - category: travel
     value: 2
     unit: points_per_dollar

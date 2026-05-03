@@ -10,7 +10,9 @@ rewards:
   - category: everything_else
     value: 2
     unit: points_per_dollar
-    note: "On first $50,000 in purchases per calendar year, then 1x"
+    spend_cap: 50000
+    cap_period: annual
+    rate_after_cap: 1
 signup_bonus:
   value: 15000
   type: points

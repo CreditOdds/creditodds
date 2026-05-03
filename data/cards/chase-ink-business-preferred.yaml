@@ -15,7 +15,10 @@ rewards:
   - category: travel
     value: 3
     unit: points_per_dollar
-    note: "Travel, shipping, internet/cable/phone, advertising on search engines and social media (first $150,000/year combined)"
+    note: "Travel, shipping, internet/cable/phone, advertising on search engines and social media (combined)"
+    spend_cap: 150000
+    cap_period: annual
+    rate_after_cap: 1
   - category: everything_else
     value: 1
     unit: points_per_dollar

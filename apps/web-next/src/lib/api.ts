@@ -20,6 +20,13 @@ export interface Reward {
   choices?: number;
   current_categories?: string[];
   current_period?: string;
+  // Spend caps. When set, `value` is earned only on spend up to `spend_cap`
+  // within `cap_period` (default 'annual'); spend above that earns
+  // `rate_after_cap` (default 1, in the same unit). Example: Blue Business
+  // Plus is `value: 2, unit: points_per_dollar, spend_cap: 50000`.
+  spend_cap?: number;
+  cap_period?: 'monthly' | 'quarterly' | 'semi_annual' | 'annual' | 'billing_cycle' | 'lifetime';
+  rate_after_cap?: number;
 }
 
 export interface SignupBonus {

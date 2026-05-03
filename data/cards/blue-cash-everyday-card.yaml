@@ -13,15 +13,24 @@ rewards:
   - category: "groceries"
     value: 3
     unit: "percent"
-    note: "U.S. supermarkets, up to $6,000 per year then 1%"
+    note: "U.S. supermarkets"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 1
   - category: "gas"
     value: 3
     unit: "percent"
-    note: "U.S. gas stations, up to $6,000 per year then 1%"
+    note: "U.S. gas stations"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 1
   - category: "online_shopping"
     value: 3
     unit: "percent"
-    note: "U.S. online retail purchases, up to $6,000 per year then 1%"
+    note: "U.S. online retail purchases"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 1
   - category: "everything_else"
     value: 1
     unit: "percent"

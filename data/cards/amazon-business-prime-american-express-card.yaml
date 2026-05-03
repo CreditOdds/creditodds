@@ -10,7 +10,10 @@ rewards:
   - category: amazon
     value: 5
     unit: percent
-    note: "U.S. purchases at Amazon.com, Amazon Business, AWS, and Whole Foods Market, on first $120,000/year then 1%"
+    note: "U.S. purchases at Amazon.com, Amazon Business, AWS, and Whole Foods Market"
+    spend_cap: 120000
+    cap_period: annual
+    rate_after_cap: 1
   - category: dining
     value: 2
     unit: percent

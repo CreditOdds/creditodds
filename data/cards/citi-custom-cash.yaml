@@ -22,7 +22,10 @@ rewards:
       - "drugstores"
       - "home_improvement"
       - "entertainment"
-    note: "Automatically on your top eligible spend category each billing cycle, up to $500/month"
+    note: "Automatically on your top eligible spend category each billing cycle"
+    spend_cap: 500
+    cap_period: monthly
+    rate_after_cap: 1
   - category: "hotels_car_portal"
     value: 4
     unit: "points_per_dollar"

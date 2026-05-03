@@ -25,7 +25,10 @@ rewards:
     eligible_categories:
       - "dining"
       - "groceries"
-    note: "Choose dining (default) or groceries as your 3x category annually; grocery earns 3x on up to $25,000/year, then 1x."
+    note: "Choose dining (default) or groceries as your 3x category annually (cap applies when groceries is selected)"
+    spend_cap: 25000
+    cap_period: annual
+    rate_after_cap: 1
   - category: "travel"
     value: 2
     unit: "points_per_dollar"
