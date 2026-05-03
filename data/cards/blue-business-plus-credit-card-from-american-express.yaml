@@ -8,7 +8,7 @@ annual_fee: 0
 reward_type: "points"
 rewards:
   - category: everything_else
-    value: 2
+    value: 1
     unit: points_per_dollar
     note: "On first $50,000 in purchases per calendar year, then 1x"
 signup_bonus:
