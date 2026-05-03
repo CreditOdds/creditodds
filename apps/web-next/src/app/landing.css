@@ -2306,10 +2306,10 @@
     /* aligned with Navbar px-4/sm:px-6 — see main .wrap rule */
   }
   .landing-v2 .hero {
-    padding-block: 20px 28px;
+    padding-block: 4px 28px;
   }
   .landing-v2 .page-hero {
-    padding-block: 20px 24px;
+    padding-block: 4px 24px;
   }
   .landing-v2 .sec {
     padding-block: 72px;

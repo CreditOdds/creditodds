@@ -85,7 +85,7 @@ export default function BankCardsTable({ cards, trendingViews }: BankCardsTableP
       </div>
 
       {/* Cards table */}
-      <div className="overflow-hidden sm:shadow sm:ring-1 sm:ring-black sm:ring-opacity-5 sm:rounded-lg">
+      <div className="-mx-4 sm:mx-0 overflow-hidden sm:shadow sm:ring-1 sm:ring-black sm:ring-opacity-5 sm:rounded-lg">
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">
             <tr>
