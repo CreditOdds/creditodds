@@ -3,6 +3,7 @@ import { getAllCards, getAllBanks } from '@/lib/api';
 import { getNews } from '@/lib/news';
 import { getArticles, generateAuthorSlug, tagLabels, type ArticleTag } from '@/lib/articles';
 import { getBestPages } from '@/lib/best';
+import { getAllStores } from '@/lib/stores';
 
 // Required for static export
 export const dynamic = 'force-static';
@@ -108,6 +109,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    {
+      // /best-card-for index — entry point for the per-store SEO pages.
+      // Higher priority than the children since it's the discovery hub.
+      url: `${baseUrl}/best-card-for`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
   ];
 
   // Dynamic card pages
@@ -209,6 +218,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error generating sitemap for best pages:', error);
   }
 
+  // Dynamic /best-card-for/[slug] store pages
+  let storePages: MetadataRoute.Sitemap = [];
+  try {
+    const stores = await getAllStores();
+    storePages = stores.map((s) => ({
+      url: `${baseUrl}/best-card-for/${s.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.75,
+    }));
+  } catch (error) {
+    console.error('Error generating sitemap for store pages:', error);
+  }
+
   return [
     ...staticPages,
     ...bankPages,
@@ -218,5 +241,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...articleCategoryPages,
     ...articleAuthorPages,
     ...bestPages,
+    ...storePages,
   ];
 }
