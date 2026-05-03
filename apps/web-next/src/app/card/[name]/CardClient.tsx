@@ -538,6 +538,56 @@ export default function CardClient({
   }, [wire]);
 
   // ---------- Render ----------
+  const applyBlock = (
+    <div className="cj-apply">
+      <div className="cj-apply-k">Welcome bonus</div>
+      <div className="cj-apply-v">
+        {bonusDisplay?.value ?? "No current offer"}
+      </div>
+      {bonusDisplay && (
+        <div className="cj-apply-sub">{bonusDisplay.sub}</div>
+      )}
+      {card.signup_bonus?.note && (
+        <div className="cj-apply-note">{card.signup_bonus.note}</div>
+      )}
+      {card.accepting_applications ? (
+        <>
+          {card.apply_link && (
+            <a
+              href={withApplySource(card.apply_link)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => handleCardApplyClick("direct")}
+              className="cj-apply-btn"
+            >
+              Apply now
+            </a>
+          )}
+          {randomReferralUrl && (
+            <a
+              href={randomReferralUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleReferralClick}
+              className="cj-apply-btn-outline"
+            >
+              Apply with referral
+            </a>
+          )}
+          {!card.apply_link && !randomReferralUrl && (
+            <div className="cj-apply-closed">
+              Apply link not available yet
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="cj-apply-closed">
+          Not accepting applications
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="landing-v2 card-journal">
       <CreditCardSchema card={card} ratings={ratings} />
@@ -826,6 +876,9 @@ export default function CardClient({
               </div>
             </div>
           </section>
+
+          {/* Mobile-only welcome offer / apply box, shown above section 02 */}
+          <div className="cj-apply-mobile">{applyBlock}</div>
 
           {/* 02 Earn & credits */}
           <section id="earn" className="cj-section">
@@ -1361,53 +1414,7 @@ export default function CardClient({
 
         {/* Right rail */}
         <aside className="cj-rail">
-          <div className="cj-apply">
-            <div className="cj-apply-k">Welcome bonus</div>
-            <div className="cj-apply-v">
-              {bonusDisplay?.value ?? "No current offer"}
-            </div>
-            {bonusDisplay && (
-              <div className="cj-apply-sub">{bonusDisplay.sub}</div>
-            )}
-            {card.signup_bonus?.note && (
-              <div className="cj-apply-note">{card.signup_bonus.note}</div>
-            )}
-            {card.accepting_applications ? (
-              <>
-                {card.apply_link && (
-                  <a
-                    href={withApplySource(card.apply_link)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => handleCardApplyClick("direct")}
-                    className="cj-apply-btn"
-                  >
-                    Apply now
-                  </a>
-                )}
-                {randomReferralUrl && (
-                  <a
-                    href={randomReferralUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={handleReferralClick}
-                    className="cj-apply-btn-outline"
-                  >
-                    Apply with referral
-                  </a>
-                )}
-                {!card.apply_link && !randomReferralUrl && (
-                  <div className="cj-apply-closed">
-                    Apply link not available yet
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="cj-apply-closed">
-                Not accepting applications
-              </div>
-            )}
-          </div>
+          {applyBlock}
 
           {wireEntries.length > 0 && (
             <div className="cj-rail-block cj-wire-rail">

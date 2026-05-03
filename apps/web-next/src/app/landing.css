@@ -4695,6 +4695,19 @@
   border-radius: 4px;
   margin-bottom: 20px;
 }
+/* Mobile: render the apply box inline above section 02. Hidden on desktop. */
+.landing-v2 .cj-apply-mobile {
+  padding: 20px 0 8px;
+  border-bottom: 1px solid var(--line);
+}
+.landing-v2 .cj-apply-mobile .cj-apply { margin-bottom: 0; }
+@media (min-width: 1024px) {
+  .landing-v2 .cj-apply-mobile { display: none; }
+}
+/* On mobile the rail copy is suppressed so it doesn't appear twice. */
+@media (max-width: 1023.98px) {
+  .landing-v2 .cj-rail > .cj-apply { display: none; }
+}
 .landing-v2 .cj-readoff-cell.cj-readoff-bonus {
   background: #fef9e8;
 }
