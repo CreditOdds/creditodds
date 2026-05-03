@@ -10,7 +10,7 @@ tags:
 reward_type: "cashback"
 rewards:
   - category: everything_else
-    value: 2
+    value: 1
     unit: percent
     note: "1% when you buy, 1% when you pay"
 signup_bonus:
