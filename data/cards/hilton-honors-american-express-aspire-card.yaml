@@ -4,6 +4,7 @@ slug: "hilton-honors-american-express-aspire-card"
 image: "amex_hilton_honors_aspire.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/
+foreign_transaction_fee: false
 annual_fee: 550
 reward_type: "points"
 rewards:
