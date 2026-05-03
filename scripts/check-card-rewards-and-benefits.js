@@ -568,21 +568,36 @@ function normalizeRewardsUnits(rewards) {
 function diffRewards(current, proposed) {
   // Returns { added, removed, changed } by category id.
   //
-  // IMPORTANT: we only emit a "changed" entry when the unit MATCHES. A unit
-  // flip (e.g. points_per_dollar → percent) is almost always an LLM
-  // misreading — the apply page often advertises an alt-redemption rate
-  // ("4% Bilt Cash on everyday purchases") that the model treats as the
-  // earn rate. Drop those silently rather than overwriting the human-curated
-  // earn rate with the wrong unit.
+  // Reward-rate change is gated by THREE guards. All three are silent
+  // skips (no review-issue surfacing) — they exist purely to filter out
+  // LLM misreads that we keep seeing every weekly run.
   //
-  // Capped-rate guard: if the existing reward has a `spend_cap` (or its note
-  // mentions one) and the LLM proposes a value LOWER than current, the LLM
-  // is probably misreading the post-cap rate (e.g. "1x after $50K") as the
-  // headline. Skip those proposals — the schema's `rate_after_cap` already
-  // captures the post-cap rate.
+  // 1. Unit-mismatch guard: a unit flip (e.g. points_per_dollar → percent)
+  //    is almost always an LLM misreading — the apply page often
+  //    advertises an alt-redemption rate ("4% Bilt Cash on everyday
+  //    purchases") that the model treats as the earn rate.
+  //
+  // 2. Capped/composed-rate guard: if the existing reward has a
+  //    `spend_cap` OR its note describes a cap or rate composition
+  //    ("first $50K then 1x", "1% when you buy, 1% when you pay"), a
+  //    LOWER `value` proposal is almost always the LLM reading a
+  //    post-cap or component rate as the headline. Confirmed cases:
+  //    Blue Business Plus, Marriott Bonvoy Bold, Citi Double Cash.
+  //
+  // 3. Big-jump guard for `everything_else`: a proposed `value` that is
+  //    BOTH ≥3 AND ≥2 above the current is almost always wrong — base
+  //    rates that high on uncapped everything_else are extremely rare.
+  //    Confirmed cases: Rakuten Amex (1→4), U.S. Bank Smartly (2→4 —
+  //    where 4% is the tier requiring $100K in linked savings).
   const noteMentionsCap = (r) =>
     typeof r?.note === 'string' &&
-    /(\bfirst\s+\$\d|\bup\s+to\s+\$\d|\bcap\b|then\s+\d+\s*(x|%)|combined\b)/i.test(r.note);
+    /(\bfirst\s+\$\d|\bup\s+to\s+\$\d|\bcap\b|then\s+\d+\s*(x|%)|combined\b|when you\s+(buy|pay))/i.test(r.note);
+
+  const isImplausibleEverythingElseJump = (c, p) =>
+    c.category === 'everything_else' &&
+    p.value > c.value &&
+    p.value >= 3 &&
+    (p.value - c.value) >= 2;
 
   const cur = new Map((current || []).map(r => [r.category, r]));
   const prop = new Map((proposed || []).map(r => [r.category, r]));
@@ -600,9 +615,15 @@ function diffRewards(current, proposed) {
       p.value < c.value &&
       (c.spend_cap !== undefined || noteMentionsCap(c))
     ) {
-      // Downward proposal on a capped reward — the LLM is likely reading the
-      // post-cap rate as the headline. Skip; if there's a real change to the
-      // cap or rate_after_cap, those will get picked up in the field-merge.
+      // Downward proposal on a capped/composed reward — the LLM is likely
+      // reading the post-cap rate as the headline. Skip; if there's a
+      // real change to the cap or rate_after_cap, those will get picked
+      // up in the field-merge.
+      continue;
+    } else if (isImplausibleEverythingElseJump(c, p)) {
+      // Big upward jump on everything_else — Rakuten/Smartly class. The
+      // LLM is almost certainly reading a portal bonus or banking-tier
+      // rate as the base. Skip silently.
       continue;
     } else if (
       c.value !== p.value ||
