@@ -26,3 +26,11 @@ apr:
     min: 16.74
     max: 24.74
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
+benefits:
+  - name: "5% Cash Back on Lyft"
+    value: 5
+    value_unit: "percent"
+    description: "Earn 5% total cash back on Lyft rides through September 30, 2027."
+    frequency: "per_purchase"
+    category: "rideshare"
+    enrollment_required: false
