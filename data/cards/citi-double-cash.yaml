@@ -9,6 +9,10 @@ tags:
   - rewards
 reward_type: "cashback"
 rewards:
+  - category: travel_portal
+    value: 5
+    unit: percent
+    note: "Hotels, car rentals, and attractions booked through Citi Travel portal (2% base + 3% bonus)"
   - category: everything_else
     value: 2
     unit: percent
