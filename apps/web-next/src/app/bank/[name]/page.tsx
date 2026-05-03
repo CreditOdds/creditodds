@@ -102,7 +102,7 @@ export default async function BankPage({ params }: BankPageProps) {
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 64 }}>
         <BankCardsTable cards={cards} trendingViews={trendingViews} />
 
-        <div className="mt-8 bg-white sm:shadow sm:ring-1 sm:ring-black sm:ring-opacity-5 sm:rounded-lg overflow-hidden">
+        <div className="-mx-4 sm:mx-0 mt-8 bg-white sm:shadow sm:ring-1 sm:ring-black sm:ring-opacity-5 sm:rounded-lg overflow-hidden">
           <div className="px-4 py-4 border-b border-gray-200">
             <div className="flex items-center gap-2">
               <NewspaperIcon className="h-5 w-5 text-indigo-600" />
