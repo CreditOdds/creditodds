@@ -59,3 +59,4 @@ apr:
     min: 19.24
     max: 29.99
 apply_link: https://creditcards.chase.com/business-credit-cards/IHG/business-premier
+foreign_transaction_fee: false
