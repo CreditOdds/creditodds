@@ -26,6 +26,7 @@ import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, fr
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
+import CardyComparePopup from "@/components/ui/CardyComparePopup";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
@@ -1578,6 +1579,7 @@ export default function CardClient({
         card={card}
         onSuccess={handleSubmitSuccess}
       />
+      <CardyComparePopup currentSlug={card.slug} currentName={card.card_name} currentImage={card.card_image_link} />
       <V2Footer />
     </div>
   );
