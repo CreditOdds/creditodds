@@ -454,6 +454,49 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
+  CardCompareEventFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/card-compare-event.CardCompareEventHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Track card-compare events and return frequent compare partners
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        TrackCompare:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-compare-event
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        GetComparePartners:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-compare-event
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        CardCompareEventOptions:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-compare-event
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   CardApplyClickFunction:
     Type: AWS::Serverless::Function
     Properties:

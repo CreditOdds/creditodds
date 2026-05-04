@@ -380,6 +380,44 @@ export async function getCardViewCounts(period: 'trending' | 'all-time' = 'trend
   return data.views || {};
 }
 
+// Track a multi-card comparison so we can rank "frequently compared" partners
+// per card. Slugs are deduplicated and unordered server-side; fire-and-forget.
+export async function trackCardCompareEvent(slugs: string[]): Promise<void> {
+  const unique = [...new Set(slugs.filter(Boolean))];
+  if (unique.length < 2) return;
+  try {
+    await fetch(`${API_BASE}/card-compare-event`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({ slugs: unique }),
+    });
+  } catch {
+    // ignore
+  }
+}
+
+export interface ComparePartner {
+  slug: string;
+  count: number;
+}
+
+// Pull the top N most-frequently-compared partner cards for a given card slug.
+// Used to populate "Often compared with" chips on the card detail page.
+export async function getComparePartners(slug: string, limit = 5): Promise<ComparePartner[]> {
+  try {
+    const res = await fetch(
+      `${API_BASE}/card-compare-event?slug=${encodeURIComponent(slug)}&limit=${limit}`,
+      { next: { revalidate: 600 } },
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.partners) ? data.partners : [];
+  } catch {
+    return [];
+  }
+}
+
 export type CardApplyClickSource = 'direct' | 'referral';
 
 export async function trackCardApplyClick(

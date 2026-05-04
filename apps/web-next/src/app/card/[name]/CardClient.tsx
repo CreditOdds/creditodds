@@ -233,6 +233,7 @@ interface CardClientProps {
   ratings: { count: number; average: number | null };
   similarCards?: Card[];
   wire?: CardWireEntry[];
+  frequentlyComparedCards?: Card[];
 }
 
 export default function CardClient({
@@ -243,6 +244,7 @@ export default function CardClient({
   ratings,
   similarCards = [],
   wire = [],
+  frequentlyComparedCards = [],
 }: CardClientProps) {
   // ---------- State + chrome ----------
   const [showModal, setShowModal] = useState(false);
@@ -1525,6 +1527,33 @@ export default function CardClient({
             <ScaleIcon className="cj-rail-cta-icon" />
             Compare cards
           </Link>
+
+          {frequentlyComparedCards.length > 0 && (
+            <div className="cj-rail-block">
+              <div className="cj-rail-label">Often compared with</div>
+              {frequentlyComparedCards.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/compare?cards=${card.slug},${c.slug}`}
+                  className="cj-sim-row"
+                >
+                  <div className="cj-sim-img">
+                    <CardImage
+                      cardImageLink={c.card_image_link}
+                      alt={c.card_name}
+                      width={48}
+                      height={30}
+                      style={{ width: 48, height: 30, objectFit: "contain" }}
+                    />
+                  </div>
+                  <div className="cj-sim-body">
+                    <div className="cj-sim-name">{c.card_name}</div>
+                    <div className="cj-sim-meta">{c.bank}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           {similarCards.length > 0 && (
             <div className="cj-rail-block">
