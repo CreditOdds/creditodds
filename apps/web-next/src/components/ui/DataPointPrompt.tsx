@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
+import CardyCharacter from '@/components/ui/CardyCharacter';
 import Downshift from 'downshift';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -322,32 +323,10 @@ export default function DataPointPrompt() {
 
               {step === 1 && (
                 <>
-                  {/* Credit card character */}
+                  {/* Cardy character */}
                   <div className="flex justify-center mb-4">
                     <div className="relative">
-                      {/* Card body */}
-                      <div className="w-28 h-[72px] rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 shadow-lg relative">
-                        {/* Chip */}
-                        <div className="absolute top-3 left-3 w-6 h-[18px] rounded-sm bg-yellow-300/80">
-                          <div className="absolute inset-0.5 border border-yellow-500/40 rounded-[1px]" />
-                        </div>
-                        {/* Eyes */}
-                        <div className="absolute top-3 right-4 flex gap-2">
-                          <div className="w-2.5 h-2.5 rounded-full bg-white flex items-center justify-center">
-                            <div className="w-1 h-1 rounded-full bg-indigo-900" />
-                          </div>
-                          <div className="w-2.5 h-2.5 rounded-full bg-white flex items-center justify-center">
-                            <div className="w-1 h-1 rounded-full bg-indigo-900" />
-                          </div>
-                        </div>
-                        {/* Smile */}
-                        <div className="absolute bottom-3 right-5 w-4 h-2 border-b-2 border-white/80 rounded-b-full" />
-                        {/* Stripe lines */}
-                        <div className="absolute bottom-3 left-3 flex flex-col gap-0.5">
-                          <div className="w-8 h-0.5 bg-indigo-400/40 rounded-full" />
-                          <div className="w-6 h-0.5 bg-indigo-400/40 rounded-full" />
-                        </div>
-                      </div>
+                      <CardyCharacter />
                       {/* Speech bubble */}
                       <div className="absolute -top-14 -right-4 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-1.5 text-xs text-indigo-700 font-medium whitespace-nowrap">
                         Hi there! 👋
