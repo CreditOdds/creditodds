@@ -15,9 +15,9 @@ rewards:
     rate_after_cap: 1
 signup_bonus:
   value: 250
-  type: cash
-  spend_requirement: 15000
-  timeframe_months: 12
+  type: "cash"
+  spend_requirement: 3000
+  timeframe_months: 3
 apr:
   purchase_intro:
     rate: 0
