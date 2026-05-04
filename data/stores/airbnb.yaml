@@ -1,0 +1,27 @@
+name: "Airbnb"
+slug: "airbnb"
+aliases:
+  - "Airbnb.com"
+  - "AirBnB"
+  - "Air B&B"
+categories:
+  - travel
+website: "https://www.airbnb.com"
+intro: |
+  Airbnb is the dominant short-term-rental marketplace, with millions of listings across
+  homes, apartments, cabins, and unique stays in roughly 220 countries. The wrinkle for
+  credit-card rewards is that Airbnb does not code as "hotels" — it codes as a generic
+  travel merchant. That means hotel-category bonuses (Marriott co-brand 6x, Amex Gold
+  hotel rate via Resy collection, Hilton Surpass 12x at hotels) generally do not trigger
+  on an Airbnb charge. The right cards for Airbnb are broad travel-category earners:
+  Sapphire Reserve and Preferred at 3x and 2x travel, Venture and Venture X at 2x flat
+  with no foreign transaction fees, Amex Green at 3x travel, or flat-rate 2%+ cashback
+  cards. Booking through the Chase or Capital One travel portals can layer additional
+  multipliers on top, though portal availability for Airbnb is limited.
+faq:
+  - q: "Does Airbnb count as a hotel for credit card rewards?"
+    a: "No. Airbnb codes as a general travel merchant, not lodging or hotels. Cards that bonus on \"hotels\" specifically (most co-brand hotel cards, some category bonuses tied to hotel merchant codes) typically do not earn the elevated rate on Airbnb stays. Cards that bonus on \"travel\" broadly — Sapphire Reserve/Preferred, Venture/Venture X, Amex Green — do earn at their travel rate on Airbnb."
+  - q: "What's the best credit card for Airbnb?"
+    a: "For most people: Chase Sapphire Reserve at 3x travel (or Sapphire Preferred at 2x) if you want flexible points, Capital One Venture X at 2x with travel credits and no foreign transaction fees, or a flat 2%+ cashback card like Citi Double Cash if you want simplicity. Hotel co-brand cards generally don't help here."
+  - q: "Can I earn hotel elite credits or points on Airbnb stays?"
+    a: "No. Airbnb is not part of any hotel loyalty program — stays earn no Bonvoy, Honors, World of Hyatt, IHG One, Wyndham, or Choice points, and don't count toward elite-night requirements. The only rewards on an Airbnb stay come from your credit card."

@@ -1,0 +1,38 @@
+name: "Hilton"
+slug: "hilton"
+aliases:
+  - "Hilton Honors"
+  - "Hilton Hotels"
+  - "Hilton.com"
+  - "Waldorf Astoria"
+  - "Conrad"
+  - "DoubleTree"
+  - "Embassy Suites"
+  - "Hampton Inn"
+  - "Hampton"
+  - "Hilton Garden Inn"
+  - "Homewood Suites"
+  - "Home2 Suites"
+  - "Tru by Hilton"
+  - "Curio Collection"
+  - "Canopy"
+  - "Tapestry"
+  - "Motto"
+  - "Tempo"
+categories:
+  - hotels
+  - travel
+website: "https://www.hilton.com"
+co_brand_cards:
+  - hilton-honors-american-express-aspire-card
+  - hilton-honors-american-express-surpass-card
+  - hilton-honors-card
+intro: |
+  Hilton Honors covers roughly 8,000 properties worldwide across 22 brands, from budget
+  Hampton Inn and Tru up through Waldorf Astoria and Conrad luxury. Booking direct at
+  hilton.com or in-app earns the full 10x base points plus any co-brand multiplier, while
+  third-party bookings (Expedia, Booking.com) earn nothing in the program and don't count
+  toward elite status. The Hilton co-brand cards lean heavily on perks — free weekend
+  nights, automatic Gold or Diamond status, statement credits — rather than headline
+  earn rates, so the value calculation depends on whether you'll actually use the
+  certificate and the status. Hilton points typically value around 0.5 cents each.

@@ -45,10 +45,14 @@ rewards:
   - category: travel_portal
     value: 8
     unit: points_per_dollar
-  - category: travel
+  - category: hotels
     value: 4
     unit: points_per_dollar
-    note: "Hotels and flights booked directly"
+    note: "Hotels booked directly"
+  - category: airlines
+    value: 4
+    unit: points_per_dollar
+    note: "Flights booked directly with airlines"
   - category: dining
     value: 3
     unit: points_per_dollar
