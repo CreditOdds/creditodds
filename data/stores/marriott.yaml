@@ -1,0 +1,42 @@
+name: "Marriott"
+slug: "marriott"
+aliases:
+  - "Marriott Bonvoy"
+  - "Marriott International"
+  - "Marriott.com"
+  - "Ritz-Carlton"
+  - "Sheraton"
+  - "Westin"
+  - "St. Regis"
+  - "W Hotels"
+  - "Courtyard"
+  - "Residence Inn"
+  - "Renaissance"
+  - "JW Marriott"
+  - "AC Hotels"
+  - "Aloft"
+  - "Element"
+  - "Fairfield"
+  - "SpringHill Suites"
+  - "TownePlace Suites"
+  - "Le Méridien"
+  - "Autograph Collection"
+  - "Tribute Portfolio"
+categories:
+  - hotels
+  - travel
+website: "https://www.marriott.com"
+co_brand_cards:
+  - marriott-bonvoy-bevy-american-express
+  - marriott-bonvoy-bold-credit-card
+  - marriott-bonvoy-boundless-credit-card
+  - marriott-bonvoy-brilliant-american-express
+intro: |
+  Marriott Bonvoy is the world's largest hotel loyalty program, covering more than 30
+  brands from budget Fairfield Inn through luxury Ritz-Carlton, St. Regis, and W Hotels.
+  Direct stays at marriott.com or any Bonvoy property earn the most points and unlock
+  elite-night credits, but the math gets nuanced: co-branded Marriott cards layer extra
+  Bonvoy points on top of base earnings, while general hotel-category cards (Sapphire
+  Reserve, Venture X) often yield higher cashback-equivalent value if you don't care
+  about Bonvoy status. Stays booked through OTAs like Expedia or Hotels.com forfeit
+  points and elite credit, so the in-program booking is almost always the right call.

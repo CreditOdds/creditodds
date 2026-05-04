@@ -12,6 +12,7 @@ rewards:
     value: 14
     unit: points_per_dollar
     note: "Eligible purchases at Hilton hotels and resorts"
+    merchant_specific: true
   - category: airlines
     value: 7
     unit: points_per_dollar

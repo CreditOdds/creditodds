@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Card, CardBenefit, getCard, getCardGraphs, getAllCards, getCardRatings, getCardWire, GraphData, CardWireEntry } from "@/lib/api";
+import { Card, CardBenefit, getCard, getCardGraphs, getAllCards, getCardRatings, getCardWire, getComparePartners, GraphData, CardWireEntry } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import CardClient from "./CardClient";
@@ -88,7 +88,7 @@ export default async function CardPage({ params }: CardPageProps) {
   try {
     // Fetch all data in parallel — chain getCard → getCardRatings together
     // so ratings fetches concurrently with graphs/news/articles instead of after them all
-    const [cardWithRatingsAndWire, graphData, allNews, allArticles, allCards] = await Promise.all([
+    const [cardWithRatingsAndWire, graphData, allNews, allArticles, allCards, comparePartners] = await Promise.all([
       getCard(slug).then(async (card) => ({
         card,
         ratings: await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null })),
@@ -98,6 +98,7 @@ export default async function CardPage({ params }: CardPageProps) {
       getNews().catch(() => [] as NewsItem[]),
       getArticles().catch(() => [] as Article[]),
       getAllCards().catch(() => [] as Card[]),
+      getComparePartners(slug, 4).catch(() => []),
     ]);
 
     const { card, ratings, wire } = cardWithRatingsAndWire;
@@ -130,7 +131,15 @@ export default async function CardPage({ params }: CardPageProps) {
     // Find similar cards based on reward type, bank, tags, and category
     const similarCards = getSimilarCards(card, allCards);
 
-    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} />;
+    // Resolve compare-partner slugs into full Card objects (drop any that no
+    // longer exist in cards.json). Hard cap at 3 for the rail UI.
+    const cardsBySlug = new Map(allCards.map(c => [c.slug, c]));
+    const frequentlyComparedCards = comparePartners
+      .map(p => cardsBySlug.get(p.slug))
+      .filter((c): c is Card => Boolean(c) && c.active !== false)
+      .slice(0, 3);
+
+    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} />;
   } catch {
     notFound();
   }

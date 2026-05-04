@@ -16,6 +16,7 @@ rewards:
     value: 10
     unit: points_per_dollar
     note: "At participating Choice Hotels properties"
+    merchant_specific: true
   - category: gas
     value: 5
     unit: points_per_dollar

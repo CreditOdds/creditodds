@@ -12,6 +12,7 @@ rewards:
     value: 2
     unit: points_per_dollar
     note: "Princess Cruises purchases"
+    merchant_specific: true
   - category: everything_else
     value: 1
     unit: points_per_dollar

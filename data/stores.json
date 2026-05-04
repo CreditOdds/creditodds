@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-03T18:26:47.759Z",
-  "count": 50,
+  "generated_at": "2026-05-04T17:41:20.323Z",
+  "count": 58,
   "stores": [
     {
       "name": "7-Eleven",
@@ -34,6 +34,34 @@
         }
       ],
       "intro": "Ace Hardware is a cooperative of about 5,000 independently-owned hardware stores in the\nU.S., smaller and more service-oriented than Home Depot or Lowe's. Ace's own Ace Rewards\nloyalty program layers on top of card cashback. Notably, Ace Hardware is one of the\nmerchants that earns 3% on the Apple Card via Apple Pay, alongside the home-improvement\ncategory match on general-purpose cards.\n"
+    },
+    {
+      "name": "Airbnb",
+      "slug": "airbnb",
+      "aliases": [
+        "Airbnb.com",
+        "AirBnB",
+        "Air B&B"
+      ],
+      "categories": [
+        "travel"
+      ],
+      "website": "https://www.airbnb.com",
+      "intro": "Airbnb is the dominant short-term-rental marketplace, with millions of listings across\nhomes, apartments, cabins, and unique stays in roughly 220 countries. The wrinkle for\ncredit-card rewards is that Airbnb does not code as \"hotels\" — it codes as a generic\ntravel merchant. That means hotel-category bonuses (Marriott co-brand 6x, Amex Gold\nhotel rate via Resy collection, Hilton Surpass 12x at hotels) generally do not trigger\non an Airbnb charge. The right cards for Airbnb are broad travel-category earners:\nSapphire Reserve and Preferred at 3x and 2x travel, Venture and Venture X at 2x flat\nwith no foreign transaction fees, Amex Green at 3x travel, or flat-rate 2%+ cashback\ncards. Booking through the Chase or Capital One travel portals can layer additional\nmultipliers on top, though portal availability for Airbnb is limited.\n",
+      "faq": [
+        {
+          "q": "Does Airbnb count as a hotel for credit card rewards?",
+          "a": "No. Airbnb codes as a general travel merchant, not lodging or hotels. Cards that bonus on \"hotels\" specifically (most co-brand hotel cards, some category bonuses tied to hotel merchant codes) typically do not earn the elevated rate on Airbnb stays. Cards that bonus on \"travel\" broadly — Sapphire Reserve/Preferred, Venture/Venture X, Amex Green — do earn at their travel rate on Airbnb."
+        },
+        {
+          "q": "What's the best credit card for Airbnb?",
+          "a": "For most people: Chase Sapphire Reserve at 3x travel (or Sapphire Preferred at 2x) if you want flexible points, Capital One Venture X at 2x with travel credits and no foreign transaction fees, or a flat 2%+ cashback card like Citi Double Cash if you want simplicity. Hotel co-brand cards generally don't help here."
+        },
+        {
+          "q": "Can I earn hotel elite credits or points on Airbnb stays?",
+          "a": "No. Airbnb is not part of any hotel loyalty program — stays earn no Bonvoy, Honors, World of Hyatt, IHG One, Wyndham, or Choice points, and don't count toward elite-night requirements. The only rewards on an Airbnb stay come from your credit card."
+        }
+      ]
     },
     {
       "name": "Albertsons",
@@ -114,6 +142,29 @@
       "intro": "Best Buy is the largest U.S. specialty electronics retailer, with about 950 stores and a\nstrong bestbuy.com presence. In-store and online purchases generally code as electronics\nor online shopping rather than as a department store, so the answer here usually comes\ndown to a flat online-retail card or a flat-rate card. The My Best Buy Visa offers\nin-house financing and 5-6% back at Best Buy specifically, but the math only works for\nshoppers spending several thousand dollars a year on electronics.\n"
     },
     {
+      "name": "Best Western",
+      "slug": "best-western",
+      "aliases": [
+        "Best Western Rewards",
+        "Best Western Hotels",
+        "Best Western Plus",
+        "Best Western Premier",
+        "BestWestern.com",
+        "Sadie Hotels",
+        "GLō",
+        "Vīb",
+        "Aiden",
+        "Executive Residency",
+        "SureStay"
+      ],
+      "categories": [
+        "hotels",
+        "travel"
+      ],
+      "website": "https://www.bestwestern.com",
+      "intro": "Best Western Hotels & Resorts runs about 4,000 properties globally under a member-owned\ncooperative structure that's unusual in the major-chain landscape. The portfolio spans\nBest Western, Best Western Plus, and Best Western Premier on the core brand, with\nVīb, GLō, Aiden, Sadie, and Executive Residency rounding out boutique and extended-stay\nsegments, plus the SureStay budget brands. There's no Best Western co-brand credit\ncard in the U.S. market today, so the right play is a strong general hotel-category\ncard — Sapphire Reserve, Venture X, Amex Gold, or a flat-rate cashback card if you\nprefer simplicity. Best Western Rewards points are earned only on direct bookings at\nbestwestern.com or in-app; OTA stays earn nothing in the program.\n"
+    },
+    {
       "name": "BJ's Wholesale Club",
       "slug": "bjs-wholesale",
       "aliases": [
@@ -186,6 +237,39 @@
       ],
       "website": "https://www.chipotle.com",
       "intro": "Chipotle is one of the largest U.S. fast-casual chains at about 3,500 locations, with a\nwell-developed digital ordering app and Chipotle Rewards loyalty program. All Chipotle\npurchases code as dining/restaurants on every card we track, so 3-5% dining-bonus cards\nearn at the same rate whether you order in-store, on the app, or for delivery direct\nfrom Chipotle.\n"
+    },
+    {
+      "name": "Choice Hotels",
+      "slug": "choice-hotels",
+      "aliases": [
+        "Choice Privileges",
+        "Choice",
+        "ChoiceHotels.com",
+        "Comfort Inn",
+        "Comfort Suites",
+        "Quality Inn",
+        "Sleep Inn",
+        "Clarion",
+        "MainStay Suites",
+        "Econo Lodge",
+        "Rodeway Inn",
+        "Cambria Hotels",
+        "Ascend Hotel Collection",
+        "Radisson",
+        "Country Inn & Suites",
+        "Park Inn",
+        "Park Plaza"
+      ],
+      "categories": [
+        "hotels",
+        "travel"
+      ],
+      "website": "https://www.choicehotels.com",
+      "co_brand_cards": [
+        "wells-fargo-choice-privileges-mastercard",
+        "wells-fargo-choice-privileges-select-mastercard"
+      ],
+      "intro": "Choice Hotels operates roughly 7,500 properties worldwide, dominated by mid-scale and\neconomy brands — Comfort Inn, Quality Inn, Sleep Inn, Clarion — with the Cambria and\nAscend Hotel Collection covering its upscale push. The 2022 acquisition of Radisson\nAmericas folded Country Inn & Suites and Park Plaza into Choice Privileges, broadening\nthe footprint considerably. Award nights start as low as 6,000 points, and the program\nis one of the better economy-tier values on a cents-per-point basis. The Wells Fargo\nChoice Privileges co-brand cards earn elevated points on Choice stays and gas, with\nthe Select tier adding automatic Platinum elite status and an annual bonus night.\nDirect bookings earn points; OTA stays do not.\n"
     },
     {
       "name": "Costco",
@@ -304,6 +388,41 @@
       "intro": "H-E-B is the dominant Texas supermarket chain, with about 425 stores under H-E-B,\nCentral Market, and Joe V's banners. The chain is privately held and well-regarded for\nstore-brand products and Texas-only specialty items. H-E-B codes as groceries on every\ncard we track and supports curbside pickup and delivery on most product lines.\n"
     },
     {
+      "name": "Hilton",
+      "slug": "hilton",
+      "aliases": [
+        "Hilton Honors",
+        "Hilton Hotels",
+        "Hilton.com",
+        "Waldorf Astoria",
+        "Conrad",
+        "DoubleTree",
+        "Embassy Suites",
+        "Hampton Inn",
+        "Hampton",
+        "Hilton Garden Inn",
+        "Homewood Suites",
+        "Home2 Suites",
+        "Tru by Hilton",
+        "Curio Collection",
+        "Canopy",
+        "Tapestry",
+        "Motto",
+        "Tempo"
+      ],
+      "categories": [
+        "hotels",
+        "travel"
+      ],
+      "website": "https://www.hilton.com",
+      "co_brand_cards": [
+        "hilton-honors-american-express-aspire-card",
+        "hilton-honors-american-express-surpass-card",
+        "hilton-honors-card"
+      ],
+      "intro": "Hilton Honors covers roughly 8,000 properties worldwide across 22 brands, from budget\nHampton Inn and Tru up through Waldorf Astoria and Conrad luxury. Booking direct at\nhilton.com or in-app earns the full 10x base points plus any co-brand multiplier, while\nthird-party bookings (Expedia, Booking.com) earn nothing in the program and don't count\ntoward elite status. The Hilton co-brand cards lean heavily on perks — free weekend\nnights, automatic Gold or Diamond status, statement credits — rather than headline\nearn rates, so the value calculation depends on whether you'll actually use the\ncertificate and the status. Hilton points typically value around 0.5 cents each.\n"
+    },
+    {
       "name": "Home Depot",
       "slug": "home-depot",
       "aliases": [
@@ -315,6 +434,68 @@
       ],
       "website": "https://www.homedepot.com",
       "intro": "The Home Depot is the largest U.S. home-improvement retailer, with about 2,000 stores\nand a heavily-used Pro Xtra business loyalty program. The right card here depends a lot\non whether you're a homeowner doing one project a year or a contractor running steady\nvolume — the gap between the best home-improvement category card and a generic 2% card\nis meaningful at contractor spend levels. Home Depot codes as home improvement at the\nregister and on homedepot.com.\n"
+    },
+    {
+      "name": "Hyatt",
+      "slug": "hyatt",
+      "aliases": [
+        "World of Hyatt",
+        "Hyatt Hotels",
+        "Hyatt.com",
+        "Park Hyatt",
+        "Grand Hyatt",
+        "Hyatt Regency",
+        "Hyatt Place",
+        "Hyatt House",
+        "Andaz",
+        "Alila",
+        "Thompson Hotels",
+        "Miraval"
+      ],
+      "categories": [
+        "hotels",
+        "travel"
+      ],
+      "website": "https://www.hyatt.com",
+      "co_brand_cards": [
+        "world-of-hyatt-credit-card",
+        "world-of-hyatt-business-credit-card"
+      ],
+      "intro": "World of Hyatt is the smallest of the major U.S. hotel programs by footprint — about\n1,400 properties — but consistently rates as the most rewarding on a points-per-dollar\nbasis, with award nights starting at 3,500 points at Category 1 properties. Hyatt\npoints are widely valued at 1.7 to 2.0 cents each, the highest in the hotel space, so\neven modest co-brand earn rates produce strong cashback-equivalent value. Direct\nbookings at hyatt.com earn points and elite credit; OTA stays earn neither. The Chase\nWorld of Hyatt cards are also one of the few flexible-points pipelines into Hyatt,\nsince Chase Ultimate Rewards transfer to Hyatt 1:1 — making Sapphire Preferred and\nReserve indirect Hyatt earners as well.\n"
+    },
+    {
+      "name": "IHG",
+      "slug": "ihg",
+      "aliases": [
+        "IHG Hotels",
+        "IHG One Rewards",
+        "InterContinental",
+        "InterContinental Hotels Group",
+        "Holiday Inn",
+        "Holiday Inn Express",
+        "Crowne Plaza",
+        "Kimpton",
+        "Hotel Indigo",
+        "Staybridge Suites",
+        "Candlewood Suites",
+        "Six Senses",
+        "Regent",
+        "Vignette Collection",
+        "Avid",
+        "Atwell Suites",
+        "ihg.com"
+      ],
+      "categories": [
+        "hotels",
+        "travel"
+      ],
+      "website": "https://www.ihg.com",
+      "co_brand_cards": [
+        "ihg-rewards-club-premier-credit-card",
+        "ihg-rewards-club-traveler-credit-card",
+        "ihg-rewards-premier-business"
+      ],
+      "intro": "IHG Hotels & Resorts spans about 6,000 properties across 19 brands, anchored by Holiday\nInn and Holiday Inn Express on the mass-market end and InterContinental, Regent, and\nSix Senses on the luxury end. The Chase IHG One Rewards Premier card is one of the\nhighest-leverage hotel co-brands available — its annual free-night certificate (good\nat any property up to 40,000 points) often pays back the annual fee on a single use,\nand the fourth-night-free benefit on award stays effectively cuts redemption costs by\n25%. Direct bookings at ihg.com or in-app earn points and elite-night credits; OTA\nstays generally earn nothing. Points value lands around 0.5 cents but redemptions can\nexceed that on aspirational properties.\n"
     },
     {
       "name": "JCPenney",
@@ -388,6 +569,45 @@
       ],
       "website": "https://www.macys.com",
       "intro": "Macy's is the largest U.S. mid-tier department store, with about 500 full-line stores\nplus Backstage outlets and a heavy promotional calendar. Most shoppers buy at heavy\ndiscount, so the cashback rate stacks on already-reduced prices. Macy's codes as a\ndepartment store at the register and as online shopping on macys.com, which means cards\nbonusing on either category can earn here. The Macy's American Express has its own\nLoyallist points layer for shoppers doing several thousand a year at Macy's\nspecifically.\n"
+    },
+    {
+      "name": "Marriott",
+      "slug": "marriott",
+      "aliases": [
+        "Marriott Bonvoy",
+        "Marriott International",
+        "Marriott.com",
+        "Ritz-Carlton",
+        "Sheraton",
+        "Westin",
+        "St. Regis",
+        "W Hotels",
+        "Courtyard",
+        "Residence Inn",
+        "Renaissance",
+        "JW Marriott",
+        "AC Hotels",
+        "Aloft",
+        "Element",
+        "Fairfield",
+        "SpringHill Suites",
+        "TownePlace Suites",
+        "Le Méridien",
+        "Autograph Collection",
+        "Tribute Portfolio"
+      ],
+      "categories": [
+        "hotels",
+        "travel"
+      ],
+      "website": "https://www.marriott.com",
+      "co_brand_cards": [
+        "marriott-bonvoy-bevy-american-express",
+        "marriott-bonvoy-bold-credit-card",
+        "marriott-bonvoy-boundless-credit-card",
+        "marriott-bonvoy-brilliant-american-express"
+      ],
+      "intro": "Marriott Bonvoy is the world's largest hotel loyalty program, covering more than 30\nbrands from budget Fairfield Inn through luxury Ritz-Carlton, St. Regis, and W Hotels.\nDirect stays at marriott.com or any Bonvoy property earn the most points and unlock\nelite-night credits, but the math gets nuanced: co-branded Marriott cards layer extra\nBonvoy points on top of base earnings, while general hotel-category cards (Sapphire\nReserve, Venture X) often yield higher cashback-equivalent value if you don't care\nabout Bonvoy status. Stays booked through OTAs like Expedia or Hotels.com forfeit\npoints and elite credit, so the in-program booking is almost always the right call.\n"
     },
     {
       "name": "McDonald's",
@@ -677,6 +897,41 @@
         }
       ],
       "intro": "Whole Foods Market is Amazon's premium grocery arm, with about 530 U.S. stores. Pricing\nis higher than at mass-market supermarkets, which makes a strong grocery-category card\nmore valuable per visit. The standout here is the Amazon Prime Rewards Visa: it earns 5%\nat Whole Foods (with a Prime membership), which is the strongest non-promotional grocery\nrate available. Without Prime, fall back to whichever 3-6% supermarket card you carry.\n"
+    },
+    {
+      "name": "Wyndham",
+      "slug": "wyndham",
+      "aliases": [
+        "Wyndham Rewards",
+        "Wyndham Hotels",
+        "Wyndham Hotels & Resorts",
+        "Wyndham.com",
+        "Days Inn",
+        "Super 8",
+        "Ramada",
+        "Howard Johnson",
+        "La Quinta",
+        "Microtel",
+        "Travelodge",
+        "Baymont",
+        "Wingate",
+        "Hawthorn Suites",
+        "Wyndham Garden",
+        "Wyndham Grand",
+        "Dolce",
+        "Registry Collection"
+      ],
+      "categories": [
+        "hotels",
+        "travel"
+      ],
+      "website": "https://www.wyndhamhotels.com",
+      "co_brand_cards": [
+        "wyndham-rewards-earner-card",
+        "wyndham-rewards-earner-plus-card",
+        "wyndham-rewards-earner-business-card"
+      ],
+      "intro": "Wyndham Hotels & Resorts is the largest U.S. hotel chain by property count — about\n9,000 hotels — concentrated in mid-scale and economy brands like Days Inn, Super 8,\nLa Quinta, and Ramada, with a smaller upscale presence under Wyndham Grand and the\nRegistry Collection. Wyndham Rewards uses a flat or tiered award chart with redemptions\nstarting at 7,500 points per night, and the program partners with Vacasa for full\nvacation-rental redemptions — a quirk that gives Wyndham points unusual reach for an\neconomy-leaning chain. Direct bookings at wyndhamhotels.com or in the app earn points;\nOTA stays do not. Co-brand cards run lower annual fees than the major chains' cards,\nmatching the program's value-tier identity.\n"
     }
   ]
 }

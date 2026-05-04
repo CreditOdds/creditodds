@@ -11,7 +11,7 @@ import {
   ScaleIcon,
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Card, Reward } from '@/lib/api';
+import { Card, Reward, trackCardCompareEvent } from '@/lib/api';
 import { amortizedAnnualValue, formatBenefitValue } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import {
@@ -250,6 +250,22 @@ export default function CompareClient({ allCards }: CompareClientProps) {
       router.replace('/compare', { scroll: false });
     }
   }, [slots, router]);
+
+  // Track each unique multi-card combination the user actually views,
+  // debounced so quick swaps don't all log. We dedupe per session via a ref —
+  // re-selecting the same set of cards in a session won't double-count.
+  const trackedCombosRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    const activeSlugs = slots.filter((s): s is string => Boolean(s));
+    if (activeSlugs.length < 2) return;
+    const key = [...activeSlugs].sort().join('|');
+    if (trackedCombosRef.current.has(key)) return;
+    const t = setTimeout(() => {
+      trackedCombosRef.current.add(key);
+      trackCardCompareEvent(activeSlugs);
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [slots]);
 
   // Merge CDN card data with detailed card data (which has median stats)
   const selectedCards = useMemo(() => {

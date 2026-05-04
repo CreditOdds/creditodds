@@ -35,6 +35,7 @@ rewards:
     value: 4
     unit: points_per_dollar
     note: "At Hyatt hotels, up to 9x total with World of Hyatt membership"
+    merchant_specific: true
   - category: dining
     value: 2
     unit: points_per_dollar

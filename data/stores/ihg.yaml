@@ -1,0 +1,38 @@
+name: "IHG"
+slug: "ihg"
+aliases:
+  - "IHG Hotels"
+  - "IHG One Rewards"
+  - "InterContinental"
+  - "InterContinental Hotels Group"
+  - "Holiday Inn"
+  - "Holiday Inn Express"
+  - "Crowne Plaza"
+  - "Kimpton"
+  - "Hotel Indigo"
+  - "Staybridge Suites"
+  - "Candlewood Suites"
+  - "Six Senses"
+  - "Regent"
+  - "Vignette Collection"
+  - "Avid"
+  - "Atwell Suites"
+  - "ihg.com"
+categories:
+  - hotels
+  - travel
+website: "https://www.ihg.com"
+co_brand_cards:
+  - ihg-rewards-club-premier-credit-card
+  - ihg-rewards-club-traveler-credit-card
+  - ihg-rewards-premier-business
+intro: |
+  IHG Hotels & Resorts spans about 6,000 properties across 19 brands, anchored by Holiday
+  Inn and Holiday Inn Express on the mass-market end and InterContinental, Regent, and
+  Six Senses on the luxury end. The Chase IHG One Rewards Premier card is one of the
+  highest-leverage hotel co-brands available — its annual free-night certificate (good
+  at any property up to 40,000 points) often pays back the annual fee on a single use,
+  and the fourth-night-free benefit on award stays effectively cuts redemption costs by
+  25%. Direct bookings at ihg.com or in-app earn points and elite-night credits; OTA
+  stays generally earn nothing. Points value lands around 0.5 cents but redemptions can
+  exceed that on aspirational properties.

@@ -13,6 +13,7 @@ rewards:
     value: 7
     unit: points_per_dollar
     note: "Eligible purchases at Hilton hotels and resorts"
+    merchant_specific: true
   - category: dining
     value: 5
     unit: points_per_dollar

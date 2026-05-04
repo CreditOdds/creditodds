@@ -12,6 +12,7 @@ rewards:
     value: 6
     unit: points_per_dollar
     note: "Hotels participating in Marriott Bonvoy"
+    merchant_specific: true
   - category: dining
     value: 4
     unit: points_per_dollar
