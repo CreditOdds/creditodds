@@ -676,15 +676,44 @@ export default function CardClient({
           )}
         </div>
         {card.slug && (
-          <a
-            href={`https://github.com/CreditOdds/creditodds/edit/main/data/cards/${card.slug}.yaml`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cj-term-link"
-          >
-            <PencilSquareIcon className="cj-term-icon" />
-            edit
-          </a>
+          <>
+            <a
+              href={`https://github.com/CreditOdds/creditodds/edit/main/data/cards/${card.slug}.yaml`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cj-term-link"
+            >
+              <PencilSquareIcon className="cj-term-icon" />
+              edit
+            </a>
+            <a
+              href={`https://github.com/CreditOdds/creditodds/issues/new?${new URLSearchParams({
+                title: `Card data issue: ${card.card_name}`,
+                labels: 'card-data',
+                body: [
+                  `**Card:** ${card.card_name}`,
+                  `**Page:** https://creditodds.com/card/${card.slug}`,
+                  `**Source:** https://github.com/CreditOdds/creditodds/blob/main/data/cards/${card.slug}.yaml`,
+                  '',
+                  '### What\'s wrong?',
+                  '<!-- e.g. wrong reward rate, missing benefit, outdated annual fee, incorrect credit frequency -->',
+                  '',
+                  '### What should it say?',
+                  '<!-- the correct value, ideally with a link to the issuer\'s page -->',
+                  '',
+                  '### Source / proof',
+                  '<!-- link to the issuer page or screenshot showing the correct info -->',
+                ].join('\n'),
+              }).toString()}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cj-term-link"
+              title="Report an issue with this card's data"
+            >
+              <ExclamationTriangleIcon className="cj-term-icon" />
+              report issue
+            </a>
+          </>
         )}
         </div>
       </div>
