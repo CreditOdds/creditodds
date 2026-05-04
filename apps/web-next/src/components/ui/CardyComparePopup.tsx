@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import CardyCharacter from './CardyCharacter';
 import CardImage from './CardImage';
 
@@ -97,15 +96,7 @@ export default function CardyComparePopup({ currentSlug, currentName, currentIma
           100% { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
-      <button
-        onClick={dismiss}
-        aria-label="Dismiss"
-        className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 p-1"
-      >
-        <XMarkIcon className="h-4 w-4" />
-      </button>
-
-      <div className="flex items-center justify-center gap-2 pr-4">
+      <div className="flex items-center justify-center gap-2">
         <div className="flex flex-col items-center gap-1 min-w-0 flex-1">
           <div className="relative w-full aspect-[1.6/1] max-w-[120px] bg-gray-50 rounded-md overflow-hidden ring-1 ring-gray-200">
             <CardImage
