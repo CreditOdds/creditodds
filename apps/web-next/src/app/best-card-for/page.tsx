@@ -24,6 +24,8 @@ export const metadata: Metadata = {
 // Curated display order — high-traffic / clearest-answer categories first,
 // then the long tail. Keeps the most-searched buckets above the fold.
 const CATEGORY_ORDER: string[] = [
+  'hotels',
+  'travel',
   'wholesale_clubs',
   'online_shopping',
   'amazon',
@@ -36,6 +38,8 @@ const CATEGORY_ORDER: string[] = [
 ];
 
 const CATEGORY_LABELS: Record<string, string> = {
+  hotels: 'Hotels',
+  travel: 'Travel & Vacation Rentals',
   wholesale_clubs: 'Wholesale Clubs',
   online_shopping: 'Online Retail',
   amazon: 'Amazon',

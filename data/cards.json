@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-04T14:21:27.403Z",
+  "generated_at": "2026-05-04T17:57:31.129Z",
   "count": 160,
   "categories": [
     {
@@ -912,10 +912,17 @@
       "reward_type": "points",
       "rewards": [
         {
-          "category": "travel",
+          "category": "hotels",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "Hotels, private charters, and luxury car rentals"
+          "note": "Hotels (also earns on private charters and luxury car rentals)"
+        },
+        {
+          "category": "car_rentals",
+          "value": 3,
+          "unit": "points_per_dollar",
+          "note": "Luxury car rentals only",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -3293,10 +3300,16 @@
           "unit": "points_per_dollar"
         },
         {
-          "category": "travel",
+          "category": "hotels",
           "value": 4,
           "unit": "points_per_dollar",
-          "note": "Hotels and flights booked directly"
+          "note": "Hotels booked directly"
+        },
+        {
+          "category": "airlines",
+          "value": 4,
+          "unit": "points_per_dollar",
+          "note": "Flights booked directly with airlines"
         },
         {
           "category": "dining",
@@ -5437,7 +5450,8 @@
           "category": "hotels",
           "value": 7,
           "unit": "points_per_dollar",
-          "note": "Eligible purchases at Hilton hotels and resorts"
+          "note": "Eligible purchases at Hilton hotels and resorts",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -5507,7 +5521,8 @@
           "category": "hotels",
           "value": 14,
           "unit": "points_per_dollar",
-          "note": "Eligible purchases at Hilton hotels and resorts"
+          "note": "Eligible purchases at Hilton hotels and resorts",
+          "merchant_specific": true
         },
         {
           "category": "airlines",
@@ -5613,7 +5628,8 @@
           "category": "hotels",
           "value": 12,
           "unit": "points_per_dollar",
-          "note": "Eligible purchases at Hilton hotels and resorts"
+          "note": "Eligible purchases at Hilton hotels and resorts",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -5830,7 +5846,8 @@
           "category": "hotels",
           "value": 26,
           "unit": "points_per_dollar",
-          "note": "Up to 26x total points at IHG hotels"
+          "note": "Up to 26x total points at IHG hotels",
+          "merchant_specific": true
         },
         {
           "category": "travel",
@@ -5918,7 +5935,8 @@
           "category": "hotels",
           "value": 26,
           "unit": "points_per_dollar",
-          "note": "Up to 26x total points at IHG hotels"
+          "note": "Up to 26x total points at IHG hotels",
+          "merchant_specific": true
         },
         {
           "category": "travel",
@@ -5987,7 +6005,8 @@
           "category": "hotels",
           "value": 17,
           "unit": "points_per_dollar",
-          "note": "Up to 17x total points at IHG hotels"
+          "note": "Up to 17x total points at IHG hotels",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -6474,7 +6493,8 @@
           "category": "hotels",
           "value": 6,
           "unit": "points_per_dollar",
-          "note": "Hotels participating in Marriott Bonvoy"
+          "note": "Hotels participating in Marriott Bonvoy",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -6586,7 +6606,8 @@
           "category": "hotels",
           "value": 6,
           "unit": "points_per_dollar",
-          "note": "Marriott Bonvoy hotels"
+          "note": "Marriott Bonvoy hotels",
+          "merchant_specific": true
         },
         {
           "category": "groceries",
@@ -6680,7 +6701,8 @@
           "category": "hotels",
           "value": 6,
           "unit": "points_per_dollar",
-          "note": "Marriott Bonvoy hotels"
+          "note": "Marriott Bonvoy hotels",
+          "merchant_specific": true
         },
         {
           "category": "groceries",
@@ -6739,7 +6761,8 @@
           "category": "hotels",
           "value": 6,
           "unit": "points_per_dollar",
-          "note": "Hotels participating in Marriott Bonvoy"
+          "note": "Hotels participating in Marriott Bonvoy",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -6898,7 +6921,8 @@
           "category": "travel",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "Princess Cruises purchases"
+          "note": "Princess Cruises purchases",
+          "merchant_specific": true
         },
         {
           "category": "everything_else",
@@ -9518,7 +9542,8 @@
           "category": "hotels",
           "value": 5,
           "unit": "points_per_dollar",
-          "note": "At participating Choice Hotels properties"
+          "note": "At participating Choice Hotels properties",
+          "merchant_specific": true
         },
         {
           "category": "gas",
@@ -9609,7 +9634,8 @@
           "category": "hotels",
           "value": 10,
           "unit": "points_per_dollar",
-          "note": "At participating Choice Hotels properties"
+          "note": "At participating Choice Hotels properties",
+          "merchant_specific": true
         },
         {
           "category": "gas",
@@ -9893,7 +9919,8 @@
           "category": "hotels",
           "value": 4,
           "unit": "points_per_dollar",
-          "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership"
+          "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -9978,7 +10005,8 @@
           "category": "hotels",
           "value": 4,
           "unit": "points_per_dollar",
-          "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership"
+          "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership",
+          "merchant_specific": true
         },
         {
           "category": "dining",
@@ -10035,7 +10063,8 @@
           "category": "hotels",
           "value": 8,
           "unit": "points_per_dollar",
-          "note": "At Wyndham hotels"
+          "note": "At Wyndham hotels",
+          "merchant_specific": true
         },
         {
           "category": "gas",

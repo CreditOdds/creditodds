@@ -30,6 +30,7 @@ rewards:
     value: 6
     unit: points_per_dollar
     note: "Marriott Bonvoy hotels"
+    merchant_specific: true
   - category: groceries
     value: 3
     unit: points_per_dollar
