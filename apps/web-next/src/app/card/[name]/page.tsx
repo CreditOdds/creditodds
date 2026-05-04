@@ -136,7 +136,7 @@ export default async function CardPage({ params }: CardPageProps) {
     const cardsBySlug = new Map(allCards.map(c => [c.slug, c]));
     const frequentlyComparedCards = comparePartners
       .map(p => cardsBySlug.get(p.slug))
-      .filter((c): c is Card => Boolean(c) && c.active !== false)
+      .filter((c): c is Card => c !== undefined && c.active !== false)
       .slice(0, 3);
 
     return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} />;
