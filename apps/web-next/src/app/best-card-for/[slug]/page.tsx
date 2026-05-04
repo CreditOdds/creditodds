@@ -150,7 +150,7 @@ function findCategoryMatch(card: Card, categories: string[], includeMerchantSpec
     }
 
     if (inferred === 'quarterly_rotating') {
-      const current = r.current_categories || [];
+      const current = (r.current_categories || []).map(c => typeof c === 'string' ? c : c.category);
       const eligible = r.eligible_categories || [];
       const inCurrent = categories.find(c => current.includes(c));
       const inEligible = !inCurrent ? categories.find(c => eligible.includes(c)) : undefined;

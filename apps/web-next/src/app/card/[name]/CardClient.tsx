@@ -977,7 +977,10 @@ export default function CardClient({
                                 <div className="cj-cell-detail">
                                   {r.current_period}:{" "}
                                   {r.current_categories
-                                    .map((c) => categoryLabels[c] || c)
+                                    .map((c) => {
+                                      const id = typeof c === "string" ? c : c.category;
+                                      return categoryLabels[id] || id;
+                                    })
                                     .join(", ")}
                                 </div>
                               )}
