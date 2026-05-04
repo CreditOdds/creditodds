@@ -11,7 +11,7 @@ import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiv
 import "../landing.css";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon, TrophyIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 import {
   createCardLookups,
@@ -116,7 +116,7 @@ export default function ProfileClient() {
   const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
-  const [activeTab, setActiveTab] = useState<'wallet' | 'benefits' | 'records' | 'referrals' | 'applications' | 'settings'>('wallet');
+  const [activeTab, setActiveTab] = useState<'wallet' | 'best-for' | 'benefits' | 'records' | 'referrals' | 'applications' | 'settings'>('wallet');
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
@@ -196,6 +196,15 @@ export default function ProfileClient() {
       loadData();
     }
   }, [authState.isAuthenticated, authState.isLoading, router]);
+
+  // If the user empties their wallet while on the "Best for" tab (which is
+  // hidden when walletCards is empty), bounce them back to the wallet tab so
+  // they don't end up on a tab that no longer exists in the nav.
+  useEffect(() => {
+    if (activeTab === 'best-for' && walletLoaded && walletCards.length === 0) {
+      setActiveTab('wallet');
+    }
+  }, [activeTab, walletLoaded, walletCards.length]);
 
   const loadData = async () => {
     const token = await getToken();
@@ -343,6 +352,10 @@ export default function ProfileClient() {
 
   const tabs: { key: typeof activeTab; label: string; icon: typeof WalletIcon; count?: number }[] = [
     { key: 'wallet', label: 'Wallet', icon: WalletIcon, count: walletCards.length },
+    // "Best for" only shows when the user has cards — empty state is uninformative.
+    ...(walletCards.length > 0
+      ? [{ key: 'best-for' as const, label: 'Best for', icon: TrophyIcon }]
+      : []),
     { key: 'benefits', label: 'Benefits', icon: GiftIcon },
     { key: 'records', label: 'Records', icon: DocumentTextIcon, count: records.length },
     { key: 'referrals', label: 'Referrals', icon: LinkIcon, count: referrals.filter(r => !r.archived_at).length },
@@ -516,8 +529,20 @@ export default function ProfileClient() {
             </div>
           )}
           </div>
-          <BestCardByCategory walletCards={walletCards} allCards={allCards} />
           </>
+          )
+        )}
+
+        {/* Best For Tab */}
+        {activeTab === 'best-for' && (
+          !walletLoaded ? (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+            </div>
+          </div>
+          ) : (
+          <BestCardByCategory walletCards={walletCards} allCards={allCards} />
           )
         )}
 
