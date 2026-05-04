@@ -79,7 +79,12 @@ function validateCard(card, schema, categoryIds) {
         }
       }
       if (reward.current_categories) {
-        for (const cat of reward.current_categories) {
+        for (const entry of reward.current_categories) {
+          const cat = typeof entry === 'string' ? entry : entry && entry.category;
+          if (!cat) {
+            errors.push(`Invalid current_category entry for ${reward.category}: missing category id`);
+            continue;
+          }
           if (reward.eligible_categories && !reward.eligible_categories.includes(cat)) {
             // current_categories should be a subset of eligible_categories when both are present
             errors.push(`current_category '${cat}' not in eligible_categories for ${reward.category}`);

@@ -110,8 +110,21 @@
           },
           "current_categories": {
             "type": "array",
-            "items": { "type": "string" },
-            "description": "Currently active categories (quarterly_rotating mode)"
+            "items": {
+              "oneOf": [
+                { "type": "string" },
+                {
+                  "type": "object",
+                  "required": ["category"],
+                  "properties": {
+                    "category": { "type": "string" },
+                    "note": { "type": "string", "description": "Slot-specific note shown when this card is surfaced under this category" }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "description": "Currently active categories (quarterly_rotating mode). Each entry is a category id or {category, note}."
           },
           "current_period": {
             "type": "string",

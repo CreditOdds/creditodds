@@ -18,7 +18,12 @@ export interface Reward {
   mode?: 'quarterly_rotating' | 'user_choice' | 'auto_top_spend';
   eligible_categories?: string[];
   choices?: number;
-  current_categories?: string[];
+  // Active categories for the current rotating period. Each entry is either
+  // a category id (e.g. "amazon") or an object with a category id plus a
+  // slot-specific note (e.g. {category: "amazon", note: "Amazon.com"}).
+  // Slot notes let us describe each Q-period category precisely instead of
+  // forcing every slotted row to share the umbrella `note`.
+  current_categories?: Array<string | { category: string; note?: string }>;
   current_period?: string;
   // Spend caps. When set, `value` is earned only on spend up to `spend_cap`
   // within `cap_period` (default 'annual'); spend above that earns

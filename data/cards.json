@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-03T18:48:37.556Z",
+  "generated_at": "2026-05-04T14:21:27.403Z",
   "count": 160,
   "categories": [
     {
@@ -1930,8 +1930,8 @@
       "signup_bonus": {
         "value": 250,
         "type": "cash",
-        "spend_requirement": 15000,
-        "timeframe_months": 12
+        "spend_requirement": 3000,
+        "timeframe_months": 3
       },
       "apr": {
         "purchase_intro": {
@@ -2988,9 +2988,10 @@
           "unit": "percent",
           "mode": "quarterly_rotating",
           "current_categories": [
-            "amazon",
-            "travel_portal",
-            "everything_else"
+            {
+              "category": "amazon",
+              "note": "Amazon.com (Q2 2026 rotation)"
+            }
           ],
           "current_period": "Q2 2026",
           "note": "Q2 2026: Amazon, Chase Travel, and donations to Feeding America",
@@ -8575,11 +8576,11 @@
           "category": "travel"
         },
         {
-          "name": "Global Entry / TSA PreCheck Credit",
-          "value": 100,
-          "description": "Statement credit for Global Entry or TSA PreCheck application fee",
+          "name": "Global Entry / TSA PreCheck / NEXUS Credit",
+          "value": 120,
+          "description": "Statement credit reimbursing the application fee for Global Entry, TSA PreCheck, or NEXUS (up to $120 every 4 years)",
           "frequency": "multi_year",
-          "frequency_years": 5,
+          "frequency_years": 4,
           "category": "security"
         },
         {

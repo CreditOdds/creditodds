@@ -43,11 +43,11 @@ benefits:
     description: "$200 in United TravelBank cash automatically deposited after account opening and each anniversary, for future United-operated flights"
     frequency: "annual"
     category: "travel"
-  - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+  - name: "Global Entry / TSA PreCheck / NEXUS Credit"
+    value: 120
+    description: "Statement credit reimbursing the application fee for Global Entry, TSA PreCheck, or NEXUS (up to $120 every 4 years)"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "2 Free Checked Bags"
     value: 0

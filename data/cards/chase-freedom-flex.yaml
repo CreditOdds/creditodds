@@ -13,10 +13,12 @@ rewards:
     value: 5
     unit: "percent"
     mode: "quarterly_rotating"
+    # Chase Travel (travel_portal) is a permanent 5% on this card, so it is
+    # intentionally NOT listed here. Donations to Feeding America don't map to
+    # a spending category — kept in the umbrella note for context.
     current_categories:
-      - "amazon"
-      - "travel_portal"
-      - "everything_else"
+      - category: "amazon"
+        note: "Amazon.com (Q2 2026 rotation)"
     current_period: "Q2 2026"
     note: "Q2 2026: Amazon, Chase Travel, and donations to Feeding America"
     spend_cap: 1500

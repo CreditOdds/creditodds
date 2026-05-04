@@ -22,7 +22,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
-import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
+import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -1009,7 +1009,7 @@ export default function CardClient({
                     <thead>
                       <tr>
                         <th>Credit</th>
-                        <th className="cj-tr">Annual</th>
+                        <th className="cj-tr">Value</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1021,6 +1021,9 @@ export default function CardClient({
                           </td>
                           <td className="cj-tr">
                             {formatBenefitValue(b)}
+                            {frequencyLabel(b) && (
+                              <span className="cj-cell-detail"> {frequencyLabel(b)}</span>
+                            )}
                           </td>
                         </tr>
                       ))}
