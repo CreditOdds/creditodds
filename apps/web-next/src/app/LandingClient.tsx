@@ -4,695 +4,622 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
-import { Card } from '@/lib/api';
-import { cardMatchesSearch } from '@/lib/searchAliases';
+import { categoryLabels } from '@/lib/cardDisplayUtils';
+import { cardMatchesSearch, expandSearchTerm } from '@/lib/searchAliases';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import './landing.css';
+import './landing-v3.css';
+
+// Slim shapes — only the fields the landing page actually reads.
+// Defined here so the server can project the dataset down before serializing.
+export type LandingReward = { category: string; value: number; unit: string };
+export type LandingSignupBonus = {
+  value?: number;
+  type?: string;
+  spend_requirement?: number;
+  timeframe_months?: number;
+};
+export type LandingCard = {
+  slug: string;
+  card_name: string;
+  bank: string;
+  card_image_link?: string;
+  accepting_applications: boolean;
+  approved_count?: number;
+  rejected_count?: number;
+  annual_fee?: number;
+  signup_bonus?: LandingSignupBonus;
+  rewards?: LandingReward[];
+};
+export type LandingArticle = {
+  slug: string;
+  title: string;
+  date: string;
+  tag?: string;
+  cardImages: { src?: string; alt: string }[];
+};
+export type LandingNewsItem = {
+  id: string;
+  title: string;
+  date: string;
+  cardImages: { src?: string; alt: string }[];
+};
+export type LandingBestPage = {
+  slug: string;
+  title: string;
+  cardSlugs: string[];
+};
 
 interface LandingClientProps {
-  initialCards: Card[];
+  initialCards: LandingCard[];
+  news: LandingNewsItem[];
+  articles: LandingArticle[];
+  bestPages: LandingBestPage[];
 }
 
-type TickerItem = {
-  card: string;
-  score: number;
-  income: number;
-  age: string;
-  verdict: 'app' | 'den';
-};
+const QUICK_TAGS: { label: string; slug: string }[] = [
+  { label: 'CSP', slug: 'chase-sapphire-preferred' },
+  { label: 'Amex Gold', slug: 'american-express-gold-card' },
+  { label: 'Venture X', slug: 'capital-one-venture-x' },
+  { label: 'Bilt', slug: 'bilt-mastercard' },
+  { label: 'CSR', slug: 'chase-sapphire-reserve' },
+  { label: 'Custom Cash', slug: 'citi-custom-cash' },
+];
 
-const HEADLINE = {
-  pre: 'See your ',
-  em: 'real odds',
-  post: ' before you apply.',
-};
+const TOOL_LINKS: { name: string; value: string; href: string }[] = [
+  { name: 'Chase UR', value: '1 ≈ 1.25¢', href: '/tools/chase-ultimate-rewards-to-usd' },
+  { name: 'Amex MR', value: '1 ≈ 1.2¢', href: '/tools/amex-membership-rewards-to-usd' },
+  { name: 'Cap One miles', value: '1 ≈ 1.0¢', href: '/tools/capital-one-miles-to-usd' },
+  { name: 'Bilt points', value: '1 ≈ 1.5¢', href: '/tools/bilt-rewards-points-to-usd' },
+  { name: 'Hyatt points', value: '1 ≈ 2.0¢', href: '/tools/world-of-hyatt-points-to-usd' },
+  { name: 'Delta SkyMiles', value: '1 ≈ 1.1¢', href: '/tools/delta-skymiles-to-usd' },
+  { name: 'United miles', value: '1 ≈ 1.2¢', href: '/tools/united-miles-to-usd' },
+  { name: 'Marriott', value: '1 ≈ 0.7¢', href: '/tools/marriott-bonvoy-points-to-usd' },
+];
 
-function computeOdds(card: Card, score: number, incomeK: number): number {
-  const minScore = card.approved_median_credit_score
-    ? Math.max(600, card.approved_median_credit_score - 30)
-    : 680;
-  const minIncome = card.approved_median_income
-    ? Math.max(20, card.approved_median_income / 1000 - 20)
-    : 50;
-  const approvedCount = card.approved_count ?? 0;
-  const rejectedCount = card.rejected_count ?? 0;
-  const total = approvedCount + rejectedCount;
-  const baseOdds = total > 0 ? Math.max(0.2, Math.min(0.9, approvedCount / total)) : 0.65;
+const WALLET_SLUGS = ['chase-sapphire-reserve', 'the-platinum-card', 'bilt-mastercard'];
+const WALLET_RENEWALS = ['Renews Jan 27', 'Renews Mar 27', 'Renews in 11d'];
 
-  const scoreDelta = (score - minScore) / 60;
-  const incomeDelta = (incomeK - minIncome) / 50;
-  const p = baseOdds + scoreDelta * 0.12 + incomeDelta * 0.06;
-  return Math.max(0.05, Math.min(0.97, p)) * 100;
+const POPULAR_FALLBACK = [
+  'chase-sapphire-preferred',
+  'american-express-gold-card',
+  'capital-one-venture-x',
+  'chase-sapphire-reserve',
+  'the-platinum-card',
+  'bilt-mastercard',
+  'citi-double-cash',
+  'citi-custom-cash',
+];
+
+function shortName(card: LandingCard): string {
+  return card.card_name
+    .replace(/^The\s+/i, '')
+    .replace(/\s+from American Express$/i, '')
+    .replace(/\s+Credit Card$/i, '');
 }
 
-function verdictFor(pct: number) {
-  if (pct >= 75) return { label: 'Likely approved', chip: 'Strong', klass: '' };
-  if (pct >= 50) return { label: 'Decent shot', chip: 'Fair', klass: '' };
-  if (pct >= 30) return { label: 'Long shot', chip: 'Risk', klass: 'warn' };
-  return { label: 'Probably denied', chip: 'Deny', klass: 'warn' };
+function totalRecords(card: LandingCard): number {
+  return (card.approved_count ?? 0) + (card.rejected_count ?? 0);
 }
 
-function OddsRing({ pct }: { pct: number }) {
-  const r = 48;
-  const c = 2 * Math.PI * r;
-  const off = c - (pct / 100) * c;
-  const warn = pct < 50;
-  return (
-    <div className={'odds-ring ' + (warn ? 'warn' : '')}>
-      <svg width="112" height="112" viewBox="0 0 112 112">
-        <circle cx="56" cy="56" r={r} fill="none" strokeWidth="6" className="track" />
-        <circle
-          cx="56"
-          cy="56"
-          r={r}
-          fill="none"
-          strokeWidth="6"
-          strokeDasharray={c}
-          strokeDashoffset={off}
-          strokeLinecap="round"
-          className="fill"
-        />
-      </svg>
-      <div className="center">
-        <div>
-          <div className="pct">
-            {Math.round(pct)}
-            <span style={{ fontSize: '18px', color: 'var(--muted)' }}>%</span>
-          </div>
-          <div className="pct-s">Your odds</div>
-        </div>
-      </div>
-    </div>
-  );
+function bonusLabel(card: LandingCard): string {
+  const sb = card.signup_bonus;
+  if (!sb || !sb.value) return 'No SUB';
+  const v = sb.value;
+  const formatted = v >= 1000 ? `${Math.round(v / 1000)}K` : `${v}`;
+  if (sb.type === 'cashback' || sb.type === 'usd' || sb.type === 'cash') {
+    return `$${formatted}`;
+  }
+  if (sb.type === 'miles') return `${formatted} mi`;
+  return `${formatted} pts`;
 }
 
-function OddsWidget({ cards }: { cards: Card[] }) {
+function topReward(card: LandingCard): { rate: string; label: string } | null {
+  const rewards = card.rewards ?? [];
+  if (rewards.length === 0) return null;
+  // Prefer everyday categories over portal-gated highs (e.g. 4x dining > 5x portal hotels).
+  const ranked = [...rewards]
+    .filter((r) => r.category !== 'everything_else')
+    .sort((a, b) => {
+      const aPortal = a.category.endsWith('_portal') ? 1 : 0;
+      const bPortal = b.category.endsWith('_portal') ? 1 : 0;
+      if (aPortal !== bPortal) return aPortal - bPortal;
+      return b.value - a.value;
+    });
+  const pick: LandingReward | undefined = ranked[0] ?? rewards[0];
+  if (!pick) return null;
+  const rate = pick.unit === 'percent' ? `${pick.value}%` : `${pick.value}x`;
+  const rawLabel = categoryLabels[pick.category] || pick.category.replace(/_/g, ' ');
+  const label = rawLabel.replace(/\s*\(via portal\)/i, '');
+  return { rate, label: label.toLowerCase() };
+}
+
+function searchRelevance(card: LandingCard, query: string): number {
+  const terms = expandSearchTerm(query.trim());
+  const name = card.card_name.toLowerCase();
+  const bank = card.bank.toLowerCase();
+  const records = totalRecords(card);
+  let best = 0;
+  for (const t of terms) {
+    if (!t) continue;
+    let s = 0;
+    if (name.startsWith(t)) s = 1000;
+    else if (name.includes(' ' + t)) s = 600;
+    else if (name.includes(t)) s = 300;
+    if (bank.startsWith(t)) s = Math.max(s, 200);
+    else if (bank.includes(t)) s = Math.max(s, 80);
+    if (s > best) best = s;
+  }
+  // Popularity tiebreak — capped so it can't outweigh a name-prefix match.
+  return best + Math.min(records, 50);
+}
+
+function spendReqShort(card: LandingCard): string | null {
+  const sb = card.signup_bonus;
+  if (!sb || !sb.spend_requirement || !sb.timeframe_months) return null;
+  const v = sb.spend_requirement;
+  const formatted = v >= 1000 ? `$${Math.round(v / 1000)}K` : `$${v}`;
+  return `${formatted} in ${sb.timeframe_months}mo`;
+}
+
+function feeLabel(card: LandingCard): string {
+  return card.annual_fee ? `$${card.annual_fee}/yr` : 'No annual fee';
+}
+
+function shortenBestTitle(title: string): string {
+  return title
+    .replace(/^Best\s+/i, '')
+    .replace(/^Credit\s+Cards?\s+(for\s+)?/i, '')
+    .replace(/^Cards?\s+for\s+/i, '')
+    .replace(/\s+Credit\s+Cards?$/i, '')
+    .replace(/^for\s+/i, '')
+    .replace(/\s+and\s+/gi, ' & ')
+    .trim();
+}
+
+function formatNewsDate(dateStr: string): string {
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  } catch {
+    return dateStr;
+  }
+}
+
+function Hero({ cards }: { cards: LandingCard[] }) {
   const router = useRouter();
-  const activeCards = useMemo(
-    () =>
-      cards
-        .filter((c) => c.accepting_applications)
-        .sort((a, b) => (b.approved_count ?? 0) + (b.rejected_count ?? 0) - ((a.approved_count ?? 0) + (a.rejected_count ?? 0))),
-    [cards]
-  );
-
-  const [sel, setSel] = useState<Card>(activeCards[0] ?? cards[0]);
   const [query, setQuery] = useState('');
-  const [score, setScore] = useState(740);
-  const [income, setIncome] = useState(85);
-  const [listOpen, setListOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const filtered = useMemo(() => {
-    if (!query) return activeCards;
-    return activeCards.filter((c) =>
-      cardMatchesSearch(c.card_name, c.bank, query)
-    );
-  }, [query, activeCards]);
+  const cardBySlug = useMemo(() => {
+    const m = new Map<string, LandingCard>();
+    cards.forEach((c) => m.set(c.slug, c));
+    return m;
+  }, [cards]);
 
-  const odds = useMemo(() => computeOdds(sel, score, income), [sel, score, income]);
-  const verdict = verdictFor(odds);
+  const matches = useMemo(() => {
+    const q = query.trim();
+    if (!q) return [];
+    return cards
+      .filter((c) => cardMatchesSearch(c.card_name, c.bank, q))
+      .map((c) => ({ c, s: searchRelevance(c, q) }))
+      .sort((a, b) => b.s - a.s || a.c.card_name.localeCompare(b.c.card_name))
+      .slice(0, 6)
+      .map(({ c }) => c);
+  }, [query, cards]);
 
-  const approvals = sel.approved_count ?? 0;
-  const denials = sel.rejected_count ?? 0;
-  const total = approvals + denials;
+  function go(slug: string) {
+    router.push(`/card/${slug}`);
+  }
 
   return (
-    <div className="widget">
-      <div className="widget-head">
-        <div className="t">
-          <b>Approval odds calculator</b> · built from real applications, not a soft pull
+    <section className="hero-c">
+      <div className="wrap">
+        <div className="top">
+          <h1>
+            Type a card. <em>See the file.</em>
+          </h1>
+          <p className="sub">
+            CreditOdds opens up every card in the U.S. — benefits, fees, news, real approval
+            records, alternatives. Start typing and see what we have.
+          </p>
         </div>
-      </div>
-      <div className="widget-body">
-        <div className="card-search">
-          <svg
-            className="search-icon"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <circle cx="11" cy="11" r="7" />
-            <path d="m21 21-4.3-4.3" />
-          </svg>
-          <input
-            placeholder="Search 140+ cards: Sapphire, Amex Gold, Venture X…"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setListOpen(true);
-            }}
-            onFocus={() => setListOpen(true)}
-          />
-        </div>
-        <button
-          type="button"
-          className="selected-card"
-          onClick={() => setListOpen((open) => !open)}
-          aria-label={`Selected card: ${sel.card_name}. Open card picker.`}
-        >
-          <div className="selected-card-thumb">
-            <CardImage
-              cardImageLink={sel.card_image_link}
-              alt=""
-              fill
-              sizes="48px"
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
-          <div className="selected-card-meta">
-            <div className="selected-card-label">Selected card</div>
-            <div className="selected-card-name">{sel.card_name}</div>
-            <div className="selected-card-sub">
-              {sel.bank} · {total} record{total === 1 ? '' : 's'}
-            </div>
-          </div>
-          <div className="selected-card-action">{listOpen ? 'Hide' : 'Change'}</div>
-        </button>
-        {listOpen && filtered.length > 0 && (
-          <div className="card-list">
-            {filtered.slice(0, 6).map((c) => (
-              <button
-                key={c.slug}
-                type="button"
-                className={'card-opt ' + (c.slug === sel.slug ? 'active' : '')}
-                onClick={() => {
-                  setSel(c);
-                  setListOpen(false);
-                  setQuery('');
+
+        <div className="search-wrap">
+          <div className="search-bar">
+            <form
+              className="search-c"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (matches[0]) go(matches[0].slug);
+              }}
+            >
+              <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" strokeLinecap="round" />
+              </svg>
+              <input
+                value={query}
+                placeholder="Search any card by name…"
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setOpen(true);
                 }}
-              >
-                <div className="card-thumb">
-                  <CardImage
-                    cardImageLink={c.card_image_link}
-                    alt=""
-                    fill
-                    sizes="42px"
-                    style={{ objectFit: 'cover' }}
-                  />
-                </div>
-                <div>
-                  <div className="name">{c.card_name}</div>
-                  <div className="issuer">{c.bank}</div>
-                </div>
-                <div className="records">
-                  {(c.approved_count ?? 0) + (c.rejected_count ?? 0)} rec
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
-
-        <div className="inputs-row">
-          <div className="field">
-            <label>Credit score</label>
-            <div className="input-wrap">
-              <div className="val">
-                {score} <span className="unit">FICO</span>
-              </div>
-              <input
-                type="range"
-                min={550}
-                max={850}
-                step={5}
-                value={score}
-                className="slider"
-                onChange={(e) => setScore(+e.target.value)}
+                onFocus={() => setOpen(true)}
+                onBlur={() => setTimeout(() => setOpen(false), 150)}
+                aria-label="Search any card"
               />
-            </div>
-          </div>
-          <div className="field">
-            <label>Annual income</label>
-            <div className="input-wrap">
-              <div className="val">
-                ${income}K <span className="unit">/yr</span>
-              </div>
-              <input
-                type="range"
-                min={20}
-                max={300}
-                step={5}
-                value={income}
-                className="slider"
-                onChange={(e) => setIncome(+e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
+              <span className="kbd">Enter ↵</span>
+            </form>
 
-        <div className="result">
-          <OddsRing pct={odds} />
-          <div className="meta">
-            <div className="verdict">
-              {verdict.label}
-              <span className={'chip ' + verdict.klass}>{verdict.chip}</span>
-            </div>
-            <div className="desc">
-              Based on <b>{total}</b> real applications for the <b>{sel.card_name}</b>,
-              filtered to profiles near yours.
-            </div>
-            {total > 0 && (
-              <div className="dist-bar">
-                <div className="seg app" style={{ flex: approvals }} />
-                <div className="seg den" style={{ flex: denials }} />
-                <span className="leg" style={{ marginLeft: 8 }}>
-                  {approvals} approved · {denials} denied
-                </span>
+            {open && query.trim() && (
+              <div className="search-results" role="listbox">
+                {matches.length === 0 ? (
+                  <div className="opt-empty">No cards match &ldquo;{query}&rdquo;.</div>
+                ) : (
+                  matches.map((c) => (
+                    <Link
+                      key={c.slug}
+                      href={`/card/${c.slug}`}
+                      className="opt"
+                      onMouseDown={(e) => e.preventDefault()}
+                    >
+                      <div className="opt-thumb">
+                        <CardImage cardImageLink={c.card_image_link} alt="" fill sizes="44px" style={{ objectFit: 'cover' }} />
+                      </div>
+                      <div>
+                        <div className="opt-name">{c.card_name}</div>
+                        <div className="opt-iss">{c.bank}</div>
+                      </div>
+                    </Link>
+                  ))
+                )}
               </div>
             )}
           </div>
-        </div>
-      </div>
-      <div className="widget-foot">
-        <span>No soft pull · No account required</span>
-        <button
-          type="button"
-          className="widget-cta"
-          onClick={() => router.push(`/card/${sel.slug}`)}
-        >
-          See full breakdown →
-        </button>
-      </div>
-    </div>
-  );
-}
 
-function Hero({ cards }: { cards: Card[] }) {
-  return (
-    <section className="hero wrap">
-      <div className="hero-grid">
-        <div>
-          <h1 className="hero-title">
-            {HEADLINE.pre}
-            <em>{HEADLINE.em}</em>
-            {HEADLINE.post}
-          </h1>
-          <p className="hero-sub">
-            CreditOdds is a crowdsourced approval database for 140+ credit cards. See how
-            people with your score, income, and credit history actually fared — before you
-            take the hard pull.
-          </p>
-          <div className="hero-cta">
-            <Link href="/check-odds" className="btn btn-primary">
-              Check your odds
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.4"
-              >
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </Link>
-            <Link href="/explore" className="btn btn-outline">
-              Explore 140+ cards
-            </Link>
-            <span className="note">Free &mdash; just click through to see your odds.</span>
-          </div>
-          <div className="hero-stats">
-            <div className="stat">
-              <div className="n">
-                {cards.length}
-                <span className="sup">+</span>
-              </div>
-              <div className="l">Cards tracked</div>
-            </div>
-            <div className="stat">
-              <div className="n">
-                500
-                <span className="sup">+</span>
-              </div>
-              <div className="l">Records submitted</div>
-            </div>
-            <div className="stat">
-              <div className="n">$0</div>
-              <div className="l">To use, forever</div>
-            </div>
+          <div className="quick-tags">
+            <span className="label">Try:</span>
+            {QUICK_TAGS.map((t) => {
+              const card = cardBySlug.get(t.slug);
+              if (!card) return null;
+              return (
+                <Link key={t.slug} href={`/card/${t.slug}`} className="qt">
+                  <span className="qt-thumb">
+                    <CardImage cardImageLink={card.card_image_link} alt="" fill sizes="26px" style={{ objectFit: 'cover' }} />
+                  </span>
+                  {t.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
-        <OddsWidget cards={cards} />
       </div>
     </section>
   );
 }
 
-function Ticker({ cards }: { cards: Card[] }) {
-  const items = useMemo<TickerItem[]>(() => {
-    const shuffled = [...cards]
-      .filter((c) => (c.approved_count ?? 0) + (c.rejected_count ?? 0) > 0)
-      .slice(0, 10);
-    return shuffled.map((c, i) => ({
-      card: c.card_name,
-      score: 640 + ((i * 37) % 120),
-      income: 38 + ((i * 13) % 90),
-      age: `${1 + ((i * 3) % 8)}y`,
-      verdict: (c.approved_count ?? 0) >= (c.rejected_count ?? 0) ? 'app' : 'den',
-    }));
+function PopularLane({ cards }: { cards: LandingCard[] }) {
+  const popular = useMemo(() => {
+    const active = cards.filter((c) => c.accepting_applications);
+    const hasRecords = active.some((c) => totalRecords(c) > 0);
+    if (hasRecords) {
+      return [...active].sort((a, b) => totalRecords(b) - totalRecords(a)).slice(0, 8);
+    }
+    // Fallback for envs without record counts (local dev): curated set + first cards.
+    const bySlug = new Map(active.map((c) => [c.slug, c]));
+    const curated = POPULAR_FALLBACK.map((s) => bySlug.get(s)).filter((c): c is LandingCard => !!c);
+    const seen = new Set(curated.map((c) => c.slug));
+    const rest = active.filter((c) => !seen.has(c.slug));
+    return [...curated, ...rest].slice(0, 8);
   }, [cards]);
 
-  const doubled = [...items, ...items];
   return (
-    <div className="ticker">
-      <div className="ticker-track">
-        {doubled.map((t, i) => (
-          <span className="ticker-item" key={i}>
-            <span className="card-name">{t.card}</span>
-            <span>
-              FICO <b style={{ color: 'var(--ink)' }}>{t.score}</b>
-            </span>
-            <span className="sep">·</span>
-            <span>${t.income}K</span>
-            <span className="sep">·</span>
-            <span>{t.age} history</span>
-            <span className={'pill ' + t.verdict}>
-              {t.verdict === 'app' ? 'Approved' : 'Denied'}
-            </span>
-          </span>
+    <div className="lane">
+      <div className="lane-hd">
+        <div>
+          <div className="num">— Lane 01 / Cards</div>
+          <h3>
+            Popular this <em>week</em>
+          </h3>
+        </div>
+        <Link href="/explore" className="more">
+          See all {cards.length} →
+        </Link>
+      </div>
+      <div className="lane-track">
+        {popular.map((c) => {
+          const reward = topReward(c);
+          const spend = spendReqShort(c);
+          return (
+            <Link className="lc" key={c.slug} href={`/card/${c.slug}`}>
+              <div className="lc-top">
+                <div className="lc-thumb">
+                  <CardImage cardImageLink={c.card_image_link} alt="" fill sizes="56px" style={{ objectFit: 'cover' }} />
+                </div>
+                <div>
+                  <div className="lc-nm">{shortName(c)}</div>
+                  <div className="lc-iss">
+                    {c.bank} · {feeLabel(c)}
+                  </div>
+                </div>
+              </div>
+              <div className="lc-stat">
+                <div className="lc-cell">
+                  <div className="k">Bonus</div>
+                  <div className="v">{bonusLabel(c)}</div>
+                  {spend && <div className="sub">{spend}</div>}
+                </div>
+                <div className="lc-cell right">
+                  <div className="k">Top reward</div>
+                  {reward ? (
+                    <>
+                      <div className="v acc">{reward.rate}</div>
+                      <div className="sub">{reward.label}</div>
+                    </>
+                  ) : (
+                    <div className="v">—</div>
+                  )}
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function BestForLane({
+  bestPages,
+  cards,
+}: {
+  bestPages: LandingBestPage[];
+  cards: LandingCard[];
+}) {
+  const nameBySlug = useMemo(() => {
+    const m = new Map<string, string>();
+    cards.forEach((c) => m.set(c.slug, shortName(c)));
+    return m;
+  }, [cards]);
+
+  if (bestPages.length === 0) return null;
+
+  return (
+    <div className="lane">
+      <div className="lane-hd">
+        <div>
+          <div className="num">— Lane 02 / Best for</div>
+          <h3>
+            Editorial <em>rankings</em>
+          </h3>
+        </div>
+        <Link href="/best" className="more">
+          All {bestPages.length} categories →
+        </Link>
+      </div>
+      <div className="lane-track">
+        {bestPages.map((page) => (
+          <Link key={page.slug} href={`/best/${page.slug}`} className="lnk">
+            <div className="cat">Best for</div>
+            <h4>{shortenBestTitle(page.title)}</h4>
+            <div className="top3">
+              {page.cardSlugs.map((slug, i) => (
+                <div className="row" key={slug}>
+                  <span className="r">{i + 1}</span>
+                  <span>{nameBySlug.get(slug) ?? slug}</span>
+                </div>
+              ))}
+            </div>
+          </Link>
         ))}
       </div>
     </div>
   );
 }
 
-function HowItWorks() {
+type EditorialItem = {
+  href: string;
+  tag: string;
+  date: string;
+  title: string;
+  cardImages: { src?: string; alt: string }[];
+};
+
+function NewsLane({
+  news,
+  articles,
+}: {
+  news: LandingNewsItem[];
+  articles: LandingArticle[];
+}) {
+  const items = useMemo<EditorialItem[]>(() => {
+    const fromArticles: EditorialItem[] = articles.map((a) => ({
+      href: `/articles/${a.slug}`,
+      tag: a.tag || 'Article',
+      date: formatNewsDate(a.date),
+      title: a.title,
+      cardImages: a.cardImages,
+    }));
+    const fromNews: EditorialItem[] = news.map((n) => ({
+      href: `/news/${n.id}`,
+      tag: 'News',
+      date: formatNewsDate(n.date),
+      title: n.title,
+      cardImages: n.cardImages,
+    }));
+    return [...fromArticles, ...fromNews].slice(0, 6);
+  }, [news, articles]);
+
+  if (items.length === 0) return null;
+
   return (
-    <section className="sec wrap" id="how">
-      <div className="sec-head">
+    <div className="lane">
+      <div className="lane-hd">
         <div>
-          <div className="sec-label">How it works</div>
-          <h2 className="sec-title">
-            Stop guessing. <em>Calculate.</em>
-          </h2>
+          <div className="num">— Lane 03 / Editorial</div>
+          <h3>
+            Reporting &amp; <em>news</em>
+          </h3>
         </div>
-        <p className="lead">
-          Every approval and denial on CreditOdds is submitted by a real person with real
-          numbers. Search a card, compare your profile to everyone who applied before you,
-          and know whether it&apos;s worth the hard pull.
-        </p>
+        <Link href="/news" className="more">
+          All news →
+        </Link>
       </div>
-      <div className="steps">
-        <div className="step">
-          <div className="num">Step 1 &mdash; Search</div>
-          <h3>Pick a card.</h3>
-          <p>
-            Browse 140+ consumer and business cards across every major issuer. Each has a
-            live record count.
-          </p>
-          <div className="step-visual">
-            <div className="row">
-              <span className="k">Sapphire Reserve</span>
-              <span className="v">148 records</span>
-            </div>
-            <div className="row">
-              <span className="k">Amex Gold</span>
-              <span className="v">204 records</span>
-            </div>
-            <div className="row">
-              <span className="k">Venture X</span>
-              <span className="v">156 records</span>
-            </div>
-            <div className="row">
-              <span className="k">Double Cash</span>
-              <span className="v">402 records</span>
-            </div>
-          </div>
-        </div>
-        <div className="step">
-          <div className="num">Step 2 &mdash; Compare</div>
-          <h3>Match your profile.</h3>
-          <p>
-            Score, income, credit length, existing cards. We filter records down to
-            applicants who look like you.
-          </p>
-          <div className="step-visual">
-            <div className="row">
-              <span className="k">FICO</span>
-              <span className="v">740 ±20</span>
-            </div>
-            <div className="row">
-              <span className="k">Income</span>
-              <span className="v">$85K ±$15K</span>
-            </div>
-            <div className="row">
-              <span className="k">History</span>
-              <span className="v">5–8 years</span>
-            </div>
-            <div className="row">
-              <span className="k">Inquiries</span>
-              <span className="v">2 / 6mo</span>
-            </div>
-          </div>
-        </div>
-        <div className="step">
-          <div className="num">Step 3 &mdash; Decide</div>
-          <h3>Know your odds.</h3>
-          <p>
-            Get a real approval probability based on real data — plus the referral link
-            that gives you the best bonus.
-          </p>
-          <div className="step-visual accent">
-            <div className="row">
-              <span className="k">Approval odds</span>
-              <span className="v">78%</span>
-            </div>
-            <div className="row">
-              <span className="k">Referral bonus</span>
-              <span className="v">+15K pts</span>
-            </div>
-            <div className="row">
-              <span className="k">Recommendation</span>
-              <span className="v">APPLY</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Referrals({ cards }: { cards: Card[] }) {
-  const featured = useMemo(() => {
-    const bySlug = (slug: string) => cards.find((c) => c.slug === slug);
-    return [
-      bySlug('chase-sapphire-preferred'),
-      bySlug('american-express-gold-card'),
-      bySlug('capital-one-venture-rewards'),
-    ].filter((c): c is Card => !!c);
-  }, [cards]);
-
-  const fallbackStats = [
-    { clicks: 14, conv: 3, code: 'chase.com/r/k8nj2w' },
-    { clicks: 28, conv: 5, code: 'amex.us/r/p2l0qx' },
-    { clicks: 9, conv: 1, code: 'capone.com/r/h4xr81' },
-  ];
-
-  return (
-    <section className="sec wrap" id="rewards">
-      <div className="split">
-        <div>
-          <div className="sec-label">Referrals</div>
-          <h2 className="sec-title" style={{ marginBottom: 20 }}>
-            Submit a record. <em>Earn</em> on every click.
-          </h2>
-          <p className="body-copy">
-            When you share your outcome, attach your referral link. We inject it for
-            applicants whose profiles match yours — so the data you gave keeps paying you
-            back.
-          </p>
-          <div className="cta-row">
-            <Link href="/register" className="btn btn-primary">
-              Start earning
-            </Link>
-            <Link href="/how" className="btn btn-outline">
-              How payouts work
-            </Link>
-          </div>
-        </div>
-        <div className="visual">
-          <div className="visual-card">
-            <div className="vc-head">
-              <div className="dot-row">
-                <span />
-                <span />
-                <span />
-              </div>
-              <span style={{ marginLeft: 6 }}>@you · referral dashboard</span>
-              <span style={{ marginLeft: 'auto' }}>Last 30 days</span>
-            </div>
-            <div className="ref-panel">
-              {featured.map((c, i) => (
-                <div className="ref-row" key={c.slug}>
-                  <div className="ref-thumb">
-                    <CardImage
-                      cardImageLink={c.card_image_link}
-                      alt=""
-                      fill
-                      sizes="44px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                  <div className="ref-meta">
-                    <div className="ref-name">{c.card_name}</div>
-                    <div className="ref-code">{fallbackStats[i]?.code}</div>
-                  </div>
-                  <div className="ref-stats">
-                    <div className="big">{fallbackStats[i]?.clicks}</div>
-                    <div className="lbl">Clicks</div>
-                  </div>
-                  <div className="ref-stats ref-stats-secondary">
-                    <div className="big">{fallbackStats[i]?.conv}</div>
-                    <div className="lbl">Conv.</div>
-                  </div>
-                </div>
-              ))}
-              <div className="ref-earnings">
-                <span>Pending bonus · 30d</span>
-                <span className="amt">+ 95,000 pts</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Wallet({ cards }: { cards: Card[] }) {
-  const featured = useMemo(() => {
-    const slugs = [
-      'chase-sapphire-reserve',
-      'the-platinum-card',
-      'citi-custom-cash',
-      'bilt-mastercard',
-    ];
-    return slugs
-      .map((s) => cards.find((c) => c.slug === s))
-      .filter((c): c is Card => !!c)
-      .slice(0, 4);
-  }, [cards]);
-
-  const meta = [
-    { opened: 'Jan 23', renews: 'Jan 27', tags: ['REC', 'REF'] },
-    { opened: 'Mar 24', renews: 'Mar 27', tags: ['REC'] },
-    { opened: 'Aug 24', renews: '—', tags: ['REF'] },
-    { opened: 'Nov 25', renews: 'Nov 26', tags: ['REC', 'REF'] },
-  ];
-
-  return (
-    <section className="sec wrap" id="wallet">
-      <div className="split reverse">
-        <div className="visual">
-          <div className="visual-card">
-            <div className="vc-head">
-              <div className="dot-row">
-                <span />
-                <span />
-                <span />
-              </div>
-              <span style={{ marginLeft: 6 }}>wallet · {featured.length} cards</span>
-            </div>
-            <div className="wallet-grid">
-              {featured.map((c, i) => {
-                const fee = c.annual_fee ? `$${c.annual_fee}/yr` : '$0/yr';
-                return (
-                  <div className="w-card" key={c.slug}>
-                    <div className="w-top">
-                      <div className="w-thumb">
+      <div className="lane-track">
+        {items.map((it, i) => (
+          <Link key={it.href + i} href={it.href} className="lna">
+            <div className="cv">
+              <div className="stack">
+                {(it.cardImages.length > 0
+                  ? it.cardImages
+                  : [{ src: undefined, alt: '' }]
+                )
+                  .slice(0, 3)
+                  .map((img, j, arr) => {
+                    const center = (arr.length - 1) / 2;
+                    const offset = j - center;
+                    return (
+                      <div
+                        key={j}
+                        className="stack-item"
+                        style={{
+                          transform: `rotate(${offset * 8}deg) translateY(${
+                            arr.length > 1 && j === Math.round(center) ? -8 : 0
+                          }px)`,
+                        }}
+                      >
                         <CardImage
-                          cardImageLink={c.card_image_link}
+                          cardImageLink={img.src}
                           alt=""
                           fill
-                          sizes="48px"
+                          sizes="86px"
                           style={{ objectFit: 'cover' }}
                         />
                       </div>
-                      <div>
-                        <div className="w-name">{c.card_name}</div>
-                        <div className="w-iss">
-                          {c.bank} · {fee}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="w-rows">
-                      <span className="k">Opened</span>
-                      <span className="v">{meta[i].opened}</span>
-                      <span className="k">Renews</span>
-                      <span className="v">{meta[i].renews}</span>
-                    </div>
-                    <div className="w-tags">
-                      {meta[i].tags.includes('REC') && (
-                        <span className="w-tag rec">record</span>
-                      )}
-                      {meta[i].tags.includes('REF') && (
-                        <span className="w-tag ref">referral</span>
-                      )}
-                    </div>
+                    );
+                  })}
+              </div>
+            </div>
+            <div className="bd">
+              <div className="meta">
+                <span className="tag">{it.tag}</span>
+                <span>{it.date}</span>
+              </div>
+              <h4>{it.title}</h4>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FooterBlocks({ cards }: { cards: LandingCard[] }) {
+  const walletCards = useMemo(() => {
+    return WALLET_SLUGS
+      .map((s) => cards.find((c) => c.slug === s))
+      .filter((c): c is LandingCard => !!c);
+  }, [cards]);
+
+  const totalFee = walletCards.reduce((sum, c) => sum + (c.annual_fee ?? 0), 0);
+
+  return (
+    <section className="footer-blocks">
+      <div className="wrap">
+        <div className="fb-grid">
+          <div className="fb">
+            <div className="sec-num">— Wallet</div>
+            <h3>
+              Track <em>your</em> cards.
+            </h3>
+            <p>
+              Build a wallet, track renewals, get personalized news. Submit application
+              records that earn you referral attribution and feed our approval model.
+            </p>
+            <div className="wallet-mini">
+              <div className="wm-hd">
+                <span>{walletCards.length} cards</span>
+                <span>${totalFee.toLocaleString()}/yr in fees</span>
+              </div>
+              {walletCards.map((c, i) => (
+                <div className="wm-row" key={c.slug}>
+                  <div className="wm-thumb">
+                    <CardImage cardImageLink={c.card_image_link} alt="" fill sizes="50px" style={{ objectFit: 'cover' }} />
                   </div>
-                );
-              })}
+                  <div>
+                    <div className="nm">{shortName(c)}</div>
+                    <div className="iss">{c.bank}</div>
+                  </div>
+                  <div className="v">
+                    ${c.annual_fee ?? 0}
+                    <span className="sub">{WALLET_RENEWALS[i]}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="fb">
+            <div className="sec-num">— Tools</div>
+            <h3>
+              Free <em>calculators</em>.
+            </h3>
+            <p>
+              Everything you need to do credit-card math without a spreadsheet. Approval
+              probability is calibrated against thousands of real records.
+            </p>
+            <div className="tool-mini-grid">
+              <Link href="/check-odds" className="tmini odds">
+                <div>
+                  <div className="nm">Approval odds</div>
+                  <div className="v">Real probability · live data</div>
+                </div>
+                <span style={{ fontSize: 18 }}>→</span>
+              </Link>
+              {TOOL_LINKS.map((t) => (
+                <Link key={t.href} href={t.href} className="tmini">
+                  <div className="nm">{t.name}</div>
+                  <div className="v">{t.value}</div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
-        <div>
-          <div className="sec-label">Wallet</div>
-          <h2 className="sec-title" style={{ marginBottom: 20 }}>
-            All your cards. <em>One page.</em>
-          </h2>
-          <p className="body-copy">
-            Track annual fees, renewal dates, and which cards you&apos;ve submitted records
-            and referrals for. Get personalized card news and benefit reminders — things
-            your issuer won&apos;t tell you.
-          </p>
-          <div className="cta-row">
-            <Link href="/register" className="btn btn-primary">
-              Create free wallet
-            </Link>
-          </div>
-        </div>
       </div>
     </section>
   );
 }
 
-function Final() {
+function FinalCTA() {
   return (
-    <section className="final">
+    <section className="final-c">
       <div className="wrap">
         <h2>
-          Know before you <em>apply.</em>
+          Open the <em>file</em> on every card.
         </h2>
-        <p>
-          Hundreds of real approvals and denials. No soft-pull sales funnel. Just the
-          data.
-        </p>
-        <div className="final-actions">
+        <p>140+ cards. Thousands of records. Free, forever, no email required to read.</p>
+        <div className="ctas-row">
           <Link
-            href="/check-odds"
-            className="btn btn-primary"
+            href="/explore"
+            className="btn btn-accent"
             style={{ padding: '14px 22px', fontSize: 15 }}
           >
-            Check your odds
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.4"
-            >
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
+            Search a card →
           </Link>
           <Link
-            href="/register"
+            href="/explore"
             className="btn btn-outline"
-            style={{ padding: '14px 22px', fontSize: 15 }}
+            style={{
+              padding: '14px 22px',
+              fontSize: 15,
+              background: 'transparent',
+              color: '#fff',
+              borderColor: 'rgba(255,255,255,0.3)',
+            }}
           >
-            Create account
+            Browse all cards
           </Link>
         </div>
       </div>
@@ -700,15 +627,24 @@ function Final() {
   );
 }
 
-export default function LandingClient({ initialCards }: LandingClientProps) {
+export default function LandingClient({
+  initialCards,
+  news,
+  articles,
+  bestPages,
+}: LandingClientProps) {
   return (
-    <div className="landing-v2">
+    <div className="landing-v2 landing-v3">
       <Hero cards={initialCards} />
-      <Ticker cards={initialCards} />
-      <HowItWorks />
-      <Referrals cards={initialCards} />
-      <Wallet cards={initialCards} />
-      <Final />
+      <section className="lanes">
+        <div className="wrap">
+          <PopularLane cards={initialCards} />
+          <BestForLane bestPages={bestPages} cards={initialCards} />
+          <NewsLane news={news} articles={articles} />
+        </div>
+      </section>
+      <FooterBlocks cards={initialCards} />
+      <FinalCTA />
       <V2Footer />
     </div>
   );
