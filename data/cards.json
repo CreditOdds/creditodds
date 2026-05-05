@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-04T19:06:54.902Z",
-  "count": 160,
+  "generated_at": "2026-05-05T15:22:11.170Z",
+  "count": 161,
   "categories": [
     {
       "id": "dining",
@@ -6342,9 +6342,9 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 50000,
         "type": "points",
-        "spend_requirement": 2000,
+        "spend_requirement": 4000,
         "timeframe_months": 3
       },
       "apr": {
@@ -6428,7 +6428,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 70000,
+        "value": 60000,
         "type": "points",
         "spend_requirement": 1000,
         "timeframe_months": 3
@@ -6477,6 +6477,155 @@
       ],
       "card_id": "jetblue-plus-card",
       "card_name": "JetBlue Plus"
+    },
+    {
+      "name": "JetBlue Premier",
+      "bank": "Barclays",
+      "slug": "jetblue-premier-card",
+      "accepting_applications": true,
+      "apply_link": "https://cards.barclaycardus.com/banking/cards/jetblue-premier-card/",
+      "category": "travel",
+      "image": "jetblue-premier.png",
+      "annual_fee": 499,
+      "foreign_transaction_fee": false,
+      "reward_type": "points",
+      "tags": [
+        "travel",
+        "airline",
+        "premium",
+        "rewards"
+      ],
+      "rewards": [
+        {
+          "category": "airlines",
+          "value": 6,
+          "unit": "points_per_dollar",
+          "note": "JetBlue and TrueBlue Travel purchases"
+        },
+        {
+          "category": "dining",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "groceries",
+          "value": 2,
+          "unit": "points_per_dollar"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "points_per_dollar"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100000,
+        "type": "points",
+        "spend_requirement": 5000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "balance_transfer_intro": {
+          "rate": 0,
+          "months": 12
+        },
+        "regular": {
+          "min": 19.49,
+          "max": 29.49
+        }
+      },
+      "benefits": [
+        {
+          "name": "TrueBlue Travel Statement Credits",
+          "value": 300,
+          "value_unit": "dollars",
+          "description": "Up to $300 in statement credits on TrueBlue Travel purchases (hotels, car rentals, cruises and more) per calendar year",
+          "frequency": "annual",
+          "category": "statement_credit",
+          "enrollment_required": false
+        },
+        {
+          "name": "Anniversary Points Bonus",
+          "value": 5000,
+          "value_unit": "points",
+          "description": "5,000 bonus TrueBlue points each year after your account anniversary",
+          "frequency": "annual",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "25-Tile Mosaic Bonus",
+          "description": "Annual 25-tile bonus after year-end to fast-track Mosaic status for the next year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "15% Award Flight Rebate",
+          "description": "Get 15% of your points back after you redeem for and travel on an award flight on JetBlue or partner airlines",
+          "frequency": "per_redemption",
+          "category": "rewards",
+          "enrollment_required": false
+        },
+        {
+          "name": "Companion Pass Statement Credits",
+          "value": 2000,
+          "value_unit": "dollars",
+          "description": "Up to $500 companion pass statement credit after $15,000 in eligible purchases in a calendar year, plus an additional up to $1,500 companion pass statement credit after $75,000 in eligible purchases in a calendar year",
+          "frequency": "annual",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "BlueHouse Lounge Access",
+          "description": "Complimentary access to JetBlue's BlueHouse lounges for cardmembers with eligible fares; primary cardmembers and authorized users may each bring 1 complimentary guest per visit",
+          "frequency": "ongoing",
+          "category": "lounge",
+          "enrollment_required": false
+        },
+        {
+          "name": "Priority Pass",
+          "description": "Access to over 1,800 participating lounges and travel experiences in over 700 airports in 146 countries",
+          "frequency": "ongoing",
+          "category": "lounge",
+          "enrollment_required": true
+        },
+        {
+          "name": "Global Entry or TSA PreCheck Credit",
+          "value": 120,
+          "value_unit": "dollars",
+          "description": "Up to $120 application fee statement credit for Global Entry or TSA PreCheck every 4 years",
+          "frequency": "multi_year",
+          "frequency_years": 4,
+          "category": "security",
+          "enrollment_required": false
+        },
+        {
+          "name": "First Checked Bag Free",
+          "description": "First checked bag free for the cardmember and up to 3 eligible travel companions on JetBlue-operated flights when the card is used to book",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "50% Off Inflight Purchases",
+          "value": 50,
+          "value_unit": "percent",
+          "description": "50% savings on eligible food, drinks, and Wi-Fi purchased on JetBlue-operated flights",
+          "frequency": "per_purchase",
+          "category": "travel",
+          "enrollment_required": false
+        },
+        {
+          "name": "Group 3 Boarding",
+          "description": "Group 3 boarding on JetBlue-operated flights",
+          "frequency": "per_flight",
+          "category": "travel",
+          "enrollment_required": false
+        }
+      ],
+      "card_id": "jetblue-premier-card",
+      "card_name": "JetBlue Premier"
     },
     {
       "name": "Marriott Bonvoy Bevy American Express",
