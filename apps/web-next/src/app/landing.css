@@ -4847,6 +4847,37 @@
 }
 .landing-v2 .cj-sim-row:hover { background: var(--paper-2); }
 
+/* "Often compared with" rows: prefix each row with "versus" so the compare action is obvious */
+.landing-v2 .cj-sim-row--vs {
+  grid-template-columns: auto 48px 1fr auto;
+  gap: 10px;
+  padding: 10px 0;
+}
+.landing-v2 .cj-sim-vs {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--muted);
+}
+.landing-v2 .cj-sim-arrow {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 14px;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+  padding-right: 2px;
+}
+.landing-v2 .cj-sim-row--vs:hover .cj-sim-arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--accent);
+}
+.landing-v2 .cj-sim-row--vs:hover .cj-sim-vs {
+  color: var(--accent);
+}
+
 .landing-v2 .cj-rating {
   padding: 14px 16px;
   border: 1px solid var(--line-2);

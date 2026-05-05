@@ -1566,8 +1566,10 @@ export default function CardClient({
                 <Link
                   key={c.slug}
                   href={`/compare?cards=${card.slug},${c.slug}`}
-                  className="cj-sim-row"
+                  className="cj-sim-row cj-sim-row--vs"
+                  aria-label={`Compare ${card.card_name} vs ${c.card_name}`}
                 >
+                  <span className="cj-sim-vs">vs</span>
                   <div className="cj-sim-img">
                     <CardImage
                       cardImageLink={c.card_image_link}
@@ -1581,6 +1583,7 @@ export default function CardClient({
                     <div className="cj-sim-name">{c.card_name}</div>
                     <div className="cj-sim-meta">{c.bank}</div>
                   </div>
+                  <span className="cj-sim-arrow" aria-hidden="true">→</span>
                 </Link>
               ))}
             </div>
