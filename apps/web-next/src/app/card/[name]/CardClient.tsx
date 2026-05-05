@@ -111,6 +111,8 @@ function StarIcon({
   );
 }
 
+const MIN_DATA_POINTS_FOR_CHARTS = 5;
+
 const FICO_BUCKETS: { label: string; min: number; max: number }[] = [
   { label: "790+", min: 790, max: 850 },
   { label: "760–789", min: 760, max: 789 },
@@ -1141,7 +1143,7 @@ export default function CardClient({
               )}
             </div>
 
-            {(card.approved_count || 0) > 0 ? (
+            {(card.total_records || 0) >= MIN_DATA_POINTS_FOR_CHARTS && (card.approved_count || 0) > 0 ? (
               <>
                 <div className="cj-stat-strip">
                   <div className="cj-stat">
@@ -1347,6 +1349,35 @@ export default function CardClient({
                   </div>
                 )}
               </>
+            ) : (card.total_records || 0) > 0 ? (
+              <div className="cj-verdict">
+                Limited data — n = {(card.total_records || 0).toLocaleString()}.
+                Charts appear once we have {MIN_DATA_POINTS_FOR_CHARTS}+ data
+                points. Submit yours to help.{" "}
+                {authState.isAuthenticated ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                    style={{
+                      background: "transparent",
+                      border: 0,
+                      color: "var(--accent)",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      padding: 0,
+                    }}
+                  >
+                    Submit →
+                  </button>
+                ) : (
+                  <Link
+                    href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                    style={{ color: "var(--accent)", fontWeight: 600 }}
+                  >
+                    Log in to submit →
+                  </Link>
+                )}
+              </div>
             ) : (
               <div className="cj-verdict">
                 We&apos;re still collecting data on this card. Submit a data
