@@ -312,13 +312,13 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
           <div className="cj-tape">
             <div
               className="cj-tape-head"
-              style={{ gridTemplateColumns: '60px 1fr 110px 44px 1fr 90px' }}
+              style={{ gridTemplateColumns: '52px 1fr 96px 1.1fr 1fr 70px' }}
             >
               <div>Dist.</div>
               <div>Merchant</div>
               <div>Category</div>
-              <div></div>
-              <div>Best card to swipe</div>
+              <div>Best</div>
+              <div>Runner-up</div>
               <div className="cj-tape-res">Earn</div>
             </div>
             {merchants.map((m, i) => {
@@ -336,7 +336,7 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
                     onClick={() => setOpenIdx(isOpen ? null : i)}
                     className="cj-tape-row"
                     style={{
-                      gridTemplateColumns: '60px 1fr 110px 44px 1fr 90px',
+                      gridTemplateColumns: '52px 1fr 96px 1.1fr 1fr 70px',
                       cursor: 'pointer',
                       width: '100%',
                       textAlign: 'left',
@@ -355,12 +355,23 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
                       <div className="cj-tape-detail">{m.addr}</div>
                     </div>
                     <div className="cj-tape-when" style={{ fontSize: 11 }}>{m.cat.toLowerCase()}</div>
-                    <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
                       <MerchantThumb card={bestCard} fallbackLabel={pick.best.displayName} />
+                      <div style={{ minWidth: 0 }}>
+                        <div className="cj-cell-primary" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {pick.best.displayName}
+                        </div>
+                        <div className="cj-cell-detail">{pick.best.rate}</div>
+                      </div>
                     </div>
-                    <div className="cj-tape-event">
-                      <span className="cj-tape-field">{pick.best.displayName}</span>
-                      <div className="cj-tape-detail">also: {pick.next.displayName} · {pick.next.rate}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, opacity: 0.85 }}>
+                      <MerchantThumb card={nextCard} fallbackLabel={pick.next.displayName} />
+                      <div style={{ minWidth: 0 }}>
+                        <div className="cj-cell-primary" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {pick.next.displayName}
+                        </div>
+                        <div className="cj-cell-detail">{pick.next.rate}</div>
+                      </div>
                     </div>
                     <div className="cj-tape-res">
                       <span className="cj-eff-pct" style={{ fontSize: 14 }}>{headlineEarn}</span>
