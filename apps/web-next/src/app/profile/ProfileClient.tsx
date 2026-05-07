@@ -524,7 +524,9 @@ export default function ProfileClient() {
                         {new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </span>
                       {n.tags?.[0] && (
-                        <span className="cj-news-tag">{tagLabels[n.tags[0]]?.toLowerCase() || n.tags[0]}</span>
+                        <span className={`cj-news-tag cj-news-tag--${n.tags[0]}`}>
+                          {(tagLabels[n.tags[0]] || n.tags[0]).replace(/^[^\w]+\s*/, '').toLowerCase()}
+                        </span>
                       )}
                     </div>
                     <Link href={`/news/${n.id}`} className="cj-rail-row-link">{n.title}</Link>
