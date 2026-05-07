@@ -65,6 +65,17 @@ export default function BestV2Client({
       </section>
 
       <div className="wrap">
+        <Link href="/best-card-for" className="best-cross-promo">
+          <span className="bcp-kicker">By store</span>
+          <span className="bcp-text">
+            <strong>Shopping somewhere specific?</strong> See the best card to use at
+            every major U.S. retailer we track — Amazon, Costco, Whole Foods, and more.
+          </span>
+          <span className="bcp-arrow" aria-hidden>
+            →
+          </span>
+        </Link>
+
         <div className="best-hero-stats">
           <div className="bhs">
             <div className="k">Issuers covered</div>

@@ -2900,6 +2900,64 @@
 }
 
 /* ---------- Best cards index ---------- */
+.landing-v2 .best-cross-promo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0 0;
+  padding: 14px 18px;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.landing-v2 .best-cross-promo:hover {
+  border-color: var(--ink);
+  background: var(--paper-2);
+}
+.landing-v2 .best-cross-promo .bcp-kicker {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.landing-v2 .best-cross-promo .bcp-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.45;
+  flex: 1;
+}
+.landing-v2 .best-cross-promo .bcp-text strong {
+  font-weight: 600;
+}
+.landing-v2 .best-cross-promo .bcp-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  transition: color 0.15s ease, transform 0.15s ease;
+  flex-shrink: 0;
+}
+.landing-v2 .best-cross-promo:hover .bcp-arrow {
+  color: var(--accent);
+  transform: translateX(2px);
+}
+@media (max-width: 640px) {
+  .landing-v2 .best-cross-promo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 12px 14px;
+  }
+  .landing-v2 .best-cross-promo .bcp-arrow {
+    display: none;
+  }
+}
+
 .landing-v2 .best-hero-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
