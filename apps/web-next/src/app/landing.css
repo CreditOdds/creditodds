@@ -6301,20 +6301,38 @@
   color: var(--muted);
 }
 .landing-v2.store-v2 .store-personal-row-track--compact {
-  margin-top: 6px;
-  gap: 8px;
+  margin-top: 4px;
+  gap: 6px;
 }
 .landing-v2.store-v2 .store-personal-row-card--compact {
-  padding: 8px 10px;
+  padding: 4px 10px;
+  gap: 8px;
   background: transparent;
   border-color: var(--line);
+  border-radius: 4px;
+  min-height: 0;
+  align-items: center;
 }
 .landing-v2.store-v2 .store-personal-row-card--compact .store-personal-row-thumb {
-  width: 44px;
-  height: 28px;
+  width: 30px;
+  height: 19px;
+  border-radius: 2px;
+}
+.landing-v2.store-v2 .store-personal-row-card--compact .store-personal-row-body {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 .landing-v2.store-v2 .store-personal-row-card--compact .store-personal-row-name {
   font-size: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.landing-v2.store-v2 .store-personal-row-card--compact .store-personal-row-rate {
+  margin-top: 0;
+  flex-shrink: 0;
 }
 .landing-v2.store-v2 .store-personal-row-card--compact .store-personal-row-rate-primary {
   font-size: 12px;
@@ -6322,6 +6340,13 @@
 }
 .landing-v2.store-v2 .store-personal-row-card--compact .store-personal-row-rate-secondary {
   font-size: 10px;
+}
+.landing-v2.store-v2 .store-personal-row-card--compact .store-personal-row-badge {
+  margin-top: 0;
+  font-size: 9px;
+  padding: 1px 6px;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
 }
 .landing-v2.store-v2 .store-personal-row-badge {
   margin-top: 4px;
