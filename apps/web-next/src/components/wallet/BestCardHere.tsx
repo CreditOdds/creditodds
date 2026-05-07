@@ -1,36 +1,24 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import CardImage from '@/components/ui/CardImage';
 import { Card, NearbyPlace, WalletCard, getNearbyPlaces } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
+import { categoryLabels } from '@/lib/cardDisplayUtils';
 import { mapPlaceToCategory } from '@/lib/placeTypeMapping';
+import { pickWalletCardsForCategory, WalletPick } from '@/lib/walletPicksForCategory';
 
 // Resolved merchant ready for rendering: a place from the API plus the
-// PICKS-key category (Title Case) it maps to.
+// lowercase reward category id it maps to (matches Reward.category in
+// data/cards/* YAML).
 interface Merchant {
   id: string;
   name: string;
   cat: string;
+  catLabel: string;
   dist: string;
   addr: string;
 }
-
-// Bridges placeTypeMapping's lowercase ids ("dining", "groceries", "gas")
-// to the Title-Case keys used by the curated PICKS lookup below. Anything
-// not in this map falls through (we hide the merchant rather than show a
-// blank recommendation).
-const CATEGORY_BRIDGE: Record<string, string> = {
-  dining: 'Dining',
-  groceries: 'US groceries',
-  gas: 'Gas',
-  drugstores: 'Drugstores',
-  hotels: 'Hotels',
-  entertainment: 'Entertainment',
-  // The Places API doesn't have a "rideshare" type — fold transit into
-  // the same bucket so taxi stands / transit hubs surface a card too.
-  transit: 'Rideshare',
-};
 
 function metersToMiles(m: number): string {
   const mi = m / 1609.34;
@@ -49,6 +37,10 @@ function haversineMeters(aLat: number, aLng: number, bLat: number, bLng: number)
   return 2 * R * Math.asin(Math.sqrt(x));
 }
 
+// Categories the user might never spend on at all (e.g. transit/airlines)
+// can still surface a row using the user's everything_else baseline, so we
+// no longer reject merchants by category here. Drop only the unmapped
+// fallback (everything_else) — those are too generic to be useful.
 function placesToMerchants(places: NearbyPlace[], userLat: number, userLng: number): Merchant[] {
   return places
     .map((p) => {
@@ -57,15 +49,16 @@ function placesToMerchants(places: NearbyPlace[], userLat: number, userLng: numb
         primaryType: p.primaryType ?? undefined,
         types: p.types,
       });
-      const cat = CATEGORY_BRIDGE[match.category];
-      if (!cat) return null;
+      if (match.category === 'everything_else') return null;
       const dist = p.lat != null && p.lng != null
         ? metersToMiles(haversineMeters(userLat, userLng, p.lat, p.lng))
         : '—';
+      const catLabel = categoryLabels[match.category]?.toLowerCase() ?? match.category;
       return {
         id: p.id,
         name: p.name,
-        cat,
+        cat: match.category,
+        catLabel,
         dist,
         addr: p.address?.split(',')[0] ?? '',
       } satisfies Merchant;
@@ -80,54 +73,6 @@ function placesToMerchants(places: NearbyPlace[], userLat: number, userLng: numb
     });
 }
 
-// Hand-curated category → card recommendation lookup. Card names match
-// real cards in the codebase so they resolve against the global card list
-// (see `findCardByMatch` below). Adding a card here is a content change,
-// not new card data — the cards themselves still live in data/cards/.
-interface PickEntry {
-  match: string;          // case-insensitive substring used to look up the real card
-  displayName: string;    // what we show in the row
-  rate: string;           // headline earn for this category, e.g. "4x dining"
-}
-interface CategoryPicks {
-  best: PickEntry;
-  next: PickEntry;
-}
-const PICKS: Record<string, CategoryPicks> = {
-  'Dining': {
-    best: { match: 'gold card',          displayName: 'Amex Gold',         rate: '4x dining' },
-    next: { match: 'sapphire reserve',   displayName: 'Sapphire Reserve',  rate: '3x dining' },
-  },
-  'US groceries': {
-    best: { match: 'gold card',          displayName: 'Amex Gold',         rate: '4x groceries' },
-    next: { match: 'bilt',               displayName: 'Bilt',              rate: '1x' },
-  },
-  'Drugstores': {
-    best: { match: 'freedom unlimited',  displayName: 'Freedom Unlimited', rate: '1.5%' },
-    next: { match: 'bilt',               displayName: 'Bilt',              rate: '1x' },
-  },
-  'Hotels': {
-    best: { match: 'venture x',          displayName: 'Venture X',         rate: '10x hotels' },
-    next: { match: 'sapphire reserve',   displayName: 'Sapphire Reserve',  rate: '4x hotels' },
-  },
-  'Gas': {
-    best: { match: 'freedom unlimited',  displayName: 'Freedom Unlimited', rate: '1.5%' },
-    next: { match: 'bilt',               displayName: 'Bilt',              rate: '1x' },
-  },
-  'Entertainment': {
-    best: { match: 'savor',              displayName: 'Savor',             rate: '4% entertainment' },
-    next: { match: 'sapphire reserve',   displayName: 'Sapphire Reserve',  rate: '1x' },
-  },
-  'Rideshare': {
-    best: { match: 'sapphire reserve',   displayName: 'Sapphire Reserve',  rate: '3x travel' },
-    next: { match: 'venture x',          displayName: 'Venture X',         rate: '2x' },
-  },
-};
-
-function findCardByMatch(allCards: Card[], match: string): Card | undefined {
-  const m = match.toLowerCase();
-  return allCards.find((c) => c.card_name.toLowerCase().includes(m));
-}
 
 interface Location {
   label: string;
@@ -233,37 +178,26 @@ function LocationBlock({ location, cardsCount, onEnable, onClear }: LocationBloc
   );
 }
 
-interface MerchantThumbProps {
-  card?: Card;
-  fallbackLabel: string;
+function PickThumb({ card }: { card: Card }) {
+  return (
+    <span className="cj-rew-thumb">
+      <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill sizes="32px" className="object-contain" />
+    </span>
+  );
 }
 
-function MerchantThumb({ card, fallbackLabel }: MerchantThumbProps) {
-  if (card?.card_image_link) {
-    return (
-      <span className="cj-rew-thumb">
-        <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill sizes="32px" className="object-contain" />
-      </span>
-    );
-  }
+function PickDetail({ label, pick }: { label: string; pick: WalletPick }) {
   return (
-    <span
-      className="cj-rew-thumb"
-      style={{
-        background: 'var(--paper-2)',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: 9,
-        fontWeight: 600,
-        color: 'var(--muted)',
-        textTransform: 'uppercase',
-        letterSpacing: '0.04em',
-      }}
-      aria-label={fallbackLabel}
-    >
-      {fallbackLabel.slice(0, 2)}
-    </span>
+    <div>
+      <div style={{ fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{label}</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+        <PickThumb card={pick.card} />
+        <div>
+          <div style={{ fontWeight: 500, color: 'var(--ink)' }}>{pick.card.card_name}</div>
+          <div style={{ fontSize: 11, color: 'var(--muted)' }}>{pick.rateLabel} {pick.context}</div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -342,6 +276,17 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
 
   const showList = location && !loading;
 
+  // Resolve picks once so the empty state accurately reflects "no wallet
+  // match," not just "no merchants returned."
+  const merchantPicks = useMemo(() => {
+    return merchants
+      .map((m) => {
+        const picks = pickWalletCardsForCategory(walletCards, allCards, m.cat);
+        return picks ? { merchant: m, picks } : null;
+      })
+      .filter((x): x is { merchant: Merchant; picks: { best: WalletPick; next?: WalletPick } } => x !== null);
+  }, [merchants, walletCards, allCards]);
+
   return (
     <div style={{ paddingBottom: 8 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
@@ -394,16 +339,22 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
         </div>
       )}
 
-      {showList && merchants.length === 0 && (
+      {showList && cardsCount === 0 && (
         <div className="cj-verdict" style={{ marginTop: 16 }}>
-          No merchants matched your wallet&apos;s reward categories within 1km. Try again from a different spot.
+          <b>Add cards to your wallet first.</b> Best Card Here recommends from your held cards — there&apos;s nothing to match against yet.
         </div>
       )}
 
-      {showList && merchants.length > 0 && (
+      {showList && cardsCount > 0 && merchantPicks.length === 0 && (
+        <div className="cj-verdict" style={{ marginTop: 16 }}>
+          No nearby merchants matched a reward category for the cards in your wallet. Try a different spot, or add a card with broader earn categories.
+        </div>
+      )}
+
+      {showList && merchantPicks.length > 0 && (
         <>
           <div className="cj-table-label" style={{ marginTop: 24 }}>
-            {merchants.length} merchant{merchants.length === 1 ? '' : 's'} nearby · sorted by distance
+            {merchantPicks.length} merchant{merchantPicks.length === 1 ? '' : 's'} nearby · sorted by distance
           </div>
           <div className="cj-tape cj-tape-bch">
             <div className="cj-tape-head cj-bch-head">
@@ -414,16 +365,13 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
               <div className="cj-bch-next">Runner-up</div>
               <div className="cj-tape-res cj-bch-earn">Earn</div>
             </div>
-            {merchants.map((m, i) => {
-              const pick = PICKS[m.cat];
-              if (!pick) return null;
+            {merchantPicks.map(({ merchant: m, picks }, i) => {
               const isOpen = openIdx === i;
-              const bestCard = findCardByMatch(allCards, pick.best.match);
-              const nextCard = findCardByMatch(allCards, pick.next.match);
-              const headlineEarn = pick.best.rate.split(' ')[0];
+              const best = picks.best;
+              const next = picks.next;
 
               return (
-                <Fragment key={`${m.name}-${i}`}>
+                <Fragment key={`${m.id}-${i}`}>
                   <button
                     type="button"
                     onClick={() => setOpenIdx(isOpen ? null : i)}
@@ -435,59 +383,49 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
                       <span className="cj-tape-field">{m.name}</span>
                       <div className="cj-tape-detail">
                         <span className="cj-bch-addr">{m.addr}</span>
-                        <span className="cj-bch-mob-meta"> · {m.cat.toLowerCase()} · {m.dist}</span>
+                        <span className="cj-bch-mob-meta"> · {m.catLabel} · {m.dist}</span>
                       </div>
                     </div>
-                    <div className="cj-tape-when cj-bch-cat" style={{ fontSize: 11 }}>{m.cat.toLowerCase()}</div>
+                    <div className="cj-tape-when cj-bch-cat" style={{ fontSize: 11 }}>{m.catLabel}</div>
                     <div className="cj-bch-card cj-bch-best">
-                      <MerchantThumb card={bestCard} fallbackLabel={pick.best.displayName} />
+                      <PickThumb card={best.card} />
                       <div className="cj-bch-card-text">
-                        <div className="cj-cell-primary">{pick.best.displayName}</div>
-                        <div className="cj-cell-detail">{pick.best.rate}</div>
+                        <div className="cj-cell-primary">{best.card.card_name}</div>
+                        <div className="cj-cell-detail">{best.rateLabel} {best.context}</div>
                       </div>
                     </div>
                     <div className="cj-bch-card cj-bch-next">
-                      <MerchantThumb card={nextCard} fallbackLabel={pick.next.displayName} />
-                      <div className="cj-bch-card-text">
-                        <div className="cj-cell-primary">{pick.next.displayName}</div>
-                        <div className="cj-cell-detail">{pick.next.rate}</div>
-                      </div>
+                      {next ? (
+                        <>
+                          <PickThumb card={next.card} />
+                          <div className="cj-bch-card-text">
+                            <div className="cj-cell-primary">{next.card.card_name}</div>
+                            <div className="cj-cell-detail">{next.rateLabel} {next.context}</div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="cj-cell-detail" style={{ opacity: 0.7 }}>—</div>
+                      )}
                     </div>
                     <div className="cj-tape-res cj-bch-earn">
-                      <span className="cj-eff-pct cj-bch-earn-val">{headlineEarn}</span>
+                      <span className="cj-eff-pct cj-bch-earn-val">{best.rateLabel}</span>
                     </div>
                   </button>
                   {isOpen && (
                     <div className="cj-bch-detail">
                       <div className="cj-bch-detail-grid">
-                        <div>
-                          <div style={{ fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Best</div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                            <MerchantThumb card={bestCard} fallbackLabel={pick.best.displayName} />
-                            <div>
-                              <div style={{ fontWeight: 500, color: 'var(--ink)' }}>{pick.best.displayName}</div>
-                              <div style={{ fontSize: 11, color: 'var(--muted)' }}>{pick.best.rate}</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <div style={{ fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Runner-up</div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                            <MerchantThumb card={nextCard} fallbackLabel={pick.next.displayName} />
-                            <div>
-                              <div style={{ fontWeight: 500, color: 'var(--ink)' }}>{pick.next.displayName}</div>
-                              <div style={{ fontSize: 11, color: 'var(--muted)' }}>{pick.next.rate}</div>
-                            </div>
-                          </div>
-                        </div>
+                        <PickDetail label="Best" pick={best} />
+                        {next && <PickDetail label="Runner-up" pick={next} />}
                       </div>
                       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                         <button type="button" className="cj-wd-cta">add to apple wallet</button>
-                        <a href="#" style={{
-                          fontSize: 11.5, color: 'var(--ink-2)', textDecoration: 'none',
-                          background: 'var(--paper)', border: '1px solid var(--line-2)',
-                          borderRadius: 3, padding: '5px 9px', letterSpacing: '0.02em',
-                        }}>see {pick.best.displayName} rules →</a>
+                        {best.card.slug && (
+                          <a href={`/card/${best.card.slug}`} style={{
+                            fontSize: 11.5, color: 'var(--ink-2)', textDecoration: 'none',
+                            background: 'var(--paper)', border: '1px solid var(--line-2)',
+                            borderRadius: 3, padding: '5px 9px', letterSpacing: '0.02em',
+                          }}>see {best.card.card_name} rules →</a>
+                        )}
                         <a href="#" style={{
                           fontSize: 11.5, color: 'var(--muted)', textDecoration: 'none', padding: '5px 4px',
                         }}>not the right category? report</a>
