@@ -6432,6 +6432,33 @@
   border: 1px solid var(--line);
   border-radius: 4px;
   box-shadow: var(--shadow-sm);
+  /* Without min-width:0, this grid item is sized by its flex content's
+     min-content rather than the grid track, which pushes the row past the
+     viewport on mobile when long card names are present. */
+  min-width: 0;
+}
+.landing-v2.store-v2 .store-pick-rate {
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .landing-v2.store-v2 .store-pick {
+    padding: 12px;
+    gap: 10px;
+  }
+  .landing-v2.store-v2 .store-pick-image {
+    width: 52px;
+    height: 33px;
+  }
+  .landing-v2.store-v2 .store-pick-rank {
+    min-width: 18px;
+    font-size: 12px;
+  }
+  .landing-v2.store-v2 .store-pick-name {
+    font-size: 14.5px;
+  }
+  .landing-v2.store-v2 .store-pick-rate {
+    font-size: 16px;
+  }
 }
 .landing-v2.store-v2 .store-pick-rank {
   font-size: 13px;
