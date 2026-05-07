@@ -1,0 +1,16 @@
+name: "Vrbo"
+slug: "vrbo"
+aliases:
+  - "VRBO"
+  - "Vacation Rentals By Owner"
+categories:
+  - travel
+  - hotels
+website: "https://www.vrbo.com"
+intro: |
+  Vrbo is the second-largest U.S. vacation-rental marketplace after Airbnb, owned
+  by Expedia Group. Bookings code as travel on every card we track and as hotels
+  on a few. Unlike Airbnb, Vrbo focuses exclusively on whole-home rentals (no
+  shared spaces). Vrbo bookings count for the Sapphire Reserve and Venture X
+  travel-credit categories. Booking through a card's travel portal earns the
+  portal multiplier but typically loses Vrbo Boost host-program perks.

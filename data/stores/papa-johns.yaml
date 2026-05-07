@@ -1,0 +1,13 @@
+name: "Papa John's"
+slug: "papa-johns"
+aliases:
+  - "Papa Johns"
+categories:
+  - dining
+website: "https://www.papajohns.com"
+intro: |
+  Papa John's is a U.S. pizza-delivery chain with about 3,300 domestic locations.
+  Charges code as dining on every card we track. Any dining-bonus card (Amex Gold
+  4x, Sapphire Preferred 3x, SavorOne 3%) applies. The Papa Rewards loyalty
+  program in the app issues recurring points-for-pizza promotions that stack on
+  top of card bonuses.

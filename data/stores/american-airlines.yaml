@@ -1,0 +1,24 @@
+name: "American Airlines"
+slug: "american-airlines"
+aliases:
+  - "AA"
+  - "American"
+  - "AAdvantage"
+categories:
+  - airlines
+  - travel
+website: "https://www.aa.com"
+co_brand_cards:
+  - american-airlines-aadvantage-mileu-mastercard
+  - citi-aadvantage-executive-world-elite-masterc
+  - citi-aadvantage-globe
+  - citi-aadvantage-platinum-select-world-elite-m
+  - citibusiness-aadvantage-platinum-select-maste
+intro: |
+  American Airlines is the world's largest carrier by fleet size and the home of the
+  AAdvantage loyalty program. Tickets booked at aa.com or at the airport code as
+  airfare on every card we track. Co-branded AAdvantage cards layer extra miles plus
+  perks like priority boarding and a free checked bag. General travel cards (Sapphire
+  Reserve, Venture X) often deliver higher cash-equivalent value if you don't need
+  AA-specific perks. Tickets booked through OTAs still earn miles and elite credit
+  if your AAdvantage number is on the reservation.

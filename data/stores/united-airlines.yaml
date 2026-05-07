@@ -1,0 +1,22 @@
+name: "United Airlines"
+slug: "united-airlines"
+aliases:
+  - "United"
+  - "MileagePlus"
+categories:
+  - airlines
+  - travel
+website: "https://www.united.com"
+co_brand_cards:
+  - united-gateway
+  - united-explorer
+  - united-quest
+  - united-club-infinite
+intro: |
+  United Airlines is one of the three U.S. legacy carriers and runs the MileagePlus
+  loyalty program. United tickets code as airfare on every card we track. The Chase
+  co-branded ladder ranges from no-fee Gateway to the $525 Club Infinite with United
+  Club lounge membership; mid-tier Explorer adds free checked bag and 2 club passes,
+  and Quest adds an annual flight credit. General travel cards often outperform on
+  cash-equivalent value, but United co-brands waive close-in award fees and add
+  status-credit boosts that frequent flyers value.

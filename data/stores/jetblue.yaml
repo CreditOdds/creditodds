@@ -1,0 +1,21 @@
+name: "JetBlue"
+slug: "jetblue"
+aliases:
+  - "JetBlue Airways"
+  - "TrueBlue"
+categories:
+  - airlines
+  - travel
+website: "https://www.jetblue.com"
+co_brand_cards:
+  - jetblue-card
+  - jetblue-plus-card
+  - jetblue-premier-card
+  - jetblue-business-card
+intro: |
+  JetBlue runs an East Coast and Caribbean network with TrueBlue as its loyalty program.
+  TrueBlue points are revenue-based — about 1.3 cents each — so they're easy to value
+  but rarely produce outsized award redemptions. JetBlue tickets code as airfare on
+  every card we track. The co-branded Plus and Premier cards bundle a 5,000-point
+  anniversary bonus, free checked bag, and Mosaic-status accelerators that can swing
+  the math for regulars; the Premier adds a Mint upgrade benefit on transcons.

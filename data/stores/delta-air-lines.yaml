@@ -1,0 +1,22 @@
+name: "Delta Air Lines"
+slug: "delta-air-lines"
+aliases:
+  - "Delta"
+  - "Delta SkyMiles"
+categories:
+  - airlines
+  - travel
+website: "https://www.delta.com"
+co_brand_cards:
+  - delta-skymiles-blue-american-express-card
+  - delta-skymiles-gold-american-express-card
+  - delta-skymiles-platinum-american-express-card
+  - delta-skymiles-reserve-american-express-card
+intro: |
+  Delta Air Lines runs one of the strongest U.S. domestic networks and the SkyMiles
+  loyalty program. Delta tickets code as airfare across all major cards. Co-branded
+  SkyMiles Amex cards add extra miles per dollar on Delta plus perks like a free
+  checked bag, Sky Club access (Reserve only), and Medallion-status boost spend.
+  General travel cards usually beat them on raw cash-equivalent value, but the
+  Reserve's lounge access and MQD-waiver path can swing the math for frequent flyers.
+  OTA bookings still earn miles when your SkyMiles number is attached.

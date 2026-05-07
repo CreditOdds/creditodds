@@ -1,0 +1,15 @@
+name: "Budget"
+slug: "budget"
+aliases:
+  - "Budget Rent a Car"
+categories:
+  - car_rentals
+  - travel
+website: "https://www.budget.com"
+intro: |
+  Budget is the value-priced sister brand to Avis under Avis Budget Group. Rentals
+  code as car rentals on every card we track. Pricing is generally a tier below Avis
+  for the same fleet, and the Avis Preferred program covers Budget rentals too.
+  General travel cards (Sapphire Preferred, Venture, Venture X) are the standard
+  pairing — most users book direct rather than via a card's travel portal because
+  Budget's coupon ecosystem (BCD codes, AAA, Costco) usually beats portal pricing.

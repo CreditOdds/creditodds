@@ -1,0 +1,16 @@
+name: "Hotels.com"
+slug: "hotels-com"
+aliases:
+  - "Hotels"
+categories:
+  - travel
+  - hotels
+website: "https://www.hotels.com"
+intro: |
+  Hotels.com is one of the largest global online travel agencies, owned by Expedia
+  Group. Bookings code as travel on every card we track. The honest catch: hotel
+  chains typically do NOT credit Hotels.com stays toward elite-night or status
+  counts, and many properties exclude OTA stays from earning their loyalty points
+  — so a Hilton/Marriott/Hyatt loyalist almost always books direct. Hotels.com's
+  own One Key Rewards (formerly Hotels.com Rewards) is now unified with Expedia's
+  OneKeyCash and stacks across the Expedia family.
