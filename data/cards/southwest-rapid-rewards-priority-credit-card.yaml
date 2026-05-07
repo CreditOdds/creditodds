@@ -10,6 +10,7 @@ rewards:
     value: 4
     unit: points_per_dollar
     note: "Southwest Airlines purchases (flights, in-flight, gift cards)"
+    merchant_gate: [southwest-airlines]
   - category: gas
     value: 2
     unit: points_per_dollar

@@ -58,6 +58,7 @@ rewards:
     value: 4
     unit: points_per_dollar
     note: "On eligible American Airlines purchases"
+    merchant_gate: [american-airlines]
   - category: everything_else
     value: 1
     unit: points_per_dollar

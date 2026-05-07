@@ -17,6 +17,7 @@ rewards:
     value: 2
     unit: points_per_dollar
     note: "On eligible American Airlines purchases"
+    merchant_gate: [american-airlines]
   - category: car_rentals
     value: 2
     unit: points_per_dollar

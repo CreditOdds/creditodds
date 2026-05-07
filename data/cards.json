@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-05T15:22:11.170Z",
+  "generated_at": "2026-05-07T16:03:11.547Z",
   "count": 161,
   "categories": [
     {
@@ -472,7 +472,10 @@
           "category": "airlines",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "On eligible American Airlines purchases"
+          "note": "On eligible American Airlines purchases",
+          "merchant_gate": [
+            "american-airlines"
+          ]
         },
         {
           "category": "everything_else",
@@ -3395,7 +3398,10 @@
           "category": "airlines",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "On eligible American Airlines purchases"
+          "note": "On eligible American Airlines purchases",
+          "merchant_gate": [
+            "american-airlines"
+          ]
         },
         {
           "category": "car_rentals",
@@ -3544,7 +3550,10 @@
           "category": "airlines",
           "value": 4,
           "unit": "points_per_dollar",
-          "note": "On eligible American Airlines purchases"
+          "note": "On eligible American Airlines purchases",
+          "merchant_gate": [
+            "american-airlines"
+          ]
         },
         {
           "category": "everything_else",
@@ -3648,7 +3657,10 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "On eligible American Airlines purchases"
+          "note": "On eligible American Airlines purchases",
+          "merchant_gate": [
+            "american-airlines"
+          ]
         },
         {
           "category": "dining",
@@ -3717,7 +3729,10 @@
           "category": "airlines",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "On eligible American Airlines purchases"
+          "note": "On eligible American Airlines purchases",
+          "merchant_gate": [
+            "american-airlines"
+          ]
         },
         {
           "category": "dining",
@@ -4389,7 +4404,10 @@
           "category": "airlines",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "Delta purchases"
+          "note": "Delta purchases",
+          "merchant_gate": [
+            "delta-air-lines"
+          ]
         },
         {
           "category": "dining",
@@ -4495,7 +4513,10 @@
           "category": "airlines",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "Delta purchases"
+          "note": "Delta purchases",
+          "merchant_gate": [
+            "delta-air-lines"
+          ]
         },
         {
           "category": "dining",
@@ -4603,7 +4624,10 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "Delta purchases"
+          "note": "Delta purchases",
+          "merchant_gate": [
+            "delta-air-lines"
+          ]
         },
         {
           "category": "hotels",
@@ -4717,7 +4741,10 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "Delta purchases"
+          "note": "Delta purchases",
+          "merchant_gate": [
+            "delta-air-lines"
+          ]
         },
         {
           "category": "everything_else",
@@ -5392,7 +5419,10 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "Hawaiian Airlines purchases"
+          "note": "Hawaiian Airlines purchases",
+          "merchant_gate": [
+            "hawaiian-airlines"
+          ]
         },
         {
           "category": "gas",
@@ -5451,7 +5481,10 @@
           "value": 7,
           "unit": "points_per_dollar",
           "note": "Eligible purchases at Hilton hotels and resorts",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "hilton"
+          ]
         },
         {
           "category": "dining",
@@ -5522,7 +5555,10 @@
           "value": 14,
           "unit": "points_per_dollar",
           "note": "Eligible purchases at Hilton hotels and resorts",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "hilton"
+          ]
         },
         {
           "category": "airlines",
@@ -5629,7 +5665,10 @@
           "value": 12,
           "unit": "points_per_dollar",
           "note": "Eligible purchases at Hilton hotels and resorts",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "hilton"
+          ]
         },
         {
           "category": "dining",
@@ -5794,7 +5833,7 @@
           "enrollment_required": true
         }
       ],
-      "apply_link": "https://creditcards.chase.com/travel-credit-cards/iberia",
+      "apply_link": "https://creditcards.chase.com/travel-credit-cards/avios/iberia",
       "card_id": "iberia-visa-signature-card",
       "card_name": "Iberia Visa Signature"
     },
@@ -5847,7 +5886,10 @@
           "value": 26,
           "unit": "points_per_dollar",
           "note": "Up to 26x total points at IHG hotels",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "ihg"
+          ]
         },
         {
           "category": "travel",
@@ -5936,7 +5978,10 @@
           "value": 26,
           "unit": "points_per_dollar",
           "note": "Up to 26x total points at IHG hotels",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "ihg"
+          ]
         },
         {
           "category": "travel",
@@ -6006,7 +6051,10 @@
           "value": 17,
           "unit": "points_per_dollar",
           "note": "Up to 17x total points at IHG hotels",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "ihg"
+          ]
         },
         {
           "category": "dining",
@@ -6253,7 +6301,10 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "JetBlue purchases"
+          "note": "JetBlue purchases",
+          "merchant_gate": [
+            "jetblue"
+          ]
         },
         {
           "category": "dining",
@@ -6323,7 +6374,10 @@
           "category": "airlines",
           "value": 6,
           "unit": "points_per_dollar",
-          "note": "JetBlue purchases"
+          "note": "JetBlue purchases",
+          "merchant_gate": [
+            "jetblue"
+          ]
         },
         {
           "category": "dining",
@@ -6409,7 +6463,10 @@
           "category": "airlines",
           "value": 6,
           "unit": "points_per_dollar",
-          "note": "JetBlue purchases"
+          "note": "JetBlue purchases",
+          "merchant_gate": [
+            "jetblue"
+          ]
         },
         {
           "category": "dining",
@@ -6500,7 +6557,10 @@
           "category": "airlines",
           "value": 6,
           "unit": "points_per_dollar",
-          "note": "JetBlue and TrueBlue Travel purchases"
+          "note": "JetBlue and TrueBlue Travel purchases",
+          "merchant_gate": [
+            "jetblue"
+          ]
         },
         {
           "category": "dining",
@@ -6643,7 +6703,10 @@
           "value": 6,
           "unit": "points_per_dollar",
           "note": "Hotels participating in Marriott Bonvoy",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "marriott"
+          ]
         },
         {
           "category": "dining",
@@ -6756,7 +6819,10 @@
           "value": 6,
           "unit": "points_per_dollar",
           "note": "Marriott Bonvoy hotels",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "marriott"
+          ]
         },
         {
           "category": "groceries",
@@ -6851,7 +6917,10 @@
           "value": 6,
           "unit": "points_per_dollar",
           "note": "Marriott Bonvoy hotels",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "marriott"
+          ]
         },
         {
           "category": "groceries",
@@ -6911,7 +6980,10 @@
           "value": 6,
           "unit": "points_per_dollar",
           "note": "Hotels participating in Marriott Bonvoy",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "marriott"
+          ]
         },
         {
           "category": "dining",
@@ -7474,7 +7546,10 @@
           "category": "airlines",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "Southwest Airlines purchases"
+          "note": "Southwest Airlines purchases",
+          "merchant_gate": [
+            "southwest-airlines"
+          ]
         },
         {
           "category": "gas",
@@ -7590,7 +7665,10 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "Southwest Airlines purchases"
+          "note": "Southwest Airlines purchases",
+          "merchant_gate": [
+            "southwest-airlines"
+          ]
         },
         {
           "category": "groceries",
@@ -7696,7 +7774,10 @@
           "category": "airlines",
           "value": 4,
           "unit": "points_per_dollar",
-          "note": "Southwest Airlines purchases (flights, in-flight, gift cards)"
+          "note": "Southwest Airlines purchases (flights, in-flight, gift cards)",
+          "merchant_gate": [
+            "southwest-airlines"
+          ]
         },
         {
           "category": "gas",
@@ -8335,7 +8416,10 @@
           "category": "airlines",
           "value": 5,
           "unit": "points_per_dollar",
-          "note": "United purchases"
+          "note": "United purchases",
+          "merchant_gate": [
+            "united-airlines"
+          ]
         },
         {
           "category": "dining",
@@ -8461,7 +8545,10 @@
           "category": "airlines",
           "value": 3,
           "unit": "points_per_dollar",
-          "note": "On eligible United purchases"
+          "note": "On eligible United purchases",
+          "merchant_gate": [
+            "united-airlines"
+          ]
         },
         {
           "category": "dining",
@@ -8605,7 +8692,10 @@
           "category": "airlines",
           "value": 2,
           "unit": "points_per_dollar",
-          "note": "On eligible United purchases"
+          "note": "On eligible United purchases",
+          "merchant_gate": [
+            "united-airlines"
+          ]
         },
         {
           "category": "gas",
@@ -8697,7 +8787,10 @@
           "category": "airlines",
           "value": 4,
           "unit": "points_per_dollar",
-          "note": "United purchases"
+          "note": "United purchases",
+          "merchant_gate": [
+            "united-airlines"
+          ]
         },
         {
           "category": "hotels_portal",
@@ -10069,7 +10162,10 @@
           "value": 4,
           "unit": "points_per_dollar",
           "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "hyatt"
+          ]
         },
         {
           "category": "dining",
@@ -10155,7 +10251,10 @@
           "value": 4,
           "unit": "points_per_dollar",
           "note": "At Hyatt hotels, up to 9x total with World of Hyatt membership",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "hyatt"
+          ]
         },
         {
           "category": "dining",
@@ -10213,7 +10312,10 @@
           "value": 8,
           "unit": "points_per_dollar",
           "note": "At Wyndham hotels",
-          "merchant_specific": true
+          "merchant_specific": true,
+          "merchant_gate": [
+            "wyndham"
+          ]
         },
         {
           "category": "gas",

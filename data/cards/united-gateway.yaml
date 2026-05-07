@@ -10,6 +10,7 @@ rewards:
     value: 2
     unit: points_per_dollar
     note: "On eligible United purchases"
+    merchant_gate: [united-airlines]
   - category: gas
     value: 2
     unit: points_per_dollar

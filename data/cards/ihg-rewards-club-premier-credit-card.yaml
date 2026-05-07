@@ -36,6 +36,7 @@ rewards:
     unit: points_per_dollar
     note: "Up to 26x total points at IHG hotels"
     merchant_specific: true
+    merchant_gate: [ihg]
   - category: travel
     value: 5
     unit: points_per_dollar

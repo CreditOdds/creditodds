@@ -124,6 +124,7 @@ function compareMatches(a: CardMatch, b: CardMatch, modeRank: Record<MatchMode, 
 export function findCategoryMatch(
   card: Card,
   categories: string[],
+  storeSlug: string | null,
   includeMerchantSpecific = false,
 ): CardMatch | null {
   if (!card.rewards) return null;
@@ -137,6 +138,21 @@ export function findCategoryMatch(
   let best: CardMatch | null = null;
 
   for (const r of card.rewards) {
+    // merchant_gate: explicit list of store slugs this reward applies to.
+    // If set, the reward earns ONLY at those stores and is skipped elsewhere
+    // — regardless of category match. This is the structured fix for
+    // co-brand cards whose airline/hotel rate is brand-gated (e.g. United
+    // Explorer 3x airlines is gated to ["united-airlines"], so it should
+    // not surface at JetBlue or Delta).
+    if (r.merchant_gate && r.merchant_gate.length > 0) {
+      if (!storeSlug || !r.merchant_gate.includes(storeSlug)) continue;
+      if (categories.includes(r.category)) {
+        const candidate: CardMatch = { reward: r, matchedCategory: r.category, mode: 'direct' };
+        if (!best || compareMatches(candidate, best, modeRank) > 0) best = candidate;
+      }
+      continue;
+    }
+
     const inferred = inferRewardMode(r);
 
     if (
@@ -252,7 +268,7 @@ export function rankCards(
   for (const slug of store.co_brand_cards || []) {
     const card = cardsBySlug.get(slug);
     if (!card || used.has(slug)) continue;
-    const match = findCategoryMatch(card, store.categories, true);
+    const match = findCategoryMatch(card, store.categories, store.slug, true);
     const r = match?.reward || flatRateReward(card);
     const rate = r?.value ?? 0;
     const unit = (r?.unit as 'percent' | 'points_per_dollar') ?? 'percent';
@@ -299,7 +315,7 @@ export function rankCards(
   for (const card of active) {
     if (used.has(card.slug)) continue;
     if (candidates.some((c) => c.card.slug === card.slug)) continue;
-    const m = findCategoryMatch(card, store.categories);
+    const m = findCategoryMatch(card, store.categories, store.slug);
     if (!m) continue;
     const eff = effectiveCashbackRate(
       m.reward.value,
