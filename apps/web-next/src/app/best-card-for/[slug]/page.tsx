@@ -78,10 +78,24 @@ export default async function BestCardForStorePage({ params }: PageProps) {
         <FAQSchema questions={store.faq.map(f => ({ question: f.q, answer: f.a }))} />
       )}
 
+      {/* Terminal strip — dark bar with breadcrumb + pick count, matching
+          /card and /profile so the editorial chrome is consistent. */}
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <Link href="/best-card-for" className="cj-crumb">Stores</Link>
+          <span className="cj-sep">/</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">{store.name}</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span>
+            <span className="cj-status-dot" />
+            {picks.length} {picks.length === 1 ? 'card' : 'cards'} ranked
+          </span>
+        </div>
+      </div>
+
       <section className="page-hero wrap">
-        <Link href="/best-card-for" className="store-back-link">
-          ← All stores
-        </Link>
         <h1 className="page-title">
           Best credit card to use at {store.name}<em>.</em>
         </h1>
