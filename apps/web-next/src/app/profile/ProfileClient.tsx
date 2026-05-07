@@ -11,6 +11,7 @@ import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiv
 import "../landing.css";
 import { getNews, NewsItem, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
+import ProfileLoader from "./ProfileLoader";
 import { amortizedAnnualValue } from "@/lib/cardDisplayUtils";
 import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
@@ -595,11 +596,7 @@ export default function ProfileClient() {
 }
 
 function LoadingPanel() {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 0' }}>
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
-    </div>
-  );
+  return <ProfileLoader />;
 }
 
 /* ========== Cards tab ========== */
