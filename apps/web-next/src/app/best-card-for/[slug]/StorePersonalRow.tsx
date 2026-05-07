@@ -4,13 +4,12 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
-import { getWallet, type Card, type WalletCard } from '@/lib/api';
+import { getAllCards, getWallet, type Card, type WalletCard } from '@/lib/api';
 import type { Store } from '@/lib/stores';
 import { rankCards, formatRate, type RankedPick } from '@/lib/storeRanking';
 
 interface Props {
   store: Store;
-  cards: Card[];
 }
 
 // Conditional matchModes: rate is contingent on user action or current
@@ -24,10 +23,30 @@ function isConditional(p: RankedPick): boolean {
   );
 }
 
-export default function StorePersonalRow({ store, cards }: Props) {
+export default function StorePersonalRow({ store }: Props) {
   const { authState, getToken } = useAuth();
   const [wallet, setWallet] = useState<WalletCard[] | null>(null);
+  const [cards, setCards] = useState<Card[] | null>(null);
   const [walletError, setWalletError] = useState(false);
+
+  // Fetch the cards list client-side. Previously this was passed in as a
+  // prop from the server page, which caused every prerendered /best-card-for
+  // page to serialize the entire cards array into its RSC payload —
+  // pushing the static bundle past Amplify's 220 MB limit (Aug 2026).
+  useEffect(() => {
+    let cancelled = false;
+    if (!authState.isAuthenticated) return;
+    getAllCards()
+      .then((c) => {
+        if (!cancelled) setCards(c);
+      })
+      .catch((err) => {
+        console.error('StorePersonalRow cards fetch failed', err);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [authState.isAuthenticated]);
 
   useEffect(() => {
     let cancelled = false;
@@ -64,7 +83,7 @@ export default function StorePersonalRow({ store, cards }: Props) {
     );
   }
 
-  if (!wallet && !walletError) {
+  if ((!wallet || !cards) && !walletError) {
     return (
       <div className="store-personal-row" aria-hidden="true">
         <div className="store-personal-row-eyebrow">From your wallet</div>
@@ -77,7 +96,7 @@ export default function StorePersonalRow({ store, cards }: Props) {
     );
   }
 
-  if (walletError || !wallet || wallet.length === 0) {
+  if (walletError || !wallet || wallet.length === 0 || !cards) {
     return (
       <div className="store-personal-row store-personal-row--cta">
         <div className="store-personal-row-copy">
