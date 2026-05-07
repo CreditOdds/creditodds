@@ -17,12 +17,12 @@ interface Props {
 
 type FilterKey = 'all' | 'fee' | 'bonus' | 'apr' | 'apps';
 
-const FILTERS: { key: FilterKey; label: string }[] = [
-  { key: 'all', label: 'All' },
-  { key: 'fee', label: 'Annual fee' },
-  { key: 'bonus', label: 'Sign-up bonus' },
-  { key: 'apr', label: 'APR' },
-  { key: 'apps', label: 'Applications' },
+const FILTERS: { key: FilterKey; num: string; label: string }[] = [
+  { key: 'all', num: '01', label: 'All' },
+  { key: 'fee', num: '02', label: 'Annual fee' },
+  { key: 'bonus', num: '03', label: 'Sign-up bonus' },
+  { key: 'apr', num: '04', label: 'APR' },
+  { key: 'apps', num: '05', label: 'Applications' },
 ];
 
 const FIELD_LABELS: Record<string, string> = {
@@ -105,9 +105,27 @@ function formatDay(ts: string): string {
   });
 }
 
+function formatDayShort(ts: string): string {
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) return ts;
+  return d.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
 export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Props) {
   const [filter, setFilter] = useState<FilterKey>('all');
   const [page, setPage] = useState(1);
+
+  const counts = useMemo(() => {
+    const c: Record<FilterKey, number> = { all: entries.length, fee: 0, bonus: 0, apr: 0, apps: 0 };
+    for (const e of entries) {
+      const g = fieldGroup(e.field);
+      if (g !== 'all') c[g]++;
+    }
+    return c;
+  }, [entries]);
 
   const filtered = useMemo(() => {
     if (filter === 'all') return entries;
@@ -118,19 +136,8 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
   const safePage = Math.min(page, totalPages);
   const visible = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
-  const daysCovered = useMemo(() => {
-    const days = new Set<string>();
-    for (const e of entries) {
-      const d = new Date(e.changed_at);
-      if (!Number.isNaN(d.getTime())) {
-        days.add(d.toISOString().slice(0, 10));
-      }
-    }
-    return days.size;
-  }, [entries]);
-
   const latestTs = entries[0]?.changed_at;
-  const latestLabel = latestTs ? formatDay(latestTs) : '—';
+  const latestShort = latestTs ? formatDayShort(latestTs) : '—';
 
   const grouped = useMemo(() => {
     const groups: { date: string; entries: CardWireEntry[] }[] = [];
@@ -154,114 +161,106 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
   }
 
   return (
-    <div className="landing-v2">
-      <section className="page-hero wrap">
-        <h1 className="page-title">
-          The wire. <em>Every change.</em>
-        </h1>
-        <p className="page-sub">
-          A chronological feed of every credit-card change we track — annual fees,
-          sign-up bonuses, reward rates, APR shifts, and application status.
-        </p>
-        <div className="wire-hero-meta">
-          <span>
-            <b>{entries.length.toLocaleString()}</b> changes
+    <div className="landing-v2 wire-v2">
+      {/* Terminal strip — dark bar with breadcrumb + status */}
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <Link href="/news" className="cj-crumb">News</Link>
+          <span className="cj-sep">/</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">
+            Wire
           </span>
-          <span>·</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
           <span>
-            <b>{daysCovered}</b> days covered
-          </span>
-          <span>·</span>
-          <span>Last update · <b>{latestLabel}</b></span>
-        </div>
-      </section>
-
-      <div className="wrap">
-        <div className="filter-bar" style={{ paddingTop: 20 }}>
-          {FILTERS.map((f) => (
-            <button
-              key={f.key}
-              type="button"
-              className={'filter-chip ' + (filter === f.key ? 'active' : '')}
-              onClick={() => {
-                setFilter(f.key);
-                setPage(1);
-              }}
-            >
-              {f.label}
-            </button>
-          ))}
-          <div style={{ flex: 1 }} />
-          <span
-            style={{
-              fontSize: 13,
-              fontWeight: 500,
-              color: 'var(--muted)',
-            }}
-          >
-            <span style={{ fontFamily: "'Inter', sans-serif" }}>{filtered.length}</span> change{filtered.length === 1 ? '' : 's'}
+            <span className="cj-status-dot" />
+            live · last update {latestShort}
           </span>
         </div>
-
-        {filtered.length === 0 ? (
-          <div
-            style={{
-              padding: '80px 0',
-              textAlign: 'center',
-              color: 'var(--muted)',
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 13,
-            }}
-          >
-            No changes match this filter yet.
-          </div>
-        ) : (
-          <div className="wire-table-wrap">
-            <table className="wire-table">
-              <thead>
-                <tr>
-                  <th>Card</th>
-                  <th className="hide-sm">Field</th>
-                  <th className="hide-sm">Change</th>
-                </tr>
-              </thead>
-              <tbody>
-                {grouped.map((group) => (
-                  <GroupRows
-                    key={group.date}
-                    date={group.date}
-                    entries={group.entries}
-                    slugMap={slugMap}
-                    bonusTypeMap={bonusTypeMap}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {totalPages > 1 && (
-          <div className="wire-pager">
-            <button
-              type="button"
-              onClick={() => goPage(safePage - 1)}
-              disabled={safePage === 1}
-            >
-              ← Previous
-            </button>
-            <span>
-              Page {safePage} of {totalPages}
-            </span>
-            <button
-              type="button"
-              onClick={() => goPage(safePage + 1)}
-              disabled={safePage === totalPages}
-            >
-              Next →
-            </button>
-          </div>
-        )}
       </div>
+
+      <main className="cj-main wire-main">
+        {/* Snapshot — title + sub + readoff */}
+        <div className="cj-snapshot wire-snapshot">
+          <h1 className="cj-snapshot-h1">
+            The wire. <em>Every change.</em>
+          </h1>
+          <p className="wire-snapshot-sub">
+            A chronological feed of every credit-card change we track — annual
+            fees, sign-up bonuses, APR shifts, and application status.
+          </p>
+        </div>
+
+        {/* Sticky filter tabs — same shell as profile cj-main-tabs */}
+        <div className="cj-main-tabs wire-tabs">
+          {FILTERS.map((f) => {
+            const count = counts[f.key];
+            return (
+              <button
+                key={f.key}
+                type="button"
+                className={'cj-main-tab' + (filter === f.key ? ' active' : '')}
+                onClick={() => {
+                  setFilter(f.key);
+                  setPage(1);
+                }}
+              >
+                <span className="cj-main-tab-num">{f.num}</span>
+                {f.label}
+                {count > 0 && (
+                  <span className="cj-main-tab-count">· {count}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="cj-main-content">
+          {filtered.length === 0 ? (
+            <div className="wire-empty">No changes match this filter yet.</div>
+          ) : (
+            <div className="wire-feed" role="table" aria-label="Card wire change feed">
+              <div className="wire-feed-head" role="row">
+                <span role="columnheader">Card</span>
+                <span role="columnheader" className="hide-sm">Field</span>
+                <span role="columnheader" className="hide-sm">Change</span>
+              </div>
+              {grouped.map((group) => (
+                <GroupRows
+                  key={group.date}
+                  date={group.date}
+                  entries={group.entries}
+                  slugMap={slugMap}
+                  bonusTypeMap={bonusTypeMap}
+                />
+              ))}
+            </div>
+          )}
+
+          {totalPages > 1 && (
+            <div className="wire-pager">
+              <button
+                type="button"
+                onClick={() => goPage(safePage - 1)}
+                disabled={safePage === 1}
+              >
+                ← Previous
+              </button>
+              <span>
+                Page {safePage} of {totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() => goPage(safePage + 1)}
+                disabled={safePage === totalPages}
+              >
+                Next →
+              </button>
+            </div>
+          )}
+        </div>
+      </main>
       <V2Footer />
     </div>
   );
@@ -280,14 +279,12 @@ function GroupRows({
 }) {
   return (
     <>
-      <tr className="wire-date-row">
-        <td colSpan={3}>
-          {date}
-          <span className="wire-date-count">
-            {entries.length} change{entries.length === 1 ? '' : 's'}
-          </span>
-        </td>
-      </tr>
+      <div className="wire-day" role="row">
+        <span className="wire-day-date">{date}</span>
+        <span className="wire-day-count">
+          {entries.length} change{entries.length === 1 ? '' : 's'}
+        </span>
+      </div>
       {entries.map((entry) => {
         const slug = slugMap[entry.card_name];
         const bonusType = bonusTypeMap[entry.card_name];
@@ -296,9 +293,9 @@ function GroupRows({
         const oldFmt = formatValue(entry.field, entry.old_value, bonusType);
         const newFmt = formatValue(entry.field, entry.new_value, bonusType);
         const dir = changeDirection(entry.field, entry.old_value, entry.new_value);
-        const cardContent = (
+        const cardInner = (
           <span className="wire-card">
-            <span className="wc-thumb">
+            <span className="wire-thumb">
               <CardImage
                 cardImageLink={entry.card_image_link}
                 alt=""
@@ -307,37 +304,37 @@ function GroupRows({
                 style={{ objectFit: 'cover' }}
               />
             </span>
-            <span className="wc-name">{entry.card_name}</span>
-          </span>
-        );
-        const changeBlock = (
-          <span className={'wire-change ' + dir}>
-            <span className="old">{oldFmt}</span>
-            <span className="arrow">→</span>
-            <span className="new">{newFmt}</span>
+            <span className="wire-card-name">{entry.card_name}</span>
           </span>
         );
         const fieldChip = (
           <span className={'wire-field-chip ' + group}>{label}</span>
         );
+        const changeBlock = (
+          <span className={'wire-change ' + dir}>
+            <span className="old">{oldFmt}</span>
+            <span className="arrow" aria-hidden="true">→</span>
+            <span className="new">{newFmt}</span>
+          </span>
+        );
         return (
-          <tr key={entry.id}>
-            <td>
+          <div key={entry.id} className="wire-row" role="row">
+            <span className="wire-row-card" role="cell">
               {slug ? (
-                <Link href={`/card/${slug}`} style={{ textDecoration: 'none' }}>
-                  {cardContent}
+                <Link href={`/card/${slug}`} className="wire-card-link">
+                  {cardInner}
                 </Link>
               ) : (
-                cardContent
+                cardInner
               )}
-              <div className="wire-mobile-summary">
+              <div className="wire-row-mobile">
                 {fieldChip}
                 {changeBlock}
               </div>
-            </td>
-            <td className="hide-sm">{fieldChip}</td>
-            <td className="hide-sm">{changeBlock}</td>
-          </tr>
+            </span>
+            <span className="wire-row-field hide-sm" role="cell">{fieldChip}</span>
+            <span className="wire-row-change hide-sm" role="cell">{changeBlock}</span>
+          </div>
         );
       })}
     </>
