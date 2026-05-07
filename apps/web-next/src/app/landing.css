@@ -6489,3 +6489,152 @@
 .landing-v2.store-v2 .store-back-link:hover {
   color: var(--accent);
 }
+
+/* ============================================================
+   Profile Loader — card-shuffle replacements for the spinner.
+   Two variants: riffle (A) and deal (C). Pure CSS keyframes.
+   ============================================================ */
+.pl-host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 32px 16px;
+  width: 100%;
+}
+.pl-caption {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--ink-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.pl-caption::after {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pl-pulse 1.4s ease-in-out infinite;
+}
+@keyframes pl-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.15); }
+}
+
+.pl-card {
+  position: absolute;
+  width: 88px;
+  height: 56px;
+  border-radius: 6px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 8px 20px -8px rgba(26, 19, 48, 0.45),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, var(--ink-2), var(--ink));
+  overflow: hidden;
+  will-change: transform;
+}
+.pl-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 4px,
+    rgba(255, 255, 255, 0.05) 4px 5px
+  );
+}
+.pl-card::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 9px;
+  width: 12px;
+  height: 9px;
+  border-radius: 1.5px;
+  background: linear-gradient(135deg, #d8c97a, #8a6f1e);
+  opacity: 0.85;
+}
+.pl-card .pl-stripe {
+  position: absolute;
+  left: 8px;
+  bottom: 9px;
+  height: 5px;
+  width: 38px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.pl-card .pl-stripe.short { width: 22px; bottom: 17px; }
+
+.pl-card.t-accent { background: linear-gradient(135deg, #8a5fff, #4a25b5); }
+.pl-card.t-csr    { background: linear-gradient(135deg, #1a3a6a, #0e2244); }
+.pl-card.t-bilt   { background: linear-gradient(135deg, #1f1f1f, #0b0b0b); }
+.pl-card.t-amex   { background: linear-gradient(135deg, #c9a558, #8a6a26); }
+.pl-card.t-amex .pl-stripe { background: rgba(0, 0, 0, 0.18); }
+.pl-card.t-cap1   { background: linear-gradient(135deg, #c4a86d, #7a5e2f); }
+.pl-card.t-cap1 .pl-stripe { background: rgba(0, 0, 0, 0.18); }
+.pl-card.t-citi   { background: linear-gradient(135deg, #1a4eaf, #0a2a66); }
+
+/* Variant A — Riffle shuffle (1.8s loop, 6 cards). */
+.pl-riffle {
+  position: relative;
+  width: 200px;
+  height: 92px;
+}
+.pl-riffle .pl-card {
+  left: 56px;
+  top: 18px;
+}
+.pl-riffle .pl-card.r-l1 { animation: rfl-left  1.8s cubic-bezier(.45,.05,.55,.95) infinite; animation-delay: 0.00s; z-index: 6; }
+.pl-riffle .pl-card.r-r1 { animation: rfl-right 1.8s cubic-bezier(.45,.05,.55,.95) infinite; animation-delay: 0.10s; z-index: 5; }
+.pl-riffle .pl-card.r-l2 { animation: rfl-left  1.8s cubic-bezier(.45,.05,.55,.95) infinite; animation-delay: 0.20s; z-index: 4; }
+.pl-riffle .pl-card.r-r2 { animation: rfl-right 1.8s cubic-bezier(.45,.05,.55,.95) infinite; animation-delay: 0.30s; z-index: 3; }
+.pl-riffle .pl-card.r-l3 { animation: rfl-left  1.8s cubic-bezier(.45,.05,.55,.95) infinite; animation-delay: 0.40s; z-index: 2; }
+.pl-riffle .pl-card.r-r3 { animation: rfl-right 1.8s cubic-bezier(.45,.05,.55,.95) infinite; animation-delay: 0.50s; z-index: 1; }
+
+@keyframes rfl-left {
+  0%        { transform: translate(0, 0)        rotate(0deg); }
+  18%       { transform: translate(-58px, -2px) rotate(-4deg); }
+  55%       { transform: translate(-58px, -2px) rotate(-4deg); }
+  85%, 100% { transform: translate(0, 0)        rotate(0deg); }
+}
+@keyframes rfl-right {
+  0%        { transform: translate(0, 0)       rotate(0deg); }
+  18%       { transform: translate(58px, 2px)  rotate(4deg); }
+  55%       { transform: translate(58px, 2px)  rotate(4deg); }
+  85%, 100% { transform: translate(0, 0)       rotate(0deg); }
+}
+
+/* Variant C — Deal & tuck (5.6s loop, 4 cards). */
+.pl-deal {
+  position: relative;
+  width: 140px;
+  height: 80px;
+}
+.pl-deal .pl-card {
+  left: 26px;
+  top: 12px;
+  animation: deal 5.6s linear infinite;
+}
+.pl-deal .pl-card.d-1 { animation-delay: 0.0s; }
+.pl-deal .pl-card.d-2 { animation-delay: -1.4s; }
+.pl-deal .pl-card.d-3 { animation-delay: -2.8s; }
+.pl-deal .pl-card.d-4 { animation-delay: -4.2s; }
+
+@keyframes deal {
+  0%   { transform: translate(0, 0)       rotate(0deg); z-index: 4; }
+  20%  { transform: translate(0, 0)       rotate(0deg); z-index: 4; }
+  28%  { transform: translate(70px, -6px) rotate(8deg); z-index: 4; }
+  36%  { transform: translate(70px, 18px) rotate(0deg); z-index: 0; }
+  44%  { transform: translate(0,    18px) rotate(0deg); z-index: 1; }
+  52%  { transform: translate(0,    12px) rotate(0deg); z-index: 1; }
+  76%  { transform: translate(0,     6px) rotate(0deg); z-index: 2; }
+  100% { transform: translate(0,     0)   rotate(0deg); z-index: 3; }
+}
