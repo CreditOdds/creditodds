@@ -236,7 +236,10 @@ function PersonalCard({ pick, rank, variant = 'default' }: PersonalCardProps) {
             <span className="store-personal-row-rate-secondary">{secondary}</span>
           )}
         </div>
-        {pick.badge && variant === 'compact' && (
+        {/* Top row only carries the "this quarter" tag (rotating_current) —
+            other badges are reserved for the conditional row. Compact
+            (conditional) row shows whatever badge the pick has. */}
+        {pick.badge && (variant === 'compact' || pick.matchMode === 'rotating_current') && (
           <div className={`store-personal-row-badge${badgeFlavor}`}>{pick.badge}</div>
         )}
       </div>
