@@ -405,17 +405,14 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
           <div className="cj-table-label" style={{ marginTop: 24 }}>
             {merchants.length} merchant{merchants.length === 1 ? '' : 's'} nearby · sorted by distance
           </div>
-          <div className="cj-tape">
-            <div
-              className="cj-tape-head"
-              style={{ gridTemplateColumns: '52px 1fr 96px 1.1fr 1fr 70px' }}
-            >
-              <div>Dist.</div>
-              <div>Merchant</div>
-              <div>Category</div>
-              <div>Best</div>
-              <div>Runner-up</div>
-              <div className="cj-tape-res">Earn</div>
+          <div className="cj-tape cj-tape-bch">
+            <div className="cj-tape-head cj-bch-head">
+              <div className="cj-bch-dist">Dist.</div>
+              <div className="cj-bch-merchant">Merchant</div>
+              <div className="cj-bch-cat">Category</div>
+              <div className="cj-bch-best">Best</div>
+              <div className="cj-bch-next">Runner-up</div>
+              <div className="cj-tape-res cj-bch-earn">Earn</div>
             </div>
             {merchants.map((m, i) => {
               const pick = PICKS[m.cat];
@@ -430,64 +427,39 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
                   <button
                     type="button"
                     onClick={() => setOpenIdx(isOpen ? null : i)}
-                    className="cj-tape-row"
-                    style={{
-                      gridTemplateColumns: '52px 1fr 96px 1.1fr 1fr 70px',
-                      cursor: 'pointer',
-                      width: '100%',
-                      textAlign: 'left',
-                      background: isOpen ? 'var(--accent-2)' : 'var(--paper)',
-                      border: 0,
-                      borderTop: '1px solid var(--line)',
-                      font: 'inherit',
-                      fontFamily: 'inherit',
-                      color: 'inherit',
-                    }}
+                    className={'cj-tape-row cj-bch-row' + (isOpen ? ' is-open' : '')}
                     aria-expanded={isOpen}
                   >
-                    <div className="cj-tape-when" style={{ fontVariantNumeric: 'tabular-nums' }}>{m.dist}</div>
-                    <div className="cj-tape-event">
+                    <div className="cj-tape-when cj-bch-dist" style={{ fontVariantNumeric: 'tabular-nums' }}>{m.dist}</div>
+                    <div className="cj-tape-event cj-bch-merchant">
                       <span className="cj-tape-field">{m.name}</span>
-                      <div className="cj-tape-detail">{m.addr}</div>
+                      <div className="cj-tape-detail">
+                        <span className="cj-bch-addr">{m.addr}</span>
+                        <span className="cj-bch-mob-meta"> · {m.cat.toLowerCase()} · {m.dist}</span>
+                      </div>
                     </div>
-                    <div className="cj-tape-when" style={{ fontSize: 11 }}>{m.cat.toLowerCase()}</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                    <div className="cj-tape-when cj-bch-cat" style={{ fontSize: 11 }}>{m.cat.toLowerCase()}</div>
+                    <div className="cj-bch-card cj-bch-best">
                       <MerchantThumb card={bestCard} fallbackLabel={pick.best.displayName} />
-                      <div style={{ minWidth: 0 }}>
-                        <div className="cj-cell-primary" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {pick.best.displayName}
-                        </div>
+                      <div className="cj-bch-card-text">
+                        <div className="cj-cell-primary">{pick.best.displayName}</div>
                         <div className="cj-cell-detail">{pick.best.rate}</div>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, opacity: 0.85 }}>
+                    <div className="cj-bch-card cj-bch-next">
                       <MerchantThumb card={nextCard} fallbackLabel={pick.next.displayName} />
-                      <div style={{ minWidth: 0 }}>
-                        <div className="cj-cell-primary" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {pick.next.displayName}
-                        </div>
+                      <div className="cj-bch-card-text">
+                        <div className="cj-cell-primary">{pick.next.displayName}</div>
                         <div className="cj-cell-detail">{pick.next.rate}</div>
                       </div>
                     </div>
-                    <div className="cj-tape-res">
-                      <span className="cj-eff-pct" style={{ fontSize: 14 }}>{headlineEarn}</span>
+                    <div className="cj-tape-res cj-bch-earn">
+                      <span className="cj-eff-pct cj-bch-earn-val">{headlineEarn}</span>
                     </div>
                   </button>
                   {isOpen && (
-                    <div style={{
-                      padding: '14px 18px 16px 78px',
-                      borderTop: '1px solid var(--line)',
-                      background: '#fbfaff',
-                      fontSize: 12.5,
-                      color: 'var(--ink-2)',
-                      lineHeight: 1.6,
-                    }}>
-                      <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                        gap: '8px 28px',
-                        marginBottom: 12,
-                      }}>
+                    <div className="cj-bch-detail">
+                      <div className="cj-bch-detail-grid">
                         <div>
                           <div style={{ fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Best</div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
