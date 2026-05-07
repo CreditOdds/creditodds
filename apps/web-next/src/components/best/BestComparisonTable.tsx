@@ -7,6 +7,7 @@ import {
   formatBonusValue,
   formatEstimatedValue,
   categoryLabels,
+  pickHeadlineReward,
 } from '@/lib/cardDisplayUtils';
 
 interface EnrichedCard extends BestPageCard {
@@ -18,11 +19,11 @@ interface BestComparisonTableProps {
 }
 
 function getTopRewardLabel(card: Card): string {
-  const rewards = card.rewards || [];
-  const top = rewards.find(r => r.category !== 'everything_else') || rewards[0];
-  if (!top) return '-';
-  const label = categoryLabels[top.category] || top.category;
-  return `${top.value}${top.unit === 'percent' ? '%' : 'x'} ${label}`;
+  const pick = pickHeadlineReward(card.rewards);
+  if (!pick) return '-';
+  const { reward } = pick;
+  const label = categoryLabels[reward.category] || reward.category;
+  return `${reward.value}${reward.unit === 'percent' ? '%' : 'x'} ${label}`;
 }
 
 function getBaseRewardLabel(card: Card): string {

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
-import { categoryLabels } from '@/lib/cardDisplayUtils';
+import { categoryLabels, pickHeadlineReward } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch, expandSearchTerm } from '@/lib/searchAliases';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import './landing.css';
@@ -115,23 +115,15 @@ function bonusLabel(card: LandingCard): string {
 }
 
 function topReward(card: LandingCard): { rate: string; label: string } | null {
-  const rewards = card.rewards ?? [];
-  if (rewards.length === 0) return null;
-  // Prefer everyday categories over portal-gated highs (e.g. 4x dining > 5x portal hotels).
-  const ranked = [...rewards]
-    .filter((r) => r.category !== 'everything_else')
-    .sort((a, b) => {
-      const aPortal = a.category.endsWith('_portal') ? 1 : 0;
-      const bPortal = b.category.endsWith('_portal') ? 1 : 0;
-      if (aPortal !== bPortal) return aPortal - bPortal;
-      return b.value - a.value;
-    });
-  const pick: LandingReward | undefined = ranked[0] ?? rewards[0];
+  // Use the shared headline-picker so portal rates never crowd out everyday
+  // categories. When the headline IS portal-only, keep the "(via Portal)"
+  // suffix in the label so the catch is visible — see pickHeadlineReward.
+  const pick = pickHeadlineReward(card.rewards as LandingReward[] | undefined);
   if (!pick) return null;
-  const rate = pick.unit === 'percent' ? `${pick.value}%` : `${pick.value}x`;
-  const rawLabel = categoryLabels[pick.category] || pick.category.replace(/_/g, ' ');
-  const label = rawLabel.replace(/\s*\(via portal\)/i, '');
-  return { rate, label: label.toLowerCase() };
+  const { reward } = pick;
+  const rate = reward.unit === 'percent' ? `${reward.value}%` : `${reward.value}x`;
+  const rawLabel = categoryLabels[reward.category] || reward.category.replace(/_/g, ' ');
+  return { rate, label: rawLabel.toLowerCase() };
 }
 
 function searchRelevance(card: LandingCard, query: string): number {

@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { Card, Reward } from '@/lib/api';
-import { categoryLabels, CategoryIcon } from '@/lib/cardDisplayUtils';
+import { categoryLabels, CategoryIcon, pickHeadlineReward } from '@/lib/cardDisplayUtils';
 
 interface BankCardsTableProps {
   cards: Card[];
@@ -12,10 +12,7 @@ interface BankCardsTableProps {
 }
 
 function getTopReward(rewards: Reward[] | undefined): Reward | null {
-  if (!rewards || rewards.length === 0) return null;
-  const sorted = [...rewards].sort((a, b) => b.value - a.value);
-  const best = sorted.find(r => r.category !== 'everything_else');
-  return best || sorted[0];
+  return pickHeadlineReward(rewards)?.reward ?? null;
 }
 
 export default function BankCardsTable({ cards, trendingViews }: BankCardsTableProps) {
