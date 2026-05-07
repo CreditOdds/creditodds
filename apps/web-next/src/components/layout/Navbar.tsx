@@ -86,7 +86,7 @@ function MobileNavLink({
       href={href}
       onClick={onClick}
       className={classNames(
-        "block rounded-[8px] border px-4 py-3 text-sm font-medium transition-colors",
+        "block rounded-[3px] border px-4 py-3 text-sm font-medium transition-colors",
         active
           ? "border-[#ddd7ec] bg-[#f7f5fc] text-[#1a1330] [box-shadow:inset_3px_0_0_0_#6d3fe8]"
           : "border-transparent text-[#3a2f55] hover:border-[#ece8f5] hover:bg-[#f7f5fc] hover:text-[#1a1330]"
@@ -145,7 +145,7 @@ export default function Navbar() {
                     <Link
                       href="/profile"
                       className={classNames(
-                        "inline-flex items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] transition-colors",
+                        "inline-flex items-center gap-2 rounded-[3px] px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] transition-colors",
                         isProfileActive
                           ? "bg-[#3a2f55] text-white"
                           : "bg-[#1a1330] text-white hover:bg-[#3a2f55]"
@@ -158,10 +158,10 @@ export default function Navbar() {
                     <Menu as="div" className="relative z-10">
                       {({ open: menuOpen }) => (
                         <>
-                          <Menu.Button className="inline-flex h-9 w-9 items-center justify-center rounded-[8px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
+                          <Menu.Button className="inline-flex h-9 w-9 items-center justify-center rounded-[3px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
                             <Image
-                              className="h-8 w-8 rounded-full"
+                              className="h-8 w-8 rounded-[2px]"
                               src="https://d3ay3etzd1512y.cloudfront.net/other/profile_pic.svg"
                               alt=""
                               width={32}
@@ -180,14 +180,14 @@ export default function Navbar() {
                           >
                             <Menu.Items
                               static
-                              className="absolute right-0 mt-2 w-48 origin-top-right rounded-[12px] border border-[#ece8f5] bg-white p-1.5 shadow-lg focus:outline-none"
+                              className="absolute right-0 mt-2 w-48 origin-top-right rounded-[4px] border border-[#ece8f5] bg-white p-1.5 shadow-lg focus:outline-none"
                             >
                               <Menu.Item>
                                 {({ active }) => (
                                   <Link
                                     href="/profile"
                                     className={classNames(
-                                      "block rounded-[8px] px-3 py-2 text-sm text-[#3a2f55] transition-colors",
+                                      "block rounded-[3px] px-3 py-2 text-sm text-[#3a2f55] transition-colors",
                                       active && "bg-[#f7f5fc] text-[#1a1330]"
                                     )}
                                   >
@@ -200,7 +200,7 @@ export default function Navbar() {
                                   <button
                                     onClick={logout}
                                     className={classNames(
-                                      "block w-full rounded-[8px] px-3 py-2 text-left text-sm text-[#3a2f55] transition-colors",
+                                      "block w-full rounded-[3px] px-3 py-2 text-left text-sm text-[#3a2f55] transition-colors",
                                       active && "bg-[#f7f5fc] text-[#1a1330]"
                                     )}
                                   >
@@ -218,13 +218,13 @@ export default function Navbar() {
                   <>
                     <Link
                       href="/login"
-                      className="inline-flex items-center rounded-[8px] border border-[#ddd7ec] bg-white px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] text-[#1a1330] transition-colors hover:border-[#1a1330]"
+                      className="inline-flex items-center rounded-[3px] border border-[#ddd7ec] bg-white px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] text-[#1a1330] transition-colors hover:border-[#1a1330]"
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/register"
-                      className="inline-flex items-center rounded-[8px] border border-[#1a1330] bg-[#1a1330] px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] text-white transition-colors hover:bg-[#3a2f55] hover:border-[#3a2f55]"
+                      className="inline-flex items-center rounded-[3px] border border-[#1a1330] bg-[#1a1330] px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] text-white transition-colors hover:bg-[#3a2f55] hover:border-[#3a2f55]"
                     >
                       Sign Up
                     </Link>
@@ -233,7 +233,7 @@ export default function Navbar() {
               </div>
 
               <div className="flex items-center lg:hidden">
-                <Disclosure.Button className="inline-flex h-9 w-9 items-center justify-center rounded-[8px] border border-[#ddd7ec] bg-white text-[#1a1330] transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
+                <Disclosure.Button className="inline-flex h-9 w-9 items-center justify-center rounded-[3px] border border-[#ddd7ec] bg-white text-[#1a1330] transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="h-5 w-5" aria-hidden="true" />
@@ -258,14 +258,14 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="mt-4 rounded-[8px] border border-[#ece8f5] bg-white p-3">
+            <div className="mt-4 rounded-[3px] border border-[#ece8f5] bg-white p-3">
               {authState.isAuthenticated ? (
                 <div className="space-y-2">
                   <Link
                     href="/profile"
                     onClick={() => close()}
                     className={classNames(
-                      "flex items-center gap-2 rounded-[8px] px-4 py-3 text-sm font-semibold transition-colors",
+                      "flex items-center gap-2 rounded-[3px] px-4 py-3 text-sm font-semibold transition-colors",
                       isProfileActive
                         ? "bg-[#3a2f55] text-white"
                         : "bg-[#1a1330] text-white hover:bg-[#3a2f55]"
@@ -279,7 +279,7 @@ export default function Navbar() {
                       close();
                       logout();
                     }}
-                    className="block w-full rounded-[8px] border border-[#ddd7ec] px-4 py-3 text-left text-sm font-medium text-[#1a1330] transition-colors hover:border-[#1a1330]"
+                    className="block w-full rounded-[3px] border border-[#ddd7ec] px-4 py-3 text-left text-sm font-medium text-[#1a1330] transition-colors hover:border-[#1a1330]"
                   >
                     Sign Out
                   </button>
@@ -289,14 +289,14 @@ export default function Navbar() {
                   <Link
                     href="/login"
                     onClick={() => close()}
-                    className="block rounded-[8px] border border-[#ddd7ec] px-4 py-3 text-sm font-semibold text-[#1a1330] transition-colors hover:border-[#1a1330]"
+                    className="block rounded-[3px] border border-[#ddd7ec] px-4 py-3 text-sm font-semibold text-[#1a1330] transition-colors hover:border-[#1a1330]"
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/register"
                     onClick={() => close()}
-                    className="block rounded-[8px] border border-[#1a1330] bg-[#1a1330] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#3a2f55] hover:border-[#3a2f55]"
+                    className="block rounded-[3px] border border-[#1a1330] bg-[#1a1330] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#3a2f55] hover:border-[#3a2f55]"
                   >
                     Sign Up
                   </Link>
