@@ -294,6 +294,10 @@ function Hero({ cards }: { cards: LandingCard[] }) {
               );
             })}
           </div>
+
+          <Link href="/explore" className="explore-all">
+            Or explore all cards →
+          </Link>
         </div>
       </div>
     </section>
