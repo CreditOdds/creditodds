@@ -347,43 +347,6 @@ export async function removeFromWallet(cardId: number, token: string): Promise<{
   return res.json();
 }
 
-// Nearby Recommendations (Beta) — POST lat/lng, get back a slim list of
-// nearby businesses. Category mapping + best-card picking happen client-side.
-export interface NearbyPlace {
-  id: string;
-  name: string;
-  primaryType: string | null;
-  types: string[];
-  address: string | null;
-  lat: number | null;
-  lng: number | null;
-}
-
-export interface NearbyResponse {
-  places: NearbyPlace[];
-  cached: boolean;
-}
-
-export async function getNearbyPlaces(
-  lat: number,
-  lng: number,
-  token: string,
-): Promise<NearbyResponse> {
-  const res = await fetch(`${API_BASE}/nearby-recommendations`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ lat, lng }),
-  });
-  if (!res.ok) {
-    const errorText = await res.text().catch(() => 'Unknown error');
-    throw new Error(`Failed to fetch nearby places: ${res.status} ${errorText}`);
-  }
-  return res.json();
-}
-
 // Recent records for ticker (no auth required)
 export interface RecentRecord {
   record_id: number;
