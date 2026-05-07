@@ -32,7 +32,12 @@ Parameters:
   CardsJsonUrl:
     Type: String
     Description: CloudFront URL for cards.json
-    Default: https://d2hxvzw7msbtvt.cloudfront.net/cards.json 
+    Default: https://d2hxvzw7msbtvt.cloudfront.net/cards.json
+  GooglePlacesApiKey:
+    Type: String
+    Description: Google Places API (New) key for the wallet "Nearby" beta feature
+    NoEcho: true
+    Default: ""
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
@@ -1008,6 +1013,35 @@ Resources:
             Method: OPTIONS
             RestApiId:
               Ref: CreditCardOddsAPI
+
+  NearbyRecommendationsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/nearby-recommendations.NearbyRecommendationsHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 15
+      Description: "Beta: returns nearby businesses (Google Places) for the wallet 'best card to use here' feature"
+      Environment:
+        Variables:
+          GOOGLE_PLACES_API_KEY: !Ref GooglePlacesApiKey
+      Events:
+        PostNearby:
+          Type: Api
+          Properties:
+            Path: /nearby-recommendations
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        NearbyOptions:
+          Type: Api
+          Properties:
+            Path: /nearby-recommendations
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
 
   CardWireFunction:
     Type: AWS::Serverless::Function

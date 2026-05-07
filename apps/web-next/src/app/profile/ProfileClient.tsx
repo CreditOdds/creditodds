@@ -29,6 +29,7 @@ const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), 
 const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), { ssr: false, loading: () => null });
 const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), { ssr: false, loading: () => null });
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
+const NearbyBestCard = dynamic(() => import("@/components/wallet/NearbyBestCard"), { ssr: false, loading: () => null });
 const WalletBenefits = dynamic(() => import("@/components/wallet/WalletBenefits"), { ssr: false, loading: () => null });
 const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), { ssr: false, loading: () => null });
 const SubmitRecordCardPicker = dynamic(() => import("@/components/forms/SubmitRecordCardPicker"), { ssr: false, loading: () => null });
@@ -70,7 +71,7 @@ interface Profile {
   referrals_count: number;
 }
 
-type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings';
+type TabKey = 'cards' | 'rewards' | 'nearby' | 'benefits' | 'applications' | 'referrals' | 'settings';
 
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -300,10 +301,11 @@ export default function ProfileClient() {
   const tabs: { key: TabKey; num: string; label: string; count: string }[] = [
     { key: 'cards', num: '01', label: 'Cards', count: walletCards.length ? `${walletCards.length} cards` : '' },
     { key: 'rewards', num: '02', label: 'Rewards', count: '' },
-    { key: 'benefits', num: '03', label: 'Benefits', count: '' },
-    { key: 'applications', num: '04', label: 'Applications', count: records.length ? `${records.length} records` : '' },
-    { key: 'referrals', num: '05', label: 'Referrals', count: activeReferralsCount ? `${activeReferralsCount} links` : '' },
-    { key: 'settings', num: '06', label: 'Settings', count: '' },
+    { key: 'nearby', num: '03', label: 'Nearby', count: 'beta' },
+    { key: 'benefits', num: '04', label: 'Benefits', count: '' },
+    { key: 'applications', num: '05', label: 'Applications', count: records.length ? `${records.length} records` : '' },
+    { key: 'referrals', num: '06', label: 'Referrals', count: activeReferralsCount ? `${activeReferralsCount} links` : '' },
+    { key: 'settings', num: '07', label: 'Settings', count: '' },
   ];
 
   return (
@@ -425,6 +427,11 @@ export default function ProfileClient() {
             {activeTab === 'rewards' && (
               !walletLoaded ? <LoadingPanel /> :
               <BestCardByCategory walletCards={walletCards} allCards={allCards} />
+            )}
+
+            {activeTab === 'nearby' && (
+              !walletLoaded ? <LoadingPanel /> :
+              <NearbyBestCard walletCards={walletCards} allCards={allCards} />
             )}
 
             {activeTab === 'benefits' && (
