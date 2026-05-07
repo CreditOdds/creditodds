@@ -29,6 +29,7 @@ const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), 
 const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), { ssr: false, loading: () => null });
 const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), { ssr: false, loading: () => null });
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
+const BestCardHere = dynamic(() => import("@/components/wallet/BestCardHere"), { ssr: false, loading: () => null });
 const NearbyBestCard = dynamic(() => import("@/components/wallet/NearbyBestCard"), { ssr: false, loading: () => null });
 const WalletBenefits = dynamic(() => import("@/components/wallet/WalletBenefits"), { ssr: false, loading: () => null });
 const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), { ssr: false, loading: () => null });
@@ -425,8 +426,29 @@ export default function ProfileClient() {
             )}
 
             {activeTab === 'rewards' && (
-              !walletLoaded ? <LoadingPanel /> :
-              <BestCardByCategory walletCards={walletCards} allCards={allCards} />
+              !walletLoaded ? <LoadingPanel /> : (
+                <section className="cj-section">
+                  <BestCardHere walletCards={walletCards} allCards={allCards} />
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    margin: '36px 0 18px',
+                  }}>
+                    <span style={{
+                      fontSize: 10.5,
+                      color: 'var(--muted)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.08em',
+                      fontWeight: 600,
+                    }}>
+                      Wallet-wide
+                    </span>
+                    <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
+                  </div>
+                  <BestCardByCategory walletCards={walletCards} allCards={allCards} />
+                </section>
+              )
             )}
 
             {activeTab === 'nearby' && (
