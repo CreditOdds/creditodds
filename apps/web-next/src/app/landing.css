@@ -6178,6 +6178,137 @@
   color: var(--muted);
   font-size: 15px;
 }
+
+/* ---------- Personal "From your wallet" row (above the picks list) ---------- */
+.landing-v2.store-v2 .store-personal-row {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.landing-v2.store-v2 .store-personal-row-eyebrow {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.landing-v2.store-v2 .store-personal-row-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.landing-v2.store-v2 .store-personal-row-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+  transition: border-color 0.12s, background 0.12s;
+}
+.landing-v2.store-v2 .store-personal-row-card:hover {
+  border-color: var(--ink-2);
+  background: var(--paper);
+}
+.landing-v2.store-v2 .store-personal-row-card--skeleton {
+  background: var(--paper-2);
+  border-color: var(--line);
+  height: 60px;
+  animation: store-personal-row-pulse 1.6s ease-in-out infinite;
+}
+@keyframes store-personal-row-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.95; }
+}
+.landing-v2.store-v2 .store-personal-row-rank {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  width: 22px;
+}
+.landing-v2.store-v2 .store-personal-row-thumb {
+  flex-shrink: 0;
+  width: 56px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  border-radius: 3px;
+}
+.landing-v2.store-v2 .store-personal-row-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.landing-v2.store-v2 .store-personal-row-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.landing-v2.store-v2 .store-personal-row-rate {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.landing-v2.store-v2 .store-personal-row-rate-primary {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.landing-v2.store-v2 .store-personal-row-rate-secondary {
+  font-size: 11px;
+  color: var(--muted);
+}
+.landing-v2.store-v2 .store-personal-row--cta {
+  display: flex;
+  align-items: center;
+  background: var(--accent-2);
+  border-color: color-mix(in oklab, var(--accent) 18%, transparent);
+}
+.landing-v2.store-v2 .store-personal-row-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.landing-v2.store-v2 .store-personal-row-cta-line {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.landing-v2.store-v2 .store-personal-row-cta-link {
+  color: var(--accent-deep);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dashed color-mix(in oklab, var(--accent) 50%, transparent);
+}
+.landing-v2.store-v2 .store-personal-row-cta-link:hover {
+  border-bottom-color: var(--accent-deep);
+}
+@media (max-width: 720px) {
+  .landing-v2.store-v2 .store-personal-row-track {
+    grid-template-columns: 1fr;
+  }
+}
+
 .landing-v2.store-v2 .store-picks {
   list-style: none;
   padding: 0;
