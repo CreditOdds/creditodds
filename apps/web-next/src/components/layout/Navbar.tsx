@@ -86,7 +86,7 @@ function MobileNavLink({
       href={href}
       onClick={onClick}
       className={classNames(
-        "block rounded-[10px] border px-4 py-3 text-sm font-medium transition-colors",
+        "block rounded-[8px] border px-4 py-3 text-sm font-medium transition-colors",
         active
           ? "border-[#ddd7ec] bg-[#f7f5fc] text-[#1a1330] [box-shadow:inset_3px_0_0_0_#6d3fe8]"
           : "border-transparent text-[#3a2f55] hover:border-[#ece8f5] hover:bg-[#f7f5fc] hover:text-[#1a1330]"
@@ -145,20 +145,20 @@ export default function Navbar() {
                     <Link
                       href="/profile"
                       className={classNames(
-                        "inline-flex items-center gap-2 rounded-[8px] px-4 py-2 text-sm font-semibold transition-colors",
+                        "inline-flex items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] transition-colors",
                         isProfileActive
                           ? "bg-[#3a2f55] text-white"
                           : "bg-[#1a1330] text-white hover:bg-[#3a2f55]"
                       )}
                     >
-                      <WalletIcon className="h-[18px] w-[18px]" aria-hidden="true" />
-                      Your Wallet
+                      <WalletIcon className="h-[16px] w-[16px]" aria-hidden="true" />
+                      Wallet
                     </Link>
 
                     <Menu as="div" className="relative z-10">
                       {({ open: menuOpen }) => (
                         <>
-                          <Menu.Button className="inline-flex rounded-full border border-[#ece8f5] bg-white p-1 text-sm shadow-sm transition-colors hover:border-[#ddd7ec] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
+                          <Menu.Button className="inline-flex h-9 w-9 items-center justify-center rounded-[8px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
                             <Image
                               className="h-8 w-8 rounded-full"
@@ -218,27 +218,27 @@ export default function Navbar() {
                   <>
                     <Link
                       href="/login"
-                      className="inline-flex items-center rounded-[8px] px-3 py-2 text-sm font-semibold text-[#1a1330] transition-colors hover:bg-[#f7f5fc]"
+                      className="inline-flex items-center rounded-[8px] border border-[#ddd7ec] bg-white px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] text-[#1a1330] transition-colors hover:border-[#1a1330]"
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/register"
-                      className="inline-flex items-center rounded-[8px] bg-[#1a1330] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3a2f55]"
+                      className="inline-flex items-center rounded-[8px] border border-[#1a1330] bg-[#1a1330] px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] text-white transition-colors hover:bg-[#3a2f55] hover:border-[#3a2f55]"
                     >
-                      Sign up free
+                      Sign Up
                     </Link>
                   </>
                 )}
               </div>
 
               <div className="flex items-center lg:hidden">
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-[10px] border border-[#ece8f5] bg-white p-2 text-[#3a2f55] transition-colors hover:border-[#ddd7ec] hover:text-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
+                <Disclosure.Button className="inline-flex h-9 w-9 items-center justify-center rounded-[8px] border border-[#ddd7ec] bg-white text-[#1a1330] transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="h-5 w-5" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
@@ -258,28 +258,28 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="mt-4 rounded-[12px] border border-[#ece8f5] bg-white p-3">
+            <div className="mt-4 rounded-[8px] border border-[#ece8f5] bg-white p-3">
               {authState.isAuthenticated ? (
                 <div className="space-y-2">
                   <Link
                     href="/profile"
                     onClick={() => close()}
                     className={classNames(
-                      "flex items-center gap-2 rounded-[10px] px-4 py-3 text-sm font-semibold transition-colors",
+                      "flex items-center gap-2 rounded-[8px] px-4 py-3 text-sm font-semibold transition-colors",
                       isProfileActive
-                        ? "bg-[#1a1330] text-white"
-                        : "bg-[#f7f5fc] text-[#1a1330]"
+                        ? "bg-[#3a2f55] text-white"
+                        : "bg-[#1a1330] text-white hover:bg-[#3a2f55]"
                     )}
                   >
                     <WalletIcon className="h-5 w-5" aria-hidden="true" />
-                    Your Wallet
+                    Wallet
                   </Link>
                   <button
                     onClick={() => {
                       close();
                       logout();
                     }}
-                    className="block w-full rounded-[10px] border border-[#ece8f5] px-4 py-3 text-left text-sm font-medium text-[#3a2f55] transition-colors hover:bg-[#f7f5fc] hover:text-[#1a1330]"
+                    className="block w-full rounded-[8px] border border-[#ddd7ec] px-4 py-3 text-left text-sm font-medium text-[#1a1330] transition-colors hover:border-[#1a1330]"
                   >
                     Sign Out
                   </button>
@@ -289,16 +289,16 @@ export default function Navbar() {
                   <Link
                     href="/login"
                     onClick={() => close()}
-                    className="block rounded-[10px] border border-[#ece8f5] px-4 py-3 text-sm font-medium text-[#3a2f55] transition-colors hover:bg-[#f7f5fc] hover:text-[#1a1330]"
+                    className="block rounded-[8px] border border-[#ddd7ec] px-4 py-3 text-sm font-semibold text-[#1a1330] transition-colors hover:border-[#1a1330]"
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/register"
                     onClick={() => close()}
-                    className="block rounded-[10px] bg-[#1a1330] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#3a2f55]"
+                    className="block rounded-[8px] border border-[#1a1330] bg-[#1a1330] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#3a2f55] hover:border-[#3a2f55]"
                   >
-                    Sign up free
+                    Sign Up
                   </Link>
                 </div>
               )}
