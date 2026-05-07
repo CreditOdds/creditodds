@@ -8,8 +8,6 @@ import { categoryLabels, formatRewardWithUsdEquivalent, getRewardUsdRate } from 
 
 const canonicalOrder = Object.keys(categoryLabels).filter(c => c !== 'everything_else');
 
-// Returns the canonical "QN YYYY" label for the current quarter (UTC), used to
-// detect rotating rewards whose `current_period` hasn't been refreshed yet.
 function currentQuarterLabel(now: Date = new Date()): string {
   const q = Math.floor(now.getUTCMonth() / 3) + 1;
   return `Q${q} ${now.getUTCFullYear()}`;
@@ -22,9 +20,6 @@ function isStaleRotation(reward: Reward, expected: string): boolean {
   return cur.trim().toUpperCase() !== expected.toUpperCase();
 }
 
-// A reward is "conditional" if it carries a note OR is flagged merchant_specific.
-// We use this to surface an unrestricted alternative when the top earner is gated
-// (e.g. Marriott Bonvoy 6x at Marriott properties vs. a 3x general-hotels card).
 function isConditional(reward: Reward) {
   return reward.merchant_specific === true || (!!reward.note && reward.note.trim().length > 0);
 }
@@ -38,13 +33,8 @@ interface Pick {
   card: Card;
   reward: Reward;
   usdRate: number;
-  // True when this pick was slotted into a category via the reward's
-  // current_categories (rotating-bonus expansion) rather than declared directly.
   rotating?: boolean;
-  // True when the rotating reward's current_period doesn't match the actual
-  // current quarter — the listed bonus categories may be outdated.
   staleRotation?: boolean;
-  // Slot-specific note from current_categories[i].note. Falls back to reward.note in render.
   slotNote?: string;
 }
 
@@ -67,7 +57,6 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
 
     const expectedQuarter = currentQuarterLabel();
 
-    // Collect every (card, reward) pair per category, then sort by USD rate.
     const picksByCategory = new Map<string, Pick[]>();
     const push = (cat: string, pick: Pick) => {
       const list = picksByCategory.get(cat) ?? [];
@@ -76,10 +65,6 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
     };
 
     for (const card of walletCardData) {
-      // Index each card's permanent (non-rotating) per-category rates so
-      // we can suppress rotating slots that are already covered at >= rate
-      // by a permanent reward on the same card (e.g. Freedom Flex's
-      // permanent 5% travel_portal vs. its rotating travel_portal slot).
       const permanentRates = new Map<string, number>();
       for (const reward of card.rewards!) {
         if (reward.mode === 'quarterly_rotating') continue;
@@ -92,10 +77,6 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
         if (reward.category === 'everything_else') continue;
         const usdRate = getRewardUsdRate(reward, card);
 
-        // Quarterly rotating rewards: slot the bonus rate under each of this
-        // quarter's actual categories (e.g. groceries, gas) so users see the
-        // card competing where it currently earns the bonus. Skip the
-        // umbrella "rotating" row in that case to avoid duplication.
         if (
           reward.mode === 'quarterly_rotating' &&
           reward.current_categories &&
@@ -106,7 +87,6 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
             const cat = typeof entry === 'string' ? entry : entry.category;
             const slotNote = typeof entry === 'string' ? undefined : entry.note;
             if (!cat || cat === 'everything_else') continue;
-            // Same card already earns >= rate permanently in this category — skip.
             const perm = permanentRates.get(cat) ?? 0;
             if (perm >= usdRate) continue;
             push(cat, { card, reward, usdRate, rotating: true, staleRotation: stale, slotNote });
@@ -126,7 +106,6 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
 
       let alternative: Pick | undefined;
       if (isConditional(primary.reward)) {
-        // Find the best unrestricted pick from a *different* card.
         alternative = picks.find(p => !isConditional(p.reward) && p.card.card_name !== primary.card.card_name);
       }
 
@@ -156,173 +135,97 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
     return results;
   }, [walletCards, allCards]);
 
-  if (categoryBests.length === 0) return null;
+  if (categoryBests.length === 0) {
+    return (
+      <div className="cj-verdict">
+        <b>No category data yet.</b> Add cards to your wallet to see which one earns the most for each spending category.
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white shadow rounded-lg p-6 mt-6">
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">
-          Best Card by Category
-          <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 align-middle">Experimental</span>
-        </h2>
-        <p className="text-sm text-gray-500 mt-1">Which card in your wallet earns the most for each spending category. When the top earner is brand- or merchant-restricted, we also surface the best unrestricted option.</p>
+    <section className="cj-section">
+      <div className="cj-table-label">
+        Derived from rewards on the cards you hold. When the top earner is brand- or merchant-restricted, an unrestricted alternative is shown below it.
       </div>
-
-      {/* Desktop table */}
-      <div className="hidden sm:block overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Category</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Best Card</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Rate</th>
+      <table className="cj-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Best in your wallet</th>
+            <th className="cj-tr">Earn</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categoryBests.map(({ category, label, primary, alternative }) => (
+            <tr key={category}>
+              <td>
+                <div className="cj-cell-primary">{label}</div>
+              </td>
+              <td>
+                <PickCell pick={primary} />
+                {alternative && (
+                  <div style={{ marginTop: 6, paddingTop: 6, borderTop: '1px dashed var(--line)' }}>
+                    <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--muted-2)', fontWeight: 600, marginBottom: 4 }}>
+                      All {label.toLowerCase()}
+                    </div>
+                    <PickCell pick={alternative} />
+                  </div>
+                )}
+              </td>
+              <td className="cj-tr">
+                <RateCell pick={primary} />
+                {alternative && (
+                  <div style={{ marginTop: 6, paddingTop: 6, borderTop: '1px dashed var(--line)' }}>
+                    <div style={{ fontSize: 10, marginBottom: 4, visibility: 'hidden' }}>.</div>
+                    <RateCell pick={alternative} />
+                  </div>
+                )}
+              </td>
             </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {categoryBests.map(({ category, label, primary, alternative }) => (
-              <tr key={category} className="align-top">
-                <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                  {label}
-                </td>
-                <td className="px-4 py-3">
-                  <PickRow pick={primary} />
-                  {alternative && (
-                    <div className="mt-2 pt-2 border-t border-dashed border-gray-200">
-                      <div className="text-[11px] uppercase tracking-wide text-gray-400 mb-1">All {label.toLowerCase()}</div>
-                      <PickRow pick={alternative} />
-                    </div>
-                  )}
-                </td>
-                <td className="px-4 py-3">
-                  <RateBadge pick={primary} />
-                  {alternative && (
-                    <div className="mt-2 pt-2 border-t border-dashed border-gray-200">
-                      <div className="invisible text-[11px] mb-1">.</div>
-                      <RateBadge pick={alternative} />
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Mobile layout */}
-      <div className="sm:hidden divide-y divide-gray-200">
-        {categoryBests.map(({ category, label, primary, alternative }) => (
-          <div key={category} className="py-3">
-            <div className="text-sm font-medium text-gray-900 mb-2">{label}</div>
-            <MobilePickRow pick={primary} />
-            {alternative && (
-              <div className="mt-2 pt-2 border-t border-dashed border-gray-200">
-                <div className="text-[11px] uppercase tracking-wide text-gray-400 mb-1">All {label.toLowerCase()}</div>
-                <MobilePickRow pick={alternative} />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+          ))}
+        </tbody>
+      </table>
+    </section>
   );
 }
 
-function PickRow({ pick }: { pick: Pick }) {
+function PickCell({ pick }: { pick: Pick }) {
   const { card, reward, rotating, staleRotation, slotNote } = pick;
   const note = slotNote ?? reward.note;
   const href = card.slug ? `/card/${card.slug}` : undefined;
-  return (
-    <div className={`flex items-start gap-3 ${staleRotation ? 'opacity-60' : ''}`}>
-      <div className="flex-shrink-0 h-8 w-12 relative">
-        <CardImage
-          cardImageLink={card.card_image_link}
-          alt={card.card_name}
-          fill
-          className="object-contain"
-          sizes="48px"
-        />
-      </div>
-      <div className="min-w-0">
-        <div className="flex items-center gap-1.5 flex-wrap">
-          {href ? (
-            <Link href={href} className="text-sm text-gray-900 hover:text-indigo-600 hover:underline">
-              {card.card_name}
-            </Link>
-          ) : (
-            <span className="text-sm text-gray-900">{card.card_name}</span>
-          )}
+  const wrapper = (
+    <div className="cj-rew-best" style={staleRotation ? { opacity: 0.6 } : undefined}>
+      <span className="cj-rew-thumb">
+        <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="32px" />
+      </span>
+      <div style={{ minWidth: 0 }}>
+        <div className="cj-cell-primary" style={{ display: 'flex', gap: 6, alignItems: 'baseline', flexWrap: 'wrap' }}>
+          <span>{card.card_name}</span>
           {rotating && (
-            <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${
-              staleRotation ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-800'
-            }`}>
-              Rotating{reward.current_period ? ` · ${reward.current_period}` : ''}
+            <span style={{
+              fontSize: 9.5,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              padding: '1px 5px',
+              borderRadius: 2,
+              background: staleRotation ? '#fef9e8' : 'var(--accent-2)',
+              color: staleRotation ? '#a8792a' : 'var(--accent)',
+            }}>
+              rotating{reward.current_period ? ` · ${reward.current_period}` : ''}
             </span>
           )}
-          {staleRotation && (
-            <span className="text-[11px] text-amber-700">may be outdated</span>
-          )}
         </div>
-        {note && (
-          <div className="text-xs text-gray-500 mt-0.5">{note}</div>
-        )}
+        {note && <div className="cj-cell-detail">{note}</div>}
+        {staleRotation && <div className="cj-cell-detail" style={{ color: '#a8792a' }}>may be outdated</div>}
       </div>
     </div>
   );
+  return href ? <Link href={href} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>{wrapper}</Link> : wrapper;
 }
 
-function MobilePickRow({ pick }: { pick: Pick }) {
-  const { card, reward, rotating, staleRotation, slotNote } = pick;
-  const note = slotNote ?? reward.note;
-  const href = card.slug ? `/card/${card.slug}` : undefined;
-  return (
-    <div className={`flex items-start justify-between gap-2 ${staleRotation ? 'opacity-60' : ''}`}>
-      <div className="flex items-start gap-2 min-w-0">
-        <div className="flex-shrink-0 h-6 w-10 relative">
-          <CardImage
-            cardImageLink={card.card_image_link}
-            alt={card.card_name}
-            fill
-            className="object-contain"
-            sizes="40px"
-          />
-        </div>
-        <div className="min-w-0">
-          {href ? (
-            <Link href={href} className="block text-xs text-gray-900 truncate hover:text-indigo-600 hover:underline">
-              {card.card_name}
-            </Link>
-          ) : (
-            <div className="text-xs text-gray-900 truncate">{card.card_name}</div>
-          )}
-          {rotating && (
-            <span className={`inline-flex items-center mt-0.5 px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wide ${
-              staleRotation ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-800'
-            }`}>
-              Rotating{reward.current_period ? ` · ${reward.current_period}` : ''}
-            </span>
-          )}
-          {staleRotation && (
-            <div className="text-[10px] text-amber-700 mt-0.5">may be outdated</div>
-          )}
-          {note && (
-            <div className="text-[11px] text-gray-500 mt-0.5">{note}</div>
-          )}
-        </div>
-      </div>
-      <RateBadge pick={pick} />
-    </div>
-  );
-}
-
-function RateBadge({ pick }: { pick: Pick }) {
+function RateCell({ pick }: { pick: Pick }) {
   const { card, reward } = pick;
-  return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap ${
-      reward.unit === 'percent'
-        ? 'bg-green-100 text-green-800'
-        : 'bg-indigo-100 text-indigo-800'
-    }`}>
-      {formatRewardWithUsdEquivalent(reward, card)}
-    </span>
-  );
+  return <span className="cj-eff-pct">{formatRewardWithUsdEquivalent(reward, card)}</span>;
 }
