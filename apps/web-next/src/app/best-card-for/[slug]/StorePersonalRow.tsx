@@ -137,6 +137,15 @@ function PersonalCard({ pick, rank }: { pick: RankedPick; rank: number }) {
       ? `${pick.effectiveRate.toFixed(pick.effectiveRate < 10 ? 1 : 0)}%`
       : formatRate(pick.rate, pick.unit);
   const secondary = pick.unit === 'points_per_dollar' ? formatRate(pick.rate, pick.unit) : null;
+  // Same caveat vocabulary as the main store-pick list:
+  //   - rotating_current → "this quarter" (informational, purple)
+  //   - rotating_eligible → "situational" (muted)
+  //   - user_choice / top_spend → real condition (gold/warning)
+  const badgeFlavor = pick.matchMode === 'rotating_current'
+    ? ' is-period'
+    : pick.matchMode === 'rotating_eligible'
+    ? ' is-situational'
+    : '';
   return (
     <Link href={`/card/${pick.card.slug}`} className="store-personal-row-card">
       <div className="store-personal-row-rank">#{rank}</div>
@@ -152,9 +161,15 @@ function PersonalCard({ pick, rank }: { pick: RankedPick; rank: number }) {
       <div className="store-personal-row-body">
         <div className="store-personal-row-name">{pick.card.card_name}</div>
         <div className="store-personal-row-rate">
-          <span className="store-personal-row-rate-primary">{rateLabel}</span>
+          <span className="store-personal-row-rate-primary">
+            {rateLabel}
+            {pick.badge && <span className="store-personal-row-asterisk" aria-hidden="true">*</span>}
+          </span>
           {secondary && <span className="store-personal-row-rate-secondary">{secondary}</span>}
         </div>
+        {pick.badge && (
+          <div className={`store-personal-row-badge${badgeFlavor}`}>{pick.badge}</div>
+        )}
       </div>
     </Link>
   );

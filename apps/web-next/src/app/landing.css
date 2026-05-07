@@ -6278,6 +6278,48 @@
   font-size: 11px;
   color: var(--muted);
 }
+.landing-v2.store-v2 .store-personal-row-asterisk {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 700;
+  vertical-align: super;
+  line-height: 1;
+}
+.landing-v2.store-v2 .store-personal-row-badge {
+  margin-top: 4px;
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 999px;
+  line-height: 1.4;
+  color: var(--gold);
+  background: color-mix(in oklab, var(--gold) 10%, var(--paper));
+  border: 1px solid color-mix(in oklab, var(--gold) 30%, transparent);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.landing-v2.store-v2 .store-personal-row-badge.is-period {
+  color: var(--accent);
+  background: var(--accent-2);
+  border-color: color-mix(in oklab, var(--accent) 18%, transparent);
+}
+.landing-v2.store-v2 .store-personal-row-badge.is-situational {
+  color: var(--muted);
+  background: color-mix(in oklab, var(--muted) 8%, var(--paper));
+  border-color: var(--line-2);
+}
+.landing-v2.store-v2 .store-personal-row-badge.is-period + .store-personal-row-asterisk,
+.landing-v2.store-v2 .store-personal-row-asterisk:has(+ .store-personal-row-badge.is-period) {
+  color: var(--accent);
+}
 .landing-v2.store-v2 .store-personal-row--cta {
   display: flex;
   align-items: center;
