@@ -127,7 +127,7 @@ export default async function BestCardForStorePage({ params }: PageProps) {
           </p>
         ) : (
           <>
-          <StorePersonalRow store={store} cards={allCards} />
+          <StorePersonalRow store={store} />
           {picks.some(p => p.channel === 'online' || p.channel === 'in_store') && (
             <p className="store-channel-note">
               Picks without a tag earn at {store.name} both in-store and online. Watch for the
