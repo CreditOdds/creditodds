@@ -1,0 +1,13 @@
+name: "Burger King"
+slug: "burger-king"
+aliases:
+  - "BK"
+categories:
+  - dining
+website: "https://www.bk.com"
+intro: |
+  Burger King is a U.S. fast-food chain with about 7,000 domestic locations, owned
+  by Restaurant Brands International. Charges code as dining on every card we track.
+  Standard dining-bonus cards (Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%) are
+  the obvious pairings. The Royal Perks loyalty program in the app issues "Crowns"
+  redeemable for free menu items, stackable with any card's bonus rate.

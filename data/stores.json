@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-04T17:41:20.323Z",
-  "count": 58,
+  "generated_at": "2026-05-07T15:23:57.568Z",
+  "count": 158,
   "stores": [
     {
       "name": "7-Eleven",
@@ -36,6 +36,28 @@
       "intro": "Ace Hardware is a cooperative of about 5,000 independently-owned hardware stores in the\nU.S., smaller and more service-oriented than Home Depot or Lowe's. Ace's own Ace Rewards\nloyalty program layers on top of card cashback. Notably, Ace Hardware is one of the\nmerchants that earns 3% on the Apple Card via Apple Pay, alongside the home-improvement\ncategory match on general-purpose cards.\n"
     },
     {
+      "name": "Adidas",
+      "slug": "adidas",
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.adidas.com",
+      "intro": "Adidas is the second-largest global athletic apparel brand. Adidas.com codes as\nonline shopping; in-store charges code as department stores. The adiClub loyalty\nprogram issues spend-tier credits and member-exclusive product drops. Strongest\npairings are an online-shopping-bonus card for adidas.com or flat-rate cashback\nfor in-store.\n"
+    },
+    {
+      "name": "Advance Auto Parts",
+      "slug": "advance-auto-parts",
+      "aliases": [
+        "Advance"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://shop.advanceautoparts.com",
+      "intro": "Advance Auto Parts is a U.S. auto parts retailer with about 4,700 domestic\nstores plus the Carquest commercial parts network. In-store charges code as\nauto parts; advance auto parts.com codes as online shopping. The Speed Perks\nloyalty program is free and issues percent-back rewards in store credit. Pair\nwith flat-rate cashback or an online-shopping-bonus card for digital orders.\n"
+    },
+    {
       "name": "Airbnb",
       "slug": "airbnb",
       "aliases": [
@@ -62,6 +84,20 @@
           "a": "No. Airbnb is not part of any hotel loyalty program — stays earn no Bonvoy, Honors, World of Hyatt, IHG One, Wyndham, or Choice points, and don't count toward elite-night requirements. The only rewards on an Airbnb stay come from your credit card."
         }
       ]
+    },
+    {
+      "name": "Alaska Airlines",
+      "slug": "alaska-airlines",
+      "aliases": [
+        "Alaska",
+        "Mileage Plan"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.alaskaair.com",
+      "intro": "Alaska Airlines is the West Coast's dominant carrier and runs the Mileage Plan\nprogram, prized for its generous partner award chart and a unique stopover-on-one-way\nrule. Alaska tickets code as airfare on every card we track. Alaska's co-branded\nVisa offers a Companion Fare each year that's often the single biggest reason\ncardholders keep it, plus a free checked bag. General travel cards usually win on\ncash-equivalent earn, but the Companion Fare can outweigh that for a once-a-year\nlong-haul booking.\n"
     },
     {
       "name": "Albertsons",
@@ -109,6 +145,68 @@
       "intro": "Amazon.com is the dominant U.S. online retailer and a category unto itself in many\ncredit-card rewards programs. Several cards explicitly bonus on Amazon purchases (often\nquarterly, often tied to Prime membership), and Amazon.com always codes as online\nshopping for cards with that as a generic bonus category. The rule of thumb: an\nAmazon-specific bonus almost always beats a generic online-shopping bonus, but caps and\nPrime requirements can flip the math for heavy shoppers.\n"
     },
     {
+      "name": "AMC Theatres",
+      "slug": "amc-theatres",
+      "aliases": [
+        "AMC",
+        "AMC Theaters"
+      ],
+      "categories": [
+        "entertainment"
+      ],
+      "website": "https://www.amctheatres.com",
+      "intro": "AMC Theatres is the largest U.S. movie-theater chain with about 600 domestic\nlocations. In-theater and online ticket purchases code as entertainment on\nevery card we track. The free AMC Stubs Insider program and paid AMC Stubs\nA-List ($19.95-$24.99/mo for unlimited matinees) deliver the strongest\nper-visit savings. Capital One Savor cards earn 4% on entertainment, and\nCiti Custom Cash earns 5% if entertainment is your top monthly category.\n"
+    },
+    {
+      "name": "American Airlines",
+      "slug": "american-airlines",
+      "aliases": [
+        "AA",
+        "American",
+        "AAdvantage"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.aa.com",
+      "co_brand_cards": [
+        "american-airlines-aadvantage-mileu-mastercard",
+        "citi-aadvantage-executive-world-elite-masterc",
+        "citi-aadvantage-globe",
+        "citi-aadvantage-platinum-select-world-elite-m",
+        "citibusiness-aadvantage-platinum-select-maste"
+      ],
+      "intro": "American Airlines is the world's largest carrier by fleet size and the home of the\nAAdvantage loyalty program. Tickets booked at aa.com or at the airport code as\nairfare on every card we track. Co-branded AAdvantage cards layer extra miles plus\nperks like priority boarding and a free checked bag. General travel cards (Sapphire\nReserve, Venture X) often deliver higher cash-equivalent value if you don't need\nAA-specific perks. Tickets booked through OTAs still earn miles and elite credit\nif your AAdvantage number is on the reservation.\n"
+    },
+    {
+      "name": "American Eagle",
+      "slug": "american-eagle",
+      "aliases": [
+        "AE",
+        "American Eagle Outfitters"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.ae.com",
+      "intro": "American Eagle is a U.S. apparel retailer with about 950 stores in its main\nbrand plus the Aerie intimates spinoff. In-store charges code as department\nstores or apparel; ae.com codes as online shopping. The Real Rewards loyalty\nprogram issues spend-based credits redeemable on future purchases. Strongest\npairings are an online-shopping-bonus card for ae.com orders or flat-rate\ncashback in-store.\n"
+    },
+    {
+      "name": "Anthropologie",
+      "slug": "anthropologie",
+      "aliases": [
+        "Anthro"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.anthropologie.com",
+      "intro": "Anthropologie is a U.S. lifestyle retailer with about 200 stores selling apparel,\nhome goods, and accessories, owned by URBN (also Urban Outfitters and Free People).\nIn-store charges code as department stores; anthropologie.com codes as online\nshopping. AnthroPerks (free) and the AnthroPerks+ paid tier add free shipping and\nbirthday rewards. Strongest pairings are an online-shopping-bonus card or\nflat-rate cashback for in-store.\n"
+    },
+    {
       "name": "Apple",
       "slug": "apple",
       "aliases": [
@@ -128,6 +226,67 @@
         }
       ],
       "intro": "Apple's own retail channels — apple.com, the Apple Store app, and ~270 physical Apple\nStores — code as online shopping for most cards on the .com side and as electronics\nin-store. Apple purchases through Apple Pay also enable several merchant-specific\nbonuses on cards that bonus Apple Pay, but those typically require the purchase to be\nmade via the Apple Pay button rather than chip-and-PIN. The Apple Card itself earns 3%\non Apple-branded purchases, which is the strongest non-promotional rate you'll find\nhere.\n"
+    },
+    {
+      "name": "Applebee's",
+      "slug": "applebees",
+      "aliases": [
+        "Applebees"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.applebees.com",
+      "intro": "Applebee's is a U.S. casual-dining chain with about 1,500 domestic locations,\nowned by Dine Brands. Charges code as dining on every card we track, so any\ndining-bonus card applies (Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%).\nApplebee's runs frequent prix-fixe deals and a free-appetizer-with-rewards\nloyalty program that stack on top of any card's dining bonus.\n"
+    },
+    {
+      "name": "Arby's",
+      "slug": "arbys",
+      "aliases": [
+        "Arbys"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.arbys.com",
+      "intro": "Arby's is a U.S. fast-food chain with about 3,300 domestic locations, focused on\nroast beef and deli sandwiches. Charges code as dining on every card we track,\nso any dining-bonus card (Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%)\napplies. The Arby's Rewards app issues per-purchase points redeemable for menu\nitems, stackable with card bonuses.\n"
+    },
+    {
+      "name": "AutoZone",
+      "slug": "autozone",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.autozone.com",
+      "intro": "AutoZone is the largest U.S. auto parts retailer with about 6,300 domestic\nstores. In-store charges typically code as auto parts (some banks classify\nas gas-adjacent), and autozone.com codes as online shopping. The AutoZone\nRewards loyalty program is free and issues a $20 reward after five $20+\npurchases. Pair with a flat-rate cashback card or, for online orders, an\nonline-shopping-bonus card.\n"
+    },
+    {
+      "name": "Avis",
+      "slug": "avis",
+      "aliases": [
+        "Avis Car Rental",
+        "Avis Preferred"
+      ],
+      "categories": [
+        "car_rentals",
+        "travel"
+      ],
+      "website": "https://www.avis.com",
+      "intro": "Avis is one of the three large U.S. car-rental brands, sister company to Budget under\nAvis Budget Group. Rentals code as car rentals on every card we track. Several\npremium cards confer Avis President's Club status (Amex Platinum, Capital One Venture\nX) which adds a guaranteed upgrade plus free additional driver. Booking via a card's\ntravel portal earns the portal bonus rate but may forfeit Avis Preferred earnings\nand direct-booking promo codes.\n"
+    },
+    {
+      "name": "Bath & Body Works",
+      "slug": "bath-and-body-works",
+      "aliases": [
+        "Bath and Body Works",
+        "BBW"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.bathandbodyworks.com",
+      "intro": "Bath & Body Works is a U.S. personal-care chain with about 1,800 domestic stores,\nselling soaps, lotions, candles, and home fragrance. In-store charges code as\ndepartment stores; bathandbodyworks.com codes as online shopping. The My Bath &\nBody Works Rewards program issues a free reward at sign-up plus per-spend points;\na Comenity Bank-issued co-branded credit card layers additional cashback for\nheavy shoppers.\n"
     },
     {
       "name": "Best Buy",
@@ -193,6 +352,94 @@
       "intro": "Bloomingdale's is a luxury-leaning department store with about 30 full-line locations\nin the U.S., plus the higher-end Bloomingdale's by Bloomingdale's outlet stores. Most\nshoppers are paying full price on apparel, beauty, and home goods, so the cashback rate\non your card matters more here than at a discount retailer.\n\nBloomingdale's accepts all four major networks (Visa, Mastercard, Amex, Discover) and\nApple Pay in stores. There is a co-branded Bloomingdale's American Express that earns\nLoyallist points, but most general-purpose cards will pay you better in cashback unless\nyou spend several thousand dollars a year at Bloomingdale's specifically.\n"
     },
     {
+      "name": "Booking.com",
+      "slug": "booking-com",
+      "aliases": [
+        "Booking"
+      ],
+      "categories": [
+        "travel"
+      ],
+      "website": "https://www.booking.com",
+      "intro": "Booking.com is one of the largest global online travel agencies, owned by Booking\nHoldings (which also owns Priceline, Kayak, and Agoda). Bookings code as travel\non every card we track. The honest catch: hotel chains typically do NOT credit\nBooking.com stays toward elite-night or status counts, and many properties\nexclude OTA stays from earning their loyalty points — so a Hilton/Marriott/Hyatt\nloyalist almost always books direct. Booking's own Genius rewards tier and\noccasional 10% off promos can still beat direct on price for one-off stays.\n"
+    },
+    {
+      "name": "BP",
+      "slug": "bp",
+      "aliases": [
+        "BP Gas",
+        "Amoco"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.bp.com",
+      "intro": "BP and its Amoco-branded stations cover roughly 7,000 U.S. locations. Pumps code\ncleanly as gas on every card we track. BP runs the BPme app and a separate BP\nVisa with cash-back at BP/Amoco; in absolute cents most general-purpose 4-5% gas\ncards beat it. The bigger swing for heavy BP buyers is the BPme Rewards loyalty\nprogram, which stacks on top of any card's gas bonus.\n"
+    },
+    {
+      "name": "Budget",
+      "slug": "budget",
+      "aliases": [
+        "Budget Rent a Car"
+      ],
+      "categories": [
+        "car_rentals",
+        "travel"
+      ],
+      "website": "https://www.budget.com",
+      "intro": "Budget is the value-priced sister brand to Avis under Avis Budget Group. Rentals\ncode as car rentals on every card we track. Pricing is generally a tier below Avis\nfor the same fleet, and the Avis Preferred program covers Budget rentals too.\nGeneral travel cards (Sapphire Preferred, Venture, Venture X) are the standard\npairing — most users book direct rather than via a card's travel portal because\nBudget's coupon ecosystem (BCD codes, AAA, Costco) usually beats portal pricing.\n"
+    },
+    {
+      "name": "Buffalo Wild Wings",
+      "slug": "buffalo-wild-wings",
+      "aliases": [
+        "BWW",
+        "B-Dubs"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.buffalowildwings.com",
+      "intro": "Buffalo Wild Wings is a U.S. casual-dining chain with about 1,200 domestic\nlocations, focused on wings and sports bar atmosphere. Charges code as dining\non every card we track. Any dining-bonus card applies (Amex Gold 4x, Sapphire\nPreferred 3x, SavorOne 3%). Blazin' Rewards in the app issues per-purchase\npoints redeemable for free items, stackable with card bonuses.\n"
+    },
+    {
+      "name": "Burger King",
+      "slug": "burger-king",
+      "aliases": [
+        "BK"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.bk.com",
+      "intro": "Burger King is a U.S. fast-food chain with about 7,000 domestic locations, owned\nby Restaurant Brands International. Charges code as dining on every card we track.\nStandard dining-bonus cards (Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%) are\nthe obvious pairings. The Royal Perks loyalty program in the app issues \"Crowns\"\nredeemable for free menu items, stackable with any card's bonus rate.\n"
+    },
+    {
+      "name": "Burlington",
+      "slug": "burlington",
+      "aliases": [
+        "Burlington Coat Factory"
+      ],
+      "categories": [
+        "department_stores"
+      ],
+      "website": "https://www.burlington.com",
+      "intro": "Burlington is a U.S. off-price retail chain with about 1,000 stores selling\napparel, home, and baby goods at discount prices. Codes as department stores on\nmost cards. There's no co-branded Burlington credit card, so the strongest\npairings are department-store-bonus or flat-rate cashback cards. Burlington\ndoesn't run a high-volume loyalty program.\n"
+    },
+    {
+      "name": "Carnival Cruise Line",
+      "slug": "carnival-cruise",
+      "aliases": [
+        "Carnival",
+        "Carnival Cruise"
+      ],
+      "categories": [
+        "travel"
+      ],
+      "website": "https://www.carnival.com",
+      "intro": "Carnival Cruise Line is the largest U.S. cruise operator by passenger volume,\nowned by Carnival Corporation (which also owns Princess, Holland America, and\nCunard). Cruise bookings code as travel on every card we track. Pre-booked\nshore excursions, drink packages, and gratuities purchased through the cruise\nline generally code as travel as well. Onboard charges (folio purchases) often\ncode as travel but sometimes as cruise-specific — worth confirming on a small\ncharge before relying on a 3x travel multiplier.\n"
+    },
+    {
       "name": "Chevron",
       "slug": "chevron",
       "aliases": [
@@ -225,6 +472,18 @@
       ],
       "website": "https://www.chick-fil-a.com",
       "intro": "Chick-fil-A is one of the highest-grossing U.S. fast-food chains by per-store revenue,\nwith about 3,000 locations and a closed-loop app/loyalty program. All Chick-fil-A\npurchases code as dining/restaurants on every card we track. App reloads of Chick-fil-A\nOne credits also trigger the dining category, which is a clean way to capture the bonus.\n"
+    },
+    {
+      "name": "Chili's",
+      "slug": "chilis",
+      "aliases": [
+        "Chilis"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.chilis.com",
+      "intro": "Chili's is a U.S. casual-dining chain with about 1,200 domestic locations, owned\nby Brinker International. Charges code as dining on every card we track, so\nany dining-bonus card applies (Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%).\nMy Chili's Rewards offers a free chips-and-salsa or non-alcoholic drink with\neach visit and frequent BOGO entree promotions, stackable with card bonuses.\n"
     },
     {
       "name": "Chipotle",
@@ -272,6 +531,15 @@
       "intro": "Choice Hotels operates roughly 7,500 properties worldwide, dominated by mid-scale and\neconomy brands — Comfort Inn, Quality Inn, Sleep Inn, Clarion — with the Cambria and\nAscend Hotel Collection covering its upscale push. The 2022 acquisition of Radisson\nAmericas folded Country Inn & Suites and Park Plaza into Choice Privileges, broadening\nthe footprint considerably. Award nights start as low as 6,000 points, and the program\nis one of the better economy-tier values on a cents-per-point basis. The Wells Fargo\nChoice Privileges co-brand cards earn elevated points on Choice stays and gas, with\nthe Select tier adding automatic Platinum elite status and an annual bonus night.\nDirect bookings earn points; OTA stays do not.\n"
     },
     {
+      "name": "Circle K",
+      "slug": "circle-k",
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.circlek.com",
+      "intro": "Circle K is one of the largest U.S. convenience-store chains, with about 7,000\ndomestic locations operating both branded fuel and convenience retail. Fuel\npurchases code as gas on every card we track; in-store purchases code as\nconvenience or grocery depending on the bank. The Inner Circle membership\n($1.99/mo) layers on per-gallon discounts and is usually a stronger rebate per\nvisit than any Circle K-specific credit card.\n"
+    },
+    {
       "name": "Costco",
       "slug": "costco",
       "aliases": [
@@ -296,6 +564,19 @@
       "intro": "Costco Wholesale runs about 600 warehouses worldwide and a sizable online catalog at\ncostco.com. The pricing model revolves around member-only bulk buying, so card choice\nmatters most for people running weekly grocery and gas trips through the warehouse. Two\nquirks worth knowing: Costco accepts only Visa cards in-warehouse (no Mastercard, Amex,\nor Discover), and Costco gas pumps code as wholesale clubs — not gas — so a 5% gas card\nwill not trigger at the pump here.\n"
     },
     {
+      "name": "Crate & Barrel",
+      "slug": "crate-and-barrel",
+      "aliases": [
+        "Crate and Barrel"
+      ],
+      "categories": [
+        "online_shopping",
+        "home_improvement"
+      ],
+      "website": "https://www.crateandbarrel.com",
+      "intro": "Crate & Barrel is a U.S. home furnishings retailer with about 100 stores plus\nthe CB2 modern-design sister brand. In-store charges code as furniture; online\norders code as online shopping. The Crate & Barrel Credit Card and Reward\nMastercard issue percent-back in store credit on Crate & Barrel-family purchases;\nthe Reward Mastercard adds a flat rate on everyday spend. Pair otherwise with\nan online-shopping-bonus card.\n"
+    },
+    {
       "name": "CVS",
       "slug": "cvs",
       "aliases": [
@@ -306,6 +587,73 @@
       ],
       "website": "https://www.cvs.com",
       "intro": "CVS is the largest U.S. pharmacy chain by store count (about 9,000 locations) and a\nmajor convenience-goods retailer alongside the prescription business. CVS codes as a\ndrugstore on every card we track, so any 3-5% drugstore-category card will earn here.\nCVS's own ExtraCare loyalty program runs in parallel and stacks with card cashback.\n"
+    },
+    {
+      "name": "Delta Air Lines",
+      "slug": "delta-air-lines",
+      "aliases": [
+        "Delta",
+        "Delta SkyMiles"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.delta.com",
+      "co_brand_cards": [
+        "delta-skymiles-blue-american-express-card",
+        "delta-skymiles-gold-american-express-card",
+        "delta-skymiles-platinum-american-express-card",
+        "delta-skymiles-reserve-american-express-card"
+      ],
+      "intro": "Delta Air Lines runs one of the strongest U.S. domestic networks and the SkyMiles\nloyalty program. Delta tickets code as airfare across all major cards. Co-branded\nSkyMiles Amex cards add extra miles per dollar on Delta plus perks like a free\nchecked bag, Sky Club access (Reserve only), and Medallion-status boost spend.\nGeneral travel cards usually beat them on raw cash-equivalent value, but the\nReserve's lounge access and MQD-waiver path can swing the math for frequent flyers.\nOTA bookings still earn miles when your SkyMiles number is attached.\n"
+    },
+    {
+      "name": "Dick's Sporting Goods",
+      "slug": "dicks-sporting-goods",
+      "aliases": [
+        "Dicks",
+        "Dick's"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.dickssportinggoods.com",
+      "intro": "Dick's Sporting Goods is the largest U.S. sporting goods retailer with about\n720 namesake stores plus Public Lands, Field & Stream, Going Going Gone, and\nGolf Galaxy banners. In-store charges code as department stores; online orders\ncode as online shopping. The free ScoreCard loyalty program issues 1 point per\n$1 plus periodic 2-3x bonus events redeemable for store credit, stackable with\ncard bonuses. There's a Dick's-branded Synchrony credit card with 8% in-store\ncashback for cardholders.\n"
+    },
+    {
+      "name": "Disney+",
+      "slug": "disney-plus",
+      "aliases": [
+        "Disney Plus"
+      ],
+      "categories": [
+        "streaming"
+      ],
+      "website": "https://www.disneyplus.com",
+      "intro": "Disney+ is The Walt Disney Company's streaming service, with Disney/Pixar/Marvel/\nStar Wars/National Geographic content. Monthly subscriptions code as streaming on\nevery card we track. Streaming-bonus cards (Blue Cash Preferred 6%, U.S. Bank\nCash+ 5% on selected categories) are the strongest pairings. Disney+ is also\nbundled with Hulu and ESPN+ as the Disney Bundle, often the cheapest path to\nall three services.\n"
+    },
+    {
+      "name": "Dollar General",
+      "slug": "dollar-general",
+      "aliases": [
+        "DG"
+      ],
+      "categories": [
+        "department_stores"
+      ],
+      "website": "https://www.dollargeneral.com",
+      "intro": "Dollar General is a U.S. discount retail chain with about 20,000 domestic stores,\noften the only general-merchandise option in rural ZIP codes. Codes as discount\nstores or department stores depending on the card. The DG Rewards loyalty program\nin the app issues digital coupons and frequent buyer rewards on top of any\ncard's bonus rate.\n"
+    },
+    {
+      "name": "Dollar Tree",
+      "slug": "dollar-tree",
+      "categories": [
+        "department_stores"
+      ],
+      "website": "https://www.dollartree.com",
+      "intro": "Dollar Tree is a U.S. discount retail chain with about 8,000 domestic stores,\nselling household goods, snacks, and party supplies at fixed price points.\nCodes as discount stores or department stores depending on the card; some banks\nclassify it as grocery in mixed-merchandise transactions. Average ticket sizes\nare very small, so the absolute earn from any bonus card is modest. A flat-rate\n2% cashback card is usually the cleanest pairing.\n"
     },
     {
       "name": "Domino's",
@@ -333,6 +681,20 @@
       "intro": "DoorDash is the largest U.S. food-delivery service by market share, covering both\nrestaurant delivery and (via DashMart and grocery partners) household goods. Restaurant\norders code as dining/restaurants on every card we track, and several cards specifically\ncall out DoorDash for elevated dining bonuses or DashPass perks. DashMart and\ngrocery-partner orders typically code as the underlying merchant rather than as dining.\n"
     },
     {
+      "name": "Dunkin'",
+      "slug": "dunkin",
+      "aliases": [
+        "Dunkin",
+        "Dunkin Donuts",
+        "Dunkin' Donuts"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.dunkindonuts.com",
+      "intro": "Dunkin' is a U.S. coffee-and-donut chain with about 9,000 domestic locations.\nCharges code as dining on every card we track, so any restaurant-bonus card\napplies — Amex Gold's 4x dining (capped), Capital One SavorOne's 3%, Sapphire\nPreferred's 3x. Heavy regulars also use the free DD Perks/Dunkin' Rewards app\nfor free drinks and bonus-point promotions, which stack on top of card bonuses.\n"
+    },
+    {
       "name": "eBay",
       "slug": "ebay",
       "aliases": [
@@ -345,6 +707,20 @@
       "intro": "eBay is the largest U.S. online auction and resale marketplace and codes as online\nshopping on essentially every credit card we track. Unlike Amazon, eBay rarely has a\ncard-specific bonus carve-out, so the right card here is the strongest generic\nonline-shopping earner you carry. Watch for cards with a U.S. online retail cap — eBay\npayments via PayPal still count as eBay for category coding, but third-party processor\npurchases on eBay's classifieds side may not.\n"
     },
     {
+      "name": "Enterprise",
+      "slug": "enterprise",
+      "aliases": [
+        "Enterprise Rent-A-Car",
+        "Enterprise Plus"
+      ],
+      "categories": [
+        "car_rentals",
+        "travel"
+      ],
+      "website": "https://www.enterprise.com",
+      "intro": "Enterprise is the largest U.S. car-rental company by fleet, owner of National and\nAlamo. Rentals code as car rentals on every card we track. Status matches into\nEnterprise Plus are less common than at Hertz/Avis, so most cardholders pair\nEnterprise with a general travel card for the bonus on car rentals plus secondary\nrental insurance. Booking through a card's travel portal earns the portal multiplier\nbut may not credit Enterprise Plus points.\n"
+    },
+    {
       "name": "Etsy",
       "slug": "etsy",
       "categories": [
@@ -352,6 +728,22 @@
       ],
       "website": "https://www.etsy.com",
       "intro": "Etsy is the marketplace for handmade, vintage, and craft goods sold by independent\nmakers, with checkout handled by Etsy itself. Purchases code as online shopping on every\ngeneral-purpose card we track, which means Etsy is a good fit for any card with a flat\nU.S. online retail bonus (Blue Cash Everyday, Hilton Surpass, etc.). Etsy doesn't have a\nco-branded card and rarely shows up in card-specific bonus lists.\n"
+    },
+    {
+      "name": "Expedia",
+      "slug": "expedia",
+      "aliases": [
+        "Expedia.com"
+      ],
+      "categories": [
+        "travel"
+      ],
+      "website": "https://www.expedia.com",
+      "co_brand_cards": [
+        "expedia-rewards-card-from-citi",
+        "expedia-rewards-voyager-card-from-citi"
+      ],
+      "intro": "Expedia is one of the largest online travel agencies, owned by Expedia Group\n(which also owns Hotels.com, Vrbo, and Travelocity). Bookings code as travel on\nevery card we track. The honest catch: hotel and airline programs typically do\nNOT credit Expedia bookings toward elite-night or elite-qualifying-mile counts,\nand many properties exclude OTA stays from earning their own loyalty points —\nso booking direct usually wins for status-conscious travelers. The Expedia\nRewards Cards from Citi layer extra OneKeyCash on Expedia-family bookings.\n"
     },
     {
       "name": "ExxonMobil",
@@ -375,6 +767,69 @@
       "intro": "ExxonMobil operates Exxon and Mobil-branded stations at about 11,500 U.S. locations,\nplus the ExxonMobil Rewards+ app for in-station discounts. ExxonMobil pumps code as gas\non every card we track, and one merchant-specific note: ExxonMobil purchases earn 3% on\nthe Apple Card when paid via Apple Pay.\n"
     },
     {
+      "name": "Five Guys",
+      "slug": "five-guys",
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.fiveguys.com",
+      "intro": "Five Guys is a U.S. fast-casual burger chain with about 1,700 domestic locations,\nknown for hand-formed patties and unlimited toppings. Charges code as dining on\nevery card we track, so any dining-bonus card applies (Amex Gold 4x within cap,\nSapphire Preferred 3x, SavorOne 3%). Average ticket sizes are higher than typical\nfast-food, which makes the dining multiplier more meaningful per visit.\n"
+    },
+    {
+      "name": "Food Lion",
+      "slug": "food-lion",
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.foodlion.com",
+      "intro": "Food Lion is a Southeastern U.S. grocery chain with about 1,100 stores, owned by\nAhold Delhaize. Codes cleanly as groceries on every card we track. Strongest\npairings are Blue Cash Preferred (6% on U.S. supermarkets), the Capital One SavorOne\n(3% groceries), and U.S. Bank Shopper Cash Rewards if Food Lion is one of the two\nselected retailers. The MVP loyalty program runs separate digital coupons that\nstack on top of any card's bonus rate.\n"
+    },
+    {
+      "name": "Frontier Airlines",
+      "slug": "frontier-airlines",
+      "aliases": [
+        "Frontier",
+        "FRONTIER Miles"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.flyfrontier.com",
+      "intro": "Frontier Airlines is a U.S. ultra-low-cost carrier with a heavy hub presence in\nDenver. Base fares are very low and almost everything else (bags, seats, carry-on)\nis à la carte. Tickets code as airfare on every card we track. Frontier offers\na co-branded Mastercard but no widely-recommended option, so general travel cards\nare the standard pairing — and the small fares mean trip-protection benefits\nrarely move the needle.\n"
+    },
+    {
+      "name": "GameStop",
+      "slug": "gamestop",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.gamestop.com",
+      "intro": "GameStop is the largest U.S. video-game specialty retailer with about 2,900\ndomestic stores. In-store charges typically code as electronics or hobby;\ngamestop.com codes as online shopping. The PowerUp Rewards program is free\n(Pro tier is paid) and issues per-purchase points plus a Game Informer\nsubscription on the Pro tier. There's no widely-recommended GameStop-specific\ncredit card; pair with an online-shopping-bonus card or flat-rate cashback.\n"
+    },
+    {
+      "name": "Gap",
+      "slug": "gap",
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.gap.com",
+      "intro": "Gap is a U.S. apparel retailer with about 500 domestic stores plus a sister\nbrand portfolio (Old Navy, Banana Republic, Athleta) under Gap Inc. In-store\ncharges code as department stores or apparel; gap.com codes as online shopping.\nThe Gap Good Rewards co-branded Mastercard offers tiered cashback at Gap-family\nbrands. For non-cardholders, an online-shopping-bonus card or U.S. Bank Shopper\nCash Rewards (if Gap is selected) is the strongest pairing.\n"
+    },
+    {
+      "name": "Giant Food",
+      "slug": "giant-food",
+      "aliases": [
+        "Giant"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://giantfood.com",
+      "intro": "Giant Food is the Mid-Atlantic flagship of Ahold Delhaize's U.S. grocery group, with\nabout 165 stores across DC, Maryland, Virginia, and Delaware. Codes cleanly as\ngroceries on every card we track. Best pairings are Blue Cash Preferred (6%),\nCapital One SavorOne (3%), and U.S. Bank Shopper Cash Rewards (6% if selected).\nThe Giant Flexible Rewards program issues per-gallon fuel savings at participating\nShell and Giant stations that stack on top of card bonuses.\n"
+    },
+    {
       "name": "H-E-B",
       "slug": "heb",
       "aliases": [
@@ -386,6 +841,72 @@
       ],
       "website": "https://www.heb.com",
       "intro": "H-E-B is the dominant Texas supermarket chain, with about 425 stores under H-E-B,\nCentral Market, and Joe V's banners. The chain is privately held and well-regarded for\nstore-brand products and Texas-only specialty items. H-E-B codes as groceries on every\ncard we track and supports curbside pickup and delivery on most product lines.\n"
+    },
+    {
+      "name": "H&M",
+      "slug": "h-and-m",
+      "aliases": [
+        "H and M",
+        "Hennes & Mauritz"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www2.hm.com",
+      "intro": "H&M is a Swedish-headquartered fast-fashion chain with about 540 U.S. stores.\nIn-store charges code as department stores or apparel; hm.com codes as online\nshopping. The H&M Member program is free and issues birthday gifts plus tiered\nperks; H&M's co-branded U.S. credit card layers an additional discount on top\nof the loyalty program. For non-cardholders, an online-shopping-bonus card is\nthe strongest pairing.\n"
+    },
+    {
+      "name": "Hannaford",
+      "slug": "hannaford",
+      "aliases": [
+        "Hannaford Supermarkets"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.hannaford.com",
+      "intro": "Hannaford is a New England grocery chain with about 185 stores, owned by Ahold\nDelhaize. Codes cleanly as groceries on every card we track. Strongest pairings\nare Blue Cash Preferred (6%), Capital One SavorOne (3% groceries with no cap),\nand U.S. Bank Shopper Cash Rewards (6% on selected retailers). Hannaford runs\nthe My Hannaford Rewards program with personalized digital coupons on top of\nany card's earn rate.\n"
+    },
+    {
+      "name": "Harris Teeter",
+      "slug": "harris-teeter",
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.harristeeter.com",
+      "intro": "Harris Teeter is a Southeast U.S. grocery chain with about 250 stores, owned by\nKroger. Codes cleanly as groceries on every card we track. Best pairings are\nBlue Cash Preferred (6%), Capital One SavorOne (3%), and U.S. Bank Shopper Cash\nRewards (6% if Harris Teeter is selected). VIC card (loyalty) discounts and\nper-gallon fuel savings at Harris Teeter and Kroger fuel stations stack on top\nof card bonuses.\n"
+    },
+    {
+      "name": "Hawaiian Airlines",
+      "slug": "hawaiian-airlines",
+      "aliases": [
+        "Hawaiian",
+        "HawaiianMiles"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.hawaiianairlines.com",
+      "co_brand_cards": [
+        "hawaiian-airlines-world-elite-mastercard"
+      ],
+      "intro": "Hawaiian Airlines is the dominant carrier between the U.S. mainland and Hawaii, plus\ninter-island routes. Tickets code as airfare on every card we track. The co-branded\nHawaiian Airlines World Elite Mastercard offers a discount on round-trip companion\ntickets to Hawaii each year and bonus miles on the airline. With Alaska Airlines'\nacquisition closed, Hawaiian's loyalty program is integrating with Alaska's Mileage\nPlan, so long-term value will increasingly route through Alaska's award chart.\n"
+    },
+    {
+      "name": "Hertz",
+      "slug": "hertz",
+      "aliases": [
+        "Hertz Rent A Car",
+        "Gold Plus Rewards"
+      ],
+      "categories": [
+        "car_rentals",
+        "travel"
+      ],
+      "website": "https://www.hertz.com",
+      "intro": "Hertz is one of the three large U.S. car-rental brands and runs the Gold Plus Rewards\nprogram. Rentals booked direct at hertz.com code as car rentals on every card we\ntrack. Several premium cards offer status matches with Hertz President's Circle\n(Capital One Venture X, Amex Platinum), which adds a class upgrade and free\nadditional driver. Bookings made through a card's travel portal earn the portal\nbonus rate but typically lose any direct-booking discount and may not always credit\nto your Gold Plus Rewards account.\n"
     },
     {
       "name": "Hilton",
@@ -423,6 +944,16 @@
       "intro": "Hilton Honors covers roughly 8,000 properties worldwide across 22 brands, from budget\nHampton Inn and Tru up through Waldorf Astoria and Conrad luxury. Booking direct at\nhilton.com or in-app earns the full 10x base points plus any co-brand multiplier, while\nthird-party bookings (Expedia, Booking.com) earn nothing in the program and don't count\ntoward elite status. The Hilton co-brand cards lean heavily on perks — free weekend\nnights, automatic Gold or Diamond status, statement credits — rather than headline\nearn rates, so the value calculation depends on whether you'll actually use the\ncertificate and the status. Hilton points typically value around 0.5 cents each.\n"
     },
     {
+      "name": "Hobby Lobby",
+      "slug": "hobby-lobby",
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.hobbylobby.com",
+      "intro": "Hobby Lobby is a U.S. arts-and-crafts retailer with about 1,000 stores, selling\nfabric, home decor, art supplies, and seasonal goods. In-store charges code as\ndepartment stores or specialty retail; hobbylobby.com codes as online shopping.\nHobby Lobby doesn't run a loyalty program but consistently posts a 40%-off-one-\nitem coupon that's the main rewards lever per visit. Pair with a flat-rate\ncashback card or department-store-bonus card.\n"
+    },
+    {
       "name": "Home Depot",
       "slug": "home-depot",
       "aliases": [
@@ -434,6 +965,37 @@
       ],
       "website": "https://www.homedepot.com",
       "intro": "The Home Depot is the largest U.S. home-improvement retailer, with about 2,000 stores\nand a heavily-used Pro Xtra business loyalty program. The right card here depends a lot\non whether you're a homeowner doing one project a year or a contractor running steady\nvolume — the gap between the best home-improvement category card and a generic 2% card\nis meaningful at contractor spend levels. Home Depot codes as home improvement at the\nregister and on homedepot.com.\n"
+    },
+    {
+      "name": "HomeGoods",
+      "slug": "homegoods",
+      "categories": [
+        "department_stores"
+      ],
+      "website": "https://www.homegoods.com",
+      "intro": "HomeGoods is the home-furnishings off-price chain owned by TJX Companies, with\nabout 900 U.S. stores selling discount furniture, decor, and bath. Codes as\ndepartment stores on most cards. The TJX Rewards Mastercard offers 5% back at\nHomeGoods and the rest of the TJX family. For everyone else, a department-store\ncategory card (Wells Fargo Active Cash, Citi Custom Cash if it's your top\ncategory) or flat-rate cashback card is the standard pairing.\n"
+    },
+    {
+      "name": "Hotels.com",
+      "slug": "hotels-com",
+      "aliases": [
+        "Hotels"
+      ],
+      "categories": [
+        "travel",
+        "hotels"
+      ],
+      "website": "https://www.hotels.com",
+      "intro": "Hotels.com is one of the largest global online travel agencies, owned by Expedia\nGroup. Bookings code as travel on every card we track. The honest catch: hotel\nchains typically do NOT credit Hotels.com stays toward elite-night or status\ncounts, and many properties exclude OTA stays from earning their loyalty points\n— so a Hilton/Marriott/Hyatt loyalist almost always books direct. Hotels.com's\nown One Key Rewards (formerly Hotels.com Rewards) is now unified with Expedia's\nOneKeyCash and stacks across the Expedia family.\n"
+    },
+    {
+      "name": "Hulu",
+      "slug": "hulu",
+      "categories": [
+        "streaming"
+      ],
+      "website": "https://www.hulu.com",
+      "intro": "Hulu is a U.S. streaming-video service offering on-demand library content and a\nlive-TV bundle, owned by Disney. Monthly subscriptions code as streaming on\nevery card we track. Streaming-bonus cards (Blue Cash Preferred 6%, U.S. Bank\nCash+ 5% on selected categories) are the strongest pairings. Hulu (with-ads)\nis also bundled with Disney+ and ESPN+ as the Disney Bundle for the lowest\nper-service cost.\n"
     },
     {
       "name": "Hyatt",
@@ -498,6 +1060,43 @@
       "intro": "IHG Hotels & Resorts spans about 6,000 properties across 19 brands, anchored by Holiday\nInn and Holiday Inn Express on the mass-market end and InterContinental, Regent, and\nSix Senses on the luxury end. The Chase IHG One Rewards Premier card is one of the\nhighest-leverage hotel co-brands available — its annual free-night certificate (good\nat any property up to 40,000 points) often pays back the annual fee on a single use,\nand the fourth-night-free benefit on award stays effectively cuts redemption costs by\n25%. Direct bookings at ihg.com or in-app earn points and elite-night credits; OTA\nstays generally earn nothing. Points value lands around 0.5 cents but redemptions can\nexceed that on aspirational properties.\n"
     },
     {
+      "name": "IKEA",
+      "slug": "ikea",
+      "categories": [
+        "home_improvement",
+        "online_shopping"
+      ],
+      "website": "https://www.ikea.com",
+      "intro": "IKEA is the largest global home-furnishings retailer with about 50 U.S. warehouse\nstores plus a planning-studio network. In-store charges typically code as\nfurniture or home improvement; ikea.com codes as online shopping. The IKEA\nFamily loyalty program is free and issues member-only pricing plus a free\ncoffee/tea on store visits. The IKEA Visa Credit Card offers 5% back at IKEA\non purchases — typically the strongest rate for heavy buyers.\n"
+    },
+    {
+      "name": "Instacart",
+      "slug": "instacart",
+      "aliases": [
+        "Instacart Express",
+        "Instacart+"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.instacart.com",
+      "intro": "Instacart is the largest U.S. grocery delivery and pickup marketplace, partnering\nwith Costco, Wegmans, ALDI, Publix, and many regional chains. Orders placed through\nthe Instacart app or instacart.com generally code as groceries on most cards, but\nsome banks classify the charge as the underlying merchant — worth confirming on\na small order before relying on a 6% grocery card. Several premium cards (Sapphire\nReserve, Venture X) include Instacart+ memberships and statement credits.\n"
+    },
+    {
+      "name": "J.Crew",
+      "slug": "j-crew",
+      "aliases": [
+        "JCrew",
+        "J Crew"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.jcrew.com",
+      "intro": "J.Crew is a U.S. apparel retailer with about 130 stores plus a strong online\npresence. In-store codes as department stores; jcrew.com codes as online\nshopping. The J.Crew Rewards loyalty program issues credits at spend tiers\nseparate from any card bonus. Strongest pairings are an online-shopping-bonus\ncard or flat-rate cashback for in-store purchases.\n"
+    },
+    {
       "name": "JCPenney",
       "slug": "jcpenney",
       "aliases": [
@@ -510,6 +1109,38 @@
       ],
       "website": "https://www.jcpenney.com",
       "intro": "JCPenney is a mid-tier department store with about 660 stores and a smaller online\ncatalog at jcpenney.com. Like other mid-tier department chains, the bulk of purchases\nhappen at promotional discount, so card rewards stack on already-reduced prices.\nJCPenney codes as a department store in-store and online shopping on the website, so\ncards bonusing on either category will trigger here.\n"
+    },
+    {
+      "name": "JetBlue",
+      "slug": "jetblue",
+      "aliases": [
+        "JetBlue Airways",
+        "TrueBlue"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.jetblue.com",
+      "co_brand_cards": [
+        "jetblue-card",
+        "jetblue-plus-card",
+        "jetblue-premier-card",
+        "jetblue-business-card"
+      ],
+      "intro": "JetBlue runs an East Coast and Caribbean network with TrueBlue as its loyalty program.\nTrueBlue points are revenue-based — about 1.3 cents each — so they're easy to value\nbut rarely produce outsized award redemptions. JetBlue tickets code as airfare on\nevery card we track. The co-branded Plus and Premier cards bundle a 5,000-point\nanniversary bonus, free checked bag, and Mosaic-status accelerators that can swing\nthe math for regulars; the Premier adds a Mint upgrade benefit on transcons.\n"
+    },
+    {
+      "name": "KFC",
+      "slug": "kfc",
+      "aliases": [
+        "Kentucky Fried Chicken"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.kfc.com",
+      "intro": "KFC is a U.S. fried-chicken fast-food chain with about 4,000 domestic locations,\nowned by Yum! Brands. Charges code as dining on every card we track, so any\ndining-bonus card applies. Heavy regulars use the KFC Rewards loyalty program\nfor tiered point earning and free menu items, which stacks on top of any card's\nbonus rate.\n"
     },
     {
       "name": "Kohl's",
@@ -558,6 +1189,15 @@
       "intro": "Lululemon is the dominant U.S. athletic-apparel brand with about 700 stores and a heavy\nlululemon.com presence. Like other apparel retailers, Lululemon doesn't fall into a card\nbonus category in-store — the right answer there is a strong flat-rate cashback card.\nOnline purchases at lululemon.com code as online shopping, which opens up a different\nset of category bonuses.\n"
     },
     {
+      "name": "Lyft",
+      "slug": "lyft",
+      "categories": [
+        "transit"
+      ],
+      "website": "https://www.lyft.com",
+      "intro": "Lyft is the second-largest U.S. rideshare service after Uber. Rides code under\nthe transit category on most cards. The Chase Sapphire Reserve historically pays\n10x on Lyft rides through 2027, and Lyft Pink (Lyft's premium membership) is\ncomped with several Chase cards. Sapphire Preferred, Venture X, and SavorOne all\nearn elevated transit/rideshare rates without the Lyft-specific multipliers.\n"
+    },
+    {
       "name": "Macy's",
       "slug": "macys",
       "aliases": [
@@ -569,6 +1209,19 @@
       ],
       "website": "https://www.macys.com",
       "intro": "Macy's is the largest U.S. mid-tier department store, with about 500 full-line stores\nplus Backstage outlets and a heavy promotional calendar. Most shoppers buy at heavy\ndiscount, so the cashback rate stacks on already-reduced prices. Macy's codes as a\ndepartment store at the register and as online shopping on macys.com, which means cards\nbonusing on either category can earn here. The Macy's American Express has its own\nLoyallist points layer for shoppers doing several thousand a year at Macy's\nspecifically.\n"
+    },
+    {
+      "name": "Marathon",
+      "slug": "marathon",
+      "aliases": [
+        "Marathon Petroleum",
+        "Marathon Gas"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.marathonbrand.com",
+      "intro": "Marathon-branded stations cover about 7,000 U.S. locations primarily across the\nMidwest and Southeast. Pumps code cleanly as gas on every card we track. The\nMakeItCount Rewards program offers cents-per-gallon savings that stack with\nwhatever card you swipe; absolute cashback usually wins with a 4-5% general gas\ncard rather than a Marathon-only co-brand.\n"
     },
     {
       "name": "Marriott",
@@ -610,6 +1263,28 @@
       "intro": "Marriott Bonvoy is the world's largest hotel loyalty program, covering more than 30\nbrands from budget Fairfield Inn through luxury Ritz-Carlton, St. Regis, and W Hotels.\nDirect stays at marriott.com or any Bonvoy property earn the most points and unlock\nelite-night credits, but the math gets nuanced: co-branded Marriott cards layer extra\nBonvoy points on top of base earnings, while general hotel-category cards (Sapphire\nReserve, Venture X) often yield higher cashback-equivalent value if you don't care\nabout Bonvoy status. Stays booked through OTAs like Expedia or Hotels.com forfeit\npoints and elite credit, so the in-program booking is almost always the right call.\n"
     },
     {
+      "name": "Marshalls",
+      "slug": "marshalls",
+      "categories": [
+        "department_stores"
+      ],
+      "website": "https://www.marshalls.com",
+      "intro": "Marshalls is an off-price retail chain owned by TJX Companies, with about 1,200\nU.S. stores selling apparel, home, and accessories at discount prices. Codes as\ndepartment stores on most cards. The TJX Rewards Mastercard offers 5% back at\nMarshalls, TJ Maxx, HomeGoods, Sierra, and Homesense — typically the best rate\nfor heavy TJX shoppers. Otherwise pair with a department-store-bonus card or a\nflat-rate cashback card.\n"
+    },
+    {
+      "name": "Max",
+      "slug": "max",
+      "aliases": [
+        "HBO Max",
+        "HBOMax"
+      ],
+      "categories": [
+        "streaming"
+      ],
+      "website": "https://www.max.com",
+      "intro": "Max is Warner Bros. Discovery's streaming service, the rebranded successor to\nHBO Max. Monthly subscriptions code as streaming on every card we track.\nStreaming-bonus cards (Blue Cash Preferred 6%, U.S. Bank Cash+ 5% on selected\ncategories) are the strongest pairings. Max also bundles with Hulu/Disney+ in\nsome seasonal Disney Bundle promotions.\n"
+    },
+    {
       "name": "McDonald's",
       "slug": "mcdonalds",
       "aliases": [
@@ -623,6 +1298,15 @@
       "intro": "McDonald's is the largest U.S. quick-service restaurant chain at about 13,500 locations.\nAll purchases — in-store, drive-thru, and via the McDonald's app — code as\ndining/restaurants on every card we track, so any 3-5% dining-category card earns here.\nThe McDonald's app's MyMcDonald's Rewards program stacks on top of card cashback.\n"
     },
     {
+      "name": "Meijer",
+      "slug": "meijer",
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.meijer.com",
+      "intro": "Meijer is a Midwest superstore chain with about 240 locations across Michigan,\nOhio, Indiana, Illinois, Kentucky, and Wisconsin — selling groceries, household,\nand general merchandise under one roof. Most cards code Meijer as groceries (it's\none of the few \"supercenter\" chains that does), so a 6% Blue Cash Preferred or\n3% SavorOne earns the bonus on Meijer's full basket including non-grocery items.\nmPerks runs separate digital coupons that stack on top of card bonuses.\n"
+    },
+    {
       "name": "Menards",
       "slug": "menards",
       "categories": [
@@ -630,6 +1314,30 @@
       ],
       "website": "https://www.menards.com",
       "intro": "Menards is a Midwest-focused home-improvement chain with about 350 stores, well-known\nfor its 11% mail-in rebate promotions that effectively act as in-house cashback on top\nof card rewards. The math here is interesting: an 11% Menards rebate stacked with a 2%\nflat-rate cashback card often beats most home-improvement category cards on net. Menards\ncodes as home improvement at the register and on menards.com.\n"
+    },
+    {
+      "name": "Michaels",
+      "slug": "michaels",
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.michaels.com",
+      "intro": "Michaels is the largest U.S. arts-and-crafts retailer with about 1,300 stores,\nselling beads, yarn, frames, and seasonal decor. In-store charges code as\ndepartment stores or specialty retail; michaels.com codes as online shopping.\nThe Michaels Rewards program is free and issues per-spend points redeemable\nfor in-store credit. Pair with a flat-rate cashback or department-store-bonus\ncard; there's no widely-recommended Michaels-specific credit card.\n"
+    },
+    {
+      "name": "National Car Rental",
+      "slug": "national-car-rental",
+      "aliases": [
+        "National",
+        "Emerald Club"
+      ],
+      "categories": [
+        "car_rentals",
+        "travel"
+      ],
+      "website": "https://www.nationalcar.com",
+      "intro": "National is the upmarket Enterprise sister brand, beloved by frequent business\ntravelers for its Emerald Aisle \"pick any car\" benefit. Rentals code as car rentals\non every card we track. Several premium cards confer Emerald Club Executive (Amex\nPlatinum, Capital One Venture X) which adds Executive Aisle access — a wider\nselection of higher-tier vehicles. National rarely publishes deep promo codes, so\npaying with a 3x-on-travel card often beats hunting for portal discounts.\n"
     },
     {
       "name": "Neiman Marcus",
@@ -645,6 +1353,25 @@
       "intro": "Neiman Marcus is a luxury department store with about 35 full-line stores and a\nsignificant online presence. Average tickets here are among the highest in U.S.\ndepartment retail, which shifts the math toward cards that pay a high department-store\ncategory rate without a tight spend cap. NM's own InCircle loyalty program runs\nalongside any card cashback you earn at checkout.\n"
     },
     {
+      "name": "Netflix",
+      "slug": "netflix",
+      "categories": [
+        "streaming"
+      ],
+      "website": "https://www.netflix.com",
+      "intro": "Netflix is the largest U.S. streaming-video service. Monthly subscriptions code\ncleanly as streaming on every card we track. Several mid-tier rewards cards earn\nelevated rates on streaming (Blue Cash Preferred 6% on select streaming including\nNetflix, U.S. Bank Cash+ 5% if streaming is a chosen category). Card-issued\nNetflix credits are rare; the simplest play is pairing the subscription with\nwhichever streaming-bonus card you already carry.\n"
+    },
+    {
+      "name": "Nike",
+      "slug": "nike",
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.nike.com",
+      "intro": "Nike is the world's largest athletic apparel and footwear brand, with about 270\nU.S. stores plus a strong digital presence. Nike.com and the Nike app code as\nonline shopping; in-store charges code as department stores. Apple Card pays\n3% on Nike via Apple Pay (in-store and online), one of the few merchant-specific\n3% Apple Pay bonuses. Otherwise pair with an online-shopping-bonus card for\ndigital orders and flat-rate cashback for in-store.\n"
+    },
+    {
       "name": "Nordstrom",
       "slug": "nordstrom",
       "aliases": [
@@ -658,6 +1385,33 @@
       "intro": "Nordstrom is a higher-end department store with about 100 full-line stores and a much\nlarger Nordstrom Rack outlet network. Pricing skews full-retail at the flagship\nlocations and steeply discounted at Rack, so the right card depends partly on which\nchannel you're shopping. Both code as department stores at the register and online\nshopping on nordstrom.com / nordstromrack.com. Nordstrom's own Nordy Club rewards layer\nin on top of card cashback.\n"
     },
     {
+      "name": "O'Reilly Auto Parts",
+      "slug": "oreilly-auto-parts",
+      "aliases": [
+        "OReilly",
+        "O'Reilly"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.oreillyauto.com",
+      "intro": "O'Reilly Auto Parts is the second-largest U.S. auto parts retailer with about\n6,200 domestic stores. In-store charges typically code as auto parts; online\norders code as online shopping. The O'Reilly O'Rewards loyalty program is free\nand issues per-purchase points redeemable for store credit. Pair with a\nflat-rate cashback card or an online-shopping-bonus card for orders shipped\nfrom oreillyauto.com.\n"
+    },
+    {
+      "name": "Office Depot",
+      "slug": "office-depot",
+      "aliases": [
+        "Office Depot OfficeMax",
+        "OfficeMax"
+      ],
+      "categories": [
+        "office_supplies",
+        "online_shopping"
+      ],
+      "website": "https://www.officedepot.com",
+      "intro": "Office Depot (which absorbed OfficeMax) is the second-largest U.S. office-supply\nretailer with about 870 stores. In-store and online charges code as office\nsupplies on every card we track. Chase Ink Business Cash earns 5% back at\nOffice Depot (capped within the office-supply + telecom $25K/yr bucket) —\ntypically the strongest pairing for small-business cardholders. The Office\nDepot Rewards program adds tier-based points redeemable for store credit.\n"
+    },
+    {
       "name": "Old Navy",
       "slug": "old-navy",
       "categories": [
@@ -668,6 +1422,72 @@
       "intro": "Old Navy is Gap, Inc.'s value-priced apparel banner with about 1,200 U.S. stores and a\nstrong online catalog. Apparel doesn't have a dedicated reward category on most\ngeneral-purpose credit cards, so card choice usually comes down to whether you're\nshopping online (where online-shopping bonuses apply) or in-store (where you're\ntypically falling back to a strong flat-rate cashback card).\n"
     },
     {
+      "name": "Olive Garden",
+      "slug": "olive-garden",
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.olivegarden.com",
+      "intro": "Olive Garden is a U.S. casual-dining chain with about 900 domestic locations,\nowned by Darden Restaurants. Charges code as dining on every card we track, so\nAmex Gold 4x (capped), Sapphire Preferred 3x, and SavorOne 3% all earn the\ndining bonus. Eligible Darden gift cards purchased through the My Olive Garden\nRewards or Darden portals occasionally code as gift cards rather than dining,\nworth checking before bulk-buying.\n"
+    },
+    {
+      "name": "Outback Steakhouse",
+      "slug": "outback-steakhouse",
+      "aliases": [
+        "Outback"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.outback.com",
+      "intro": "Outback Steakhouse is a U.S. casual-dining steakhouse chain with about 700\ndomestic locations, owned by Bloomin' Brands (also Carrabba's, Bonefish Grill).\nCharges code as dining on every card we track. Any dining-bonus card applies\n(Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%). The Dine Rewards program\nspans Bloomin' Brands sister concepts and stacks on top of card bonuses.\n"
+    },
+    {
+      "name": "Panera Bread",
+      "slug": "panera-bread",
+      "aliases": [
+        "Panera"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.panerabread.com",
+      "intro": "Panera Bread is a fast-casual bakery-cafe with about 2,100 U.S. locations. Charges\ncode as dining on every card we track. The Unlimited Sip Club ($14.99/mo) provides\nunlimited drinks and is occasionally credited by the Capital One SavorOne or Amex\nGold's flexible dining benefits. Standard high-bonus dining cards (Amex Gold 4x,\nSapphire Preferred 3x, SavorOne 3%) are the obvious pairings.\n"
+    },
+    {
+      "name": "Papa John's",
+      "slug": "papa-johns",
+      "aliases": [
+        "Papa Johns"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.papajohns.com",
+      "intro": "Papa John's is a U.S. pizza-delivery chain with about 3,300 domestic locations.\nCharges code as dining on every card we track. Any dining-bonus card (Amex Gold\n4x, Sapphire Preferred 3x, SavorOne 3%) applies. The Papa Rewards loyalty\nprogram in the app issues recurring points-for-pizza promotions that stack on\ntop of card bonuses.\n"
+    },
+    {
+      "name": "Peet's Coffee",
+      "slug": "peets-coffee",
+      "aliases": [
+        "Peets"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.peets.com",
+      "intro": "Peet's Coffee is a specialty coffee roaster and cafe chain with about 200 U.S.\ncafes, primarily in California. In-cafe charges code as dining on every card we\ntrack. Bagged-bean orders shipped from peets.com sometimes code as online shopping\nrather than dining — worth checking before relying on a 4x dining card. Heavy\nregulars stack the Peetnik Rewards loyalty program on top of card bonuses.\n"
+    },
+    {
+      "name": "Petco",
+      "slug": "petco",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.petco.com",
+      "intro": "Petco is one of the two large U.S. pet specialty retailers (alongside PetSmart),\nwith about 1,500 stores plus in-store grooming and veterinary services. In-store\ncharges code as pet store / specialty retail on most cards (some classify as\ngroceries for food-only baskets); petco.com codes as online shopping. The Vital\nCare Premier membership ($24.99/mo) credits back monthly spend at Petco. Pair\nwith a flat-rate cashback or online-shopping-bonus card for petco.com orders.\n"
+    },
+    {
       "name": "PetSmart",
       "slug": "petsmart",
       "categories": [
@@ -675,6 +1495,37 @@
       ],
       "website": "https://www.petsmart.com",
       "intro": "PetSmart is the largest U.S. pet specialty retailer by store count at about 1,650\nlocations, with a sizable petsmart.com online catalog. Pet-supply purchases don't have a\ndedicated category on most credit cards, so in-store purchases generally fall back to a\nflat-rate cashback card. Online purchases at petsmart.com code as online shopping. The\nTreats Rewards loyalty program stacks on top of card cashback.\n"
+    },
+    {
+      "name": "Pizza Hut",
+      "slug": "pizza-hut",
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.pizzahut.com",
+      "intro": "Pizza Hut is a U.S. pizza chain with about 6,500 domestic locations, owned by\nYum! Brands. Charges code as dining on every card we track. Any dining-bonus card\napplies. The Hut Rewards loyalty program in the app issues per-dollar points\nredeemable for free items, stackable with card bonuses.\n"
+    },
+    {
+      "name": "Popeyes",
+      "slug": "popeyes",
+      "aliases": [
+        "Popeyes Louisiana Kitchen"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.popeyes.com",
+      "intro": "Popeyes is a U.S. Louisiana-style fried chicken chain with about 3,000 domestic\nlocations, owned by Restaurant Brands International. Charges code as dining on\nevery card we track. Any dining-bonus card (Amex Gold 4x, Sapphire Preferred 3x,\nSavorOne 3%) applies. The Popeyes Rewards app issues per-purchase points\nredeemable for free items, stackable with card bonuses.\n"
+    },
+    {
+      "name": "Pottery Barn",
+      "slug": "pottery-barn",
+      "categories": [
+        "online_shopping",
+        "home_improvement"
+      ],
+      "website": "https://www.potterybarn.com",
+      "intro": "Pottery Barn is a U.S. home furnishings retailer with about 200 stores, owned by\nWilliams-Sonoma Inc. (also West Elm, Pottery Barn Kids). Stores code as\nfurniture/home improvement; potterybarn.com codes as online shopping. The Key\nRewards loyalty program is free, spans all Williams-Sonoma sister brands, and\nearns 2% in Key Rewards points; pairing it with the Key Rewards co-branded\nMastercard adds an additional 5% on Williams-Sonoma family purchases.\n"
     },
     {
       "name": "Publix",
@@ -689,6 +1540,32 @@
       "intro": "Publix is the largest employee-owned U.S. supermarket chain, with about 1,400 stores\nconcentrated in the Southeast. Pricing skews higher than at mass-market grocers like\nWalmart Neighborhood Market or Aldi, which makes a strong grocery-category card more\nvaluable per visit. Publix codes cleanly as groceries on every card we track.\n"
     },
     {
+      "name": "QuikTrip",
+      "slug": "quiktrip",
+      "aliases": [
+        "QT"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.quiktrip.com",
+      "intro": "QuikTrip is a South-and-Midwest gas-and-convenience chain with about 1,000 stores,\nconsistently ranked among the highest customer-satisfaction convenience operators\nin the U.S. Fuel codes as gas on every card we track; in-store purchases typically\ncode as convenience. The QT Rewards app offers per-gallon savings; pair it with a\n4-5% general gas card for the cleanest stack.\n"
+    },
+    {
+      "name": "REI",
+      "slug": "rei",
+      "aliases": [
+        "Recreational Equipment Inc",
+        "REI Co-op"
+      ],
+      "categories": [
+        "rei",
+        "online_shopping"
+      ],
+      "website": "https://www.rei.com",
+      "intro": "REI is a member-owned outdoor co-op with about 180 U.S. stores, selling apparel,\ncamping, climbing, and cycling gear. REI codes under its own merchant category\non several cards (notably the Co-op Mastercard, which earns 5% back at REI for\nCo-op Members) and as online shopping for rei.com purchases otherwise. The $30\none-time Co-op membership earns an annual member dividend (~10% of purchases),\nplus member-only sales — typically the most valuable lever for heavy REI buyers\nbeyond any card bonus.\n"
+    },
+    {
       "name": "Rite Aid",
       "slug": "rite-aid",
       "categories": [
@@ -696,6 +1573,18 @@
       ],
       "website": "https://www.riteaid.com",
       "intro": "Rite Aid is the third-largest U.S. pharmacy chain at about 1,700 stores, primarily in\nthe Northeast and West Coast. Rite Aid codes cleanly as a drugstore on every card we\ntrack, so any drugstore-bonus card will earn here. The chain's BonusCash and wellness+\nrewards programs layer on top of card cashback.\n"
+    },
+    {
+      "name": "Ross Dress for Less",
+      "slug": "ross-dress-for-less",
+      "aliases": [
+        "Ross"
+      ],
+      "categories": [
+        "department_stores"
+      ],
+      "website": "https://www.rossstores.com",
+      "intro": "Ross Dress for Less is a U.S. off-price retail chain with about 1,800 stores\nselling apparel, accessories, and home goods at discount prices. Codes as\ndepartment stores on most cards. There's no co-branded Ross credit card, so the\nbest pairings are general department-store-bonus cards (Wells Fargo Active Cash\nflat 2%, U.S. Bank Shopper Cash Rewards if Ross is selected) or flat-rate\ncashback cards. Ross doesn't run a loyalty program.\n"
     },
     {
       "name": "Safeway",
@@ -743,6 +1632,24 @@
       "intro": "Sephora is the largest U.S. beauty specialty retailer at about 600 stores, plus a\nseparate shop-in-shop presence inside Kohl's. Beauty doesn't have its own reward\ncategory on most general-purpose cards, so in-store purchases at Sephora typically fall\nback to a flat-rate cashback card. Online purchases at sephora.com code as online\nshopping. Sephora's own Beauty Insider points layer on top of card cashback.\n"
     },
     {
+      "name": "Shake Shack",
+      "slug": "shake-shack",
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.shakeshack.com",
+      "intro": "Shake Shack is a U.S. fast-casual burger chain with about 350 domestic locations,\nwith higher average ticket sizes than traditional fast-food. Charges code as\ndining on every card we track, so any dining-bonus card applies (Amex Gold 4x,\nSapphire Preferred 3x, SavorOne 3%). Shake Shack runs a Shack Track loyalty\nprogram in its app with progressive item rewards stackable with card bonuses.\n"
+    },
+    {
+      "name": "Sheetz",
+      "slug": "sheetz",
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.sheetz.com",
+      "intro": "Sheetz is a Mid-Atlantic gas-and-convenience chain known for its made-to-order food\n(\"MTO\" subs, sides, smoothies). Fuel codes as gas on every card we track; in-store\nfood typically codes as gas or convenience and only rarely as dining. The free\nSheetz Rewardz app stacks per-gallon discounts and free food rewards on top of any\ncard's bonus rate, which usually beats hunting for a Sheetz-specific credit card.\n"
+    },
+    {
       "name": "Shell",
       "slug": "shell",
       "aliases": [
@@ -756,6 +1663,112 @@
       "intro": "Shell is one of the largest U.S. gasoline retailers by station count (about 13,000\nlocations), with a Fuel Rewards loyalty program tied to the Shell app. Shell pumps code\ncleanly as gas on every card we track. The Shell Fuel Rewards program offers stackable\nper-gallon discounts that are calculated separately from card cashback.\n"
     },
     {
+      "name": "Shipt",
+      "slug": "shipt",
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.shipt.com",
+      "intro": "Shipt is a same-day delivery service owned by Target, with grocery, household, and\nsome specialty retail (Petco, CVS) partners. Most Shipt charges code as groceries\nor as the underlying merchant — worth checking your statement before relying on\na category-bonus card. Shipt is bundled into Target Circle 360 (Target's premium\nmembership), so heavy Target shoppers often pair it with a Target REDcard for\nthe in-store discount.\n"
+    },
+    {
+      "name": "ShopRite",
+      "slug": "shoprite",
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.shoprite.com",
+      "intro": "ShopRite is a cooperative grocery chain with about 280 stores across the Northeast\nand Mid-Atlantic. Codes cleanly as groceries on every card we track. Strongest\npairings are Blue Cash Preferred (6%), Capital One SavorOne (3%), and U.S. Bank\nShopper Cash Rewards (6% if ShopRite is one of the two selected retailers). The\nPrice Plus Club loyalty program runs digital coupons and per-gallon fuel savings\nat participating partner stations on top of card bonuses.\n"
+    },
+    {
+      "name": "Sonic Drive-In",
+      "slug": "sonic",
+      "aliases": [
+        "Sonic"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.sonicdrivein.com",
+      "intro": "Sonic Drive-In is a U.S. drive-in fast-food chain with about 3,500 domestic\nlocations, primarily in the South and Midwest. Charges code as dining on every\ncard we track. Any dining-bonus card applies (Amex Gold 4x, Sapphire Preferred 3x,\nSavorOne 3%). The Sonic app's My SONIC Rewards program issues per-purchase points\nand limited-time half-price drink and burger promotions that stack on top of card\nbonuses.\n"
+    },
+    {
+      "name": "Southwest Airlines",
+      "slug": "southwest-airlines",
+      "aliases": [
+        "Southwest",
+        "Rapid Rewards"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.southwest.com",
+      "co_brand_cards": [
+        "southwest-rapid-rewards-plus-credit-card",
+        "southwest-rapid-rewards-premier-credit-card",
+        "southwest-rapid-rewards-priority-credit-card"
+      ],
+      "intro": "Southwest Airlines is the largest U.S. domestic carrier by passenger volume and the\nhome of the Rapid Rewards program. Tickets code as airfare on every card we track,\nand the Companion Pass — earned by hitting an annual points threshold — is widely\nconsidered the best perk in U.S. domestic travel. Co-branded Chase Rapid Rewards\ncards count signup bonuses toward Companion Pass qualification, which is the main\nreason most travelers carry one. Southwest doesn't sell tickets through OTAs.\n"
+    },
+    {
+      "name": "Speedway",
+      "slug": "speedway",
+      "aliases": [
+        "Speedy Rewards"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.speedway.com",
+      "intro": "Speedway is a Midwest-and-East gas-and-convenience chain operated by 7-Eleven\nparent 7-Eleven, Inc. Pumps code as gas on every card we track. The Speedy Rewards\nprogram is unusually generous on convenience-store snacks and drinks, often more\nvaluable per visit than the gas-card rebate. Heavy Speedway customers pair a 4-5%\ngeneral gas card with the Speedy Rewards app rather than chase a co-brand option.\n"
+    },
+    {
+      "name": "Spirit Airlines",
+      "slug": "spirit-airlines",
+      "aliases": [
+        "Spirit",
+        "Free Spirit"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.spirit.com",
+      "intro": "Spirit Airlines is a U.S. ultra-low-cost carrier known for stripped-down base fares\nwith à la carte pricing for bags, seat selection, and refreshments. Tickets code as\nairfare on every card we track, but for cards that offer trip-delay or trip-cancel\ninsurance the small base fare often falls below useful coverage thresholds. There's\nno widely-issued co-branded Spirit credit card, so general travel cards (Sapphire\nPreferred, Venture, Capital One Savor) are typically the best pairing.\n"
+    },
+    {
+      "name": "Spotify",
+      "slug": "spotify",
+      "categories": [
+        "streaming"
+      ],
+      "website": "https://www.spotify.com",
+      "intro": "Spotify is the largest U.S. music-streaming service. Monthly Spotify subscriptions\ncode as streaming on every card we track. Streaming-bonus cards (Blue Cash\nPreferred 6%, U.S. Bank Cash+ 5% on selected categories) are the strongest\npairings. The American Express Platinum offers digital-entertainment statement\ncredits that occasionally apply to Spotify; check current terms before relying\non it.\n"
+    },
+    {
+      "name": "Sprouts Farmers Market",
+      "slug": "sprouts-farmers-market",
+      "aliases": [
+        "Sprouts"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://www.sprouts.com",
+      "intro": "Sprouts Farmers Market is a natural-and-organic grocery chain with about 400 U.S.\nstores, leaning heavily on fresh produce and bulk foods. Sprouts codes cleanly as\ngroceries on every card we track. The strongest pairings are 6% Blue Cash Preferred\nand the U.S. Bank Shopper Cash Rewards (if Sprouts is selected as a chosen retailer);\nCapital One SavorOne earns 3% on groceries with no cap. Sprouts doesn't run a\nco-branded card, so general grocery cards are the standard answer.\n"
+    },
+    {
+      "name": "Staples",
+      "slug": "staples",
+      "categories": [
+        "office_supplies",
+        "online_shopping"
+      ],
+      "website": "https://www.staples.com",
+      "intro": "Staples is a U.S. office-supply retailer with about 1,000 stores plus a strong\nbusiness-to-business operation. In-store and online charges code as office\nsupplies on every card we track. The Chase Ink Business Cash earns 5% back at\noffice-supply stores including Staples (capped at $25K/yr in combined office\nsupply + telecom spend) — typically the strongest pairing for small-business\ncardholders. Staples also runs a Rewards program issuing points-back on\nrecycling and ink purchases.\n"
+    },
+    {
       "name": "Starbucks",
       "slug": "starbucks",
       "aliases": [
@@ -766,6 +1779,48 @@
       ],
       "website": "https://www.starbucks.com",
       "intro": "Starbucks runs about 16,500 U.S. stores plus the Starbucks app, which is itself one of\nthe largest closed-loop payment systems in the country. Whether you pay through the app,\nwith a physical Starbucks card, or directly with a credit card, the underlying Starbucks\ntransaction codes as dining/restaurants on every card we track. Reloading your Starbucks\nbalance via card is the cleanest way to capture the dining bonus on cards that pay 3-5%\non dining.\n"
+    },
+    {
+      "name": "Stop & Shop",
+      "slug": "stop-and-shop",
+      "aliases": [
+        "Stop and Shop"
+      ],
+      "categories": [
+        "groceries"
+      ],
+      "website": "https://stopandshop.com",
+      "intro": "Stop & Shop is a Northeast U.S. grocery chain with about 400 stores, also owned by\nAhold Delhaize. Codes cleanly as groceries on every card we track. Best pairings\nare Blue Cash Preferred (6%), Capital One SavorOne (3%), and U.S. Bank Shopper Cash\nRewards (6% on selected retailers including most major grocers). The Go Rewards\nloyalty program runs separate per-gallon discounts at Stop & Shop fuel stations\nthat stack on top of card bonuses.\n"
+    },
+    {
+      "name": "Subway",
+      "slug": "subway",
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.subway.com",
+      "intro": "Subway is the largest restaurant chain in the U.S. by store count, with about\n20,000 domestic locations. Charges code as dining on every card we track. Standard\nhigh-bonus dining cards (Amex Gold 4x capped, Sapphire Preferred 3x, Capital One\nSavorOne 3%) are the obvious pairings. The MyWay Rewards loyalty program and\nrecurring digital coupons in the Subway app stack on top of card bonuses.\n"
+    },
+    {
+      "name": "Sunoco",
+      "slug": "sunoco",
+      "aliases": [
+        "Sunoco Gas"
+      ],
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.sunoco.com",
+      "intro": "Sunoco-branded stations cover about 5,200 U.S. locations primarily across the East\nand Midwest. Pumps code cleanly as gas on every card we track. The Sunoco Rewards\napp stacks 5-10 cents per gallon savings on top of any card's bonus rate. There's\na Sunoco Rewards co-branded credit card, but in absolute cashback most 4-5%\ngeneral gas cards beat it.\n"
+    },
+    {
+      "name": "Taco Bell",
+      "slug": "taco-bell",
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.tacobell.com",
+      "intro": "Taco Bell is a U.S. fast-food chain with about 7,500 domestic locations, owned by\nYum! Brands. Charges code as dining on every card we track. Standard dining cards\n(Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%) earn the bonus. The Taco Bell\nRewards app issues frequent free-item promotions and limited-time member-exclusive\nmenu items that stack on top of any card's bonus rate.\n"
     },
     {
       "name": "Target",
@@ -788,6 +1843,54 @@
       "intro": "Target sits in the same awkward bucket as Walmart for general-purpose credit cards: it\ncodes as a discount store rather than a supermarket or department store, so most cards'\nbonus categories (grocery, dining, department stores) miss it entirely. Target.com\npurchases code as online shopping on most cards, which is where the highest\nnon-co-branded earn rates show up. In-store, you're typically falling back to a strong\nflat-rate card unless you carry a Target-issued card for the 5% RedCard discount applied\nat checkout.\n"
     },
     {
+      "name": "Texas Roadhouse",
+      "slug": "texas-roadhouse",
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.texasroadhouse.com",
+      "intro": "Texas Roadhouse is a U.S. casual-dining steakhouse chain with about 700 domestic\nlocations. Charges code as dining on every card we track. Any dining-bonus card\nearns the bonus (Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%). The chain\ndoesn't run a high-volume loyalty program, so the card bonus is the main\nrewards lever per visit.\n"
+    },
+    {
+      "name": "The Cheesecake Factory",
+      "slug": "cheesecake-factory",
+      "aliases": [
+        "Cheesecake Factory"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.thecheesecakefactory.com",
+      "intro": "The Cheesecake Factory is a U.S. casual-dining chain with about 220 domestic\nlocations, with notably higher average tickets than typical casual dining.\nCharges code as dining on every card we track, so any dining-bonus card applies\n(Amex Gold 4x, Sapphire Preferred 3x, SavorOne 3%). The chain runs Cheesecake\nRewards in its app, with free slices on birthdays and milestone visits.\n"
+    },
+    {
+      "name": "The North Face",
+      "slug": "the-north-face",
+      "aliases": [
+        "TNF",
+        "North Face"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.thenorthface.com",
+      "intro": "The North Face is a U.S. outdoor-apparel brand owned by VF Corporation, with\nabout 150 retail stores plus extensive third-party distribution at REI, Dick's,\nBackcountry, and more. Direct purchases at thenorthface.com code as online\nshopping; in-store charges code as department stores or apparel. The XPLR Pass\nloyalty program is free and issues spend rewards plus first-access to limited\ndrops. Pair with an online-shopping-bonus card or flat-rate cashback.\n"
+    },
+    {
+      "name": "TJ Maxx",
+      "slug": "tj-maxx",
+      "aliases": [
+        "T.J. Maxx",
+        "TJX"
+      ],
+      "categories": [
+        "department_stores"
+      ],
+      "website": "https://tjmaxx.tjx.com",
+      "intro": "TJ Maxx is the flagship off-price retail brand of TJX Companies, with about 1,300\nU.S. stores selling apparel, home goods, and accessories at discount prices.\nCodes as department stores on most cards, so a department-store-bonus card\n(Sapphire Preferred 3x on online department stores via portal, U.S. Bank Shopper\nCash Rewards if selected) is the strongest pairing. The TJX Rewards co-branded\nMastercard offers 5% back at TJ Maxx, Marshalls, HomeGoods, Sierra, and\nHomesense — typically the best rate for heavy TJX shoppers.\n"
+    },
+    {
       "name": "Trader Joe's",
       "slug": "trader-joes",
       "aliases": [
@@ -799,6 +1902,19 @@
       ],
       "website": "https://www.traderjoes.com",
       "intro": "Trader Joe's is the smaller-format private-label grocer with about 600 stores\nnationwide, famous for store-brand goods and tight pricing. Average tickets are smaller\nthan at full-line supermarkets, but the visit frequency tends to be higher. TJ's codes\ncleanly as groceries (supermarket merchant code) on essentially every card we track, so\nany standard 3-6% grocery card will earn here.\n"
+    },
+    {
+      "name": "Uber",
+      "slug": "uber",
+      "aliases": [
+        "Uber Rides",
+        "Uber One"
+      ],
+      "categories": [
+        "transit"
+      ],
+      "website": "https://www.uber.com",
+      "intro": "Uber is the largest U.S. rideshare service. Uber rides code under the transit\ncategory on most cards (and as ground transportation on a few). The Amex Platinum\nand Amex Gold include monthly Uber Cash credits that apply to both rides and Uber\nEats orders. Several cards (Capital One Venture X, Sapphire Reserve) earn elevated\nrates on rideshare via their travel multipliers. Uber One membership stacks with\nsome card credits but is rarely earned back unless you ride or order frequently.\n"
     },
     {
       "name": "Uber Eats",
@@ -823,6 +1939,64 @@
       ],
       "website": "https://www.ulta.com",
       "intro": "Ulta Beauty is the largest U.S. beauty retailer by store count at about 1,400 locations,\ncovering both prestige and mass-market lines under one roof. Like Sephora, Ulta in-store\npurchases don't trigger a dedicated card category, so the right card there is usually a\nstrong flat-rate. Online purchases at ulta.com code as online shopping. Ultamate Rewards\nloyalty points stack with card cashback.\n"
+    },
+    {
+      "name": "Uniqlo",
+      "slug": "uniqlo",
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.uniqlo.com",
+      "intro": "Uniqlo is a Japan-headquartered apparel chain with about 65 U.S. stores, focused\non basics and technical fabrics like Heattech and AIRism. In-store charges code\nas department stores or apparel; uniqlo.com codes as online shopping. There's\nno co-branded U.S. credit card, so the strongest pairings are an online-shopping\ncard for uniqlo.com or a flat-rate cashback card in store.\n"
+    },
+    {
+      "name": "United Airlines",
+      "slug": "united-airlines",
+      "aliases": [
+        "United",
+        "MileagePlus"
+      ],
+      "categories": [
+        "airlines",
+        "travel"
+      ],
+      "website": "https://www.united.com",
+      "co_brand_cards": [
+        "united-gateway",
+        "united-explorer",
+        "united-quest",
+        "united-club-infinite"
+      ],
+      "intro": "United Airlines is one of the three U.S. legacy carriers and runs the MileagePlus\nloyalty program. United tickets code as airfare on every card we track. The Chase\nco-branded ladder ranges from no-fee Gateway to the $525 Club Infinite with United\nClub lounge membership; mid-tier Explorer adds free checked bag and 2 club passes,\nand Quest adds an annual flight credit. General travel cards often outperform on\ncash-equivalent value, but United co-brands waive close-in award fees and add\nstatus-credit boosts that frequent flyers value.\n"
+    },
+    {
+      "name": "Victoria's Secret",
+      "slug": "victorias-secret",
+      "aliases": [
+        "Victorias Secret",
+        "VS"
+      ],
+      "categories": [
+        "online_shopping",
+        "department_stores"
+      ],
+      "website": "https://www.victoriassecret.com",
+      "intro": "Victoria's Secret is a U.S. lingerie and beauty retailer with about 800 domestic\nstores in its main brand plus the PINK youth-focused sister brand. In-store\ncharges code as department stores; victoriassecret.com codes as online shopping.\nThe Victoria's Secret Credit Card and Victoria's Secret Mastercard offer tiered\ncashback at VS, PINK, and Bath & Body Works (sister brands). The Love Rewards\nloyalty program is free and stacks with card cashback.\n"
+    },
+    {
+      "name": "Vrbo",
+      "slug": "vrbo",
+      "aliases": [
+        "VRBO",
+        "Vacation Rentals By Owner"
+      ],
+      "categories": [
+        "travel",
+        "hotels"
+      ],
+      "website": "https://www.vrbo.com",
+      "intro": "Vrbo is the second-largest U.S. vacation-rental marketplace after Airbnb, owned\nby Expedia Group. Bookings code as travel on every card we track and as hotels\non a few. Unlike Airbnb, Vrbo focuses exclusively on whole-home rentals (no\nshared spaces). Vrbo bookings count for the Sapphire Reserve and Venture X\ntravel-credit categories. Booking through a card's travel portal earns the\nportal multiplier but typically loses Vrbo Boost host-program perks.\n"
     },
     {
       "name": "Walgreens",
@@ -865,6 +2039,25 @@
       "intro": "Walmart is the country's largest grocer and one of its largest general retailers, but it\nsits in an awkward spot for credit-card rewards. Most cards' grocery 3-5% bonuses\nexplicitly exclude Walmart (it codes as a discount store, not a supermarket), and\nWalmart's gas stations code as Walmart, not gas. Walmart.com purchases code as online\nshopping on most cards, which opens up the strongest non-co-branded earn rates —\nin-store purchases generally fall back to flat-rate cashback unless you're using a\nWalmart-issued card.\n"
     },
     {
+      "name": "Wawa",
+      "slug": "wawa",
+      "categories": [
+        "gas"
+      ],
+      "website": "https://www.wawa.com",
+      "intro": "Wawa is a regional gas-and-convenience chain in the Mid-Atlantic and Florida with\na cult following for its fresh hoagies and built-to-order food. Fuel codes as\ngas on every card we track; in-store food can code as gas, convenience, or in\nsome cases dining depending on the bank's classification. There's no widely-issued\nWawa-specific credit card, so general 4-5% gas cards plus the free Wawa Rewards\napp are the standard pairing.\n"
+    },
+    {
+      "name": "Wayfair",
+      "slug": "wayfair",
+      "categories": [
+        "online_shopping",
+        "home_improvement"
+      ],
+      "website": "https://www.wayfair.com",
+      "intro": "Wayfair is the largest U.S. online-only home goods retailer, plus a few flagship\nphysical stores under sister brands AllModern and Joss & Main. All purchases\ncode as online shopping on every card we track; some banks classify them as\nfurniture. The Wayfair Mastercard offers 5% rewards in Wayfair Rewards points\non Wayfair-family purchases — typically the strongest rate for heavy buyers.\nOtherwise pair with an online-shopping-bonus card.\n"
+    },
+    {
       "name": "Wegmans",
       "slug": "wegmans",
       "aliases": [
@@ -875,6 +2068,18 @@
       ],
       "website": "https://www.wegmans.com",
       "intro": "Wegmans is a regional supermarket chain with about 110 stores in the Northeast,\nwell-known for prepared foods, in-store dining, and a deep wine and beer selection.\nPricing skews mid-to-high and average tickets are larger than at typical mass-market\nsupermarkets. Wegmans codes as groceries on essentially every card we track.\n"
+    },
+    {
+      "name": "Wendy's",
+      "slug": "wendys",
+      "aliases": [
+        "Wendys"
+      ],
+      "categories": [
+        "dining"
+      ],
+      "website": "https://www.wendys.com",
+      "intro": "Wendy's is a U.S. fast-food chain with about 6,000 domestic locations, known for\nfresh-never-frozen beef and the Frosty. Charges code as dining on every card we\ntrack, so Amex Gold 4x (within $50K cap), Sapphire Preferred 3x, and SavorOne 3%\nall earn the dining bonus. The Wendy's Rewards program in the app issues frequent\nfree-item offers that stack on top of card bonuses.\n"
     },
     {
       "name": "Whole Foods Market",

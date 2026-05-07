@@ -1,0 +1,11 @@
+name: "Sheetz"
+slug: "sheetz"
+categories:
+  - gas
+website: "https://www.sheetz.com"
+intro: |
+  Sheetz is a Mid-Atlantic gas-and-convenience chain known for its made-to-order food
+  ("MTO" subs, sides, smoothies). Fuel codes as gas on every card we track; in-store
+  food typically codes as gas or convenience and only rarely as dining. The free
+  Sheetz Rewardz app stacks per-gallon discounts and free food rewards on top of any
+  card's bonus rate, which usually beats hunting for a Sheetz-specific credit card.

@@ -1,0 +1,16 @@
+name: "Spirit Airlines"
+slug: "spirit-airlines"
+aliases:
+  - "Spirit"
+  - "Free Spirit"
+categories:
+  - airlines
+  - travel
+website: "https://www.spirit.com"
+intro: |
+  Spirit Airlines is a U.S. ultra-low-cost carrier known for stripped-down base fares
+  with à la carte pricing for bags, seat selection, and refreshments. Tickets code as
+  airfare on every card we track, but for cards that offer trip-delay or trip-cancel
+  insurance the small base fare often falls below useful coverage thresholds. There's
+  no widely-issued co-branded Spirit credit card, so general travel cards (Sapphire
+  Preferred, Venture, Capital One Savor) are typically the best pairing.

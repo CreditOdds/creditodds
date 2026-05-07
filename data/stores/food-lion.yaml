@@ -1,0 +1,12 @@
+name: "Food Lion"
+slug: "food-lion"
+categories:
+  - groceries
+website: "https://www.foodlion.com"
+intro: |
+  Food Lion is a Southeastern U.S. grocery chain with about 1,100 stores, owned by
+  Ahold Delhaize. Codes cleanly as groceries on every card we track. Strongest
+  pairings are Blue Cash Preferred (6% on U.S. supermarkets), the Capital One SavorOne
+  (3% groceries), and U.S. Bank Shopper Cash Rewards if Food Lion is one of the two
+  selected retailers. The MVP loyalty program runs separate digital coupons that
+  stack on top of any card's bonus rate.

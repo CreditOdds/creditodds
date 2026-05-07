@@ -1,0 +1,15 @@
+name: "Instacart"
+slug: "instacart"
+aliases:
+  - "Instacart Express"
+  - "Instacart+"
+categories:
+  - groceries
+website: "https://www.instacart.com"
+intro: |
+  Instacart is the largest U.S. grocery delivery and pickup marketplace, partnering
+  with Costco, Wegmans, ALDI, Publix, and many regional chains. Orders placed through
+  the Instacart app or instacart.com generally code as groceries on most cards, but
+  some banks classify the charge as the underlying merchant — worth confirming on
+  a small order before relying on a 6% grocery card. Several premium cards (Sapphire
+  Reserve, Venture X) include Instacart+ memberships and statement credits.

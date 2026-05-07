@@ -1,0 +1,16 @@
+name: "Enterprise"
+slug: "enterprise"
+aliases:
+  - "Enterprise Rent-A-Car"
+  - "Enterprise Plus"
+categories:
+  - car_rentals
+  - travel
+website: "https://www.enterprise.com"
+intro: |
+  Enterprise is the largest U.S. car-rental company by fleet, owner of National and
+  Alamo. Rentals code as car rentals on every card we track. Status matches into
+  Enterprise Plus are less common than at Hertz/Avis, so most cardholders pair
+  Enterprise with a general travel card for the bonus on car rentals plus secondary
+  rental insurance. Booking through a card's travel portal earns the portal multiplier
+  but may not credit Enterprise Plus points.

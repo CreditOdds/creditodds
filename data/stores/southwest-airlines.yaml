@@ -1,0 +1,20 @@
+name: "Southwest Airlines"
+slug: "southwest-airlines"
+aliases:
+  - "Southwest"
+  - "Rapid Rewards"
+categories:
+  - airlines
+  - travel
+website: "https://www.southwest.com"
+co_brand_cards:
+  - southwest-rapid-rewards-plus-credit-card
+  - southwest-rapid-rewards-premier-credit-card
+  - southwest-rapid-rewards-priority-credit-card
+intro: |
+  Southwest Airlines is the largest U.S. domestic carrier by passenger volume and the
+  home of the Rapid Rewards program. Tickets code as airfare on every card we track,
+  and the Companion Pass — earned by hitting an annual points threshold — is widely
+  considered the best perk in U.S. domestic travel. Co-branded Chase Rapid Rewards
+  cards count signup bonuses toward Companion Pass qualification, which is the main
+  reason most travelers carry one. Southwest doesn't sell tickets through OTAs.

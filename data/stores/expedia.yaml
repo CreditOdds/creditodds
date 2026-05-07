@@ -1,0 +1,18 @@
+name: "Expedia"
+slug: "expedia"
+aliases:
+  - "Expedia.com"
+categories:
+  - travel
+website: "https://www.expedia.com"
+co_brand_cards:
+  - expedia-rewards-card-from-citi
+  - expedia-rewards-voyager-card-from-citi
+intro: |
+  Expedia is one of the largest online travel agencies, owned by Expedia Group
+  (which also owns Hotels.com, Vrbo, and Travelocity). Bookings code as travel on
+  every card we track. The honest catch: hotel and airline programs typically do
+  NOT credit Expedia bookings toward elite-night or elite-qualifying-mile counts,
+  and many properties exclude OTA stays from earning their own loyalty points —
+  so booking direct usually wins for status-conscious travelers. The Expedia
+  Rewards Cards from Citi layer extra OneKeyCash on Expedia-family bookings.
