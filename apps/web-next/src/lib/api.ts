@@ -36,6 +36,15 @@ export interface Reward {
   // in `note` rather than applying to the whole category. Used by store
   // pages to skip false-positive matches (e.g. Apple Card 3% online).
   merchant_specific?: boolean;
+  // Explicit list of store slugs (from data/stores/) where this reward
+  // applies. Use for co-brand cards whose category bonus is gated to the
+  // brand: e.g. United Explorer's `category: airlines` reward is set
+  // `merchant_gate: ["united-airlines"]` so the matcher doesn't surface
+  // it as a 3x airlines pick at JetBlue or Delta. When set, this overrides
+  // the general category match — the reward only earns at the listed
+  // stores. Co-brand path (includeMerchantSpecific=true) still respects
+  // it: the reward shows at the gated stores and nowhere else.
+  merchant_gate?: string[];
 }
 
 export interface SignupBonus {

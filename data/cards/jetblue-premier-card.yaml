@@ -18,6 +18,7 @@ rewards:
     value: 6
     unit: points_per_dollar
     note: "JetBlue and TrueBlue Travel purchases"
+    merchant_gate: [jetblue]
   - category: dining
     value: 2
     unit: points_per_dollar

@@ -17,6 +17,7 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "JetBlue purchases"
+    merchant_gate: [jetblue]
   - category: dining
     value: 2
     unit: points_per_dollar

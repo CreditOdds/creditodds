@@ -10,6 +10,7 @@ rewards:
     value: 5
     unit: points_per_dollar
     note: "United purchases"
+    merchant_gate: [united-airlines]
   - category: dining
     value: 2
     unit: points_per_dollar

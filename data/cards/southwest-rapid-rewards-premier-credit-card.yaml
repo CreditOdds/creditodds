@@ -10,6 +10,7 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "Southwest Airlines purchases"
+    merchant_gate: [southwest-airlines]
   - category: groceries
     value: 2
     unit: points_per_dollar

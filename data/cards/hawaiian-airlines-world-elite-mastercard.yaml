@@ -15,6 +15,7 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "Hawaiian Airlines purchases"
+    merchant_gate: [hawaiian-airlines]
   - category: gas
     value: 2
     unit: points_per_dollar

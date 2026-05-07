@@ -18,6 +18,7 @@ rewards:
     unit: points_per_dollar
     note: "At Wyndham hotels"
     merchant_specific: true
+    merchant_gate: [wyndham]
   - category: gas
     value: 8
     unit: points_per_dollar
