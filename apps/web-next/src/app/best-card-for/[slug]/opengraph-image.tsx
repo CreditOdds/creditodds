@@ -45,8 +45,14 @@ export default async function StoreOGImage({ params }: Props) {
   ]);
 
   // Defensive fallback so 404s during build don't blow up OG generation.
-  const name = store?.name ?? slug.replace(/-/g, ' ');
+  const name =
+    store?.name ?? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  const title = `Best card to use at ${name}`;
+  const description = `Top picks for earning rewards at ${name} — co-brands, category bonuses, and flat-rate fallbacks compared.`;
   const tags = (store?.categories ?? []).map(tagLabelForCategory);
+
+  // Auto-shrink title for long store names so it stays on one or two lines.
+  const titleSize = title.length > 44 ? 44 : title.length > 36 ? 50 : 56;
 
   return new ImageResponse(
     (
@@ -62,32 +68,57 @@ export default async function StoreOGImage({ params }: Props) {
             padding: 60,
           }}
         >
+          {/* Icon — same trophy treatment as /best/[slug] */}
           <div
             style={{
-              color: 'rgba(255,255,255,0.85)',
-              fontSize: 24,
-              letterSpacing: 2,
-              textTransform: 'uppercase',
-              marginBottom: 16,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 120,
+              height: 120,
+              background: 'rgba(255,255,255,0.15)',
+              borderRadius: 24,
+              marginBottom: 36,
+              boxShadow: '0 20px 50px rgba(0,0,0,0.2)',
             }}
           >
-            Best Credit Card to Use At
+            <span style={{ fontSize: 60 }}>🏆</span>
           </div>
 
+          {/* Title */}
           <div
             style={{
               color: 'white',
-              fontSize: 88,
+              fontSize: titleSize,
               fontWeight: 'bold',
-              letterSpacing: -2,
+              letterSpacing: -1,
+              marginBottom: 16,
               textAlign: 'center',
-              maxWidth: 1080,
+              maxWidth: 1000,
               lineHeight: 1.05,
             }}
           >
-            {name}
+            {title}
           </div>
 
+          {/* Description */}
+          <div
+            style={{
+              color: 'rgba(255,255,255,0.9)',
+              fontSize: 26,
+              textAlign: 'center',
+              maxWidth: 880,
+              lineHeight: 1.4,
+              overflow: 'hidden',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {description}
+          </div>
+
+          {/* Category pills */}
           {tags.length > 0 && (
             <div
               style={{
@@ -105,14 +136,11 @@ export default async function StoreOGImage({ params }: Props) {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    padding: '10px 22px',
-                    background: 'rgba(255,255,255,0.18)',
+                    padding: '10px 24px',
+                    background: 'rgba(255,255,255,0.15)',
                     borderRadius: 999,
                     color: 'white',
-                    fontSize: 22,
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: 1,
+                    fontSize: 20,
                   }}
                 >
                   {t}
@@ -122,6 +150,7 @@ export default async function StoreOGImage({ params }: Props) {
           )}
         </div>
 
+        {/* Logo */}
         <div
           style={{
             position: 'absolute',
