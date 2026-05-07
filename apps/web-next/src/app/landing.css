@@ -3874,9 +3874,146 @@
   color: #fff;
 }
 
+/* Mobile / responsive utility classes */
+.landing-v2.profile-v2 .cj-mob-only { display: none; }
+.landing-v2.profile-v2 .cj-mob-hide { display: block; }
+
 /* Mobile: rail moves below main, no border-right on main */
 @media (max-width: 1023px) {
   .landing-v2.profile-v2 .cj-main { border-right: 0; }
+}
+
+/* ===== Mobile (≤640px) — comprehensive overrides ===== */
+@media (max-width: 640px) {
+  .landing-v2.profile-v2 .cj-mob-only { display: block; }
+  .landing-v2.profile-v2 .cj-mob-hide { display: none !important; }
+
+  /* Snapshot — slightly smaller H1, tighter padding */
+  .landing-v2.profile-v2 .cj-snapshot { padding: 10px 0 12px; }
+  .landing-v2.profile-v2 .cj-snapshot-h1 { font-size: 24px !important; }
+  .landing-v2.profile-v2 .cj-snapshot-meta { font-size: 10.5px; }
+
+  /* Readoff — last odd cell spans full width so 5 cells lay out evenly (2/2/1-full) */
+  .landing-v2.profile-v2 .cj-readoff > .cj-readoff-cell:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .landing-v2.profile-v2 .cj-readoff-v { font-size: 18px; }
+  .landing-v2.profile-v2 .cj-readoff-cell { padding: 8px 10px; }
+
+  /* Tabs — tighter so 6 wrap onto two lines comfortably */
+  .landing-v2.profile-v2 .cj-main-tab {
+    padding: 8px 12px 8px 0;
+    margin-right: 14px;
+    font-size: 12.5px;
+  }
+
+  /* Wallet tape — drop the head, simplify rows: thumb · name+issuer · fee · caret */
+  .landing-v2.profile-v2 .cj-wallet-toolbar { gap: 10px; }
+  .landing-v2.profile-v2 .cj-wallet-head { display: none; }
+  .landing-v2.profile-v2 .cj-wallet-crow {
+    grid-template-columns: 36px minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "thumb name fee caret"
+      "thumb issuer fee caret";
+    gap: 0 10px;
+    padding: 10px 12px;
+    align-items: center;
+  }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-thumb { grid-area: thumb; align-self: center; }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-name {
+    grid-area: name;
+    align-self: end;
+    line-height: 1.15;
+    font-size: 13.5px;
+  }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-issuer {
+    grid-area: issuer;
+    align-self: start;
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-renew { display: none; }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-fee {
+    grid-area: fee;
+    align-self: center;
+    font-size: 13px;
+  }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-caret { grid-area: caret; align-self: center; }
+  .landing-v2.profile-v2 .cj-cw-marks { margin-left: 6px; }
+  .landing-v2.profile-v2 .cj-cw-mark { width: 16px; height: 16px; }
+
+  /* Wallet detail expand — left padding aligned with thumb shrunk to row padding */
+  .landing-v2.profile-v2 .cj-wallet-detail { padding: 14px 12px; }
+  .landing-v2.profile-v2 .cj-wd-cta { font-size: 11px !important; padding: 5px 8px !important; }
+
+  /* Records tape — head hidden, columns collapsed to: card+detail · pill */
+  .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-head { display: none; }
+  .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row > div:nth-child(1),
+  .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row > div:nth-child(2),
+  .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row > div:nth-child(4),
+  .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row > div:nth-child(5) {
+    display: none;
+  }
+
+  /* Referrals tape — drop impressions/clicks columns; show as detail under card */
+  .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-head { display: none; }
+  .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-row {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-row > div:nth-child(3),
+  .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-row > div:nth-child(4) {
+    display: none;
+  }
+
+  /* Benefits credits tape — drop cadence column; cadence shown in detail line */
+  .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-head { display: none; }
+  .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-row {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-row > div:nth-child(3) {
+    display: none;
+  }
+
+  /* Rewards table — tighter, stacked best-cell */
+  .landing-v2.profile-v2 .cj-table { font-size: 12px; }
+  .landing-v2.profile-v2 .cj-table th { padding: 8px 8px; font-size: 11px; }
+  .landing-v2.profile-v2 .cj-table td { padding: 9px 8px; }
+  .landing-v2.profile-v2 .cj-rew-best { gap: 8px; }
+  .landing-v2.profile-v2 .cj-rew-thumb,
+  .landing-v2.profile-v2 .cj-rew-thumb-empty {
+    width: 24px;
+    height: 16px;
+  }
+  .landing-v2.profile-v2 .cj-eff-pct { font-size: 13px; }
+
+  /* Settings list — keep 2-col, tighten */
+  .landing-v2.profile-v2 .cj-settings-list { padding: 12px 0; gap: 10px; }
+  .landing-v2.profile-v2 .cj-settings-k { font-size: 12px; }
+  .landing-v2.profile-v2 .cj-settings-v { font-size: 12px; word-break: break-word; }
+
+  /* Verdict block — slimmer */
+  .landing-v2.profile-v2 .cj-verdict { padding: 14px 16px; font-size: 13px; }
+
+  /* Apply block — smaller display values */
+  .landing-v2.profile-v2 .cj-apply { padding: 16px; }
+  .landing-v2.profile-v2 .cj-apply-v { font-size: 18px; }
+
+  /* Modal — full-width on mobile */
+  .landing-v2.profile-v2 .cj-modal-card {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    max-width: 100%;
+  }
 }
 
 /* ===== Application rule card ===== */

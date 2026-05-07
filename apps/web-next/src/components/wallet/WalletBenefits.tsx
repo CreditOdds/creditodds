@@ -117,6 +117,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
                     {b.cardName}
                     {b.enrollment_required ? ' · enrollment required' : ''}
                   </div>
+                  <div className="cj-tape-detail cj-mob-only">{frequencyLabel(b)}</div>
                 </div>
                 <div className="cj-tape-when">{frequencyLabel(b)}</div>
                 <div className="cj-tape-res">
