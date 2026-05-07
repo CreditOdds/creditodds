@@ -545,12 +545,14 @@ export default function CardClient({
   // ---------- Render ----------
   const applyBlock = (
     <div className="cj-apply">
-      <div className="cj-apply-k">Welcome bonus</div>
-      <div className="cj-apply-v">
-        {bonusDisplay?.value ?? "No current offer"}
+      <div className="cj-apply-k">
+        {bonusDisplay ? "Welcome bonus" : "Apply now"}
       </div>
       {bonusDisplay && (
-        <div className="cj-apply-sub">{bonusDisplay.sub}</div>
+        <>
+          <div className="cj-apply-v">{bonusDisplay.value}</div>
+          <div className="cj-apply-sub">{bonusDisplay.sub}</div>
+        </>
       )}
       {card.signup_bonus?.note && (
         <div className="cj-apply-note">{card.signup_bonus.note}</div>
