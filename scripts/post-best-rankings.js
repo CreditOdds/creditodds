@@ -118,6 +118,10 @@ async function fetchCardDetails(bestCards) {
       name: card ? (card.card_name || card.name) : bc.slug,
       image: card ? card.card_image_link : null,
       bank: card ? (card.bank || '') : '',
+      rewards: card ? (card.rewards || []) : [],
+      apr: card ? (card.apr || {}) : {},
+      signup_bonus: card ? card.signup_bonus : null,
+      annual_fee: card ? card.annual_fee : null,
     };
   });
 }
@@ -183,45 +187,151 @@ async function fetchCardImage(imageFilename) {
   }
 }
 
-// Tag pill on the right side. Prefers explicit badge; falls back to rank-movement.
-function getRowTagSvg(card, tone, rightX, centerY) {
+// ─── Per-category stat selection ─────────────────────────────────────────────
+//
+// Each ranking image highlights a stat that is *relevant to the list's category*
+// rather than a subjective badge ("Best Overall"). The stat block sits on the
+// right side of each row and mirrors the left-side name/bank stack: a large
+// accent-colored value above a small mono label.
+
+const REWARD_LABELS = {
+  travel_portal: 'PORTAL TRAVEL',
+  flights_portal: 'PORTAL FLIGHTS',
+  hotels_portal: 'PORTAL HOTELS',
+  hotels_car_portal: 'PORTAL HOTELS',
+  airlines: 'AIRLINES',
+  hotels: 'HOTELS',
+  travel: 'TRAVEL',
+  dining: 'DINING',
+  groceries: 'GROCERIES',
+  gas: 'GAS',
+  transit: 'TRANSIT',
+  streaming: 'STREAMING',
+  online_shopping: 'ONLINE',
+  entertainment: 'ENTERTAINMENT',
+  drugstores: 'DRUGSTORES',
+  warehouse_clubs: 'WAREHOUSE',
+  selected_categories: 'CHOSEN CATEGORY',
+  top_category: 'TOP CATEGORY',
+  foreign_transactions: 'FOREIGN',
+  rent: 'RENT',
+  everything_else: 'EVERYTHING',
+};
+
+function formatRate(reward) {
+  const v = Number(reward.value);
+  const u = String(reward.unit || '').toLowerCase();
+  const isPercent = u.includes('percent') || u.includes('cash');
+  const display = v % 1 === 0 ? v : Number(v.toFixed(1));
+  return isPercent ? `${display}%` : `${display}x`;
+}
+
+function findTopReward(rewards, preferredCategories) {
+  if (!rewards || !rewards.length) return null;
+  const pool = preferredCategories
+    ? rewards.filter(r => preferredCategories.includes(r.category))
+    : rewards.filter(r => r.category !== 'everything_else');
+  if (!pool.length) return null;
+  return [...pool].sort((a, b) => Number(b.value) - Number(a.value))[0];
+}
+
+function formatBonusValue(sb) {
+  if (!sb || !sb.value) return null;
+  if (sb.type === 'cash') return `$${Number(sb.value).toLocaleString()}`;
+  if (sb.value >= 1000) return `${Math.round(sb.value / 1000)}K`;
+  return String(sb.value);
+}
+
+function bonusLabel(sb) {
+  if (!sb) return 'BONUS';
+  if (sb.type === 'cash') return 'CASH BONUS';
+  if (sb.type === 'miles') return 'MILE BONUS';
+  return 'POINT BONUS';
+}
+
+function feeStat(card) {
+  if (typeof card.annual_fee !== 'number') return null;
+  const fee = card.annual_fee === 0 ? '$0' : `$${card.annual_fee}`;
+  return { value: fee, label: 'ANNUAL FEE' };
+}
+
+const TRAVEL_LIKE = ['travel_portal', 'flights_portal', 'hotels_car_portal', 'hotels_portal', 'airlines', 'hotels', 'travel'];
+
+function getCategoryStat(card, categorySlug) {
+  const rewards = card.rewards || [];
+  const apr = card.apr || {};
+  const sb = card.signup_bonus;
+
+  switch (categorySlug) {
+    case 'best-travel-cards': {
+      const r = findTopReward(rewards, TRAVEL_LIKE) || findTopReward(rewards);
+      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      break;
+    }
+    case 'best-airline-cards': {
+      const r = findTopReward(rewards, ['airlines', 'flights_portal'])
+            || findTopReward(rewards, TRAVEL_LIKE)
+            || findTopReward(rewards);
+      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || 'AIRLINES' };
+      break;
+    }
+    case 'best-cash-back-cards': {
+      const r = findTopReward(rewards);
+      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      // Cards with only `everything_else` (e.g. flat 2%) — show that
+      const fallback = (rewards || []).find(x => x.category === 'everything_else');
+      if (fallback) return { value: formatRate(fallback), label: 'EVERY PURCHASE' };
+      break;
+    }
+    case 'best-dining-grocery-cards': {
+      const r = findTopReward(rewards, ['dining', 'groceries'])
+            || findTopReward(rewards, ['top_category', 'selected_categories'])
+            || findTopReward(rewards);
+      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      break;
+    }
+    case 'best-0-apr-cards': {
+      const intro = apr.purchase_intro;
+      const bt = apr.balance_transfer_intro;
+      if (intro && Number(intro.rate) === 0 && intro.months) {
+        return { value: `${intro.months}mo`, label: '0% APR' };
+      }
+      if (bt && Number(bt.rate) === 0 && bt.months) {
+        return { value: `${bt.months}mo`, label: '0% ON BT' };
+      }
+      break;
+    }
+    case 'best-secured-cards': {
+      const r = findTopReward(rewards);
+      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      const fallback = (rewards || []).find(x => x.category === 'everything_else');
+      if (fallback) return { value: formatRate(fallback), label: 'EVERY PURCHASE' };
+      return feeStat(card);
+    }
+    case 'best-signup-bonuses': {
+      const v = formatBonusValue(sb);
+      if (v) return { value: v, label: bonusLabel(sb) };
+      break;
+    }
+    default:
+      break;
+  }
+
+  return feeStat(card);
+}
+
+// Two-line stat block on the right side of each row, mirroring the
+// name/bank stack on the left.
+function getRowStatSvg(card, categorySlug, tone, rightX, centerY) {
   const t = getTone(tone);
-  if (card.badge) {
-    const text = String(card.badge).toUpperCase();
-    const textW = Math.ceil(text.length * 11 * 0.6);
-    const pillW = textW + 20;
-    const pillH = 22;
-    const x = rightX - pillW;
-    const y = centerY - pillH / 2;
-    return `
-      <rect x="${x}" y="${y}" width="${pillW}" height="${pillH}" rx="4" ry="4"
-            fill="${SO.accent2}" stroke="none"/>
-      <text x="${x + pillW / 2}" y="${y + pillH / 2 + 4}" text-anchor="middle"
-            font-family="Menlo,Consolas,monospace" font-size="11" font-weight="600" fill="${t.accent}" letter-spacing="0.8">${escapeXml(text)}</text>
-    `;
-  }
-
-  if (card.previousRank) {
-    const movement = card.previousRank - card.rank;
-    if (movement === 0) return '';
-    const positive = movement > 0;
-    const color = positive ? SO.good : SO.warn;
-    const arrow = positive ? '▲' : '▼';
-    const text = `${arrow} ${Math.abs(movement)}`;
-    const textW = Math.ceil(text.length * 12 * 0.6);
-    const pillW = textW + 18;
-    const pillH = 22;
-    const x = rightX - pillW;
-    const y = centerY - pillH / 2;
-    return `
-      <rect x="${x}" y="${y}" width="${pillW}" height="${pillH}" rx="4" ry="4"
-            fill="${positive ? 'rgba(62,204,170,0.12)' : 'rgba(255,122,163,0.12)'}" stroke="none"/>
-      <text x="${x + pillW / 2}" y="${y + pillH / 2 + 4}" text-anchor="middle"
-            font-family="Menlo,Consolas,monospace" font-size="11" font-weight="600" fill="${color}" letter-spacing="0.8">${escapeXml(text)}</text>
-    `;
-  }
-
-  return '';
+  const stat = getCategoryStat(card, categorySlug);
+  if (!stat) return '';
+  const valueY = centerY - 4;
+  const labelY = centerY + 16;
+  return `
+    <text x="${rightX}" y="${valueY}" text-anchor="end" font-family="Arial,sans-serif" font-size="24" font-weight="600" fill="${t.accent}" letter-spacing="-0.6">${escapeXml(stat.value)}</text>
+    <text x="${rightX}" y="${labelY}" text-anchor="end" font-family="Menlo,Consolas,monospace" font-size="10" font-weight="500" fill="${SO.muted}" letter-spacing="1.4">${escapeXml(stat.label)}</text>
+  `;
 }
 
 function fitName(name, maxChars) {
@@ -312,7 +422,7 @@ async function generateBestRankingsImage(categoryTitle, updatedAt, topCards, slu
     rowsSvg += `<text x="${nameColX}" y="${yCenter - 4}" font-family="Arial,sans-serif" font-size="19" font-weight="600" fill="${SO.ink}" letter-spacing="-0.3">${escapeXml(nameText)}</text>`;
     rowsSvg += `<text x="${nameColX}" y="${yCenter + 16}" font-family="Menlo,Consolas,monospace" font-size="11" fill="${SO.muted}" letter-spacing="0.8">${escapeXml((card.bank || '').toUpperCase())}</text>`;
 
-    rowsSvg += getRowTagSvg(card, tone, FRAME_W - PADDING_X, yCenter);
+    rowsSvg += getRowStatSvg(card, slug, tone, FRAME_W - PADDING_X, yCenter);
   }
 
   const footerSvg = soFooter({
