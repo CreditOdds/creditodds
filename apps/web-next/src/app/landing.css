@@ -4192,6 +4192,79 @@
     border-right: 0;
     max-width: 100%;
   }
+
+  /* Best Card Here tape — drop dist/category columns, stack best/runner-up under merchant + earn */
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-head { display: none; }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "merchant earn"
+      "best     best"
+      "next     next";
+    gap: 8px 12px;
+    padding: 12px 14px;
+    align-items: center;
+  }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-dist,
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-cat { display: none; }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-merchant { grid-area: merchant; min-width: 0; }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-earn { grid-area: earn; }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-best { grid-area: best; }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-next { grid-area: next; }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-mob-meta { display: inline; }
+  .landing-v2.profile-v2 .cj-bch-detail { padding: 12px 14px; }
+  .landing-v2.profile-v2 .cj-bch-detail-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+}
+
+/* ===== Best Card Here tape (desktop) ===== */
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-head,
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-row {
+  grid-template-columns: 56px minmax(0, 1.4fr) 96px minmax(0, 1.2fr) minmax(0, 1.1fr) 70px;
+  gap: 0 14px;
+}
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-row {
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  background: var(--paper);
+  border: 0;
+  border-top: 1px solid var(--line);
+  font: inherit;
+  font-family: inherit;
+  color: inherit;
+}
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-row.is-open { background: var(--accent-2); }
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-card.cj-bch-next { opacity: 0.85; }
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-card-text { min-width: 0; }
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-card-text .cj-cell-primary {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-earn-val { font-size: 14px; }
+.landing-v2.profile-v2 .cj-tape-bch .cj-bch-mob-meta { display: none; }
+.landing-v2.profile-v2 .cj-bch-detail {
+  padding: 14px 18px 16px 78px;
+  border-top: 1px solid var(--line);
+  background: #fbfaff;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.landing-v2.profile-v2 .cj-bch-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 28px;
+  margin-bottom: 12px;
 }
 
 /* ===== Application rule card ===== */
