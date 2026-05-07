@@ -816,6 +816,11 @@ function ApplicationsTab(props: ApplicationsTabProps) {
                 </div>
                 <div className="cj-tape-event">
                   <span className="cj-tape-field">{r.card_name}</span>
+                  <div className="cj-tape-detail cj-mob-only">
+                    {new Date(r.date_applied || r.submit_datetime).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
+                    {' · '}score {r.credit_score}
+                    {' · '}${(r.listed_income / 1000).toFixed(0)}k
+                  </div>
                 </div>
                 <div className="cj-tape-res">{r.credit_score}</div>
                 <div className="cj-tape-res">${(r.listed_income / 1000).toFixed(0)}k</div>
@@ -948,6 +953,9 @@ function ReferralsTab(props: ReferralsTabProps) {
                   <a href={r.referral_link} target="_blank" rel="noreferrer" style={{ color: 'var(--muted)', textDecoration: 'underline', textDecorationColor: 'var(--line-2)' }}>
                     {r.referral_link.length > 40 ? r.referral_link.slice(0, 40) + '…' : r.referral_link}
                   </a>
+                </div>
+                <div className="cj-tape-detail cj-mob-only">
+                  {(r.impressions ?? 0).toLocaleString()} impr · {r.clicks ?? 0} click{(r.clicks ?? 0) === 1 ? '' : 's'}
                 </div>
               </div>
               <div className="cj-tape-res">{(r.impressions ?? 0).toLocaleString()}</div>
