@@ -2,36 +2,82 @@
 
 import { Fragment, useState } from 'react';
 import CardImage from '@/components/ui/CardImage';
-import { Card, WalletCard } from '@/lib/api';
+import { Card, NearbyPlace, WalletCard, getNearbyPlaces } from '@/lib/api';
+import { useAuth } from '@/auth/AuthProvider';
+import { mapPlaceToCategory } from '@/lib/placeTypeMapping';
 
-// Mock merchants near "Mission District, SF" — UI-only seam. A real
-// fetchNearbyMerchants(lat, lng) (Google or Foursquare) drops in here later.
-interface MockMerchant {
+// Resolved merchant ready for rendering: a place from the API plus the
+// PICKS-key category (Title Case) it maps to.
+interface Merchant {
+  id: string;
   name: string;
   cat: string;
   dist: string;
   addr: string;
 }
 
-const MERCHANTS: MockMerchant[] = [
-  { name: 'Tartine Manufactory', cat: 'Dining', dist: '0.2 mi', addr: '595 Alabama St' },
-  { name: 'Bi-Rite Market', cat: 'US groceries', dist: '0.3 mi', addr: '3639 18th St' },
-  { name: 'Foreign Cinema', cat: 'Dining', dist: '0.4 mi', addr: '2534 Mission St' },
-  { name: 'Walgreens', cat: 'Drugstores', dist: '0.4 mi', addr: '1979 Mission St' },
-  { name: 'Hotel Via', cat: 'Hotels', dist: '0.6 mi', addr: '138 King St' },
-  { name: 'Shell', cat: 'Gas', dist: '0.6 mi', addr: '300 S Van Ness' },
-  { name: 'Whole Foods Market', cat: 'US groceries', dist: '0.7 mi', addr: '2001 Market St' },
-  { name: 'Philz Coffee', cat: 'Dining', dist: '0.7 mi', addr: '3101 24th St' },
-  { name: 'Alamo Drafthouse', cat: 'Entertainment', dist: '0.8 mi', addr: '2550 Mission St' },
-  { name: "Trader Joe's", cat: 'US groceries', dist: '0.9 mi', addr: '555 9th St' },
-  { name: 'Uber', cat: 'Rideshare', dist: '—', addr: 'right where you are' },
-  { name: 'Hayes Street Grill', cat: 'Dining', dist: '1.1 mi', addr: '320 Hayes St' },
-];
+// Bridges placeTypeMapping's lowercase ids ("dining", "groceries", "gas")
+// to the Title-Case keys used by the curated PICKS lookup below. Anything
+// not in this map falls through (we hide the merchant rather than show a
+// blank recommendation).
+const CATEGORY_BRIDGE: Record<string, string> = {
+  dining: 'Dining',
+  groceries: 'US groceries',
+  gas: 'Gas',
+  drugstores: 'Drugstores',
+  hotels: 'Hotels',
+  entertainment: 'Entertainment',
+  // The Places API doesn't have a "rideshare" type — fold transit into
+  // the same bucket so taxi stands / transit hubs surface a card too.
+  transit: 'Rideshare',
+};
 
-// Stub for the future real implementation. Returns the same mock list so
-// the component can be swapped to a real fetch without re-shaping props.
-async function fetchNearbyMerchants(_lat: number, _lng: number): Promise<MockMerchant[]> {
-  return MERCHANTS;
+function metersToMiles(m: number): string {
+  const mi = m / 1609.34;
+  if (mi < 0.1) return '<0.1 mi';
+  return `${mi.toFixed(1)} mi`;
+}
+
+function haversineMeters(aLat: number, aLng: number, bLat: number, bLng: number): number {
+  const R = 6371000;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(bLat - aLat);
+  const dLng = toRad(bLng - aLng);
+  const lat1 = toRad(aLat);
+  const lat2 = toRad(bLat);
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+
+function placesToMerchants(places: NearbyPlace[], userLat: number, userLng: number): Merchant[] {
+  return places
+    .map((p) => {
+      const match = mapPlaceToCategory({
+        name: p.name,
+        primaryType: p.primaryType ?? undefined,
+        types: p.types,
+      });
+      const cat = CATEGORY_BRIDGE[match.category];
+      if (!cat) return null;
+      const dist = p.lat != null && p.lng != null
+        ? metersToMiles(haversineMeters(userLat, userLng, p.lat, p.lng))
+        : '—';
+      return {
+        id: p.id,
+        name: p.name,
+        cat,
+        dist,
+        addr: p.address?.split(',')[0] ?? '',
+      } satisfies Merchant;
+    })
+    .filter((m): m is Merchant => m !== null)
+    .sort((a, b) => {
+      const av = parseFloat(a.dist);
+      const bv = parseFloat(b.dist);
+      if (Number.isNaN(av)) return 1;
+      if (Number.isNaN(bv)) return -1;
+      return av - bv;
+    });
 }
 
 // Hand-curated category → card recommendation lookup. Card names match
@@ -227,36 +273,71 @@ interface BestCardHereProps {
 }
 
 export default function BestCardHere({ walletCards, allCards }: BestCardHereProps) {
+  const { getToken } = useAuth();
   const [location, setLocation] = useState<Location | null>(null);
   const [loading, setLoading] = useState(false);
-  const [merchants, setMerchants] = useState<MockMerchant[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [merchants, setMerchants] = useState<Merchant[]>([]);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   const cardsCount = walletCards.length;
 
   const enable = async () => {
-    setLoading(true);
+    setErrorMessage(null);
     setOpenIdx(null);
-    // Mock: 700ms delay so users can see the locating state. Real geolocation
-    // + Places fetch would replace this block; the rest of the component is
-    // already shaped around the same data contract.
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    const mockLat = 37.7599;
-    const mockLng = -122.4148;
-    const data = await fetchNearbyMerchants(mockLat, mockLng);
-    setMerchants(data);
-    setLocation({
-      label: 'Mission District, San Francisco',
-      coords: '37.7599° N, 122.4148° W',
-      accuracy: 18,
-    });
-    setLoading(false);
+
+    if (!('geolocation' in navigator)) {
+      setErrorMessage('Your browser does not support location lookup.');
+      return;
+    }
+
+    setLoading(true);
+
+    let coords: GeolocationCoordinates;
+    try {
+      coords = await new Promise<GeolocationCoordinates>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve(pos.coords),
+          (err) => reject(err),
+          { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 },
+        );
+      });
+    } catch (e) {
+      setLoading(false);
+      const msg = e instanceof GeolocationPositionError && e.code === 1
+        ? 'Location permission denied. Allow location access to see nearby merchants.'
+        : 'Could not determine your location. Try again in a moment.';
+      setErrorMessage(msg);
+      return;
+    }
+
+    try {
+      const token = await getToken();
+      if (!token) {
+        setLoading(false);
+        setErrorMessage('You need to be signed in to use this feature.');
+        return;
+      }
+      const result = await getNearbyPlaces(coords.latitude, coords.longitude, token);
+      const resolved = placesToMerchants(result.places, coords.latitude, coords.longitude);
+      setMerchants(resolved);
+      setLocation({
+        label: 'Your location',
+        coords: `${coords.latitude.toFixed(4)}° ${coords.latitude >= 0 ? 'N' : 'S'}, ${Math.abs(coords.longitude).toFixed(4)}° ${coords.longitude >= 0 ? 'E' : 'W'}`,
+        accuracy: Math.round(coords.accuracy),
+      });
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      setErrorMessage(e instanceof Error ? e.message : 'Failed to load nearby merchants.');
+    }
   };
 
   const clear = () => {
     setLocation(null);
     setMerchants([]);
     setOpenIdx(null);
+    setErrorMessage(null);
   };
 
   const showList = location && !loading;
@@ -300,14 +381,29 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
           fontSize: 12.5,
           letterSpacing: '0.02em',
         }}>
-          locating · scanning {MERCHANTS.length} nearby merchants…
+          locating · scanning nearby merchants…
         </div>
       )}
 
-      {showList && (
+      {errorMessage && !loading && (
+        <div className="cj-verdict" style={{ marginTop: 16, background: '#fef9e8', borderLeftColor: '#a8792a', color: '#5c4318' }}>
+          <b style={{ color: '#a8792a' }}>{errorMessage}</b>
+          <div style={{ marginTop: 8 }}>
+            <button type="button" className="cj-inline-cta" onClick={enable}>try again</button>
+          </div>
+        </div>
+      )}
+
+      {showList && merchants.length === 0 && (
+        <div className="cj-verdict" style={{ marginTop: 16 }}>
+          No merchants matched your wallet&apos;s reward categories within 1km. Try again from a different spot.
+        </div>
+      )}
+
+      {showList && merchants.length > 0 && (
         <>
           <div className="cj-table-label" style={{ marginTop: 24 }}>
-            {merchants.length} merchants within 1.1 mi · sorted by distance
+            {merchants.length} merchant{merchants.length === 1 ? '' : 's'} nearby · sorted by distance
           </div>
           <div className="cj-tape">
             <div
