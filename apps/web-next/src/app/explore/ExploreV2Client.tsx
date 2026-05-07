@@ -5,7 +5,7 @@ import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import type { Card, Reward } from '@/lib/api';
-import { categoryLabels, CategoryIcon } from '@/lib/cardDisplayUtils';
+import { categoryLabels, CategoryIcon, pickHeadlineReward } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import '../landing.css';
 
@@ -214,9 +214,8 @@ function formatBonus(card: Card): { main: string; sub: string | null } {
 }
 
 function topReward(card: Card): Reward | null {
-  const rewards = card.rewards ?? [];
-  if (rewards.length === 0) return null;
-  return [...rewards].sort((a, b) => b.value - a.value)[0];
+  const pick = pickHeadlineReward(card.rewards);
+  return pick?.reward ?? null;
 }
 
 function formatTopReward(card: Card): string {

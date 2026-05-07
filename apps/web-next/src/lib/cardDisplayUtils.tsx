@@ -39,6 +39,37 @@ export const categoryLabels: Record<string, string> = {
   everything_else: "Everything Else",
 };
 
+export function isPortalCategory(category: string): boolean {
+  return category.endsWith('_portal');
+}
+
+// Pick the reward to surface as a card's "headline" earn on dense surfaces
+// (lane cards, search hits, comparison rows). Priority:
+//   1. Highest non-portal, non-everything_else rate (everyday categories like dining, travel)
+//   2. Non-portal everything_else (e.g. Citi Double Cash's 2% baseline)
+//   3. Portal-only rewards as a last resort, marked via `isPortal`
+//
+// The point: a 5% via-portal travel rate should never crowd out a 2% everyday
+// baseline on the headline surface. When there's truly nothing else to show,
+// callers should render the "(via Portal)" suffix from `categoryLabels` so the
+// catch is visible to the user.
+export function pickHeadlineReward(
+  rewards: Reward[] | undefined
+): { reward: Reward; isPortal: boolean } | null {
+  if (!rewards || rewards.length === 0) return null;
+  const nonPortal = rewards.filter((r) => !isPortalCategory(r.category));
+  const everyday = nonPortal
+    .filter((r) => r.category !== 'everything_else')
+    .sort((a, b) => b.value - a.value)[0];
+  if (everyday) return { reward: everyday, isPortal: false };
+  const base = nonPortal
+    .filter((r) => r.category === 'everything_else')
+    .sort((a, b) => b.value - a.value)[0];
+  if (base) return { reward: base, isPortal: false };
+  const portal = [...rewards].sort((a, b) => b.value - a.value)[0];
+  return { reward: portal, isPortal: true };
+}
+
 export function CategoryIcon({ category, className }: { category: string; className?: string }) {
   const iconClass = className || "h-5 w-5";
   switch (category) {
