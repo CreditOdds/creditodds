@@ -2666,174 +2666,293 @@
   }
 }
 
-/* ---------- Card Wire (live feed) ---------- */
-.landing-v2 .wire-hero-meta {
+/* ---------- Card Wire v2 (/card-wire) — card-journal cj-* shell ---------- */
+.landing-v2.wire-v2 {
+  background: var(--paper);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'ss01', 'cv11';
+}
+.landing-v2.wire-v2 .wire-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 18px 48px;
+  min-width: 0;
+}
+@media (min-width: 768px) {
+  .landing-v2.wire-v2 .wire-main { padding: 28px 24px 64px; }
+}
+@media (min-width: 1024px) {
+  .landing-v2.wire-v2 .wire-main { padding: 32px 32px 80px; }
+}
+
+/* Snapshot — title + sub */
+.landing-v2.wire-v2 .wire-snapshot {
+  padding: 6px 0 16px;
+}
+.landing-v2.wire-v2 .wire-snapshot .cj-snapshot-h1 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0;
+  color: var(--ink);
+}
+@media (min-width: 768px) {
+  .landing-v2.wire-v2 .wire-snapshot .cj-snapshot-h1 { font-size: 44px; }
+}
+.landing-v2.wire-v2 .wire-snapshot .cj-snapshot-h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.landing-v2.wire-v2 .wire-snapshot-sub {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 620px;
+  margin: 12px 0 16px;
+}
+.landing-v2.wire-v2 .wire-snapshot .cj-readoff {
+  margin-top: 4px;
+}
+@media (min-width: 1024px) {
+  .landing-v2.wire-v2 .wire-snapshot .cj-readoff {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Sticky tab row — sits below the global navbar (h-14 mobile / h-16 desktop) */
+.landing-v2.wire-v2 .wire-tabs {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-top: 18px;
   flex-wrap: wrap;
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+  margin: 8px 0 20px;
+  position: sticky;
+  top: 56px;
+  z-index: 20;
+  background: var(--paper);
+  box-shadow: 0 1px 0 var(--line);
+}
+@media (min-width: 640px) {
+  .landing-v2.wire-v2 .wire-tabs { top: 64px; }
+}
+.landing-v2.wire-v2 .wire-tabs .cj-main-tab {
+  padding: 10px 18px 10px 0;
+  margin-right: 22px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 500;
   color: var(--muted);
-}
-.landing-v2 .wire-hero-meta b {
-  color: var(--ink);
-  font-weight: 600;
-}
-.landing-v2 .wire-table-wrap {
-  padding: 24px 0 24px;
-  overflow-x: auto;
-}
-.landing-v2 .wire-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: var(--card);
-  border: 1px solid var(--line-2);
-  border-radius: 14px;
-  overflow: hidden;
-  font-size: 13px;
-}
-.landing-v2 .wire-table thead th {
-  text-align: left;
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 600;
-  padding: 14px 16px;
-  background: var(--paper-2);
-  border-bottom: 1px solid var(--line);
+  cursor: pointer;
   white-space: nowrap;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
 }
-.landing-v2 .wire-table tbody td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--line);
+.landing-v2.wire-v2 .wire-tabs .cj-main-tab:hover { color: var(--ink); }
+.landing-v2.wire-v2 .wire-tabs .cj-main-tab.active {
   color: var(--ink);
-  vertical-align: middle;
+  border-bottom-color: var(--accent);
+  font-weight: 600;
 }
-.landing-v2 .wire-table tbody tr:last-child td {
-  border-bottom: 0;
+.landing-v2.wire-v2 .wire-tabs .cj-main-tab-num {
+  font-size: 10px;
+  color: var(--muted-2);
+  font-weight: 500;
 }
-.landing-v2 .wire-table tbody tr:not(.wire-date-row):hover {
-  background: color-mix(in oklab, var(--accent) 4%, transparent);
+.landing-v2.wire-v2 .wire-tabs .cj-main-tab.active .cj-main-tab-num { color: var(--accent); }
+.landing-v2.wire-v2 .wire-tabs .cj-main-tab-count {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-left: 2px;
 }
-.landing-v2 .wire-table tr.wire-date-row td {
-  background: var(--paper-2);
-  padding: 8px 16px;
-  border-bottom: 1px dashed var(--line-2);
+
+/* Empty state */
+.landing-v2.wire-v2 .wire-empty {
+  padding: 80px 0;
+  text-align: center;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
   font-size: 13px;
+  border: 1px solid var(--line-2);
+  background: var(--paper-2);
+}
+
+/* Feed — grid-based rows, day strips inline */
+.landing-v2.wire-v2 .wire-feed {
+  border: 1px solid var(--line-2);
+  background: var(--paper);
+}
+.landing-v2.wire-v2 .wire-feed-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) 130px minmax(0, 1.4fr);
+  padding: 8px 14px;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  gap: 12px;
+}
+.landing-v2.wire-v2 .wire-day {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--paper-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px dashed var(--line-2);
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
   font-weight: 500;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
-.landing-v2 .wire-table tr.wire-date-row td .wire-date-count {
+.landing-v2.wire-v2 .wire-day:first-child {
+  border-top: 0;
+}
+.landing-v2.wire-v2 .wire-day-date {
+  color: var(--ink);
+  font-weight: 600;
+}
+.landing-v2.wire-v2 .wire-day-count {
   color: var(--muted-2);
-  margin-left: 8px;
+  font-size: 11px;
 }
-.landing-v2 .wire-card {
+
+.landing-v2.wire-v2 .wire-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) 130px minmax(0, 1.4fr);
+  padding: 9px 14px;
+  border-top: 1px solid var(--line);
+  align-items: center;
+  font-size: 12.5px;
+  gap: 12px;
+  background: var(--paper);
+}
+.landing-v2.wire-v2 .wire-row:hover { background: var(--paper-2); }
+
+.landing-v2.wire-v2 .wire-card {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  text-decoration: none;
-  color: inherit;
   min-width: 0;
 }
-.landing-v2 .wire-card .wc-thumb {
-  width: 40px;
-  height: 26px;
-  border-radius: 4px;
-  flex-shrink: 0;
+.landing-v2.wire-v2 .wire-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.landing-v2.wire-v2 .wire-thumb {
   position: relative;
+  width: 36px;
+  height: 22px;
+  border-radius: 3px;
   overflow: hidden;
   background: var(--paper-2);
   border: 1px solid var(--line);
+  flex: 0 0 auto;
 }
-.landing-v2 .wire-card .wc-name {
+.landing-v2.wire-v2 .wire-card-name {
   font-weight: 500;
   color: var(--ink);
-  font-size: 13px;
-  line-height: 1.3;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 14px;
   letter-spacing: -0.005em;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
-  max-width: 320px;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
-.landing-v2 .wire-card:hover .wc-name {
-  color: var(--accent);
-}
-.landing-v2 .wire-field-chip {
+.landing-v2.wire-v2 .wire-card-link:hover .wire-card-name { color: var(--accent); }
+
+.landing-v2.wire-v2 .wire-field-chip {
   display: inline-flex;
   align-items: center;
   padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  border-radius: 3px;
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.02em;
   white-space: nowrap;
+  text-transform: uppercase;
 }
-.landing-v2 .wire-field-chip.fee {
+.landing-v2.wire-v2 .wire-field-chip.fee {
   background: color-mix(in oklab, var(--gold) 15%, var(--paper));
   color: var(--gold);
 }
-.landing-v2 .wire-field-chip.bonus {
+.landing-v2.wire-v2 .wire-field-chip.bonus {
   background: var(--accent-2);
   color: var(--accent);
 }
-.landing-v2 .wire-field-chip.reward {
-  background: color-mix(in oklab, #0c8450 14%, var(--paper));
-  color: #0c8450;
-}
-.landing-v2 .wire-field-chip.apr {
+.landing-v2.wire-v2 .wire-field-chip.apr {
   background: color-mix(in oklab, var(--accent) 12%, var(--paper));
   color: var(--accent);
 }
-.landing-v2 .wire-field-chip.apps {
+.landing-v2.wire-v2 .wire-field-chip.apps {
   background: var(--warn-2);
   color: var(--warn);
 }
-.landing-v2 .wire-field-chip.other {
+.landing-v2.wire-v2 .wire-field-chip.all {
   background: var(--paper-2);
   color: var(--ink-2);
   border: 1px solid var(--line);
 }
-.landing-v2 .wire-change {
+
+.landing-v2.wire-v2 .wire-change {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 12.5px;
+  min-width: 0;
 }
-.landing-v2 .wire-change .old {
+.landing-v2.wire-v2 .wire-change .old {
   color: var(--muted);
   text-decoration: line-through;
   text-decoration-color: color-mix(in oklab, var(--muted) 60%, transparent);
 }
-.landing-v2 .wire-change .arrow {
+.landing-v2.wire-v2 .wire-change .arrow {
   color: var(--muted-2);
-  font-size: 11px;
+  font-size: 10.5px;
 }
-.landing-v2 .wire-change .new {
+.landing-v2.wire-v2 .wire-change .new {
   font-weight: 600;
   color: var(--ink);
+  font-variant-numeric: tabular-nums;
 }
-.landing-v2 .wire-change.pos .new {
-  color: #0c8450;
-}
-.landing-v2 .wire-change.neg .new {
-  color: var(--warn);
-}
-.landing-v2 .wire-pager {
+.landing-v2.wire-v2 .wire-change.pos .new { color: #0c8450; }
+.landing-v2.wire-v2 .wire-change.neg .new { color: var(--warn); }
+
+.landing-v2.wire-v2 .wire-row-mobile { display: none; }
+
+/* Pager */
+.landing-v2.wire-v2 .wire-pager {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0 60px;
+  padding: 16px 0 8px;
   font-family: 'Inter', sans-serif;
   font-size: 11.5px;
   color: var(--muted);
 }
-.landing-v2 .wire-pager button {
-  padding: 8px 14px;
-  border-radius: 6px;
+.landing-v2.wire-v2 .wire-pager button {
+  padding: 6px 12px;
+  border-radius: 3px;
   border: 1px solid var(--line-2);
   background: var(--paper);
   color: var(--ink);
@@ -2841,61 +2960,49 @@
   font-family: inherit;
   font-size: 12px;
   font-weight: 500;
+  letter-spacing: 0.02em;
 }
-.landing-v2 .wire-pager button:hover:not(:disabled) {
+.landing-v2.wire-v2 .wire-pager button:hover:not(:disabled) {
+  background: var(--ink);
+  color: #fff;
   border-color: var(--ink);
 }
-.landing-v2 .wire-pager button:disabled {
+.landing-v2.wire-v2 .wire-pager button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-.landing-v2 .wire-mobile-summary {
-  display: none;
-}
+
+/* Mobile — single-column row, chip + change inline below the card name */
 @media (max-width: 640px) {
-  .landing-v2 .wire-table-wrap {
-    margin-left: -14px;
-    margin-right: -14px;
-    padding-top: 16px;
-    padding-bottom: 48px;
-    overflow-x: hidden;
+  .landing-v2.wire-v2 .wire-feed-head {
+    grid-template-columns: 1fr;
+    padding: 8px 12px;
   }
-  .landing-v2 .wire-table {
-    border-radius: 0;
-    border-left: 0;
-    border-right: 0;
-    font-size: 12px;
-  }
-  .landing-v2 .wire-table thead th.hide-sm,
-  .landing-v2 .wire-table tbody td.hide-sm {
-    display: none;
-  }
-  .landing-v2 .wire-table thead th {
-    padding: 10px 12px;
-    font-size: 10px;
-  }
-  .landing-v2 .wire-table tbody td {
+  .landing-v2.wire-v2 .wire-feed-head .hide-sm { display: none; }
+  .landing-v2.wire-v2 .wire-row {
+    grid-template-columns: 1fr;
     padding: 12px;
+    gap: 8px;
   }
-  .landing-v2 .wire-card .wc-name {
-    max-width: none;
-    white-space: normal;
-    font-size: 13px;
-  }
-  .landing-v2 .wire-mobile-summary {
+  .landing-v2.wire-v2 .wire-row .hide-sm { display: none; }
+  .landing-v2.wire-v2 .wire-row-mobile {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 8px;
-    margin-left: 50px;
+    margin-top: 6px;
+    padding-left: 46px;
   }
-  .landing-v2 .wire-mobile-summary .wire-field-chip {
-    font-size: 9.5px;
+  .landing-v2.wire-v2 .wire-row-mobile .wire-field-chip {
+    font-size: 10px;
     padding: 2px 6px;
   }
-  .landing-v2 .wire-mobile-summary .wire-change {
-    font-size: 11px;
+  .landing-v2.wire-v2 .wire-row-mobile .wire-change {
+    font-size: 12px;
+  }
+  .landing-v2.wire-v2 .wire-card-name {
+    white-space: normal;
+    font-size: 13.5px;
   }
 }
 
