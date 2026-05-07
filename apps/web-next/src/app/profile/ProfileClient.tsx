@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
@@ -9,9 +9,10 @@ import { useAuth } from "@/auth/AuthProvider";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import "../landing.css";
-import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
+import { getNews, NewsItem, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, ChartBarIcon, ExclamationTriangleIcon, ArchiveBoxIcon, Cog6ToothIcon, GiftIcon, TrophyIcon } from "@heroicons/react/24/outline";
+import { amortizedAnnualValue } from "@/lib/cardDisplayUtils";
+import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 import {
   createCardLookups,
@@ -23,48 +24,19 @@ import {
   isCardInactive,
 } from "./profileSelectors";
 
-// Lazy load modals - only loaded when user opens them
-const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const WalletBenefits = dynamic(() => import("@/components/wallet/WalletBenefits"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const SubmitRecordCardPicker = dynamic(() => import("@/components/forms/SubmitRecordCardPicker"), {
-  ssr: false,
-  loading: () => null,
-});
-
+const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), { ssr: false, loading: () => null });
+const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), { ssr: false, loading: () => null });
+const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), { ssr: false, loading: () => null });
+const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
+const WalletBenefits = dynamic(() => import("@/components/wallet/WalletBenefits"), { ssr: false, loading: () => null });
+const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), { ssr: false, loading: () => null });
+const SubmitRecordCardPicker = dynamic(() => import("@/components/forms/SubmitRecordCardPicker"), { ssr: false, loading: () => null });
 const RuleProgressChart = dynamic(() => import("@/components/charts/RuleProgressChart"), {
   ssr: false,
-  loading: () => <div className="bg-white rounded-lg border border-gray-200 p-4 h-[250px] animate-pulse" />,
+  loading: () => <div className="cj-rule" style={{ opacity: 0.4 }} />,
 });
 
-interface Record {
+interface RecordItem {
   record_id: number;
   card_name: string;
   card_image_link?: string;
@@ -97,16 +69,30 @@ interface Profile {
   referrals_count: number;
 }
 
+type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings';
+
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function formatRenewal(month?: number, year?: number): { display: string; sortKey: number } | null {
+  if (!month || !year) return null;
+  const renewalYear = year + 1;
+  const date = new Date(renewalYear, month - 1, 1);
+  return { display: `${MONTHS_SHORT[month - 1]} ${renewalYear}`, sortKey: date.getTime() };
+}
+
+function daysUntil(timestamp: number): number {
+  return Math.ceil((timestamp - Date.now()) / (1000 * 60 * 60 * 24));
+}
+
 export default function ProfileClient() {
   const { authState, getToken, logout } = useAuth();
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [records, setRecords] = useState<Record[]>([]);
+  const [records, setRecords] = useState<RecordItem[]>([]);
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
   const [allCards, setAllCards] = useState<Card[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
-  const [profileLoaded, setProfileLoaded] = useState(false);
   const [walletLoaded, setWalletLoaded] = useState(false);
   const [recordsLoaded, setRecordsLoaded] = useState(false);
   const [referralsLoaded, setReferralsLoaded] = useState(false);
@@ -115,8 +101,9 @@ export default function ProfileClient() {
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
   const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
-  const [showInactiveCards, setShowInactiveCards] = useState(false);
-  const [activeTab, setActiveTab] = useState<'wallet' | 'best-for' | 'benefits' | 'records' | 'referrals' | 'applications' | 'settings'>('wallet');
+  const [showArchived, setShowArchived] = useState(false);
+  const [openWalletId, setOpenWalletId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<TabKey>('cards');
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
@@ -124,62 +111,88 @@ export default function ProfileClient() {
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
   const cardLookups = useMemo(() => createCardLookups(allCards), [allCards]);
 
-  // Allow referrals for any card the user has in wallet or has submitted a record for,
-  // excluding cards with an existing active referral.
   const eligibleReferralCards = useMemo(
-    () => getEligibleReferralCards(
-      records,
-      walletCards,
-      referrals.filter((r) => !r.archived_at),
-      cardLookups,
-    ),
+    () => getEligibleReferralCards(records, walletCards, referrals.filter((r) => !r.archived_at), cardLookups),
     [records, walletCards, referrals, cardLookups]
   );
 
-  // Calculate total annual fees for wallet cards
   const totalAnnualFees = useMemo(
     () => getTotalAnnualFees(walletCards, cardLookups),
     [walletCards, cardLookups]
   );
 
-  // Filter wallet cards based on active status
   const { activeWalletCards, inactiveCount } = useMemo(
-    () => getWalletVisibility(walletCards, cardLookups, showInactiveCards),
-    [walletCards, cardLookups, showInactiveCards]
+    () => getWalletVisibility(walletCards, cardLookups, showArchived),
+    [walletCards, cardLookups, showArchived]
   );
 
-  // Helper to check if a card is inactive
   const isInactiveCard = (cardName: string) => isCardInactive(cardName, cardLookups);
 
-  // Track which cards have records or referrals
-  const cardsWithRecords = useMemo(() =>
-    new Set(records.map(r => r.card_name)), [records]);
-  const cardsWithReferrals = useMemo(() =>
-    new Set(referrals.map(r => r.card_name)), [referrals]);
+  const cardsWithRecords = useMemo(() => new Set(records.map(r => r.card_name)), [records]);
+  const cardsWithActiveReferrals = useMemo(
+    () => new Set(referrals.filter(r => !r.archived_at).map(r => r.card_name)),
+    [referrals]
+  );
 
-  // Get cards eligible for record submission (in wallet, no record yet)
   const eligibleRecordCards = useMemo(
     () => getEligibleRecordCards(walletCards, records),
     [walletCards, records]
   );
 
-  // Calculate application rules from wallet cards
-  const applicationRules = useMemo(() => {
-    return calculateApplicationRules(walletCards);
-  }, [walletCards]);
+  const applicationRules = useMemo(() => calculateApplicationRules(walletCards), [walletCards]);
+  const cardsMissingDates = useMemo(() => countCardsMissingDates(walletCards), [walletCards]);
 
-  // Count cards missing acquisition dates
-  const cardsMissingDates = useMemo(() => {
-    return countCardsMissingDates(walletCards);
-  }, [walletCards]);
-
-  // Filter news to cards in user's wallet (only match by card slug, not bank)
   const relevantNews = useMemo(
     () => getRelevantNews(walletCards, newsItems, cardLookups),
     [walletCards, newsItems, cardLookups]
   );
 
-  // Fetch public data client-side on mount — runs immediately, overlaps with Firebase auth
+  // Total annual credits from wallet card benefits (for the snapshot stat)
+  const annualCreditsTotals = useMemo(() => {
+    let total = 0;
+    let cardsWithCredits = 0;
+    for (const wc of walletCards) {
+      const card = cardLookups.byName.get(wc.card_name);
+      if (!card?.benefits?.length) continue;
+      let cardTotal = 0;
+      for (const b of card.benefits) {
+        if (b.value > 0) cardTotal += amortizedAnnualValue(b);
+      }
+      if (cardTotal > 0) {
+        total += cardTotal;
+        cardsWithCredits += 1;
+      }
+    }
+    return { total: Math.round(total), cardsWithCredits };
+  }, [walletCards, cardLookups]);
+
+  // Upcoming renewals — top 3 by date
+  const upcomingRenewals = useMemo(() => {
+    const list: { name: string; renewal: string; fee: number; sortKey: number; daysOut: number }[] = [];
+    for (const wc of walletCards) {
+      if (isInactiveCard(wc.card_name)) continue;
+      const card = cardLookups.byName.get(wc.card_name);
+      const fee = card?.annual_fee ?? 0;
+      if (fee <= 0) continue;
+      const renewal = formatRenewal(wc.acquired_month, wc.acquired_year);
+      if (!renewal) continue;
+      const days = daysUntil(renewal.sortKey);
+      if (days < 0) continue;
+      list.push({
+        name: wc.card_name,
+        renewal: renewal.display,
+        fee,
+        sortKey: renewal.sortKey,
+        daysOut: days,
+      });
+    }
+    list.sort((a, b) => a.sortKey - b.sortKey);
+    return list.slice(0, 3);
+    // Intentionally re-uses isInactiveCard via cardLookups — eslint disable not needed
+  }, [walletCards, cardLookups]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const nextRenewal = upcomingRenewals[0];
+
   useEffect(() => {
     Promise.all([getAllCards(), getNews()])
       .then(([cards, news]) => { setAllCards(cards); setNewsItems(news); })
@@ -195,16 +208,8 @@ export default function ProfileClient() {
     if (authState.isAuthenticated) {
       loadData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState.isAuthenticated, authState.isLoading, router]);
-
-  // If the user empties their wallet while on the "Best for" tab (which is
-  // hidden when walletCards is empty), bounce them back to the wallet tab so
-  // they don't end up on a tab that no longer exists in the nav.
-  useEffect(() => {
-    if (activeTab === 'best-for' && walletLoaded && walletCards.length === 0) {
-      setActiveTab('wallet');
-    }
-  }, [activeTab, walletLoaded, walletCards.length]);
 
   const loadData = async () => {
     const token = await getToken();
@@ -213,121 +218,62 @@ export default function ProfileClient() {
       return;
     }
 
-    // Fire all fetches independently — each sets its own loaded state when done
     const loadProfile = async () => {
-      try {
-        const result = await getProfile(token);
-        setProfile(result);
-      } catch (error) {
-        console.error("Profile error:", error);
-      }
-      setProfileLoaded(true);
+      try { setProfile(await getProfile(token)); } catch (e) { console.error("Profile error:", e); }
     };
-
     const loadWallet = async () => {
-      try {
-        const result = await getWallet(token);
-        setWalletCards(result || []);
-      } catch (error) {
-        console.error("Wallet error:", error);
-        setWalletCards([]);
-      }
+      try { setWalletCards(await getWallet(token) || []); } catch (e) { console.error("Wallet error:", e); setWalletCards([]); }
       setWalletLoaded(true);
     };
-
     const loadRecords = async () => {
-      try {
-        const result = await getRecords(token);
-        setRecords(result || []);
-      } catch (error) {
-        console.error("Records error:", error);
-        setRecords([]);
-      }
+      try { setRecords(await getRecords(token) || []); } catch (e) { console.error("Records error:", e); setRecords([]); }
       setRecordsLoaded(true);
     };
-
     const loadReferrals = async () => {
       try {
-        const referralsData = await getReferrals(token);
-        if (Array.isArray(referralsData) && referralsData.length >= 1) {
-          setReferrals(referralsData[0] || []);
-        } else {
-          setReferrals([]);
-        }
-      } catch (error) {
-        console.error("Referrals error:", error);
-        setReferrals([]);
-      }
+        const r = await getReferrals(token);
+        setReferrals(Array.isArray(r) && r.length >= 1 ? (r[0] || []) : []);
+      } catch (e) { console.error("Referrals error:", e); setReferrals([]); }
       setReferralsLoaded(true);
     };
 
-    loadProfile();
-    loadWallet();
-    loadRecords();
-    loadReferrals();
-  };
-
-  const formatAcquiredDate = (month?: number, year?: number) => {
-    if (!month && !year) return null;
-    const monthName = month ? new Date(2000, month - 1).toLocaleString('default', { month: 'short' }) : '';
-    if (month && year) return `${monthName} ${year}`;
-    if (year) return `${year}`;
-    return monthName;
+    loadProfile(); loadWallet(); loadRecords(); loadReferrals();
   };
 
   const handleDeleteRecord = async (recordId: number) => {
-    if (!confirm("Are you sure you want to delete this record?")) {
-      return;
-    }
-
+    if (!confirm("Delete this record?")) return;
     setDeletingRecordId(recordId);
     try {
       const token = await getToken();
-      if (!token) {
-        console.error("No auth token available");
-        return;
-      }
+      if (!token) return;
       await deleteRecord(recordId, token);
-      // Remove the record from local state
       setRecords(records.filter(r => r.record_id !== recordId));
-    } catch (error) {
-      console.error("Error deleting record:", error);
+    } catch (e) {
+      console.error("Error deleting record:", e);
       alert("Failed to delete record. Please try again.");
-    } finally {
-      setDeletingRecordId(null);
-    }
+    } finally { setDeletingRecordId(null); }
   };
 
   const handleArchiveReferral = async (referralId: number) => {
-    if (!confirm("Archive this referral? It will stop being shown to visitors.")) {
-      return;
-    }
-
+    if (!confirm("Archive this referral?")) return;
     setArchivingReferralId(referralId);
     try {
       const token = await getToken();
       if (!token) return;
       await archiveReferral(referralId, token);
       setReferrals(referrals.filter(r => r.referral_id !== referralId));
-    } catch (error) {
-      console.error("Error archiving referral:", error);
+    } catch (e) {
+      console.error("Error archiving referral:", e);
       alert("Failed to archive referral. Please try again.");
-    } finally {
-      setArchivingReferralId(null);
-    }
+    } finally { setArchivingReferralId(null); }
   };
 
   const handleDeleteAccount = async () => {
     if (deleteConfirmText !== 'DELETE') return;
-
     setDeletingAccount(true);
     try {
       const token = await getToken();
-      if (!token) {
-        alert("No auth token available");
-        return;
-      }
-
+      if (!token) { alert("No auth token available"); return; }
       await deleteAccount(token);
       alert("Your account has been deleted. Thank you for contributing to CreditOdds.");
       await logout();
@@ -342,851 +288,801 @@ export default function ProfileClient() {
     }
   };
 
-  if (authState.isLoading) {
-    return <ProfileSkeleton />;
-  }
-
-  if (!authState.isAuthenticated) {
-    return null;
-  }
-
-  const tabs: { key: typeof activeTab; label: string; icon: typeof WalletIcon; count?: number }[] = [
-    { key: 'wallet', label: 'Wallet', icon: WalletIcon, count: walletCards.length },
-    // "Best for" only shows when the user has cards — empty state is uninformative.
-    ...(walletCards.length > 0
-      ? [{ key: 'best-for' as const, label: 'Best for', icon: TrophyIcon }]
-      : []),
-    { key: 'benefits', label: 'Benefits', icon: GiftIcon },
-    { key: 'records', label: 'Records', icon: DocumentTextIcon, count: records.length },
-    { key: 'referrals', label: 'Referrals', icon: LinkIcon, count: referrals.filter(r => !r.archived_at).length },
-    { key: 'applications', label: 'Applications', icon: ChartBarIcon },
-    { key: 'settings', label: 'Settings', icon: Cog6ToothIcon },
-  ];
+  if (authState.isLoading) return <ProfileSkeleton />;
+  if (!authState.isAuthenticated) return null;
 
   const displayName = authState.user?.displayName || authState.user?.email?.split('@')[0] || 'there';
+  const handle = profile?.username || authState.user?.email?.split('@')[0] || '';
+  const activeReferralsCount = referrals.filter(r => !r.archived_at).length;
+  const visibleWalletCards = activeWalletCards;
+
+  const tabs: { key: TabKey; num: string; label: string; count: string }[] = [
+    { key: 'cards', num: '01', label: 'Cards', count: walletCards.length ? `${walletCards.length} cards` : '' },
+    { key: 'rewards', num: '02', label: 'Rewards', count: '' },
+    { key: 'benefits', num: '03', label: 'Benefits', count: '' },
+    { key: 'applications', num: '04', label: 'Applications', count: records.length ? `${records.length} records` : '' },
+    { key: 'referrals', num: '05', label: 'Referrals', count: activeReferralsCount ? `${activeReferralsCount} links` : '' },
+    { key: 'settings', num: '06', label: 'Settings', count: '' },
+  ];
 
   return (
     <div className="landing-v2 profile-v2">
-      <div className="profile-wrap">
-        {/* Profile page hero */}
-        <section className="profile-hero">
-          <h1 className="profile-greeting">
-            Welcome back, <em>{displayName}.</em>
-          </h1>
-          {authState.user?.email && (
-            <p className="profile-email">{authState.user.email}</p>
-          )}
-          <div className="profile-stats">
-            <div className="pstat">
-              <span className="k">Cards in wallet</span>
-              <span className="v accent">{walletCards.length}</span>
-            </div>
-            <div className="pstat">
-              <span className="k">Annual fees</span>
-              <span className={'v ' + (totalAnnualFees > 0 ? 'warn' : '')}>
-                ${totalAnnualFees.toLocaleString()}
-              </span>
-            </div>
-            <div className="pstat">
-              <span className="k">Records submitted</span>
-              <span className="v">{records.length}</span>
-            </div>
-            <div className="pstat">
-              <span className="k">Active referrals</span>
-              <span className="v">{referrals.filter(r => !r.archived_at).length}</span>
-            </div>
-          </div>
-        </section>
-
-        {/* Tabs */}
-        <nav className="profile-tabs" aria-label="Profile sections">
-          {tabs.map((t) => {
-            const Icon = t.icon;
-            return (
-              <button
-                key={t.key}
-                type="button"
-                onClick={() => setActiveTab(t.key)}
-                className={'profile-tab ' + (activeTab === t.key ? 'active' : '')}
-              >
-                <Icon />
-                {t.label}
-                {typeof t.count === 'number' && (
-                  <span className="tab-count">{t.count}</span>
-                )}
-              </button>
-            );
-          })}
+      {/* Terminal strip — dark bar with breadcrumb + status */}
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current">Profile</span>
         </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span>
+            <span className="cj-status-dot" />
+            verified{authState.user?.email ? ` · ${authState.user.email}` : ''}
+          </span>
+        </div>
+      </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Tabs Content - Full width on mobile, 2/3 on desktop */}
-          <div className="col-span-1 lg:col-span-2">
-        {/* Tab Content */}
-        {activeTab === 'wallet' && (
-          !walletLoaded ? (
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+      <div className="cj-layout">
+        <main className="cj-main">
+          {/* Snapshot header — tight welcome row */}
+          <div className="cj-snapshot">
+            <div className="cj-snapshot-row">
+              <h1 className="cj-snapshot-h1">
+                Welcome back, <em>{displayName}.</em>
+              </h1>
+              {handle && (
+                <div className="cj-snapshot-meta">@{handle}</div>
+              )}
+            </div>
+
+            <div className="cj-readoff">
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Active cards</div>
+                <div className="cj-readoff-v">{walletCards.length - inactiveCount}</div>
+                <div className="cj-readoff-foot">
+                  {inactiveCount > 0 ? `+${inactiveCount} archived` : 'in wallet'}
+                </div>
+              </div>
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Annual fees</div>
+                <div className={"cj-readoff-v " + (totalAnnualFees > 0 ? "cj-warn" : "")}>
+                  ${totalAnnualFees.toLocaleString()}
+                </div>
+                <div className="cj-readoff-foot">per year</div>
+              </div>
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Annual credits</div>
+                <div className="cj-readoff-v cj-accent">
+                  ${annualCreditsTotals.total.toLocaleString()}
+                </div>
+                <div className="cj-readoff-foot">
+                  {annualCreditsTotals.cardsWithCredits > 0
+                    ? `across ${annualCreditsTotals.cardsWithCredits} card${annualCreditsTotals.cardsWithCredits === 1 ? '' : 's'}`
+                    : 'no credits yet'}
+                </div>
+              </div>
+              <div className="cj-readoff-cell cj-readoff-bonus">
+                <div className="cj-readoff-k">Next renewal</div>
+                <div className="cj-readoff-v">
+                  {nextRenewal ? nextRenewal.renewal.split(' ')[0] + ' ' + nextRenewal.renewal.split(' ')[1].slice(2) : '—'}
+                </div>
+                <div className="cj-readoff-foot">
+                  {nextRenewal ? `${nextRenewal.name.replace(/ Card$/, '')} · $${nextRenewal.fee}` : 'no fee renewals'}
+                </div>
+              </div>
+              <div className="cj-readoff-cell">
+                <div className="cj-readoff-k">Records</div>
+                <div className="cj-readoff-v">{records.length}</div>
+                <div className="cj-readoff-foot">
+                  {(() => {
+                    const approved = records.filter(r => r.result).length;
+                    const denied = records.length - approved;
+                    return records.length ? `${approved} approved · ${denied} denied` : 'submit a record';
+                  })()}
+                </div>
+              </div>
             </div>
           </div>
-          ) : (
-          <>
-          <div className="bg-white shadow rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">My Cards</h2>
+
+          {/* Tab row */}
+          <div className="cj-main-tabs">
+            {tabs.map((it) => (
               <button
-                onClick={() => setShowWalletModal(true)}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                key={it.key}
+                type="button"
+                className={'cj-main-tab' + (activeTab === it.key ? ' active' : '')}
+                onClick={() => setActiveTab(it.key)}
               >
-                <PlusIcon className="h-4 w-4 mr-1" />
-                Add Card
+                <span className="cj-main-tab-num">{it.num}</span>
+                {it.label}
+                {it.count && <span className="cj-main-tab-count">· {it.count}</span>}
               </button>
-            </div>
-
-          {/* Show inactive cards toggle */}
-          {inactiveCount > 0 && (
-            <div className="mb-4">
-              <label className="inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showInactiveCards}
-                  onChange={(e) => setShowInactiveCards(e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
-                <span className="ms-3 text-sm text-gray-500">
-                  Show inactive cards ({inactiveCount})
-                </span>
-              </label>
-            </div>
-          )}
-
-          {activeWalletCards.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {activeWalletCards.map((card) => {
-                            const inactive = isInactiveCard(card.card_name);
-                return (
-                  <button
-                    key={card.id}
-                    onClick={() => setEditingCard(card)}
-                    className={`relative text-left rounded-lg p-3 transition-colors cursor-pointer ${inactive ? 'bg-gray-100 opacity-60' : 'bg-gray-50 hover:bg-gray-100'}`}
-                  >
-                    <div className="aspect-[1.586/1] relative mb-2">
-                      <CardImage
-                        cardImageLink={card.card_image_link}
-                        alt={card.card_name}
-                        fill
-                        className={`object-contain ${inactive ? 'grayscale' : ''}`}
-                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
-                      />
-                      {inactive && (
-                        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-500 px-1.5 py-0.5 rounded-full text-xs font-medium text-white shadow-sm">
-                          Inactive
-                        </span>
-                      )}
-                      {/* Record and Referral indicators */}
-                      <div className="absolute top-0 left-0 flex gap-0.5">
-                        {cardsWithRecords.has(card.card_name) && (
-                          <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Record submitted">
-                            <DocumentTextIcon className="h-3 w-3 text-white" />
-                          </span>
-                        )}
-                        {cardsWithReferrals.has(card.card_name) && (
-                          <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Referral submitted">
-                            <LinkIcon className="h-3 w-3 text-white" />
-                          </span>
-                        )}
-                      </div>
-                      {(() => {
-                        const cardData = allCards.find(c => c.card_name === card.card_name);
-                        const annualFee = cardData?.annual_fee || 0;
-                        return annualFee > 0 ? (
-                          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white px-1.5 py-0.5 rounded-full text-xs font-medium text-red-600 shadow-sm">
-                            ${annualFee}
-                          </span>
-                        ) : null;
-                      })()}
-                    </div>
-                    <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
-                    <p className="text-xs text-gray-500">{card.bank}</p>
-                  </button>
-                );
-              })}
-            </div>
-          ) : walletCards.length > 0 ? (
-            <div className="text-center py-8">
-              <WalletIcon className="mx-auto h-12 w-12 text-gray-300" />
-              <p className="mt-2 text-gray-500">All {walletCards.length} cards are inactive.</p>
-              <p className="text-sm text-gray-400">Toggle &quot;Show inactive cards&quot; above to see them.</p>
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <WalletIcon className="mx-auto h-12 w-12 text-gray-300" />
-              <p className="mt-2 text-gray-500">No cards in your wallet yet.</p>
-              <p className="text-sm text-gray-400">Add the credit cards you own to track your collection.</p>
-            </div>
-          )}
+            ))}
           </div>
-          </>
-          )
-        )}
 
-        {/* Best For Tab */}
-        {activeTab === 'best-for' && (
-          !walletLoaded ? (
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
-            </div>
-          </div>
-          ) : (
-          <BestCardByCategory walletCards={walletCards} allCards={allCards} />
-          )
-        )}
+          <div className="cj-main-content">
+            {activeTab === 'cards' && (
+              <CardsTab
+                walletLoaded={walletLoaded}
+                walletCards={walletCards}
+                visibleWalletCards={visibleWalletCards}
+                inactiveCount={inactiveCount}
+                showArchived={showArchived}
+                setShowArchived={setShowArchived}
+                openWalletId={openWalletId}
+                setOpenWalletId={setOpenWalletId}
+                cardLookups={cardLookups}
+                cardsWithRecords={cardsWithRecords}
+                cardsWithActiveReferrals={cardsWithActiveReferrals}
+                totalAnnualFees={totalAnnualFees}
+                onAdd={() => setShowWalletModal(true)}
+                onEdit={(c) => setEditingCard(c)}
+                onSubmitRecord={(c) => setSubmitRecordCard(c)}
+                onAddReferral={() => setShowReferralModal(true)}
+              />
+            )}
 
-        {/* Benefits Tab */}
-        {activeTab === 'benefits' && (
-          !walletLoaded ? (
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
-            </div>
-          </div>
-          ) : (
-          <WalletBenefits walletCards={walletCards} allCards={allCards} />
-          )
-        )}
+            {activeTab === 'rewards' && (
+              !walletLoaded ? <LoadingPanel /> :
+              <BestCardByCategory walletCards={walletCards} allCards={allCards} />
+            )}
 
-        {/* Records Tab */}
-        {activeTab === 'records' && (
-          !recordsLoaded ? (
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
-            </div>
+            {activeTab === 'benefits' && (
+              !walletLoaded ? <LoadingPanel /> :
+              <WalletBenefits walletCards={walletCards} allCards={allCards} />
+            )}
+
+            {activeTab === 'applications' && (
+              <ApplicationsTab
+                recordsLoaded={recordsLoaded}
+                walletLoaded={walletLoaded}
+                records={records}
+                walletCards={walletCards}
+                applicationRules={applicationRules}
+                cardsMissingDates={cardsMissingDates}
+                onPickCard={() => setShowRecordCardPicker(true)}
+                onDeleteRecord={handleDeleteRecord}
+                deletingRecordId={deletingRecordId}
+                eligibleRecordCards={eligibleRecordCards}
+              />
+            )}
+
+            {activeTab === 'referrals' && (
+              <ReferralsTab
+                referralsLoaded={referralsLoaded}
+                referrals={referrals}
+                eligibleReferralCards={eligibleReferralCards}
+                onAddReferral={() => setShowReferralModal(true)}
+                onArchive={handleArchiveReferral}
+                archivingReferralId={archivingReferralId}
+              />
+            )}
+
+            {activeTab === 'settings' && (
+              <SettingsTab
+                profile={profile}
+                email={authState.user?.email}
+                handle={handle}
+                confirmingDelete={confirmingDelete}
+                setConfirmingDelete={setConfirmingDelete}
+                deleteConfirmText={deleteConfirmText}
+                setDeleteConfirmText={setDeleteConfirmText}
+                deletingAccount={deletingAccount}
+                onDeleteAccount={handleDeleteAccount}
+                onLogout={() => { logout().then(() => router.push("/")); }}
+              />
+            )}
           </div>
-          ) : (
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-5 sm:px-6">
-              <h2 className="text-lg font-semibold text-gray-900">Your Records</h2>
-              <p className="mt-1 text-sm text-gray-500">Your submitted application data points</p>
+        </main>
+
+        <aside className="cj-rail">
+          <div className="cj-apply">
+            <div className="cj-apply-k">Wallet</div>
+            <div className="cj-apply-v">
+              {walletCards.length} card{walletCards.length === 1 ? '' : 's'}
             </div>
-          {records.length > 0 ? (
-            <div className="border-t border-gray-200">
-              {/* Mobile: Card layout */}
-              <div className="sm:hidden divide-y divide-gray-200">
-                {records.map((record, index) => (
-                  <div key={record.record_id || index} className="p-4">
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 h-12 w-20 relative">
-                        <CardImage
-                          className="object-contain"
-                          cardImageLink={record.card_image_link}
-                          alt={record.card_name}
-                          fill
-                          sizes="80px"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between">
-                          <p className="text-sm font-medium text-gray-900 truncate">{record.card_name}</p>
-                          <span
-                            className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              record.result
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {record.result ? "Approved" : "Rejected"}
-                          </span>
-                        </div>
-                        <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
-                          <span>Score: <span className="font-medium text-gray-700">{record.credit_score}</span></span>
-                          <span>Income: <span className="font-medium text-gray-700">${record.listed_income?.toLocaleString()}</span></span>
-                        </div>
-                        <div className="mt-1 flex items-center justify-between">
-                          <span className="text-xs text-gray-400">
-                            {new Date(record.submit_datetime).toLocaleDateString()}
-                          </span>
-                          <button
-                            onClick={() => handleDeleteRecord(record.record_id)}
-                            disabled={deletingRecordId === record.record_id}
-                            className="text-xs text-red-600 hover:text-red-900 disabled:opacity-50"
-                          >
-                            {deletingRecordId === record.record_id ? "Deleting..." : "Delete"}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {/* Desktop: Table layout */}
-              <div className="hidden sm:block overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
-                        Card
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
-                        Credit Score
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
-                        Income
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500">
-                        Result
-                      </th>
-                      <th className="relative px-6 py-3">
-                        <span className="sr-only">Delete</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {records.map((record, index) => (
-                      <tr key={record.record_id || index}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-16 relative">
-                              <CardImage
-                                className="object-contain"
-                                cardImageLink={record.card_image_link}
-                                alt={record.card_name}
-                                fill
-                                sizes="64px"
-                              />
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">
-                                {record.card_name}
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                Submitted: {new Date(record.submit_datetime).toLocaleDateString()}
-                              </div>
-                              {record.date_applied && (
-                                <div className="text-sm text-gray-500">
-                                  Applied: {new Date(record.date_applied).toLocaleDateString()}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {record.credit_score}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          ${record.listed_income?.toLocaleString()}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              record.result
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {record.result ? "Approved" : "Rejected"}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button
-                            onClick={() => handleDeleteRecord(record.record_id)}
-                            disabled={deletingRecordId === record.record_id}
-                            className="text-red-600 hover:text-red-900 disabled:opacity-50"
-                          >
-                            {deletingRecordId === record.record_id ? "Deleting..." : "Delete"}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ) : (
-            <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-              <p className="text-gray-500">No records submitted yet.</p>
-            </div>
-          )}
-          <div className="border-t border-gray-200">
-            {eligibleRecordCards.length > 0 ? (
+            <button type="button" className="cj-apply-btn" onClick={() => setShowWalletModal(true)}>
+              + add a card
+            </button>
+            {eligibleRecordCards.length > 0 && (
               <button
+                type="button"
+                className="cj-apply-btn-outline"
                 onClick={() => setShowRecordCardPicker(true)}
-                className="block w-full bg-gray-50 text-sm font-medium text-gray-500 text-center px-4 py-4 hover:text-gray-700 sm:rounded-b-lg cursor-pointer"
               >
-                Submit a data point
+                submit a record
               </button>
-            ) : walletCards.length > 0 ? (
-              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
-                You&apos;ve submitted records for all cards in your wallet
-              </div>
+            )}
+          </div>
+
+          {upcomingRenewals.length > 0 && (
+            <div className="cj-rail-block">
+              <div className="cj-rail-label">Upcoming renewals</div>
+              <ul className="cj-rail-list">
+                {upcomingRenewals.map((r) => (
+                  <li key={r.name} className="cj-rail-row">
+                    <div className="cj-rail-row-meta">
+                      <span className="cj-rail-row-date">{r.renewal.split(' ')[0]} {r.renewal.split(' ')[1].slice(2)}</span>
+                      <span className="cj-rail-row-field">{r.name.replace(/ Card$/, '')}</span>
+                    </div>
+                    <div className="cj-rail-row-detail">
+                      ${r.fee.toLocaleString()} · in {r.daysOut} day{r.daysOut === 1 ? '' : 's'}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="cj-rail-block">
+            <div className="cj-rail-label">News for you</div>
+            {relevantNews.length > 0 ? (
+              <ul className="cj-rail-list">
+                {relevantNews.slice(0, 5).map((n) => (
+                  <li key={n.id} className="cj-rail-row">
+                    <div className="cj-rail-row-meta">
+                      <span className="cj-rail-row-date">
+                        {new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </span>
+                      {n.tags?.[0] && (
+                        <span className="cj-news-tag">{tagLabels[n.tags[0]]?.toLowerCase() || n.tags[0]}</span>
+                      )}
+                    </div>
+                    <Link href={`/news/${n.id}`} className="cj-rail-row-link">{n.title}</Link>
+                    {n.card_names && n.card_names[0] && (
+                      <div className="cj-rail-row-detail">{n.card_names[0]}</div>
+                    )}
+                  </li>
+                ))}
+              </ul>
             ) : (
-              <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
-                Add a card to your wallet to submit a data point
+              <div className="cj-rail-row-detail" style={{ paddingTop: 6 }}>
+                {walletCards.length === 0
+                  ? 'add cards to see news for them'
+                  : 'no recent news for your cards'}
               </div>
             )}
           </div>
-          </div>
-          )
+
+          <Link href="/news" className="cj-rail-cta">view all news</Link>
+        </aside>
+      </div>
+
+      <V2Footer />
+
+      {/* Modals */}
+      <ReferralModal
+        show={showReferralModal}
+        handleClose={() => setShowReferralModal(false)}
+        openReferrals={eligibleReferralCards}
+        onSuccess={loadData}
+      />
+      <AddToWalletModal
+        show={showWalletModal}
+        onClose={() => setShowWalletModal(false)}
+        onSuccess={loadData}
+        existingCardIds={walletCards.map(c => c.card_id)}
+      />
+      <EditWalletCardModal
+        show={!!editingCard}
+        card={editingCard}
+        cardSlug={editingCard ? allCards.find(c => c.card_name === editingCard.card_name)?.slug : undefined}
+        onClose={() => setEditingCard(null)}
+        onSuccess={loadData}
+      />
+      <SubmitRecordCardPicker
+        show={showRecordCardPicker}
+        onClose={() => setShowRecordCardPicker(false)}
+        cards={eligibleRecordCards}
+        onSelectCard={(card) => setSubmitRecordCard(card)}
+      />
+      {submitRecordCard && (
+        <SubmitRecordModal
+          show={!!submitRecordCard}
+          handleClose={() => setSubmitRecordCard(null)}
+          card={{
+            card_id: submitRecordCard.card_id,
+            card_name: submitRecordCard.card_name,
+            card_image_link: submitRecordCard.card_image_link,
+            bank: submitRecordCard.bank,
+          }}
+          onSuccess={loadData}
+        />
+      )}
+    </div>
+  );
+}
+
+function LoadingPanel() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 0' }}>
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+    </div>
+  );
+}
+
+/* ========== Cards tab ========== */
+interface CardsTabProps {
+  walletLoaded: boolean;
+  walletCards: WalletCard[];
+  visibleWalletCards: WalletCard[];
+  inactiveCount: number;
+  showArchived: boolean;
+  setShowArchived: (v: boolean) => void;
+  openWalletId: number | null;
+  setOpenWalletId: (v: number | null) => void;
+  cardLookups: ReturnType<typeof createCardLookups>;
+  cardsWithRecords: Set<string>;
+  cardsWithActiveReferrals: Set<string>;
+  totalAnnualFees: number;
+  onAdd: () => void;
+  onEdit: (c: WalletCard) => void;
+  onSubmitRecord: (c: WalletCard) => void;
+  onAddReferral: () => void;
+}
+
+function CardsTab(props: CardsTabProps) {
+  const {
+    walletLoaded, walletCards, visibleWalletCards, inactiveCount, showArchived, setShowArchived,
+    openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals,
+    totalAnnualFees, onAdd, onEdit, onSubmitRecord, onAddReferral,
+  } = props;
+
+  if (!walletLoaded) return <LoadingPanel />;
+
+  if (walletCards.length === 0) {
+    return (
+      <div className="cj-verdict">
+        <b>No cards in your wallet yet.</b> Add the credit cards you own to track fees, renewals, and benefits.
+        <div style={{ marginTop: 12 }}>
+          <button type="button" className="cj-inline-cta" onClick={onAdd}>+ add a card</button>
+        </div>
+      </div>
+    );
+  }
+
+  const activeCount = walletCards.length - inactiveCount;
+
+  return (
+    <section className="cj-section">
+      <div className="cj-wallet-toolbar">
+        <div className="cj-table-label">
+          {activeCount} active{inactiveCount > 0 ? ` · ${inactiveCount} archived` : ''} · ${totalAnnualFees.toLocaleString()}/yr in fees
+        </div>
+        <span className="cj-wallet-toolbar-spacer" />
+        {inactiveCount > 0 && (
+          <button type="button" className="cj-archived-toggle" onClick={() => setShowArchived(!showArchived)}>
+            {showArchived ? 'hide archived' : `show ${inactiveCount} archived`}
+          </button>
         )}
+        <button type="button" className="cj-inline-cta" onClick={onAdd}>+ add a card</button>
+      </div>
 
-        {/* Referrals Tab */}
-        {activeTab === 'referrals' && (
-          !referralsLoaded ? (
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
-            </div>
-          </div>
-          ) : (
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-5 sm:px-6">
-              <h2 className="text-lg font-semibold text-gray-900">Your Referrals</h2>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">
-              Submit your full referral URL for any card in your wallet or with a submitted record.
-            </p>
-          </div>
-          {(() => {
-            const activeReferrals = referrals.filter(r => !r.archived_at);
-            const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason);
+      <div className="cj-wallet-tape">
+        <div className="cj-wallet-head">
+          <div></div>
+          <div>Card</div>
+          <div>Renewal</div>
+          <div className="cj-tr">Fee</div>
+          <div></div>
+          <div></div>
+        </div>
+        {visibleWalletCards.map((c) => {
+          const isOpen = openWalletId === c.id;
+          const card = cardLookups.byName.get(c.card_name);
+          const fee = card?.annual_fee ?? 0;
+          const archived = card?.active === false;
+          const renewal = formatRenewal(c.acquired_month, c.acquired_year);
+          const renewalDisplay = renewal ? renewal.display : '—';
+          const acquiredLabel = (() => {
+            if (!c.acquired_month && !c.acquired_year) return null;
+            const m = c.acquired_month ? MONTHS_SHORT[c.acquired_month - 1] : '';
+            return c.acquired_year ? `${m ? m + ' ' : ''}${c.acquired_year}` : m;
+          })();
+          const hasRecord = cardsWithRecords.has(c.card_name);
+          const hasReferral = cardsWithActiveReferrals.has(c.card_name);
+          const slug = card?.slug;
 
-            const renderReferralRow = (referral: Referral) => (
-              <tr key={referral.referral_id}>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-8 w-12 relative">
-                      <CardImage
-                        className="object-contain"
-                        cardImageLink={referral.card_image_link}
-                        alt={referral.card_name}
-                        fill
-                        sizes="48px"
-                      />
+          return (
+            <Fragment key={c.id}>
+              <button
+                type="button"
+                className={'cj-wallet-crow' + (isOpen ? ' is-open' : '') + (archived ? ' is-archived' : '')}
+                onClick={() => setOpenWalletId(isOpen ? null : c.id)}
+                aria-expanded={isOpen}
+              >
+                <span className="cj-cw-thumb">
+                  <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="36px" className="object-contain" />
+                </span>
+                <div className="cj-cw-name">
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.card_name}</span>
+                  <span className="cj-cw-marks">
+                    {hasRecord && (
+                      <span className="cj-cw-mark" title="record submitted" aria-label="record submitted">
+                        <DocumentTextIcon style={{ width: 11, height: 11 }} />
+                      </span>
+                    )}
+                    {hasReferral && (
+                      <span className="cj-cw-mark" title="referral active" aria-label="referral active">
+                        <LinkIcon style={{ width: 11, height: 11 }} />
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <div className="cj-cw-renew">{renewalDisplay}</div>
+                <div className={'cj-cw-fee' + (fee === 0 ? ' cj-cw-zero' : '')}>
+                  {fee === 0 ? '$0' : '$' + fee.toLocaleString()}
+                </div>
+                <div className="cj-cw-issuer">{c.bank}</div>
+                <div className="cj-cw-caret">›</div>
+              </button>
+              {isOpen && (
+                <div className="cj-wallet-detail">
+                  <div className="cj-wd-meta">
+                    <div>
+                      <div className="cj-wd-k">Issuer</div>
+                      <div className="cj-wd-v">{c.bank}</div>
                     </div>
-                    <div className="ml-3">
-                      <div className="text-sm font-medium text-gray-900">{referral.card_name}</div>
+                    <div>
+                      <div className="cj-wd-k">Opened</div>
+                      <div className="cj-wd-v">{acquiredLabel || '—'}</div>
+                    </div>
+                    <div>
+                      <div className="cj-wd-k">Renewal</div>
+                      <div className="cj-wd-v">{renewalDisplay}</div>
+                    </div>
+                    <div>
+                      <div className="cj-wd-k">Annual fee</div>
+                      <div className="cj-wd-v">{fee === 0 ? '$0 · no fee' : '$' + fee.toLocaleString()}</div>
                     </div>
                   </div>
-                </td>
-                <td className="px-4 py-3">
-                  <a href={referral.referral_link} target="_blank" rel="noreferrer"
-                    className="text-sm text-indigo-600 hover:text-indigo-900 truncate block max-w-[200px]">
-                    {referral.referral_link}
-                  </a>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  {referral.admin_approved ? (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      Approved
-                    </span>
-                  ) : (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                      Pending
-                    </span>
-                  )}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                  <div>{referral.impressions ?? 0} views</div>
-                  <div>{referral.clicks ?? 0} clicks</div>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    onClick={() => handleArchiveReferral(referral.referral_id)}
-                    disabled={archivingReferralId === referral.referral_id}
-                    className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
-                    title="Archive"
-                  >
-                    {archivingReferralId === referral.referral_id ? "..." : <ArchiveBoxIcon className="h-4 w-4 inline" />}
-                  </button>
-                </td>
-              </tr>
-            );
-
-            const renderReferralMobileCard = (referral: Referral) => (
-              <div key={referral.referral_id} className="p-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 h-12 w-20 relative">
-                    <CardImage
-                      className="object-contain"
-                      cardImageLink={referral.card_image_link}
-                      alt={referral.card_name}
-                      fill
-                      sizes="80px"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <p className="text-sm font-medium text-gray-900 truncate">{referral.card_name}</p>
-                      {referral.admin_approved ? (
-                        <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Approved
-                        </span>
-                      ) : (
-                        <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                          Pending
-                        </span>
-                      )}
-                    </div>
-                    <a href={referral.referral_link} target="_blank" rel="noreferrer"
-                      className="mt-1 text-xs text-indigo-600 hover:text-indigo-900 truncate block">
-                      {referral.referral_link}
-                    </a>
-                    <div className="mt-1 flex items-center justify-between">
-                      <div className="flex gap-3 text-xs text-gray-500">
-                        <span>{referral.impressions ?? 0} views</span>
-                        <span>{referral.clicks ?? 0} clicks</span>
-                      </div>
-                      <button
-                        onClick={() => handleArchiveReferral(referral.referral_id)}
-                        disabled={archivingReferralId === referral.referral_id}
-                        className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-50"
-                      >
-                        {archivingReferralId === referral.referral_id ? "..." : "Archive"}
+                  <div className="cj-wd-actions">
+                    {slug && <Link href={`/card/${slug}`}>view card page →</Link>}
+                    <button type="button" onClick={() => onEdit(c)}>edit</button>
+                    {!hasRecord && (
+                      <button type="button" className="cj-wd-cta" onClick={() => onSubmitRecord(c)}>
+                        + submit a record
                       </button>
-                    </div>
+                    )}
+                    {hasRecord && <span className="cj-wd-done">✓ record submitted</span>}
+                    {!hasReferral && (
+                      <button type="button" className="cj-wd-cta" onClick={onAddReferral}>
+                        + add referral link
+                      </button>
+                    )}
+                    {hasReferral && <span className="cj-wd-done">✓ referral link active</span>}
                   </div>
                 </div>
-              </div>
-            );
-
-            return (
-              <>
-                {activeReferrals.length > 0 ? (
-                  <div className="border-t border-gray-200">
-                    <div className="sm:hidden divide-y divide-gray-200">
-                      {activeReferrals.map(r => renderReferralMobileCard(r))}
-                    </div>
-                    <div className="hidden sm:block">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Referral Link</th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Stats</th>
-                            <th className="relative px-4 py-3"><span className="sr-only">Actions</span></th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {activeReferrals.map(r => renderReferralRow(r))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-                    <p className="text-gray-500">No active referrals.</p>
-                  </div>
-                )}
-
-                {adminArchived.length > 0 && (
-                  <div className="border-t border-gray-200 px-4 py-3 sm:px-6 bg-amber-50">
-                    <p className="text-sm text-amber-700">
-                      {adminArchived.length === 1
-                        ? `Your referral for ${adminArchived[0].card_name} was removed because the link was no longer working. You can submit a new one anytime.`
-                        : `${adminArchived.length} of your referrals were removed because the links were no longer working. You can submit new ones anytime.`}
-                    </p>
-                  </div>
-                )}
-
-                <div className="border-t border-gray-200">
-                  {eligibleReferralCards.length > 0 ? (
-                    <button
-                      onClick={() => setShowReferralModal(true)}
-                      className="block w-full bg-gray-50 text-sm font-medium text-gray-500 text-center px-4 py-4 hover:text-gray-700 sm:rounded-b-lg cursor-pointer"
-                    >
-                      Submit a referral
-                    </button>
-                  ) : (
-                    <div className="bg-gray-50 text-sm text-gray-400 text-center px-4 py-4 sm:rounded-b-lg">
-                      Add a card to your wallet or submit a data point to add your referral link
-                    </div>
-                  )}
-                </div>
-              </>
-            );
-          })()}
+              )}
+            </Fragment>
+          );
+        })}
+        {!showArchived && inactiveCount > 0 && (
+          <div className="cj-wallet-arch-strip">
+            <span>{inactiveCount} archived card{inactiveCount === 1 ? '' : 's'} hidden</span>
+            <button type="button" className="cj-archived-toggle" onClick={() => setShowArchived(true)}>
+              show archived →
+            </button>
           </div>
-          )
         )}
+      </div>
+    </section>
+  );
+}
 
-        {/* Applications Tab */}
-        {activeTab === 'applications' && (
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-900">Application Rules Tracker</h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Track your credit card application velocity against common bank rules.
-              </p>
+/* ========== Applications tab ========== */
+interface ApplicationsTabProps {
+  recordsLoaded: boolean;
+  walletLoaded: boolean;
+  records: RecordItem[];
+  walletCards: WalletCard[];
+  applicationRules: ReturnType<typeof calculateApplicationRules>;
+  cardsMissingDates: number;
+  onPickCard: () => void;
+  onDeleteRecord: (id: number) => void;
+  deletingRecordId: number | null;
+  eligibleRecordCards: WalletCard[];
+}
+
+function ApplicationsTab(props: ApplicationsTabProps) {
+  const { recordsLoaded, walletLoaded, records, walletCards, applicationRules, cardsMissingDates, onPickCard, onDeleteRecord, deletingRecordId, eligibleRecordCards } = props;
+  if (!recordsLoaded || !walletLoaded) return <LoadingPanel />;
+
+  const approved = records.filter(r => r.result).length;
+  const denied = records.length - approved;
+
+  return (
+    <section className="cj-section">
+      {records.length > 0 ? (
+        <>
+          <div className="cj-table-label">Your applications, with the score and income at the time of each.</div>
+          <div className="cj-tape cj-tape-records">
+            <div className="cj-tape-head">
+              <div>Applied</div>
+              <div></div>
+              <div>Card</div>
+              <div className="cj-tape-res">Score</div>
+              <div className="cj-tape-res">Income</div>
+              <div className="cj-tape-res">Outcome</div>
             </div>
-
-            {/* Warning if cards missing dates */}
-            {cardsMissingDates > 0 && (
-              <div className="mb-6 rounded-md bg-yellow-50 p-4">
-                <div className="flex">
-                  <div className="flex-shrink-0">
-                    <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-yellow-800">Missing acquisition dates</h3>
-                    <div className="mt-2 text-sm text-yellow-700">
-                      <p>
-                        {cardsMissingDates} {cardsMissingDates === 1 ? 'card is' : 'cards are'} missing acquisition dates.
-                        For accurate rule tracking, please add when you got each card.
-                      </p>
-                    </div>
-                    <div className="mt-4">
-                      <div className="-mx-2 -my-1.5 flex">
-                        <button
-                          type="button"
-                          onClick={() => setActiveTab('wallet')}
-                          className="rounded-md bg-yellow-50 px-2 py-1.5 text-sm font-medium text-yellow-800 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2 focus:ring-offset-yellow-50"
-                        >
-                          Go to Wallet
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+            {records.map((r) => (
+              <div key={r.record_id} className="cj-tape-row">
+                <div className="cj-tape-when">
+                  {new Date(r.date_applied || r.submit_datetime).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
+                </div>
+                <div>
+                  <span className="cj-tape-thumb">
+                    <CardImage cardImageLink={r.card_image_link} alt={r.card_name} fill sizes="36px" className="object-contain" />
+                  </span>
+                </div>
+                <div className="cj-tape-event">
+                  <span className="cj-tape-field">{r.card_name}</span>
+                </div>
+                <div className="cj-tape-res">{r.credit_score}</div>
+                <div className="cj-tape-res">${(r.listed_income / 1000).toFixed(0)}k</div>
+                <div className="cj-tape-res">
+                  <span className={'cj-pill ' + (r.result ? 'cj-pill-app' : 'cj-pill-den')}>
+                    {r.result ? 'approved' : 'denied'}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => onDeleteRecord(r.record_id)}
+                    disabled={deletingRecordId === r.record_id}
+                    style={{ marginLeft: 6, fontSize: 11, color: 'var(--muted)', background: 'transparent', border: 0, cursor: 'pointer' }}
+                    aria-label="Delete record"
+                  >
+                    {deletingRecordId === r.record_id ? '…' : '×'}
+                  </button>
                 </div>
               </div>
-            )}
-
-            {walletCards.length === 0 ? (
-              <div className="text-center py-12">
-                <ChartBarIcon className="mx-auto h-12 w-12 text-gray-300" />
-                <p className="mt-2 text-gray-500">Add cards to your wallet to track application rules.</p>
-                <button
-                  onClick={() => setActiveTab('wallet')}
-                  className="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Go to Wallet
+            ))}
+          </div>
+          <div className="cj-verdict">
+            <b>{records.length} record{records.length === 1 ? '' : 's'}.</b> {approved} approved, {denied} denied.{' '}
+            {eligibleRecordCards.length > 0 ? (
+              <>Submit a new record from <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>any card in your wallet</button>.</>
+            ) : 'You’ve submitted records for every card in your wallet.'}
+          </div>
+        </>
+      ) : (
+        <div className="cj-verdict">
+          {walletCards.length === 0
+            ? <><b>No records yet.</b> Add a card to your wallet to submit a data point.</>
+            : <><b>No records yet.</b>{' '}
+                <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>
+                  Submit a record →
                 </button>
-              </div>
-            ) : (
-              <>
-                {/* Rules Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                  {applicationRules.map((rule) => (
-                    <RuleProgressChart key={rule.ruleName} rule={rule} />
-                  ))}
-                </div>
+              </>}
+        </div>
+      )}
 
-                {/* Rules Explanation */}
-                <div className="border-t border-gray-200 pt-6">
-                  <h3 className="text-sm font-medium text-gray-900 mb-4">Understanding Application Rules</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                    <div>
-                      <p className="font-medium text-gray-700">Chase 5/24</p>
-                      <p>Chase will likely deny you if you&apos;ve opened 5+ cards (any bank) in 24 months.</p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-700">Amex 2/90</p>
-                      <p>American Express limits you to 2 credit card approvals within 90 days.</p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-700">Capital One 1/6</p>
-                      <p>Capital One typically approves only 1 card every 6 months.</p>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
-        {/* Settings Tab */}
-        {activeTab === 'settings' && (
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-900">Settings</h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Manage your account settings.
-              </p>
+      {walletCards.length > 0 && (
+        <>
+          <div className="cj-table-label" style={{ marginTop: 24 }}>Application rules</div>
+          {cardsMissingDates > 0 && (
+            <div className="cj-verdict" style={{ marginTop: 0, marginBottom: 16, background: '#fef9e8', borderLeftColor: '#a8792a', color: '#5c4318' }}>
+              <ExclamationTriangleIcon style={{ width: 16, height: 16, display: 'inline', marginRight: 6, verticalAlign: '-3px' }} />
+              <b style={{ color: '#a8792a' }}>{cardsMissingDates} card{cardsMissingDates === 1 ? '' : 's'} missing acquisition dates.</b>{' '}
+              For accurate rule tracking, edit each card to add when you got it.
             </div>
-
-            {/* Danger Zone */}
-            <div>
-              <h3 className="text-sm font-semibold text-red-600 mb-4">Danger zone</h3>
-              <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Delete your account</p>
-                    <p className="text-sm text-gray-500">
-                      Permanently delete your account, wallet, and referrals. Your submitted data points will be kept anonymously.
-                    </p>
-                  </div>
-                  {!confirmingDelete ? (
-                    <button
-                      onClick={() => setConfirmingDelete(true)}
-                      className="shrink-0 inline-flex items-center px-3 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                    >
-                      <TrashIcon className="h-4 w-4 mr-1.5" />
-                      Delete Account
-                    </button>
-                  ) : (
-                    <div className="shrink-0 flex flex-col gap-2">
-                      <label className="text-sm font-medium text-red-700">
-                        Type <span className="font-mono font-bold">DELETE</span> to confirm:
-                      </label>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={deleteConfirmText}
-                          onChange={(e) => setDeleteConfirmText(e.target.value)}
-                          placeholder="DELETE"
-                          className="w-28 px-3 py-1.5 text-sm border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                          autoFocus
-                        />
-                        <button
-                          onClick={handleDeleteAccount}
-                          disabled={deleteConfirmText !== 'DELETE' || deletingAccount}
-                          className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                        >
-                          {deletingAccount ? 'Deleting...' : 'Confirm'}
-                        </button>
-                        <button
-                          onClick={() => { setConfirmingDelete(false); setDeleteConfirmText(''); }}
-                          className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+          )}
+          <div className="cj-rule-grid">
+            {applicationRules.map((rule) => (
+              <RuleProgressChart key={rule.ruleName} rule={rule} />
+            ))}
           </div>
-        )}
-          </div>
+        </>
+      )}
+    </section>
+  );
+}
 
-          {/* News Sidebar - Below content on mobile, 1/3 on desktop */}
-          <div className="col-span-1 lg:col-span-1">
-            <div className="bg-white shadow rounded-lg overflow-hidden sticky top-4">
-              <div className="px-4 py-4 border-b border-gray-200">
-                <div className="flex items-center gap-2">
-                  <NewspaperIcon className="h-5 w-5 text-indigo-600" />
-                  <h2 className="text-base font-semibold text-gray-900">Your Card News</h2>
-                </div>
-              </div>
-              {relevantNews.length > 0 ? (
-                <ul className="divide-y divide-gray-200 max-h-[600px] overflow-y-auto">
-                  {relevantNews.slice(0, 10).map((news) => (
-                    <li key={news.id} className="px-4 py-3 hover:bg-gray-50">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs text-gray-400">
-                          {new Date(news.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                        </span>
-                        {news.tags.slice(0, 1).map((tag) => (
-                          <span
-                            key={tag}
-                            className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${tagColors[tag]}`}
-                          >
-                            {tagLabels[tag]}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-sm font-medium text-gray-900">{news.title}</p>
-                      {news.summary && (
-                        <p className="mt-1 text-xs text-gray-500 line-clamp-3">{news.summary}</p>
-                      )}
-                      {news.card_slugs && news.card_names && news.card_slugs.length > 0 && (
-                        <div className="mt-1 text-xs">
-                          {news.card_slugs.map((s, i) => (
-                            <span key={s}>
-                              {i > 0 && <span className="text-gray-400">, </span>}
-                              <Link
-                                href={`/card/${s}`}
-                                className="text-indigo-600 hover:text-indigo-900"
-                              >
-                                {news.card_names![i]}
-                              </Link>
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="px-4 py-8 text-center">
-                  <NewspaperIcon className="mx-auto h-8 w-8 text-gray-300" />
-                  <p className="mt-2 text-sm text-gray-500">No news for your cards</p>
-                  <Link
-                    href="/news"
-                    className="mt-2 inline-block text-xs text-indigo-600 hover:text-indigo-900"
-                  >
-                    View all news →
-                  </Link>
-                </div>
-              )}
-              {relevantNews.length > 0 && (
-                <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                  <Link
-                    href="/news"
-                    className="text-sm text-indigo-600 hover:text-indigo-900"
-                  >
-                    View all card news →
-                  </Link>
-                </div>
-              )}
-            </div>
+/* ========== Referrals tab ========== */
+interface ReferralsTabProps {
+  referralsLoaded: boolean;
+  referrals: Referral[];
+  eligibleReferralCards: ReturnType<typeof getEligibleReferralCards>;
+  onAddReferral: () => void;
+  onArchive: (id: number) => void;
+  archivingReferralId: number | null;
+}
+
+function ReferralsTab(props: ReferralsTabProps) {
+  const { referralsLoaded, referrals, eligibleReferralCards, onAddReferral, onArchive, archivingReferralId } = props;
+  if (!referralsLoaded) return <LoadingPanel />;
+
+  const active = referrals.filter(r => !r.archived_at);
+  const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason);
+  const totalImpressions = active.reduce((s, r) => s + (r.impressions ?? 0), 0);
+  const totalClicks = active.reduce((s, r) => s + (r.clicks ?? 0), 0);
+  const ctr = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100).toFixed(1) : '0.0';
+
+  return (
+    <section className="cj-section">
+      <div className="cj-readoff" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
+        <div className="cj-readoff-cell">
+          <div className="cj-readoff-k">Active links</div>
+          <div className="cj-readoff-v">{active.length}</div>
+          <div className="cj-readoff-foot">
+            {adminArchived.length > 0 ? `${adminArchived.length} removed` : 'submit more anytime'}
           </div>
         </div>
-
-        {/* Referral Modal */}
-        <ReferralModal
-          show={showReferralModal}
-          handleClose={() => setShowReferralModal(false)}
-          openReferrals={eligibleReferralCards}
-          onSuccess={loadData}
-        />
-
-        {/* Add to Wallet Modal */}
-        <AddToWalletModal
-          show={showWalletModal}
-          onClose={() => setShowWalletModal(false)}
-          onSuccess={loadData}
-          existingCardIds={walletCards.map(c => c.card_id)}
-        />
-
-        {/* Edit Wallet Card Modal */}
-        <EditWalletCardModal
-          show={!!editingCard}
-          card={editingCard}
-          cardSlug={editingCard ? allCards.find(c => c.card_name === editingCard.card_name)?.slug : undefined}
-          onClose={() => setEditingCard(null)}
-          onSuccess={loadData}
-        />
-
-        {/* Card Picker for Submit Record */}
-        <SubmitRecordCardPicker
-          show={showRecordCardPicker}
-          onClose={() => setShowRecordCardPicker(false)}
-          cards={eligibleRecordCards}
-          onSelectCard={(card) => setSubmitRecordCard(card)}
-        />
-
-        {/* Submit Record Modal */}
-        {submitRecordCard && (
-          <SubmitRecordModal
-            show={!!submitRecordCard}
-            handleClose={() => setSubmitRecordCard(null)}
-            card={{
-              card_id: submitRecordCard.card_id,
-              card_name: submitRecordCard.card_name,
-              card_image_link: submitRecordCard.card_image_link,
-              bank: submitRecordCard.bank,
-            }}
-            onSuccess={loadData}
-          />
-        )}
-
+        <div className="cj-readoff-cell">
+          <div className="cj-readoff-k">Impressions</div>
+          <div className="cj-readoff-v">{totalImpressions.toLocaleString()}</div>
+          <div className="cj-readoff-foot">all time</div>
+        </div>
+        <div className="cj-readoff-cell">
+          <div className="cj-readoff-k">Clicks</div>
+          <div className="cj-readoff-v">{totalClicks}</div>
+          <div className="cj-readoff-foot">{ctr}% CTR</div>
+        </div>
       </div>
-      <V2Footer />
-    </div>
+
+      <div className="cj-wallet-toolbar" style={{ marginTop: 16 }}>
+        <div className="cj-table-label">Your referral links</div>
+        <span className="cj-wallet-toolbar-spacer" />
+        {eligibleReferralCards.length > 0 && (
+          <button type="button" className="cj-inline-cta" onClick={onAddReferral}>+ add a referral</button>
+        )}
+      </div>
+
+      {active.length > 0 ? (
+        <div className="cj-tape cj-tape-refs">
+          <div className="cj-tape-head">
+            <div></div>
+            <div>Card</div>
+            <div className="cj-tape-res">Impr.</div>
+            <div className="cj-tape-res">Clicks</div>
+            <div className="cj-tape-res">Status</div>
+          </div>
+          {active.map((r) => (
+            <div key={r.referral_id} className="cj-tape-row">
+              <div>
+                <span className="cj-tape-thumb">
+                  <CardImage cardImageLink={r.card_image_link} alt={r.card_name} fill sizes="36px" className="object-contain" />
+                </span>
+              </div>
+              <div className="cj-tape-event">
+                <span className="cj-tape-field">{r.card_name}</span>
+                <div className="cj-tape-detail">
+                  <a href={r.referral_link} target="_blank" rel="noreferrer" style={{ color: 'var(--muted)', textDecoration: 'underline', textDecorationColor: 'var(--line-2)' }}>
+                    {r.referral_link.length > 40 ? r.referral_link.slice(0, 40) + '…' : r.referral_link}
+                  </a>
+                </div>
+              </div>
+              <div className="cj-tape-res">{(r.impressions ?? 0).toLocaleString()}</div>
+              <div className="cj-tape-res">{r.clicks ?? 0}</div>
+              <div className="cj-tape-res" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
+                <span className={'cj-pill ' + (r.admin_approved ? 'cj-pill-app' : 'cj-pill-pen')}>
+                  {r.admin_approved ? 'active' : 'in review'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onArchive(r.referral_id)}
+                  disabled={archivingReferralId === r.referral_id}
+                  style={{ fontSize: 10.5, color: 'var(--muted)', background: 'transparent', border: 0, cursor: 'pointer', padding: 0 }}
+                >
+                  {archivingReferralId === r.referral_id ? 'archiving…' : 'archive'}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="cj-verdict">
+          {eligibleReferralCards.length > 0
+            ? <><b>No referrals yet.</b>{' '}
+                <button type="button" onClick={onAddReferral} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>
+                  Submit your first referral →
+                </button>
+              </>
+            : <><b>No eligible cards yet.</b> Add a card to your wallet or submit a record to add a referral link.</>}
+        </div>
+      )}
+
+      {adminArchived.length > 0 && (
+        <div className="cj-verdict" style={{ marginTop: 16, background: '#fef9e8', borderLeftColor: '#a8792a', color: '#5c4318' }}>
+          <b style={{ color: '#a8792a' }}>
+            {adminArchived.length === 1
+              ? `Your referral for ${adminArchived[0].card_name} was removed`
+              : `${adminArchived.length} referrals were removed`}
+          </b>{' '}
+          because the link{adminArchived.length === 1 ? ' was' : 's were'} no longer working. You can submit new ones anytime.
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ========== Settings tab ========== */
+interface SettingsTabProps {
+  profile: Profile | null;
+  email?: string | null;
+  handle: string;
+  confirmingDelete: boolean;
+  setConfirmingDelete: (v: boolean) => void;
+  deleteConfirmText: string;
+  setDeleteConfirmText: (v: string) => void;
+  deletingAccount: boolean;
+  onDeleteAccount: () => void;
+  onLogout: () => void;
+}
+
+function SettingsTab(props: SettingsTabProps) {
+  const { email, handle, confirmingDelete, setConfirmingDelete, deleteConfirmText, setDeleteConfirmText, deletingAccount, onDeleteAccount, onLogout } = props;
+
+  const rows = [
+    { k: 'Email', v: email || '—' },
+    { k: 'Username', v: handle ? `@${handle}` : '—' },
+  ];
+
+  return (
+    <section className="cj-section">
+      <div>
+        {rows.map((r, i) => (
+          <div key={i} className="cj-settings-list">
+            <div className="cj-settings-k">{r.k}</div>
+            <div className="cj-settings-v">{r.v}</div>
+            <span style={{ fontSize: 11, color: 'var(--muted-2)' }}>{/* read-only */}</span>
+          </div>
+        ))}
+        <div className="cj-settings-list">
+          <div className="cj-settings-k">Sign out</div>
+          <div className="cj-settings-v">end this session</div>
+          <button type="button" className="cj-settings-edit" onClick={onLogout}>sign out →</button>
+        </div>
+        <div className="cj-settings-list">
+          <div className="cj-settings-k" style={{ color: 'var(--warn)' }}>Delete account</div>
+          <div className="cj-settings-v" style={{ color: 'var(--warn)' }}>permanent · cannot be undone</div>
+          {!confirmingDelete ? (
+            <button
+              type="button"
+              className="cj-settings-edit"
+              style={{ color: 'var(--warn)' }}
+              onClick={() => setConfirmingDelete(true)}
+            >
+              <TrashIcon style={{ width: 11, height: 11, display: 'inline', marginRight: 4, verticalAlign: '-1px' }} />
+              delete →
+            </button>
+          ) : (
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+              <input
+                type="text"
+                value={deleteConfirmText}
+                onChange={(e) => setDeleteConfirmText(e.target.value)}
+                placeholder="type DELETE"
+                style={{ width: 110, padding: '4px 8px', fontSize: 12, border: '1px solid var(--warn)', borderRadius: 3, fontFamily: 'inherit' }}
+                autoFocus
+              />
+              <button
+                type="button"
+                onClick={onDeleteAccount}
+                disabled={deleteConfirmText !== 'DELETE' || deletingAccount}
+                style={{
+                  fontSize: 11.5,
+                  background: 'var(--warn)',
+                  color: '#fff',
+                  border: 0,
+                  borderRadius: 3,
+                  padding: '5px 10px',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  opacity: deleteConfirmText !== 'DELETE' || deletingAccount ? 0.5 : 1,
+                }}
+              >
+                {deletingAccount ? 'deleting…' : 'confirm'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setConfirmingDelete(false); setDeleteConfirmText(''); }}
+                style={{ fontSize: 11.5, background: 'transparent', border: '1px solid var(--line-2)', borderRadius: 3, padding: '5px 10px', cursor: 'pointer' }}
+              >
+                cancel
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
