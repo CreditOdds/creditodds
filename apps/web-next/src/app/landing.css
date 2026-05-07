@@ -6616,6 +6616,13 @@
   font-size: 15px;
   line-height: 1.65;
   color: var(--ink);
+  max-width: none;
+}
+/* The hero intro paragraph is shared as .page-sub (max-width: 620px) across
+   most pages. On store pages we want it to read across the full hero width
+   so it doesn't visually anchor only to the left half. */
+.landing-v2.store-v2 .page-sub {
+  max-width: none;
 }
 .landing-v2.store-v2 .store-faq {
   margin-top: 40px;
