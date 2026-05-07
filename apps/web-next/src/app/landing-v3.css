@@ -128,9 +128,9 @@
 .landing-v3 .quick-tags .qt {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 10px 5px 5px;
-  border-radius: 999px;
+  gap: 8px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 8px;
   border: 1px solid var(--line-2);
   background: var(--card);
   font-size: 12px;
@@ -144,12 +144,28 @@
 }
 .landing-v3 .quick-tags .qt-thumb {
   position: relative;
-  width: 26px;
-  height: 17px;
-  border-radius: 3px;
+  width: 28px;
+  height: 18px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--paper-2);
   flex-shrink: 0;
+}
+
+.landing-v3 .explore-all {
+  display: block;
+  width: fit-content;
+  margin: 14px auto 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--line-2);
+  padding-bottom: 1px;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+.landing-v3 .explore-all:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
 }
 
 /* ---------- Search dropdown (live results) ---------- */
