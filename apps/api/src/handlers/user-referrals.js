@@ -26,115 +26,67 @@ exports.UserReferralsHandler = async (event) => {
       break;
     case "GET":
       try {
-        // Run stored procedure query
-        let results = await mysql.query(
-          "call creditodds.all_card_referrals(?)",
-          [event.requestContext.authorizer.sub]
+        const userId = event.requestContext.authorizer.sub;
+
+        // Inline replacement for the legacy `creditodds.all_card_referrals` stored procedure.
+        // Source-controlling the query here makes it grep-able and removes a hidden filter
+        // that was hiding some users' approved referrals (the procedure required a join the
+        // user's wallet/records still satisfied at submit time but might not now).
+        // The client only reads response[0] (submitted), so we no longer compute the
+        // "open eligible cards" list — that's already derived client-side from records + wallet.
+        const submittedRaw = await mysql.query(
+          `SELECT
+             r.referral_id, r.card_id, r.referral_link, r.admin_approved,
+             r.submit_datetime, r.archived_at, r.archived_reason,
+             c.card_name, c.card_image_link, c.card_referral_link
+           FROM referrals r
+           JOIN cards c ON r.card_id = c.card_id
+           WHERE r.submitter_id = ?
+           ORDER BY r.submit_datetime DESC`,
+          [userId]
         );
-        results = JSON.parse(JSON.stringify(results[0]));
+        const submitted = JSON.parse(JSON.stringify(submittedRaw));
 
-        //Splits response into already submitted referrals and cards user hasn't submitted referrals for (open)
-        const submitted = results.filter(function (element) {
-          return element.referral_link != null;
-        });
-        const open = results.filter(function (element) {
-          return element.referral_link == null;
-        });
-
-        // Get impression/click counts, card_referral_link, and archived status for submitted referrals
+        // Stats join, only if there's anything to look up
         if (submitted.length > 0) {
-          const referralIds = submitted.map(r => r.referral_id).filter(id => id);
-          const cardIds = submitted.map(r => r.card_id).filter(id => id);
+          const referralIds = submitted.map(r => r.referral_id);
+          const statsResults = await mysql.query(
+            `SELECT
+               referral_id,
+               SUM(CASE WHEN event_type = 'impression' THEN 1 ELSE 0 END) as impressions,
+               SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks,
+               COUNT(DISTINCT CASE WHEN event_type = 'click'
+                 THEN COALESCE(user_id, ip_hash) END) as unique_clicks
+             FROM referral_stats
+             WHERE referral_id IN (?)
+             GROUP BY referral_id`,
+            [referralIds]
+          );
 
-          // Fetch stats, card referral links, and archived status in parallel
-          const [statsResults, cardResults, archivedResults] = await Promise.all([
-            referralIds.length > 0 ? mysql.query(`
-              SELECT
-                referral_id,
-                SUM(CASE WHEN event_type = 'impression' THEN 1 ELSE 0 END) as impressions,
-                SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks,
-                COUNT(DISTINCT CASE WHEN event_type = 'click'
-                  THEN COALESCE(user_id, ip_hash) END) as unique_clicks
-              FROM referral_stats
-              WHERE referral_id IN (?)
-              GROUP BY referral_id
-            `, [referralIds]) : [],
-            cardIds.length > 0 ? mysql.query(`
-              SELECT card_id, card_referral_link
-              FROM cards
-              WHERE card_id IN (?)
-            `, [cardIds]) : [],
-            referralIds.length > 0 ? mysql.query(`
-              SELECT referral_id, archived_at, archived_reason
-              FROM referrals
-              WHERE referral_id IN (?)
-            `, [referralIds]) : []
-          ]);
-
-          // Create a map of stats by referral_id
           const statsMap = {};
           for (const stat of statsResults) {
             statsMap[stat.referral_id] = {
               impressions: stat.impressions || 0,
               clicks: stat.clicks || 0,
-              unique_clicks: stat.unique_clicks || 0
+              unique_clicks: stat.unique_clicks || 0,
             };
           }
-
-          // Create a map of card_referral_link by card_id
-          const cardLinkMap = {};
-          for (const card of cardResults) {
-            cardLinkMap[card.card_id] = card.card_referral_link;
-          }
-
-          // Create maps of archived_at and archived_reason by referral_id
-          const archivedMap = {};
-          const archivedReasonMap = {};
-          for (const row of archivedResults) {
-            archivedMap[row.referral_id] = row.archived_at;
-            archivedReasonMap[row.referral_id] = row.archived_reason;
-          }
-
-          // Add stats, card_referral_link, and archived_at to submitted referrals
           for (const referral of submitted) {
             const stats = statsMap[referral.referral_id] || { impressions: 0, clicks: 0, unique_clicks: 0 };
             referral.impressions = stats.impressions;
             referral.clicks = stats.clicks;
             referral.unique_clicks = stats.unique_clicks;
-            referral.card_referral_link = cardLinkMap[referral.card_id] || null;
-            referral.archived_at = archivedMap[referral.referral_id] || null;
-            referral.archived_reason = archivedReasonMap[referral.referral_id] || null;
           }
         }
 
-        // Also include cards with only archived referrals in the "open" list
-        const archivedCardIds = new Set(
-          submitted.filter(r => r.archived_at).map(r => r.card_id)
-        );
-        const activeCardIds = new Set(
-          submitted.filter(r => !r.archived_at).map(r => r.card_id)
-        );
-        // Cards that only have archived referrals (no active one) should appear in open
-        for (const cardId of archivedCardIds) {
-          if (!activeCardIds.has(cardId)) {
-            const archivedRef = submitted.find(r => r.card_id === cardId && r.archived_at);
-            if (archivedRef && !open.some(o => o.card_id === cardId)) {
-              open.push({
-                card_id: archivedRef.card_id,
-                card_name: archivedRef.card_name,
-                card_image_link: archivedRef.card_image_link,
-              });
-            }
-          }
-        }
-
-        // Run clean up function
         await mysql.end();
 
+        // Response shape kept as [submitted, open] for backwards compatibility with the
+        // existing client; open is always [] now since the client computes it itself.
         response = {
           statusCode: 200,
           headers: responseHeaders,
-          body: JSON.stringify([submitted, open]),
+          body: JSON.stringify([submitted, []]),
         };
       } catch (error) {
         response = {
