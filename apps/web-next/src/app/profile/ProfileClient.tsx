@@ -714,6 +714,7 @@ export default function ProfileClient() {
         show={!!editingCard}
         card={editingCard}
         cardSlug={editingCard ? allCards.find(c => c.card_name === editingCard.card_name)?.slug : undefined}
+        annualFee={editingCard ? (cardLookups.byName.get(editingCard.card_name)?.annual_fee ?? 0) : 0}
         onClose={() => setEditingCard(null)}
         onSuccess={loadData}
       />
@@ -872,7 +873,7 @@ function CardsTab(props: CardsTabProps) {
                         <DocumentTextIcon style={{ width: 11, height: 11 }} />
                       </span>
                     )}
-                    {fee > 0 && hasReferral && (
+                    {hasReferral && (
                       <span className="cj-cw-mark" title="referral active" aria-label="referral active">
                         <LinkIcon style={{ width: 11, height: 11 }} />
                       </span>
@@ -915,12 +916,12 @@ function CardsTab(props: CardsTabProps) {
                       </button>
                     )}
                     {hasRecord && <span className="cj-wd-done">✓ record submitted</span>}
-                    {fee > 0 && !hasReferral && (
+                    {!hasReferral && (
                       <button type="button" className="cj-wd-cta" onClick={onAddReferral}>
                         + add referral link
                       </button>
                     )}
-                    {fee > 0 && hasReferral && <span className="cj-wd-done">✓ referral link active</span>}
+                    {hasReferral && <span className="cj-wd-done">✓ referral link active</span>}
                   </div>
                 </div>
               )}
