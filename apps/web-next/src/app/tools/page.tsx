@@ -47,9 +47,9 @@ const categories: ToolCategory[] = [
   {
     label: 'Airline Miles',
     tools: [
-      { name: 'United MileagePlus', description: 'Convert United MileagePlus miles to dollars.', href: '/tools/united-miles-to-usd', cpp: 1.2, unit: 'mile', logo: '/logos/united.jpg' },
-      { name: 'Delta SkyMiles', description: 'Convert Delta SkyMiles to dollars.', href: '/tools/delta-skymiles-to-usd', cpp: 1.1, unit: 'mile', logo: '/logos/delta.jpg' },
-      { name: 'Southwest Rapid Rewards', description: 'Convert Southwest points to dollars.', href: '/tools/southwest-rapid-rewards-to-usd', cpp: 1.4, unit: 'point', logo: '/logos/southwest.jpg' },
+      { name: 'United MileagePlus', description: 'Convert United MileagePlus miles to dollars.', href: '/tools/united-miles-to-usd', cpp: 1.21, unit: 'mile', logo: '/logos/united.jpg' },
+      { name: 'Delta SkyMiles', description: 'Convert Delta SkyMiles to dollars.', href: '/tools/delta-skymiles-to-usd', cpp: 1.20, unit: 'mile', logo: '/logos/delta.jpg' },
+      { name: 'Southwest Rapid Rewards', description: 'Convert Southwest points to dollars.', href: '/tools/southwest-rapid-rewards-to-usd', cpp: 1.30, unit: 'point', logo: '/logos/southwest.jpg' },
     ],
   },
   {

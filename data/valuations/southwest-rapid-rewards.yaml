@@ -1,0 +1,53 @@
+slug: southwest-rapid-rewards
+program: Southwest Rapid Rewards
+unit: point
+
+# Only directly cited values from each source's published page or article.
+# See data/valuations/README.md for instructions on adding a new data point.
+data_points:
+  - year: 2021
+    source: TPG
+    cpp: 1.50
+    url: https://thepointsguy.com/news/southwest-2021-devaluation/
+    # TPG's pre-2021-devaluation valuation cited in the devaluation article
+
+  - year: 2023
+    source: TPG
+    cpp: 1.40
+    url: https://thepointsguy.com/loyalty-programs/southwest-rapid-rewards-points-worth-less-in-2024/
+    # TPG cites "1.4 cents apiece" as their valuation prior to the Jan 2024 change
+  - year: 2023
+    source: NerdWallet
+    cpp: 1.50
+    url: https://www.nerdwallet.com/travel/news/southwest-points-worth-2025-devaluation
+    # NerdWallet article notes points "remained at 1.5 cents per point as of September 2023"
+
+  - year: 2024
+    source: TPG
+    cpp: 1.30
+    url: https://thepointsguy.com/loyalty-programs/southwest-rapid-rewards-points-worth-less-in-2024/
+    # Post-Jan-2024 TPG revision: "your points will soon be worth 1.3 cents each"
+
+  - year: 2025
+    source: TPG
+    cpp: 1.35
+    url: https://thepointsguy.com/loyalty-programs/monthly-valuations/
+    # TPG's August 2025 monthly valuation
+
+  - year: 2026
+    source: TPG
+    cpp: 1.30
+    url: https://thepointsguy.com/loyalty-programs/monthly-valuations/
+    # April 2026 valuation
+  - year: 2026
+    source: NerdWallet
+    cpp: 1.30
+    url: https://www.nerdwallet.com/travel/learn/how-much-are-my-southwest-rapid-rewards-points-worth
+  - year: 2026
+    source: Bankrate
+    cpp: 1.50
+    url: https://www.bankrate.com/credit-cards/travel/frequent-flyer-guide-southwest-rapid-rewards/
+  - year: 2026
+    source: Frequent Miler
+    cpp: 1.30
+    url: https://frequentmiler.com/how-much-are-southwest-rapid-rewards-points-worth/

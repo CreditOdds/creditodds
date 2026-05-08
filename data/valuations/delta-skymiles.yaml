@@ -1,0 +1,43 @@
+slug: delta-skymiles
+program: Delta SkyMiles
+unit: mile
+
+# Only directly cited values from each source's published page or article.
+# See data/valuations/README.md for instructions on adding a new data point.
+data_points:
+  - year: 2025
+    source: TPG
+    cpp: 1.15
+    url: https://thepointsguy.com/loyalty-programs/monthly-valuations/
+    # September 2025 monthly valuation
+  - year: 2025
+    source: Frequent Miler
+    cpp: 1.10
+    url: https://frequentmiler.com/what-are-delta-miles-worth/
+    # FM noted RRV was unchanged from prior year
+
+  - year: 2026
+    source: TPG
+    cpp: 1.20
+    url: https://thepointsguy.com/loyalty-programs/monthly-valuations/
+    # April 2026 valuation
+  - year: 2026
+    source: NerdWallet
+    cpp: 1.20
+    url: https://www.nerdwallet.com/travel/learn/how-much-are-my-delta-skymiles-worth
+  - year: 2026
+    source: Bankrate
+    cpp: 1.20
+    url: https://www.bankrate.com/credit-cards/travel/delta-miles-value/
+  - year: 2026
+    source: Frequent Miler
+    cpp: 1.10
+    url: https://frequentmiler.com/what-are-delta-miles-worth/
+  - year: 2026
+    source: One Mile at a Time
+    cpp: 1.30
+    url: https://onemileatatime.com/how-much-are-delta-skymiles-worth/
+  - year: 2026
+    source: WalletHub
+    cpp: 1.14
+    url: https://wallethub.com/delta-miles-value-calculator

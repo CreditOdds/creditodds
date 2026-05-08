@@ -6,6 +6,7 @@ import { getAllCards } from '@/lib/api';
 import { getNews } from '@/lib/news';
 import ConverterClient from './ConverterClient';
 import PaginatedNewsList from '@/components/tools/PaginatedNewsList';
+import ToolBreadcrumb from '@/components/tools/ToolBreadcrumb';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
@@ -39,6 +40,8 @@ export default async function CitiThankYouToUsdPage() {
         { name: 'Tools', url: 'https://creditodds.com/tools' },
         { name: 'Citi ThankYou Points to USD', url: 'https://creditodds.com/tools/citi-thankyou-points-to-usd' },
       ]} />
+
+      <ToolBreadcrumb toolName="Citi ThankYou Points to USD" toolSlug="citi-thankyou-points-to-usd" />
 
       <section className="page-hero wrap">
         <h1 className="page-title">

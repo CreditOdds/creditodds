@@ -3,7 +3,7 @@ import RewardValueConverter from '@/components/tools/RewardValueConverter';
 export default function ConverterClient() {
   return (
     <RewardValueConverter
-      fallbackCpp={1.1}
+      fallbackCpp={1.20}
       inputLabel="Delta SkyMiles"
       unitLabel="mile"
       valuationSlug="delta-skymiles"

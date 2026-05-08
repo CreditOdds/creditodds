@@ -1,0 +1,86 @@
+slug: united-mileageplus
+program: United MileagePlus
+unit: mile
+
+# Only directly cited values from each source's published page or article.
+# See data/valuations/README.md for instructions on adding a new data point.
+data_points:
+  - year: 2023
+    source: TPG
+    cpp: 1.35
+    url: https://thepointsguy.com/loyalty-programs/monthly-valuations/
+  - year: 2023
+    source: NerdWallet
+    cpp: 1.20
+    url: https://www.nerdwallet.com/travel/learn/how-much-are-my-united-miles-worth
+  - year: 2023
+    source: Frequent Miler
+    cpp: 1.40
+    url: https://frequentmiler.com/reasonable-redemption-values-rrvs/
+  - year: 2023
+    source: One Mile at a Time
+    cpp: 1.30
+    url: https://onemileatatime.com/insights/united-mileageplus-miles-value/
+
+  - year: 2024
+    source: TPG
+    cpp: 1.40
+    url: https://thepointsguy.com/loyalty-programs/united-miles-high-valuation/
+  - year: 2024
+    source: NerdWallet
+    cpp: 1.20
+    url: https://www.nerdwallet.com/travel/learn/how-much-are-my-united-miles-worth
+  - year: 2024
+    source: Frequent Miler
+    cpp: 1.40
+    url: https://frequentmiler.com/reasonable-redemption-values-rrvs/
+  - year: 2024
+    source: Bankrate
+    cpp: 0.90
+    url: https://www.bankrate.com/credit-cards/travel/value-of-united-miles/
+
+  - year: 2025
+    source: TPG
+    cpp: 1.30
+    url: https://thepointsguy.com/loyalty-programs/monthly-valuations/
+  - year: 2025
+    source: NerdWallet
+    cpp: 1.20
+    url: https://www.nerdwallet.com/travel/learn/how-much-are-my-united-miles-worth
+  - year: 2025
+    source: Frequent Miler
+    cpp: 1.40
+    url: https://frequentmiler.com/reasonable-redemption-values-rrvs/
+  - year: 2025
+    source: Bankrate
+    cpp: 0.90
+    url: https://www.bankrate.com/credit-cards/travel/value-of-united-miles/
+  - year: 2025
+    source: One Mile at a Time
+    cpp: 1.10
+    url: https://onemileatatime.com/insights/united-mileageplus-miles-value/
+
+  - year: 2026
+    source: TPG
+    cpp: 1.35
+    url: https://thepointsguy.com/loyalty-programs/monthly-valuations/
+  - year: 2026
+    source: NerdWallet
+    cpp: 1.20
+    url: https://www.nerdwallet.com/travel/learn/how-much-are-my-united-miles-worth
+  - year: 2026
+    source: Frequent Miler
+    cpp: 1.40
+    url: https://frequentmiler.com/reasonable-redemption-values-rrvs/
+  - year: 2026
+    source: Bankrate
+    cpp: 0.90
+    url: https://www.bankrate.com/credit-cards/travel/value-of-united-miles/
+  - year: 2026
+    source: One Mile at a Time
+    cpp: 1.10
+    url: https://onemileatatime.com/insights/united-mileageplus-miles-value/
+  - year: 2026
+    source: WalletHub
+    cpp: 1.21
+    url: https://wallethub.com/answers/rp/united-miles-value-1000540-2140717652/
