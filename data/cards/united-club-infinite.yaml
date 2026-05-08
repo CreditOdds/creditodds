@@ -64,6 +64,7 @@ benefits:
     category: "hotel"
   - name: "Rideshare Credit"
     value: 150
+    value_per_cycle: 12
     description: "Up to $12 monthly from January through November and $18 in December after annual opt-in"
     frequency: "monthly"
     category: "rideshare"
