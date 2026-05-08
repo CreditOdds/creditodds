@@ -1,5 +1,11 @@
 # Rejected auto-news items (do not re-suggest)
 # Entries are appended by the "Record Rejected News" workflow.
+- id: "trump-official-credit-card-spending-spike-may-2026"
+  title: "Trump Official Highlights Americans' Soaring Credit Card Spending Amid Cost-of-Living Concerns"
+  source_url: "https://finance.yahoo.com/economy/articles/trump-official-boasts-that-americans-credit-card-spending-is-through-the-roof-201026439.html"
+  date_rejected: "2026-05-08"
+  reason: "Politically slanted commentary — never publish news framed around a political figure or partisan critique. Pulled after merge."
+  pr: 1092
 - id: "capital-one-425-million-settlement-may-2026"
   title: "Capital One Cardholders to Receive $425 Million Class Action Settlement"
   source_url: "https://www.usatoday.com/story/money/2026/05/03/capital-one-settlement-who-qualifies-when-payments-come/89920197007/"
