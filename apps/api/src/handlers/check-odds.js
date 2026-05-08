@@ -39,7 +39,7 @@ async function fetchCardStatsAndMetadata() {
         SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
         SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as rejected_count
       FROM records
-      WHERE admin_review = 1
+      WHERE admin_review = 1 AND active = 1
       GROUP BY card_id
     `),
     mysql.query(`
@@ -79,7 +79,7 @@ async function fetchApprovedMedians() {
           ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY credit_score) AS rn,
           COUNT(*) OVER (PARTITION BY card_id) AS cnt
         FROM records
-        WHERE admin_review = 1 AND result = 1
+        WHERE admin_review = 1 AND active = 1 AND result = 1
       )
       SELECT card_id,
         AVG(credit_score) AS median_credit_score,
@@ -94,7 +94,7 @@ async function fetchApprovedMedians() {
           ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY listed_income) AS rn,
           COUNT(*) OVER (PARTITION BY card_id) AS cnt
         FROM records
-        WHERE admin_review = 1 AND result = 1
+        WHERE admin_review = 1 AND active = 1 AND result = 1
       )
       SELECT card_id,
         AVG(listed_income) AS median_income
@@ -108,7 +108,7 @@ async function fetchApprovedMedians() {
           ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY length_credit) AS rn,
           COUNT(*) OVER (PARTITION BY card_id) AS cnt
         FROM records
-        WHERE admin_review = 1 AND result = 1
+        WHERE admin_review = 1 AND active = 1 AND result = 1
       )
       SELECT card_id,
         AVG(length_credit) AS median_length_credit

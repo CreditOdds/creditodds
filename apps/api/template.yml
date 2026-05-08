@@ -195,6 +195,13 @@ Resources:
             Method: DELETE
             RestApiId:
               Ref: CreditCardOddsAPI
+        PATCHCreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Path: /records
+            Method: PATCH
+            RestApiId:
+              Ref: CreditCardOddsAPI
 
   UserReferralsFunction:
     Type: AWS::Serverless::Function

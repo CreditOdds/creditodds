@@ -26,7 +26,7 @@ const REFRESH_SQL = `
       SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) AS approved_count,
       SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) AS rejected_count
     FROM records
-    WHERE admin_review = 1
+    WHERE admin_review = 1 AND active = 1
     GROUP BY card_id
   ),
   ranked_score AS (
@@ -36,7 +36,7 @@ const REFRESH_SQL = `
       ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY credit_score) AS rn,
       COUNT(*) OVER (PARTITION BY card_id) AS cnt
     FROM records
-    WHERE result = 1 AND admin_review = 1 AND credit_score IS NOT NULL
+    WHERE result = 1 AND admin_review = 1 AND active = 1 AND credit_score IS NOT NULL
   ),
   median_score AS (
     SELECT card_id, ROUND(AVG(val)) AS median_val
@@ -51,7 +51,7 @@ const REFRESH_SQL = `
       ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY listed_income) AS rn,
       COUNT(*) OVER (PARTITION BY card_id) AS cnt
     FROM records
-    WHERE result = 1 AND admin_review = 1 AND listed_income IS NOT NULL
+    WHERE result = 1 AND admin_review = 1 AND active = 1 AND listed_income IS NOT NULL
   ),
   median_income AS (
     SELECT card_id, ROUND(AVG(val)) AS median_val
@@ -66,7 +66,7 @@ const REFRESH_SQL = `
       ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY length_credit) AS rn,
       COUNT(*) OVER (PARTITION BY card_id) AS cnt
     FROM records
-    WHERE result = 1 AND admin_review = 1 AND length_credit IS NOT NULL
+    WHERE result = 1 AND admin_review = 1 AND active = 1 AND length_credit IS NOT NULL
   ),
   median_length AS (
     SELECT card_id, ROUND(AVG(val)) AS median_val

@@ -3,6 +3,14 @@ const mysql = require("../db");
 
 // Yup Schema Validation for Record Submit
 const yup = require("yup");
+
+// End of the current month — date_applied is a "month" input on the client,
+// so we accept anything up to and including the last day of this month.
+function endOfCurrentMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+}
+
 const recordSchema = yup.object().shape({
   card_id: yup.number().integer().required(),
   credit_score: yup.number().integer().min(300).max(850).required(),
@@ -12,11 +20,29 @@ const recordSchema = yup.object().shape({
   length_credit: yup.number().integer().min(0).max(100),
   starting_credit_limit: yup.number().integer().min(0).max(1000000),
   reason_denied: yup.string().max(254),
-  date_applied: yup.date().required(),
+  date_applied: yup.date().max(endOfCurrentMonth(), "Application date cannot be in the future").required(),
   bank_customer: yup.boolean().required(),
   inquiries_3: yup.number().integer().min(0).max(50),
   inquiries_12: yup.number().integer().min(0).max(50),
   inquiries_24: yup.number().integer().min(0).max(50),
+});
+
+// PATCH only allows editing the user-correctable fields. card_id is fixed
+// (use delete + new submit to change card). submitter_id, IPs, timestamps,
+// active, and admin_review are server-controlled.
+const recordPatchSchema = yup.object().shape({
+  credit_score: yup.number().integer().min(300).max(850).required(),
+  credit_score_source: yup.number().integer().min(0).max(4).required(),
+  result: yup.boolean().required(),
+  listed_income: yup.number().integer().min(0).max(1000000).required(),
+  length_credit: yup.number().integer().min(0).max(100).nullable(),
+  starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
+  reason_denied: yup.string().max(254).nullable(),
+  date_applied: yup.date().max(endOfCurrentMonth(), "Application date cannot be in the future").required(),
+  bank_customer: yup.boolean().required(),
+  inquiries_3: yup.number().integer().min(0).max(50).nullable(),
+  inquiries_12: yup.number().integer().min(0).max(50).nullable(),
+  inquiries_24: yup.number().integer().min(0).max(50).nullable(),
 });
 
 // Constants for spam prevention
@@ -47,8 +73,11 @@ exports.UserRecordsHandler = async (event) => {
     case "GET":
       try {
         let results = await mysql.query(
-          `SELECT r.record_id, c.card_name, c.card_image_link, r.credit_score,
-                  r.listed_income, r.length_credit, r.result, r.submit_datetime, r.date_applied
+          `SELECT r.record_id, r.card_id, c.card_name, c.card_image_link,
+                  r.credit_score, r.credit_score_source, r.listed_income,
+                  r.length_credit, r.result, r.starting_credit_limit, r.reason_denied,
+                  r.bank_customer, r.inquiries_3, r.inquiries_12, r.inquiries_24,
+                  r.submit_datetime, r.date_applied
            FROM records r
            JOIN cards c ON r.card_id = c.card_id
            WHERE r.submitter_id = ? AND r.active = 1
@@ -145,6 +174,73 @@ exports.UserRecordsHandler = async (event) => {
         };
         break;
       }
+    case "PATCH":
+      try {
+        const recordId = event.queryStringParameters?.record_id;
+        if (!recordId) {
+          throw new Error("record_id is required");
+        }
+
+        const submitterId = event.requestContext.authorizer.sub;
+        const value = await recordPatchSchema.validate(event.body).catch((err) => {
+          throw new Error(`Validation error: ${err}.`);
+        });
+
+        // Mirror POST: clear the field that doesn't apply to the result.
+        if (value.result) {
+          value.reason_denied = null;
+        } else {
+          value.starting_credit_limit = null;
+        }
+
+        // Owner-scoped update. Re-set admin_review = 1 so edits remain visible
+        // (admin can re-vet via the existing admin tools if needed).
+        const result = await mysql.query(
+          `UPDATE records SET ? WHERE record_id = ? AND submitter_id = ? AND active = 1`,
+          [
+            {
+              credit_score: value.credit_score,
+              credit_score_source: value.credit_score_source,
+              result: value.result,
+              listed_income: value.listed_income,
+              length_credit: value.length_credit,
+              starting_credit_limit: value.starting_credit_limit,
+              reason_denied: value.reason_denied,
+              date_applied: new Date(value.date_applied),
+              bank_customer: value.bank_customer,
+              inquiries_3: value.inquiries_3,
+              inquiries_12: value.inquiries_12,
+              inquiries_24: value.inquiries_24,
+              admin_review: 1,
+            },
+            recordId,
+            submitterId,
+          ]
+        );
+        await mysql.end();
+
+        if (result.affectedRows === 0) {
+          response = {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Record not found or not owned by user" }),
+          };
+        } else {
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({ success: true, message: "Record updated" }),
+          };
+        }
+        break;
+      } catch (error) {
+        response = {
+          statusCode: 500,
+          body: `Error: ${error}`,
+          headers: responseHeaders,
+        };
+        break;
+      }
     case "DELETE":
       try {
         const recordId = event.queryStringParameters?.record_id;
@@ -185,7 +281,7 @@ exports.UserRecordsHandler = async (event) => {
     default:
       response = {
         statusCode: 405,
-        body: `This endpoint accepts GET, POST, and DELETE methods, you tried: ${event.httpMethod}`,
+        body: `This endpoint accepts GET, POST, PATCH, and DELETE methods, you tried: ${event.httpMethod}`,
         headers: responseHeaders,
       };
       break;
