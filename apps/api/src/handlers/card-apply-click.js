@@ -1,5 +1,18 @@
-// Track outbound apply clicks per card and return aggregated counts
+// Track outbound apply clicks per card and return aggregated counts.
+//
+// Click model (current):
+//   Every click writes one row to card_apply_clicks with click_source,
+//   user_id (Firebase uid, when signed in), ip_hash (sha256(pepper + ip)),
+//   user_agent, and created_at. Uniqueness is computed at read time as
+//   COUNT(DISTINCT COALESCE(user_id, ip_hash)).
+//
+// Click model (legacy):
+//   The card_apply_click_counts table holds aggregated totals predating the
+//   per-row log. It has no per-user info, so no uniqueness can be derived
+//   from it. We keep summing it into total counts for historical continuity,
+//   but uniques only reflect new (post-rollout) clicks.
 const mysql = require("../db");
+const { hashIp, getOptionalUserId } = require("../click-identity");
 
 const responseHeaders = {
   "Access-Control-Allow-Headers":
@@ -10,22 +23,6 @@ const responseHeaders = {
 };
 
 const VALID_CLICK_SOURCES = new Set(["direct", "referral"]);
-const ENSURE_TABLE_SQL = `
-  CREATE TABLE IF NOT EXISTS card_apply_click_counts (
-    card_id INT NOT NULL,
-    click_date DATE NOT NULL,
-    click_source ENUM('direct', 'referral') NOT NULL DEFAULT 'direct',
-    click_count INT NOT NULL DEFAULT 0,
-    PRIMARY KEY (card_id, click_date, click_source),
-    INDEX idx_click_date (click_date),
-    INDEX idx_click_source (click_source),
-    CONSTRAINT fk_card_apply_click_card FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
-  )
-`;
-
-async function ensureCardApplyClickTable() {
-  await mysql.query(ENSURE_TABLE_SQL);
-}
 
 exports.CardApplyClickHandler = async (event) => {
   console.info("received:", event);
@@ -74,12 +71,21 @@ exports.CardApplyClickHandler = async (event) => {
           break;
         }
 
-        await ensureCardApplyClickTable();
+        const ip = event.requestContext?.identity?.sourceIp || null;
+        const ipHash = hashIp(ip);
+        const userId = await getOptionalUserId(event);
+
         await mysql.query(
-          `INSERT INTO card_apply_click_counts (card_id, click_date, click_source, click_count)
-           VALUES (?, CURDATE(), ?, 1)
-           ON DUPLICATE KEY UPDATE click_count = click_count + 1`,
-          [card_id, click_source]
+          `INSERT INTO card_apply_clicks
+             (card_id, click_source, user_id, ip_hash, user_agent)
+           VALUES (?, ?, ?, ?, ?)`,
+          [
+            card_id,
+            click_source,
+            userId,
+            ipHash,
+            userAgent ? userAgent.substring(0, 500) : null,
+          ]
         );
         await mysql.end();
 
@@ -113,40 +119,87 @@ exports.CardApplyClickHandler = async (event) => {
           break;
         }
 
-        const params = [];
-        const where = [];
-
+        let days = null;
         if (period && period !== "0") {
-          const days = Math.min(Math.max(parseInt(period, 10) || 30, 1), 365);
-          where.push("click_date >= CURDATE() - INTERVAL ? DAY");
-          params.push(days);
+          days = Math.min(Math.max(parseInt(period, 10) || 30, 1), 365);
         }
 
+        // --- legacy aggregate (no per-user info) ---
+        const legacyParams = [];
+        const legacyWhere = [];
+        if (days !== null) {
+          legacyWhere.push("click_date >= CURDATE() - INTERVAL ? DAY");
+          legacyParams.push(days);
+        }
         if (clickSource) {
-          where.push("click_source = ?");
-          params.push(clickSource);
+          legacyWhere.push("click_source = ?");
+          legacyParams.push(clickSource);
         }
+        const legacyWhereClause = legacyWhere.length > 0 ? `WHERE ${legacyWhere.join(" AND ")}` : "";
 
-        const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
-        await ensureCardApplyClickTable();
+        // --- new per-row log (uniques computable) ---
+        const newParams = [];
+        const newWhere = [];
+        if (days !== null) {
+          newWhere.push("created_at >= NOW() - INTERVAL ? DAY");
+          newParams.push(days);
+        }
+        if (clickSource) {
+          newWhere.push("click_source = ?");
+          newParams.push(clickSource);
+        }
+        const newWhereClause = newWhere.length > 0 ? `WHERE ${newWhere.join(" AND ")}` : "";
 
         if (breakdown === "source") {
-          const rows = await mysql.query(
-            `SELECT card_id, click_source, SUM(click_count) AS clicks
-             FROM card_apply_click_counts
-             ${whereClause}
-             GROUP BY card_id, click_source`,
-            params
-          );
+          const [legacyRows, newRows] = await Promise.all([
+            mysql.query(
+              `SELECT card_id, click_source, SUM(click_count) AS clicks
+                 FROM card_apply_click_counts
+                 ${legacyWhereClause}
+                 GROUP BY card_id, click_source`,
+              legacyParams
+            ),
+            mysql.query(
+              `SELECT card_id, click_source,
+                      COUNT(*) AS clicks,
+                      COUNT(DISTINCT COALESCE(user_id, ip_hash)) AS unique_clicks
+                 FROM card_apply_clicks
+                 ${newWhereClause}
+                 GROUP BY card_id, click_source`,
+              newParams
+            ),
+          ]);
           await mysql.end();
 
           const clicks = {};
-          for (const row of rows) {
-            const id = row.card_id;
-            if (!clicks[id]) clicks[id] = { direct: 0, referral: 0, total: 0 };
+          const ensure = (id) => {
+            if (!clicks[id]) {
+              clicks[id] = {
+                direct: 0,
+                referral: 0,
+                total: 0,
+                unique_direct: 0,
+                unique_referral: 0,
+                unique_total: 0,
+              };
+            }
+            return clicks[id];
+          };
+
+          for (const row of legacyRows) {
+            const e = ensure(row.card_id);
             const count = Number(row.clicks);
-            clicks[id][row.click_source] = count;
-            clicks[id].total += count;
+            e[row.click_source] += count;
+            e.total += count;
+          }
+          for (const row of newRows) {
+            const e = ensure(row.card_id);
+            const count = Number(row.clicks);
+            const uniq = Number(row.unique_clicks);
+            e[row.click_source] += count;
+            e.total += count;
+            e[`unique_${row.click_source}`] += uniq;
+            e.unique_total += uniq;
           }
 
           response = {
@@ -157,24 +210,40 @@ exports.CardApplyClickHandler = async (event) => {
           break;
         }
 
-        const rows = await mysql.query(
-          `SELECT card_id, SUM(click_count) AS clicks
-           FROM card_apply_click_counts
-           ${whereClause}
-           GROUP BY card_id`,
-          params
-        );
+        const [legacyRows, newRows] = await Promise.all([
+          mysql.query(
+            `SELECT card_id, SUM(click_count) AS clicks
+               FROM card_apply_click_counts
+               ${legacyWhereClause}
+               GROUP BY card_id`,
+            legacyParams
+          ),
+          mysql.query(
+            `SELECT card_id,
+                    COUNT(*) AS clicks,
+                    COUNT(DISTINCT COALESCE(user_id, ip_hash)) AS unique_clicks
+               FROM card_apply_clicks
+               ${newWhereClause}
+               GROUP BY card_id`,
+            newParams
+          ),
+        ]);
         await mysql.end();
 
         const clicks = {};
-        for (const row of rows) {
-          clicks[row.card_id] = Number(row.clicks);
+        const uniqueClicks = {};
+        for (const row of legacyRows) {
+          clicks[row.card_id] = (clicks[row.card_id] || 0) + Number(row.clicks);
+        }
+        for (const row of newRows) {
+          clicks[row.card_id] = (clicks[row.card_id] || 0) + Number(row.clicks);
+          uniqueClicks[row.card_id] = Number(row.unique_clicks);
         }
 
         response = {
           statusCode: 200,
           headers: responseHeaders,
-          body: JSON.stringify({ clicks }),
+          body: JSON.stringify({ clicks, unique_clicks: uniqueClicks }),
         };
       } catch (error) {
         console.error("Error fetching card apply clicks:", error);

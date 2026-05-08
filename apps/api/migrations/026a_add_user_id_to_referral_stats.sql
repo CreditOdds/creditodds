@@ -1,0 +1,1 @@
+ALTER TABLE referral_stats ADD COLUMN user_id VARCHAR(128) NULL;

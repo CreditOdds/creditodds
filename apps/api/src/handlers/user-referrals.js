@@ -52,7 +52,9 @@ exports.UserReferralsHandler = async (event) => {
               SELECT
                 referral_id,
                 SUM(CASE WHEN event_type = 'impression' THEN 1 ELSE 0 END) as impressions,
-                SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks
+                SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks,
+                COUNT(DISTINCT CASE WHEN event_type = 'click'
+                  THEN COALESCE(user_id, ip_hash) END) as unique_clicks
               FROM referral_stats
               WHERE referral_id IN (?)
               GROUP BY referral_id
@@ -74,7 +76,8 @@ exports.UserReferralsHandler = async (event) => {
           for (const stat of statsResults) {
             statsMap[stat.referral_id] = {
               impressions: stat.impressions || 0,
-              clicks: stat.clicks || 0
+              clicks: stat.clicks || 0,
+              unique_clicks: stat.unique_clicks || 0
             };
           }
 
@@ -94,9 +97,10 @@ exports.UserReferralsHandler = async (event) => {
 
           // Add stats, card_referral_link, and archived_at to submitted referrals
           for (const referral of submitted) {
-            const stats = statsMap[referral.referral_id] || { impressions: 0, clicks: 0 };
+            const stats = statsMap[referral.referral_id] || { impressions: 0, clicks: 0, unique_clicks: 0 };
             referral.impressions = stats.impressions;
             referral.clicks = stats.clicks;
+            referral.unique_clicks = stats.unique_clicks;
             referral.card_referral_link = cardLinkMap[referral.card_id] || null;
             referral.archived_at = archivedMap[referral.referral_id] || null;
             referral.archived_reason = archivedReasonMap[referral.referral_id] || null;

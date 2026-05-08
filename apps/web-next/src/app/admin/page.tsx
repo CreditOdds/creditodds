@@ -554,7 +554,7 @@ const APPLY_CLICK_RANGES = [
   { label: 'All', days: 0 },
 ];
 
-type ApplyClickSortKey = 'total' | 'direct' | 'referral';
+type ApplyClickSortKey = 'total' | 'direct' | 'referral' | 'unique_total';
 
 interface ApplyClickRow {
   cardId: number;
@@ -563,6 +563,7 @@ interface ApplyClickRow {
   direct: number;
   referral: number;
   total: number;
+  unique_total: number;
 }
 
 function ApplyClicksTab() {
@@ -612,6 +613,7 @@ function ApplyClicksTab() {
       direct: counts.direct,
       referral: counts.referral,
       total: counts.total,
+      unique_total: counts.unique_total,
     };
   });
 
@@ -622,9 +624,10 @@ function ApplyClicksTab() {
       acc.direct += row.direct;
       acc.referral += row.referral;
       acc.total += row.total;
+      acc.unique_total += row.unique_total;
       return acc;
     },
-    { direct: 0, referral: 0, total: 0 }
+    { direct: 0, referral: 0, total: 0, unique_total: 0 }
   );
 
   const rangeLabel =
@@ -661,8 +664,9 @@ function ApplyClicksTab() {
       </div>
 
       {/* Summary stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <StatCard title={`Total Clicks (${rangeLabel})`} value={totals.total} />
+        <StatCard title="Unique Visitors" value={totals.unique_total} />
         <StatCard title="Direct Apply" value={totals.direct} />
         <StatCard title="Referral Apply" value={totals.referral} />
       </div>
@@ -713,6 +717,11 @@ function ApplyClicksTab() {
                     active={sortKey === 'total'}
                     onClick={() => setSortKey('total')}
                   />
+                  <SortableHeader
+                    label="Unique"
+                    active={sortKey === 'unique_total'}
+                    onClick={() => setSortKey('unique_total')}
+                  />
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -744,6 +753,9 @@ function ApplyClicksTab() {
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900 tabular-nums">
                       {row.total.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 tabular-nums">
+                      {row.unique_total.toLocaleString()}
                     </td>
                   </tr>
                 ))}
@@ -1006,7 +1018,7 @@ function ReferralsTab({
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                   <div>{referral.impressions} views</div>
-                  <div>{referral.clicks} clicks</div>
+                  <div>{referral.clicks} clicks{typeof referral.unique_clicks === 'number' ? ` (${referral.unique_clicks} unique)` : ''}</div>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 font-mono text-xs">
                   {referral.submitter_id || 'Unknown'}
@@ -1409,7 +1421,7 @@ function UserLookupTab({
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                           <div>{referral.impressions} views</div>
-                          <div>{referral.clicks} clicks</div>
+                          <div>{referral.clicks} clicks{typeof referral.unique_clicks === 'number' ? ` (${referral.unique_clicks} unique)` : ''}</div>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                           {new Date(referral.submit_datetime).toLocaleDateString()}
