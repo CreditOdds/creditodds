@@ -123,7 +123,7 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
                 {openReferrals.length === 0 ? (
                   <div className="cj-modal-section">
                     <div className="cj-modal-list-empty">
-                      No eligible cards. Add a card with an annual fee to your wallet to submit a referral.
+                      No eligible cards. Add a card to your wallet or submit a record to submit a referral.
                     </div>
                   </div>
                 ) : (
