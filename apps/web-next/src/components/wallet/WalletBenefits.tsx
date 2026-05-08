@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import CardImage from "@/components/ui/CardImage";
 import { Card, CardBenefit, WalletCard } from "@/lib/api";
-import { amortizedAnnualValue, formatBenefitValue, frequencyLabel } from "@/lib/cardDisplayUtils";
+import { amortizedAnnualValue, cadenceLabel, formatBenefitValue, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
 
 interface CardWithBenefits {
   walletCard: WalletCard;
@@ -100,31 +100,40 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
               <div>Cadence</div>
               <div className="cj-tape-res">Value</div>
             </div>
-            {allCredits.map((b, i) => (
-              <Link
-                key={`${b.cardName}-${b.name}-${i}`}
-                href={`/card/${b.cardSlug}`}
-                className="cj-tape-row"
-              >
-                <div>
-                  <span className="cj-tape-thumb">
-                    <CardImage cardImageLink={b.cardImage} alt={b.cardName} fill sizes="36px" className="object-contain" />
-                  </span>
-                </div>
-                <div className="cj-tape-event">
-                  <span className="cj-tape-field">{b.name}</span>
-                  <div className="cj-tape-detail">
-                    {b.cardName}
-                    {b.enrollment_required ? ' · enrollment required' : ''}
+            {allCredits.map((b, i) => {
+              const cadence = cadenceLabel(b);
+              const annual = amortizedAnnualValue(b);
+              const isMultiYear = b.frequency === 'multi_year';
+              const showAmortized = isMultiYear && isMonetaryBenefit(b) && annual > 0;
+              return (
+                <Link
+                  key={`${b.cardName}-${b.name}-${i}`}
+                  href={`/card/${b.cardSlug}`}
+                  className="cj-tape-row"
+                >
+                  <div>
+                    <span className="cj-tape-thumb">
+                      <CardImage cardImageLink={b.cardImage} alt={b.cardName} fill sizes="36px" className="object-contain" />
+                    </span>
                   </div>
-                  <div className="cj-tape-detail cj-mob-only">{frequencyLabel(b)}</div>
-                </div>
-                <div className="cj-tape-when">{frequencyLabel(b)}</div>
-                <div className="cj-tape-res">
-                  <b>{formatBenefitValue(b)}</b>
-                </div>
-              </Link>
-            ))}
+                  <div className="cj-tape-event">
+                    <span className="cj-tape-field">{b.name}</span>
+                    <div className="cj-tape-detail">
+                      {b.cardName}
+                      {b.enrollment_required ? ' · enrollment required' : ''}
+                    </div>
+                    <div className="cj-tape-detail cj-mob-only">{cadence}</div>
+                  </div>
+                  <div className="cj-tape-when">{cadence}</div>
+                  <div className="cj-tape-res">
+                    <b>{formatBenefitValue(b)}</b>
+                    {showAmortized && (
+                      <div className="cj-tape-detail">~${annual.toLocaleString()}/yr</div>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </>
       )}
