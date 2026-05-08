@@ -316,19 +316,6 @@ export async function archiveReferral(referralId: number, token: string) {
   return res.json();
 }
 
-export async function getProfile(token: string) {
-  const res = await fetch(`${API_BASE}/profile`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: 'no-store',
-  });
-  if (!res.ok) {
-    const errorText = await res.text().catch(() => 'Unknown error');
-    console.error('getProfile error:', res.status, errorText);
-    throw new Error(`Failed to fetch profile: ${res.status}`);
-  }
-  return res.json();
-}
-
 // Wallet types and API functions
 export interface WalletCard {
   id: number;
