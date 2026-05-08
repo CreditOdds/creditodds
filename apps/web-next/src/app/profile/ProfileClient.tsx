@@ -62,6 +62,7 @@ interface Referral {
   archived_reason?: string | null;
   impressions?: number;
   clicks?: number;
+  unique_clicks?: number;
 }
 
 interface Profile {

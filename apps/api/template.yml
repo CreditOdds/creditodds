@@ -38,6 +38,10 @@ Parameters:
     Description: Google Places API (New) key for the wallet "Best Card Here" feature
     NoEcho: true
     Default: ""
+  IpHashPepper:
+    Type: String
+    Description: Server-side pepper used to hash visitor IPs into stable per-IP tokens for unique-click counting. Treat as a long-lived secret; rotating resets all uniqueness chains.
+    NoEcho: true
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
@@ -396,6 +400,8 @@ Resources:
           DATABASE: !Ref DATABASE
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
+          IP_HASH_PEPPER: !Ref IpHashPepper
+          FIREBASE_PROJECT_ID: creditodds
       Events:
         TrackEvent:
           Type: Api
@@ -516,6 +522,8 @@ Resources:
           DATABASE: !Ref DATABASE
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
+          IP_HASH_PEPPER: !Ref IpHashPepper
+          FIREBASE_PROJECT_ID: creditodds
       Events:
         TrackClick:
           Type: Api

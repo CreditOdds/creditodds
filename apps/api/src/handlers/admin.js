@@ -458,13 +458,16 @@ exports.AdminReferralsHandler = async (event) => {
             c.bank,
             c.card_referral_link,
             COALESCE(stats.impressions, 0) as impressions,
-            COALESCE(stats.clicks, 0) as clicks
+            COALESCE(stats.clicks, 0) as clicks,
+            COALESCE(stats.unique_clicks, 0) as unique_clicks
           FROM referrals r
           JOIN cards c ON r.card_id = c.card_id
           LEFT JOIN (
             SELECT referral_id,
               SUM(CASE WHEN event_type = 'impression' THEN 1 ELSE 0 END) as impressions,
-              SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks
+              SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks,
+              COUNT(DISTINCT CASE WHEN event_type = 'click'
+                THEN COALESCE(user_id, ip_hash) END) as unique_clicks
             FROM referral_stats
             GROUP BY referral_id
           ) stats ON r.referral_id = stats.referral_id
@@ -723,13 +726,16 @@ exports.AdminUserLookupHandler = async (event) => {
       mysql.query(`
         SELECT r.*, c.card_name, c.card_image_link, c.bank,
           COALESCE(stats.impressions, 0) as impressions,
-          COALESCE(stats.clicks, 0) as clicks
+          COALESCE(stats.clicks, 0) as clicks,
+          COALESCE(stats.unique_clicks, 0) as unique_clicks
         FROM referrals r
         JOIN cards c ON r.card_id = c.card_id
         LEFT JOIN (
           SELECT referral_id,
             SUM(CASE WHEN event_type = 'impression' THEN 1 ELSE 0 END) as impressions,
-            SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks
+            SUM(CASE WHEN event_type = 'click' THEN 1 ELSE 0 END) as clicks,
+            COUNT(DISTINCT CASE WHEN event_type = 'click'
+              THEN COALESCE(user_id, ip_hash) END) as unique_clicks
           FROM referral_stats
           GROUP BY referral_id
         ) stats ON r.referral_id = stats.referral_id

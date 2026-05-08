@@ -1,5 +1,23 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
+// Best-effort Firebase ID token grab for fire-and-forget click trackers.
+// Returns null on the server, when Firebase isn't initialized, or when the
+// user is signed out. Never throws — these endpoints accept anonymous calls,
+// so the token is just a hint to the backend that this click belongs to a
+// known uid (used for unique-click counting).
+async function getAnonymousAuthToken(): Promise<string | null> {
+  if (typeof window === 'undefined') return null;
+  try {
+    const { getFirebaseAuth } = await import('@/auth/firebase');
+    const auth = getFirebaseAuth();
+    const user = auth?.currentUser;
+    if (!user) return null;
+    return await user.getIdToken();
+  } catch {
+    return null;
+  }
+}
+
 export interface CardReferral {
   referral_id: number;
   referral_link: string;
@@ -471,9 +489,12 @@ export async function trackCardApplyClick(
   cardId: number,
   clickSource: CardApplyClickSource = 'direct'
 ): Promise<void> {
+  const token = await getAnonymousAuthToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
   await fetch(`${API_BASE}/card-apply-click`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     keepalive: true,
     body: JSON.stringify({
       card_id: cardId,
@@ -487,14 +508,21 @@ export interface CardApplyClickBreakdown {
   direct: number;
   referral: number;
   total: number;
+  // Unique-click counts use COUNT(DISTINCT COALESCE(user_id, ip_hash)) on
+  // the per-row click log. Only post-rollout clicks contribute (legacy
+  // aggregated counts have no per-user info), so for old cards the totals
+  // can exceed unique_total significantly until the new log fills in.
+  unique_direct: number;
+  unique_referral: number;
+  unique_total: number;
 }
 
 // Aggregated apply-click counts per card, broken down by click source.
 // `period` is in days; pass 0 for all-time. Used by the admin dashboard.
 // Normalizes the response so older API deployments (which return
-// `{[id]: number}` instead of `{[id]: {direct, referral, total}}`) still
-// produce sane totals — direct/referral will both be 0 until the backend
-// catches up.
+// `{[id]: number}` instead of `{[id]: {direct, referral, total, ...}}`)
+// still produce sane totals — direct/referral and unique fields default
+// to 0 until the backend catches up.
 export async function getCardApplyClicksBreakdown(
   period: number = 30
 ): Promise<Record<number, CardApplyClickBreakdown>> {
@@ -509,14 +537,26 @@ export async function getCardApplyClicksBreakdown(
   for (const [id, value] of Object.entries(raw)) {
     const cardId = Number(id);
     if (typeof value === 'number') {
-      normalized[cardId] = { direct: 0, referral: 0, total: value };
+      normalized[cardId] = {
+        direct: 0,
+        referral: 0,
+        total: value,
+        unique_direct: 0,
+        unique_referral: 0,
+        unique_total: 0,
+      };
     } else {
       const direct = value.direct ?? 0;
       const referral = value.referral ?? 0;
+      const uniqueDirect = value.unique_direct ?? 0;
+      const uniqueReferral = value.unique_referral ?? 0;
       normalized[cardId] = {
         direct,
         referral,
         total: value.total ?? direct + referral,
+        unique_direct: uniqueDirect,
+        unique_referral: uniqueReferral,
+        unique_total: value.unique_total ?? uniqueDirect + uniqueReferral,
       };
     }
   }
@@ -553,16 +593,19 @@ export async function getAllCardWire(limit = 100): Promise<CardWireEntry[]> {
   return data.changes || [];
 }
 
-// Track referral impressions and clicks (no auth required)
+// Track referral impressions and clicks. Auth is optional — if the user is
+// signed in we attach their Firebase ID token so the backend can record the
+// uid for unique-click counting; anonymous calls still work.
 export async function trackReferralEvent(
   referralId: number,
   eventType: 'impression' | 'click'
 ): Promise<void> {
+  const token = await getAnonymousAuthToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
   await fetch(`${API_BASE}/referral-stats`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     keepalive: true,
     body: JSON.stringify({
       referral_id: referralId,
@@ -902,6 +945,7 @@ export interface AdminReferral {
   archived_at: string | null;
   impressions: number;
   clicks: number;
+  unique_clicks?: number;
 }
 
 export interface AdminReferralsResponse {
