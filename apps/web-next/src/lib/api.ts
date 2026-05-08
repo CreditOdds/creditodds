@@ -276,7 +276,9 @@ export async function updateRecord(recordId: number, data: unknown, token: strin
 }
 
 export async function getReferrals(token: string) {
-  const res = await fetch(`${API_BASE}/referrals`, {
+  // Cache-bust CloudFront so a refetch right after a POST returns fresh data
+  // (otherwise a freshly submitted pending referral can be hidden by a stale cached response).
+  const res = await fetch(`${API_BASE}/referrals?_=${Date.now()}`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store',
   });
