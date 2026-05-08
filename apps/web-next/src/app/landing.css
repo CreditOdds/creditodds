@@ -4344,6 +4344,19 @@
   .landing-v2.profile-v2[data-tab="referrals"] .cj-rail-block-renewals,
   .landing-v2.profile-v2[data-tab="settings"] .cj-rail-block-renewals { display: block; }
 
+  /* Whole rail → hidden on mobile except on the More tab group.
+     Removes empty whitespace under the card list on Cards/Earn/News/Benefits. */
+  .landing-v2.profile-v2 .cj-rail { display: none; }
+  .landing-v2.profile-v2[data-tab="more"] .cj-rail,
+  .landing-v2.profile-v2[data-tab="applications"] .cj-rail,
+  .landing-v2.profile-v2[data-tab="referrals"] .cj-rail,
+  .landing-v2.profile-v2[data-tab="settings"] .cj-rail { display: block; }
+
+  /* Cards held toolbar → hide redundant count text + 'add a card' button on mobile.
+     The wallet hero above already exposes both. Keep the archived toggle. */
+  .landing-v2.profile-v2 .cj-wallet-toolbar > .cj-table-label,
+  .landing-v2.profile-v2 .cj-wallet-toolbar > .cj-inline-cta { display: none; }
+
   /* ====== Variant B Cards-tab hero ======
      Replace the editorial Welcome+readoff with the design's dark Wallet hero
      + 3-cell snap pills + "Cards held" section header. */
@@ -4469,65 +4482,147 @@
   .landing-v2.profile-v2 .cj-bch-shell { display: block; }
   .landing-v2.profile-v2 .cj-bch-desktop-banner { display: none; }
 
-  /* ====== Variant B Rewards-tab hero ======
-     Restyle the existing BestCardHere wrapper as the design's purple gradient
-     hero with a 60px pin icon (CSS pseudo-element) + bigger headline. */
+  /* ====== Variant B Earn-tab hero ======
+     Two-column layout: pin + BETA pill on the left, headline on the right. */
   .landing-v2.profile-v2 .cj-section .cj-bch-shell {
     background: linear-gradient(180deg, var(--accent-2) 0%, var(--paper) 80%);
-    padding: 26px 20px 22px;
+    padding: 22px 20px 22px;
     margin: -18px -18px 14px;
     border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 16px;
+    align-items: flex-start;
   }
-  .landing-v2.profile-v2 .cj-section .cj-bch-shell::before {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 60px;
+  /* Pin + BETA pill stacked, left side */
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-icon-col {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-pin {
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background-color: var(--accent);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-13a7 7 0 0 0-14 0c0 6 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 28px;
-    margin-bottom: 8px;
+    background: var(--accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 8px 24px -8px rgba(109, 63, 232, 0.5);
   }
-  /* BETA pill (rounded full on mobile) + pilot/feedback line on its own row */
-  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-head {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-  }
-  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-head > span:first-of-type {
+  /* The existing inline-style BetaPill becomes pill-shaped on mobile */
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-icon-col > span:nth-child(2) {
     border-radius: 999px !important;
     padding: 4px 10px !important;
     font-size: 10.5px !important;
   }
+  /* Headline + feedback line on the right */
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-head {
+    flex: 1 1 200px;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 6px !important;
+  }
   .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-section-h2 {
-    flex: 1 0 100%;
-    font-size: 32px !important;
+    font-size: 30px !important;
     line-height: 1.02 !important;
     letter-spacing: -0.025em;
-    margin-top: 4px !important;
   }
   .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-section-num {
     margin-left: 0 !important;
-    font-size: 11px;
-    order: 1;
+    font-size: 11.5px;
+  }
+  /* Description + state divs span full width below the icon/head row */
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell > p,
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell > div:not(.cj-bch-icon-col):not(.cj-bch-head) {
+    flex: 1 0 100%;
+    min-width: 0;
   }
   .landing-v2.profile-v2 .cj-section .cj-bch-shell > p {
     font-size: 14.5px !important;
     line-height: 1.5 !important;
-    margin: 12px 0 16px !important;
+    margin: 4px 0 0 !important;
     max-width: 36ch;
     color: var(--ink-2, #3a2f55);
+  }
+  /* Big "Find Best Near Me" CTA (replaces the bordered LocationBlock pre-enable) */
+  .landing-v2.profile-v2 .cj-bch-cta-wrap {
+    margin-top: 12px;
+  }
+  .landing-v2.profile-v2 .cj-bch-cta-prompt {
+    font-size: 13.5px;
+    color: var(--ink-2, #3a2f55);
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+  .landing-v2.profile-v2 .cj-bch-cta-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    box-shadow: 0 8px 24px -8px rgba(109, 63, 232, 0.5);
+  }
+  .landing-v2.profile-v2 .cj-bch-cta-btn:hover { filter: brightness(1.05); }
+  /* Post-enable location pill — small, inline */
+  .landing-v2.profile-v2 .cj-bch-loc {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    margin-top: 12px;
+    font-size: 12.5px;
+  }
+  .landing-v2.profile-v2 .cj-bch-loc-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #1f8a5b;
+    flex: 0 0 auto;
+  }
+  .landing-v2.profile-v2 .cj-bch-loc-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .landing-v2.profile-v2 .cj-bch-loc-label {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .landing-v2.profile-v2 .cj-bch-loc-coords {
+    color: var(--muted);
+    font-size: 11.5px;
+  }
+  .landing-v2.profile-v2 .cj-bch-loc-update {
+    background: transparent;
+    border: 0;
+    font: inherit;
+    font-size: 11.5px;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 4px 0 4px 8px;
+    letter-spacing: 0.02em;
   }
   /* Merchant tape outside the hero — paper-2 background to match the design */
   .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-tape-bch {
     margin: 0 -2px;
     background: transparent;
     border: 0;
+    flex: 1 0 100%;
   }
 
   /* Best Card Here tape — drop dist/category columns, stack best/runner-up under merchant + earn */

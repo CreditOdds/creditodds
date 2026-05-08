@@ -100,79 +100,30 @@ function BetaPill() {
 
 interface LocationBlockProps {
   location: Location | null;
-  cardsCount: number;
   onEnable: () => void;
   onClear: () => void;
 }
 
-function LocationBlock({ location, cardsCount, onEnable, onClear }: LocationBlockProps) {
+function LocationBlock({ location, onEnable, onClear }: LocationBlockProps) {
   if (!location) {
     return (
-      <div style={{
-        marginTop: 10,
-        padding: '20px 22px',
-        border: '1px solid var(--line-2)',
-        background: 'var(--paper-2)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: 16,
-      }}>
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>
-            Use your location to find the best card to swipe
-          </div>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4, lineHeight: 1.5, maxWidth: '52ch' }}>
-            We&apos;ll look up nearby businesses and cross-reference your {cardsCount} card{cardsCount === 1 ? '' : 's'} to surface
-            the highest earn at each merchant. Your location is used in-session and never stored.
-          </div>
-        </div>
-        <button
-          type="button"
-          className="cj-inline-cta"
-          style={{ padding: '8px 14px', fontSize: 12 }}
-          onClick={onEnable}
-        >
-          enable location
+      <div className="cj-bch-cta-wrap">
+        <p className="cj-bch-cta-prompt">Tap to find the best card to swipe at the businesses around you.</p>
+        <button type="button" className="cj-bch-cta-btn" onClick={onEnable}>
+          Find Best Near Me
         </button>
       </div>
     );
   }
   return (
-    <div style={{
-      marginTop: 10,
-      padding: '12px 16px',
-      border: '1px solid var(--line-2)',
-      background: 'var(--paper)',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 14,
-      fontSize: 12.5,
-      flexWrap: 'wrap',
-    }}>
-      <span style={{
-        display: 'inline-block',
-        width: 7, height: 7,
-        borderRadius: '50%',
-        background: '#1f8a5b',
-      }} />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <span style={{ color: 'var(--ink)', fontWeight: 600 }}>{location.label}</span>
-        <span style={{ color: 'var(--muted)', marginLeft: 10 }}>
-          {location.coords} · accuracy ±{location.accuracy}m
-        </span>
+    <div className="cj-bch-loc">
+      <span className="cj-bch-loc-dot" />
+      <div className="cj-bch-loc-text">
+        <span className="cj-bch-loc-label">{location.label}</span>
+        <span className="cj-bch-loc-coords">{location.coords} · ±{location.accuracy}m</span>
       </div>
-      <button
-        type="button"
-        onClick={onClear}
-        style={{
-          background: 'transparent', border: 0, font: 'inherit',
-          fontSize: 11.5, color: 'var(--muted)', cursor: 'pointer',
-          letterSpacing: '0.02em', padding: 0,
-        }}
-      >
-        update location
+      <button type="button" className="cj-bch-loc-update" onClick={onClear}>
+        update
       </button>
     </div>
   );
@@ -312,8 +263,16 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
 
   return (
     <div className="cj-bch-shell" style={{ paddingBottom: 8 }}>
-      <div className="cj-bch-head" style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+      <div className="cj-bch-icon-col" aria-hidden="true">
+        <span className="cj-bch-pin">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s7-7 7-13a7 7 0 0 0-14 0c0 6 7 13 7 13z" />
+            <circle cx="12" cy="9" r="2.5" />
+          </svg>
+        </span>
         <BetaPill />
+      </div>
+      <div className="cj-bch-head" style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
         <h2 className="cj-section-h2" style={{ margin: 0, fontSize: 26 }}>
           Best card <em className="cj-section-accent">here.</em>
         </h2>
@@ -343,7 +302,6 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
 
       <LocationBlock
         location={location}
-        cardsCount={cardsCount}
         onEnable={enable}
         onClear={clear}
       />
