@@ -1,5 +1,17 @@
 # Rejected auto-news items (do not re-suggest)
 # Entries are appended by the "Record Rejected News" workflow.
+- id: "capital-one-425-million-settlement-may-2026"
+  title: "Capital One Cardholders to Receive $425 Million Class Action Settlement"
+  source_url: "https://www.usatoday.com/story/money/2026/05/03/capital-one-settlement-who-qualifies-when-payments-come/89920197007/"
+  date_rejected: "2026-05-08"
+  reason: "Settlement against a credit card company — do not surface settlements/lawsuits where banks/issuers are defendants (potential partner conflict)."
+  pr: 1092
+- id: "wall-street-banks-basel-capital-rules-credit-card-lines-may-2026"
+  title: "JPMorgan and Wall Street Banks Push for Relief on Basel Credit Card Capital Rules"
+  source_url: "https://finance-commerce.com/2026/05/wall-street-banks-capital-rule-relief/"
+  date_rejected: "2026-05-08"
+  reason: "Regulatory/lobbying story with no direct cardholder impact — not actionable news."
+  pr: 1092
 - id: "us-news-2026-credit-card-awards"
   source_url: "https://www.usnews.com/info/blogs/press-room/articles/2026-03-10/u-s-news-world-report-debuts-2026-credit-card-awards"
   rejected_at: "2026-03-11"

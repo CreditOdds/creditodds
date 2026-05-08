@@ -389,6 +389,8 @@ ${[...existingNewsIds, ...rejectedNewsIds].filter(Boolean).join(', ') || 'None'}
 - Speculation about future changes
 - News about cards not in the database
 - Generic credit card advice articles
+- **CRITICAL — NEVER INCLUDE**: Settlements, lawsuits, class actions, regulatory fines, or enforcement actions where a credit card issuer, bank, or network (Visa/Mastercard/Amex/Discover) is the defendant or accused party. We partner with these companies and surfacing negative legal coverage damages those relationships. This applies even if cardholders are eligible for payouts. Examples to reject: "Capital One $X million settlement," "Chase agrees to pay $X to settle," "Bank of America class action," "Visa/Mastercard antitrust settlement."
+- Lobbying, regulatory advocacy, or capital-rule debates (e.g. Basel proposals, banks pushing back on regulators) — these have no direct, actionable impact on cardholders this week.
 - **CRITICAL**: Old news being re-reported. If a card was launched, a benefit changed, or a policy was updated more than a week ago, it is NOT news even if a new article was just published about it. Check the actual event date, not just the article publication date.
 - **CRITICAL**: News about the same topic as existing items above, even if worded differently. If we already posted about a card's fee change, benefit update, or policy change this month, do NOT post about it again even if there's a new article about the same thing.
 
