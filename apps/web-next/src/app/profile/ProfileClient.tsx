@@ -885,7 +885,7 @@ function CardsTab(props: CardsTabProps) {
                         <DocumentTextIcon style={{ width: 11, height: 11 }} />
                       </span>
                     )}
-                    {hasReferral && (
+                    {fee > 0 && hasReferral && (
                       <span className="cj-cw-mark" title="referral active" aria-label="referral active">
                         <LinkIcon style={{ width: 11, height: 11 }} />
                       </span>
@@ -928,12 +928,12 @@ function CardsTab(props: CardsTabProps) {
                       </button>
                     )}
                     {hasRecord && <span className="cj-wd-done">✓ record submitted</span>}
-                    {!hasReferral && (
+                    {fee > 0 && !hasReferral && (
                       <button type="button" className="cj-wd-cta" onClick={onAddReferral}>
                         + add referral link
                       </button>
                     )}
-                    {hasReferral && <span className="cj-wd-done">✓ referral link active</span>}
+                    {fee > 0 && hasReferral && <span className="cj-wd-done">✓ referral link active</span>}
                   </div>
                 </div>
               )}

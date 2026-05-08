@@ -55,6 +55,7 @@ export function getEligibleReferralCards(
     if (excluded.has(w.card_name) || seen.has(w.card_name)) continue;
     seen.add(w.card_name);
     const card = lookups.byName.get(w.card_name);
+    if (!card?.annual_fee) continue;
     result.push({
       card_id: String(w.card_id),
       card_name: w.card_name,
@@ -67,6 +68,7 @@ export function getEligibleReferralCards(
     if (excluded.has(r.card_name) || seen.has(r.card_name)) continue;
     const card = lookups.byName.get(r.card_name);
     if (!card) continue;
+    if (!card.annual_fee) continue;
     const dbId = card.db_card_id ?? Number(card.card_id);
     if (!Number.isFinite(dbId)) continue;
     seen.add(r.card_name);
