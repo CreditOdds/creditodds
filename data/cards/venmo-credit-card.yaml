@@ -1,0 +1,35 @@
+name: "Venmo Credit Card"
+bank: "Synchrony"
+slug: "venmo-credit-card"
+image: "venmo.png"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0
+reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: "top_category"
+    value: 3
+    unit: "percent"
+    mode: auto_top_spend
+    eligible_categories:
+      - "transit"
+      - "travel"
+      - "groceries"
+      - "entertainment"
+      - "dining"
+      - "utilities"
+      - "drugstores"
+      - "gas"
+    note: "3% on your top spend category and 2% on your second-highest each statement period (from 8 eligible: transportation, travel, groceries, entertainment, dining & nightlife, bills & utilities, health & beauty, gas). Drugstores here represents health & beauty; bills & utilities maps to utilities."
+  - category: "everything_else"
+    value: 1
+    unit: "percent"
+apr:
+  regular:
+    min: 19.99
+    max: 31.99
+apply_link: https://venmo.com/about/creditcard
+foreign_transaction_fee: false
