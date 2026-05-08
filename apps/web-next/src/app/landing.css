@@ -3749,7 +3749,61 @@
 }
 .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-head,
 .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row {
-  grid-template-columns: 100px 56px 1fr 80px 70px 80px;
+  grid-template-columns: 100px 56px 1fr 80px 70px 80px 60px;
+}
+
+/* Per-row action buttons (edit / delete) — own column to the right of the
+   outcome pill so the pill has clean breathing room. Buttons are subtle by
+   default and brighten on row hover; the delete button shifts to a danger
+   tone on its own hover. */
+.landing-v2.profile-v2 .cj-tape-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  opacity: 0.55;
+  transition: opacity 120ms ease;
+}
+.landing-v2.profile-v2 .cj-tape-row:hover .cj-tape-actions,
+.landing-v2.profile-v2 .cj-tape-row:focus-within .cj-tape-actions {
+  opacity: 1;
+}
+.landing-v2.profile-v2 .cj-tape-action-btn {
+  background: transparent;
+  border: 0;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.landing-v2.profile-v2 .cj-tape-action-btn:hover {
+  color: var(--ink);
+  background: var(--paper-2);
+}
+.landing-v2.profile-v2 .cj-tape-action-btn-danger:hover {
+  color: var(--warn);
+  background: var(--warn-2);
+}
+.landing-v2.profile-v2 .cj-tape-action-btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.landing-v2.profile-v2 .cj-tape-action-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.landing-v2.profile-v2 .cj-tape-action-icon {
+  width: 14px;
+  height: 14px;
+}
+.landing-v2.profile-v2 .cj-tape-action-spinner {
+  font-size: 14px;
+  line-height: 1;
 }
 .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-head,
 .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-row {
@@ -4266,10 +4320,10 @@
   .landing-v2.profile-v2 .cj-wallet-detail { padding: 14px 4px; }
   .landing-v2.profile-v2 .cj-wd-cta { font-size: 11px !important; padding: 5px 8px !important; }
 
-  /* Records tape — head hidden, columns collapsed to: card+detail · pill */
+  /* Records tape — head hidden, columns collapsed to: card+detail · pill · actions */
   .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-head { display: none; }
   .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     gap: 10px;
     padding: 14px 12px;
   }
@@ -4283,6 +4337,8 @@
     font-size: 16px;
     font-weight: 500;
   }
+  /* Mobile has no hover, so always show the actions at full opacity. */
+  .landing-v2.profile-v2 .cj-tape-actions { opacity: 1; }
 
   /* Referrals tape — drop impressions/clicks columns; show as detail under card */
   .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-head { display: none; }

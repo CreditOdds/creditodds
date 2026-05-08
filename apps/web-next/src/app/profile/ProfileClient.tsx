@@ -988,6 +988,7 @@ function ApplicationsTab(props: ApplicationsTabProps) {
               <div className="cj-tape-res">Score</div>
               <div className="cj-tape-res">Income</div>
               <div className="cj-tape-res">Outcome</div>
+              <div className="cj-tape-actions" aria-hidden="true"></div>
             </div>
             {records.map((r) => (
               <div key={r.record_id} className="cj-tape-row">
@@ -1013,22 +1014,30 @@ function ApplicationsTab(props: ApplicationsTabProps) {
                   <span className={'cj-pill ' + (r.result ? 'cj-pill-app' : 'cj-pill-den')}>
                     {r.result ? 'approved' : 'denied'}
                   </span>
+                </div>
+                <div className="cj-tape-actions">
                   <button
                     type="button"
                     onClick={() => onEditRecord(r.record_id)}
-                    style={{ marginLeft: 6, fontSize: 11, color: 'var(--muted)', background: 'transparent', border: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                    className="cj-tape-action-btn"
                     aria-label="Edit record"
+                    title="Edit record"
                   >
-                    <PencilIcon style={{ width: 12, height: 12 }} />
+                    <PencilIcon className="cj-tape-action-icon" />
                   </button>
                   <button
                     type="button"
                     onClick={() => onDeleteRecord(r.record_id)}
                     disabled={deletingRecordId === r.record_id}
-                    style={{ marginLeft: 6, fontSize: 11, color: 'var(--muted)', background: 'transparent', border: 0, cursor: 'pointer' }}
+                    className="cj-tape-action-btn cj-tape-action-btn-danger"
                     aria-label="Delete record"
+                    title="Delete record"
                   >
-                    {deletingRecordId === r.record_id ? '…' : '×'}
+                    {deletingRecordId === r.record_id ? (
+                      <span className="cj-tape-action-spinner">…</span>
+                    ) : (
+                      <TrashIcon className="cj-tape-action-icon" />
+                    )}
                   </button>
                 </div>
               </div>
