@@ -85,7 +85,7 @@ exports.getCardGraphsHandler = async (event) => {
 
           const card_id = cardResult[0].card_id;
           const rawResults = await mysql.query(
-            "SELECT * FROM records WHERE card_id = ? AND admin_review = 1",
+            "SELECT * FROM records WHERE card_id = ? AND admin_review = 1 AND active = 1",
             [card_id]
           );
           await mysql.end();

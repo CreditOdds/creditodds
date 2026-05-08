@@ -9,7 +9,7 @@ import { NumericFormat } from "react-number-format";
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from "@/auth/AuthProvider";
 import { toast } from "react-toastify";
-import { getRecords, getWallet, addToWallet } from "@/lib/api";
+import { getRecords, getWallet, addToWallet, updateRecord } from "@/lib/api";
 import confetti from "canvas-confetti";
 
 // Form persistence key prefix (#7)
@@ -22,11 +22,42 @@ interface Card {
   bank?: string;
 }
 
+export interface EditRecord {
+  record_id: number;
+  credit_score: number;
+  credit_score_source?: number | string;
+  listed_income: number;
+  date_applied: string;
+  length_credit?: number | null;
+  bank_customer?: boolean | number;
+  result: boolean | number;
+  starting_credit_limit?: number | null;
+  reason_denied?: string | null;
+  inquiries_3?: number | null;
+  inquiries_12?: number | null;
+  inquiries_24?: number | null;
+}
+
 interface SubmitRecordModalProps {
   show: boolean;
   handleClose: () => void;
   card: Card;
   onSuccess?: () => void;
+  editRecord?: EditRecord;
+}
+
+// "2026-05-08T00:00:00.000Z" → "2026-05" for the month input.
+function toMonthInput(value: string): string {
+  if (!value) return '';
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return '';
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+// Last day of the current month, formatted as YYYY-MM for the <input type="month"> max attr.
+function currentMonthInput(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
@@ -35,11 +66,12 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SubmitRecordModal({ show, handleClose, card, onSuccess }: SubmitRecordModalProps) {
+export default function SubmitRecordModal({ show, handleClose, card, onSuccess, editRecord }: SubmitRecordModalProps) {
   const { getToken } = useAuth();
+  const isEditMode = !!editRecord;
   const [submitting, setSubmitting] = useState(false);
   const [hasExistingRecord, setHasExistingRecord] = useState(false);
-  const [checkingRecords, setCheckingRecords] = useState(true);
+  const [checkingRecords, setCheckingRecords] = useState(!isEditMode);
   const [lastRecord, setLastRecord] = useState<{ credit_score?: number; listed_income?: number; length_credit?: number } | null>(null);
 
   // Get storage key for this card (#7)
@@ -79,7 +111,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
   // Check if user has already submitted a record for this card
   useEffect(() => {
     const checkExistingRecords = async () => {
-      if (!show) return;
+      if (!show || isEditMode) return;
 
       setCheckingRecords(true);
       try {
@@ -118,23 +150,35 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
     };
 
     checkExistingRecords();
-  }, [show, card.card_name, getToken]);
+  }, [show, card.card_name, getToken, isEditMode]);
 
   // Default form values — no defaults for credit_score/income/length to avoid lazy submissions
-  const defaultValues = {
-    credit_score: lastRecord?.credit_score ?? ('' as number | ''),
-    credit_score_source: "0",
-    listed_income: lastRecord?.listed_income ?? ('' as number | ''),
-    date_applied: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
-    length_credit: lastRecord?.length_credit ?? ('' as number | ''),
-    bank_customer: false,
-    result: true,
-    starting_credit_limit: undefined as number | undefined,
-    reason_denied: "",
-  };
+  const defaultValues = editRecord
+    ? {
+        credit_score: editRecord.credit_score,
+        credit_score_source: String(editRecord.credit_score_source ?? "0"),
+        listed_income: editRecord.listed_income,
+        date_applied: toMonthInput(editRecord.date_applied),
+        length_credit: editRecord.length_credit ?? ('' as number | ''),
+        bank_customer: !!editRecord.bank_customer,
+        result: !!editRecord.result,
+        starting_credit_limit: editRecord.starting_credit_limit ?? undefined,
+        reason_denied: editRecord.reason_denied ?? "",
+      }
+    : {
+        credit_score: lastRecord?.credit_score ?? ('' as number | ''),
+        credit_score_source: "0",
+        listed_income: lastRecord?.listed_income ?? ('' as number | ''),
+        date_applied: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
+        length_credit: lastRecord?.length_credit ?? ('' as number | ''),
+        bank_customer: false,
+        result: true,
+        starting_credit_limit: undefined as number | undefined,
+        reason_denied: "",
+      };
 
   const formik = useFormik({
-    initialValues: loadSavedForm() || defaultValues,
+    initialValues: isEditMode ? defaultValues : (loadSavedForm() || defaultValues),
     enableReinitialize: true,
     validationSchema: Yup.object({
       credit_score: Yup.number()
@@ -155,6 +199,13 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
         .integer("Length of credit must be a whole number")
         .min(0, "Length of credit must be a positive number")
         .max(50, "Length of credit cannot be greater than 50 years"),
+      date_applied: Yup.string()
+        .required("Required")
+        .test('not-future', 'Application date cannot be in the future', (value) => {
+          if (!value) return false;
+          // value is "YYYY-MM"; compare lexicographically against current month.
+          return value <= currentMonthInput();
+        }),
     }),
     onSubmit: async (values) => {
       setSubmitting(true);
@@ -162,6 +213,14 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
         const token = await getToken();
         if (!token) {
           throw new Error('Not authenticated');
+        }
+
+        if (isEditMode && editRecord) {
+          await updateRecord(editRecord.record_id, values, token);
+          toast.success("Your record was updated.", { position: "top-right", autoClose: 4000 });
+          onSuccess?.();
+          handleClose();
+          return;
         }
 
         const response = await fetch(`${API_BASE}/records`, {
@@ -211,7 +270,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
         handleClose();
       } catch (error) {
         console.error("Error submitting record:", error);
-        toast.error(error instanceof Error ? error.message : "Failed to submit record");
+        toast.error(error instanceof Error ? error.message : (isEditMode ? "Failed to update record" : "Failed to submit record"));
       } finally {
         setSubmitting(false);
       }
@@ -220,10 +279,10 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
 
   // Auto-save form data when values change (#7)
   useEffect(() => {
-    if (show && !hasExistingRecord && formik.dirty) {
+    if (show && !hasExistingRecord && !isEditMode && formik.dirty) {
       saveFormData(formik.values);
     }
-  }, [show, hasExistingRecord, formik.values, formik.dirty, saveFormData]);
+  }, [show, hasExistingRecord, isEditMode, formik.values, formik.dirty, saveFormData]);
 
   const handleModalClose = () => {
     formik.resetForm();
@@ -284,6 +343,9 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                           />
                         </div>
                         <h2 className="text-lg font-medium text-gray-900">{card.card_name}</h2>
+                        {isEditMode && (
+                          <p className="text-sm text-gray-500 mt-1">Editing your existing record.</p>
+                        )}
                       </div>
 
                       {/* Check if already submitted */}
@@ -291,7 +353,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                         <div className="text-center py-8">
                           <p className="text-gray-500">Checking submission status...</p>
                         </div>
-                      ) : hasExistingRecord ? (
+                      ) : hasExistingRecord && !isEditMode ? (
                         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
                           <div className="flex">
                             <div className="ml-3">
@@ -398,6 +460,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                                 type="month"
                                 required
                                 min="2019-01"
+                                max={currentMonthInput()}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.date_applied}
@@ -519,7 +582,9 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                               disabled={submitting}
                               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                             >
-                              {submitting ? "Submitting..." : "Submit Record"}
+                              {submitting
+                                ? (isEditMode ? "Saving..." : "Submitting...")
+                                : (isEditMode ? "Save Changes" : "Submit Record")}
                             </button>
                           </div>
                         </form>

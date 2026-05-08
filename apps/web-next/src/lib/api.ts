@@ -246,6 +246,22 @@ export async function deleteRecord(recordId: number, token: string) {
   return res.json();
 }
 
+export async function updateRecord(recordId: number, data: unknown, token: string) {
+  const res = await fetch(`${API_BASE}/records?record_id=${recordId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to update record: ${errorText}`);
+  }
+  return res.json();
+}
+
 export async function getReferrals(token: string) {
   const res = await fetch(`${API_BASE}/referrals`, {
     headers: { Authorization: `Bearer ${token}` },

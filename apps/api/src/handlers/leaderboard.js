@@ -43,7 +43,7 @@ exports.LeaderboardHandler = async (event) => {
         MIN(submit_datetime) as first_submission,
         MAX(submit_datetime) as last_submission
       FROM records
-      WHERE submitter_id IS NOT NULL
+      WHERE submitter_id IS NOT NULL AND active = 1
       GROUP BY submitter_id
       HAVING COUNT(*) >= 1
       ORDER BY records_count DESC
@@ -58,7 +58,7 @@ exports.LeaderboardHandler = async (event) => {
         SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as total_approved,
         SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as total_denied
       FROM records
-      WHERE submitter_id IS NOT NULL
+      WHERE submitter_id IS NOT NULL AND active = 1
     `);
 
     await mysql.end();

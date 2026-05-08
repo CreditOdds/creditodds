@@ -30,7 +30,7 @@ exports.UserProfileHandler = async (event) => {
 
         // Get counts from database
         const [recordsResult, referralsResult] = await Promise.all([
-          mysql.query("SELECT COUNT(*) as count FROM records WHERE submitter_id = ?", [userId]),
+          mysql.query("SELECT COUNT(*) as count FROM records WHERE submitter_id = ? AND active = 1", [userId]),
           mysql.query("SELECT COUNT(*) as count FROM referrals WHERE submitter_id = ?", [userId])
         ]);
         await mysql.end();

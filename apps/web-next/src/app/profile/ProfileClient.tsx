@@ -13,7 +13,7 @@ import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import ProfileLoader from "./ProfileLoader";
 import { amortizedAnnualValue } from "@/lib/cardDisplayUtils";
-import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 import {
   createCardLookups,
@@ -40,12 +40,20 @@ const RuleProgressChart = dynamic(() => import("@/components/charts/RuleProgress
 
 interface RecordItem {
   record_id: number;
+  card_id: number;
   card_name: string;
   card_image_link?: string;
   credit_score: number;
+  credit_score_source?: number;
   listed_income: number;
   length_credit: number;
   result: boolean;
+  starting_credit_limit?: number | null;
+  reason_denied?: string | null;
+  bank_customer?: boolean | number;
+  inquiries_3?: number | null;
+  inquiries_12?: number | null;
+  inquiries_24?: number | null;
   submit_datetime: string;
   date_applied: string;
 }
@@ -112,6 +120,7 @@ export default function ProfileClient() {
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
   const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
+  const [editingRecord, setEditingRecord] = useState<RecordItem | null>(null);
   const cardLookups = useMemo(() => createCardLookups(allCards), [allCards]);
 
   const eligibleReferralCards = useMemo(
@@ -241,6 +250,11 @@ export default function ProfileClient() {
     };
 
     loadProfile(); loadWallet(); loadRecords(); loadReferrals();
+  };
+
+  const handleEditRecord = (recordId: number) => {
+    const rec = records.find((r) => r.record_id === recordId);
+    if (rec) setEditingRecord(rec);
   };
 
   const handleDeleteRecord = async (recordId: number) => {
@@ -532,6 +546,7 @@ export default function ProfileClient() {
                 cardsMissingDates={cardsMissingDates}
                 onPickCard={() => setShowRecordCardPicker(true)}
                 onDeleteRecord={handleDeleteRecord}
+                onEditRecord={handleEditRecord}
                 deletingRecordId={deletingRecordId}
                 eligibleRecordCards={eligibleRecordCards}
               />
@@ -584,6 +599,7 @@ export default function ProfileClient() {
                   cardsMissingDates={cardsMissingDates}
                   onPickCard={() => setShowRecordCardPicker(true)}
                   onDeleteRecord={handleDeleteRecord}
+                  onEditRecord={handleEditRecord}
                   deletingRecordId={deletingRecordId}
                   eligibleRecordCards={eligibleRecordCards}
                 />
@@ -729,6 +745,33 @@ export default function ProfileClient() {
             card_name: submitRecordCard.card_name,
             card_image_link: submitRecordCard.card_image_link,
             bank: submitRecordCard.bank,
+          }}
+          onSuccess={loadData}
+        />
+      )}
+      {editingRecord && (
+        <SubmitRecordModal
+          show={!!editingRecord}
+          handleClose={() => setEditingRecord(null)}
+          card={{
+            card_id: editingRecord.card_id,
+            card_name: editingRecord.card_name,
+            card_image_link: editingRecord.card_image_link,
+          }}
+          editRecord={{
+            record_id: editingRecord.record_id,
+            credit_score: editingRecord.credit_score,
+            credit_score_source: editingRecord.credit_score_source,
+            listed_income: editingRecord.listed_income,
+            date_applied: editingRecord.date_applied,
+            length_credit: editingRecord.length_credit,
+            bank_customer: editingRecord.bank_customer,
+            result: editingRecord.result,
+            starting_credit_limit: editingRecord.starting_credit_limit,
+            reason_denied: editingRecord.reason_denied,
+            inquiries_3: editingRecord.inquiries_3,
+            inquiries_12: editingRecord.inquiries_12,
+            inquiries_24: editingRecord.inquiries_24,
           }}
           onSuccess={loadData}
         />
@@ -920,12 +963,13 @@ interface ApplicationsTabProps {
   cardsMissingDates: number;
   onPickCard: () => void;
   onDeleteRecord: (id: number) => void;
+  onEditRecord: (id: number) => void;
   deletingRecordId: number | null;
   eligibleRecordCards: WalletCard[];
 }
 
 function ApplicationsTab(props: ApplicationsTabProps) {
-  const { recordsLoaded, walletLoaded, records, walletCards, applicationRules, cardsMissingDates, onPickCard, onDeleteRecord, deletingRecordId, eligibleRecordCards } = props;
+  const { recordsLoaded, walletLoaded, records, walletCards, applicationRules, cardsMissingDates, onPickCard, onDeleteRecord, onEditRecord, deletingRecordId, eligibleRecordCards } = props;
   if (!recordsLoaded || !walletLoaded) return <LoadingPanel />;
 
   const approved = records.filter(r => r.result).length;
@@ -969,6 +1013,14 @@ function ApplicationsTab(props: ApplicationsTabProps) {
                   <span className={'cj-pill ' + (r.result ? 'cj-pill-app' : 'cj-pill-den')}>
                     {r.result ? 'approved' : 'denied'}
                   </span>
+                  <button
+                    type="button"
+                    onClick={() => onEditRecord(r.record_id)}
+                    style={{ marginLeft: 6, fontSize: 11, color: 'var(--muted)', background: 'transparent', border: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                    aria-label="Edit record"
+                  >
+                    <PencilIcon style={{ width: 12, height: 12 }} />
+                  </button>
                   <button
                     type="button"
                     onClick={() => onDeleteRecord(r.record_id)}
