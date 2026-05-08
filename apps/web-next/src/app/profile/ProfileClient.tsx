@@ -301,7 +301,7 @@ export default function ProfileClient() {
 
   const tabs: { key: TabKey; num: string; label: string; count: string }[] = [
     { key: 'cards', num: '01', label: 'Cards', count: walletCards.length ? `${walletCards.length} cards` : '' },
-    { key: 'rewards', num: '02', label: 'Rewards', count: '' },
+    { key: 'rewards', num: '02', label: 'Earn', count: '' },
     { key: 'benefits', num: '03', label: 'Benefits', count: '' },
     { key: 'applications', num: '04', label: 'Applications', count: records.length ? `${records.length} records` : '' },
     { key: 'referrals', num: '05', label: 'Referrals', count: activeReferralsCount ? `${activeReferralsCount} links` : '' },
@@ -394,9 +394,6 @@ export default function ProfileClient() {
             <div className="cj-mob-cards-hero">
               <div className="cj-mob-wallet">
                 <div className="cj-mob-wallet-k">Wallet</div>
-                <div className="cj-mob-wallet-v">
-                  {walletCards.length} card{walletCards.length === 1 ? '' : 's'} · ${totalAnnualFees.toLocaleString()}/yr
-                </div>
                 <div className="cj-mob-wallet-actions">
                   <button type="button" className="cj-mob-wallet-btn" onClick={() => setShowWalletModal(true)}>
                     + add a card
@@ -433,9 +430,6 @@ export default function ProfileClient() {
               </div>
               <div className="cj-mob-section-h">
                 <h2>Cards held</h2>
-                <div className="cj-mob-section-sub">
-                  {walletCards.length - inactiveCount} active{inactiveCount > 0 ? ` · ${inactiveCount} archived` : ''}
-                </div>
               </div>
             </div>
           )}
@@ -1348,11 +1342,13 @@ function MobileTabBar({ activeTab, onSelect }: { activeTab: TabKey; onSelect: (k
         onClick={() => onSelect('rewards')}
       >
         <span className="cj-mob-tab-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="11" r="7" /><path d="M9 17l-2 5 5-3 5 3-2-5" />
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="19" y1="5" x2="5" y2="19" />
+            <circle cx="6.5" cy="6.5" r="2.5" />
+            <circle cx="17.5" cy="17.5" r="2.5" />
           </svg>
         </span>
-        Rewards
+        Earn
         <span className="cj-mob-tab-beta" aria-hidden="true" />
       </button>
       <button
