@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import "../landing.css";
-import { getNews, NewsItem, tagLabels } from "@/lib/news";
+import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import ProfileLoader from "./ProfileLoader";
 import { amortizedAnnualValue } from "@/lib/cardDisplayUtils";
@@ -71,7 +71,7 @@ interface Profile {
   referrals_count: number;
 }
 
-type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings';
+type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings' | 'news' | 'more';
 
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -308,7 +308,7 @@ export default function ProfileClient() {
   ];
 
   return (
-    <div className="landing-v2 profile-v2">
+    <div className="landing-v2 profile-v2" data-tab={activeTab}>
       {/* Terminal strip — dark bar with breadcrumb + status */}
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
@@ -325,7 +325,9 @@ export default function ProfileClient() {
 
       <div className="cj-layout">
         <main className="cj-main">
-          {/* Snapshot header — tight welcome row */}
+          {/* Snapshot — welcome row + 5-cell stat readoff. Desktop: visible on
+              every tab. Mobile: hidden via CSS — the Cards-tab dark Wallet hero
+              below replaces it on mobile. */}
           <div className="cj-snapshot">
             <div className="cj-snapshot-row">
               <h1 className="cj-snapshot-h1">
@@ -385,6 +387,58 @@ export default function ProfileClient() {
             </div>
           </div>
 
+          {/* Mobile-only (Variant B · App Tabs) Cards-tab hero — dark Wallet card +
+              3-cell snap pills. Hidden ≥641px; the editorial cj-snapshot above takes over. */}
+          {activeTab === 'cards' && (
+            <div className="cj-mob-cards-hero">
+              <div className="cj-mob-wallet">
+                <div className="cj-mob-wallet-k">Wallet</div>
+                <div className="cj-mob-wallet-v">
+                  {walletCards.length} card{walletCards.length === 1 ? '' : 's'} · ${totalAnnualFees.toLocaleString()}/yr
+                </div>
+                <div className="cj-mob-wallet-actions">
+                  <button type="button" className="cj-mob-wallet-btn" onClick={() => setShowWalletModal(true)}>
+                    + add a card
+                  </button>
+                  <button
+                    type="button"
+                    className="cj-mob-wallet-btn outline"
+                    onClick={() => setShowRecordCardPicker(true)}
+                    disabled={eligibleRecordCards.length === 0}
+                  >
+                    submit a record
+                  </button>
+                </div>
+              </div>
+              <div className="cj-mob-snap">
+                <div className="cj-mob-snap-cell">
+                  <div className="cj-mob-snap-k">Active</div>
+                  <div className="cj-mob-snap-v">{walletCards.length - inactiveCount}</div>
+                </div>
+                <div className="cj-mob-snap-cell">
+                  <div className="cj-mob-snap-k">Annual fees</div>
+                  <div className={'cj-mob-snap-v' + (totalAnnualFees > 0 ? ' warn' : '')}>
+                    ${totalAnnualFees.toLocaleString()}
+                  </div>
+                </div>
+                <div className="cj-mob-snap-cell">
+                  <div className="cj-mob-snap-k">Credits</div>
+                  <div className="cj-mob-snap-v accent">
+                    {annualCreditsTotals.total >= 1000
+                      ? `$${(annualCreditsTotals.total / 1000).toFixed(1)}k`
+                      : `$${annualCreditsTotals.total}`}
+                  </div>
+                </div>
+              </div>
+              <div className="cj-mob-section-h">
+                <h2>Cards held</h2>
+                <div className="cj-mob-section-sub">
+                  {walletCards.length - inactiveCount} active{inactiveCount > 0 ? ` · ${inactiveCount} archived` : ''}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Tab row */}
           <div className="cj-main-tabs">
             {tabs.map((it) => (
@@ -426,14 +480,33 @@ export default function ProfileClient() {
             {activeTab === 'rewards' && (
               !walletLoaded ? <LoadingPanel /> : (
                 <section className="cj-section">
+                  {/* Best Card Here is mobile-only — relies on geolocation
+                      and the merchant-card layout doesn't fit a desktop column.
+                      Desktop sees a banner pointing them to mobile. */}
                   <BestCardHere walletCards={walletCards} allCards={allCards} />
-                  <div style={{
+                  <div className="cj-bch-desktop-banner" aria-hidden="false">
+                    <span className="cj-bch-desktop-banner-icon" aria-hidden="true">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 22s7-7 7-13a7 7 0 0 0-14 0c0 6 7 13 7 13z" />
+                        <circle cx="12" cy="9" r="2.5" />
+                      </svg>
+                    </span>
+                    <div className="cj-bch-desktop-banner-text">
+                      <div className="cj-bch-desktop-banner-title">
+                        Best card <em>here.</em> <span className="cj-bch-desktop-banner-pill">Beta · mobile</span>
+                      </div>
+                      <div className="cj-bch-desktop-banner-sub">
+                        Wallet-aware merchant lookup. Open this page on your phone to see the best card to swipe at the businesses around you.
+                      </div>
+                    </div>
+                  </div>
+                  <div className="cj-walletwide-divider" style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: 12,
                     margin: '36px 0 18px',
                   }}>
-                    <span style={{
+                    <span className="cj-walletwide-label" style={{
                       fontSize: 10.5,
                       color: 'var(--muted)',
                       textTransform: 'uppercase',
@@ -442,7 +515,7 @@ export default function ProfileClient() {
                     }}>
                       Wallet-wide
                     </span>
-                    <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
+                    <span className="cj-walletwide-rule" style={{ flex: 1, height: 1, background: 'var(--line)' }} />
                   </div>
                   <BestCardByCategory walletCards={walletCards} allCards={allCards} />
                 </section>
@@ -494,6 +567,55 @@ export default function ProfileClient() {
                 onLogout={() => { logout().then(() => router.push("/")); }}
               />
             )}
+
+            {/* Mobile-only: News tab (Variant B) — wallet-filtered news with chip filters */}
+            {activeTab === 'news' && (
+              <MobileNewsView
+                relevantNews={relevantNews}
+                walletCardsCount={walletCards.length}
+              />
+            )}
+
+            {/* Mobile-only: More tab (Variant B) — stacks Applications + Referrals + Settings */}
+            {activeTab === 'more' && (
+              <section className="cj-section cj-mob-more">
+                <div className="cj-mob-more-h">Applications</div>
+                <ApplicationsTab
+                  recordsLoaded={recordsLoaded}
+                  walletLoaded={walletLoaded}
+                  records={records}
+                  walletCards={walletCards}
+                  applicationRules={applicationRules}
+                  cardsMissingDates={cardsMissingDates}
+                  onPickCard={() => setShowRecordCardPicker(true)}
+                  onDeleteRecord={handleDeleteRecord}
+                  deletingRecordId={deletingRecordId}
+                  eligibleRecordCards={eligibleRecordCards}
+                />
+                <div className="cj-mob-more-h">Referrals</div>
+                <ReferralsTab
+                  referralsLoaded={referralsLoaded}
+                  referrals={referrals}
+                  eligibleReferralCards={eligibleReferralCards}
+                  onAddReferral={() => setShowReferralModal(true)}
+                  onArchive={handleArchiveReferral}
+                  archivingReferralId={archivingReferralId}
+                />
+                <div className="cj-mob-more-h">Account</div>
+                <SettingsTab
+                  profile={profile}
+                  email={authState.user?.email}
+                  handle={handle}
+                  confirmingDelete={confirmingDelete}
+                  setConfirmingDelete={setConfirmingDelete}
+                  deleteConfirmText={deleteConfirmText}
+                  setDeleteConfirmText={setDeleteConfirmText}
+                  deletingAccount={deletingAccount}
+                  onDeleteAccount={handleDeleteAccount}
+                  onLogout={() => { logout().then(() => router.push("/")); }}
+                />
+              </section>
+            )}
           </div>
         </main>
 
@@ -518,7 +640,7 @@ export default function ProfileClient() {
           </div>
 
           {upcomingRenewals.length > 0 && (
-            <div className="cj-rail-block">
+            <div className="cj-rail-block cj-rail-block-renewals">
               <div className="cj-rail-label">Upcoming renewals</div>
               <ul className="cj-rail-list">
                 {upcomingRenewals.map((r) => (
@@ -536,7 +658,7 @@ export default function ProfileClient() {
             </div>
           )}
 
-          <div className="cj-rail-block">
+          <div className="cj-rail-block cj-rail-block-news">
             <div className="cj-rail-label">News for you</div>
             {relevantNews.length > 0 ? (
               <ul className="cj-rail-list">
@@ -568,9 +690,12 @@ export default function ProfileClient() {
             )}
           </div>
 
-          <Link href="/news" className="cj-rail-cta">view all news</Link>
+          <Link href="/news" className="cj-rail-cta cj-rail-cta-news">view all news</Link>
         </aside>
       </div>
+
+      {/* Mobile bottom tab bar — Variant B (App Tabs). Hidden ≥641px via CSS. */}
+      <MobileTabBar activeTab={activeTab} onSelect={setActiveTab} />
 
       <V2Footer />
 
@@ -1113,5 +1238,158 @@ function SettingsTab(props: SettingsTabProps) {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ========== Mobile-only: News view (Variant B) — wallet-filtered news with chip filters ========== */
+type NewsFilter = 'all' | NewsTag;
+
+function MobileNewsView({ relevantNews, walletCardsCount }: { relevantNews: NewsItem[]; walletCardsCount: number }) {
+  const [filter, setFilter] = useState<NewsFilter>('all');
+
+  const filtered = useMemo(() => {
+    if (filter === 'all') return relevantNews;
+    return relevantNews.filter((n) => n.tags?.includes(filter));
+  }, [relevantNews, filter]);
+
+  const tagCount = (t: NewsTag) => relevantNews.filter((n) => n.tags?.includes(t)).length;
+  const allChips: { key: NewsFilter; label: string }[] = [
+    { key: 'all', label: `all · ${relevantNews.length}` },
+    { key: 'fee-change', label: 'fee changes' },
+    { key: 'benefit-change', label: 'benefit changes' },
+    { key: 'bonus-change', label: 'bonus offers' },
+    { key: 'new-card', label: 'new cards' },
+    { key: 'limited-time', label: 'limited time' },
+  ];
+  const chips = allChips.filter((c) => c.key === 'all' || tagCount(c.key as NewsTag) > 0);
+
+  return (
+    <section className="cj-mob-news">
+      <div className="cj-mob-news-hero">
+        <div className="cj-mob-news-eyebrow">News · last 60 days</div>
+        <h1 className="cj-mob-news-h">Filtered to <em>your wallet.</em></h1>
+        <p className="cj-mob-news-sub">
+          Devalues, benefit changes, and transfer-partner news for the {walletCardsCount} card{walletCardsCount === 1 ? '' : 's'} you carry —
+          so you only see what matters.
+        </p>
+      </div>
+      <div className="cj-mob-news-filter">
+        {chips.map((c) => (
+          <button
+            key={c.key}
+            type="button"
+            className={'cj-mob-news-chip' + (filter === c.key ? ' active' : '')}
+            onClick={() => setFilter(c.key)}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+      {filtered.length === 0 ? (
+        <div className="cj-verdict" style={{ margin: '14px 18px' }}>
+          {walletCardsCount === 0
+            ? <><b>No cards in your wallet yet.</b> Add cards to see news for them.</>
+            : <><b>No matching news.</b> Try a different filter.</>}
+        </div>
+      ) : (
+        <div className="cj-mob-news-list">
+          {filtered.map((n) => (
+            <Link key={n.id} href={`/news/${n.id}`} className="cj-mob-news-row">
+              <span className="cj-mob-news-thumb">
+                <CardImage cardImageLink={n.card_image_link || n.card_image_links?.[0]} alt={n.card_names?.[0] || ''} fill sizes="48px" className="object-contain" />
+              </span>
+              <div>
+                <div className="cj-mob-news-meta">
+                  <span>{new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  <span style={{ color: 'var(--muted-2)' }}>·</span>
+                  {n.tags?.[0] && (
+                    <span className={`cj-mob-news-tag cj-mob-news-tag--${n.tags[0]}`}>
+                      {(tagLabels[n.tags[0]] || n.tags[0]).replace(/^[^\w]+\s*/, '').toLowerCase()}
+                    </span>
+                  )}
+                </div>
+                <div className="cj-mob-news-title">{n.title}</div>
+                {n.card_names?.[0] && <div className="cj-mob-news-card">{n.card_names[0]}</div>}
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ========== Mobile-only: Bottom tab bar (Variant B · App Tabs) ========== */
+function MobileTabBar({ activeTab, onSelect }: { activeTab: TabKey; onSelect: (k: TabKey) => void }) {
+  // Map the desktop's 6 tabs to the 5 in-profile mobile tabs:
+  //   cards → cards | rewards → rewards | news → news (wallet-filtered) |
+  //   benefits → benefits | applications/referrals/settings → more
+  const mobileSelected: TabKey =
+    (['applications', 'referrals', 'settings'] as TabKey[]).includes(activeTab) ? 'more' : activeTab;
+
+  return (
+    <nav className="cj-mob-tabbar" aria-label="Mobile navigation">
+      <button
+        type="button"
+        className={'cj-mob-tab' + (mobileSelected === 'cards' ? ' active' : '')}
+        onClick={() => onSelect('cards')}
+      >
+        <span className="cj-mob-tab-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="6" width="20" height="13" rx="2" /><path d="M2 10h20" />
+          </svg>
+        </span>
+        Cards
+      </button>
+      <button
+        type="button"
+        className={'cj-mob-tab' + (mobileSelected === 'rewards' ? ' active' : '')}
+        onClick={() => onSelect('rewards')}
+      >
+        <span className="cj-mob-tab-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="11" r="7" /><path d="M9 17l-2 5 5-3 5 3-2-5" />
+          </svg>
+        </span>
+        Rewards
+        <span className="cj-mob-tab-beta" aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        className={'cj-mob-tab' + (mobileSelected === 'news' ? ' active' : '')}
+        onClick={() => onSelect('news')}
+      >
+        <span className="cj-mob-tab-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2" /><path d="M7 8h10M7 12h10M7 16h6" />
+          </svg>
+        </span>
+        News
+      </button>
+      <button
+        type="button"
+        className={'cj-mob-tab' + (mobileSelected === 'benefits' ? ' active' : '')}
+        onClick={() => onSelect('benefits')}
+      >
+        <span className="cj-mob-tab-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="8" width="18" height="13" rx="1" /><path d="M3 12h18M12 8v13" />
+          </svg>
+        </span>
+        Benefits
+      </button>
+      <button
+        type="button"
+        className={'cj-mob-tab' + (mobileSelected === 'more' ? ' active' : '')}
+        onClick={() => onSelect('more')}
+      >
+        <span className="cj-mob-tab-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="6" cy="12" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="18" cy="12" r="1.5" />
+          </svg>
+        </span>
+        More
+      </button>
+    </nav>
   );
 }

@@ -287,15 +287,46 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
       .filter((x): x is { merchant: Merchant; picks: { best: WalletPick; next?: WalletPick } } => x !== null);
   }, [merchants, walletCards, allCards]);
 
+  const feedbackUrl = `https://github.com/CreditOdds/creditodds/issues/new?${new URLSearchParams({
+    title: 'Feedback: Best Card Here (Beta)',
+    labels: 'feedback,best-card-here',
+    body: [
+      '**Feature:** Best Card Here (Beta)',
+      `**Page:** https://creditodds.com/profile (Rewards tab)`,
+      `**Wallet size:** ${cardsCount} card${cardsCount === 1 ? '' : 's'}`,
+      ...(location ? [`**Last lookup:** ${merchants.length} merchant${merchants.length === 1 ? '' : 's'} returned`] : []),
+      '',
+      '### Feedback type',
+      '<!-- delete the ones that don\'t apply -->',
+      '- Bug',
+      '- Suggestion',
+      '- Praise',
+      '',
+      '### What happened or what would you like to see?',
+      '',
+      '',
+      '### Steps to reproduce (if a bug)',
+      '',
+    ].join('\n'),
+  }).toString()}`;
+
   return (
-    <div style={{ paddingBottom: 8 }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+    <div className="cj-bch-shell" style={{ paddingBottom: 8 }}>
+      <div className="cj-bch-head" style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
         <BetaPill />
         <h2 className="cj-section-h2" style={{ margin: 0, fontSize: 26 }}>
           Best card <em className="cj-section-accent">here.</em>
         </h2>
         <span className="cj-section-num" style={{ marginLeft: 'auto' }}>
-          pilot · <a href="#" style={{ color: 'var(--accent)', textDecoration: 'none' }}>send feedback →</a>
+          pilot ·{' '}
+          <a
+            href={feedbackUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--accent)', textDecoration: 'none' }}
+          >
+            send feedback →
+          </a>
         </span>
       </div>
       <p style={{

@@ -3341,9 +3341,9 @@
   .landing-v2.profile-v2 .cj-snapshot-h1 { font-size: 32px !important; }
 }
 .landing-v2.profile-v2 .cj-snapshot-h1 em {
-  font-style: italic;
-  color: var(--accent);
-  font-weight: 400;
+  font-style: normal;
+  color: var(--ink);
+  font-weight: 500;
 }
 .landing-v2.profile-v2 .cj-snapshot-meta {
   font-size: 11.5px;
@@ -4061,67 +4061,209 @@
   .landing-v2.profile-v2 .cj-main { border-right: 0; }
 }
 
-/* ===== Mobile (≤640px) — comprehensive overrides ===== */
+/* "Best card here." mobile-only feature.
+   Default (desktop): hide the full BestCardHere shell; show the banner. */
+.landing-v2.profile-v2 .cj-bch-shell { display: none; }
+.landing-v2.profile-v2 .cj-bch-desktop-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: linear-gradient(180deg, var(--accent-2) 0%, var(--paper) 100%);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  margin: 12px 0 0;
+}
+.landing-v2.profile-v2 .cj-bch-desktop-banner-icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing-v2.profile-v2 .cj-bch-desktop-banner-text { min-width: 0; }
+.landing-v2.profile-v2 .cj-bch-desktop-banner-title {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.landing-v2.profile-v2 .cj-bch-desktop-banner-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.landing-v2.profile-v2 .cj-bch-desktop-banner-pill {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.landing-v2.profile-v2 .cj-bch-desktop-banner-sub {
+  font-size: 13px;
+  color: var(--ink-2, #3a2f55);
+  line-height: 1.5;
+  margin-top: 4px;
+  max-width: 64ch;
+}
+
+/* Bottom tab bar (Variant B · App Tabs) — hidden by default; shown ≤640px */
+.landing-v2.profile-v2 .cj-mob-tabbar { display: none; }
+.landing-v2.profile-v2 .cj-mob-more { padding-top: 0; }
+.landing-v2.profile-v2 .cj-mob-more-h { display: none; }
+.landing-v2.profile-v2 .cj-mob-news,
+.landing-v2.profile-v2 .cj-mob-news-list,
+.landing-v2.profile-v2 .cj-mob-news-row,
+.landing-v2.profile-v2 .cj-mob-news-hero,
+.landing-v2.profile-v2 .cj-mob-news-filter { display: none; }
+/* Variant B Cards-tab hero — hidden by default; shown only ≤640px on Cards tab */
+.landing-v2.profile-v2 .cj-mob-cards-hero { display: none; }
+
+/* ===== Mobile (≤640px) — Profile v4 Mobile (Variant B · App Tabs) =====
+   Bottom tab bar with 5 icons (Cards / Rewards / News / Benefits / More).
+   The top tab strip is hidden and replaced by the bottom bar.
+   Variant A's editorial hero + magazine-style card rows still apply.
+   Pulled from creditodds/project/profile-v4-mobile.css (mB-* tokens),
+   re-applied to the existing cj-* shell so JSX stays small. */
 @media (max-width: 640px) {
   .landing-v2.profile-v2 .cj-mob-only { display: block; }
   .landing-v2.profile-v2 .cj-mob-hide { display: none !important; }
 
-  /* Snapshot — slightly smaller H1, tighter padding */
-  .landing-v2.profile-v2 .cj-snapshot { padding: 10px 0 12px; }
-  .landing-v2.profile-v2 .cj-snapshot-h1 { font-size: 24px !important; }
-  .landing-v2.profile-v2 .cj-snapshot-meta { font-size: 10.5px; }
+  /* Main column — give content edge breathing room */
+  .landing-v2.profile-v2 .cj-main { padding: 18px 18px 60px; }
 
-  /* Readoff — last odd cell spans full width so 5 cells lay out evenly (2/2/1-full) */
+  /* Snapshot — editorial hero: big H1 split with italic em, handle below */
+  .landing-v2.profile-v2 .cj-snapshot { padding: 18px 0 4px; }
+  .landing-v2.profile-v2 .cj-snapshot-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .landing-v2.profile-v2 .cj-snapshot-h1 {
+    font-size: 38px !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.03em;
+  }
+  .landing-v2.profile-v2 .cj-snapshot-meta {
+    font-size: 12.5px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  /* Readoff — 2x2 stat grid with generous values, last cell spans full width */
+  .landing-v2.profile-v2 .cj-readoff { margin-top: 18px; }
   .landing-v2.profile-v2 .cj-readoff > .cj-readoff-cell:last-child:nth-child(odd) {
     grid-column: 1 / -1;
   }
-  .landing-v2.profile-v2 .cj-readoff-v { font-size: 18px; }
-  .landing-v2.profile-v2 .cj-readoff-cell { padding: 8px 10px; }
+  .landing-v2.profile-v2 .cj-readoff-cell { padding: 14px 14px 16px; }
+  .landing-v2.profile-v2 .cj-readoff-k {
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .landing-v2.profile-v2 .cj-readoff-v {
+    font-size: 24px;
+    margin-top: 6px;
+  }
+  .landing-v2.profile-v2 .cj-readoff-foot {
+    font-size: 11.5px;
+    margin-top: 5px;
+  }
 
-  /* Tabs — tighter so 6 wrap onto two lines comfortably */
+  /* Sticky tab strip — bigger numbered tabs, horizontal scroll on overflow */
+  .landing-v2.profile-v2 .cj-main-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 14px -18px 18px;
+    padding: 0 14px;
+  }
+  .landing-v2.profile-v2 .cj-main-tabs::-webkit-scrollbar { display: none; }
   .landing-v2.profile-v2 .cj-main-tab {
-    padding: 8px 12px 8px 0;
-    margin-right: 14px;
-    font-size: 12.5px;
+    flex: 0 0 auto;
+    padding: 14px 14px 12px;
+    margin-right: 0;
+    font-size: 14px;
   }
+  .landing-v2.profile-v2 .cj-main-tab-num { font-size: 10.5px; }
+  .landing-v2.profile-v2 .cj-main-tab-count { display: none; }
 
-  /* Wallet tape — drop the head, simplify rows: thumb · name+issuer · fee · caret */
-  .landing-v2.profile-v2 .cj-wallet-toolbar { gap: 10px; }
+  /* Wallet rows — magazine-style stacked: 56px thumb · name+issuer+renewal · fee right */
+  .landing-v2.profile-v2 .cj-wallet-toolbar { gap: 10px; flex-wrap: wrap; }
   .landing-v2.profile-v2 .cj-wallet-head { display: none; }
+  .landing-v2.profile-v2 .cj-wallet-tape { border-left: 0; border-right: 0; }
   .landing-v2.profile-v2 .cj-wallet-crow {
-    grid-template-columns: 36px minmax(0, 1fr) auto auto;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
     grid-template-areas:
-      "thumb name fee caret"
-      "thumb issuer fee caret";
-    gap: 0 10px;
-    padding: 10px 12px;
-    align-items: center;
+      "thumb name   fee"
+      "thumb issuer fee"
+      "thumb renew  fee";
+    gap: 2px 14px;
+    padding: 18px 4px;
+    align-items: start;
   }
-  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-thumb { grid-area: thumb; align-self: center; }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-thumb {
+    grid-area: thumb;
+    align-self: start;
+    width: 56px;
+    height: 36px;
+  }
   .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-name {
     grid-area: name;
-    align-self: end;
+    align-self: start;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
     line-height: 1.15;
-    font-size: 13.5px;
   }
   .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-issuer {
     grid-area: issuer;
-    align-self: start;
-    font-size: 10.5px;
+    margin-top: 4px;
+    font-size: 12.5px;
     color: var(--muted);
   }
-  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-renew { display: none; }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-renew {
+    grid-area: renew;
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+  }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-renew::before {
+    content: 'renewal · ';
+    color: var(--muted-2);
+  }
   .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-fee {
     grid-area: fee;
-    align-self: center;
-    font-size: 13px;
+    align-self: start;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
-  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-caret { grid-area: caret; align-self: center; }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-caret { display: none; }
   .landing-v2.profile-v2 .cj-cw-marks { margin-left: 6px; }
   .landing-v2.profile-v2 .cj-cw-mark { width: 16px; height: 16px; }
 
-  /* Wallet detail expand — left padding aligned with thumb shrunk to row padding */
-  .landing-v2.profile-v2 .cj-wallet-detail { padding: 14px 12px; }
+  /* Wallet detail expand — flush with the main column edge */
+  .landing-v2.profile-v2 .cj-wallet-detail { padding: 14px 4px; }
   .landing-v2.profile-v2 .cj-wd-cta { font-size: 11px !important; padding: 5px 8px !important; }
 
   /* Records tape — head hidden, columns collapsed to: card+detail · pill */
@@ -4129,7 +4271,7 @@
   .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 14px 12px;
   }
   .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row > div:nth-child(1),
   .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row > div:nth-child(2),
@@ -4137,53 +4279,183 @@
   .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-row > div:nth-child(5) {
     display: none;
   }
+  .landing-v2.profile-v2 .cj-tape.cj-tape-records .cj-tape-event .cj-tape-field {
+    font-size: 16px;
+    font-weight: 500;
+  }
 
   /* Referrals tape — drop impressions/clicks columns; show as detail under card */
   .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-head { display: none; }
   .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-row {
-    grid-template-columns: 36px minmax(0, 1fr) auto;
-    gap: 10px;
-    padding: 10px 12px;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 14px 12px;
   }
   .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-row > div:nth-child(3),
   .landing-v2.profile-v2 .cj-tape.cj-tape-refs .cj-tape-row > div:nth-child(4) {
     display: none;
   }
 
-  /* Benefits credits tape — drop cadence column; cadence shown in detail line */
+  /* Benefits credits tape — bigger thumb, drop cadence column */
   .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-head { display: none; }
   .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-row {
-    grid-template-columns: 36px minmax(0, 1fr) auto;
-    gap: 10px;
-    padding: 10px 12px;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 14px 12px;
   }
   .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-row > div:nth-child(3) {
     display: none;
   }
 
-  /* Rewards table — tighter, stacked best-cell */
-  .landing-v2.profile-v2 .cj-table { font-size: 12px; }
-  .landing-v2.profile-v2 .cj-table th { padding: 8px 8px; font-size: 11px; }
-  .landing-v2.profile-v2 .cj-table td { padding: 9px 8px; }
-  .landing-v2.profile-v2 .cj-rew-best { gap: 8px; }
+  /* Rewards table — readable type, stacked best-cell */
+  .landing-v2.profile-v2 .cj-table { font-size: 13px; }
+  .landing-v2.profile-v2 .cj-table th { padding: 10px 8px; font-size: 11px; }
+  .landing-v2.profile-v2 .cj-table td { padding: 12px 8px; }
+  .landing-v2.profile-v2 .cj-rew-best { gap: 10px; }
   .landing-v2.profile-v2 .cj-rew-thumb,
   .landing-v2.profile-v2 .cj-rew-thumb-empty {
-    width: 24px;
-    height: 16px;
+    width: 32px;
+    height: 20px;
   }
-  .landing-v2.profile-v2 .cj-eff-pct { font-size: 13px; }
+  .landing-v2.profile-v2 .cj-eff-pct { font-size: 16px; }
 
-  /* Settings list — keep 2-col, tighten */
-  .landing-v2.profile-v2 .cj-settings-list { padding: 12px 0; gap: 10px; }
+  /* Settings list — keep 2-col, generous padding */
+  .landing-v2.profile-v2 .cj-settings-list { padding: 14px 0; gap: 12px; }
   .landing-v2.profile-v2 .cj-settings-k { font-size: 12px; }
-  .landing-v2.profile-v2 .cj-settings-v { font-size: 12px; word-break: break-word; }
+  .landing-v2.profile-v2 .cj-settings-v { font-size: 13px; word-break: break-word; }
 
-  /* Verdict block — slimmer */
-  .landing-v2.profile-v2 .cj-verdict { padding: 14px 16px; font-size: 13px; }
+  /* Verdict block — keep readable */
+  .landing-v2.profile-v2 .cj-verdict { padding: 16px 18px; font-size: 14px; }
 
-  /* Apply block — smaller display values */
-  .landing-v2.profile-v2 .cj-apply { padding: 16px; }
-  .landing-v2.profile-v2 .cj-apply-v { font-size: 18px; }
+  /* Rail — when stacked below main on mobile, present "Wallet" hero like the design's mB-apply */
+  .landing-v2.profile-v2 .cj-rail { padding: 8px 18px 32px; }
+  .landing-v2.profile-v2 .cj-apply { padding: 18px; }
+  .landing-v2.profile-v2 .cj-apply-v { font-size: 22px; }
+
+  /* News for you + view all news → hidden on mobile (the News tab covers this) */
+  .landing-v2.profile-v2 .cj-rail-block-news,
+  .landing-v2.profile-v2 .cj-rail-cta-news { display: none; }
+
+  /* Upcoming renewals rail block → hidden on mobile except on the More tab.
+     The More mobile pill stays active for any of these desktop activeTab values. */
+  .landing-v2.profile-v2 .cj-rail-block-renewals { display: none; }
+  .landing-v2.profile-v2[data-tab="more"] .cj-rail-block-renewals,
+  .landing-v2.profile-v2[data-tab="applications"] .cj-rail-block-renewals,
+  .landing-v2.profile-v2[data-tab="referrals"] .cj-rail-block-renewals,
+  .landing-v2.profile-v2[data-tab="settings"] .cj-rail-block-renewals { display: block; }
+
+  /* ====== Variant B Cards-tab hero ======
+     Replace the editorial Welcome+readoff with the design's dark Wallet hero
+     + 3-cell snap pills + "Cards held" section header. */
+  .landing-v2.profile-v2 .cj-snapshot { display: none; }
+  .landing-v2.profile-v2 .cj-mob-cards-hero { display: block; margin: 8px 0 4px; }
+
+  .landing-v2.profile-v2 .cj-mob-wallet {
+    background: var(--ink);
+    color: #fff;
+    padding: 22px 20px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+  }
+  .landing-v2.profile-v2 .cj-mob-wallet-k {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .landing-v2.profile-v2 .cj-mob-wallet-v {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin-top: 6px;
+    line-height: 1.05;
+  }
+  .landing-v2.profile-v2 .cj-mob-wallet-sub {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 6px;
+    letter-spacing: 0.01em;
+  }
+  .landing-v2.profile-v2 .cj-mob-wallet-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .landing-v2.profile-v2 .cj-mob-wallet-btn {
+    background: var(--accent);
+    color: #fff;
+    border: 0;
+    padding: 13px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+  .landing-v2.profile-v2 .cj-mob-wallet-btn.outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .landing-v2.profile-v2 .cj-mob-wallet-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .landing-v2.profile-v2 .cj-mob-snap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .landing-v2.profile-v2 .cj-mob-snap-cell {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 12px 12px 14px;
+    border-radius: 6px;
+  }
+  .landing-v2.profile-v2 .cj-mob-snap-k {
+    font-size: 10.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .landing-v2.profile-v2 .cj-mob-snap-v {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-top: 4px;
+    line-height: 1;
+  }
+  .landing-v2.profile-v2 .cj-mob-snap-v.accent { color: var(--accent); }
+  .landing-v2.profile-v2 .cj-mob-snap-v.warn { color: var(--warn); }
+
+  .landing-v2.profile-v2 .cj-mob-section-h {
+    margin: 4px 0 6px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .landing-v2.profile-v2 .cj-mob-section-h h2 {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0;
+    color: var(--ink);
+  }
+  .landing-v2.profile-v2 .cj-mob-section-sub {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+  }
 
   /* Modal — full-width on mobile */
   .landing-v2.profile-v2 .cj-modal-card {
@@ -4191,6 +4463,71 @@
     border-left: 0;
     border-right: 0;
     max-width: 100%;
+  }
+
+  /* Show BestCardHere on mobile, hide the desktop banner */
+  .landing-v2.profile-v2 .cj-bch-shell { display: block; }
+  .landing-v2.profile-v2 .cj-bch-desktop-banner { display: none; }
+
+  /* ====== Variant B Rewards-tab hero ======
+     Restyle the existing BestCardHere wrapper as the design's purple gradient
+     hero with a 60px pin icon (CSS pseudo-element) + bigger headline. */
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell {
+    background: linear-gradient(180deg, var(--accent-2) 0%, var(--paper) 80%);
+    padding: 26px 20px 22px;
+    margin: -18px -18px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7 7-13a7 7 0 0 0-14 0c0 6 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 28px;
+    margin-bottom: 8px;
+    box-shadow: 0 8px 24px -8px rgba(109, 63, 232, 0.5);
+  }
+  /* BETA pill (rounded full on mobile) + pilot/feedback line on its own row */
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-head {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-bch-head > span:first-of-type {
+    border-radius: 999px !important;
+    padding: 4px 10px !important;
+    font-size: 10.5px !important;
+  }
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-section-h2 {
+    flex: 1 0 100%;
+    font-size: 32px !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.025em;
+    margin-top: 4px !important;
+  }
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-section-num {
+    margin-left: 0 !important;
+    font-size: 11px;
+    order: 1;
+  }
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell > p {
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+    margin: 12px 0 16px !important;
+    max-width: 36ch;
+    color: var(--ink-2, #3a2f55);
+  }
+  /* Merchant tape outside the hero — paper-2 background to match the design */
+  .landing-v2.profile-v2 .cj-section .cj-bch-shell .cj-tape-bch {
+    margin: 0 -2px;
+    background: transparent;
+    border: 0;
   }
 
   /* Best Card Here tape — drop dist/category columns, stack best/runner-up under merchant + earn */
@@ -4201,9 +4538,68 @@
       "merchant earn"
       "best     best"
       "next     next";
-    gap: 8px 12px;
-    padding: 12px 14px;
+    gap: 10px 12px;
+    padding: 16px 14px;
     align-items: center;
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row.is-open { background: var(--accent-2); }
+  /* Distance + category as a top-row eyebrow inside each merchant card */
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-merchant .cj-tape-detail {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-tape-field {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  /* "Best" pick block — paper-2 footer with thumb + name + earn rate */
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-best {
+    margin: 8px -14px 0;
+    padding: 12px 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-best .cj-bch-card-text .cj-cell-primary {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  /* "Next" runner-up — dashed top border, smaller */
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-next {
+    margin: 6px -14px -6px;
+    padding: 10px 14px;
+    border-top: 1px dashed var(--line);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  /* Earn rate — large purple */
+  .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-earn .cj-bch-earn-val {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 24px !important;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+
+  /* "Wallet-wide" divider becomes a flat eyebrow on mobile */
+  .landing-v2.profile-v2 .cj-walletwide-divider {
+    margin: 24px 0 8px !important;
+  }
+  .landing-v2.profile-v2 .cj-walletwide-rule { display: none; }
+  .landing-v2.profile-v2 .cj-walletwide-label {
+    font-size: 12.5px !important;
+    letter-spacing: 0.08em;
+  }
+  .landing-v2.profile-v2 .cj-walletwide-label::after {
+    content: ' rewards';
   }
   .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-dist,
   .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-cat { display: none; }
@@ -4212,11 +4608,223 @@
   .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-best { grid-area: best; }
   .landing-v2.profile-v2 .cj-tape-bch .cj-bch-row .cj-bch-next { grid-area: next; }
   .landing-v2.profile-v2 .cj-tape-bch .cj-bch-mob-meta { display: inline; }
-  .landing-v2.profile-v2 .cj-bch-detail { padding: 12px 14px; }
+  .landing-v2.profile-v2 .cj-bch-detail { padding: 14px 16px; }
   .landing-v2.profile-v2 .cj-bch-detail-grid {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 12px !important;
   }
+
+  /* ====== Variant B mobile chrome ====== */
+
+  /* Hide the desktop top tab strip — bottom tab bar takes over on mobile */
+  .landing-v2.profile-v2 .cj-main-tabs { display: none; }
+
+  /* Leave room for the fixed bottom tab bar (~64px + safe area) */
+  .landing-v2.profile-v2 .cj-main { padding-bottom: 96px; }
+
+  /* Bottom tab bar — fixed to viewport, blur background, 5 grid columns */
+  .landing-v2.profile-v2 .cj-mob-tabbar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid var(--line);
+    padding: 8px 6px calc(env(safe-area-inset-bottom, 0px) + 10px);
+  }
+  .landing-v2.profile-v2 .cj-mob-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: transparent;
+    border: 0;
+    padding: 8px 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    position: relative;
+    font-family: inherit;
+  }
+  .landing-v2.profile-v2 .cj-mob-tab.active { color: var(--accent); }
+  .landing-v2.profile-v2 .cj-mob-tab-icon {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .landing-v2.profile-v2 .cj-mob-tab-beta {
+    position: absolute;
+    top: 4px;
+    right: 22%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 1.5px solid var(--paper);
+  }
+
+  /* "More" tab — restore section headers + reset borders so stacked tabs read as one page */
+  .landing-v2.profile-v2 .cj-mob-more { padding-top: 4px; }
+  .landing-v2.profile-v2 .cj-mob-more-h {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 11.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin: 18px 0 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .landing-v2.profile-v2 .cj-mob-more > .cj-mob-more-h:first-child {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .landing-v2.profile-v2 .cj-mob-more .cj-section { padding: 0; }
+
+  /* News tab (mobile-only) — show the elements that were hidden by default */
+  .landing-v2.profile-v2 .cj-mob-news,
+  .landing-v2.profile-v2 .cj-mob-news-hero,
+  .landing-v2.profile-v2 .cj-mob-news-list { display: block; }
+  .landing-v2.profile-v2 .cj-mob-news-filter { display: flex; }
+  .landing-v2.profile-v2 .cj-mob-news-row { display: grid; }
+
+  .landing-v2.profile-v2 .cj-mob-news-hero {
+    margin: 0 -18px;
+    padding: 22px 18px 18px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .landing-v2.profile-v2 .cj-mob-news-eyebrow {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-h {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin: 6px 0 8px;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-h em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .landing-v2.profile-v2 .cj-mob-news-sub {
+    font-size: 13.5px;
+    color: var(--ink-2, #3a2f55);
+    line-height: 1.45;
+    max-width: 36ch;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-filter {
+    gap: 8px;
+    padding: 14px 18px 0;
+    margin: 0 -18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-filter::-webkit-scrollbar { display: none; }
+  .landing-v2.profile-v2 .cj-mob-news-chip {
+    flex: 0 0 auto;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: var(--paper);
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-2, #3a2f55);
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-chip.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-list {
+    margin: 0 -18px;
+    padding: 8px 0 12px;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-row {
+    grid-template-columns: 48px 1fr;
+    gap: 14px;
+    padding: 16px 18px;
+    border-top: 1px solid var(--line);
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-row:first-of-type { border-top: 0; }
+  .landing-v2.profile-v2 .cj-mob-news-thumb {
+    position: relative;
+    width: 48px;
+    height: 30px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+  }
+  .landing-v2.profile-v2 .cj-mob-news-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-tag { color: var(--accent); }
+  .landing-v2.profile-v2 .cj-mob-news-tag--fee-change,
+  .landing-v2.profile-v2 .cj-mob-news-tag--discontinued { color: var(--warn); }
+  .landing-v2.profile-v2 .cj-mob-news-tag--benefit-change,
+  .landing-v2.profile-v2 .cj-mob-news-tag--new-card { color: #0f8a5f; }
+  .landing-v2.profile-v2 .cj-mob-news-title {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin-top: 6px;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .landing-v2.profile-v2 .cj-mob-news-card {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+}
+
+/* ===== Smaller phones (≤380px) — pull H1 down so it doesn't blow out ===== */
+@media (max-width: 380px) {
+  .landing-v2.profile-v2 .cj-snapshot-h1 { font-size: 32px !important; }
+  .landing-v2.profile-v2 .cj-readoff-v { font-size: 21px; }
+  .landing-v2.profile-v2 .cj-wallet-crow {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    gap: 2px 12px;
+  }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-thumb { width: 48px; height: 30px; }
+  .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-name { font-size: 17px; }
 }
 
 /* ===== Best Card Here tape ===== */
