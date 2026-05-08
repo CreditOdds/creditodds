@@ -240,6 +240,32 @@ export function frequencyLabel(benefit: CardBenefit): string {
   }
 }
 
+// Human-readable cadence word — describes how often the benefit is RECEIVED,
+// not when its value is realized. Use this where the cadence is its own
+// column/field (e.g. wallet benefits table). For inline labels next to a
+// value, prefer frequencyLabel().
+//
+//   monthly      → "Monthly"
+//   quarterly    → "Quarterly"
+//   semi_annual  → "Semi-annual"
+//   annual       → "Yearly"
+//   multi_year   → "Every 5 years" (uses frequency_years, default 4)
+//   ongoing      → "Ongoing"
+export function cadenceLabel(benefit: CardBenefit): string {
+  switch (benefit.frequency) {
+    case 'monthly': return 'Monthly';
+    case 'quarterly': return 'Quarterly';
+    case 'semi_annual': return 'Semi-annual';
+    case 'annual': return 'Yearly';
+    case 'multi_year': {
+      const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
+      return years === 1 ? 'Yearly' : `Every ${years} years`;
+    }
+    case 'ongoing': return 'Ongoing';
+    default: return '';
+  }
+}
+
 // Cents-per-point estimates by program (driven by data/valuations.yaml)
 export function getCentsPerPoint(card: Card): number | null {
   if (!card.signup_bonus) return null;
