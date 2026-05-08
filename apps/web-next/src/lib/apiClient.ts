@@ -85,7 +85,6 @@ export const api = {
   // Authenticated endpoints
   getRecords: () => apiClient.get<Record[]>('/records', true),
   getReferrals: () => apiClient.get<[Referral[], OpenReferral[]]>('/referrals', true),
-  getProfile: () => apiClient.get<Profile>('/profile', true),
   createRecord: (data: CreateRecordData) => apiClient.post('/records', data),
   createReferral: (data: CreateReferralData) => apiClient.post('/referrals', data),
 };
@@ -116,13 +115,6 @@ interface OpenReferral {
   card_id: string;
   card_name: string;
   card_image_link?: string;
-}
-
-interface Profile {
-  username: string;
-  email: string;
-  records_count: number;
-  referrals_count: number;
 }
 
 interface CreateRecordData {

@@ -8,7 +8,7 @@ import Downshift from 'downshift';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '@/auth/AuthProvider';
-import { getProfile, getWallet, addToWallet, Card } from '@/lib/api';
+import { getRecords, getWallet, addToWallet, Card } from '@/lib/api';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import { toast } from 'react-toastify';
 
@@ -152,12 +152,12 @@ export default function DataPointPrompt() {
       try {
         const token = await getToken();
         if (!token) return;
-        const [profile, wallet] = await Promise.all([
-          getProfile(token),
+        const [records, wallet] = await Promise.all([
+          getRecords(token).catch(() => []),
           getWallet(token).catch(() => []),
         ]);
 
-        if (profile.records_count === 0 && wallet.length === 0) {
+        if (records.length === 0 && wallet.length === 0) {
           // Truly new user (no records and no wallet): show wallet-add modal
           if (localStorage.getItem(DISMISSED_KEY) !== 'true') {
             setShowModal(true);

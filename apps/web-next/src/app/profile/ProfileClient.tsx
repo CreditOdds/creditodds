@@ -7,7 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getProfile, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
 import "../landing.css";
 import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -73,13 +73,6 @@ interface Referral {
   unique_clicks?: number;
 }
 
-interface Profile {
-  username: string;
-  email: string;
-  records_count: number;
-  referrals_count: number;
-}
-
 type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings' | 'news' | 'more';
 
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -98,7 +91,6 @@ function daysUntil(timestamp: number): number {
 export default function ProfileClient() {
   const { authState, getToken, logout } = useAuth();
   const router = useRouter();
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [records, setRecords] = useState<RecordItem[]>([]);
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
@@ -230,9 +222,6 @@ export default function ProfileClient() {
       return;
     }
 
-    const loadProfile = async () => {
-      try { setProfile(await getProfile(token)); } catch (e) { console.error("Profile error:", e); }
-    };
     const loadWallet = async () => {
       try { setWalletCards(await getWallet(token) || []); } catch (e) { console.error("Wallet error:", e); setWalletCards([]); }
       setWalletLoaded(true);
@@ -249,7 +238,7 @@ export default function ProfileClient() {
       setReferralsLoaded(true);
     };
 
-    loadProfile(); loadWallet(); loadRecords(); loadReferrals();
+    loadWallet(); loadRecords(); loadReferrals();
   };
 
   const handleEditRecord = (recordId: number) => {
@@ -309,7 +298,7 @@ export default function ProfileClient() {
   if (!authState.isAuthenticated) return null;
 
   const displayName = authState.user?.displayName || authState.user?.email?.split('@')[0] || 'there';
-  const handle = profile?.username || authState.user?.email?.split('@')[0] || '';
+  const handle = authState.user?.email?.split('@')[0] || '';
   const activeReferralsCount = referrals.filter(r => !r.archived_at).length;
   const visibleWalletCards = activeWalletCards;
 
@@ -565,7 +554,6 @@ export default function ProfileClient() {
 
             {activeTab === 'settings' && (
               <SettingsTab
-                profile={profile}
                 email={authState.user?.email}
                 handle={handle}
                 confirmingDelete={confirmingDelete}
@@ -614,7 +602,6 @@ export default function ProfileClient() {
                 />
                 <div className="cj-mob-more-h">Account</div>
                 <SettingsTab
-                  profile={profile}
                   email={authState.user?.email}
                   handle={handle}
                   confirmingDelete={confirmingDelete}
@@ -1206,7 +1193,6 @@ function ReferralsTab(props: ReferralsTabProps) {
 
 /* ========== Settings tab ========== */
 interface SettingsTabProps {
-  profile: Profile | null;
   email?: string | null;
   handle: string;
   confirmingDelete: boolean;
