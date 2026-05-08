@@ -12,8 +12,8 @@ export interface Valuation {
 const valuations: Valuation[] = [
   { program: "Chase Ultimate Rewards", slug: "chase-ultimate-rewards", cpp: 1.25, match: ["chase sapphire", "freedom"], toolSlug: "chase-ultimate-rewards" },
   { program: "Amex Membership Rewards", slug: "amex-membership-rewards", cpp: 1.2, match: ["american express", "amex", "gold card", "platinum card"], exclude: ["delta", "hilton", "skymiles"], toolSlug: "amex-membership-rewards" },
-  { program: "Delta SkyMiles", slug: "delta-skymiles", cpp: 1.1, match: ["delta", "skymiles"], toolSlug: "delta-skymiles" },
-  { program: "United MileagePlus", slug: "united-mileageplus", cpp: 1.2, match: ["united"], toolSlug: "united-miles" },
+  { program: "Delta SkyMiles", slug: "delta-skymiles", cpp: 1.20, match: ["delta", "skymiles"], toolSlug: "delta-skymiles" },
+  { program: "United MileagePlus", slug: "united-mileageplus", cpp: 1.21, match: ["united"], toolSlug: "united-miles" },
   { program: "Hilton Honors", slug: "hilton-honors", cpp: 0.5, match: ["hilton"], toolSlug: "hilton-honors-points" },
   { program: "World of Hyatt", slug: "world-of-hyatt", cpp: 2.0, match: ["hyatt"], toolSlug: "world-of-hyatt-points" },
   { program: "IHG One Rewards", slug: "ihg-one-rewards", cpp: 0.5, match: ["ihg"], toolSlug: "ihg-one-rewards-points" },
@@ -22,7 +22,7 @@ const valuations: Valuation[] = [
   { program: "Bilt Rewards", slug: "bilt-rewards", cpp: 1.5, match: ["bilt"], toolSlug: "bilt-rewards-points" },
   { program: "Citi ThankYou", slug: "citi-thankyou", cpp: 1.0, match: ["citi"], toolSlug: "citi-thankyou-points" },
   { program: "Wells Fargo Rewards", slug: "wells-fargo-rewards", cpp: 1.0, match: ["wells fargo"] },
-  { program: "Southwest Rapid Rewards", slug: "southwest-rapid-rewards", cpp: 1.4, match: ["southwest"], toolSlug: "southwest-rapid-rewards" },
+  { program: "Southwest Rapid Rewards", slug: "southwest-rapid-rewards", cpp: 1.30, match: ["southwest"], toolSlug: "southwest-rapid-rewards" },
 ];
 
 const DEFAULT_CPP = 1.0;

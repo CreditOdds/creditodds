@@ -6,6 +6,7 @@ import { getAllCards } from '@/lib/api';
 import { getNews } from '@/lib/news';
 import ConverterClient from './ConverterClient';
 import PaginatedNewsList from '@/components/tools/PaginatedNewsList';
+import ToolBreadcrumb from '@/components/tools/ToolBreadcrumb';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
@@ -40,6 +41,8 @@ export default async function ChaseURToUsdPage() {
         { name: 'Tools', url: 'https://creditodds.com/tools' },
         { name: 'Chase Ultimate Rewards to USD', url: 'https://creditodds.com/tools/chase-ultimate-rewards-to-usd' },
       ]} />
+
+      <ToolBreadcrumb toolName="Chase Ultimate Rewards to USD" toolSlug="chase-ultimate-rewards-to-usd" />
 
       <section className="page-hero wrap">
         <h1 className="page-title">
