@@ -301,6 +301,7 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
       "description": "<one short sentence>",
       "frequency": "monthly" | "quarterly" | "semi_annual" | "annual" | "multi_year" | "ongoing" | "per_purchase" | "per_flight" | "per_trip" | "per_visit" | "per_rental" | "per_claim" | "one_time",
       "frequency_years": <number, REQUIRED when frequency is "multi_year"; e.g. 5 for Global Entry / TSA PreCheck (5-year renewal cycle), 4 for benefits with explicit 4-year cycle, 2 for biennial perks>,
+      "value_per_cycle": <optional number — the SPENDABLE amount per single cycle, ONLY when round(value / N) doesn't match the real per-cycle spend; e.g. Amex Platinum Uber Cash is $15/mo + $20 December → value: 200, value_per_cycle: 15. Skip when value/N already matches (e.g. $300 Equinox monthly → value: 300, no override needed since 300/12 = 25)>,
       "category": "dining" | "dining_travel" | "travel" | "hotel" | "entertainment" | "shopping" | "fitness" | "lounge" | "security" | "gas" | "streaming" | "grocery" | "rideshare" | "car_rental" | "telecom" | "statement_credit" | "rewards" | "other",
       "enrollment_required": <true|false>
     }
@@ -418,22 +419,26 @@ number means. CRITICAL: never put a percentage in \`value\` without setting
 WRONG for a "5% rebate" benefit.
 
 \`value\` is the ANNUAL TOTAL the cardholder gets in a typical year. The
-\`frequency\` field is just a display hint (renders as "$15/mo", "$50/qtr",
-"$200/6 mo", etc.) — it is NOT used as a multiplier. Examples that match
-the existing repo convention:
-  Amex Platinum Uber Cash ("$15/month"):
-    value: 200, frequency: monthly      ← value is the annual total ($200)
+\`frequency\` field tells the UI what cadence to headline ("$15/mo",
+"$50/qtr", "$400 / 6 mo"); the per-cycle dollar is auto-derived as
+round(value / N). Examples that match the existing repo convention:
+  Amex Platinum Uber Cash ("$15/month + $20 December"):
+    value: 200, frequency: monthly, value_per_cycle: 15
+                                  ← override needed: 200/12 ≈ 17, real is 15
+  Amex Platinum Equinox ("$25/month"):
+    value: 300, frequency: monthly      ← no override: 300/12 = 25 exactly
   Hilton Aspire flight credit ("$50/quarter"):
-    value: 200, frequency: quarterly    ← annual total ($50 × 4 = $200)
+    value: 200, frequency: quarterly    ← no override: 200/4 = 50 exactly
   Hilton Aspire resort credit ("$400 semi-annually"):
-    value: 800, frequency: semi_annual  ← annual total ($400 × 2 = $800)
+    value: 800, frequency: semi_annual  ← no override: 800/2 = 400 exactly
   Amex Biz Plat Indeed credit ("$90/quarter"):
-    value: 360, frequency: quarterly    ← annual total
-DO NOT store the per-occurrence value with a sub-annual frequency — the
-frontend would treat \`value: 15, frequency: monthly\` as $15/yr, not
-$180/yr. The only frequency that does cycle math is \`multi_year\`, where
-\`value\` is the amount per cycle and \`frequency_years\` is the cycle
-length (Global Entry: value=120, frequency=multi_year, frequency_years=5).
+    value: 360, frequency: quarterly    ← no override: 360/4 = 90 exactly
+DO NOT store the per-occurrence value in \`value\` with a sub-annual frequency
+— the frontend treats \`value\` as the annual total. Use \`value_per_cycle\`
+ONLY when the actual spendable per-cycle amount differs from round(value / N).
+The only frequency that does cycle math is \`multi_year\`, where \`value\`
+is the amount per cycle and \`frequency_years\` is the cycle length
+(Global Entry: value=120, frequency=multi_year, frequency_years=5).
 
 - \`value_unit: "usd"\` — dollar credits/rebates. Default. Examples:
   "$300 travel credit" → value=300, value_unit=usd (or omitted).

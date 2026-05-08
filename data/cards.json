@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-07T16:03:11.547Z",
+  "generated_at": "2026-05-08T15:45:09.860Z",
   "count": 161,
   "categories": [
     {
@@ -564,6 +564,7 @@
         {
           "name": "Walmart+ Credit",
           "value": 155,
+          "value_per_cycle": 13,
           "description": "Up to $12.95/month plus applicable taxes toward one monthly Walmart+ membership",
           "frequency": "monthly",
           "category": "shopping",
@@ -8090,6 +8091,7 @@
         {
           "name": "Uber Cash",
           "value": 200,
+          "value_per_cycle": 15,
           "description": "$15/month in Uber Cash for Uber Eats or rides ($20 in December)",
           "frequency": "monthly",
           "category": "dining_travel",
@@ -8138,6 +8140,7 @@
         {
           "name": "Walmart+ Credit",
           "value": 155,
+          "value_per_cycle": 13,
           "description": "Monthly credit covering Walmart+ membership ($12.95/month)",
           "frequency": "monthly",
           "category": "shopping",
@@ -8497,6 +8500,7 @@
         {
           "name": "Rideshare Credit",
           "value": 150,
+          "value_per_cycle": 12,
           "description": "Up to $12 monthly from January through November and $18 in December after annual opt-in",
           "frequency": "monthly",
           "category": "rideshare"

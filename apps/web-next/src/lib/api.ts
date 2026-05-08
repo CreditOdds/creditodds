@@ -100,6 +100,19 @@ export interface CardBenefit {
   // PreCheck (the actual renewal cycle), 2 for biennial perks, etc. Used by
   // amortizedAnnualValue() to compute the per-year contribution.
   frequency_years?: number;
+  // OPTIONAL spendable-per-cycle override for sub-annual frequencies. The UI
+  // headlines whichever cadence has the smallest spendable denomination, so a
+  // user doesn't think they can spend the full annual total in a single cycle
+  // (Amex Platinum Uber Cash is $200/yr but you can only spend $15/month).
+  //
+  // - When omitted, the headline is auto-derived as round(value / N), where N
+  //   is 12/4/2 for monthly/quarterly/semi_annual. This is correct for benefits
+  //   that distribute evenly (e.g. $300 Equinox = $25/mo).
+  // - Set this when the per-cycle spend doesn't match value/N — e.g. $15/mo +
+  //   $20 December (set value_per_cycle: 15), or "$12.95/mo + tax" Walmart+
+  //   where value=155 (set value_per_cycle: 13).
+  // The annual rollup (Total Annual Credits) still uses `value` unchanged.
+  value_per_cycle?: number;
   category: 'dining' | 'dining_travel' | 'travel' | 'hotel' | 'entertainment' | 'shopping' | 'fitness' | 'lounge' | 'security' | 'gas' | 'streaming' | 'grocery' | 'rideshare' | 'car_rental' | 'other';
   enrollment_required?: boolean;
 }

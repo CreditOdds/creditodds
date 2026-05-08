@@ -48,6 +48,7 @@ benefits:
     enrollment_required: true
   - name: "Walmart+ Credit"
     value: 155
+    value_per_cycle: 13
     description: "Up to $12.95/month plus applicable taxes toward one monthly Walmart+ membership"
     frequency: "monthly"
     category: "shopping"

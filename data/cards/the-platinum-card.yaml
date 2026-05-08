@@ -28,6 +28,7 @@ signup_bonus:
 benefits:
   - name: "Uber Cash"
     value: 200
+    value_per_cycle: 15
     description: "$15/month in Uber Cash for Uber Eats or rides ($20 in December)"
     frequency: "monthly"
     category: "dining_travel"
@@ -64,6 +65,7 @@ benefits:
     enrollment_required: true
   - name: "Walmart+ Credit"
     value: 155
+    value_per_cycle: 13
     description: "Monthly credit covering Walmart+ membership ($12.95/month)"
     frequency: "monthly"
     category: "shopping"

@@ -136,8 +136,31 @@ export function isMonetaryBenefit(benefit: { value_unit?: string }): boolean {
   return !benefit.value_unit || benefit.value_unit === 'usd';
 }
 
+// Smallest spendable denomination per cycle — what we headline in the UI.
+//
+// Why not just `benefit.value`? Because `value` is the ANNUAL TOTAL by
+// convention (see amortizedAnnualValue), and headlining "$200/yr" for a
+// monthly benefit misleads users into thinking they can spend the full $200
+// in a single month. Amex Platinum Uber Cash is $15/mo + $20 in December =
+// $200/yr — you can't expense $200 of Uber rides in January.
+//
+// Order of precedence:
+//   1. `value_per_cycle` if set (explicit YAML override for non-uniform cases
+//      like Uber Cash $15/mo with December bonus, or Walmart+ "$12.95/mo + tax")
+//   2. round(value / 12 | 4 | 2) for monthly | quarterly | semi_annual
+//   3. `value` itself for annual / multi_year / ongoing / per-event
+export function spendableValue(benefit: CardBenefit): number {
+  if (typeof benefit.value_per_cycle === 'number') return benefit.value_per_cycle;
+  switch (benefit.frequency) {
+    case 'monthly': return Math.round(benefit.value / 12);
+    case 'quarterly': return Math.round(benefit.value / 4);
+    case 'semi_annual': return Math.round(benefit.value / 2);
+    default: return benefit.value;
+  }
+}
+
 export function formatBenefitValue(benefit: CardBenefit): string {
-  const v = benefit.value.toLocaleString();
+  const v = spendableValue(benefit).toLocaleString();
   if (benefit.value_unit === 'points') return `${v} points`;
   if (benefit.value_unit === 'miles') return `${v} miles`;
   return `$${v}`;
@@ -195,21 +218,19 @@ export function amortizedAnnualValue(benefit: CardBenefit): number {
 
 // Human-readable frequency label shown next to a benefit's value in the UI.
 //
-// Because `value` is the ANNUAL TOTAL (see amortizedAnnualValue), all
-// sub-annual frequencies render as "/yr" — e.g. Amex Platinum Uber Cash
-// (value: 200, frequency: monthly) shows as "$200/yr", with the cadence
-// ("$15/month...") communicated in the description. Showing "$200/mo" was
-// the bug — that read as $2,400/yr to the user.
+// Pairs with spendableValue() — sub-annual frequencies render at their actual
+// cadence so a $300 Equinox monthly credit reads "$25/mo" (not "$300/yr"
+// which the user might think is spendable in a single month). The annual
+// total is still surfaced via "Total Annual Credits" at the top of the card.
 //
 // `multi_year` is dynamic — "every N yr" using the benefit's
 // `frequency_years` field (default 4 for legacy Global Entry entries).
 export function frequencyLabel(benefit: CardBenefit): string {
   switch (benefit.frequency) {
-    case 'monthly':
-    case 'quarterly':
-    case 'semi_annual':
-    case 'annual':
-      return '/yr';
+    case 'monthly': return '/mo';
+    case 'quarterly': return '/qtr';
+    case 'semi_annual': return ' / 6 mo';
+    case 'annual': return '/yr';
     case 'multi_year': {
       const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
       return `every ${years} yr`;
