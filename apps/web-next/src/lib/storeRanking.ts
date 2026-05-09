@@ -1,4 +1,4 @@
-import type { Card, Reward } from '@/lib/api';
+import type { Card, Reward, WalletCardSelection } from '@/lib/api';
 import type { Store } from '@/lib/stores';
 import { getValuation } from '@/lib/valuations';
 
@@ -7,7 +7,10 @@ export type MatchMode =
   | 'rotating_current'
   | 'rotating_eligible'
   | 'user_choice'
+  | 'user_selected'
   | 'top_spend';
+
+export type UserSelectionsByCard = Map<string, WalletCardSelection[]>;
 
 export type Channel = 'both' | 'online' | 'in_store';
 
@@ -44,6 +47,14 @@ export interface RankCardsOptions {
    * defaults the rate floors to 0 so every wallet card surfaces.
    */
   walletCardSlugs?: string[];
+  /**
+   * Per-card user selections (Cash+ picks, Custom Cash top category, etc).
+   * Keyed by card slug. When set for a card, `user_choice`/`auto_top_spend`
+   * reward blocks match ONLY the user's saved categories — speculative
+   * "if you select it" matches are suppressed and confirmed picks rank as
+   * direct matches via the new `user_selected` mode.
+   */
+  userSelections?: UserSelectionsByCard;
 }
 
 const CATEGORY_CHANNEL: Record<string, Channel> = {
@@ -133,10 +144,12 @@ export function findCategoryMatch(
   categories: string[],
   storeSlug: string | null,
   includeMerchantSpecific = false,
+  userSelections?: WalletCardSelection[],
 ): CardMatch | null {
   if (!card.rewards) return null;
   const modeRank: Record<MatchMode, number> = {
     direct: 5,
+    user_selected: 5,
     rotating_current: 4,
     user_choice: 3,
     top_spend: 2,
@@ -197,21 +210,32 @@ export function findCategoryMatch(
       continue;
     }
 
-    if (inferred === 'auto_top_spend') {
+    if (inferred === 'auto_top_spend' || inferred === 'user_choice') {
       const eligible = r.eligible_categories || [];
-      const matched = categories.find((c) => eligible.includes(c));
-      if (matched) {
-        const candidate: CardMatch = { reward: r, matchedCategory: matched, mode: 'top_spend' };
-        if (!best || compareMatches(candidate, best, modeRank) > 0) best = candidate;
-      }
-      continue;
-    }
 
-    if (inferred === 'user_choice') {
-      const eligible = r.eligible_categories || [];
+      // Block-level selections for this reward, if the caller passed any.
+      const blockSelections = userSelections?.filter(
+        (s) => s.reward_category === r.category && s.reward_rate === r.value,
+      );
+
+      if (blockSelections && blockSelections.length > 0) {
+        // User has configured this reward block. Match ONLY their saved picks —
+        // speculative "if you select it" badges are suppressed.
+        const userPicks = new Set(blockSelections.map((s) => s.selected_category));
+        const matched = categories.find((c) => userPicks.has(c) && eligible.includes(c));
+        if (matched) {
+          const candidate: CardMatch = { reward: r, matchedCategory: matched, mode: 'user_selected' };
+          if (!best || compareMatches(candidate, best, modeRank) > 0) best = candidate;
+        }
+        continue;
+      }
+
+      // No selections (legacy path / non-wallet pages): show speculative match so
+      // /store pages still surface the card with a "if you select it" badge.
       const matched = categories.find((c) => eligible.includes(c));
       if (matched) {
-        const candidate: CardMatch = { reward: r, matchedCategory: matched, mode: 'user_choice' };
+        const mode: MatchMode = inferred === 'auto_top_spend' ? 'top_spend' : 'user_choice';
+        const candidate: CardMatch = { reward: r, matchedCategory: matched, mode };
         if (!best || compareMatches(candidate, best, modeRank) > 0) best = candidate;
       }
     }
@@ -243,6 +267,11 @@ function reasonAndBadgeForMatch(match: CardMatch): { reason: string; badge: stri
       return {
         reason: `${rateStr} on ${catLabel} if you select it as a bonus category${cap}`,
         badge: 'if you select it',
+      };
+    case 'user_selected':
+      return {
+        reason: `${rateStr} on ${catLabel} (your selected category)${cap}`,
+        badge: 'selected',
       };
     case 'top_spend':
       return {
@@ -279,7 +308,13 @@ export function rankCards(
   for (const slug of store.co_brand_cards || []) {
     const card = cardsBySlug.get(slug);
     if (!card || used.has(slug)) continue;
-    const match = findCategoryMatch(card, store.categories, store.slug, true);
+    const match = findCategoryMatch(
+      card,
+      store.categories,
+      store.slug,
+      true,
+      options.userSelections?.get(card.slug),
+    );
     const r = match?.reward || flatRateReward(card);
     const rate = r?.value ?? 0;
     const unit = (r?.unit as 'percent' | 'points_per_dollar') ?? 'percent';
@@ -326,7 +361,13 @@ export function rankCards(
   for (const card of active) {
     if (used.has(card.slug)) continue;
     if (candidates.some((c) => c.card.slug === card.slug)) continue;
-    const m = findCategoryMatch(card, store.categories, store.slug);
+    const m = findCategoryMatch(
+      card,
+      store.categories,
+      store.slug,
+      false,
+      options.userSelections?.get(card.slug),
+    );
     if (!m) continue;
     const eff = effectiveCashbackRate(
       m.reward.value,

@@ -30,6 +30,7 @@ import {
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), { ssr: false, loading: () => null });
 const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), { ssr: false, loading: () => null });
 const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), { ssr: false, loading: () => null });
+const SelectCategoriesModal = dynamic(() => import("@/components/wallet/SelectCategoriesModal"), { ssr: false, loading: () => null });
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
 const BestCardHere = dynamic(() => import("@/components/wallet/BestCardHere"), { ssr: false, loading: () => null });
 const WalletBenefits = dynamic(() => import("@/components/wallet/WalletBenefits"), { ssr: false, loading: () => null });
@@ -115,7 +116,20 @@ export default function ProfileClient() {
   const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
   const [editingRecord, setEditingRecord] = useState<RecordItem | null>(null);
+  const [pickingCategoriesFor, setPickingCategoriesFor] = useState<WalletCard | null>(null);
   const cardLookups = useMemo(() => createCardLookups(allCards), [allCards]);
+
+  // Cards whose YAML defines a `user_choice` or `auto_top_spend` reward block —
+  // these are the cards that can show a "pick categories" affordance.
+  const cardsWithSelectableRewards = useMemo(() => {
+    const set = new Set<string>();
+    for (const c of allCards) {
+      if ((c.rewards || []).some((r) => r.mode === 'user_choice' || r.mode === 'auto_top_spend' || r.category === 'top_category')) {
+        set.add(c.card_name);
+      }
+    }
+    return set;
+  }, [allCards]);
 
   const eligibleReferralCards = useMemo(
     () => getEligibleReferralCards(records, walletCards, referrals.filter((r) => !r.archived_at), cardLookups),
@@ -474,9 +488,11 @@ export default function ProfileClient() {
                 cardLookups={cardLookups}
                 cardsWithRecords={cardsWithRecords}
                 cardsWithActiveReferrals={cardsWithActiveReferrals}
+                cardsWithSelectableRewards={cardsWithSelectableRewards}
                 totalAnnualFees={totalAnnualFees}
                 onAdd={() => setShowWalletModal(true)}
                 onEdit={(c) => setEditingCard(c)}
+                onPickCategories={(c) => setPickingCategoriesFor(c)}
                 onSubmitRecord={(c) => setSubmitRecordCard(c)}
                 onAddReferral={() => setShowReferralModal(true)}
               />
@@ -488,7 +504,19 @@ export default function ProfileClient() {
                   {/* Best Card Here is mobile-only — relies on geolocation
                       and the merchant-card layout doesn't fit a desktop column.
                       Desktop sees a banner pointing them to mobile. */}
-                  <BestCardHere walletCards={walletCards} allCards={allCards} />
+                  <BestCardHere
+                    walletCards={walletCards}
+                    allCards={allCards}
+                    onWalletRefresh={async () => {
+                      const token = await getToken();
+                      if (!token) return;
+                      try {
+                        setWalletCards((await getWallet(token)) || []);
+                      } catch (e) {
+                        console.error('Wallet refresh error:', e);
+                      }
+                    }}
+                  />
                   <div className="cj-bch-desktop-banner" aria-hidden="false">
                     <span className="cj-bch-desktop-banner-icon" aria-hidden="true">
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -723,6 +751,13 @@ export default function ProfileClient() {
         onClose={() => setEditingCard(null)}
         onSuccess={loadData}
       />
+      <SelectCategoriesModal
+        show={!!pickingCategoriesFor}
+        walletCard={pickingCategoriesFor}
+        card={pickingCategoriesFor ? cardLookups.byName.get(pickingCategoriesFor.card_name) ?? null : null}
+        onClose={() => setPickingCategoriesFor(null)}
+        onSuccess={loadData}
+      />
       <SubmitRecordCardPicker
         show={showRecordCardPicker}
         onClose={() => setShowRecordCardPicker(false)}
@@ -791,9 +826,11 @@ interface CardsTabProps {
   cardLookups: ReturnType<typeof createCardLookups>;
   cardsWithRecords: Set<string>;
   cardsWithActiveReferrals: Set<string>;
+  cardsWithSelectableRewards: Set<string>;
   totalAnnualFees: number;
   onAdd: () => void;
   onEdit: (c: WalletCard) => void;
+  onPickCategories: (c: WalletCard) => void;
   onSubmitRecord: (c: WalletCard) => void;
   onAddReferral: () => void;
 }
@@ -801,8 +838,8 @@ interface CardsTabProps {
 function CardsTab(props: CardsTabProps) {
   const {
     walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, inactiveCount, showArchived, setShowArchived,
-    openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals,
-    totalAnnualFees, onAdd, onEdit, onSubmitRecord, onAddReferral,
+    openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals, cardsWithSelectableRewards,
+    totalAnnualFees, onAdd, onEdit, onPickCategories, onSubmitRecord, onAddReferral,
   } = props;
 
   if (!walletLoaded) return <LoadingPanel />;
@@ -916,6 +953,15 @@ function CardsTab(props: CardsTabProps) {
                   <div className="cj-wd-actions">
                     {slug && <Link href={`/card/${slug}`}>view card page →</Link>}
                     <button type="button" onClick={() => onEdit(c)}>edit</button>
+                    {cardsWithSelectableRewards.has(c.card_name) && (
+                      <button
+                        type="button"
+                        className={(c.selections && c.selections.length > 0) ? '' : 'cj-wd-cta'}
+                        onClick={() => onPickCategories(c)}
+                      >
+                        {c.selections && c.selections.length > 0 ? 'edit picks' : '+ pick categories'}
+                      </button>
+                    )}
                     {!hasRecord && (
                       <button type="button" className="cj-wd-cta" onClick={() => onSubmitRecord(c)}>
                         + submit a record

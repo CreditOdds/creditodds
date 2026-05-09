@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import CardImage from '@/components/ui/CardImage';
 import {
   BestCardHereReportPayload,
@@ -12,8 +12,13 @@ import {
   getStoresBrandIndex,
 } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
-import { PlacePick, pickWalletCardsForPlace } from '@/lib/walletPicksForPlace';
+import {
+  PlacePick,
+  UnconfiguredCardPrompt,
+  pickWalletCardsForPlace,
+} from '@/lib/walletPicksForPlace';
 import ReportMerchantModal from '@/components/wallet/ReportMerchantModal';
+import SelectCategoriesModal from '@/components/wallet/SelectCategoriesModal';
 
 // Resolved merchant ready for rendering. `label` is brand name when the
 // place was matched to a Store entry (e.g. "marriott") so the user can
@@ -26,6 +31,7 @@ interface Merchant {
   dist: string;
   addr: string;
   picks: { best: PlacePick; next?: PlacePick };
+  unconfiguredCards: UnconfiguredCardPrompt[];
 }
 
 function metersToMiles(m: number): string {
@@ -69,6 +75,7 @@ function placesToMerchants(
         picks: result.next
           ? { best: result.best, next: result.next }
           : { best: result.best },
+        unconfiguredCards: result.unconfiguredCards,
       };
     })
     .filter((m): m is Merchant => m !== null)
@@ -163,9 +170,16 @@ function PickDetail({ label, pick }: { label: string; pick: PlacePick }) {
 interface BestCardHereProps {
   walletCards: WalletCard[];
   allCards: Card[];
+  /**
+   * Called after the user saves category picks for a held card so the
+   * parent (ProfileClient) can re-fetch /wallet and pass fresh
+   * `walletCards` back in. Without this the BCH list keeps stale
+   * "unconfigured" prompts even after saving.
+   */
+  onWalletRefresh?: () => Promise<void> | void;
 }
 
-export default function BestCardHere({ walletCards, allCards }: BestCardHereProps) {
+export default function BestCardHere({ walletCards, allCards, onWalletRefresh }: BestCardHereProps) {
   const { getToken } = useAuth();
   const [location, setLocation] = useState<Location | null>(null);
   const [loading, setLoading] = useState(false);
@@ -174,8 +188,36 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const [reportPayload, setReportPayload] =
     useState<Omit<BestCardHereReportPayload, 'reason' | 'notes'> | null>(null);
+  const [selectionsTarget, setSelectionsTarget] =
+    useState<{ walletCard: WalletCard; card: Card } | null>(null);
+
+  // Cache of the last successful fetch — places + coords + brandIndex —
+  // so we can recompute merchants in-place when the user updates picks
+  // without re-prompting for location or hitting Places again.
+  const [placesCache, setPlacesCache] = useState<{
+    places: NearbyPlace[];
+    brandIndex: StoreBrandIndexEntry[];
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   const cardsCount = walletCards.length;
+
+  // Recompute merchants whenever wallet changes, using the cached places.
+  // Triggers after the user saves selections (parent re-fetches wallet,
+  // walletCards prop updates, this effect fires).
+  useEffect(() => {
+    if (!placesCache) return;
+    const resolved = placesToMerchants(
+      placesCache.places,
+      walletCards,
+      allCards,
+      placesCache.brandIndex,
+      placesCache.lat,
+      placesCache.lng,
+    );
+    setMerchants(resolved);
+  }, [walletCards, allCards, placesCache]);
 
   const enable = async () => {
     setErrorMessage(null);
@@ -232,6 +274,12 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
         coords.longitude,
       );
       setMerchants(resolved);
+      setPlacesCache({
+        places: placesResult.places,
+        brandIndex,
+        lat: coords.latitude,
+        lng: coords.longitude,
+      });
       setLocation({
         label: 'Your location',
         coords: `${coords.latitude.toFixed(4)}° ${coords.latitude >= 0 ? 'N' : 'S'}, ${Math.abs(coords.longitude).toFixed(4)}° ${coords.longitude >= 0 ? 'E' : 'W'}`,
@@ -249,6 +297,35 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
     setMerchants([]);
     setOpenIdx(null);
     setErrorMessage(null);
+    setPlacesCache(null);
+  };
+
+  // Aggregate every "needs picks" card across the visible merchant rows so
+  // we can show one banner at the top (instead of repeating the prompt
+  // per merchant). Dedup by wallet row id; keep the highest potential rate.
+  const unconfiguredAggregate = useMemo(() => {
+    const byRowId = new Map<number, UnconfiguredCardPrompt>();
+    for (const m of merchants) {
+      for (const u of m.unconfiguredCards) {
+        const existing = byRowId.get(u.walletRowId);
+        if (!existing || u.potentialRate > existing.potentialRate) {
+          byRowId.set(u.walletRowId, u);
+        }
+      }
+    }
+    return Array.from(byRowId.values());
+  }, [merchants]);
+
+  const openSelectionsFor = (walletRowId: number) => {
+    const wc = walletCards.find((w) => w.id === walletRowId);
+    if (!wc) return;
+    const card = allCards.find((c) => c.card_name === wc.card_name);
+    if (!card) return;
+    setSelectionsTarget({ walletCard: wc, card });
+  };
+
+  const handleSelectionsSaved = async () => {
+    if (onWalletRefresh) await onWalletRefresh();
   };
 
   const showList = location && !loading;
@@ -343,6 +420,36 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
       {showList && cardsCount > 0 && merchantRows.length === 0 && (
         <div className="cj-verdict" style={{ marginTop: 16 }}>
           No nearby merchants matched a reward category for the cards in your wallet. Try a different spot, or add a card with broader earn categories.
+        </div>
+      )}
+
+      {showList && unconfiguredAggregate.length > 0 && (
+        <div
+          className="cj-verdict"
+          style={{
+            marginTop: 16,
+            background: '#f7f3ff',
+            borderLeftColor: 'var(--accent)',
+          }}
+        >
+          <b>Pick categories to unlock matches.</b>{' '}
+          {unconfiguredAggregate.length === 1
+            ? 'One card in your wallet has bonus categories you choose.'
+            : `${unconfiguredAggregate.length} cards in your wallet have bonus categories you choose.`}
+          {' '}Tell us which ones so they can rank here.
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
+            {unconfiguredAggregate.map((u) => (
+              <button
+                key={u.walletRowId}
+                type="button"
+                onClick={() => openSelectionsFor(u.walletRowId)}
+                className="cj-bch-cta-btn"
+                style={{ padding: '5px 10px', fontSize: 11 }}
+              >
+                pick categories on {u.cardName} →
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
@@ -451,6 +558,14 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
         show={reportPayload !== null}
         onClose={() => setReportPayload(null)}
         payload={reportPayload ?? { merchant_name: '' }}
+      />
+
+      <SelectCategoriesModal
+        show={selectionsTarget !== null}
+        walletCard={selectionsTarget?.walletCard ?? null}
+        card={selectionsTarget?.card ?? null}
+        onClose={() => setSelectionsTarget(null)}
+        onSuccess={handleSelectionsSaved}
       />
     </div>
   );
