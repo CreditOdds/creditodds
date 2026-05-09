@@ -413,7 +413,6 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
                         {next && <PickDetail label="Runner-up" pick={next} />}
                       </div>
                       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                        <button type="button" className="cj-wd-cta">add to apple wallet</button>
                         {best.card.slug && (
                           <a href={`/card/${best.card.slug}`} style={{
                             fontSize: 11.5, color: 'var(--ink-2)', textDecoration: 'none',
