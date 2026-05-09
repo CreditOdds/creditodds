@@ -48,11 +48,14 @@ const PRIMARY_TYPE_TO_CATEGORY: Record<string, string> = {
   train_station: 'transit',
   taxi_stand: 'transit',
   light_rail_station: 'transit',
-  // hotels
+  // hotels — keep `lodging` and `bed_and_breakfast` as defensive fallbacks
+  // even though the Lambda excludes them server-side.
   lodging: 'hotels',
   hotel: 'hotels',
   motel: 'hotels',
   resort_hotel: 'hotels',
+  extended_stay_hotel: 'hotels',
+  inn: 'hotels',
   bed_and_breakfast: 'hotels',
   // airlines / travel
   airport: 'airlines',

@@ -401,6 +401,23 @@ export interface NearbyResponse {
   cached: boolean;
 }
 
+export interface StoreBrandIndexEntry {
+  slug: string;
+  name: string;
+  aliases?: string[];
+  categories: string[];
+  co_brand_cards?: string[];
+}
+
+export async function getStoresBrandIndex(): Promise<StoreBrandIndexEntry[]> {
+  const res = await fetch('/api/stores-brand-index');
+  if (!res.ok) {
+    throw new Error(`Failed to fetch stores brand index: ${res.status}`);
+  }
+  const data = await res.json();
+  return data.stores || [];
+}
+
 export async function getNearbyPlaces(
   lat: number,
   lng: number,

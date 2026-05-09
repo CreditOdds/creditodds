@@ -31,12 +31,19 @@ interface CardMatch {
 }
 
 export interface RankCardsOptions {
-  /** Effective-rate floor for category-bonus picks. Default 1.5. */
+  /** Effective-rate floor for category-bonus picks. Default 1.5 (0 in wallet mode). */
   flatRateFloor?: number;
-  /** Effective-rate floor for the flat-rate fallback fill-in. Default 2. */
+  /** Effective-rate floor for the flat-rate fallback fill-in. Default 2 (0 in wallet mode). */
   flatRateFillFloor?: number;
   /** Cap on the number of returned picks. Default 10. */
   maxPicks?: number;
+  /**
+   * Wallet mode: when provided, restrict ranking to these card slugs.
+   * Skips the `accepting_applications` filter so closed/invite-only cards
+   * the user already holds (e.g. Atlas, Robinhood Gold) still rank, and
+   * defaults the rate floors to 0 so every wallet card surfaces.
+   */
+  walletCardSlugs?: string[];
 }
 
 const CATEGORY_CHANNEL: Record<string, Channel> = {
@@ -255,11 +262,15 @@ export function rankCards(
   cards: Card[],
   options: RankCardsOptions = {},
 ): RankedPick[] {
-  const flatRateFloor = options.flatRateFloor ?? 1.5;
-  const flatRateFillFloor = options.flatRateFillFloor ?? 2;
+  const walletSet = options.walletCardSlugs ? new Set(options.walletCardSlugs) : null;
+  const isWalletMode = walletSet !== null;
+  const flatRateFloor = options.flatRateFloor ?? (isWalletMode ? 0 : 1.5);
+  const flatRateFillFloor = options.flatRateFillFloor ?? (isWalletMode ? 0 : 2);
   const maxPicks = options.maxPicks ?? 10;
 
-  const active = cards.filter((c) => c.accepting_applications !== false);
+  const active = cards.filter((c) =>
+    walletSet ? walletSet.has(c.slug) : c.accepting_applications !== false,
+  );
   const cardsBySlug = new Map(active.map((c) => [c.slug, c]));
   const used = new Set<string>();
   const picks: RankedPick[] = [];
