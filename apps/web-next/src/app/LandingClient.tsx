@@ -57,15 +57,6 @@ interface LandingClientProps {
   bestPages: LandingBestPage[];
 }
 
-const QUICK_TAGS: { label: string; slug: string }[] = [
-  { label: 'CSP', slug: 'chase-sapphire-preferred' },
-  { label: 'Amex Gold', slug: 'american-express-gold-card' },
-  { label: 'Venture X', slug: 'capital-one-venture-x' },
-  { label: 'Bilt', slug: 'bilt-mastercard' },
-  { label: 'CSR', slug: 'chase-sapphire-reserve' },
-  { label: 'Custom Cash', slug: 'citi-custom-cash' },
-];
-
 const TOOL_LINKS: { name: string; value: string; href: string }[] = [
   { name: 'Chase UR', value: '1 ≈ 1.25¢', href: '/tools/chase-ultimate-rewards-to-usd' },
   { name: 'Amex MR', value: '1 ≈ 1.2¢', href: '/tools/amex-membership-rewards-to-usd' },
@@ -184,12 +175,6 @@ function Hero({ cards }: { cards: LandingCard[] }) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
 
-  const cardBySlug = useMemo(() => {
-    const m = new Map<string, LandingCard>();
-    cards.forEach((c) => m.set(c.slug, c));
-    return m;
-  }, [cards]);
-
   const matches = useMemo(() => {
     const q = query.trim();
     if (!q) return [];
@@ -269,22 +254,6 @@ function Hero({ cards }: { cards: LandingCard[] }) {
                 )}
               </div>
             )}
-          </div>
-
-          <div className="quick-tags">
-            <span className="label">Try:</span>
-            {QUICK_TAGS.map((t) => {
-              const card = cardBySlug.get(t.slug);
-              if (!card) return null;
-              return (
-                <Link key={t.slug} href={`/card/${t.slug}`} className="qt">
-                  <span className="qt-thumb">
-                    <CardImage cardImageLink={card.card_image_link} alt="" fill sizes="26px" style={{ objectFit: 'cover' }} />
-                  </span>
-                  {t.label}
-                </Link>
-              );
-            })}
           </div>
 
           <Link href="/explore" className="explore-all">
