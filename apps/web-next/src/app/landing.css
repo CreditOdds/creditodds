@@ -3811,7 +3811,118 @@
 }
 .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-head,
 .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-row {
-  grid-template-columns: 56px 1fr 140px 80px;
+  grid-template-columns: 56px 1fr 140px;
+}
+.landing-v2.profile-v2 .cj-pill.cj-pill-enroll {
+  background: var(--accent-2);
+  color: var(--accent);
+  font-size: 10px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+/* Benefits — group-by toolbar + by-card grouping */
+.landing-v2.profile-v2 .cj-benefits-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.landing-v2.profile-v2 .cj-benefits-groupby {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--paper);
+}
+.landing-v2.profile-v2 .cj-benefits-tab {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+.landing-v2.profile-v2 .cj-benefits-tab + .cj-benefits-tab {
+  border-left: 1px solid var(--rule);
+}
+.landing-v2.profile-v2 .cj-benefits-tab:hover { color: var(--ink); }
+.landing-v2.profile-v2 .cj-benefits-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+.landing-v2.profile-v2 .cj-benefits-by-card {
+  margin-top: 16px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--paper);
+}
+.landing-v2.profile-v2 .cj-benefits-card-group + .cj-benefits-card-group {
+  border-top: 1px solid var(--rule);
+}
+.landing-v2.profile-v2 .cj-benefits-card-header {
+  display: grid;
+  grid-template-columns: 16px 56px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--paper-2);
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+.landing-v2.profile-v2 .cj-benefits-card-group:not(:has(.cj-tape)) .cj-benefits-card-header,
+.landing-v2.profile-v2 .cj-benefits-card-header[aria-expanded="false"] {
+  border-bottom: 0;
+}
+.landing-v2.profile-v2 .cj-benefits-card-header:hover { background: var(--paper-3, var(--paper-2)); }
+.landing-v2.profile-v2 .cj-benefits-chevron {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+  transform: rotate(0deg);
+  width: 12px;
+}
+.landing-v2.profile-v2 .cj-benefits-chevron.open {
+  transform: rotate(90deg);
+}
+.landing-v2.profile-v2 .cj-benefits-card-thumb {
+  width: 56px;
+  height: 36px;
+}
+.landing-v2.profile-v2 .cj-benefits-card-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+.landing-v2.profile-v2 .cj-benefits-card-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.landing-v2.profile-v2 .cj-benefits-card-total {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.landing-v2.profile-v2 .cj-benefits-card-total-v {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+  font-family: var(--font-display, inherit);
+}
+.landing-v2.profile-v2 .cj-benefits-card-total-k {
+  font-size: 12px;
+  color: var(--muted);
 }
 .landing-v2.profile-v2 .cj-tape-row-perk {
   display: grid;
@@ -4352,15 +4463,17 @@
     display: none;
   }
 
-  /* Benefits credits tape — bigger thumb, drop cadence column */
+  /* Benefits credits tape — bigger thumb on mobile */
   .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-head { display: none; }
   .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-row {
     grid-template-columns: 44px minmax(0, 1fr) auto;
     gap: 12px;
     padding: 14px 12px;
   }
-  .landing-v2.profile-v2 .cj-tape.cj-tape-credits .cj-tape-row > div:nth-child(3) {
-    display: none;
+  .landing-v2.profile-v2 .cj-benefits-card-header {
+    grid-template-columns: 14px 44px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 12px 14px;
   }
 
   /* Rewards table — readable type, stacked best-cell */
