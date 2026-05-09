@@ -159,33 +159,31 @@ export default function AddToWalletModal({ show, onClose, onSuccess, existingCar
                   </button>
                 </div>
 
-                {(selectedCard.annual_fee ?? 0) > 0 && (
-                  <div className="cj-modal-section">
-                    <label className="cj-modal-label">When did you get this card? <span style={{ textTransform: 'none', letterSpacing: 0, fontWeight: 400, color: 'var(--muted-2)' }}>(optional — used to track renewals)</span></label>
-                    <div className="cj-modal-grid">
-                      <select
-                        value={acquiredMonth || ''}
-                        onChange={(e) => setAcquiredMonth(e.target.value ? Number(e.target.value) : undefined)}
-                        className="cj-modal-select"
-                      >
-                        <option value="">Month</option>
-                        {months.map((m) => (
-                          <option key={m.value} value={m.value}>{m.label}</option>
-                        ))}
-                      </select>
-                      <select
-                        value={acquiredYear || ''}
-                        onChange={(e) => setAcquiredYear(e.target.value ? Number(e.target.value) : undefined)}
-                        className="cj-modal-select"
-                      >
-                        <option value="">Year</option>
-                        {years.map((y) => (
-                          <option key={y} value={y}>{y}</option>
-                        ))}
-                      </select>
-                    </div>
+                <div className="cj-modal-section">
+                  <label className="cj-modal-label">When did you get this card? <span style={{ textTransform: 'none', letterSpacing: 0, fontWeight: 400, color: 'var(--muted-2)' }}>(optional)</span></label>
+                  <div className="cj-modal-grid">
+                    <select
+                      value={acquiredMonth || ''}
+                      onChange={(e) => setAcquiredMonth(e.target.value ? Number(e.target.value) : undefined)}
+                      className="cj-modal-select"
+                    >
+                      <option value="">Month</option>
+                      {months.map((m) => (
+                        <option key={m.value} value={m.value}>{m.label}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={acquiredYear || ''}
+                      onChange={(e) => setAcquiredYear(e.target.value ? Number(e.target.value) : undefined)}
+                      className="cj-modal-select"
+                    >
+                      <option value="">Year</option>
+                      {years.map((y) => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </select>
                   </div>
-                )}
+                </div>
               </>
             )}
           </div>
