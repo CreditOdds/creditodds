@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import {
@@ -36,7 +36,6 @@ export default function ReportMerchantModal({ show, onClose, payload }: ReportMe
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const scrollYRef = useRef(0);
 
   useEffect(() => {
     setMounted(true);
@@ -58,34 +57,19 @@ export default function ReportMerchantModal({ show, onClose, payload }: ReportMe
     return () => clearTimeout(t);
   }, [submitted, onClose]);
 
-  // iOS-safe body scroll lock. Plain `body { overflow: hidden }` blocks
-  // page scroll on iOS Safari but also breaks touch scrolling inside
-  // descendant scroll containers — so the report card itself wouldn't
-  // scroll on iPhone. The position:fixed pattern locks the page without
-  // disabling inner scroll, then restores scrollY on cleanup.
+  // Lock body scroll while the modal is open. Use plain overflow:hidden
+  // (NOT the position:fixed pattern) — combining position:fixed body
+  // lock with the portal-rendered modal froze touch input on iPhone
+  // because the body and the modal both became fixed-positioned, and
+  // iOS Safari handles nested position:fixed poorly. Now that the
+  // modal lives at body level via createPortal, inner scroll inside
+  // the bounded card works without needing the position:fixed trick.
   useEffect(() => {
     if (!show) return;
-    scrollYRef.current = window.scrollY;
-    const body = document.body;
-    const prev = {
-      position: body.style.position,
-      top: body.style.top,
-      left: body.style.left,
-      right: body.style.right,
-      width: body.style.width,
-    };
-    body.style.position = 'fixed';
-    body.style.top = `-${scrollYRef.current}px`;
-    body.style.left = '0';
-    body.style.right = '0';
-    body.style.width = '100%';
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.left = prev.left;
-      body.style.right = prev.right;
-      body.style.width = prev.width;
-      window.scrollTo(0, scrollYRef.current);
+      document.body.style.overflow = prev;
     };
   }, [show]);
 
