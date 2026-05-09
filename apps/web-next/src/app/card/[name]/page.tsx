@@ -84,9 +84,13 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
     const card = await getCard(slug);
 
     const seoName = /card/i.test(card.card_name) ? card.card_name : `${card.card_name} Credit Card`;
+    const bankSuffix =
+      card.bank && !card.card_name.toLowerCase().includes(card.bank.toLowerCase())
+        ? ` from ${card.bank}`
+        : '';
     const description = card.approved_median_credit_score
-      ? `Credit card approval odds for ${seoName}. Median approved credit score: ${card.approved_median_credit_score}, income: $${card.approved_median_income?.toLocaleString()}`
-      : `See approval odds and data points for the ${seoName} from ${card.bank}.`;
+      ? `Approval odds for the ${seoName}${bankSuffix}. Median approved credit score ${card.approved_median_credit_score}${card.approved_median_income ? `, income $${card.approved_median_income.toLocaleString()}` : ''}. See real cardholder data points before you apply.`
+      : `Approval odds, credit score data points, income, and real cardholder applications for the ${seoName}${bankSuffix}. Check your approval chances before you apply.`;
 
     return {
       title: seoName,
