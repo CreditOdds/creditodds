@@ -5712,6 +5712,36 @@
   background: color-mix(in oklab, var(--warn) 8%, var(--paper));
   border-color: color-mix(in oklab, var(--warn) 50%, var(--line-2));
 }
+/* "send" action pinned in the modal head — always tappable so users
+   never have to scroll the form to submit. Inserted into .cj-modal-head
+   right before the close button via order rules below. */
+.landing-v2.profile-v2 .cj-bch-report-send {
+  margin-left: auto;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--ink);
+  background: var(--accent);
+  border: 0;
+  border-radius: 3px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+.landing-v2.profile-v2 .cj-bch-report-send:hover:not(:disabled) {
+  background: var(--accent-deep);
+  color: #fff;
+}
+.landing-v2.profile-v2 .cj-bch-report-send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* When the head holds a send button, the close X drops its auto-margin
+   so it sits flush against the send button on the right edge. */
+.landing-v2.profile-v2 .cj-modal-head .cj-bch-report-send + .cj-modal-close {
+  margin-left: 8px;
+}
 
 /* ---------- Long-form content (about / how / terms / privacy) ---------- */
 .landing-v2 .page-body {
