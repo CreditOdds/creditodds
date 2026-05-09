@@ -17,6 +17,13 @@ const PLACES_ENDPOINT = "https://places.googleapis.com/v1/places:searchNearby";
 // Curated subset of Place types relevant to credit-card categories. Keeps
 // results signal-heavy (no parks, schools, churches) and lets the API
 // filter server-side. See data/places-types.md for the full mapping.
+//
+// Lodging note: we deliberately list specific hotel subtypes instead of the
+// generic `lodging` parent. `lodging` pulls in the entire family — including
+// `private_guest_room`, `bed_and_breakfast`, `cottage`, `farmstay`,
+// `campground`, `rv_park`, etc. — which surfaces Airbnb-style rentals and
+// non-business pins. Pair with `EXCLUDED_TYPES` below as belt-and-suspenders
+// in case a hotel is mistagged with a rental subtype.
 const INCLUDED_TYPES = [
   "restaurant",
   "cafe",
@@ -35,10 +42,30 @@ const INCLUDED_TYPES = [
   "shopping_mall",
   "home_goods_store",
   "hardware_store",
-  "lodging",
   "hotel",
+  "motel",
+  "resort_hotel",
+  "extended_stay_hotel",
+  "inn",
   "car_rental",
   "movie_theater",
+];
+
+// Vacation rentals, hostels, campgrounds, and similar lodging subtypes.
+// Even with the narrowed `INCLUDED_TYPES`, Google can return a place that
+// also carries one of these tags — excluding them here drops it.
+const EXCLUDED_TYPES = [
+  "bed_and_breakfast",
+  "private_guest_room",
+  "guest_house",
+  "cottage",
+  "farmstay",
+  "hostel",
+  "japanese_inn",
+  "campground",
+  "camping_cabin",
+  "mobile_home_park",
+  "rv_park",
 ];
 
 const RADIUS_METERS = 1000;
@@ -92,6 +119,7 @@ async function searchNearby(lat, lng, apiKey) {
     },
     body: JSON.stringify({
       includedTypes: INCLUDED_TYPES,
+      excludedTypes: EXCLUDED_TYPES,
       maxResultCount: MAX_RESULTS,
       rankPreference: "DISTANCE",
       locationRestriction: {

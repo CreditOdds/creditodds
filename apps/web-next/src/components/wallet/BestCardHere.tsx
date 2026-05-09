@@ -2,22 +2,28 @@
 
 import { Fragment, useMemo, useState } from 'react';
 import CardImage from '@/components/ui/CardImage';
-import { Card, NearbyPlace, WalletCard, getNearbyPlaces } from '@/lib/api';
+import {
+  Card,
+  NearbyPlace,
+  StoreBrandIndexEntry,
+  WalletCard,
+  getNearbyPlaces,
+  getStoresBrandIndex,
+} from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
-import { categoryLabels } from '@/lib/cardDisplayUtils';
-import { mapPlaceToCategory } from '@/lib/placeTypeMapping';
-import { pickWalletCardsForCategory, WalletPick } from '@/lib/walletPicksForCategory';
+import { PlacePick, pickWalletCardsForPlace } from '@/lib/walletPicksForPlace';
 
-// Resolved merchant ready for rendering: a place from the API plus the
-// lowercase reward category id it maps to (matches Reward.category in
-// data/cards/* YAML).
+// Resolved merchant ready for rendering. `label` is brand name when the
+// place was matched to a Store entry (e.g. "marriott") so the user can
+// see why the brand-gated 6x rate was applied; otherwise it's the reward
+// category label (e.g. "hotels").
 interface Merchant {
   id: string;
   name: string;
-  cat: string;
-  catLabel: string;
+  label: string;
   dist: string;
   addr: string;
+  picks: { best: PlacePick; next?: PlacePick };
 }
 
 function metersToMiles(m: number): string {
@@ -37,31 +43,31 @@ function haversineMeters(aLat: number, aLng: number, bLat: number, bLng: number)
   return 2 * R * Math.asin(Math.sqrt(x));
 }
 
-// Categories the user might never spend on at all (e.g. transit/airlines)
-// can still surface a row using the user's everything_else baseline, so we
-// no longer reject merchants by category here. Drop only the unmapped
-// fallback (everything_else) — those are too generic to be useful.
-function placesToMerchants(places: NearbyPlace[], userLat: number, userLng: number): Merchant[] {
+function placesToMerchants(
+  places: NearbyPlace[],
+  walletCards: WalletCard[],
+  allCards: Card[],
+  brandIndex: StoreBrandIndexEntry[],
+  userLat: number,
+  userLng: number,
+): Merchant[] {
   return places
-    .map((p) => {
-      const match = mapPlaceToCategory({
-        name: p.name,
-        primaryType: p.primaryType ?? undefined,
-        types: p.types,
-      });
-      if (match.category === 'everything_else') return null;
+    .map((p): Merchant | null => {
+      const result = pickWalletCardsForPlace(walletCards, allCards, p, brandIndex);
+      if (!result) return null;
       const dist = p.lat != null && p.lng != null
         ? metersToMiles(haversineMeters(userLat, userLng, p.lat, p.lng))
         : '—';
-      const catLabel = categoryLabels[match.category]?.toLowerCase() ?? match.category;
       return {
         id: p.id,
         name: p.name,
-        cat: match.category,
-        catLabel,
+        label: result.label,
         dist,
         addr: p.address?.split(',')[0] ?? '',
-      } satisfies Merchant;
+        picks: result.next
+          ? { best: result.best, next: result.next }
+          : { best: result.best },
+      };
     })
     .filter((m): m is Merchant => m !== null)
     .sort((a, b) => {
@@ -137,7 +143,7 @@ function PickThumb({ card }: { card: Card }) {
   );
 }
 
-function PickDetail({ label, pick }: { label: string; pick: WalletPick }) {
+function PickDetail({ label, pick }: { label: string; pick: PlacePick }) {
   return (
     <div>
       <div style={{ fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{label}</div>
@@ -203,8 +209,24 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
         setErrorMessage('You need to be signed in to use this feature.');
         return;
       }
-      const result = await getNearbyPlaces(coords.latitude, coords.longitude, token);
-      const resolved = placesToMerchants(result.places, coords.latitude, coords.longitude);
+      // Fetch places + brand index in parallel; the brand index is a
+      // small static blob and tolerates failure (we just lose brand-aware
+      // matching for this lookup, falling back to category-only).
+      const [placesResult, brandIndex] = await Promise.all([
+        getNearbyPlaces(coords.latitude, coords.longitude, token),
+        getStoresBrandIndex().catch((e) => {
+          console.error('Brand index fetch failed; falling back to category-only matching', e);
+          return [] as StoreBrandIndexEntry[];
+        }),
+      ]);
+      const resolved = placesToMerchants(
+        placesResult.places,
+        walletCards,
+        allCards,
+        brandIndex,
+        coords.latitude,
+        coords.longitude,
+      );
       setMerchants(resolved);
       setLocation({
         label: 'Your location',
@@ -227,16 +249,10 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
 
   const showList = location && !loading;
 
-  // Resolve picks once so the empty state accurately reflects "no wallet
-  // match," not just "no merchants returned."
-  const merchantPicks = useMemo(() => {
-    return merchants
-      .map((m) => {
-        const picks = pickWalletCardsForCategory(walletCards, allCards, m.cat);
-        return picks ? { merchant: m, picks } : null;
-      })
-      .filter((x): x is { merchant: Merchant; picks: { best: WalletPick; next?: WalletPick } } => x !== null);
-  }, [merchants, walletCards, allCards]);
+  // Picks are resolved at fetch time (placesToMerchants) so they capture
+  // the brand index from that moment. Memoize the rendered list to keep
+  // referential stability for the row keys.
+  const merchantRows = useMemo(() => merchants, [merchants]);
 
   const feedbackUrl = `https://github.com/CreditOdds/creditodds/issues/new?${new URLSearchParams({
     title: 'Feedback: Best Card Here (Beta)',
@@ -334,16 +350,16 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
         </div>
       )}
 
-      {showList && cardsCount > 0 && merchantPicks.length === 0 && (
+      {showList && cardsCount > 0 && merchantRows.length === 0 && (
         <div className="cj-verdict" style={{ marginTop: 16 }}>
           No nearby merchants matched a reward category for the cards in your wallet. Try a different spot, or add a card with broader earn categories.
         </div>
       )}
 
-      {showList && merchantPicks.length > 0 && (
+      {showList && merchantRows.length > 0 && (
         <>
           <div className="cj-table-label" style={{ marginTop: 24 }}>
-            {merchantPicks.length} merchant{merchantPicks.length === 1 ? '' : 's'} nearby · sorted by distance
+            {merchantRows.length} merchant{merchantRows.length === 1 ? '' : 's'} nearby · sorted by distance
           </div>
           <div className="cj-tape cj-tape-bch">
             <div className="cj-tape-head cj-bch-head">
@@ -354,10 +370,10 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
               <div className="cj-bch-next">Runner-up</div>
               <div className="cj-tape-res cj-bch-earn">Earn</div>
             </div>
-            {merchantPicks.map(({ merchant: m, picks }, i) => {
+            {merchantRows.map((m, i) => {
               const isOpen = openIdx === i;
-              const best = picks.best;
-              const next = picks.next;
+              const best = m.picks.best;
+              const next = m.picks.next;
 
               return (
                 <Fragment key={`${m.id}-${i}`}>
@@ -372,10 +388,10 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
                       <span className="cj-tape-field">{m.name}</span>
                       <div className="cj-tape-detail">
                         <span className="cj-bch-addr">{m.addr}</span>
-                        <span className="cj-bch-mob-meta"> · {m.catLabel} · {m.dist}</span>
+                        <span className="cj-bch-mob-meta"> · {m.label} · {m.dist}</span>
                       </div>
                     </div>
-                    <div className="cj-tape-when cj-bch-cat" style={{ fontSize: 11 }}>{m.catLabel}</div>
+                    <div className="cj-tape-when cj-bch-cat" style={{ fontSize: 11 }}>{m.label}</div>
                     <div className="cj-bch-card cj-bch-best">
                       <PickThumb card={best.card} />
                       <div className="cj-bch-card-text">
