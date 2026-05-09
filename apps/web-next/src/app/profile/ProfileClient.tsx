@@ -7,7 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, WalletCard, Card } from "@/lib/api";
 import "../landing.css";
 import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -91,6 +91,26 @@ function daysUntil(timestamp: number): number {
   return Math.ceil((timestamp - Date.now()) / (1000 * 60 * 60 * 24));
 }
 
+// Wallet display order: rows the user has explicitly dragged (sort_order set)
+// come first in their persisted order; the rest fall back to acquired date desc
+// (newest first), with `created_at` as the final tiebreaker.
+function sortWalletForDisplay(rows: WalletCard[]): WalletCard[] {
+  return rows.slice().sort((a, b) => {
+    const aHas = a.sort_order != null;
+    const bHas = b.sort_order != null;
+    if (aHas && bHas) return (a.sort_order as number) - (b.sort_order as number);
+    if (aHas) return -1;
+    if (bHas) return 1;
+    const aYear = a.acquired_year ?? -Infinity;
+    const bYear = b.acquired_year ?? -Infinity;
+    if (aYear !== bYear) return bYear - aYear;
+    const aMonth = a.acquired_month ?? -Infinity;
+    const bMonth = b.acquired_month ?? -Infinity;
+    if (aMonth !== bMonth) return bMonth - aMonth;
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+}
+
 export default function ProfileClient() {
   const { authState, getToken, logout } = useAuth();
   const router = useRouter();
@@ -141,9 +161,38 @@ export default function ProfileClient() {
     [walletCards, cardLookups]
   );
 
+  // Apply the display sort once here so every consumer (Cards tab, drag-and-drop,
+  // archived toggle) sees the same row order.
+  const orderedWalletCards = useMemo(() => sortWalletForDisplay(walletCards), [walletCards]);
+
+  // Drag-to-reorder: rebuild the wallet array with the source row moved to the
+  // target row's position, write sort_order on every row so the new order
+  // sticks, and persist optimistically. Revert if the server rejects.
+  const handleReorderWallet = async (sourceId: number, targetId: number) => {
+    if (sourceId === targetId) return;
+    const previous = walletCards;
+    const ordered = sortWalletForDisplay(walletCards);
+    const sourceIdx = ordered.findIndex((r) => r.id === sourceId);
+    const targetIdx = ordered.findIndex((r) => r.id === targetId);
+    if (sourceIdx === -1 || targetIdx === -1) return;
+    const next = ordered.slice();
+    const [moved] = next.splice(sourceIdx, 1);
+    next.splice(targetIdx, 0, moved);
+    const renumbered = next.map((row, i) => ({ ...row, sort_order: i }));
+    setWalletCards(renumbered);
+    try {
+      const token = await getToken();
+      if (!token) throw new Error('Authentication required');
+      await reorderWallet(renumbered.map((r) => r.id), token);
+    } catch (err) {
+      console.error('Reorder error:', err);
+      setWalletCards(previous);
+    }
+  };
+
   const { activeWalletCards, inactiveCount } = useMemo(
-    () => getWalletVisibility(walletCards, cardLookups, showArchived),
-    [walletCards, cardLookups, showArchived]
+    () => getWalletVisibility(orderedWalletCards, cardLookups, showArchived),
+    [orderedWalletCards, cardLookups, showArchived]
   );
 
   const isInactiveCard = (cardName: string) => isCardInactive(cardName, cardLookups);
@@ -495,6 +544,7 @@ export default function ProfileClient() {
                 onPickCategories={(c) => setPickingCategoriesFor(c)}
                 onSubmitRecord={(c) => setSubmitRecordCard(c)}
                 onAddReferral={() => setShowReferralModal(true)}
+                onReorder={handleReorderWallet}
               />
             )}
 
@@ -833,14 +883,17 @@ interface CardsTabProps {
   onPickCategories: (c: WalletCard) => void;
   onSubmitRecord: (c: WalletCard) => void;
   onAddReferral: () => void;
+  onReorder: (sourceId: number, targetId: number) => void;
 }
 
 function CardsTab(props: CardsTabProps) {
   const {
     walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, inactiveCount, showArchived, setShowArchived,
     openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals, cardsWithSelectableRewards,
-    totalAnnualFees, onAdd, onEdit, onPickCategories, onSubmitRecord, onAddReferral,
+    totalAnnualFees, onAdd, onEdit, onPickCategories, onSubmitRecord, onAddReferral, onReorder,
   } = props;
+  const [dragId, setDragId] = useState<number | null>(null);
+  const [dragOverId, setDragOverId] = useState<number | null>(null);
 
   if (!walletLoaded) return <LoadingPanel />;
 
@@ -887,7 +940,10 @@ function CardsTab(props: CardsTabProps) {
           const fee = card?.annual_fee ?? 0;
           const archived = card?.active === false;
           const renewal = formatRenewal(c.acquired_month, c.acquired_year);
-          const renewalDisplay = renewal ? renewal.display : '—';
+          // No-fee cards don't renew — leave the cell blank (not even a dash)
+          // so the column reads as "renewals only when there is one."
+          const showRenewal = renewal && fee > 0;
+          const renewalDisplay = showRenewal ? renewal.display : '';
           const acquiredLabel = (() => {
             if (!c.acquired_month && !c.acquired_year) return null;
             const m = c.acquired_month ? MONTHS_SHORT[c.acquired_month - 1] : '';
@@ -897,13 +953,47 @@ function CardsTab(props: CardsTabProps) {
           const hasReferral = cardsWithActiveReferrals.has(c.card_name);
           const slug = card?.slug;
 
+          const isDragging = dragId === c.id;
+          const isDragTarget = dragOverId === c.id && dragId !== null && dragId !== c.id;
           return (
             <Fragment key={c.id}>
               <button
                 type="button"
-                className={'cj-wallet-crow' + (isOpen ? ' is-open' : '') + (archived ? ' is-archived' : '')}
+                className={
+                  'cj-wallet-crow' +
+                  (isOpen ? ' is-open' : '') +
+                  (archived ? ' is-archived' : '') +
+                  (isDragging ? ' is-dragging' : '') +
+                  (isDragTarget ? ' is-drag-over' : '')
+                }
                 onClick={() => setOpenWalletId(isOpen ? null : c.id)}
                 aria-expanded={isOpen}
+                draggable
+                onDragStart={(e) => {
+                  setDragId(c.id);
+                  e.dataTransfer.effectAllowed = 'move';
+                  // Firefox needs setData to start a drag.
+                  try { e.dataTransfer.setData('text/plain', String(c.id)); } catch {}
+                }}
+                onDragOver={(e) => {
+                  if (dragId === null || dragId === c.id) return;
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = 'move';
+                  if (dragOverId !== c.id) setDragOverId(c.id);
+                }}
+                onDragLeave={() => {
+                  if (dragOverId === c.id) setDragOverId(null);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (dragId !== null && dragId !== c.id) onReorder(dragId, c.id);
+                  setDragId(null);
+                  setDragOverId(null);
+                }}
+                onDragEnd={() => {
+                  setDragId(null);
+                  setDragOverId(null);
+                }}
               >
                 <span className="cj-cw-thumb">
                   <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="36px" className="object-contain" />
@@ -932,23 +1022,51 @@ function CardsTab(props: CardsTabProps) {
               </button>
               {isOpen && (
                 <div className="cj-wallet-detail">
-                  <div className="cj-wd-meta">
-                    <div>
-                      <div className="cj-wd-k">Issuer</div>
-                      <div className="cj-wd-v">{c.bank}</div>
+                  <div className="cj-wd-row">
+                    <div className="cj-wd-meta">
+                      <div>
+                        <div className="cj-wd-k">Issuer</div>
+                        <div className="cj-wd-v">{c.bank}</div>
+                      </div>
+                      <div>
+                        <div className="cj-wd-k">Opened</div>
+                        <div className="cj-wd-v">{acquiredLabel || '—'}</div>
+                      </div>
+                      {showRenewal && (
+                        <div>
+                          <div className="cj-wd-k">Renewal</div>
+                          <div className="cj-wd-v">{renewalDisplay}</div>
+                        </div>
+                      )}
+                      <div>
+                        <div className="cj-wd-k">Annual fee</div>
+                        <div className="cj-wd-v">{fee === 0 ? '$0 · no fee' : '$' + fee.toLocaleString()}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="cj-wd-k">Opened</div>
-                      <div className="cj-wd-v">{acquiredLabel || '—'}</div>
-                    </div>
-                    <div>
-                      <div className="cj-wd-k">Renewal</div>
-                      <div className="cj-wd-v">{renewalDisplay}</div>
-                    </div>
-                    <div>
-                      <div className="cj-wd-k">Annual fee</div>
-                      <div className="cj-wd-v">{fee === 0 ? '$0 · no fee' : '$' + fee.toLocaleString()}</div>
-                    </div>
+                    {typeof c.user_rating === 'number' && c.user_rating > 0 && (
+                      <div className="cj-wd-rating" aria-label={`Your rating: ${c.user_rating} of 5`}>
+                        <div className="cj-wd-k">Your rating</div>
+                        <div className="cj-wd-stars">
+                          {[1, 2, 3, 4, 5].map((s) => {
+                            const filled = s <= (c.user_rating || 0);
+                            return (
+                              <svg
+                                key={s}
+                                viewBox="0 0 20 20"
+                                fill={filled ? 'currentColor' : 'none'}
+                                stroke="currentColor"
+                                strokeWidth={filled ? '0' : '1.5'}
+                                xmlns="http://www.w3.org/2000/svg"
+                                className={'cj-wd-star' + (filled ? ' is-filled' : '')}
+                                aria-hidden="true"
+                              >
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="cj-wd-actions">
                     {slug && <Link href={`/card/${slug}`}>view card page →</Link>}

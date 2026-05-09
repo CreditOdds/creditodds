@@ -344,6 +344,22 @@ Resources:
             Method: POST
             RestApiId:
               Ref: CreditCardOddsAPI
+        ReorderWallet:
+          Type: Api
+          Properties:
+            Path: /wallet/reorder
+            Method: PUT
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        ReorderWalletOptions:
+          Type: Api
+          Properties:
+            Path: /wallet/reorder
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
         UpdateWalletCard:
           Type: Api
           Properties:

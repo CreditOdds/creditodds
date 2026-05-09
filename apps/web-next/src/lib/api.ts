@@ -336,6 +336,7 @@ export interface WalletCard {
   card_image_link?: string;
   acquired_month?: number;
   acquired_year?: number;
+  sort_order?: number | null;
   created_at: string;
   user_rating?: number | null;
   selections?: WalletCardSelection[];
@@ -400,6 +401,27 @@ export async function updateWalletCard(
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');
     throw new Error(`Failed to update wallet card: ${errorText}`);
+  }
+  return res.json();
+}
+
+// Persist drag-to-reorder of wallet rows. The order is the desired display
+// order (top to bottom). Server writes sort_order = index for each id.
+export async function reorderWallet(
+  order: number[],
+  token: string
+): Promise<{ message: string; count: number }> {
+  const res = await fetch(`${API_BASE}/wallet/reorder`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ order }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to reorder wallet: ${errorText}`);
   }
   return res.json();
 }

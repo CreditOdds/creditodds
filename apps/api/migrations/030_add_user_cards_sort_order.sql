@@ -1,0 +1,1 @@
+ALTER TABLE user_cards ADD COLUMN sort_order INT NULL DEFAULT NULL;
