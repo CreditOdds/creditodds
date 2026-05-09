@@ -3619,6 +3619,40 @@
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
+.landing-v2.profile-v2 .cj-wallet-detail .cj-wd-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0 12px;
+  border-bottom: 1px dashed var(--line);
+}
+.landing-v2.profile-v2 .cj-wallet-detail .cj-wd-row .cj-wd-meta {
+  border-bottom: 0;
+  padding: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.landing-v2.profile-v2 .cj-wallet-detail .cj-wd-rating {
+  flex: 0 0 auto;
+  text-align: right;
+  color: var(--accent);
+}
+.landing-v2.profile-v2 .cj-wallet-detail .cj-wd-rating .cj-wd-k {
+  color: var(--muted);
+}
+.landing-v2.profile-v2 .cj-wallet-detail .cj-wd-stars {
+  display: inline-flex;
+  gap: 2px;
+}
+.landing-v2.profile-v2 .cj-wallet-detail .cj-wd-star {
+  width: 16px;
+  height: 16px;
+  color: var(--line);
+}
+.landing-v2.profile-v2 .cj-wallet-detail .cj-wd-star.is-filled {
+  color: var(--accent);
+}
 .landing-v2.profile-v2 .cj-wallet-detail .cj-wd-meta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

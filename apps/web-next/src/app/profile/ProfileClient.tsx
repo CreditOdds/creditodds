@@ -940,8 +940,10 @@ function CardsTab(props: CardsTabProps) {
           const fee = card?.annual_fee ?? 0;
           const archived = card?.active === false;
           const renewal = formatRenewal(c.acquired_month, c.acquired_year);
-          // No-fee cards don't renew — showing a renewal date is misleading.
-          const renewalDisplay = renewal && fee > 0 ? renewal.display : '—';
+          // No-fee cards don't renew — leave the cell blank (not even a dash)
+          // so the column reads as "renewals only when there is one."
+          const showRenewal = renewal && fee > 0;
+          const renewalDisplay = showRenewal ? renewal.display : '';
           const acquiredLabel = (() => {
             if (!c.acquired_month && !c.acquired_year) return null;
             const m = c.acquired_month ? MONTHS_SHORT[c.acquired_month - 1] : '';
@@ -1020,23 +1022,51 @@ function CardsTab(props: CardsTabProps) {
               </button>
               {isOpen && (
                 <div className="cj-wallet-detail">
-                  <div className="cj-wd-meta">
-                    <div>
-                      <div className="cj-wd-k">Issuer</div>
-                      <div className="cj-wd-v">{c.bank}</div>
+                  <div className="cj-wd-row">
+                    <div className="cj-wd-meta">
+                      <div>
+                        <div className="cj-wd-k">Issuer</div>
+                        <div className="cj-wd-v">{c.bank}</div>
+                      </div>
+                      <div>
+                        <div className="cj-wd-k">Opened</div>
+                        <div className="cj-wd-v">{acquiredLabel || '—'}</div>
+                      </div>
+                      {showRenewal && (
+                        <div>
+                          <div className="cj-wd-k">Renewal</div>
+                          <div className="cj-wd-v">{renewalDisplay}</div>
+                        </div>
+                      )}
+                      <div>
+                        <div className="cj-wd-k">Annual fee</div>
+                        <div className="cj-wd-v">{fee === 0 ? '$0 · no fee' : '$' + fee.toLocaleString()}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="cj-wd-k">Opened</div>
-                      <div className="cj-wd-v">{acquiredLabel || '—'}</div>
-                    </div>
-                    <div>
-                      <div className="cj-wd-k">Renewal</div>
-                      <div className="cj-wd-v">{renewalDisplay}</div>
-                    </div>
-                    <div>
-                      <div className="cj-wd-k">Annual fee</div>
-                      <div className="cj-wd-v">{fee === 0 ? '$0 · no fee' : '$' + fee.toLocaleString()}</div>
-                    </div>
+                    {typeof c.user_rating === 'number' && c.user_rating > 0 && (
+                      <div className="cj-wd-rating" aria-label={`Your rating: ${c.user_rating} of 5`}>
+                        <div className="cj-wd-k">Your rating</div>
+                        <div className="cj-wd-stars">
+                          {[1, 2, 3, 4, 5].map((s) => {
+                            const filled = s <= (c.user_rating || 0);
+                            return (
+                              <svg
+                                key={s}
+                                viewBox="0 0 20 20"
+                                fill={filled ? 'currentColor' : 'none'}
+                                stroke="currentColor"
+                                strokeWidth={filled ? '0' : '1.5'}
+                                xmlns="http://www.w3.org/2000/svg"
+                                className={'cj-wd-star' + (filled ? ' is-filled' : '')}
+                                aria-hidden="true"
+                              >
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="cj-wd-actions">
                     {slug && <Link href={`/card/${slug}`}>view card page →</Link>}
