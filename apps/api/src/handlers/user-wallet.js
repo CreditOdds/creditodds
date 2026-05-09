@@ -1,11 +1,35 @@
 // User Wallet API - Manage cards in user's wallet
+//
+// Routes:
+//   GET    /wallet         — list every card instance in the user's wallet
+//   POST   /wallet         — add a new instance (duplicates of the same card_id are allowed)
+//   PUT    /wallet/{id}    — update acquired_month / acquired_year on a specific instance
+//   DELETE /wallet/{id}    — remove a specific instance
+//
+// Per-card identity is `user_cards.id` (auto-increment). Ratings live in `card_ratings`
+// keyed by (user_id, card_id) — one rating per card type, shared across duplicates.
 const mysql = require("../db");
 
 const responseHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type,Authorization",
-  "Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS",
+  "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
 };
+
+function validateAcquiredDate(acquired_month, acquired_year) {
+  if (acquired_month !== undefined && acquired_month !== null) {
+    if (acquired_month < 1 || acquired_month > 12) {
+      return "acquired_month must be between 1 and 12";
+    }
+  }
+  if (acquired_year !== undefined && acquired_year !== null) {
+    const currentYear = new Date().getFullYear();
+    if (acquired_year < 1950 || acquired_year > currentYear) {
+      return `acquired_year must be between 1950 and ${currentYear}`;
+    }
+  }
+  return null;
+}
 
 exports.UserWalletHandler = async (event) => {
   console.info("received:", event);
@@ -29,13 +53,14 @@ exports.UserWalletHandler = async (event) => {
     };
   }
 
+  const walletRowId = event.pathParameters?.id ? Number(event.pathParameters.id) : null;
   let response = {};
 
   try {
     switch (event.httpMethod) {
-      case "GET":
-        // Get all cards in user's wallet with card details + the user's rating
-        // (preloaded so the edit modal doesn't flash an empty rating while fetching).
+      case "GET": {
+        // Get all card instances in the user's wallet, with the shared
+        // (per-card-type) rating preloaded so the edit modal doesn't flash empty stars.
         const walletCards = await mysql.query(`
           SELECT
             uc.id,
@@ -52,7 +77,7 @@ exports.UserWalletHandler = async (event) => {
           LEFT JOIN card_ratings cr
             ON cr.card_id = uc.card_id AND cr.user_id = uc.user_id
           WHERE uc.user_id = ?
-          ORDER BY uc.created_at DESC
+          ORDER BY uc.created_at ASC, uc.id ASC
         `, [userId]);
         await mysql.end();
 
@@ -62,9 +87,11 @@ exports.UserWalletHandler = async (event) => {
           body: JSON.stringify(walletCards),
         };
         break;
+      }
 
-      case "POST":
-        // Add card to wallet
+      case "POST": {
+        // Add a new card instance to the wallet. Duplicates of the same card_id are allowed —
+        // each row has its own auto-increment `id`.
         const addBody = JSON.parse(event.body || "{}");
         const { card_id, acquired_month, acquired_year } = addBody;
 
@@ -77,32 +104,16 @@ exports.UserWalletHandler = async (event) => {
           break;
         }
 
-        // Validate month if provided
-        if (acquired_month !== undefined && acquired_month !== null) {
-          if (acquired_month < 1 || acquired_month > 12) {
-            response = {
-              statusCode: 400,
-              headers: responseHeaders,
-              body: JSON.stringify({ error: "acquired_month must be between 1 and 12" }),
-            };
-            break;
-          }
+        const dateError = validateAcquiredDate(acquired_month, acquired_year);
+        if (dateError) {
+          response = {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: dateError }),
+          };
+          break;
         }
 
-        // Validate year if provided
-        if (acquired_year !== undefined && acquired_year !== null) {
-          const currentYear = new Date().getFullYear();
-          if (acquired_year < 1950 || acquired_year > currentYear) {
-            response = {
-              statusCode: 400,
-              headers: responseHeaders,
-              body: JSON.stringify({ error: `acquired_year must be between 1950 and ${currentYear}` }),
-            };
-            break;
-          }
-        }
-
-        // Check if card exists
         const cardExists = await mysql.query(
           "SELECT card_id FROM cards WHERE card_id = ?",
           [card_id]
@@ -117,13 +128,9 @@ exports.UserWalletHandler = async (event) => {
           break;
         }
 
-        // Insert or update (upsert) - if card already in wallet, update acquired date
-        await mysql.query(`
+        const insertResult = await mysql.query(`
           INSERT INTO user_cards (user_id, card_id, acquired_month, acquired_year)
           VALUES (?, ?, ?, ?)
-          ON DUPLICATE KEY UPDATE
-            acquired_month = VALUES(acquired_month),
-            acquired_year = VALUES(acquired_year)
         `, [userId, card_id, acquired_month || null, acquired_year || null]);
         await mysql.end();
 
@@ -132,30 +139,82 @@ exports.UserWalletHandler = async (event) => {
           headers: responseHeaders,
           body: JSON.stringify({
             message: "Card added to wallet",
+            id: insertResult.insertId,
             card_id,
             acquired_month: acquired_month || null,
-            acquired_year: acquired_year || null
+            acquired_year: acquired_year || null,
           }),
         };
         break;
+      }
 
-      case "DELETE":
-        // Remove card from wallet
-        const deleteBody = JSON.parse(event.body || "{}");
-        const cardIdToDelete = deleteBody.card_id;
-
-        if (!cardIdToDelete) {
+      case "PUT": {
+        // Update acquired_month / acquired_year on a specific wallet row.
+        if (!walletRowId || !Number.isFinite(walletRowId)) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_id is required" }),
+            body: JSON.stringify({ error: "wallet row id is required in path" }),
+          };
+          break;
+        }
+
+        const editBody = JSON.parse(event.body || "{}");
+        const { acquired_month, acquired_year } = editBody;
+
+        const dateError = validateAcquiredDate(acquired_month, acquired_year);
+        if (dateError) {
+          response = {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: dateError }),
+          };
+          break;
+        }
+
+        const updateResult = await mysql.query(`
+          UPDATE user_cards
+          SET acquired_month = ?, acquired_year = ?
+          WHERE id = ? AND user_id = ?
+        `, [acquired_month || null, acquired_year || null, walletRowId, userId]);
+        await mysql.end();
+
+        if (updateResult.affectedRows === 0) {
+          response = {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Wallet card not found" }),
+          };
+        } else {
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({
+              message: "Wallet card updated",
+              id: walletRowId,
+              acquired_month: acquired_month || null,
+              acquired_year: acquired_year || null,
+            }),
+          };
+        }
+        break;
+      }
+
+      case "DELETE": {
+        // Remove a specific wallet row. Always keyed by row id so duplicates of
+        // the same card_id can be removed independently.
+        if (!walletRowId || !Number.isFinite(walletRowId)) {
+          response = {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "wallet row id is required in path" }),
           };
           break;
         }
 
         const deleteResult = await mysql.query(
-          "DELETE FROM user_cards WHERE user_id = ? AND card_id = ?",
-          [userId, cardIdToDelete]
+          "DELETE FROM user_cards WHERE id = ? AND user_id = ?",
+          [walletRowId, userId]
         );
         await mysql.end();
 
@@ -163,7 +222,7 @@ exports.UserWalletHandler = async (event) => {
           response = {
             statusCode: 404,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "Card not found in wallet" }),
+            body: JSON.stringify({ error: "Wallet card not found" }),
           };
         } else {
           response = {
@@ -173,6 +232,7 @@ exports.UserWalletHandler = async (event) => {
           };
         }
         break;
+      }
 
       default:
         response = {

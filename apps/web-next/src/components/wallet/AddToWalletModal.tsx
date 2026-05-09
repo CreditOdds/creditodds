@@ -45,9 +45,10 @@ export default function AddToWalletModal({ show, onClose, onSuccess, existingCar
     }
   }, [show]);
 
+  const existingCardIdSet = new Set(existingCardIds);
+
   const filteredCards = cards.filter(card => {
     if (!card.db_card_id) return false;
-    if (existingCardIds.includes(card.db_card_id)) return false;
     if (!search) return true;
     const s = search.toLowerCase();
     return card.card_name.toLowerCase().includes(s) || card.bank.toLowerCase().includes(s);
@@ -115,22 +116,27 @@ export default function AddToWalletModal({ show, onClose, onSuccess, existingCar
 
                 <div className="cj-modal-section">
                   <div className="cj-modal-list">
-                    {filteredCards.slice(0, 20).map((card) => (
-                      <button
-                        key={card.card_id}
-                        type="button"
-                        onClick={() => setSelectedCard(card)}
-                        className="cj-modal-list-row"
-                      >
-                        <span className="cj-modal-thumb">
-                          <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="56px" />
-                        </span>
-                        <div style={{ minWidth: 0 }}>
-                          <div className="cj-modal-list-name">{card.card_name}</div>
-                          <div className="cj-modal-list-meta">{card.bank}</div>
-                        </div>
-                      </button>
-                    ))}
+                    {filteredCards.slice(0, 20).map((card) => {
+                      const alreadyHeld = card.db_card_id !== undefined && existingCardIdSet.has(card.db_card_id);
+                      return (
+                        <button
+                          key={card.card_id}
+                          type="button"
+                          onClick={() => setSelectedCard(card)}
+                          className="cj-modal-list-row"
+                        >
+                          <span className="cj-modal-thumb">
+                            <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="56px" />
+                          </span>
+                          <div style={{ minWidth: 0 }}>
+                            <div className="cj-modal-list-name">{card.card_name}</div>
+                            <div className="cj-modal-list-meta">
+                              {card.bank}{alreadyHeld ? ' · already in your wallet' : ''}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
                     {filteredCards.length === 0 && (
                       <div className="cj-modal-list-empty">no cards match</div>
                     )}
