@@ -326,6 +326,7 @@ export interface WalletCard {
   acquired_month?: number;
   acquired_year?: number;
   created_at: string;
+  user_rating?: number | null;
 }
 
 export async function getWallet(token: string): Promise<WalletCard[]> {
