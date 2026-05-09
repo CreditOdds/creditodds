@@ -5,7 +5,54 @@ import { notFound } from "next/navigation";
 import { Card, CardBenefit, getCard, getCardGraphs, getAllCards, getCardRatings, getCardWire, getComparePartners, GraphData, CardWireEntry } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
+import { categoryLabels, pickHeadlineReward } from "@/lib/cardDisplayUtils";
 import CardClient from "./CardClient";
+
+function buildMetaDescription(card: Card): string {
+  const seoName = /card/i.test(card.card_name) ? card.card_name : `${card.card_name} Credit Card`;
+  const bankSuffix =
+    card.bank && !card.card_name.toLowerCase().includes(card.bank.toLowerCase())
+      ? ` from ${card.bank}`
+      : '';
+  const cardKind = card.reward_type ?? null;
+  const cardLabel = cardKind ? `${cardKind} card` : 'credit card';
+
+  const facts: string[] = [];
+
+  if (card.annual_fee === 0) facts.push('no annual fee');
+  else if (typeof card.annual_fee === 'number') facts.push(`a $${card.annual_fee} annual fee`);
+
+  const headline = pickHeadlineReward(card.rewards);
+  if (headline) {
+    const r = headline.reward;
+    let rate: string;
+    if (r.unit === 'percent') rate = `${r.value}% back`;
+    else if (r.unit === 'points_per_dollar') rate = `${r.value}x ${cardKind === 'miles' ? 'miles' : 'points'}`;
+    else rate = `${r.value} ${r.unit}`;
+    const catLabel = r.category === 'everything_else'
+      ? 'everything'
+      : (categoryLabels[r.category] || r.category.replace(/_/g, ' ')).toLowerCase();
+    facts.push(`${rate} on ${catLabel}`);
+  }
+
+  if (card.signup_bonus) {
+    const sb = card.signup_bonus;
+    const valStr = sb.type === 'cash'
+      ? `$${sb.value.toLocaleString()}`
+      : `${sb.value.toLocaleString()} ${sb.type.replace(/_/g, ' ')}`;
+    const reqStr = sb.spend_requirement
+      ? ` after $${sb.spend_requirement.toLocaleString()} in ${sb.timeframe_months}mo`
+      : '';
+    facts.push(`a ${valStr} signup bonus${reqStr}`);
+  }
+
+  let lead = `The ${seoName}${bankSuffix} is a ${cardLabel}`;
+  if (facts.length === 1) lead += ` with ${facts[0]}.`;
+  else if (facts.length > 1) lead += ` with ${facts.slice(0, -1).join(', ')}, and ${facts[facts.length - 1]}.`;
+  else lead += '.';
+
+  return `${lead} See full details, rewards, fees, and cardholder data on CreditOdds.`;
+}
 
 // Bucket annual fees so we don't suggest a $0 secured card next to a $695
 // luxury card just because they share a "travel" tag. Same band = full credit,
@@ -84,20 +131,14 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
     const card = await getCard(slug);
 
     const seoName = /card/i.test(card.card_name) ? card.card_name : `${card.card_name} Credit Card`;
-    const bankSuffix =
-      card.bank && !card.card_name.toLowerCase().includes(card.bank.toLowerCase())
-        ? ` from ${card.bank}`
-        : '';
-    const description = card.approved_median_credit_score
-      ? `Approval odds for the ${seoName}${bankSuffix}. Median approved credit score ${card.approved_median_credit_score}${card.approved_median_income ? `, income $${card.approved_median_income.toLocaleString()}` : ''}. See real cardholder data points before you apply.`
-      : `Approval odds, credit score data points, income, and real cardholder applications for the ${seoName}${bankSuffix}. Check your approval chances before you apply.`;
+    const description = buildMetaDescription(card);
 
     return {
       title: seoName,
       description,
       openGraph: {
         title: `${seoName} | CreditOdds`,
-        description: `See approval odds for ${seoName}${card.approved_median_credit_score ? `. Median approved credit score: ${card.approved_median_credit_score}` : ''}`,
+        description,
         siteName: 'CreditOdds',
         type: 'website',
         url: `https://creditodds.com/card/${card.slug}`,
@@ -105,7 +146,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
       twitter: {
         card: 'summary_large_image',
         title: `${seoName} | CreditOdds`,
-        description: `See approval odds for ${seoName}`,
+        description,
       },
       alternates: {
         canonical: `https://creditodds.com/card/${card.slug}`,
