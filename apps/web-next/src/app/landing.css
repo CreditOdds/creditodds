@@ -5607,31 +5607,24 @@
 }
 .landing-v2.profile-v2 .cj-modal-back:hover { color: var(--accent-deep); }
 
-/* Bottom-sheet bounded card — pins to viewport on mobile so the body
-   can scroll internally while the head + footer stay reachable. Used
-   by ReportMerchantModal where the form runs longer than one screen. */
+/* Bottom-sheet bounded card — caps height to the viewport and makes
+   the entire card scroll as one. Used by ReportMerchantModal where the
+   form runs longer than one screen on small phones.
+
+   We tried flex-column with sticky head/footer first (Apr 2026); on
+   iOS Safari the body refused to scroll inside the card despite
+   min-height:0 + overflow-y:auto. Single-container scroll is dumber
+   but reliably works. */
 .landing-v2.profile-v2 .cj-modal-card-bounded {
-  display: flex;
-  flex-direction: column;
   max-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 @media (min-width: 640px) {
   .landing-v2.profile-v2 .cj-modal-card-bounded {
     max-height: calc(100dvh - 64px);
   }
-}
-.landing-v2.profile-v2 .cj-modal-card-bounded .cj-modal-head {
-  flex-shrink: 0;
-}
-.landing-v2.profile-v2 .cj-modal-card-bounded .cj-modal-body {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-}
-.landing-v2.profile-v2 .cj-modal-card-bounded .cj-modal-footer {
-  flex-shrink: 0;
 }
 
 /* ---------- Best Card Here · report-merchant modal ---------- */
