@@ -34,7 +34,8 @@ exports.UserWalletHandler = async (event) => {
   try {
     switch (event.httpMethod) {
       case "GET":
-        // Get all cards in user's wallet with card details
+        // Get all cards in user's wallet with card details + the user's rating
+        // (preloaded so the edit modal doesn't flash an empty rating while fetching).
         const walletCards = await mysql.query(`
           SELECT
             uc.id,
@@ -44,9 +45,12 @@ exports.UserWalletHandler = async (event) => {
             uc.created_at,
             c.card_name,
             c.bank,
-            c.card_image_link
+            c.card_image_link,
+            cr.rating AS user_rating
           FROM user_cards uc
           JOIN cards c ON uc.card_id = c.card_id
+          LEFT JOIN card_ratings cr
+            ON cr.card_id = uc.card_id AND cr.user_id = uc.user_id
           WHERE uc.user_id = ?
           ORDER BY uc.created_at DESC
         `, [userId]);

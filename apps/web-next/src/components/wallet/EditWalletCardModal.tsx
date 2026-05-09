@@ -58,13 +58,18 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, o
       setAcquiredMonth(card.acquired_month);
       setAcquiredYear(card.acquired_year);
       setError(null);
-      setUserRating(null);
-      (async () => {
-        const token = await getToken();
-        if (!token) return;
-        const rating = await getUserCardRating(card.card_name, token);
-        setUserRating(rating);
-      })();
+      const preloaded = card.user_rating;
+      setUserRating(preloaded ?? null);
+      // Fall back to a fetch only when the wallet payload didn't include the rating
+      // (e.g. older API deployments before user_rating was added to GET /wallet).
+      if (preloaded === undefined) {
+        (async () => {
+          const token = await getToken();
+          if (!token) return;
+          const rating = await getUserCardRating(card.card_name, token);
+          setUserRating(rating);
+        })();
+      }
     }
   }, [card, getToken]);
 
