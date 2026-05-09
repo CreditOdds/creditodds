@@ -19,11 +19,13 @@ rewards:
     rate_after_cap: 1
     mode: user_choice
     note: "Choose 2 categories each quarter, up to $2,000 combined"
-  - category: dining
+  - category: selected_categories
     value: 2
     unit: percent
-    note: "Choose 1 everyday category: gas, grocery, or restaurants"
+    choices: 1
+    eligible_categories: [groceries, gas, dining]
     mode: user_choice
+    note: "Choose 1 everyday category: Grocery stores and grocery delivery, Gas stations and EV charging stations, or Restaurants"
   - category: everything_else
     value: 1
     unit: percent

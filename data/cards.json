@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-09T21:28:56.334Z",
+  "generated_at": "2026-05-09T21:33:01.508Z",
   "count": 162,
   "categories": [
     {
@@ -8418,11 +8418,17 @@
           "note": "Choose 2 categories each quarter, up to $2,000 combined"
         },
         {
-          "category": "dining",
+          "category": "selected_categories",
           "value": 2,
           "unit": "percent",
-          "note": "Choose 1 everyday category: gas, grocery, or restaurants",
-          "mode": "user_choice"
+          "choices": 1,
+          "eligible_categories": [
+            "groceries",
+            "gas",
+            "dining"
+          ],
+          "mode": "user_choice",
+          "note": "Choose 1 everyday category: Grocery stores and grocery delivery, Gas stations and EV charging stations, or Restaurants"
         },
         {
           "category": "everything_else",
