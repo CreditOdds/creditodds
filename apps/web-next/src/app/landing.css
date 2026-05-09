@@ -5222,6 +5222,16 @@
   letter-spacing: -0.01em;
   color: var(--ink);
   line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.landing-v2.profile-v2 .cj-rule-logo {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 .landing-v2.profile-v2 .cj-rule-period {
   font-size: 10.5px;
