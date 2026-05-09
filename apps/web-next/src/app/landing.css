@@ -5303,10 +5303,13 @@
 }
 
 /* ===== Modal — cj-* styled ===== */
+/* z-index 110 keeps the modal above the mobile profile tab bar (z:100) so
+   the dialog isn't tappable through, and so the bottom of the card isn't
+   covered by the tab bar. */
 .landing-v2.profile-v2 .cj-modal-root {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 110;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -5325,7 +5328,10 @@
   min-height: 100%;
   align-items: flex-end;
   justify-content: center;
-  padding: 0;
+  /* Bottom padding lifts the modal card above the fixed mobile profile
+     tab bar so the Send/Save buttons aren't covered. Mirrors the height
+     reserved on .cj-modal-card-bounded above. */
+  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 70px);
 }
 @media (min-width: 640px) {
   .landing-v2.profile-v2 .cj-modal-shell {
@@ -5667,7 +5673,9 @@
    min-height:0 + overflow-y:auto. Single-container scroll is dumber
    but reliably works. */
 .landing-v2.profile-v2 .cj-modal-card-bounded {
-  max-height: 100dvh;
+  /* Reserve room for the fixed mobile profile tab bar (~70px + safe area)
+     so the bottom action buttons aren't parked behind it. */
+  max-height: calc(100dvh - env(safe-area-inset-bottom, 0px) - 70px);
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
