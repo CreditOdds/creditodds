@@ -4,6 +4,18 @@
 // `everything_else`, which is also the catch-all that every wallet card
 // usually rewards at 1x.
 //
+// Each match returns *two* layers of categories:
+//   1. `primary`  — the generic taxonomy slug (dining, gas, transit…) used
+//      for labelling the merchant row and for the early-return on
+//      everything_else.
+//   2. `categories` — the primary plus any *issuer-specific subtype* slugs
+//      that apply (fast_food, movie_theaters, ground_transportation…) so a
+//      Cash+ user's "Movie Theaters" pick actually matches an AMC place.
+//
+// This means `categories` is always a superset of `[primary]`. The ranker
+// already iterates an array of categories per store, so multi-matching is
+// transparent — a merchant just carries every applicable bucket.
+//
 // Reference for Google place types:
 // https://developers.google.com/maps/documentation/places/web-service/place-types
 
@@ -73,12 +85,54 @@ const PRIMARY_TYPE_TO_CATEGORY: Record<string, string> = {
   // home improvement
   home_goods_store: 'home_improvement',
   hardware_store: 'home_improvement',
+  // electronics / sporting goods / furniture / fitness — these don't have a
+  // generic taxonomy bucket today, so they fall through to everything_else
+  // *unless* the issuer-subtype map below catches them first via the
+  // alternate path in mapPlaceToCategory.
+};
+
+// Issuer-specific subtypes layered on top of the generic primary category.
+// When a Google Places type is more specific than the generic taxonomy
+// (e.g. `movie_theater` is more precise than `entertainment`), we add the
+// issuer's specific bucket to the merchant's categories so picks like
+// Cash+ "Movie Theaters" actually match.
+//
+// These slugs live in data/categories.yaml and the categoryLabels map.
+const PRIMARY_TYPE_SUBTYPES: Record<string, string[]> = {
+  // U.S. Bank Cash+ 5% buckets
+  fast_food_restaurant: ['fast_food'],
+  meal_takeaway: ['fast_food'],
+  movie_theater: ['movie_theaters'],
+  electronics_store: ['electronics_stores'],
+  furniture_store: ['furniture_stores'],
+  gym: ['gyms_fitness'],
+  fitness_center: ['gyms_fitness'],
+  sporting_goods_store: ['sporting_goods'],
+  taxi_stand: ['ground_transportation'],
+  bus_station: ['ground_transportation'],
+  subway_station: ['ground_transportation'],
+  train_station: ['ground_transportation'],
+  light_rail_station: ['ground_transportation'],
+  transit_station: ['ground_transportation'],
+  // `clothing_store` deliberately omitted — Cash+ "Select Clothing Stores"
+  // is a curated list of partner retailers, not all clothing stores. Until
+  // a merchant_gate-style fixed list is added, surfacing Cash+ at any
+  // clothing place would be a false positive.
 };
 
 export interface PlaceCategoryMatch {
-  category: string;
-  matchedBy: 'brand' | 'primaryType' | 'type' | 'fallback';
+  /** Generic taxonomy slug (dining, gas, etc) — used for labels + everything_else fallback. */
+  primary: string;
+  /** All applicable categories: primary + any issuer-specific subtypes. */
+  categories: string[];
+  matchedBy: 'brand' | 'primaryType' | 'type' | 'subtype' | 'fallback';
   matchedValue?: string;
+}
+
+function withSubtypes(primary: string, sourceType: string | undefined): string[] {
+  if (!sourceType) return [primary];
+  const subtypes = PRIMARY_TYPE_SUBTYPES[sourceType];
+  return subtypes ? [primary, ...subtypes] : [primary];
 }
 
 export function mapPlaceToCategory(place: {
@@ -89,12 +143,19 @@ export function mapPlaceToCategory(place: {
   const lowerName = (place.name || '').toLowerCase();
   for (const { match, category } of BRAND_TO_CATEGORY) {
     if (lowerName.includes(match)) {
-      return { category, matchedBy: 'brand', matchedValue: match };
+      return {
+        primary: category,
+        categories: [category],
+        matchedBy: 'brand',
+        matchedValue: match,
+      };
     }
   }
   if (place.primaryType && PRIMARY_TYPE_TO_CATEGORY[place.primaryType]) {
+    const primary = PRIMARY_TYPE_TO_CATEGORY[place.primaryType];
     return {
-      category: PRIMARY_TYPE_TO_CATEGORY[place.primaryType],
+      primary,
+      categories: withSubtypes(primary, place.primaryType),
       matchedBy: 'primaryType',
       matchedValue: place.primaryType,
     };
@@ -102,13 +163,31 @@ export function mapPlaceToCategory(place: {
   if (place.types) {
     for (const t of place.types) {
       if (PRIMARY_TYPE_TO_CATEGORY[t]) {
+        const primary = PRIMARY_TYPE_TO_CATEGORY[t];
         return {
-          category: PRIMARY_TYPE_TO_CATEGORY[t],
+          primary,
+          categories: withSubtypes(primary, t),
           matchedBy: 'type',
           matchedValue: t,
         };
       }
     }
+    // No generic match, but the place might still be one of the issuer-only
+    // subtypes (e.g. a clothing_store with no primary mapping but maybe an
+    // upstream subtype we want to surface). Right now PRIMARY_TYPE_SUBTYPES
+    // entries always also have a generic primary mapping above, so this
+    // branch is currently dormant — kept for future "issuer-only" subtypes.
+    for (const t of place.types) {
+      const subs = PRIMARY_TYPE_SUBTYPES[t];
+      if (subs && subs.length > 0) {
+        return {
+          primary: subs[0],
+          categories: subs,
+          matchedBy: 'subtype',
+          matchedValue: t,
+        };
+      }
+    }
   }
-  return { category: 'everything_else', matchedBy: 'fallback' };
+  return { primary: 'everything_else', categories: ['everything_else'], matchedBy: 'fallback' };
 }

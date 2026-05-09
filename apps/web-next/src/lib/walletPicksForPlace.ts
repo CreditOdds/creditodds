@@ -63,14 +63,14 @@ function rankedToPick(r: RankedPick): PlacePick {
   };
 }
 
-function buildSyntheticCategoryStore(category: string): Store {
+function buildSyntheticCategoryStore(categories: string[]): Store {
   return {
     // Empty slug means rankCards' merchant_gate check (`!storeSlug`) will
     // reject every gated reward — exactly what we want when the merchant
     // isn't a recognized brand.
     slug: '',
     name: 'category',
-    categories: [category],
+    categories,
     intro: '',
   };
 }
@@ -116,8 +116,13 @@ export function pickWalletCardsForPlace(
     primaryType: place.primaryType ?? undefined,
     types: place.types,
   });
-  if (categoryMatch.category === 'everything_else') return null;
-  const categoryId = categoryMatch.category;
+  if (categoryMatch.primary === 'everything_else') return null;
+  // The merchant's primary slug labels the row; the full category list
+  // (primary + issuer-specific subtypes like `movie_theaters`) is what we
+  // match against card rewards and user selections so a Cash+ "Movie
+  // Theaters" pick actually fires at an AMC.
+  const categoryId = categoryMatch.primary;
+  const merchantCategories = categoryMatch.categories;
 
   // Map wallet rows to their card slugs (skipping any that don't resolve).
   // Keep the wallet row alongside so we can build prompts and selection maps.
@@ -142,7 +147,14 @@ export function pickWalletCardsForPlace(
 
   for (const { wallet, card } of resolved) {
     const blocks = selectableBlocks(card);
-    const blocksTouchingMerchant = blocks.filter((b) => b.eligible.includes(categoryId));
+    // A block touches this merchant when its eligible_categories overlap
+    // ANY of the merchant's categories — primary OR issuer-specific subtype.
+    // E.g. an AMC with categories=['entertainment','movie_theaters'] is
+    // touched by Cash+ 5% (which lists 'movie_theaters') even though the
+    // generic 'entertainment' isn't on Cash+'s 5% list.
+    const blocksTouchingMerchant = blocks.filter((b) =>
+      b.eligible.some((c) => merchantCategories.includes(c)),
+    );
 
     // Of the blocks that overlap with this merchant's category, which are
     // unconfigured? Match selection rows by (reward_category, reward_rate).
@@ -173,7 +185,7 @@ export function pickWalletCardsForPlace(
   if (rankableSlugs.length === 0 && unconfiguredCards.length === 0) return null;
 
   const brandMatch = matchPlaceToStoreBrand(place.name, categoryId, brandIndex);
-  const store = brandMatch ? buildBrandStore(brandMatch.store) : buildSyntheticCategoryStore(categoryId);
+  const store = brandMatch ? buildBrandStore(brandMatch.store) : buildSyntheticCategoryStore(merchantCategories);
 
   const ranked = rankableSlugs.length > 0
     ? rankCards(store, allCards, {
