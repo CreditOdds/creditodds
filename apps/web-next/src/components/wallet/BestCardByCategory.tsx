@@ -5,6 +5,7 @@ import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { Card, WalletCard, Reward } from '@/lib/api';
 import { categoryLabels, formatRewardWithUsdEquivalent, getRewardUsdRate } from '@/lib/cardDisplayUtils';
+import { dedupeWalletByCardName } from '@/app/profile/profileSelectors';
 
 const canonicalOrder = Object.keys(categoryLabels).filter(c => c !== 'everything_else');
 
@@ -49,7 +50,9 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
   const categoryBests = useMemo<CategoryBest[]>(() => {
     if (walletCards.length === 0 || allCards.length === 0) return [];
 
-    const walletCardData = walletCards
+    // Dedupe by card_name — a card can't beat itself in a category ranking.
+    const uniqueWalletCards = dedupeWalletByCardName(walletCards);
+    const walletCardData = uniqueWalletCards
       .map(wc => allCards.find(c => c.card_name === wc.card_name))
       .filter((c): c is Card => c !== undefined && !!c.rewards && c.rewards.length > 0);
 

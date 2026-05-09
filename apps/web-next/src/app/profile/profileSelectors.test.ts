@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   createCardLookups,
   getEligibleRecordCards,
+  getEligibleReferralCards,
   getRelevantNews,
   getTotalAnnualFees,
   getWalletVisibility,
@@ -40,5 +41,23 @@ describe("profileSelectors", () => {
     ] as never, lookups);
 
     expect(relevantNews.map((item) => item.id)).toEqual(["1"]);
+  });
+
+  it("excludes archived/inactive cards from eligible referral list", () => {
+    const eligibleFromWallet = getEligibleReferralCards(
+      [],
+      walletCards as never,
+      [],
+      lookups
+    );
+    expect(eligibleFromWallet.map((c) => c.card_name)).toEqual(["Chase Sapphire Preferred"]);
+
+    const eligibleFromRecords = getEligibleReferralCards(
+      [{ card_name: "Old Card" }, { card_name: "Chase Sapphire Preferred" }] as never,
+      [],
+      [],
+      lookups
+    );
+    expect(eligibleFromRecords.map((c) => c.card_name)).toEqual(["Chase Sapphire Preferred"]);
   });
 });

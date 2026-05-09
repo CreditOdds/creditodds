@@ -347,7 +347,7 @@ export async function addToWallet(
   acquiredMonth?: number,
   acquiredYear?: number,
   token?: string
-): Promise<{ message: string; card_id: number }> {
+): Promise<{ message: string; id: number; card_id: number }> {
   if (!token) throw new Error('Authentication required');
   const res = await fetch(`${API_BASE}/wallet`, {
     method: 'POST',
@@ -368,14 +368,36 @@ export async function addToWallet(
   return res.json();
 }
 
-export async function removeFromWallet(cardId: number, token: string): Promise<{ message: string }> {
-  const res = await fetch(`${API_BASE}/wallet`, {
-    method: 'DELETE',
+export async function updateWalletCard(
+  walletRowId: number,
+  acquiredMonth: number | undefined,
+  acquiredYear: number | undefined,
+  token: string
+): Promise<{ message: string; id: number }> {
+  const res = await fetch(`${API_BASE}/wallet/${walletRowId}`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ card_id: cardId }),
+    body: JSON.stringify({
+      acquired_month: acquiredMonth || null,
+      acquired_year: acquiredYear || null,
+    }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to update wallet card: ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function removeFromWallet(walletRowId: number, token: string): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/wallet/${walletRowId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');

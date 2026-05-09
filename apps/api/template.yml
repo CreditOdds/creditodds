@@ -344,10 +344,17 @@ Resources:
             Method: POST
             RestApiId:
               Ref: CreditCardOddsAPI
-        RemoveFromWallet:
+        UpdateWalletCard:
           Type: Api
           Properties:
-            Path: /wallet
+            Path: /wallet/{id}
+            Method: PUT
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        RemoveFromWalletItem:
+          Type: Api
+          Properties:
+            Path: /wallet/{id}
             Method: DELETE
             RestApiId:
               Ref: CreditCardOddsAPI
@@ -355,6 +362,15 @@ Resources:
           Type: Api
           Properties:
             Path: /wallet
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+        WalletItemOptions:
+          Type: Api
+          Properties:
+            Path: /wallet/{id}
             Method: OPTIONS
             RestApiId:
               Ref: CreditCardOddsAPI

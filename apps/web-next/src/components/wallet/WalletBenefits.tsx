@@ -10,6 +10,7 @@ import {
   formatBenefitValue,
   isMonetaryBenefit,
 } from "@/lib/cardDisplayUtils";
+import { dedupeWalletByCardName } from "@/app/profile/profileSelectors";
 
 interface CardWithBenefits {
   walletCard: WalletCard;
@@ -107,8 +108,10 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
   const cardsWithBenefits = useMemo(() => {
+    // Dedupe by card_name — holding two of the same card doesn't double its credits.
+    const uniqueWalletCards = dedupeWalletByCardName(walletCards);
     const result: CardWithBenefits[] = [];
-    for (const wc of walletCards) {
+    for (const wc of uniqueWalletCards) {
       const cardData = allCards.find(c => c.card_name === wc.card_name);
       if (cardData?.benefits && cardData.benefits.length > 0) {
         result.push({ walletCard: wc, cardData, benefits: cardData.benefits });

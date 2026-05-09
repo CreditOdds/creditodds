@@ -2,9 +2,9 @@ name: Post Best Rankings
 
 on:
   schedule:
-    # Days 3-9 and 17-23 at 3pm UTC (10am ET) — one category per day,
-    # spaced 2 days after the best-pages refresh on 1st/15th
-    - cron: '0 15 3-9,17-23 * *'
+    # Days 3-9 at 3pm UTC (10am ET) — one category per day, once per month.
+    # Best-pages still refresh twice a month (1st/15th); we just post once.
+    - cron: '0 15 3-9 * *'
   workflow_dispatch:
     inputs:
       category:
@@ -33,12 +33,7 @@ jobs:
 
           if [ -z "$CATEGORY" ]; then
             DAY=$(date -u +%-d)
-
-            if [ "$DAY" -ge 17 ]; then
-              OFFSET=$((DAY - 17))
-            else
-              OFFSET=$((DAY - 3))
-            fi
+            OFFSET=$((DAY - 3))
 
             case $OFFSET in
               0) CATEGORY="best-travel-cards" ;;
