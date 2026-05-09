@@ -71,3 +71,28 @@ categories:
     label: Everything Else
   - id: department_stores
     label: Department Stores
+  # U.S. Bank Cash+ 5% bucket categories — issuer-specific labels lifted
+  # verbatim from cashplus.usbank.com/merchants so the picker reads the
+  # way Cash+ presents them.
+  - id: fast_food
+    label: Fast Food
+  - id: electronics_stores
+    label: Electronics Stores
+  - id: tv_internet_streaming
+    label: TV, Internet & Streaming Services
+  - id: home_utilities
+    label: Home Utilities
+  - id: cell_phone_providers
+    label: Cell Phone Providers
+  - id: furniture_stores
+    label: Furniture Stores
+  - id: ground_transportation
+    label: Ground Transportation
+  - id: gyms_fitness
+    label: Gyms/Fitness Centers
+  - id: select_clothing
+    label: Select Clothing Stores
+  - id: sporting_goods
+    label: Sporting Goods Stores
+  - id: movie_theaters
+    label: Movie Theaters

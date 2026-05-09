@@ -13,17 +13,19 @@ rewards:
     value: 5
     unit: percent
     choices: 2
-    eligible_categories: [gas, groceries, online_shopping, streaming, transit, home_improvement, entertainment, department_stores]
+    eligible_categories: [fast_food, electronics_stores, tv_internet_streaming, home_utilities, cell_phone_providers, furniture_stores, department_stores, ground_transportation, gyms_fitness, select_clothing, sporting_goods, movie_theaters]
     spend_cap: 2000
     cap_period: quarterly
     rate_after_cap: 1
     mode: user_choice
     note: "Choose 2 categories each quarter, up to $2,000 combined"
-  - category: dining
+  - category: selected_categories
     value: 2
     unit: percent
-    note: "Choose 1 everyday category: gas, grocery, or restaurants"
+    choices: 1
+    eligible_categories: [groceries, gas, dining]
     mode: user_choice
+    note: "Choose 1 everyday category: Grocery stores and grocery delivery, Gas stations and EV charging stations, or Restaurants"
   - category: everything_else
     value: 1
     unit: percent

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-08T22:20:30.574Z",
+  "generated_at": "2026-05-09T21:33:01.508Z",
   "count": 162,
   "categories": [
     {
@@ -145,6 +145,50 @@
     {
       "id": "department_stores",
       "label": "Department Stores"
+    },
+    {
+      "id": "fast_food",
+      "label": "Fast Food"
+    },
+    {
+      "id": "electronics_stores",
+      "label": "Electronics Stores"
+    },
+    {
+      "id": "tv_internet_streaming",
+      "label": "TV, Internet & Streaming Services"
+    },
+    {
+      "id": "home_utilities",
+      "label": "Home Utilities"
+    },
+    {
+      "id": "cell_phone_providers",
+      "label": "Cell Phone Providers"
+    },
+    {
+      "id": "furniture_stores",
+      "label": "Furniture Stores"
+    },
+    {
+      "id": "ground_transportation",
+      "label": "Ground Transportation"
+    },
+    {
+      "id": "gyms_fitness",
+      "label": "Gyms/Fitness Centers"
+    },
+    {
+      "id": "select_clothing",
+      "label": "Select Clothing Stores"
+    },
+    {
+      "id": "sporting_goods",
+      "label": "Sporting Goods Stores"
+    },
+    {
+      "id": "movie_theaters",
+      "label": "Movie Theaters"
     }
   ],
   "cards": [
@@ -3427,10 +3471,10 @@
         }
       ],
       "signup_bonus": {
-        "value": 75000,
+        "value": 65000,
         "type": "miles",
-        "spend_requirement": 5000,
-        "timeframe_months": 5
+        "spend_requirement": 4000,
+        "timeframe_months": 4
       },
       "apr": {
         "regular": {
@@ -3681,10 +3725,10 @@
         }
       ],
       "signup_bonus": {
-        "value": 60000,
+        "value": 90000,
         "type": "miles",
-        "spend_requirement": 4000,
-        "timeframe_months": 3
+        "spend_requirement": 5000,
+        "timeframe_months": 4
       },
       "apr": {
         "regular": {
@@ -8354,14 +8398,18 @@
           "unit": "percent",
           "choices": 2,
           "eligible_categories": [
-            "gas",
-            "groceries",
-            "online_shopping",
-            "streaming",
-            "transit",
-            "home_improvement",
-            "entertainment",
-            "department_stores"
+            "fast_food",
+            "electronics_stores",
+            "tv_internet_streaming",
+            "home_utilities",
+            "cell_phone_providers",
+            "furniture_stores",
+            "department_stores",
+            "ground_transportation",
+            "gyms_fitness",
+            "select_clothing",
+            "sporting_goods",
+            "movie_theaters"
           ],
           "spend_cap": 2000,
           "cap_period": "quarterly",
@@ -8370,11 +8418,17 @@
           "note": "Choose 2 categories each quarter, up to $2,000 combined"
         },
         {
-          "category": "dining",
+          "category": "selected_categories",
           "value": 2,
           "unit": "percent",
-          "note": "Choose 1 everyday category: gas, grocery, or restaurants",
-          "mode": "user_choice"
+          "choices": 1,
+          "eligible_categories": [
+            "groceries",
+            "gas",
+            "dining"
+          ],
+          "mode": "user_choice",
+          "note": "Choose 1 everyday category: Grocery stores and grocery delivery, Gas stations and EV charging stations, or Restaurants"
         },
         {
           "category": "everything_else",
