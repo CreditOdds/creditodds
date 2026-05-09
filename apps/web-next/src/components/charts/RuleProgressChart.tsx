@@ -7,10 +7,10 @@ interface RuleProgressChartProps {
   rule: RuleResult;
 }
 
-const RULE_LOGO: Record<string, string> = {
-  'Chase 5/24': '/logos/chase.jpg',
-  'Amex 2/90': '/logos/amex.jpg',
-  'Capital One 1/6': '/logos/capital-one.jpg',
+const RULE_LOGO: Record<string, { src: string; issuer: string }> = {
+  'Chase 5/24': { src: '/logos/chase.jpg', issuer: 'Chase' },
+  'Amex 2/90': { src: '/logos/amex.jpg', issuer: 'American Express' },
+  'Capital One 1/6': { src: '/logos/capital-one.jpg', issuer: 'Capital One' },
 };
 
 export default function RuleProgressChart({ rule }: RuleProgressChartProps) {
@@ -32,12 +32,11 @@ export default function RuleProgressChart({ rule }: RuleProgressChartProps) {
         <div className="cj-rule-name">
           {logo && (
             <Image
-              src={logo}
-              alt=""
+              src={logo.src}
+              alt={`${logo.issuer} logo`}
               width={18}
               height={18}
               className="cj-rule-logo"
-              aria-hidden="true"
             />
           )}
           <span>{ruleName}</span>
