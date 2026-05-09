@@ -627,9 +627,6 @@ export default function ProfileClient() {
         <aside className="cj-rail">
           <div className="cj-apply">
             <div className="cj-apply-k">Wallet</div>
-            <div className="cj-apply-v">
-              {walletCards.length} card{walletCards.length === 1 ? '' : 's'}
-            </div>
             <button type="button" className="cj-apply-btn" onClick={() => setShowWalletModal(true)}>
               + add a card
             </button>
