@@ -116,8 +116,76 @@ export function isCardInactive(cardName: string, lookups: CardLookups) {
 }
 
 export function getEligibleRecordCards<T extends NamedCardRecord>(walletCards: WalletCard[], records: T[]) {
+  // Dedupe by card_name — records are keyed by card_name, so showing two copies of the
+  // same card in the picker would be confusing and the second pick would be a no-op.
   const cardsWithRecords = new Set(records.map((record) => record.card_name));
-  return walletCards.filter((walletCard) => !cardsWithRecords.has(walletCard.card_name));
+  const seen = new Set<string>();
+  const result: WalletCard[] = [];
+  for (const walletCard of walletCards) {
+    if (cardsWithRecords.has(walletCard.card_name)) continue;
+    if (seen.has(walletCard.card_name)) continue;
+    seen.add(walletCard.card_name);
+    result.push(walletCard);
+  }
+  return result;
+}
+
+/**
+ * Returns one wallet row per unique card_name. Used by consumers that aggregate by card
+ * type (benefits, best-card-by-category, best-card-here, referrals) — duplicates would
+ * double-count credits or pit a card against itself.
+ *
+ * Keeps the oldest instance (earliest acquired_year/month, then earliest created_at).
+ */
+export function dedupeWalletByCardName(walletCards: WalletCard[]): WalletCard[] {
+  const byName = new Map<string, WalletCard>();
+  for (const card of walletCards) {
+    const existing = byName.get(card.card_name);
+    if (!existing) {
+      byName.set(card.card_name, card);
+      continue;
+    }
+    if (compareWalletCardsByAge(card, existing) < 0) {
+      byName.set(card.card_name, card);
+    }
+  }
+  return Array.from(byName.values());
+}
+
+function compareWalletCardsByAge(a: WalletCard, b: WalletCard): number {
+  // Earlier first. Cards with no acquired date sort after dated cards.
+  const aDated = a.acquired_year ? a.acquired_year * 12 + (a.acquired_month ?? 0) : Infinity;
+  const bDated = b.acquired_year ? b.acquired_year * 12 + (b.acquired_month ?? 0) : Infinity;
+  if (aDated !== bDated) return aDated - bDated;
+  return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+}
+
+/**
+ * Map of wallet row id -> display name. When the user holds more than one of the same
+ * card type, instances get an "A", "B", "C"… suffix in chronological order. Single-copy
+ * cards keep the plain card_name.
+ */
+export function getWalletDisplayNames(walletCards: WalletCard[]): Map<number, string> {
+  const groups = new Map<string, WalletCard[]>();
+  for (const card of walletCards) {
+    const list = groups.get(card.card_name) ?? [];
+    list.push(card);
+    groups.set(card.card_name, list);
+  }
+
+  const display = new Map<number, string>();
+  for (const [name, list] of groups) {
+    if (list.length === 1) {
+      display.set(list[0].id, name);
+      continue;
+    }
+    const sorted = [...list].sort(compareWalletCardsByAge);
+    sorted.forEach((card, idx) => {
+      const suffix = String.fromCharCode(65 + idx); // A, B, C…
+      display.set(card.id, `${name} ${suffix}`);
+    });
+  }
+  return display;
 }
 
 // Tags relevant to existing cardholders (exclude signup bonus / new card news)

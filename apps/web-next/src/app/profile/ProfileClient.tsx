@@ -17,10 +17,12 @@ import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon, PencilI
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 import {
   createCardLookups,
+  dedupeWalletByCardName,
   getEligibleRecordCards,
   getEligibleReferralCards,
   getRelevantNews,
   getTotalAnnualFees,
+  getWalletDisplayNames,
   getWalletVisibility,
   isCardInactive,
 } from "./profileSelectors";
@@ -152,10 +154,14 @@ export default function ProfileClient() {
   );
 
   // Total annual credits from wallet card benefits (for the snapshot stat)
+  const walletDisplayNames = useMemo(() => getWalletDisplayNames(walletCards), [walletCards]);
+
   const annualCreditsTotals = useMemo(() => {
+    // Dedupe by card_name — duplicates of the same card don't double its credits.
+    const uniqueWalletCards = dedupeWalletByCardName(walletCards);
     let total = 0;
     let cardsWithCredits = 0;
-    for (const wc of walletCards) {
+    for (const wc of uniqueWalletCards) {
       const card = cardLookups.byName.get(wc.card_name);
       if (!card?.benefits?.length) continue;
       let cardTotal = 0;
@@ -183,7 +189,7 @@ export default function ProfileClient() {
       const days = daysUntil(renewal.sortKey);
       if (days < 0) continue;
       list.push({
-        name: wc.card_name,
+        name: walletDisplayNames.get(wc.id) ?? wc.card_name,
         renewal: renewal.display,
         fee,
         sortKey: renewal.sortKey,
@@ -193,7 +199,7 @@ export default function ProfileClient() {
     list.sort((a, b) => a.sortKey - b.sortKey);
     return list.slice(0, 3);
     // Intentionally re-uses isInactiveCard via cardLookups — eslint disable not needed
-  }, [walletCards, cardLookups]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletCards, cardLookups, walletDisplayNames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const nextRenewal = upcomingRenewals[0];
 
@@ -459,6 +465,7 @@ export default function ProfileClient() {
                 walletLoaded={walletLoaded}
                 walletCards={walletCards}
                 visibleWalletCards={visibleWalletCards}
+                walletDisplayNames={walletDisplayNames}
                 inactiveCount={inactiveCount}
                 showArchived={showArchived}
                 setShowArchived={setShowArchived}
@@ -715,6 +722,7 @@ export default function ProfileClient() {
         card={editingCard}
         cardSlug={editingCard ? allCards.find(c => c.card_name === editingCard.card_name)?.slug : undefined}
         annualFee={editingCard ? (cardLookups.byName.get(editingCard.card_name)?.annual_fee ?? 0) : 0}
+        displayName={editingCard ? walletDisplayNames.get(editingCard.id) : undefined}
         onClose={() => setEditingCard(null)}
         onSuccess={loadData}
       />
@@ -777,6 +785,7 @@ interface CardsTabProps {
   walletLoaded: boolean;
   walletCards: WalletCard[];
   visibleWalletCards: WalletCard[];
+  walletDisplayNames: Map<number, string>;
   inactiveCount: number;
   showArchived: boolean;
   setShowArchived: (v: boolean) => void;
@@ -794,7 +803,7 @@ interface CardsTabProps {
 
 function CardsTab(props: CardsTabProps) {
   const {
-    walletLoaded, walletCards, visibleWalletCards, inactiveCount, showArchived, setShowArchived,
+    walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, inactiveCount, showArchived, setShowArchived,
     openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals,
     totalAnnualFees, onAdd, onEdit, onSubmitRecord, onAddReferral,
   } = props;
@@ -866,7 +875,7 @@ function CardsTab(props: CardsTabProps) {
                   <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="36px" className="object-contain" />
                 </span>
                 <div className="cj-cw-name">
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.card_name}</span>
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{walletDisplayNames.get(c.id) ?? c.card_name}</span>
                   <span className="cj-cw-marks">
                     {hasRecord && (
                       <span className="cj-cw-mark" title="record submitted" aria-label="record submitted">
