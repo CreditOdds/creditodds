@@ -82,25 +82,31 @@ exports.UserWalletHandler = async (event) => {
 
         // Active category selections for these wallet rows (Cash+, Custom Cash, etc).
         // Joined into the wallet response so the BCH ranker has everything it needs
-        // in one round-trip.
+        // in one round-trip. Wrapped in try/catch so a missing table (e.g. between
+        // a backend deploy and migration 029 running) doesn't break GET /wallet —
+        // we just degrade to empty selections.
         const walletRowIds = walletCards.map((w) => w.id);
         const selectionsByWalletId = new Map();
         if (walletRowIds.length > 0) {
-          const selectionRows = await mysql.query(
-            `SELECT user_card_id, reward_category, reward_rate, selected_category, auto_renew
-             FROM user_card_selections
-             WHERE user_card_id IN (?) AND valid_to IS NULL`,
-            [walletRowIds]
-          );
-          for (const r of selectionRows) {
-            const list = selectionsByWalletId.get(r.user_card_id) || [];
-            list.push({
-              reward_category: r.reward_category,
-              reward_rate: Number(r.reward_rate),
-              selected_category: r.selected_category,
-              auto_renew: Boolean(r.auto_renew),
-            });
-            selectionsByWalletId.set(r.user_card_id, list);
+          try {
+            const selectionRows = await mysql.query(
+              `SELECT user_card_id, reward_category, reward_rate, selected_category, auto_renew
+               FROM user_card_selections
+               WHERE user_card_id IN (?) AND valid_to IS NULL`,
+              [walletRowIds]
+            );
+            for (const r of selectionRows) {
+              const list = selectionsByWalletId.get(r.user_card_id) || [];
+              list.push({
+                reward_category: r.reward_category,
+                reward_rate: Number(r.reward_rate),
+                selected_category: r.selected_category,
+                auto_renew: Boolean(r.auto_renew),
+              });
+              selectionsByWalletId.set(r.user_card_id, list);
+            }
+          } catch (selErr) {
+            console.error("user_card_selections lookup failed (continuing with empty selections):", selErr.message);
           }
         }
         const enriched = walletCards.map((w) => ({
