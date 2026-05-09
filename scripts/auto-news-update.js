@@ -399,7 +399,7 @@ ${[...existingNewsIds, ...rejectedNewsIds].filter(Boolean).join(', ') || 'None'}
 Each news item MUST have:
 - id: lowercase-with-hyphens, unique identifier
 - date: YYYY-MM-DD format - ALWAYS use today's date: ${today}. This is the publication date on our site, not the date the event occurred.
-- title: Concise headline, max 200 chars
+- title: Concise headline, ideally 35–47 chars (the site appends " | CreditOdds" so anything over 47 chars puts the rendered <title> past Bing's 60-char SEO budget). Hard cap 200, but aim short.
 - summary: Factual summary with specific details (numbers, dates, requirements), max 500 chars
 - tags: Array of 1+ tags from: ${VALID_TAGS.join(', ')}
 

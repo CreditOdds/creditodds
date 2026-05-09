@@ -569,7 +569,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                     <div className="cc-thumb">
                       <CardImage
                         cardImageLink={c.card_image_link}
-                        alt=""
+                        alt={c.card_name}
                         fill
                         sizes="68px"
                         style={{ objectFit: 'cover' }}
@@ -667,7 +667,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                           <div className="ct-thumb">
                             <CardImage
                               cardImageLink={c.card_image_link}
-                              alt=""
+                              alt={c.card_name}
                               fill
                               sizes="48px"
                               style={{ objectFit: 'cover' }}

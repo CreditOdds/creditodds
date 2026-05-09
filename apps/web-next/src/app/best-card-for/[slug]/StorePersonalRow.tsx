@@ -241,7 +241,7 @@ function PersonalCard({ pick, rank, variant = 'default' }: PersonalCardProps) {
       <div className="store-personal-row-thumb">
         <CardImage
           cardImageLink={pick.card.card_image_link}
-          alt=""
+          alt={pick.card.card_name}
           width={56}
           height={36}
           style={{ width: 56, height: 36, objectFit: 'contain' }}

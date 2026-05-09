@@ -98,7 +98,7 @@ function CardPicker({
                         <div className="flex-shrink-0 h-7 w-11 relative">
                           <CardImage
                             cardImageLink={item.card_image_link}
-                            alt=""
+                            alt={item.card_name}
                             fill
                             className="object-contain"
                             sizes="44px"

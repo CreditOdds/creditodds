@@ -164,7 +164,7 @@ export default function CardSelect({ allCards }: CardSelectProps) {
                         <div className={`flex-shrink-0 h-8 w-12 relative ${isArchived ? 'grayscale' : ''}`}>
                           <CardImage
                             cardImageLink={item.card_image_link}
-                            alt=""
+                            alt={item.card_name}
                             fill
                             className="object-contain"
                             sizes="48px"

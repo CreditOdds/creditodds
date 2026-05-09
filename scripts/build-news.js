@@ -55,6 +55,14 @@ function validateNewsItem(item, schema) {
     errors.push(`Invalid id format: ${item.id} (must be lowercase with hyphens only)`);
   }
 
+  // SEO: rendered <title> is "${item.title} | CreditOdds" (root layout
+  // template), so item.title above 47 chars overflows the 60-char Bing budget.
+  // generateMetadata truncates as a backstop; warn here so the YAML author can
+  // shorten before the truncation kicks in.
+  if (item.title && item.title.length > 47) {
+    console.warn(`  WARN: title is ${item.title.length} chars (>47 = ${item.title.length + 13} after " | CreditOdds" suffix; SEO budget is 60): ${item.title}`);
+  }
+
   // Validate date format
   if (item.date && !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
     errors.push(`Invalid date format: ${item.date} (must be YYYY-MM-DD)`);

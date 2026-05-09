@@ -243,7 +243,7 @@ function Hero({ cards }: { cards: LandingCard[] }) {
                       onMouseDown={(e) => e.preventDefault()}
                     >
                       <div className="opt-thumb">
-                        <CardImage cardImageLink={c.card_image_link} alt="" fill sizes="44px" style={{ objectFit: 'cover' }} />
+                        <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="44px" style={{ objectFit: 'cover' }} />
                       </div>
                       <div>
                         <div className="opt-name">{c.card_name}</div>
@@ -301,7 +301,7 @@ function PopularLane({ cards }: { cards: LandingCard[] }) {
             <Link className="lc" key={c.slug} href={`/card/${c.slug}`}>
               <div className="lc-top">
                 <div className="lc-thumb">
-                  <CardImage cardImageLink={c.card_image_link} alt="" fill sizes="56px" style={{ objectFit: 'cover' }} />
+                  <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="56px" style={{ objectFit: 'cover' }} />
                 </div>
                 <div>
                   <div className="lc-nm">{shortName(c)}</div>
@@ -457,7 +457,7 @@ function NewsLane({
                       >
                         <CardImage
                           cardImageLink={img.src}
-                          alt=""
+                          alt={img.alt || it.title}
                           fill
                           sizes="86px"
                           style={{ objectFit: 'cover' }}
@@ -511,7 +511,7 @@ function FooterBlocks({ cards }: { cards: LandingCard[] }) {
               {walletCards.map((c, i) => (
                 <div className="wm-row" key={c.slug}>
                   <div className="wm-thumb">
-                    <CardImage cardImageLink={c.card_image_link} alt="" fill sizes="50px" style={{ objectFit: 'cover' }} />
+                    <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="50px" style={{ objectFit: 'cover' }} />
                   </div>
                   <div>
                     <div className="nm">{shortName(c)}</div>

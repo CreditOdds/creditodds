@@ -9,6 +9,7 @@ import { RelatedCards } from "@/components/articles/RelatedCards";
 import { RelatedCardInfo } from "@/lib/articles";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { truncateTitle } from "@/lib/seo";
 import "../../landing.css";
 
 interface NewsDetailPageProps {
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
   const item = await getNewsItem(id);
   if (!item) return { title: "News Not Found" };
   return {
-    title: `${item.title} | Card News`,
+    title: truncateTitle(item.title),
     description: item.summary,
     openGraph: {
       title: `${item.title} | CreditOdds`,
@@ -138,7 +139,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                   <span className="thumb">
                     <CardImage
                       cardImageLink={item.card_image_links?.[i]}
-                      alt=""
+                      alt={item.card_names![i]}
                       fill
                       sizes="28px"
                       style={{ objectFit: 'cover' }}

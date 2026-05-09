@@ -6,6 +6,7 @@ import { Card, CardBenefit, getCard, getCardGraphs, getAllCards, getCardRatings,
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import { categoryLabels, pickHeadlineReward } from "@/lib/cardDisplayUtils";
+import { truncateTitle } from "@/lib/seo";
 import CardClient from "./CardClient";
 
 function buildMetaDescription(card: Card): string {
@@ -134,7 +135,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
     const description = buildMetaDescription(card);
 
     return {
-      title: seoName,
+      title: truncateTitle(seoName),
       description,
       openGraph: {
         title: `${seoName} | CreditOdds`,

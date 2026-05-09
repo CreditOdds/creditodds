@@ -5,7 +5,7 @@ import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import BestV2Client from "./BestV2Client";
 
 export const metadata: Metadata = {
-  title: "Best Credit Cards of 2026 - Top Picks & Comparisons",
+  title: "Best Credit Cards of 2026",
   description: "Curated rankings of the best credit cards of 2026 across categories. Data-driven picks updated with live approval odds and bonus values.",
   openGraph: {
     title: "Best Credit Cards of 2026 | CreditOdds",

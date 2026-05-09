@@ -163,7 +163,7 @@ export default function Navbar() {
                             <Image
                               className="h-8 w-8 rounded-[2px]"
                               src="https://d3ay3etzd1512y.cloudfront.net/other/profile_pic.svg"
-                              alt=""
+                              alt="Account menu"
                               width={32}
                               height={32}
                             />

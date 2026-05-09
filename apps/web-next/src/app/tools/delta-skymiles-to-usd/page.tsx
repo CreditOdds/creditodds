@@ -13,7 +13,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Delta SkyMiles to USD (Converter/Calculator) | CreditOdds',
+  title: 'Delta SkyMiles to USD Calculator',
   description: 'Convert Delta SkyMiles to their estimated USD value. Free calculator using the multi-source 1.20 cents per mile median valuation.',
   openGraph: {
     title: 'Delta SkyMiles to USD | CreditOdds',

@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Bilt Rewards Points to USD (Converter/Calculator) | CreditOdds',
+  title: 'Bilt Rewards Points to USD Calculator',
   description: 'Convert Bilt Rewards points to their estimated USD value. Free calculator using the standard 1.5 cents per point valuation.',
   openGraph: {
     title: 'Bilt Rewards Points to USD | CreditOdds',

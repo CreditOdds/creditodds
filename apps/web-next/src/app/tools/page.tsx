@@ -6,7 +6,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Tools | CreditOdds',
+  title: 'Tools',
   description: 'Free credit card tools and calculators. Convert miles and points to dollars for Chase, Amex, Delta, United, Southwest, Capital One, Marriott, Hilton, Hyatt, IHG, Bilt, and Citi.',
   openGraph: {
     title: 'Free Credit Card Tools | CreditOdds',

@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Amex Membership Rewards to USD (Converter/Calculator) | CreditOdds',
+  title: 'Amex Membership Rewards to USD Calculator',
   description: 'Convert Amex Membership Rewards points to their estimated USD value. Free calculator using the standard 1.2 cents per point valuation.',
   openGraph: {
     title: 'Amex Membership Rewards to USD | CreditOdds',

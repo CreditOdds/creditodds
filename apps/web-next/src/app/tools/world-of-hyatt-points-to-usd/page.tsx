@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'World of Hyatt Points to USD (Converter/Calculator) | CreditOdds',
+  title: 'World of Hyatt Points to USD Calculator',
   description: 'Convert World of Hyatt points to their estimated USD value. Free calculator using the standard 2.0 cents per point valuation.',
   openGraph: {
     title: 'World of Hyatt Points to USD | CreditOdds',
