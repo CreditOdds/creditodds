@@ -1,10 +1,11 @@
 // User Wallet API - Manage cards in user's wallet
 //
 // Routes:
-//   GET    /wallet         — list every card instance in the user's wallet
-//   POST   /wallet         — add a new instance (duplicates of the same card_id are allowed)
-//   PUT    /wallet/{id}    — update acquired_month / acquired_year on a specific instance
-//   DELETE /wallet/{id}    — remove a specific instance
+//   GET    /wallet           — list every card instance in the user's wallet
+//   POST   /wallet           — add a new instance (duplicates of the same card_id are allowed)
+//   PUT    /wallet/reorder   — set sort_order for a list of wallet rows (drag-to-reorder)
+//   PUT    /wallet/{id}      — update acquired_month / acquired_year on a specific instance
+//   DELETE /wallet/{id}      — remove a specific instance
 //
 // Per-card identity is `user_cards.id` (auto-increment). Ratings live in `card_ratings`
 // keyed by (user_id, card_id) — one rating per card type, shared across duplicates.
@@ -54,6 +55,7 @@ exports.UserWalletHandler = async (event) => {
   }
 
   const walletRowId = event.pathParameters?.id ? Number(event.pathParameters.id) : null;
+  const isReorderRoute = (event.resource || event.path || "").endsWith("/wallet/reorder");
   let response = {};
 
   try {
@@ -61,12 +63,18 @@ exports.UserWalletHandler = async (event) => {
       case "GET": {
         // Get all card instances in the user's wallet, with the shared
         // (per-card-type) rating preloaded so the edit modal doesn't flash empty stars.
+        // Rows the user has explicitly reordered (sort_order set) come first; the rest
+        // fall back to insertion order so older accounts keep their existing layout.
+        // sort_order is wrapped in COALESCE so a missing column (pre-migration deploy)
+        // would surface as a clear error rather than silently mis-ordering — the
+        // SELECT below also references uc.sort_order so the dependency is explicit.
         const walletCards = await mysql.query(`
           SELECT
             uc.id,
             uc.card_id,
             uc.acquired_month,
             uc.acquired_year,
+            uc.sort_order,
             uc.created_at,
             c.card_name,
             c.bank,
@@ -77,7 +85,7 @@ exports.UserWalletHandler = async (event) => {
           LEFT JOIN card_ratings cr
             ON cr.card_id = uc.card_id AND cr.user_id = uc.user_id
           WHERE uc.user_id = ?
-          ORDER BY uc.created_at ASC, uc.id ASC
+          ORDER BY (uc.sort_order IS NULL), uc.sort_order ASC, uc.created_at ASC, uc.id ASC
         `, [userId]);
 
         // Active category selections for these wallet rows (Cash+, Custom Cash, etc).
@@ -183,6 +191,47 @@ exports.UserWalletHandler = async (event) => {
       }
 
       case "PUT": {
+        // Drag-to-reorder: client sends an ordered array of wallet row ids.
+        // We persist the index as `sort_order`. Only ids belonging to this
+        // user are touched (the WHERE user_id = ? guards against tampering).
+        if (isReorderRoute) {
+          const reorderBody = JSON.parse(event.body || "{}");
+          const order = Array.isArray(reorderBody.order) ? reorderBody.order : null;
+          if (!order || order.length === 0) {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "order must be a non-empty array of wallet row ids" }),
+            };
+            break;
+          }
+          const ids = order.map((id) => Number(id)).filter((id) => Number.isFinite(id) && id > 0);
+          if (ids.length !== order.length) {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "order must contain only positive integer wallet row ids" }),
+            };
+            break;
+          }
+          // One UPDATE per row — the per-user wallet is small (typically <50 rows),
+          // so the round-trip cost is fine and the SQL stays trivial. The
+          // user_id guard ensures a malicious client can't reorder someone else's rows.
+          for (let i = 0; i < ids.length; i += 1) {
+            await mysql.query(
+              "UPDATE user_cards SET sort_order = ? WHERE id = ? AND user_id = ?",
+              [i, ids[i], userId]
+            );
+          }
+          await mysql.end();
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({ message: "Wallet reordered", count: ids.length }),
+          };
+          break;
+        }
+
         // Update acquired_month / acquired_year on a specific wallet row.
         if (!walletRowId || !Number.isFinite(walletRowId)) {
           response = {

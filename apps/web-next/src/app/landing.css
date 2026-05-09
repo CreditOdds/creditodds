@@ -3540,6 +3540,9 @@
 .landing-v2.profile-v2 .cj-wallet-crow:hover { background: var(--paper-2); }
 .landing-v2.profile-v2 .cj-wallet-crow.is-open { background: var(--accent-2); }
 .landing-v2.profile-v2 .cj-wallet-crow.is-archived { opacity: 0.55; }
+.landing-v2.profile-v2 .cj-wallet-crow { cursor: grab; }
+.landing-v2.profile-v2 .cj-wallet-crow.is-dragging { opacity: 0.4; cursor: grabbing; }
+.landing-v2.profile-v2 .cj-wallet-crow.is-drag-over { box-shadow: inset 0 2px 0 0 var(--accent); }
 .landing-v2.profile-v2 .cj-wallet-crow .cj-cw-thumb {
   position: relative;
   width: 36px;
