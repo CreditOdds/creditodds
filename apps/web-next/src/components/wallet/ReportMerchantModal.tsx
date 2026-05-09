@@ -51,6 +51,19 @@ export default function ReportMerchantModal({ show, onClose, payload }: ReportMe
     return () => clearTimeout(t);
   }, [submitted, onClose]);
 
+  // Lock body scroll while the modal is open. Without this, touch scroll
+  // inside a bottom-sheet whose content is shorter than the viewport
+  // bleeds through to the page behind on iOS Safari, leaving the user
+  // unable to reach the submit button when content does overflow.
+  useEffect(() => {
+    if (!show) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [show]);
+
   if (!show) return null;
 
   const handleSubmit = async () => {
@@ -74,7 +87,7 @@ export default function ReportMerchantModal({ show, onClose, payload }: ReportMe
     <div className="cj-modal-root" role="dialog" aria-modal="true">
       <div className="cj-modal-backdrop" onClick={submitting ? undefined : onClose} />
       <div className="cj-modal-shell">
-        <div className="cj-modal-card" style={{ maxWidth: 480 }}>
+        <div className="cj-modal-card cj-modal-card-bounded" style={{ maxWidth: 480 }}>
           <div className="cj-modal-head">
             <span className="cj-status-dot" />
             <span className="cj-modal-title">report this match</span>
