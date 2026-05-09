@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
 import { XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
@@ -52,6 +53,22 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
   const [userRating, setUserRating] = useState<number | null>(null);
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const [ratingSubmitting, setRatingSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll while open. Plain overflow:hidden (NOT position:fixed)
+  // — see ReportMerchantModal for the iPhone-touch-freeze history.
+  useEffect(() => {
+    if (!show) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [show]);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1989 }, (_, i) => currentYear - i);
@@ -131,7 +148,7 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
     onClose();
   };
 
-  if (!show || !card) return null;
+  if (!show || !card || !mounted) return null;
 
   const activeRating = hoveredRating ?? userRating ?? 0;
   const acquiredLabel = (() => {
@@ -140,12 +157,17 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
     return card.acquired_year ? `since ${m ? m + ' ' : ''}${card.acquired_year}` : `since ${m}`;
   })();
 
-  return (
-    <div className="cj-modal-root" role="dialog" aria-modal="true">
-      <div className="cj-modal-backdrop" onClick={handleClose} />
-      <div className="cj-modal-shell">
-        <div className="cj-modal-card">
-          <div className="cj-modal-head">
+  // Portal to <body> so position:fixed isn't trapped by ancestor
+  // containing-blocks (transform/filter/contain) on the profile page —
+  // same fix as ReportMerchantModal. Wrap with landing-v2 profile-v2
+  // so the scoped cj-modal-* styles still apply outside the page tree.
+  return createPortal(
+    <div className="landing-v2 profile-v2">
+      <div className="cj-modal-root" role="dialog" aria-modal="true">
+        <div className="cj-modal-backdrop" onClick={handleClose} />
+        <div className="cj-modal-shell">
+          <div className="cj-modal-card cj-modal-card-bounded">
+            <div className="cj-modal-head">
             <span className="cj-status-dot" />
             <span className="cj-modal-title">edit card</span>
             <button type="button" className="cj-modal-close" onClick={handleClose} aria-label="Close">
@@ -255,6 +277,8 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </div>,
+    document.body
   );
 }

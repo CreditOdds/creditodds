@@ -5298,12 +5298,16 @@
   inset: 0;
   z-index: 50;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .landing-v2.profile-v2 .cj-modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(26, 19, 48, 0.55);
   backdrop-filter: blur(2px);
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 .landing-v2.profile-v2 .cj-modal-shell {
   position: relative;
