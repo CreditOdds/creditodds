@@ -105,3 +105,7 @@ jobs:
           SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
           SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
         run: node scripts/queue-social.js --type article --files ${{ steps.new-files.outputs.files }}
+
+      - name: Notify IndexNow of new article URLs
+        if: steps.new-files.outputs.files != ''
+        run: node scripts/submit-indexnow.js --type article --files ${{ steps.new-files.outputs.files }}
