@@ -24,6 +24,35 @@ const responseHeaders = {
 
 const VALID_CLICK_SOURCES = new Set(["direct", "referral"]);
 
+// Self-heal: if migration 025 hasn't been applied to this environment yet,
+// the per-row log table won't exist and every INSERT/SELECT here would 500
+// out, blanking the admin Apply Clicks dashboard. Create-if-missing matches
+// the schema in migrations/025_create_card_apply_clicks.sql.
+const ENSURE_NEW_TABLE_SQL = `
+  CREATE TABLE IF NOT EXISTS card_apply_clicks (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    card_id INT NOT NULL,
+    click_source ENUM('direct', 'referral') NOT NULL DEFAULT 'direct',
+    user_id VARCHAR(128) NULL,
+    ip_hash CHAR(64) NULL,
+    user_agent VARCHAR(500) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_card_id_created_at (card_id, created_at),
+    INDEX idx_created_at (created_at),
+    INDEX idx_click_source (click_source),
+    INDEX idx_user_id (user_id),
+    INDEX idx_ip_hash (ip_hash),
+    CONSTRAINT fk_card_apply_clicks_card FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
+  )
+`;
+
+let newTableEnsured = false;
+async function ensureNewClickTable() {
+  if (newTableEnsured) return;
+  await mysql.query(ENSURE_NEW_TABLE_SQL);
+  newTableEnsured = true;
+}
+
 exports.CardApplyClickHandler = async (event) => {
   console.info("received:", event);
 
@@ -75,6 +104,7 @@ exports.CardApplyClickHandler = async (event) => {
         const ipHash = hashIp(ip);
         const userId = await getOptionalUserId(event);
 
+        await ensureNewClickTable();
         await mysql.query(
           `INSERT INTO card_apply_clicks
              (card_id, click_source, user_id, ip_hash, user_agent)
@@ -151,7 +181,7 @@ exports.CardApplyClickHandler = async (event) => {
         const newWhereClause = newWhere.length > 0 ? `WHERE ${newWhere.join(" AND ")}` : "";
 
         if (breakdown === "source") {
-          const [legacyRows, newRows] = await Promise.all([
+          const [legacyResult, newResult] = await Promise.allSettled([
             mysql.query(
               `SELECT card_id, click_source, SUM(click_count) AS clicks
                  FROM card_apply_click_counts
@@ -170,6 +200,14 @@ exports.CardApplyClickHandler = async (event) => {
             ),
           ]);
           await mysql.end();
+          if (legacyResult.status === "rejected") {
+            console.warn("legacy click_counts query failed:", legacyResult.reason?.message);
+          }
+          if (newResult.status === "rejected") {
+            console.warn("card_apply_clicks query failed:", newResult.reason?.message);
+          }
+          const legacyRows = legacyResult.status === "fulfilled" ? legacyResult.value : [];
+          const newRows = newResult.status === "fulfilled" ? newResult.value : [];
 
           const clicks = {};
           const ensure = (id) => {
@@ -210,7 +248,7 @@ exports.CardApplyClickHandler = async (event) => {
           break;
         }
 
-        const [legacyRows, newRows] = await Promise.all([
+        const [legacyResult, newResult] = await Promise.allSettled([
           mysql.query(
             `SELECT card_id, SUM(click_count) AS clicks
                FROM card_apply_click_counts
@@ -229,6 +267,14 @@ exports.CardApplyClickHandler = async (event) => {
           ),
         ]);
         await mysql.end();
+        if (legacyResult.status === "rejected") {
+          console.warn("legacy click_counts query failed:", legacyResult.reason?.message);
+        }
+        if (newResult.status === "rejected") {
+          console.warn("card_apply_clicks query failed:", newResult.reason?.message);
+        }
+        const legacyRows = legacyResult.status === "fulfilled" ? legacyResult.value : [];
+        const newRows = newResult.status === "fulfilled" ? newResult.value : [];
 
         const clicks = {};
         const uniqueClicks = {};
