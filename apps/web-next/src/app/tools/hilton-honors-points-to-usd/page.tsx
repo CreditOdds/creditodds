@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Hilton Honors Points to USD (Converter/Calculator) | CreditOdds',
+  title: 'Hilton Honors Points to USD Calculator',
   description: 'Convert Hilton Honors points to their estimated USD value. Free calculator using the standard 0.5 cents per point valuation.',
   openGraph: {
     title: 'Hilton Honors Points to USD | CreditOdds',

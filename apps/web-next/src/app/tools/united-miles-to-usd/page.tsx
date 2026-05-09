@@ -13,7 +13,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'United Miles to USD (Converter/Calculator) | CreditOdds',
+  title: 'United Miles to USD Calculator',
   description: 'Convert United MileagePlus miles to their estimated USD value. Free calculator using the multi-source 1.21 cents per mile median valuation.',
   openGraph: {
     title: 'United Miles to USD | CreditOdds',

@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Chase Ultimate Rewards to USD (Converter/Calculator) | CreditOdds',
+  title: 'Chase Ultimate Rewards to USD Calculator',
   description: 'Convert Chase Ultimate Rewards points to their estimated USD value. Free calculator using the standard 1.25 cents per point valuation.',
   openGraph: {
     title: 'Chase Ultimate Rewards to USD | CreditOdds',

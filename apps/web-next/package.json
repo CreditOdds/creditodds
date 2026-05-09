@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-seo.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "check:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",

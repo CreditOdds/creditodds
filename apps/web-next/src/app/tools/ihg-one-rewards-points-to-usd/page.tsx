@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'IHG One Rewards Points to USD (Converter/Calculator) | CreditOdds',
+  title: 'IHG One Rewards Points to USD Calculator',
   description: 'Convert IHG One Rewards points to their estimated USD value. Free calculator using the standard 0.5 cents per point valuation.',
   openGraph: {
     title: 'IHG One Rewards Points to USD | CreditOdds',

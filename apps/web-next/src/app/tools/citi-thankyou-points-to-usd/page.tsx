@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Citi ThankYou Points to USD (Converter/Calculator) | CreditOdds',
+  title: 'Citi ThankYou Points to USD Calculator',
   description: 'Convert Citi ThankYou points to their estimated USD value. Free calculator using the standard 1.0 cents per point valuation.',
   openGraph: {
     title: 'Citi ThankYou Points to USD | CreditOdds',

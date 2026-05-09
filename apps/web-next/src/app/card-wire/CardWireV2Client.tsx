@@ -298,7 +298,7 @@ function GroupRows({
             <span className="wire-thumb">
               <CardImage
                 cardImageLink={entry.card_image_link}
-                alt=""
+                alt={entry.card_name}
                 fill
                 sizes="40px"
                 style={{ objectFit: 'cover' }}

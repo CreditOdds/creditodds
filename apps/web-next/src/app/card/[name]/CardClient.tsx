@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, useId } from "react";
+import { Suspense, useState, useMemo, useEffect, useRef, useId } from "react";
 import dynamic from "next/dynamic";
 import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
@@ -238,6 +238,23 @@ interface CardClientProps {
   frequentlyComparedCards?: Card[];
 }
 
+// Isolated so useSearchParams doesn't bail the whole CardClient out of static
+// generation. Without this split, the page's prerendered HTML drops the h1 and
+// body content (the bug surfaced by the 2026-05 Bing audit).
+function SubmitParamWatcher({ slug, onTrigger }: { slug: string; onTrigger: () => void }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { authState } = useAuth();
+  useEffect(() => {
+    if (searchParams.get("submit") === "true" && authState.isAuthenticated) {
+      const id = window.setTimeout(onTrigger, 0);
+      router.replace(`/card/${slug}`, { scroll: false });
+      return () => window.clearTimeout(id);
+    }
+  }, [searchParams, authState.isAuthenticated, slug, router, onTrigger]);
+  return null;
+}
+
 export default function CardClient({
   card,
   graphData,
@@ -256,23 +273,11 @@ export default function CardClient({
   const shareMenuRef = useRef<HTMLDivElement | null>(null);
   const { authState } = useAuth();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const cardUrl = `https://creditodds.com/card/${card.slug}`;
   const shareTitle = `${card.card_name} on CreditOdds`;
   const encodedShareTitle = encodeURIComponent(shareTitle);
   const encodedCardUrl = encodeURIComponent(cardUrl);
-
-  useEffect(() => {
-    if (
-      searchParams.get("submit") === "true" &&
-      authState.isAuthenticated
-    ) {
-      const id = window.setTimeout(() => setShowModal(true), 0);
-      router.replace(`/card/${card.slug}`, { scroll: false });
-      return () => window.clearTimeout(id);
-    }
-  }, [searchParams, authState.isAuthenticated, card.slug, router]);
 
   useEffect(() => {
     if (!showShareMenu) return;
@@ -597,6 +602,9 @@ export default function CardClient({
 
   return (
     <div className="landing-v2 card-journal">
+      <Suspense fallback={null}>
+        <SubmitParamWatcher slug={card.slug} onTrigger={() => setShowModal(true)} />
+      </Suspense>
       <CreditCardSchema card={card} ratings={ratings} />
       <BreadcrumbSchema
         items={[

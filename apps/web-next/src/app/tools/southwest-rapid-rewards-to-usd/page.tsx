@@ -13,7 +13,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Southwest Rapid Rewards to USD (Converter/Calculator) | CreditOdds',
+  title: 'Southwest Rapid Rewards to USD Calculator',
   description: 'Convert Southwest Rapid Rewards points to their estimated USD value. Free calculator using the multi-source 1.30 cents per point median valuation.',
   openGraph: {
     title: 'Southwest Rapid Rewards to USD | CreditOdds',

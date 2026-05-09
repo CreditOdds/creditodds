@@ -119,7 +119,7 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
                 <div className="cover-card">
                   <CardImage
                     cardImageLink={featured.card_image_link}
-                    alt=""
+                    alt={featured.card_names?.[0] || featured.title}
                     fill
                     sizes="240px"
                     style={{ objectFit: 'cover' }}
@@ -177,7 +177,7 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
                   <div className="nc-card-thumb">
                     <CardImage
                       cardImageLink={item.card_image_link}
-                      alt=""
+                      alt={item.card_names?.[0] || item.title}
                       fill
                       sizes="160px"
                       style={{ objectFit: 'cover' }}

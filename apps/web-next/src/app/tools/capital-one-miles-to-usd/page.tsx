@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Capital One Miles to USD (Converter/Calculator) | CreditOdds',
+  title: 'Capital One Miles to USD Calculator',
   description: 'Convert Capital One miles to their estimated USD value. Free calculator using the standard 1.0 cents per mile valuation.',
   openGraph: {
     title: 'Capital One Miles to USD | CreditOdds',

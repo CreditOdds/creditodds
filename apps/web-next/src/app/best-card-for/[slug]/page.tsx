@@ -147,7 +147,7 @@ export default async function BestCardForStorePage({ params }: PageProps) {
                 >
                   <CardImage
                     cardImageLink={pick.card.card_image_link}
-                    alt=""
+                    alt={pick.card.card_name}
                     width={64}
                     height={40}
                     style={{ width: 64, height: 40, objectFit: 'contain' }}

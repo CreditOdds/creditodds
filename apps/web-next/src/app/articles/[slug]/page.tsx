@@ -11,6 +11,7 @@ import { ShareButtons } from "@/components/articles/ShareButtons";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { truncateTitle } from "@/lib/seo";
 import "../../landing.css";
 
 interface Props {
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticle(slug);
   if (!article) return { title: "Article Not Found" };
   return {
-    title: article.seo_title || `${article.title} | CreditOdds`,
+    title: truncateTitle(article.seo_title || article.title),
     description: article.seo_description || article.summary,
     openGraph: {
       title: article.seo_title || article.title,

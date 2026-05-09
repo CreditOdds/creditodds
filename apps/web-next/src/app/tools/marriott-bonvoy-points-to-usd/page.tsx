@@ -11,7 +11,7 @@ import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../../landing.css';
 
 export const metadata: Metadata = {
-  title: 'Marriott Bonvoy Points to USD (Converter/Calculator) | CreditOdds',
+  title: 'Marriott Bonvoy Points to USD Calculator',
   description: 'Convert Marriott Bonvoy points to their estimated USD value. Free calculator using the standard 0.7 cents per point valuation.',
   openGraph: {
     title: 'Marriott Bonvoy Points to USD | CreditOdds',
