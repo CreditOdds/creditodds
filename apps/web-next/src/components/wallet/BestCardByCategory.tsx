@@ -135,6 +135,31 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
     return results;
   }, [walletCards, allCards]);
 
+  const reportUrl = `https://github.com/CreditOdds/creditodds/issues/new?${new URLSearchParams({
+    title: 'Wallet-wide rankings: issue report',
+    labels: 'feedback,wallet-wide-rankings',
+    body: [
+      '**Feature:** Wallet-wide rankings (Best card by category)',
+      '**Page:** https://creditodds.com/profile (Rewards tab)',
+      `**Wallet size:** ${walletCards.length} card${walletCards.length === 1 ? '' : 's'}`,
+      `**Categories shown:** ${categoryBests.length}`,
+      '',
+      '### Issue type',
+      "<!-- delete the ones that don't apply -->",
+      '- Wrong card picked for a category',
+      '- Missing category',
+      '- Wrong earn rate / USD value',
+      '- Other bug',
+      '- Suggestion',
+      '',
+      '### Which category is affected?',
+      '',
+      '',
+      '### What did you expect to see vs. what was shown?',
+      '',
+    ].join('\n'),
+  }).toString()}`;
+
   if (categoryBests.length === 0) {
     return (
       <div className="cj-verdict">
@@ -145,8 +170,18 @@ export default function BestCardByCategory({ walletCards, allCards }: BestCardBy
 
   return (
     <section className="cj-section">
-      <div className="cj-table-label">
-        Derived from rewards on the cards you hold. When the top earner is brand- or merchant-restricted, an unrestricted alternative is shown below it.
+      <div className="cj-table-label" style={{ display: 'flex', alignItems: 'flex-start', gap: 12, justifyContent: 'space-between', flexWrap: 'wrap' }}>
+        <span style={{ flex: '1 1 320px', minWidth: 0 }}>
+          Derived from rewards on the cards you hold. When the top earner is brand- or merchant-restricted, an unrestricted alternative is shown below it.
+        </span>
+        <a
+          href={reportUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--accent)', textDecoration: 'none', whiteSpace: 'nowrap', fontWeight: 600 }}
+        >
+          Report an issue →
+        </a>
       </div>
       <table className="cj-table">
         <thead>
