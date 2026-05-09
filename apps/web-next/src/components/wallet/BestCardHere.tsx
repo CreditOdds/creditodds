@@ -3,6 +3,7 @@
 import { Fragment, useMemo, useState } from 'react';
 import CardImage from '@/components/ui/CardImage';
 import {
+  BestCardHereReportPayload,
   Card,
   NearbyPlace,
   StoreBrandIndexEntry,
@@ -12,6 +13,7 @@ import {
 } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
 import { PlacePick, pickWalletCardsForPlace } from '@/lib/walletPicksForPlace';
+import ReportMerchantModal from '@/components/wallet/ReportMerchantModal';
 
 // Resolved merchant ready for rendering. `label` is brand name when the
 // place was matched to a Store entry (e.g. "marriott") so the user can
@@ -170,6 +172,8 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [merchants, setMerchants] = useState<Merchant[]>([]);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [reportPayload, setReportPayload] =
+    useState<Omit<BestCardHereReportPayload, 'reason' | 'notes'> | null>(null);
 
   const cardsCount = walletCards.length;
 
@@ -254,28 +258,22 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
   // referential stability for the row keys.
   const merchantRows = useMemo(() => merchants, [merchants]);
 
-  const feedbackUrl = `https://github.com/CreditOdds/creditodds/issues/new?${new URLSearchParams({
-    title: 'Feedback: Best Card Here (Beta)',
-    labels: 'feedback,best-card-here',
-    body: [
-      '**Feature:** Best Card Here (Beta)',
-      `**Page:** https://creditodds.com/profile (Rewards tab)`,
-      `**Wallet size:** ${cardsCount} card${cardsCount === 1 ? '' : 's'}`,
-      ...(location ? [`**Last lookup:** ${merchants.length} merchant${merchants.length === 1 ? '' : 's'} returned`] : []),
-      '',
-      '### Feedback type',
-      '<!-- delete the ones that don\'t apply -->',
-      '- Bug',
-      '- Suggestion',
-      '- Praise',
-      '',
-      '### What happened or what would you like to see?',
-      '',
-      '',
-      '### Steps to reproduce (if a bug)',
-      '',
-    ].join('\n'),
-  }).toString()}`;
+  const buildReportPayload = (
+    merchant: Merchant,
+    pick: PlacePick,
+  ): Omit<BestCardHereReportPayload, 'reason' | 'notes'> => ({
+    merchant_place_id: merchant.id,
+    merchant_name: merchant.name,
+    merchant_address: merchant.addr || undefined,
+    merchant_category: merchant.label,
+    merchant_distance: merchant.dist,
+    recommended_card_id:
+      typeof pick.card.db_card_id === 'number' ? pick.card.db_card_id : undefined,
+    recommended_card_name: pick.card.card_name,
+    rate_label: pick.rateLabel,
+    rate_context: pick.context,
+    wallet_size: cardsCount,
+  });
 
   return (
     <div className="cj-bch-shell" style={{ paddingBottom: 8 }}>
@@ -293,15 +291,7 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
           Best card <em className="cj-section-accent">here.</em>
         </h2>
         <span className="cj-section-num" style={{ marginLeft: 'auto' }}>
-          pilot ·{' '}
-          <a
-            href={feedbackUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: 'var(--accent)', textDecoration: 'none' }}
-          >
-            send feedback →
-          </a>
+          pilot
         </span>
       </div>
       <p style={{
@@ -431,9 +421,16 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
                             borderRadius: 3, padding: '5px 9px', letterSpacing: '0.02em',
                           }}>see {best.card.card_name} rules →</a>
                         )}
-                        <a href="#" style={{
-                          fontSize: 11.5, color: 'var(--muted)', textDecoration: 'none', padding: '5px 4px',
-                        }}>not the right category? report</a>
+                        <button
+                          type="button"
+                          className="cj-bch-report-trigger"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setReportPayload(buildReportPayload(m, best));
+                          }}
+                        >
+                          report this match
+                        </button>
                       </div>
                     </div>
                   )}
@@ -445,11 +442,17 @@ export default function BestCardHere({ walletCards, allCards }: BestCardHereProp
           <div className="cj-verdict" style={{ marginTop: 18 }}>
             <b>Pilot note.</b> Best-card matching is computed against the {cardsCount} card{cardsCount === 1 ? '' : 's'}
             {' '}currently in your wallet and each card&apos;s published earn rules. Quarterly rotating categories
-            (Freedom Flex, Discover) are not yet considered.{' '}
-            <a href="#" style={{ color: 'var(--accent)' }}>Tell us what&apos;s missing →</a>
+            (Freedom Flex, Discover) are not yet considered. Tap <em>report this match</em> on any merchant
+            if a category, card, or earn rate looks off.
           </div>
         </>
       )}
+
+      <ReportMerchantModal
+        show={reportPayload !== null}
+        onClose={() => setReportPayload(null)}
+        payload={reportPayload ?? { merchant_name: '' }}
+      />
     </div>
   );
 }

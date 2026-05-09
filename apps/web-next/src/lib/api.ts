@@ -541,6 +541,50 @@ export async function getComparePartners(slug: string, limit = 5): Promise<Compa
   }
 }
 
+export type BestCardHereReportReason =
+  | 'wrong_category'
+  | 'wrong_card'
+  | 'merchant_missing'
+  | 'other';
+
+export interface BestCardHereReportPayload {
+  reason: BestCardHereReportReason;
+  notes?: string;
+  merchant_place_id?: string;
+  merchant_name: string;
+  merchant_address?: string;
+  merchant_category?: string;
+  merchant_distance?: string;
+  recommended_card_id?: number;
+  recommended_card_name?: string;
+  rate_label?: string;
+  rate_context?: string;
+  wallet_size?: number;
+}
+
+export async function submitBestCardHereReport(
+  payload: BestCardHereReportPayload,
+): Promise<void> {
+  const token = await getAnonymousAuthToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const res = await fetch(`${API_BASE}/best-card-here-report`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    let message = 'Failed to submit report';
+    try {
+      const data = await res.json();
+      if (data && typeof data.error === 'string') message = data.error;
+    } catch {
+      // ignore JSON parse failures, use default message
+    }
+    throw new Error(message);
+  }
+}
+
 export type CardApplyClickSource = 'direct' | 'referral';
 
 export async function trackCardApplyClick(

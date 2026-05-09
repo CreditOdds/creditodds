@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS best_card_here_reports (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(128) NULL,
+  ip_hash CHAR(64) NULL,
+  reason ENUM('wrong_category','wrong_card','merchant_missing','other') NOT NULL,
+  notes VARCHAR(1000) NULL,
+  merchant_place_id VARCHAR(128) NULL,
+  merchant_name VARCHAR(255) NOT NULL,
+  merchant_address VARCHAR(500) NULL,
+  merchant_category VARCHAR(80) NULL,
+  merchant_distance VARCHAR(20) NULL,
+  recommended_card_id INT NULL,
+  recommended_card_name VARCHAR(255) NULL,
+  rate_label VARCHAR(40) NULL,
+  rate_context VARCHAR(160) NULL,
+  wallet_size INT NULL,
+  user_agent VARCHAR(500) NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_created_at (created_at),
+  INDEX idx_user_id (user_id),
+  INDEX idx_recommended_card_id (recommended_card_id),
+  INDEX idx_reason (reason)
+);

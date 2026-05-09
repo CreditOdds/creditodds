@@ -499,6 +499,42 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
+  BestCardHereReportFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/best-card-here-report.BestCardHereReportHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Accept user reports about Best Card Here merchant matches
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          IP_HASH_PEPPER: !Ref IpHashPepper
+          FIREBASE_PROJECT_ID: creditodds
+      Events:
+        SubmitReport:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /best-card-here-report
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        BestCardHereReportOptions:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /best-card-here-report
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   CardApplyClickFunction:
     Type: AWS::Serverless::Function
     Properties:
