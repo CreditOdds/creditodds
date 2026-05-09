@@ -99,10 +99,11 @@ export default function ReportMerchantModal({ show, onClose, payload }: ReportMe
   // on iPhone, breaking touch scroll inside the card. Body-level portal
   // sidesteps the entire ancestor chain.
   return createPortal(
-    <div className="cj-modal-root" role="dialog" aria-modal="true">
-      <div className="cj-modal-backdrop" onClick={submitting ? undefined : onClose} />
-      <div className="cj-modal-shell">
-        <div className="cj-modal-card cj-modal-card-bounded" style={{ maxWidth: 480 }}>
+    <div className="landing-v2 profile-v2">
+      <div className="cj-modal-root" role="dialog" aria-modal="true">
+        <div className="cj-modal-backdrop" onClick={submitting ? undefined : onClose} />
+        <div className="cj-modal-shell">
+          <div className="cj-modal-card cj-modal-card-bounded" style={{ maxWidth: 480 }}>
           <div className="cj-modal-head">
             <span className="cj-status-dot" />
             <span className="cj-modal-title">report this match</span>
@@ -241,6 +242,7 @@ export default function ReportMerchantModal({ show, onClose, payload }: ReportMe
               </div>
             </>
           )}
+          </div>
         </div>
       </div>
     </div>,
