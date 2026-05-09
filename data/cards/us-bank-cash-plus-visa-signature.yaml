@@ -13,7 +13,7 @@ rewards:
     value: 5
     unit: percent
     choices: 2
-    eligible_categories: [gas, groceries, online_shopping, streaming, transit, home_improvement, entertainment, department_stores]
+    eligible_categories: [fast_food, electronics_stores, tv_internet_streaming, home_utilities, cell_phone_providers, furniture_stores, department_stores, ground_transportation, gyms_fitness, select_clothing, sporting_goods, movie_theaters]
     spend_cap: 2000
     cap_period: quarterly
     rate_after_cap: 1

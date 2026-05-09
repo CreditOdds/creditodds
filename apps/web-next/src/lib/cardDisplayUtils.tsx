@@ -37,6 +37,19 @@ export const categoryLabels: Record<string, string> = {
   amazon: "Amazon.com",
   rei: "REI",
   everything_else: "Everything Else",
+  // U.S. Bank Cash+ 5% bucket categories — labels match cashplus.usbank.com/merchants.
+  fast_food: "Fast Food",
+  electronics_stores: "Electronics Stores",
+  tv_internet_streaming: "TV, Internet & Streaming Services",
+  home_utilities: "Home Utilities",
+  cell_phone_providers: "Cell Phone Providers",
+  furniture_stores: "Furniture Stores",
+  department_stores: "Department Stores",
+  ground_transportation: "Ground Transportation",
+  gyms_fitness: "Gyms/Fitness Centers",
+  select_clothing: "Select Clothing Stores",
+  sporting_goods: "Sporting Goods Stores",
+  movie_theaters: "Movie Theaters",
 };
 
 export function isPortalCategory(category: string): boolean {
