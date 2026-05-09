@@ -3,17 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
-import CardyCharacter from '@/components/ui/CardyCharacter';
 import Downshift from 'downshift';
-import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '@/auth/AuthProvider';
-import { getRecords, getWallet, addToWallet, Card } from '@/lib/api';
+import { getRecords, getWallet, Card } from '@/lib/api';
 import { cardMatchesSearch } from '@/lib/searchAliases';
-import { toast } from 'react-toastify';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
-const DISMISSED_KEY = 'clippy_prompt_dismissed';
 const BANNER_LAST_SHOWN_KEY = 'clippy_banner_last_shown';
 const SNOOZED_UNTIL_KEY = 'clippy_snoozed_until';
 
@@ -137,10 +133,8 @@ function CardPicker({
 export default function DataPointPrompt() {
   const { authState, getToken } = useAuth();
   const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
   const [showBannerPicker, setShowBannerPicker] = useState(false);
-  const [step, setStep] = useState<1 | 2>(1);
   const [cards, setCards] = useState<Card[]>([]);
   const [loadingCards, setLoadingCards] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -157,25 +151,16 @@ export default function DataPointPrompt() {
           getWallet(token).catch(() => []),
         ]);
 
-        if (records.length === 0 && wallet.length === 0) {
-          // Truly new user (no records and no wallet): show wallet-add modal
-          if (localStorage.getItem(DISMISSED_KEY) !== 'true') {
-            setShowModal(true);
-          }
-        } else {
-          // Returning user: check snooze/timing for banner
-          const snoozedUntil = localStorage.getItem(SNOOZED_UNTIL_KEY);
-          if (snoozedUntil && new Date(snoozedUntil).getTime() > Date.now()) {
-            return; // Snoozed — don't show
-          }
+        // Only show the returning-user banner; truly new users (no records, no wallet) see nothing.
+        if (records.length === 0 && wallet.length === 0) return;
 
-          const lastShown = localStorage.getItem(BANNER_LAST_SHOWN_KEY);
-          if (lastShown && Date.now() - new Date(lastShown).getTime() < THIRTY_DAYS_MS) {
-            return; // Shown within last 30 days — don't show
-          }
+        const snoozedUntil = localStorage.getItem(SNOOZED_UNTIL_KEY);
+        if (snoozedUntil && new Date(snoozedUntil).getTime() > Date.now()) return;
 
-          setShowBanner(true);
-        }
+        const lastShown = localStorage.getItem(BANNER_LAST_SHOWN_KEY);
+        if (lastShown && Date.now() - new Date(lastShown).getTime() < THIRTY_DAYS_MS) return;
+
+        setShowBanner(true);
       } catch {
         // Silently fail — don't block the user
       }
@@ -184,9 +169,8 @@ export default function DataPointPrompt() {
     return () => clearTimeout(timer);
   }, [authState.isAuthenticated, getToken]);
 
-  // Fetch cards when entering step 2 (modal) or banner picker
   useEffect(() => {
-    if ((!showBannerPicker && step !== 2) || cards.length > 0) return;
+    if (!showBannerPicker || cards.length > 0) return;
 
     setLoadingCards(true);
     fetch(`${API_BASE}/cards`)
@@ -203,58 +187,27 @@ export default function DataPointPrompt() {
       })
       .catch(() => {})
       .finally(() => setLoadingCards(false));
-  }, [step, showBannerPicker, cards.length]);
+  }, [showBannerPicker, cards.length]);
 
-  // Focus search input when step 2 or banner picker appears
   useEffect(() => {
-    if (step === 2 || showBannerPicker) {
+    if (showBannerPicker) {
       const t = setTimeout(() => searchInputRef.current?.focus(), 100);
       return () => clearTimeout(t);
     }
-  }, [step, showBannerPicker]);
+  }, [showBannerPicker]);
 
-  // Modal dismiss (new user — permanent)
-  const dismissModal = () => {
-    setShowModal(false);
-    localStorage.setItem(DISMISSED_KEY, 'true');
-  };
-
-  // Banner dismiss (X button — sets last shown to now)
   const dismissBanner = () => {
     setShowBanner(false);
     setShowBannerPicker(false);
     localStorage.setItem(BANNER_LAST_SHOWN_KEY, new Date().toISOString());
   };
 
-  // Banner snooze (3 months)
   const snoozeBanner = () => {
     setShowBanner(false);
     setShowBannerPicker(false);
     localStorage.setItem(SNOOZED_UNTIL_KEY, new Date(Date.now() + THREE_MONTHS_MS).toISOString());
   };
 
-  const goToStep2 = () => {
-    setStep(2);
-  };
-
-  // New user flow: add the picked card to their wallet directly.
-  const handleWalletAdd = async (card: Card | null) => {
-    if (!card) return;
-    try {
-      const token = await getToken();
-      if (!token) return;
-      const numericId = Number(card.db_card_id ?? card.card_id);
-      if (!Number.isFinite(numericId)) return;
-      await addToWallet(numericId, undefined, undefined, token);
-      toast.success(`${card.card_name} added to your wallet`);
-      setShowModal(false);
-      localStorage.setItem(DISMISSED_KEY, 'true');
-    } catch {
-      toast.error('Could not add card to your wallet. Please try again.');
-    }
-  };
-
-  // Returning user flow (banner): collect a data point.
   const handleDataPointSubmit = (card: Card | null) => {
     if (!card) return;
     setShowBanner(false);
@@ -263,118 +216,52 @@ export default function DataPointPrompt() {
     router.push(`/card/${card.slug}?submit=true`);
   };
 
+  if (!showBanner) return null;
+
   return (
-    <>
-      {/* Returning user banner */}
-      {showBanner && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-indigo-50 border-t border-indigo-200 shadow-[0_-2px_8px_rgba(0,0,0,0.08)]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            {!showBannerPicker ? (
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-sm text-indigo-800 flex-1">
-                  Applied for any new cards lately? Share your result to help the community.
-                </p>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <button
-                    onClick={() => setShowBannerPicker(true)}
-                    className="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-md transition-colors"
-                  >
-                    Submit a data point
-                  </button>
-                  <button
-                    onClick={snoozeBanner}
-                    className="hidden sm:block text-sm text-indigo-600 hover:text-indigo-800 font-medium whitespace-nowrap"
-                  >
-                    Remind me in 3 months
-                  </button>
-                  <button
-                    onClick={dismissBanner}
-                    className="text-indigo-400 hover:text-indigo-600"
-                    aria-label="Dismiss"
-                  >
-                    <XMarkIcon className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="max-w-sm mx-auto">
-                <CardPicker
-                  cards={cards}
-                  loadingCards={loadingCards}
-                  searchInputRef={searchInputRef}
-                  onCardSelect={handleDataPointSubmit}
-                  onDismiss={dismissBanner}
-                  title="Which card have you applied for?"
-                  subtitle="Search and select your card to submit a data point."
-                />
-              </div>
-            )}
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-indigo-50 border-t border-indigo-200 shadow-[0_-2px_8px_rgba(0,0,0,0.08)]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        {!showBannerPicker ? (
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-sm text-indigo-800 flex-1">
+              Applied for any new cards lately? Share your result to help the community.
+            </p>
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <button
+                onClick={() => setShowBannerPicker(true)}
+                className="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-md transition-colors"
+              >
+                Submit a data point
+              </button>
+              <button
+                onClick={snoozeBanner}
+                className="hidden sm:block text-sm text-indigo-600 hover:text-indigo-800 font-medium whitespace-nowrap"
+              >
+                Remind me in 3 months
+              </button>
+              <button
+                onClick={dismissBanner}
+                className="text-indigo-400 hover:text-indigo-600"
+                aria-label="Dismiss"
+              >
+                <XMarkIcon className="h-5 w-5" />
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-
-      {/* New user modal */}
-      <Dialog open={showModal} onClose={dismissModal} className="relative z-50">
-        <DialogBackdrop className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <DialogPanel className="relative transform overflow-hidden rounded-2xl bg-white px-6 pb-6 pt-8 text-center shadow-xl transition-all sm:max-w-sm w-full">
-
-              {step === 1 && (
-                <>
-                  {/* Cardy character */}
-                  <div className="flex justify-center mb-4">
-                    <div className="relative">
-                      <CardyCharacter />
-                      {/* Speech bubble */}
-                      <div className="absolute -top-14 -right-4 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-1.5 text-xs text-indigo-700 font-medium whitespace-nowrap">
-                        Hi there! 👋
-                        <div className="absolute -bottom-1 right-8 w-2 h-2 bg-indigo-50 border-b border-r border-indigo-200 rotate-45" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <h3 className="text-lg font-semibold text-gray-900 mt-2">
-                    Add your first card!
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-600">
-                    Add a card to your wallet to track benefits, fees, and time your next application. Takes a few seconds.
-                  </p>
-
-                  <div className="mt-6 flex flex-col gap-3">
-                    <button
-                      onClick={goToStep2}
-                      className="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Let&apos;s go!
-                    </button>
-                    <button
-                      onClick={dismissModal}
-                      className="w-full rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                    >
-                      Maybe later
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {step === 2 && (
-                <CardPicker
-                  cards={cards}
-                  loadingCards={loadingCards}
-                  searchInputRef={searchInputRef}
-                  onCardSelect={handleWalletAdd}
-                  onDismiss={dismissModal}
-                  title="Which card do you have?"
-                  subtitle="Add it to your wallet to track its benefits and fees."
-                />
-              )}
-
-            </DialogPanel>
+        ) : (
+          <div className="max-w-sm mx-auto">
+            <CardPicker
+              cards={cards}
+              loadingCards={loadingCards}
+              searchInputRef={searchInputRef}
+              onCardSelect={handleDataPointSubmit}
+              onDismiss={dismissBanner}
+              title="Which card have you applied for?"
+              subtitle="Search and select your card to submit a data point."
+            />
           </div>
-        </div>
-      </Dialog>
-    </>
+        )}
+      </div>
+    </div>
   );
 }
