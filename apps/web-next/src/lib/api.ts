@@ -317,6 +317,17 @@ export async function archiveReferral(referralId: number, token: string) {
 }
 
 // Wallet types and API functions
+// One user pick for a selectable reward block on a held card. Cash+ (5%
+// quarterly) stores two rows per wallet card; Custom Cash stores one.
+// Identified by (reward_category, reward_rate) so we can match it back
+// to the YAML reward block without leaking array indexes.
+export interface WalletCardSelection {
+  reward_category: string;
+  reward_rate: number;
+  selected_category: string;
+  auto_renew: boolean;
+}
+
 export interface WalletCard {
   id: number;
   card_id: number;
@@ -327,6 +338,7 @@ export interface WalletCard {
   acquired_year?: number;
   created_at: string;
   user_rating?: number | null;
+  selections?: WalletCardSelection[];
 }
 
 export async function getWallet(token: string): Promise<WalletCard[]> {
@@ -402,6 +414,52 @@ export async function removeFromWallet(walletRowId: number, token: string): Prom
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');
     throw new Error(`Failed to remove card from wallet: ${errorText}`);
+  }
+  return res.json();
+}
+
+// User category selections per wallet card (Cash+, Custom Cash, etc).
+// PUT replaces the active set wholesale — partial updates aren't supported.
+export interface UpdateSelectionsBody {
+  selections: Array<{
+    reward_category: string;
+    reward_rate: number;
+    selected_category: string;
+  }>;
+  auto_renew: boolean;
+}
+
+export async function updateWalletCardSelections(
+  walletRowId: number,
+  body: UpdateSelectionsBody,
+  token: string,
+): Promise<{ message: string; count: number; auto_renew: boolean }> {
+  const res = await fetch(`${API_BASE}/wallet/${walletRowId}/selections`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to update selections: ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function clearWalletCardSelections(
+  walletRowId: number,
+  token: string,
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/wallet/${walletRowId}/selections`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to clear selections: ${errorText}`);
   }
   return res.json();
 }
