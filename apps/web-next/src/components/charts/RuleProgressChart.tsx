@@ -1,13 +1,21 @@
 'use client';
 
+import Image from 'next/image';
 import { RuleResult } from '@/lib/applicationRules';
 
 interface RuleProgressChartProps {
   rule: RuleResult;
 }
 
+const RULE_LOGO: Record<string, string> = {
+  'Chase 5/24': '/logos/chase.jpg',
+  'Amex 2/90': '/logos/amex.jpg',
+  'Capital One 1/6': '/logos/capital-one.jpg',
+};
+
 export default function RuleProgressChart({ rule }: RuleProgressChartProps) {
   const { ruleName, current, limit, periodDescription } = rule;
+  const logo = RULE_LOGO[ruleName];
 
   const status: 'ok' | 'at' | 'over' =
     current > limit ? 'over' : current === limit ? 'at' : 'ok';
@@ -21,7 +29,19 @@ export default function RuleProgressChart({ rule }: RuleProgressChartProps) {
   return (
     <div className="cj-rule">
       <div className="cj-rule-head">
-        <div className="cj-rule-name">{ruleName}</div>
+        <div className="cj-rule-name">
+          {logo && (
+            <Image
+              src={logo}
+              alt=""
+              width={18}
+              height={18}
+              className="cj-rule-logo"
+              aria-hidden="true"
+            />
+          )}
+          <span>{ruleName}</span>
+        </div>
         <div className="cj-rule-period">{periodDescription}</div>
       </div>
 

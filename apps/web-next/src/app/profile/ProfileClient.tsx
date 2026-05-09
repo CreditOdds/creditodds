@@ -440,7 +440,7 @@ export default function ProfileClient() {
               <div className="cj-readoff-cell cj-readoff-bonus">
                 <div className="cj-readoff-k">Next renewal</div>
                 <div className="cj-readoff-v">
-                  {nextRenewal ? nextRenewal.renewal.split(' ')[0] + ' ' + nextRenewal.renewal.split(' ')[1].slice(2) : '—'}
+                  {nextRenewal ? `${nextRenewal.renewal.split(' ')[0]} '${nextRenewal.renewal.split(' ')[1].slice(2)}` : '—'}
                 </div>
                 <div className="cj-readoff-foot">
                   {nextRenewal ? `${nextRenewal.name.replace(/ Card$/, '')} · $${nextRenewal.fee}` : 'no fee renewals'}
@@ -726,7 +726,7 @@ export default function ProfileClient() {
                 {upcomingRenewals.map((r) => (
                   <li key={r.name} className="cj-rail-row">
                     <div className="cj-rail-row-meta">
-                      <span className="cj-rail-row-date">{r.renewal.split(' ')[0]} {r.renewal.split(' ')[1].slice(2)}</span>
+                      <span className="cj-rail-row-date">{r.renewal.split(' ')[0]} '{r.renewal.split(' ')[1].slice(2)}</span>
                       <span className="cj-rail-row-field">{r.name.replace(/ Card$/, '')}</span>
                     </div>
                     <div className="cj-rail-row-detail">
