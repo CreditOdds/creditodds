@@ -314,10 +314,10 @@ export default function DataPointPrompt() {
       )}
 
       {/* New user modal */}
-      <Dialog open={showModal} onClose={dismissModal} className="relative z-10">
+      <Dialog open={showModal} onClose={dismissModal} className="relative z-50">
         <DialogBackdrop className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel className="relative transform overflow-hidden rounded-2xl bg-white px-6 pb-6 pt-8 text-center shadow-xl transition-all sm:max-w-sm w-full">
 
