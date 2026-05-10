@@ -946,9 +946,19 @@ export default function CardClient({
                       {sortedRewards.map((r) => {
                         let lbl: string;
                         if (r.category === "top_category") {
-                          lbl = r.choices && r.choices > 1
-                            ? `Top ${r.choices} spend categories`
-                            : "Top spend category";
+                          // When a card has multiple top_category blocks (Venmo:
+                          // 3% top, 2% second-highest), label them by tier rather
+                          // than duplicating "Top spend category".
+                          const topBlocks = sortedRewards.filter((x) => x.category === "top_category");
+                          const tierIdx = topBlocks.findIndex((x) => x === r);
+                          if (r.choices && r.choices > 1) {
+                            lbl = `Top ${r.choices} spend categories`;
+                          } else if (topBlocks.length > 1) {
+                            const tierLabels = ["Top spend category", "2nd-highest spend category", "3rd-highest spend category"];
+                            lbl = tierLabels[tierIdx] ?? `${tierIdx + 1}th-highest spend category`;
+                          } else {
+                            lbl = "Top spend category";
+                          }
                         } else if (r.category === "selected_categories") {
                           lbl = r.choices === 1
                             ? "Choose 1 category"

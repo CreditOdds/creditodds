@@ -113,15 +113,23 @@ export default function SelectCategoriesModal({
   const togglePick = (blockIdx: number, category: string) => {
     setBlocks((prev) =>
       prev.map((b, i) => {
-        if (i !== blockIdx) return b;
-        const has = b.selected.includes(category);
-        if (has) return { ...b, selected: b.selected.filter((c) => c !== category) };
-        if (b.selected.length >= b.picks) {
-          // Bump the oldest pick out so the click feels responsive — the user
-          // is replacing one of their picks rather than hitting a hard cap.
-          return { ...b, selected: [...b.selected.slice(1), category] };
+        if (i === blockIdx) {
+          const has = b.selected.includes(category);
+          if (has) return { ...b, selected: b.selected.filter((c) => c !== category) };
+          if (b.selected.length >= b.picks) {
+            // Bump the oldest pick out so the click feels responsive — the user
+            // is replacing one of their picks rather than hitting a hard cap.
+            return { ...b, selected: [...b.selected.slice(1), category] };
+          }
+          return { ...b, selected: [...b.selected, category] };
         }
-        return { ...b, selected: [...b.selected, category] };
+        // Cross-block dedup: a category claimed in one block (e.g. Venmo's 3%
+        // tier) can't also be the pick for a sibling block (the 2% tier),
+        // since the issuer ranks tiers off the user's actual spend.
+        if (b.selected.includes(category)) {
+          return { ...b, selected: b.selected.filter((c) => c !== category) };
+        }
+        return b;
       }),
     );
   };
@@ -218,7 +226,24 @@ export default function SelectCategoriesModal({
             ) : (
               blocks.map((b, idx) => {
                 const cad = cadenceLabel(b.reward);
-                const heading = `${b.reward_rate}% — pick ${b.picks}${cad ? ` ${cad}` : ''}`;
+                // Tier-aware heading when a card has multiple top_category
+                // blocks (Venmo: 3% top tier, 2% second tier). Each tier
+                // earns at a different rate on a distinct user-picked category.
+                const topTierBlocks = blocks.filter(
+                  (x) => x.reward_category === 'top_category',
+                );
+                const isTopTier = b.reward_category === 'top_category' && topTierBlocks.length > 1;
+                const tierIdx = isTopTier
+                  ? topTierBlocks.findIndex((x) => x === b)
+                  : -1;
+                const tierPrefix = isTopTier
+                  ? tierIdx === 0
+                    ? 'top tier — '
+                    : tierIdx === 1
+                      ? '2nd tier — '
+                      : `${tierIdx + 1}th tier — `
+                  : '';
+                const heading = `${tierPrefix}${b.reward_rate}% — pick ${b.picks}${cad ? ` ${cad}` : ''}`;
                 return (
                   <div className="cj-modal-section" key={`${b.reward_category}-${b.reward_rate}`}>
                     <label className="cj-modal-label">{heading}</label>

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-09T21:33:01.508Z",
+  "generated_at": "2026-05-10T21:46:06.191Z",
   "count": 162,
   "categories": [
     {
@@ -870,6 +870,7 @@
       "image": "citi-att-points-plus.png",
       "accepting_applications": true,
       "apply_link": "https://www.citi.com/credit-cards/citi-att-pointsplus-credit-card",
+      "foreign_transaction_fee": false,
       "annual_fee": 0,
       "reward_type": "points",
       "tags": [
@@ -5066,6 +5067,7 @@
         }
       },
       "apply_link": "https://www.discover.com/credit-cards/student/chrome-card.html",
+      "foreign_transaction_fee": false,
       "card_id": "discover-it-student-chrome-card",
       "card_name": "Discover it Student Chrome"
     },
@@ -9557,7 +9559,24 @@
             "drugstores",
             "gas"
           ],
-          "note": "3% on your top spend category and 2% on your second-highest each statement period (from 8 eligible: transportation, travel, groceries, entertainment, dining & nightlife, bills & utilities, health & beauty, gas). Drugstores here represents health & beauty; bills & utilities maps to utilities."
+          "note": "Automatically on your highest-spend eligible category each statement period (8 eligible: transportation, travel, groceries, entertainment, dining & nightlife, bills & utilities, health & beauty, gas). Drugstores here represents health & beauty; bills & utilities maps to utilities."
+        },
+        {
+          "category": "top_category",
+          "value": 2,
+          "unit": "percent",
+          "mode": "auto_top_spend",
+          "eligible_categories": [
+            "transit",
+            "travel",
+            "groceries",
+            "entertainment",
+            "dining",
+            "utilities",
+            "drugstores",
+            "gas"
+          ],
+          "note": "Automatically on your second-highest eligible category each statement period (same 8-category list)."
         },
         {
           "category": "everything_else",

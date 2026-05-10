@@ -23,7 +23,21 @@ rewards:
       - "utilities"
       - "drugstores"
       - "gas"
-    note: "3% on your top spend category and 2% on your second-highest each statement period (from 8 eligible: transportation, travel, groceries, entertainment, dining & nightlife, bills & utilities, health & beauty, gas). Drugstores here represents health & beauty; bills & utilities maps to utilities."
+    note: "Automatically on your highest-spend eligible category each statement period (8 eligible: transportation, travel, groceries, entertainment, dining & nightlife, bills & utilities, health & beauty, gas). Drugstores here represents health & beauty; bills & utilities maps to utilities."
+  - category: "top_category"
+    value: 2
+    unit: "percent"
+    mode: auto_top_spend
+    eligible_categories:
+      - "transit"
+      - "travel"
+      - "groceries"
+      - "entertainment"
+      - "dining"
+      - "utilities"
+      - "drugstores"
+      - "gas"
+    note: "Automatically on your second-highest eligible category each statement period (same 8-category list)."
   - category: "everything_else"
     value: 1
     unit: "percent"
