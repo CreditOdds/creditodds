@@ -58,9 +58,3 @@ benefits:
     description: "Pool points with other Citi ThankYou cards to access transfer partners"
     category: "rewards"
     enrollment_required: false
-  - name: "Statement Credit for Qualifying Purchases"
-    value: 240
-    description: "$20 statement credit each billing cycle after spending $1,000 or more on purchases (up to $240 annually)."
-    frequency: "monthly"
-    category: "statement_credit"
-    enrollment_required: false
