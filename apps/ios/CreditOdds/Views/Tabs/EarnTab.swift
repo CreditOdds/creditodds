@@ -56,6 +56,16 @@ struct EarnTab: View {
                         async let w: Void = walletVM.load()
                         async let c: Void = catalog.load()
                         _ = await (w, c)
+                        // Only refresh location if the user has already
+                        // shown intent — i.e. they've tapped "Find best
+                        // card here" at least once. Pulling on a fresh
+                        // tab shouldn't surprise them with a permission
+                        // prompt.
+                        if case .idle = bestHere.state { return }
+                        await bestHere.refresh(
+                            walletCards: walletVM.cards,
+                            allCards: catalog.cards
+                        )
                     }
                 }
             }
