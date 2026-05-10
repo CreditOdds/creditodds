@@ -116,7 +116,7 @@ export function V2Footer() {
         </div>
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} CreditOdds. Built by the community.</span>
-          <span>v2.6 · Last updated Apr 2026</span>
+          <span>v2.6 · Last updated May 2026</span>
         </div>
       </div>
     </footer>

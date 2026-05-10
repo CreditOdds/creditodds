@@ -4,6 +4,7 @@ import Link from "next/link";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { FAQSchema } from "@/components/seo/JsonLd";
 import "../landing.css";
+import "../static-pages.css";
 
 export const metadata: Metadata = {
   title: "How It Works",
@@ -114,220 +115,204 @@ const FAQS: FAQ[] = [
 
 export default function HowPage() {
   return (
-    <div className="landing-v2">
+    <div className="landing-v2 static-v2">
       <FAQSchema questions={FAQS.map((f) => ({ question: f.question, answer: f.answer }))} />
 
-      <section className="page-hero wrap">
-        <h1 className="page-title">
-          Our approach to <em>credit card odds.</em>
-        </h1>
-        <p className="page-sub">
-          CreditOdds is a work in progress. The goal is to highlight the metrics
-          required to get approved for any given card — sourced from real applications,
-          not bank marketing copy.
-        </p>
-      </section>
-
-      <div className="wrap">
-        <article className="page-body">
-          <p>
-            Initially, I sourced this data from Reddit (shout out{' '}
-            <a
-              href="https://reddit.com/r/CreditCards"
-              target="_blank"
-              rel="noreferrer"
-            >
-              /r/CreditCards
-            </a>
-            ) and other credit card forums. This approach isn&apos;t scalable and I am
-            hoping that this site provides a medium for collecting this information at
-            scale. While I have a backlog of features I&apos;d like to achieve, this
-            early version of CreditOdds <strong>will rely heavily on the good will of
-            you</strong> to report your results to help others.
-          </p>
-
-          <h3>The data points we collect</h3>
-          <p>
-            When a user signs up they have the ability to report a result on any card.
-            We ask for a few pieces of important information when submitting a result:
-          </p>
-          <ul>
-            <li>Credit score</li>
-            <li>Income</li>
-            <li>Application date</li>
-            <li>Age of oldest account (length of credit)</li>
-            <li>Existing account with bank</li>
-            <li>Approved?</li>
-          </ul>
-          <p>If approved:</p>
-          <ul>
-            <li>Starting credit limit</li>
-          </ul>
-          <p>If rejected:</p>
-          <ul>
-            <li>Reason provided</li>
-          </ul>
-          <p>
-            There are many other questions I&apos;d like to ask, but this is the
-            baseline that I feel people will answer. I selected these fields because
-            it&apos;s what you&apos;ll likely see on most card applications. Your credit
-            score also gives a good high-level analysis of what the bank sees when they
-            pull your credit.
-          </p>
-
-          <figure>
-            <Image
-              src="/assets/Graphic-03.svg"
-              alt="How the data flows"
-              width={660}
-              height={438}
-            />
-          </figure>
-
-          <p>
-            This is by no means an exact science. As mentioned before, there are
-            special exceptions that aren&apos;t currently accounted for in the reporting
-            template. If you have questions, comments, or concerns, start a discussion
-            on{' '}
-            <a href="https://twitter.com/MaxwellMelcher" target="_blank" rel="noreferrer">
-              Twitter / X
-            </a>
-            .
-          </p>
-        </article>
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current">how it works</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />methodology · public</span>
+        </div>
       </div>
 
-      <section className="wrap" style={{ paddingTop: 8, paddingBottom: 64 }}>
-        <div
-          style={{
-            maxWidth: 760,
-            margin: '0 auto',
-          }}
-        >
-          <div style={{ marginBottom: 32 }}>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                letterSpacing: 1.5,
-                textTransform: 'uppercase',
-                color: 'var(--accent)',
-                marginBottom: 10,
-              }}
-            >
-              Common Questions
-            </div>
-            <h2
-              style={{
-                fontFamily: "'Inter Tight', sans-serif",
-                fontSize: 'clamp(28px, 4vw, 38px)',
-                fontWeight: 700,
-                letterSpacing: -0.5,
-                margin: '0 0 12px',
-                color: 'var(--ink)',
-              }}
-            >
-              Credit card FAQ.
-            </h2>
-            <p
-              style={{
-                fontSize: 16,
-                lineHeight: 1.55,
-                color: 'var(--muted)',
-                margin: 0,
-              }}
-            >
-              Quick answers pulled from our long-form{' '}
-              <Link href="/articles" style={{ color: 'var(--accent)', borderBottom: '1px solid currentColor', textDecoration: 'none' }}>
-                articles
-              </Link>
-              . Tap a question for the short version, then follow the link for the
-              full breakdown.
+      <div className="cj-layout">
+        <main className="cj-main-static">
+          <header className="cj-page-head">
+            <div className="cj-page-eyebrow">how it works · methodology</div>
+            <h1 className="cj-page-h1">
+              Our approach to <em className="cj-section-accent">credit card odds.</em>
+            </h1>
+            <p className="cj-page-lede">
+              CreditOdds is a work in progress. The goal is to highlight the metrics
+              required to get approved for any given card — sourced from real applications,
+              not bank marketing copy.
             </p>
-          </div>
+            <div className="cj-page-meta">
+              <span><b>Approach</b> · community-submitted data</span>
+              <span><b>Source</b> · real applicants, not soft-pull APIs</span>
+              <span><b>Status</b> · always growing</span>
+            </div>
+          </header>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {FAQS.map((faq) => (
-              <details
-                key={faq.question}
-                style={{
-                  background: 'var(--bg-2, #fff)',
-                  border: '1px solid var(--line-2, #e5e7eb)',
-                  borderRadius: 12,
-                  padding: '16px 20px',
-                  fontFamily: "'Inter', sans-serif",
-                }}
-              >
-                <summary
-                  style={{
-                    cursor: 'pointer',
-                    fontSize: 16,
-                    fontWeight: 600,
-                    color: 'var(--ink)',
-                    listStyle: 'none',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    gap: 16,
-                    lineHeight: 1.4,
-                  }}
-                >
-                  <span>{faq.question}</span>
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      flexShrink: 0,
-                      color: 'var(--muted)',
-                      fontSize: 20,
-                      lineHeight: 1,
-                      marginTop: 2,
-                    }}
-                  >
-                    +
-                  </span>
-                </summary>
-                <div
-                  style={{
-                    marginTop: 12,
-                    fontSize: 15,
-                    lineHeight: 1.6,
-                    color: 'var(--ink-2, #374151)',
-                  }}
-                >
-                  <p style={{ margin: '0 0 10px' }}>{faq.answer}</p>
-                  <Link
-                    href={`/articles/${faq.source.slug}`}
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: 'var(--accent)',
-                      textDecoration: 'none',
-                      borderBottom: '1px solid currentColor',
-                    }}
-                  >
-                    Read: {faq.source.title} →
-                  </Link>
-                </div>
-              </details>
-            ))}
-          </div>
+          <section className="cj-static-section">
+            <div className="cj-section-num">01 · the loop</div>
+            <h2>Three steps. That&apos;s the whole product.</h2>
+            <div className="cj-steps">
+              <div className="cj-step">
+                <div className="cj-step-num">1</div>
+                <div className="cj-step-h">You apply.</div>
+                <p className="cj-step-p">Approved or denied — either outcome is a useful data point for the next applicant.</p>
+              </div>
+              <div className="cj-step">
+                <div className="cj-step-num">2</div>
+                <div className="cj-step-h">You share the result.</div>
+                <p className="cj-step-p">Score, income, outcome. Two minutes. Anonymous in aggregate.</p>
+              </div>
+              <div className="cj-step">
+                <div className="cj-step-num">3</div>
+                <div className="cj-step-h">We do the math.</div>
+                <p className="cj-step-p">Aggregated across thousands of submissions to surface real approval patterns per card.</p>
+              </div>
+            </div>
+          </section>
 
-          <p
-            style={{
-              marginTop: 28,
-              fontSize: 14,
-              color: 'var(--muted)',
-              textAlign: 'center',
-            }}
-          >
-            Have a question that should be here?{' '}
-            <Link href="/contact" style={{ color: 'var(--accent)', textDecoration: 'none', borderBottom: '1px solid currentColor' }}>
-              Send it our way
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
+          <section className="cj-static-section">
+            <div className="cj-section-num">02 · the source</div>
+            <h2>Where the data comes from.</h2>
+            <div className="cj-prose">
+              <p>
+                Initially, I sourced this data from Reddit (shout out{' '}
+                <a
+                  href="https://reddit.com/r/CreditCards"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  /r/CreditCards
+                </a>
+                ) and other credit card forums. This approach isn&apos;t scalable and I am
+                hoping that this site provides a medium for collecting this information at
+                scale. While I have a backlog of features I&apos;d like to achieve, this
+                early version of CreditOdds <strong>will rely heavily on the good will of
+                you</strong> to report your results to help others.
+              </p>
+            </div>
+            <div className="cj-callout">
+              <b>What this is not:</b> a soft-pull credit check. It&apos;s a population estimate based on what other applicants with similar profiles experienced. Your actual outcome depends on signals we don&apos;t see — relationship history, recent inquiries, internal issuer flags.
+            </div>
+          </section>
+
+          <section className="cj-static-section">
+            <div className="cj-section-num">03 · the data points</div>
+            <h2>What we ask for when you submit a result.</h2>
+            <div className="cj-prose">
+              <p>
+                When a user signs up they have the ability to report a result on any card.
+                We ask for a few pieces of important information when submitting a result:
+              </p>
+            </div>
+            <dl className="cj-deflist">
+              <dt>Required</dt>
+              <dd>Credit score, income, application date, age of oldest account (length of credit), existing account with bank, approved or denied.</dd>
+              <dt>If approved</dt>
+              <dd>Starting credit limit.</dd>
+              <dt>If rejected</dt>
+              <dd>The reason the bank provided.</dd>
+            </dl>
+            <div className="cj-prose">
+              <p>
+                There are many other questions I&apos;d like to ask, but this is the
+                baseline that I feel people will answer. I selected these fields because
+                it&apos;s what you&apos;ll likely see on most card applications. Your credit
+                score also gives a good high-level analysis of what the bank sees when they
+                pull your credit.
+              </p>
+            </div>
+            <div className="cj-figure">
+              <Image
+                src="/assets/Graphic-03.svg"
+                alt="How the data flows"
+                width={660}
+                height={438}
+              />
+            </div>
+            <div className="cj-prose">
+              <p>
+                This is by no means an exact science. As mentioned before, there are
+                special exceptions that aren&apos;t currently accounted for in the reporting
+                template. If you have questions, comments, or concerns, start a discussion
+                on{' '}
+                <a href="https://twitter.com/MaxwellMelcher" target="_blank" rel="noreferrer">
+                  Twitter / X
+                </a>
+                .
+              </p>
+            </div>
+          </section>
+
+          <section className="cj-static-section">
+            <div className="cj-section-num">04 · what we don&apos;t do</div>
+            <h2>And the lines we don&apos;t cross.</h2>
+            <ul className="cj-dontlist">
+              <li>
+                <span className="cj-x">×</span>
+                <span>We don&apos;t pull your credit. No soft inquiries, no hard inquiries, no bureau access of any kind.</span>
+              </li>
+              <li>
+                <span className="cj-x">×</span>
+                <span>We don&apos;t connect to your bank. Anything we know about your wallet is what you tell us.</span>
+              </li>
+              <li>
+                <span className="cj-x">×</span>
+                <span>We don&apos;t change rankings for affiliate payout. Affiliate links exist; the order of cards on a page is not influenced by them.</span>
+              </li>
+              <li>
+                <span className="cj-x">×</span>
+                <span>We don&apos;t sell individual records, individual user data, or anything tied to your account. See <Link href="/privacy">/privacy</Link> for the long version.</span>
+              </li>
+            </ul>
+          </section>
+
+          <section className="cj-static-section">
+            <div className="cj-section-num">05 · faq</div>
+            <h2>Common questions.</h2>
+            <div className="cj-prose">
+              <p>
+                Quick answers pulled from our long-form{' '}
+                <Link href="/articles">articles</Link>. Tap a question for the short version, then follow the link for the full breakdown.
+              </p>
+            </div>
+            <div className="cj-faq">
+              {FAQS.map((faq) => (
+                <details key={faq.question}>
+                  <summary>
+                    <span>{faq.question}</span>
+                    <span className="cj-faq-marker" aria-hidden="true">+</span>
+                  </summary>
+                  <div className="cj-faq-body">
+                    <p>{faq.answer}</p>
+                    <Link href={`/articles/${faq.source.slug}`}>
+                      Read: {faq.source.title} →
+                    </Link>
+                  </div>
+                </details>
+              ))}
+            </div>
+            <div className="cj-prose" style={{ marginTop: 18 }}>
+              <p>
+                Have a question that should be here?{' '}
+                <Link href="/contact">Send it our way</Link>.
+              </p>
+            </div>
+          </section>
+
+          <div className="cj-cta-block">
+            <div>
+              <div className="cj-cta-eyebrow">help build the dataset</div>
+              <h3 className="cj-cta-h">Submit your result. Sharpen the next person&apos;s odds.</h3>
+              <p className="cj-cta-sub">
+                Two minutes. No card connection, no credit pull. The dataset only works because people share.
+              </p>
+            </div>
+            <div className="cj-cta-actions">
+              <Link href="/check-odds" className="cj-cta-btn">+ submit a result</Link>
+              <Link href="/about" className="cj-cta-btn-outline">about creditodds</Link>
+            </div>
+          </div>
+        </main>
+      </div>
 
       <V2Footer />
     </div>
