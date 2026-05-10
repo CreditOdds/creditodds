@@ -95,6 +95,53 @@ interface Location {
   accuracy: number;
 }
 
+// sessionStorage key for the last successful nearby lookup. Survives
+// tab switches within Profile (BestCardHere unmounts when activeTab
+// leaves "rewards") and full reloads, but clears when the browser
+// session ends — matching "while they're in that session." Bump the
+// version when the shape changes so stale entries are dropped.
+const SESSION_CACHE_KEY = 'cj-bch-cache-v1';
+
+interface SessionCache {
+  location: Location;
+  placesCache: {
+    places: NearbyPlace[];
+    brandIndex: StoreBrandIndexEntry[];
+    lat: number;
+    lng: number;
+  };
+}
+
+function readSessionCache(): SessionCache | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.sessionStorage.getItem(SESSION_CACHE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as SessionCache;
+  } catch {
+    return null;
+  }
+}
+
+function writeSessionCache(value: SessionCache): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.sessionStorage.setItem(SESSION_CACHE_KEY, JSON.stringify(value));
+  } catch {
+    // sessionStorage can throw in Safari private mode or when full;
+    // a missed cache write is non-fatal — user just re-prompts on next visit.
+  }
+}
+
+function clearSessionCache(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.sessionStorage.removeItem(SESSION_CACHE_KEY);
+  } catch {
+    // see writeSessionCache
+  }
+}
+
 function BetaPill() {
   return (
     <span style={{
@@ -181,7 +228,11 @@ interface BestCardHereProps {
 
 export default function BestCardHere({ walletCards, allCards, onWalletRefresh }: BestCardHereProps) {
   const { getToken } = useAuth();
-  const [location, setLocation] = useState<Location | null>(null);
+  // Hydrate from sessionStorage on first render so the user's last
+  // lookup survives tab switches inside Profile and full reloads
+  // within the same browser session.
+  const initialCache = typeof window !== 'undefined' ? readSessionCache() : null;
+  const [location, setLocation] = useState<Location | null>(initialCache?.location ?? null);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [merchants, setMerchants] = useState<Merchant[]>([]);
@@ -199,7 +250,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
     brandIndex: StoreBrandIndexEntry[];
     lat: number;
     lng: number;
-  } | null>(null);
+  } | null>(initialCache?.placesCache ?? null);
 
   const cardsCount = walletCards.length;
 
@@ -274,17 +325,20 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
         coords.longitude,
       );
       setMerchants(resolved);
-      setPlacesCache({
+      const nextPlacesCache = {
         places: placesResult.places,
         brandIndex,
         lat: coords.latitude,
         lng: coords.longitude,
-      });
-      setLocation({
+      };
+      const nextLocation: Location = {
         label: 'Your location',
         coords: `${coords.latitude.toFixed(4)}° ${coords.latitude >= 0 ? 'N' : 'S'}, ${Math.abs(coords.longitude).toFixed(4)}° ${coords.longitude >= 0 ? 'E' : 'W'}`,
         accuracy: Math.round(coords.accuracy),
-      });
+      };
+      setPlacesCache(nextPlacesCache);
+      setLocation(nextLocation);
+      writeSessionCache({ location: nextLocation, placesCache: nextPlacesCache });
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -298,6 +352,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
     setOpenIdx(null);
     setErrorMessage(null);
     setPlacesCache(null);
+    clearSessionCache();
   };
 
   // Aggregate every "needs picks" card across the visible merchant rows so
