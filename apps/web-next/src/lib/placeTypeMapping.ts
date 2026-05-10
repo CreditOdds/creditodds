@@ -48,6 +48,14 @@ const PRIMARY_TYPE_TO_CATEGORY: Record<string, string> = {
   supermarket: 'groceries',
   grocery_store: 'groceries',
   grocery_or_supermarket: 'groceries',
+  // Convenience stores, bodegas, delis-by-inventory, liquor stores, and
+  // warehouse clubs all bucket here. Some issuers exclude these from
+  // grocery rewards (e.g. Amex Gold excludes warehouse clubs + convenience
+  // stores) — that's encoded per-card, not at the place-type layer.
+  convenience_store: 'groceries',
+  food_store: 'groceries',
+  liquor_store: 'groceries',
+  wholesale_store: 'groceries',
   // gas
   gas_station: 'gas',
   // drugstores
