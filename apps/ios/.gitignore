@@ -1,0 +1,21 @@
+# XcodeGen-managed; regenerate with `xcodegen` instead of committing
+*.xcodeproj/
+*.xcworkspace/
+
+# Build artifacts
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# Firebase config (contains app-specific keys; commit only after reviewing)
+# Comment this line out once you've added GoogleService-Info.plist and verified
+# it doesn't contain anything you want to keep out of git.
+CreditOdds/Resources/GoogleService-Info.plist
+
+# SwiftPM
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
