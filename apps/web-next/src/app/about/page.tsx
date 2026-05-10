@@ -52,7 +52,7 @@ export default function AboutPage() {
 
           <section className="cj-static-section">
             <div className="cj-section-num">01 · the question</div>
-            <h2>It started with a rejection.</h2>
+            <h2>Can I get this credit card?</h2>
             <div className="cj-prose">
               <p>
                 My girlfriend asked me that while scrolling through her bank&apos;s credit
