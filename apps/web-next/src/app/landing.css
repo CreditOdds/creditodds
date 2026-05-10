@@ -7192,6 +7192,10 @@
     align-self: start;
     max-height: calc(100vh - 40px);
     overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .landing-v2 .cj-rail::-webkit-scrollbar {
+    display: none;
   }
 }
 .landing-v2 .cj-apply {
