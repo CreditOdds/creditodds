@@ -1321,7 +1321,7 @@ export default function CardClient({
                           ))}
                         </div>
                       )}
-                      <div className="cj-chart-body">
+                      <div className="cj-chart-body" key={current.id}>
                         <ErrorBoundary fallback={<ChartErrorFallback />}>
                           {current.chart}
                         </ErrorBoundary>
