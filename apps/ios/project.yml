@@ -1,0 +1,59 @@
+name: CreditOdds
+options:
+  bundleIdPrefix: com.creditodds
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: 11.0.0
+
+targets:
+  CreditOdds:
+    type: application
+    platform: iOS
+    sources:
+      - path: CreditOdds
+        excludes:
+          - "**/*.md"
+    resources:
+      - path: CreditOdds/Resources
+        optional: true
+    info:
+      path: CreditOdds/Info.plist
+      properties:
+        CFBundleDisplayName: CreditOdds
+        UILaunchScreen:
+          UIColorName: ""
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        ITSAppUsesNonExemptEncryption: false
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+        NSLocationWhenInUseUsageDescription: "CreditOdds uses your location to recommend the best card from your wallet for nearby merchants."
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.creditodds.app
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: CreditOdds/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_OBJC_BRIDGING_HEADER: ""
+        CODE_SIGN_ENTITLEMENTS: CreditOdds/CreditOdds.entitlements
+    dependencies:
+      - package: Firebase
+        product: FirebaseAuth
+      - package: Firebase
+        product: FirebaseCore
