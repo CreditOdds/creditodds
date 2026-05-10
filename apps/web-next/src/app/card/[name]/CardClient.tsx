@@ -1249,7 +1249,7 @@ export default function CardClient({
                   if (hasChartOne) {
                     tabs.push({
                       id: "score",
-                      label: "Score / Income",
+                      label: "Credit Score / Income",
                       chart: (
                         <ScatterPlot
                           title="Credit Score vs Income"
@@ -1267,7 +1267,7 @@ export default function CardClient({
                   if (hasChartTwo) {
                     tabs.push({
                       id: "history",
-                      label: "History / Score",
+                      label: "Length of Credit / Credit Score",
                       chart: (
                         <ScatterPlot
                           title="Length of Credit vs Credit Score"
@@ -1285,7 +1285,7 @@ export default function CardClient({
                   if (hasChartThree) {
                     tabs.push({
                       id: "limit",
-                      label: "Income / Limit",
+                      label: "Income / Credit Limit",
                       chart: (
                         <ScatterPlot
                           title="Income vs Starting Credit Limit"
