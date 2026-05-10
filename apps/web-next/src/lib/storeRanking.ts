@@ -1,3 +1,9 @@
+// ⚠️ TWIN FILE: apps/api/src/lib/ranker/storeRanking.js
+// This file feeds the public SSR page at /best-card-for/[slug].
+// The Lambda wallet endpoints (/wallet-picks/store, /wallet-picks/nearby)
+// use the JS twin. Keep them behaviourally identical — any change here
+// must land in the twin in the same PR.
+
 import type { Card, Reward, WalletCardSelection } from '@/lib/api';
 import type { Store } from '@/lib/stores';
 import { getValuation } from '@/lib/valuations';

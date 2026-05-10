@@ -1,22 +1,17 @@
 'use client';
 
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import CardImage from '@/components/ui/CardImage';
 import {
   BestCardHereReportPayload,
   Card,
-  NearbyPlace,
-  StoreBrandIndexEntry,
   WalletCard,
-  getNearbyPlaces,
-  getStoresBrandIndex,
+  WalletPickPlace,
+  WalletPickPlaceMatch,
+  WalletPickUnconfiguredCard,
+  getNearbyWalletPicks,
 } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
-import {
-  PlacePick,
-  UnconfiguredCardPrompt,
-  pickWalletCardsForPlace,
-} from '@/lib/walletPicksForPlace';
 import ReportMerchantModal from '@/components/wallet/ReportMerchantModal';
 import SelectCategoriesModal from '@/components/wallet/SelectCategoriesModal';
 
@@ -30,8 +25,8 @@ interface Merchant {
   label: string;
   dist: string;
   addr: string;
-  picks: { best: PlacePick; next?: PlacePick };
-  unconfiguredCards: UnconfiguredCardPrompt[];
+  picks: { best: WalletPickPlace; next?: WalletPickPlace };
+  unconfiguredCards: WalletPickUnconfiguredCard[];
 }
 
 // Round effective % to 1 decimal, drop trailing .0 (4.0 → "4", 4.5 → "4.5").
@@ -45,7 +40,7 @@ function formatEffectivePct(n: number): string {
 // the reason doesn't start with it (e.g. co-brand reasons). For points
 // cards we append the cash-equivalent so users can compare against
 // straight-cash cards in the same merchant row.
-function pickDetailLine(pick: PlacePick): string {
+function pickDetailLine(pick: WalletPickPlace): string {
   const base = pick.context.startsWith(pick.rateLabel)
     ? pick.context
     : `${pick.rateLabel} ${pick.context}`;
@@ -56,7 +51,7 @@ function pickDetailLine(pick: PlacePick): string {
 // Big right-column rate. For points cards we show the effective % instead
 // of "5x points" so a 5x-points pick and a 4% cash pick are directly
 // comparable across merchant rows.
-function pickHeadlineRate(pick: PlacePick): string {
+function pickHeadlineRate(pick: WalletPickPlace): string {
   if (pick.unit === 'percent') return pick.rateLabel;
   return `≈${formatEffectivePct(pick.effectiveRate)}`;
 }
@@ -78,34 +73,34 @@ function haversineMeters(aLat: number, aLng: number, bLat: number, bLng: number)
   return 2 * R * Math.asin(Math.sqrt(x));
 }
 
-function placesToMerchants(
-  places: NearbyPlace[],
-  walletCards: WalletCard[],
-  allCards: Card[],
-  brandIndex: StoreBrandIndexEntry[],
+// Convert the backend's pre-resolved merchant payload into the row shape
+// we render. The backend already filtered out merchants with no match;
+// we just compute distance from the user's coords and sort.
+function backendMerchantsToRows(
+  serverMerchants: Array<{
+    place: { id: string; name: string; address: string | null; lat: number | null; lng: number | null };
+    match: WalletPickPlaceMatch;
+  }>,
   userLat: number,
   userLng: number,
 ): Merchant[] {
-  return places
-    .map((p): Merchant | null => {
-      const result = pickWalletCardsForPlace(walletCards, allCards, p, brandIndex);
-      if (!result) return null;
-      const dist = p.lat != null && p.lng != null
-        ? metersToMiles(haversineMeters(userLat, userLng, p.lat, p.lng))
+  return serverMerchants
+    .map((m): Merchant => {
+      const dist = m.place.lat != null && m.place.lng != null
+        ? metersToMiles(haversineMeters(userLat, userLng, m.place.lat, m.place.lng))
         : '—';
       return {
-        id: p.id,
-        name: p.name,
-        label: result.label,
+        id: m.place.id,
+        name: m.place.name,
+        label: m.match.label,
         dist,
-        addr: p.address?.split(',')[0] ?? '',
-        picks: result.next
-          ? { best: result.best, next: result.next }
-          : { best: result.best },
-        unconfiguredCards: result.unconfiguredCards,
+        addr: m.place.address?.split(',')[0] ?? '',
+        picks: m.match.next
+          ? { best: m.match.best, next: m.match.next }
+          : { best: m.match.best },
+        unconfiguredCards: m.match.unconfiguredCards,
       };
     })
-    .filter((m): m is Merchant => m !== null)
     .sort((a, b) => {
       const av = parseFloat(a.dist);
       const bv = parseFloat(b.dist);
@@ -127,16 +122,17 @@ interface Location {
 // leaves "rewards") and full reloads, but clears when the browser
 // session ends — matching "while they're in that session." Bump the
 // version when the shape changes so stale entries are dropped.
-const SESSION_CACHE_KEY = 'cj-bch-cache-v1';
+//
+// v2 cache shape: drops the embedded places + brandIndex (computation
+// lives on the backend now). We just remember the coords so a wallet
+// update can re-fetch /wallet-picks/nearby without re-prompting the
+// browser for location.
+const SESSION_CACHE_KEY = 'cj-bch-cache-v2';
 
 interface SessionCache {
   location: Location;
-  placesCache: {
-    places: NearbyPlace[];
-    brandIndex: StoreBrandIndexEntry[];
-    lat: number;
-    lng: number;
-  };
+  lat: number;
+  lng: number;
 }
 
 function readSessionCache(): SessionCache | null {
@@ -225,7 +221,7 @@ function PickThumb({ card }: { card: Card }) {
   );
 }
 
-function PickDetail({ label, pick }: { label: string; pick: PlacePick }) {
+function PickDetail({ label, pick }: { label: string; pick: WalletPickPlace }) {
   return (
     <div>
       <div style={{ fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{label}</div>
@@ -268,33 +264,45 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
   const [selectionsTarget, setSelectionsTarget] =
     useState<{ walletCard: WalletCard; card: Card } | null>(null);
 
-  // Cache of the last successful fetch — places + coords + brandIndex —
-  // so we can recompute merchants in-place when the user updates picks
-  // without re-prompting for location or hitting Places again.
-  const [placesCache, setPlacesCache] = useState<{
-    places: NearbyPlace[];
-    brandIndex: StoreBrandIndexEntry[];
-    lat: number;
-    lng: number;
-  } | null>(initialCache?.placesCache ?? null);
+  // Cache of the lat/lng we last fetched against. Lets us re-issue
+  // /wallet-picks/nearby after the user saves new selections without
+  // re-prompting for location.
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
+    initialCache ? { lat: initialCache.lat, lng: initialCache.lng } : null,
+  );
 
   const cardsCount = walletCards.length;
 
-  // Recompute merchants whenever wallet changes, using the cached places.
-  // Triggers after the user saves selections (parent re-fetches wallet,
-  // walletCards prop updates, this effect fires).
+  const fetchFromBackend = useCallback(
+    async (lat: number, lng: number): Promise<Merchant[]> => {
+      const token = await getToken();
+      if (!token) throw new Error('You need to be signed in to use this feature.');
+      const result = await getNearbyWalletPicks(lat, lng, token);
+      return backendMerchantsToRows(result.merchants, lat, lng);
+    },
+    [getToken],
+  );
+
+  // Re-fetch from backend when wallet changes (e.g. after the user saves
+  // selections via the modal). The Places lookup is cached server-side
+  // for ~10 min per grid cell so this is fast.
   useEffect(() => {
-    if (!placesCache) return;
-    const resolved = placesToMerchants(
-      placesCache.places,
-      walletCards,
-      allCards,
-      placesCache.brandIndex,
-      placesCache.lat,
-      placesCache.lng,
-    );
-    setMerchants(resolved);
-  }, [walletCards, allCards, placesCache]);
+    if (!coords) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const rows = await fetchFromBackend(coords.lat, coords.lng);
+        if (!cancelled) setMerchants(rows);
+      } catch (e) {
+        if (!cancelled) {
+          console.error('BestCardHere refresh failed', e);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [walletCards, coords, fetchFromBackend]);
 
   const enable = async () => {
     setErrorMessage(null);
@@ -307,9 +315,9 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
 
     setLoading(true);
 
-    let coords: GeolocationCoordinates;
+    let position: GeolocationCoordinates;
     try {
-      coords = await new Promise<GeolocationCoordinates>((resolve, reject) => {
+      position = await new Promise<GeolocationCoordinates>((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
           (pos) => resolve(pos.coords),
           (err) => reject(err),
@@ -326,45 +334,17 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
     }
 
     try {
-      const token = await getToken();
-      if (!token) {
-        setLoading(false);
-        setErrorMessage('You need to be signed in to use this feature.');
-        return;
-      }
-      // Fetch places + brand index in parallel; the brand index is a
-      // small static blob and tolerates failure (we just lose brand-aware
-      // matching for this lookup, falling back to category-only).
-      const [placesResult, brandIndex] = await Promise.all([
-        getNearbyPlaces(coords.latitude, coords.longitude, token),
-        getStoresBrandIndex().catch((e) => {
-          console.error('Brand index fetch failed; falling back to category-only matching', e);
-          return [] as StoreBrandIndexEntry[];
-        }),
-      ]);
-      const resolved = placesToMerchants(
-        placesResult.places,
-        walletCards,
-        allCards,
-        brandIndex,
-        coords.latitude,
-        coords.longitude,
-      );
-      setMerchants(resolved);
-      const nextPlacesCache = {
-        places: placesResult.places,
-        brandIndex,
-        lat: coords.latitude,
-        lng: coords.longitude,
-      };
+      const rows = await fetchFromBackend(position.latitude, position.longitude);
+      setMerchants(rows);
+      const nextCoords = { lat: position.latitude, lng: position.longitude };
       const nextLocation: Location = {
         label: 'Your location',
-        coords: `${coords.latitude.toFixed(4)}° ${coords.latitude >= 0 ? 'N' : 'S'}, ${Math.abs(coords.longitude).toFixed(4)}° ${coords.longitude >= 0 ? 'E' : 'W'}`,
-        accuracy: Math.round(coords.accuracy),
+        coords: `${position.latitude.toFixed(4)}° ${position.latitude >= 0 ? 'N' : 'S'}, ${Math.abs(position.longitude).toFixed(4)}° ${position.longitude >= 0 ? 'E' : 'W'}`,
+        accuracy: Math.round(position.accuracy),
       };
-      setPlacesCache(nextPlacesCache);
+      setCoords(nextCoords);
       setLocation(nextLocation);
-      writeSessionCache({ location: nextLocation, placesCache: nextPlacesCache });
+      writeSessionCache({ location: nextLocation, lat: nextCoords.lat, lng: nextCoords.lng });
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -377,7 +357,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
     setMerchants([]);
     setOpenIdx(null);
     setErrorMessage(null);
-    setPlacesCache(null);
+    setCoords(null);
     clearSessionCache();
   };
 
@@ -385,7 +365,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
   // we can show one banner at the top (instead of repeating the prompt
   // per merchant). Dedup by wallet row id; keep the highest potential rate.
   const unconfiguredAggregate = useMemo(() => {
-    const byRowId = new Map<number, UnconfiguredCardPrompt>();
+    const byRowId = new Map<number, WalletPickUnconfiguredCard>();
     for (const m of merchants) {
       for (const u of m.unconfiguredCards) {
         const existing = byRowId.get(u.walletRowId);
@@ -418,7 +398,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
 
   const buildReportPayload = (
     merchant: Merchant,
-    pick: PlacePick,
+    pick: WalletPickPlace,
   ): Omit<BestCardHereReportPayload, 'reason' | 'notes'> => ({
     merchant_place_id: merchant.id,
     merchant_name: merchant.name,
