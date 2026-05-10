@@ -4542,13 +4542,18 @@
   .landing-v2.profile-v2 .cj-rail-block-news,
   .landing-v2.profile-v2 .cj-rail-cta-news { display: none; }
 
-  /* Upcoming renewals rail block → hidden on mobile except on the More tab.
+  /* Upcoming renewals + Reminders rail blocks → hidden on mobile except on the More tab.
      The More mobile pill stays active for any of these desktop activeTab values. */
-  .landing-v2.profile-v2 .cj-rail-block-renewals { display: none; }
+  .landing-v2.profile-v2 .cj-rail-block-renewals,
+  .landing-v2.profile-v2 .cj-rail-block-reminders { display: none; }
   .landing-v2.profile-v2[data-tab="more"] .cj-rail-block-renewals,
   .landing-v2.profile-v2[data-tab="applications"] .cj-rail-block-renewals,
   .landing-v2.profile-v2[data-tab="referrals"] .cj-rail-block-renewals,
-  .landing-v2.profile-v2[data-tab="settings"] .cj-rail-block-renewals { display: block; }
+  .landing-v2.profile-v2[data-tab="settings"] .cj-rail-block-renewals,
+  .landing-v2.profile-v2[data-tab="more"] .cj-rail-block-reminders,
+  .landing-v2.profile-v2[data-tab="applications"] .cj-rail-block-reminders,
+  .landing-v2.profile-v2[data-tab="referrals"] .cj-rail-block-reminders,
+  .landing-v2.profile-v2[data-tab="settings"] .cj-rail-block-reminders { display: block; }
 
   /* Whole rail → hidden on mobile except on the More tab group.
      Removes empty whitespace under the card list on Cards/Earn/News/Benefits. */

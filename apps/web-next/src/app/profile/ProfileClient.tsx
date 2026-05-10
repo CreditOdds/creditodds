@@ -12,7 +12,7 @@ import "../landing.css";
 import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import ProfileLoader from "./ProfileLoader";
-import { amortizedAnnualValue } from "@/lib/cardDisplayUtils";
+import { amortizedAnnualValue, categoryLabels } from "@/lib/cardDisplayUtils";
 import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 import {
@@ -265,6 +265,42 @@ export default function ProfileClient() {
   }, [walletCards, cardLookups, walletDisplayNames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const nextRenewal = upcomingRenewals[0];
+
+  // Reminders — rotating category cards: surface this quarter's bonus categories
+  const reminders = useMemo(() => {
+    type Reminder = {
+      key: string;
+      cardName: string;
+      rate: number;
+      unit: string;
+      period: string;
+      categories: string[];
+    };
+    const list: Reminder[] = [];
+    for (const wc of walletCards) {
+      if (isInactiveCard(wc.card_name)) continue;
+      const card = cardLookups.byName.get(wc.card_name);
+      if (!card?.rewards) continue;
+      for (const r of card.rewards) {
+        if (r.mode !== 'quarterly_rotating') continue;
+        if (!r.current_categories?.length) continue;
+        const cats = r.current_categories.map((c) => {
+          const id = typeof c === 'string' ? c : c.category;
+          const slotNote = typeof c === 'string' ? undefined : c.note;
+          return slotNote ?? categoryLabels[id] ?? id;
+        });
+        list.push({
+          key: `${wc.id}-${r.category}`,
+          cardName: walletDisplayNames.get(wc.id) ?? wc.card_name,
+          rate: r.value,
+          unit: r.unit,
+          period: r.current_period ?? '',
+          categories: cats,
+        });
+      }
+    }
+    return list;
+  }, [walletCards, cardLookups, walletDisplayNames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     Promise.all([getAllCards(), getNews()])
@@ -718,6 +754,25 @@ export default function ProfileClient() {
               </button>
             )}
           </div>
+
+          {reminders.length > 0 && (
+            <div className="cj-rail-block cj-rail-block-reminders">
+              <div className="cj-rail-label">Reminders</div>
+              <ul className="cj-rail-list">
+                {reminders.map((r) => (
+                  <li key={r.key} className="cj-rail-row">
+                    <div className="cj-rail-row-meta">
+                      {r.period && <span className="cj-rail-row-date">{r.period}</span>}
+                      <span className="cj-rail-row-field">{r.cardName.replace(/ Card$/, '')}</span>
+                    </div>
+                    <div className="cj-rail-row-detail">
+                      {r.rate}{r.unit === 'percent' ? '%' : 'x'} on {r.categories.join(' & ')}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {upcomingRenewals.length > 0 && (
             <div className="cj-rail-block cj-rail-block-renewals">
