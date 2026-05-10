@@ -115,7 +115,7 @@ async function searchNearby(lat, lng, apiKey) {
       "X-Goog-Api-Key": apiKey,
       // Field mask is required and controls billing tier.
       "X-Goog-FieldMask":
-        "places.id,places.displayName,places.location,places.types,places.primaryType,places.formattedAddress",
+        "places.id,places.displayName,places.location,places.types,places.primaryType,places.formattedAddress,places.businessStatus",
     },
     body: JSON.stringify({
       includedTypes: INCLUDED_TYPES,
@@ -138,15 +138,17 @@ async function searchNearby(lat, lng, apiKey) {
 
   const data = await res.json();
   const places = Array.isArray(data.places) ? data.places : [];
-  return places.map((p) => ({
-    id: p.id,
-    name: p.displayName?.text || "",
-    primaryType: p.primaryType || null,
-    types: Array.isArray(p.types) ? p.types : [],
-    address: p.formattedAddress || null,
-    lat: p.location?.latitude ?? null,
-    lng: p.location?.longitude ?? null,
-  }));
+  return places
+    .filter((p) => !p.businessStatus || p.businessStatus === "OPERATIONAL")
+    .map((p) => ({
+      id: p.id,
+      name: p.displayName?.text || "",
+      primaryType: p.primaryType || null,
+      types: Array.isArray(p.types) ? p.types : [],
+      address: p.formattedAddress || null,
+      lat: p.location?.latitude ?? null,
+      lng: p.location?.longitude ?? null,
+    }));
 }
 
 exports.NearbyRecommendationsHandler = async (event) => {
