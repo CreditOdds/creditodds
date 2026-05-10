@@ -170,7 +170,6 @@ function LocationBlock({ location, onEnable, onClear }: LocationBlockProps) {
   if (!location) {
     return (
       <div className="cj-bch-cta-wrap">
-        <p className="cj-bch-cta-prompt">Tap to find the best card to swipe at the businesses around you.</p>
         <button type="button" className="cj-bch-cta-btn" onClick={onEnable}>
           Find Best Near Me
         </button>
@@ -433,9 +432,8 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
         lineHeight: 1.6,
         maxWidth: '64ch',
       }}>
-        We&apos;re piloting a wallet-aware merchant lookup. Share your location and we&apos;ll show
-        the 5–12 closest businesses with the single best card from your wallet to swipe at each one.
-        We won&apos;t store coordinates and we won&apos;t follow you home.
+        Share your location to see nearby businesses with the best card from your wallet
+        to swipe at each. We don&apos;t store coordinates.
       </p>
 
       <LocationBlock
