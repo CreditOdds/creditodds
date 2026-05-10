@@ -3,22 +3,8 @@
 // rewards like Marriott Bonvoy 6x). Returns null when no brand matches —
 // the caller should then fall back to category-based ranking.
 
-export interface StoreBrand {
-  slug: string;
-  name: string;
-  aliases?: string[];
-  categories: string[];
-  co_brand_cards?: string[];
-}
-
-export interface StoreBrandMatch {
-  store: StoreBrand;
-  matchedTerm: string;
-  matchedBy: 'name' | 'alias';
-}
-
-function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // Word-boundary match against the place name. \b only anchors on ASCII
@@ -28,7 +14,7 @@ function escapeRegex(s: string): string {
 // is ASCII. Aliases that contain non-ASCII chars (Marriott's "GLō",
 // "Vīb", "Le Méridien") won't match precisely; that's an acceptable
 // gap until we hit a real case.
-function termMatches(haystack: string, term: string): boolean {
+function termMatches(haystack, term) {
   const re = new RegExp(`\\b${escapeRegex(term.toLowerCase())}\\b`);
   return re.test(haystack);
 }
@@ -39,27 +25,20 @@ function termMatches(haystack: string, term: string): boolean {
 // brand). Returns the longest matching term across all candidates so
 // "JW Marriott Essex House" prefers alias "JW Marriott" over plain
 // "Marriott", and "Best Western Plus" doesn't bleed into "Best Buy".
-export function matchPlaceToStoreBrand(
-  placeName: string,
-  placeCategory: string | null,
-  stores: StoreBrand[],
-): StoreBrandMatch | null {
+function matchPlaceToStoreBrand(placeName, placeCategory, stores) {
   if (!placeName) return null;
   const haystack = placeName.toLowerCase();
-  let best: { match: StoreBrandMatch; termLength: number } | null = null;
+  let best = null;
 
   for (const store of stores) {
     if (placeCategory && !store.categories.includes(placeCategory)) continue;
 
-    const candidates: Array<{ term: string; matchedBy: 'name' | 'alias' }> = [
-      { term: store.name, matchedBy: 'name' },
-      ...((store.aliases || []).map((a) => ({ term: a, matchedBy: 'alias' as const }))),
+    const candidates = [
+      { term: store.name, matchedBy: "name" },
+      ...((store.aliases || []).map((a) => ({ term: a, matchedBy: "alias" }))),
     ];
 
     for (const { term, matchedBy } of candidates) {
-      // Skip very short terms — single letters or two-char codes would
-      // create false positives ("W" alias for W Hotels would match any
-      // word boundary `w`).
       if (term.length < 3) continue;
       if (termMatches(haystack, term)) {
         if (!best || term.length > best.termLength) {
@@ -72,5 +51,7 @@ export function matchPlaceToStoreBrand(
     }
   }
 
-  return best?.match ?? null;
+  return best ? best.match : null;
 }
+
+module.exports = { matchPlaceToStoreBrand };

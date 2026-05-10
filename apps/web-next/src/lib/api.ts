@@ -511,9 +511,10 @@ export async function clearWalletCardSelections(
   return res.json();
 }
 
-// Nearby Recommendations — POST lat/lng, get back a slim list of nearby
-// businesses from Google Places. Used by the BestCardHere block in the
-// Rewards tab. Category mapping + best-card picking happen client-side.
+// NearbyPlace describes a single Google Places result as returned by the
+// backend. Used inline by WalletPicksNearbyResponse below; the public
+// /nearby-recommendations endpoint that returns this shape directly is
+// still alive for the iOS app but no longer has a TS client here.
 export interface NearbyPlace {
   id: string;
   name: string;
@@ -524,34 +525,47 @@ export interface NearbyPlace {
   lng: number | null;
 }
 
-export interface NearbyResponse {
-  places: NearbyPlace[];
+// Wallet-picks endpoints — backend computes the best card from the user's
+// wallet for a given store or geo coordinate. Replaces client-side
+// `rankCards` calls in StorePersonalRow + BestCardHere.
+
+export interface WalletPickPlace {
+  card: Card;
+  rateLabel: string;
+  context: string;
+  effectiveRate: number;
+  unit: 'percent' | 'points_per_dollar';
+}
+
+export interface WalletPickUnconfiguredCard {
+  walletRowId: number;
+  cardSlug: string;
+  cardName: string;
+  cardImageLink?: string;
+  potentialRate: number;
+  potentialUnit: 'percent' | 'points_per_dollar';
+}
+
+export interface WalletPickPlaceMatch {
+  best: WalletPickPlace;
+  next?: WalletPickPlace;
+  label: string;
+  brandSlug: string | null;
+  categoryId: string;
+  unconfiguredCards: WalletPickUnconfiguredCard[];
+}
+
+export interface WalletPicksNearbyResponse {
+  merchants: Array<{ place: NearbyPlace; match: WalletPickPlaceMatch }>;
   cached: boolean;
 }
 
-export interface StoreBrandIndexEntry {
-  slug: string;
-  name: string;
-  aliases?: string[];
-  categories: string[];
-  co_brand_cards?: string[];
-}
-
-export async function getStoresBrandIndex(): Promise<StoreBrandIndexEntry[]> {
-  const res = await fetch('/api/stores-brand-index');
-  if (!res.ok) {
-    throw new Error(`Failed to fetch stores brand index: ${res.status}`);
-  }
-  const data = await res.json();
-  return data.stores || [];
-}
-
-export async function getNearbyPlaces(
+export async function getNearbyWalletPicks(
   lat: number,
   lng: number,
   token: string,
-): Promise<NearbyResponse> {
-  const res = await fetch(`${API_BASE}/nearby-recommendations`, {
+): Promise<WalletPicksNearbyResponse> {
+  const res = await fetch(`${API_BASE}/wallet-picks/nearby`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -561,7 +575,54 @@ export async function getNearbyPlaces(
   });
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');
-    throw new Error(`Failed to fetch nearby places: ${res.status} ${errorText}`);
+    throw new Error(`Failed to fetch nearby wallet picks: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+// Mirrors RankedPick from storeRanking.ts. Defined separately here so
+// callers that only need the API response shape don't have to pull in
+// the ranker module.
+export interface WalletPickRankedPick {
+  card: Card;
+  rate: number;
+  unit: 'percent' | 'points_per_dollar';
+  effectiveRate: number;
+  reason: string;
+  badge?: string;
+  source: 'co_brand' | 'also_earns' | 'category' | 'flat_rate';
+  matchMode?:
+    | 'direct'
+    | 'rotating_current'
+    | 'rotating_eligible'
+    | 'user_choice'
+    | 'user_selected'
+    | 'top_spend';
+  channel?: 'both' | 'online' | 'in_store';
+  note?: string;
+}
+
+export interface WalletPicksStoreResponse {
+  picks: WalletPickRankedPick[];
+  store: { slug: string; name: string };
+}
+
+export async function getStoreWalletPicks(
+  storeSlug: string,
+  token: string,
+  maxPicks = 20,
+): Promise<WalletPicksStoreResponse> {
+  const res = await fetch(`${API_BASE}/wallet-picks/store`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ store_slug: storeSlug, maxPicks }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch store wallet picks: ${res.status} ${errorText}`);
   }
   return res.json();
 }

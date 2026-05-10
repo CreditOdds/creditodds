@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
-import { getAllCards, getWallet, type Card, type WalletCard } from '@/lib/api';
+import { getStoreWalletPicks, type WalletPickRankedPick } from '@/lib/api';
 import type { Store } from '@/lib/stores';
-import { rankCards, formatRate, type RankedPick } from '@/lib/storeRanking';
+import { formatRate } from '@/lib/storeRanking';
 
 interface Props {
   store: Store;
@@ -15,7 +15,7 @@ interface Props {
 // Conditional matchModes: rate is contingent on user action or current
 // quarter rotation, so they shouldn't compete head-to-head with always-on
 // rates in the headline row.
-function isConditional(p: RankedPick): boolean {
+function isConditional(p: WalletPickRankedPick): boolean {
   return (
     p.matchMode === 'top_spend' ||
     p.matchMode === 'user_choice' ||
@@ -25,29 +25,12 @@ function isConditional(p: RankedPick): boolean {
 
 export default function StorePersonalRow({ store }: Props) {
   const { authState, getToken } = useAuth();
-  const [wallet, setWallet] = useState<WalletCard[] | null>(null);
-  const [cards, setCards] = useState<Card[] | null>(null);
+  const [picks, setPicks] = useState<WalletPickRankedPick[] | null>(null);
   const [walletError, setWalletError] = useState(false);
+  const [walletEmpty, setWalletEmpty] = useState(false);
 
-  // Fetch the cards list client-side. Previously this was passed in as a
-  // prop from the server page, which caused every prerendered /best-card-for
-  // page to serialize the entire cards array into its RSC payload —
-  // pushing the static bundle past Amplify's 220 MB limit (Aug 2026).
-  useEffect(() => {
-    let cancelled = false;
-    if (!authState.isAuthenticated) return;
-    getAllCards()
-      .then((c) => {
-        if (!cancelled) setCards(c);
-      })
-      .catch((err) => {
-        console.error('StorePersonalRow cards fetch failed', err);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [authState.isAuthenticated]);
-
+  // Backend computes the wallet picks. We just render the response — no
+  // local rankCards call, no full cards.json fetch.
   useEffect(() => {
     let cancelled = false;
     if (!authState.isAuthenticated) return;
@@ -55,17 +38,19 @@ export default function StorePersonalRow({ store }: Props) {
       try {
         const token = await getToken();
         if (!token) return;
-        const w = await getWallet(token);
-        if (!cancelled) setWallet(w);
+        const result = await getStoreWalletPicks(store.slug, token);
+        if (cancelled) return;
+        setPicks(result.picks);
+        setWalletEmpty(result.picks.length === 0);
       } catch (err) {
-        console.error('StorePersonalRow wallet fetch failed', err);
+        console.error('StorePersonalRow picks fetch failed', err);
         if (!cancelled) setWalletError(true);
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [authState.isAuthenticated, getToken]);
+  }, [authState.isAuthenticated, getToken, store.slug]);
 
   if (authState.isLoading) return null;
 
@@ -83,7 +68,7 @@ export default function StorePersonalRow({ store }: Props) {
     );
   }
 
-  if ((!wallet || !cards) && !walletError) {
+  if (picks === null && !walletError) {
     return (
       <div className="store-personal-row" aria-hidden="true">
         <div className="store-personal-row-eyebrow">From your wallet</div>
@@ -96,13 +81,13 @@ export default function StorePersonalRow({ store }: Props) {
     );
   }
 
-  if (walletError || !wallet || wallet.length === 0 || !cards) {
+  if (walletError || walletEmpty) {
     return (
       <div className="store-personal-row store-personal-row--cta">
         <div className="store-personal-row-copy">
           <div className="store-personal-row-eyebrow">Your wallet</div>
           <div className="store-personal-row-cta-line">
-            {wallet && wallet.length === 0 ? (
+            {walletEmpty ? (
               <>
                 Add cards to{' '}
                 <Link href="/profile" className="store-personal-row-cta-link">your wallet</Link>{' '}
@@ -119,31 +104,12 @@ export default function StorePersonalRow({ store }: Props) {
     );
   }
 
-  // Join wallet rows → full Card objects so we can rank with rewards data.
-  const cardsByName = new Map(cards.map((c) => [c.card_name, c]));
-  const cardsByDbId = new Map(cards.map((c) => [Number(c.db_card_id ?? c.card_id), c]));
-  const walletCards: Card[] = [];
-  const seen = new Set<string>();
-  for (const wc of wallet) {
-    const card = cardsByDbId.get(wc.card_id) || cardsByName.get(wc.card_name);
-    if (card && !seen.has(card.slug)) {
-      walletCards.push(card);
-      seen.add(card.slug);
-    }
-  }
+  if (!picks) return null;
 
-  if (walletCards.length === 0) return null;
-
-  // Rank everything in the wallet at zero floors so 1% flat-rate cards still
-  // surface, then re-sort purely by effective rate (the rankCards default
-  // pins co-brand at #1, which we explicitly don't want here — co-brand
-  // gets shown via the divider slot if it doesn't earn its way into top 3).
-  const allPicks = rankCards(store, walletCards, {
-    flatRateFloor: 0,
-    flatRateFillFloor: 0,
-    maxPicks: walletCards.length,
-  });
-  const sorted = [...allPicks].sort((a, b) => b.effectiveRate - a.effectiveRate);
+  // Re-sort purely by effective rate (the backend's rankCards pins co-brand
+  // at #1, which we explicitly don't want here — co-brand gets shown via
+  // the divider slot if it doesn't earn its way into top 3).
+  const sorted = [...picks].sort((a, b) => b.effectiveRate - a.effectiveRate);
 
   const unconditional = sorted.filter((p) => !isConditional(p));
   const conditional = sorted.filter(isConditional);
@@ -200,7 +166,7 @@ export default function StorePersonalRow({ store }: Props) {
 }
 
 interface PersonalCardProps {
-  pick: RankedPick;
+  pick: WalletPickRankedPick;
   rank: number | null;
   variant?: 'default' | 'cobrand' | 'compact';
 }

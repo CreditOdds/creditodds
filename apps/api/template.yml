@@ -1157,6 +1157,71 @@ Resources:
             Auth:
               Authorizer: NONE
 
+  WalletPicksStoreFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/wallet-picks-store.WalletPicksStoreHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 15
+      Description: "Returns the authenticated user's best wallet cards for a store brand"
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        PostWalletPicksStore:
+          Type: Api
+          Properties:
+            Path: /wallet-picks/store
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        WalletPicksStoreOptions:
+          Type: Api
+          Properties:
+            Path: /wallet-picks/store
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  WalletPicksNearbyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/wallet-picks-nearby.WalletPicksNearbyHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 15
+      Description: "Returns nearby merchants + the user's best wallet card per merchant (BCH)"
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          GOOGLE_PLACES_API_KEY: !Ref GooglePlacesApiKey
+      Events:
+        PostWalletPicksNearby:
+          Type: Api
+          Properties:
+            Path: /wallet-picks/nearby
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        WalletPicksNearbyOptions:
+          Type: Api
+          Properties:
+            Path: /wallet-picks/nearby
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
   CardWireFunction:
     Type: AWS::Serverless::Function
     Properties:

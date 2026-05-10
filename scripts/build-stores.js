@@ -7,6 +7,20 @@ const yaml = require('js-yaml');
 const STORES_DIR = path.join(__dirname, '..', 'data', 'stores');
 const SCHEMA_FILE = path.join(STORES_DIR, 'schema.json');
 const OUTPUT_FILE = path.join(__dirname, '..', 'data', 'stores.json');
+// Mirror into the Lambda bundle so apps/api/src/handlers/wallet-picks-*.js
+// can `require('./lib/ranker/stores.json')` without a CDN fetch. SAM only
+// includes files inside the function's CodeUri, so the canonical copy in
+// /data/ would otherwise be invisible to the Lambda runtime.
+const LAMBDA_BUNDLE_OUTPUT = path.join(
+  __dirname,
+  '..',
+  'apps',
+  'api',
+  'src',
+  'lib',
+  'ranker',
+  'stores.json'
+);
 const CATEGORIES_FILE = path.join(__dirname, '..', 'data', 'categories.yaml');
 const CARDS_FILE = path.join(__dirname, '..', 'data', 'cards.json');
 
@@ -180,8 +194,11 @@ function buildStores() {
     stores,
   };
 
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2));
+  const serialized = JSON.stringify(output, null, 2);
+  fs.writeFileSync(OUTPUT_FILE, serialized);
+  fs.writeFileSync(LAMBDA_BUNDLE_OUTPUT, serialized);
   console.log(`\nSuccessfully built ${stores.length} store(s) to ${OUTPUT_FILE}`);
+  console.log(`  + mirrored to Lambda bundle at ${LAMBDA_BUNDLE_OUTPUT}`);
 }
 
 buildStores();

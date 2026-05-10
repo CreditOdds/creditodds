@@ -24,6 +24,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@ranker/*": [
+        "../api/src/lib/ranker/*"
       ]
     },
     "target": "ES2017"
