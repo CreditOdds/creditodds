@@ -2,6 +2,14 @@ import SwiftUI
 
 struct SettingsTab: View {
     @EnvironmentObject private var auth: AuthViewModel
+    @AppStorage(ThemeStorage.key) private var themeRaw: String = ThemePreference.system.rawValue
+
+    private var themeBinding: Binding<ThemePreference> {
+        Binding(
+            get: { ThemePreference(rawValue: themeRaw) ?? .system },
+            set: { themeRaw = $0.rawValue }
+        )
+    }
 
     var body: some View {
         NavigationStack {
@@ -14,6 +22,15 @@ struct SettingsTab: View {
                         LabeledContent("User ID", value: uid)
                             .font(.caption.monospaced())
                     }
+                }
+
+                Section("Appearance") {
+                    Picker("Theme", selection: themeBinding) {
+                        ForEach(ThemePreference.allCases) { theme in
+                            Text(theme.label).tag(theme)
+                        }
+                    }
+                    .pickerStyle(.segmented)
                 }
 
                 Section {

@@ -7,24 +7,10 @@ struct ProfileView: View {
                 .tabItem { Label("Cards", systemImage: "creditcard.fill") }
 
             EarnTab()
-                .tabItem { Label("Earn", systemImage: "star.fill") }
-
-            ApplicationsTabPlaceholder()
-                .tabItem { Label("Apps", systemImage: "doc.text.fill") }
+                .tabItem { Label("Earn", systemImage: "percent") }
 
             SettingsTab()
                 .tabItem { Label("Settings", systemImage: "gearshape.fill") }
-        }
-    }
-}
-
-private struct ApplicationsTabPlaceholder: View {
-    var body: some View {
-        NavigationStack {
-            ContentUnavailableView("Applications",
-                                   systemImage: "doc.text",
-                                   description: Text("Coming soon."))
-                .navigationTitle("Applications")
         }
     }
 }
