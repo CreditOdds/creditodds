@@ -6895,6 +6895,11 @@
   background: var(--paper-2);
   border-bottom: 1px solid var(--line);
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.landing-v2 .cj-graph-tabs::-webkit-scrollbar {
+  display: none;
 }
 .landing-v2 .cj-graph-tab {
   padding: 10px 16px;
