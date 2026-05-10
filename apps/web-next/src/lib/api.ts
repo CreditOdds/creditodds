@@ -206,6 +206,31 @@ export async function getAllBanks(): Promise<string[]> {
 }
 
 export async function getCard(cardName: string): Promise<Card> {
+  // Dev fallback: mirror getAllCards so YAML edits show on /card/[slug] without
+  // waiting for build → S3 → CloudFront → DB-sync. The deployed handler accepts
+  // either a slug or card_name; locally we match both against the same record.
+  if (!isBrowser && process.env.NODE_ENV === 'development') {
+    try {
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      const filePath = path.join(process.cwd(), '..', '..', 'data', 'cards.json');
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      const data = JSON.parse(fileContent) as { cards: LocalCard[] };
+      const match = (data.cards || []).find(
+        (c) => c.slug === cardName || c.name === cardName,
+      );
+      if (match) {
+        return {
+          ...match,
+          card_id: match.card_id ?? match.slug,
+          card_name: match.card_name ?? match.name ?? '',
+          card_image_link: match.card_image_link ?? match.image,
+        } as Card;
+      }
+    } catch {
+      // Fall through to network fetch when local file isn't built yet.
+    }
+  }
   const res = await fetch(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
     next: { revalidate: 300 },
   });
