@@ -4,6 +4,7 @@ slug: "att-points-plus-from-citi"
 image: "citi-att-points-plus.png"
 accepting_applications: true
 apply_link: https://www.citi.com/credit-cards/citi-att-pointsplus-credit-card
+foreign_transaction_fee: false
 annual_fee: 0
 reward_type: "points"
 tags:
