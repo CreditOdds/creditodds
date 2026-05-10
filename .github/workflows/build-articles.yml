@@ -89,7 +89,11 @@ jobs:
       - name: Detect new article files
         id: new-files
         run: |
-          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- 'data/articles/*.yaml' 'data/articles/*.yml' 2>/dev/null | tr '\n' ' ' | xargs)
+          # `:(glob)` magic uses shell-style globbing — `*` matches a single path
+          # component and does NOT cross `/`, so files under data/articles/drafts/
+          # are correctly excluded. Without it, git's default pathspec would treat
+          # `*.yaml` as fnmatch and match nested paths too.
+          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- ':(glob)data/articles/*.yaml' ':(glob)data/articles/*.yml' 2>/dev/null | tr '\n' ' ' | xargs)
           echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
           if [ -n "$NEW_FILES" ]; then
             echo "New article files detected:"
