@@ -34,6 +34,33 @@ interface Merchant {
   unconfiguredCards: UnconfiguredCardPrompt[];
 }
 
+// Round effective % to 1 decimal, drop trailing .0 (4.0 → "4", 4.5 → "4.5").
+function formatEffectivePct(n: number): string {
+  const r = Math.round(n * 10) / 10;
+  return `${r}%`;
+}
+
+// Cell-detail line under the card name. Reason strings already include the
+// rate prefix (e.g. "5% on dining"), so we only re-prepend rateLabel when
+// the reason doesn't start with it (e.g. co-brand reasons). For points
+// cards we append the cash-equivalent so users can compare against
+// straight-cash cards in the same merchant row.
+function pickDetailLine(pick: PlacePick): string {
+  const base = pick.context.startsWith(pick.rateLabel)
+    ? pick.context
+    : `${pick.rateLabel} ${pick.context}`;
+  if (pick.unit === 'percent') return base;
+  return `${base} (≈${formatEffectivePct(pick.effectiveRate)} back)`;
+}
+
+// Big right-column rate. For points cards we show the effective % instead
+// of "5x points" so a 5x-points pick and a 4% cash pick are directly
+// comparable across merchant rows.
+function pickHeadlineRate(pick: PlacePick): string {
+  if (pick.unit === 'percent') return pick.rateLabel;
+  return `≈${formatEffectivePct(pick.effectiveRate)}`;
+}
+
 function metersToMiles(m: number): string {
   const mi = m / 1609.34;
   if (mi < 0.1) return '<0.1 mi';
@@ -206,7 +233,7 @@ function PickDetail({ label, pick }: { label: string; pick: PlacePick }) {
         <PickThumb card={pick.card} />
         <div>
           <div style={{ fontWeight: 500, color: 'var(--ink)' }}>{pick.card.card_name}</div>
-          <div style={{ fontSize: 11, color: 'var(--muted)' }}>{pick.rateLabel} {pick.context}</div>
+          <div style={{ fontSize: 11, color: 'var(--muted)' }}>{pickDetailLine(pick)}</div>
         </div>
       </div>
     </div>
@@ -546,7 +573,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
                       <PickThumb card={best.card} />
                       <div className="cj-bch-card-text">
                         <div className="cj-cell-primary">{best.card.card_name}</div>
-                        <div className="cj-cell-detail">{best.rateLabel} {best.context}</div>
+                        <div className="cj-cell-detail">{pickDetailLine(best)}</div>
                       </div>
                     </div>
                     <div className="cj-bch-card cj-bch-next">
@@ -555,7 +582,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
                           <PickThumb card={next.card} />
                           <div className="cj-bch-card-text">
                             <div className="cj-cell-primary">{next.card.card_name}</div>
-                            <div className="cj-cell-detail">{next.rateLabel} {next.context}</div>
+                            <div className="cj-cell-detail">{pickDetailLine(next)}</div>
                           </div>
                         </>
                       ) : (
@@ -563,7 +590,7 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
                       )}
                     </div>
                     <div className="cj-tape-res cj-bch-earn">
-                      <span className="cj-eff-pct cj-bch-earn-val">{best.rateLabel}</span>
+                      <span className="cj-eff-pct cj-bch-earn-val">{pickHeadlineRate(best)}</span>
                     </div>
                   </button>
                   {isOpen && (

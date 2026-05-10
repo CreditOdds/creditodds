@@ -18,12 +18,15 @@ import type { Store } from '@/lib/stores';
 import { categoryLabels } from '@/lib/cardDisplayUtils';
 import { mapPlaceToCategory } from '@/lib/placeTypeMapping';
 import { matchPlaceToStoreBrand } from '@/lib/storeFromPlace';
-import { formatRate, rankCards, RankedPick, UserSelectionsByCard } from '@/lib/storeRanking';
+import { effectiveCashbackRate, formatRate, rankCards, RankedPick, UserSelectionsByCard } from '@/lib/storeRanking';
 
 export interface PlacePick {
   card: Card;
   rateLabel: string;
   context: string;
+  /** Cash-equivalent % (rate × cpp for points). Equals `rate` for percent cards. */
+  effectiveRate: number;
+  unit: 'percent' | 'points_per_dollar';
 }
 
 export interface UnconfiguredCardPrompt {
@@ -60,6 +63,8 @@ function rankedToPick(r: RankedPick): PlacePick {
     card: r.card,
     rateLabel: formatRate(r.rate, r.unit),
     context: r.reason,
+    effectiveRate: r.effectiveRate,
+    unit: r.unit,
   };
 }
 
@@ -217,6 +222,8 @@ export function pickWalletCardsForPlace(
         } as Card,
         rateLabel: formatRate(top.potentialRate, top.potentialUnit),
         context: `pick categories on ${top.cardName} to unlock`,
+        effectiveRate: effectiveCashbackRate(top.potentialRate, top.potentialUnit, top.cardName),
+        unit: top.potentialUnit,
       },
       label,
       brandSlug: brandMatch?.store.slug ?? null,
