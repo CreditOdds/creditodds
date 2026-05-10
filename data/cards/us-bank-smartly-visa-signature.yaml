@@ -24,3 +24,9 @@ apr:
   regular:
     min: 17.74
     max: 27.99
+benefits:
+  - name: "ExtendPay $0 Fee Offer"
+    description: "New cardmember $0 fee offer on ExtendPay Plans opened in the first 60 days after account opening"
+    frequency: "one_time"
+    category: "other"
+    enrollment_required: false
