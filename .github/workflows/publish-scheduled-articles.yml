@@ -1,0 +1,50 @@
+name: Publish Scheduled Articles
+
+# Daily cron that promotes any article in data/articles/drafts/ whose `date`
+# field has arrived into data/articles/. The resulting commit triggers the
+# normal build-articles.yml pipeline (S3 upload, image sync, social post,
+# IndexNow), so a scheduled article publishes itself end-to-end with no
+# manual action.
+
+on:
+  schedule:
+    # 14:00 UTC daily = 10:00 ET (DST) / 09:00 ET (standard).
+    - cron: '0 14 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Move scheduled articles into data/articles/
+        run: node scripts/publish-scheduled-articles.js
+
+      - name: Commit and push if anything moved
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No articles ready to publish today."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data/articles/
+          git commit -m "articles: publish scheduled articles for $(date -u +%Y-%m-%d)"
+          git push
