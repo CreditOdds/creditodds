@@ -32,3 +32,4 @@ apr:
     min: 16.49
     max: 25.49
 apply_link: https://www.discover.com/credit-cards/student/chrome-card.html
+foreign_transaction_fee: false
