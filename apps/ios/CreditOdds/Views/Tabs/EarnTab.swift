@@ -29,10 +29,7 @@ struct EarnTab: View {
                             vm: bestHere,
                             onFind: {
                                 Task {
-                                    await bestHere.refresh(
-                                        walletCards: walletVM.cards,
-                                        allCards: catalog.cards
-                                    )
+                                    await bestHere.refresh(walletCards: walletVM.cards)
                                 }
                             }
                         )
@@ -62,10 +59,7 @@ struct EarnTab: View {
                         // tab shouldn't surprise them with a permission
                         // prompt.
                         if case .idle = bestHere.state { return }
-                        await bestHere.refresh(
-                            walletCards: walletVM.cards,
-                            allCards: catalog.cards
-                        )
+                        await bestHere.refresh(walletCards: walletVM.cards)
                     }
                 }
             }
@@ -149,7 +143,7 @@ private struct BestHereSection: View {
         } header: {
             Text("Best card here")
         } footer: {
-            Text("Uses your location and Google Places to find nearby merchants, then picks the highest-earning card from your wallet for each. Co-brand bonuses (e.g. Marriott Bonvoy at Marriott hotels) aren't surfaced yet.")
+            Text("Uses your location and Google Places to find nearby merchants, then picks the highest-earning card from your wallet for each. Brand-gated bonuses (e.g. Marriott Bonvoy at Marriott hotels) are honored.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
@@ -184,14 +178,14 @@ private struct MerchantRow: View {
                         .lineLimit(1)
                 }
             }
-            PickRow(pick: pick.primary)
-            if let alt = pick.alternative {
+            WalletPickRow(pick: pick.best)
+            if let next = pick.next {
                 Divider().padding(.vertical, 2)
-                Text("Unrestricted alternative")
+                Text("Runner-up")
                     .font(.caption2.weight(.semibold))
                     .textCase(.uppercase)
                     .foregroundStyle(.secondary)
-                PickRow(pick: alt)
+                WalletPickRow(pick: next)
             }
         }
         .padding(.vertical, 4)
@@ -278,5 +272,48 @@ private struct PickRow: View {
         return String(format: "%.2f", rounded)
             .replacingOccurrences(of: #"0+$"#, with: "", options: .regularExpression)
             .replacingOccurrences(of: #"\.$"#, with: "", options: .regularExpression)
+    }
+}
+
+/// Row for a backend-resolved wallet pick. Unlike PickRow (used by the
+/// by-category list), this consumes the pre-formatted `rateLabel` +
+/// `context` from `/wallet-picks/nearby` directly — no client-side
+/// rounding or unit conversion needed.
+private struct WalletPickRow: View {
+    let pick: WalletPickPlace
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 12) {
+            CardThumb(link: pick.card.cardImageLink, contentMode: .fit)
+                .frame(width: 44, height: 28)
+                .clipShape(RoundedRectangle(cornerRadius: 3))
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(pick.card.cardName)
+                    .font(.footnote.weight(.semibold))
+                    .lineLimit(2)
+                Text(pick.context)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
+
+            Spacer()
+
+            Text(headlineRate)
+                .font(.subheadline.monospacedDigit().weight(.semibold))
+        }
+    }
+
+    /// Cash-comparable rate. For percent cards this is the rate label
+    /// directly; for points cards we show the cash-equivalent so a 5x
+    /// points pick and a 4% cash pick line up visually.
+    private var headlineRate: String {
+        if pick.unit == "percent" { return pick.rateLabel }
+        let rounded = (pick.effectiveRate * 10).rounded() / 10
+        let trimmed = rounded.truncatingRemainder(dividingBy: 1) == 0
+            ? String(Int(rounded))
+            : String(format: "%.1f", rounded)
+        return "≈\(trimmed)%"
     }
 }

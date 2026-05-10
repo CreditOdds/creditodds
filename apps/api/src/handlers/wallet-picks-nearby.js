@@ -1,10 +1,10 @@
 // POST /wallet-picks/nearby
 //
-// Combines the legacy /nearby-recommendations Places lookup with the
-// wallet-aware card matcher. Returns the merchants near (lat, lng) that
-// have a card recommendation for the authenticated user, fully resolved
-// (no client-side ranker needed). Replaces the
-// places-then-rank-on-client pattern that BestCardHere.tsx used to run.
+// Runs the Google Places lookup plus the wallet-aware card matcher in
+// one round-trip. Returns the merchants near (lat, lng) that have a card
+// recommendation for the authenticated user, fully resolved (no
+// client-side ranker needed). Replaces the places-then-rank-on-client
+// pattern that BCH used to run on both web and iOS.
 //
 // Request body:  { lat: number, lng: number }
 // Response:      { merchants: [{ place, match }], cached: boolean }

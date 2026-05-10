@@ -1,6 +1,8 @@
-// Google Places (New) "Search Nearby" wrapper. Shared between the legacy
-// /nearby-recommendations endpoint (kept for the iOS app) and the new
-// /wallet-picks/nearby endpoint.
+// Google Places (New) "Search Nearby" wrapper. Used by the
+// /wallet-picks/nearby handler. The legacy /nearby-recommendations
+// endpoint that originally shared this helper was retired once iOS
+// migrated to /wallet-picks/nearby; the helper stayed because it keeps
+// the Place-types whitelist co-located with the Places call.
 //
 // Caching: a small in-memory map keyed on a ~110m location grid, 10-min
 // TTL. Survives within a warm Lambda container — cold start resets it.

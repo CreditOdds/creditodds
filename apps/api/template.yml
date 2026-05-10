@@ -1128,35 +1128,6 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
-  NearbyRecommendationsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/nearby-recommendations.NearbyRecommendationsHandler
-      Runtime: nodejs22.x
-      MemorySize: 128
-      Timeout: 15
-      Description: "Returns nearby businesses (Google Places) for the wallet 'Best Card Here' feature"
-      Environment:
-        Variables:
-          GOOGLE_PLACES_API_KEY: !Ref GooglePlacesApiKey
-      Events:
-        PostNearby:
-          Type: Api
-          Properties:
-            Path: /nearby-recommendations
-            Method: POST
-            RestApiId:
-              Ref: CreditCardOddsAPI
-        NearbyOptions:
-          Type: Api
-          Properties:
-            Path: /nearby-recommendations
-            Method: OPTIONS
-            RestApiId:
-              Ref: CreditCardOddsAPI
-            Auth:
-              Authorizer: NONE
-
   WalletPicksStoreFunction:
     Type: AWS::Serverless::Function
     Properties:
