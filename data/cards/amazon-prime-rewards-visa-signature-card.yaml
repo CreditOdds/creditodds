@@ -32,6 +32,7 @@ signup_bonus:
   type: "cash"
   spend_requirement: 0
   timeframe_months: 0
+  note: "$150 Amazon Gift Card instantly loaded upon approval"
 apr:
   regular:
     min: 18.74

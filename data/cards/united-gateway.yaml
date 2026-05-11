@@ -21,11 +21,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 30000
+  value: 40000
   type: "miles"
   spend_requirement: 1000
   timeframe_months: 3
-  note: "Plus 10,000 bonus miles for adding an authorized user"
+  note: "Plus 10,000 bonus miles after adding an authorized user in the first 3 months"
 apr:
   purchase_intro:
     rate: 0
