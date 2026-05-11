@@ -319,10 +319,6 @@ function detectChanges(card, extracted) {
     const cur = current.signup_bonus;
 
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
-      // Skip value comparison when a note exists — the value was manually
-      // curated to account for tiered/combined bonuses that Haiku misreads.
-      if (key === 'value' && cur.note) continue;
-
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         const field = `signup_bonus.${key}`;
         if (sb[key] !== cur[key] && !ignoreFields.has(field)) {
