@@ -234,7 +234,7 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
     "spend_requirement": <number or null>,
     "timeframe_months": <number or null>,
     "authorized_user_bonus": <number or null>,
-    "tiered_bonus_note": <string or null>
+    "bonus_note": <string or null>
   }
 }
 
@@ -242,8 +242,13 @@ Rules:
 - annual_fee: the ongoing annual fee, NOT an introductory/$0 first year rate. If the card says "$0 intro annual fee" but $99 after, use 99. Use 0 only if the card truly has no annual fee. null if not stated at all.
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 3 for "3 free night awards"). null if absent.
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
-- SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND tiered_bonus_note.
-- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer itself has tiered/multi-level structure, extract ONLY the BASE/FIRST tier values for value, spend_requirement, and timeframe_months. Then describe the additional tier(s) in "tiered_bonus_note" as a short human-readable string (e.g. "Plus 1 additional Free Night Award after spending $4,000 total in 4 months" or "Plus up to 30,000 additional points (2x on purchases up to $15,000 spent in the first 6 months)"). If the bonus is NOT tiered, OR the additional tier is a recurring/anniversary benefit (per SIGNUP BONUS SCOPE above), set tiered_bonus_note to null.
+- SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND bonus_note.
+- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer itself has tiered/multi-level structure, extract ONLY the BASE/FIRST tier values for value, spend_requirement, and timeframe_months. Describe the additional tier(s) in bonus_note (see BONUS NOTE rule below).
+- BONUS NOTE: When the welcome offer has structure beyond what value/spend_requirement/timeframe_months can express on their own — tiered bonuses, multi-component cash structures (e.g. "$X gift card upon approval + $Y statement credit after spending"), or a points-plus-cash combo (e.g. "60,000 points + $300 cash bonus") — describe the full structure in bonus_note as a short human-readable string. Use these existing notes as style references:
+  - "Plus 1 additional Free Night Award after spending $4,000 total in 4 months" (tiered free-night)
+  - "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months" (multi-component cash)
+  - "Plus $300 Bilt Cash as a signup bonus" (points + cash combo)
+  Return null when the bonus is a simple single-component offer that the base fields (value/spend_requirement/timeframe_months) fully describe on their own.
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
 - CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
@@ -331,7 +336,9 @@ function detectChanges(card, extracted) {
       }
     }
 
-    // Authorized user bonus → generate note if detected and not already present
+    // Authorized user bonus → generate templated note if detected and card has none.
+    // Takes priority over bonus_note when both are present — templated text is more
+    // predictable than Haiku's free-form description.
     if (sb.authorized_user_bonus != null && !cur.note) {
       const bonusType = cur.type || 'points';
       const note = `Plus ${sb.authorized_user_bonus.toLocaleString()} bonus ${bonusType} for adding an authorized user`;
@@ -340,15 +347,28 @@ function detectChanges(card, extracted) {
         old_value: null,
         new_value: note,
       });
-    }
-
-    // Tiered bonus note → suggest adding if detected and card has no note yet
-    if (sb.tiered_bonus_note && !cur.note) {
-      changes.push({
-        field: 'signup_bonus.note',
-        old_value: null,
-        new_value: sb.tiered_bonus_note,
-      });
+    } else if (sb.bonus_note) {
+      // Create note when missing.
+      if (!cur.note) {
+        changes.push({
+          field: 'signup_bonus.note',
+          old_value: null,
+          new_value: sb.bonus_note,
+        });
+      }
+      // Update an existing note only when value also changed — avoids noisy
+      // rewording proposals on cards whose bonus is unchanged but Haiku
+      // happens to phrase the note slightly differently each run.
+      else if (
+        cur.note !== sb.bonus_note &&
+        changes.some(c => c.field === 'signup_bonus.value')
+      ) {
+        changes.push({
+          field: 'signup_bonus.note',
+          old_value: cur.note,
+          new_value: sb.bonus_note,
+        });
+      }
     }
   }
 
