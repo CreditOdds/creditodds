@@ -157,7 +157,7 @@ export default function Navbar() {
                     <Link
                       href="/profile"
                       className={classNames(
-                        "inline-flex items-center gap-2 rounded-[3px] px-4 py-2 text-[13px] font-semibold tracking-[-0.005em] transition-colors",
+                        "inline-flex h-9 items-center gap-2 rounded-[3px] px-4 text-[13px] font-semibold tracking-[-0.005em] transition-colors",
                         isProfileActive
                           ? "bg-[#3a2f55] text-white"
                           : "bg-[#1a1330] text-white hover:bg-[#3a2f55]"
