@@ -5,7 +5,6 @@ import { ConditionalNavbar } from "@/components/layout/ConditionalChrome";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
 import LogRocketInit from "@/components/ui/LogRocketInit";
-import DataPointPrompt from "@/components/ui/DataPointPrompt";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -71,7 +70,6 @@ export default function RootLayout({
             <ConditionalNavbar />
             <main id="main-content" className="flex-grow">
               {children}
-              <DataPointPrompt />
             </main>
             {/* Footer is rendered per-page via <V2Footer /> from
                 @/components/landing-v2/Chrome — no global footer here. */}
