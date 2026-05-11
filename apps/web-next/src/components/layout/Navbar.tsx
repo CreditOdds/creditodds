@@ -173,11 +173,13 @@ export default function Navbar() {
                           <Menu.Button className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-[3px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
                             {settingsLoaded && (
-                              <UserAvatar
-                                seed={avatarSeed}
-                                size={32}
-                                title="Account menu"
-                              />
+                              <span key={avatarSeed ?? 'guest'} className="cj-avatar-fade-in">
+                                <UserAvatar
+                                  seed={avatarSeed}
+                                  size={32}
+                                  title="Account menu"
+                                />
+                              </span>
                             )}
                           </Menu.Button>
                           <Transition

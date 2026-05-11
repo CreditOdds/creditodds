@@ -1497,7 +1497,11 @@ function SettingsTab(props: SettingsTabProps) {
               title="Re-roll"
               disabled={!settingsLoaded}
             >
-              {settingsLoaded && <UserAvatar seed={displayedSeed} size={48} />}
+              {settingsLoaded && (
+                <span key={displayedSeed ?? 'guest'} className="cj-avatar-fade-in">
+                  <UserAvatar seed={displayedSeed} size={48} />
+                </span>
+              )}
               <span className="cj-avatar-reroll-overlay">Re-roll</span>
             </button>
             {hasPending && (

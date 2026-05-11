@@ -4135,6 +4135,24 @@
   opacity: 1;
 }
 
+/* Avatar fade-in: applied to the wrapper around <UserAvatar> in both the
+   navbar and the profile Settings tab. We gate the render on settings
+   having loaded, then key the wrapper on the seed so the saved face fades
+   in (on first load) and re-fades on every re-roll save. The wrapper
+   itself doesn't need to be in .landing-v2 scope since the navbar is
+   outside it — keep this rule unscoped. */
+@keyframes cj-avatar-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.cj-avatar-fade-in {
+  display: inline-flex;
+  animation: cj-avatar-fade-in 240ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cj-avatar-fade-in { animation: none; }
+}
+
 /* Right rail — apply block, dashed lists, news */
 .landing-v2.profile-v2 .cj-rail {
   padding: 24px 18px 48px;
