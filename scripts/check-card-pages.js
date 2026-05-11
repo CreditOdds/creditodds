@@ -244,11 +244,21 @@ Rules:
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
 - SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND bonus_note.
 - TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer itself has tiered/multi-level structure, extract ONLY the BASE/FIRST tier values for value, spend_requirement, and timeframe_months. Describe the additional tier(s) in bonus_note (see BONUS NOTE rule below).
-- BONUS NOTE: When the welcome offer has structure beyond what value/spend_requirement/timeframe_months can express on their own — tiered bonuses, multi-component cash structures (e.g. "$X gift card upon approval + $Y statement credit after spending"), or a points-plus-cash combo (e.g. "60,000 points + $300 cash bonus") — describe the full structure in bonus_note as a short human-readable string. Use these existing notes as style references:
-  - "Plus 1 additional Free Night Award after spending $4,000 total in 4 months" (tiered free-night)
-  - "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months" (multi-component cash)
-  - "Plus $300 Bilt Cash as a signup bonus" (points + cash combo)
-  Return null when the bonus is a simple single-component offer that the base fields (value/spend_requirement/timeframe_months) fully describe on their own.
+- BONUS NOTE: Use bonus_note ONLY to describe structural aspects of the one-time welcome offer that the base fields (value/spend_requirement/timeframe_months) cannot express. Allowed cases, with example phrasing:
+  - Tiered/multi-step earn: "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
+  - Multi-component bonus delivered as separate pieces: "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
+  - Bonus delivered in a non-cash form or with unusual timing: "$150 Amazon Gift Card instantly loaded upon approval"
+  - Points + separate cash combo earned alongside the main bonus: "Plus $300 Bilt Cash as a signup bonus"
+
+  DO NOT use bonus_note for ANY of the following, even when the apply page mentions them prominently — none of them are welcome-offer structure:
+  - Redemption value or marketing restatements of the main bonus (e.g. "$600 toward your next trip", "$3,000 value through Chase Travel", "75,000 points valued at $750")
+  - Redemption guidance ("can be redeemed for up to N reward nights", "worth 1.5x on travel through the portal")
+  - First-year or limited-time enhanced rewards rates ("6% cash back in choice category for first year", "5x dining for first 6 months") — these are bonus EARN rates, not welcome offers
+  - Ongoing benefits, statement credits, annual credits, anniversary perks, or any recurring value — these belong in the card's benefits, never in signup_bonus
+  - Rephrasing of the existing value/spend_requirement/timeframe_months in different words
+  - Authorized-user bonuses (captured in authorized_user_bonus field — set bonus_note to null when only an AU bonus is the "extra")
+
+  When in doubt, return null. A missing note is cheap; an incorrect note clutters the data and triggers false-positive PR proposals.
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
 - CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
