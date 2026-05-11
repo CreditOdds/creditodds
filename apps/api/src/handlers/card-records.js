@@ -90,6 +90,8 @@ exports.CardRecordsHandler = async (event) => {
          length_credit,
          starting_credit_limit,
          reason_denied,
+         reason_denied_code,
+         total_open_cards,
          bank_customer,
          inquiries_3,
          inquiries_12,

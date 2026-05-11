@@ -1,8 +1,8 @@
 'use client';
 
-import { Fragment, useState, useEffect, useCallback } from "react";
-import { Dialog, DialogPanel, Switch, Transition, TransitionChild } from "@headlessui/react";
-import { XMarkIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NumericFormat } from "react-number-format";
@@ -26,17 +26,34 @@ export interface EditRecord {
   record_id: number;
   credit_score: number;
   credit_score_source?: number | string;
-  listed_income: number;
+  listed_income: number | null;
   date_applied: string;
   length_credit?: number | null;
   bank_customer?: boolean | number;
   result: boolean | number;
   starting_credit_limit?: number | null;
   reason_denied?: string | null;
+  reason_denied_code?: string | null;
+  total_open_cards?: number | null;
   inquiries_3?: number | null;
   inquiries_12?: number | null;
   inquiries_24?: number | null;
 }
+
+// Keep in sync with REASON_DENIED_CODES in apps/api/src/handlers/user-records.js
+const REASON_DENIED_OPTIONS: ReadonlyArray<{ code: string; label: string }> = [
+  { code: "not_specified", label: "Issuer didn't say" },
+  { code: "too_many_inquiries", label: "Too many recent inquiries" },
+  { code: "too_many_recent_accounts", label: "Too many recently opened accounts" },
+  { code: "length_of_credit_too_short", label: "Credit history too short" },
+  { code: "credit_score_too_low", label: "Credit score too low" },
+  { code: "high_utilization", label: "High utilization / too much revolving debt" },
+  { code: "too_much_credit_with_issuer", label: "Too much credit already with this issuer" },
+  { code: "income_too_low", label: "Income too low" },
+  { code: "recent_delinquency", label: "Recent delinquency or late payment" },
+  { code: "bankruptcy_or_public_record", label: "Bankruptcy or public record" },
+  { code: "other", label: "Other" },
+];
 
 interface SubmitRecordModalProps {
   show: boolean;
@@ -62,9 +79,37 @@ function currentMonthInput(): string {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+// Helper for the small "(optional)" suffix on uppercase cj-modal-labels —
+// resets the casing/spacing/weight that the parent label applies.
+const optionalSuffixStyle: React.CSSProperties = {
+  textTransform: 'none',
+  letterSpacing: 0,
+  fontWeight: 400,
+  color: 'var(--muted-2)',
+};
+
+const hintStyle: React.CSSProperties = {
+  marginTop: 6,
+  fontSize: 11.5,
+  color: 'var(--muted)',
+};
+
+// Outcome buttons keep their semantic colors instead of the v2 purple primary.
+// Green (#15803d) is the same shade used by .cc-odds .odds-green elsewhere
+// in the v2 stylesheet; red is the standard --warn token.
+const approvedActiveStyle: React.CSSProperties = {
+  background: '#15803d',
+  borderColor: '#15803d',
+  color: '#fff',
+  fontWeight: 600,
+};
+
+const deniedActiveStyle: React.CSSProperties = {
+  background: 'var(--warn)',
+  borderColor: 'var(--warn)',
+  color: '#fff',
+  fontWeight: 600,
+};
 
 export default function SubmitRecordModal({ show, handleClose, card, onSuccess, editRecord }: SubmitRecordModalProps) {
   const { getToken } = useAuth();
@@ -73,6 +118,27 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
   const [hasExistingRecord, setHasExistingRecord] = useState(false);
   const [checkingRecords, setCheckingRecords] = useState(!isEditMode);
   const [lastRecord, setLastRecord] = useState<{ credit_score?: number; listed_income?: number; length_credit?: number } | null>(null);
+  // Count of cards in the user's wallet — surfaced below the "Total open cards" input
+  // as a clickable suggestion. Authenticated, opt-in data, so it's an approximation
+  // (closed cards may still be in wallet; not all open cards may be added).
+  const [walletCount, setWalletCount] = useState<number | null>(null);
+  // Portal mount guard — same SSR-safety pattern as EditWalletCardModal.
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll while the modal is open. Plain overflow:hidden (NOT
+  // position:fixed) to avoid the iOS touch-freeze bug.
+  useEffect(() => {
+    if (!show) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [show]);
 
   // Get storage key for this card (#7)
   const storageKey = `${FORM_STORAGE_KEY}${card.card_id}`;
@@ -108,7 +174,8 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
     }
   }, [storageKey]);
 
-  // Check if user has already submitted a record for this card
+  // Check if user has already submitted a record for this card, and grab
+  // their wallet count for the "Total open cards" suggestion.
   useEffect(() => {
     const checkExistingRecords = async () => {
       if (!show || isEditMode) return;
@@ -120,7 +187,12 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
           setCheckingRecords(false);
           return;
         }
-        const records = await getRecords(token);
+        const [records, wallet] = await Promise.all([
+          getRecords(token),
+          getWallet(token).catch(() => []),
+        ]);
+
+        setWalletCount(Array.isArray(wallet) ? wallet.length : 0);
 
         // Check if user has already submitted for this card
         const existingRecord = records.find((r: { card_name: string }) =>
@@ -157,13 +229,18 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
     ? {
         credit_score: editRecord.credit_score,
         credit_score_source: String(editRecord.credit_score_source ?? "0"),
-        listed_income: editRecord.listed_income,
+        listed_income: editRecord.listed_income ?? ('' as number | ''),
         date_applied: toMonthInput(editRecord.date_applied),
         length_credit: editRecord.length_credit ?? ('' as number | ''),
         bank_customer: !!editRecord.bank_customer,
         result: !!editRecord.result,
         starting_credit_limit: editRecord.starting_credit_limit ?? undefined,
         reason_denied: editRecord.reason_denied ?? "",
+        reason_denied_code: editRecord.reason_denied_code ?? "",
+        total_open_cards: editRecord.total_open_cards ?? ('' as number | ''),
+        inquiries_3: editRecord.inquiries_3 ?? ('' as number | ''),
+        inquiries_12: editRecord.inquiries_12 ?? ('' as number | ''),
+        inquiries_24: editRecord.inquiries_24 ?? ('' as number | ''),
       }
     : {
         credit_score: lastRecord?.credit_score ?? ('' as number | ''),
@@ -175,6 +252,11 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         result: true,
         starting_credit_limit: undefined as number | undefined,
         reason_denied: "",
+        reason_denied_code: "",
+        total_open_cards: '' as number | '',
+        inquiries_3: '' as number | '',
+        inquiries_12: '' as number | '',
+        inquiries_24: '' as number | '',
       };
 
   const formik = useFormik({
@@ -187,10 +269,10 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         .max(850, "Credit Score cannot be more than 850")
         .required("Required"),
       listed_income: Yup.number()
-        .integer("Listed Income must be a whole number")
-        .min(0, "Listed Income must be a positive number")
-        .max(1000000, "Listed Income cannot be higher than $1 MIL")
-        .required("Required"),
+        .integer("Income must be a whole number")
+        .min(0, "Income must be a positive number")
+        .max(1000000, "Income cannot be higher than $1 MIL")
+        .nullable(),
       starting_credit_limit: Yup.number()
         .integer("Starting credit limit must be a whole number")
         .min(0, "Starting credit limit must be a positive number")
@@ -199,6 +281,22 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         .integer("Length of credit must be a whole number")
         .min(0, "Length of credit must be a positive number")
         .max(50, "Length of credit cannot be greater than 50 years"),
+      total_open_cards: Yup.number()
+        .integer("Total open cards must be a whole number")
+        .min(0, "Total open cards must be 0 or greater")
+        .max(500, "Total open cards cannot exceed 500"),
+      inquiries_3: Yup.number()
+        .integer("Inquiries must be a whole number")
+        .min(0, "Inquiries must be 0 or greater")
+        .max(50, "Inquiries cannot exceed 50"),
+      inquiries_12: Yup.number()
+        .integer("Inquiries must be a whole number")
+        .min(0, "Inquiries must be 0 or greater")
+        .max(50, "Inquiries cannot exceed 50"),
+      inquiries_24: Yup.number()
+        .integer("Inquiries must be a whole number")
+        .min(0, "Inquiries must be 0 or greater")
+        .max(50, "Inquiries cannot exceed 50"),
       date_applied: Yup.string()
         .required("Required")
         .test('not-future', 'Application date cannot be in the future', (value) => {
@@ -215,8 +313,15 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
           throw new Error('Not authenticated');
         }
 
+        // Normalize empty strings to null so the API's yup .oneOf() / number coercion
+        // doesn't reject blank optional fields.
+        const payload = {
+          ...values,
+          reason_denied_code: values.reason_denied_code === "" ? null : values.reason_denied_code,
+        };
+
         if (isEditMode && editRecord) {
-          await updateRecord(editRecord.record_id, values, token);
+          await updateRecord(editRecord.record_id, payload, token);
           toast.success("Your record was updated.", { position: "top-right", autoClose: 4000 });
           onSuccess?.();
           handleClose();
@@ -230,7 +335,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            ...values,
+            ...payload,
             card_id: card.card_id,
           }),
         });
@@ -289,314 +394,322 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
     handleClose();
   };
 
-  return (
-    <Transition show={show} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handleModalClose}>
-        <TransitionChild
-          as={Fragment}
-          enter="ease-in-out duration-500"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in-out duration-500"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </TransitionChild>
+  if (!show || !mounted) return null;
 
-        <div className="fixed inset-0 overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-              <TransitionChild
-                as={Fragment}
-                enter="transform transition ease-in-out duration-500"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
-                leave="transform transition ease-in-out duration-500"
-                leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
-              >
-                <DialogPanel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                    {/* Close button */}
-                    <div className="absolute left-0 top-0 -ml-8 flex pr-2 pt-4 sm:-ml-10 sm:pr-4">
-                      <button
-                        type="button"
-                        className="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                        onClick={handleModalClose}
-                      >
-                        <span className="sr-only">Close panel</span>
-                        <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                      </button>
-                    </div>
+  return createPortal(
+    <div className="landing-v2 profile-v2">
+      <div className="cj-modal-root" role="dialog" aria-modal="true">
+        <div className="cj-modal-backdrop" onClick={handleModalClose} />
+        <div className="cj-modal-shell">
+          <div className="cj-modal-card cj-modal-card-bounded">
+            <div className="cj-modal-head">
+              <span className="cj-status-dot" />
+              <span className="cj-modal-title">{isEditMode ? 'edit record' : 'submit record'}</span>
+              <button type="button" className="cj-modal-close" onClick={handleModalClose} aria-label="Close">
+                <XMarkIcon style={{ width: 16, height: 16 }} />
+              </button>
+            </div>
 
-                    <div className="p-8">
-                      {/* Card image and name */}
-                      <div className="mb-6">
-                        <div className="block w-full rounded-lg overflow-hidden mb-4 relative h-48">
-                          <CardImage
-                            cardImageLink={card.card_image_link}
-                            alt={card.card_name}
-                            fill
-                            className="object-contain"
-                            sizes="(max-width: 448px) 100vw, 448px"
-                          />
-                        </div>
-                        <h2 className="text-lg font-medium text-gray-900">{card.card_name}</h2>
-                        {isEditMode && (
-                          <p className="text-sm text-gray-500 mt-1">Editing your existing record.</p>
-                        )}
-                      </div>
-
-                      {/* Check if already submitted */}
-                      {checkingRecords ? (
-                        <div className="text-center py-8">
-                          <p className="text-gray-500">Checking submission status...</p>
-                        </div>
-                      ) : hasExistingRecord && !isEditMode ? (
-                        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                          <div className="flex">
-                            <div className="ml-3">
-                              <p className="text-sm text-yellow-700">
-                                You have already submitted a record for this card. You can only submit one record per card.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <form className="space-y-6" onSubmit={formik.handleSubmit}>
-                          {/* Credit Score */}
-                          <div>
-                            <label htmlFor="credit_score" className="block text-sm font-medium text-gray-700">
-                              Credit Score
-                            </label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                              <input
-                                id="credit_score"
-                                name="credit_score"
-                                type="number"
-                                placeholder="300-850"
-                                className={
-                                  formik.errors.credit_score && formik.touched.credit_score
-                                    ? "block w-full pr-10 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                                    : "block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                }
-                                autoComplete="off"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.credit_score}
-                              />
-                              {formik.errors.credit_score && formik.touched.credit_score ? (
-                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                  <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
-                                </div>
-                              ) : (
-                                <div className="absolute inset-y-0 right-0 flex items-center">
-                                  <select
-                                    id="credit_score_source"
-                                    name="credit_score_source"
-                                    className="h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                                    value={formik.values.credit_score_source}
-                                    onChange={formik.handleChange}
-                                  >
-                                    <option value="0">FICO: *</option>
-                                    <option value="1">FICO: Experian</option>
-                                    <option value="2">FICO: Transunion</option>
-                                    <option value="3">FICO: Equifax</option>
-                                  </select>
-                                </div>
-                              )}
-                            </div>
-                            {formik.errors.credit_score && formik.touched.credit_score ? (
-                              <p className="mt-2 text-sm text-red-600">{String(formik.errors.credit_score)}</p>
-                            ) : (
-                              <p className="mt-2 text-sm text-gray-500">FICO credit score at the time of application.</p>
-                            )}
-                          </div>
-
-                          {/* Income */}
-                          <div>
-                            <label htmlFor="listed_income" className="block text-sm font-medium text-gray-700">
-                              Income
-                            </label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span className="text-gray-500 sm:text-sm">$</span>
-                              </div>
-                              <NumericFormat
-                                thousandSeparator={true}
-                                id="listed_income"
-                                placeholder="Income on application"
-                                autoComplete="off"
-                                className={
-                                  formik.errors.listed_income && formik.touched.listed_income
-                                    ? "block w-full pl-7 pr-12 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                                    : "block w-full pl-7 pr-12 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                }
-                                onBlur={formik.handleBlur}
-                                value={formik.values.listed_income}
-                                onValueChange={(val) => formik.setFieldValue("listed_income", val.floatValue)}
-                              />
-                              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <span className="text-gray-500 sm:text-sm">USD</span>
-                              </div>
-                            </div>
-                            {formik.errors.listed_income && formik.touched.listed_income ? (
-                              <p className="mt-2 text-sm text-red-600">{String(formik.errors.listed_income)}</p>
-                            ) : (
-                              <p className="mt-2 text-sm text-gray-500">Income you listed on your application.</p>
-                            )}
-                          </div>
-
-                          {/* Application Time */}
-                          <div>
-                            <label htmlFor="date_applied" className="block text-sm font-medium text-gray-700">
-                              Application Time
-                            </label>
-                            <div className="mt-1">
-                              <input
-                                id="date_applied"
-                                name="date_applied"
-                                type="month"
-                                required
-                                min="2019-01"
-                                max={currentMonthInput()}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.date_applied}
-                                className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                              />
-                            </div>
-                          </div>
-
-                          {/* Length of Credit */}
-                          <div>
-                            <label htmlFor="length_credit" className="block text-sm font-medium text-gray-700">
-                              Age of Oldest Account <span className="text-gray-400 font-normal">(optional)</span>
-                            </label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                              <input
-                                name="length_credit"
-                                id="length_credit"
-                                type="number"
-                                placeholder="Years"
-                                className={
-                                  formik.errors.length_credit && formik.touched.length_credit
-                                    ? "block w-full pr-16 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                                    : "block w-full pr-16 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                }
-                                autoComplete="off"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.length_credit}
-                              />
-                              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <span className="text-gray-500 sm:text-sm">Years</span>
-                              </div>
-                            </div>
-                            {formik.errors.length_credit && formik.touched.length_credit && (
-                              <p className="mt-2 text-sm text-red-600">{String(formik.errors.length_credit)}</p>
-                            )}
-                          </div>
-
-                          {/* Bank Customer Toggle */}
-                          <div className="flex items-center justify-between">
-                            <label className="block text-sm font-medium text-gray-700 pr-4">
-                              Did you already have an account with <strong>{card.bank}</strong>?
-                            </label>
-                            <Switch
-                              checked={formik.values.bank_customer}
-                              onChange={() => formik.setFieldValue("bank_customer", !formik.values.bank_customer)}
-                              className={classNames(
-                                formik.values.bank_customer ? "bg-indigo-600" : "bg-gray-200",
-                                "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                              )}
-                            >
-                              <span
-                                className={classNames(
-                                  formik.values.bank_customer ? "translate-x-5" : "translate-x-0",
-                                  "pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
-                                )}
-                              />
-                            </Switch>
-                          </div>
-
-                          {/* Approved/Rejected Toggle */}
-                          <div className="flex space-x-3">
-                            <button
-                              type="button"
-                              onClick={() => formik.setFieldValue("result", true)}
-                              className={classNames(
-                                formik.values.result
-                                  ? "bg-green-500 text-white hover:bg-green-600"
-                                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50",
-                                "flex-1 py-2 px-4 border rounded-md shadow-sm text-sm font-medium focus:outline-none"
-                              )}
-                            >
-                              Approved
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => formik.setFieldValue("result", false)}
-                              className={classNames(
-                                !formik.values.result
-                                  ? "bg-red-600 text-white hover:bg-red-700"
-                                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50",
-                                "flex-1 py-2 px-4 border rounded-md shadow-sm text-sm font-medium focus:outline-none"
-                              )}
-                            >
-                              Rejected
-                            </button>
-                          </div>
-
-                          {/* Starting Credit Limit (if approved) */}
-                          {formik.values.result && (
-                            <div>
-                              <label htmlFor="starting_credit_limit" className="block text-sm font-medium text-gray-700">
-                                Starting Credit Limit
-                              </label>
-                              <div className="mt-1 relative rounded-md shadow-sm">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                  <span className="text-gray-500 sm:text-sm">$</span>
-                                </div>
-                                <NumericFormat
-                                  thousandSeparator={true}
-                                  id="starting_credit_limit"
-                                  autoComplete="off"
-                                  className="block w-full pl-7 pr-12 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                  onBlur={formik.handleBlur}
-                                  value={formik.values.starting_credit_limit ?? ""}
-                                  onValueChange={(val) => formik.setFieldValue("starting_credit_limit", val.floatValue)}
-                                />
-                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                  <span className="text-gray-500 sm:text-sm">USD</span>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Submit Button */}
-                          <div>
-                            <button
-                              type="submit"
-                              disabled={submitting}
-                              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                            >
-                              {submitting
-                                ? (isEditMode ? "Saving..." : "Submitting...")
-                                : (isEditMode ? "Save Changes" : "Submit Record")}
-                            </button>
-                          </div>
-                        </form>
-                      )}
+            {checkingRecords ? (
+              <div className="cj-modal-body">
+                <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: 12 }}>Checking submission status…</p>
+              </div>
+            ) : hasExistingRecord && !isEditMode ? (
+              <div className="cj-modal-body">
+                <div className="cj-modal-error">
+                  You have already submitted a record for this card. You can only submit one record per card.
+                </div>
+                <div className="cj-modal-section">
+                  <div className="cj-modal-card-row">
+                    <span className="cj-modal-thumb">
+                      <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="56px" />
+                    </span>
+                    <div style={{ minWidth: 0 }}>
+                      <div className="cj-modal-card-name">{card.card_name}</div>
+                      {card.bank && <div className="cj-modal-card-meta">{card.bank}</div>}
                     </div>
                   </div>
-                </DialogPanel>
-              </TransitionChild>
-            </div>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={formik.handleSubmit}>
+                <div className="cj-modal-body">
+                  {/* Card header */}
+                  <div className="cj-modal-section">
+                    <div className="cj-modal-card-row">
+                      <span className="cj-modal-thumb">
+                        <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="56px" />
+                      </span>
+                      <div style={{ minWidth: 0 }}>
+                        <div className="cj-modal-card-name">{card.card_name}</div>
+                        {card.bank && <div className="cj-modal-card-meta">{card.bank}</div>}
+                      </div>
+                    </div>
+                    {isEditMode && (
+                      <p style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 8 }}>Editing your existing record.</p>
+                    )}
+                  </div>
+
+                  {/* Credit Score + Source */}
+                  <div className="cj-modal-section">
+                    <label htmlFor="credit_score" className="cj-modal-label">Credit Score</label>
+                    <div className="cj-modal-grid" style={{ gridTemplateColumns: '2fr 1fr' }}>
+                      <input
+                        id="credit_score"
+                        name="credit_score"
+                        type="number"
+                        placeholder="300–850"
+                        className="cj-modal-input"
+                        autoComplete="off"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.credit_score}
+                      />
+                      <select
+                        id="credit_score_source"
+                        name="credit_score_source"
+                        className="cj-modal-select"
+                        value={formik.values.credit_score_source}
+                        onChange={formik.handleChange}
+                      >
+                        <option value="0">FICO: *</option>
+                        <option value="1">FICO: Experian</option>
+                        <option value="2">FICO: TransUnion</option>
+                        <option value="3">FICO: Equifax</option>
+                      </select>
+                    </div>
+                    {formik.errors.credit_score && formik.touched.credit_score ? (
+                      <div className="cj-modal-error" style={{ marginTop: 8 }}>{String(formik.errors.credit_score)}</div>
+                    ) : (
+                      <p style={hintStyle}>FICO credit score at the time of application.</p>
+                    )}
+                  </div>
+
+                  {/* Income */}
+                  <div className="cj-modal-section">
+                    <label htmlFor="listed_income" className="cj-modal-label">
+                      Income <span style={optionalSuffixStyle}>(optional)</span>
+                    </label>
+                    <NumericFormat
+                      thousandSeparator={true}
+                      id="listed_income"
+                      placeholder="Income on application"
+                      autoComplete="off"
+                      className="cj-modal-input"
+                      onBlur={formik.handleBlur}
+                      value={formik.values.listed_income}
+                      onValueChange={(val) => formik.setFieldValue("listed_income", val.floatValue)}
+                      prefix="$ "
+                    />
+                    {formik.errors.listed_income && formik.touched.listed_income ? (
+                      <div className="cj-modal-error" style={{ marginTop: 8 }}>{String(formik.errors.listed_income)}</div>
+                    ) : (
+                      <p style={hintStyle}>Income you listed on your application.</p>
+                    )}
+                  </div>
+
+                  {/* Application Time */}
+                  <div className="cj-modal-section">
+                    <label htmlFor="date_applied" className="cj-modal-label">Application Time</label>
+                    <input
+                      id="date_applied"
+                      name="date_applied"
+                      type="month"
+                      required
+                      min="2019-01"
+                      max={currentMonthInput()}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.date_applied}
+                      className="cj-modal-input"
+                    />
+                  </div>
+
+                  {/* Age of Oldest Account */}
+                  <div className="cj-modal-section">
+                    <label htmlFor="length_credit" className="cj-modal-label">
+                      Age of Oldest Account <span style={optionalSuffixStyle}>(optional)</span>
+                    </label>
+                    <input
+                      name="length_credit"
+                      id="length_credit"
+                      type="number"
+                      placeholder="Years"
+                      className="cj-modal-input"
+                      autoComplete="off"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.length_credit}
+                    />
+                    {formik.errors.length_credit && formik.touched.length_credit && (
+                      <div className="cj-modal-error" style={{ marginTop: 8 }}>{String(formik.errors.length_credit)}</div>
+                    )}
+                  </div>
+
+                  {/* Total Open Cards (with wallet prefill suggestion) */}
+                  <div className="cj-modal-section">
+                    <label htmlFor="total_open_cards" className="cj-modal-label">
+                      Total Open Cards <span style={optionalSuffixStyle}>(optional)</span>
+                    </label>
+                    <input
+                      id="total_open_cards"
+                      name="total_open_cards"
+                      type="number"
+                      min={0}
+                      max={500}
+                      placeholder="Across all issuers"
+                      className="cj-modal-input"
+                      autoComplete="off"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.total_open_cards}
+                    />
+                    {formik.errors.total_open_cards && formik.touched.total_open_cards ? (
+                      <div className="cj-modal-error" style={{ marginTop: 8 }}>{String(formik.errors.total_open_cards)}</div>
+                    ) : walletCount && walletCount > 0 ? (
+                      <button
+                        type="button"
+                        onClick={() => formik.setFieldValue("total_open_cards", walletCount)}
+                        className="cj-modal-link"
+                        style={{ marginTop: 6, background: 'transparent', border: 0, padding: 0, cursor: 'pointer' }}
+                      >
+                        You have {walletCount} {walletCount === 1 ? 'card' : 'cards'} in your wallet. Use this?
+                      </button>
+                    ) : null}
+                  </div>
+
+                  {/* Hard Inquiries */}
+                  <div className="cj-modal-section">
+                    <label className="cj-modal-label">
+                      Hard Inquiries <span style={optionalSuffixStyle}>(optional)</span>
+                    </label>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
+                      <div>
+                        <input id="inquiries_3" name="inquiries_3" type="number" min={0} max={50} placeholder="6 mo" className="cj-modal-input"
+                          autoComplete="off" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.inquiries_3} />
+                        <p style={{ marginTop: 4, fontSize: 11, color: 'var(--muted)', textAlign: 'center' }}>6 mo</p>
+                      </div>
+                      <div>
+                        <input id="inquiries_12" name="inquiries_12" type="number" min={0} max={50} placeholder="12 mo" className="cj-modal-input"
+                          autoComplete="off" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.inquiries_12} />
+                        <p style={{ marginTop: 4, fontSize: 11, color: 'var(--muted)', textAlign: 'center' }}>12 mo</p>
+                      </div>
+                      <div>
+                        <input id="inquiries_24" name="inquiries_24" type="number" min={0} max={50} placeholder="24 mo" className="cj-modal-input"
+                          autoComplete="off" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.inquiries_24} />
+                        <p style={{ marginTop: 4, fontSize: 11, color: 'var(--muted)', textAlign: 'center' }}>24 mo</p>
+                      </div>
+                    </div>
+                    {(formik.errors.inquiries_3 || formik.errors.inquiries_12 || formik.errors.inquiries_24) && (
+                      <div className="cj-modal-error" style={{ marginTop: 8 }}>
+                        {String(formik.errors.inquiries_3 || formik.errors.inquiries_12 || formik.errors.inquiries_24)}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bank Customer */}
+                  <div className="cj-modal-section">
+                    <label className="cj-modal-label">
+                      Existing customer with {card.bank ? card.bank : 'this issuer'}?
+                    </label>
+                    <div className="cj-modal-grid">
+                      <button
+                        type="button"
+                        onClick={() => formik.setFieldValue("bank_customer", true)}
+                        className={"cj-modal-btn" + (formik.values.bank_customer ? " cj-modal-btn-primary" : "")}
+                      >Yes</button>
+                      <button
+                        type="button"
+                        onClick={() => formik.setFieldValue("bank_customer", false)}
+                        className={"cj-modal-btn" + (!formik.values.bank_customer ? " cj-modal-btn-primary" : "")}
+                      >No</button>
+                    </div>
+                  </div>
+
+                  {/* Outcome */}
+                  <div className="cj-modal-section">
+                    <label className="cj-modal-label">Outcome</label>
+                    <div className="cj-modal-grid">
+                      <button
+                        type="button"
+                        onClick={() => formik.setFieldValue("result", true)}
+                        className="cj-modal-btn"
+                        style={formik.values.result ? approvedActiveStyle : undefined}
+                      >Approved</button>
+                      <button
+                        type="button"
+                        onClick={() => formik.setFieldValue("result", false)}
+                        className="cj-modal-btn"
+                        style={!formik.values.result ? deniedActiveStyle : undefined}
+                      >Denied</button>
+                    </div>
+                  </div>
+
+                  {/* Starting Credit Limit (if approved) */}
+                  {formik.values.result && (
+                    <div className="cj-modal-section">
+                      <label htmlFor="starting_credit_limit" className="cj-modal-label">Starting Credit Limit</label>
+                      <NumericFormat
+                        thousandSeparator={true}
+                        id="starting_credit_limit"
+                        autoComplete="off"
+                        className="cj-modal-input"
+                        placeholder="0"
+                        onBlur={formik.handleBlur}
+                        value={formik.values.starting_credit_limit ?? ""}
+                        onValueChange={(val) => formik.setFieldValue("starting_credit_limit", val.floatValue)}
+                        prefix="$ "
+                      />
+                    </div>
+                  )}
+
+                  {/* Denial Reason (if denied) */}
+                  {!formik.values.result && (
+                    <div className="cj-modal-section">
+                      <label htmlFor="reason_denied_code" className="cj-modal-label">
+                        Reason for Denial <span style={optionalSuffixStyle}>(optional)</span>
+                      </label>
+                      <select
+                        id="reason_denied_code"
+                        name="reason_denied_code"
+                        className="cj-modal-select"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.reason_denied_code}
+                      >
+                        <option value="">Select a reason…</option>
+                        {REASON_DENIED_OPTIONS.map(opt => (
+                          <option key={opt.code} value={opt.code}>{opt.label}</option>
+                        ))}
+                      </select>
+                      <p style={hintStyle}>If the issuer gave a specific reason, pick the closest match.</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="cj-modal-footer">
+                  <div className="cj-modal-actions" style={{ marginLeft: 'auto' }}>
+                    <button type="button" className="cj-modal-btn" onClick={handleModalClose}>
+                      cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="cj-modal-btn cj-modal-btn-primary"
+                      disabled={submitting}
+                    >
+                      {submitting
+                        ? (isEditMode ? 'saving…' : 'submitting…')
+                        : (isEditMode ? 'save changes' : 'submit')}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </div>,
+    document.body
   );
 }
+

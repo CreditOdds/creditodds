@@ -11,15 +11,34 @@ function endOfCurrentMonth() {
   return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 }
 
+// Structured codes for the issuer-cited reason on a denial. Stored alongside
+// the free-text reason_denied for analytics. Keep in sync with the
+// REASON_DENIED_CODES constant on the client.
+const REASON_DENIED_CODES = [
+  "too_many_inquiries",
+  "too_many_recent_accounts",
+  "length_of_credit_too_short",
+  "credit_score_too_low",
+  "high_utilization",
+  "too_much_credit_with_issuer",
+  "income_too_low",
+  "recent_delinquency",
+  "bankruptcy_or_public_record",
+  "other",
+  "not_specified",
+];
+
 const recordSchema = yup.object().shape({
   card_id: yup.number().integer().required(),
   credit_score: yup.number().integer().min(300).max(850).required(),
   credit_score_source: yup.number().integer().min(0).max(4).required(),
   result: yup.boolean().required(),
-  listed_income: yup.number().integer().min(0).max(1000000).required(),
+  listed_income: yup.number().integer().min(0).max(1000000).nullable(),
   length_credit: yup.number().integer().min(0).max(100),
   starting_credit_limit: yup.number().integer().min(0).max(1000000),
   reason_denied: yup.string().max(254),
+  reason_denied_code: yup.string().oneOf(REASON_DENIED_CODES).nullable(),
+  total_open_cards: yup.number().integer().min(0).max(500).nullable(),
   date_applied: yup.date().max(endOfCurrentMonth(), "Application date cannot be in the future").required(),
   bank_customer: yup.boolean().required(),
   inquiries_3: yup.number().integer().min(0).max(50),
@@ -34,10 +53,12 @@ const recordPatchSchema = yup.object().shape({
   credit_score: yup.number().integer().min(300).max(850).required(),
   credit_score_source: yup.number().integer().min(0).max(4).required(),
   result: yup.boolean().required(),
-  listed_income: yup.number().integer().min(0).max(1000000).required(),
+  listed_income: yup.number().integer().min(0).max(1000000).nullable(),
   length_credit: yup.number().integer().min(0).max(100).nullable(),
   starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
   reason_denied: yup.string().max(254).nullable(),
+  reason_denied_code: yup.string().oneOf(REASON_DENIED_CODES).nullable(),
+  total_open_cards: yup.number().integer().min(0).max(500).nullable(),
   date_applied: yup.date().max(endOfCurrentMonth(), "Application date cannot be in the future").required(),
   bank_customer: yup.boolean().required(),
   inquiries_3: yup.number().integer().min(0).max(50).nullable(),
@@ -76,6 +97,7 @@ exports.UserRecordsHandler = async (event) => {
           `SELECT r.record_id, r.card_id, c.card_name, c.card_image_link,
                   r.credit_score, r.credit_score_source, r.listed_income,
                   r.length_credit, r.result, r.starting_credit_limit, r.reason_denied,
+                  r.reason_denied_code, r.total_open_cards,
                   r.bank_customer, r.inquiries_3, r.inquiries_12, r.inquiries_24,
                   r.submit_datetime, r.date_applied
            FROM records r
@@ -119,28 +141,33 @@ exports.UserRecordsHandler = async (event) => {
               throw new Error(`You can only submit ${MAX_RECORDS_PER_CARD_PER_USER} records per card.`);
             }
 
-            // Check for duplicate submission (same card, credit score, income, result)
+            // Check for duplicate submission (same card, credit score, income, result).
+            // Use `<=>` (NULL-safe equal) on listed_income since it's nullable now —
+            // two NULL incomes should still count as the same submission.
             const duplicateResult = await mysql.query(
               `SELECT record_id FROM records
                WHERE card_id = ? AND submitter_id = ? AND credit_score = ?
-               AND listed_income = ? AND result = ? AND active = 1
+               AND listed_income <=> ? AND result = ? AND active = 1
                LIMIT 1`,
-              [value.card_id, submitterId, value.credit_score, value.listed_income, value.result]
+              [value.card_id, submitterId, value.credit_score, value.listed_income ?? null, value.result]
             );
             if (duplicateResult.length > 0) {
               throw new Error('You have already submitted a record with the same credit score, income, and result for this card.');
             }
 
-            //If accepted submit starting credit limit, otherwise reason denied
-            value.result
-              ? (value.reason_denied = null)
-              : (value.starting_credit_limit = null);
+            // If approved, clear denial fields; if denied, clear starting credit limit.
+            if (value.result) {
+              value.reason_denied = null;
+              value.reason_denied_code = null;
+            } else {
+              value.starting_credit_limit = null;
+            }
             const results = await mysql.query("INSERT INTO records SET ?", {
               card_id: value.card_id,
               result: value.result,
               credit_score: value.credit_score,
               credit_score_source: value.credit_score_source,
-              listed_income: value.listed_income,
+              listed_income: value.listed_income ?? null,
               date_applied: new Date(value.date_applied),
               length_credit: value.length_credit,
               starting_credit_limit: value.starting_credit_limit,
@@ -149,6 +176,8 @@ exports.UserRecordsHandler = async (event) => {
               submit_datetime: new Date(),
               bank_customer: value.bank_customer,
               reason_denied: value.reason_denied,
+              reason_denied_code: value.reason_denied_code ?? null,
+              total_open_cards: value.total_open_cards ?? null,
               inquiries_3: value.inquiries_3,
               inquiries_12: value.inquiries_12,
               inquiries_24: value.inquiries_24,
@@ -186,9 +215,10 @@ exports.UserRecordsHandler = async (event) => {
           throw new Error(`Validation error: ${err}.`);
         });
 
-        // Mirror POST: clear the field that doesn't apply to the result.
+        // Mirror POST: clear the fields that don't apply to the result.
         if (value.result) {
           value.reason_denied = null;
+          value.reason_denied_code = null;
         } else {
           value.starting_credit_limit = null;
         }
@@ -202,10 +232,12 @@ exports.UserRecordsHandler = async (event) => {
               credit_score: value.credit_score,
               credit_score_source: value.credit_score_source,
               result: value.result,
-              listed_income: value.listed_income,
+              listed_income: value.listed_income ?? null,
               length_credit: value.length_credit,
               starting_credit_limit: value.starting_credit_limit,
               reason_denied: value.reason_denied,
+              reason_denied_code: value.reason_denied_code ?? null,
+              total_open_cards: value.total_open_cards ?? null,
               date_applied: new Date(value.date_applied),
               bank_customer: value.bank_customer,
               inquiries_3: value.inquiries_3,

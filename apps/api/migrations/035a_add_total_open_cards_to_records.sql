@@ -1,0 +1,1 @@
+ALTER TABLE records ADD COLUMN total_open_cards SMALLINT UNSIGNED NULL;
