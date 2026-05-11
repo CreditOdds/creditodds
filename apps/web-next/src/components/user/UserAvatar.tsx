@@ -39,7 +39,7 @@ export default function UserAvatar({
       colors={BRAND_PALETTE}
       size={size}
       square={square}
-      title={title}
+      title={Boolean(title)}
       className={className}
     />
   );
