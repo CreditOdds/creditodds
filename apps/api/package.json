@@ -6,6 +6,7 @@
   "dependencies": {
     "firebase-admin": "^13.6.0",
     "mysql2": "^3.16.2",
+    "plaid": "^29.0.0",
     "serverless-mysql": "^1.5.4",
     "yup": "^0.32.9"
   },
