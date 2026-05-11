@@ -21,10 +21,37 @@ import {
   deletePlaidItem,
   syncPlaidItem,
   getPlaidTransactions,
+  setPlaidAccountCard,
   type PlaidItem,
+  type PlaidAccount,
   type PlaidTransaction,
+  type WalletCard,
 } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
+
+interface PlaidConnectProps {
+  walletCards: WalletCard[];
+}
+
+// Heuristic: if the Plaid account is a credit card AND the user has exactly one
+// wallet card from a bank whose name shares a token with the institution name,
+// suggest it. Conservative on purpose — sandbox account names are useless for
+// matching, and we'd rather show no suggestion than a wrong one.
+function suggestedWalletCardId(account: PlaidAccount, walletCards: WalletCard[], institutionName: string | null): number | null {
+  if (account.user_card_id != null) return null; // already mapped
+  const isCreditCard =
+    account.account_type === 'credit' || account.account_subtype === 'credit card';
+  if (!isCreditCard) return null;
+  if (!institutionName) return null;
+
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).filter(Boolean);
+  const instTokens = new Set(norm(institutionName));
+  const matches = walletCards.filter((c) => {
+    const bankTokens = norm(c.bank || '');
+    return bankTokens.some((t) => instTokens.has(t));
+  });
+  return matches.length === 1 ? matches[0].id : null;
+}
 
 const STATUS_LABELS: Record<PlaidItem['status'], string> = {
   healthy: 'Connected',
@@ -50,12 +77,13 @@ function formatAmount(amount: string | number, currency: string | null): string 
   return `${sign}$${Math.abs(n).toFixed(2)}${currency && currency !== 'USD' ? ` ${currency}` : ''}`;
 }
 
-export default function PlaidConnect() {
+export default function PlaidConnect({ walletCards }: PlaidConnectProps) {
   const { getToken } = useAuth();
   const [items, setItems] = useState<PlaidItem[]>([]);
   const [linkToken, setLinkToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [syncingId, setSyncingId] = useState<number | null>(null);
+  const [savingMappingId, setSavingMappingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [recentTxns, setRecentTxns] = useState<PlaidTransaction[]>([]);
 
@@ -150,6 +178,22 @@ export default function PlaidConnect() {
     }
   };
 
+  const handleMappingChange = async (accountRowId: number, raw: string) => {
+    setError(null);
+    setSavingMappingId(accountRowId);
+    const userCardId = raw === '' ? null : Number(raw);
+    try {
+      const token = await getToken();
+      if (!token) throw new Error('Not signed in');
+      await setPlaidAccountCard(accountRowId, userCardId, token);
+      await refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not save mapping');
+    } finally {
+      setSavingMappingId(null);
+    }
+  };
+
   return (
     <section style={{ marginTop: 32 }}>
       <header style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
@@ -183,66 +227,139 @@ export default function PlaidConnect() {
             <li
               key={item.id}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
                 padding: '12px 16px',
                 border: '1px solid #e5e7eb',
                 borderRadius: 8,
                 marginBottom: 8,
               }}
             >
-              <div>
-                <div style={{ fontWeight: 600 }}>{item.institution_name || 'Unknown bank'}</div>
-                <div style={{ fontSize: 12, color: 'var(--muted, #6b7280)' }}>
-                  {item.accounts.length} account{item.accounts.length === 1 ? '' : 's'}
-                  {' · '}
-                  <span style={{ color: item.status === 'healthy' ? '#059669' : '#b45309' }}>
-                    {STATUS_LABELS[item.status]}
-                  </span>
-                  {' · '}
-                  {item.transaction_count.toLocaleString()} txn{item.transaction_count === 1 ? '' : 's'}
-                  {' · '}
-                  synced {formatRelative(item.last_synced_at)}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontWeight: 600 }}>{item.institution_name || 'Unknown bank'}</div>
+                  <div style={{ fontSize: 12, color: 'var(--muted, #6b7280)' }}>
+                    {item.accounts.length} account{item.accounts.length === 1 ? '' : 's'}
+                    {' · '}
+                    <span style={{ color: item.status === 'healthy' ? '#059669' : '#b45309' }}>
+                      {STATUS_LABELS[item.status]}
+                    </span>
+                    {' · '}
+                    {item.transaction_count.toLocaleString()} txn{item.transaction_count === 1 ? '' : 's'}
+                    {' · '}
+                    synced {formatRelative(item.last_synced_at)}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <button
+                    onClick={() => handleSync(item.id)}
+                    disabled={syncingId === item.id}
+                    aria-label={`Sync ${item.institution_name || 'bank'} now`}
+                    title="Sync now"
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: syncingId === item.id ? 'not-allowed' : 'pointer',
+                      color: '#4f46e5',
+                      padding: 8,
+                      opacity: syncingId === item.id ? 0.4 : 1,
+                    }}
+                  >
+                    <ArrowPathIcon
+                      style={{
+                        width: 18,
+                        height: 18,
+                        animation: syncingId === item.id ? 'spin 1s linear infinite' : undefined,
+                      }}
+                    />
+                  </button>
+                  <button
+                    onClick={() => handleDisconnect(item.id)}
+                    aria-label={`Disconnect ${item.institution_name || 'bank'}`}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#b91c1c',
+                      padding: 8,
+                    }}
+                  >
+                    <TrashIcon style={{ width: 18, height: 18 }} />
+                  </button>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <button
-                  onClick={() => handleSync(item.id)}
-                  disabled={syncingId === item.id}
-                  aria-label={`Sync ${item.institution_name || 'bank'} now`}
-                  title="Sync now"
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: syncingId === item.id ? 'not-allowed' : 'pointer',
-                    color: '#4f46e5',
-                    padding: 8,
-                    opacity: syncingId === item.id ? 0.4 : 1,
-                  }}
-                >
-                  <ArrowPathIcon
-                    style={{
-                      width: 18,
-                      height: 18,
-                      animation: syncingId === item.id ? 'spin 1s linear infinite' : undefined,
-                    }}
-                  />
-                </button>
-                <button
-                  onClick={() => handleDisconnect(item.id)}
-                  aria-label={`Disconnect ${item.institution_name || 'bank'}`}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: '#b91c1c',
-                    padding: 8,
-                  }}
-                >
-                  <TrashIcon style={{ width: 18, height: 18 }} />
-                </button>
-              </div>
+
+              {item.accounts.length > 0 && (
+                <ul style={{ listStyle: 'none', padding: '12px 0 0 0', margin: '12px 0 0 0', borderTop: '1px solid #f3f4f6' }}>
+                  {item.accounts.map((account) => {
+                    const suggested = suggestedWalletCardId(account, walletCards, item.institution_name);
+                    return (
+                      <li
+                        key={account.id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: 12,
+                          padding: '8px 0',
+                          fontSize: 13,
+                        }}
+                      >
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <div style={{ fontWeight: 500 }}>
+                            {account.account_official_name || account.account_name || 'Account'}
+                            {account.mask ? <span style={{ color: 'var(--muted, #6b7280)', marginLeft: 6 }}>··· {account.mask}</span> : null}
+                          </div>
+                          <div style={{ fontSize: 11, color: 'var(--muted, #6b7280)', textTransform: 'capitalize' }}>
+                            {account.account_subtype || account.account_type || 'unknown type'}
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          {suggested != null && account.user_card_id == null && (
+                            <button
+                              type="button"
+                              onClick={() => handleMappingChange(account.id, String(suggested))}
+                              disabled={savingMappingId === account.id}
+                              style={{
+                                fontSize: 11,
+                                padding: '3px 8px',
+                                borderRadius: 999,
+                                background: '#fef3c7',
+                                color: '#92400e',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontWeight: 600,
+                              }}
+                              title="Apply suggested wallet card"
+                            >
+                              Suggested: {walletCards.find((c) => c.id === suggested)?.card_name}
+                            </button>
+                          )}
+                          <select
+                            value={account.user_card_id ?? ''}
+                            onChange={(e) => handleMappingChange(account.id, e.target.value)}
+                            disabled={savingMappingId === account.id}
+                            aria-label={`Map ${account.account_name || 'account'} to wallet card`}
+                            style={{
+                              fontSize: 12,
+                              padding: '4px 8px',
+                              borderRadius: 6,
+                              border: '1px solid #d1d5db',
+                              background: 'white',
+                              maxWidth: 220,
+                            }}
+                          >
+                            <option value="">— Not mapped —</option>
+                            {walletCards.map((c) => (
+                              <option key={c.id} value={c.id}>
+                                {c.card_name} ({c.bank})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </li>
           ))}
         </ul>

@@ -1513,6 +1513,23 @@ export interface PlaidSyncResult {
   reason?: string;
 }
 
+export async function setPlaidAccountCard(
+  accountRowId: number,
+  userCardId: number | null,
+  token: string
+): Promise<{ message: string; plaid_account_row_id: number; user_card_id: number | null }> {
+  const res = await fetch(`${API_BASE}/plaid/accounts/${accountRowId}/card`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user_card_id: userCardId }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to set mapping: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
 export async function syncPlaidItem(itemRowId: number, token: string): Promise<PlaidSyncResult> {
   const res = await fetch(`${API_BASE}/plaid/items/${itemRowId}/sync`, {
     method: 'POST',

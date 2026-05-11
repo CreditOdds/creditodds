@@ -1426,6 +1426,36 @@ Resources:
             Auth:
               Authorizer: NONE
 
+  PlaidAccountMappingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/plaid-account-mapping.PlaidAccountMappingHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 15
+      Description: Maps a Plaid account to one of the caller's wallet cards (or clears the mapping)
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        PutPlaidAccountMapping:
+          Type: Api
+          Properties:
+            Path: /plaid/accounts/{id}/card
+            Method: PUT
+            RestApiId: !Ref CreditCardOddsAPI
+        PlaidAccountMappingOptions:
+          Type: Api
+          Properties:
+            Path: /plaid/accounts/{id}/card
+            Method: OPTIONS
+            RestApiId: !Ref CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
   PlaidWebhookFunction:
     Type: AWS::Serverless::Function
     Properties:
