@@ -1,6 +1,5 @@
 // Shared "Cardy" character — the cartoon credit-card mascot used by
-// onboarding prompts (DataPointPrompt) and compare suggestions
-// (CardyComparePopup). Keep visuals consistent across surfaces.
+// CardyComparePopup. Keep visuals consistent across surfaces.
 
 interface CardyCharacterProps {
   size?: 'sm' | 'md';
