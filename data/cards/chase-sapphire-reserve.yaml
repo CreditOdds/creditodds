@@ -64,7 +64,6 @@ signup_bonus:
   type: "points"
   spend_requirement: 6000
   timeframe_months: 3
-  note: "$3,000 value of 150,000 points for select flights and hotels through Chase Travel SM"
 apr:
   regular:
     min: 19.49

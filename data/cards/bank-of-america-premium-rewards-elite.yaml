@@ -46,10 +46,9 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 75000
-  type: "points"
+  type: points
   spend_requirement: 5000
   timeframe_months: 3
-  note: "75,000 points valued at $750 plus up to $570 in combined statement credits (Airline Incidental, TSA PreCheck/Global Entry, and Lifestyle)"
 apr:
   regular:
     min: 19.49

@@ -24,7 +24,7 @@ signup_bonus:
   type: "miles"
   spend_requirement: 7500
   timeframe_months: 3
-  note: "Plus an additional 75,000 miles after spending $30,000 in the first 6 months"
+  note: "Plus an additional 75,000 miles after spending an additional $22,500 in 6 months"
 benefits:
   - name: "Business Travel Credit"
     value: 50

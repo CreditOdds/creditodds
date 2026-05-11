@@ -34,10 +34,9 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 60000
-  type: "points"
+  type: points
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Bonus points can be redeemed for up to 7 reward nights at select Choice Hotels properties"
 apr:
   regular:
     min: 19.74

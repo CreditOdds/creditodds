@@ -39,10 +39,9 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 60000
-  type: "points"
+  type: points
   spend_requirement: 4000
   timeframe_months: 3
-  note: "$600 toward your next trip"
 apr:
   regular:
     min: 18.49

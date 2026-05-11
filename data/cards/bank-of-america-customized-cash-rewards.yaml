@@ -30,10 +30,9 @@ rewards:
     unit: percent
 signup_bonus:
   value: 200
-  type: "cash"
+  type: cash
   spend_requirement: 1000
   timeframe_months: 3
-  note: "Plus 6% cash back in choice category for first year (3% base + 3% first-year bonus)"
 apr:
   purchase_intro:
     rate: 0
