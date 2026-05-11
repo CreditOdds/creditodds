@@ -27,6 +27,14 @@ function startOfMonth(date: Date): Date {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
 }
 
+// If the statement-issue-date is more than 60 days old, treat the liability
+// data as stale (Plaid sandbox returns 2019 dates; real institutions
+// occasionally publish stale data on dormant accounts). A real cycle is ~30
+// days, so a statement >60 days ago can't be the *current* cycle. Falling
+// back to the calendar month ensures the spend window contains actual recent
+// transactions instead of zeroing out.
+const STALE_LIABILITY_DAYS = 60;
+
 export function currentCycle(
   lastStatementIssueDate: string | null,
   nextPaymentDueDate: string | null,
@@ -34,15 +42,18 @@ export function currentCycle(
 ): CycleWindow {
   if (lastStatementIssueDate) {
     const lastClose = new Date(lastStatementIssueDate + 'T00:00:00Z');
-    const start = addDays(lastClose, 1);
-    let end: Date;
-    if (nextPaymentDueDate) {
-      end = addDays(new Date(nextPaymentDueDate + 'T00:00:00Z'), -21);
-      if (end <= start) end = addDays(start, 30);
-    } else {
-      end = addDays(start, 30);
+    const ageDays = (now.getTime() - lastClose.getTime()) / (24 * 60 * 60 * 1000);
+    if (ageDays <= STALE_LIABILITY_DAYS) {
+      const start = addDays(lastClose, 1);
+      let end: Date;
+      if (nextPaymentDueDate) {
+        end = addDays(new Date(nextPaymentDueDate + 'T00:00:00Z'), -21);
+        if (end <= start) end = addDays(start, 30);
+      } else {
+        end = addDays(start, 30);
+      }
+      return { start, end, source: 'liabilities' };
     }
-    return { start, end, source: 'liabilities' };
   }
   // Fall back to the current calendar month.
   const start = startOfMonth(now);
