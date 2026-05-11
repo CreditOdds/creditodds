@@ -1192,9 +1192,27 @@ function ApplicationsTab(props: ApplicationsTabProps) {
 
   return (
     <section className="cj-section">
+      {walletCards.length > 0 && (
+        <>
+          <div className="cj-table-label">Application rules</div>
+          {cardsMissingDates > 0 && (
+            <div className="cj-verdict" style={{ marginTop: 0, marginBottom: 16, background: '#fef9e8', borderLeftColor: '#a8792a', color: '#5c4318' }}>
+              <ExclamationTriangleIcon style={{ width: 16, height: 16, display: 'inline', marginRight: 6, verticalAlign: '-3px' }} />
+              <b style={{ color: '#a8792a' }}>{cardsMissingDates} card{cardsMissingDates === 1 ? '' : 's'} missing acquisition dates.</b>{' '}
+              For accurate rule tracking, edit each card to add when you got it.
+            </div>
+          )}
+          <div className="cj-rule-grid">
+            {applicationRules.map((rule) => (
+              <RuleProgressChart key={rule.ruleName} rule={rule} />
+            ))}
+          </div>
+        </>
+      )}
+
       {records.length > 0 ? (
         <>
-          <div className="cj-table-label">Your applications, with the score and income at the time of each.</div>
+          <div className="cj-table-label" style={walletCards.length > 0 ? { marginTop: 24 } : undefined}>Your applications, with the score and income at the time of each.</div>
           <div className="cj-tape cj-tape-records">
             <div className="cj-tape-head">
               <div>Applied</div>
@@ -1275,24 +1293,6 @@ function ApplicationsTab(props: ApplicationsTabProps) {
                 </button>
               </>}
         </div>
-      )}
-
-      {walletCards.length > 0 && (
-        <>
-          <div className="cj-table-label" style={{ marginTop: 24 }}>Application rules</div>
-          {cardsMissingDates > 0 && (
-            <div className="cj-verdict" style={{ marginTop: 0, marginBottom: 16, background: '#fef9e8', borderLeftColor: '#a8792a', color: '#5c4318' }}>
-              <ExclamationTriangleIcon style={{ width: 16, height: 16, display: 'inline', marginRight: 6, verticalAlign: '-3px' }} />
-              <b style={{ color: '#a8792a' }}>{cardsMissingDates} card{cardsMissingDates === 1 ? '' : 's'} missing acquisition dates.</b>{' '}
-              For accurate rule tracking, edit each card to add when you got it.
-            </div>
-          )}
-          <div className="cj-rule-grid">
-            {applicationRules.map((rule) => (
-              <RuleProgressChart key={rule.ruleName} rule={rule} />
-            ))}
-          </div>
-        </>
       )}
     </section>
   );
