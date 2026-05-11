@@ -1436,24 +1436,41 @@ function SettingsTab(props: SettingsTabProps) {
   const { email, handle, confirmingDelete, setConfirmingDelete, deleteConfirmText, setDeleteConfirmText, deletingAccount, onDeleteAccount, onLogout } = props;
   const { authState } = useAuth();
   const { settings, setAvatarSeed } = useUserSettings();
-  const [isRerolling, setIsRerolling] = useState(false);
-  const [rerollError, setRerollError] = useState<string | null>(null);
+  const [pendingSeed, setPendingSeed] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  const avatarSeed = settings?.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null;
+  const savedSeed = settings?.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null;
+  const displayedSeed = pendingSeed ?? savedSeed;
+  const hasPending = pendingSeed !== null;
 
-  const handleReroll = async () => {
-    setRerollError(null);
-    setIsRerolling(true);
+  const generateSeed = () =>
+    (typeof crypto !== 'undefined' && 'randomUUID' in crypto)
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+
+  const handleReroll = () => {
+    setSaveError(null);
+    setPendingSeed(generateSeed());
+  };
+
+  const handleSave = async () => {
+    if (pendingSeed === null) return;
+    setSaveError(null);
+    setIsSaving(true);
     try {
-      const newSeed = (typeof crypto !== 'undefined' && 'randomUUID' in crypto)
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-      await setAvatarSeed(newSeed);
+      await setAvatarSeed(pendingSeed);
+      setPendingSeed(null);
     } catch {
-      setRerollError('Could not save — try again');
+      setSaveError('Could not save — try again');
     } finally {
-      setIsRerolling(false);
+      setIsSaving(false);
     }
+  };
+
+  const handleCancel = () => {
+    setPendingSeed(null);
+    setSaveError(null);
   };
 
   const rows = [
@@ -1466,23 +1483,56 @@ function SettingsTab(props: SettingsTabProps) {
       <div>
         <div className="cj-settings-list">
           <div className="cj-settings-k">Avatar</div>
-          <div className="cj-settings-v" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ display: 'inline-flex', overflow: 'hidden', borderRadius: 4, border: '1px solid var(--line)' }}>
-              <UserAvatar seed={avatarSeed} size={48} />
-            </span>
-            {rerollError && (
-              <span style={{ fontSize: 11.5, color: 'var(--warn)' }}>{rerollError}</span>
+          <div className="cj-settings-v" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="cj-avatar-reroll"
+              onClick={handleReroll}
+              aria-label="Re-roll avatar"
+              title="Re-roll"
+            >
+              <UserAvatar seed={displayedSeed} size={48} />
+              <span className="cj-avatar-reroll-overlay">Re-roll</span>
+            </button>
+            {hasPending && (
+              <span style={{ fontSize: 11.5, color: 'var(--muted)' }}>
+                preview — unsaved
+              </span>
+            )}
+            {saveError && (
+              <span style={{ fontSize: 11.5, color: 'var(--warn)' }}>{saveError}</span>
             )}
           </div>
-          <button
-            type="button"
-            className="cj-settings-edit"
-            onClick={handleReroll}
-            disabled={isRerolling}
-            style={{ opacity: isRerolling ? 0.5 : 1, cursor: isRerolling ? 'wait' : 'pointer' }}
-          >
-            {isRerolling ? 'rolling…' : 're-roll →'}
-          </button>
+          {hasPending ? (
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <button
+                type="button"
+                className="cj-settings-edit"
+                onClick={handleSave}
+                disabled={isSaving}
+                style={{ opacity: isSaving ? 0.5 : 1, cursor: isSaving ? 'wait' : 'pointer' }}
+              >
+                {isSaving ? 'saving…' : 'save →'}
+              </button>
+              <button
+                type="button"
+                className="cj-settings-edit"
+                onClick={handleCancel}
+                disabled={isSaving}
+                style={{ color: 'var(--muted)', opacity: isSaving ? 0.5 : 1, cursor: isSaving ? 'wait' : 'pointer' }}
+              >
+                cancel
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="cj-settings-edit"
+              onClick={handleReroll}
+            >
+              re-roll →
+            </button>
+          )}
         </div>
         {rows.map((r, i) => (
           <div key={i} className="cj-settings-list">

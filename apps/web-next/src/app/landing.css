@@ -4093,6 +4093,47 @@
   letter-spacing: 0.02em;
   padding: 0;
 }
+.landing-v2.profile-v2 .cj-avatar-reroll {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  transition: border-color 120ms ease;
+}
+.landing-v2.profile-v2 .cj-avatar-reroll:hover,
+.landing-v2.profile-v2 .cj-avatar-reroll:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+}
+.landing-v2.profile-v2 .cj-avatar-reroll-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 19, 48, 0.78);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+.landing-v2.profile-v2 .cj-avatar-reroll:hover .cj-avatar-reroll-overlay,
+.landing-v2.profile-v2 .cj-avatar-reroll:focus-visible .cj-avatar-reroll-overlay {
+  opacity: 1;
+}
 
 /* Right rail — apply block, dashed lists, news */
 .landing-v2.profile-v2 .cj-rail {
