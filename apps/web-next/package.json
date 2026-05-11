@@ -30,7 +30,6 @@
     "react": "^18",
     "react-dom": "^18",
     "react-number-format": "^5.4.4",
-    "react-plaid-link": "^4.0.1",
     "react-toastify": "^11.0.5",
     "web-vitals": "^5.1.0",
     "yup": "^1.7.1"
