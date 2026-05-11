@@ -6,6 +6,8 @@ import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
+import { useUserSettings } from "@/user-settings/UserSettingsProvider";
+import UserAvatar from "@/components/user/UserAvatar";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, WalletCard, Card } from "@/lib/api";
 import "../landing.css";
@@ -1432,6 +1434,44 @@ interface SettingsTabProps {
 
 function SettingsTab(props: SettingsTabProps) {
   const { email, handle, confirmingDelete, setConfirmingDelete, deleteConfirmText, setDeleteConfirmText, deletingAccount, onDeleteAccount, onLogout } = props;
+  const { authState } = useAuth();
+  const { settings, setAvatarSeed } = useUserSettings();
+  const [pendingSeed, setPendingSeed] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  const savedSeed = settings?.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null;
+  const displayedSeed = pendingSeed ?? savedSeed;
+  const hasPending = pendingSeed !== null;
+
+  const generateSeed = () =>
+    (typeof crypto !== 'undefined' && 'randomUUID' in crypto)
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+
+  const handleReroll = () => {
+    setSaveError(null);
+    setPendingSeed(generateSeed());
+  };
+
+  const handleSave = async () => {
+    if (pendingSeed === null) return;
+    setSaveError(null);
+    setIsSaving(true);
+    try {
+      await setAvatarSeed(pendingSeed);
+      setPendingSeed(null);
+    } catch {
+      setSaveError('Could not save — try again');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setPendingSeed(null);
+    setSaveError(null);
+  };
 
   const rows = [
     { k: 'Email', v: email || '—' },
@@ -1441,6 +1481,59 @@ function SettingsTab(props: SettingsTabProps) {
   return (
     <section className="cj-section">
       <div>
+        <div className="cj-settings-list">
+          <div className="cj-settings-k">Avatar</div>
+          <div className="cj-settings-v" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="cj-avatar-reroll"
+              onClick={handleReroll}
+              aria-label="Re-roll avatar"
+              title="Re-roll"
+            >
+              <UserAvatar seed={displayedSeed} size={48} />
+              <span className="cj-avatar-reroll-overlay">Re-roll</span>
+            </button>
+            {hasPending && (
+              <span style={{ fontSize: 11.5, color: 'var(--muted)' }}>
+                preview — unsaved
+              </span>
+            )}
+            {saveError && (
+              <span style={{ fontSize: 11.5, color: 'var(--warn)' }}>{saveError}</span>
+            )}
+          </div>
+          {hasPending ? (
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <button
+                type="button"
+                className="cj-settings-edit"
+                onClick={handleSave}
+                disabled={isSaving}
+                style={{ opacity: isSaving ? 0.5 : 1, cursor: isSaving ? 'wait' : 'pointer' }}
+              >
+                {isSaving ? 'saving…' : 'save →'}
+              </button>
+              <button
+                type="button"
+                className="cj-settings-edit"
+                onClick={handleCancel}
+                disabled={isSaving}
+                style={{ color: 'var(--muted)', opacity: isSaving ? 0.5 : 1, cursor: isSaving ? 'wait' : 'pointer' }}
+              >
+                cancel
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="cj-settings-edit"
+              onClick={handleReroll}
+            >
+              re-roll →
+            </button>
+          )}
+        </div>
         {rows.map((r, i) => (
           <div key={i} className="cj-settings-list">
             <div className="cj-settings-k">{r.k}</div>
