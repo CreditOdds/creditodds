@@ -8,10 +8,10 @@ export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Explore Credit Cards",
-  description: "Browse all credit cards and their approval odds. Compare credit scores, income requirements, and approval rates across different banks.",
+  description: "Browse every credit card with approval odds, average approved scores, and income data. Sortable by issuer, fee, and rewards type.",
   openGraph: {
     title: "Explore Credit Cards | CreditOdds",
-    description: "Browse all credit cards and compare approval odds.",
+    description: "Browse every credit card with approval odds, average approved scores, and income data.",
     url: "https://creditodds.com/explore",
     type: "website",
   },
