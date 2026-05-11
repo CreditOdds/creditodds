@@ -94,6 +94,23 @@ const hintStyle: React.CSSProperties = {
   color: 'var(--muted)',
 };
 
+// Outcome buttons keep their semantic colors instead of the v2 purple primary.
+// Green (#15803d) is the same shade used by .cc-odds .odds-green elsewhere
+// in the v2 stylesheet; red is the standard --warn token.
+const approvedActiveStyle: React.CSSProperties = {
+  background: '#15803d',
+  borderColor: '#15803d',
+  color: '#fff',
+  fontWeight: 600,
+};
+
+const deniedActiveStyle: React.CSSProperties = {
+  background: 'var(--warn)',
+  borderColor: 'var(--warn)',
+  color: '#fff',
+  fontWeight: 600,
+};
+
 export default function SubmitRecordModal({ show, handleClose, card, onSuccess, editRecord }: SubmitRecordModalProps) {
   const { getToken } = useAuth();
   const isEditMode = !!editRecord;
@@ -616,12 +633,14 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
                       <button
                         type="button"
                         onClick={() => formik.setFieldValue("result", true)}
-                        className={"cj-modal-btn" + (formik.values.result ? " cj-modal-btn-primary" : "")}
+                        className="cj-modal-btn"
+                        style={formik.values.result ? approvedActiveStyle : undefined}
                       >Approved</button>
                       <button
                         type="button"
                         onClick={() => formik.setFieldValue("result", false)}
-                        className={"cj-modal-btn" + (!formik.values.result ? " cj-modal-btn-primary" : "")}
+                        className="cj-modal-btn"
+                        style={!formik.values.result ? deniedActiveStyle : undefined}
                       >Denied</button>
                     </div>
                   </div>
