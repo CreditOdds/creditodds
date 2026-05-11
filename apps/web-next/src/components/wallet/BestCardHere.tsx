@@ -556,7 +556,7 @@ export default function BestCardHere({ walletCards, allCards, plaidSummaries = [
                 matchingWalletRows.every((w) => {
                   const mapped = plaidSummaries.some((s) => s.user_card_id === w.id);
                   if (!mapped) return false; // can't tell — assume not capped
-                  return isCapped(w.id, originalBest.card, m.categoryId, plaidSummaries);
+                  return isCapped(w.id, w, originalBest.card, m.categoryId, plaidSummaries);
                 });
               const swapDueToCap = allMatchingMappedAndCapped && Boolean(originalNext);
               const best = swapDueToCap && originalNext ? originalNext : originalBest;

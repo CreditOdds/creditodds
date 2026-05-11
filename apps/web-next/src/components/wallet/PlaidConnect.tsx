@@ -63,11 +63,21 @@ interface CapInfo {
 }
 
 // Pull the rate + cap for a given CreditOdds category from a card's rewards
-// array. Returns null if the card has no matching reward (in which case the
-// transaction earns the card's flat rate, which we don't surface here).
-function rewardForCategory(card: Card | undefined, category: string): CapInfo | null {
-  if (!card?.rewards) return null;
-  const reward = card.rewards.find((r) => r.category === category);
+// array. Handles quarterly_rotating (current_categories) and user_choice
+// (selections) modes, not just literal category matches. Returns null if no
+// reward currently applies to this category.
+function rewardForCategory(card: Card | undefined, walletCard: WalletCard | undefined, category: string): CapInfo | null {
+  if (!card?.rewards || !walletCard) return null;
+  const reward = card.rewards.find((r) => {
+    if (r.mode === 'quarterly_rotating') {
+      const cats = (r.current_categories || []).map((c) => (typeof c === 'string' ? c : c.category));
+      return cats.includes(category);
+    }
+    if (r.mode === 'user_choice' || r.mode === 'auto_top_spend' || r.category === 'top_category') {
+      return (walletCard.selections || []).some((s) => s.selected_category === category);
+    }
+    return r.category === category;
+  });
   if (!reward) return null;
   return {
     category,
@@ -467,14 +477,14 @@ export default function PlaidConnect({ walletCards, allCards }: PlaidConnectProp
                               </span>
                               <span>
                                 {summary.cycle_start} – {summary.cycle_end}
-                                {summary.cycle_source === 'calendar_month' ? ' (calendar fallback)' : ''}
+                                {summary.cycle_source === 'recent_90d' ? ' (last 90 days)' : ''}
                               </span>
                             </div>
                             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                               {Array.from(byCat.entries())
                                 .sort((a, b) => b[1].spend - a[1].spend)
                                 .map(([categoryId, agg]) => {
-                                  const reward = rewardForCategory(card, categoryId);
+                                  const reward = rewardForCategory(card, walletCard, categoryId);
                                   const pct = reward?.cap ? Math.min(100, (agg.spend / reward.cap) * 100) : null;
                                   return (
                                     <li key={categoryId} style={{ marginBottom: 6 }}>

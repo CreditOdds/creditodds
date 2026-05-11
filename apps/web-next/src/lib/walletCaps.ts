@@ -11,6 +11,30 @@
 import type { Card, WalletCard, PlaidSpendSummary } from '@/lib/api';
 import { pfcToCategory } from '@/lib/plaidPfc';
 
+// What CreditOdds reward categories does a single reward entry actually
+// earn on right now? Default is the literal `category` field, but two modes
+// override that:
+//   - quarterly_rotating: the active categories rotate (Discover It, Freedom
+//     Flex). Use `current_categories` from the YAML — array of category ids
+//     or {category, note} objects.
+//   - user_choice / auto_top_spend: the user picks (Cash+, Custom Cash). Use
+//     the active selections from user_card_selections (already loaded onto
+//     WalletCard.selections by the /wallet endpoint).
+function effectiveCategoriesForReward(
+  reward: NonNullable<Card['rewards']>[number],
+  walletCard: WalletCard
+): string[] {
+  if (reward.mode === 'quarterly_rotating') {
+    return (reward.current_categories || []).map((c) =>
+      typeof c === 'string' ? c : c.category
+    );
+  }
+  if (reward.mode === 'user_choice' || reward.mode === 'auto_top_spend' || reward.category === 'top_category') {
+    return (walletCard.selections || []).map((s) => s.selected_category);
+  }
+  return [reward.category];
+}
+
 export interface CapState {
   category: string;
   rate: number;
@@ -68,10 +92,18 @@ export function capStateForWalletCard(
   const out: CapState[] = [];
   for (const reward of card.rewards) {
     if (!reward.spend_cap) continue;
-    const spend = spendByCat.get(reward.category)?.spend ?? 0;
+    const cats = effectiveCategoriesForReward(reward, walletCard);
+    if (cats.length === 0) continue;
+    // Sum spend across every effective category — for rotating cards the cap
+    // applies to combined spend across this quarter's bonus categories, not
+    // each one independently.
+    const spend = cats.reduce((sum, cat) => sum + (spendByCat.get(cat)?.spend ?? 0), 0);
     const percent = Math.min(100, (spend / reward.spend_cap) * 100);
+    // Display label: collapse rotating "rotating" / generic "user_choice"
+    // into the actual category list so the UI reads naturally.
+    const displayCategory = cats.length === 1 ? cats[0] : cats.join(' + ');
     out.push({
-      category: reward.category,
+      category: displayCategory,
       rate: reward.value,
       unit: reward.unit,
       spend,
@@ -93,16 +125,26 @@ export function worstCapState(states: CapState[]): CapState | null {
 
 // "Has this card hit its cap on `category`?" — used by BCH to decide whether
 // to demote a recommendation. Hit threshold is 95% (matches the "red" state).
-// If no cap exists for that category, returns false (no demotion).
+// If no reward applies to that category right now (rotating mismatch, no
+// user_choice selection, etc.), returns false (no demotion).
 export function isCapped(
   walletCardId: number,
+  walletCard: WalletCard | undefined,
   card: Card | undefined,
   category: string,
   summaries: PlaidSpendSummary[]
 ): boolean {
-  if (!card?.rewards) return false;
-  const reward = card.rewards.find((r) => r.category === category);
+  if (!card?.rewards || !walletCard) return false;
+  // Find a reward whose effective categories include this one AND has a cap.
+  const reward = card.rewards.find((r) => {
+    if (!r.spend_cap) return false;
+    return effectiveCategoriesForReward(r, walletCard).includes(category);
+  });
   if (!reward?.spend_cap) return false;
-  const spend = spendByCategoryForWalletCard(walletCardId, summaries).get(category)?.spend ?? 0;
+  // Spend that counts against this cap is total spend across all the reward's
+  // effective categories (rotating bonus shares one cap across multiple cats).
+  const cats = effectiveCategoriesForReward(reward, walletCard);
+  const byCat = spendByCategoryForWalletCard(walletCardId, summaries);
+  const spend = cats.reduce((sum, c) => sum + (byCat.get(c)?.spend ?? 0), 0);
   return (spend / reward.spend_cap) >= 0.95;
 }

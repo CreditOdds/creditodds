@@ -1461,7 +1461,7 @@ export interface PlaidSpendSummary {
   account_id: number;
   cycle_start: string;
   cycle_end: string;
-  cycle_source: 'liabilities' | 'calendar_month';
+  cycle_source: 'liabilities' | 'recent_90d';
   buckets: PlaidSpendBucket[];
 }
 

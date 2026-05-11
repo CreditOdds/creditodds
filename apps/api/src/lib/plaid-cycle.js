@@ -16,12 +16,24 @@ function startOfMonth(date) {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
 }
 
+function startOfDay(date) {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+}
+
 // If the statement-issue-date is more than 60 days old, the liability data is
 // stale (Plaid sandbox returns 2019 dates; real institutions occasionally
 // publish stale data on dormant accounts). A real cycle is ~30 days, so a
-// statement >60 days ago can't possibly be the *current* cycle. Fall back to
-// the calendar month so the spend window contains actual recent transactions.
+// statement >60 days ago can't possibly be the *current* cycle.
+//
+// Fallback is a 90-day rolling window. Calendar month was too narrow:
+//   - users who connect mid-month after the prior statement closed see little
+//     or no data
+//   - sandbox synthesizes ~90 days of historical txns ending today, so a
+//     calendar-month window can land entirely *after* the synthetic data
+//   - 90 days comfortably contains a quarterly cap period (Discover, Freedom)
+// The frontend slices this further per-cap by cap_period (monthly/quarterly/etc).
 const STALE_LIABILITY_DAYS = 60;
+const FALLBACK_WINDOW_DAYS = 90;
 
 function currentCycle(lastStatementIssueDate, nextPaymentDueDate, now = new Date()) {
   if (lastStatementIssueDate) {
@@ -39,9 +51,10 @@ function currentCycle(lastStatementIssueDate, nextPaymentDueDate, now = new Date
       return { start: toIsoDate(start), end: toIsoDate(end), source: 'liabilities' };
     }
   }
-  const start = startOfMonth(now);
-  const end = startOfMonth(addDays(start, 35));
-  return { start: toIsoDate(start), end: toIsoDate(end), source: 'calendar_month' };
+  const today = startOfDay(now);
+  const start = addDays(today, -FALLBACK_WINDOW_DAYS);
+  const end = addDays(today, 1);
+  return { start: toIsoDate(start), end: toIsoDate(end), source: 'recent_90d' };
 }
 
 module.exports = { currentCycle };

@@ -14,7 +14,7 @@
 export interface CycleWindow {
   start: Date;
   end: Date;
-  source: 'liabilities' | 'calendar_month';
+  source: 'liabilities' | 'recent_90d';
 }
 
 function addDays(date: Date, days: number): Date {
@@ -27,13 +27,17 @@ function startOfMonth(date: Date): Date {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
 }
 
-// If the statement-issue-date is more than 60 days old, treat the liability
-// data as stale (Plaid sandbox returns 2019 dates; real institutions
-// occasionally publish stale data on dormant accounts). A real cycle is ~30
-// days, so a statement >60 days ago can't be the *current* cycle. Falling
-// back to the calendar month ensures the spend window contains actual recent
-// transactions instead of zeroing out.
+// Stale liabilities (>60 days old) → treat as missing. A real cycle is ~30
+// days, so anything older can't be the *current* cycle. Plaid sandbox returns
+// 2019 dates which trip this constantly.
+//
+// Fallback window is 90 days rolling. Calendar month was too narrow:
+//   - users who connect mid-month after the prior statement closed see ~nothing
+//   - sandbox synthesizes ~90 days of historical txns ending today
+//   - 90 days comfortably contains a quarterly cap period
+// The frontend slices this further per-cap by cap_period (monthly/quarterly).
 const STALE_LIABILITY_DAYS = 60;
+const FALLBACK_WINDOW_DAYS = 90;
 
 export function currentCycle(
   lastStatementIssueDate: string | null,
@@ -55,10 +59,10 @@ export function currentCycle(
       return { start, end, source: 'liabilities' };
     }
   }
-  // Fall back to the current calendar month.
-  const start = startOfMonth(now);
-  const end = addDays(startOfMonth(addDays(start, 35)), 0); // start of next month
-  return { start, end, source: 'calendar_month' };
+  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const start = addDays(today, -FALLBACK_WINDOW_DAYS);
+  const end = addDays(today, 1);
+  return { start, end, source: 'recent_90d' };
 }
 
 export function isInCycle(transactionDate: string, cycle: CycleWindow): boolean {
