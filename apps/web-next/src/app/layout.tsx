@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { AuthProvider } from "@/auth/AuthProvider";
+import { UserSettingsProvider } from "@/user-settings/UserSettingsProvider";
 import { ConditionalNavbar } from "@/components/layout/ConditionalChrome";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
@@ -65,17 +66,19 @@ export default function RootLayout({
         <OrganizationSchema />
         <WebsiteSchema />
         <AuthProvider>
-          <SkipLink />
-          <ConditionalNavbar />
-          <main id="main-content" className="flex-grow">
-            {children}
-            <DataPointPrompt />
-          </main>
-          {/* Footer is rendered per-page via <V2Footer /> from
-              @/components/landing-v2/Chrome — no global footer here. */}
-          <ToastContainer />
-          <WebVitalsReporter />
-          <LogRocketInit />
+          <UserSettingsProvider>
+            <SkipLink />
+            <ConditionalNavbar />
+            <main id="main-content" className="flex-grow">
+              {children}
+              <DataPointPrompt />
+            </main>
+            {/* Footer is rendered per-page via <V2Footer /> from
+                @/components/landing-v2/Chrome — no global footer here. */}
+            <ToastContainer />
+            <WebVitalsReporter />
+            <LogRocketInit />
+          </UserSettingsProvider>
         </AuthProvider>
       </body>
     </html>

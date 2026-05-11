@@ -1240,6 +1240,12 @@ Resources:
             Path: /user-settings
             Method: GET
             RestApiId: !Ref CreditCardOddsAPI
+        PutUserSettings:
+          Type: Api
+          Properties:
+            Path: /user-settings
+            Method: PUT
+            RestApiId: !Ref CreditCardOddsAPI
         UserSettingsOptions:
           Type: Api
           Properties:

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, WalletIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
+import { useUserSettings } from "@/user-settings/UserSettingsProvider";
 import UserAvatar from "@/components/user/UserAvatar";
 
 type NavItem = {
@@ -100,7 +101,9 @@ function MobileNavLink({
 
 export default function Navbar() {
   const { authState, logout } = useAuth();
+  const { settings } = useUserSettings();
   const pathname = usePathname();
+  const avatarSeed = settings?.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null;
 
   const isActive = (item: NavItem) => item.matches(pathname);
   const isProfileActive = pathname === "/profile" || pathname.startsWith("/profile/");
@@ -162,7 +165,7 @@ export default function Navbar() {
                           <Menu.Button className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-[3px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
                             <UserAvatar
-                              seed={authState.user?.uid ?? authState.user?.email}
+                              seed={avatarSeed}
                               size={32}
                               title="Account menu"
                             />

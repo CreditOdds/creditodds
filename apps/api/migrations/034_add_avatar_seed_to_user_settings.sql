@@ -1,0 +1,1 @@
+ALTER TABLE user_settings ADD COLUMN avatar_seed VARCHAR(64) DEFAULT NULL;

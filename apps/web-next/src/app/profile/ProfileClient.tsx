@@ -6,6 +6,8 @@ import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
+import { useUserSettings } from "@/user-settings/UserSettingsProvider";
+import UserAvatar from "@/components/user/UserAvatar";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, WalletCard, Card } from "@/lib/api";
 import "../landing.css";
@@ -1432,6 +1434,27 @@ interface SettingsTabProps {
 
 function SettingsTab(props: SettingsTabProps) {
   const { email, handle, confirmingDelete, setConfirmingDelete, deleteConfirmText, setDeleteConfirmText, deletingAccount, onDeleteAccount, onLogout } = props;
+  const { authState } = useAuth();
+  const { settings, setAvatarSeed } = useUserSettings();
+  const [isRerolling, setIsRerolling] = useState(false);
+  const [rerollError, setRerollError] = useState<string | null>(null);
+
+  const avatarSeed = settings?.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null;
+
+  const handleReroll = async () => {
+    setRerollError(null);
+    setIsRerolling(true);
+    try {
+      const newSeed = (typeof crypto !== 'undefined' && 'randomUUID' in crypto)
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      await setAvatarSeed(newSeed);
+    } catch {
+      setRerollError('Could not save — try again');
+    } finally {
+      setIsRerolling(false);
+    }
+  };
 
   const rows = [
     { k: 'Email', v: email || '—' },
@@ -1441,6 +1464,26 @@ function SettingsTab(props: SettingsTabProps) {
   return (
     <section className="cj-section">
       <div>
+        <div className="cj-settings-list">
+          <div className="cj-settings-k">Avatar</div>
+          <div className="cj-settings-v" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ display: 'inline-flex', overflow: 'hidden', borderRadius: 4, border: '1px solid var(--line)' }}>
+              <UserAvatar seed={avatarSeed} size={48} />
+            </span>
+            {rerollError && (
+              <span style={{ fontSize: 11.5, color: 'var(--warn)' }}>{rerollError}</span>
+            )}
+          </div>
+          <button
+            type="button"
+            className="cj-settings-edit"
+            onClick={handleReroll}
+            disabled={isRerolling}
+            style={{ opacity: isRerolling ? 0.5 : 1, cursor: isRerolling ? 'wait' : 'pointer' }}
+          >
+            {isRerolling ? 'rolling…' : 're-roll →'}
+          </button>
+        </div>
         {rows.map((r, i) => (
           <div key={i} className="cj-settings-list">
             <div className="cj-settings-k">{r.k}</div>
