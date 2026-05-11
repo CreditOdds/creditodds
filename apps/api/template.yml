@@ -42,6 +42,32 @@ Parameters:
     Type: String
     Description: Server-side pepper used to hash visitor IPs into stable per-IP tokens for unique-click counting. Treat as a long-lived secret; rotating resets all uniqueness chains.
     NoEcho: true
+  PlaidClientId:
+    Type: String
+    Description: Plaid client_id (visible in the Plaid dashboard). Same value across sandbox/production.
+    NoEcho: true
+    Default: ""
+  PlaidSecret:
+    Type: String
+    Description: Plaid secret for the active environment (sandbox or production — switch via PlaidEnv).
+    NoEcho: true
+    Default: ""
+  PlaidEnv:
+    Type: String
+    Description: Which Plaid environment to talk to. Use "sandbox" until production keys are approved.
+    Default: sandbox
+    AllowedValues:
+      - sandbox
+      - production
+  PlaidEncryptionKey:
+    Type: String
+    Description: 64 hex chars (32 bytes) used by AES-256-GCM to encrypt Plaid access_tokens at the application layer. Generate once via `openssl rand -hex 32` and never rotate without re-encrypting all existing tokens.
+    NoEcho: true
+    Default: ""
+  PlaidWebhookUrl:
+    Type: String
+    Description: Public URL Plaid posts events to. Set after first deploy once the API Gateway URL is known (e.g. https://api.creditodds.com/plaid/webhook).
+    Default: ""
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
@@ -1190,6 +1216,176 @@ Resources:
             Method: OPTIONS
             RestApiId:
               Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  UserSettingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/user-settings.UserSettingsHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 10
+      Description: Returns per-user flags (plaid beta, future toggles)
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetUserSettings:
+          Type: Api
+          Properties:
+            Path: /user-settings
+            Method: GET
+            RestApiId: !Ref CreditCardOddsAPI
+        UserSettingsOptions:
+          Type: Api
+          Properties:
+            Path: /user-settings
+            Method: OPTIONS
+            RestApiId: !Ref CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  PlaidLinkTokenFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/plaid-link-token.PlaidLinkTokenHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 15
+      Description: Issues a short-lived Plaid Link token for the authenticated user
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          PLAID_CLIENT_ID: !Ref PlaidClientId
+          PLAID_SECRET: !Ref PlaidSecret
+          PLAID_ENV: !Ref PlaidEnv
+          PLAID_ENCRYPTION_KEY: !Ref PlaidEncryptionKey
+          PLAID_WEBHOOK_URL: !Ref PlaidWebhookUrl
+      Events:
+        PostPlaidLinkToken:
+          Type: Api
+          Properties:
+            Path: /plaid/link-token
+            Method: POST
+            RestApiId: !Ref CreditCardOddsAPI
+        PlaidLinkTokenOptions:
+          Type: Api
+          Properties:
+            Path: /plaid/link-token
+            Method: OPTIONS
+            RestApiId: !Ref CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  PlaidExchangeTokenFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/plaid-exchange-token.PlaidExchangeTokenHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 30
+      Description: Swaps a Plaid Link public_token for a long-lived access_token and persists the Item + accounts
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          PLAID_CLIENT_ID: !Ref PlaidClientId
+          PLAID_SECRET: !Ref PlaidSecret
+          PLAID_ENV: !Ref PlaidEnv
+          PLAID_ENCRYPTION_KEY: !Ref PlaidEncryptionKey
+      Events:
+        PostPlaidExchangeToken:
+          Type: Api
+          Properties:
+            Path: /plaid/exchange-token
+            Method: POST
+            RestApiId: !Ref CreditCardOddsAPI
+        PlaidExchangeTokenOptions:
+          Type: Api
+          Properties:
+            Path: /plaid/exchange-token
+            Method: OPTIONS
+            RestApiId: !Ref CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  PlaidItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/plaid-items.PlaidItemsHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 15
+      Description: Lists/deletes the connected Plaid items for the authenticated user
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetPlaidItems:
+          Type: Api
+          Properties:
+            Path: /plaid/items
+            Method: GET
+            RestApiId: !Ref CreditCardOddsAPI
+        DeletePlaidItem:
+          Type: Api
+          Properties:
+            Path: /plaid/items/{id}
+            Method: DELETE
+            RestApiId: !Ref CreditCardOddsAPI
+        PlaidItemsOptions:
+          Type: Api
+          Properties:
+            Path: /plaid/items
+            Method: OPTIONS
+            RestApiId: !Ref CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+        PlaidItemByIdOptions:
+          Type: Api
+          Properties:
+            Path: /plaid/items/{id}
+            Method: OPTIONS
+            RestApiId: !Ref CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  PlaidWebhookFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/plaid-webhook.PlaidWebhookHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 30
+      Description: Receives Plaid webhooks (transactions sync, item errors). Unauthenticated — Plaid signs requests via JWT verification (TODO).
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          PLAID_CLIENT_ID: !Ref PlaidClientId
+          PLAID_SECRET: !Ref PlaidSecret
+          PLAID_ENV: !Ref PlaidEnv
+      Events:
+        PostPlaidWebhook:
+          Type: Api
+          Properties:
+            Path: /plaid/webhook
+            Method: POST
+            RestApiId: !Ref CreditCardOddsAPI
             Auth:
               Authorizer: NONE
 
