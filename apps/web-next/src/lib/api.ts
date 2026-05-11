@@ -205,10 +205,25 @@ export async function getAllBanks(): Promise<string[]> {
   return Array.from(banks).sort();
 }
 
+// DB-only fields the local cards.json can't provide. When the dev fallback
+// finds a card locally, we still fetch from the API and overlay just these,
+// so /card/[slug] shows approval-odds and other DB-derived data in local dev.
+const DB_ONLY_CARD_FIELDS = [
+  'db_card_id',
+  'approved_count',
+  'rejected_count',
+  'total_records',
+  'approved_median_credit_score',
+  'approved_median_income',
+  'approved_median_length_credit',
+] as const satisfies readonly (keyof Card)[];
+
 export async function getCard(cardName: string): Promise<Card> {
   // Dev fallback: mirror getAllCards so YAML edits show on /card/[slug] without
   // waiting for build → S3 → CloudFront → DB-sync. The deployed handler accepts
   // either a slug or card_name; locally we match both against the same record.
+  // We still hit the API afterwards to merge in DB-only stats (approval odds,
+  // medians, numeric card_id) so the page isn't missing those sections.
   if (!isBrowser && process.env.NODE_ENV === 'development') {
     try {
       const fs = await import('fs/promises');
@@ -220,12 +235,33 @@ export async function getCard(cardName: string): Promise<Card> {
         (c) => c.slug === cardName || c.name === cardName,
       );
       if (match) {
-        return {
+        const local = {
           ...match,
           card_id: match.card_id ?? match.slug,
           card_name: match.card_name ?? match.name ?? '',
           card_image_link: match.card_image_link ?? match.image,
         } as Card;
+
+        try {
+          const res = await fetch(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
+            next: { revalidate: 300 },
+          });
+          if (res.ok) {
+            const apiCard = (await res.json()) as Partial<Card>;
+            const statsOverlay: Partial<Card> = {};
+            for (const k of DB_ONLY_CARD_FIELDS) {
+              if (apiCard[k] !== undefined) {
+                (statsOverlay as Record<string, unknown>)[k] = apiCard[k];
+              }
+            }
+            // The API may also override card_id with the numeric DB id.
+            if (typeof apiCard.card_id === 'number') statsOverlay.card_id = apiCard.card_id;
+            return { ...local, ...statsOverlay };
+          }
+        } catch {
+          // API unreachable in dev — fall back to local-only card.
+        }
+        return local;
       }
     } catch {
       // Fall through to network fetch when local file isn't built yet.
