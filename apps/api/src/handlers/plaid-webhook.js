@@ -1,16 +1,26 @@
 // POST /plaid/webhook — Plaid pushes events here when data is ready or an Item
 // needs attention. This endpoint is UNAUTHENTICATED (Plaid's servers hit it, not
 // the user) — protection comes from JWT verification of the X-Plaid-Verification
-// header. That verification is a TODO; for now we log everything and ack 200
-// so Plaid doesn't retry-storm us while the integration is being built out.
+// header. That verification is a TODO; for now we always ack 200 so Plaid doesn't
+// retry-storm us if a single sync fails (we'll catch up on the next webhook fire).
 //
-// Event types we'll care about (handled in later phases):
-//   - TRANSACTIONS.SYNC_UPDATES_AVAILABLE → call /transactions/sync, persist diff
-//   - ITEM.ERROR / ITEM.LOGIN_REQUIRED   → mark the Item as needing re-auth
-//   - ITEM.PENDING_EXPIRATION            → notify the user
-//   - TRANSACTIONS.RECURRING_TRANSACTIONS_UPDATE → ignore for v1
+// Handled events:
+//   - TRANSACTIONS.SYNC_UPDATES_AVAILABLE  → call /transactions/sync via lib/plaid-sync
+//   - TRANSACTIONS.INITIAL_UPDATE / HISTORICAL_UPDATE / DEFAULT_UPDATE → same
+//     (legacy events; the sync endpoint is idempotent so handling them too is fine)
+//   - ITEM.ERROR / LOGIN_REQUIRED          → mark Item as needing re-auth
+//   - ITEM.PENDING_EXPIRATION              → mark for renewal
+//   - ITEM.USER_PERMISSION_REVOKED         → mark as revoked
 
 const mysql = require('../db');
+const { syncByPlaidItemId } = require('../lib/plaid-sync');
+
+const TRANSACTIONS_SYNC_CODES = new Set([
+  'SYNC_UPDATES_AVAILABLE',
+  'INITIAL_UPDATE',
+  'HISTORICAL_UPDATE',
+  'DEFAULT_UPDATE',
+]);
 
 exports.PlaidWebhookHandler = async (event) => {
   let body;
@@ -36,10 +46,12 @@ exports.PlaidWebhookHandler = async (event) => {
           'UPDATE user_plaid_items SET status = ? WHERE plaid_item_id = ?',
           [status, plaidItemId]
         );
-        await mysql.end();
       }
+    } else if (webhookType === 'TRANSACTIONS' && TRANSACTIONS_SYNC_CODES.has(webhookCode) && plaidItemId) {
+      const result = await syncByPlaidItemId(plaidItemId);
+      console.info('plaid sync result:', { plaidItemId, ...result });
     }
-    // TRANSACTIONS.* handlers wired in Phase 2.
+    await mysql.end();
   } catch (error) {
     console.error('plaid webhook handler error (returning 200 so Plaid does not retry-storm):', error);
     try { await mysql.end(); } catch {}

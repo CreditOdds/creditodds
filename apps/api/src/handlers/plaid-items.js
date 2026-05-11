@@ -38,6 +38,7 @@ exports.PlaidItemsHandler = async (event) => {
 
       const itemIds = items.map((i) => i.id);
       let accountsByItem = new Map();
+      let txnCountByItem = new Map();
       if (itemIds.length > 0) {
         const accounts = await mysql.query(
           `SELECT id, plaid_item_row_id, plaid_account_id, user_card_id, account_name,
@@ -51,6 +52,21 @@ exports.PlaidItemsHandler = async (event) => {
           list.push(a);
           accountsByItem.set(a.plaid_item_row_id, list);
         }
+
+        // Per-item transaction count for the "X transactions" UI line.
+        // Excludes removed transactions so the count matches what /plaid/transactions returns.
+        const counts = await mysql.query(
+          `SELECT a.plaid_item_row_id AS item_id, COUNT(*) AS txn_count
+             FROM plaid_transactions t
+             JOIN user_plaid_accounts a ON a.id = t.plaid_account_row_id
+            WHERE a.plaid_item_row_id IN (?)
+              AND t.removed = FALSE
+            GROUP BY a.plaid_item_row_id`,
+          [itemIds]
+        );
+        for (const c of counts) {
+          txnCountByItem.set(c.item_id, Number(c.txn_count));
+        }
       }
 
       const enriched = items.map((i) => ({
@@ -60,6 +76,7 @@ exports.PlaidItemsHandler = async (event) => {
         institution_name: i.institution_name,
         status: i.status,
         last_synced_at: i.last_synced_at,
+        transaction_count: txnCountByItem.get(i.id) || 0,
         created_at: i.created_at,
         accounts: accountsByItem.get(i.id) || [],
       }));

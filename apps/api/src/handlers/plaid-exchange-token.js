@@ -7,6 +7,7 @@
 const mysql = require('../db');
 const { getPlaidClient, encryptToken } = require('../lib/plaid');
 const { isPlaidBetaEnabled } = require('../lib/plaid-gate');
+const { syncItemTransactions } = require('../lib/plaid-sync');
 
 const responseHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -101,6 +102,16 @@ exports.PlaidExchangeTokenHandler = async (event) => {
       );
     }
 
+    // Best-effort initial sync. Plaid may not have prepared transactions yet
+    // (typical lag is 30s–5min for new Items), in which case the sync returns
+    // empty and the SYNC_UPDATES_AVAILABLE webhook will fire when ready.
+    let initialSync = null;
+    try {
+      initialSync = await syncItemTransactions(plaidItemRowId);
+    } catch (syncErr) {
+      console.error('initial sync failed (non-fatal — webhook will retry):', syncErr.message);
+    }
+
     await mysql.end();
 
     return {
@@ -118,6 +129,7 @@ exports.PlaidExchangeTokenHandler = async (event) => {
           type: a.type,
           subtype: a.subtype,
         })),
+        initial_sync: initialSync,
       }),
     };
   } catch (error) {

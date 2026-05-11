@@ -1408,8 +1408,34 @@ export interface PlaidItem {
   institution_name: string | null;
   status: 'healthy' | 'login_required' | 'pending_expiration' | 'revoked' | 'error';
   last_synced_at: string | null;
+  transaction_count: number;
   created_at: string;
   accounts: PlaidAccount[];
+}
+
+export interface PlaidTransaction {
+  id: number;
+  plaid_transaction_id: string;
+  plaid_account_row_id: number;
+  amount: string | number;
+  iso_currency_code: string | null;
+  date: string;
+  datetime: string | null;
+  name: string | null;
+  merchant_name: string | null;
+  payment_channel: string | null;
+  pending: boolean | number;
+  pfc_primary: string | null;
+  pfc_detailed: string | null;
+  account_name: string | null;
+  mask: string | null;
+}
+
+export interface PlaidTransactionsResponse {
+  transactions: PlaidTransaction[];
+  total: number;
+  limit: number;
+  offset: number;
 }
 
 export async function getPlaidItems(token: string): Promise<PlaidItem[]> {
@@ -1476,4 +1502,44 @@ export async function deletePlaidItem(itemRowId: number, token: string): Promise
   if (!res.ok) {
     throw new Error(`Failed to delete Plaid item: ${res.status}`);
   }
+}
+
+export interface PlaidSyncResult {
+  ok: boolean;
+  upserted?: number;
+  removed?: number;
+  skipped?: number;
+  cursor_updated?: boolean;
+  reason?: string;
+}
+
+export async function syncPlaidItem(itemRowId: number, token: string): Promise<PlaidSyncResult> {
+  const res = await fetch(`${API_BASE}/plaid/items/${itemRowId}/sync`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Sync failed: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function getPlaidTransactions(
+  token: string,
+  opts: { limit?: number; offset?: number; accountId?: number } = {}
+): Promise<PlaidTransactionsResponse> {
+  const params = new URLSearchParams();
+  if (opts.limit) params.set('limit', String(opts.limit));
+  if (opts.offset) params.set('offset', String(opts.offset));
+  if (opts.accountId) params.set('account_id', String(opts.accountId));
+  const qs = params.toString();
+  const res = await fetch(`${API_BASE}/plaid/transactions${qs ? `?${qs}` : ''}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch Plaid transactions: ${res.status}`);
+  }
+  return res.json();
 }
