@@ -176,6 +176,30 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
+  CardRecordsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/card-records.CardRecordsHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 30
+      Description: Returns raw approval-records for a card (PII columns stripped) — backs the card-page "Raw data" table view.
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetCardRecords:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /card-records
+            Method: GET
+            RestApiId: !Ref CreditCardOddsAPI
+
   UserRecordsFunction:
     Type: AWS::Serverless::Function
     Properties:

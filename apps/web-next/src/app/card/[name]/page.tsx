@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Card, CardBenefit, getCard, getCardGraphs, getAllCards, getCardRatings, getCardWire, getComparePartners, GraphData, CardWireEntry } from "@/lib/api";
+import { Card, CardBenefit, getCard, getCardGraphs, getCardRecords, getAllCards, getCardRatings, getCardWire, getComparePartners, GraphData, CardRecord, CardWireEntry } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import { categoryLabels, pickHeadlineReward } from "@/lib/cardDisplayUtils";
@@ -164,13 +164,14 @@ export default async function CardPage({ params }: CardPageProps) {
   try {
     // Fetch all data in parallel — chain getCard → getCardRatings together
     // so ratings fetches concurrently with graphs/news/articles instead of after them all
-    const [cardWithRatingsAndWire, graphData, allNews, allArticles, allCards, comparePartners] = await Promise.all([
+    const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners] = await Promise.all([
       getCard(slug).then(async (card) => ({
         card,
         ratings: await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null })),
         wire: await getCardWire(Number(card.card_id)).catch(() => [] as CardWireEntry[]),
       })),
       getCardGraphs(slug).catch(() => [] as GraphData[]),
+      getCardRecords(slug).catch(() => [] as CardRecord[]),
       getNews().catch(() => [] as NewsItem[]),
       getArticles().catch(() => [] as Article[]),
       getAllCards().catch(() => [] as Card[]),
@@ -221,7 +222,7 @@ export default async function CardPage({ params }: CardPageProps) {
       .filter((c): c is Card => c !== undefined && c.active !== false)
       .slice(0, 3);
 
-    return <CardClient card={card} graphData={graphData} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} />;
+    return <CardClient card={card} graphData={graphData} records={records} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} />;
   } catch {
     notFound();
   }

@@ -246,6 +246,33 @@ export async function getCardGraphs(cardName: string): Promise<GraphData[]> {
   return res.json();
 }
 
+// Raw record row exposed publicly (PII columns submitter_id / submitter_ip
+// are stripped server-side). Used by the card-page "Raw data" table view.
+export interface CardRecord {
+  record_id: number;
+  credit_score: number | null;
+  credit_score_source: number | null;
+  result: 0 | 1;
+  listed_income: number | null;
+  length_credit: number | null;
+  starting_credit_limit: number | null;
+  reason_denied: string | null;
+  bank_customer: 0 | 1 | null;
+  inquiries_3: number | null;
+  inquiries_12: number | null;
+  inquiries_24: number | null;
+  submit_datetime: string;
+  date_applied: string | null;
+}
+
+export async function getCardRecords(cardName: string): Promise<CardRecord[]> {
+  const res = await fetch(`${API_BASE}/card-records?card_name=${encodeURIComponent(cardName)}`, {
+    next: { revalidate: 300 },
+  });
+  if (!res.ok) throw new Error('Failed to fetch card records');
+  return res.json();
+}
+
 // Client-side authenticated API calls
 export async function getRecords(token: string) {
   const res = await fetch(`${API_BASE}/records`, {
