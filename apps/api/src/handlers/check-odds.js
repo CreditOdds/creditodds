@@ -94,7 +94,7 @@ async function fetchApprovedMedians() {
           ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY listed_income) AS rn,
           COUNT(*) OVER (PARTITION BY card_id) AS cnt
         FROM records
-        WHERE admin_review = 1 AND active = 1 AND result = 1
+        WHERE admin_review = 1 AND active = 1 AND result = 1 AND listed_income IS NOT NULL
       )
       SELECT card_id,
         AVG(listed_income) AS median_income

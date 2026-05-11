@@ -26,17 +26,34 @@ export interface EditRecord {
   record_id: number;
   credit_score: number;
   credit_score_source?: number | string;
-  listed_income: number;
+  listed_income: number | null;
   date_applied: string;
   length_credit?: number | null;
   bank_customer?: boolean | number;
   result: boolean | number;
   starting_credit_limit?: number | null;
   reason_denied?: string | null;
+  reason_denied_code?: string | null;
+  total_open_cards?: number | null;
   inquiries_3?: number | null;
   inquiries_12?: number | null;
   inquiries_24?: number | null;
 }
+
+// Keep in sync with REASON_DENIED_CODES in apps/api/src/handlers/user-records.js
+const REASON_DENIED_OPTIONS: ReadonlyArray<{ code: string; label: string }> = [
+  { code: "not_specified", label: "Issuer didn't say" },
+  { code: "too_many_inquiries", label: "Too many recent inquiries" },
+  { code: "too_many_recent_accounts", label: "Too many recently opened accounts" },
+  { code: "length_of_credit_too_short", label: "Credit history too short" },
+  { code: "credit_score_too_low", label: "Credit score too low" },
+  { code: "high_utilization", label: "High utilization / too much revolving debt" },
+  { code: "too_much_credit_with_issuer", label: "Too much credit already with this issuer" },
+  { code: "income_too_low", label: "Income too low" },
+  { code: "recent_delinquency", label: "Recent delinquency or late payment" },
+  { code: "bankruptcy_or_public_record", label: "Bankruptcy or public record" },
+  { code: "other", label: "Other" },
+];
 
 interface SubmitRecordModalProps {
   show: boolean;
@@ -73,6 +90,10 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
   const [hasExistingRecord, setHasExistingRecord] = useState(false);
   const [checkingRecords, setCheckingRecords] = useState(!isEditMode);
   const [lastRecord, setLastRecord] = useState<{ credit_score?: number; listed_income?: number; length_credit?: number } | null>(null);
+  // Count of cards in the user's wallet — surfaced below the "Total open cards" input
+  // as a clickable suggestion. Authenticated, opt-in data, so it's an approximation
+  // (closed cards may still be in wallet; not all open cards may be added).
+  const [walletCount, setWalletCount] = useState<number | null>(null);
 
   // Get storage key for this card (#7)
   const storageKey = `${FORM_STORAGE_KEY}${card.card_id}`;
@@ -108,7 +129,8 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
     }
   }, [storageKey]);
 
-  // Check if user has already submitted a record for this card
+  // Check if user has already submitted a record for this card, and grab
+  // their wallet count for the "Total open cards" suggestion.
   useEffect(() => {
     const checkExistingRecords = async () => {
       if (!show || isEditMode) return;
@@ -120,7 +142,12 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
           setCheckingRecords(false);
           return;
         }
-        const records = await getRecords(token);
+        const [records, wallet] = await Promise.all([
+          getRecords(token),
+          getWallet(token).catch(() => []),
+        ]);
+
+        setWalletCount(Array.isArray(wallet) ? wallet.length : 0);
 
         // Check if user has already submitted for this card
         const existingRecord = records.find((r: { card_name: string }) =>
@@ -157,13 +184,18 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
     ? {
         credit_score: editRecord.credit_score,
         credit_score_source: String(editRecord.credit_score_source ?? "0"),
-        listed_income: editRecord.listed_income,
+        listed_income: editRecord.listed_income ?? ('' as number | ''),
         date_applied: toMonthInput(editRecord.date_applied),
         length_credit: editRecord.length_credit ?? ('' as number | ''),
         bank_customer: !!editRecord.bank_customer,
         result: !!editRecord.result,
         starting_credit_limit: editRecord.starting_credit_limit ?? undefined,
         reason_denied: editRecord.reason_denied ?? "",
+        reason_denied_code: editRecord.reason_denied_code ?? "",
+        total_open_cards: editRecord.total_open_cards ?? ('' as number | ''),
+        inquiries_3: editRecord.inquiries_3 ?? ('' as number | ''),
+        inquiries_12: editRecord.inquiries_12 ?? ('' as number | ''),
+        inquiries_24: editRecord.inquiries_24 ?? ('' as number | ''),
       }
     : {
         credit_score: lastRecord?.credit_score ?? ('' as number | ''),
@@ -175,6 +207,11 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         result: true,
         starting_credit_limit: undefined as number | undefined,
         reason_denied: "",
+        reason_denied_code: "",
+        total_open_cards: '' as number | '',
+        inquiries_3: '' as number | '',
+        inquiries_12: '' as number | '',
+        inquiries_24: '' as number | '',
       };
 
   const formik = useFormik({
@@ -187,10 +224,10 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         .max(850, "Credit Score cannot be more than 850")
         .required("Required"),
       listed_income: Yup.number()
-        .integer("Listed Income must be a whole number")
-        .min(0, "Listed Income must be a positive number")
-        .max(1000000, "Listed Income cannot be higher than $1 MIL")
-        .required("Required"),
+        .integer("Income must be a whole number")
+        .min(0, "Income must be a positive number")
+        .max(1000000, "Income cannot be higher than $1 MIL")
+        .nullable(),
       starting_credit_limit: Yup.number()
         .integer("Starting credit limit must be a whole number")
         .min(0, "Starting credit limit must be a positive number")
@@ -199,6 +236,22 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         .integer("Length of credit must be a whole number")
         .min(0, "Length of credit must be a positive number")
         .max(50, "Length of credit cannot be greater than 50 years"),
+      total_open_cards: Yup.number()
+        .integer("Total open cards must be a whole number")
+        .min(0, "Total open cards must be 0 or greater")
+        .max(500, "Total open cards cannot exceed 500"),
+      inquiries_3: Yup.number()
+        .integer("Inquiries must be a whole number")
+        .min(0, "Inquiries must be 0 or greater")
+        .max(50, "Inquiries cannot exceed 50"),
+      inquiries_12: Yup.number()
+        .integer("Inquiries must be a whole number")
+        .min(0, "Inquiries must be 0 or greater")
+        .max(50, "Inquiries cannot exceed 50"),
+      inquiries_24: Yup.number()
+        .integer("Inquiries must be a whole number")
+        .min(0, "Inquiries must be 0 or greater")
+        .max(50, "Inquiries cannot exceed 50"),
       date_applied: Yup.string()
         .required("Required")
         .test('not-future', 'Application date cannot be in the future', (value) => {
@@ -215,8 +268,15 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
           throw new Error('Not authenticated');
         }
 
+        // Normalize empty strings to null so the API's yup .oneOf() / number coercion
+        // doesn't reject blank optional fields.
+        const payload = {
+          ...values,
+          reason_denied_code: values.reason_denied_code === "" ? null : values.reason_denied_code,
+        };
+
         if (isEditMode && editRecord) {
-          await updateRecord(editRecord.record_id, values, token);
+          await updateRecord(editRecord.record_id, payload, token);
           toast.success("Your record was updated.", { position: "top-right", autoClose: 4000 });
           onSuccess?.();
           handleClose();
@@ -230,7 +290,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            ...values,
+            ...payload,
             card_id: card.card_id,
           }),
         });
@@ -417,7 +477,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
                           {/* Income */}
                           <div>
                             <label htmlFor="listed_income" className="block text-sm font-medium text-gray-700">
-                              Income
+                              Income <span className="text-gray-400 font-normal">(optional)</span>
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -499,6 +559,105 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
                             )}
                           </div>
 
+                          {/* Total Open Cards */}
+                          <div>
+                            <label htmlFor="total_open_cards" className="block text-sm font-medium text-gray-700">
+                              Total open cards <span className="text-gray-400 font-normal">(optional)</span>
+                            </label>
+                            <div className="mt-1 relative rounded-md shadow-sm">
+                              <input
+                                id="total_open_cards"
+                                name="total_open_cards"
+                                type="number"
+                                min={0}
+                                max={500}
+                                placeholder="Across all issuers"
+                                className={
+                                  formik.errors.total_open_cards && formik.touched.total_open_cards
+                                    ? "block w-full pr-10 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
+                                    : "block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                }
+                                autoComplete="off"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.total_open_cards}
+                              />
+                            </div>
+                            {formik.errors.total_open_cards && formik.touched.total_open_cards ? (
+                              <p className="mt-2 text-sm text-red-600">{String(formik.errors.total_open_cards)}</p>
+                            ) : walletCount && walletCount > 0 ? (
+                              <button
+                                type="button"
+                                onClick={() => formik.setFieldValue("total_open_cards", walletCount)}
+                                className="mt-2 text-sm text-indigo-600 hover:text-indigo-700 hover:underline"
+                              >
+                                You have {walletCount} {walletCount === 1 ? 'card' : 'cards'} in your wallet. Use this?
+                              </button>
+                            ) : null}
+                          </div>
+
+                          {/* Hard Inquiries */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                              Hard inquiries <span className="text-gray-400 font-normal">(optional)</span>
+                            </label>
+                            <div className="mt-1 grid grid-cols-3 gap-2">
+                              <div>
+                                <input
+                                  id="inquiries_3"
+                                  name="inquiries_3"
+                                  type="number"
+                                  min={0}
+                                  max={50}
+                                  placeholder="6 mo"
+                                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                  autoComplete="off"
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  value={formik.values.inquiries_3}
+                                />
+                                <p className="mt-1 text-xs text-gray-500 text-center">6 mo</p>
+                              </div>
+                              <div>
+                                <input
+                                  id="inquiries_12"
+                                  name="inquiries_12"
+                                  type="number"
+                                  min={0}
+                                  max={50}
+                                  placeholder="12 mo"
+                                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                  autoComplete="off"
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  value={formik.values.inquiries_12}
+                                />
+                                <p className="mt-1 text-xs text-gray-500 text-center">12 mo</p>
+                              </div>
+                              <div>
+                                <input
+                                  id="inquiries_24"
+                                  name="inquiries_24"
+                                  type="number"
+                                  min={0}
+                                  max={50}
+                                  placeholder="24 mo"
+                                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                  autoComplete="off"
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  value={formik.values.inquiries_24}
+                                />
+                                <p className="mt-1 text-xs text-gray-500 text-center">24 mo</p>
+                              </div>
+                            </div>
+                            {(formik.errors.inquiries_3 || formik.errors.inquiries_12 || formik.errors.inquiries_24) && (
+                              <p className="mt-2 text-sm text-red-600">
+                                {String(formik.errors.inquiries_3 || formik.errors.inquiries_12 || formik.errors.inquiries_24)}
+                              </p>
+                            )}
+                          </div>
+
                           {/* Bank Customer Toggle */}
                           <div className="flex items-center justify-between">
                             <label className="block text-sm font-medium text-gray-700 pr-4">
@@ -572,6 +731,31 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
                                   <span className="text-gray-500 sm:text-sm">USD</span>
                                 </div>
                               </div>
+                            </div>
+                          )}
+
+                          {/* Denial Reason (if denied) */}
+                          {!formik.values.result && (
+                            <div>
+                              <label htmlFor="reason_denied_code" className="block text-sm font-medium text-gray-700">
+                                Reason for denial <span className="text-gray-400 font-normal">(optional)</span>
+                              </label>
+                              <div className="mt-1">
+                                <select
+                                  id="reason_denied_code"
+                                  name="reason_denied_code"
+                                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  value={formik.values.reason_denied_code}
+                                >
+                                  <option value="">Select a reason…</option>
+                                  {REASON_DENIED_OPTIONS.map(opt => (
+                                    <option key={opt.code} value={opt.code}>{opt.label}</option>
+                                  ))}
+                                </select>
+                              </div>
+                              <p className="mt-2 text-xs text-gray-500">If the issuer gave a specific reason, pick the closest match.</p>
                             </div>
                           )}
 
