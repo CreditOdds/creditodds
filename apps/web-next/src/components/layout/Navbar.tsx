@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, WalletIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/auth/AuthProvider";
+import UserAvatar from "@/components/user/UserAvatar";
 
 type NavItem = {
   href: string;
@@ -158,14 +159,12 @@ export default function Navbar() {
                     <Menu as="div" className="relative z-10">
                       {({ open: menuOpen }) => (
                         <>
-                          <Menu.Button className="inline-flex h-9 w-9 items-center justify-center rounded-[3px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
+                          <Menu.Button className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-[3px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
-                            <Image
-                              className="h-8 w-8 rounded-[2px]"
-                              src="https://d3ay3etzd1512y.cloudfront.net/other/profile_pic.svg"
-                              alt="Account menu"
-                              width={32}
-                              height={32}
+                            <UserAvatar
+                              seed={authState.user?.uid ?? authState.user?.email}
+                              size={32}
+                              title="Account menu"
                             />
                           </Menu.Button>
                           <Transition
