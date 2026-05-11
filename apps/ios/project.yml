@@ -9,7 +9,11 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.10"
-    DEVELOPMENT_TEAM: ""
+    # GDZZ7A27FL = Max Melcher personal team. Pinning so `xcodegen`
+    # regeneration doesn't wipe the Signing & Capabilities team field
+    # — that was the source of the Firebase Auth keychain failures on
+    # the simulator when rebuilding from a fresh clone.
+    DEVELOPMENT_TEAM: GDZZ7A27FL
     CODE_SIGN_STYLE: Automatic
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
