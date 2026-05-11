@@ -7,7 +7,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, getUserSettings, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, getUserSettings, getPlaidSpendSummary, WalletCard, Card, PlaidSpendSummary } from "@/lib/api";
+import { capStateForWalletCard, worstCapState } from "@/lib/walletCaps";
 import "../landing.css";
 import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -139,6 +140,7 @@ export default function ProfileClient() {
   const [editingRecord, setEditingRecord] = useState<RecordItem | null>(null);
   const [pickingCategoriesFor, setPickingCategoriesFor] = useState<WalletCard | null>(null);
   const [plaidBetaEnabled, setPlaidBetaEnabled] = useState(false);
+  const [plaidSummaries, setPlaidSummaries] = useState<PlaidSpendSummary[]>([]);
   const cardLookups = useMemo(() => createCardLookups(allCards), [allCards]);
 
   // Cards whose YAML defines a `user_choice` or `auto_top_spend` reward block —
@@ -349,6 +351,14 @@ export default function ProfileClient() {
       try {
         const s = await getUserSettings(token);
         setPlaidBetaEnabled(Boolean(s.plaid_beta_enabled));
+        if (s.plaid_beta_enabled) {
+          // Only fetch spend summary for beta users — saves a request for everyone else.
+          // Failures are silent so the wallet still renders if the endpoint is down.
+          try {
+            const summary = await getPlaidSpendSummary(token);
+            setPlaidSummaries(summary.summaries || []);
+          } catch (e) { console.error("Plaid spend summary error:", e); }
+        }
       } catch (e) { console.error("User settings error:", e); }
     };
 
@@ -602,6 +612,7 @@ export default function ProfileClient() {
                   <BestCardHere
                     walletCards={walletCards}
                     allCards={allCards}
+                    plaidSummaries={plaidSummaries}
                     onWalletRefresh={async () => {
                       const token = await getToken();
                       if (!token) return;
@@ -1008,6 +1019,12 @@ function CardsTab(props: CardsTabProps) {
           // No-fee cards don't renew — leave the cell blank (not even a dash)
           // so the column reads as "renewals only when there is one."
           const showRenewal = renewal && fee > 0;
+          // Plaid-derived cap progress for this wallet row. Only the worst
+          // (highest-percent) cap surfaces in the collapsed row; all of them
+          // render in the expanded detail panel.
+          const capStates = capStateForWalletCard(c, card, plaidSummaries);
+          const worstCap = worstCapState(capStates);
+          const showCapBadge = worstCap && worstCap.status !== 'ok';
           const renewalDisplay = showRenewal ? renewal.display : '';
           const acquiredLabel = (() => {
             if (!c.acquired_month && !c.acquired_year) return null;
@@ -1076,6 +1093,24 @@ function CardsTab(props: CardsTabProps) {
                         <LinkIcon style={{ width: 11, height: 11 }} />
                       </span>
                     )}
+                    {showCapBadge && worstCap && (
+                      <span
+                        className="cj-cw-mark"
+                        title={`${Math.round(worstCap.percent)}% of ${worstCap.category} cap used this cycle`}
+                        aria-label={`${Math.round(worstCap.percent)}% of ${worstCap.category} cap used`}
+                        style={{
+                          background: worstCap.status === 'red' ? '#fee2e2' : '#fef3c7',
+                          color: worstCap.status === 'red' ? '#b91c1c' : '#92400e',
+                          padding: '1px 6px',
+                          borderRadius: 999,
+                          fontSize: 10,
+                          fontWeight: 700,
+                          letterSpacing: 0.3,
+                        }}
+                      >
+                        {Math.round(worstCap.percent)}%
+                      </span>
+                    )}
                   </span>
                 </div>
                 <div className="cj-cw-renew">{renewalDisplay}</div>
@@ -1133,6 +1168,59 @@ function CardsTab(props: CardsTabProps) {
                       </div>
                     )}
                   </div>
+                  {capStates.length > 0 && (
+                    <div
+                      style={{
+                        marginTop: 12,
+                        padding: '12px 14px',
+                        background: '#f9fafb',
+                        borderRadius: 6,
+                        fontSize: 12,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          color: 'var(--muted, #6b7280)',
+                          textTransform: 'uppercase',
+                          letterSpacing: 0.4,
+                          marginBottom: 8,
+                          fontSize: 11,
+                        }}
+                      >
+                        This cycle's caps
+                      </div>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                        {capStates
+                          .sort((a, b) => b.percent - a.percent)
+                          .map((s) => (
+                            <li key={s.category} style={{ marginBottom: 8 }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+                                <span>
+                                  <span style={{ fontWeight: 500, textTransform: 'capitalize' }}>{s.category.replace(/_/g, ' ')}</span>
+                                  <span style={{ marginLeft: 8, fontSize: 11, color: '#4338ca' }}>
+                                    {s.rate}{s.unit === 'cash_back' ? '%' : 'x'} · cap ${s.cap.toLocaleString()}/{s.capPeriod}
+                                  </span>
+                                </span>
+                                <span style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+                                  ${s.spend.toFixed(2)} <span style={{ color: 'var(--muted, #6b7280)', fontWeight: 400 }}>({Math.round(s.percent)}%)</span>
+                                </span>
+                              </div>
+                              <div style={{ height: 4, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden' }}>
+                                <div
+                                  style={{
+                                    width: `${s.percent}%`,
+                                    height: '100%',
+                                    background: s.status === 'red' ? '#dc2626' : s.status === 'amber' ? '#d97706' : '#059669',
+                                    transition: 'width 200ms',
+                                  }}
+                                />
+                              </div>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )}
                   <div className="cj-wd-actions">
                     {slug && <Link href={`/card/${slug}`}>view card page →</Link>}
                     <button type="button" onClick={() => onEdit(c)}>edit</button>

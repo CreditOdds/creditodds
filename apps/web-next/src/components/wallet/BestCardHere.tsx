@@ -9,9 +9,11 @@ import {
   WalletPickPlace,
   WalletPickPlaceMatch,
   WalletPickUnconfiguredCard,
+  PlaidSpendSummary,
   getNearbyWalletPicks,
 } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
+import { isCapped } from '@/lib/walletCaps';
 import ReportMerchantModal from '@/components/wallet/ReportMerchantModal';
 import SelectCategoriesModal from '@/components/wallet/SelectCategoriesModal';
 
@@ -23,6 +25,7 @@ interface Merchant {
   id: string;
   name: string;
   label: string;
+  categoryId: string;  // CreditOdds reward-category id used to drive cap-aware demotion
   dist: string;
   addr: string;
   picks: { best: WalletPickPlace; next?: WalletPickPlace };
@@ -93,6 +96,7 @@ function backendMerchantsToRows(
         id: m.place.id,
         name: m.place.name,
         label: m.match.label,
+        categoryId: m.match.categoryId,
         dist,
         addr: m.place.address?.split(',')[0] ?? '',
         picks: m.match.next
@@ -240,6 +244,12 @@ interface BestCardHereProps {
   walletCards: WalletCard[];
   allCards: Card[];
   /**
+   * Plaid-derived spend rollups, one per mapped wallet card. Used to demote
+   * a recommended card when it has hit its category cap this cycle.
+   * Empty array (or nullish) → cap-aware demotion is skipped entirely.
+   */
+  plaidSummaries?: PlaidSpendSummary[];
+  /**
    * Called after the user saves category picks for a held card so the
    * parent (ProfileClient) can re-fetch /wallet and pass fresh
    * `walletCards` back in. Without this the BCH list keeps stale
@@ -248,7 +258,7 @@ interface BestCardHereProps {
   onWalletRefresh?: () => Promise<void> | void;
 }
 
-export default function BestCardHere({ walletCards, allCards, onWalletRefresh }: BestCardHereProps) {
+export default function BestCardHere({ walletCards, allCards, plaidSummaries = [], onWalletRefresh }: BestCardHereProps) {
   const { getToken } = useAuth();
   // Hydrate from sessionStorage on first render so the user's last
   // lookup survives tab switches inside Profile and full reloads
@@ -529,8 +539,28 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
             </div>
             {merchantRows.map((m, i) => {
               const isOpen = openIdx === i;
-              const best = m.picks.best;
-              const next = m.picks.next;
+              const originalBest = m.picks.best;
+              const originalNext = m.picks.next;
+
+              // Cap-aware swap: if every wallet row of the recommended card has
+              // hit its cap on this merchant's category, demote it and surface
+              // the runner-up. Conservative — only demote when we have data;
+              // unmapped or uncapped cards stay where they are.
+              const matchingWalletRows = walletCards.filter((w) => {
+                const cat = allCards.find((ac) => ac.card_name === w.card_name);
+                return cat?.card_id === originalBest.card.card_id;
+              });
+              const allMatchingMappedAndCapped =
+                plaidSummaries.length > 0 &&
+                matchingWalletRows.length > 0 &&
+                matchingWalletRows.every((w) => {
+                  const mapped = plaidSummaries.some((s) => s.user_card_id === w.id);
+                  if (!mapped) return false; // can't tell — assume not capped
+                  return isCapped(w.id, originalBest.card, m.categoryId, plaidSummaries);
+                });
+              const swapDueToCap = allMatchingMappedAndCapped && Boolean(originalNext);
+              const best = swapDueToCap && originalNext ? originalNext : originalBest;
+              const next = swapDueToCap ? originalBest : originalNext;
 
               return (
                 <Fragment key={`${m.id}-${i}`}>
@@ -552,7 +582,28 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
                     <div className="cj-bch-card cj-bch-best">
                       <PickThumb card={best.card} />
                       <div className="cj-bch-card-text">
-                        <div className="cj-cell-primary">{best.card.card_name}</div>
+                        <div className="cj-cell-primary">
+                          {best.card.card_name}
+                          {swapDueToCap && (
+                            <span
+                              title={`${originalBest.card.card_name} hit its ${m.label} cap this cycle — runner-up promoted`}
+                              style={{
+                                marginLeft: 6,
+                                fontSize: 9.5,
+                                fontWeight: 700,
+                                letterSpacing: 0.4,
+                                padding: '1px 5px',
+                                borderRadius: 3,
+                                background: '#fef3c7',
+                                color: '#92400e',
+                                textTransform: 'uppercase',
+                                verticalAlign: 'middle',
+                              }}
+                            >
+                              swapped
+                            </span>
+                          )}
+                        </div>
                         <div className="cj-cell-detail">{pickDetailLine(best)}</div>
                       </div>
                     </div>
@@ -575,6 +626,21 @@ export default function BestCardHere({ walletCards, allCards, onWalletRefresh }:
                   </button>
                   {isOpen && (
                     <div className="cj-bch-detail">
+                      {swapDueToCap && (
+                        <div
+                          style={{
+                            marginBottom: 10,
+                            padding: '8px 10px',
+                            background: '#fef3c7',
+                            border: '1px solid #fde68a',
+                            borderRadius: 4,
+                            fontSize: 12,
+                            color: '#78350f',
+                          }}
+                        >
+                          <b>{originalBest.card.card_name}</b> hit its {m.label} cap this cycle — runner-up promoted to best.
+                        </div>
+                      )}
                       <div className="cj-bch-detail-grid">
                         <PickDetail label="Best" pick={best} />
                         {next && <PickDetail label="Runner-up" pick={next} />}
