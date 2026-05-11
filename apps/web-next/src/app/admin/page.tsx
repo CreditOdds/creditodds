@@ -259,10 +259,18 @@ export default function AdminPage() {
 
   if (authState.isLoading || loading) {
     return (
-      <div className="landing-v2 admin-v2" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ color: 'var(--muted)', fontFamily: "'Inter', sans-serif", fontSize: 13 }}>
-          Loading admin dashboard…
+      <div className="landing-v2 admin-v2">
+        <div className="av-terminal">
+          <nav className="av-crumbs" aria-label="Breadcrumb">
+            <span className="av-crumb-current">Admin</span>
+          </nav>
+          <span className="av-spacer" />
+          <span className="av-term-status">
+            <span className="av-status-dot" />
+            loading…
+          </span>
         </div>
+        <div className="av-loading">Loading admin dashboard…</div>
       </div>
     );
   }
@@ -281,158 +289,164 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="landing-v2 admin-v2">
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="mt-2 text-gray-600">Manage records, referrals, and view activity</p>
-        </div>
+    <div className="landing-v2 admin-v2" data-tab={activeTab}>
+      <div className="av-terminal">
+        <nav className="av-crumbs" aria-label="Breadcrumb">
+          <span className="av-crumb-current">Admin</span>
+          <span className="av-crumb-sep">/</span>
+          <span>{tabs.find(t => t.id === activeTab)?.name.toLowerCase()}</span>
+        </nav>
+        <span className="av-spacer" />
+        <span className="av-term-status">
+          <span className="av-status-dot" />
+          authenticated{authState.user?.email ? ` · ${authState.user.email}` : ''}
+        </span>
+      </div>
 
-        {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-700">{error}</p>
-            <button onClick={loadData} className="mt-2 text-sm text-red-600 hover:text-red-800 underline">
-              Retry
-            </button>
+      <main className="av-main">
+        <div className="av-wrap">
+          <div className="av-snapshot">
+            <div className="av-snapshot-row">
+              <h1 className="av-snapshot-h1">
+                Admin <em>console.</em>
+              </h1>
+              <div className="av-snapshot-meta">
+                records · referrals · users · activity
+              </div>
+            </div>
           </div>
-        )}
 
-        {/* Tabs */}
-        <div className="border-b border-gray-200 mb-6">
-          <nav className="-mb-px flex space-x-8">
+          {error && (
+            <div className="av-banner av-banner-err" role="alert">
+              <span>{error}</span>
+              <button onClick={loadData}>retry</button>
+            </div>
+          )}
+
+          <div className="av-tabs" role="tablist">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={activeTab === tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`
-                  flex items-center py-4 px-1 border-b-2 font-medium text-sm
-                  ${activeTab === tab.id
-                    ? 'border-indigo-500 text-indigo-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }
-                `}
+                className={'av-tab' + (activeTab === tab.id ? ' active' : '')}
               >
-                <tab.icon className="h-5 w-5 mr-2" />
+                <tab.icon className="av-tab-icon" />
                 {tab.name}
                 {tab.count !== undefined && (
-                  <span className="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs">
-                    {tab.count}
-                  </span>
+                  <span className="av-tab-count">· {tab.count.toLocaleString()}</span>
                 )}
                 {tab.badge !== undefined && tab.badge > 0 && (
-                  <span className="ml-2 bg-yellow-100 text-yellow-800 py-0.5 px-2.5 rounded-full text-xs">
-                    {tab.badge} pending
-                  </span>
+                  <span className="av-tab-badge">{tab.badge} pending</span>
                 )}
               </button>
             ))}
-          </nav>
-        </div>
+          </div>
 
-        {/* Tab Content */}
-        {activeTab === 'stats' && stats && (
-          <div className="space-y-8">
-            <StatsTab
-              stats={stats}
-              graphData={graphData}
-              graphDays={graphDays}
-              onGraphDaysChange={handleGraphDaysChange}
-            />
-            <ApplyClicksTab />
-          </div>
-        )}
-        {activeTab === 'records' && (
-          <div className="space-y-4">
-            <div className="flex justify-end">
-              <button
-                onClick={() => setShowSubmitPanel((v) => !v)}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-indigo-200 text-indigo-700 bg-white hover:bg-indigo-50"
-              >
-                <PlusCircleIcon className="h-5 w-5" />
-                {showSubmitPanel ? 'Hide submit form' : 'Submit Record'}
-              </button>
-            </div>
-            {showSubmitPanel && (
-              <SubmitRecordTab
-                getToken={getToken}
-                onSuccess={() => {
-                  setShowSubmitPanel(false);
-                  loadData();
-                }}
+          {activeTab === 'stats' && stats && (
+            <>
+              <StatsTab
+                stats={stats}
+                graphData={graphData}
+                graphDays={graphDays}
+                onGraphDaysChange={handleGraphDaysChange}
               />
-            )}
-            <RecordsTab
-              records={records}
-              total={recordsTotal}
+              <ApplyClicksTab />
+            </>
+          )}
+          {activeTab === 'records' && (
+            <section className="av-section">
+              <div className="av-section-head">
+                <div>
+                  <h2 className="av-section-h">
+                    <DocumentTextIcon className="av-section-h-icon" />
+                    All records
+                  </h2>
+                  <p className="av-section-sub">{recordsTotal.toLocaleString()} total · click submit to add on behalf of a user</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowSubmitPanel((v) => !v)}
+                  className="av-btn av-btn-outline"
+                >
+                  <PlusCircleIcon className="av-btn-icon" />
+                  {showSubmitPanel ? 'Hide submit form' : 'Submit Record'}
+                </button>
+              </div>
+              {showSubmitPanel && (
+                <SubmitRecordTab
+                  getToken={getToken}
+                  onSuccess={() => {
+                    setShowSubmitPanel(false);
+                    loadData();
+                  }}
+                />
+              )}
+              <RecordsTab
+                records={records}
+                processingId={processingId}
+                onDelete={handleDeleteRecord}
+              />
+            </section>
+          )}
+          {activeTab === 'referrals' && (
+            <ReferralsTab
+              referrals={referrals}
+              total={referralsTotal}
               processingId={processingId}
-              onDelete={handleDeleteRecord}
+              onApprove={handleApproveReferral}
+              onDelete={handleDeleteReferral}
+              onEdit={handleEditReferral}
             />
-          </div>
-        )}
-        {activeTab === 'referrals' && (
-          <ReferralsTab
-            referrals={referrals}
-            total={referralsTotal}
-            processingId={processingId}
-            onApprove={handleApproveReferral}
-            onDelete={handleDeleteReferral}
-            onEdit={handleEditReferral}
-          />
-        )}
-        {activeTab === 'activity' && (
-          <div className="space-y-4">
-            <div className="inline-flex rounded-md shadow-sm border border-gray-200 bg-white p-1">
-              <button
-                onClick={() => setActivitySection('searches')}
-                className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded ${
-                  activitySection === 'searches'
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <MagnifyingGlassIcon className="h-4 w-4" />
-                Searches
-                <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
-                  activitySection === 'searches' ? 'bg-indigo-500/30 text-white' : 'bg-gray-100 text-gray-700'
-                }`}>{searchesTotal}</span>
-              </button>
-              <button
-                onClick={() => setActivitySection('audit')}
-                className={`inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded ${
-                  activitySection === 'audit'
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <ClipboardDocumentListIcon className="h-4 w-4" />
-                Audit Log
-                <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
-                  activitySection === 'audit' ? 'bg-indigo-500/30 text-white' : 'bg-gray-100 text-gray-700'
-                }`}>{auditTotal}</span>
-              </button>
-            </div>
-            {activitySection === 'searches' ? (
-              <SearchesTab
-                searches={searches}
-                total={searchesTotal}
-                onUserClick={handleUserLookup}
-              />
-            ) : (
-              <AuditTab logs={auditLogs} total={auditTotal} />
-            )}
-          </div>
-        )}
-        {activeTab === 'user' && (
-          <UserLookupTab
-            getToken={getToken}
-            initialUserId={userLookupId}
-          />
-        )}
-        {activeTab === 'carddata' && (
-          <CardDataTab getToken={getToken} />
-        )}
-      </div>
+          )}
+          {activeTab === 'activity' && (
+            <section className="av-section">
+              <div className="av-section-head">
+                <h2 className="av-section-h">
+                  <ClipboardDocumentListIcon className="av-section-h-icon" />
+                  Activity
+                </h2>
+                <div className="av-pilltabs" role="tablist">
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activitySection === 'searches'}
+                    onClick={() => setActivitySection('searches')}
+                    className={'av-pilltab' + (activitySection === 'searches' ? ' active' : '')}
+                  >
+                    <MagnifyingGlassIcon className="av-pilltab-icon" />
+                    Searches
+                    <span className="av-pilltab-count">{searchesTotal.toLocaleString()}</span>
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activitySection === 'audit'}
+                    onClick={() => setActivitySection('audit')}
+                    className={'av-pilltab' + (activitySection === 'audit' ? ' active' : '')}
+                  >
+                    <ClipboardDocumentListIcon className="av-pilltab-icon" />
+                    Audit Log
+                    <span className="av-pilltab-count">{auditTotal.toLocaleString()}</span>
+                  </button>
+                </div>
+              </div>
+              {activitySection === 'searches' ? (
+                <SearchesTab searches={searches} onUserClick={handleUserLookup} />
+              ) : (
+                <AuditTab logs={auditLogs} />
+              )}
+            </section>
+          )}
+          {activeTab === 'user' && (
+            <UserLookupTab getToken={getToken} initialUserId={userLookupId} />
+          )}
+          {activeTab === 'carddata' && (
+            <CardDataTab getToken={getToken} />
+          )}
+        </div>
+      </main>
       <V2Footer />
     </div>
   );
@@ -459,31 +473,66 @@ function StatsTab({ stats, graphData, graphDays, onGraphDaysChange }: {
   const rangeLabel = GRAPH_RANGES.find(r => r.days === graphDays)?.label || `${graphDays}d`;
 
   return (
-    <div className="space-y-6">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <StatCard title="Total Records" value={stats.total_records} />
-        <StatCard title="Total Referrals" value={stats.total_referrals} />
-        <StatCard title="Total Users" value={stats.total_users} />
-        <StatCard title="Pending Referrals" value={stats.pending_referrals} highlight={stats.pending_referrals > 0} />
-        <StatCard title="Records Today" value={stats.records_today} />
-        <StatCard title="Records This Week" value={stats.records_this_week} />
-      </div>
+    <>
+      <section className="av-section">
+        <div className="av-section-head">
+          <div>
+            <h2 className="av-section-h">
+              <ChartBarIcon className="av-section-h-icon" />
+              Snapshot
+            </h2>
+            <p className="av-section-sub">live counts across records, referrals, and users.</p>
+          </div>
+        </div>
+        <div className="av-readoff av-readoff-6">
+          <div className="av-readoff-cell">
+            <div className="av-readoff-k">Records</div>
+            <div className="av-readoff-v">{stats.total_records.toLocaleString()}</div>
+            <div className="av-readoff-foot">total submitted</div>
+          </div>
+          <div className="av-readoff-cell">
+            <div className="av-readoff-k">Referrals</div>
+            <div className="av-readoff-v">{stats.total_referrals.toLocaleString()}</div>
+            <div className="av-readoff-foot">total tracked</div>
+          </div>
+          <div className="av-readoff-cell">
+            <div className="av-readoff-k">Users</div>
+            <div className="av-readoff-v">{stats.total_users.toLocaleString()}</div>
+            <div className="av-readoff-foot">accounts</div>
+          </div>
+          <div className={"av-readoff-cell" + (stats.pending_referrals > 0 ? " av-hl" : "")}>
+            <div className="av-readoff-k">Pending refs</div>
+            <div className={"av-readoff-v" + (stats.pending_referrals > 0 ? " av-warn" : "")}>
+              {stats.pending_referrals.toLocaleString()}
+            </div>
+            <div className="av-readoff-foot">awaiting review</div>
+          </div>
+          <div className="av-readoff-cell">
+            <div className="av-readoff-k">Today</div>
+            <div className="av-readoff-v">{stats.records_today.toLocaleString()}</div>
+            <div className="av-readoff-foot">records last 24h</div>
+          </div>
+          <div className="av-readoff-cell">
+            <div className="av-readoff-k">This week</div>
+            <div className="av-readoff-v">{stats.records_this_week.toLocaleString()}</div>
+            <div className="av-readoff-foot">records last 7d</div>
+          </div>
+        </div>
+      </section>
 
-      {/* Time Range Picker + Charts */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900">Activity Charts</h3>
-          <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+      <section className="av-section">
+        <div className="av-section-head">
+          <div>
+            <h2 className="av-section-h">Activity charts</h2>
+            <p className="av-section-sub">daily records and approval searches over the selected window.</p>
+          </div>
+          <div className="av-range">
             {GRAPH_RANGES.map(range => (
               <button
                 key={range.days}
+                type="button"
                 onClick={() => onGraphDaysChange(range.days)}
-                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                  graphDays === range.days
-                    ? 'bg-white text-indigo-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={'av-range-btn' + (graphDays === range.days ? ' active' : '')}
               >
                 {range.label}
               </button>
@@ -492,56 +541,51 @@ function StatsTab({ stats, graphData, graphDays, onGraphDaysChange }: {
         </div>
 
         {graphData && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <TimeSeriesChart
-              title={`Records per Day (Last ${rangeLabel})`}
-              series={[{
-                name: "Records",
-                color: "#6366f1",
-                data: toTimeSeries(graphData.records_daily),
-              }]}
-              yAxisTitle="Records"
-            />
-            <TimeSeriesChart
-              title={`Searches per Day (Last ${rangeLabel})`}
-              series={[{
-                name: "Searches",
-                color: "#8b5cf6",
-                data: toTimeSeries(graphData.searches_daily),
-              }]}
-              yAxisTitle="Searches"
-            />
+          <div className="av-chart-grid">
+            <div className="av-chart-panel">
+              <TimeSeriesChart
+                title={`Records per Day (Last ${rangeLabel})`}
+                series={[{
+                  name: "Records",
+                  color: "#6d3fe8",
+                  data: toTimeSeries(graphData.records_daily),
+                }]}
+                yAxisTitle="Records"
+              />
+            </div>
+            <div className="av-chart-panel">
+              <TimeSeriesChart
+                title={`Searches per Day (Last ${rangeLabel})`}
+                series={[{
+                  name: "Searches",
+                  color: "#4a25b5",
+                  data: toTimeSeries(graphData.searches_daily),
+                }]}
+                yAxisTitle="Searches"
+              />
+            </div>
           </div>
         )}
-      </div>
+      </section>
 
-      {/* Top Cards */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Top Cards by Records</h3>
-        <div className="space-y-3">
+      <section className="av-section">
+        <div className="av-section-head">
+          <div>
+            <h2 className="av-section-h">Top cards by records</h2>
+            <p className="av-section-sub">most-submitted cards across the catalog.</p>
+          </div>
+        </div>
+        <div className="av-list">
           {stats.top_cards.map((card, index) => (
-            <div key={card.card_name} className="flex items-center justify-between">
-              <div className="flex items-center">
-                <span className="text-gray-400 w-6">{index + 1}.</span>
-                <span className="text-gray-900">{card.card_name}</span>
-              </div>
-              <span className="text-gray-600 font-medium">{card.count} records</span>
+            <div key={card.card_name} className="av-list-row">
+              <span className="av-list-rank">{index + 1}</span>
+              <span>{card.card_name}</span>
+              <span className="av-list-num">{card.count.toLocaleString()} records</span>
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({ title, value, highlight = false }: { title: string; value: number; highlight?: boolean }) {
-  return (
-    <div className={`bg-white shadow rounded-lg p-4 ${highlight ? 'ring-2 ring-yellow-400' : ''}`}>
-      <dt className="text-sm font-medium text-gray-500 truncate">{title}</dt>
-      <dd className={`mt-1 text-2xl font-semibold ${highlight ? 'text-yellow-600' : 'text-gray-900'}`}>
-        {value.toLocaleString()}
-      </dd>
-    </div>
+      </section>
+    </>
   );
 }
 
@@ -634,28 +678,22 @@ function ApplyClicksTab() {
     APPLY_CLICK_RANGES.find((r) => r.days === periodDays)?.label ?? `${periodDays}d`;
 
   return (
-    <div className="space-y-6">
-      {/* Header + Range Picker */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+    <section className="av-section">
+      <div className="av-section-head">
         <div>
-          <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
-            <CursorArrowRaysIcon className="h-5 w-5 text-indigo-500" />
-            Apply Clicks
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Outbound clicks on card apply buttons, broken down by direct vs referral.
-          </p>
+          <h2 className="av-section-h">
+            <CursorArrowRaysIcon className="av-section-h-icon" />
+            Apply clicks
+          </h2>
+          <p className="av-section-sub">outbound clicks on card apply buttons, direct vs referral.</p>
         </div>
-        <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+        <div className="av-range">
           {APPLY_CLICK_RANGES.map((range) => (
             <button
               key={range.days}
+              type="button"
               onClick={() => setPeriodDays(range.days)}
-              className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                periodDays === range.days
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={'av-range-btn' + (periodDays === range.days ? ' active' : '')}
             >
               {range.label}
             </button>
@@ -663,219 +701,144 @@ function ApplyClicksTab() {
         </div>
       </div>
 
-      {/* Summary stat cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <StatCard title={`Total Clicks (${rangeLabel})`} value={totals.total} />
-        <StatCard title="Unique Visitors" value={totals.unique_total} />
-        <StatCard title="Direct Apply" value={totals.direct} />
-        <StatCard title="Referral Apply" value={totals.referral} />
+      <div className="av-readoff av-readoff-4">
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Total clicks</div>
+          <div className="av-readoff-v">{totals.total.toLocaleString()}</div>
+          <div className="av-readoff-foot">last {rangeLabel}</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Unique visitors</div>
+          <div className="av-readoff-v">{totals.unique_total.toLocaleString()}</div>
+          <div className="av-readoff-foot">deduplicated</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Direct</div>
+          <div className="av-readoff-v">{totals.direct.toLocaleString()}</div>
+          <div className="av-readoff-foot">card apply link</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Referral</div>
+          <div className="av-readoff-v av-accent">{totals.referral.toLocaleString()}</div>
+          <div className="av-readoff-foot">via user referral</div>
+        </div>
       </div>
 
       {loadError && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
+        <div className="av-banner av-banner-err" style={{ marginTop: 14 }}>
           {loadError}
         </div>
       )}
 
-      {/* Per-card table */}
-      <div className="bg-white shadow rounded-lg overflow-hidden">
-        <div className="px-4 py-5 sm:px-6 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900">
-            Top Cards by Apply Clicks ({rangeLabel})
-          </h3>
-          <span className="text-xs text-gray-500">{rows.length} cards</span>
-        </div>
-        {loading ? (
-          <div className="px-6 py-10 text-center text-sm text-gray-500">Loading…</div>
-        ) : rows.length === 0 ? (
-          <div className="px-6 py-10 text-center text-sm text-gray-500">
-            No apply clicks recorded in this window.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">
-                    #
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">
-                    Card
-                  </th>
-                  <SortableHeader
-                    label="Direct"
-                    active={sortKey === 'direct'}
-                    onClick={() => setSortKey('direct')}
-                  />
-                  <SortableHeader
-                    label="Referral"
-                    active={sortKey === 'referral'}
-                    onClick={() => setSortKey('referral')}
-                  />
-                  <SortableHeader
-                    label="Total"
-                    active={sortKey === 'total'}
-                    onClick={() => setSortKey('total')}
-                  />
-                  <SortableHeader
-                    label="Unique"
-                    active={sortKey === 'unique_total'}
-                    onClick={() => setSortKey('unique_total')}
-                  />
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {rows.map((row, index) => (
-                  <tr key={row.cardId} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                      {index + 1}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                          <CardImage
-                            cardImageLink={row.cardImageLink}
-                            alt={row.cardName}
-                            width={48}
-                            height={32}
-                          />
-                        </div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {row.cardName}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 tabular-nums">
-                      {row.direct.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 tabular-nums">
-                      {row.referral.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900 tabular-nums">
-                      {row.total.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700 tabular-nums">
-                      {row.unique_total.toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+      <div className="av-section-head" style={{ marginTop: 24 }}>
+        <h3 className="av-section-h" style={{ fontSize: 14 }}>Top cards by apply clicks ({rangeLabel})</h3>
+        <span className="av-section-meta">{rows.length} cards</span>
       </div>
-    </div>
-  );
-}
 
-function SortableHeader({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">
-      <button
-        type="button"
-        onClick={onClick}
-        className={`inline-flex items-center gap-1 ${
-          active ? 'text-indigo-600' : 'hover:text-gray-700'
-        }`}
-      >
-        {label}
-        {active && <span aria-hidden>↓</span>}
-      </button>
-    </th>
+      {loading ? (
+        <div className="av-tape av-tape-empty">Loading…</div>
+      ) : rows.length === 0 ? (
+        <div className="av-tape av-tape-empty">No apply clicks recorded in this window.</div>
+      ) : (
+        <div className="av-tape av-tape-clicks">
+          <div className="av-tape-scroll">
+            <div className="av-tape-head" style={{ gridTemplateColumns: '32px minmax(220px, 1.6fr) 90px 90px 90px 90px' }}>
+              <span>#</span>
+              <span>Card</span>
+              <button type="button" onClick={() => setSortKey('direct')} className={sortKey === 'direct' ? 'active' : ''}>Direct {sortKey === 'direct' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('referral')} className={sortKey === 'referral' ? 'active' : ''}>Referral {sortKey === 'referral' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('total')} className={sortKey === 'total' ? 'active' : ''}>Total {sortKey === 'total' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('unique_total')} className={sortKey === 'unique_total' ? 'active' : ''}>Unique {sortKey === 'unique_total' && '↓'}</button>
+            </div>
+            {rows.map((row, index) => (
+              <div key={row.cardId} className="av-tape-row" style={{ gridTemplateColumns: '32px minmax(220px, 1.6fr) 90px 90px 90px 90px' }}>
+                <span className="av-list-num">{index + 1}</span>
+                <div className="av-card-cell">
+                  <div className="av-thumb">
+                    <CardImage
+                      cardImageLink={row.cardImageLink}
+                      alt={row.cardName}
+                      width={36}
+                      height={22}
+                    />
+                  </div>
+                  <div className="av-card-meta">
+                    <div className="av-card-name">{row.cardName}</div>
+                  </div>
+                </div>
+                <span>{row.direct.toLocaleString()}</span>
+                <span>{row.referral.toLocaleString()}</span>
+                <span style={{ fontWeight: 600 }}>{row.total.toLocaleString()}</span>
+                <span className="av-mono" style={{ color: 'var(--ink-2)' }}>{row.unique_total.toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
 
 // ============ RECORDS TAB ============
 function RecordsTab({
   records,
-  total,
   processingId,
   onDelete
 }: {
   records: AdminRecord[];
-  total: number;
   processingId: number | null;
   onDelete: (id: number) => void;
 }) {
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden">
-      <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900">All Records ({total})</h3>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Score</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Result</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Submitter</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
-              <th className="px-4 py-3"></th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {records.map((record) => (
-              <tr key={record.record_id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                      <CardImage
-                        cardImageLink={record.card_image_link}
-                        alt={record.card_name}
-                        fill
-                        className="object-contain"
-                        sizes="48px"
-                      />
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
-                        {record.card_name}
-                      </div>
-                      <div className="text-xs text-gray-500">{record.bank}</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{record.credit_score}</td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  ${record.listed_income?.toLocaleString()}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                    record.result ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  }`}>
-                    {record.result ? 'Approved' : 'Denied'}
-                  </span>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <div className="text-sm text-gray-900 font-mono text-xs">{record.submitter_id || 'Unknown'}</div>
-                  <div className="text-xs text-gray-400">{record.submitter_ip_address}</div>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                  {new Date(record.submit_datetime).toLocaleDateString()}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-right">
-                  <button
-                    onClick={() => onDelete(record.record_id)}
-                    disabled={processingId === record.record_id}
-                    className="text-red-600 hover:text-red-800 disabled:opacity-50"
-                  >
-                    <TrashIcon className="h-5 w-5" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="av-tape">
+      <div className="av-tape-scroll">
+        <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(220px, 1.6fr) 70px 110px 90px minmax(180px, 1.4fr) 90px 36px' }}>
+          <span>Card</span>
+          <span>Score</span>
+          <span>Income</span>
+          <span>Result</span>
+          <span>Submitter</span>
+          <span>Date</span>
+          <span />
+        </div>
+        {records.length === 0 ? (
+          <div className="av-tape-empty">No records yet.</div>
+        ) : records.map((record) => (
+          <div key={record.record_id} className="av-tape-row" style={{ gridTemplateColumns: 'minmax(220px, 1.6fr) 70px 110px 90px minmax(180px, 1.4fr) 90px 36px' }}>
+            <div className="av-card-cell">
+              <div className="av-thumb">
+                <CardImage cardImageLink={record.card_image_link} alt={record.card_name} fill className="object-contain" sizes="48px" />
+              </div>
+              <div className="av-card-meta">
+                <div className="av-card-name">{record.card_name}</div>
+                <div className="av-card-issuer">{record.bank}</div>
+              </div>
+            </div>
+            <span>{record.credit_score}</span>
+            <span>${record.listed_income?.toLocaleString()}</span>
+            <span>
+              <span className={'av-pill ' + (record.result ? 'av-pill-app' : 'av-pill-den')}>
+                {record.result ? 'Approved' : 'Denied'}
+              </span>
+            </span>
+            <div>
+              <div className="av-mono" style={{ color: 'var(--ink)' }}>{record.submitter_id || 'Unknown'}</div>
+              {record.submitter_ip_address && <div className="av-mono">{record.submitter_ip_address}</div>}
+            </div>
+            <span className="av-mono">{new Date(record.submit_datetime).toLocaleDateString()}</span>
+            <div className="av-row-actions">
+              <button
+                type="button"
+                onClick={() => onDelete(record.record_id)}
+                disabled={processingId === record.record_id}
+                className="av-row-action-btn av-action-danger"
+                title="Delete"
+              >
+                <TrashIcon />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -901,229 +864,196 @@ function ReferralsTab({
   const [editValue, setEditValue] = useState('');
 
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden">
-      <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900">All Referrals ({total})</h3>
+    <section className="av-section">
+      <div className="av-section-head">
+        <div>
+          <h2 className="av-section-h">
+            <LinkIcon className="av-section-h-icon" />
+            All referrals
+          </h2>
+          <p className="av-section-sub">{total.toLocaleString()} total · pending rows highlighted.</p>
+        </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Referral Link</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Stats</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Submitter</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
-              <th className="px-4 py-3"></th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {referrals.map((referral) => (
-              <tr
-                key={referral.referral_id}
-                className={`hover:bg-gray-50 ${!referral.admin_approved ? 'bg-yellow-50' : ''}`}
-              >
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                      <CardImage
-                        cardImageLink={referral.card_image_link}
-                        alt={referral.card_name}
-                        fill
-                        className="object-contain"
-                        sizes="48px"
-                      />
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-gray-900 truncate max-w-[150px]">
-                        {referral.card_name}
-                      </div>
-                      <div className="text-xs text-gray-500">{referral.bank}</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-4 py-3">
-                  {editingId === referral.referral_id ? (
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="text"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            onEdit(referral.referral_id, editValue);
-                            setEditingId(null);
-                          } else if (e.key === 'Escape') {
-                            setEditingId(null);
-                          }
-                        }}
-                        className="text-sm border border-gray-300 rounded px-2 py-1 w-full max-w-[250px]"
-                        autoFocus
-                      />
-                      <button
-                        onClick={() => {
+      <div className="av-tape">
+        <div className="av-tape-scroll">
+          <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.6fr) 100px 110px 140px 90px 70px' }}>
+            <span>Card</span>
+            <span>Referral link</span>
+            <span>Status</span>
+            <span>Stats</span>
+            <span>Submitter</span>
+            <span>Date</span>
+            <span />
+          </div>
+          {referrals.length === 0 ? (
+            <div className="av-tape-empty">No referrals.</div>
+          ) : referrals.map((referral) => (
+            <div
+              key={referral.referral_id}
+              className={'av-tape-row' + (!referral.admin_approved ? ' av-tape-pending' : '')}
+              style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.6fr) 100px 110px 140px 90px 70px' }}
+            >
+              <div className="av-card-cell">
+                <div className="av-thumb">
+                  <CardImage cardImageLink={referral.card_image_link} alt={referral.card_name} fill className="object-contain" sizes="48px" />
+                </div>
+                <div className="av-card-meta">
+                  <div className="av-card-name">{referral.card_name}</div>
+                  <div className="av-card-issuer">{referral.bank}</div>
+                </div>
+              </div>
+              <div>
+                {editingId === referral.referral_id ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <input
+                      type="text"
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
                           onEdit(referral.referral_id, editValue);
                           setEditingId(null);
-                        }}
-                        className="text-green-600 hover:text-green-800"
-                        title="Save"
-                      >
-                        <CheckIcon className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => setEditingId(null)}
-                        className="text-gray-400 hover:text-gray-600"
-                        title="Cancel"
-                      >
-                        <XMarkIcon className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-1">
-                      <a
-                        href={referral.referral_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-indigo-600 hover:text-indigo-800 break-all max-w-[200px] block truncate"
-                      >
-                        {referral.referral_link}
-                      </a>
-                      <button
-                        onClick={() => {
-                          setEditingId(referral.referral_id);
-                          setEditValue(referral.referral_link);
-                        }}
-                        className="text-gray-400 hover:text-gray-600 flex-shrink-0"
-                        title="Edit referral link"
-                      >
-                        <PencilIcon className="h-4 w-4" />
-                      </button>
-                    </div>
-                  )}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <div className="flex flex-col gap-1">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full inline-block w-fit ${
-                      referral.admin_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {referral.admin_approved ? 'Approved' : 'Pending'}
-                    </span>
-                    {referral.archived_at && (
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600 inline-block w-fit">
-                        Archived
-                      </span>
-                    )}
-                  </div>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                  <div>{referral.impressions} views</div>
-                  <div>{referral.clicks} clicks{typeof referral.unique_clicks === 'number' ? ` (${referral.unique_clicks} unique)` : ''}</div>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 font-mono text-xs">
-                  {referral.submitter_id || 'Unknown'}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                  {new Date(referral.submit_datetime).toLocaleDateString()}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-right">
-                  <div className="flex items-center justify-end gap-2">
-                    {!referral.admin_approved ? (
-                      <button
-                        onClick={() => onApprove(referral.referral_id, true)}
-                        disabled={processingId === referral.referral_id}
-                        className="text-green-600 hover:text-green-800 disabled:opacity-50"
-                        title="Approve"
-                      >
-                        <CheckIcon className="h-5 w-5" />
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => onApprove(referral.referral_id, false)}
-                        disabled={processingId === referral.referral_id}
-                        className="text-yellow-600 hover:text-yellow-800 disabled:opacity-50"
-                        title="Unapprove"
-                      >
-                        <XMarkIcon className="h-5 w-5" />
-                      </button>
-                    )}
+                        } else if (e.key === 'Escape') {
+                          setEditingId(null);
+                        }
+                      }}
+                      className="av-input"
+                      style={{ padding: '5px 10px', fontSize: 12 }}
+                      autoFocus
+                    />
                     <button
-                      onClick={() => onDelete(referral.referral_id)}
-                      disabled={processingId === referral.referral_id}
-                      className="text-red-600 hover:text-red-800 disabled:opacity-50"
-                      title="Delete"
+                      type="button"
+                      onClick={() => {
+                        onEdit(referral.referral_id, editValue);
+                        setEditingId(null);
+                      }}
+                      className="av-row-action-btn av-action-approve"
+                      title="Save"
                     >
-                      <TrashIcon className="h-5 w-5" />
+                      <CheckIcon />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingId(null)}
+                      className="av-row-action-btn"
+                      title="Cancel"
+                    >
+                      <XMarkIcon />
                     </button>
                   </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, minWidth: 0 }}>
+                    <a
+                      href={referral.referral_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="av-link"
+                      style={{ fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0, flex: 1 }}
+                    >
+                      {referral.referral_link}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingId(referral.referral_id);
+                        setEditValue(referral.referral_link);
+                      }}
+                      className="av-row-action-btn av-action-edit"
+                      title="Edit referral link"
+                    >
+                      <PencilIcon />
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <span className={'av-pill ' + (referral.admin_approved ? 'av-pill-app' : 'av-pill-pen')}>
+                  {referral.admin_approved ? 'Approved' : 'Pending'}
+                </span>
+                {referral.archived_at && (
+                  <span className="av-pill av-pill-arch">Archived</span>
+                )}
+              </div>
+              <div className="av-mono" style={{ color: 'var(--ink-2)' }}>
+                <div>{referral.impressions} views</div>
+                <div>{referral.clicks} clicks{typeof referral.unique_clicks === 'number' ? ` (${referral.unique_clicks} uniq)` : ''}</div>
+              </div>
+              <div className="av-mono" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {referral.submitter_id || 'Unknown'}
+              </div>
+              <span className="av-mono">{new Date(referral.submit_datetime).toLocaleDateString()}</span>
+              <div className="av-row-actions">
+                {!referral.admin_approved ? (
+                  <button
+                    type="button"
+                    onClick={() => onApprove(referral.referral_id, true)}
+                    disabled={processingId === referral.referral_id}
+                    className="av-row-action-btn av-action-approve"
+                    title="Approve"
+                  >
+                    <CheckIcon />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onApprove(referral.referral_id, false)}
+                    disabled={processingId === referral.referral_id}
+                    className="av-row-action-btn"
+                    title="Unapprove"
+                  >
+                    <XMarkIcon />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onDelete(referral.referral_id)}
+                  disabled={processingId === referral.referral_id}
+                  className="av-row-action-btn av-action-danger"
+                  title="Delete"
+                >
+                  <TrashIcon />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
 // ============ SEARCHES TAB ============
 function SearchesTab({
   searches,
-  total,
   onUserClick
 }: {
   searches: AdminSearch[];
-  total: number;
   onUserClick: (userId: string) => void;
 }) {
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden">
-      <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900">Approval Searches ({total})</h3>
+    <div className="av-tape">
+      <div className="av-tape-scroll">
+        <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(180px, 1.4fr) 110px 110px 110px 160px' }}>
+          <span>User ID</span>
+          <span>Credit Score</span>
+          <span>Income</span>
+          <span>Credit Length</span>
+          <span>Date</span>
+        </div>
+        {searches.length === 0 ? (
+          <div className="av-tape-empty">No approval searches yet.</div>
+        ) : searches.map((search) => (
+          <div key={search.id} className="av-tape-row" style={{ gridTemplateColumns: 'minmax(180px, 1.4fr) 110px 110px 110px 160px' }}>
+            <button type="button" onClick={() => onUserClick(search.user_id)} className="av-link av-mono" style={{ textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {search.user_id}
+            </button>
+            <span>{search.credit_score}</span>
+            <span>${search.income?.toLocaleString()}</span>
+            <span>{search.length_credit} years</span>
+            <span className="av-mono">{new Date(search.created_at).toLocaleString()}</span>
+          </div>
+        ))}
       </div>
-      {searches.length === 0 ? (
-        <div className="px-4 py-12 text-center text-gray-500">
-          No approval searches yet.
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">User ID</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Score</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Length</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {searches.map((search) => (
-                <tr key={search.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <button
-                      onClick={() => onUserClick(search.user_id)}
-                      className="text-sm text-indigo-600 hover:text-indigo-800 font-mono"
-                    >
-                      {search.user_id}
-                    </button>
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{search.credit_score}</td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                    ${search.income?.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                    {search.length_credit} years
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(search.created_at).toLocaleString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
     </div>
   );
 }
@@ -1172,270 +1102,203 @@ function UserLookupTab({
   };
 
   return (
-    <div className="space-y-6">
-      {/* Search bar */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Look Up User by Firebase UID</h3>
-        <div className="flex gap-3">
-          <input
-            type="text"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && doLookup()}
-            placeholder="Enter Firebase UID..."
-            className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm font-mono focus:ring-indigo-500 focus:border-indigo-500"
-          />
-          <button
-            onClick={() => doLookup()}
-            disabled={lookupLoading || !userId.trim()}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
-          >
-            {lookupLoading ? 'Loading...' : 'Look Up'}
-          </button>
+    <>
+      <section className="av-section">
+        <div className="av-section-head">
+          <div>
+            <h2 className="av-section-h">
+              <UserIcon className="av-section-h-icon" />
+              User lookup
+            </h2>
+            <p className="av-section-sub">Find a user by Firebase UID. Returns wallet, records, searches, and referrals.</p>
+          </div>
         </div>
-        {lookupError && (
-          <p className="mt-2 text-sm text-red-600">{lookupError}</p>
-        )}
-      </div>
+        <div className="av-panel">
+          <div style={{ display: 'flex', gap: 10 }}>
+            <input
+              type="text"
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && doLookup()}
+              placeholder="Firebase UID…"
+              className="av-input av-input-mono"
+            />
+            <button
+              type="button"
+              onClick={() => doLookup()}
+              disabled={lookupLoading || !userId.trim()}
+              className="av-btn av-btn-primary"
+            >
+              {lookupLoading ? 'Loading…' : 'Look up'}
+            </button>
+          </div>
+          {lookupError && (
+            <div className="av-banner av-banner-err" style={{ marginTop: 10 }}>
+              {lookupError}
+            </div>
+          )}
+        </div>
+      </section>
 
       {userData && (
         <>
-          {/* Wallet */}
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
-              <h3 className="text-base font-medium text-gray-900">Wallet ({userData.wallet.length})</h3>
+          <section className="av-section">
+            <div className="av-section-head">
+              <h3 className="av-section-h" style={{ fontSize: 14 }}>Wallet</h3>
+              <span className="av-section-meta">{userData.wallet.length} cards</span>
             </div>
-            {userData.wallet.length === 0 ? (
-              <div className="px-4 py-8 text-center text-gray-500 text-sm">No cards in wallet.</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Bank</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Acquired</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Added</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {userData.wallet.map((card) => (
-                      <tr key={card.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                              <CardImage
-                                cardImageLink={card.card_image_link}
-                                alt={card.card_name}
-                                fill
-                                className="object-contain"
-                                sizes="48px"
-                              />
-                            </div>
-                            <span className="text-sm font-medium text-gray-900">{card.card_name}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{card.bank}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                          {card.acquired_month && card.acquired_year
-                            ? `${card.acquired_month}/${card.acquired_year}`
-                            : '-'}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(card.created_at).toLocaleDateString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="av-tape">
+              <div className="av-tape-scroll">
+                <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(220px, 2fr) 1fr 100px 110px' }}>
+                  <span>Card</span>
+                  <span>Bank</span>
+                  <span>Acquired</span>
+                  <span>Added</span>
+                </div>
+                {userData.wallet.length === 0 ? (
+                  <div className="av-tape-empty">No cards in wallet.</div>
+                ) : userData.wallet.map((card) => (
+                  <div key={card.id} className="av-tape-row" style={{ gridTemplateColumns: 'minmax(220px, 2fr) 1fr 100px 110px' }}>
+                    <div className="av-card-cell">
+                      <div className="av-thumb">
+                        <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="48px" />
+                      </div>
+                      <div className="av-card-name">{card.card_name}</div>
+                    </div>
+                    <span className="av-mono">{card.bank}</span>
+                    <span className="av-mono">
+                      {card.acquired_month && card.acquired_year ? `${card.acquired_month}/${card.acquired_year}` : '—'}
+                    </span>
+                    <span className="av-mono">{new Date(card.created_at).toLocaleDateString()}</span>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
+          </section>
 
-          {/* Records */}
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
-              <h3 className="text-base font-medium text-gray-900">Records ({userData.records.length})</h3>
+          <section className="av-section">
+            <div className="av-section-head">
+              <h3 className="av-section-h" style={{ fontSize: 14 }}>Records</h3>
+              <span className="av-section-meta">{userData.records.length} entries</span>
             </div>
-            {userData.records.length === 0 ? (
-              <div className="px-4 py-8 text-center text-gray-500 text-sm">No records.</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Score</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Result</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {userData.records.map((record) => (
-                      <tr key={record.record_id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                              <CardImage
-                                cardImageLink={record.card_image_link}
-                                alt={record.card_name}
-                                fill
-                                className="object-contain"
-                                sizes="48px"
-                              />
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
-                                {record.card_name}
-                              </div>
-                              <div className="text-xs text-gray-500">{record.bank}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{record.credit_score}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                          ${record.listed_income?.toLocaleString()}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                            record.result ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                          }`}>
-                            {record.result ? 'Approved' : 'Denied'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(record.submit_datetime).toLocaleDateString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="av-tape">
+              <div className="av-tape-scroll">
+                <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(220px, 1.6fr) 70px 110px 90px 110px' }}>
+                  <span>Card</span>
+                  <span>Score</span>
+                  <span>Income</span>
+                  <span>Result</span>
+                  <span>Date</span>
+                </div>
+                {userData.records.length === 0 ? (
+                  <div className="av-tape-empty">No records.</div>
+                ) : userData.records.map((record) => (
+                  <div key={record.record_id} className="av-tape-row" style={{ gridTemplateColumns: 'minmax(220px, 1.6fr) 70px 110px 90px 110px' }}>
+                    <div className="av-card-cell">
+                      <div className="av-thumb">
+                        <CardImage cardImageLink={record.card_image_link} alt={record.card_name} fill className="object-contain" sizes="48px" />
+                      </div>
+                      <div className="av-card-meta">
+                        <div className="av-card-name">{record.card_name}</div>
+                        <div className="av-card-issuer">{record.bank}</div>
+                      </div>
+                    </div>
+                    <span>{record.credit_score}</span>
+                    <span>${record.listed_income?.toLocaleString()}</span>
+                    <span>
+                      <span className={'av-pill ' + (record.result ? 'av-pill-app' : 'av-pill-den')}>
+                        {record.result ? 'Approved' : 'Denied'}
+                      </span>
+                    </span>
+                    <span className="av-mono">{new Date(record.submit_datetime).toLocaleDateString()}</span>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
+          </section>
 
-          {/* Searches */}
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
-              <h3 className="text-base font-medium text-gray-900">Approval Searches ({userData.searches.length})</h3>
+          <section className="av-section">
+            <div className="av-section-head">
+              <h3 className="av-section-h" style={{ fontSize: 14 }}>Approval searches</h3>
+              <span className="av-section-meta">{userData.searches.length} entries</span>
             </div>
-            {userData.searches.length === 0 ? (
-              <div className="px-4 py-8 text-center text-gray-500 text-sm">No searches.</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Score</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Credit Length</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {userData.searches.map((search) => (
-                      <tr key={search.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{search.credit_score}</td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                          ${search.income?.toLocaleString()}
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                          {search.length_credit} years
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(search.created_at).toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="av-tape">
+              <div className="av-tape-scroll">
+                <div className="av-tape-head" style={{ gridTemplateColumns: '110px 110px 130px 1fr' }}>
+                  <span>Credit Score</span>
+                  <span>Income</span>
+                  <span>Credit Length</span>
+                  <span>Date</span>
+                </div>
+                {userData.searches.length === 0 ? (
+                  <div className="av-tape-empty">No searches.</div>
+                ) : userData.searches.map((search) => (
+                  <div key={search.id} className="av-tape-row" style={{ gridTemplateColumns: '110px 110px 130px 1fr' }}>
+                    <span>{search.credit_score}</span>
+                    <span>${search.income?.toLocaleString()}</span>
+                    <span>{search.length_credit} years</span>
+                    <span className="av-mono">{new Date(search.created_at).toLocaleString()}</span>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
+          </section>
 
-          {/* Referrals */}
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-4 sm:px-6 border-b border-gray-200">
-              <h3 className="text-base font-medium text-gray-900">Referrals ({userData.referrals.length})</h3>
+          <section className="av-section">
+            <div className="av-section-head">
+              <h3 className="av-section-h" style={{ fontSize: 14 }}>Referrals</h3>
+              <span className="av-section-meta">{userData.referrals.length} entries</span>
             </div>
-            {userData.referrals.length === 0 ? (
-              <div className="px-4 py-8 text-center text-gray-500 text-sm">No referrals.</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Card</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Link</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Status</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Stats</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {userData.referrals.map((referral) => (
-                      <tr key={referral.referral_id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-8 w-12 relative mr-3">
-                              <CardImage
-                                cardImageLink={referral.card_image_link}
-                                alt={referral.card_name}
-                                fill
-                                className="object-contain"
-                                sizes="48px"
-                              />
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium text-gray-900 truncate max-w-[150px]">
-                                {referral.card_name}
-                              </div>
-                              <div className="text-xs text-gray-500">{referral.bank}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <a
-                            href={referral.referral_link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-indigo-600 hover:text-indigo-800 break-all max-w-[200px] block truncate"
-                          >
-                            {referral.referral_link}
-                          </a>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap">
-                          <div className="flex flex-col gap-1">
-                            <span className={`px-2 py-1 text-xs font-medium rounded-full inline-block w-fit ${
-                              referral.admin_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {referral.admin_approved ? 'Approved' : 'Pending'}
-                            </span>
-                            {referral.archived_at && (
-                              <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600 inline-block w-fit">
-                                Archived
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                          <div>{referral.impressions} views</div>
-                          <div>{referral.clicks} clicks{typeof referral.unique_clicks === 'number' ? ` (${referral.unique_clicks} unique)` : ''}</div>
-                        </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                          {new Date(referral.submit_datetime).toLocaleDateString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="av-tape">
+              <div className="av-tape-scroll">
+                <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.4fr) 110px 110px 110px' }}>
+                  <span>Card</span>
+                  <span>Link</span>
+                  <span>Status</span>
+                  <span>Stats</span>
+                  <span>Date</span>
+                </div>
+                {userData.referrals.length === 0 ? (
+                  <div className="av-tape-empty">No referrals.</div>
+                ) : userData.referrals.map((referral) => (
+                  <div key={referral.referral_id} className="av-tape-row" style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.4fr) 110px 110px 110px' }}>
+                    <div className="av-card-cell">
+                      <div className="av-thumb">
+                        <CardImage cardImageLink={referral.card_image_link} alt={referral.card_name} fill className="object-contain" sizes="48px" />
+                      </div>
+                      <div className="av-card-meta">
+                        <div className="av-card-name">{referral.card_name}</div>
+                        <div className="av-card-issuer">{referral.bank}</div>
+                      </div>
+                    </div>
+                    <a
+                      href={referral.referral_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="av-link"
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: 12 }}
+                    >
+                      {referral.referral_link}
+                    </a>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      <span className={'av-pill ' + (referral.admin_approved ? 'av-pill-app' : 'av-pill-pen')}>
+                        {referral.admin_approved ? 'Approved' : 'Pending'}
+                      </span>
+                      {referral.archived_at && <span className="av-pill av-pill-arch">Archived</span>}
+                    </div>
+                    <div className="av-mono" style={{ color: 'var(--ink-2)' }}>
+                      <div>{referral.impressions} views</div>
+                      <div>{referral.clicks} clicks{typeof referral.unique_clicks === 'number' ? ` (${referral.unique_clicks} uniq)` : ''}</div>
+                    </div>
+                    <span className="av-mono">{new Date(referral.submit_datetime).toLocaleDateString()}</span>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
+          </section>
         </>
       )}
-    </div>
+    </>
   );
 }
 
@@ -1512,32 +1375,34 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Card Selector */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Select a Card</h3>
-        <div className="relative max-w-lg">
+    <>
+      <section className="av-section">
+        <div className="av-section-head">
+          <div>
+            <h2 className="av-section-h">
+              <CreditCardIcon className="av-section-h-icon" />
+              Card data
+            </h2>
+            <p className="av-section-sub">Inspect and edit individual data points by card.</p>
+          </div>
+        </div>
+        <div className="av-cardselect">
           {selectedCard ? (
-            <div className="flex items-center justify-between border border-gray-300 rounded-md px-3 py-2">
-              <div className="flex items-center gap-2">
-                <div className="flex-shrink-0 h-6 w-10 relative">
-                  <CardImage
-                    cardImageLink={selectedCard.card_image_link}
-                    alt={selectedCard.card_name}
-                    fill
-                    className="object-contain"
-                    sizes="40px"
-                  />
-                </div>
-                <span className="text-sm text-gray-900">{selectedCard.card_name}</span>
-                <span className="text-xs text-gray-500">({selectedCard.bank})</span>
+            <div className="av-cardselect-chip">
+              <div className="av-thumb av-thumb-sm">
+                <CardImage cardImageLink={selectedCard.card_image_link} alt={selectedCard.card_name} fill className="object-contain" sizes="40px" />
+              </div>
+              <div className="av-card-meta" style={{ flex: 1 }}>
+                <div className="av-card-name">{selectedCard.card_name}</div>
+                <div className="av-card-issuer">{selectedCard.bank}</div>
               </div>
               <button
                 type="button"
                 onClick={() => { setSelectedCard(null); setCardSearch(''); setCardRecords([]); setCardRecordsTotal(0); }}
-                className="text-gray-400 hover:text-gray-600"
+                className="av-row-action-btn"
+                title="Clear"
               >
-                <XMarkIcon className="h-4 w-4" />
+                <XMarkIcon />
               </button>
             </div>
           ) : (
@@ -1547,28 +1412,18 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
                 value={cardSearch}
                 onChange={(e) => { setCardSearch(e.target.value); setShowDropdown(true); }}
                 onFocus={() => setShowDropdown(true)}
-                placeholder="Search cards..."
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Search cards…"
+                className="av-input"
               />
               {showDropdown && filteredCards.length > 0 && (
-                <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                <ul className="av-cardselect-dd">
                   {filteredCards.slice(0, 50).map((card) => (
-                    <li
-                      key={card.card_id}
-                      onClick={() => handleSelectCard(card)}
-                      className="px-3 py-2 hover:bg-indigo-50 cursor-pointer text-sm flex items-center gap-2"
-                    >
-                      <div className="flex-shrink-0 h-5 w-8 relative">
-                        <CardImage
-                          cardImageLink={card.card_image_link}
-                          alt={card.card_name}
-                          fill
-                          className="object-contain"
-                          sizes="32px"
-                        />
+                    <li key={card.card_id} onClick={() => handleSelectCard(card)}>
+                      <div className="av-thumb av-thumb-sm">
+                        <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="32px" />
                       </div>
                       <span>{card.card_name}</span>
-                      <span className="text-gray-400 text-xs">({card.bank})</span>
+                      <span className="av-card-issuer">({card.bank})</span>
                     </li>
                   ))}
                 </ul>
@@ -1576,111 +1431,88 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
             </>
           )}
         </div>
-      </div>
+      </section>
 
-      {/* Records for Selected Card */}
       {selectedCard && (
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900">
-              Data Points ({cardRecordsTotal})
-            </h3>
+        <section className="av-section">
+          <div className="av-section-head">
+            <h3 className="av-section-h" style={{ fontSize: 14 }}>Data points</h3>
+            <span className="av-section-meta">{cardRecordsTotal.toLocaleString()} for {selectedCard.card_name}</span>
           </div>
 
           {loadingRecords ? (
-            <div className="px-4 py-12 text-center text-gray-500">Loading data points...</div>
+            <div className="av-tape av-tape-empty">Loading data points…</div>
           ) : cardRecords.length === 0 ? (
-            <div className="px-4 py-12 text-center text-gray-500">No data points for this card.</div>
+            <div className="av-tape av-tape-empty">No data points for this card.</div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">ID</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Score</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Source</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Income</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Credit Age</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Result</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Limit</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Bank Cust.</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Inquiries</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Applied</th>
-                    <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500">Submitter</th>
-                    <th className="px-3 py-3"></th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {cardRecords.map((record) => (
-                    <tr key={record.record_id} className="hover:bg-gray-50">
-                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-500 font-mono">
-                        {record.record_id}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                        {record.credit_score}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-500">
-                        {record.credit_score_source !== undefined ? CREDIT_SCORE_SOURCES[record.credit_score_source] || '-' : '-'}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                        ${record.listed_income?.toLocaleString()}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                        {record.length_credit != null ? `${record.length_credit}y` : '-'}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap">
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                          record.result ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}>
-                          {record.result ? 'Approved' : 'Denied'}
-                        </span>
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                        {record.starting_credit_limit != null ? `$${record.starting_credit_limit.toLocaleString()}` : '-'}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                        {record.bank_customer !== undefined ? (record.bank_customer ? 'Yes' : 'No') : '-'}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-500">
-                        {record.inquiries_3 != null || record.inquiries_12 != null || record.inquiries_24 != null
-                          ? `${record.inquiries_3 ?? '-'}/${record.inquiries_12 ?? '-'}/${record.inquiries_24 ?? '-'}`
-                          : '-'}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-500">
-                        {record.date_applied ? new Date(record.date_applied).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : '-'}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-xs text-gray-400 font-mono max-w-[100px] truncate">
-                        {record.submitter_id || '-'}
-                      </td>
-                      <td className="px-3 py-3 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => setEditingRecord(record)}
-                            className="text-indigo-600 hover:text-indigo-800"
-                            title="Edit"
-                          >
-                            <PencilIcon className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteRecord(record.record_id)}
-                            disabled={processingId === record.record_id}
-                            className="text-red-600 hover:text-red-800 disabled:opacity-50"
-                            title="Delete"
-                          >
-                            <TrashIcon className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="av-tape">
+              <div className="av-tape-scroll">
+                <div className="av-tape-head" style={{ gridTemplateColumns: '60px 70px 130px 90px 80px 90px 90px 80px 90px 90px minmax(120px, 1fr) 60px' }}>
+                  <span>ID</span>
+                  <span>Score</span>
+                  <span>Source</span>
+                  <span>Income</span>
+                  <span>Credit Age</span>
+                  <span>Result</span>
+                  <span>Limit</span>
+                  <span>Bank cust.</span>
+                  <span>Inquiries</span>
+                  <span>Applied</span>
+                  <span>Submitter</span>
+                  <span />
+                </div>
+                {cardRecords.map((record) => (
+                  <div key={record.record_id} className="av-tape-row" style={{ gridTemplateColumns: '60px 70px 130px 90px 80px 90px 90px 80px 90px 90px minmax(120px, 1fr) 60px' }}>
+                    <span className="av-mono">{record.record_id}</span>
+                    <span>{record.credit_score}</span>
+                    <span className="av-mono">{record.credit_score_source !== undefined ? CREDIT_SCORE_SOURCES[record.credit_score_source] || '-' : '-'}</span>
+                    <span>${record.listed_income?.toLocaleString()}</span>
+                    <span>{record.length_credit != null ? `${record.length_credit}y` : '-'}</span>
+                    <span>
+                      <span className={'av-pill ' + (record.result ? 'av-pill-app' : 'av-pill-den')}>
+                        {record.result ? 'Approved' : 'Denied'}
+                      </span>
+                    </span>
+                    <span>{record.starting_credit_limit != null ? `$${record.starting_credit_limit.toLocaleString()}` : '-'}</span>
+                    <span>{record.bank_customer !== undefined ? (record.bank_customer ? 'Yes' : 'No') : '-'}</span>
+                    <span className="av-mono">
+                      {record.inquiries_3 != null || record.inquiries_12 != null || record.inquiries_24 != null
+                        ? `${record.inquiries_3 ?? '-'}/${record.inquiries_12 ?? '-'}/${record.inquiries_24 ?? '-'}`
+                        : '-'}
+                    </span>
+                    <span className="av-mono">
+                      {record.date_applied ? new Date(record.date_applied).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : '-'}
+                    </span>
+                    <span className="av-mono" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {record.submitter_id || '-'}
+                    </span>
+                    <div className="av-row-actions">
+                      <button
+                        type="button"
+                        onClick={() => setEditingRecord(record)}
+                        className="av-row-action-btn av-action-edit"
+                        title="Edit"
+                      >
+                        <PencilIcon />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteRecord(record.record_id)}
+                        disabled={processingId === record.record_id}
+                        className="av-row-action-btn av-action-danger"
+                        title="Delete"
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
-        </div>
+        </section>
       )}
 
-      {/* Edit Record Modal */}
       {editingRecord && (
         <EditRecordModal
           record={editingRecord}
@@ -1689,7 +1521,7 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
           onClose={() => setEditingRecord(null)}
         />
       )}
-    </div>
+    </>
   );
 }
 
@@ -1733,172 +1565,156 @@ function EditRecordModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
-      <div
-        className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-medium text-gray-900">Edit Record #{record.record_id}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <XMarkIcon className="h-5 w-5" />
-          </button>
+    <div className="landing-v2 admin-v2">
+      <div className="av-modal-overlay" onClick={onClose}>
+        <div className="av-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="av-modal-head">
+            <h3 className="av-modal-h">Edit record #{record.record_id}</h3>
+            <button type="button" onClick={onClose} className="av-modal-close" title="Close">
+              <XMarkIcon style={{ width: 18, height: 18 }} />
+            </button>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="av-modal-body">
+              <div className="av-field">
+                <label className="av-field-label">Credit Score</label>
+                <div className="av-inputgroup">
+                  <input
+                    type="number"
+                    value={creditScore}
+                    onChange={(e) => setCreditScore(parseInt(e.target.value) || 300)}
+                    min={300}
+                    max={850}
+                    className="av-input"
+                  />
+                  <select
+                    value={creditScoreSource}
+                    onChange={(e) => setCreditScoreSource(parseInt(e.target.value))}
+                    className="av-select"
+                  >
+                    {CREDIT_SCORE_SOURCES.map((src, i) => (
+                      <option key={i} value={i}>{src}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="av-field">
+                <label className="av-field-label">Annual Income</label>
+                <NumericFormat
+                  value={income}
+                  onValueChange={(values) => setIncome(values.floatValue || 0)}
+                  thousandSeparator
+                  prefix="$"
+                  className="av-input"
+                />
+              </div>
+
+              <div className="av-field">
+                <label className="av-field-label">Age of Oldest Account (years)</label>
+                <input
+                  type="number"
+                  value={lengthCredit ?? ''}
+                  onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
+                  min={0}
+                  max={100}
+                  placeholder="Optional"
+                  className="av-input"
+                />
+              </div>
+
+              <div className="av-field" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <label className="av-field-label" style={{ margin: 0 }}>Existing bank customer?</label>
+                <button
+                  type="button"
+                  onClick={() => setBankCustomer(!bankCustomer)}
+                  className={'av-switch' + (bankCustomer ? ' on' : '')}
+                  aria-pressed={bankCustomer}
+                >
+                  <span className="av-switch-thumb" />
+                </button>
+              </div>
+
+              <div className="av-field">
+                <label className="av-field-label">Hard Inquiries</label>
+                <div className="av-grid-3">
+                  <div className="av-field">
+                    <span className="av-field-sub">Last 3 mo</span>
+                    <input
+                      type="number"
+                      value={inquiries3 ?? ''}
+                      onChange={(e) => setInquiries3(e.target.value === '' ? null : parseInt(e.target.value))}
+                      min={0} max={50} placeholder="-"
+                      className="av-input"
+                    />
+                  </div>
+                  <div className="av-field">
+                    <span className="av-field-sub">Last 12 mo</span>
+                    <input
+                      type="number"
+                      value={inquiries12 ?? ''}
+                      onChange={(e) => setInquiries12(e.target.value === '' ? null : parseInt(e.target.value))}
+                      min={0} max={50} placeholder="-"
+                      className="av-input"
+                    />
+                  </div>
+                  <div className="av-field">
+                    <span className="av-field-sub">Last 24 mo</span>
+                    <input
+                      type="number"
+                      value={inquiries24 ?? ''}
+                      onChange={(e) => setInquiries24(e.target.value === '' ? null : parseInt(e.target.value))}
+                      min={0} max={50} placeholder="-"
+                      className="av-input"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="av-field">
+                <label className="av-field-label">Result</label>
+                <div className="av-result-toggle">
+                  <button
+                    type="button"
+                    onClick={() => setResult(true)}
+                    className={'av-result-btn av-result-approved' + (result ? ' active' : '')}
+                  >
+                    Approved
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setResult(false)}
+                    className={'av-result-btn av-result-denied' + (!result ? ' active' : '')}
+                  >
+                    Denied
+                  </button>
+                </div>
+              </div>
+
+              {result && (
+                <div className="av-field">
+                  <label className="av-field-label">Starting Credit Limit</label>
+                  <NumericFormat
+                    value={startingCreditLimit ?? ''}
+                    onValueChange={(values) => setStartingCreditLimit(values.floatValue ?? null)}
+                    thousandSeparator
+                    prefix="$"
+                    placeholder="Optional"
+                    className="av-input"
+                  />
+                </div>
+              )}
+            </div>
+            <div className="av-modal-foot">
+              <button type="submit" disabled={processing} className="av-btn av-btn-primary">
+                {processing ? 'Saving…' : 'Save Changes'}
+              </button>
+              <button type="button" onClick={onClose} className="av-btn av-btn-outline">
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Credit Score + Source */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Credit Score</label>
-            <div className="flex">
-              <input
-                type="number"
-                value={creditScore}
-                onChange={(e) => setCreditScore(parseInt(e.target.value) || 300)}
-                min={300}
-                max={850}
-                className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              <select
-                value={creditScoreSource}
-                onChange={(e) => setCreditScoreSource(parseInt(e.target.value))}
-                className="border border-l-0 border-gray-300 rounded-r-md px-3 py-2 text-sm bg-gray-50 focus:ring-indigo-500 focus:border-indigo-500"
-              >
-                {CREDIT_SCORE_SOURCES.map((src, i) => (
-                  <option key={i} value={i}>{src}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Income */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Annual Income</label>
-            <NumericFormat
-              value={income}
-              onValueChange={(values) => setIncome(values.floatValue || 0)}
-              thousandSeparator
-              prefix="$"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-
-          {/* Age of Oldest Account */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Age of Oldest Account (Years)</label>
-            <input
-              type="number"
-              value={lengthCredit ?? ''}
-              onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
-              min={0}
-              max={100}
-              placeholder="Optional"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-
-          {/* Bank Customer */}
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-gray-700">Existing bank customer?</label>
-            <button
-              type="button"
-              onClick={() => setBankCustomer(!bankCustomer)}
-              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${bankCustomer ? 'bg-indigo-600' : 'bg-gray-200'}`}
-            >
-              <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${bankCustomer ? 'translate-x-5' : 'translate-x-0'}`} />
-            </button>
-          </div>
-
-          {/* Inquiries */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Hard Inquiries</label>
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="block text-xs text-gray-500 mb-1">Last 3 mo</label>
-                <input
-                  type="number"
-                  value={inquiries3 ?? ''}
-                  onChange={(e) => setInquiries3(e.target.value === '' ? null : parseInt(e.target.value))}
-                  min={0} max={50} placeholder="-"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-gray-500 mb-1">Last 12 mo</label>
-                <input
-                  type="number"
-                  value={inquiries12 ?? ''}
-                  onChange={(e) => setInquiries12(e.target.value === '' ? null : parseInt(e.target.value))}
-                  min={0} max={50} placeholder="-"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-gray-500 mb-1">Last 24 mo</label>
-                <input
-                  type="number"
-                  value={inquiries24 ?? ''}
-                  onChange={(e) => setInquiries24(e.target.value === '' ? null : parseInt(e.target.value))}
-                  min={0} max={50} placeholder="-"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Result */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Result</label>
-            <div className="flex rounded-md overflow-hidden border border-gray-300">
-              <button
-                type="button"
-                onClick={() => setResult(true)}
-                className={`flex-1 py-2 text-sm font-medium ${result ? 'bg-green-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
-              >
-                Approved
-              </button>
-              <button
-                type="button"
-                onClick={() => setResult(false)}
-                className={`flex-1 py-2 text-sm font-medium ${!result ? 'bg-red-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
-              >
-                Denied
-              </button>
-            </div>
-          </div>
-
-          {/* Starting Credit Limit (if approved) */}
-          {result && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Starting Credit Limit</label>
-              <NumericFormat
-                value={startingCreditLimit ?? ''}
-                onValueChange={(values) => setStartingCreditLimit(values.floatValue ?? null)}
-                thousandSeparator
-                prefix="$"
-                placeholder="Optional"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-          )}
-
-          {/* Buttons */}
-          <div className="flex gap-3 pt-2">
-            <button
-              type="submit"
-              disabled={processing}
-              className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
-            >
-              {processing ? 'Saving...' : 'Save Changes'}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-200"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   );
@@ -2010,325 +1826,283 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
   const creditScoreSources = ['FICO: *', 'FICO: Experian', 'FICO: TransUnion', 'FICO: Equifax', 'VantageScore'];
 
   return (
-    <div className="bg-white shadow rounded-lg p-6 max-w-2xl">
-      <h3 className="text-lg font-medium text-gray-900 mb-6">Submit Record on Behalf of User</h3>
-
-      {successMessage && (
-        <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
-          <p className="text-green-700 text-sm">{successMessage}</p>
-        </div>
-      )}
-      {errorMessage && (
-        <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3">
-          <p className="text-red-700 text-sm">{errorMessage}</p>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Card Selector */}
-        <div className="relative">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Card</label>
-          {selectedCard ? (
-            <div className="flex items-center justify-between border border-gray-300 rounded-md px-3 py-2">
-              <div className="flex items-center gap-2">
-                <div className="flex-shrink-0 h-6 w-10 relative">
-                  <CardImage
-                    cardImageLink={selectedCard.card_image_link}
-                    alt={selectedCard.card_name}
-                    fill
-                    className="object-contain"
-                    sizes="40px"
-                  />
-                </div>
-                <span className="text-sm text-gray-900">{selectedCard.card_name}</span>
-                <span className="text-xs text-gray-500">({selectedCard.bank})</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => { setSelectedCard(null); setCardSearch(''); }}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <XMarkIcon className="h-4 w-4" />
-              </button>
-            </div>
-          ) : (
-            <>
-              <input
-                type="text"
-                value={cardSearch}
-                onChange={(e) => { setCardSearch(e.target.value); setShowDropdown(true); }}
-                onFocus={() => setShowDropdown(true)}
-                placeholder="Search cards..."
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              {showDropdown && filteredCards.length > 0 && (
-                <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-                  {filteredCards.slice(0, 50).map((card) => (
-                    <li
-                      key={card.card_id}
-                      onClick={() => {
-                        setSelectedCard(card);
-                        setCardSearch(card.card_name);
-                        setShowDropdown(false);
-                      }}
-                      className="px-3 py-2 hover:bg-indigo-50 cursor-pointer text-sm flex items-center gap-2"
-                    >
-                      <div className="flex-shrink-0 h-5 w-8 relative">
-                        <CardImage
-                          cardImageLink={card.card_image_link}
-                          alt={card.card_name}
-                          fill
-                          className="object-contain"
-                          sizes="32px"
-                        />
-                      </div>
-                      <span>{card.card_name}</span>
-                      <span className="text-gray-400 text-xs">({card.bank})</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Submitter Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Submitter Name</label>
-          <input
-            type="text"
-            value={submitterName}
-            onChange={(e) => setSubmitterName(e.target.value)}
-            placeholder="e.g. Reddit user, email, forum handle..."
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
-
-        {/* Credit Score + Source */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Credit Score</label>
-          <div className="flex">
-            <input
-              type="number"
-              value={creditScore}
-              onChange={(e) => setCreditScore(parseInt(e.target.value) || 300)}
-              min={300}
-              max={850}
-              className="flex-1 border border-gray-300 rounded-l-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-              required
-            />
-            <select
-              value={creditScoreSource}
-              onChange={(e) => setCreditScoreSource(parseInt(e.target.value))}
-              className="border border-l-0 border-gray-300 rounded-r-md px-3 py-2 text-sm bg-gray-50 focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              {creditScoreSources.map((src, i) => (
-                <option key={i} value={i}>{src}</option>
-              ))}
-            </select>
+    <div className="av-panel" style={{ maxWidth: 720, padding: 0 }}>
+      <div className="av-panel-head">
+        <h3 className="av-panel-h">Submit record on behalf of user</h3>
+        <span className="av-panel-meta">manual entry — bypasses signup</span>
+      </div>
+      <div style={{ padding: '18px' }}>
+        {successMessage && (
+          <div className="av-banner av-banner-ok" style={{ marginTop: 0, marginBottom: 14 }}>
+            {successMessage}
           </div>
-        </div>
-
-        {/* Income */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Annual Income</label>
-          <NumericFormat
-            value={income}
-            onValueChange={(values) => setIncome(values.floatValue || 0)}
-            thousandSeparator
-            prefix="$"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
-
-        {/* Application Date */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Application Date</label>
-          <input
-            type="month"
-            value={dateApplied}
-            onChange={(e) => setDateApplied(e.target.value)}
-            min="2019-01"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
-
-        {/* Age of Oldest Account */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Age of Oldest Account (Years)</label>
-          <input
-            type="number"
-            value={lengthCredit ?? ''}
-            onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
-            min={0}
-            max={100}
-            placeholder="Optional"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
-
-        {/* Bank Customer */}
-        <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-gray-700">
-            Existing bank customer?
-          </label>
-          <button
-            type="button"
-            onClick={() => setBankCustomer(!bankCustomer)}
-            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${bankCustomer ? 'bg-indigo-600' : 'bg-gray-200'}`}
-          >
-            <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${bankCustomer ? 'translate-x-5' : 'translate-x-0'}`} />
-          </button>
-        </div>
-
-        {/* Inquiries */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Hard Inquiries</label>
-          <div className="grid grid-cols-3 gap-3">
-            <div>
-              <label className="block text-xs text-gray-500 mb-1">Last 3 months</label>
-              <input
-                type="number"
-                value={inquiries3 ?? ''}
-                onChange={(e) => setInquiries3(e.target.value === '' ? null : parseInt(e.target.value))}
-                min={0}
-                max={50}
-                placeholder="-"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-500 mb-1">Last 12 months</label>
-              <input
-                type="number"
-                value={inquiries12 ?? ''}
-                onChange={(e) => setInquiries12(e.target.value === '' ? null : parseInt(e.target.value))}
-                min={0}
-                max={50}
-                placeholder="-"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-500 mb-1">Last 24 months</label>
-              <input
-                type="number"
-                value={inquiries24 ?? ''}
-                onChange={(e) => setInquiries24(e.target.value === '' ? null : parseInt(e.target.value))}
-                min={0}
-                max={50}
-                placeholder="-"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Result */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Result</label>
-          <div className="flex rounded-md overflow-hidden border border-gray-300">
-            <button
-              type="button"
-              onClick={() => setResult(true)}
-              className={`flex-1 py-2 text-sm font-medium ${result ? 'bg-green-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
-            >
-              Approved
-            </button>
-            <button
-              type="button"
-              onClick={() => setResult(false)}
-              className={`flex-1 py-2 text-sm font-medium ${!result ? 'bg-red-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
-            >
-              Denied
-            </button>
-          </div>
-        </div>
-
-        {/* Starting Credit Limit (if approved) */}
-        {result && (
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Starting Credit Limit</label>
-            <NumericFormat
-              value={startingCreditLimit ?? ''}
-              onValueChange={(values) => setStartingCreditLimit(values.floatValue ?? null)}
-              thousandSeparator
-              prefix="$"
-              placeholder="Optional"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
+        )}
+        {errorMessage && (
+          <div className="av-banner av-banner-err" style={{ marginTop: 0, marginBottom: 14 }}>
+            {errorMessage}
           </div>
         )}
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={submitting || !selectedCard}
-          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {submitting ? 'Submitting...' : 'Submit Record'}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="av-field">
+            <label className="av-field-label">Card</label>
+            <div className="av-cardselect" style={{ maxWidth: 'none' }}>
+              {selectedCard ? (
+                <div className="av-cardselect-chip">
+                  <div className="av-thumb av-thumb-sm">
+                    <CardImage cardImageLink={selectedCard.card_image_link} alt={selectedCard.card_name} fill className="object-contain" sizes="40px" />
+                  </div>
+                  <div className="av-card-meta" style={{ flex: 1 }}>
+                    <div className="av-card-name">{selectedCard.card_name}</div>
+                    <div className="av-card-issuer">{selectedCard.bank}</div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { setSelectedCard(null); setCardSearch(''); }}
+                    className="av-row-action-btn"
+                    title="Clear"
+                  >
+                    <XMarkIcon />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <input
+                    type="text"
+                    value={cardSearch}
+                    onChange={(e) => { setCardSearch(e.target.value); setShowDropdown(true); }}
+                    onFocus={() => setShowDropdown(true)}
+                    placeholder="Search cards…"
+                    className="av-input"
+                  />
+                  {showDropdown && filteredCards.length > 0 && (
+                    <ul className="av-cardselect-dd">
+                      {filteredCards.slice(0, 50).map((card) => (
+                        <li
+                          key={card.card_id}
+                          onClick={() => {
+                            setSelectedCard(card);
+                            setCardSearch(card.card_name);
+                            setShowDropdown(false);
+                          }}
+                        >
+                          <div className="av-thumb av-thumb-sm">
+                            <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="32px" />
+                          </div>
+                          <span>{card.card_name}</span>
+                          <span className="av-card-issuer">({card.bank})</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="av-field">
+            <label className="av-field-label">Submitter name</label>
+            <input
+              type="text"
+              value={submitterName}
+              onChange={(e) => setSubmitterName(e.target.value)}
+              placeholder="e.g. Reddit user, email, forum handle…"
+              className="av-input"
+              required
+            />
+          </div>
+
+          <div className="av-field">
+            <label className="av-field-label">Credit score</label>
+            <div className="av-inputgroup">
+              <input
+                type="number"
+                value={creditScore}
+                onChange={(e) => setCreditScore(parseInt(e.target.value) || 300)}
+                min={300}
+                max={850}
+                className="av-input"
+                required
+              />
+              <select
+                value={creditScoreSource}
+                onChange={(e) => setCreditScoreSource(parseInt(e.target.value))}
+                className="av-select"
+              >
+                {creditScoreSources.map((src, i) => (
+                  <option key={i} value={i}>{src}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="av-grid-2">
+            <div className="av-field">
+              <label className="av-field-label">Annual income</label>
+              <NumericFormat
+                value={income}
+                onValueChange={(values) => setIncome(values.floatValue || 0)}
+                thousandSeparator
+                prefix="$"
+                className="av-input"
+              />
+            </div>
+            <div className="av-field">
+              <label className="av-field-label">Application date</label>
+              <input
+                type="month"
+                value={dateApplied}
+                onChange={(e) => setDateApplied(e.target.value)}
+                min="2019-01"
+                className="av-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="av-field">
+            <label className="av-field-label">Age of oldest account (years)</label>
+            <input
+              type="number"
+              value={lengthCredit ?? ''}
+              onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
+              min={0}
+              max={100}
+              placeholder="Optional"
+              className="av-input"
+            />
+          </div>
+
+          <div className="av-field" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <label className="av-field-label" style={{ margin: 0 }}>Existing bank customer?</label>
+            <button
+              type="button"
+              onClick={() => setBankCustomer(!bankCustomer)}
+              className={'av-switch' + (bankCustomer ? ' on' : '')}
+              aria-pressed={bankCustomer}
+            >
+              <span className="av-switch-thumb" />
+            </button>
+          </div>
+
+          <div className="av-field">
+            <label className="av-field-label">Hard inquiries</label>
+            <div className="av-grid-3">
+              <div className="av-field">
+                <span className="av-field-sub">Last 3 months</span>
+                <input
+                  type="number"
+                  value={inquiries3 ?? ''}
+                  onChange={(e) => setInquiries3(e.target.value === '' ? null : parseInt(e.target.value))}
+                  min={0} max={50} placeholder="-"
+                  className="av-input"
+                />
+              </div>
+              <div className="av-field">
+                <span className="av-field-sub">Last 12 months</span>
+                <input
+                  type="number"
+                  value={inquiries12 ?? ''}
+                  onChange={(e) => setInquiries12(e.target.value === '' ? null : parseInt(e.target.value))}
+                  min={0} max={50} placeholder="-"
+                  className="av-input"
+                />
+              </div>
+              <div className="av-field">
+                <span className="av-field-sub">Last 24 months</span>
+                <input
+                  type="number"
+                  value={inquiries24 ?? ''}
+                  onChange={(e) => setInquiries24(e.target.value === '' ? null : parseInt(e.target.value))}
+                  min={0} max={50} placeholder="-"
+                  className="av-input"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="av-field">
+            <label className="av-field-label">Result</label>
+            <div className="av-result-toggle">
+              <button
+                type="button"
+                onClick={() => setResult(true)}
+                className={'av-result-btn av-result-approved' + (result ? ' active' : '')}
+              >
+                Approved
+              </button>
+              <button
+                type="button"
+                onClick={() => setResult(false)}
+                className={'av-result-btn av-result-denied' + (!result ? ' active' : '')}
+              >
+                Denied
+              </button>
+            </div>
+          </div>
+
+          {result && (
+            <div className="av-field">
+              <label className="av-field-label">Starting credit limit</label>
+              <NumericFormat
+                value={startingCreditLimit ?? ''}
+                onValueChange={(values) => setStartingCreditLimit(values.floatValue ?? null)}
+                thousandSeparator
+                prefix="$"
+                placeholder="Optional"
+                className="av-input"
+              />
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={submitting || !selectedCard}
+            className="av-btn av-btn-primary"
+            style={{ alignSelf: 'flex-start', padding: '9px 20px' }}
+          >
+            {submitting ? 'Submitting…' : 'Submit record'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 // ============ AUDIT TAB ============
-function AuditTab({ logs, total }: { logs: AuditLogEntry[]; total: number }) {
+function AuditTab({ logs }: { logs: AuditLogEntry[] }) {
+  const pillForAction = (a: string) =>
+    a === 'DELETE' ? 'av-pill-den'
+    : a === 'APPROVE' ? 'av-pill-app'
+    : a === 'ADMIN_CREATE' ? 'av-pill-info'
+    : 'av-pill';
+
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden">
-      <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900">Audit Log ({total})</h3>
+    <div className="av-tape">
+      <div className="av-tape-scroll">
+        <div className="av-tape-head" style={{ gridTemplateColumns: '100px 140px minmax(140px, 1fr) 160px minmax(140px, 1.4fr)' }}>
+          <span>Action</span>
+          <span>Entity</span>
+          <span>Admin</span>
+          <span>Date</span>
+          <span>Details</span>
+        </div>
+        {logs.length === 0 ? (
+          <div className="av-tape-empty">No audit log entries yet.</div>
+        ) : logs.map((log) => (
+          <div key={log.id} className="av-tape-row" style={{ gridTemplateColumns: '100px 140px minmax(140px, 1fr) 160px minmax(140px, 1.4fr)' }}>
+            <span>
+              <span className={'av-pill ' + pillForAction(log.action)}>{log.action}</span>
+            </span>
+            <span>{log.entity_type} #{log.entity_id}</span>
+            <span className="av-mono" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{log.admin_email || log.admin_id}</span>
+            <span className="av-mono">{new Date(log.created_at).toLocaleString()}</span>
+            <span className="av-mono" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {log.details ? JSON.stringify(JSON.parse(log.details), null, 0).slice(0, 80) + '…' : '-'}
+            </span>
+          </div>
+        ))}
       </div>
-      {logs.length === 0 ? (
-        <div className="px-4 py-12 text-center text-gray-500">
-          No audit log entries yet.
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Action</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Entity</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Admin</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Date</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500">Details</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {logs.map((log) => (
-                <tr key={log.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      log.action === 'DELETE' ? 'bg-red-100 text-red-800' :
-                      log.action === 'APPROVE' ? 'bg-green-100 text-green-800' :
-                      log.action === 'ADMIN_CREATE' ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {log.action}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                    {log.entity_type} #{log.entity_id}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                    {log.admin_email || log.admin_id}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(log.created_at).toLocaleString()}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-500 max-w-xs truncate">
-                    {log.details ? JSON.stringify(JSON.parse(log.details), null, 0).slice(0, 50) + '...' : '-'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
     </div>
   );
 }
