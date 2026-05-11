@@ -167,7 +167,7 @@ export default function Navbar() {
                       Wallet
                     </Link>
 
-                    <Menu as="div" className="relative z-10">
+                    <Menu as="div" className="relative z-10 flex items-center">
                       {({ open: menuOpen }) => (
                         <>
                           <Menu.Button className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-[3px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
