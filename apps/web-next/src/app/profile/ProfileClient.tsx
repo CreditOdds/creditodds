@@ -7,7 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, getUserSettings, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, WalletCard, Card } from "@/lib/api";
 import "../landing.css";
 import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -34,7 +34,6 @@ const SelectCategoriesModal = dynamic(() => import("@/components/wallet/SelectCa
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
 const BestCardHere = dynamic(() => import("@/components/wallet/BestCardHere"), { ssr: false, loading: () => null });
 const WalletBenefits = dynamic(() => import("@/components/wallet/WalletBenefits"), { ssr: false, loading: () => null });
-const PlaidConnect = dynamic(() => import("@/components/wallet/PlaidConnect"), { ssr: false, loading: () => null });
 const SubmitRecordModal = dynamic(() => import("@/components/forms/SubmitRecordModal"), { ssr: false, loading: () => null });
 const SubmitRecordCardPicker = dynamic(() => import("@/components/forms/SubmitRecordCardPicker"), { ssr: false, loading: () => null });
 const RuleProgressChart = dynamic(() => import("@/components/charts/RuleProgressChart"), {
@@ -138,7 +137,6 @@ export default function ProfileClient() {
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
   const [editingRecord, setEditingRecord] = useState<RecordItem | null>(null);
   const [pickingCategoriesFor, setPickingCategoriesFor] = useState<WalletCard | null>(null);
-  const [plaidBetaEnabled, setPlaidBetaEnabled] = useState(false);
   const cardLookups = useMemo(() => createCardLookups(allCards), [allCards]);
 
   // Cards whose YAML defines a `user_choice` or `auto_top_spend` reward block —
@@ -345,14 +343,7 @@ export default function ProfileClient() {
       setReferralsLoaded(true);
     };
 
-    const loadSettings = async () => {
-      try {
-        const s = await getUserSettings(token);
-        setPlaidBetaEnabled(Boolean(s.plaid_beta_enabled));
-      } catch (e) { console.error("User settings error:", e); }
-    };
-
-    loadWallet(); loadRecords(); loadReferrals(); loadSettings();
+    loadWallet(); loadRecords(); loadReferrals();
   };
 
   const handleEditRecord = (recordId: number) => {
@@ -646,7 +637,6 @@ export default function ProfileClient() {
                     <span className="cj-walletwide-rule" style={{ flex: 1, height: 1, background: 'var(--line)' }} />
                   </div>
                   <BestCardByCategory walletCards={walletCards} allCards={allCards} />
-                  {plaidBetaEnabled && <PlaidConnect />}
                 </section>
               )
             )}
