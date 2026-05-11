@@ -5,10 +5,10 @@ import NewsV2Client from "./NewsV2Client";
 
 export const metadata: Metadata = {
   title: "Card News - Credit Card Updates",
-  description: "Stay up to date with the latest credit card news, bonus changes, new card launches, and policy updates from major banks.",
+  description: "Latest credit card news. Bonus changes, new launches, fee updates, and policy shifts from Chase, Amex, Capital One, and more.",
   openGraph: {
     title: "Card News | CreditOdds",
-    description: "Latest credit card news, bonus changes, and updates from major banks.",
+    description: "Latest credit card news. Bonus changes, new launches, fee updates, and policy shifts from Chase, Amex, Capital One, and more.",
     url: "https://creditodds.com/news",
     type: "website",
   },
@@ -27,7 +27,7 @@ export default async function NewsPage() {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "Card News",
-    description: "Stay up to date with the latest credit card news, bonus changes, new card launches, and policy updates from major banks.",
+    description: "Latest credit card news. Bonus changes, new launches, fee updates, and policy shifts from Chase, Amex, Capital One, and more.",
     url: "https://creditodds.com/news",
     mainEntity: {
       "@type": "ItemList",

@@ -20,7 +20,11 @@ export function OrganizationSchema({
     name,
     url,
     logo: `${url}/logo.png`,
-    sameAs: [],
+    sameAs: [
+      'https://x.com/creditodds',
+      'https://github.com/CreditOdds',
+      'https://www.linkedin.com/company/creditodds',
+    ],
   };
 
   return (
@@ -50,7 +54,7 @@ export function WebsiteSchema({
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${url}/card/{search_term_string}`,
+        urlTemplate: `${url}/explore?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

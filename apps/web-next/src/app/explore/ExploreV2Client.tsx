@@ -279,6 +279,11 @@ function TopRewardCell({ card }: { card: Card }) {
 
 export default function ExploreV2Client({ cards, trendingViews }: ExploreV2ClientProps) {
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) setQuery(q);
+  }, []);
   const [sort, setSort] = useState<SortKey>('trending');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [includeArchived, setIncludeArchived] = useState(false);

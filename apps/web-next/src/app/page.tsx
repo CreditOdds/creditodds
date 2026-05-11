@@ -12,17 +12,17 @@ import LandingClient, {
 
 export const metadata: Metadata = {
   title: "CreditOdds - See Your Credit Card Approval Odds",
-  description: "Check your approval odds before applying for credit cards. Real data from thousands of applications showing credit scores, income levels, and approval rates.",
+  description: "Real approval data from thousands of applications. Find the best card for every store, compare rewards, and follow card news from major issuers. Apply and spend smarter.",
   openGraph: {
     title: "CreditOdds - See Your Credit Card Approval Odds",
-    description: "Check your approval odds before applying for credit cards. Real data from thousands of applications.",
+    description: "Real approval data from thousands of applications. Find the best card for every store, compare rewards, and follow card news from major issuers. Apply and spend smarter.",
     url: "https://creditodds.com",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "CreditOdds - See Your Credit Card Approval Odds",
-    description: "Check your approval odds before applying for credit cards. Real data from thousands of applications.",
+    description: "Real approval data from thousands of applications. Find the best card for every store, compare rewards, and follow card news from major issuers. Apply and spend smarter.",
   },
   alternates: {
     canonical: "https://creditodds.com",

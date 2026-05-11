@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     default: "CreditOdds: Credit Card Approval Odds",
     template: "%s | CreditOdds",
   },
-  description: "Explore what it takes to get approved for credit cards. See user-reported approval data.",
+  description: "Real approval data from thousands of applications. Find the best card for every store, compare rewards, and follow card news from major issuers. Apply and spend smarter.",
   metadataBase: new URL("https://creditodds.com"),
   openGraph: {
     title: "CreditOdds: Credit Card Approval Odds",
-    description: "Explore what it takes to get approved for credit cards",
+    description: "Real approval data plus the best card for every store. Apply and spend smarter.",
     url: "https://creditodds.com",
     siteName: "CreditOdds",
     type: "website",

@@ -6,10 +6,10 @@ import "../static-pages.css";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "CreditOdds Use of Private Information Policy",
+  description: "How CreditOdds collects, stores, and uses the credit data you share. We never sell user data and only store the minimum needed to compute approval odds.",
   openGraph: {
     title: "Privacy Policy | CreditOdds",
-    description: "CreditOdds Use of Private Information Policy",
+    description: "How CreditOdds collects, stores, and uses the credit data you share. We never sell user data and only store the minimum needed to compute approval odds.",
     url: "https://creditodds.com/privacy",
     type: "website",
   },
