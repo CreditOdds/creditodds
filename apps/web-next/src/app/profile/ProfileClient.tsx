@@ -600,6 +600,7 @@ export default function ProfileClient() {
                 onSubmitRecord={(c) => setSubmitRecordCard(c)}
                 onAddReferral={() => setShowReferralModal(true)}
                 onReorder={handleReorderWallet}
+                plaidSummaries={plaidSummaries}
               />
             )}
 
@@ -960,13 +961,14 @@ interface CardsTabProps {
   onSubmitRecord: (c: WalletCard) => void;
   onAddReferral: () => void;
   onReorder: (sourceId: number, targetId: number) => void;
+  plaidSummaries: PlaidSpendSummary[];
 }
 
 function CardsTab(props: CardsTabProps) {
   const {
     walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, inactiveCount, showArchived, setShowArchived,
     openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals, cardsWithSelectableRewards,
-    totalAnnualFees, onAdd, onEdit, onPickCategories, onSubmitRecord, onAddReferral, onReorder,
+    totalAnnualFees, onAdd, onEdit, onPickCategories, onSubmitRecord, onAddReferral, onReorder, plaidSummaries,
   } = props;
   const [dragId, setDragId] = useState<number | null>(null);
   const [dragOverId, setDragOverId] = useState<number | null>(null);
