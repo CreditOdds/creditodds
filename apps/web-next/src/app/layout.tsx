@@ -26,6 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@creditodds",
     creator: "@MaxwellMelcher",
   },
   authors: [{ name: "Maxwell Melcher" }],
