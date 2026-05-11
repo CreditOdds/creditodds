@@ -6963,6 +6963,63 @@
   border-bottom-color: var(--accent);
   font-weight: 600;
 }
+
+/* Raw-data table view for the approval-odds section (toggled via cj-odds-view-tabs) */
+.landing-v2 .cj-records-wrap {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.landing-v2 .cj-records-scroll {
+  overflow-x: auto;
+}
+.landing-v2 .cj-records-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  font-family: 'Inter', sans-serif;
+  min-width: 720px;
+}
+.landing-v2 .cj-records-table th,
+.landing-v2 .cj-records-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px dashed var(--line);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.landing-v2 .cj-records-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.landing-v2 .cj-records-table th {
+  background: var(--surface-2, #f7f5fc);
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+.landing-v2 .cj-records-table td.num {
+  font-variant-numeric: tabular-nums;
+}
+.landing-v2 .cj-records-table tbody tr:hover { background: rgba(109, 63, 232, 0.04); }
+.landing-v2 .cj-records-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.landing-v2 .cj-records-pill.is-approved {
+  background: rgba(109, 63, 232, 0.12);
+  color: var(--accent);
+}
+.landing-v2 .cj-records-pill.is-denied {
+  background: rgba(210, 58, 98, 0.12);
+  color: var(--warn);
+}
 .landing-v2 .cj-chart-stage > .cj-chart-body {
   padding: 12px;
   min-width: 0;

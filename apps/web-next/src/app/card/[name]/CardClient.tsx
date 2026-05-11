@@ -14,6 +14,7 @@ import {
 import { useAuth } from "@/auth/AuthProvider";
 import {
   Card,
+  CardRecord,
   GraphData,
   Reward,
   trackCardApplyClick,
@@ -32,6 +33,7 @@ import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
 import { withApplySource } from "@/lib/applyLink";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import CardRecordsTable from "./CardRecordsTable";
 import "../../landing.css";
 
 const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
@@ -230,6 +232,7 @@ function WireChip({
 interface CardClientProps {
   card: Card;
   graphData: GraphData[];
+  records: CardRecord[];
   news: NewsItem[];
   articles: Article[];
   ratings: { count: number; average: number | null };
@@ -258,6 +261,7 @@ function SubmitParamWatcher({ slug, onTrigger }: { slug: string; onTrigger: () =
 export default function CardClient({
   card,
   graphData,
+  records,
   news,
   articles,
   ratings,
@@ -270,6 +274,7 @@ export default function CardClient({
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [activeChart, setActiveChart] = useState<"score" | "history" | "limit">("score");
+  const [oddsView, setOddsView] = useState<"charts" | "data">("charts");
   const shareMenuRef = useRef<HTMLDivElement | null>(null);
   const { authState } = useAuth();
   const router = useRouter();
@@ -1165,6 +1170,33 @@ export default function CardClient({
 
             {(card.total_records || 0) >= MIN_DATA_POINTS_FOR_CHARTS && (card.approved_count || 0) > 0 ? (
               <>
+                <div className="cj-graph-tabs cj-odds-view-tabs" role="tablist" style={{ marginTop: 8 }}>
+                  <button
+                    role="tab"
+                    type="button"
+                    aria-selected={oddsView === 'charts'}
+                    className={`cj-graph-tab${oddsView === 'charts' ? ' active' : ''}`}
+                    onClick={() => setOddsView('charts')}
+                  >
+                    Charts
+                  </button>
+                  <button
+                    role="tab"
+                    type="button"
+                    aria-selected={oddsView === 'data'}
+                    className={`cj-graph-tab${oddsView === 'data' ? ' active' : ''}`}
+                    onClick={() => setOddsView('data')}
+                  >
+                    Raw data
+                    {records.length > 0 && (
+                      <span style={{ opacity: 0.6, marginLeft: 6 }}>
+                        ({records.length})
+                      </span>
+                    )}
+                  </button>
+                </div>
+                {oddsView === 'charts' ? (
+                <>
                 <div className="cj-stat-strip">
                   <div className="cj-stat">
                     <div className="cj-stat-k">Median FICO</div>
@@ -1339,6 +1371,10 @@ export default function CardClient({
                     </div>
                   );
                 })()}
+                </>
+                ) : (
+                  <CardRecordsTable records={records} />
+                )}
 
                 {card.accepting_applications && (
                   <div className="cj-verdict" style={{ marginTop: 20 }}>
