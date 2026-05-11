@@ -193,4 +193,78 @@ async function syncByPlaidItemId(plaidItemId) {
   return syncItemTransactions(rows[0].id);
 }
 
-module.exports = { syncItemTransactions, syncByPlaidItemId };
+// Pull Plaid Liabilities (statement dates, balances, APRs) for every credit
+// card account under an Item. Best-effort: failures don't poison the
+// transaction sync. Many institutions return liabilities only for credit /
+// student-loan accounts; depository accounts produce nothing here.
+async function syncLiabilitiesForItem(plaidItemRowId) {
+  const items = await mysql.query(
+    `SELECT id, access_token_encrypted FROM user_plaid_items WHERE id = ? LIMIT 1`,
+    [plaidItemRowId]
+  );
+  if (items.length === 0) return { ok: false, reason: 'item not found' };
+
+  const accounts = await mysql.query(
+    `SELECT id, plaid_account_id FROM user_plaid_accounts WHERE plaid_item_row_id = ?`,
+    [plaidItemRowId]
+  );
+  const accountRowMap = new Map(accounts.map((a) => [a.plaid_account_id, a.id]));
+
+  let accessToken;
+  try {
+    accessToken = decryptToken(items[0].access_token_encrypted);
+  } catch {
+    return { ok: false, reason: 'decrypt failed' };
+  }
+
+  const plaidClient = getPlaidClient();
+  let res;
+  try {
+    res = await plaidClient.liabilitiesGet({ access_token: accessToken });
+  } catch (e) {
+    const code = e?.response?.data?.error_code;
+    // PRODUCT_NOT_READY is normal right after Item creation — Plaid takes a
+    // few minutes to prepare liabilities. Caller can retry on next sync.
+    console.warn('liabilities sync skipped:', code || e.message);
+    return { ok: false, reason: code || 'plaid error' };
+  }
+
+  const ccs = res.data?.liabilities?.credit || [];
+  let upserted = 0;
+  for (const cc of ccs) {
+    const accountRowId = accountRowMap.get(cc.account_id);
+    if (!accountRowId) continue;
+    await mysql.query(
+      `INSERT INTO user_plaid_liabilities
+         (plaid_account_row_id, last_statement_issue_date, last_statement_balance,
+          minimum_payment_amount, next_payment_due_date, last_payment_date,
+          last_payment_amount, is_overdue, aprs, last_synced_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+       ON DUPLICATE KEY UPDATE
+         last_statement_issue_date = VALUES(last_statement_issue_date),
+         last_statement_balance = VALUES(last_statement_balance),
+         minimum_payment_amount = VALUES(minimum_payment_amount),
+         next_payment_due_date = VALUES(next_payment_due_date),
+         last_payment_date = VALUES(last_payment_date),
+         last_payment_amount = VALUES(last_payment_amount),
+         is_overdue = VALUES(is_overdue),
+         aprs = VALUES(aprs),
+         last_synced_at = NOW()`,
+      [
+        accountRowId,
+        cc.last_statement_issue_date || null,
+        cc.last_statement_balance ?? null,
+        cc.minimum_payment_amount ?? null,
+        cc.next_payment_due_date || null,
+        cc.last_payment_date || null,
+        cc.last_payment_amount ?? null,
+        cc.is_overdue ?? null,
+        JSON.stringify(cc.aprs || []),
+      ]
+    );
+    upserted += 1;
+  }
+  return { ok: true, upserted };
+}
+
+module.exports = { syncItemTransactions, syncByPlaidItemId, syncLiabilitiesForItem };

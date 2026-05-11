@@ -1399,6 +1399,17 @@ export interface PlaidAccount {
   mask: string | null;
   account_type: string | null;
   account_subtype: string | null;
+  // Liabilities (Phase 4) — present only for credit card accounts that have
+  // synced via Plaid /liabilities/get. May be null for sandbox accounts where
+  // Plaid hasn't prepared liabilities yet, or for non-credit-card subtypes.
+  last_statement_issue_date: string | null;
+  last_statement_balance: string | number | null;
+  next_payment_due_date: string | null;
+  minimum_payment_amount: string | number | null;
+  last_payment_date: string | null;
+  last_payment_amount: string | number | null;
+  is_overdue: boolean | number | null;
+  liabilities_synced_at: string | null;
 }
 
 export interface PlaidItem {
@@ -1436,6 +1447,26 @@ export interface PlaidTransactionsResponse {
   total: number;
   limit: number;
   offset: number;
+}
+
+export interface PlaidSpendBucket {
+  pfc_primary: string | null;
+  pfc_detailed: string | null;
+  spend: string;
+  txn_count: number;
+}
+
+export interface PlaidSpendSummary {
+  user_card_id: number;
+  account_id: number;
+  cycle_start: string;
+  cycle_end: string;
+  cycle_source: 'liabilities' | 'calendar_month';
+  buckets: PlaidSpendBucket[];
+}
+
+export interface PlaidSpendSummaryResponse {
+  summaries: PlaidSpendSummary[];
 }
 
 export async function getPlaidItems(token: string): Promise<PlaidItem[]> {
@@ -1538,6 +1569,18 @@ export async function syncPlaidItem(itemRowId: number, token: string): Promise<P
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');
     throw new Error(`Sync failed: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function getPlaidSpendSummary(token: string): Promise<PlaidSpendSummaryResponse> {
+  const res = await fetch(`${API_BASE}/plaid/spend-summary`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    if (res.status === 403) return { summaries: [] };
+    throw new Error(`Failed to fetch spend summary: ${res.status}`);
   }
   return res.json();
 }

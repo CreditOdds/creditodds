@@ -7,7 +7,7 @@
 const mysql = require('../db');
 const { getPlaidClient, encryptToken } = require('../lib/plaid');
 const { isPlaidBetaEnabled } = require('../lib/plaid-gate');
-const { syncItemTransactions } = require('../lib/plaid-sync');
+const { syncItemTransactions, syncLiabilitiesForItem } = require('../lib/plaid-sync');
 
 const responseHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -110,6 +110,14 @@ exports.PlaidExchangeTokenHandler = async (event) => {
       initialSync = await syncItemTransactions(plaidItemRowId);
     } catch (syncErr) {
       console.error('initial sync failed (non-fatal — webhook will retry):', syncErr.message);
+    }
+    // Liabilities (statement dates, APRs) — same best-effort treatment.
+    // PRODUCT_NOT_READY is normal here; LIABILITIES.DEFAULT_UPDATE webhook
+    // will fire when Plaid finishes preparing the data.
+    try {
+      await syncLiabilitiesForItem(plaidItemRowId);
+    } catch (libErr) {
+      console.error('initial liabilities sync failed (non-fatal):', libErr.message);
     }
 
     await mysql.end();

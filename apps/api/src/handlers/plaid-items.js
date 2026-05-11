@@ -41,10 +41,15 @@ exports.PlaidItemsHandler = async (event) => {
       let txnCountByItem = new Map();
       if (itemIds.length > 0) {
         const accounts = await mysql.query(
-          `SELECT id, plaid_item_row_id, plaid_account_id, user_card_id, account_name,
-                  account_official_name, mask, account_type, account_subtype
-           FROM user_plaid_accounts
-           WHERE plaid_item_row_id IN (?)`,
+          `SELECT a.id, a.plaid_item_row_id, a.plaid_account_id, a.user_card_id, a.account_name,
+                  a.account_official_name, a.mask, a.account_type, a.account_subtype,
+                  l.last_statement_issue_date, l.last_statement_balance,
+                  l.next_payment_due_date, l.minimum_payment_amount,
+                  l.last_payment_date, l.last_payment_amount, l.is_overdue,
+                  l.last_synced_at AS liabilities_synced_at
+             FROM user_plaid_accounts a
+             LEFT JOIN user_plaid_liabilities l ON l.plaid_account_row_id = a.id
+            WHERE a.plaid_item_row_id IN (?)`,
           [itemIds]
         );
         for (const a of accounts) {

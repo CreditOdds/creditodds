@@ -13,7 +13,7 @@
 //   - ITEM.USER_PERMISSION_REVOKED         → mark as revoked
 
 const mysql = require('../db');
-const { syncByPlaidItemId } = require('../lib/plaid-sync');
+const { syncByPlaidItemId, syncLiabilitiesForItem } = require('../lib/plaid-sync');
 
 const TRANSACTIONS_SYNC_CODES = new Set([
   'SYNC_UPDATES_AVAILABLE',
@@ -50,6 +50,15 @@ exports.PlaidWebhookHandler = async (event) => {
     } else if (webhookType === 'TRANSACTIONS' && TRANSACTIONS_SYNC_CODES.has(webhookCode) && plaidItemId) {
       const result = await syncByPlaidItemId(plaidItemId);
       console.info('plaid sync result:', { plaidItemId, ...result });
+    } else if (webhookType === 'LIABILITIES' && webhookCode === 'DEFAULT_UPDATE' && plaidItemId) {
+      const rows = await mysql.query(
+        'SELECT id FROM user_plaid_items WHERE plaid_item_id = ? LIMIT 1',
+        [plaidItemId]
+      );
+      if (rows.length > 0) {
+        const result = await syncLiabilitiesForItem(rows[0].id);
+        console.info('plaid liabilities sync result:', { plaidItemId, ...result });
+      }
     }
     await mysql.end();
   } catch (error) {

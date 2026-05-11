@@ -646,7 +646,7 @@ export default function ProfileClient() {
                     <span className="cj-walletwide-rule" style={{ flex: 1, height: 1, background: 'var(--line)' }} />
                   </div>
                   <BestCardByCategory walletCards={walletCards} allCards={allCards} />
-                  {plaidBetaEnabled && <PlaidConnect walletCards={walletCards} />}
+                  {plaidBetaEnabled && <PlaidConnect walletCards={walletCards} allCards={allCards} />}
                 </section>
               )
             )}

@@ -4,7 +4,7 @@
 
 const mysql = require('../db');
 const { isPlaidBetaEnabled } = require('../lib/plaid-gate');
-const { syncItemTransactions } = require('../lib/plaid-sync');
+const { syncItemTransactions, syncLiabilitiesForItem } = require('../lib/plaid-sync');
 
 const responseHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -45,6 +45,13 @@ exports.PlaidSyncItemHandler = async (event) => {
     }
 
     const result = await syncItemTransactions(itemRowId);
+    // Liabilities is best-effort; success counts even if it fails.
+    let liabilities = null;
+    try {
+      liabilities = await syncLiabilitiesForItem(itemRowId);
+    } catch (libErr) {
+      console.error('liabilities sync failed during manual refresh:', libErr.message);
+    }
     await mysql.end();
 
     if (!result.ok) {
@@ -54,7 +61,7 @@ exports.PlaidSyncItemHandler = async (event) => {
         body: JSON.stringify({ error: 'Sync failed', reason: result.reason }),
       };
     }
-    return { statusCode: 200, headers: responseHeaders, body: JSON.stringify(result) };
+    return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ ...result, liabilities }) };
   } catch (error) {
     console.error('plaid sync-item error:', error);
     await mysql.end();

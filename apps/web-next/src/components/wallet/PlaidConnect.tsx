@@ -21,16 +21,100 @@ import {
   deletePlaidItem,
   syncPlaidItem,
   getPlaidTransactions,
+  getPlaidSpendSummary,
   setPlaidAccountCard,
   type PlaidItem,
   type PlaidAccount,
   type PlaidTransaction,
+  type PlaidSpendSummary,
   type WalletCard,
+  type Card,
 } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
+import { pfcToCategory, categoryLabel } from '@/lib/plaidPfc';
 
 interface PlaidConnectProps {
   walletCards: WalletCard[];
+  allCards: Card[];
+}
+
+// Roll up per-account spend buckets by CreditOdds reward category. Uses the
+// PFC-detailed → primary fallback inside pfcToCategory so we attribute as
+// specifically as possible (e.g. FOOD_AND_DRINK_GROCERIES → groceries, not the
+// fall-through dining default).
+function bucketsByCategory(summary: PlaidSpendSummary): Map<string, { spend: number; txnCount: number }> {
+  const out = new Map<string, { spend: number; txnCount: number }>();
+  for (const b of summary.buckets) {
+    const cat = pfcToCategory(b.pfc_primary, b.pfc_detailed);
+    const existing = out.get(cat) || { spend: 0, txnCount: 0 };
+    existing.spend += Number(b.spend) || 0;
+    existing.txnCount += b.txn_count;
+    out.set(cat, existing);
+  }
+  return out;
+}
+
+interface CapInfo {
+  category: string;
+  rate: number;
+  unit: string;
+  cap?: number;
+  capPeriod?: string;
+}
+
+// Pull the rate + cap for a given CreditOdds category from a card's rewards
+// array. Returns null if the card has no matching reward (in which case the
+// transaction earns the card's flat rate, which we don't surface here).
+function rewardForCategory(card: Card | undefined, category: string): CapInfo | null {
+  if (!card?.rewards) return null;
+  const reward = card.rewards.find((r) => r.category === category);
+  if (!reward) return null;
+  return {
+    category,
+    rate: reward.value,
+    unit: reward.unit,
+    cap: reward.spend_cap,
+    capPeriod: reward.cap_period,
+  };
+}
+
+// Wallet allows duplicates of the same card (each is its own row by id), so the
+// picker needs to distinguish them. Strategy: only annotate when there's >1 of
+// a given card_name, and show acquired date if set, else (A)/(B)/(C) by sort.
+function buildPickerLabels(cards: WalletCard[]): Map<number, string> {
+  const labels = new Map<number, string>();
+  const groups = new Map<string, WalletCard[]>();
+  for (const c of cards) {
+    const list = groups.get(c.card_name) || [];
+    list.push(c);
+    groups.set(c.card_name, list);
+  }
+  const monthNames = [
+    'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',
+  ];
+  for (const [name, list] of groups) {
+    if (list.length === 1) {
+      labels.set(list[0].id, `${name} (${list[0].bank})`);
+      continue;
+    }
+    // Stable order: by acquired date if any, then by id
+    const sorted = [...list].sort((a, b) => {
+      const ay = a.acquired_year ?? 9999;
+      const by = b.acquired_year ?? 9999;
+      if (ay !== by) return ay - by;
+      const am = a.acquired_month ?? 99;
+      const bm = b.acquired_month ?? 99;
+      if (am !== bm) return am - bm;
+      return a.id - b.id;
+    });
+    sorted.forEach((c, i) => {
+      const dated = c.acquired_year
+        ? `acquired ${c.acquired_month ? monthNames[c.acquired_month - 1] + ' ' : ''}${c.acquired_year}`
+        : `#${String.fromCharCode(65 + i)}`;
+      labels.set(c.id, `${name} (${c.bank}) — ${dated}`);
+    });
+  }
+  return labels;
 }
 
 // Heuristic: if the Plaid account is a credit card AND the user has exactly one
@@ -77,8 +161,10 @@ function formatAmount(amount: string | number, currency: string | null): string 
   return `${sign}$${Math.abs(n).toFixed(2)}${currency && currency !== 'USD' ? ` ${currency}` : ''}`;
 }
 
-export default function PlaidConnect({ walletCards }: PlaidConnectProps) {
+export default function PlaidConnect({ walletCards, allCards }: PlaidConnectProps) {
   const { getToken } = useAuth();
+  const pickerLabels = buildPickerLabels(walletCards);
+  const cardById = new Map(allCards.map((c) => [c.card_id, c] as [number, Card]));
   const [items, setItems] = useState<PlaidItem[]>([]);
   const [linkToken, setLinkToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -86,17 +172,20 @@ export default function PlaidConnect({ walletCards }: PlaidConnectProps) {
   const [savingMappingId, setSavingMappingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [recentTxns, setRecentTxns] = useState<PlaidTransaction[]>([]);
+  const [summaries, setSummaries] = useState<PlaidSpendSummary[]>([]);
 
   const refresh = useCallback(async () => {
     const token = await getToken();
     if (!token) return;
     try {
-      const [next, txns] = await Promise.all([
+      const [next, txns, summary] = await Promise.all([
         getPlaidItems(token),
         getPlaidTransactions(token, { limit: 10 }).catch(() => ({ transactions: [], total: 0, limit: 10, offset: 0 })),
+        getPlaidSpendSummary(token).catch(() => ({ summaries: [] })),
       ]);
       setItems(next);
       setRecentTxns(txns.transactions);
+      setSummaries(summary.summaries);
     } catch (e) {
       console.error('Failed to load Plaid items', e);
     }
@@ -291,70 +380,148 @@ export default function PlaidConnect({ walletCards }: PlaidConnectProps) {
                 <ul style={{ listStyle: 'none', padding: '12px 0 0 0', margin: '12px 0 0 0', borderTop: '1px solid #f3f4f6' }}>
                   {item.accounts.map((account) => {
                     const suggested = suggestedWalletCardId(account, walletCards, item.institution_name);
+                    const summary = summaries.find((s) => s.account_id === account.id);
+                    const walletCard = account.user_card_id != null ? walletCards.find((c) => c.id === account.user_card_id) : undefined;
+                    const card = walletCard ? cardById.get(walletCard.card_id) : undefined;
+                    const byCat = summary ? bucketsByCategory(summary) : null;
                     return (
-                      <li
-                        key={account.id}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          gap: 12,
-                          padding: '8px 0',
-                          fontSize: 13,
-                        }}
-                      >
-                        <div style={{ minWidth: 0, flex: 1 }}>
-                          <div style={{ fontWeight: 500 }}>
-                            {account.account_official_name || account.account_name || 'Account'}
-                            {account.mask ? <span style={{ color: 'var(--muted, #6b7280)', marginLeft: 6 }}>··· {account.mask}</span> : null}
+                      <li key={account.id} style={{ padding: '8px 0', fontSize: 13 }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: 12,
+                          }}
+                        >
+                          <div style={{ minWidth: 0, flex: 1 }}>
+                            <div style={{ fontWeight: 500 }}>
+                              {account.account_official_name || account.account_name || 'Account'}
+                              {account.mask ? <span style={{ color: 'var(--muted, #6b7280)', marginLeft: 6 }}>··· {account.mask}</span> : null}
+                            </div>
+                            <div style={{ fontSize: 11, color: 'var(--muted, #6b7280)', textTransform: 'capitalize' }}>
+                              {account.account_subtype || account.account_type || 'unknown type'}
+                              {account.last_statement_issue_date ? (
+                                <> · stmt closed {account.last_statement_issue_date}</>
+                              ) : null}
+                            </div>
                           </div>
-                          <div style={{ fontSize: 11, color: 'var(--muted, #6b7280)', textTransform: 'capitalize' }}>
-                            {account.account_subtype || account.account_type || 'unknown type'}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            {suggested != null && account.user_card_id == null && (
+                              <button
+                                type="button"
+                                onClick={() => handleMappingChange(account.id, String(suggested))}
+                                disabled={savingMappingId === account.id}
+                                style={{
+                                  fontSize: 11,
+                                  padding: '3px 8px',
+                                  borderRadius: 999,
+                                  background: '#fef3c7',
+                                  color: '#92400e',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  fontWeight: 600,
+                                }}
+                                title="Apply suggested wallet card"
+                              >
+                                Suggested: {pickerLabels.get(suggested) ?? walletCards.find((c) => c.id === suggested)?.card_name}
+                              </button>
+                            )}
+                            <select
+                              value={account.user_card_id ?? ''}
+                              onChange={(e) => handleMappingChange(account.id, e.target.value)}
+                              disabled={savingMappingId === account.id}
+                              aria-label={`Map ${account.account_name || 'account'} to wallet card`}
+                              style={{
+                                fontSize: 12,
+                                padding: '4px 8px',
+                                borderRadius: 6,
+                                border: '1px solid #d1d5db',
+                                background: 'white',
+                                maxWidth: 280,
+                              }}
+                            >
+                              <option value="">— Not mapped —</option>
+                              {walletCards.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                  {pickerLabels.get(c.id) ?? c.card_name}
+                                </option>
+                              ))}
+                            </select>
                           </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          {suggested != null && account.user_card_id == null && (
-                            <button
-                              type="button"
-                              onClick={() => handleMappingChange(account.id, String(suggested))}
-                              disabled={savingMappingId === account.id}
-                              style={{
-                                fontSize: 11,
-                                padding: '3px 8px',
-                                borderRadius: 999,
-                                background: '#fef3c7',
-                                color: '#92400e',
-                                border: 'none',
-                                cursor: 'pointer',
-                                fontWeight: 600,
-                              }}
-                              title="Apply suggested wallet card"
-                            >
-                              Suggested: {walletCards.find((c) => c.id === suggested)?.card_name}
-                            </button>
-                          )}
-                          <select
-                            value={account.user_card_id ?? ''}
-                            onChange={(e) => handleMappingChange(account.id, e.target.value)}
-                            disabled={savingMappingId === account.id}
-                            aria-label={`Map ${account.account_name || 'account'} to wallet card`}
+
+                        {summary && byCat && byCat.size > 0 && (
+                          <div
                             style={{
-                              fontSize: 12,
-                              padding: '4px 8px',
+                              marginTop: 10,
+                              padding: '10px 12px',
+                              background: '#f9fafb',
                               borderRadius: 6,
-                              border: '1px solid #d1d5db',
-                              background: 'white',
-                              maxWidth: 220,
+                              fontSize: 12,
                             }}
                           >
-                            <option value="">— Not mapped —</option>
-                            {walletCards.map((c) => (
-                              <option key={c.id} value={c.id}>
-                                {c.card_name} ({c.bank})
-                              </option>
-                            ))}
-                          </select>
-                        </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, color: 'var(--muted, #6b7280)' }}>
+                              <span style={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.4 }}>
+                                This cycle
+                              </span>
+                              <span>
+                                {summary.cycle_start} – {summary.cycle_end}
+                                {summary.cycle_source === 'calendar_month' ? ' (calendar fallback)' : ''}
+                              </span>
+                            </div>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                              {Array.from(byCat.entries())
+                                .sort((a, b) => b[1].spend - a[1].spend)
+                                .map(([categoryId, agg]) => {
+                                  const reward = rewardForCategory(card, categoryId);
+                                  const pct = reward?.cap ? Math.min(100, (agg.spend / reward.cap) * 100) : null;
+                                  return (
+                                    <li key={categoryId} style={{ marginBottom: 6 }}>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        <span>
+                                          <span style={{ fontWeight: 500 }}>{categoryLabel(categoryId)}</span>
+                                          {' '}
+                                          <span style={{ color: 'var(--muted, #6b7280)' }}>
+                                            ({agg.txnCount} txn{agg.txnCount === 1 ? '' : 's'})
+                                          </span>
+                                          {reward ? (
+                                            <span style={{ marginLeft: 8, fontSize: 11, color: '#4338ca' }}>
+                                              {reward.rate}{reward.unit === 'cash_back' ? '%' : 'x'}
+                                              {reward.cap ? ` · cap $${reward.cap.toLocaleString()}${reward.capPeriod ? '/' + reward.capPeriod : ''}` : ''}
+                                            </span>
+                                          ) : null}
+                                        </span>
+                                        <span style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+                                          ${agg.spend.toFixed(2)}
+                                        </span>
+                                      </div>
+                                      {pct != null && reward?.cap && (
+                                        <div
+                                          style={{
+                                            marginTop: 4,
+                                            height: 4,
+                                            background: '#e5e7eb',
+                                            borderRadius: 2,
+                                            overflow: 'hidden',
+                                          }}
+                                        >
+                                          <div
+                                            style={{
+                                              width: `${pct}%`,
+                                              height: '100%',
+                                              background: pct >= 95 ? '#dc2626' : pct >= 70 ? '#d97706' : '#059669',
+                                              transition: 'width 200ms',
+                                            }}
+                                          />
+                                        </div>
+                                      )}
+                                    </li>
+                                  );
+                                })}
+                            </ul>
+                          </div>
+                        )}
                       </li>
                     );
                   })}
