@@ -1440,7 +1440,12 @@ function SettingsTab(props: SettingsTabProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  const savedSeed = settings?.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null;
+  // Same flicker guard as the Navbar: hold until /user-settings resolves so
+  // we don't render the UID-seeded fallback before the saved seed lands.
+  const settingsLoaded = settings !== null;
+  const savedSeed = settingsLoaded
+    ? settings.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null
+    : null;
   const displayedSeed = pendingSeed ?? savedSeed;
   const hasPending = pendingSeed !== null;
 
@@ -1490,8 +1495,13 @@ function SettingsTab(props: SettingsTabProps) {
               onClick={handleReroll}
               aria-label="Re-roll avatar"
               title="Re-roll"
+              disabled={!settingsLoaded}
             >
-              <UserAvatar seed={displayedSeed} size={48} />
+              {settingsLoaded && (
+                <span key={displayedSeed ?? 'guest'} className="cj-avatar-fade-in">
+                  <UserAvatar seed={displayedSeed} size={48} />
+                </span>
+              )}
               <span className="cj-avatar-reroll-overlay">Re-roll</span>
             </button>
             {hasPending && (
