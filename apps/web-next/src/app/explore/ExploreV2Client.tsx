@@ -392,18 +392,32 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
   }, [cards, query, sort, sortDir, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly]);
 
   return (
-    <div className="landing-v2">
-      <section className="page-hero wrap">
-        <h1 className="page-title">
-          Every card. <em>Everything you need.</em>
+    <div className="landing-v2 explore-v2">
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current">Explore</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span>
+            <span className="cj-status-dot" />
+            {totalCount.toLocaleString()} cards · live
+          </span>
+        </div>
+      </div>
+
+      <section className="explore-hero wrap">
+        <h1 className="cj-section-h1">
+          Every card.{' '}
+          <em className="cj-section-accent">Everything you need.</em>
         </h1>
-        <p className="page-sub">
-          The complete credit card catalog — rewards, fees, welcome bonuses, and real
+        <p className="explore-tagline">
+          The complete credit card catalog. Rewards, fees, welcome bonuses, and real
           approval odds from the community. No affiliate rankings, just the data.
         </p>
       </section>
 
-      <div className="wrap">
+      <div className="wrap explore-body">
         <div className="filter-bar">
           <div className="search-row">
             <div className="search-wrap">
@@ -538,16 +552,13 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
           </div>
         </div>
 
-        <div className="filter-results-bar">
-          <span className="filter-results-count">
-            Showing {filtered.length} of {totalCount} cards
-          </span>
-          {hasActiveFilters && (
+        {hasActiveFilters && (
+          <div className="filter-results-bar">
             <button type="button" className="filter-clear-btn" onClick={clearFilters}>
               Clear filters
             </button>
-          )}
-        </div>
+          </div>
+        )}
 
         {filtered.length === 0 ? (
           <div
