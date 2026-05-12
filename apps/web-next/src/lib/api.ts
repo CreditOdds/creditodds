@@ -137,6 +137,7 @@ export interface Card {
   tags?: string[];
   category?: string;
   annual_fee?: number;
+  annual_fee_intro?: { value: number; months: number };
   foreign_transaction_fee?: boolean;
   apply_link?: string;
   card_referral_link?: string;

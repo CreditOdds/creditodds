@@ -2,7 +2,10 @@ name: "Citi AAdvantage Platinum Select World Elite Mastercard"
 bank: "Citi"
 slug: "citi-aadvantage-platinum-select-world-elite-m"
 accepting_applications: true
-annual_fee: 0
+annual_fee: 99
+annual_fee_intro:
+  value: 0
+  months: 12
 reward_type: "miles"
 image: "citi-aadvantage-platinum-select-world-elite.png"
 benefits:

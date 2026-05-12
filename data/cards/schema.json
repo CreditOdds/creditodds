@@ -39,6 +39,24 @@
       "minimum": 0,
       "description": "Annual fee in USD (optional)"
     },
+    "annual_fee_intro": {
+      "type": "object",
+      "required": ["value", "months"],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Promotional annual fee charged during the intro window (e.g. 0 for a waived-first-year card)"
+        },
+        "months": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Length of the intro window in months (use 12 for first-year-waived offers)"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Promotional annual fee for the first N months. Card detail page renders this alongside the regular annual_fee (optional)."
+    },
     "foreign_transaction_fee": {
       "type": "boolean",
       "description": "Whether the card charges a foreign transaction fee. true = card charges a foreign transaction fee; false = no foreign transaction fees on international purchases (optional)"
