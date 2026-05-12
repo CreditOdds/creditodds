@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-10T21:46:06.191Z",
+  "generated_at": "2026-05-12T13:41:32.769Z",
   "count": 162,
   "categories": [
     {
@@ -482,7 +482,8 @@
         "value": 150,
         "type": "cash",
         "spend_requirement": 0,
-        "timeframe_months": 0
+        "timeframe_months": 0,
+        "note": "$150 Amazon Gift Card instantly loaded upon approval"
       },
       "apr": {
         "regular": {
@@ -2716,11 +2717,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 150000,
+        "value": 75000,
         "type": "miles",
         "spend_requirement": 7500,
         "timeframe_months": 3,
-        "note": "75,000 miles after $7,500 in 3 months, plus 75,000 miles after $30,000 in 6 months"
+        "note": "Plus an additional 75,000 miles after spending an additional $22,500 in 6 months"
       },
       "benefits": [
         {
@@ -3748,6 +3749,10 @@
       "slug": "citi-aadvantage-platinum-select-world-elite-m",
       "accepting_applications": true,
       "annual_fee": 99,
+      "annual_fee_intro": {
+        "value": 0,
+        "months": 12
+      },
       "reward_type": "miles",
       "image": "citi-aadvantage-platinum-select-world-elite.png",
       "benefits": [
@@ -5128,7 +5133,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 600,
+        "value": 500,
         "type": "cash",
         "spend_requirement": 1000,
         "timeframe_months": 3,
@@ -5558,7 +5563,7 @@
         }
       ],
       "signup_bonus": {
-        "value": 70000,
+        "value": 80000,
         "type": "points",
         "spend_requirement": 2000,
         "timeframe_months": 6,

@@ -47,6 +47,24 @@ function validateCard(card, schema, categoryIds) {
     errors.push(`Invalid annual_fee: ${card.annual_fee}`);
   }
 
+  // Validate annual_fee_intro (promotional first-N-months fee, e.g. "$0 first year, then $99")
+  if (card.annual_fee_intro !== undefined) {
+    const intro = card.annual_fee_intro;
+    if (typeof intro !== 'object' || Array.isArray(intro) || intro === null) {
+      errors.push('annual_fee_intro must be an object with { value, months }');
+    } else {
+      if (typeof intro.value !== 'number' || intro.value < 0) {
+        errors.push(`Invalid annual_fee_intro.value: ${intro.value} (must be a non-negative number)`);
+      }
+      if (typeof intro.months !== 'number' || intro.months < 1 || !Number.isInteger(intro.months)) {
+        errors.push(`Invalid annual_fee_intro.months: ${intro.months} (must be a positive integer)`);
+      }
+      if (card.annual_fee === undefined) {
+        errors.push('annual_fee_intro requires annual_fee to be set');
+      }
+    }
+  }
+
   // Validate reward_type enum
   if (card.reward_type && !['cashback', 'points', 'miles'].includes(card.reward_type)) {
     errors.push(`Invalid reward_type: ${card.reward_type}`);

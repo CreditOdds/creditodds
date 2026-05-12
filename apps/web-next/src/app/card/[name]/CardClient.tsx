@@ -872,7 +872,11 @@ export default function CardClient({
                     : "—"}
                 </div>
                 <div className="cj-readoff-foot">
-                  {card.annual_fee === 0 ? "No fee" : "Per year"}
+                  {card.annual_fee === 0
+                    ? "No fee"
+                    : card.annual_fee_intro && card.annual_fee_intro.value !== card.annual_fee
+                      ? `$${card.annual_fee_intro.value} first ${card.annual_fee_intro.months === 12 ? "year" : `${card.annual_fee_intro.months} mo`}`
+                      : "Per year"}
                   <WireChip
                     entry={latestWireByField.annual_fee}
                     label="Annual fee"
