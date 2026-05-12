@@ -1,10 +1,12 @@
 name: Publish Scheduled Articles
 
 # Daily cron that promotes any article in data/articles/drafts/ whose `date`
-# field has arrived into data/articles/. The resulting commit triggers the
-# normal build-articles.yml pipeline (S3 upload, image sync, social post,
-# IndexNow), so a scheduled article publishes itself end-to-end with no
-# manual action.
+# field has arrived into data/articles/. After pushing the promotion commit,
+# this workflow explicitly dispatches build-articles.yml — because pushes
+# made with the default GITHUB_TOKEN do not trigger downstream workflows
+# (GitHub Actions safety against recursive runs), but workflow_dispatch
+# events do, so this is the supported way to chain into the normal build
+# pipeline (S3 upload, image sync, social post, IndexNow).
 
 on:
   schedule:
@@ -14,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  actions: write  # required to call `gh workflow run` against build-articles.yml
 
 jobs:
   publish:
@@ -38,9 +41,11 @@ jobs:
         run: node scripts/publish-scheduled-articles.js
 
       - name: Commit and push if anything moved
+        id: commit
         run: |
           if git diff --quiet && git diff --cached --quiet; then
             echo "No articles ready to publish today."
+            echo "moved=false" >> $GITHUB_OUTPUT
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -48,3 +53,13 @@ jobs:
           git add -A data/articles/
           git commit -m "articles: publish scheduled articles for $(date -u +%Y-%m-%d)"
           git push
+          echo "moved=true" >> $GITHUB_OUTPUT
+
+      - name: Dispatch build-articles workflow
+        if: steps.commit.outputs.moved == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # GITHUB_TOKEN pushes don't trigger downstream workflows, but
+          # workflow_dispatch events do — so we chain explicitly.
+          gh workflow run build-articles.yml --ref main
