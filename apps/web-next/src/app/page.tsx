@@ -27,6 +27,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://creditodds.com",
   },
+  verification: {
+    other: {
+      "fo-verify": "5b12ca5b-a770-4878-b243-1ab993769bde",
+    },
+  },
 };
 
 // Project a Card down to only the fields the landing page reads.
