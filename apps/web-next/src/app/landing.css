@@ -1374,6 +1374,40 @@
   margin: 0 0 12px;
 }
 
+/* ---------- Explore v2 (editorial / journal theme) ---------- */
+.landing-v2.explore-v2 .explore-hero {
+  padding-block: 28px 28px;
+  border-bottom: 1px solid var(--line);
+}
+.landing-v2.explore-v2 .explore-hero .cj-section-h1 {
+  margin: 0;
+}
+.landing-v2.explore-v2 .explore-tagline {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 56ch;
+  margin: 14px 0 0;
+}
+.landing-v2.explore-v2 .explore-body {
+  padding-block: 16px 0;
+}
+.landing-v2.explore-v2 .filter-bar {
+  border-bottom: 0;
+  padding-block: 0 16px;
+}
+.landing-v2.explore-v2 .card-table {
+  border-radius: 0;
+}
+@media (max-width: 640px) {
+  .landing-v2.explore-v2 .explore-hero {
+    padding-block: 20px 20px;
+  }
+  .landing-v2.explore-v2 .explore-tagline {
+    font-size: 15px;
+  }
+}
+
 /* ---------- Filter bar + chips ---------- */
 .landing-v2 .filter-bar {
   display: flex;
