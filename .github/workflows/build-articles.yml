@@ -17,6 +17,10 @@ on:
         required: false
         type: boolean
         default: false
+      manual_queue_files:
+        description: "Space-separated YAML paths to force-queue social posts + IndexNow for (recovery lever when auto-detection misses). Example: data/articles/foo.yaml data/articles/bar.yaml"
+        required: false
+        type: string
 
 permissions:
   id-token: write
@@ -89,11 +93,21 @@ jobs:
       - name: Detect new article files
         id: new-files
         run: |
-          # `:(glob)` magic uses shell-style globbing — `*` matches a single path
-          # component and does NOT cross `/`, so files under data/articles/drafts/
-          # are correctly excluded. Without it, git's default pathspec would treat
-          # `*.yaml` as fnmatch and match nested paths too.
-          NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- ':(glob)data/articles/*.yaml' ':(glob)data/articles/*.yml' 2>/dev/null | tr '\n' ' ' | xargs)
+          # If the workflow was dispatched with `manual_queue_files` set, that
+          # input wins — it's the recovery lever for cases where auto-detection
+          # misses (e.g., the workflow was dispatched far from the promotion
+          # commit, so `git diff HEAD~1` doesn't see the article as added).
+          if [ -n "${{ inputs.manual_queue_files }}" ]; then
+            NEW_FILES="${{ inputs.manual_queue_files }}"
+            echo "Using manually specified files (manual_queue_files input)"
+          else
+            # `:(glob)` magic uses shell-style globbing — `*` matches a single
+            # path component and does NOT cross `/`, so files under
+            # data/articles/drafts/ are correctly excluded. Without it, git's
+            # default pathspec would treat `*.yaml` as fnmatch and match nested
+            # paths too.
+            NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- ':(glob)data/articles/*.yaml' ':(glob)data/articles/*.yml' 2>/dev/null | tr '\n' ' ' | xargs)
+          fi
           echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
           if [ -n "$NEW_FILES" ]; then
             echo "New article files detected:"
