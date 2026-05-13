@@ -3,6 +3,7 @@ import SwiftUI
 /// Cards / "Wallet" tab — design screens 8 (empty) and 9 (populated).
 struct WalletTab: View {
     @StateObject private var vm = WalletViewModel()
+    @State private var showAddSheet = false
 
     var body: some View {
         NavigationStack {
@@ -41,11 +42,16 @@ struct WalletTab: View {
                    isPresented: .constant(vm.errorMessage != nil),
                    actions: { Button("OK") { vm.errorMessage = nil } },
                    message: { Text(vm.errorMessage ?? "") })
+            .sheet(isPresented: $showAddSheet) {
+                AddToWalletSheet {
+                    Task { await vm.load() }
+                }
+            }
         }
     }
 
     private func handleAdd() {
-        // Add-to-Wallet sheet is design screen 10 — separate PR.
+        showAddSheet = true
     }
 
     private func handleDelete(_ card: WalletCard) {
