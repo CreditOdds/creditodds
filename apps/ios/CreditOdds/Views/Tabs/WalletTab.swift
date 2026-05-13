@@ -1,9 +1,33 @@
 import SwiftUI
 
 /// Cards / "Wallet" tab — design screens 8 (empty) and 9 (populated).
+/// Active and archived cards are split into separate sections; archived
+/// is collapsed by default behind a "Show archived" button.
 struct WalletTab: View {
     @StateObject private var vm = WalletViewModel()
+    @StateObject private var catalog = CardsRepository.shared
     @State private var showAddSheet = false
+    @State private var showArchived = false
+
+    /// A wallet card is "archived" when the underlying catalog entry has
+    /// `accepting_applications == false` — i.e. the card is no longer
+    /// open to new applicants. We cross-reference by name because the
+    /// /wallet response doesn't include this flag.
+    private func isArchived(_ card: WalletCard) -> Bool {
+        guard !catalog.cards.isEmpty,
+              let master = catalog.cards.first(where: { $0.cardName == card.cardName })
+        else { return false }
+        return master.acceptingApplications == false
+    }
+
+    private var partition: (active: [WalletCard], archived: [WalletCard]) {
+        var active: [WalletCard] = []
+        var archived: [WalletCard] = []
+        for c in vm.cards {
+            if isArchived(c) { archived.append(c) } else { active.append(c) }
+        }
+        return (active, archived)
+    }
 
     var body: some View {
         NavigationStack {
@@ -18,8 +42,17 @@ struct WalletTab: View {
                     } else if vm.cards.isEmpty {
                         WalletEmptyState(onAdd: handleAdd)
                     } else {
-                        WalletPopulatedView(cards: vm.cards, onDelete: handleDelete)
-                            .refreshable { await vm.load() }
+                        WalletPopulatedView(
+                            active: partition.active,
+                            archived: partition.archived,
+                            showArchived: $showArchived,
+                            onDelete: handleDelete
+                        )
+                        .refreshable {
+                            async let w: Void = vm.load()
+                            async let c: Void = catalog.load()
+                            _ = await (w, c)
+                        }
                     }
                 }
             }
@@ -37,7 +70,11 @@ struct WalletTab: View {
                     .accessibilityLabel("Add card")
                 }
             }
-            .task { await vm.load() }
+            .task {
+                async let w: Void = vm.load()
+                async let c: Void = catalog.loadIfNeeded()
+                _ = await (w, c)
+            }
             .alert("Error",
                    isPresented: .constant(vm.errorMessage != nil),
                    actions: { Button("OK") { vm.errorMessage = nil } },
@@ -98,7 +135,9 @@ private struct WalletEmptyState: View {
 // MARK: - Populated wallet (screen 9)
 
 private struct WalletPopulatedView: View {
-    let cards: [WalletCard]
+    let active: [WalletCard]
+    let archived: [WalletCard]
+    @Binding var showArchived: Bool
     let onDelete: (WalletCard) -> Void
 
     var body: some View {
@@ -116,17 +155,61 @@ private struct WalletPopulatedView: View {
                 .padding(.horizontal, Theme.Spacing.xl)
                 .padding(.top, Theme.Spacing.xs)
 
-                EditorialLabel(number: cards.count, label: "Active · \(cards.count) \(cards.count == 1 ? "card" : "cards")")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, Theme.Spacing.xl)
+                // Active section
+                if !active.isEmpty {
+                    EditorialLabel(number: active.count,
+                                   label: "Active · \(active.count) \(active.count == 1 ? "card" : "cards")")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, Theme.Spacing.xl)
 
-                InsetCard {
-                    ForEach(Array(cards.enumerated()), id: \.element.id) { idx, card in
-                        WalletCardRow(card: card, onDelete: { onDelete(card) })
-                        if idx < cards.count - 1 {
-                            Hairline().padding(.leading, 86) // align under card-art
+                    InsetCard {
+                        ForEach(Array(active.enumerated()), id: \.element.id) { idx, card in
+                            WalletCardRow(card: card, onDelete: { onDelete(card) })
+                            if idx < active.count - 1 {
+                                Hairline().padding(.leading, 86)
+                            }
                         }
                     }
+                }
+
+                // Show / hide archived toggle
+                if !archived.isEmpty {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.22)) { showArchived.toggle() }
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: showArchived ? "chevron.up" : "chevron.down")
+                                .font(.system(size: 11, weight: .semibold))
+                            Text(showArchived
+                                ? "Hide archived"
+                                : "Show archived (\(archived.count))")
+                                .font(.system(size: 13, weight: .semibold))
+                        }
+                        .foregroundStyle(Theme.Palette.accent)
+                        .padding(.vertical, Theme.Spacing.m)
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.top, Theme.Spacing.m)
+                }
+
+                // Archived section
+                if showArchived && !archived.isEmpty {
+                    EditorialLabel(number: archived.count,
+                                   label: "Archived · \(archived.count) \(archived.count == 1 ? "card" : "cards")")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, Theme.Spacing.xl)
+
+                    InsetCard {
+                        ForEach(Array(archived.enumerated()), id: \.element.id) { idx, card in
+                            WalletCardRow(card: card, onDelete: { onDelete(card) })
+                                .opacity(0.72)
+                            if idx < archived.count - 1 {
+                                Hairline().padding(.leading, 86)
+                            }
+                        }
+                    }
+                    .transition(.opacity.combined(with: .move(edge: .top)))
                 }
 
                 Text("Swipe left on a card to delete.")
@@ -137,7 +220,7 @@ private struct WalletPopulatedView: View {
                     .padding(.top, Theme.Spacing.s)
                     .padding(.bottom, Theme.Spacing.xxl)
 
-                // Bottom safe area for the glass tab bar
+                // Bottom safe area for the floating tab bar
                 Color.clear.frame(height: 90)
             }
         }
@@ -156,7 +239,6 @@ private struct WalletCardRow: View {
 
     var body: some View {
         ZStack(alignment: .trailing) {
-            // Destructive action background (revealed on swipe)
             Rectangle()
                 .fill(Theme.Palette.destructive)
                 .overlay {
