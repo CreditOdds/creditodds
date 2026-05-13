@@ -59,7 +59,7 @@ struct CardWireView: View {
             .navigationTitle("Card Wire")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    SignInTrailingButton()
+                    AuthGateButton()
                 }
             }
             .task { await vm.startStreaming() }

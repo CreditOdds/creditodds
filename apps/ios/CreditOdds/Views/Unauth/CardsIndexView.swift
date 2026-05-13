@@ -1,14 +1,14 @@
 import SwiftUI
 
-/// Unauthenticated browse — merges what were two separate "Cards" and
-/// "Explore" tabs in the design. Uses native `.searchable()` for search
-/// (integrates with the large title) and a unified filter chip strip.
-/// Tap a row → CardDetailView.
+/// Browse all cards — works in both unauthenticated and authenticated
+/// contexts. Native `.searchable()` for search, unified filter chip strip,
+/// tap a row → CardDetailView as a sheet. Trailing "Sign in" button is
+/// auto-hidden when the user is signed in.
 struct CardsIndexView: View {
     @StateObject private var catalog = CardsRepository.shared
-    @EnvironmentObject private var router: UnauthRouter
     @State private var query: String = ""
     @State private var activeFilters: Set<Filter> = [.all]
+    @State private var selectedCard: Card? = nil
 
     enum Filter: String, CaseIterable, Identifiable, Hashable {
         case all       = "All"
@@ -22,7 +22,6 @@ struct CardsIndexView: View {
     private var filtered: [Card] {
         var cards = catalog.cards
 
-        // Search (substring against name + issuer)
         if !query.isEmpty {
             let q = query.lowercased()
             cards = cards.filter {
@@ -31,7 +30,6 @@ struct CardsIndexView: View {
             }
         }
 
-        // Filters (any active filter narrows; .all is a no-op)
         for f in activeFilters where f != .all {
             switch f {
             case .noFee:
@@ -62,7 +60,6 @@ struct CardsIndexView: View {
 
                 ScrollView {
                     VStack(spacing: 0) {
-                        // Filter chips
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 8) {
                                 ForEach(Filter.allCases) { chip in
@@ -74,7 +71,6 @@ struct CardsIndexView: View {
                             .padding(.bottom, Theme.Spacing.l)
                         }
 
-                        // Editorial label
                         HStack {
                             EditorialLabel(number: 1, label: countLabel)
                             Spacer()
@@ -100,7 +96,7 @@ struct CardsIndexView: View {
                                 Hairline()
                                 ForEach(filtered) { card in
                                     Button {
-                                        router.selectedCard = card
+                                        selectedCard = card
                                     } label: {
                                         CardIndexRow(card: card)
                                     }
@@ -121,10 +117,15 @@ struct CardsIndexView: View {
             .searchable(text: $query, prompt: searchPrompt)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    SignInTrailingButton()
+                    AuthGateButton()
                 }
             }
             .task { await catalog.loadIfNeeded() }
+            .sheet(item: $selectedCard) { card in
+                NavigationStack {
+                    CardDetailView(card: card)
+                }
+            }
         }
     }
 
@@ -213,7 +214,6 @@ private struct CardIndexRow: View {
         return issuer.isEmpty ? fee : "\(issuer) · \(fee)"
     }
 
-    /// Highest non-everything_else reward, formatted for the row trailing.
     private var headlineRate: String? {
         guard let rewards = card.rewards else { return nil }
         let best = rewards

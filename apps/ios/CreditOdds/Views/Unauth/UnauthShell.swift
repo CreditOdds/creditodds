@@ -1,7 +1,9 @@
 import SwiftUI
 
-/// Top-level shell for the unauthenticated browsing flow. Holds the bottom
-/// segmented dock, the per-tab content, and presents LoginView as a sheet.
+/// Top-level shell for the unauthenticated browsing flow. Holds the
+/// glass-pill bottom dock and swaps between Cards and Card Wire.
+/// Sign-in and card-detail presentation are owned by the child screens,
+/// so the same screens render identically in the authenticated tab bar.
 struct UnauthShell: View {
     @StateObject private var router = UnauthRouter()
 
@@ -9,34 +11,21 @@ struct UnauthShell: View {
         ZStack(alignment: .bottom) {
             Theme.Palette.surface2.ignoresSafeArea()
 
-            // Tab content
             Group {
                 switch router.tab {
                 case .cards: CardsIndexView()
                 case .wire:  CardWireView()
                 }
             }
-            .environmentObject(router)
 
-            // Floating segmented dock
             UnauthDock(tab: $router.tab)
                 .padding(.horizontal, Theme.Spacing.l)
                 .padding(.bottom, 22)
         }
-        .sheet(isPresented: $router.showSignIn) {
-            LoginView()
-        }
-        .sheet(item: $router.selectedCard) { card in
-            NavigationStack {
-                CardDetailView(card: card)
-                    .environmentObject(router)
-            }
-        }
     }
 }
 
-/// Segmented dock that sits above the home indicator. Glass background,
-/// ink-on-white selected segment.
+/// Segmented glass-pill dock that sits above the home indicator.
 struct UnauthDock: View {
     @Binding var tab: UnauthRouter.Tab
 
@@ -72,13 +61,21 @@ struct UnauthDock: View {
     }
 }
 
-/// Sign in pill that floats top-right on every unauth screen.
-struct SignInTrailingButton: View {
-    @EnvironmentObject private var router: UnauthRouter
+/// Drop-in toolbar button that renders "Sign in" when the user is
+/// signed out and nothing when they're signed in. Used at the trailing
+/// nav-bar slot on every browse screen.
+struct AuthGateButton: View {
+    @EnvironmentObject private var auth: AuthViewModel
+    @State private var showLogin = false
 
     var body: some View {
-        Button("Sign in") { router.showSignIn = true }
-            .font(.system(size: 16, weight: .semibold))
-            .foregroundStyle(Theme.Palette.accent)
+        if !auth.isAuthenticated {
+            Button("Sign in") { showLogin = true }
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(Theme.Palette.accent)
+                .sheet(isPresented: $showLogin) {
+                    LoginView()
+                }
+        }
     }
 }

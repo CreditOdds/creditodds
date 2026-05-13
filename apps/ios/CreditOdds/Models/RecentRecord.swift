@@ -1,7 +1,7 @@
 import Foundation
 
 /// Card Wire ticker row — a single approve/deny event surfaced on the
-/// unauthenticated Card Wire screen. Returned by `GET /recent-records`.
+/// Card Wire screen. Returned by `GET /recent-records`.
 struct RecentRecord: Identifiable, Decodable, Hashable {
     let recordId: Int
     /// 1 = approved, 0 = denied.
@@ -17,6 +17,17 @@ struct RecentRecord: Identifiable, Decodable, Hashable {
     var id: Int { recordId }
 
     var isApproved: Bool { result == 1 }
+
+    enum CodingKeys: String, CodingKey {
+        case recordId = "record_id"
+        case result
+        case creditScore = "credit_score"
+        case listedIncome = "listed_income"
+        case submitDatetime = "submit_datetime"
+        case cardName = "card_name"
+        case cardImageLink = "card_image_link"
+        case bank
+    }
 
     /// "720–740" bucketed credit score band for the ticker row subtitle.
     var creditScoreBucket: String {

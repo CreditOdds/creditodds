@@ -9,20 +9,20 @@ import SwiftUI
 /// gradient that works for every card. Looks intentional.
 struct CardDetailView: View {
     let card: Card
-    @EnvironmentObject private var router: UnauthRouter
+    @EnvironmentObject private var auth: AuthViewModel
     @Environment(\.dismiss) private var dismiss
+    @State private var showLogin = false
 
     var body: some View {
         ZStack(alignment: .bottom) {
             ScrollView {
                 VStack(spacing: 0) {
-                    HeroView(card: card, onClose: { dismiss() }, onSignIn: {
-                        dismiss()
-                        // Small delay so the modal can finish dismissing
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                            router.showSignIn = true
-                        }
-                    })
+                    HeroView(
+                        card: card,
+                        showSignIn: !auth.isAuthenticated,
+                        onClose: { dismiss() },
+                        onSignIn: { showLogin = true }
+                    )
 
                     VStack(spacing: 0) {
                         if let rewards = card.rewards, !rewards.isEmpty {
@@ -46,6 +46,7 @@ struct CardDetailView: View {
             BottomCTABar(card: card)
         }
         .navigationBarBackButtonHidden(true)
+        .sheet(isPresented: $showLogin) { LoginView() }
     }
 }
 
@@ -53,6 +54,7 @@ struct CardDetailView: View {
 
 private struct HeroView: View {
     let card: Card
+    let showSignIn: Bool
     let onClose: () -> Void
     let onSignIn: () -> Void
 
@@ -120,12 +122,14 @@ private struct HeroView: View {
 
                 Spacer()
 
-                glassPill {
-                    Button("Sign in", action: onSignIn)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 14)
-                        .frame(height: 36)
+                if showSignIn {
+                    glassPill {
+                        Button("Sign in", action: onSignIn)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 14)
+                            .frame(height: 36)
+                    }
                 }
             }
             .padding(.horizontal, 16)
