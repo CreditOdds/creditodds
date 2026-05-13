@@ -2877,6 +2877,65 @@
 }
 .landing-v2.wire-v2 .wire-row:hover { background: var(--paper-2); }
 
+/* Superseded rows — older changes for a card+field that have been replaced by
+   a newer entry. Diagonal hatch overlay keeps them visible but de-emphasized. */
+.landing-v2.wire-v2 .wire-row.superseded {
+  position: relative;
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 6px,
+    rgba(15, 23, 42, 0.055) 6px,
+    rgba(15, 23, 42, 0.055) 7px
+  );
+}
+.landing-v2.wire-v2 .wire-row.superseded:hover {
+  background-color: var(--paper-2);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 6px,
+    rgba(15, 23, 42, 0.045) 6px,
+    rgba(15, 23, 42, 0.045) 7px
+  );
+}
+.landing-v2.wire-v2 .wire-row.superseded .wire-card-name,
+.landing-v2.wire-v2 .wire-row.superseded .wire-field-chip,
+.landing-v2.wire-v2 .wire-row.superseded .wire-change .new,
+.landing-v2.wire-v2 .wire-row.superseded .wire-change .old,
+.landing-v2.wire-v2 .wire-row.superseded .wire-change .arrow {
+  color: var(--muted);
+}
+.landing-v2.wire-v2 .wire-row.superseded .wire-change.pos .new,
+.landing-v2.wire-v2 .wire-row.superseded .wire-change.neg .new {
+  color: var(--muted);
+  font-weight: 500;
+}
+.landing-v2.wire-v2 .wire-row.superseded .wire-thumb {
+  opacity: 0.55;
+  filter: grayscale(0.4);
+}
+.landing-v2.wire-v2 .wire-row.superseded .wire-field-chip {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.landing-v2.wire-v2 .wire-superseded-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  margin-left: 4px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+}
+
 .landing-v2.wire-v2 .wire-card {
   display: inline-flex;
   align-items: center;

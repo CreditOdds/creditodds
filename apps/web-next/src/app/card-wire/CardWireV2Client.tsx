@@ -127,6 +127,23 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
     return c;
   }, [entries]);
 
+  const supersededIds = useMemo(() => {
+    const seen = new Set<string>();
+    const superseded = new Set<number>();
+    const sorted = [...entries].sort(
+      (a, b) => new Date(b.changed_at).getTime() - new Date(a.changed_at).getTime()
+    );
+    for (const e of sorted) {
+      const key = `${e.card_name}::${e.field}`;
+      if (seen.has(key)) {
+        superseded.add(e.id);
+      } else {
+        seen.add(key);
+      }
+    }
+    return superseded;
+  }, [entries]);
+
   const filtered = useMemo(() => {
     if (filter === 'all') return entries;
     return entries.filter((e) => fieldGroup(e.field) === filter);
@@ -233,6 +250,7 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
                   entries={group.entries}
                   slugMap={slugMap}
                   bonusTypeMap={bonusTypeMap}
+                  supersededIds={supersededIds}
                 />
               ))}
             </div>
@@ -271,11 +289,13 @@ function GroupRows({
   entries,
   slugMap,
   bonusTypeMap,
+  supersededIds,
 }: {
   date: string;
   entries: CardWireEntry[];
   slugMap: Record<string, string>;
   bonusTypeMap: Record<string, string>;
+  supersededIds: Set<number>;
 }) {
   return (
     <>
@@ -293,6 +313,7 @@ function GroupRows({
         const oldFmt = formatValue(entry.field, entry.old_value, bonusType);
         const newFmt = formatValue(entry.field, entry.new_value, bonusType);
         const dir = changeDirection(entry.field, entry.old_value, entry.new_value);
+        const isSuperseded = supersededIds.has(entry.id);
         const cardInner = (
           <span className="wire-card">
             <span className="wire-thumb">
@@ -315,10 +336,19 @@ function GroupRows({
             <span className="old">{oldFmt}</span>
             <span className="arrow" aria-hidden="true">→</span>
             <span className="new">{newFmt}</span>
+            {isSuperseded && (
+              <span className="wire-superseded-tag" title="A newer change exists for this field">
+                superseded
+              </span>
+            )}
           </span>
         );
         return (
-          <div key={entry.id} className="wire-row" role="row">
+          <div
+            key={entry.id}
+            className={'wire-row' + (isSuperseded ? ' superseded' : '')}
+            role="row"
+          >
             <span className="wire-row-card" role="cell">
               {slug ? (
                 <Link href={`/card/${slug}`} className="wire-card-link">
