@@ -12,9 +12,8 @@ struct UnauthShell: View {
             // Tab content
             Group {
                 switch router.tab {
-                case .cards:   CardsIndexView()
-                case .explore: ExploreView()
-                case .wire:    CardWireView()
+                case .cards: CardsIndexView()
+                case .wire:  CardWireView()
                 }
             }
             .environmentObject(router)
@@ -36,8 +35,8 @@ struct UnauthShell: View {
     }
 }
 
-/// Three-up segmented dock that sits above the home indicator. Glass
-/// background, ink-on-white selected segment.
+/// Segmented dock that sits above the home indicator. Glass background,
+/// ink-on-white selected segment.
 struct UnauthDock: View {
     @Binding var tab: UnauthRouter.Tab
 

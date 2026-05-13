@@ -1,17 +1,17 @@
 import SwiftUI
 
-/// Routes the unauthenticated browsing flow. Three tabs in the bottom dock
-/// (Cards / Explore / Card Wire) plus a presented sign-in sheet.
+/// Routes the unauthenticated browsing flow. Two tabs in the bottom dock
+/// (Cards / Card Wire) plus a presented sign-in sheet. Explore was merged
+/// into Cards — search + filters live there now via `.searchable()`.
 @MainActor
 final class UnauthRouter: ObservableObject {
     enum Tab: Hashable, CaseIterable {
-        case cards, explore, wire
+        case cards, wire
 
         var label: String {
             switch self {
-            case .cards:   return "Cards"
-            case .explore: return "Explore"
-            case .wire:    return "Card Wire"
+            case .cards: return "Cards"
+            case .wire:  return "Card Wire"
             }
         }
     }
