@@ -1,8 +1,12 @@
 import SwiftUI
 
 /// Cards / "Wallet" tab — design screens 8 (empty) and 9 (populated).
-/// Active and archived cards are split into separate sections; archived
-/// is collapsed by default behind a "Show archived" button.
+/// Active and archived cards split into separate sections; archived is
+/// collapsed by default behind a "Show archived" button.
+///
+/// Note: delete-from-wallet is intentionally not exposed in iOS for now.
+/// Users manage card removal on the web; iOS reads the same wallet but
+/// avoids destructive operations until we land a proper confirm flow.
 struct WalletTab: View {
     @StateObject private var vm = WalletViewModel()
     @StateObject private var catalog = CardsRepository.shared
@@ -45,8 +49,7 @@ struct WalletTab: View {
                         WalletPopulatedView(
                             active: partition.active,
                             archived: partition.archived,
-                            showArchived: $showArchived,
-                            onDelete: handleDelete
+                            showArchived: $showArchived
                         )
                         .refreshable {
                             async let w: Void = vm.load()
@@ -89,10 +92,6 @@ struct WalletTab: View {
 
     private func handleAdd() {
         showAddSheet = true
-    }
-
-    private func handleDelete(_ card: WalletCard) {
-        Task { await vm.remove(card) }
     }
 }
 
@@ -138,7 +137,6 @@ private struct WalletPopulatedView: View {
     let active: [WalletCard]
     let archived: [WalletCard]
     @Binding var showArchived: Bool
-    let onDelete: (WalletCard) -> Void
 
     var body: some View {
         ScrollView {
@@ -164,7 +162,7 @@ private struct WalletPopulatedView: View {
 
                     InsetCard {
                         ForEach(Array(active.enumerated()), id: \.element.id) { idx, card in
-                            WalletCardRow(card: card, onDelete: { onDelete(card) })
+                            WalletCardRow(card: card)
                             if idx < active.count - 1 {
                                 Hairline().padding(.leading, 86)
                             }
@@ -202,7 +200,7 @@ private struct WalletPopulatedView: View {
 
                     InsetCard {
                         ForEach(Array(archived.enumerated()), id: \.element.id) { idx, card in
-                            WalletCardRow(card: card, onDelete: { onDelete(card) })
+                            WalletCardRow(card: card)
                                 .opacity(0.72)
                             if idx < archived.count - 1 {
                                 Hairline().padding(.leading, 86)
@@ -212,16 +210,8 @@ private struct WalletPopulatedView: View {
                     .transition(.opacity.combined(with: .move(edge: .top)))
                 }
 
-                Text("Swipe left on a card to delete.")
-                    .font(.system(size: 11))
-                    .foregroundStyle(Theme.Palette.muted2)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, Theme.Spacing.xl)
-                    .padding(.top, Theme.Spacing.s)
-                    .padding(.bottom, Theme.Spacing.xxl)
-
                 // Bottom safe area for the floating tab bar
-                Color.clear.frame(height: 90)
+                Color.clear.frame(height: 110)
             }
         }
         .scrollContentBackground(.hidden)
@@ -231,86 +221,40 @@ private struct WalletPopulatedView: View {
 
 private struct WalletCardRow: View {
     let card: WalletCard
-    let onDelete: () -> Void
-    @State private var dragOffset: CGFloat = 0
-    @State private var showDeleteAction = false
-
-    private let actionWidth: CGFloat = 80
 
     var body: some View {
-        ZStack(alignment: .trailing) {
-            Rectangle()
-                .fill(Theme.Palette.destructive)
-                .overlay {
-                    Button(action: onDelete) {
-                        VStack(spacing: 4) {
-                            Image(systemName: "trash.fill")
-                                .font(.system(size: 18))
-                            Text("Delete")
-                                .font(.system(size: 11, weight: .semibold))
-                        }
-                        .foregroundStyle(.white)
-                        .frame(width: actionWidth)
-                    }
-                    .opacity(showDeleteAction ? 1 : 0)
+        HStack(spacing: 14) {
+            CardThumb(link: card.cardImageLink, contentMode: .fill)
+                .frame(width: 60, height: 38)
+                .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+                .shadow(color: .black.opacity(0.18), radius: 2, x: 0, y: 1)
+                .shadow(color: .black.opacity(0.10), radius: 14, x: 0, y: 6)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(card.cardName)
+                    .font(Theme.Font.row)
+                    .foregroundStyle(Theme.Palette.ink)
+                    .lineLimit(2)
+                Text(card.bank)
+                    .font(Theme.Font.rowMeta)
+                    .foregroundStyle(Theme.Palette.muted)
+                if let since = formattedAcquired {
+                    Text("Since \(since)")
+                        .font(Theme.Font.rowTertiary)
+                        .foregroundStyle(Theme.Palette.muted2)
                 }
-                .frame(width: actionWidth)
-
-            HStack(spacing: 14) {
-                CardThumb(link: card.cardImageLink, contentMode: .fill)
-                    .frame(width: 60, height: 38)
-                    .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                    .shadow(color: .black.opacity(0.18), radius: 2, x: 0, y: 1)
-                    .shadow(color: .black.opacity(0.10), radius: 14, x: 0, y: 6)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(card.cardName)
-                        .font(Theme.Font.row)
-                        .foregroundStyle(Theme.Palette.ink)
-                        .lineLimit(2)
-                    Text(card.bank)
-                        .font(Theme.Font.rowMeta)
-                        .foregroundStyle(Theme.Palette.muted)
-                    if let since = formattedAcquired {
-                        Text("Since \(since)")
-                            .font(Theme.Font.rowTertiary)
-                            .foregroundStyle(Theme.Palette.muted2)
-                    }
-                }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(Theme.Palette.muted2)
             }
-            .padding(.horizontal, Theme.Spacing.l)
-            .padding(.vertical, Theme.Spacing.m)
-            .frame(maxWidth: .infinity)
-            .background(Theme.Palette.surface)
-            .offset(x: dragOffset)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        let translation = value.translation.width
-                        if translation < 0 {
-                            dragOffset = max(translation, -actionWidth - 20)
-                        }
-                    }
-                    .onEnded { value in
-                        let translation = value.translation.width
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
-                            if translation < -actionWidth / 2 {
-                                dragOffset = -actionWidth
-                                showDeleteAction = true
-                            } else {
-                                dragOffset = 0
-                                showDeleteAction = false
-                            }
-                        }
-                    }
-            )
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Theme.Palette.muted2)
         }
+        .padding(.horizontal, Theme.Spacing.l)
+        .padding(.vertical, Theme.Spacing.m)
+        .frame(maxWidth: .infinity)
+        .background(Theme.Palette.surface)
     }
 
     private var formattedAcquired: String? {
