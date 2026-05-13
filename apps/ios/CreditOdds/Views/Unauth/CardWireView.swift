@@ -1,10 +1,17 @@
 import SwiftUI
 
-/// Card Wire (design screen 5) — live ticker of approve/deny events. Auto-
-/// refreshes every 30s while visible. No card art on this screen by design;
-/// the dense text grid is the editorial point.
+/// Card Wire — a chronological feed of every credit-card change we track:
+/// annual fee changes, sign-up bonus value changes, APR shifts, and
+/// applications opening / closing. Public endpoint; renders the same when
+/// signed-in or signed-out.
 struct CardWireView: View {
     @StateObject private var vm = CardWireViewModel()
+    @State private var filter: CardChange.Group = .all
+
+    private var filtered: [CardChange] {
+        guard filter != .all else { return vm.changes }
+        return vm.changes.filter { $0.group == filter }
+    }
 
     var body: some View {
         NavigationStack {
@@ -19,7 +26,7 @@ struct CardWireView: View {
                             Text("Live")
                                 .font(.system(size: 12, weight: .semibold))
                                 .foregroundStyle(Theme.Palette.ink)
-                            Text("· streaming applications · auto-refreshing")
+                            Text("· every change we track")
                                 .font(.system(size: 12))
                                 .foregroundStyle(Theme.Palette.muted)
                             Spacer()
@@ -28,22 +35,33 @@ struct CardWireView: View {
                         .padding(.top, Theme.Spacing.xs)
                         .padding(.bottom, Theme.Spacing.m)
 
+                        // Filter chips
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(CardChange.Group.allCases, id: \.self) { g in
+                                    filterChip(g)
+                                }
+                            }
+                            .padding(.horizontal, Theme.Spacing.xl)
+                            .padding(.bottom, Theme.Spacing.m)
+                        }
+
                         Hairline()
 
-                        if vm.isLoading && vm.records.isEmpty {
+                        if vm.isLoading && vm.changes.isEmpty {
                             ProgressView()
                                 .padding(.top, 80)
-                        } else if vm.records.isEmpty {
+                        } else if filtered.isEmpty {
                             ContentUnavailableView(
-                                "No activity yet",
+                                "No changes yet",
                                 systemImage: "antenna.radiowaves.left.and.right.slash",
-                                description: Text("Recent application activity will appear here.")
+                                description: Text("Card change activity will appear here.")
                             )
                             .padding(.top, 60)
                         } else {
                             VStack(spacing: 0) {
-                                ForEach(vm.records) { record in
-                                    WireRow(record: record)
+                                ForEach(filtered) { change in
+                                    WireRow(change: change)
                                     Hairline()
                                 }
                             }
@@ -65,54 +83,112 @@ struct CardWireView: View {
             .task { await vm.startStreaming() }
         }
     }
+
+    @ViewBuilder
+    private func filterChip(_ group: CardChange.Group) -> some View {
+        let isOn = filter == group
+        Button {
+            withAnimation(.easeOut(duration: 0.15)) { filter = group }
+        } label: {
+            Text(group.label)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(isOn ? Color.white : Theme.Palette.ink)
+                .padding(.horizontal, 13)
+                .padding(.vertical, 7)
+                .background {
+                    Capsule()
+                        .fill(isOn ? Theme.Palette.ink : Theme.Palette.surface)
+                    if !isOn {
+                        Capsule().strokeBorder(Theme.Palette.line, lineWidth: 0.5)
+                    }
+                }
+        }
+        .buttonStyle(.plain)
+    }
 }
 
 // MARK: - Wire row
 
 private struct WireRow: View {
-    let record: RecentRecord
+    let change: CardChange
+
+    private var dirColor: Color {
+        switch change.direction {
+        case .pos:     return Theme.Palette.success
+        case .neg:     return Theme.Palette.risk
+        case .neutral: return Theme.Palette.muted
+        }
+    }
 
     var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            // Timestamp
-            Text(record.relativeTimestamp)
-                .font(.system(size: 11.5).monospacedDigit())
-                .foregroundStyle(Theme.Palette.muted2)
-                .frame(width: 64, alignment: .leading)
+        HStack(alignment: .top, spacing: 12) {
+            CardThumb(link: change.cardImageLink, contentMode: .fill)
+                .frame(width: 48, height: 30)
+                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                .shadow(color: .black.opacity(0.15), radius: 2, x: 0, y: 1)
 
-            // Status badge
-            Text(record.isApproved ? "APPROVED" : "DENIED")
-                .font(.system(size: 10.5, weight: .bold))
-                .tracking(0.6)
-                .foregroundStyle(record.isApproved ? Theme.Palette.success : Theme.Palette.risk)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .background(
-                    RoundedRectangle(cornerRadius: 4, style: .continuous)
-                        .fill((record.isApproved ? Theme.Palette.success : Theme.Palette.risk).opacity(0.12))
-                )
-                .frame(width: 86, alignment: .leading)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(record.cardName)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(Theme.Palette.ink)
-                    .lineLimit(1)
-
-                HStack(spacing: 6) {
-                    if let bank = record.bank { Text(bank) }
-                    Text("·").foregroundStyle(Theme.Palette.muted2)
-                    Text(record.creditScoreBucket).monospacedDigit()
-                    Text("·").foregroundStyle(Theme.Palette.muted2)
-                    Text(record.incomeBucket).monospacedDigit()
+            VStack(alignment: .leading, spacing: 6) {
+                // Card name + timestamp
+                HStack(alignment: .firstTextBaseline) {
+                    Text(change.cardName)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(Theme.Palette.ink)
+                        .lineLimit(1)
+                    Spacer(minLength: 8)
+                    Text(change.relativeTimestamp)
+                        .font(.system(size: 11.5).monospacedDigit())
+                        .foregroundStyle(Theme.Palette.muted2)
                 }
-                .font(.system(size: 11.5))
-                .foregroundStyle(Theme.Palette.muted)
-                .lineLimit(1)
+
+                // Field chip + value change
+                HStack(alignment: .center, spacing: 8) {
+                    FieldChip(group: change.group, label: change.fieldLabel)
+
+                    HStack(spacing: 4) {
+                        Text(change.formatValue(change.oldValue))
+                            .strikethrough(change.direction != .neutral, color: Theme.Palette.muted2)
+                            .foregroundStyle(Theme.Palette.muted)
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundStyle(Theme.Palette.muted2)
+                        Text(change.formatValue(change.newValue))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(dirColor)
+                    }
+                    .font(.system(size: 12.5).monospacedDigit())
+                }
             }
         }
         .padding(.horizontal, Theme.Spacing.xl)
-        .padding(.vertical, 13)
+        .padding(.vertical, 12)
+    }
+}
+
+private struct FieldChip: View {
+    let group: CardChange.Group
+    let label: String
+
+    private var tint: Color {
+        switch group {
+        case .fee:   return Theme.Palette.warn
+        case .bonus: return Theme.Palette.accent
+        case .apr:   return Theme.Palette.risk
+        case .apps:  return Theme.Palette.success
+        case .all:   return Theme.Palette.muted
+        }
+    }
+
+    var body: some View {
+        Text(label.uppercased())
+            .font(.system(size: 9.5, weight: .bold))
+            .tracking(0.6)
+            .foregroundStyle(tint)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
+            .background(
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .fill(tint.opacity(0.12))
+            )
     }
 }
 
@@ -140,16 +216,18 @@ private struct LivePulse: View {
 
 @MainActor
 final class CardWireViewModel: ObservableObject {
-    @Published private(set) var records: [RecentRecord] = []
+    @Published private(set) var changes: [CardChange] = []
     @Published private(set) var isLoading = false
     private var pollTask: Task<Void, Never>?
 
     func startStreaming() async {
         if pollTask != nil { return }
         await load()
+        // Card changes are infrequent compared to applications — poll
+        // every 60s rather than the 30s we had on the old records feed.
         pollTask = Task { [weak self] in
             while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: 30_000_000_000) // 30s
+                try? await Task.sleep(nanoseconds: 60_000_000_000)
                 if Task.isCancelled { return }
                 await self?.load()
             }
@@ -160,9 +238,8 @@ final class CardWireViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         do {
-            records = try await RecentRecordsService.fetch()
+            changes = try await CardWireService.fetch()
         } catch {
-            // Silent on the ticker — leave the existing list visible.
             print("CardWire load error:", error.localizedDescription)
         }
     }
