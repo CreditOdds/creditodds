@@ -333,7 +333,26 @@ function detectChanges(card, extracted) {
     const sb = extracted.signup_bonus;
     const cur = current.signup_bonus;
 
+    // Defensive: when Haiku reports both a value change and an authorized_user_bonus,
+    // and the value delta is exactly the AU bonus, the page's headline is bundling
+    // the AU bonus into the displayed total (e.g. Chase's United Gateway shows
+    // "40,000 bonus miles" = 30k base + 10k AU). Skip the value change — the AU
+    // split is already captured in signup_bonus.note.
+    const skipValueAsBundledAU =
+      sb.value != null &&
+      cur.value != null &&
+      sb.authorized_user_bonus != null &&
+      sb.authorized_user_bonus > 0 &&
+      sb.value - cur.value === sb.authorized_user_bonus;
+
+    if (skipValueAsBundledAU) {
+      console.log(
+        `  Ignoring value change ${cur.value} → ${sb.value}: matches base + authorized_user_bonus (${sb.authorized_user_bonus})`
+      );
+    }
+
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
+      if (key === 'value' && skipValueAsBundledAU) continue;
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         const field = `signup_bonus.${key}`;
         if (sb[key] !== cur[key] && !ignoreFields.has(field)) {
