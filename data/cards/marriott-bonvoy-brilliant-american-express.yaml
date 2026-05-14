@@ -26,10 +26,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 200000
+  value: 100000
   type: "points"
   spend_requirement: 6000
   timeframe_months: 6
+  note: "Plus an extra 50,000 bonus points after making an additional $2,000 in purchases within the first 6 months of Card Membership"
 apr:
   regular:
     min: 19.49
