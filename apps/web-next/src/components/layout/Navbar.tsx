@@ -103,15 +103,10 @@ export default function Navbar() {
   const { authState, logout } = useAuth();
   const { settings } = useUserSettings();
   const pathname = usePathname();
-  // Hold the avatar render until /user-settings has resolved so we don't
-  // briefly show the UID-seeded fallback and then snap to the user's saved
-  // seed (avatar flicker). settings === null means the GET hasn't returned
-  // yet; once it has, we either use the saved avatar_seed or fall back to
-  // the UID for users who haven't customised.
-  const settingsLoaded = settings !== null;
-  const avatarSeed = settingsLoaded
-    ? settings.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null
-    : null;
+  // Render the avatar immediately with the UID fallback; once settings load
+  // (from localStorage cache or the GET), the `key={avatarSeed}` swap triggers
+  // the existing fade animation if the saved seed differs.
+  const avatarSeed = settings?.avatar_seed ?? authState.user?.uid ?? authState.user?.email ?? null;
 
   const isActive = (item: NavItem) => item.matches(pathname);
   const isProfileActive = pathname === "/profile" || pathname.startsWith("/profile/");
@@ -172,15 +167,13 @@ export default function Navbar() {
                         <>
                           <Menu.Button className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-[3px] border border-[#ddd7ec] bg-white p-0 text-sm transition-colors hover:border-[#1a1330] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6d3fe8] focus-visible:ring-offset-2">
                             <span className="sr-only">Open user menu</span>
-                            {settingsLoaded && (
-                              <span key={avatarSeed ?? 'guest'} className="cj-avatar-fade-in">
-                                <UserAvatar
-                                  seed={avatarSeed}
-                                  size={32}
-                                  title="Account menu"
-                                />
-                              </span>
-                            )}
+                            <span key={avatarSeed ?? 'guest'} className="cj-avatar-fade-in">
+                              <UserAvatar
+                                seed={avatarSeed}
+                                size={32}
+                                title="Account menu"
+                              />
+                            </span>
                           </Menu.Button>
                           <Transition
                             show={menuOpen}
