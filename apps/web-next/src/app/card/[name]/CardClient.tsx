@@ -1561,9 +1561,9 @@ export default function CardClient({
               <h2 className="cj-section-h2">
                 Further <em className="cj-section-accent">reading</em>
               </h2>
-              <div className="cj-tape">
+              <div className="cj-tape cj-tape-reading">
                 <div className="cj-tape-head">
-                  <div>By</div>
+                  <div className="cj-tape-by">By</div>
                   <div>Title</div>
                   <div className="cj-tape-res">Read</div>
                 </div>
@@ -1573,7 +1573,7 @@ export default function CardClient({
                     href={`/articles/${a.slug}`}
                     className="cj-tape-row"
                   >
-                    <div className="cj-tape-when">{a.author}</div>
+                    <div className="cj-tape-when cj-tape-by">{a.author}</div>
                     <div className="cj-tape-event">
                       <span className="cj-tape-field">{a.title}</span>
                     </div>

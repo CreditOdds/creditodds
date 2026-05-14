@@ -7490,6 +7490,17 @@
 .landing-v2 .cj-tape-event .cj-tape-new.cj-pos { color: #0f8a5f; }
 .landing-v2 .cj-tape-event .cj-tape-new.cj-neg { color: var(--warn); }
 
+@media (max-width: 640px) {
+  .landing-v2 .cj-tape.cj-tape-reading .cj-tape-head,
+  .landing-v2 .cj-tape.cj-tape-reading .cj-tape-row {
+    grid-template-columns: 1fr;
+  }
+  .landing-v2 .cj-tape.cj-tape-reading .cj-tape-by,
+  .landing-v2 .cj-tape.cj-tape-reading .cj-tape-res {
+    display: none;
+  }
+}
+
 /* Right rail */
 .landing-v2 .cj-rail {
   padding: 4px 20px 56px;
