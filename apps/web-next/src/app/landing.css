@@ -6794,6 +6794,102 @@
   color: var(--accent);
   border-bottom-color: var(--accent);
 }
+.landing-v2 .cj-take {
+  margin-top: 22px;
+  padding: 20px 22px;
+  background: color-mix(in oklab, var(--accent) 4%, #fff);
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--accent);
+}
+.landing-v2 .cj-take-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.landing-v2 .cj-take-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+}
+.landing-v2 .cj-take-awards {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line-2);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.landing-v2 .cj-featured {
+  margin-top: 22px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.landing-v2 .cj-take-awards-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.landing-v2 .cj-take-awards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.landing-v2 .cj-award-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.landing-v2 .cj-award-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 5%, #fff);
+}
+.landing-v2 .cj-award-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--ink);
+}
+.landing-v2 .cj-award-chip-rank-1 .cj-award-rank {
+  background: linear-gradient(135deg, #d4a017 0%, #b8860b 100%);
+}
+.landing-v2 .cj-award-chip-rank-2 .cj-award-rank {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+}
+.landing-v2 .cj-award-chip-rank-3 .cj-award-rank {
+  background: linear-gradient(135deg, #c97a52 0%, #a05a3a 100%);
+}
+.landing-v2 .cj-award-title {
+  line-height: 1.35;
+  flex: 1;
+  min-width: 0;
+}
 .landing-v2 .cj-overview-img {
   width: 100%;
   max-width: 260px;

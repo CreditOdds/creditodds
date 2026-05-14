@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Card, CardBenefit, getCard, getCardGraphs, getCardRecords, getAllCards, getCardRatings, getCardWire, getComparePartners, GraphData, CardRecord, CardWireEntry } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
+import { getBestPages } from "@/lib/best";
 import { categoryLabels, pickHeadlineReward } from "@/lib/cardDisplayUtils";
 import { truncateTitle } from "@/lib/seo";
 import CardClient from "./CardClient";
@@ -164,7 +165,7 @@ export default async function CardPage({ params }: CardPageProps) {
   try {
     // Fetch all data in parallel — chain getCard → getCardRatings together
     // so ratings fetches concurrently with graphs/news/articles instead of after them all
-    const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners] = await Promise.all([
+    const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages] = await Promise.all([
       getCard(slug).then(async (card) => ({
         card,
         ratings: await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null })),
@@ -176,6 +177,7 @@ export default async function CardPage({ params }: CardPageProps) {
       getArticles().catch(() => [] as Article[]),
       getAllCards().catch(() => [] as Card[]),
       getComparePartners(slug, 20).catch(() => []),
+      getBestPages().catch(() => []),
     ]);
 
     const { card, ratings, wire } = cardWithRatingsAndWire;
@@ -222,7 +224,19 @@ export default async function CardPage({ params }: CardPageProps) {
       .filter((c): c is Card => c !== undefined && c.active !== false)
       .slice(0, 3);
 
-    return <CardClient card={card} graphData={graphData} records={records} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} />;
+    // Top-3 placements across the /best/* pages — surfaced as social-proof
+    // badges in the overview block, with deep links back to each list.
+    const bestRankings = bestPages
+      .map((page) => {
+        const idx = page.cards.findIndex((c) => c.slug === slug);
+        return idx >= 0 && idx < 3
+          ? { rank: idx + 1, title: page.title, slug: page.slug }
+          : null;
+      })
+      .filter((r): r is { rank: number; title: string; slug: string } => r !== null)
+      .sort((a, b) => a.rank - b.rank);
+
+    return <CardClient card={card} graphData={graphData} records={records} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} bestRankings={bestRankings} />;
   } catch {
     notFound();
   }

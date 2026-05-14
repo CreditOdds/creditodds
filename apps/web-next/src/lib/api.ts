@@ -147,6 +147,7 @@ export interface Card {
   signup_bonus?: SignupBonus;
   apr?: CardAPR;
   benefits?: CardBenefit[];
+  our_take?: string;
 }
 
 // GraphData is an array of series data
