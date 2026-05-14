@@ -12,6 +12,10 @@
       "items": { "type": "string" },
       "description": "Prior names this card was known by, e.g. before a rebrand. Rendered on the card detail page."
     },
+    "our_take": {
+      "type": "string",
+      "description": "Editorial paragraph rendered in the 'Our take' block on the card detail page. Optional; when omitted the block is hidden (only the Featured-in chips render, if the card is top-3 on a /best/ list)."
+    },
     "bank": {
       "type": "string",
       "description": "Issuing bank or financial institution"

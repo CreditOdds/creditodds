@@ -239,6 +239,7 @@ interface CardClientProps {
   similarCards?: Card[];
   wire?: CardWireEntry[];
   frequentlyComparedCards?: Card[];
+  bestRankings?: Array<{ rank: number; title: string; slug: string }>;
 }
 
 // Isolated so useSearchParams doesn't bail the whole CardClient out of static
@@ -268,6 +269,7 @@ export default function CardClient({
   similarCards = [],
   wire = [],
   frequentlyComparedCards = [],
+  bestRankings = [],
 }: CardClientProps) {
   // ---------- State + chrome ----------
   const [showModal, setShowModal] = useState(false);
@@ -484,6 +486,8 @@ export default function CardClient({
     const sub = `After $${sb.spend_requirement.toLocaleString()} in ${sb.timeframe_months} mo${cashEquiv ? ` · ≈ $${cashEquiv.toLocaleString()}` : ""}`;
     return { value, sub };
   }, [card.card_name, card.signup_bonus]);
+
+  const ourTake = card.our_take?.trim() || null;
 
   const approvalRate =
     card.approved_count !== undefined &&
@@ -928,6 +932,46 @@ export default function CardClient({
                 <div className="cj-readoff-foot">Approved</div>
               </div>
             </div>
+
+            {ourTake ? (
+              <div className="cj-take">
+                <div className="cj-take-label">Our take</div>
+                <p className="cj-take-body">{ourTake}</p>
+                {bestRankings.length > 0 && (
+                  <div className="cj-take-awards" aria-label="Top placements on best-of lists">
+                    <span className="cj-take-awards-label">Featured in</span>
+                    <div className="cj-take-awards-list">
+                      {bestRankings.map((r) => (
+                        <Link
+                          key={r.slug}
+                          href={`/best/${r.slug}`}
+                          className={`cj-award-chip cj-award-chip-rank-${r.rank}`}
+                        >
+                          <span className="cj-award-rank">#{r.rank}</span>
+                          <span className="cj-award-title">{r.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : bestRankings.length > 0 ? (
+              <div className="cj-featured" aria-label="Top placements on best-of lists">
+                <span className="cj-take-awards-label">Featured in</span>
+                <div className="cj-take-awards-list">
+                  {bestRankings.map((r) => (
+                    <Link
+                      key={r.slug}
+                      href={`/best/${r.slug}`}
+                      className={`cj-award-chip cj-award-chip-rank-${r.rank}`}
+                    >
+                      <span className="cj-award-rank">#{r.rank}</span>
+                      <span className="cj-award-title">{r.title}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </section>
 
           {/* Mobile-only welcome offer / apply box, shown above section 02 */}
