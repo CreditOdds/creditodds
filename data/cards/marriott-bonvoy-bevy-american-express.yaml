@@ -26,10 +26,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 175000
+  value: 85000
   type: "points"
   spend_requirement: 5000
   timeframe_months: 6
+  note: "Plus 50,000 additional Marriott Bonvoy bonus points after spending $2,000 in first 6 months"
 apr:
   regular:
     min: 21.49
