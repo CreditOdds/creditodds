@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-13T18:06:15.942Z",
-  "count": 163,
+  "generated_at": "2026-05-15T11:39:19.446Z",
+  "count": 165,
   "categories": [
     {
       "id": "dining",
@@ -192,6 +192,179 @@
     }
   ],
   "cards": [
+    {
+      "name": "AAA Daily Advantage Visa Signature",
+      "bank": "Comenity Capital Bank",
+      "slug": "aaa-daily-advantage-visa-signature",
+      "image": "aaa-daily-advantage.png",
+      "accepting_applications": true,
+      "apply_link": "https://northeast.aaa.com/financial/more-products/aaa-visa-credit-card.html",
+      "annual_fee": 0,
+      "foreign_transaction_fee": false,
+      "reward_type": "cashback",
+      "tags": [
+        "cashback"
+      ],
+      "rewards": [
+        {
+          "category": "groceries",
+          "value": 5,
+          "unit": "percent",
+          "note": "Combined $500/year cash back cap with wholesale clubs and gas/EV-charging stations; 1% thereafter",
+          "spend_cap": 10000,
+          "cap_period": "annual",
+          "rate_after_cap": 1
+        },
+        {
+          "category": "gas",
+          "value": 3,
+          "unit": "percent",
+          "note": "Includes EV-charging stations; combined $500/year cash back cap with groceries and wholesale clubs; 1% thereafter",
+          "spend_cap": 16666,
+          "cap_period": "annual",
+          "rate_after_cap": 1
+        },
+        {
+          "category": "ev_charging",
+          "value": 3,
+          "unit": "percent",
+          "note": "Combined $500/year cash back cap with groceries, wholesale clubs, and gas; 1% thereafter",
+          "spend_cap": 16666,
+          "cap_period": "annual",
+          "rate_after_cap": 1
+        },
+        {
+          "category": "wholesale_clubs",
+          "value": 3,
+          "unit": "percent",
+          "note": "Combined $500/year cash back cap with groceries and gas/EV-charging stations; 1% thereafter",
+          "spend_cap": 16666,
+          "cap_period": "annual",
+          "rate_after_cap": 1
+        },
+        {
+          "category": "streaming",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "drugstores",
+          "value": 3,
+          "unit": "percent",
+          "note": "Pharmacy purchases"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "percent",
+          "note": "AAA purchases",
+          "merchant_specific": true
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100,
+        "type": "cash",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 17.49,
+          "max": 31.49
+        }
+      },
+      "benefits": [
+        {
+          "name": "AAA Redemption Bonus",
+          "description": "5% more cash back when redeeming with AAA Northeast Counselors and Advisors",
+          "category": "rewards"
+        }
+      ],
+      "card_id": "aaa-daily-advantage-visa-signature",
+      "card_name": "AAA Daily Advantage Visa Signature"
+    },
+    {
+      "name": "AAA Travel Advantage Visa Signature",
+      "bank": "Comenity Capital Bank",
+      "slug": "aaa-travel-advantage-visa-signature",
+      "image": "aaa-travel-advantage.png",
+      "accepting_applications": true,
+      "apply_link": "https://northeast.aaa.com/financial/more-products/aaa-visa-credit-card.html",
+      "annual_fee": 0,
+      "foreign_transaction_fee": false,
+      "reward_type": "cashback",
+      "tags": [
+        "cashback",
+        "travel"
+      ],
+      "rewards": [
+        {
+          "category": "gas",
+          "value": 5,
+          "unit": "percent",
+          "note": "Includes EV-charging stations; $350/year cash back cap on the 5% category combined; 1% thereafter",
+          "spend_cap": 7000,
+          "cap_period": "annual",
+          "rate_after_cap": 1
+        },
+        {
+          "category": "ev_charging",
+          "value": 5,
+          "unit": "percent",
+          "note": "Combined $350/year cash back cap with gas; 1% thereafter",
+          "spend_cap": 7000,
+          "cap_period": "annual",
+          "rate_after_cap": 1
+        },
+        {
+          "category": "groceries",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "dining",
+          "value": 3,
+          "unit": "percent"
+        },
+        {
+          "category": "travel",
+          "value": 3,
+          "unit": "percent",
+          "note": "Includes AAA purchases"
+        },
+        {
+          "category": "everything_else",
+          "value": 1,
+          "unit": "percent"
+        }
+      ],
+      "signup_bonus": {
+        "value": 100,
+        "type": "cash",
+        "spend_requirement": 1000,
+        "timeframe_months": 3
+      },
+      "apr": {
+        "regular": {
+          "min": 17.49,
+          "max": 31.49
+        }
+      },
+      "benefits": [
+        {
+          "name": "AAA Redemption Bonus",
+          "description": "5% more cash back when redeeming with AAA Northeast Counselors and Advisors",
+          "category": "rewards"
+        }
+      ],
+      "card_id": "aaa-travel-advantage-visa-signature",
+      "card_name": "AAA Travel Advantage Visa Signature"
+    },
     {
       "name": "Aer Lingus Visa Signature",
       "bank": "Chase",
@@ -1151,11 +1324,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 80000,
+        "value": 50000,
         "type": "points",
-        "spend_requirement": 4000,
-        "timeframe_months": 4,
-        "note": "Plus a $99 Companion Fare (plus taxes and fees from $23)"
+        "spend_requirement": 2000,
+        "timeframe_months": 3,
+        "note": "Plus Buy One, Get One companion ticket ($0 fare plus taxes and fees from $23)"
       },
       "benefits": [
         {
@@ -6780,10 +6953,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 175000,
+        "value": 85000,
         "type": "points",
         "spend_requirement": 5000,
-        "timeframe_months": 6
+        "timeframe_months": 6,
+        "note": "Plus 50,000 additional Marriott Bonvoy bonus points after spending $2,000 in first 6 months"
       },
       "apr": {
         "regular": {
@@ -7057,10 +7231,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 200000,
+        "value": 100000,
         "type": "points",
         "spend_requirement": 6000,
-        "timeframe_months": 6
+        "timeframe_months": 6,
+        "note": "Plus an extra 50,000 bonus points after making an additional $2,000 in purchases within the first 6 months of Card Membership"
       },
       "apr": {
         "regular": {
