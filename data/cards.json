@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-15T11:39:19.446Z",
+  "generated_at": "2026-05-15T13:34:38.051Z",
   "count": 165,
   "categories": [
     {
@@ -757,10 +757,11 @@
         }
       ],
       "signup_bonus": {
-        "value": 100000,
+        "value": 200000,
         "type": "points",
         "spend_requirement": 15000,
-        "timeframe_months": 3
+        "timeframe_months": 3,
+        "note": "Amex advertises this as \"as high as 200,000 Membership Rewards Points\"; actual offer may be lower."
       },
       "benefits": [
         {
