@@ -84,7 +84,12 @@ const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 
 function formatRenewal(month?: number, year?: number): { display: string; sortKey: number } | null {
   if (!month || !year) return null;
-  const renewalYear = year + 1;
+  const now = new Date();
+  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  let renewalYear = year + 1;
+  while (new Date(renewalYear, month - 1, 1).getTime() < todayMidnight) {
+    renewalYear += 1;
+  }
   const date = new Date(renewalYear, month - 1, 1);
   return { display: `${MONTHS_SHORT[month - 1]} ${renewalYear}`, sortKey: date.getTime() };
 }
