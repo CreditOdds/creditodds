@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T20:52:32.390Z",
+  "generated_at": "2026-05-15T14:29:15.804Z",
   "count": 7,
   "pages": [
     {
@@ -7,37 +7,39 @@
       "slug": "best-0-apr-cards",
       "title": "Best 0% APR Credit Cards",
       "description": "The best 0% intro APR credit cards for purchases and balance transfers, all with no annual fee.",
-      "date": "2026-02-28",
+      "date": "2026-03-01",
+      "updated_at": "2026-05-15",
       "seo_title": "Best 0% APR Credit Cards of 2026",
-      "seo_description": "Compare the best 0% intro APR credit cards of 2026. Up to 21 months of 0% APR on purchases and balance transfers.",
-      "intro": "A 0% intro APR card lets you make purchases or transfer balances and pay no interest for an extended period — typically 12 to 21 months. These cards are ideal for financing a large purchase over time or consolidating existing credit card debt. Every card on this list has a $0 annual fee.\n",
+      "seo_description": "Compare the best 0% intro APR credit cards of 2026. Up to 24 months of 0% APR on purchases and balance transfers.",
+      "intro": "A 0% intro APR card lets you make purchases or transfer balances without paying interest for an extended period — typically 12 to 24 months. These no-annual-fee cards are ideal for financing a large purchase over time or consolidating existing credit card debt.\n",
       "cards": [
         {
-          "slug": "wells-fargo-reflect",
+          "slug": "us-bank-shield",
           "badge": "Best Overall",
-          "highlight": "21 months of 0% APR on both purchases and balance transfers — the longest intro period available. No rewards, but as a pure interest-saving tool it's hard to beat."
+          "highlight": "24 months of 0% APR on both purchases and balance transfers — the longest intro period available. With no annual fee, this card provides nearly two full years of interest-free financing for major purchases or debt consolidation."
+        },
+        {
+          "slug": "wells-fargo-reflect",
+          "badge": "Best Alternative",
+          "highlight": "21 months of 0% APR on both purchases and balance transfers with no annual fee. Offers a competitive dual intro period just 3 months shorter than the market leader."
         },
         {
           "slug": "bankamericard",
-          "badge": "Longest 0% Period",
-          "highlight": "21 months of 0% APR on both purchases and balance transfers, matching the longest periods on the market. A straightforward no-frills card focused entirely on interest savings."
+          "badge": "Best Entry APR",
+          "highlight": "18 months of 0% APR on both purchases and balance transfers with no annual fee and a 14.49% regular APR floor — the lowest ongoing rate on this list. Solid interest-free window combined with the most competitive post-intro APR available."
         },
         {
           "slug": "citi-simplicity-card",
-          "badge": "No Late Fees",
-          "highlight": "21 months 0% on balance transfers and 12 months on purchases. The standout feature — no late fees ever. If you're worried about missing a payment during your payoff plan, this is the safest pick."
+          "badge": "Best for Balance Transfers",
+          "highlight": "21 months of 0% APR on balance transfers with 12 months on purchases, plus no late fees ever. Ideal for consolidating existing credit card debt without the risk of late payment penalties."
         },
         {
           "slug": "citi-diamond-preferred",
-          "highlight": "Same 21-month balance transfer period as the Simplicity, with 12 months 0% on purchases. A solid choice if you're mainly focused on paying down transferred balances."
+          "highlight": "21 months of 0% APR on balance transfers and 12 months on purchases, with no annual fee. Offers strong balance transfer terms at a slightly lower regular APR range (16.49%-27.24%) compared to Citi Simplicity."
         },
         {
           "slug": "chase-slate-edge",
-          "highlight": "21 months of 0% APR on balance transfers. Chase also offers an automatic APR reduction if you pay on time and keep utilization under 30% — a unique perk for long-term cardholders."
-        },
-        {
-          "slug": "us-bank-shield",
-          "highlight": "15 months of 0% APR on both purchases and balance transfers. Shorter than the top picks but still a generous window for interest-free financing."
+          "highlight": "21 months of 0% APR on balance transfers only, with no intro period on new purchases. Regular APR range of 22.49%-31.24% is higher than most competitors, limiting its appeal."
         }
       ]
     },
@@ -46,73 +48,95 @@
       "slug": "best-airline-cards",
       "title": "Best Airline Credit Cards",
       "description": "The top co-branded airline credit cards ranked by signup bonuses, earning rates, and travel perks.",
-      "date": "2026-02-28",
+      "date": "2026-03-01",
+      "updated_at": "2026-05-15",
       "seo_title": "Best Airline Credit Cards of 2026",
-      "seo_description": "Compare the best airline credit cards of 2026. Delta, United, Southwest, JetBlue, and more — ranked by value.",
-      "intro": "Airline credit cards earn miles in a specific loyalty program and come with perks like free checked bags, priority boarding, and lounge access. They're best for travelers loyal to one airline or alliance. We've ranked these by overall value — factoring in signup bonuses, earning rates, annual fees, and travel benefits.\n",
+      "seo_description": "Compare the best airline credit cards of 2026. Delta, United, American, Southwest, JetBlue, and more — ranked by value.",
+      "intro": "Airline credit cards earn miles or points in a specific loyalty program and come with perks like free checked bags, priority boarding, and lounge access. We've ranked these by overall value—considering signup bonuses, spending requirements, annual fees, earning rates, and travel benefits—to help you find the best fit whether you're a frequent flyer or casual traveler.\n",
       "cards": [
         {
-          "slug": "delta-skymiles-reserve-american-express-card",
-          "badge": "Best Premium",
-          "highlight": "125,000 SkyMiles signup bonus, Delta Sky Club access, and a companion certificate. The ultimate Delta card for frequent flyers willing to pay the $650 annual fee."
-        },
-        {
-          "slug": "delta-skymiles-platinum-american-express-card",
-          "badge": "Best Delta Value",
-          "highlight": "100,000 SkyMiles with a companion certificate and solid travel protections. A strong step up from the Gold at $350/year without the Reserve's premium price."
-        },
-        {
-          "slug": "delta-skymiles-gold-american-express-card",
-          "badge": "Best Mid-Tier",
-          "highlight": "90,000 SkyMiles signup bonus with a $150 annual fee. Includes a free first checked bag and 2x earning on dining, groceries, and Delta purchases."
-        },
-        {
-          "slug": "united-explorer",
-          "highlight": "A well-rounded United card with a free first checked bag, two United Club one-time passes, and expanded award availability. Good for occasional to moderate United flyers."
-        },
-        {
-          "slug": "united-quest",
-          "highlight": "Premium United card with up to $250 in annual travel credits. 3x miles on United purchases and a stronger earning structure than the Explorer."
-        },
-        {
-          "slug": "united-club-infinite",
-          "highlight": "United Club lounge access, Premier 1K-level upgrades, and the strongest United earning structure. Worth it if you fly United frequently and value lounge access."
-        },
-        {
-          "slug": "southwest-rapid-rewards-priority-credit-card",
-          "highlight": "$75 annual travel credit, 4 upgraded boardings per year, and 7,500 anniversary points. The best Southwest card for earning toward the Companion Pass."
-        },
-        {
-          "slug": "southwest-rapid-rewards-premier-credit-card",
-          "highlight": "Solid mid-tier Southwest option with 2x on Southwest and Rapid Rewards hotel/car purchases. Lower annual fee than the Priority with core travel benefits."
-        },
-        {
-          "slug": "southwest-rapid-rewards-plus-credit-card",
-          "highlight": "The entry-level Southwest card at $99/year. 2x on Southwest purchases and 1x on everything else, plus anniversary points toward the Companion Pass."
-        },
-        {
-          "slug": "delta-skymiles-blue-american-express-card",
-          "highlight": "No annual fee entry point into the Delta ecosystem. 2x miles on dining and Delta purchases. A great starter airline card."
-        },
-        {
           "slug": "united-gateway",
-          "highlight": "No annual fee United card. A free first checked bag on United and basic miles earning. Best for infrequent United travelers who want the checked bag perk."
+          "badge": "Best No-Fee",
+          "highlight": "30,000-mile signup bonus after $1,000 spend in 3 months with no annual fee. Earns 2x miles on United, gas, and transit, plus 1x on everything else."
         },
         {
           "slug": "jetblue-plus-card",
-          "highlight": "6x points on JetBlue, a free first checked bag, and 50% savings on inflight purchases. A solid co-brand for Northeast and Florida travelers."
+          "badge": "Best Overall Value",
+          "highlight": "60,000-point signup bonus after $1,000 spend in 3 months for $99/year. Earns 6x points on JetBlue flights, 2x on dining and groceries, plus free checked bag and 50% inflight savings."
         },
         {
           "slug": "jetblue-card",
-          "highlight": "No annual fee JetBlue card with 3x on JetBlue purchases and 2x on dining and groceries. Good for casual JetBlue flyers."
+          "badge": "Best for Beginners",
+          "highlight": "10,000 points with no annual fee after $1,000 spend in 3 months. Earns 3x on JetBlue, 2x on dining and groceries, 1x on everything else."
         },
         {
           "slug": "american-airlines-aadvantage-mileu-mastercard",
-          "highlight": "No annual fee American Airlines card. Earns 2x on eligible AA purchases and is the only free entry into the AAdvantage program via a credit card."
+          "previous_rank": 5,
+          "highlight": "15,000 AAdvantage miles with no annual fee after $1,000 spend in 3 months. Earns 2x miles on American Airlines and groceries, 1x on everything else."
+        },
+        {
+          "slug": "citi-aadvantage-platinum-select-world-elite-m",
+          "previous_rank": 4,
+          "highlight": "50,000 AAdvantage miles after $2,500 spend in 3 months for $99/year. Earns 2x miles on airlines, dining, and gas, plus free checked bag and preferred boarding."
+        },
+        {
+          "slug": "delta-skymiles-blue-american-express-card",
+          "highlight": "10,000 SkyMiles with no annual fee after $1,000 spend in 6 months. Earns 2x miles on Delta and dining, 1x on everything else."
+        },
+        {
+          "slug": "southwest-rapid-rewards-plus-credit-card",
+          "highlight": "50,000 Rapid Rewards points after $1,000 spend in 3 months for $99/year. Earns 2x points on Southwest, gas, and groceries, with anniversary points toward the Companion Pass."
+        },
+        {
+          "slug": "delta-skymiles-gold-american-express-card",
+          "previous_rank": 9,
+          "highlight": "80,000 SkyMiles after $2,000 spend in 6 months for $150/year. Earns 2x miles on Delta, dining, and groceries, plus free first checked bag and companion baggage fees covered."
         },
         {
           "slug": "hawaiian-airlines-world-elite-mastercard",
-          "highlight": "3x miles on Hawaiian Airlines, 2x on dining and gas. Includes a companion fare discount and no foreign transaction fees — ideal for Hawaii-bound travelers."
+          "previous_rank": 8,
+          "highlight": "50,000 miles after $2,000 spend in 3 months for $99/year. Earns 3x on Hawaiian Airlines, 2x on dining, gas, and groceries, plus 0% APR on balance transfers for 15 months."
+        },
+        {
+          "slug": "united-explorer",
+          "highlight": "70,000-mile signup bonus after $3,000 spend in 3 months for $150/year. Earns 3x miles on United flights, 2x on dining and hotels, plus free checked bag and two annual United Club passes."
+        },
+        {
+          "slug": "southwest-rapid-rewards-premier-credit-card",
+          "highlight": "55,000 Rapid Rewards points after $1,500 spend in 3 months for $149/year. Earns 3x on Southwest flights, 2x on groceries and dining, plus anniversary points and 4 upgraded boardings annually."
+        },
+        {
+          "slug": "british-airways-visa-signature-card",
+          "highlight": "75,000 Avios after $5,000 spend in 3 months for $95/year. Earns 3x on British Airways, Aer Lingus, and Iberia flights, 2x on hotels, 1x elsewhere."
+        },
+        {
+          "slug": "southwest-rapid-rewards-priority-credit-card",
+          "highlight": "60,000 Rapid Rewards points, $75 annual travel credit, 4 upgraded boardings, and 7,500 anniversary points after $2,000 spend in 3 months for $229/year. Earns 4x on Southwest flights, 2x on gas and dining."
+        },
+        {
+          "slug": "united-quest",
+          "highlight": "90,000 miles and up to $250 annual travel credits after $4,000 spend in 3 months for $350/year. Earns 4x on United flights, 5x through hotel portals, 2x on travel, dining, and streaming."
+        },
+        {
+          "slug": "citi-aadvantage-globe",
+          "highlight": "90,000 AAdvantage miles after $5,000 spend in 4 months for $350/year. Earns 6x on hotel and car bookings through Citi portals, 3x on American Airlines, 2x on dining and transit."
+        },
+        {
+          "slug": "delta-skymiles-platinum-american-express-card",
+          "highlight": "90,000 SkyMiles and companion certificate after $3,000 spend in 6 months for $350/year. Earns 3x on Delta flights and hotels, 2x on dining and groceries, 1x elsewhere."
+        },
+        {
+          "slug": "citi-aadvantage-executive-world-elite-masterc",
+          "highlight": "70,000 AAdvantage miles and Admirals Club lounge access after $7,000 spend in 3 months for $595/year. Earns 4x on American Airlines, 10x on Citi portal hotel and car bookings."
+        },
+        {
+          "slug": "delta-skymiles-reserve-american-express-card",
+          "badge": "Best Premium",
+          "highlight": "100,000 SkyMiles and companion certificate after $5,000 spend in 6 months for $650/year, plus Delta Sky Club membership. Earns 3x on Delta flights and hotels, 1x elsewhere."
+        },
+        {
+          "slug": "united-club-infinite",
+          "highlight": "100,000 miles and United Club Infinite lounge access after $5,000 spend in 3 months for $695/year. Earns 5x on United flights, 2x on dining and travel, 1.5x on everything else."
         }
       ]
     },
@@ -121,68 +145,69 @@
       "slug": "best-cash-back-cards",
       "title": "Best Cash Back Credit Cards",
       "description": "The top cash back credit cards ranked by earning rates, bonus categories, and signup offers — all with no annual fee unless noted.",
-      "date": "2026-02-28",
+      "date": "2026-03-01",
+      "updated_at": "2026-05-15",
       "seo_title": "Best Cash Back Credit Cards of 2026",
       "seo_description": "Compare the best cash back credit cards of 2026. Flat-rate 2% cards, 5% rotating categories, and the best signup bonuses.",
-      "intro": "Cash back cards are the simplest way to earn rewards — no points to transfer, no portals to navigate, just money back on your spending. We've ranked the best options from flat-rate everyday cards to category specialists, all based on earning rates and overall value.\n",
+      "intro": "Cash back cards offer the simplest way to earn rewards — direct cash with no points to transfer or portals to navigate. We've ranked the best options based on signup bonus value and ease of earning it, ongoing cash back rates, and whether any annual fee is justified by the rewards you'll actually earn.\n",
       "cards": [
         {
           "slug": "chase-freedom-flex",
           "badge": "Best Overall",
-          "highlight": "5% on rotating quarterly categories, 5% on Chase Travel, 3% on dining and drugstores, and 1% on everything else. Plus a $200 signup bonus after just $500 in spending. The most versatile cash back card available."
-        },
-        {
-          "slug": "wells-fargo-active-cash",
-          "badge": "Best Flat Rate",
-          "highlight": "A simple 2% cash back on every purchase with no annual fee. The $200 signup bonus after $500 spend makes it an easy win. One of the best \"set it and forget it\" cards."
-        },
-        {
-          "slug": "citi-double-cash",
-          "highlight": "2% on everything — 1% when you buy, 1% when you pay. A $200 bonus after $1,500 in 6 months. Also earns Citi ThankYou points that can be transferred to airline partners if you pair it with a Citi premium card."
-        },
-        {
-          "slug": "chase-freedom-unlimited",
-          "highlight": "1.5% on everything plus 3% on dining and drugstores, 5% on Chase Travel. The $200 signup bonus is easy to earn. Pairs perfectly with a Sapphire card for point transfers."
-        },
-        {
-          "slug": "capital-one-savorone",
-          "badge": "Best for Food",
-          "highlight": "3% on dining, groceries, entertainment, and streaming with no annual fee. The $200 signup bonus after $500 is one of the easiest to earn. A great all-in-one card for everyday spending."
+          "highlight": "Earn $200 cash back after just $500 in spending, then enjoy 5% back on rotating quarterly categories and Chase Travel, 3% on dining and drugstores, and 1% on everything else—all with no annual fee and a 15-month intro APR on purchases."
         },
         {
           "slug": "discover-it-cash-back",
           "badge": "Best First-Year Value",
-          "highlight": "5% on rotating quarterly categories and 1% on everything else. Discover matches all cash back earned in your first year — effectively doubling your rewards to 10% and 2%."
+          "highlight": "Earn 5% cash back on rotating quarterly categories and 1% on everything else, with Discover matching all cash back earned in your first year to effectively double your rewards. No annual fee, no signup minimum, and 15-month intro APR on purchases."
+        },
+        {
+          "slug": "chase-freedom-unlimited",
+          "badge": "Best for Everyday Spending",
+          "highlight": "Earn $200 cash back after $500 in spending, then get 1.5% back on all purchases plus 3% on dining and drugstores and 5% on Chase Travel—with no annual fee and 15-month intro APR on purchases and balance transfers."
+        },
+        {
+          "slug": "wells-fargo-active-cash",
+          "badge": "Best Flat Rate",
+          "highlight": "Get 2% cash back on every purchase with no annual fee, no spending caps, and no categories to track. Earn a $200 bonus after $500 in spending."
+        },
+        {
+          "slug": "citi-double-cash",
+          "highlight": "Earn 2% cash back on all purchases through a unique 1%-on-purchase, 1%-on-payment structure, plus 5% on Chase Travel. Get a $200 bonus after $1,500 in 6 months with no annual fee and 18-month intro APR on balance transfers."
         },
         {
           "slug": "blue-cash-everyday-card",
-          "highlight": "3% at U.S. supermarkets (up to $6,000/year), 3% on gas, and 3% on online shopping. A strong grocery-focused card with a $200 signup bonus."
+          "previous_rank": 7,
+          "highlight": "Earn 3% cash back at U.S. supermarkets (up to $6,000 yearly), 3% on gas, 3% on online shopping, and 1% elsewhere. Get a $200 bonus after $2,000 in 6 months with no annual fee."
         },
         {
           "slug": "citi-custom-cash",
-          "badge": "Best Category Card",
-          "highlight": "5% back on your top spending category each billing cycle (up to $500/month) — automatically adjusting between dining, gas, groceries, transit, streaming, and more. No annual fee."
+          "previous_rank": 6,
+          "highlight": "Earn 5% cash back on your highest spending category each month (from dining, gas, groceries, transit, streaming, and more, capped at $500/month) plus 1% elsewhere. Get a $200 bonus after $1,500 in 6 months with no annual fee."
         },
         {
           "slug": "amazon-prime-rewards-visa-signature-card",
-          "highlight": "5% back at Amazon, Whole Foods, and Chase Travel for Prime members. 2% on dining and gas, 1% on everything else. No annual fee beyond your Prime membership."
-        },
-        {
-          "slug": "capital-one-quicksilver",
-          "highlight": "A straightforward 1.5% cash back on everything with no annual fee. No rotating categories or spending caps to worry about — just reliable flat-rate earnings."
-        },
-        {
-          "slug": "wells-fargo-signify-business-cash",
-          "badge": "Best Business",
-          "highlight": "2% cash back on every purchase with no category restrictions. The $500 signup bonus after $5,000 in 3 months is one of the highest flat cash bonuses available."
+          "highlight": "Earn 5% cash back at Amazon and Whole Foods (for Prime members), 5% on Chase Travel, 2% on dining, gas, and transit, and 1% elsewhere. Get a $150 bonus with no spending requirement."
         },
         {
           "slug": "wells-fargo-autograph",
-          "highlight": "3x points on dining, travel, gas, transit, and streaming with no annual fee. While technically a points card, rewards redeem at 1 cent each — making it effectively a multi-category 3% cash back card."
+          "highlight": "Earn 3% cash back on dining, travel, gas, transit, and streaming, plus 1% elsewhere. Get a $200 equivalent bonus (20,000 points) after $1,000 in 3 months with no annual fee."
         },
         {
           "slug": "wells-fargo-attune",
-          "highlight": "4% on select categories you choose and 2% on everyday spending. A newer Wells Fargo card with a customizable rewards structure and $100 signup bonus."
+          "highlight": "Earn 4% cash back on fitness, wellness, sports, live events, pet supplies, transit, and EV charging, plus 1% elsewhere. Get a $100 bonus after $500 in spending with no annual fee."
+        },
+        {
+          "slug": "capital-one-savorone",
+          "highlight": "Earn 3% cash back on dining, groceries, entertainment, and streaming, plus 1% elsewhere. Get a $200 bonus after $500 in spending, but includes a $39 annual fee."
+        },
+        {
+          "slug": "wells-fargo-signify-business-cash",
+          "highlight": "Earn 2% cash back on all business purchases with no annual fee and no spending caps. Get a $500 bonus after $5,000 in 3 months—the highest flat bonus available."
+        },
+        {
+          "slug": "capital-one-quicksilver",
+          "highlight": "1.5% cash back on everything with no annual fee, no rotating categories, and no spending caps. Earn a $200 bonus after $500 in spending."
         }
       ]
     },
@@ -191,60 +216,70 @@
       "slug": "best-dining-grocery-cards",
       "title": "Best Credit Cards for Dining and Groceries",
       "description": "The top credit cards for earning rewards on restaurants and grocery store purchases, from premium to no-annual-fee options.",
-      "date": "2026-02-28",
+      "date": "2026-03-01",
+      "updated_at": "2026-05-15",
       "seo_title": "Best Credit Cards for Dining and Groceries of 2026",
       "seo_description": "Compare the best dining and grocery credit cards of 2026. Earn 3-4x points or up to 6% cash back on food spending.",
-      "intro": "Dining and groceries are two of the biggest spending categories for most people. The right card can earn you serious rewards on money you're already spending. We've ranked these cards by their earning rates on dining and groceries, factoring in annual fees and overall card value.\n",
+      "intro": "Dining and groceries represent major spending categories for most households. The right card can earn substantial rewards on these purchases, whether you prioritize maximum earning rates, signup bonuses, or cards without annual fees.\n",
       "cards": [
         {
           "slug": "american-express-gold-card",
           "badge": "Best Overall",
-          "highlight": "4x Membership Rewards points on dining and groceries is the highest ongoing earn rate in both categories from a single card. The $325 annual fee is offset by monthly dining and Uber credits."
+          "highlight": "Earns 4x Membership Rewards points on both dining and groceries—the highest ongoing earn rate available. A $325 annual fee is offset by $240 in combined dining and Uber credits, plus a 100,000-point signup bonus on $8,000 spend."
         },
         {
-          "slug": "capital-one-savorone",
-          "badge": "Best No-Fee Card",
-          "highlight": "3% cash back on dining, groceries, entertainment, and streaming with no annual fee. The best all-around no-fee card for food spending."
+          "slug": "blue-cash-preferred-card",
+          "badge": "Best for Groceries",
+          "highlight": "Earns 6% cash back at U.S. supermarkets up to $6,000/year, then 1%—the highest grocery earn rate available—plus 6% on streaming and 3% on transit and gas. A $95 annual fee is offset by a $300 cash signup bonus on $3,000 spend and 12-month 0% APR on purchases."
         },
         {
-          "slug": "chase-sapphire-preferred",
-          "highlight": "3x points on dining make this a strong everyday earner. Points transfer to Hyatt, United, and other partners, giving you outsized value for a $95 annual fee."
+          "slug": "us-bank-altitude-go-visa-signature",
+          "badge": "Best No-Fee Dining",
+          "highlight": "Earns 4x points on dining up to $2,000/quarter, then 1x—the highest no-fee dining earn rate available—plus 2x on groceries, gas, and streaming with no annual fee. Includes a 20,000-point signup bonus on just $1,000 spend."
         },
         {
-          "slug": "chase-sapphire-reserve",
-          "highlight": "3x on dining with a $300 travel credit and 50% bonus when redeeming through Chase Travel. The premium option for frequent travelers who also dine out a lot."
-        },
-        {
-          "slug": "chase-freedom-flex",
-          "highlight": "3% back on dining at restaurants with no annual fee, plus 5% rotating categories that sometimes include grocery stores. A great starter or pairing card."
-        },
-        {
-          "slug": "chase-freedom-unlimited",
-          "highlight": "3% on dining plus 1.5% on everything else, no annual fee. Pairs perfectly with a Sapphire card to transfer points to travel partners."
-        },
-        {
-          "slug": "wells-fargo-autograph",
-          "highlight": "3x points on dining with no annual fee. Also earns 3x on travel, gas, transit, and streaming — a versatile everyday card."
+          "slug": "citi-custom-cash",
+          "badge": "Best No-Fee Value",
+          "highlight": "Earns 5% cash back on your top spending category each billing cycle—including dining or groceries (up to $500/month)—with no annual fee. Includes a $200 cash bonus on $1,500 spend and 15-month 0% APR on purchases and balance transfers."
         },
         {
           "slug": "blue-cash-everyday-card",
-          "highlight": "3% cash back at U.S. supermarkets (up to $6,000/year) with no annual fee. One of the best standalone grocery cards for most households."
+          "badge": "Best Budget No-Fee",
+          "previous_rank": 6,
+          "highlight": "Earns 3% cash back at U.S. supermarkets up to $6,000/year, then 1%, with no annual fee, plus 3% on gas and online shopping. Includes a $200 cash bonus on $2,000 spend and 15-month 0% APR on purchases."
         },
         {
-          "slug": "atmos-rewards-summit",
-          "highlight": "3x points on dining plus a strong rewards structure across travel and everyday categories. A newer card with competitive earning rates."
+          "slug": "capital-one-savorone",
+          "previous_rank": 5,
+          "highlight": "Earns 3% cash back on dining and groceries (plus entertainment and streaming) with a $39 annual fee. Includes a $200 cash bonus on just $500 spend and 12-month 0% APR on purchases and balance transfers."
+        },
+        {
+          "slug": "citi-strata-premier",
+          "highlight": "Earns 3x points on both dining and groceries, plus 3x on airlines, hotels, and gas for a $95 annual fee. Includes a 60,000-point signup bonus on $4,000 spend."
+        },
+        {
+          "slug": "chase-sapphire-preferred",
+          "highlight": "Earns 3x points on dining, but only 3x on online grocery purchases (not in-store), for a $95 annual fee. Includes a 75,000-point signup bonus on $5,000 spend with point transfers to travel partners like Hyatt and United."
+        },
+        {
+          "slug": "wells-fargo-autograph",
+          "highlight": "Earns 3x points on dining with no annual fee, plus 3x on travel, gas, transit, and streaming, but only 1x on groceries. Includes a 20,000-point bonus on $1,000 spend."
+        },
+        {
+          "slug": "chase-freedom-unlimited",
+          "highlight": "Earns 3% cash back on dining with no annual fee, plus 1.5% on everything else. Includes a $200 cash bonus on $500 spend and 15-month 0% APR on purchases and balance transfers."
+        },
+        {
+          "slug": "chase-freedom-flex",
+          "highlight": "Earns 3% cash back on dining with no annual fee, plus rotating 5% categories that sometimes include grocery stores. Includes a $200 cash bonus on $500 spend and 15-month 0% APR on purchases."
         },
         {
           "slug": "delta-skymiles-gold-american-express-card",
-          "highlight": "2x miles on dining and U.S. supermarkets. A strong pick if you fly Delta — the dining and grocery earnings fuel your miles balance between flights."
+          "highlight": "Earns 2x miles on dining and U.S. supermarkets for a $150 annual fee, with an 80,000-mile signup bonus on $2,000 spend. This card is better suited for frequent Delta flyers than for optimizing general dining-and-grocery rewards."
         },
         {
-          "slug": "rakuten-american-express",
-          "highlight": "2% back on dining and groceries with no annual fee. Also earns elevated rates on Rakuten shopping portal purchases — a solid secondary card."
-        },
-        {
-          "slug": "atmos-rewards-ascent",
-          "highlight": "3x on dining with a lower annual fee than the Summit. A good mid-tier option if you want elevated dining rewards without the premium price tag."
+          "slug": "chase-sapphire-reserve",
+          "highlight": "Earns 3x points on dining but only 1x on groceries for a $795 annual fee plus premium travel benefits. Includes a 150,000-point signup bonus on $6,000 spend."
         }
       ]
     },
@@ -253,37 +288,41 @@
       "slug": "best-secured-cards",
       "title": "Best Secured Credit Cards",
       "description": "The best secured credit cards for building or rebuilding credit, all with no annual fee.",
-      "date": "2026-02-28",
+      "date": "2026-03-01",
+      "updated_at": "2026-05-15",
       "seo_title": "Best Secured Credit Cards of 2026",
       "seo_description": "Compare the best secured credit cards of 2026 for building credit. All have $0 annual fees and report to all three bureaus.",
-      "intro": "Secured credit cards require a refundable security deposit that typically becomes your credit limit. They're designed for people building credit for the first time or rebuilding after a setback. Every card on this list has no annual fee and reports to all three major credit bureaus, so responsible use will help your credit score grow over time.\n",
+      "intro": "Secured credit cards require a refundable security deposit that becomes your credit limit, making them ideal for building or rebuilding credit. The best options report to all three major credit bureaus, charge no annual fee, and offer rewards to help you maximize spending while rebuilding credit.\n",
       "cards": [
         {
           "slug": "discover-it-secured-credit-card",
           "badge": "Best Overall",
-          "highlight": "The only secured card that earns meaningful cash back — 2% at gas stations and restaurants (up to $1,000/quarter) and 1% on everything else. Discover also matches all cash back earned in your first year, effectively doubling your rewards."
-        },
-        {
-          "slug": "capital-one-quicksilver-secured",
-          "badge": "Best for Rewards",
-          "highlight": "Earns 1.5% cash back on every purchase with no annual fee. One of the few secured cards with a flat-rate rewards structure, making it feel like a regular credit card."
+          "highlight": "Earns 2% cash back at gas stations and restaurants (up to $1,000/quarter), then 1% on everything else. Discover matches all cash back earned in your first year, effectively doubling your rewards. No annual fee."
         },
         {
           "slug": "bank-of-america-cash-rewards-secured",
-          "highlight": "Earns cash back in a category of your choice (gas, online shopping, dining, travel, drug stores, or home improvement). A good pick if your spending is concentrated in one area."
+          "badge": "Best Flexibility",
+          "previous_rank": 3,
+          "highlight": "Earns 3% cash back in one category you select, 2% at grocery stores and wholesale clubs, and 1% on everything else. No annual fee with flexible quarterly category changes to match your spending patterns."
+        },
+        {
+          "slug": "capital-one-quicksilver-secured",
+          "badge": "Best for Simplicity",
+          "previous_rank": 2,
+          "highlight": "Earns a flat 1.5% cash back on all purchases with no rotating categories to track. Includes 5% cash back on hotels and car rentals through Capital One Travel. No annual fee."
         },
         {
           "slug": "capital-one-platinum-secured",
           "badge": "Easiest Approval",
-          "highlight": "No rewards, but one of the easiest secured cards to get approved for. Minimum deposit as low as $49 depending on creditworthiness. A strong starter card for those with very limited credit history."
+          "highlight": "Designed for accessible credit building with deposits as low as $49 depending on creditworthiness. No annual fee, no rewards, and straightforward terms for establishing credit history."
         },
         {
           "slug": "citi-secured-mastercard",
-          "highlight": "A straightforward secured card with no rewards but wide Mastercard acceptance. Reports to all three bureaus and has a path to upgrade to an unsecured Citi card over time."
+          "highlight": "A straightforward secured Mastercard with no annual fee and no rewards. Reports to all three major credit bureaus and offers a documented upgrade path to unsecured Citi products."
         },
         {
           "slug": "us-bank-secured",
-          "highlight": "A basic secured Visa card with no rewards. U.S. Bank reviews your account for an upgrade to an unsecured card automatically. A solid option if you already bank with U.S. Bank."
+          "highlight": "A basic secured Visa with no annual fee and no rewards. U.S. Bank automatically reviews accounts for potential upgrade to an unsecured card."
         }
       ]
     },
@@ -292,75 +331,98 @@
       "slug": "best-signup-bonuses",
       "title": "Best Credit Card Signup Bonuses",
       "description": "The most valuable credit card signup bonuses available right now, ranked by bonus value and overall appeal.",
-      "date": "2026-02-28",
+      "date": "2026-03-01",
+      "updated_at": "2026-05-15",
       "seo_title": "Best Credit Card Signup Bonuses of 2026",
-      "seo_description": "Compare the best credit card signup bonuses of 2026. Ranked by value — from 140k points to $200 cash back.",
-      "intro": "Signup bonuses are the fastest way to earn a big chunk of rewards from a new credit card. We've ranked the best offers available right now based on bonus value, ease of earning, and overall card quality. All data is pulled live from our card database so bonus values, annual fees, and apply links are always current.\n",
+      "seo_description": "Compare the best credit card signup bonuses of 2026. Ranked by value — from 175k points to $200 cash back.",
+      "intro": "Signup bonuses are the fastest way to earn valuable rewards from a new credit card. We've ranked the best offers available right now based on bonus value, spending requirements, annual fee efficiency, and ongoing rewards—helping you find the best option whether you prioritize points, miles, or cash back.\n",
       "cards": [
         {
-          "slug": "ihg-rewards-premier-business",
+          "slug": "the-platinum-card",
           "badge": "Best Overall",
-          "highlight": "The highest signup bonus available right now — 140,000 IHG points after $4,000 in 3 months. IHG points are worth around 0.5 cents each, making this worth roughly $700 in hotel stays."
-        },
-        {
-          "slug": "delta-skymiles-reserve-american-express-card",
-          "badge": "Best for Premium Travel",
-          "highlight": "125,000 Delta SkyMiles is an enormous haul. The Reserve card also includes Delta Sky Club access and a companion certificate — ideal for frequent Delta flyers."
-        },
-        {
-          "slug": "delta-skymiles-platinum-american-express-card",
-          "badge": "Best Delta Value",
-          "highlight": "100,000 SkyMiles for a lower annual fee than the Reserve. You still get a companion certificate and solid travel perks without the ultra-premium price tag."
-        },
-        {
-          "slug": "delta-skymiles-gold-american-express-card",
-          "highlight": "90,000 SkyMiles is a top-tier bonus for a mid-tier card. Great entry point into the Delta ecosystem with a reasonable $150 annual fee."
-        },
-        {
-          "slug": "atmos-rewards-summit",
-          "highlight": "80,000 Atmos points with a $4,000 spend requirement. Atmos is a newer player but their redemption rates are competitive with major programs."
-        },
-        {
-          "slug": "capital-one-venture-x",
-          "badge": "Best Travel Card",
-          "highlight": "75,000 miles after $4,000 in 3 months. The Venture X also comes with a $300 travel credit and 10,000 anniversary miles, effectively making the $395 annual fee very manageable."
-        },
-        {
-          "slug": "atmos-rewards-ascent",
-          "highlight": "70,000 Atmos points with only $3,000 in spending required. A lower spend threshold makes this one of the easier big bonuses to earn."
-        },
-        {
-          "slug": "chase-sapphire-preferred",
-          "highlight": "60,000 Ultimate Rewards points are worth at least $750 when redeemed through Chase Travel. One of the most versatile points currencies available."
-        },
-        {
-          "slug": "american-express-gold-card",
-          "highlight": "60,000 Membership Rewards points after $6,000 in 6 months. The Gold Card is a powerhouse for dining and groceries with 4x earning in both categories."
+          "highlight": "175,000 Membership Rewards points after $12,000 in 6 months — worth roughly $3,500 when transferred to airline and hotel partners. This is the highest-value signup bonus available by a significant margin, and 5x earning on airfare and hotels makes it excellent for premium travel spending."
         },
         {
           "slug": "chase-sapphire-reserve",
-          "highlight": "60,000 Ultimate Rewards points plus a $300 annual travel credit. Points are worth 50% more through Chase Travel, making this bonus worth up to $900."
+          "badge": "Best Premium Travel",
+          "highlight": "150,000 Ultimate Rewards points after $6,000 in 3 months — worth up to $2,250 through Chase Travel. The $300 annual travel credit significantly offsets the $795 fee, and 8x points on Chase Travel portal bookings provide excellent ongoing value."
+        },
+        {
+          "slug": "chase-sapphire-preferred",
+          "badge": "Best Mid-Tier Travel",
+          "previous_rank": 5,
+          "highlight": "75,000 Ultimate Rewards points after $5,000 in 3 months — worth at least $1,125 through Chase Travel. The $95 annual fee and transfer-friendly points make this an excellent value for casual to moderate travelers seeking premium rewards without high annual costs."
+        },
+        {
+          "slug": "capital-one-venture-x",
+          "previous_rank": 6,
+          "highlight": "75,000 miles after $4,000 in 3 months, plus $300 annual travel credit and 10,000 anniversary miles. The effective annual cost drops to just $95 after travel credits, and 10x earning on hotel and car bookings through the portal delivers strong ongoing value."
+        },
+        {
+          "slug": "american-express-gold-card",
+          "previous_rank": 3,
+          "highlight": "100,000 Membership Rewards points after $8,000 in 6 months. Strong 4x earning on dining and groceries pairs with the $325 annual fee for compelling everyday rewards beyond the signup bonus."
+        },
+        {
+          "slug": "chase-ink-business-preferred",
+          "badge": "Best Business Card",
+          "previous_rank": 4,
+          "highlight": "100,000 Ultimate Rewards points after $8,000 in 3 months — worth up to $1,500 through Chase Travel. At just $95 annual fee, this delivers one of the best business card values with flexible transfer-friendly rewards."
+        },
+        {
+          "slug": "ihg-rewards-club-premier-credit-card",
+          "highlight": "150,000 IHG points after $3,000 in 3 months — worth roughly $750 in hotel stays. The $99 annual fee and easy spend requirement make this one of the most attainable hotel bonuses, with 26x earning at IHG properties."
         },
         {
           "slug": "world-of-hyatt-business-credit-card",
-          "highlight": "60,000 World of Hyatt points can easily be worth $1,200+ in hotel stays. Hyatt consistently offers the best value among hotel loyalty programs."
+          "badge": "Best Hotel Value",
+          "highlight": "60,000 World of Hyatt points after $5,000 in 3 months — worth $1,200+ in hotel stays at roughly 2 cents per point. Hyatt points consistently offer the highest redemption value among hotel loyalty programs."
+        },
+        {
+          "slug": "ihg-rewards-premier-business",
+          "highlight": "140,000 IHG points after $4,000 in 3 months — worth roughly $700 in hotel stays. The $99 annual fee and 26x earning at IHG properties match the personal version for business travelers."
+        },
+        {
+          "slug": "delta-skymiles-platinum-american-express-card",
+          "previous_rank": 12,
+          "highlight": "90,000 SkyMiles after $3,000 in 6 months, plus a companion certificate and 3x earning on airlines and hotels. The $350 annual fee makes this a mid-tier option for Delta-focused travelers."
+        },
+        {
+          "slug": "united-quest",
+          "previous_rank": 10,
+          "highlight": "90,000 United miles after $4,000 in 3 months. Includes two free checked bags annually and 25% back on United award flights, with strong benefits for United-focused travelers."
+        },
+        {
+          "slug": "delta-skymiles-gold-american-express-card",
+          "badge": "Best for Beginners",
+          "previous_rank": 13,
+          "highlight": "80,000 SkyMiles after just $2,000 in 6 months at only $150 annual fee. This is the most affordable entry point into the Delta ecosystem for casual and emerging flyers."
+        },
+        {
+          "slug": "delta-skymiles-reserve-american-express-card",
+          "previous_rank": 11,
+          "highlight": "100,000 Delta SkyMiles after $5,000 in 6 months, plus Delta Sky Club access and a companion certificate. The $650 annual fee is justified for frequent Delta flyers with strong perks."
         },
         {
           "slug": "wells-fargo-signify-business-cash",
           "badge": "Best Cash Back",
-          "highlight": "A straightforward $500 cash back after $5,000 in 3 months. No points to figure out, no transfer partners — just cash in your account."
+          "previous_rank": 16,
+          "highlight": "$500 cash back after $5,000 in 3 months with zero annual fee. Simple 2% flat cash back on all business purchases with no categories to track."
         },
         {
           "slug": "chase-freedom-flex",
-          "highlight": "$200 cash back after just $500 in spending — one of the easiest bonuses to earn. Plus 5% rotating categories and a strong everyday rewards structure."
+          "badge": "Best No-Fee Card",
+          "previous_rank": 14,
+          "highlight": "$200 cash back after just $500 in spending — one of the easiest bonuses to earn. Zero annual fee with 5% rotating categories, 5% on Chase Travel portal, and 3% on dining and drugstores."
         },
         {
           "slug": "wells-fargo-active-cash",
-          "highlight": "$200 cash back with a low $500 spend requirement. Pairs well with the 2% flat cash back on everything, making it a solid daily driver."
+          "previous_rank": 15,
+          "highlight": "$200 cash back after $500 in 3 months with zero annual fee. Straightforward 2% cash back on all purchases plus 12-month 0% APR on purchases and balance transfers."
         },
         {
           "slug": "capital-one-savorone",
-          "highlight": "$200 cash back after $500 in 3 months. The SavorOne also earns 3% on dining, entertainment, groceries, and streaming — a great all-around no-annual-fee card."
+          "highlight": "$200 cash back after $500 in 3 months. Offers 3% on dining, entertainment, streaming, and groceries with a $39 annual fee."
         }
       ]
     },
@@ -369,67 +431,80 @@
       "slug": "best-travel-cards",
       "title": "Best Travel Credit Cards",
       "description": "The top travel credit cards ranked by rewards, travel perks, and overall value — from premium to no-annual-fee options.",
-      "date": "2026-02-28",
+      "date": "2026-03-01",
+      "updated_at": "2026-05-15",
       "seo_title": "Best Travel Credit Cards of 2026",
       "seo_description": "Compare the best travel credit cards of 2026. From Chase Sapphire Reserve to no-fee options — ranked by rewards and perks.",
-      "intro": "The best travel cards earn accelerated rewards on travel and dining, offer perks like lounge access and travel credits, and let you transfer points to airline and hotel partners for outsized value. We've ranked these by overall value for travelers — from premium cards with big perks to no-fee options that still earn great rewards.\n",
+      "intro": "The best travel cards earn accelerated rewards on flights, hotels, and dining while offering premium perks like lounge access and travel credits. We've ranked these by overall value for travelers—considering signup bonuses, ongoing rewards, annual fees, and transfer partner flexibility.\n",
       "cards": [
         {
-          "slug": "chase-sapphire-reserve",
-          "badge": "Best Premium",
-          "highlight": "10x on hotels and car rentals through Chase Travel, 5x on flights, 3x on dining and travel. The $300 annual travel credit and Priority Pass lounge access help offset the $795 fee. Points are worth 50% more through Chase Travel."
-        },
-        {
-          "slug": "capital-one-venture-x",
-          "badge": "Best Value Premium",
-          "highlight": "10x on hotels and 5x on flights through the Capital One portal, 2x on everything else. The $300 travel credit and 10,000 anniversary miles make the effective annual fee close to $0. Includes Capital One Lounges and Priority Pass."
-        },
-        {
           "slug": "chase-sapphire-preferred",
-          "badge": "Best Mid-Tier",
-          "highlight": "5x on Chase Travel, 3x on dining, streaming, and online groceries, 2x on other travel. The 60,000-point signup bonus is worth at least $750. The most popular travel card for good reason."
-        },
-        {
-          "slug": "american-express-gold-card",
-          "highlight": "4x on dining and groceries, 3x on flights. Monthly dining and Uber credits help offset the $325 fee. Membership Rewards points transfer to a huge list of airline and hotel partners."
-        },
-        {
-          "slug": "capital-one-venture-rewards",
-          "highlight": "2x miles on every purchase with no category tracking needed. Miles can be transferred to partners or used to erase travel purchases. A solid mid-tier option at $95/year."
+          "badge": "Best Overall",
+          "highlight": "Earns 5x points on Chase Travel portal, 3x on dining and streaming, and 2x on travel purchases. The 75,000-point signup bonus after $5,000 spend delivers strong upfront value, and the $95 annual fee is easily offset by everyday rewards."
         },
         {
           "slug": "wells-fargo-autograph",
           "badge": "Best No-Fee",
-          "highlight": "3x on dining, travel, gas, transit, and streaming with no annual fee. A 20,000-point signup bonus after $1,000 spend. Hard to beat for a free travel card."
-        },
-        {
-          "slug": "bank-of-america-travel-rewards",
-          "highlight": "1.5x points on everything with no annual fee and no foreign transaction fees. A 25,000-point signup bonus after $1,000 spend. Simple and effective for occasional travelers."
-        },
-        {
-          "slug": "bilt-palladium",
-          "highlight": "Earn points on rent payments with no transaction fees — a unique feature no other card offers. Also earns on dining, travel, and everyday spending. Points transfer to Hyatt, AA, United, and more."
-        },
-        {
-          "slug": "world-of-hyatt-business-credit-card",
-          "badge": "Best Hotel Card",
-          "highlight": "60,000 World of Hyatt points can be worth $1,200+ in hotel stays. Hyatt offers the best cents-per-point value of any major hotel program. Automatic Discoverist status included."
-        },
-        {
-          "slug": "atmos-rewards-summit",
-          "highlight": "80,000-point signup bonus with 3x on dining and a competitive rewards structure. A newer entrant competing with the established premium travel cards."
-        },
-        {
-          "slug": "atmos-rewards-ascent",
-          "highlight": "70,000-point signup bonus with only $3,000 in spending required. A lower-fee alternative to the Summit that still earns elevated rewards on dining and travel."
+          "highlight": "Earns 3x points on dining, travel, gas, transit, and streaming with zero annual fee. The 20,000-point signup bonus after just $1,000 spend and 12-month 0% APR intro period make this the most accessible option for budget-conscious travelers."
         },
         {
           "slug": "citi-strata-premier",
-          "highlight": "A strong Citi travel card with competitive earning rates on travel and dining. ThankYou points transfer to a solid lineup of airline partners."
+          "badge": "Best Value",
+          "previous_rank": 6,
+          "highlight": "Earns 10x points on hotels and cars through Citi Travel, 3x on airlines, hotels, dining, groceries, and gas, and 1x elsewhere. The 60,000-point signup bonus after $4,000 spend provides strong portal value at just $95 annually."
+        },
+        {
+          "slug": "chase-sapphire-reserve",
+          "badge": "Best Premium",
+          "highlight": "Earns 8x on Chase Travel portal, 4x on direct travel purchases, and 3x on dining, with a $300 annual travel credit and Priority Pass lounge access. The 150,000-point signup bonus after $6,000 spend justifies the $795 annual fee for frequent international travelers."
+        },
+        {
+          "slug": "capital-one-venture-x",
+          "highlight": "Earns 10x points on hotels and cars and 5x on flights through Capital One's portal, plus 2x on everything else. The $300 annual travel credit and 10,000 annual bonus miles effectively reduce the $395 fee, making it compelling for frequent luxury hotel and flight bookers."
+        },
+        {
+          "slug": "capital-one-venture-rewards",
+          "previous_rank": 3,
+          "highlight": "Earns 5x points on hotels and cars through the portal and 2x on all other purchases with no category limits. The 75,000-mile signup bonus after $4,000 spend delivers strong value at just $95 annually."
+        },
+        {
+          "slug": "citi-strata-elite",
+          "previous_rank": 8,
+          "highlight": "Earns 12x on hotels and cars through Citi Travel, 6x on flights booked through the portal, and 3x on dining. The 75,000-point signup bonus after $6,000 spend offers strong portal value, though the $595 annual fee requires significant travel spending to break even."
+        },
+        {
+          "slug": "american-express-gold-card",
+          "previous_rank": 7,
+          "highlight": "Earns 4x on dining and groceries, 3x on flights booked directly, and 5x on hotels through the portal. Monthly dining and Uber credits reduce the $325 annual fee, with a 100,000-point signup bonus after $8,000 spend over 6 months."
+        },
+        {
+          "slug": "bilt-palladium",
+          "highlight": "Earns 3x on dining, 2x on travel and all other purchases, and uniquely earns points on rent payments. The 50,000-point signup bonus after $4,000 spend transfers to partners like Hyatt and United at $495 annually."
+        },
+        {
+          "slug": "atmos-rewards-summit",
+          "highlight": "Earns 3x on airlines, dining, and foreign transactions, plus 1x elsewhere. The 100,000-point signup bonus after $4,000 spend emphasizes international travel benefits at $395 annually."
+        },
+        {
+          "slug": "atmos-rewards-ascent",
+          "previous_rank": 12,
+          "highlight": "Earns 3x on airlines, 2x on gas, streaming, and transit, plus 1x on everything else. The 50,000-point signup bonus after just $2,000 spend at $95 annually makes this an accessible mid-tier option."
         },
         {
           "slug": "us-bank-altitude-go-visa-signature",
-          "highlight": "4x points on dining and takeout, 2x on groceries, gas, and streaming with no annual fee. A strong no-fee option for diners who want travel-redeemable rewards."
+          "previous_rank": 13,
+          "highlight": "Earns 4x on dining, 2x on groceries, gas, and streaming, and 1x elsewhere with no annual fee. The 20,000-point signup bonus after $1,000 spend includes 15-month intro 0% APR on purchases."
+        },
+        {
+          "slug": "bank-of-america-travel-rewards",
+          "previous_rank": 14,
+          "highlight": "Earns a flat 1.5x points on all purchases with no annual fee and no foreign transaction fees. The 25,000-point signup bonus after $1,000 spend and 15-month intro 0% APR suit occasional travelers seeking simplicity."
+        },
+        {
+          "slug": "world-of-hyatt-business-credit-card",
+          "badge": "Best for Hotel Loyalists",
+          "previous_rank": 11,
+          "highlight": "Earns 4x points at Hyatt properties and 2x on dining, with automatic Discoverist elite status. The 60,000-point signup bonus after $5,000 spend and $199 annual fee are best for dedicated Hyatt members."
         }
       ]
     }
