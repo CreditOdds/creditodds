@@ -1,0 +1,53 @@
+name: "AAA Travel Advantage Visa Signature"
+bank: "Comenity Capital Bank"
+slug: "aaa-travel-advantage-visa-signature"
+image: "aaa-travel-advantage.png"
+accepting_applications: true
+apply_link: https://northeast.aaa.com/financial/more-products/aaa-visa-credit-card.html
+annual_fee: 0
+foreign_transaction_fee: false
+reward_type: "cashback"
+tags:
+  - cashback
+  - travel
+rewards:
+  - category: gas
+    value: 5
+    unit: percent
+    note: "Includes EV-charging stations; $350/year cash back cap on the 5% category combined; 1% thereafter"
+    spend_cap: 7000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: ev_charging
+    value: 5
+    unit: percent
+    note: "Combined $350/year cash back cap with gas; 1% thereafter"
+    spend_cap: 7000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: groceries
+    value: 3
+    unit: percent
+  - category: dining
+    value: 3
+    unit: percent
+  - category: travel
+    value: 3
+    unit: percent
+    note: "Includes AAA purchases"
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 100
+  type: "cash"
+  spend_requirement: 1000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 17.49
+    max: 31.49
+benefits:
+  - name: "AAA Redemption Bonus"
+    description: "5% more cash back when redeeming with AAA Northeast Counselors and Advisors"
+    category: "rewards"
