@@ -29,10 +29,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 100000
-  type: points
+  value: 200000
+  type: "points"
   spend_requirement: 15000
   timeframe_months: 3
+  note: 'Amex advertises this as "as high as 200,000 Membership Rewards Points"; actual offer may be lower.'
 benefits:
   - name: "Business Statement Credits"
     value: 240
