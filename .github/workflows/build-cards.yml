@@ -6,7 +6,12 @@ on:
       - main
     paths:
       - 'data/cards/**'
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      test_post_file:
+        description: 'Test new-card social posting with a specific card YAML (e.g. data/cards/aaa-daily-advantage-visa-signature.yaml)'
+        required: false
+        type: string
 
 permissions:
   id-token: write
@@ -89,6 +94,34 @@ jobs:
         run: |
           echo "Posting CardWire changes..."
           node scripts/post-card-wire.js --changes '${{ steps.sync.outputs.wire_changes }}'
+
+      - name: Detect new card files
+        id: new-cards
+        run: |
+          if [ -n "${{ inputs.test_post_file }}" ]; then
+            echo "Test mode: using provided file"
+            echo "files=${{ inputs.test_post_file }}" >> $GITHUB_OUTPUT
+          else
+            # `:(glob)` magic uses shell-style globbing — `*` matches a single
+            # path component and does NOT cross `/`, so subdirectories under
+            # data/cards/ (e.g. data/cards/images/) are correctly excluded.
+            NEW_FILES=$(git diff --name-only --diff-filter=A HEAD~1 -- ':(glob)data/cards/*.yaml' ':(glob)data/cards/*.yml' 2>/dev/null | tr '\n' ' ' | xargs)
+            echo "files=$NEW_FILES" >> $GITHUB_OUTPUT
+            if [ -n "$NEW_FILES" ]; then
+              echo "New card files detected:"
+              echo "$NEW_FILES"
+            else
+              echo "No new card files detected"
+            fi
+          fi
+
+      - name: Queue new-card social posts
+        if: steps.new-cards.outputs.files != ''
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+        run: node scripts/post-new-card.js --files ${{ steps.new-cards.outputs.files }}
 
       - name: Trigger Amplify rebuild
         env:
