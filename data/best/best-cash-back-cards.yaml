@@ -8,7 +8,7 @@
 #   intro APR make this the strongest all-around choice for most cardholders.
 #   Chase's ecosystem also adds value through the travel portal integration.
 #
-# #2 discover-it-cash-back (Best First Year)
+# #2 discover-it-cash-back (Best First-Year Value)
 #   The unique first-year match feature (doubling rewards to 10% and 2%)
 #   provides exceptional value despite no signup bonus, making it unbeatable
 #   for new cardholders prioritizing first-year earnings. The no minimum
@@ -104,7 +104,7 @@ cards:
     highlight: Earn $200 cash back after just $500 in spending, then enjoy 5% back on rotating quarterly categories and Chase Travel, 3% on dining and drugstores, and 1% on everything else—all with no annual fee and a 15-month intro APR on purchases.
 
   - slug: discover-it-cash-back
-    badge: Best First Year
+    badge: Best First-Year Value
     highlight: Earn 5% cash back on rotating quarterly categories and 1% on everything else, with Discover matching all cash back earned in your first year to effectively double your rewards. No annual fee, no signup minimum, and 15-month intro APR on purchases.
 
   - slug: chase-freedom-unlimited

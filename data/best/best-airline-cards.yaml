@@ -15,57 +15,57 @@
 #   requirement and annual cost, making it an excellent all-around choice for
 #   frequent JetBlue flyers.
 #
-# #3 southwest-rapid-rewards-premier-credit-card
-#   This card delivers strong ongoing value for Southwest-focused travelers
-#   with 3x airline earning, anniversary bonus points, and regular boarding
-#   upgrades. The $149 annual fee is justified by the perks and rewards
-#   structure, especially for those who fly Southwest multiple times per year.
-#
-# #4 jetblue-card (Best for Beginners)
+# #3 jetblue-card (Best for Beginners)
 #   The JetBlue card is ideal for new cardholders or casual JetBlue travelers
 #   who want no annual fee commitment. While the signup bonus is modest, the
 #   3x earning on airline purchases and no ongoing costs make it a low-risk
 #   entry point.
 #
-# #5 american-airlines-aadvantage-mileu-mastercard
+# #4 american-airlines-aadvantage-mileu-mastercard
 #   This no-fee American Airlines card provides solid baseline rewards and a
 #   respectable signup bonus at zero cost. It's a good choice for American
 #   Airlines passengers who want to earn miles without paying an annual fee.
 #
-# #6 citi-aadvantage-platinum-select-world-elite-m
+# #5 citi-aadvantage-platinum-select-world-elite-m
 #   This mid-tier American Airlines card offers a strong bonus and travel
 #   perks at a low annual fee. The 2x earning across multiple useful
 #   categories and included benefits make it competitive for American Airlines
 #   frequent flyers.
 #
-# #7 delta-skymiles-blue-american-express-card
+# #6 delta-skymiles-blue-american-express-card
 #   The Delta Blue card is an affordable entry point for Delta passengers with
 #   no annual fee and a six-month window to meet the spending requirement. The
 #   2x earning on airline and dining purchases provides steady rewards for
 #   regular cardholders.
 #
-# #8 southwest-rapid-rewards-plus-credit-card
+# #7 southwest-rapid-rewards-plus-credit-card
 #   This card offers strong Southwest-specific benefits at a reasonable $99
 #   annual fee, including a healthy signup bonus and anniversary points. The
 #   2x earning on gas and groceries adds value beyond airline purchases.
 #
-# #9 delta-skymiles-gold-american-express-card
+# #8 delta-skymiles-gold-american-express-card
 #   The Delta Gold card targets frequent Delta flyers with a substantial bonus
 #   and valuable baggage benefits. The $150 annual fee is justified for those
 #   who fly Delta regularly and benefit from the free checked bag and dining
 #   rewards.
 #
-# #10 hawaiian-airlines-world-elite-mastercard
+# #9 hawaiian-airlines-world-elite-mastercard
 #   This card offers strong earning rates (3x on Hawaiian Airlines, 2x on
 #   everyday categories) at a reasonable $99 annual fee. The 15-month 0%
 #   balance transfer offer adds value beyond travel rewards, making it
 #   attractive for both Hawaiian Airlines loyalists and general spenders.
 #
-# #11 united-explorer
+# #10 united-explorer
 #   The United Explorer card delivers strong benefits for frequent United
 #   travelers with a generous bonus, 3x airline earning, and two annual lounge
 #   passes. The $150 annual fee is well-justified by the perks and rewards for
 #   those who actively use United.
+#
+# #11 southwest-rapid-rewards-premier-credit-card
+#   A strong premium option for Southwest loyalists with 3x airline earning,
+#   anniversary bonus points, and regular boarding upgrades. The $149 annual
+#   fee is competitive for the benefits, but the narrow Southwest-only earning
+#   focus keeps it behind broader-appeal mid-tier cards.
 #
 # #12 british-airways-visa-signature-card
 #   This card targets travelers interested in British Airways and partner
@@ -139,16 +139,12 @@ cards:
     badge: Best Overall Value
     highlight: 60,000-point signup bonus after $1,000 spend in 3 months for $99/year. Earns 6x points on JetBlue flights, 2x on dining and groceries, plus free checked bag and 50% inflight savings.
 
-  - slug: southwest-rapid-rewards-premier-credit-card
-    previous_rank: 11
-    highlight: 55,000 Rapid Rewards points after $1,500 spend in 3 months for $149/year. Earns 3x on Southwest flights, 2x on groceries and dining, plus anniversary points and 4 upgraded boardings annually.
-
   - slug: jetblue-card
     badge: Best for Beginners
-    previous_rank: 3
     highlight: 10,000 points with no annual fee after $1,000 spend in 3 months. Earns 3x on JetBlue, 2x on dining and groceries, 1x on everything else.
 
   - slug: american-airlines-aadvantage-mileu-mastercard
+    previous_rank: 5
     highlight: 15,000 AAdvantage miles with no annual fee after $1,000 spend in 3 months. Earns 2x miles on American Airlines and groceries, 1x on everything else.
 
   - slug: citi-aadvantage-platinum-select-world-elite-m
@@ -156,14 +152,13 @@ cards:
     highlight: 50,000 AAdvantage miles after $2,500 spend in 3 months for $99/year. Earns 2x miles on airlines, dining, and gas, plus free checked bag and preferred boarding.
 
   - slug: delta-skymiles-blue-american-express-card
-    previous_rank: 6
     highlight: 10,000 SkyMiles with no annual fee after $1,000 spend in 6 months. Earns 2x miles on Delta and dining, 1x on everything else.
 
   - slug: southwest-rapid-rewards-plus-credit-card
-    previous_rank: 7
     highlight: 50,000 Rapid Rewards points after $1,000 spend in 3 months for $99/year. Earns 2x points on Southwest, gas, and groceries, with anniversary points toward the Companion Pass.
 
   - slug: delta-skymiles-gold-american-express-card
+    previous_rank: 9
     highlight: 80,000 SkyMiles after $2,000 spend in 6 months for $150/year. Earns 2x miles on Delta, dining, and groceries, plus free first checked bag and companion baggage fees covered.
 
   - slug: hawaiian-airlines-world-elite-mastercard
@@ -171,8 +166,10 @@ cards:
     highlight: 50,000 miles after $2,000 spend in 3 months for $99/year. Earns 3x on Hawaiian Airlines, 2x on dining, gas, and groceries, plus 0% APR on balance transfers for 15 months.
 
   - slug: united-explorer
-    previous_rank: 10
     highlight: 70,000-mile signup bonus after $3,000 spend in 3 months for $150/year. Earns 3x miles on United flights, 2x on dining and hotels, plus free checked bag and two annual United Club passes.
+
+  - slug: southwest-rapid-rewards-premier-credit-card
+    highlight: 55,000 Rapid Rewards points after $1,500 spend in 3 months for $149/year. Earns 3x on Southwest flights, 2x on groceries and dining, plus anniversary points and 4 upgraded boardings annually.
 
   - slug: british-airways-visa-signature-card
     highlight: 75,000 Avios after $5,000 spend in 3 months for $95/year. Earns 3x on British Airways, Aer Lingus, and Iberia flights, 2x on hotels, 1x elsewhere.

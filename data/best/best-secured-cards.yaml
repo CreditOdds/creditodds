@@ -16,7 +16,7 @@
 #   the higher base category rate and grocery rewards make it competitive for
 #   users with flexible spending habits.
 #
-# #3 capital-one-quicksilver-secured (Best Simplicity)
+# #3 capital-one-quicksilver-secured (Best for Simplicity)
 #   This card appeals to users who prefer straightforward, consistent rewards
 #   without category complexity. While the base 1.5% rate is lower than
 #   category-based alternatives, the simplicity and travel portal bonus make
@@ -66,7 +66,7 @@ cards:
     highlight: Earns 3% cash back in one category you select, 2% at grocery stores and wholesale clubs, and 1% on everything else. No annual fee with flexible quarterly category changes to match your spending patterns.
 
   - slug: capital-one-quicksilver-secured
-    badge: Best Simplicity
+    badge: Best for Simplicity
     previous_rank: 2
     highlight: Earns a flat 1.5% cash back on all purchases with no rotating categories to track. Includes 5% cash back on hotels and car rentals through Capital One Travel. No annual fee.
 
