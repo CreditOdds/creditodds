@@ -22,3 +22,9 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+  - name: "Automatic Payment Statement Credit"
+    value: 25
+    description: "Earn a $25 statement credit when you sign up for automatic payments within the first three months of opening your account and remain enrolled for at least 90 days."
+    frequency: "one_time"
+    category: "statement_credit"
+    enrollment_required: true
