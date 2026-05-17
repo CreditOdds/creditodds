@@ -4,6 +4,7 @@ slug: "american-express-gold-card"
 image: "amex_gold_card.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/gold-card/
+foreign_transaction_fee: false
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref=" 
 annual_fee: 325
 benefits:
@@ -37,6 +38,12 @@ benefits:
     frequency: "ongoing"
     category: "car_rental"
     enrollment_required: true
+  - name: "The Hotel Collection Credit"
+    value: 100
+    description: "$100 credit towards eligible charges at over 1,300 upscale hotels worldwide every time you book through AmexTravel.com or Amex Travel App (requires two-night minimum)."
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - travel
   - dining
