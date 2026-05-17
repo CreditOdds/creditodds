@@ -34,22 +34,26 @@ interface StoresFile {
   stores: Store[];
 }
 
-let cached: Store[] | null = null;
+let cached: { stores: Store[]; generatedAt: string } | null = null;
 
-async function loadStores(): Promise<Store[]> {
+async function loadStores(): Promise<{ stores: Store[]; generatedAt: string }> {
   if (cached) return cached;
   const filePath = path.join(process.cwd(), '..', '..', 'data', 'stores.json');
   const fileContent = await fs.readFile(filePath, 'utf8');
   const data: StoresFile = JSON.parse(fileContent);
-  cached = data.stores || [];
+  cached = { stores: data.stores || [], generatedAt: data.generated_at };
   return cached;
 }
 
 export async function getAllStores(): Promise<Store[]> {
-  return loadStores();
+  return (await loadStores()).stores;
+}
+
+export async function getStoresGeneratedAt(): Promise<string> {
+  return (await loadStores()).generatedAt;
 }
 
 export async function getStore(slug: string): Promise<Store | null> {
-  const stores = await loadStores();
+  const { stores } = await loadStores();
   return stores.find(s => s.slug === slug) || null;
 }

@@ -176,6 +176,52 @@ export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
   );
 }
 
+interface CollectionPageSchemaProps {
+  url: string;
+  name: string;
+  description?: string;
+  dateModified?: string;
+  datePublished?: string;
+  items: { name: string; url: string }[];
+}
+
+export function CollectionPageSchema({
+  url,
+  name,
+  description,
+  dateModified,
+  datePublished,
+  items,
+}: CollectionPageSchemaProps) {
+  const schema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    url,
+    name,
+    ...(description ? { description } : {}),
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListOrder: 'https://schema.org/ItemListOrderDescending',
+      numberOfItems: items.length,
+      itemListElement: items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        url: item.url,
+      })),
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 interface FAQSchemaProps {
   questions: { question: string; answer: string }[];
 }
