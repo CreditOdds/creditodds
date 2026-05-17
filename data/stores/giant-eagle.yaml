@@ -1,0 +1,13 @@
+name: "Giant Eagle"
+slug: "giant-eagle"
+categories:
+  - groceries
+  - gas
+website: "https://www.gianteagle.com"
+intro: |
+  Giant Eagle is a Pittsburgh-based supermarket chain with roughly 200 stores across
+  Pennsylvania, Ohio, West Virginia, Indiana, and Maryland, plus its GetGo fuel and
+  convenience arm. The supermarkets code as U.S. groceries (full multiplier for Amex
+  Gold, Blue Cash Preferred, Citi Custom Cash), while GetGo gas stations typically code
+  as gas. The chain's fuelperks+ program lets shoppers turn grocery spend into pennies
+  off per gallon at GetGo, which can stack with a gas-category card at the pump.

@@ -1,0 +1,15 @@
+name: "British Airways"
+slug: "british-airways"
+aliases:
+  - "BA"
+categories:
+  - airlines
+  - travel
+website: "https://www.britishairways.com"
+intro: |
+  British Airways is the UK flag carrier and a oneworld founding member, hubbed at London
+  Heathrow with significant operations from London Gatwick and London City. The carrier's
+  Executive Club loyalty program (Avios) is a transfer partner of Amex Membership Rewards,
+  Chase Ultimate Rewards, Capital One miles, Bilt, and Citi ThankYou Points, which makes
+  Avios one of the most liquid airline currencies for transatlantic and short-haul oneworld
+  redemptions. British Airways tickets code as airlines/airfare, earning airfare bonuses fully.

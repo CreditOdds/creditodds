@@ -1,0 +1,13 @@
+name: "AliExpress"
+slug: "aliexpress"
+categories:
+  - online_shopping
+website: "https://www.aliexpress.com"
+intro: |
+  AliExpress is Alibaba's consumer-facing global marketplace, connecting Chinese
+  manufacturers and merchants with international buyers. The platform sells everything
+  from electronics and apparel to home goods at low price points, with shipping times
+  that vary widely by item. Purchases code as online shopping for credit card networks,
+  so an online-shopping category bonus card earns its multiplier. Some AliExpress sellers
+  invoice through international processors, so foreign transaction fees can apply on
+  cards without an FTF waiver, which is worth checking before a large order.

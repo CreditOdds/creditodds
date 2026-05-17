@@ -1,0 +1,15 @@
+name: "Breeze Airways"
+slug: "breeze-airways"
+aliases:
+  - "Breeze"
+categories:
+  - airlines
+  - travel
+website: "https://www.flybreeze.com"
+intro: |
+  Breeze Airways is the low-cost startup launched by JetBlue founder David Neeleman in 2021,
+  flying a mix of Airbus A220-300s and Embraer E-Jets on underserved point-to-point routes
+  between small and mid-sized US cities. Breeze sells Nice, Nicer, and Nicest fare bundles
+  plus the premium Nicest cabin with extra-legroom seats. Breeze ticket purchases code as
+  airlines/airfare on every card. Cards with airfare bonuses (Chase Sapphire Reserve at 4x
+  on direct, Amex Gold at 3x on direct, Capital One Venture X at 2x base) all earn full rate.

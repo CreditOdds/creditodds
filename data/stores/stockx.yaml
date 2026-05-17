@@ -1,0 +1,12 @@
+name: "StockX"
+slug: "stockx"
+categories:
+  - online_shopping
+website: "https://stockx.com"
+intro: |
+  StockX is a resale marketplace built around sneakers, streetwear, watches, handbags,
+  and collectibles, with a bid/ask exchange model and mandatory authentication of every
+  item before it ships to the buyer. The platform is a primary secondary market for
+  hyped sneaker releases. StockX codes as online shopping for credit card networks, so
+  an online-shopping category bonus card will earn its multiplier. Buyer fees are baked
+  into the transaction price, which is the figure that posts to the card.
