@@ -47,6 +47,11 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
+  - name: "American Airlines Admirals Club Passes"
+    description: "4 annual Admirals Club lounge access passes for cardmember use at nearly 50 locations ($300 value)"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
 tags:
   - travel
   - rewards
