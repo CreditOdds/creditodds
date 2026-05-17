@@ -7490,6 +7490,9 @@
 .landing-v2 .cj-tape-event .cj-tape-new.cj-pos { color: #0f8a5f; }
 .landing-v2 .cj-tape-event .cj-tape-new.cj-neg { color: var(--warn); }
 
+.landing-v2 .cj-tape-mob-date,
+.landing-v2 .cj-tape-mob-meta { display: none; }
+
 @media (max-width: 640px) {
   .landing-v2 .cj-tape.cj-tape-reading .cj-tape-head,
   .landing-v2 .cj-tape.cj-tape-reading .cj-tape-row {
@@ -7498,6 +7501,36 @@
   .landing-v2 .cj-tape.cj-tape-reading .cj-tape-by,
   .landing-v2 .cj-tape.cj-tape-reading .cj-tape-res {
     display: none;
+  }
+  .landing-v2 .cj-tape.cj-tape-reading .cj-tape-event .cj-tape-mob-date {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* News tape: collapse to a single column on mobile, render date + tag under the title */
+  #wire .cj-tape .cj-tape-head,
+  #wire .cj-tape .cj-tape-row {
+    grid-template-columns: 1fr;
+  }
+  #wire .cj-tape .cj-tape-head > div,
+  #wire .cj-tape-row > .cj-tape-when,
+  #wire .cj-tape-row > .cj-tape-res {
+    display: none;
+  }
+  #wire .cj-tape-row .cj-tape-event .cj-tape-mob-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  #wire .cj-tape-row .cj-tape-event .cj-tape-mob-date {
+    display: inline;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-family: 'Inter', sans-serif;
   }
 }
 
