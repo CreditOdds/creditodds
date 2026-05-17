@@ -1541,6 +1541,12 @@ export default function CardClient({
                       <div className="cj-tape-when">{dateText}</div>
                       <div className="cj-tape-event">
                         <span className="cj-tape-field">{n.title}</span>
+                        <div className="cj-tape-mob-meta">
+                          <span className="cj-tape-mob-date">{dateText}</span>
+                          <span className="cj-news-tag">
+                            {tag ? tagLabels[tag] : "NEWS"}
+                          </span>
+                        </div>
                       </div>
                       <div className="cj-tape-res">
                         <span className="cj-news-tag">
@@ -1567,19 +1573,33 @@ export default function CardClient({
                   <div>Title</div>
                   <div className="cj-tape-res">Read</div>
                 </div>
-                {articles.slice(0, 8).map((a) => (
-                  <Link
-                    key={a.id}
-                    href={`/articles/${a.slug}`}
-                    className="cj-tape-row"
-                  >
-                    <div className="cj-tape-when cj-tape-by">{a.author}</div>
-                    <div className="cj-tape-event">
-                      <span className="cj-tape-field">{a.title}</span>
-                    </div>
-                    <div className="cj-tape-res">{a.reading_time} min</div>
-                  </Link>
-                ))}
+                {articles.slice(0, 8).map((a) => {
+                  const articleDateText = a.date
+                    ? new Date(a.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })
+                    : "";
+                  return (
+                    <Link
+                      key={a.id}
+                      href={`/articles/${a.slug}`}
+                      className="cj-tape-row"
+                    >
+                      <div className="cj-tape-when cj-tape-by">{a.author}</div>
+                      <div className="cj-tape-event">
+                        <span className="cj-tape-field">{a.title}</span>
+                        {articleDateText && (
+                          <span className="cj-tape-mob-date">
+                            {articleDateText}
+                          </span>
+                        )}
+                      </div>
+                      <div className="cj-tape-res">{a.reading_time} min</div>
+                    </Link>
+                  );
+                })}
               </div>
             </section>
           )}
