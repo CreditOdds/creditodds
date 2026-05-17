@@ -24,3 +24,9 @@ apr:
   regular:
     min: 17.74
     max: 27.99
+benefits:
+  - name: "Flexible Reward Redemption"
+    description: "Redeem cash back as direct deposit, statement credit, rewards card, or merchant gift cards"
+    frequency: "ongoing"
+    category: "rewards"
+    enrollment_required: false
