@@ -63,7 +63,7 @@ export default async function BestCardForStorePage({ params }: PageProps) {
   const [store, allCards] = await Promise.all([getStore(slug), getAllCards()]);
   if (!store) notFound();
 
-  const picks = rankCards(store, allCards);
+  const picks = rankCards(store, allCards, { maxPicks: 20 });
   const usingFallback = picks.length > 0 && picks.every(p => p.source === 'flat_rate');
 
   return (
