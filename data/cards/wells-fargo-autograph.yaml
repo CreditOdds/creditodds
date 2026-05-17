@@ -40,6 +40,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 1000
   timeframe_months: 3
+  note: "Bonus has $200 cash redemption value"
 apr:
   purchase_intro:
     rate: 0
