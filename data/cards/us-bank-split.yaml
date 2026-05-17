@@ -8,4 +8,10 @@ category: "other"
 tags:
   - rewards
 apply_link: https://www.usbank.com/credit-cards/offers/split-card-world-mastercard-credit-card.html
-foreign_transaction_fee: true
+foreign_transaction_fee: false
+benefits:
+  - name: "3-Month Interest-Free Plans"
+    description: "All purchases of $100 or more are automatically divided into 3 payments with no interest and no plan fees over 3 months."
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
