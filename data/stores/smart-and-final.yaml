@@ -1,0 +1,14 @@
+name: "Smart & Final"
+slug: "smart-and-final"
+categories:
+  - groceries
+  - wholesale_clubs
+website: "https://www.smartandfinal.com"
+intro: |
+  Smart & Final is a California-based hybrid warehouse/grocery chain with about 250
+  stores across the Western U.S. and Mexico. Unlike Costco or Sam's, no membership is
+  required, so any shopper can walk in and buy bulk packaged goods alongside normal
+  grocery items. Merchant category coding is the gotcha here: most Smart & Final stores
+  historically code as warehouse club rather than supermarket, which means a grocery
+  bonus card (Amex Gold, Blue Cash Preferred) may not trigger its multiplier. Coding can
+  vary by location, so check a recent statement before assuming a category bonus applies.
