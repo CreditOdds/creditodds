@@ -31,3 +31,9 @@ benefits:
     frequency: "per_claim"
     category: "other"
     enrollment_required: false
+  - name: "$20 Annual Statement Credit"
+    value: 20
+    description: "Earn a $20 annual statement credit for 11 consecutive months of purchases."
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
