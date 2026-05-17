@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getAllStores, getStore } from "@/lib/stores";
+import { getAllStores, getStore, getStoresGeneratedAt } from "@/lib/stores";
 import { getAllCards } from "@/lib/api";
 import { rankCards, formatRate, labelForCategory } from "@/lib/storeRanking";
-import { BreadcrumbSchema, FAQSchema } from "@/components/seo/JsonLd";
+import { BreadcrumbSchema, FAQSchema, CollectionPageSchema } from "@/components/seo/JsonLd";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { PencilSquareIcon, ExclamationTriangleIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const store = await getStore(slug);
   if (!store) return {};
   const title = `Best Credit Card to Use at ${store.name}`;
-  const description = `The best credit cards for ${store.name} purchases — co-branded options, category bonuses, and flat-rate cashback picks compared.`;
+  const description = `Find the best credit card for ${store.name}. Compare co-branded cards, category bonuses, and flat-rate cashback to see which earns the highest rate at checkout at ${store.name}.`;
   const url = `https://creditodds.com/best-card-for/${store.slug}`;
   return {
     title,
@@ -60,20 +60,43 @@ function tagLabelForCategory(id: string): string {
 
 export default async function BestCardForStorePage({ params }: PageProps) {
   const { slug } = await params;
-  const [store, allCards] = await Promise.all([getStore(slug), getAllCards()]);
+  const [store, allCards, allStores, generatedAt] = await Promise.all([
+    getStore(slug),
+    getAllCards(),
+    getAllStores(),
+    getStoresGeneratedAt(),
+  ]);
   if (!store) notFound();
 
   const picks = rankCards(store, allCards);
   const usingFallback = picks.length > 0 && picks.every(p => p.source === 'flat_rate');
+  const pageUrl = `https://creditodds.com/best-card-for/${store.slug}`;
+
+  const relatedStores = allStores
+    .filter(s => s.slug !== store.slug)
+    .filter(s => s.categories.some(c => store.categories.includes(c)))
+    .slice(0, 8);
 
   return (
     <div className="landing-v2 store-v2">
       <BreadcrumbSchema
         items={[
           { name: 'Home', url: 'https://creditodds.com' },
-          { name: `Best Credit Card for ${store.name}`, url: `https://creditodds.com/best-card-for/${store.slug}` },
+          { name: `Best Credit Card for ${store.name}`, url: pageUrl },
         ]}
       />
+      {picks.length > 0 && (
+        <CollectionPageSchema
+          url={pageUrl}
+          name={`Best Credit Cards for ${store.name}`}
+          description={`Ranked credit card picks for purchases at ${store.name}, including co-branded cards, category bonuses, and flat-rate cashback.`}
+          dateModified={generatedAt}
+          items={picks.map(p => ({
+            name: p.card.card_name,
+            url: `https://creditodds.com/card/${p.card.slug}`,
+          }))}
+        />
+      )}
       {store.faq && store.faq.length > 0 && (
         <FAQSchema questions={store.faq.map(f => ({ question: f.q, answer: f.a }))} />
       )}
@@ -236,6 +259,30 @@ export default async function BestCardForStorePage({ params }: PageProps) {
             </div>
           </section>
         )}
+
+        {relatedStores.length > 0 && (
+          <section className="store-related">
+            <h2 className="store-related-title">Related stores</h2>
+            <ul className="store-related-list">
+              {relatedStores.map(s => (
+                <li key={s.slug} className="store-related-item">
+                  <Link href={`/best-card-for/${s.slug}`} className="store-related-link">
+                    Best credit card for {s.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <p className="store-updated">
+          Last updated{' '}
+          {new Date(generatedAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </p>
 
         <div className="store-meta">
           <a
