@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const store = await getStore(slug);
   if (!store) return {};
-  const title = `Best Credit Card to Use at ${store.name}`;
-  const description = `Find the best credit card for ${store.name}. Compare co-branded cards, category bonuses, and flat-rate cashback to see which earns the highest rate at checkout at ${store.name}.`;
+  const title = `Best Credit Card for ${store.name}`;
+  const description = `The best credit card to use at ${store.name}. Compare co-branded cards, category bonuses, and flat-rate cashback to see which earns the highest rate at checkout at ${store.name}.`;
   const url = `https://creditodds.com/best-card-for/${store.slug}`;
   return {
     title,

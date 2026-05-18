@@ -47,8 +47,8 @@ export default async function StoreOGImage({ params }: Props) {
   // Defensive fallback so 404s during build don't blow up OG generation.
   const name =
     store?.name ?? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-  const title = `Best card to use at ${name}`;
-  const description = `Top picks for earning rewards at ${name} — co-brands, category bonuses, and flat-rate fallbacks compared.`;
+  const title = `Best credit card for ${name}`;
+  const description = `Top picks for earning rewards at ${name}: co-brands, category bonuses, and flat-rate fallbacks compared.`;
   const tags = (store?.categories ?? []).map(tagLabelForCategory);
 
   // Auto-shrink title for long store names so it stays on one or two lines.
