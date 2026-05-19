@@ -590,9 +590,16 @@ export default function CardClient({
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleReferralClick}
-              className="cj-apply-btn-outline"
+              className="cj-apply-btn-outline cj-apply-btn-referral"
             >
-              Apply with referral
+              <span className="cj-apply-btn-referral-label">
+                Apply with referral
+              </span>
+              {card.referral_bonus && (
+                <span className="cj-apply-btn-referral-bonus">
+                  {card.referral_bonus}
+                </span>
+              )}
             </a>
           )}
           {!card.apply_link && !randomReferralUrl && (

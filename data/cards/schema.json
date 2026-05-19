@@ -88,6 +88,10 @@
       "format": "uri",
       "description": "Base URL for referral links - user codes are appended to this (optional)"
     },
+    "referral_bonus": {
+      "type": "string",
+      "description": "Short bonus label shown on the 'Apply with referral' button, e.g. '+$100' (optional)"
+    },
     "reward_type": {
       "type": "string",
       "enum": ["cashback", "points", "miles"],
