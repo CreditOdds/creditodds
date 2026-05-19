@@ -33,6 +33,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 5000
   timeframe_months: 3
+  note: "Bonus points earned after spending $5,000 on purchases and paying the annual fee in full, both within the first 90 days"
 apr:
   balance_transfer_intro:
     rate: 0
