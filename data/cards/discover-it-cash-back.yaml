@@ -5,6 +5,7 @@ image: "discover_it_cash.png"
 accepting_applications: true
 annual_fee: 0
 card_referral_link: "https://refer.discover.com/"
+referral_bonus: "+$100"
 tags:
   - cashback
 reward_type: "cashback"

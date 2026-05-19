@@ -141,6 +141,7 @@ export interface Card {
   foreign_transaction_fee?: boolean;
   apply_link?: string;
   card_referral_link?: string;
+  referral_bonus?: string;
   referrals?: CardReferral[];
   reward_type?: 'cashback' | 'points' | 'miles';
   rewards?: Reward[];
@@ -218,6 +219,7 @@ const DB_ONLY_CARD_FIELDS = [
   'approved_median_credit_score',
   'approved_median_income',
   'approved_median_length_credit',
+  'referrals',
 ] as const satisfies readonly (keyof Card)[];
 
 export async function getCard(cardName: string): Promise<Card> {

@@ -7639,6 +7639,48 @@
   box-sizing: border-box;
 }
 .landing-v2 .cj-apply-btn-outline:hover { border-color: #fff; }
+.landing-v2 .cj-apply-btn-referral {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.landing-v2 .cj-apply-btn-referral::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: cj-apply-shimmer 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.landing-v2 .cj-apply-btn-referral-bonus {
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--accent);
+  color: #fff;
+}
+@keyframes cj-apply-shimmer {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-v2 .cj-apply-btn-referral::before { animation: none; }
+}
 .landing-v2 .cj-apply-closed {
   padding: 12px;
   border: 1px dashed var(--muted);
