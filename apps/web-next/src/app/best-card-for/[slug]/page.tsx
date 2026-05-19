@@ -15,9 +15,20 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Cap build-time prerender at 100 stores to stay under Amplify's
+// 220MB artifact limit. Remaining stores SSR on first request and are
+// cached by ISR (revalidate below). Stores with co-branded cards are
+// prioritized since they are the highest-intent SEO pages.
+const PRERENDER_LIMIT = 100;
 export async function generateStaticParams() {
   const stores = await getAllStores();
-  return stores.map(s => ({ slug: s.slug }));
+  const sorted = [...stores].sort((a, b) => {
+    const aHas = (a.co_brand_cards?.length ?? 0) > 0 ? 0 : 1;
+    const bHas = (b.co_brand_cards?.length ?? 0) > 0 ? 0 : 1;
+    if (aHas !== bHas) return aHas - bHas;
+    return a.name.localeCompare(b.name);
+  });
+  return sorted.slice(0, PRERENDER_LIMIT).map(s => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
