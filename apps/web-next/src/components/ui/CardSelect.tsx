@@ -76,17 +76,13 @@ export default function CardSelect({ allCards }: CardSelectProps) {
         selectedItem,
         getRootProps,
       }) => {
-        // Filter cards based on input (with alias support), then sort with archived cards at the bottom
+        // Filter to active cards only, match against input (with alias support), sort business lower
         const filteredCards = allCards
+          .filter((item) => item.accepting_applications)
           .filter(
             (item) => cardMatchesSearch(item.card_name, item.bank, inputValue || '')
           )
           .sort((a, b) => {
-            // Active cards first, archived cards last
-            if (a.accepting_applications !== b.accepting_applications) {
-              return a.accepting_applications ? -1 : 1;
-            }
-            // Business cards lower in results
             const aIsBusiness = /business/i.test(a.card_name);
             const bIsBusiness = /business/i.test(b.card_name);
             if (aIsBusiness !== bIsBusiness) {
@@ -95,9 +91,10 @@ export default function CardSelect({ allCards }: CardSelectProps) {
             return 0;
           });
 
-        // Show recent searches when input is empty, otherwise show filtered results
-        const showRecent = isOpen && !inputValue && recentSearches.length > 0;
-        const displayCards = showRecent ? recentSearches : filteredCards;
+        // Show recent searches when input is empty, otherwise show filtered results (active only)
+        const activeRecentSearches = recentSearches.filter((c) => c.accepting_applications);
+        const showRecent = isOpen && !inputValue && activeRecentSearches.length > 0;
+        const displayCards = showRecent ? activeRecentSearches : filteredCards;
 
         return (
           <div className="mt-1 relative">
