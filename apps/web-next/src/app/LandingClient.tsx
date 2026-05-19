@@ -179,6 +179,7 @@ function Hero({ cards }: { cards: LandingCard[] }) {
     const q = query.trim();
     if (!q) return [];
     return cards
+      .filter((c) => c.accepting_applications)
       .filter((c) => cardMatchesSearch(c.card_name, c.bank, q))
       .map((c) => ({ c, s: searchRelevance(c, q) }))
       .sort((a, b) => b.s - a.s || a.c.card_name.localeCompare(b.c.card_name))
