@@ -1,0 +1,64 @@
+name: Deploy API
+
+# Deploys the AWS SAM backend (apps/api) on every push to main that
+# touches apps/api/**. This is the backend's only CI/CD path.
+#
+# Why it exists: the Lambdas bundle their own data — e.g. the wallet
+# ranker's apps/api/src/lib/ranker/stores.json. When a PR changes
+# apps/api/** but no one runs `sam deploy`, the deployed Lambdas keep
+# serving stale code/data. That is exactly how ~200 store pages ended up
+# 404ing the /wallet-picks/store endpoint after 200 merchants were added.
+#
+# Mirrors deploy-frontend.yml: one deploy per merge, path-filtered.
+# Auth is GitHub OIDC (no stored AWS keys). `sam deploy` reuses the
+# stack's existing parameter values, so the NoEcho params (DB creds,
+# IpHashPepper, GooglePlacesApiKey) never need to be exposed to CI.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/api/**'
+  workflow_dispatch: {}
+
+# Serialize deploys; let an in-flight deploy finish rather than cancel it
+# mid-CloudFormation-update.
+concurrency:
+  group: deploy-api
+  cancel-in-progress: false
+
+permissions:
+  id-token: write   # required to request the OIDC token
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Setup AWS SAM CLI
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds-Deploy
+          aws-region: us-east-2
+
+      - name: SAM build
+        working-directory: apps/api
+        run: sam build
+
+      - name: SAM deploy
+        working-directory: apps/api
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
