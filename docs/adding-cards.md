@@ -202,6 +202,16 @@ apr:
     max: 28.49
 ```
 
+#### Editorial Take
+
+`our_take` is an optional editorial paragraph. When set, it renders in the "Our take" block on the card detail page; when omitted, that block is hidden.
+
+```yaml
+our_take: "A strong everyday card if you can use the travel credits, but the annual fee makes it a poor fit for occasional travelers."
+```
+
+Keep it to a sentence or two of honest, balanced assessment. Avoid em dashes in this copy.
+
 ### Step 5: Add a Card Image (Recommended)
 
 Adding an image helps users identify the card visually.
