@@ -8,7 +8,6 @@ tags:
   - shopping
   - cashback
   - rewards
-  - no_annual_fee
 reward_type: "cashback"
 rewards:
   - category: "amazon"
