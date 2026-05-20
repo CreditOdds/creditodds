@@ -61,4 +61,16 @@ jobs:
 
       - name: SAM deploy
         working-directory: apps/api
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+        # apps/api/samconfig.toml is gitignored, so the runner has no saved
+        # deploy config — the parameters are passed explicitly here. They
+        # carry no secrets; `sam deploy` reuses the stack's existing NoEcho
+        # parameter values (DB creds, IpHashPepper, GooglePlacesApiKey).
+        run: |
+          sam deploy \
+            --stack-name CreditCardOddsAPI \
+            --s3-bucket codepipeline-us-east-2-534542813767 \
+            --s3-prefix CreditCardOddsAPI \
+            --region us-east-2 \
+            --capabilities CAPABILITY_IAM \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset
