@@ -22,7 +22,7 @@
   workflow after syncing JSON to S3.
 - Cards data: Run `npm run build-cards` in web-next to rebuild cards.json
 
-### Backend CI/CD: GitHub Actions (`deploy-api.yml`)
+### Backend CI/CD: there is none — `sam deploy` is the only path
 
 The `CreditCardOddsAPI` CodePipeline + `CreditCardOddsAPI-Builder` CodeBuild
 project were **deleted on 2026-05-08**. They had been pointing at the
@@ -34,22 +34,18 @@ deleted those functions from production. Recovery required a manual
 `IpHashPepper` (the previous value lived only on the deployer's machine
 and was wiped from the stack when the broken template was applied).
 
-Backend deploys now run through `.github/workflows/deploy-api.yml`: any push
-to `main` that touches `apps/api/**` runs `sam build && sam deploy` on a
-GitHub Actions runner — one deploy per merge, mirroring `deploy-frontend.yml`.
-It authenticates with AWS via GitHub OIDC (no stored keys) using the
-`GitHubActions-CreditOdds-Deploy` IAM role, and reuses the stack's existing
-parameter values, so the NoEcho params (DB creds, `IpHashPepper`,
-`GooglePlacesApiKey`) never touch CI.
+If you want CI/CD back, build a new pipeline pointing at this monorepo:
+- New CodeStar connection authorized for the `CreditOdds` GitHub org
+- Source: `CreditOdds/creditodds` (branch `main`), with a path filter so
+  it only triggers on `apps/api/**` changes
+- CodeBuild project with `BuildSpec: apps/api/buildspec.yml`
+- Deploy stage's `ParameterOverrides` must wire in `IpHashPepper`,
+  `GooglePlacesApiKey`, and the DB creds (DB creds live in SSM at
+  `/creditodds/db/{endpoint,database,username,password}`)
 
-GitHub Actions runs against the actual monorepo checkout, which structurally
-rules out the stale-repo failure that took down the old CodePipeline. The
-leftover `apps/api/buildspec.yml` is dead (it was the CodeBuild build spec).
-
-Manual deploy still works: `cd apps/api && sam build && sam deploy`, or the
-workflow's `workflow_dispatch` button. On a brand-new machine the first
-manual deploy needs `--parameter-overrides` for the NoEcho params; the stack
-remembers them after that.
+Until then: `cd apps/api && sam build && sam deploy`. The first time on a
+new machine you'll need `--parameter-overrides` for the NoEcho params; the
+stack remembers them after that.
 
 ## Database
 
