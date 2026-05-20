@@ -94,13 +94,21 @@ signup_bonus:
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
 | `image` | string | Image filename | `"chase-sapphire-preferred.png"` |
-| `category` | string | Card category | `"travel"` |
+| `category` | string | Card category (see Valid Categories below) | `"travel"` |
 | `annual_fee` | number | Annual fee in USD | `95` |
+| `annual_fee_intro` | object | Promotional first-N-months fee: `{ value, months }` | `{ value: 0, months: 12 }` |
 | `foreign_transaction_fee` | boolean | `true` if the card charges a foreign transaction fee, `false` if not. Omit if unknown. | `false` |
+| `release_date` | string | Card release date in `YYYY-MM-DD` format | `"2025-03-01"` |
 | `tags` | array | Tags for filtering (see Valid Tags below) | `["travel", "dining"]` |
+| `apply_link` | string (URL) | Direct application URL | `"https://..."` |
+| `card_referral_link` | string (URL) | Base URL for the issuer's referral program | `"https://..."` |
+| `previous_names` | array | Prior names for rebranded cards (rendered on the card page) | `["Old Card Name"]` |
+| `our_take` | string | Editorial paragraph shown in the "Our take" block | `"..."` |
 | `reward_type` | string | Type of rewards: `cashback`, `points`, or `miles` | `"points"` |
 | `rewards` | array | Reward rates by spend category (see Rewards below) | See example |
 | `signup_bonus` | object | Welcome bonus details (see Signup Bonus below) | See example |
+| `benefits` | array | Card perks, credits, and protections (see Benefits below) | See example |
+| `apr` | object | Intro and regular APR details (see APR below) | See example |
 
 #### Valid Categories
 
@@ -110,13 +118,14 @@ signup_bonus:
 - `student` - Student credit cards
 - `secured` - Secured credit cards
 - `rewards` - General rewards cards
+- `balance_transfer` - Balance transfer cards
 - `other` - Other card types
 
 #### Valid Tags
 
 Tags allow a card to appear in multiple filter categories:
 
-`travel`, `cashback`, `hotel`, `shopping`, `student`, `secured`, `premium`, `business`, `rewards`, `airline`, `dining`
+`travel`, `cashback`, `hotel`, `shopping`, `student`, `secured`, `premium`, `business`, `rewards`, `airline`, `dining`, `entertainment`, `balance_transfer`, `credit_builder`
 
 #### Rewards
 
@@ -136,7 +145,20 @@ rewards:
     unit: points_per_dollar
 ```
 
+Each reward entry can also carry advanced fields for rotating, choose-your-own, or capped categories:
+
+- `note` - extra context shown alongside the rate
+- `mode` - `quarterly_rotating`, `user_choice`, or `auto_top_spend`
+- `eligible_categories` / `choices` - the category pool and pick count for `user_choice` cards
+- `current_categories` / `current_period` - the live categories for `quarterly_rotating` cards (e.g. `Q2 2026`)
+- `spend_cap` / `cap_period` / `rate_after_cap` - for categories that earn the headline rate only up to a spend limit
+- `merchant_specific` - `true` when the bonus is gated to specific merchants described in `note`
+
+See [`data/cards/schema.json`](../data/cards/schema.json) for the full field reference.
+
 #### Signup Bonus
+
+When `signup_bonus` is present, all four fields below are required. Add an optional `note` for offer caveats, such as an elevated limited-time offer or a portal-valuation figure.
 
 ```yaml
 signup_bonus:
@@ -144,6 +166,40 @@ signup_bonus:
   type: points        # cash, points, or miles
   spend_requirement: 4000
   timeframe_months: 3
+  note: "Plus a $100 statement credit"   # optional
+```
+
+#### Benefits
+
+Card perks, credits, and protections. Each entry needs a `name` and `description`; the other fields are optional:
+
+```yaml
+benefits:
+  - name: "Annual Travel Credit"
+    description: "Statement credit for travel booked through the issuer portal"
+    value: 300
+    frequency: "annual"      # annual, monthly, ongoing, one_time, per_trip, multi_year, ...
+    category: "travel"
+    enrollment_required: false
+```
+
+`value` is the dollar value of the perk. Use `0` for non-monetary perks like lounge access or elite status. For `multi_year` perks, add `frequency_years` (e.g. `5` for a Global Entry credit).
+
+#### APR
+
+Intro and ongoing interest rates. Every sub-object is optional:
+
+```yaml
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 19.49
+    max: 28.49
 ```
 
 ### Step 5: Add a Card Image (Recommended)
@@ -195,14 +251,14 @@ You should see output like:
 ```
 Building cards.json from YAML files...
 
-Found 77 card file(s)
+Found 166 card file(s)
 
 Processing: your-card-name.yaml
   OK: Your Card Full Name
 
 ---
 
-Successfully built 77 card(s) to data/cards.json
+Successfully built 166 card(s) to data/cards.json
 ```
 
 If there are errors, fix them before proceeding.

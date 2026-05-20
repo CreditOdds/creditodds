@@ -11,6 +11,7 @@ creditodds/
 ├── apps/
 │   ├── api/                 # AWS Lambda serverless API
 │   ├── functions/           # Firebase Cloud Functions
+│   ├── ios/                 # Native iOS app (SwiftUI)
 │   └── web-next/            # Next.js 16 frontend application
 ├── packages/
 │   └── shared/              # Shared utilities and validation schemas
@@ -20,7 +21,9 @@ creditodds/
 │   ├── cards/               # Credit card data (YAML files)
 │   │   └── images/          # Card images for PR submissions
 │   ├── news/                # News articles (Markdown)
-│   └── social-pages/        # Social page metadata (YAML)
+│   ├── social-pages/        # Social page metadata (YAML)
+│   ├── stores/              # Store / merchant data (YAML)
+│   └── valuations/          # Points & miles valuation history (YAML)
 ├── docs/                    # Project documentation
 ├── scripts/                 # Build and utility scripts
 └── .github/
@@ -111,6 +114,8 @@ npm run build:cards
 | `npm run build:news` | Build news.json from Markdown files |
 | `npm run build:articles` | Build articles.json from Markdown files |
 | `npm run build:best` | Build best.json from Markdown files |
+| `npm run build:stores` | Build stores.json from YAML files |
+| `npm run test:api` | Run the API (Lambda) test suite |
 | `npm run lint` | Run ESLint across all workspaces |
 
 ## Key Features
@@ -124,11 +129,11 @@ npm run build:cards
 - **Best Cards**: Ranked lists by category
 - **Check Odds**: Estimate your approval odds for a specific card
 - **Compare**: Side-by-side credit card comparisons
-- **Leaderboard**: Top contributors ranked by submissions
+- **Card Ratings**: User-submitted 1-5 star ratings on cards
 - **User Submissions**: Submit your credit card application results
-- **Wallet**: Track cards you own with acquisition dates
+- **Wallet**: Track cards you own, with best-card picks for stores and nearby places
 - **Referral Links**: Share and earn from referral links
-- **Rewards Tools**: 13 points/miles-to-USD converters (Chase UR, Amex MR, Capital One, airline & hotel programs)
+- **Rewards Tools**: 12 points/miles-to-USD converters (Chase UR, Amex MR, Capital One, airline & hotel programs)
 
 ## Contributing
 
