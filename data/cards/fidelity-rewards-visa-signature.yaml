@@ -14,11 +14,23 @@ rewards:
     value: 2
     unit: percent
     note: "When deposited into an eligible Fidelity account"
+signup_bonus:
+  value: 150
+  type: "cash"
+  spend_requirement: 1000
+  timeframe_months: 3
+  note: "15,000 bonus points (worth $150) when deposited into an eligible Fidelity account"
 apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  balance_transfer_intro:
+    rate: 0
+    months: 12
   regular:
-    min: 16.99
-    max: 26.99
-apply_link: https://www.fidelity.com/spend-save/visa-signature-card
+    min: 16.49
+    max: 26.49
+apply_link: https://www.fidelity.com/go/visa-signature-rewards-1502
 foreign_transaction_fee: false
 benefits:
   - name: "Global Entry or TSA PreCheck Credit"
