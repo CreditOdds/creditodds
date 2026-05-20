@@ -16,11 +16,11 @@ rewards:
     unit: "percent"
     note: "Amazon and Whole Foods Market (In-Store Code required) with an eligible Prime membership; no 5% without Prime"
 benefits:
-  - title: "0% APR Equal Monthly Payments"
+  - name: "0% APR Equal Monthly Payments"
     description: "6 months on Amazon purchases $50–$599.99, 12 months on $600+, 24 months on select purchases"
-  - title: "10%+ back limited-time offers"
+  - name: "10%+ back limited-time offers"
     description: "Rotating selection of items and categories on Amazon for eligible Prime cardmembers"
-  - title: "Amazon-only acceptance"
+  - name: "Amazon-only acceptance"
     description: "Closed-loop store card usable at Amazon.com, select physical Amazon stores, Whole Foods Market (via in-store code), and merchants accepting Amazon Pay"
 signup_bonus:
   value: 60

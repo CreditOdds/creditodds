@@ -199,10 +199,65 @@
         "timeframe_months": {
           "type": "number",
           "description": "Months to meet spend requirement"
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional caveat or context for the bonus, e.g. an elevated limited-time offer or a portal-valuation figure"
         }
       },
       "additionalProperties": false,
       "description": "Welcome/signup bonus details (optional)"
+    },
+    "benefits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Short name of the benefit"
+          },
+          "description": {
+            "type": "string",
+            "description": "Full description of the benefit"
+          },
+          "category": {
+            "type": "string",
+            "description": "Benefit grouping, e.g. travel, lounge, security, shopping, insurance"
+          },
+          "value": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Value of the benefit. Use 0 for non-monetary perks such as lounge access or elite status."
+          },
+          "value_unit": {
+            "type": "string",
+            "enum": ["dollars", "percent", "points", "miles"],
+            "description": "Unit of `value` when it is not a flat dollar amount. Defaults to dollars."
+          },
+          "value_per_cycle": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Value granted per frequency cycle when it differs from the headline `value`"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": ["annual", "semi_annual", "quarterly", "monthly", "ongoing", "one_time", "multi_year", "every_4_years", "per_purchase", "per_flight", "per_trip", "per_stay", "per_visit", "per_rental", "per_claim", "per_redemption"],
+            "description": "How often the benefit applies"
+          },
+          "frequency_years": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of years between occurrences for multi_year benefits"
+          },
+          "enrollment_required": {
+            "type": "boolean",
+            "description": "Whether the cardholder must enroll or activate to receive the benefit"
+          }
+        }
+      },
+      "description": "Card perks, credits, and protections (optional)"
     },
     "apr": {
       "type": "object",
