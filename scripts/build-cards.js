@@ -42,6 +42,15 @@ function validateCard(card, schema, categoryIds) {
     }
   }
 
+  // Validate tags enum
+  if (card.tags && schema.properties.tags.items.enum) {
+    for (const tag of card.tags) {
+      if (!schema.properties.tags.items.enum.includes(tag)) {
+        errors.push(`Invalid tag: ${tag}`);
+      }
+    }
+  }
+
   // Validate annual_fee
   if (card.annual_fee !== undefined && (typeof card.annual_fee !== 'number' || card.annual_fee < 0)) {
     errors.push(`Invalid annual_fee: ${card.annual_fee}`);

@@ -9,7 +9,6 @@ annual_fee: 0
 reward_type: "points"
 tags:
   - rewards
-  - co-branded
 rewards:
   - category: gas
     value: 3
