@@ -15,7 +15,11 @@
 ## Deployment
 
 - Backend: `cd apps/api && sam build && sam deploy`
-- Frontend: Deployed via AWS Amplify (automatic on push)
+- Frontend: AWS Amplify, triggered by webhook. Amplify native auto-build is
+  disabled (`enableAutoBuild=false`) so each merge builds exactly once.
+  Code pushes to `main` fire the webhook via `.github/workflows/deploy-frontend.yml`;
+  card/best/article/news data pushes fire it from their own `build-*.yml`
+  workflow after syncing JSON to S3.
 - Cards data: Run `npm run build-cards` in web-next to rebuild cards.json
 
 ### Backend CI/CD: there is none — `sam deploy` is the only path
