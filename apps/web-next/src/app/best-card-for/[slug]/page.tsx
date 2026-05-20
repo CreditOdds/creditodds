@@ -20,6 +20,11 @@ interface PageProps {
 // cached by ISR (revalidate below). Stores with co-branded cards are
 // prioritized since they are the highest-intent SEO pages.
 const PRERENDER_LIMIT = 100;
+
+// ISR: on-demand-rendered long-tail pages (and the prerendered set) are
+// revalidated every 5 minutes, matching the rest of the site.
+export const revalidate = 300;
+
 export async function generateStaticParams() {
   const stores = await getAllStores();
   const sorted = [...stores].sort((a, b) => {

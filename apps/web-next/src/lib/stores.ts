@@ -1,6 +1,5 @@
 import 'server-only';
-import fs from 'fs/promises';
-import path from 'path';
+import storesData from '../../../../data/stores.json';
 
 export interface StoreAlsoEarns {
   card: string;
@@ -34,26 +33,24 @@ interface StoresFile {
   stores: Store[];
 }
 
-let cached: { stores: Store[]; generatedAt: string } | null = null;
-
-async function loadStores(): Promise<{ stores: Store[]; generatedAt: string }> {
-  if (cached) return cached;
-  const filePath = path.join(process.cwd(), '..', '..', 'data', 'stores.json');
-  const fileContent = await fs.readFile(filePath, 'utf8');
-  const data: StoresFile = JSON.parse(fileContent);
-  cached = { stores: data.stores || [], generatedAt: data.generated_at };
-  return cached;
-}
+// stores.json is imported statically so its contents are bundled straight
+// into the build output. The long-tail /best-card-for/[slug] pages render
+// on demand on Amplify's SSR runtime, which only ships files traced from
+// apps/web-next — a process.cwd()-relative fs.readFile of the repo-root
+// data/ dir there throws ENOENT and 500s the page. A static import
+// sidesteps file tracing entirely: the data lives in the JS bundle.
+const data = storesData as unknown as StoresFile;
+const stores: Store[] = data.stores || [];
+const generatedAt: string = data.generated_at ?? '';
 
 export async function getAllStores(): Promise<Store[]> {
-  return (await loadStores()).stores;
+  return stores;
 }
 
 export async function getStoresGeneratedAt(): Promise<string> {
-  return (await loadStores()).generatedAt;
+  return generatedAt;
 }
 
 export async function getStore(slug: string): Promise<Store | null> {
-  const { stores } = await loadStores();
   return stores.find(s => s.slug === slug) || null;
 }
