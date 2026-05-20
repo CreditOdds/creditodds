@@ -2,7 +2,9 @@
 
 /**
  * CardWire Social Post — generates an image and queues a Twitter post
- * for each card metric change detected during a card sync.
+ * for cards whose sign-up bonus increased during a card sync. All changes
+ * (APR, SUB decreases, etc.) still populate the card wire table; only a
+ * SUB increase triggers a tweet.
  *
  * Usage:
  *   node scripts/post-card-wire.js --changes '<JSON>'
@@ -90,6 +92,15 @@ function getDirection(field, oldValue, newValue) {
   const increased = newNum > oldNum;
   if (higherIsBad.has(field)) return increased ? 'negative' : 'positive';
   return increased ? 'positive' : 'negative';
+}
+
+// A tweet only goes out when the sign-up bonus increased. APR changes and
+// SUB decreases still land in the card wire table but are never posted to X.
+function hasSubIncrease(changes) {
+  return changes.some(
+    c => c.field === 'signup_bonus_value' &&
+      getDirection(c.field, c.old_value, c.new_value) === 'positive'
+  );
 }
 
 // ── Card data lookup ──
@@ -561,6 +572,11 @@ async function main() {
     const cardChanges = entry.changes;
 
     console.log(`Processing: ${cardName} (${cardChanges.length} change(s))`);
+
+    if (!hasSubIncrease(cardChanges)) {
+      console.log(`  Skipped — no sign-up bonus increase; not posting to X\n`);
+      continue;
+    }
 
     // Look up card data for image + slug
     const card = await getCardByName(cardName);
