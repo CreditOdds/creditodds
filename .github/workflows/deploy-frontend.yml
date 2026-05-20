@@ -1,0 +1,39 @@
+name: Deploy Frontend
+
+# Fires the AWS Amplify build webhook for pushes to main that are NOT
+# data-only changes.
+#
+# Card / best / article / news data live in S3, not the repo build. Their
+# build-*.yml workflows rebuild the JSON, sync it to S3, and then fire the
+# same Amplify webhook themselves — so those four data directories are
+# excluded here to avoid building twice for one merge.
+#
+# Amplify's native auto-build on push is disabled (enableAutoBuild=false),
+# making this workflow the single build trigger for code changes. With
+# native auto-build on, every data PR would build twice (native + webhook).
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'data/cards/**'
+      - 'data/best/**'
+      - 'data/articles/**'
+      - 'data/news/**'
+  workflow_dispatch: {}
+
+jobs:
+  trigger-amplify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Amplify build
+        env:
+          AMPLIFY_WEBHOOK_URL: ${{ secrets.AMPLIFY_WEBHOOK_URL }}
+        run: |
+          if [ -z "$AMPLIFY_WEBHOOK_URL" ]; then
+            echo "::error::AMPLIFY_WEBHOOK_URL secret is not configured"
+            exit 1
+          fi
+          echo "Triggering Amplify build via webhook..."
+          curl -fsS -X POST "$AMPLIFY_WEBHOOK_URL"
