@@ -28,8 +28,8 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 16.99
-    max: 26.99
+    min: 16.49
+    max: 26.49
 apply_link: https://www.fidelity.com/spend-save/visa-signature-card
 foreign_transaction_fee: false
 benefits:
