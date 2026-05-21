@@ -15,11 +15,11 @@ rewards:
     unit: percent
     note: "When deposited into an eligible Fidelity account"
 signup_bonus:
-  value: 100
+  value: 150
   type: "cash"
   spend_requirement: 1000
   timeframe_months: 3
-  note: "Earn up to $100 in Reward Points when you apply for Global Entry® or TSA PreCheck®"
+  note: "15,000 bonus points (worth $150) when deposited into an eligible Fidelity account"
 apr:
   purchase_intro:
     rate: 0
