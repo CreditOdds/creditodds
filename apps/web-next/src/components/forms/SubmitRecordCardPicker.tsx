@@ -1,29 +1,68 @@
 'use client';
 
-import { Fragment } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import CardImage from "@/components/ui/CardImage";
+import type { Card } from "@/lib/api";
 
-interface WalletCard {
-  id: number;
+export interface PickedCard {
   card_id: number;
   card_name: string;
   card_image_link?: string;
   bank: string;
-  acquired_month?: number;
-  acquired_year?: number;
-  created_at: string;
 }
 
 interface SubmitRecordCardPickerProps {
   show: boolean;
   onClose: () => void;
-  cards: WalletCard[];
-  onSelectCard: (card: WalletCard) => void;
+  // Full card catalog. The picker filters out cards the user already has a
+  // record for (since the modal blocks duplicate-card submissions) and any
+  // entry missing a numeric db_card_id.
+  cards: Card[];
+  recordedCardNames: Set<string>;
+  // Optional: card names already in the user's wallet are surfaced first so
+  // common picks stay near the top while denied/never-held cards remain
+  // selectable below.
+  walletCardNames?: Set<string>;
+  onSelectCard: (card: PickedCard) => void;
 }
 
-export default function SubmitRecordCardPicker({ show, onClose, cards, onSelectCard }: SubmitRecordCardPickerProps) {
+export default function SubmitRecordCardPicker({
+  show,
+  onClose,
+  cards,
+  recordedCardNames,
+  walletCardNames,
+  onSelectCard,
+}: SubmitRecordCardPickerProps) {
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (!show) setSearch("");
+  }, [show]);
+
+  const eligible = useMemo(() => {
+    const inWallet = walletCardNames ?? new Set<string>();
+    return cards
+      .filter((c) => c.db_card_id != null)
+      .filter((c) => !recordedCardNames.has(c.card_name))
+      .sort((a, b) => {
+        const aWallet = inWallet.has(a.card_name) ? 0 : 1;
+        const bWallet = inWallet.has(b.card_name) ? 0 : 1;
+        if (aWallet !== bWallet) return aWallet - bWallet;
+        return a.card_name.localeCompare(b.card_name);
+      });
+  }, [cards, recordedCardNames, walletCardNames]);
+
+  const filtered = useMemo(() => {
+    if (!search) return eligible;
+    const s = search.toLowerCase();
+    return eligible.filter(
+      (c) => c.card_name.toLowerCase().includes(s) || c.bank.toLowerCase().includes(s)
+    );
+  }, [eligible, search]);
+
   return (
     <Transition show={show} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -63,42 +102,72 @@ export default function SubmitRecordCardPicker({ show, onClose, cards, onSelectC
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Select a card to submit a data point
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    Submit a record
                   </h3>
+                  <p className="text-sm text-gray-500 mb-4">
+                    Pick any card you applied for, approved or denied.
+                  </p>
 
-                  {cards.length > 0 ? (
+                  <div className="relative mb-3">
+                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder="Search by card name or issuer…"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="w-full rounded-md border border-gray-300 pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    />
+                  </div>
+
+                  {filtered.length > 0 ? (
                     <div className="space-y-2 max-h-96 overflow-y-auto">
-                      {cards.map((card) => (
-                        <button
-                          key={card.id}
-                          onClick={() => {
-                            onSelectCard(card);
-                            onClose();
-                          }}
-                          className="w-full flex items-center gap-4 p-3 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors text-left"
-                        >
-                          <div className="flex-shrink-0 h-10 w-16 relative">
-                            <CardImage
-                              cardImageLink={card.card_image_link}
-                              alt={card.card_name}
-                              fill
-                              className="object-contain"
-                              sizes="64px"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-gray-900 truncate">
-                              {card.card_name}
-                            </p>
-                            <p className="text-xs text-gray-500">{card.bank}</p>
-                          </div>
-                        </button>
-                      ))}
+                      {filtered.slice(0, 25).map((card) => {
+                        const inWallet = walletCardNames?.has(card.card_name);
+                        return (
+                          <button
+                            key={card.card_id}
+                            onClick={() => {
+                              onSelectCard({
+                                card_id: card.db_card_id as number,
+                                card_name: card.card_name,
+                                card_image_link: card.card_image_link,
+                                bank: card.bank,
+                              });
+                              onClose();
+                            }}
+                            className="w-full flex items-center gap-4 p-3 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 transition-colors text-left"
+                          >
+                            <div className="flex-shrink-0 h-10 w-16 relative">
+                              <CardImage
+                                cardImageLink={card.card_image_link}
+                                alt={card.card_name}
+                                fill
+                                className="object-contain"
+                                sizes="64px"
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-900 truncate">
+                                {card.card_name}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {card.bank}{inWallet ? ' · in your wallet' : ''}
+                              </p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                      {filtered.length > 25 && (
+                        <p className="text-xs text-gray-400 text-center pt-2">
+                          showing first 25 — refine your search to see more
+                        </p>
+                      )}
                     </div>
                   ) : (
-                    <p className="text-gray-500 text-center py-4">
-                      No cards available for submission.
+                    <p className="text-gray-500 text-center py-4 text-sm">
+                      {search ? 'No cards match your search.' : 'No cards available.'}
                     </p>
                   )}
                 </div>
