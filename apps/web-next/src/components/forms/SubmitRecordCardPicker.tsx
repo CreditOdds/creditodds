@@ -16,10 +16,11 @@ export interface PickedCard {
 interface SubmitRecordCardPickerProps {
   show: boolean;
   onClose: () => void;
-  // Full card catalog. The picker filters out cards the user already has a
-  // record for (since the modal blocks duplicate-card submissions) and any
-  // entry missing a numeric db_card_id.
+  // Full card catalog (entries missing a numeric db_card_id are skipped).
   cards: Card[];
+  // Cards the user already has a record for — shown with a hint, NOT filtered
+  // out. The backend allows up to 5 records per card so users can submit
+  // separate data points for a reapplication (e.g., denied then approved).
   recordedCardNames: Set<string>;
   // Optional: card names already in the user's wallet are surfaced first so
   // common picks stay near the top while denied/never-held cards remain
@@ -46,14 +47,13 @@ export default function SubmitRecordCardPicker({
     const inWallet = walletCardNames ?? new Set<string>();
     return cards
       .filter((c) => c.db_card_id != null)
-      .filter((c) => !recordedCardNames.has(c.card_name))
       .sort((a, b) => {
         const aWallet = inWallet.has(a.card_name) ? 0 : 1;
         const bWallet = inWallet.has(b.card_name) ? 0 : 1;
         if (aWallet !== bWallet) return aWallet - bWallet;
         return a.card_name.localeCompare(b.card_name);
       });
-  }, [cards, recordedCardNames, walletCardNames]);
+  }, [cards, walletCardNames]);
 
   const filtered = useMemo(() => {
     if (!search) return eligible;
@@ -125,6 +125,10 @@ export default function SubmitRecordCardPicker({
                     <div className="space-y-2 max-h-96 overflow-y-auto">
                       {filtered.slice(0, 25).map((card) => {
                         const inWallet = walletCardNames?.has(card.card_name);
+                        const hasRecord = recordedCardNames.has(card.card_name);
+                        const meta = [card.bank, inWallet && 'in your wallet', hasRecord && 'record submitted']
+                          .filter(Boolean)
+                          .join(' · ');
                         return (
                           <button
                             key={card.card_id}
@@ -152,9 +156,7 @@ export default function SubmitRecordCardPicker({
                               <p className="text-sm font-medium text-gray-900 truncate">
                                 {card.card_name}
                               </p>
-                              <p className="text-xs text-gray-500">
-                                {card.bank}{inWallet ? ' · in your wallet' : ''}
-                              </p>
+                              <p className="text-xs text-gray-500">{meta}</p>
                             </div>
                           </button>
                         );

@@ -115,7 +115,9 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
   const { getToken } = useAuth();
   const isEditMode = !!editRecord;
   const [submitting, setSubmitting] = useState(false);
-  const [hasExistingRecord, setHasExistingRecord] = useState(false);
+  // Count of prior records for this card. Used to show a contextual hint
+  // ("you've submitted N records; add another if you reapplied"), not to block.
+  const [existingRecordCount, setExistingRecordCount] = useState(0);
   const [checkingRecords, setCheckingRecords] = useState(!isEditMode);
   const [lastRecord, setLastRecord] = useState<{ credit_score?: number; listed_income?: number; length_credit?: number } | null>(null);
   // Count of cards in the user's wallet — surfaced below the "Total open cards" input
@@ -194,12 +196,13 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
 
         setWalletCount(Array.isArray(wallet) ? wallet.length : 0);
 
-        // Check if user has already submitted for this card
-        const existingRecord = records.find((r: { card_name: string }) =>
+        // Count any prior records for this card so we can surface a hint —
+        // duplicate / max-per-card limits are enforced on the backend.
+        const priorRecords = records.filter((r: { card_name: string }) =>
           r.card_name === card.card_name ||
           r.card_name === card.card_name.replace(/ Card$/, '')
         );
-        setHasExistingRecord(!!existingRecord);
+        setExistingRecordCount(priorRecords.length);
 
         // Find most recent record to prepopulate fields
         if (records.length > 0) {
@@ -215,7 +218,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         }
       } catch (error) {
         console.error("Error checking existing records:", error);
-        setHasExistingRecord(false);
+        setExistingRecordCount(0);
       } finally {
         setCheckingRecords(false);
       }
@@ -395,10 +398,10 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
 
   // Auto-save form data when values change (#7)
   useEffect(() => {
-    if (show && !hasExistingRecord && !isEditMode && formik.dirty) {
+    if (show && !isEditMode && formik.dirty) {
       saveFormData(formik.values);
     }
-  }, [show, hasExistingRecord, isEditMode, formik.values, formik.dirty, saveFormData]);
+  }, [show, isEditMode, formik.values, formik.dirty, saveFormData]);
 
   const handleModalClose = () => {
     formik.resetForm();
@@ -425,23 +428,6 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
               <div className="cj-modal-body">
                 <p style={{ textAlign: 'center', color: 'var(--muted)', fontSize: 12 }}>Checking submission status…</p>
               </div>
-            ) : hasExistingRecord && !isEditMode ? (
-              <div className="cj-modal-body">
-                <div className="cj-modal-error">
-                  You have already submitted a record for this card. You can only submit one record per card.
-                </div>
-                <div className="cj-modal-section">
-                  <div className="cj-modal-card-row">
-                    <span className="cj-modal-thumb">
-                      <CardImage cardImageLink={card.card_image_link} alt={card.card_name} fill className="object-contain" sizes="56px" />
-                    </span>
-                    <div style={{ minWidth: 0 }}>
-                      <div className="cj-modal-card-name">{card.card_name}</div>
-                      {card.bank && <div className="cj-modal-card-meta">{card.bank}</div>}
-                    </div>
-                  </div>
-                </div>
-              </div>
             ) : (
               <form onSubmit={formik.handleSubmit}>
                 <div className="cj-modal-body">
@@ -456,9 +442,13 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
                         {card.bank && <div className="cj-modal-card-meta">{card.bank}</div>}
                       </div>
                     </div>
-                    {isEditMode && (
+                    {isEditMode ? (
                       <p style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 8 }}>Editing your existing record.</p>
-                    )}
+                    ) : existingRecordCount > 0 ? (
+                      <p style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 8 }}>
+                        You&apos;ve submitted {existingRecordCount} record{existingRecordCount === 1 ? '' : 's'} for this card. Add another if you reapplied or your situation changed.
+                      </p>
+                    ) : null}
                   </div>
 
                   {/* Credit Score + Source */}

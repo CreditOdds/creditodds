@@ -1128,11 +1128,9 @@ function CardsTab(props: CardsTabProps) {
                         {c.selections && c.selections.length > 0 ? 'edit picks' : '+ pick categories'}
                       </button>
                     )}
-                    {!hasRecord && (
-                      <button type="button" className="cj-wd-cta" onClick={() => onSubmitRecord(c)}>
-                        + submit a record
-                      </button>
-                    )}
+                    <button type="button" className="cj-wd-cta" onClick={() => onSubmitRecord(c)}>
+                      {hasRecord ? '+ submit another record' : '+ submit a record'}
+                    </button>
                     {hasRecord && <span className="cj-wd-done">✓ record submitted</span>}
                     {!hasReferral && (
                       <button type="button" className="cj-wd-cta" onClick={onAddReferral}>
