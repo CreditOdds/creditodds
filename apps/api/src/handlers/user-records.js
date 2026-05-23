@@ -28,22 +28,31 @@ const REASON_DENIED_CODES = [
   "not_specified",
 ];
 
+// Coerce blank inputs ("", undefined, NaN) on optional numeric fields to null
+// so yup's number cast doesn't reject them. The client sometimes sends "" for
+// untouched optional fields and `JSON.stringify` keeps the empty string.
+const emptyToNull = (value, originalValue) => {
+  if (originalValue === "" || originalValue === undefined || originalValue === null) return null;
+  if (typeof value === "number" && Number.isNaN(value)) return null;
+  return value;
+};
+
 const recordSchema = yup.object().shape({
   card_id: yup.number().integer().required(),
   credit_score: yup.number().integer().min(300).max(850).required(),
   credit_score_source: yup.number().integer().min(0).max(4).required(),
   result: yup.boolean().required(),
-  listed_income: yup.number().integer().min(0).max(1000000).nullable(),
-  length_credit: yup.number().integer().min(0).max(100),
-  starting_credit_limit: yup.number().integer().min(0).max(1000000),
-  reason_denied: yup.string().max(254),
-  reason_denied_code: yup.string().oneOf(REASON_DENIED_CODES).nullable(),
-  total_open_cards: yup.number().integer().min(0).max(500).nullable(),
+  listed_income: yup.number().transform(emptyToNull).integer().min(0).max(1000000).nullable(),
+  length_credit: yup.number().transform(emptyToNull).integer().min(0).max(100).nullable(),
+  starting_credit_limit: yup.number().transform(emptyToNull).integer().min(0).max(1000000).nullable(),
+  reason_denied: yup.string().max(254).nullable(),
+  reason_denied_code: yup.string().oneOf([...REASON_DENIED_CODES, null]).nullable(),
+  total_open_cards: yup.number().transform(emptyToNull).integer().min(0).max(500).nullable(),
   date_applied: yup.date().max(endOfCurrentMonth(), "Application date cannot be in the future").required(),
   bank_customer: yup.boolean().required(),
-  inquiries_3: yup.number().integer().min(0).max(50),
-  inquiries_12: yup.number().integer().min(0).max(50),
-  inquiries_24: yup.number().integer().min(0).max(50),
+  inquiries_3: yup.number().transform(emptyToNull).integer().min(0).max(50).nullable(),
+  inquiries_12: yup.number().transform(emptyToNull).integer().min(0).max(50).nullable(),
+  inquiries_24: yup.number().transform(emptyToNull).integer().min(0).max(50).nullable(),
 });
 
 // PATCH only allows editing the user-correctable fields. card_id is fixed
@@ -53,17 +62,17 @@ const recordPatchSchema = yup.object().shape({
   credit_score: yup.number().integer().min(300).max(850).required(),
   credit_score_source: yup.number().integer().min(0).max(4).required(),
   result: yup.boolean().required(),
-  listed_income: yup.number().integer().min(0).max(1000000).nullable(),
-  length_credit: yup.number().integer().min(0).max(100).nullable(),
-  starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
+  listed_income: yup.number().transform(emptyToNull).integer().min(0).max(1000000).nullable(),
+  length_credit: yup.number().transform(emptyToNull).integer().min(0).max(100).nullable(),
+  starting_credit_limit: yup.number().transform(emptyToNull).integer().min(0).max(1000000).nullable(),
   reason_denied: yup.string().max(254).nullable(),
-  reason_denied_code: yup.string().oneOf(REASON_DENIED_CODES).nullable(),
-  total_open_cards: yup.number().integer().min(0).max(500).nullable(),
+  reason_denied_code: yup.string().oneOf([...REASON_DENIED_CODES, null]).nullable(),
+  total_open_cards: yup.number().transform(emptyToNull).integer().min(0).max(500).nullable(),
   date_applied: yup.date().max(endOfCurrentMonth(), "Application date cannot be in the future").required(),
   bank_customer: yup.boolean().required(),
-  inquiries_3: yup.number().integer().min(0).max(50).nullable(),
-  inquiries_12: yup.number().integer().min(0).max(50).nullable(),
-  inquiries_24: yup.number().integer().min(0).max(50).nullable(),
+  inquiries_3: yup.number().transform(emptyToNull).integer().min(0).max(50).nullable(),
+  inquiries_12: yup.number().transform(emptyToNull).integer().min(0).max(50).nullable(),
+  inquiries_24: yup.number().transform(emptyToNull).integer().min(0).max(50).nullable(),
 });
 
 // Constants for spam prevention

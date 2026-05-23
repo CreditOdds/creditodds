@@ -314,9 +314,20 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         }
 
         // Normalize empty strings to null so the API's yup .oneOf() / number coercion
-        // doesn't reject blank optional fields.
+        // doesn't reject blank optional fields. Optional numeric inputs hold "" while
+        // untouched; `JSON.stringify` would otherwise send those as empty strings and
+        // yup would cast them to NaN.
+        const blankToNull = (v: unknown) =>
+          v === "" || v === undefined || (typeof v === "number" && Number.isNaN(v)) ? null : v;
         const payload = {
           ...values,
+          listed_income: blankToNull(values.listed_income),
+          length_credit: blankToNull(values.length_credit),
+          starting_credit_limit: blankToNull(values.starting_credit_limit),
+          total_open_cards: blankToNull(values.total_open_cards),
+          inquiries_3: blankToNull(values.inquiries_3),
+          inquiries_12: blankToNull(values.inquiries_12),
+          inquiries_24: blankToNull(values.inquiries_24),
           reason_denied_code: values.reason_denied_code === "" ? null : values.reason_denied_code,
         };
 
