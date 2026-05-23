@@ -105,6 +105,18 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           ]}
         />
 
+        <div className="cj-terminal">
+          <nav className="cj-crumbs" aria-label="Breadcrumb">
+            <Link href="/news" className="cj-crumb">News</Link>
+            <span className="cj-sep">/</span>
+            <span className="cj-crumb cj-crumb-current" aria-current="page">{item.title}</span>
+          </nav>
+          <span className="cj-spacer" />
+          <div className="cj-term-actions">
+            <span><span className="cj-status-dot" />live</span>
+          </div>
+        </div>
+
         <article className="article-layout wide">
           <Link href="/news" className="article-back" style={{ marginTop: 24, marginBottom: 14 }}>
             ← Back to Card News
@@ -163,12 +175,9 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
             {relatedCards.length > 0 && <RelatedCards cards={relatedCards} />}
           </div>
 
-          {item.source_url && (
+          {item.source && (
             <div className="article-source">
-              Source:
-              <a href={item.source_url} target="_blank" rel="noopener noreferrer">
-                {item.source || item.source_url}
-              </a>
+              Source: <span>{item.source}</span>
             </div>
           )}
         </article>

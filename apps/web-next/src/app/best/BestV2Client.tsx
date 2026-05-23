@@ -54,6 +54,15 @@ export default function BestV2Client({
 
   return (
     <div className="landing-v2">
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Best cards</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{totalCards.toLocaleString()} cards · live</span>
+        </div>
+      </div>
       <section className="page-hero wrap">
         <h1 className="page-title">
           The best cards, ranked by <em>the data.</em>

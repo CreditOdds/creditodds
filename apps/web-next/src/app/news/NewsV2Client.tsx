@@ -76,6 +76,15 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
 
   return (
     <div className="landing-v2">
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current" aria-current="page">News</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{items.length.toLocaleString()} stor{items.length === 1 ? 'y' : 'ies'} · live</span>
+        </div>
+      </div>
       <section className="page-hero wrap">
         <h1 className="page-title">
           News without the <em>affiliate spin.</em>

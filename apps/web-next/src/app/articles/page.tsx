@@ -53,6 +53,16 @@ export default async function ArticlesPage() {
         ]}
       />
 
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Articles</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{articles.length.toLocaleString()} articles · live</span>
+        </div>
+      </div>
+
       <section className="page-hero wrap">
         <h1 className="page-title">
           Deeper reads, <em>same data discipline.</em>

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getArticlesByTag, tagLabels, tagDescriptions, ArticleTag } from "@/lib/articles";
 import { ArticleCard } from "@/components/articles/ArticleCard";
@@ -79,6 +80,18 @@ export default async function CategoryPage({ params }: Props) {
           { name: tagLabel, url: `https://creditodds.com/articles/category/${tag}` },
         ]}
       />
+
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <Link href="/articles" className="cj-crumb">Articles</Link>
+          <span className="cj-sep">/</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">{tagLabel}</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{articles.length.toLocaleString()} article{articles.length === 1 ? '' : 's'} · live</span>
+        </div>
+      </div>
 
       <section className="page-hero wrap">
         <h1 className="page-title">{tagLabel} <em>articles.</em></h1>

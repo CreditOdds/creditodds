@@ -85,6 +85,16 @@ export default async function ComparePage() {
         ]}
       />
 
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Compare</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{cards.length.toLocaleString()} cards · live</span>
+        </div>
+      </div>
+
       <section className="page-hero wrap">
         <h1 className="page-title">
           Compare <em>credit cards.</em>

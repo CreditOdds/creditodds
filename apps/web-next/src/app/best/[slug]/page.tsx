@@ -94,6 +94,18 @@ export default async function BestDetailPage({ params }: Props) {
         ]}
       />
 
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <Link href="/best" className="cj-crumb">Best cards</Link>
+          <span className="cj-sep">/</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">{page.title}</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{enrichedCards.length.toLocaleString()} cards · live</span>
+        </div>
+      </div>
+
       <section className="page-hero wrap">
         <h1 className="page-title">{page.title}</h1>
         <p className="page-sub">{page.description}</p>

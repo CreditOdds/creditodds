@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getArticles, getUniqueAuthors, generateAuthorSlug } from "@/lib/articles";
 import { ArticleCard } from "@/components/articles/ArticleCard";
@@ -80,6 +81,18 @@ export default async function AuthorPage({ params }: Props) {
           { name: author.name, url: `https://creditodds.com/articles/author/${slug}` },
         ]}
       />
+
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <Link href="/articles" className="cj-crumb">Articles</Link>
+          <span className="cj-sep">/</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">by {author.name}</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{author.count.toLocaleString()} article{author.count === 1 ? '' : 's'} · live</span>
+        </div>
+      </div>
 
       <section className="page-hero wrap">
         <h1 className="page-title">

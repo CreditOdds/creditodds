@@ -68,6 +68,18 @@ export default async function BankPage({ params }: BankPageProps) {
         ]}
       />
 
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <Link href="/explore" className="cj-crumb">Cards</Link>
+          <span className="cj-sep">/</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">{bankName}</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{cards.length.toLocaleString()} card{cards.length === 1 ? '' : 's'} · live</span>
+        </div>
+      </div>
+
       <section className="page-hero wrap">
         <h1 className="page-title">
           {bankName}

@@ -97,6 +97,16 @@ export default function ToolsPage() {
         ]}
       />
 
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Tools</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />{totalTools.toLocaleString()} calculators · live</span>
+        </div>
+      </div>
+
       <section className="page-hero wrap">
         <h1 className="page-title">
           Free calculators. <em>Real math.</em>

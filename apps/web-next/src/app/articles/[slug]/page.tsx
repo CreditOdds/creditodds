@@ -122,6 +122,17 @@ export default async function ArticlePage({ params }: Props) {
       <ReadingProgressBar />
 
       <div className="landing-v2 articles-v2">
+        <div className="cj-terminal">
+          <nav className="cj-crumbs" aria-label="Breadcrumb">
+            <Link href="/articles" className="cj-crumb">Articles</Link>
+            <span className="cj-sep">/</span>
+            <span className="cj-crumb cj-crumb-current" aria-current="page">{article.title}</span>
+          </nav>
+          <span className="cj-spacer" />
+          <div className="cj-term-actions">
+            <span><span className="cj-status-dot" />live</span>
+          </div>
+        </div>
         <article className="article-layout magazine">
           <div className="article-masthead">
           <Link href="/articles" className="article-back" style={{ marginTop: 24, marginBottom: 14 }}>
