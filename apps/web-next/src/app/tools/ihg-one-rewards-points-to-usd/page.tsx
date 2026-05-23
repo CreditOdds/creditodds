@@ -63,7 +63,7 @@ export default async function IHGToUsdPage() {
                 <Link
                   key={card.slug}
                   href={`/card/${card.slug}`}
-                  className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow flex items-center gap-4 group"
+                  className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow flex items-center gap-4 group min-w-0"
                 >
                   <div className="h-10 w-16 flex-shrink-0 relative">
                     <CardImage
