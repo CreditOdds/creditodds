@@ -28,6 +28,15 @@ export default function CheckOddsPage() {
           { name: 'Check Your Odds', url: 'https://creditodds.com/check-odds' },
         ]}
       />
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Check odds</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span><span className="cj-status-dot" />live</span>
+        </div>
+      </div>
       <section className="page-hero wrap">
         <h1 className="page-title">
           Check your <em>odds.</em>
