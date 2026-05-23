@@ -377,21 +377,23 @@ function detectChanges(card, extracted) {
         new_value: note,
       });
     } else if (sb.bonus_note) {
-      // Create note when missing.
-      if (!cur.note) {
+      // Only propose a note change when signup_bonus.value also changed in
+      // this run. Applies to both adding a new note and updating an existing
+      // one. Without this gate Haiku reliably manufactures boilerplate notes
+      // on cards whose SUB hasn't moved — "Welcome offers vary…", "$N cash
+      // redemption value", or text lifted from a benefit on the same page
+      // (e.g. Fidelity's Global Entry credit) — and each one becomes a
+      // recurring PR proposal even though the prompt forbids it. A missed
+      // legitimate note edit is cheap; the false-positive churn is not.
+      const valueChanged = changes.some(c => c.field === 'signup_bonus.value');
+
+      if (!cur.note && valueChanged) {
         changes.push({
           field: 'signup_bonus.note',
           old_value: null,
           new_value: sb.bonus_note,
         });
-      }
-      // Update an existing note only when value also changed — avoids noisy
-      // rewording proposals on cards whose bonus is unchanged but Haiku
-      // happens to phrase the note slightly differently each run.
-      else if (
-        cur.note !== sb.bonus_note &&
-        changes.some(c => c.field === 'signup_bonus.value')
-      ) {
+      } else if (cur.note && cur.note !== sb.bonus_note && valueChanged) {
         changes.push({
           field: 'signup_bonus.note',
           old_value: cur.note,
