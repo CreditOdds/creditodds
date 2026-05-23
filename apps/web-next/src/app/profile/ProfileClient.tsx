@@ -20,7 +20,6 @@ import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applica
 import {
   createCardLookups,
   dedupeWalletByCardName,
-  getEligibleRecordCards,
   getEligibleReferralCards,
   getRelevantNews,
   getTotalAnnualFees,
@@ -140,7 +139,7 @@ export default function ProfileClient() {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
-  const [submitRecordCard, setSubmitRecordCard] = useState<WalletCard | null>(null);
+  const [submitRecordCard, setSubmitRecordCard] = useState<{ card_id: number; card_name: string; card_image_link?: string; bank: string } | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
   const [editingRecord, setEditingRecord] = useState<RecordItem | null>(null);
   const [pickingCategoriesFor, setPickingCategoriesFor] = useState<WalletCard | null>(null);
@@ -208,11 +207,6 @@ export default function ProfileClient() {
   const cardsWithActiveReferrals = useMemo(
     () => new Set(referrals.filter(r => !r.archived_at).map(r => r.card_name)),
     [referrals]
-  );
-
-  const eligibleRecordCards = useMemo(
-    () => getEligibleRecordCards(walletCards, records),
-    [walletCards, records]
   );
 
   const applicationRules = useMemo(() => calculateApplicationRules(walletCards), [walletCards]);
@@ -517,7 +511,6 @@ export default function ProfileClient() {
                     type="button"
                     className="cj-mob-wallet-btn outline"
                     onClick={() => setShowRecordCardPicker(true)}
-                    disabled={eligibleRecordCards.length === 0}
                   >
                     submit a record
                   </button>
@@ -665,7 +658,6 @@ export default function ProfileClient() {
                 onDeleteRecord={handleDeleteRecord}
                 onEditRecord={handleEditRecord}
                 deletingRecordId={deletingRecordId}
-                eligibleRecordCards={eligibleRecordCards}
               />
             )}
 
@@ -717,7 +709,6 @@ export default function ProfileClient() {
                   onDeleteRecord={handleDeleteRecord}
                   onEditRecord={handleEditRecord}
                   deletingRecordId={deletingRecordId}
-                  eligibleRecordCards={eligibleRecordCards}
                 />
                 <div className="cj-mob-more-h">Referrals</div>
                 <ReferralsTab
@@ -751,15 +742,13 @@ export default function ProfileClient() {
             <button type="button" className="cj-apply-btn" onClick={() => setShowWalletModal(true)}>
               + add a card
             </button>
-            {eligibleRecordCards.length > 0 && (
-              <button
-                type="button"
-                className="cj-apply-btn-outline"
-                onClick={() => setShowRecordCardPicker(true)}
-              >
-                submit a record
-              </button>
-            )}
+            <button
+              type="button"
+              className="cj-apply-btn-outline"
+              onClick={() => setShowRecordCardPicker(true)}
+            >
+              submit a record
+            </button>
           </div>
 
           {reminders.length > 0 && (
@@ -873,19 +862,16 @@ export default function ProfileClient() {
       <SubmitRecordCardPicker
         show={showRecordCardPicker}
         onClose={() => setShowRecordCardPicker(false)}
-        cards={eligibleRecordCards}
+        cards={allCards}
+        recordedCardNames={cardsWithRecords}
+        walletCardNames={new Set(walletCards.map((w) => w.card_name))}
         onSelectCard={(card) => setSubmitRecordCard(card)}
       />
       {submitRecordCard && (
         <SubmitRecordModal
           show={!!submitRecordCard}
           handleClose={() => setSubmitRecordCard(null)}
-          card={{
-            card_id: submitRecordCard.card_id,
-            card_name: submitRecordCard.card_name,
-            card_image_link: submitRecordCard.card_image_link,
-            bank: submitRecordCard.bank,
-          }}
+          card={submitRecordCard}
           onSuccess={loadData}
         />
       )}
@@ -1142,11 +1128,9 @@ function CardsTab(props: CardsTabProps) {
                         {c.selections && c.selections.length > 0 ? 'edit picks' : '+ pick categories'}
                       </button>
                     )}
-                    {!hasRecord && (
-                      <button type="button" className="cj-wd-cta" onClick={() => onSubmitRecord(c)}>
-                        + submit a record
-                      </button>
-                    )}
+                    <button type="button" className="cj-wd-cta" onClick={() => onSubmitRecord(c)}>
+                      {hasRecord ? '+ submit another record' : '+ submit a record'}
+                    </button>
                     {hasRecord && <span className="cj-wd-done">✓ record submitted</span>}
                     {!hasReferral && (
                       <button type="button" className="cj-wd-cta" onClick={onAddReferral}>
@@ -1185,11 +1169,10 @@ interface ApplicationsTabProps {
   onDeleteRecord: (id: number) => void;
   onEditRecord: (id: number) => void;
   deletingRecordId: number | null;
-  eligibleRecordCards: WalletCard[];
 }
 
 function ApplicationsTab(props: ApplicationsTabProps) {
-  const { recordsLoaded, walletLoaded, records, walletCards, applicationRules, cardsMissingDates, onPickCard, onDeleteRecord, onEditRecord, deletingRecordId, eligibleRecordCards } = props;
+  const { recordsLoaded, walletLoaded, records, walletCards, applicationRules, cardsMissingDates, onPickCard, onDeleteRecord, onEditRecord, deletingRecordId } = props;
   if (!recordsLoaded || !walletLoaded) return <LoadingPanel />;
 
   const approved = records.filter(r => r.result).length;
@@ -1283,20 +1266,15 @@ function ApplicationsTab(props: ApplicationsTabProps) {
           </div>
           <div className="cj-verdict">
             <b>{records.length} record{records.length === 1 ? '' : 's'}.</b> {approved} approved, {denied} denied.{' '}
-            {eligibleRecordCards.length > 0 ? (
-              <>Submit a new record from <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>any card in your wallet</button>.</>
-            ) : 'You’ve submitted records for every card in your wallet.'}
+            <>Submit a new record for <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>any card</button>, approved or denied.</>
           </div>
         </>
       ) : (
         <div className="cj-verdict">
-          {walletCards.length === 0
-            ? <><b>No records yet.</b> Add a card to your wallet to submit a data point.</>
-            : <><b>No records yet.</b>{' '}
-                <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>
-                  Submit a record →
-                </button>
-              </>}
+          <b>No records yet.</b>{' '}
+          <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>
+            Submit a record →
+          </button>
         </div>
       )}
     </section>
