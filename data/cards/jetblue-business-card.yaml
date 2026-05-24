@@ -60,3 +60,16 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
+  - name: "Award Flight Points Rebate"
+    value: 10
+    value_unit: "percent"
+    description: "Get 10% of your points back after you redeem for and travel on a JetBlue-operated Award Flight"
+    frequency: "per_flight"
+    category: "rewards"
+    enrollment_required: false
+  - name: "JetBlue Vacations Statement Credit"
+    value: 100
+    description: "Receive a $100 statement credit after you purchase a JetBlue Vacations package of $100 or more"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
