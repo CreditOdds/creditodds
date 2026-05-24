@@ -46,6 +46,19 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
+  - name: "Admirals Club Globe Passes"
+    value: 300
+    description: "Receive 4 Admirals Club Globe Passes annually for access to nearly 50 Admirals Club lounges with complimentary drinks, snacks, and Wi-Fi."
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Flight Streak Bonus"
+    value: 5000
+    value_unit: "miles"
+    description: "Earn 5,000 Loyalty Points bonus after every 4 qualifying American Airlines flights (up to 15,000 additional Loyalty Points each status qualification year)."
+    frequency: "per_flight"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - travel
   - airline
