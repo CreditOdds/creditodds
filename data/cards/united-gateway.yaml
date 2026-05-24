@@ -52,3 +52,10 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
+  - name: "Inflight Purchase Rebate"
+    value: 25
+    value_unit: "percent"
+    description: "25% back as statement credit on food, beverages, Wi-Fi on United flights and Club premium drinks"
+    frequency: "per_purchase"
+    category: "statement_credit"
+    enrollment_required: false
