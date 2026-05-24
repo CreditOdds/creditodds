@@ -66,4 +66,16 @@ benefits:
     frequency: "per_claim"
     category: "telecom"
     enrollment_required: false
+  - name: "Elite Qualifying Nights"
+    description: "Receive 20 Elite Qualifying Nights each calendar year guaranteeing Choice Privileges Platinum Elite status and benefits."
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Trusted Traveler Program Credit"
+    value: 120
+    description: "One statement credit up to $120 every four years for Trusted Traveler Program (Global Entry or TSA PreCheck) enrollment or renewal."
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "travel"
+    enrollment_required: true
 apply_link: https://creditcards.wellsfargo.com/choice-hotels-privileges-select-mastercard
