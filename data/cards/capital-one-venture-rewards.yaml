@@ -19,6 +19,11 @@ benefits:
     frequency: "per_stay"
     category: "hotel"
     enrollment_required: false
+  - name: "50% Off Handcrafted Beverages"
+    description: "50% off all handcrafted beverages every day at any Capital One Café nationwide."
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
 tags:
   - travel
   - rewards
