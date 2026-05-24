@@ -36,3 +36,25 @@ apr:
     min: 17.49
     max: 27.74
 apply_link: https://www.apple.com/apple-card/
+foreign_transaction_fee: false
+benefits:
+  - name: "Booking.com Travel Credits"
+    value: 2
+    value_unit: "percent"
+    description: "2% in Booking.com Travel Credits on eligible stays and car rentals booked through the Apple Card portal (in addition to 3% Daily Cash back)."
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: true
+  - name: "Uber One Free Trial"
+    value: 6
+    description: "Six-month free trial of Uber One when signing up with Apple Card through the designated link."
+    frequency: "one_time"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "Hertz Rental Car Savings"
+    value: 5
+    value_unit: "percent"
+    description: "At least 5% off Pay Later base rates plus free emergency roadside service, discounted loss damage waiver, and free additional driver at pickup."
+    frequency: "per_rental"
+    category: "car_rental"
+    enrollment_required: true
