@@ -47,3 +47,8 @@ benefits:
     frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
+  - name: "Cash + Points Redemption"
+    description: "Redeem for flights using a combination of dollars and TrueBlue points starting with as few as 500 points"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
