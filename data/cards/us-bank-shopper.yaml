@@ -58,4 +58,9 @@ benefits:
     frequency: "per_claim"
     category: "telecom"
     enrollment_required: false
+  - name: "Flexible Redemption Options"
+    description: "Redeem cash back as a statement credit, rewards card, merchant gift cards, or direct deposit into a U.S. Bank checking or savings account."
+    frequency: "ongoing"
+    category: "rewards"
+    enrollment_required: false
 apply_link: https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html
