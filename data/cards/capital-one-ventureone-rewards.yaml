@@ -41,3 +41,8 @@ benefits:
     frequency: "per_trip"
     category: "travel"
     enrollment_required: false
+  - name: "Capital One Travel Booking Features"
+    description: "Free price drop protection up to $50 credit, price match guarantee, flexible cancellation up to 3 hours before departure, and 24/7 price drop alerts on flights."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
