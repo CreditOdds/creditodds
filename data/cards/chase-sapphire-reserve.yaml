@@ -36,6 +36,55 @@ benefits:
     description: "Eligible boarding pass holders also get access to select Air Canada Maple Leaf Lounges and Cafes"
     frequency: "ongoing"
     category: "lounge"
+  - name: "IHG Platinum Elite Status"
+    description: "Complimentary IHG One Rewards Platinum Elite Status through December 31, 2027."
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "travel"
+    enrollment_required: false
+  - name: "Dining Credit"
+    value: 300
+    description: "Up to $150 in statement credits from January–June and July–December for dining at Sapphire Exclusive Tables restaurants on OpenTable, maximum $300 annually."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: false
+  - name: "Apple TV & Apple Music"
+    value: 288
+    description: "Complimentary Apple TV (streaming home of Apple Originals) and Apple Music through June 22, 2027."
+    frequency: "multi_year"
+    frequency_years: 3
+    category: "streaming"
+    enrollment_required: false
+  - name: "DashPass Membership"
+    value: 120
+    description: "Complimentary DashPass membership for 12 months ($0 delivery fees and reduced service fees on eligible DoorDash orders) when activated by December 31, 2027."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "DoorDash Promos"
+    value: 300
+    description: "Up to $25 per month ($5 restaurant promo + two $10 grocery/retail promos) to spend on DoorDash through December 31, 2027."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: false
+  - name: "StubHub Credits"
+    value: 300
+    description: "Up to $150 in statement credits from January–June and July–December for StubHub and viagogo purchases, maximum $300 annually through December 31, 2027."
+    frequency: "annual"
+    category: "entertainment"
+    enrollment_required: true
+  - name: "Lyft Credits"
+    value: 120
+    description: "Up to $10 in monthly in-app credits for Lyft rides through September 30, 2027."
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: false
+  - name: "Peloton Credits"
+    value: 120
+    description: "Up to $10 in statement credits per month on eligible Peloton memberships, maximum $120 annually through December 31, 2027."
+    frequency: "annual"
+    category: "fitness"
+    enrollment_required: true
 tags:
   - travel
   - premium
@@ -69,3 +118,4 @@ apr:
     min: 19.49
     max: 27.99
 apply_link: https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve
+foreign_transaction_fee: false
