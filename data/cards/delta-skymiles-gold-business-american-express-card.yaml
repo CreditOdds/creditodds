@@ -1,0 +1,78 @@
+name: "Delta SkyMiles Gold Business American Express"
+bank: "American Express"
+slug: "delta-skymiles-gold-business-american-express-card"
+image: "amex_delta_skymiles_gold_business.png"
+accepting_applications: true
+apply_link: https://www.americanexpress.com/en-us/business/credit-cards/delta-skymiles-gold
+category: "business"
+annual_fee: 150
+reward_type: "miles"
+tags:
+  - travel
+  - airline
+  - business
+  - rewards
+rewards:
+  - category: airlines
+    value: 2
+    unit: points_per_dollar
+    note: "Delta purchases"
+    merchant_gate: [delta-air-lines]
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+    note: "Restaurants worldwide"
+  - category: shipping
+    value: 2
+    unit: points_per_dollar
+    note: "U.S. shipping providers and U.S. advertising in select media (combined cap)"
+    spend_cap: 50000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 90000
+  type: "miles"
+  spend_requirement: 6000
+  timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
+benefits:
+  - name: "First Checked Bag Free"
+    value: 0
+    description: "First checked bag free on Delta flights for you and up to 8 companions on the same reservation"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Priority Boarding"
+    value: 0
+    description: "Main Cabin 1 priority boarding on Delta flights"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "TakeOff 15"
+    value: 0
+    description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "$200 Delta Flight Credit"
+    value: 0
+    description: "$200 Delta Flight Credit after spending $10,000 in purchases in a calendar year."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "$150 Delta Stays Credit"
+    value: 150
+    description: "Up to $150 annual statement credit on prepaid hotels or vacation rentals booked through Delta Stays on delta.com."
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "20% Inflight Purchase Credit"
+    value: 20
+    value_unit: "percent"
+    description: "20% savings in the form of a statement credit on eligible Delta in-flight food and beverage purchases."
+    frequency: "per_purchase"
+    category: "dining_travel"
+    enrollment_required: false

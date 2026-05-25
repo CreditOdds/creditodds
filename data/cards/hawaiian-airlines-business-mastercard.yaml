@@ -1,0 +1,56 @@
+name: "Hawaiian Airlines Business Mastercard"
+bank: "Barclays"
+slug: "hawaiian-airlines-business-mastercard"
+accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/credit-card/hawaiian-airlines/combo-app/hawaiian-bha-boh---combo-app/
+category: "business"
+image: "barclays-hawaiian-business.png"
+annual_fee: 99
+reward_type: "miles"
+tags:
+  - travel
+  - airline
+  - business
+  - rewards
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Hawaiian Airlines and Alaska Airlines purchases"
+    merchant_gate: [hawaiian-airlines, alaska-airlines]
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+  - category: office_supplies
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 50000
+  type: "miles"
+  spend_requirement: 4000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 20.24
+    max: 29.99
+benefits:
+  - name: "Annual Spend Bonus (20k)"
+    value: 20000
+    value_unit: "points"
+    description: "20,000 bonus Atmos Rewards points after spending $50,000 in purchases each calendar year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Annual Spend Bonus (40k)"
+    value: 40000
+    value_unit: "points"
+    description: "Additional 40,000 bonus Atmos Rewards points after spending $100,000 or more in purchases each calendar year (in lieu of the 20k tier)"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
