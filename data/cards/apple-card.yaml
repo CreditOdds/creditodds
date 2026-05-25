@@ -51,10 +51,3 @@ benefits:
     frequency: "one_time"
     category: "rideshare"
     enrollment_required: true
-  - name: "Hertz Rental Car Savings"
-    value: 5
-    value_unit: "percent"
-    description: "At least 5% off Pay Later base rates plus free emergency roadside service, discounted loss damage waiver, and free additional driver at pickup."
-    frequency: "per_rental"
-    category: "car_rental"
-    enrollment_required: true
