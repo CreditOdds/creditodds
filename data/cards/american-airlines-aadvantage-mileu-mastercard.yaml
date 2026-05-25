@@ -29,3 +29,11 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
+benefits:
+  - name: "Inflight Food & Beverage Discount"
+    value: 25
+    value_unit: "percent"
+    description: "25% savings on eligible inflight food and beverage purchases on American Airlines flights when using your card."
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
