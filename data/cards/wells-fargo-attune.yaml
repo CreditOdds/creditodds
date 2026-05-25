@@ -10,13 +10,26 @@ tags:
   - cashback
   - rewards
 rewards:
+  - category: gyms_fitness
+    value: 4
+    unit: percent
+    note: "Self-Care: fitness, wellness, spa, gym"
   - category: entertainment
     value: 4
     unit: percent
-    note: "Fitness, wellness, sports, recreation, live events, gardening, pet supplies, transit, EV charging, thrift stores"
+    note: "Sports, recreation, live events, movies"
+  - category: transit
+    value: 4
+    unit: percent
+    note: "Impactful Purchases: public transportation"
+  - category: ev_charging
+    value: 4
+    unit: percent
+    note: "Impactful Purchases: EV charging"
   - category: everything_else
     value: 1
     unit: percent
+    note: "Also includes 4% on pet supplies, gardening, and select thrift stores (no matching taxonomy category)"
 signup_bonus:
   value: 100
   type: cash
