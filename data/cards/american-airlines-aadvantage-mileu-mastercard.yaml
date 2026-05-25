@@ -29,7 +29,6 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
-foreign_transaction_fee: false
 benefits:
   - name: "Inflight Food & Beverage Discount"
     value: 25
