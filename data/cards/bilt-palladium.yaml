@@ -43,20 +43,13 @@ tags:
   - premium
   - dining
 rewards:
-  - category: dining
-    value: 3
-    unit: points_per_dollar
-    note: "Choose dining or groceries as the 3x category"
-    spend_cap: 25000
-    cap_period: annual
-    rate_after_cap: 1
   - category: travel
     value: 2
     unit: points_per_dollar
   - category: everything_else
     value: 2
     unit: points_per_dollar
-    note: "Also earns 4% Bilt Cash on everyday purchases"
+    note: "Also earns 4% Bilt Cash on everyday purchases (separate currency). Bilt Cash can be redeemed as point accelerators that temporarily boost $5,000 of spend to 3x points (up to 5 accelerators per year)."
 signup_bonus:
   value: 50000
   type: "points"
