@@ -10,16 +10,27 @@ tags:
   - business
   - cashback
 rewards:
-  - category: online_shopping
+  - category: office_supplies
     value: 5
     unit: percent
-    note: "Office supply stores, internet, cable, and phone services"
+    note: "Office supply stores; combined $25,000/year cap with internet/cable and phone services; 1% thereafter"
     spend_cap: 25000
     cap_period: annual
     rate_after_cap: 1
-    # Bonus is gated to specific merchant types in note — exclude from
-    # generic store-page matching for arbitrary online retailers.
-    merchant_specific: true
+  - category: utilities
+    value: 5
+    unit: percent
+    note: "Internet and cable services; combined $25,000/year cap with office supplies and phone services; 1% thereafter"
+    spend_cap: 25000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: phone
+    value: 5
+    unit: percent
+    note: "Phone services; combined $25,000/year cap with office supplies and internet/cable services; 1% thereafter"
+    spend_cap: 25000
+    cap_period: annual
+    rate_after_cap: 1
   - category: gas
     value: 2
     unit: percent
