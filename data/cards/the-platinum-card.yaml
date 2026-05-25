@@ -125,6 +125,16 @@ benefits:
     frequency: "ongoing"
     category: "hotel"
     enrollment_required: false
+  - name: "Marriott Bonvoy Gold Elite Status"
+    description: "Automatic Marriott Bonvoy Gold Elite Status."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: true
+  - name: "Hilton Honors Gold Status"
+    description: "Automatic Hilton Honors Gold Status."
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: true
 tags:
   - travel
   - premium
