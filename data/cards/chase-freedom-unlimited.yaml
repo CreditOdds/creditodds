@@ -38,3 +38,9 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited
+benefits:
+  - name: "DashPass Complimentary Membership"
+    description: "6 months of complimentary DashPass membership with $0 delivery fees on eligible orders."
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true
