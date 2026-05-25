@@ -26,12 +26,6 @@ benefits:
     description: "10,000 bonus points and a $100 statement credit after $20,000 in annual purchases"
     frequency: "annual"
     category: "hotel"
-  - name: "Annual Spending Reward"
-    value: 110
-    description: "$100 statement credit and 10,000 bonus points after spending $20,000 each calendar year."
-    frequency: "annual"
-    category: "statement_credit"
-    enrollment_required: false
   - name: "Points Purchase Discount"
     value: 20
     value_unit: "percent"
@@ -39,17 +33,6 @@ benefits:
     frequency: "per_purchase"
     category: "rewards"
     enrollment_required: false
-  - name: "United TravelBank Cash"
-    value: 50
-    description: "Up to $50 United TravelBank Cash each calendar year after registering with MileagePlus account."
-    frequency: "annual"
-    category: "travel"
-    enrollment_required: true
-  - name: "DoorDash DashPass"
-    description: "One-year complimentary DashPass membership for unlimited deliveries with $0 delivery fees."
-    frequency: "annual"
-    category: "dining"
-    enrollment_required: true
 tags:
   - hotel
   - travel
