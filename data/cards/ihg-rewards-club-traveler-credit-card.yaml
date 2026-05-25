@@ -28,10 +28,18 @@ rewards:
   - category: gas
     value: 3
     unit: points_per_dollar
+  - category: utilities
+    value: 3
+    unit: points_per_dollar
+    note: "Utilities, internet, and cable services (combined 3x bucket with phone and select streaming)"
+  - category: phone
+    value: 3
+    unit: points_per_dollar
+    note: "Phone services (combined 3x bucket with utilities/internet/cable and select streaming)"
   - category: streaming
     value: 3
     unit: points_per_dollar
-    note: "Utilities, internet, cable, phone, and select streaming"
+    note: "Select streaming services (combined 3x bucket with utilities/internet/cable and phone)"
   - category: everything_else
     value: 2
     unit: points_per_dollar
