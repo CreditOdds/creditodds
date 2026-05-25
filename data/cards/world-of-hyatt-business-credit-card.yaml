@@ -47,3 +47,4 @@ signup_bonus:
   spend_requirement: 5000
   timeframe_months: 3
 apply_link: https://creditcards.chase.com/business-credit-cards/world-of-hyatt/hyatt-business-card
+foreign_transaction_fee: false
