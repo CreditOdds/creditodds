@@ -26,6 +26,13 @@ benefits:
     description: "10,000 bonus points and a $100 statement credit after $20,000 in annual purchases"
     frequency: "annual"
     category: "hotel"
+  - name: "Points Purchase Discount"
+    value: 20
+    value_unit: "percent"
+    description: "Save 20% when purchasing IHG Reward Points with this card."
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - hotel
   - travel
@@ -60,3 +67,4 @@ apr:
     min: 19.24
     max: 29.99
 apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/premier
+foreign_transaction_fee: false
