@@ -11,6 +11,23 @@ benefits:
     description: "10,000 bonus points after spending $10,000 each calendar year"
     frequency: "annual"
     category: "hotel"
+  - name: "Fourth Night Free on Reward Stays"
+    description: "Redeem 3 nights and receive a 4th night free when you redeem points for a consecutive four-night IHG hotel stay at that same hotel during that same stay."
+    frequency: "per_trip"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Gold Elite Status Qualification"
+    description: "Qualify for Gold Elite Status through December 31st of the following year when purchases total $20,000 or more in a calendar year."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Points Purchase Discount"
+    value: 20
+    value_unit: "percent"
+    description: "Save 20% when you purchase IHG One Rewards points with this credit card."
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - hotel
   - travel
