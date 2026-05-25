@@ -53,3 +53,10 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/flex
 foreign_transaction_fee: true
+benefits:
+  - name: "Cell Phone Protection"
+    value: 1000
+    description: "Up to $800 per claim and $1,000 per 12-month period in protection against covered theft or damage for cell phones listed on your monthly cell phone bill when paid with this card, maximum 2 claims per 12 months with $50 deductible per claim."
+    frequency: "per_claim"
+    category: "other"
+    enrollment_required: false
