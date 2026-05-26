@@ -27,23 +27,30 @@ tags:
   - travel
 rewards:
   - category: hotels
-    value: 6
+    value: 3
     unit: points_per_dollar
-    note: "Marriott Bonvoy hotels"
+    note: "Marriott Bonvoy hotels (card portion; Bonvoy member rate and Silver Elite are program rates, not card rates)"
     merchant_specific: true
     merchant_gate: [marriott]
   - category: groceries
-    value: 3
-    unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: gas
-    value: 3
-    unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
-  - category: dining
     value: 2
     unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+  - category: streaming
+    value: 2
+    unit: points_per_dollar
+    note: "Select streaming services"
+  - category: utilities
+    value: 2
+    unit: points_per_dollar
+    note: "Internet and cable services"
+  - category: phone
+    value: 2
+    unit: points_per_dollar
+    note: "Phone services"
+  - category: transit
+    value: 2
+    unit: points_per_dollar
+    note: "Rideshare; the same 2x bucket also covers select food delivery (no matching taxonomy category — food delivery shoppers may also see this rate)"
   - category: everything_else
     value: 1
     unit: points_per_dollar
