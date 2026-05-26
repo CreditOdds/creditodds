@@ -54,6 +54,11 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
+  - name: "Capital One Entertainment 5x"
+    description: "5x miles on ticket purchases through the Capital One Entertainment platform (concerts, sports, dining experiences). Excludes dining reservations and Capital One Dining."
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
 tags:
   - travel
   - premium
