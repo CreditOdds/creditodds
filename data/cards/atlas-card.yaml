@@ -11,12 +11,7 @@ rewards:
   - category: hotels
     value: 3
     unit: points_per_dollar
-    note: "Hotels (also earns on private charters and luxury car rentals)"
-  - category: car_rentals
-    value: 3
-    unit: points_per_dollar
-    note: "Luxury car rentals only"
-    merchant_specific: true
+    note: "Hotels (also earns 3x on private charters and luxury car rentals — luxury rentals are merchant-gated, see Atlas terms)"
   - category: dining
     value: 2
     unit: points_per_dollar
