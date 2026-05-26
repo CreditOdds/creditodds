@@ -570,6 +570,63 @@ function normalizeRewardsUnits(rewards) {
   return cleaned;
 }
 
+// Meta-categories — YAML rows that represent a *bucket* of eligible spend
+// categories rather than a single one. The LLM extractor sees the individual
+// categories listed on the apply page (e.g. "dining, groceries, gas" for
+// Citi Custom Cash) and proposes each as a new rewards row. Without
+// suppression, the weekly review queue floods with "needs human routing"
+// items that just duplicate what the meta-row already covers.
+//
+// For each meta-category, we record:
+//  - the row-level field that lists the covered category ids
+//  - whether to also keep the row's own value as a comparison anchor when
+//    one of the covered categories is proposed (we generally don't — the
+//    meta-row's rate is the canonical earn rate for the whole bucket).
+const META_CATEGORIES = new Map([
+  ['rotating',            { coveredField: 'current_categories' }],
+  ['top_category',        { coveredField: 'eligible_categories' }],
+  ['selected_categories', { coveredField: 'eligible_categories' }],
+]);
+
+// Portal aliases — broad and narrow encodings of the same earn rate. When
+// the LLM proposes a generic `travel_portal` row and the YAML already has
+// the narrower `hotels_car_portal`, `flights_portal`, etc., we don't want
+// to flag the proposal as "new category" or the YAML row as "missing from
+// page." Same goes for the reverse direction.
+//
+// Maps a category id → set of category ids it should be considered
+// equivalent-or-narrower-than for the diff. Pairs are symmetric.
+const PORTAL_ALIAS_GROUP = new Set([
+  'travel_portal',
+  'hotels_car_portal',
+  'hotels_portal',
+  'car_rentals_portal',
+  'flights_portal',
+]);
+
+// Extract the set of category ids covered by a card's meta-rows
+// (rotating / top_category / selected_categories). Returns null when the
+// card has no meta-rows, so callers can short-circuit.
+function collectMetaCoveredCategories(currentRewards) {
+  if (!Array.isArray(currentRewards) || currentRewards.length === 0) return null;
+  const covered = new Set();
+  let hasMeta = false;
+  for (const r of currentRewards) {
+    const meta = META_CATEGORIES.get(r?.category);
+    if (!meta) continue;
+    hasMeta = true;
+    const list = r[meta.coveredField];
+    if (!Array.isArray(list)) continue;
+    for (const item of list) {
+      // Lists vary by card: rotating uses `[{ category: 'amazon', ... }]`,
+      // top_category / selected_categories use plain string arrays.
+      if (typeof item === 'string') covered.add(item);
+      else if (item && typeof item.category === 'string') covered.add(item.category);
+    }
+  }
+  return hasMeta ? covered : null;
+}
+
 function diffRewards(current, proposed) {
   // Returns { added, removed, changed } by category id.
   //
@@ -594,6 +651,22 @@ function diffRewards(current, proposed) {
   //    rates that high on uncapped everything_else are extremely rare.
   //    Confirmed cases: Rakuten Amex (1→4), U.S. Bank Smartly (2→4 —
   //    where 4% is the tier requiring $100K in linked savings).
+  //
+  // Additionally, two structural alias suppressions filter out noise from
+  // the weekly review queue (#1292-class items):
+  //
+  //   a. Meta-category suppression — when the YAML carries a `rotating` /
+  //      `top_category` / `selected_categories` row, the LLM extracts the
+  //      individual eligible categories from the apply page. Suppress
+  //      both directions: the meta-row isn't "removed" (the page never
+  //      lists "rotating" as a category) and proposals already covered
+  //      by the meta-row aren't "added" (they're duplicates of the bucket).
+  //
+  //   b. Portal alias suppression — `travel_portal`, `hotels_car_portal`,
+  //      `hotels_portal`, `car_rentals_portal`, and `flights_portal` are
+  //      different slices of the same issuer-travel-portal mechanic. If
+  //      the YAML has one and the LLM proposes a sibling, treat as match
+  //      rather than added/removed.
   const noteMentionsCap = (r) =>
     typeof r?.note === 'string' &&
     /(\bfirst\s+\$\d|\bup\s+to\s+\$\d|\bcap\b|then\s+\d+\s*(x|%)|combined\b|when you\s+(buy|pay))/i.test(r.note);
@@ -606,12 +679,30 @@ function diffRewards(current, proposed) {
 
   const cur = new Map((current || []).map(r => [r.category, r]));
   const prop = new Map((proposed || []).map(r => [r.category, r]));
+
+  // Suppression set A: categories that the meta-rows already cover. If
+  // the YAML has `top_category` listing [dining, gas, groceries, ...] and
+  // the LLM proposes a new `dining` row, suppress the "added" flag.
+  const metaCoveredCategories = collectMetaCoveredCategories(current) || new Set();
+
+  // Suppression set B: when the YAML has any portal-family row and the
+  // LLM proposes a sibling portal row (or vice versa), the two are
+  // equivalent enough that we don't want to flag either side.
+  const yamlHasPortalRow = [...cur.keys()].some(c => PORTAL_ALIAS_GROUP.has(c));
+  const proposalHasPortalRow = [...prop.keys()].some(c => PORTAL_ALIAS_GROUP.has(c));
+
   const added = [];
   const removed = [];
   const changed = [];
   for (const [cat, p] of prop) {
     const c = cur.get(cat);
     if (!c) {
+      // Suppress proposals already covered by a meta-row (rotating /
+      // top_category / selected_categories).
+      if (metaCoveredCategories.has(cat)) continue;
+      // Suppress portal-sibling proposals when YAML already has any
+      // portal-family row encoding the same earn mechanic.
+      if (PORTAL_ALIAS_GROUP.has(cat) && yamlHasPortalRow) continue;
       added.push(p);
     } else if (c.unit !== p.unit) {
       // Unit mismatch — skip; almost always an LLM misread.
@@ -640,7 +731,16 @@ function diffRewards(current, proposed) {
     }
   }
   for (const [cat, c] of cur) {
-    if (!prop.has(cat)) removed.push(c);
+    if (prop.has(cat)) continue;
+    // Meta-rows (rotating / top_category / selected_categories) never
+    // appear on apply pages — the page lists the underlying eligible
+    // categories. Don't flag the meta-row itself as "removed".
+    if (META_CATEGORIES.has(cat)) continue;
+    // Portal-family rows: when the proposal includes any sibling portal
+    // category, treat as matched (the LLM picked a different slice of
+    // the same mechanic).
+    if (PORTAL_ALIAS_GROUP.has(cat) && proposalHasPortalRow) continue;
+    removed.push(c);
   }
   return { added, removed, changed };
 }
@@ -1258,8 +1358,20 @@ async function main() {
   console.log(JSON.stringify(summary, null, 2));
 }
 
-main().catch(err => {
-  console.error('Fatal:', err);
-  closeBrowser().catch(() => {});
-  process.exit(1);
-});
+// Allow `require()`-time importing for unit tests without auto-running the
+// expensive fetch/extract pipeline. When the file is executed directly
+// (`node check-card-rewards-and-benefits.js`) we kick off main as before.
+if (require.main === module) {
+  main().catch(err => {
+    console.error('Fatal:', err);
+    closeBrowser().catch(() => {});
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  diffRewards,
+  collectMetaCoveredCategories,
+  META_CATEGORIES,
+  PORTAL_ALIAS_GROUP,
+};
