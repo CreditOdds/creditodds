@@ -26,8 +26,8 @@ rewards:
     unit: percent
     note: "Prepaid hotels booked through American Express Travel"
 signup_bonus:
-  value: 1500
-  type: cash
+  value: 2000
+  type: "cash"
   spend_requirement: 50000
   timeframe_months: 6
 benefits:
