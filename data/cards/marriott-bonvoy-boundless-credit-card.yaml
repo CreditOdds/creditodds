@@ -41,21 +41,34 @@ rewards:
   - category: hotels
     value: 6
     unit: points_per_dollar
-    note: "Marriott Bonvoy hotels"
+    note: "Marriott Bonvoy hotels (card portion; Bonvoy member rate and Silver Elite are program rates, not card rates)"
     merchant_specific: true
     merchant_gate: [marriott]
   - category: groceries
     value: 3
     unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+    note: "Combined $6,000/year cap with gas stations and dining; 2x thereafter"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 2
   - category: gas
     value: 3
     unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+    note: "Combined $6,000/year cap with grocery stores and dining; 2x thereafter"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 2
   - category: dining
     value: 3
     unit: points_per_dollar
-    note: "Grocery stores, gas stations, and dining (first $6,000/year)"
+    note: "Combined $6,000/year cap with grocery stores and gas stations; 2x thereafter"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 2
+  - category: travel
+    value: 2
+    unit: points_per_dollar
+    note: "Other travel purchases (non-Marriott)"
   - category: everything_else
     value: 2
     unit: points_per_dollar
