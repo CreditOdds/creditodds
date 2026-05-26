@@ -13,7 +13,7 @@ rewards:
   - category: online_shopping
     value: 3
     unit: percent
-    note: "Purchases made through PayPal checkout"
+    note: "Only when paying via PayPal checkout (online or in-store QR). Earns 1.5% anywhere PayPal is not used."
     merchant_specific: true
   - category: everything_else
     value: 1.5
