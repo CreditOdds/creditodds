@@ -45,11 +45,6 @@ rewards:
     value: 3
     unit: percent
     note: "Pharmacy purchases"
-  - category: travel
-    value: 3
-    unit: percent
-    note: "AAA purchases"
-    merchant_specific: true
   - category: everything_else
     value: 1
     unit: percent
@@ -65,4 +60,8 @@ apr:
 benefits:
   - name: "AAA Redemption Bonus"
     description: "5% more cash back when redeeming with AAA Northeast Counselors and Advisors"
+    category: "rewards"
+  - name: "3% on AAA Purchases"
+    description: "3% cash back on AAA memberships and AAA Travel agency bookings"
+    frequency: "ongoing"
     category: "rewards"
