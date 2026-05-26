@@ -36,12 +36,13 @@ rewards:
   - category: "streaming"
     value: 3
     unit: "points_per_dollar"
-  - category: "online_shopping"
+  - category: "groceries"
     value: 3
     unit: "points_per_dollar"
-    note: "Online grocery purchases (excluding Target, Walmart, wholesale clubs)"
-    # Bonus is online grocery only, not generic online retail —
-    # exclude from store-page category matching.
+    note: "Online grocery purchases only (excluding Target, Walmart, and wholesale clubs)"
+    # Bonus applies to online grocery delivery only (Instacart, Whole Foods
+    # online, etc.) — keep merchant_specific to suppress in-store grocery
+    # store-page matching (Kroger, Safeway, in-person Whole Foods).
     merchant_specific: true
   - category: "travel"
     value: 2
