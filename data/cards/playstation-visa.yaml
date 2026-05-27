@@ -1,0 +1,50 @@
+name: "PlayStation Visa"
+bank: "Comenity Capital Bank"
+slug: "playstation-visa"
+image: "playstation.png"
+accepting_applications: true
+apply_link: https://www.playstation.com/en-us/playstation-credit-card/
+annual_fee: 0
+foreign_transaction_fee: true
+reward_type: "points"
+tags:
+  - entertainment
+  - rewards
+  - shopping
+rewards:
+  - category: playstation
+    value: 5
+    unit: points_per_dollar
+    note: "PlayStation, PlayStation Direct, and Sony Store purchases"
+    merchant_specific: true
+  - category: streaming
+    value: 3
+    unit: points_per_dollar
+    note: "Streaming, cable, and internet subscriptions"
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+    note: "Includes takeout and delivery"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 100
+  type: "cash"
+  spend_requirement: 500
+  timeframe_months: 2
+  note: "$100 statement credit after $500 in purchases within 60 days of account opening"
+apr:
+  regular:
+    min: 17.74
+    max: 31.74
+benefits:
+  - name: "PlayStation Store redemptions"
+    description: "Points redeemable for PlayStation Store codes and digital gift cards via the Account Center"
+    category: "rewards"
+  - name: "Visa Zero Liability"
+    description: "Protection against unauthorized transactions"
+    category: "protection"
+  - name: "Roadside Dispatch"
+    description: "24/7 pay-per-use roadside assistance via Visa"
+    category: "travel"
