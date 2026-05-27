@@ -45,6 +45,8 @@ categories:
     label: Amazon.com
   - id: rei
     label: REI
+  - id: playstation
+    label: PlayStation & Sony
   - id: rakuten
     label: Rakuten.com
   - id: rakuten_dining
