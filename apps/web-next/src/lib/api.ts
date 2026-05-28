@@ -140,6 +140,7 @@ export interface Card {
   annual_fee_intro?: { value: number; months: number };
   foreign_transaction_fee?: boolean;
   apply_link?: string;
+  special_apply_link?: string;
   card_referral_link?: string;
   referral_bonus?: string;
   referrals?: CardReferral[];

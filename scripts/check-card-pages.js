@@ -83,9 +83,18 @@ function loadAllCards() {
   return cards;
 }
 
+// Card-page-check fetches whichever URL hosts the headline signup bonus.
+// When `special_apply_link` is set in the YAML, the SUB lives there — not on
+// the generic apply_link — so we treat it as the source of truth for this
+// script. The rewards/benefits check (which reads structural earn rates and
+// perks) still uses apply_link; see check-card-rewards-and-benefits.js.
+function checkUrlFor(card) {
+  return card.data.special_apply_link || card.data.apply_link;
+}
+
 function filterCardsForCheck(allCards, slugFilter) {
   let cards = allCards.filter(
-    c => c.data.accepting_applications !== false && c.data.apply_link
+    c => c.data.accepting_applications !== false && checkUrlFor(c)
   );
   if (slugFilter) {
     cards = cards.filter(c => c.slug === slugFilter);
@@ -506,7 +515,7 @@ async function main() {
   }
 
   console.log(`Checking ${cardsToCheck.length} card(s):`);
-  cardsToCheck.forEach(c => console.log(`  - ${c.data.name} (${c.data.apply_link})`));
+  cardsToCheck.forEach(c => console.log(`  - ${c.data.name} (${checkUrlFor(c)})`));
   console.log('');
 
   const allChanges = [];
@@ -519,9 +528,10 @@ async function main() {
       break;
     }
 
-    const { name, bank, apply_link } = card.data;
+    const { name, bank } = card.data;
+    const apply_link = checkUrlFor(card);
     console.log(`Checking: ${name}`);
-    console.log(`  URL: ${apply_link}`);
+    console.log(`  URL: ${apply_link}${card.data.special_apply_link ? ' (special_apply_link)' : ''}`);
 
     try {
       await withTimeout((async () => {
