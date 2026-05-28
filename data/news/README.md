@@ -111,6 +111,7 @@ card_names:
 | `benefit-change` | Card benefits added, removed, or modified |
 | `limited-time` | Temporary offer or promotion |
 | `policy-change` | Issuer policy update |
+| `rumor` | Unconfirmed report; not yet verified by the issuer or trusted outlet |
 | `general` | Other credit card news |
 
 ## Field Descriptions

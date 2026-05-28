@@ -8,6 +8,7 @@ export type NewsTag =
   | 'benefit-change'
   | 'limited-time'
   | 'policy-change'
+  | 'rumor'
   | 'general';
 
 export interface NewsItem {
@@ -42,6 +43,7 @@ export const tagLabels: Record<NewsTag, string> = {
   'benefit-change': '✨ Benefit Change',
   'limited-time': '⏰ Limited Time',
   'policy-change': '📋 Policy Change',
+  'rumor': '📡 Rumor',
   'general': '📰 General',
 };
 
@@ -53,6 +55,7 @@ export const tagColors: Record<NewsTag, string> = {
   'benefit-change': 'bg-violet-50 text-violet-700 ring-1 ring-inset ring-violet-600/20',
   'limited-time': 'bg-orange-50 text-orange-700 ring-1 ring-inset ring-orange-600/20',
   'policy-change': 'bg-slate-50 text-slate-700 ring-1 ring-inset ring-slate-600/20',
+  'rumor': 'bg-yellow-50 text-yellow-800 ring-1 ring-inset ring-yellow-600/20',
   'general': 'bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-600/20',
 };
 
