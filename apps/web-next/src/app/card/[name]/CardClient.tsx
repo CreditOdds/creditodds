@@ -573,9 +573,9 @@ export default function CardClient({
       )}
       {card.accepting_applications ? (
         <>
-          {card.apply_link && (
+          {(card.special_apply_link || card.apply_link) && (
             <a
-              href={withApplySource(card.apply_link)}
+              href={withApplySource(card.special_apply_link || card.apply_link!)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleCardApplyClick("direct")}
@@ -602,7 +602,7 @@ export default function CardClient({
               )}
             </a>
           )}
-          {!card.apply_link && !randomReferralUrl && (
+          {!card.apply_link && !card.special_apply_link && !randomReferralUrl && (
             <div className="cj-apply-closed">
               Apply link not available yet
             </div>
