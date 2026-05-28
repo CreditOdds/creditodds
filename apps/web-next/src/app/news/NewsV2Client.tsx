@@ -22,6 +22,7 @@ const TAG_FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'policy-change', label: 'Policy' },
   { key: 'limited-time', label: 'Limited' },
   { key: 'discontinued', label: 'Discontinued' },
+  { key: 'rumor', label: 'Rumor' },
 ];
 
 const TAG_DISPLAY: Record<NewsTag, string> = {
@@ -32,6 +33,7 @@ const TAG_DISPLAY: Record<NewsTag, string> = {
   'policy-change': 'Policy',
   'limited-time': 'Limited time',
   'discontinued': 'Discontinued',
+  'rumor': 'Rumor',
   'general': 'News',
 };
 
