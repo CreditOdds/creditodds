@@ -15,7 +15,7 @@ rewards:
     unit: percent
     note: "When deposited into an eligible Fidelity account"
 signup_bonus:
-  value: 150
+  value: 15000
   type: "cash"
   spend_requirement: 1000
   timeframe_months: 3
