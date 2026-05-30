@@ -221,15 +221,24 @@ async function closeBrowser() {
 
 // ─── Claude Haiku extraction ──────────────────────────────────────────────────
 
-async function extractCardTerms(cardName, bankName, applyLink, pageContent) {
+async function extractCardTerms(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY required');
+
+  const cur = currentSignupBonus || {};
+  const currentContext = `Current YAML values (for unit context — DO NOT copy these, extract fresh from the page):
+- signup_bonus.value: ${cur.value ?? 'null'}
+- signup_bonus.type: ${cur.type ?? 'null'}
+- signup_bonus.spend_requirement: ${cur.spend_requirement ?? 'null'}
+- signup_bonus.timeframe_months: ${cur.timeframe_months ?? 'null'}
+`;
 
   const prompt = `You are extracting credit card terms from a bank's apply page for human review.
 
 Card: ${cardName} (${bankName})
 Source URL: ${applyLink}
 
+${currentContext}
 Page content:
 ${pageContent}
 
@@ -270,6 +279,7 @@ Rules:
   When in doubt, return null. A missing note is cheap; an incorrect note clutters the data and triggers false-positive PR proposals.
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
 - CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
+- POINTS REDEEMED AS CASH: Some cards earn points that convert to a fixed cash amount (e.g. "15,000 bonus points = $150 when deposited into your Fidelity account"). The points and the dollar amount describe the SAME offer in two different units — they are NOT two stackable bonuses. If the current YAML's signup_bonus.type is "cash" or "cashback", return the DOLLAR value (150), NOT the points count (15000). If the current type is "points" or "miles", return the points count. When unsure which unit the card is denominated in, prefer the value matching the existing type. NEVER return a 5-figure number as the value for a card whose current type is cash/cashback — that is the points figure, not the bonus value.
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
 - Return null for any field you cannot determine with confidence.`;
 
@@ -360,8 +370,30 @@ function detectChanges(card, extracted) {
       );
     }
 
+    // Defensive: points-redeemed-as-cash cards (e.g. Fidelity Rewards Visa: "15,000
+    // points = $150 deposited into your Fidelity account") show both a points count
+    // and a dollar figure for the SAME offer. Haiku has a recurring habit of
+    // returning the points count as the new value, which would imply a 100x cash
+    // SUB jump. When the card's existing type is cash/cashback and the proposed
+    // value is ≥10x the current value, treat it as a points/cash confusion and
+    // skip. This pattern has been reverted at least twice (commits 65aecd16,
+    // c35d52cb) before this guard landed.
+    const cashType = cur.type === 'cash' || cur.type === 'cashback';
+    const skipValueAsPointsConfusion =
+      cashType &&
+      sb.value != null &&
+      cur.value != null &&
+      cur.value > 0 &&
+      sb.value >= cur.value * 10;
+
+    if (skipValueAsPointsConfusion) {
+      console.log(
+        `  Ignoring value change ${cur.value} → ${sb.value}: likely points-redeemed-as-cash misparse (current type=${cur.type}, ratio ${(sb.value / cur.value).toFixed(0)}x)`
+      );
+    }
+
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
-      if (key === 'value' && skipValueAsBundledAU) continue;
+      if (key === 'value' && (skipValueAsBundledAU || skipValueAsPointsConfusion)) continue;
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         const field = `signup_bonus.${key}`;
         if (sb[key] !== cur[key] && !ignoreFields.has(field)) {
@@ -547,7 +579,7 @@ async function main() {
         // Extract with Claude Haiku
         let extracted;
         try {
-          extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+          extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
         } catch (err) {
           console.warn(`  Extraction error: ${err.message} — skipping\n`);
           return;
@@ -562,7 +594,7 @@ async function main() {
           if (browserContent) {
             pageContent = browserContent;
             try {
-              extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+              extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
             } catch (err) {
               console.warn(`  Retry extraction error: ${err.message} — skipping\n`);
               return;
