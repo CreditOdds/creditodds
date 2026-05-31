@@ -22,3 +22,9 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+  - name: "Quarterly DoorDash Credit"
+    value: 40
+    description: "$10 off quarterly on one qualifying non-restaurant order on DoorDash."
+    frequency: "quarterly"
+    category: "dining"
+    enrollment_required: true
