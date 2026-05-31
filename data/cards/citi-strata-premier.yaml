@@ -4,7 +4,7 @@ slug: "citi-strata-premier"
 image: "citi_strata_premier.png"
 accepting_applications: true
 category: "travel"
-annual_fee: 95
+annual_fee: 0
 reward_type: "points"
 benefits:
   - name: "Annual Hotel Credit"
