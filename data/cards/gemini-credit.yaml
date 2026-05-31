@@ -29,3 +29,11 @@ apr:
     max: 34.99
 apply_link: https://www.gemini.com/credit-card
 foreign_transaction_fee: false
+benefits:
+  - name: "Vault Rewards"
+    value: 10
+    value_unit: "percent"
+    description: "Earn 10% cash back on select internet brands with limited monthly spending cap."
+    frequency: "ongoing"
+    category: "shopping"
+    enrollment_required: true
