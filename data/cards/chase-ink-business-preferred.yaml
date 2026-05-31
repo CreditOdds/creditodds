@@ -48,4 +48,10 @@ benefits:
     frequency: "monthly"
     category: "rewards"
     enrollment_required: true
+  - name: "DoorDash Grocery Credit"
+    value: 120
+    description: "Up to $10 per month in credits on grocery and retail DoorDash orders."
+    frequency: "monthly"
+    category: "grocery"
+    enrollment_required: true
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/business-preferred
