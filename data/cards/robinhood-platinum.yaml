@@ -78,6 +78,12 @@ benefits:
     frequency: "semi_annual"
     category: "travel"
     enrollment_required: false
+  - name: "Dining Statement Credit"
+    value: 250
+    description: "Annual credit at 15,000+ eligible restaurants allotted monthly."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: false
 tags:
   - premium
   - travel
