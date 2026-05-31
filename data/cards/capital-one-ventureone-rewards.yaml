@@ -29,6 +29,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/ventureone/
+foreign_transaction_fee: false
 benefits:
   - name: "Price Drop Protection"
     value: 0
