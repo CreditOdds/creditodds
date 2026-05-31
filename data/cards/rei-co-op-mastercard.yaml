@@ -28,3 +28,10 @@ apr:
   regular:
     min: 17.49
     max: 28.49
+benefits:
+  - name: "$100 REI Gift Card"
+    value: 100
+    description: "$100 REI gift card after first purchase outside of REI within 60 days from account opening."
+    frequency: "one_time"
+    category: "shopping"
+    enrollment_required: false
