@@ -39,3 +39,11 @@ apr:
     max: 27.49
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
 foreign_transaction_fee: false
+benefits:
+  - name: "Prime Card Rotating Bonus"
+    value: 10
+    value_unit: "percent"
+    description: "Earn 10% back or more on a rotating selection of items and categories on Amazon.com (limited-time offers)."
+    frequency: "ongoing"
+    category: "rewards"
+    enrollment_required: false
