@@ -7,6 +7,7 @@ release_date: "2026-03-25"
 category: "business"
 annual_fee: 295
 apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/graphite-business-cash-unlimited-card/"
+foreign_transaction_fee: false
 tags:
   - business
   - cashback
