@@ -47,3 +47,8 @@ benefits:
     frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
+  - name: "Cash + Points"
+    description: "Pay for flights with any combination of dollars and TrueBlue points, starting with as few as 500 points."
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
