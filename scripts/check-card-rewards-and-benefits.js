@@ -271,11 +271,18 @@ async function extractRewardsAndBenefits(card, applyLink, pageContent, examples)
     .map(ex => `### ${ex.name}\n${JSON.stringify({ rewards: ex.rewards, benefits: ex.benefits, foreign_transaction_fee: ex.foreign_transaction_fee }, null, 2)}`)
     .join('\n\n');
 
+  const subBlock = card.data.signup_bonus
+    ? `\nCurrent signup_bonus (DO NOT re-list as a benefit):\n${JSON.stringify(card.data.signup_bonus, null, 2)}\n`
+    : '';
+  const existingBenefitsBlock = Array.isArray(card.data.benefits) && card.data.benefits.length > 0
+    ? `\nCurrent benefits[] (DO NOT propose anything semantically equivalent):\n${JSON.stringify(card.data.benefits, null, 2)}\n`
+    : '';
+
   const prompt = `You are extracting earn rates and benefits from a credit card's apply page.
 
 Card: ${card.data.name} (${card.data.bank})
 Source URL: ${applyLink}
-
+${subBlock}${existingBenefitsBlock}
 Page content:
 ${pageContent}
 
@@ -409,8 +416,10 @@ fitness equipment → fitness or shopping if no fitness).
 - DO NOT include "Pay Over Time", "ExtendPay", "0% intro APR" entries — financing features, not benefits.
 - DO NOT include earning multipliers (e.g. "10% bonus on points earned") — describe earn rates only in "rewards".
 - DO NOT include "Free Employee Cards" or other generic business-card platform features.
-- DO NOT include the welcome/signup bonus as a benefit. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array.
+- DO NOT include the welcome/signup bonus as a benefit. Names like "Welcome Bonus", "New Cardmember Bonus", "Sign-Up Bonus", "Introductory Bonus" must NOT appear in the \`benefits[]\` array. This also covers any specific SUB the page describes (e.g. "$100 REI gift card after first purchase outside REI within 60 days") — that's the SUB, not a benefit. Inspect the card's signup_bonus YAML below before listing anything that mentions gift cards, statement credits, or bonus points tied to a first-N-month spend.
 - DO NOT include "Roadside Dispatch", "Emergency Cash Disbursement", or "Emergency Card Replacement" — Visa/Mastercard network-tier features on every card.
+- DO NOT include "Flexible Rewards Redemption", "Redemption Options", "Cash + Points", "Pay with Points" or similar redemption-mechanism descriptions — every cashback/points card lets you redeem multiple ways. Those describe HOW redemption works, not a perk with value.
+- DO NOT include "Rotating Bonus" / "Limited-Time Offers" / "Special Limited-Time Offers" as benefits — rotating/promo earn rates belong in rewards[], and promo-offer portals (where the offers vary item-by-item) are platform features, not card perks.
 
 # FIELD RULES — value + value_unit + frequency
 The \`value\` is a number, paired with a \`value_unit\` that says what the
@@ -453,7 +462,7 @@ is the amount per cycle and \`frequency_years\` is the cycle length
   "5% off Hertz Pay Later rates" → value=5, value_unit=percent.
   "2% Booking.com travel credit" → value=2, value_unit=percent.
 
-- "foreign_transaction_fee": true if the card charges one, false if not. null only if the page truly doesn't say.
+- "foreign_transaction_fee": true if the card charges one, false if not. null only if the page truly doesn't say. CRITICAL: do NOT infer "false" from issuer navigation menus or category lists like "No Foreign Transaction Fee credit cards" — those describe the issuer's broader card category, not this card's policy. Only set false when this card's OWN pricing/disclosure/terms section explicitly says no foreign transaction fee. If the page lists "Fee for foreign purchases" or "Foreign transaction fee" with any percentage (or even a blank %), the card DOES charge one — set true. When in doubt, return null.
 - For ELITE-NIGHT-CREDIT or TIER-QUALIFYING-NIGHT type benefits, use \`value: 0\` and OMIT \`value_unit\` — non-monetary count perks. The count goes in the description (e.g. "5 elite night credits each year").
 - For elite STATUS perks (e.g. "Automatic Diamond Status"), use \`value: 0\` and put the tier name in the description.
 - When you set \`frequency: "multi_year"\` you MUST also set \`frequency_years\` to the actual cycle length. Examples:
@@ -755,12 +764,23 @@ const BENEFIT_NAME_STOP_WORDS = new Set([
 ]);
 // Normalize synonyms so the tokenizer treats "cell"/"cellular" and
 // "phone"/"telephone" as the same word — apply pages frequently use both.
+// New pairs added 2026-05-31 after PR #1326/#1335/#1339 surfaced these as
+// false-positive duplicates that slipped past the previous fuzzy match:
+//   dashpass↔doordash (Chase DashPass benefit re-proposed as "DoorDash Credit")
+//   restaurant↔dining (Robinhood "Restaurant Credit" re-proposed as "Dining Credit")
+//   trusted↔global, trusted↔precheck (Wells "Trusted Traveler" = Global Entry/TSA PreCheck)
 const BENEFIT_NAME_ALIASES = new Map([
   ['cellular', 'cell'],
   ['telephone', 'phone'],
   ['baggage', 'luggage'],
   ['waiver', 'damage'],
   ['cdw', 'damage'],
+  ['doordash', 'dashpass'],
+  ['restaurant', 'dining'],
+  ['restaurants', 'dining'],
+  ['trusted', 'entry'],            // "Trusted Traveler" ≈ "Global Entry"
+  ['traveler', 'entry'],
+  ['precheck', 'entry'],           // TSA PreCheck and Global Entry share the same TTP credit
 ]);
 // Naive plural normalization: 'nights' → 'night', 'miles' → 'mile',
 // 'passes' → 'pass'. Imperfect (won't catch 'companies' → 'company') but
@@ -926,7 +946,54 @@ function normalizeBenefitUnit(b) {
   return b;
 }
 
-function diffBenefits(current, proposed, policy, removedFromThisCard) {
+// Returns true if the proposed benefit substantially overlaps with the card's
+// existing signup_bonus. Catches detector mistakes like REI Co-op proposing
+// "$100 REI gift card after first purchase outside REI within 60 days" as a
+// benefit when that's literally the SUB.
+//
+// Match logic: tokenize SUB note + value-amount and the proposed name +
+// description, treat as duplicate when ≥3 meaningful tokens overlap.
+function isSignupBonusDuplicate(benefit, signupBonus) {
+  if (!signupBonus || typeof signupBonus !== 'object') return false;
+  const subText = [
+    signupBonus.note,
+    signupBonus.value ? String(signupBonus.value) : '',
+    signupBonus.type,
+  ].filter(Boolean).join(' ');
+  if (!subText.trim()) return false;
+  const propText = [benefit.name, benefit.description].filter(Boolean).join(' ');
+  if (!propText.trim()) return false;
+  const subTokens = tokenizeBenefitName(subText);
+  const propTokens = tokenizeBenefitName(propText);
+  if (subTokens.size < 2 || propTokens.size < 2) return false;
+  const shared = [...propTokens].filter(t => subTokens.has(t)).length;
+  return shared >= 3;
+}
+
+// Description-level fuzzy dedup. Catches cases where two benefits have
+// different NAMES but their descriptions describe the same perk — e.g.
+// Robinhood Platinum's existing "Restaurant Credit" with description
+// "$250 annual statement credit at 15,000+ restaurants" vs a proposed
+// "Dining Statement Credit" with the same description.
+function looksLikeSameByDescription(benefit, currentBenefits) {
+  if (!benefit.description) return null;
+  const propTokens = tokenizeBenefitName(benefit.description);
+  if (propTokens.size < 3) return null;
+  for (const cur of currentBenefits || []) {
+    if (!cur.description) continue;
+    const curTokens = tokenizeBenefitName(cur.description);
+    if (curTokens.size < 3) continue;
+    const shared = [...propTokens].filter(t => curTokens.has(t)).length;
+    const smaller = Math.min(propTokens.size, curTokens.size);
+    // ≥4 shared OR ≥60% of the smaller set overlapping is a strong duplicate signal.
+    if (shared >= 4 || (shared >= 3 && shared / smaller >= 0.6)) {
+      return cur.name;
+    }
+  }
+  return null;
+}
+
+function diffBenefits(current, proposed, policy, removedFromThisCard, signupBonus) {
   // Each proposed benefit is routed by classifyBenefit(); only "auto" routes
   // into the YAML. Existing benefits aren't touched (the human curated those).
   const currentNames = (current || []).map(b => b.name);
@@ -947,6 +1014,18 @@ function diffBenefits(current, proposed, policy, removedFromThisCard) {
       skipped.push({ ...b, tier: 'duplicate_fuzzy', fuzzyMatch });
       continue;
     }
+    // Description-fuzzy dedup — catches different-named benefits whose
+    // descriptions describe the same perk (Dining Credit vs Restaurant Credit).
+    const descMatch = looksLikeSameByDescription(b, current);
+    if (descMatch) {
+      skipped.push({ ...b, tier: 'duplicate_description', fuzzyMatch: descMatch });
+      continue;
+    }
+    // Signup-bonus dedup — drop benefits that re-describe the SUB.
+    if (isSignupBonusDuplicate(b, signupBonus)) {
+      skipped.push({ ...b, tier: 'duplicate_signup_bonus' });
+      continue;
+    }
     // Monetary-value gate — drop card-features-not-benefits even if the
     // policy file doesn't have an exact-string match for them. The team's
     // standing rule: "benefits are free things with VALUE, not features."
@@ -962,9 +1041,56 @@ function diffBenefits(current, proposed, policy, removedFromThisCard) {
   return { auto, review, skipped };
 }
 
-function diffForeignTxn(current, proposed) {
+// Validate a proposed FTF flip against the actual page content. The detector
+// has historically flipped to `false` because the issuer's apply-page sidebar
+// or footer contains a "No Foreign Transaction Fee credit cards" nav category
+// (Chase, Citi, US Bank all do this) — not because the card itself waives the
+// fee. Confirmed false positives that drove this guard:
+//   #1325 Ink Business Unlimited (actually 3% FTF)
+//   #1328 Citi Double Cash (actually has FTF)
+//   #1338 US Bank Split (actually has FTF)
+//
+// Returns true if the page provides credible evidence the card has NO FTF;
+// false if the page shows a fee-table line item indicating a fee exists;
+// null if neither — in which case we refuse to propose `false` (better to
+// leave the field absent than to flip it based on nav-menu noise).
+function pageEvidencesNoFtf(pageContent) {
+  if (!pageContent || typeof pageContent !== 'string') return null;
+  // Strong "fee exists" signals — a disclosure line item that quotes a %
+  // OR describes a per-purchase foreign-purchase fee. The presence of any
+  // such line means the card DOES charge a fee, regardless of nav-menu copy.
+  const FEE_EXISTS_PATTERNS = [
+    /fee for foreign (purchases?|transactions?)/i,
+    /foreign (transaction|purchase) fee:?\s*\d/i,
+    /foreign (transaction|purchase) charge:?\s*\d/i,
+    /\d+(?:\.\d+)?\s*%[^.]{0,80}\b(foreign|international)\s+(transactions?|purchases?)/i,
+    /\b(foreign|international)\s+(transactions?|purchases?)[^.]{0,40}\b\d+(?:\.\d+)?\s*%/i,
+  ];
+  for (const re of FEE_EXISTS_PATTERNS) {
+    if (re.test(pageContent)) return false;
+  }
+  // Affirmative "no FTF" signals — explicit copy on the card's own page.
+  const NO_FEE_PATTERNS = [
+    /no\s+foreign\s+(transaction|purchase)\s+fees?/i,
+    /\$0\s+foreign\s+(transaction|purchase)\s+fees?/i,
+    /you\s+(will\s+)?pay\s+no\s+foreign\s+(transaction|purchase)\s+fees?/i,
+    /foreign\s+(transaction|purchase)\s+fees?:?\s*(\$0|none|\bnone\b)/i,
+  ];
+  for (const re of NO_FEE_PATTERNS) {
+    if (re.test(pageContent)) return true;
+  }
+  return null;
+}
+
+function diffForeignTxn(current, proposed, pageContent) {
   if (proposed === null || proposed === undefined) return null;
   if (current === proposed) return null;
+  // Guard against the nav-menu misparse: only allow flipping to `false`
+  // when the page content actually evidences a no-FTF disclosure.
+  if (proposed === false) {
+    const evidence = pageEvidencesNoFtf(pageContent);
+    if (evidence !== true) return null;
+  }
   return { from: current ?? null, to: proposed };
 }
 
@@ -1330,8 +1456,18 @@ async function main() {
 
     const normalizedRewards = normalizeRewardsUnits(extracted.rewards);
     const rewardsDiff = diffRewards(card.data.rewards, normalizedRewards);
-    const benefitsDiff = diffBenefits(card.data.benefits, extracted.benefits, policy, removed);
-    const ftxnDiff = diffForeignTxn(card.data.foreign_transaction_fee, extracted.foreign_transaction_fee);
+    const benefitsDiff = diffBenefits(
+      card.data.benefits,
+      extracted.benefits,
+      policy,
+      removed,
+      card.data.signup_bonus
+    );
+    const ftxnDiff = diffForeignTxn(
+      card.data.foreign_transaction_fee,
+      extracted.foreign_transaction_fee,
+      pageResult.content
+    );
 
     const wrote = applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff);
     if (wrote) {
@@ -1371,6 +1507,12 @@ if (require.main === module) {
 
 module.exports = {
   diffRewards,
+  diffBenefits,
+  diffForeignTxn,
+  pageEvidencesNoFtf,
+  isSignupBonusDuplicate,
+  looksLikeSameByDescription,
+  looksLikeSameBenefit,
   collectMetaCoveredCategories,
   META_CATEGORIES,
   PORTAL_ALIAS_GROUP,
