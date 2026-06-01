@@ -48,3 +48,10 @@ benefits:
     frequency: "annual"
     category: "travel"
     enrollment_required: false
+  - name: "Points Redemption Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Redeem 10% fewer Wyndham Rewards points when you book free nights."
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
