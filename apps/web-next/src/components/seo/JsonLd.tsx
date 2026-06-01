@@ -73,11 +73,17 @@ interface CreditCardSchemaProps {
   ratings?: { count: number; average: number | null };
 }
 
-export function CreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
+export function buildCreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'CreditCard',
+    // Google review snippets require aggregateRating to be nested under a
+    // supported parent type. CreditCard is schema.org-valid, but not a Google
+    // review parent; Product + additionalType keeps both validators happy.
+    '@type': 'Product',
+    additionalType: 'https://schema.org/CreditCard',
     name: card.card_name,
+    url: card.slug ? `https://creditodds.com/card/${card.slug}` : undefined,
+    category: 'Credit card',
     brand: {
       '@type': 'Brand',
       name: card.bank,
@@ -142,7 +148,11 @@ export function CreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
   };
 
   // Remove undefined values
-  const cleanSchema = JSON.parse(JSON.stringify(schema));
+  return JSON.parse(JSON.stringify(schema));
+}
+
+export function CreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
+  const cleanSchema = buildCreditCardSchema({ card, ratings });
 
   return (
     <script
