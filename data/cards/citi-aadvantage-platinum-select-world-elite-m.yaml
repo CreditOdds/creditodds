@@ -19,6 +19,13 @@ benefits:
     description: "Preferred boarding on American Airlines flights"
     frequency: "ongoing"
     category: "travel"
+  - name: "Inflight Purchase Discount"
+    value: 25
+    value_unit: "percent"
+    description: "25% savings on inflight food and beverage purchases on American Airlines flights"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
 tags:
   - travel
   - airline
@@ -47,3 +54,4 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-platinum-select-world-elite-mastercard
+foreign_transaction_fee: false
