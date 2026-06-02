@@ -22,11 +22,11 @@ benefits:
   - name: "Amazon-only acceptance"
     description: "Closed-loop store card usable at Amazon.com, select physical Amazon stores, Whole Foods Market (via in-store code), and merchants accepting Amazon Pay"
 signup_bonus:
-  value: 60
+  value: 10
   type: "cash"
   spend_requirement: 0
   timeframe_months: 0
-  note: "$60 Amazon Gift Card instantly loaded upon approval"
+  note: "$10 Amazon Gift Card instantly added to Amazon wallet upon approval"
 apr:
   regular:
     min: 29.49
