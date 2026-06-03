@@ -392,7 +392,36 @@ function detectChanges(card, extracted) {
       );
     }
 
+    // Defensive: tiered welcome offers (e.g. World of Hyatt: "30,000 base + up
+    // to 30,000 additional in 6 months"). The current YAML stores the base
+    // tier in value/spend_requirement/timeframe_months and describes the extra
+    // tier(s) in note. Haiku has repeatedly ignored the TIERED BONUSES prompt
+    // rule and re-proposed the headline total (PRs #1342, #1347, #1352). When
+    // the current note describes an "additional N points/miles/nights" tier
+    // and the proposed value is higher than current, treat the whole
+    // signup_bonus extraction as a tier-collapse and skip the value /
+    // spend_requirement / timeframe_months / note changes for this run.
+    // Matches either word order: "N additional ... points/miles/nights" or
+    // "additional N ... points/miles/nights", with up to 4 filler words
+    // (e.g. "bonus", brand name like "Marriott Bonvoy bonus") in between.
+    const noteText = cur.note || '';
+    const tieredAdditionalMatch =
+      noteText.match(/(\d[\d,]*)\s+additional\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
+      noteText.match(/additional\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
+    const skipAsTieredBonus =
+      !!tieredAdditionalMatch &&
+      sb.value != null &&
+      cur.value != null &&
+      sb.value > cur.value;
+
+    if (skipAsTieredBonus) {
+      console.log(
+        `  Ignoring signup_bonus changes: current note describes a tiered offer (+${tieredAdditionalMatch[1]} additional) and proposed value ${cur.value} → ${sb.value} looks like a tier-collapse`
+      );
+    }
+
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
+      if (skipAsTieredBonus) continue;
       if (key === 'value' && (skipValueAsBundledAU || skipValueAsPointsConfusion)) continue;
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         const field = `signup_bonus.${key}`;
