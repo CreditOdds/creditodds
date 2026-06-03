@@ -1172,6 +1172,39 @@ Resources:
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
 
+  # Referral validity check: paired Lambdas invoked by the
+  # `check-referrals.yml` GitHub Action. List returns the due batch;
+  # Complete writes back per-referral results. Not exposed via API Gateway.
+  ReferralValidationListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/referral-validation-list.ReferralValidationListHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 60
+      Description: Returns the next batch of referrals due for validity check
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+
+  ReferralValidationCompleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/referral-validation-complete.ReferralValidationCompleteHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 300
+      Description: Records referral validation results; auto-archives after consecutive failures
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+
   RefreshCardStatsFunction:
     Type: AWS::Serverless::Function
     Properties:
