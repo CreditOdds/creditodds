@@ -571,6 +571,7 @@ export default function ProfileClient() {
                 walletCards={walletCards}
                 visibleWalletCards={visibleWalletCards}
                 walletDisplayNames={walletDisplayNames}
+                walletEvents={walletEvents}
                 inactiveCount={inactiveCount}
                 showArchived={showArchived}
                 setShowArchived={setShowArchived}
@@ -934,6 +935,7 @@ interface CardsTabProps {
   walletCards: WalletCard[];
   visibleWalletCards: WalletCard[];
   walletDisplayNames: Map<number, string>;
+  walletEvents: WalletCardEvent[];
   inactiveCount: number;
   showArchived: boolean;
   setShowArchived: (v: boolean) => void;
@@ -954,12 +956,13 @@ interface CardsTabProps {
 
 function CardsTab(props: CardsTabProps) {
   const {
-    walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, inactiveCount, showArchived, setShowArchived,
+    walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, walletEvents, inactiveCount, showArchived, setShowArchived,
     openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals, cardsWithSelectableRewards,
     totalAnnualFees, onAdd, onEdit, onPickCategories, onSubmitRecord, onAddReferral, onReorder,
   } = props;
   const [dragId, setDragId] = useState<number | null>(null);
   const [dragOverId, setDragOverId] = useState<number | null>(null);
+  const [view, setView] = useState<'cards' | 'log'>('cards');
 
   if (!walletLoaded) return <LoadingPanel />;
 
@@ -983,17 +986,77 @@ function CardsTab(props: CardsTabProps) {
           {activeCount} active{inactiveCount > 0 ? ` · ${inactiveCount} archived` : ''} · ${totalAnnualFees.toLocaleString()}/yr in fees
         </div>
         <span className="cj-wallet-toolbar-spacer" />
-        {inactiveCount > 0 && (
+        {view === 'cards' && inactiveCount > 0 && (
           <button type="button" className="cj-archived-toggle" onClick={() => setShowArchived(!showArchived)}>
             {showArchived ? 'hide archived' : `show ${inactiveCount} archived`}
           </button>
         )}
-        <Link href="/profile/history" className="cj-archived-toggle" style={{ textDecoration: 'none' }}>
-          history
-        </Link>
-        <button type="button" className="cj-inline-cta" onClick={onAdd}>+ add a card</button>
+        <button
+          type="button"
+          className="cj-archived-toggle"
+          onClick={() => setView(view === 'cards' ? 'log' : 'cards')}
+        >
+          {view === 'cards' ? `change log${walletEvents.length > 0 ? ` (${walletEvents.length})` : ''}` : 'back to cards'}
+        </button>
+        {view === 'cards' && (
+          <button type="button" className="cj-inline-cta" onClick={onAdd}>+ add a card</button>
+        )}
       </div>
 
+      {view === 'log' && (
+        <div className="cj-wallet-tape">
+          <div className="cj-wallet-head">
+            <div></div>
+            <div>Change</div>
+            <div>Date</div>
+            <div className="cj-tr">Reason</div>
+            <div>Issuer</div>
+            <div></div>
+          </div>
+          {walletEvents.length === 0 ? (
+            <div style={{ padding: 24, fontSize: 13, color: 'var(--muted)' }}>
+              No product changes recorded yet. When you convert a wallet card to another product from the same issuer, the change shows up here.
+            </div>
+          ) : (
+            walletEvents.map((e) => {
+              const reasonLabel = e.reason === 'voluntary' ? 'you' : e.reason === 'forced' ? 'bank' : '—';
+              const dateLabel = e.change_date ? e.change_date.slice(0, 10) : '';
+              const arrow = ' → ';
+              return (
+                <div key={e.id} className="cj-wallet-crow" style={{ cursor: 'default' }}>
+                  <span className="cj-cw-thumb">
+                    <CardImage
+                      cardImageLink={e.new_card_image_link || undefined}
+                      alt={e.new_card_name || 'new card'}
+                      fill
+                      sizes="36px"
+                      className="object-contain"
+                    />
+                  </span>
+                  <div className="cj-cw-name">
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <span style={{ color: 'var(--muted)' }}>{e.old_card_name || `#${e.old_card_id}`}</span>
+                      {arrow}
+                      {e.new_card_name || `#${e.new_card_id}`}
+                    </span>
+                  </div>
+                  <div className="cj-cw-renew">{dateLabel}</div>
+                  <div className="cj-cw-fee cj-cw-zero" style={{ fontWeight: 500 }}>{reasonLabel}</div>
+                  <div className="cj-cw-issuer">{e.bank || ''}</div>
+                  <div />
+                  {e.note && (
+                    <div style={{ gridColumn: '2 / -1', marginTop: 4, fontSize: 11.5, color: 'var(--muted)', fontStyle: 'italic' }}>
+                      “{e.note}”
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
+
+      {view === 'cards' && (
       <div className="cj-wallet-tape">
         <div className="cj-wallet-head">
           <div></div>
@@ -1174,6 +1237,7 @@ function CardsTab(props: CardsTabProps) {
           </div>
         )}
       </div>
+      )}
     </section>
   );
 }
