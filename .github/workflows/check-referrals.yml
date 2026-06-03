@@ -62,12 +62,18 @@ jobs:
         env:
           LIMIT: ${{ github.event.inputs.limit || '200' }}
         run: |
+          # NB: avoid `| [0]` JMESPath here. `aws lambda list-functions`
+          # paginates by default and `--query` is applied per page, so a
+          # JMESPath pipe to [0] emits one line per page (including `None`
+          # for pages where no match exists). `head -n 1` after `--output
+          # text` keeps the first non-empty line and is the same fix used
+          # in the deploy workflow.
           aws lambda invoke \
             --region us-east-2 \
             --function-name $(aws lambda list-functions \
               --region us-east-2 \
-              --query "Functions[?contains(FunctionName, 'ReferralValidationListFunction')].FunctionName | [0]" \
-              --output text) \
+              --query "Functions[?contains(FunctionName, 'ReferralValidationListFunction')].FunctionName" \
+              --output text | tr '\t' '\n' | grep -v '^$' | head -n 1) \
             --cli-binary-format raw-in-base64-out \
             --payload "{\"limit\": ${LIMIT}}" \
             --cli-read-timeout 70 \
@@ -89,8 +95,8 @@ jobs:
             --region us-east-2 \
             --function-name $(aws lambda list-functions \
               --region us-east-2 \
-              --query "Functions[?contains(FunctionName, 'ReferralValidationCompleteFunction')].FunctionName | [0]" \
-              --output text) \
+              --query "Functions[?contains(FunctionName, 'ReferralValidationCompleteFunction')].FunctionName" \
+              --output text | tr '\t' '\n' | grep -v '^$' | head -n 1) \
             --cli-binary-format raw-in-base64-out \
             --payload fileb://results.json \
             --cli-read-timeout 310 \
