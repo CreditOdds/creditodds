@@ -442,6 +442,38 @@ Resources:
               Ref: CreditCardOddsAPI
             Auth:
               Authorizer: NONE
+        GetWalletEvents:
+          Type: Api
+          Properties:
+            Path: /wallet/events
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        WalletEventsOptions:
+          Type: Api
+          Properties:
+            Path: /wallet/events
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+        WalletProductChange:
+          Type: Api
+          Properties:
+            Path: /wallet/{id}/product-change
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        WalletProductChangeOptions:
+          Type: Api
+          Properties:
+            Path: /wallet/{id}/product-change
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
 
   UserCardSelectionsFunction:
     Type: AWS::Serverless::Function

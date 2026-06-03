@@ -533,6 +533,71 @@ export async function removeFromWallet(walletRowId: number, token: string): Prom
   return res.json();
 }
 
+// Product-change history: one row per recorded conversion of a wallet card
+// from one product to another (same issuer). Sorted newest-first by the API.
+export interface WalletCardEvent {
+  id: number;
+  user_card_id: number | null;
+  event_type: 'product_change';
+  old_card_id: number;
+  new_card_id: number;
+  change_date: string;
+  reason: 'voluntary' | 'forced' | null;
+  note: string | null;
+  created_at: string;
+  old_card_name: string | null;
+  old_card_image_link: string | null;
+  new_card_name: string | null;
+  new_card_image_link: string | null;
+  bank: string | null;
+}
+
+export async function getWalletEvents(token: string): Promise<WalletCardEvent[]> {
+  const res = await fetch(`${API_BASE}/wallet/events`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch wallet events: ${errorText}`);
+  }
+  return res.json();
+}
+
+export interface ProductChangeBody {
+  new_card_id: number;
+  change_date?: string;
+  reason?: 'voluntary' | 'forced';
+  note?: string;
+}
+
+export async function productChangeWalletCard(
+  walletRowId: number,
+  body: ProductChangeBody,
+  token: string,
+): Promise<{
+  message: string;
+  event_id: number;
+  wallet_card_id: number;
+  old_card_id: number;
+  new_card_id: number;
+  change_date: string;
+}> {
+  const res = await fetch(`${API_BASE}/wallet/${walletRowId}/product-change`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(errorText || `Failed to record product change: ${res.status}`);
+  }
+  return res.json();
+}
+
 // User category selections per wallet card (Cash+, Custom Cash, etc).
 // PUT replaces the active set wholesale — partial updates aren't supported.
 export interface UpdateSelectionsBody {
