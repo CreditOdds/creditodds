@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { useUserSettings } from "@/user-settings/UserSettingsProvider";
 import UserAvatar from "@/components/user/UserAvatar";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, getWalletEvents, deleteAccount, reorderWallet, WalletCard, WalletCardEvent, Card } from "@/lib/api";
 import "../landing.css";
 import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -31,6 +31,7 @@ import {
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), { ssr: false, loading: () => null });
 const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), { ssr: false, loading: () => null });
 const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), { ssr: false, loading: () => null });
+const ProductChangeModal = dynamic(() => import("@/components/wallet/ProductChangeModal"), { ssr: false, loading: () => null });
 const SelectCategoriesModal = dynamic(() => import("@/components/wallet/SelectCategoriesModal"), { ssr: false, loading: () => null });
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
 const BestCardHere = dynamic(() => import("@/components/wallet/BestCardHere"), { ssr: false, loading: () => null });
@@ -139,6 +140,8 @@ export default function ProfileClient() {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
+  const [productChangingCard, setProductChangingCard] = useState<WalletCard | null>(null);
+  const [walletEvents, setWalletEvents] = useState<WalletCardEvent[]>([]);
   const [submitRecordCard, setSubmitRecordCard] = useState<{ card_id: number; card_name: string; card_image_link?: string; bank: string } | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
   const [editingRecord, setEditingRecord] = useState<RecordItem | null>(null);
@@ -332,6 +335,9 @@ export default function ProfileClient() {
       try { setWalletCards(await getWallet(token) || []); } catch (e) { console.error("Wallet error:", e); setWalletCards([]); }
       setWalletLoaded(true);
     };
+    const loadWalletEvents = async () => {
+      try { setWalletEvents(await getWalletEvents(token) || []); } catch (e) { console.error("Wallet events error:", e); setWalletEvents([]); }
+    };
     const loadRecords = async () => {
       try { setRecords(await getRecords(token) || []); } catch (e) { console.error("Records error:", e); setRecords([]); }
       setRecordsLoaded(true);
@@ -344,7 +350,7 @@ export default function ProfileClient() {
       setReferralsLoaded(true);
     };
 
-    loadWallet(); loadRecords(); loadReferrals();
+    loadWallet(); loadWalletEvents(); loadRecords(); loadReferrals();
   };
 
   const handleEditRecord = (recordId: number) => {
@@ -849,7 +855,19 @@ export default function ProfileClient() {
         cardSlug={editingCard ? allCards.find(c => c.card_name === editingCard.card_name)?.slug : undefined}
         annualFee={editingCard ? (cardLookups.byName.get(editingCard.card_name)?.annual_fee ?? 0) : 0}
         displayName={editingCard ? walletDisplayNames.get(editingCard.id) : undefined}
+        lastProductChange={editingCard ? (walletEvents.find(e => e.user_card_id === editingCard.id) ?? null) : null}
         onClose={() => setEditingCard(null)}
+        onSuccess={loadData}
+        onRequestProductChange={editingCard ? () => {
+          const current = editingCard;
+          setEditingCard(null);
+          setProductChangingCard(current);
+        } : undefined}
+      />
+      <ProductChangeModal
+        show={!!productChangingCard}
+        card={productChangingCard}
+        onClose={() => setProductChangingCard(null)}
         onSuccess={loadData}
       />
       <SelectCategoriesModal
@@ -970,6 +988,9 @@ function CardsTab(props: CardsTabProps) {
             {showArchived ? 'hide archived' : `show ${inactiveCount} archived`}
           </button>
         )}
+        <Link href="/profile/history" className="cj-archived-toggle" style={{ textDecoration: 'none' }}>
+          history
+        </Link>
         <button type="button" className="cj-inline-cta" onClick={onAdd}>+ add a card</button>
       </div>
 
