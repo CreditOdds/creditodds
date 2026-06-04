@@ -261,12 +261,18 @@ Rules:
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 3 for "3 free night awards"). null if absent.
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
 - SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND bonus_note.
-- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer itself has tiered/multi-level structure, extract ONLY the BASE/FIRST tier values for value, spend_requirement, and timeframe_months. Describe the additional tier(s) in bonus_note (see BONUS NOTE rule below).
+- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 70,000 miles after $3,000 in 6 months, plus an additional 20,000 miles after an additional $2,000 in 6 months", or "3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer is tiered, use the HEADLINE-MAX convention:
+    - value = the **headline maximum** the issuer markets (e.g. 90000 for "up to 90,000 miles", or 4 for "up to 4 Free Night Awards")
+    - spend_requirement = the **TOTAL** spend required to earn the maximum across all tiers (e.g. 5000 = $3,000 + $2,000)
+    - timeframe_months = the **longest** window across all tiers (typically the same window throughout, e.g. 6)
+    - bonus_note = describes the tier structure in the issuer's own words, and includes the offer end date when present on the page (see BONUS NOTE rule below)
+  NEVER return just the first/base tier in value — always return the maximum attainable bonus. Floor-as-value is the OLD convention and is being phased out.
 - BONUS NOTE: Use bonus_note ONLY to describe structural aspects of the one-time welcome offer that the base fields (value/spend_requirement/timeframe_months) cannot express. Allowed cases, with example phrasing:
-  - Tiered/multi-step earn: "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
+  - Tiered/multi-step earn (describe each tier so readers see how the max breaks down): "Earn 70,000 miles after $3,000 spend in first 6 months, plus an additional 20,000 miles after an additional $2,000 spend within first 6 months. Offer ends 2026-07-15."
   - Multi-component bonus delivered as separate pieces: "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
   - Bonus delivered in a non-cash form or with unusual timing: "$150 Amazon Gift Card instantly loaded upon approval"
   - Points + separate cash combo earned alongside the main bonus: "Plus $300 Bilt Cash as a signup bonus"
+  When the apply page shows an explicit offer end date (e.g. "Offer ends 07/15/26."), append it to the note in ISO form ("Offer ends 2026-07-15.").
 
   DO NOT use bonus_note for ANY of the following, even when the apply page mentions them prominently — none of them are welcome-offer structure:
   - Redemption value or marketing restatements of the main bonus (e.g. "$600 toward your next trip", "$3,000 value through Chase Travel", "75,000 points valued at $750")
@@ -392,18 +398,20 @@ function detectChanges(card, extracted) {
       );
     }
 
-    // Defensive: tiered welcome offers (e.g. World of Hyatt: "30,000 base + up
-    // to 30,000 additional in 6 months"). The current YAML stores the base
-    // tier in value/spend_requirement/timeframe_months and describes the extra
-    // tier(s) in note. Haiku has repeatedly ignored the TIERED BONUSES prompt
-    // rule and re-proposed the headline total (PRs #1342, #1347, #1352). When
-    // the current note describes an "additional N points/miles/nights" tier
-    // and the proposed value is higher than current, treat the whole
-    // signup_bonus extraction as a tier-collapse and skip the value /
-    // spend_requirement / timeframe_months / note changes for this run.
-    // Matches either word order: "N additional ... points/miles/nights" or
-    // "additional N ... points/miles/nights", with up to 4 filler words
+    // Defensive: tiered welcome offers under the headline-max convention
+    // (e.g. Amex Delta Gold: value=90,000 with note "Earn 70,000 ... plus
+    // additional 20,000"). YAML stores the MAX in value/spend_requirement/
+    // timeframe_months and the tier breakdown in note. Haiku occasionally
+    // misparses by returning only the FIRST/BASE tier (e.g. 70,000) — which
+    // looks like a phantom downgrade. When the current note describes a
+    // tiered offer ("additional N points/miles/nights") and the proposed
+    // value is LOWER than current, treat it as a tier-collapse misparse and
+    // skip the signup_bonus changes for this run. Matches either word order:
+    // "N additional ..." or "additional N ...", with up to 4 filler words
     // (e.g. "bonus", brand name like "Marriott Bonvoy bonus") in between.
+    // Note: pre-2026-06-04 the convention was inverted (floor-as-value) and
+    // this guard skipped value INCREASES instead. See PR #1358 / memory
+    // feedback_tiered_sub_convention for the convention change.
     const noteText = cur.note || '';
     const tieredAdditionalMatch =
       noteText.match(/(\d[\d,]*)\s+additional\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
@@ -412,11 +420,11 @@ function detectChanges(card, extracted) {
       !!tieredAdditionalMatch &&
       sb.value != null &&
       cur.value != null &&
-      sb.value > cur.value;
+      sb.value < cur.value;
 
     if (skipAsTieredBonus) {
       console.log(
-        `  Ignoring signup_bonus changes: current note describes a tiered offer (+${tieredAdditionalMatch[1]} additional) and proposed value ${cur.value} → ${sb.value} looks like a tier-collapse`
+        `  Ignoring signup_bonus changes: current note describes a tiered offer (+${tieredAdditionalMatch[1]} additional) and proposed value ${cur.value} → ${sb.value} looks like a base-tier-only misparse`
       );
     }
 
