@@ -87,25 +87,7 @@ async function syncCardsToDatabase(cdnCards) {
     updated: [],
     errors: [],
     wire_changes: [],
-    skipped_lock: false,
   };
-
-  // Serialize concurrent webhook invocations with a MySQL named lock.
-  // Two PRs merged ~4 seconds apart on 2026-06-04 each fired this Lambda;
-  // both fetched the new CDN and the still-stale DB and each wrote a full
-  // duplicate set of card_wire rows. The advisory lock ensures the second
-  // invocation waits for the first to finish updating the DB before it
-  // computes its diff (which will then be a no-op). 120s timeout is well
-  // above a normal full sync (~10-20s).
-  // GET_LOCK returns 1 on acquire, 0 on timeout, NULL on error.
-  const lockResult = await mysql.query("SELECT GET_LOCK('card_wire_sync', 120) AS got");
-  const got = lockResult[0]?.got;
-  if (got !== 1 && got !== "1") {
-    console.warn(`Could not acquire card_wire_sync lock (got=${got}) — skipping sync to avoid duplicate wire entries`);
-    results.skipped_lock = true;
-    await mysql.end();
-    return results;
-  }
 
   try {
     // Get existing cards from database (include metric columns for change detection)
@@ -217,17 +199,9 @@ async function syncCardsToDatabase(cdnCards) {
       }
     }
 
-    // Release lock before closing the connection
-    await mysql.query("SELECT RELEASE_LOCK('card_wire_sync')");
     await mysql.end();
   } catch (error) {
     console.error("Error syncing cards to database:", error);
-    // Best-effort release on error; connection close also releases.
-    try {
-      await mysql.query("SELECT RELEASE_LOCK('card_wire_sync')");
-    } catch (releaseErr) {
-      console.warn("Failed to release card_wire_sync lock:", releaseErr.message);
-    }
     throw error;
   }
 
