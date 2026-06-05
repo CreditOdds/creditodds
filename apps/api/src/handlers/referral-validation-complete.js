@@ -16,11 +16,22 @@
 // Invocation contract:
 //   Input  : { results: [{ referral_id, status, reason? }] }
 //   Output : { processed: number, archived: [referral_id, ...], skipped: [...] }
+//
+// Audit log: every consequential outcome is recorded in `audit_log` under the
+// actor `system:referral-validation` so the admin Activity tab can monitor the
+// automation — `VALIDATION_FAIL` for each expired/unreachable hit (with the
+// running consecutive-failure count) and `AUTO_ARCHIVE` when a link is killed.
+// `valid` results are intentionally not logged to keep the audit trail signal.
 
 const mysql = require("../db");
+const { logAuditAction } = require("../lib/audit-log");
 
 const ARCHIVE_THRESHOLD = 2; // consecutive failures before auto-archive
 const VALID_STATUSES = new Set(["valid", "expired", "unreachable"]);
+
+// Actor recorded in audit_log for entries written by this automation, so the
+// admin Activity tab can tell the validator's actions apart from a human admin.
+const AUDIT_ACTOR = "system:referral-validation";
 
 exports.ReferralValidationCompleteHandler = async (event) => {
   console.info("ReferralValidationComplete received:", {
@@ -100,6 +111,12 @@ exports.ReferralValidationCompleteHandler = async (event) => {
           [status, nextFailures, `auto: ${status}`, referralId],
         );
         archived.push(referralId);
+        await logAuditAction(AUDIT_ACTOR, "AUTO_ARCHIVE", "referral", referralId, {
+          status,
+          consecutive_failures: nextFailures,
+          reason: r.reason || null,
+          archived_reason: `auto: ${status}`,
+        });
       } else {
         await mysql.query(
           `
@@ -111,6 +128,11 @@ exports.ReferralValidationCompleteHandler = async (event) => {
           `,
           [status, nextFailures, referralId],
         );
+        await logAuditAction(AUDIT_ACTOR, "VALIDATION_FAIL", "referral", referralId, {
+          status,
+          consecutive_failures: nextFailures,
+          reason: r.reason || null,
+        });
       }
       processed += 1;
     }
