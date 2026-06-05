@@ -73,11 +73,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 3
-  type: "free_nights"
+  value: 125000
+  type: "points"
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
+  note: "Earn 125,000 Bonus Points + 1 Free Night Award after spending $3,000 on eligible purchases within 3 months of account opening. Free Night Award valid for one-night stay at properties with a redemption level up to 50,000 points per night."
 apr:
   regular:
     min: 20.49
