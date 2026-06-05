@@ -1344,6 +1344,10 @@ export interface AdminReferral {
   submit_datetime: string;
   admin_approved: number;
   archived_at: string | null;
+  archived_reason?: string | null;
+  last_validated_at?: string | null;
+  validation_status?: 'valid' | 'expired' | 'unreachable' | null;
+  validation_consecutive_failures?: number;
   impressions: number;
   clicks: number;
   unique_clicks?: number;
