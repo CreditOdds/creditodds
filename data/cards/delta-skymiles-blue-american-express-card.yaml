@@ -39,3 +39,9 @@ benefits:
     frequency: "per_purchase"
     category: "statement_credit"
     enrollment_required: false
+  - name: "American Express Venue Collection"
+    value: 250
+    description: "10% back on qualifying concessions purchases up to $250 per calendar year at select stadiums and arenas, plus access to dedicated entrances or fast lanes."
+    frequency: "annual"
+    category: "entertainment"
+    enrollment_required: true
