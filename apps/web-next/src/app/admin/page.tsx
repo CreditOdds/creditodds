@@ -876,10 +876,11 @@ function ReferralsTab({
       </div>
       <div className="av-tape">
         <div className="av-tape-scroll">
-          <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.6fr) 100px 110px 140px 90px 70px' }}>
+          <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.6fr) 100px 120px 110px 140px 90px 70px' }}>
             <span>Card</span>
             <span>Referral link</span>
             <span>Status</span>
+            <span>Validation</span>
             <span>Stats</span>
             <span>Submitter</span>
             <span>Date</span>
@@ -891,7 +892,7 @@ function ReferralsTab({
             <div
               key={referral.referral_id}
               className={'av-tape-row' + (!referral.admin_approved ? ' av-tape-pending' : '')}
-              style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.6fr) 100px 110px 140px 90px 70px' }}
+              style={{ gridTemplateColumns: 'minmax(180px, 1.2fr) minmax(200px, 1.6fr) 100px 120px 110px 140px 90px 70px' }}
             >
               <div className="av-card-cell">
                 <div className="av-thumb">
@@ -971,7 +972,28 @@ function ReferralsTab({
                   {referral.admin_approved ? 'Approved' : 'Pending'}
                 </span>
                 {referral.archived_at && (
-                  <span className="av-pill av-pill-arch">Archived</span>
+                  <span className="av-pill av-pill-arch">
+                    {referral.archived_reason?.startsWith('auto:') ? 'Auto-archived' : 'Archived'}
+                  </span>
+                )}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {referral.validation_status ? (
+                  <span className={'av-pill ' + (referral.validation_status === 'valid' ? 'av-pill-app' : 'av-pill-den')}>
+                    {referral.validation_status}
+                  </span>
+                ) : (
+                  <span className="av-mono" style={{ color: 'var(--ink-2)', fontSize: 11 }}>not checked</span>
+                )}
+                {(referral.validation_consecutive_failures ?? 0) > 0 && (
+                  <span className="av-mono" style={{ color: '#b91c1c', fontSize: 11 }}>
+                    {referral.validation_consecutive_failures} fail{referral.validation_consecutive_failures === 1 ? '' : 's'}
+                  </span>
+                )}
+                {referral.last_validated_at && (
+                  <span className="av-mono" style={{ color: 'var(--ink-2)', fontSize: 11 }}>
+                    {new Date(referral.last_validated_at).toLocaleDateString()}
+                  </span>
                 )}
               </div>
               <div className="av-mono" style={{ color: 'var(--ink-2)' }}>

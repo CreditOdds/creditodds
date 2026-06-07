@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
-import { XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
-import { updateWalletCard, removeFromWallet, WalletCard, getUserCardRating, submitCardRating } from '@/lib/api';
+import { XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon, ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
+import { updateWalletCard, removeFromWallet, WalletCard, WalletCardEvent, getUserCardRating, submitCardRating } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
 
 interface EditWalletCardModalProps {
@@ -16,8 +16,14 @@ interface EditWalletCardModalProps {
   // Optional override for the display name when the user holds multiple of the same card
   // (e.g. "Citi Custom Cash A" vs "Citi Custom Cash B"). Falls back to card.card_name.
   displayName?: string;
+  // Most recent product-change event for this wallet row, when one exists.
+  // Used to render the "Previously: <old card>" subtitle.
+  lastProductChange?: WalletCardEvent | null;
   onClose: () => void;
   onSuccess: () => void;
+  // Opens the product-change picker. The host is expected to close this modal
+  // and show the ProductChangeModal in its place.
+  onRequestProductChange?: () => void;
 }
 
 const RATING_LABELS: Record<number, string> = {
@@ -43,7 +49,7 @@ const months = [
   { value: 10, label: 'October' }, { value: 11, label: 'November' }, { value: 12, label: 'December' },
 ];
 
-export default function EditWalletCardModal({ show, card, cardSlug, annualFee, displayName, onClose, onSuccess }: EditWalletCardModalProps) {
+export default function EditWalletCardModal({ show, card, cardSlug, annualFee, displayName, lastProductChange, onClose, onSuccess, onRequestProductChange }: EditWalletCardModalProps) {
   const { getToken } = useAuth();
   const [acquiredMonth, setAcquiredMonth] = useState<number | undefined>();
   const [acquiredYear, setAcquiredYear] = useState<number | undefined>();
@@ -188,12 +194,28 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
                   <div className="cj-modal-card-meta">
                     {card.bank}{acquiredLabel ? ` · ${acquiredLabel}` : ''}
                   </div>
+                  {lastProductChange?.old_card_name && (
+                    <div style={{ fontStyle: 'italic', fontSize: 12, color: 'var(--muted)', marginTop: 2 }}>
+                      Previously: {lastProductChange.old_card_name}
+                      {lastProductChange.change_date ? ` on ${lastProductChange.change_date.slice(0, 10)}` : ''}
+                    </div>
+                  )}
                 </div>
               </div>
               {cardSlug && (
                 <Link href={`/card/${cardSlug}`} className="cj-modal-link">
                   view card details <ArrowTopRightOnSquareIcon style={{ width: 11, height: 11 }} />
                 </Link>
+              )}
+              {onRequestProductChange && (
+                <button
+                  type="button"
+                  className="cj-modal-link"
+                  onClick={onRequestProductChange}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4, marginLeft: cardSlug ? 12 : 0 }}
+                >
+                  <ArrowsRightLeftIcon style={{ width: 11, height: 11 }} /> product change
+                </button>
               )}
             </div>
 

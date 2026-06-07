@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
@@ -18,6 +18,10 @@ interface ReferralModalProps {
   handleClose: () => void;
   openReferrals: OpenReferral[];
   onSuccess: () => void;
+  // When set, the modal opens directly on the URL-entry step for this
+  // card_id (skipping the picker). Used by the referrals tab's
+  // "add replacement" flow after a referral is auto-archived.
+  preselectCardId?: string | null;
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
@@ -30,7 +34,7 @@ function validateUrl(value: string): string | null {
   return null;
 }
 
-export default function ReferralModal({ show, handleClose, openReferrals, onSuccess }: ReferralModalProps) {
+export default function ReferralModal({ show, handleClose, openReferrals, onSuccess, preselectCardId }: ReferralModalProps) {
   const { getToken } = useAuth();
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<OpenReferral | null>(null);
@@ -38,6 +42,17 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
   const [touched, setTouched] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Replacement flow: when preselectCardId points at a card in
+  // openReferrals, jump straight to the URL-entry step. Re-runs when
+  // openReferrals lands asynchronously after open.
+  useEffect(() => {
+    if (!show || !preselectCardId) return;
+    const match = openReferrals.find((c) => c.card_id === preselectCardId);
+    if (match && (!selected || selected.card_id !== match.card_id)) {
+      setSelected(match);
+    }
+  }, [show, preselectCardId, openReferrals, selected]);
 
   const validationError = validateUrl(referralLink);
 

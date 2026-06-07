@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { useUserSettings } from "@/user-settings/UserSettingsProvider";
 import UserAvatar from "@/components/user/UserAvatar";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, deleteAccount, reorderWallet, WalletCard, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, getWalletEvents, deleteAccount, reorderWallet, WalletCard, WalletCardEvent, Card } from "@/lib/api";
 import "../landing.css";
 import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -31,6 +31,7 @@ import {
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), { ssr: false, loading: () => null });
 const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), { ssr: false, loading: () => null });
 const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), { ssr: false, loading: () => null });
+const ProductChangeModal = dynamic(() => import("@/components/wallet/ProductChangeModal"), { ssr: false, loading: () => null });
 const SelectCategoriesModal = dynamic(() => import("@/components/wallet/SelectCategoriesModal"), { ssr: false, loading: () => null });
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
 const BestCardHere = dynamic(() => import("@/components/wallet/BestCardHere"), { ssr: false, loading: () => null });
@@ -72,9 +73,18 @@ interface Referral {
   admin_approved: boolean;
   archived_at?: string | null;
   archived_reason?: string | null;
+  validation_status?: 'valid' | 'expired' | 'unreachable' | null;
+  last_validated_at?: string | null;
   impressions?: number;
   clicks?: number;
   unique_clicks?: number;
+}
+
+// A referral was auto-archived by the weekly validity check when
+// archived_reason starts with "auto:". Used in the profile referrals tab
+// to surface a "this link expired" banner + "add replacement" CTA.
+function isAutoArchivedReferral(r: Pick<Referral, 'archived_at' | 'archived_reason'>): boolean {
+  return !!r.archived_at && typeof r.archived_reason === 'string' && r.archived_reason.startsWith('auto:');
 }
 
 type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings' | 'news' | 'more';
@@ -129,6 +139,10 @@ export default function ProfileClient() {
   const [recordsLoaded, setRecordsLoaded] = useState(false);
   const [referralsLoaded, setReferralsLoaded] = useState(false);
   const [showReferralModal, setShowReferralModal] = useState(false);
+  // When the user clicks "add replacement" on an auto-archived referral
+  // row, we open the ReferralModal pre-selected to that card_id so they
+  // can skip the picker. Cleared on modal close.
+  const [replacementForCardId, setReplacementForCardId] = useState<string | null>(null);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
   const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
@@ -139,6 +153,8 @@ export default function ProfileClient() {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
+  const [productChangingCard, setProductChangingCard] = useState<WalletCard | null>(null);
+  const [walletEvents, setWalletEvents] = useState<WalletCardEvent[]>([]);
   const [submitRecordCard, setSubmitRecordCard] = useState<{ card_id: number; card_name: string; card_image_link?: string; bank: string } | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
   const [editingRecord, setEditingRecord] = useState<RecordItem | null>(null);
@@ -332,6 +348,9 @@ export default function ProfileClient() {
       try { setWalletCards(await getWallet(token) || []); } catch (e) { console.error("Wallet error:", e); setWalletCards([]); }
       setWalletLoaded(true);
     };
+    const loadWalletEvents = async () => {
+      try { setWalletEvents(await getWalletEvents(token) || []); } catch (e) { console.error("Wallet events error:", e); setWalletEvents([]); }
+    };
     const loadRecords = async () => {
       try { setRecords(await getRecords(token) || []); } catch (e) { console.error("Records error:", e); setRecords([]); }
       setRecordsLoaded(true);
@@ -344,7 +363,7 @@ export default function ProfileClient() {
       setReferralsLoaded(true);
     };
 
-    loadWallet(); loadRecords(); loadReferrals();
+    loadWallet(); loadWalletEvents(); loadRecords(); loadReferrals();
   };
 
   const handleEditRecord = (recordId: number) => {
@@ -406,6 +425,10 @@ export default function ProfileClient() {
   const displayName = authState.user?.displayName || authState.user?.email?.split('@')[0] || 'there';
   const handle = authState.user?.email?.split('@')[0] || '';
   const activeReferralsCount = referrals.filter(r => !r.archived_at).length;
+  // Referrals that the weekly validator auto-archived. We want the
+  // referrals tab to surface a "needs attention" cue in its label so
+  // users notice without having to click in.
+  const expiredReferralsCount = referrals.filter(isAutoArchivedReferral).length;
   const visibleWalletCards = activeWalletCards;
 
   const tabs: { key: TabKey; num: string; label: string; count: string }[] = [
@@ -413,7 +436,9 @@ export default function ProfileClient() {
     { key: 'rewards', num: '02', label: 'Earn', count: '' },
     { key: 'benefits', num: '03', label: 'Benefits', count: '' },
     { key: 'applications', num: '04', label: 'Applications', count: records.length ? `${records.length} records` : '' },
-    { key: 'referrals', num: '05', label: 'Referrals', count: activeReferralsCount ? `${activeReferralsCount} links` : '' },
+    { key: 'referrals', num: '05', label: 'Referrals', count: expiredReferralsCount
+        ? `${expiredReferralsCount} needs attention`
+        : (activeReferralsCount ? `${activeReferralsCount} links` : '') },
     { key: 'settings', num: '06', label: 'Settings', count: '' },
   ];
 
@@ -565,6 +590,7 @@ export default function ProfileClient() {
                 walletCards={walletCards}
                 visibleWalletCards={visibleWalletCards}
                 walletDisplayNames={walletDisplayNames}
+                walletEvents={walletEvents}
                 inactiveCount={inactiveCount}
                 showArchived={showArchived}
                 setShowArchived={setShowArchived}
@@ -666,7 +692,8 @@ export default function ProfileClient() {
                 referralsLoaded={referralsLoaded}
                 referrals={referrals}
                 eligibleReferralCards={eligibleReferralCards}
-                onAddReferral={() => setShowReferralModal(true)}
+                onAddReferral={() => { setReplacementForCardId(null); setShowReferralModal(true); }}
+                onReplace={(cardId) => { setReplacementForCardId(cardId); setShowReferralModal(true); }}
                 onArchive={handleArchiveReferral}
                 archivingReferralId={archivingReferralId}
               />
@@ -715,7 +742,8 @@ export default function ProfileClient() {
                   referralsLoaded={referralsLoaded}
                   referrals={referrals}
                   eligibleReferralCards={eligibleReferralCards}
-                  onAddReferral={() => setShowReferralModal(true)}
+                  onAddReferral={() => { setReplacementForCardId(null); setShowReferralModal(true); }}
+                  onReplace={(cardId) => { setReplacementForCardId(cardId); setShowReferralModal(true); }}
                   onArchive={handleArchiveReferral}
                   archivingReferralId={archivingReferralId}
                 />
@@ -833,8 +861,9 @@ export default function ProfileClient() {
       {/* Modals */}
       <ReferralModal
         show={showReferralModal}
-        handleClose={() => setShowReferralModal(false)}
+        handleClose={() => { setShowReferralModal(false); setReplacementForCardId(null); }}
         openReferrals={eligibleReferralCards}
+        preselectCardId={replacementForCardId}
         onSuccess={loadData}
       />
       <AddToWalletModal
@@ -849,7 +878,19 @@ export default function ProfileClient() {
         cardSlug={editingCard ? allCards.find(c => c.card_name === editingCard.card_name)?.slug : undefined}
         annualFee={editingCard ? (cardLookups.byName.get(editingCard.card_name)?.annual_fee ?? 0) : 0}
         displayName={editingCard ? walletDisplayNames.get(editingCard.id) : undefined}
+        lastProductChange={editingCard ? (walletEvents.find(e => e.user_card_id === editingCard.id) ?? null) : null}
         onClose={() => setEditingCard(null)}
+        onSuccess={loadData}
+        onRequestProductChange={editingCard ? () => {
+          const current = editingCard;
+          setEditingCard(null);
+          setProductChangingCard(current);
+        } : undefined}
+      />
+      <ProductChangeModal
+        show={!!productChangingCard}
+        card={productChangingCard}
+        onClose={() => setProductChangingCard(null)}
         onSuccess={loadData}
       />
       <SelectCategoriesModal
@@ -916,6 +957,7 @@ interface CardsTabProps {
   walletCards: WalletCard[];
   visibleWalletCards: WalletCard[];
   walletDisplayNames: Map<number, string>;
+  walletEvents: WalletCardEvent[];
   inactiveCount: number;
   showArchived: boolean;
   setShowArchived: (v: boolean) => void;
@@ -936,12 +978,13 @@ interface CardsTabProps {
 
 function CardsTab(props: CardsTabProps) {
   const {
-    walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, inactiveCount, showArchived, setShowArchived,
+    walletLoaded, walletCards, visibleWalletCards, walletDisplayNames, walletEvents, inactiveCount, showArchived, setShowArchived,
     openWalletId, setOpenWalletId, cardLookups, cardsWithRecords, cardsWithActiveReferrals, cardsWithSelectableRewards,
     totalAnnualFees, onAdd, onEdit, onPickCategories, onSubmitRecord, onAddReferral, onReorder,
   } = props;
   const [dragId, setDragId] = useState<number | null>(null);
   const [dragOverId, setDragOverId] = useState<number | null>(null);
+  const [view, setView] = useState<'cards' | 'log'>('cards');
 
   if (!walletLoaded) return <LoadingPanel />;
 
@@ -965,14 +1008,77 @@ function CardsTab(props: CardsTabProps) {
           {activeCount} active{inactiveCount > 0 ? ` · ${inactiveCount} archived` : ''} · ${totalAnnualFees.toLocaleString()}/yr in fees
         </div>
         <span className="cj-wallet-toolbar-spacer" />
-        {inactiveCount > 0 && (
+        {view === 'cards' && inactiveCount > 0 && (
           <button type="button" className="cj-archived-toggle" onClick={() => setShowArchived(!showArchived)}>
             {showArchived ? 'hide archived' : `show ${inactiveCount} archived`}
           </button>
         )}
-        <button type="button" className="cj-inline-cta" onClick={onAdd}>+ add a card</button>
+        <button
+          type="button"
+          className="cj-archived-toggle"
+          onClick={() => setView(view === 'cards' ? 'log' : 'cards')}
+        >
+          {view === 'cards' ? `change log${walletEvents.length > 0 ? ` (${walletEvents.length})` : ''}` : 'back to cards'}
+        </button>
+        {view === 'cards' && (
+          <button type="button" className="cj-inline-cta" onClick={onAdd}>+ add a card</button>
+        )}
       </div>
 
+      {view === 'log' && (
+        <div className="cj-wallet-tape">
+          <div className="cj-wallet-head">
+            <div></div>
+            <div>Change</div>
+            <div>Date</div>
+            <div className="cj-tr">Reason</div>
+            <div>Issuer</div>
+            <div></div>
+          </div>
+          {walletEvents.length === 0 ? (
+            <div style={{ padding: 24, fontSize: 13, color: 'var(--muted)' }}>
+              No product changes recorded yet. When you convert a wallet card to another product from the same issuer, the change shows up here.
+            </div>
+          ) : (
+            walletEvents.map((e) => {
+              const reasonLabel = e.reason === 'voluntary' ? 'you' : e.reason === 'forced' ? 'bank' : '—';
+              const dateLabel = e.change_date ? e.change_date.slice(0, 10) : '';
+              const arrow = ' → ';
+              return (
+                <div key={e.id} className="cj-wallet-crow" style={{ cursor: 'default' }}>
+                  <span className="cj-cw-thumb">
+                    <CardImage
+                      cardImageLink={e.new_card_image_link || undefined}
+                      alt={e.new_card_name || 'new card'}
+                      fill
+                      sizes="36px"
+                      className="object-contain"
+                    />
+                  </span>
+                  <div className="cj-cw-name">
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <span style={{ color: 'var(--muted)' }}>{e.old_card_name || `#${e.old_card_id}`}</span>
+                      {arrow}
+                      {e.new_card_name || `#${e.new_card_id}`}
+                    </span>
+                  </div>
+                  <div className="cj-cw-renew">{dateLabel}</div>
+                  <div className="cj-cw-fee cj-cw-zero" style={{ fontWeight: 500 }}>{reasonLabel}</div>
+                  <div className="cj-cw-issuer">{e.bank || ''}</div>
+                  <div />
+                  {e.note && (
+                    <div style={{ gridColumn: '2 / -1', marginTop: 4, fontSize: 11.5, color: 'var(--muted)', fontStyle: 'italic' }}>
+                      “{e.note}”
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
+
+      {view === 'cards' && (
       <div className="cj-wallet-tape">
         <div className="cj-wallet-head">
           <div></div>
@@ -1153,6 +1259,7 @@ function CardsTab(props: CardsTabProps) {
           </div>
         )}
       </div>
+      )}
     </section>
   );
 }
@@ -1287,16 +1394,22 @@ interface ReferralsTabProps {
   referrals: Referral[];
   eligibleReferralCards: ReturnType<typeof getEligibleReferralCards>;
   onAddReferral: () => void;
+  onReplace: (cardId: string) => void;
   onArchive: (id: number) => void;
   archivingReferralId: number | null;
 }
 
 function ReferralsTab(props: ReferralsTabProps) {
-  const { referralsLoaded, referrals, eligibleReferralCards, onAddReferral, onArchive, archivingReferralId } = props;
+  const { referralsLoaded, referrals, eligibleReferralCards, onAddReferral, onReplace, onArchive, archivingReferralId } = props;
   if (!referralsLoaded) return <LoadingPanel />;
 
   const active = referrals.filter(r => !r.archived_at);
-  const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason);
+  // Split archived referrals: auto = expired/unreachable detection by the
+  // weekly validator (need a replacement), manual = admin or user
+  // archived (already shown as the existing yellow notice).
+  const autoArchived = referrals.filter(isAutoArchivedReferral);
+  const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason && !isAutoArchivedReferral(r));
+  const eligibleCardIds = new Set(eligibleReferralCards.map(c => c.card_id));
   const totalImpressions = active.reduce((s, r) => s + (r.impressions ?? 0), 0);
   const totalClicks = active.reduce((s, r) => s + (r.clicks ?? 0), 0);
   const ctr = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100).toFixed(1) : '0.0';
@@ -1322,6 +1435,48 @@ function ReferralsTab(props: ReferralsTabProps) {
           <div className="cj-readoff-foot">{ctr}% CTR</div>
         </div>
       </div>
+
+      {autoArchived.length > 0 && (
+        <div style={{ marginTop: 16, border: '1px solid var(--line-2)', borderLeft: '3px solid #a8792a', background: '#fef9e8', borderRadius: 6, padding: '12px 14px' }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#5c4318', marginBottom: 8 }}>
+            {autoArchived.length === 1
+              ? '1 referral link looks like it expired'
+              : `${autoArchived.length} referral links look like they expired`}
+          </div>
+          <div style={{ fontSize: 12, color: '#5c4318', marginBottom: 10 }}>
+            Our weekly check stopped serving {autoArchived.length === 1 ? 'this one' : 'these'} on card pages. Add a replacement to start collecting clicks again. The old stats below stay yours.
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {autoArchived.map((r) => {
+              const cardIdStr = String(r.card_id);
+              const eligible = eligibleCardIds.has(cardIdStr);
+              const validatedDate = r.last_validated_at ? r.last_validated_at.slice(0, 10) : null;
+              return (
+                <div key={r.referral_id} style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 8, borderTop: '1px solid rgba(168, 121, 42, 0.18)' }}>
+                  <span className="cj-tape-thumb" style={{ flexShrink: 0 }}>
+                    <CardImage cardImageLink={r.card_image_link} alt={r.card_name} fill sizes="36px" className="object-contain" />
+                  </span>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: '#2a2a2a' }}>{r.card_name}</div>
+                    <div style={{ fontSize: 11, color: '#7a6035' }}>
+                      flagged {validatedDate || 'recently'} · {(r.impressions ?? 0).toLocaleString()} impr · {r.clicks ?? 0} click{(r.clicks ?? 0) === 1 ? '' : 's'} on the old link
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="cj-inline-cta"
+                    onClick={() => onReplace(cardIdStr)}
+                    disabled={!eligible}
+                    title={eligible ? '' : 'You no longer hold this card in your wallet or records, so a new referral cannot be submitted.'}
+                  >
+                    {eligible ? 'add replacement' : 'card not held'}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="cj-wallet-toolbar" style={{ marginTop: 16 }}>
         <div className="cj-table-label">Your referral links</div>

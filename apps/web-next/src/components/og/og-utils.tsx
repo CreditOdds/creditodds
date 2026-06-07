@@ -30,6 +30,7 @@ export const NEWS_TAG_COLORS: Record<string, { bg: string; text: string; accent:
   'benefit-change': { bg: '#f0e9ff', text: '#6d3fe8', accent: '#6d3fe8' }, // accent
   'limited-time':   { bg: '#faf0d9', text: '#a8792a', accent: '#a8792a' }, // gold
   'policy-change':  { bg: '#f7f5fc', text: '#3a2f55', accent: '#6b6384' }, // neutral
+  'rumor':          { bg: '#fef7d8', text: '#8a6a1e', accent: '#a8792a' }, // caution / unverified
   'general':        { bg: '#f7f5fc', text: '#3a2f55', accent: '#6b6384' }, // neutral
 };
 
@@ -49,6 +50,7 @@ export const NEWS_TAG_LABELS: Record<string, string> = {
   'benefit-change': 'Benefit Change',
   'limited-time': 'Limited Time',
   'policy-change': 'Policy Change',
+  'rumor': 'Rumor',
   'general': 'General',
 };
 

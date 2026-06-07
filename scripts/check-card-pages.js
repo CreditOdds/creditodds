@@ -83,9 +83,18 @@ function loadAllCards() {
   return cards;
 }
 
+// Card-page-check fetches whichever URL hosts the headline signup bonus.
+// When `special_apply_link` is set in the YAML, the SUB lives there — not on
+// the generic apply_link — so we treat it as the source of truth for this
+// script. The rewards/benefits check (which reads structural earn rates and
+// perks) still uses apply_link; see check-card-rewards-and-benefits.js.
+function checkUrlFor(card) {
+  return card.data.special_apply_link || card.data.apply_link;
+}
+
 function filterCardsForCheck(allCards, slugFilter) {
   let cards = allCards.filter(
-    c => c.data.accepting_applications !== false && c.data.apply_link
+    c => c.data.accepting_applications !== false && checkUrlFor(c)
   );
   if (slugFilter) {
     cards = cards.filter(c => c.slug === slugFilter);
@@ -212,15 +221,24 @@ async function closeBrowser() {
 
 // ─── Claude Haiku extraction ──────────────────────────────────────────────────
 
-async function extractCardTerms(cardName, bankName, applyLink, pageContent) {
+async function extractCardTerms(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY required');
+
+  const cur = currentSignupBonus || {};
+  const currentContext = `Current YAML values (for unit context — DO NOT copy these, extract fresh from the page):
+- signup_bonus.value: ${cur.value ?? 'null'}
+- signup_bonus.type: ${cur.type ?? 'null'}
+- signup_bonus.spend_requirement: ${cur.spend_requirement ?? 'null'}
+- signup_bonus.timeframe_months: ${cur.timeframe_months ?? 'null'}
+`;
 
   const prompt = `You are extracting credit card terms from a bank's apply page for human review.
 
 Card: ${cardName} (${bankName})
 Source URL: ${applyLink}
 
+${currentContext}
 Page content:
 ${pageContent}
 
@@ -243,12 +261,18 @@ Rules:
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 3 for "3 free night awards"). null if absent.
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
 - SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND bonus_note.
-- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer itself has tiered/multi-level structure, extract ONLY the BASE/FIRST tier values for value, spend_requirement, and timeframe_months. Describe the additional tier(s) in bonus_note (see BONUS NOTE rule below).
+- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 70,000 miles after $3,000 in 6 months, plus an additional 20,000 miles after an additional $2,000 in 6 months", or "3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer is tiered, use the HEADLINE-MAX convention:
+    - value = the **headline maximum** the issuer markets (e.g. 90000 for "up to 90,000 miles", or 4 for "up to 4 Free Night Awards")
+    - spend_requirement = the **TOTAL** spend required to earn the maximum across all tiers (e.g. 5000 = $3,000 + $2,000)
+    - timeframe_months = the **longest** window across all tiers (typically the same window throughout, e.g. 6)
+    - bonus_note = describes the tier structure in the issuer's own words, and includes the offer end date when present on the page (see BONUS NOTE rule below)
+  NEVER return just the first/base tier in value — always return the maximum attainable bonus. Floor-as-value is the OLD convention and is being phased out.
 - BONUS NOTE: Use bonus_note ONLY to describe structural aspects of the one-time welcome offer that the base fields (value/spend_requirement/timeframe_months) cannot express. Allowed cases, with example phrasing:
-  - Tiered/multi-step earn: "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
+  - Tiered/multi-step earn (describe each tier so readers see how the max breaks down): "Earn 70,000 miles after $3,000 spend in first 6 months, plus an additional 20,000 miles after an additional $2,000 spend within first 6 months. Offer ends 2026-07-15."
   - Multi-component bonus delivered as separate pieces: "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
   - Bonus delivered in a non-cash form or with unusual timing: "$150 Amazon Gift Card instantly loaded upon approval"
   - Points + separate cash combo earned alongside the main bonus: "Plus $300 Bilt Cash as a signup bonus"
+  When the apply page shows an explicit offer end date (e.g. "Offer ends 07/15/26."), append it to the note in ISO form ("Offer ends 2026-07-15.").
 
   DO NOT use bonus_note for ANY of the following, even when the apply page mentions them prominently — none of them are welcome-offer structure:
   - Redemption value or marketing restatements of the main bonus (e.g. "$600 toward your next trip", "$3,000 value through Chase Travel", "75,000 points valued at $750")
@@ -261,6 +285,7 @@ Rules:
   When in doubt, return null. A missing note is cheap; an incorrect note clutters the data and triggers false-positive PR proposals.
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
 - CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
+- POINTS REDEEMED AS CASH: Some cards earn points that convert to a fixed cash amount (e.g. "15,000 bonus points = $150 when deposited into your Fidelity account"). The points and the dollar amount describe the SAME offer in two different units — they are NOT two stackable bonuses. If the current YAML's signup_bonus.type is "cash" or "cashback", return the DOLLAR value (150), NOT the points count (15000). If the current type is "points" or "miles", return the points count. When unsure which unit the card is denominated in, prefer the value matching the existing type. NEVER return a 5-figure number as the value for a card whose current type is cash/cashback — that is the points figure, not the bonus value.
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
 - Return null for any field you cannot determine with confidence.`;
 
@@ -351,8 +376,61 @@ function detectChanges(card, extracted) {
       );
     }
 
+    // Defensive: points-redeemed-as-cash cards (e.g. Fidelity Rewards Visa: "15,000
+    // points = $150 deposited into your Fidelity account") show both a points count
+    // and a dollar figure for the SAME offer. Haiku has a recurring habit of
+    // returning the points count as the new value, which would imply a 100x cash
+    // SUB jump. When the card's existing type is cash/cashback and the proposed
+    // value is ≥10x the current value, treat it as a points/cash confusion and
+    // skip. This pattern has been reverted at least twice (commits 65aecd16,
+    // c35d52cb) before this guard landed.
+    const cashType = cur.type === 'cash' || cur.type === 'cashback';
+    const skipValueAsPointsConfusion =
+      cashType &&
+      sb.value != null &&
+      cur.value != null &&
+      cur.value > 0 &&
+      sb.value >= cur.value * 10;
+
+    if (skipValueAsPointsConfusion) {
+      console.log(
+        `  Ignoring value change ${cur.value} → ${sb.value}: likely points-redeemed-as-cash misparse (current type=${cur.type}, ratio ${(sb.value / cur.value).toFixed(0)}x)`
+      );
+    }
+
+    // Defensive: tiered welcome offers under the headline-max convention
+    // (e.g. Amex Delta Gold: value=90,000 with note "Earn 70,000 ... plus
+    // additional 20,000"). YAML stores the MAX in value/spend_requirement/
+    // timeframe_months and the tier breakdown in note. Haiku occasionally
+    // misparses by returning only the FIRST/BASE tier (e.g. 70,000) — which
+    // looks like a phantom downgrade. When the current note describes a
+    // tiered offer ("additional N points/miles/nights") and the proposed
+    // value is LOWER than current, treat it as a tier-collapse misparse and
+    // skip the signup_bonus changes for this run. Matches either word order:
+    // "N additional ..." or "additional N ...", with up to 4 filler words
+    // (e.g. "bonus", brand name like "Marriott Bonvoy bonus") in between.
+    // Note: pre-2026-06-04 the convention was inverted (floor-as-value) and
+    // this guard skipped value INCREASES instead. See PR #1358 / memory
+    // feedback_tiered_sub_convention for the convention change.
+    const noteText = cur.note || '';
+    const tieredAdditionalMatch =
+      noteText.match(/(\d[\d,]*)\s+additional\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
+      noteText.match(/additional\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
+    const skipAsTieredBonus =
+      !!tieredAdditionalMatch &&
+      sb.value != null &&
+      cur.value != null &&
+      sb.value < cur.value;
+
+    if (skipAsTieredBonus) {
+      console.log(
+        `  Ignoring signup_bonus changes: current note describes a tiered offer (+${tieredAdditionalMatch[1]} additional) and proposed value ${cur.value} → ${sb.value} looks like a base-tier-only misparse`
+      );
+    }
+
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
-      if (key === 'value' && skipValueAsBundledAU) continue;
+      if (skipAsTieredBonus) continue;
+      if (key === 'value' && (skipValueAsBundledAU || skipValueAsPointsConfusion)) continue;
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         const field = `signup_bonus.${key}`;
         if (sb[key] !== cur[key] && !ignoreFields.has(field)) {
@@ -506,7 +584,7 @@ async function main() {
   }
 
   console.log(`Checking ${cardsToCheck.length} card(s):`);
-  cardsToCheck.forEach(c => console.log(`  - ${c.data.name} (${c.data.apply_link})`));
+  cardsToCheck.forEach(c => console.log(`  - ${c.data.name} (${checkUrlFor(c)})`));
   console.log('');
 
   const allChanges = [];
@@ -519,9 +597,10 @@ async function main() {
       break;
     }
 
-    const { name, bank, apply_link } = card.data;
+    const { name, bank } = card.data;
+    const apply_link = checkUrlFor(card);
     console.log(`Checking: ${name}`);
-    console.log(`  URL: ${apply_link}`);
+    console.log(`  URL: ${apply_link}${card.data.special_apply_link ? ' (special_apply_link)' : ''}`);
 
     try {
       await withTimeout((async () => {
@@ -537,7 +616,7 @@ async function main() {
         // Extract with Claude Haiku
         let extracted;
         try {
-          extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+          extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
         } catch (err) {
           console.warn(`  Extraction error: ${err.message} — skipping\n`);
           return;
@@ -552,7 +631,7 @@ async function main() {
           if (browserContent) {
             pageContent = browserContent;
             try {
-              extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+              extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
             } catch (err) {
               console.warn(`  Retry extraction error: ${err.message} — skipping\n`);
               return;

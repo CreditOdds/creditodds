@@ -1,0 +1,112 @@
+name: Check Referrals
+
+# Weekly validator for referral links.
+#
+# Pulls the next batch of approved, non-archived referrals from the
+# ReferralValidationListFunction Lambda, fetches each URL (Playwright +
+# Haiku), and posts results back to ReferralValidationCompleteFunction.
+#
+# Conservative detection: HTTP 404/410/timeout + explicit "expired"
+# language only. After 2 consecutive failed checks per referral, the
+# Complete Lambda auto-archives with archived_reason='auto: <status>'.
+#
+# Off-peak schedule (Mon 12:00 UTC) so it doesn't collide with the daily
+# card-page check.
+
+on:
+  schedule:
+    - cron: '0 12 * * 1'  # Mondays 12:00 UTC
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Max referrals to check this run (default 200, max 500)'
+        required: false
+        default: '200'
+
+# Don't overlap runs (a manual dispatch shouldn't race the cron).
+concurrency:
+  group: check-referrals
+  cancel-in-progress: false
+
+permissions:
+  id-token: write   # for OIDC into AWS
+  contents: read
+
+jobs:
+  check-referrals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds-Deploy
+          aws-region: us-east-2
+
+      - name: Fetch batch from ReferralValidationListFunction
+        env:
+          LIMIT: ${{ github.event.inputs.limit || '200' }}
+        run: |
+          # NB: match on the shorter `ReferralValidationList`/`...Complete`
+          # substring, NOT the full handler name. CloudFormation caps Lambda
+          # function names at 64 chars and silently truncates the middle
+          # piece — `ReferralValidationCompleteFunction` becomes
+          # `ReferralValidationCompleteFuncti` in the deployed name, so a
+          # contains() on the trailing `Function` matches zero rows.
+          #
+          # NB: avoid `| [0]` JMESPath here. `aws lambda list-functions`
+          # paginates by default and `--query` is applied per page, so a
+          # JMESPath pipe to [0] emits one line per page (including `None`
+          # for pages where no match exists). `head -n 1` after `--output
+          # text` keeps the first non-empty line and is the same fix used
+          # in the deploy workflow.
+          aws lambda invoke \
+            --region us-east-2 \
+            --function-name $(aws lambda list-functions \
+              --region us-east-2 \
+              --query "Functions[?contains(FunctionName, 'ReferralValidationList')].FunctionName" \
+              --output text | tr '\t' '\n' | grep -v '^$' | head -n 1) \
+            --cli-binary-format raw-in-base64-out \
+            --payload "{\"limit\": ${LIMIT}}" \
+            --cli-read-timeout 70 \
+            batch.json
+          echo "Batch size: $(jq '.referrals | length' batch.json)"
+
+      - name: Run validation checks
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/check-referrals.js
+
+      - name: Post results to ReferralValidationCompleteFunction
+        run: |
+          if [ ! -s results.json ]; then
+            echo "No results to post."
+            exit 0
+          fi
+          aws lambda invoke \
+            --region us-east-2 \
+            --function-name $(aws lambda list-functions \
+              --region us-east-2 \
+              --query "Functions[?contains(FunctionName, 'ReferralValidationComplete')].FunctionName" \
+              --output text | tr '\t' '\n' | grep -v '^$' | head -n 1) \
+            --cli-binary-format raw-in-base64-out \
+            --payload fileb://results.json \
+            --cli-read-timeout 310 \
+            complete-response.json
+          echo "Complete response:"
+          cat complete-response.json

@@ -38,6 +38,7 @@ exports.UserReferralsHandler = async (event) => {
           `SELECT
              r.referral_id, r.card_id, r.referral_link, r.admin_approved,
              r.submit_datetime, r.archived_at, r.archived_reason,
+             r.validation_status, r.last_validated_at,
              c.card_name, c.card_image_link, c.card_referral_link
            FROM referrals r
            JOIN cards c ON r.card_id = c.card_id
