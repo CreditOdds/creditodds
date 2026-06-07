@@ -26,6 +26,10 @@ rewards:
     eligible_categories: [groceries, gas, dining]
     mode: user_choice
     note: "Choose 1 everyday category: Grocery stores and grocery delivery, Gas stations and EV charging stations, or Restaurants"
+  - category: travel_portal
+    value: 5
+    unit: percent
+    note: "Prepaid air, hotel, and car reservations booked in the U.S. Bank Travel Rewards Center"
   - category: everything_else
     value: 1
     unit: percent
