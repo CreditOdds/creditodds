@@ -65,6 +65,13 @@ benefits:
     description: "Complimentary Visa Infinite 24/7 concierge service"
     frequency: "ongoing"
     category: "travel"
+  - name: "Status Qualifying Credits (SQC)"
+    value: 25000
+    value_unit: "points"
+    description: "Up to 25,000 SQC annually (5,000 bonus plus 10,000 with $25,000 spend and 10,000 with $50,000 spend)."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 tags:
   - airline
   - travel
