@@ -7,7 +7,7 @@ annual_fee: 350
 reward_type: "miles"
 rewards:
   - category: airlines
-    value: 4
+    value: 10
     unit: points_per_dollar
     note: "United purchases"
     merchant_gate: [united-airlines]
