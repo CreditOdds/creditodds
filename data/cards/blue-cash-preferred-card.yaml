@@ -49,6 +49,18 @@ benefits:
     frequency: "monthly"
     category: "streaming"
     enrollment_required: true
+  - name: "Purchase Protection"
+    description: "Coverage up to $1,000 per covered purchase and $50,000 per account per calendar year if a charged item is stolen or accidentally damaged within 90 days"
+    category: "protection"
+    enrollment_required: false
+  - name: "Return Protection"
+    description: "Return eligible purchases to American Express for refund if the seller won't accept returns, up to $300 per item and $1,000 per calendar year"
+    category: "protection"
+    enrollment_required: false
+  - name: "Extended Warranty"
+    description: "Up to one extra year added to the original manufacturer's warranty on covered purchases (up to $10,000 per item, $50,000 per account per calendar year)"
+    category: "protection"
+    enrollment_required: false
 tags:
   - cashback
   - shopping

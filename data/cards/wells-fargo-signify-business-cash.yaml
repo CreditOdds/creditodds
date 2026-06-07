@@ -24,3 +24,8 @@ apr:
   regular:
     min: 18.49
     max: 26.49
+benefits:
+  - name: "Travel Accident Insurance"
+    description: "Up to $250,000 in travel accident insurance coverage when airline or common carrier tickets are purchased with the card"
+    category: "travel"
+    enrollment_required: false
