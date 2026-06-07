@@ -388,6 +388,39 @@ DO NOT propose dropping \`value\` to the post-cap rate. Examples:
   Chase Freedom Flex rotating "5% up to \$1,500/quarter when activated" →
     value: 5, unit: percent, spend_cap: 1500, cap_period: quarterly
 
+# REWARDS — co-brand "total miles/points" headlines (CRITICAL)
+Co-brand airline and hotel cards advertise a COMBINED earn figure that bundles
+the loyalty program's OWN member/elite earning with the card's multiplier.
+The headline "Nx total miles" is NOT the card's earn rate. We store ONLY the
+card-attributable multiplier — the "...with [card name]" or "...from the card"
+portion — NEVER the bundled total, and NEVER the loyalty-program base/member
+portion on its own.
+
+How to read these headlines: they almost always decompose as
+"Nx total = [base/member Mx] + [card Kx]". Record K (the card's part), not N.
+The card part is the number tied to the CARD name ("Kx with the United Quest
+Card", "Kx from the card"). The base part is tied to MEMBERSHIP or STATUS
+("Mx as a MileagePlus member", "Mx as a SkyMiles Medallion member",
+"earn as an AAdvantage member"). Discard the base and the total.
+
+Examples (these exact cases caused false-positive PRs — get them right):
+  United Club Infinite — page says "11x total miles on eligible United
+    flights — 6x as a MileagePlus member plus 5x from the card" →
+    category: airlines, value: 5, unit: points_per_dollar, note: "United purchases"
+    (NOT 11, NOT 6)
+  United Quest — page says "10x total miles — 6x as a MileagePlus member
+    plus 4x with the United Quest Card" →
+    category: airlines, value: 4, unit: points_per_dollar, note: "United purchases"
+    (NOT 10, NOT 6)
+
+This applies to ALL co-brand airline cards (United/MileagePlus,
+Delta/SkyMiles, American/AAdvantage, Alaska/Mileage Plan, JetBlue/TrueBlue,
+Southwest/Rapid Rewards, etc.) and hotel co-brand "total points" headlines
+(Marriott Bonvoy, Hilton Honors, World of Hyatt, IHG One Rewards, etc.) where
+the headline sums elite/base earning with the card multiplier. When the page
+gives only a "total" with no card-vs-member breakdown, DO NOT propose a change
+to the airline/hotel-purchases row — leave the existing card value unchanged.
+
 # REWARDS — time-limited promotional earn rates
 When an apply page describes a TIME-LIMITED earn-rate promo on a category
 (e.g. "5% cash back on Lyft rides through September 30, 2027",
@@ -639,7 +672,7 @@ function collectMetaCoveredCategories(currentRewards) {
 function diffRewards(current, proposed) {
   // Returns { added, removed, changed } by category id.
   //
-  // Reward-rate change is gated by THREE guards. All three are silent
+  // Reward-rate change is gated by FOUR guards. All four are silent
   // skips (no review-issue surfacing) — they exist purely to filter out
   // LLM misreads that we keep seeing every weekly run.
   //
@@ -660,6 +693,13 @@ function diffRewards(current, proposed) {
   //    rates that high on uncapped everything_else are extremely rare.
   //    Confirmed cases: Rakuten Amex (1→4), U.S. Bank Smartly (2→4 —
   //    where 4% is the tier requiring $100K in linked savings).
+  //
+  // 4. Bundled co-brand "total miles/points" guard: an UPWARD `value`
+  //    proposal whose note betrays a loyalty-program bundle ("Nx total
+  //    miles", "as a MileagePlus member", "plus Nx") is the LLM reading
+  //    the marketing headline (member earning + card earning) instead of
+  //    the card-only multiplier we store. Confirmed cases: United Club
+  //    Infinite (5→11), United Quest (4→10). PR #1372, #1373.
   //
   // Additionally, two structural alias suppressions filter out noise from
   // the weekly review queue (#1292-class items):
@@ -685,6 +725,20 @@ function diffRewards(current, proposed) {
     p.value > c.value &&
     p.value >= 3 &&
     (p.value - c.value) >= 2;
+
+  // Guard 4 — bundled co-brand "total miles/points" misread. Co-brand
+  // airline/hotel apply pages headline "Nx total miles" which sums the
+  // loyalty program's OWN member/elite earning with the card multiplier
+  // (e.g. United Club Infinite "11x total = 6x MileagePlus member + 5x
+  // card", United Quest "10x total = 6x member + 4x card"). The LLM keeps
+  // extracting the bundled total (11/10) as the card's earn rate. We store
+  // only the card-attributable multiplier, so an UPWARD proposal whose note
+  // betrays the bundle ("total miles", "as a MileagePlus member", "plus Nx")
+  // is almost certainly a misread. Skip silently. Confirmed: PR #1372, #1373.
+  const looksLikeBundledLoyaltyTotal = (c, p) =>
+    p.value > c.value &&
+    typeof p?.note === 'string' &&
+    /(\btotal\s+(miles|points)\b|as an?\s+[A-Za-z]+\s+(member|medallion)|MileagePlus|SkyMiles|AAdvantage|Mileage\s*Plan|TrueBlue|Rapid\s*Rewards|Honors\s+member|World\s+of\s+Hyatt|One\s+Rewards|\bplus\s+\d+\s*x\b)/i.test(p.note);
 
   const cur = new Map((current || []).map(r => [r.category, r]));
   const prop = new Map((proposed || []).map(r => [r.category, r]));
@@ -729,6 +783,11 @@ function diffRewards(current, proposed) {
       // Big upward jump on everything_else — Rakuten/Smartly class. The
       // LLM is almost certainly reading a portal bonus or banking-tier
       // rate as the base. Skip silently.
+      continue;
+    } else if (looksLikeBundledLoyaltyTotal(c, p)) {
+      // Co-brand "total miles/points" bundle misread — the proposed value
+      // includes the loyalty program's member/elite earning, not just the
+      // card. Skip silently (see Guard 4 above).
       continue;
     } else if (
       c.value !== p.value ||

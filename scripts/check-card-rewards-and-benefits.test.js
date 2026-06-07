@@ -188,6 +188,58 @@ test('flattens rotating + top_category covered lists', () => {
   assert.deepEqual([...result].sort(), ['amazon', 'dining', 'gas', 'groceries']);
 });
 
+console.log('\nCo-brand bundled "total miles" guard:');
+
+test('United Club Infinite: 5x card row not bumped to bundled 11x total', () => {
+  // Live page: "11x total miles on eligible United flights — 6x as a
+  // MileagePlus member plus 5x from the card". YAML stores the card-only 5x.
+  const current = [
+    { category: 'airlines', value: 5, unit: 'points_per_dollar', note: 'United purchases' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const proposed = [
+    {
+      category: 'airlines', value: 11, unit: 'points_per_dollar',
+      note: '11x total miles on United flights (6x as a MileagePlus member plus 5x from the card)',
+    },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.changed.length, 0, 'bundled 11x total should not be flagged as a change');
+});
+
+test('United Quest: 4x card row not bumped to bundled 10x total', () => {
+  // Live page: "10x total miles — 6x as a MileagePlus member plus 4x with
+  // the United Quest Card". YAML stores the card-only 4x.
+  const current = [
+    { category: 'airlines', value: 4, unit: 'points_per_dollar', note: 'United purchases' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const proposed = [
+    {
+      category: 'airlines', value: 10, unit: 'points_per_dollar',
+      note: '10x total miles (6x as a MileagePlus member plus 4x with the United Quest Card)',
+    },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.changed.length, 0, 'bundled 10x total should not be flagged as a change');
+});
+
+test('Legit co-brand earn increase (no bundle language) still surfaces', () => {
+  // If the card's OWN multiplier genuinely rises and the note carries no
+  // member/total bundle language, the change must still be flagged.
+  const current = [
+    { category: 'airlines', value: 2, unit: 'points_per_dollar', note: 'United purchases' },
+  ];
+  const proposed = [
+    { category: 'airlines', value: 3, unit: 'points_per_dollar', note: 'United purchases' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.changed.length, 1, 'a real card-only earn increase should be flagged');
+  assert.equal(diff.changed[0].to.value, 3);
+});
+
 console.log('\nFTF page-content validation:');
 
 test('pageEvidencesNoFtf returns false when page has fee-table line item', () => {
