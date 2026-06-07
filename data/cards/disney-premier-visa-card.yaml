@@ -20,6 +20,9 @@ rewards:
   - category: groceries
     value: 2
     unit: percent
+  - category: dining
+    value: 2
+    unit: percent
   - category: everything_else
     value: 1
     unit: percent
@@ -58,6 +61,14 @@ benefits:
     description: "10% savings on select purchases at shopDisney.com"
     frequency: "per_purchase"
     category: "shopping"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    description: "Covers eligible new purchases for 120 days from purchase date against damage or theft up to $500 per item"
+    category: "protection"
+    enrollment_required: false
+  - name: "Baggage Delay Insurance"
+    description: "Reimburses up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
+    category: "travel"
     enrollment_required: false
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/premier
 

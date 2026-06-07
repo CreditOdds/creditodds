@@ -47,4 +47,16 @@ benefits:
     frequency: "annual"
     category: "rewards"
     enrollment_required: true
+  - name: "Baggage Delay Insurance"
+    description: "Reimbursement up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
+    category: "travel"
+    enrollment_required: false
+  - name: "Lost Luggage Reimbursement"
+    description: "Reimbursement up to $3,000 per covered traveler for lost, damaged, or stolen checked or carry-on baggage during a covered trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    description: "Coverage for eligible new purchases for 120 days from purchase against damage or theft up to $500 per item"
+    category: "protection"
+    enrollment_required: false
 apply_link: https://creditcards.chase.com/travel-credit-cards/avios/iberia
