@@ -53,7 +53,7 @@ rewards:
 signup_bonus:
   value: 60000
   type: "points"
-  spend_requirement: 15000
+  spend_requirement: 18000
   timeframe_months: 6
   note: "Earn 30,000 Bonus Points after you spend $3,000 on purchases in your first 3 months of account opening, plus up to 30,000 more Bonus Points by earning 2 Bonus Points total per $1 spent in the first 6 months from account opening on purchases that normally earn 1 Bonus Point, on up to $15,000 spent."
 apr:
