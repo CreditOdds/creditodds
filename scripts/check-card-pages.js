@@ -401,30 +401,56 @@ function detectChanges(card, extracted) {
     // Defensive: tiered welcome offers under the headline-max convention
     // (e.g. Amex Delta Gold: value=90,000 with note "Earn 70,000 ... plus
     // additional 20,000"). YAML stores the MAX in value/spend_requirement/
-    // timeframe_months and the tier breakdown in note. Haiku occasionally
-    // misparses by returning only the FIRST/BASE tier (e.g. 70,000) — which
-    // looks like a phantom downgrade. When the current note describes a
-    // tiered offer ("additional N points/miles/nights") and the proposed
-    // value is LOWER than current, treat it as a tier-collapse misparse and
-    // skip the signup_bonus changes for this run. Matches either word order:
-    // "N additional ..." or "additional N ...", with up to 4 filler words
-    // (e.g. "bonus", brand name like "Marriott Bonvoy bonus") in between.
+    // timeframe_months and the tier breakdown in note. Haiku misparses these
+    // in two recurring ways, both of which we suppress:
+    //
+    //   1. TIER COLLAPSE — returns only the FIRST/BASE tier (e.g. 70,000),
+    //      which looks like a phantom value downgrade (proposed value < cur).
+    //   2. OVERLAPPING-SPEND DOUBLE-COUNT — sums tier spend steps that overlap
+    //      in time, inflating spend_requirement above the stored max. The
+    //      World of Hyatt offer is the canonical case: "30,000 points after
+    //      $3,000 in 3 months, plus up to 30,000 more by earning 2x on up to
+    //      $15,000 in the first 6 months." The $3,000 step is *nested inside*
+    //      the $15,000 / 6-month window, so the true total to max the bonus is
+    //      $15,000 — but Haiku adds $3,000 + $15,000 = $18,000 and re-proposes
+    //      spend_requirement 15000 → 18000 every run (rejected on #1365, #1376).
+    //
+    // We detect a tiered note via the "additional N" / "N additional" phrasing
+    // OR the equivalent "more N" / "N more" phrasing (Chase uses "30,000 more
+    // Bonus Points"), with up to 4 filler words (e.g. "bonus", a brand name
+    // like "Marriott Bonvoy bonus") between the count and the unit. When the
+    // note is tiered, we skip the whole signup_bonus block for the run if the
+    // proposed value drops below the stored max (tier collapse) OR the proposed
+    // spend_requirement rises above it (overlapping-window double-count).
     // Note: pre-2026-06-04 the convention was inverted (floor-as-value) and
     // this guard skipped value INCREASES instead. See PR #1358 / memory
     // feedback_tiered_sub_convention for the convention change.
     const noteText = cur.note || '';
     const tieredAdditionalMatch =
-      noteText.match(/(\d[\d,]*)\s+additional\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
-      noteText.match(/additional\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
-    const skipAsTieredBonus =
-      !!tieredAdditionalMatch &&
+      noteText.match(/(\d[\d,]*)\s+(?:additional|more)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
+      noteText.match(/(?:additional|more)\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
+    const noteDescribesTiered = !!tieredAdditionalMatch;
+
+    const tierCollapse =
+      noteDescribesTiered &&
       sb.value != null &&
       cur.value != null &&
       sb.value < cur.value;
 
+    const spendOvercount =
+      noteDescribesTiered &&
+      sb.spend_requirement != null &&
+      cur.spend_requirement != null &&
+      sb.spend_requirement > cur.spend_requirement;
+
+    const skipAsTieredBonus = tierCollapse || spendOvercount;
+
     if (skipAsTieredBonus) {
+      const reason = tierCollapse
+        ? `proposed value ${cur.value} → ${sb.value} looks like a base-tier-only misparse`
+        : `proposed spend_requirement ${cur.spend_requirement} → ${sb.spend_requirement} looks like an overlapping-window double-count`;
       console.log(
-        `  Ignoring signup_bonus changes: current note describes a tiered offer (+${tieredAdditionalMatch[1]} additional) and proposed value ${cur.value} → ${sb.value} looks like a base-tier-only misparse`
+        `  Ignoring signup_bonus changes: current note describes a tiered offer (${tieredAdditionalMatch[1]}) — ${reason}`
       );
     }
 
@@ -682,8 +708,12 @@ async function main() {
   console.log('\n=== Complete ===');
 }
 
-main().catch(async (err) => {
-  console.error('Fatal error:', err);
-  await closeBrowser();
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(async (err) => {
+    console.error('Fatal error:', err);
+    await closeBrowser();
+    process.exit(1);
+  });
+}
+
+module.exports = { detectChanges };
