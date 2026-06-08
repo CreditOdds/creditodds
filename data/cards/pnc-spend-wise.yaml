@@ -1,0 +1,45 @@
+name: "PNC Spend Wise"
+bank: "PNC"
+slug: "pnc-spend-wise"
+accepting_applications: true
+image: "pnc-spend-wise.png"
+annual_fee: 0
+tags:
+  - balance_transfer
+apr:
+  purchase_intro:
+    rate: 0
+    months: 18
+  balance_transfer_intro:
+    rate: 0
+    months: 18
+  regular:
+    min: 19.49
+    max: 27.49
+benefits:
+  - name: "Purchase APR Reduction Program"
+    value: 0
+    description: "Earn a 2-percentage point reduction to your standard purchase APR each 12-billing-cycle review period by making at least $3,000 in net purchases and paying the minimum due by each due date; floor of 8.74% margin"
+    frequency: "annual"
+    category: "other"
+  - name: "Digital Subscription Credit"
+    value: 25
+    description: "Up to $25 in annual credits for eligible Spotify, Netflix, and Disney+ purchases"
+    frequency: "annual"
+    category: "streaming"
+  - name: "Price Protection"
+    value: 0
+    description: "Reimbursement for the price difference (up to $1,000) if an eligible item drops in price within 60 days of purchase"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Porch Piracy Protection"
+    value: 0
+    description: "Up to $10,000 per claim if an eligible item purchased with the card is stolen within 90 days of purchase"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Up to $800 per claim ($50 deductible) for cell phone damage or theft when you pay your monthly bill with the card; 2 claims per 12 months"
+    frequency: "ongoing"
+    category: "telecom"
+apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-spend-wise-visa-credit-card.html
