@@ -91,30 +91,23 @@ export function buildCreditCardSchema({ card, ratings }: CreditCardSchemaProps) 
     },
     description: `${card.card_name} by ${card.bank}. Average approved credit score: ${card.approved_median_credit_score || 'N/A'}, average approved income: $${card.approved_median_income?.toLocaleString() || 'N/A'}.`,
     image: card.slug ? `https://creditodds.com/card/${card.slug}/opengraph-image` : undefined,
-    offers: {
-      '@type': 'Offer',
-      availability: card.accepting_applications
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/Discontinued',
-      ...(card.annual_fee != null ? {
-        price: String(card.annual_fee),
-        priceCurrency: 'USD',
-        priceSpecification: {
-          '@type': 'UnitPriceSpecification',
-          price: String(card.annual_fee),
-          priceCurrency: 'USD',
-          unitText: 'ANNUAL',
-        },
-      } : {}),
-    },
-    aggregateRating: ratings && ratings.count > 0 && ratings.average !== null ? {
+    // No `offers` block: credit cards aren't shippable goods, so emitting an
+    // Offer triggers Google's Merchant-listings check for hasMerchantReturnPolicy
+    // and shippingDetails — fields that don't apply here. Annual fee is exposed
+    // via additionalProperty instead.
+    aggregateRating: hasRatings ? {
       '@type': 'AggregateRating',
-      ratingValue: ratings.average.toFixed(1),
-      ratingCount: ratings.count,
+      ratingValue: ratings!.average!.toFixed(1),
+      ratingCount: ratings!.count,
       bestRating: 5,
       worstRating: 0,
     } : undefined,
     additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Annual Fee',
+        value: card.annual_fee != null ? `$${card.annual_fee}` : 'N/A',
+      },
       {
         '@type': 'PropertyValue',
         name: 'Median Approved Credit Score',
