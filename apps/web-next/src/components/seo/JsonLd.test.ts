@@ -15,7 +15,7 @@ const baseCard: Card = {
 };
 
 describe("buildCreditCardSchema", () => {
-  it("uses a Google-supported Product parent for review and offer markup", () => {
+  it("uses a Google-supported Product parent for review markup when rated", () => {
     const schema = buildCreditCardSchema({
       card: baseCard,
       ratings: { count: 2, average: 5 },
@@ -33,13 +33,34 @@ describe("buildCreditCardSchema", () => {
         ratingValue: "5.0",
         ratingCount: 2,
       },
-      offers: {
-        "@type": "Offer",
-        availability: "https://schema.org/InStock",
-        price: "0",
-        priceCurrency: "USD",
-      },
     });
+  });
+
+  it("does not emit an offers block so GSC doesn't flag Merchant listings", () => {
+    const rated = buildCreditCardSchema({
+      card: baseCard,
+      ratings: { count: 2, average: 5 },
+    });
+    const unrated = buildCreditCardSchema({
+      card: baseCard,
+      ratings: { count: 0, average: null },
+    });
+
+    expect(rated).not.toHaveProperty("offers");
+    expect(unrated).not.toHaveProperty("offers");
+  });
+
+  it("surfaces annual fee via additionalProperty instead of offers", () => {
+    const schema = buildCreditCardSchema({
+      card: { ...baseCard, annual_fee: 95 },
+      ratings: { count: 0, average: null },
+    });
+
+    expect(schema.additionalProperty).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: "Annual Fee", value: "$95" }),
+      ]),
+    );
   });
 
   it("omits aggregateRating when there are no ratings", () => {
