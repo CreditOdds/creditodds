@@ -1,0 +1,50 @@
+name: "PNC Cash Rewards"
+bank: "PNC"
+slug: "pnc-cash-rewards"
+accepting_applications: true
+category: "cashback"
+image: "pnc-cash-rewards.png"
+annual_fee: 0
+reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: gas
+    value: 4
+    unit: percent
+    note: "$8,000 combined annual cap with dining and groceries; 1% thereafter"
+    spend_cap: 8000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: dining
+    value: 3
+    unit: percent
+    note: "$8,000 combined annual cap with gas and groceries; 1% thereafter"
+    spend_cap: 8000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: groceries
+    value: 2
+    unit: percent
+    note: "$8,000 combined annual cap with gas and dining; 1% thereafter"
+    spend_cap: 8000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 200
+  type: cash
+  spend_requirement: 1000
+  timeframe_months: 3
+  note: "One new account opening bonus per customer per product within a 24-month period"
+apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 18.49
+    max: 28.49
+apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-rewards-visa-credit-card.html
