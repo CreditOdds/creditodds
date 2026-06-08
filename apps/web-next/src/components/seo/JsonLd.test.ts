@@ -50,4 +50,14 @@ describe("buildCreditCardSchema", () => {
 
     expect(schema).not.toHaveProperty("aggregateRating");
   });
+
+  it("falls back to CreditCard type when there are no ratings so GSC doesn't flag Product snippets", () => {
+    const schema = buildCreditCardSchema({
+      card: baseCard,
+      ratings: { count: 0, average: null },
+    });
+
+    expect(schema["@type"]).toBe("CreditCard");
+    expect(schema).not.toHaveProperty("additionalType");
+  });
 });

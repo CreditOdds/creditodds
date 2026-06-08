@@ -74,13 +74,14 @@ interface CreditCardSchemaProps {
 }
 
 export function buildCreditCardSchema({ card, ratings }: CreditCardSchemaProps) {
+  const hasRatings = !!ratings && ratings.count > 0 && ratings.average !== null;
   const schema = {
     '@context': 'https://schema.org',
-    // Google review snippets require aggregateRating to be nested under a
-    // supported parent type. CreditCard is schema.org-valid, but not a Google
-    // review parent; Product + additionalType keeps both validators happy.
-    '@type': 'Product',
-    additionalType: 'https://schema.org/CreditCard',
+    // Use Product only when we have an aggregateRating to attach — Product
+    // snippets require review or aggregateRating, and GSC flags cards with
+    // neither. Plain CreditCard avoids the Product-snippets check entirely.
+    '@type': hasRatings ? 'Product' : 'CreditCard',
+    ...(hasRatings ? { additionalType: 'https://schema.org/CreditCard' } : {}),
     name: card.card_name,
     url: card.slug ? `https://creditodds.com/card/${card.slug}` : undefined,
     category: 'Credit card',
