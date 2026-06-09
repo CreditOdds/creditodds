@@ -73,17 +73,23 @@ jobs:
       - name: Sync cards to database
         id: sync
         run: |
-          echo "Triggering card sync to MySQL database..."
-          response=$(curl -s -w "\n%{http_code}" -X POST "${{ secrets.API_BASE_URL }}/sync-cards" -H "Content-Type: application/json" -d '{"source": "github-action"}')
-          http_code=$(echo "$response" | tail -n1)
-          body=$(echo "$response" | sed '$d')
-          echo "Response: $body"
-          echo "HTTP Status: $http_code"
-          if [ "$http_code" -ne 200 ]; then
+          echo "Invoking sync-cards Lambda directly (no public endpoint)..."
+          aws lambda invoke \
+            --function-name creditodds-sync-cards \
+            --payload '{"source":"github-action"}' \
+            --cli-binary-format raw-in-base64-out \
+            response.json
+          echo "Lambda response envelope:"
+          cat response.json
+          # The handler returns an API-Gateway-style envelope {statusCode, body}
+          # where body is a JSON string, so parse both layers.
+          status=$(node -e "const fs=require('fs');const r=JSON.parse(fs.readFileSync('response.json','utf8'));console.log(r.statusCode||0)")
+          echo "Sync statusCode: $status"
+          if [ "$status" -ne 200 ]; then
             echo "Warning: Card sync returned non-200 status"
           fi
-          # Extract wire_changes for social posting
-          wire_changes=$(echo "$body" | node -e "const c=[];process.stdin.on('data',d=>c.push(d));process.stdin.on('end',()=>{try{const j=JSON.parse(Buffer.concat(c));const w=j.details?.wire_changes||[];console.log(JSON.stringify(w))}catch{console.log('[]')}})")
+          # Extract wire_changes for social posting (double-parse: envelope -> body)
+          wire_changes=$(node -e "const fs=require('fs');try{const r=JSON.parse(fs.readFileSync('response.json','utf8'));const b=JSON.parse(r.body||'{}');console.log(JSON.stringify(b.details?.wire_changes||[]))}catch{console.log('[]')}")
           echo "wire_changes=$wire_changes" >> "$GITHUB_OUTPUT"
 
       - name: Post CardWire updates to Twitter
@@ -91,9 +97,12 @@ jobs:
         env:
           SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
           SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+          # Pass via env (not inline ${{ }}) so a card name with a quote can't
+          # break out of the shell argument or inject commands.
+          WIRE_CHANGES: ${{ steps.sync.outputs.wire_changes }}
         run: |
           echo "Posting CardWire changes..."
-          node scripts/post-card-wire.js --changes '${{ steps.sync.outputs.wire_changes }}'
+          node scripts/post-card-wire.js --changes "$WIRE_CHANGES"
 
       - name: Detect new card files
         id: new-cards
