@@ -238,10 +238,12 @@ exports.updateCardsGitHubHandler = async (event) => {
     triggerReason = `PR #${event.pull_request.number} merged: ${event.pull_request.title}`;
   }
 
-  // Handle manual trigger
-  if (event.source === "manual" || event.httpMethod === "POST") {
+  // Handle direct invoke (build-cards GitHub Action) or manual trigger.
+  // The CI workflow invokes this Lambda directly with {"source":"github-action"};
+  // "manual" is kept for ad-hoc `aws lambda invoke` runs.
+  if (event.source === "manual" || event.source === "github-action") {
     shouldSync = true;
-    triggerReason = "Manual trigger";
+    triggerReason = `Direct invoke (${event.source})`;
   }
 
   if (!shouldSync) {
