@@ -33,7 +33,7 @@ rewards:
 signup_bonus:
   value: 100
   type: "cash"
-  spend_requirement: 100
+  spend_requirement: 300
   timeframe_months: 3
 apr:
   regular:
