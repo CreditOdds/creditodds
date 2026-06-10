@@ -202,6 +202,14 @@ Resources:
 
   CardRecordsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/card-records.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/card-records.CardRecordsHandler
       Runtime: nodejs22.x
@@ -226,6 +234,14 @@ Resources:
 
   UserRecordsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/user-records.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/user-records.UserRecordsHandler
       Runtime: nodejs22.x
@@ -279,6 +295,14 @@ Resources:
 
   UserReferralsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/user-referrals.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/user-referrals.UserReferralsHandler
       Runtime: nodejs22.x
@@ -386,6 +410,14 @@ Resources:
 
   UserWalletFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/user-wallet.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/user-wallet.UserWalletHandler
       Runtime: nodejs22.x
@@ -496,6 +528,14 @@ Resources:
 
   UserCardSelectionsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/user-card-selections.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/user-card-selections.UserCardSelectionsHandler
       Runtime: nodejs22.x
@@ -578,6 +618,14 @@ Resources:
 
   CardViewFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/card-view.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/card-view.CardViewHandler
       Runtime: nodejs22.x
@@ -621,6 +669,14 @@ Resources:
 
   CardCompareEventFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/card-compare-event.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/card-compare-event.CardCompareEventHandler
       Runtime: nodejs22.x
@@ -745,6 +801,14 @@ Resources:
 
   LeaderboardFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/leaderboard.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/leaderboard.LeaderboardHandler
       Runtime: nodejs22.x
@@ -779,6 +843,14 @@ Resources:
 
   RecentRecordsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/recent-records.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/recent-records.RecentRecordsHandler
       Runtime: nodejs22.x
@@ -804,6 +876,14 @@ Resources:
 
   AdminStatsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/admin.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/admin.AdminStatsHandler
       Runtime: nodejs22.x
@@ -836,6 +916,14 @@ Resources:
 
   AdminRecordsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/admin.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/admin.AdminRecordsHandler
       Runtime: nodejs22.x
@@ -889,6 +977,14 @@ Resources:
 
   AdminReferralsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/admin.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/admin.AdminReferralsHandler
       Runtime: nodejs22.x
@@ -935,6 +1031,14 @@ Resources:
 
   CheckOddsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/check-odds.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/check-odds.CheckOddsHandler
       Runtime: nodejs22.x
@@ -975,6 +1079,14 @@ Resources:
 
   AdminGraphsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/admin.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/admin.AdminGraphsHandler
       Runtime: nodejs22.x
@@ -1007,6 +1119,14 @@ Resources:
 
   AdminSearchesFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/admin.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/admin.AdminSearchesHandler
       Runtime: nodejs22.x
@@ -1039,6 +1159,14 @@ Resources:
 
   AdminUserLookupFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/admin.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/admin.AdminUserLookupHandler
       Runtime: nodejs22.x
@@ -1071,6 +1199,14 @@ Resources:
 
   AdminAuditFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/admin.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/admin.AdminAuditHandler
       Runtime: nodejs22.x
@@ -1103,6 +1239,14 @@ Resources:
 
   CardRatingsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/card-ratings.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/card-ratings.CardRatingsHandler
       Runtime: nodejs22.x
@@ -1137,6 +1281,14 @@ Resources:
 
   CardRatingsUserFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/card-ratings.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/card-ratings.CardRatingsUserHandler
       Runtime: nodejs22.x
@@ -1196,6 +1348,14 @@ Resources:
   # Complete writes back per-referral results. Not exposed via API Gateway.
   ReferralValidationListFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/referral-validation-list.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/referral-validation-list.ReferralValidationListHandler
       Runtime: nodejs22.x
@@ -1211,6 +1371,14 @@ Resources:
 
   ReferralValidationCompleteFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/referral-validation-complete.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/referral-validation-complete.ReferralValidationCompleteHandler
       Runtime: nodejs22.x
@@ -1226,6 +1394,14 @@ Resources:
 
   RefreshCardStatsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/refresh-card-stats.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/refresh-card-stats.RefreshCardStatsHandler
       Runtime: nodejs22.x
@@ -1248,6 +1424,14 @@ Resources:
 
   WalletPicksStoreFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/wallet-picks-store.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/wallet-picks-store.WalletPicksStoreHandler
       Runtime: nodejs22.x
@@ -1280,6 +1464,14 @@ Resources:
 
   WalletPicksNearbyFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/wallet-picks-nearby.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/wallet-picks-nearby.WalletPicksNearbyHandler
       Runtime: nodejs22.x
@@ -1313,6 +1505,14 @@ Resources:
 
   UserSettingsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/user-settings.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/user-settings.UserSettingsHandler
       Runtime: nodejs22.x
@@ -1349,6 +1549,14 @@ Resources:
 
   PlaidLinkTokenFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/plaid-link-token.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/plaid-link-token.PlaidLinkTokenHandler
       Runtime: nodejs22.x
@@ -1384,6 +1592,14 @@ Resources:
 
   PlaidExchangeTokenFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/plaid-exchange-token.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/plaid-exchange-token.PlaidExchangeTokenHandler
       Runtime: nodejs22.x
@@ -1418,6 +1634,14 @@ Resources:
 
   PlaidItemsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/plaid-items.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/plaid-items.PlaidItemsHandler
       Runtime: nodejs22.x
@@ -1462,6 +1686,14 @@ Resources:
 
   PlaidWebhookFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/plaid-webhook.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/plaid-webhook.PlaidWebhookHandler
       Runtime: nodejs22.x
@@ -1489,6 +1721,14 @@ Resources:
 
   CardWireFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/card-wire.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/card-wire.CardWireHandler
       Runtime: nodejs22.x
