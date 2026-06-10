@@ -19,7 +19,7 @@ async function resolveCardId(cardName) {
 
 // GET /ratings?card_name=Chase+Sapphire+Preferred — public, returns avg + count
 exports.CardRatingsHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
 
@@ -96,7 +96,7 @@ exports.CardRatingsHandler = async (event) => {
 
 // Authenticated handler for user's own rating
 exports.CardRatingsUserHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
   const userId = event.requestContext?.authorizer?.sub;

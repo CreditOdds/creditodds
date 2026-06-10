@@ -88,7 +88,7 @@ const responseHeaders = {
 
 exports.UserRecordsHandler = async (event) => {
   // All log statements are written to CloudWatch
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
 
@@ -329,7 +329,7 @@ exports.UserRecordsHandler = async (event) => {
   }
   // All log statements are written to CloudWatch
   console.info(
-    `response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`
+    `response from: ${event.path} statusCode: ${response.statusCode} bodyLength: ${response.body?.length ?? 0}`
   );
   return response;
 };

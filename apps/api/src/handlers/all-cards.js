@@ -75,7 +75,7 @@ async function fetchCardStatsAndMetadata() {
 }
 
 exports.AllCardsHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
 
@@ -129,7 +129,7 @@ exports.AllCardsHandler = async (event) => {
   }
 
   console.info(
-    `response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`
+    `response from: ${event.path} statusCode: ${response.statusCode} bodyLength: ${response.body?.length ?? 0}`
   );
   return response;
 };

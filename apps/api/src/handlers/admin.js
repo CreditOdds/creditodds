@@ -32,7 +32,7 @@ const responseHeaders = {
 
 // ============ STATS HANDLER ============
 exports.AdminStatsHandler = async (event) => {
-  console.info("AdminStats received:", event);
+  console.info("AdminStats received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check (no auth headers on preflight)
   if (event.httpMethod === "OPTIONS") {
@@ -104,7 +104,7 @@ exports.AdminStatsHandler = async (event) => {
 
 // ============ RECORDS HANDLER ============
 exports.AdminRecordsHandler = async (event) => {
-  console.info("AdminRecords received:", event);
+  console.info("AdminRecords received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check
   if (event.httpMethod === "OPTIONS") {
@@ -408,7 +408,7 @@ exports.AdminRecordsHandler = async (event) => {
 
 // ============ REFERRALS HANDLER ============
 exports.AdminReferralsHandler = async (event) => {
-  console.info("AdminReferrals received:", event);
+  console.info("AdminReferrals received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check
   if (event.httpMethod === "OPTIONS") {
@@ -615,7 +615,7 @@ exports.AdminReferralsHandler = async (event) => {
 
 // ============ SEARCHES HANDLER ============
 exports.AdminSearchesHandler = async (event) => {
-  console.info("AdminSearches received:", event);
+  console.info("AdminSearches received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
@@ -669,7 +669,7 @@ exports.AdminSearchesHandler = async (event) => {
 
 // ============ USER LOOKUP HANDLER ============
 exports.AdminUserLookupHandler = async (event) => {
-  console.info("AdminUserLookup received:", event);
+  console.info("AdminUserLookup received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
@@ -763,7 +763,7 @@ exports.AdminUserLookupHandler = async (event) => {
 
 // ============ GRAPHS HANDLER ============
 exports.AdminGraphsHandler = async (event) => {
-  console.info("AdminGraphs received:", event);
+  console.info("AdminGraphs received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
@@ -847,7 +847,7 @@ exports.AdminGraphsHandler = async (event) => {
 
 // ============ AUDIT LOG HANDLER ============
 exports.AdminAuditHandler = async (event) => {
-  console.info("AdminAudit received:", event);
+  console.info("AdminAudit received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check
   if (event.httpMethod === "OPTIONS") {

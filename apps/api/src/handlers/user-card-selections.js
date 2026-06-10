@@ -34,7 +34,7 @@ function ok(body, status = 200) {
 }
 
 exports.UserCardSelectionsHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: "" };

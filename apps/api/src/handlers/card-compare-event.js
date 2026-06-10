@@ -32,7 +32,7 @@ function unorderedPairs(slugs) {
 }
 
 exports.CardCompareEventHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
 

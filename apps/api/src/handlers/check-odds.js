@@ -166,7 +166,7 @@ function validateInput(body) {
 }
 
 exports.CheckOddsHandler = async (event) => {
-  console.info("CheckOdds received:", event);
+  console.info("CheckOdds received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return {

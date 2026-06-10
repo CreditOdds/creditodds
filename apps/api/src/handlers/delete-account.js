@@ -18,7 +18,7 @@ const responseHeaders = {
 };
 
 exports.DeleteAccountHandler = async (event) => {
-  console.info("DeleteAccount received:", event);
+  console.info("DeleteAccount received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return {
