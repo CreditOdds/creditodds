@@ -1207,7 +1207,7 @@ Resources:
       Runtime: nodejs22.x
       MemorySize: 256
       Timeout: 300
-      Description: Recomputes per-card stats (totals + medians) into card_stats every 5 minutes; also callable via admin HTTP endpoint
+      Description: Recomputes per-card stats (totals + medians) into card_stats every 5 minutes (EventBridge schedule). Invoke-only — no public HTTP route.
       Environment:
         Variables:
           ENDPOINT: !Ref ENDPOINT
@@ -1221,22 +1221,6 @@ Resources:
             Schedule: rate(5 minutes)
             Description: Refresh precomputed card stats
             Enabled: true
-        ManualRefresh:
-          Type: Api
-          Properties:
-            Path: /admin/refresh-card-stats
-            Method: POST
-            RestApiId:
-              Ref: CreditCardOddsAPI
-        ManualRefreshOptions:
-          Type: Api
-          Properties:
-            Auth:
-              Authorizer: NONE
-            Path: /admin/refresh-card-stats
-            Method: OPTIONS
-            RestApiId:
-              Ref: CreditCardOddsAPI
 
   WalletPicksStoreFunction:
     Type: AWS::Serverless::Function
