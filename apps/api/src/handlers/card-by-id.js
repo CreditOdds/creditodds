@@ -89,6 +89,15 @@ async function fetchCardFromDB(cardName) {
   }
 }
 
+
+// Cacheable headers for public GET reads: lets CloudFront/browser cache
+// successful responses (s-maxage matches the 300s ISR/stats cadence). Applied
+// only to 200 reads, never to errors or authenticated/POST responses.
+const cacheableHeaders = {
+  ...responseHeaders,
+  "Cache-Control": "public, max-age=60, s-maxage=300",
+};
+
 exports.CardByIdHandler = async (event) => {
   console.info("received:", event.httpMethod, event.path);
 
@@ -150,7 +159,7 @@ exports.CardByIdHandler = async (event) => {
 
         response = {
           statusCode: 200,
-          headers: responseHeaders,
+          headers: cacheableHeaders,
           body: JSON.stringify(enrichedCard),
         };
         break;

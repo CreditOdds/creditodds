@@ -1,12 +1,36 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { getAllCards } from '@/lib/api';
+import { getAllCards, type Card } from '@/lib/api';
 import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 import CompareClient from './CompareClient';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../landing.css';
 
 export const revalidate = 300;
+
+// CompareClient receives the full catalog (for the picker) and renders the
+// comparison table from whichever cards are selected, so rewards/benefits/apr/
+// medians must stay. We only drop fields the page never reads — referrals,
+// our_take, previous_names, apply links, tags, etc. Smaller cut than Explore
+// because the rich comparison data is genuinely needed here.
+function slimForCompare(c: Card): Card {
+  return {
+    card_id: c.card_id,
+    card_name: c.card_name,
+    slug: c.slug,
+    bank: c.bank,
+    card_image_link: c.card_image_link,
+    accepting_applications: c.accepting_applications,
+    annual_fee: c.annual_fee,
+    reward_type: c.reward_type,
+    approved_median_credit_score: c.approved_median_credit_score,
+    approved_median_income: c.approved_median_income,
+    signup_bonus: c.signup_bonus,
+    apr: c.apr,
+    rewards: c.rewards,
+    benefits: c.benefits,
+  };
+}
 
 export async function generateMetadata({
   searchParams,
@@ -120,7 +144,7 @@ export default async function ComparePage() {
             </div>
           }
         >
-          <CompareClient allCards={cards} />
+          <CompareClient allCards={cards.map(slimForCompare)} />
         </Suspense>
       </div>
       <V2Footer />

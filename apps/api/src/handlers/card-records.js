@@ -30,6 +30,15 @@ function fetchCardsFromCDN() {
   });
 }
 
+
+// Cacheable headers for public GET reads: lets CloudFront/browser cache
+// successful responses (s-maxage matches the 300s ISR/stats cadence). Applied
+// only to 200 reads, never to errors or authenticated/POST responses.
+const cacheableHeaders = {
+  ...responseHeaders,
+  "Cache-Control": "public, max-age=60, s-maxage=300",
+};
+
 exports.CardRecordsHandler = async (event) => {
   if (event.httpMethod !== 'GET') {
     return {
@@ -107,7 +116,7 @@ exports.CardRecordsHandler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { ...responseHeaders, 'Content-Type': 'application/json' },
+      headers: { ...cacheableHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify(records),
     };
   } catch (error) {

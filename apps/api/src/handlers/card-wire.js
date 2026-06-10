@@ -8,6 +8,15 @@ const responseHeaders = {
   "X-Requested-With": "*",
 };
 
+
+// Cacheable headers for public GET reads: lets CloudFront/browser cache
+// successful responses (s-maxage matches the 300s ISR/stats cadence). Applied
+// only to 200 reads, never to errors or authenticated/POST responses.
+const cacheableHeaders = {
+  ...responseHeaders,
+  "Cache-Control": "public, max-age=60, s-maxage=300",
+};
+
 exports.CardWireHandler = async (event) => {
   console.info("received:", event.httpMethod, event.path);
 
@@ -63,7 +72,7 @@ exports.CardWireHandler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: responseHeaders,
+      headers: cacheableHeaders,
       body: JSON.stringify({ changes: rows }),
     };
   } catch (error) {
