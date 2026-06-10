@@ -4,6 +4,7 @@ node_modules/
 # Build outputs
 dist/
 build/
+.build/
 .aws-sam/
 data/news.json
 
