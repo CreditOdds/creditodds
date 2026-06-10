@@ -43,7 +43,7 @@ export default function CheckOddsPage() {
         </h1>
         <p className="page-sub">
           Enter your credit profile and see how you stack up against real approved
-          applicants — before you take the hard pull.
+          applicants, before you take the hard pull.
         </p>
       </section>
       <div className="wrap" style={{ paddingTop: 8, paddingBottom: 64 }}>
