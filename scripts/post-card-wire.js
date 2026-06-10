@@ -479,7 +479,7 @@ function buildPostText(cardName, changes, bank) {
 
 function buildLinkUrl(slug) {
   const url = new URL(`https://creditodds.com/card/${slug}`);
-  url.searchParams.set('utm_source', 'twitter');
+  url.searchParams.set('utm_source', 'twitter_cardwire');
   url.searchParams.set('utm_medium', 'social');
   url.searchParams.set('utm_campaign', 'card-wire');
   return url.toString();
@@ -497,7 +497,9 @@ async function queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffe
     link_url: linkUrl,
     source_type: 'card-wire',
     source_id: sourceId,
-    platforms: ['twitter'],
+    // SUB-increase tweets route only to the dedicated @card_wire X account.
+    // (Omitting platforms would fan out to every connected account.)
+    platforms: ['twitter_cardwire'],
   };
   if (twitterText && twitterText !== textContent) {
     body.twitter_text = twitterText;
