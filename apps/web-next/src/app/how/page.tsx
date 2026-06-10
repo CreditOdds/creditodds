@@ -120,7 +120,7 @@ export default function HowPage() {
 
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current">how it works</span>
+          <span className="cj-crumb cj-crumb-current">How It Works</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">

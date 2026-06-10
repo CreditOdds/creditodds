@@ -23,7 +23,7 @@ export default function PrivacyPage() {
     <div className="landing-v2 static-v2">
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current">privacy</span>
+          <span className="cj-crumb cj-crumb-current">Privacy</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">

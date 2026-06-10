@@ -293,8 +293,6 @@ export default function AdminPage() {
       <div className="av-terminal">
         <nav className="av-crumbs" aria-label="Breadcrumb">
           <span className="av-crumb-current">Admin</span>
-          <span className="av-crumb-sep">/</span>
-          <span>{tabs.find(t => t.id === activeTab)?.name.toLowerCase()}</span>
         </nav>
         <span className="av-spacer" />
         <span className="av-term-status">
