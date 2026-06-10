@@ -86,7 +86,7 @@ export default async function AuthorPage({ params }: Props) {
         <nav className="cj-crumbs" aria-label="Breadcrumb">
           <Link href="/articles" className="cj-crumb">Articles</Link>
           <span className="cj-sep">/</span>
-          <span className="cj-crumb cj-crumb-current" aria-current="page">by {author.name}</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">By {author.name}</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">

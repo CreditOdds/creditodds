@@ -30,7 +30,7 @@ export default function CheckOddsPage() {
       />
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current" aria-current="page">Check odds</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Check Odds</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">

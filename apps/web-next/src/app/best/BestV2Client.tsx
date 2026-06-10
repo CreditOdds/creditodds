@@ -56,7 +56,7 @@ export default function BestV2Client({
     <div className="landing-v2">
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current" aria-current="page">Best cards</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Best Cards</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">
