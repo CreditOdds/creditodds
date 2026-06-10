@@ -7,7 +7,7 @@ const responseHeaders = {
 };
 
 exports.RecentRecordsHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
 

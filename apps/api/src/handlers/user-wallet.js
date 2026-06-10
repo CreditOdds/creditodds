@@ -37,7 +37,7 @@ function validateAcquiredDate(acquired_month, acquired_year) {
 }
 
 exports.UserWalletHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   // Handle CORS preflight
   if (event.httpMethod === "OPTIONS") {

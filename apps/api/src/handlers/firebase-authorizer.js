@@ -43,7 +43,7 @@ function generatePolicy(principalId, effect, resource, context = {}) {
  * Lambda authorizer handler
  */
 exports.firebaseAuthorizerHandler = async (event) => {
-  console.log('Authorizer event:', JSON.stringify(event, null, 2));
+  console.log('Authorizer request:', event.methodArn);
 
   // Get the authorization token from the header
   const authHeader = event.authorizationToken || event.headers?.Authorization || event.headers?.authorization;

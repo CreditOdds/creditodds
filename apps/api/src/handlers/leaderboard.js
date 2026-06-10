@@ -10,7 +10,7 @@ const responseHeaders = {
 };
 
 exports.LeaderboardHandler = async (event) => {
-  console.info("Leaderboard received:", event);
+  console.info("Leaderboard received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return {

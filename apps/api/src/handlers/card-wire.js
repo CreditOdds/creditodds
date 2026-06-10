@@ -9,7 +9,7 @@ const responseHeaders = {
 };
 
 exports.CardWireHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return {
