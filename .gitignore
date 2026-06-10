@@ -6,6 +6,7 @@ dist/
 build/
 .build/
 .aws-sam/
+apps/api/packaged.yaml
 data/news.json
 
 # Environment files
