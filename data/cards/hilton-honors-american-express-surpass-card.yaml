@@ -25,10 +25,6 @@ rewards:
     value: 6
     unit: points_per_dollar
     note: "U.S. gas stations"
-  - category: online_shopping
-    value: 4
-    unit: points_per_dollar
-    note: "U.S. online retail purchases"
   - category: everything_else
     value: 3
     unit: points_per_dollar

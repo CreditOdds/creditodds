@@ -1,6 +1,7 @@
 // Comprehensive admin handler
 const yup = require("yup");
 const mysql = require("../db");
+const { logAuditAction } = require("../lib/audit-log");
 
 // Fallback admin user IDs (Firebase UIDs) - used if custom claims not set
 const FALLBACK_ADMIN_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
@@ -27,18 +28,7 @@ const responseHeaders = {
   "X-Requested-With": "*",
 };
 
-// Helper to log admin actions
-async function logAuditAction(adminId, action, entityType, entityId, details = null) {
-  try {
-    await mysql.query(
-      "INSERT INTO audit_log (admin_id, action, entity_type, entity_id, details) VALUES (?, ?, ?, ?, ?)",
-      [adminId, action, entityType, entityId, details ? JSON.stringify(details) : null]
-    );
-  } catch (error) {
-    console.error("Failed to log audit action:", error);
-    // Don't throw - audit logging shouldn't break the main operation
-  }
-}
+// Admin action logging uses the shared `logAuditAction` helper (imported above).
 
 // ============ STATS HANDLER ============
 exports.AdminStatsHandler = async (event) => {
@@ -453,6 +443,10 @@ exports.AdminReferralsHandler = async (event) => {
             r.submit_datetime,
             r.admin_approved,
             r.archived_at,
+            r.archived_reason,
+            r.last_validated_at,
+            r.validation_status,
+            r.validation_consecutive_failures,
             c.card_name,
             c.card_image_link,
             c.bank,

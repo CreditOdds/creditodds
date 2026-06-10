@@ -71,10 +71,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 90000
+  value: 100000
   type: "miles"
-  spend_requirement: 3000
+  spend_requirement: 6000
   timeframe_months: 6
+  note: "Tiered bonus: 80,000 miles after $4,000 spend in first 6 months, plus additional 20,000 miles after additional $2,000 spend within first 6 months"
 apr:
   regular:
     min: 19.49

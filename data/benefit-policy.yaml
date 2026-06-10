@@ -64,6 +64,20 @@ exclude:
   - "Pay with Miles"                # specific Delta-style miles-for-flights mechanic
   - "Pay with Miles Discount"
   - "MileagePlus Pay with Points"
+  - "Cash + Points"                 # TrueBlue-style "pay with combo of cash and points"
+  - "Cash and Points"
+  - "Pay with Points"               # generic "use points toward purchases" mechanic
+  - "Flexible Rewards Redemption"   # every cashback card has statement credit/gift card/deposit options
+  - "Flexible Redemption"
+  - "Rewards Redemption Options"
+  - "Redemption Options"
+  - "Multiple Redemption Options"
+  - "Rotating Bonus"                # rotating category earn rates belong in rewards[]
+  - "Rotating Category Bonus"
+  - "Limited-Time Bonus Categories"
+  - "Limited-Time Offers"           # rotating promo offers vary item-to-item
+  - "Limited Time Offers"
+  - "Special Limited-Time Offers"
 
   # Generic business-card platform features (not card-differentiators)
   - "Free Employee Cards"

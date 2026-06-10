@@ -20,11 +20,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 75000
+  value: 150000
   type: "miles"
-  spend_requirement: 7500
-  timeframe_months: 3
-  note: "Plus an additional 75,000 miles after spending an additional $22,500 in 6 months"
+  spend_requirement: 37500
+  timeframe_months: 6
+  note: "Earn up to 75,000 miles once you spend $7,500 in the first 3 months and an additional 75,000 miles once you spend $30,000 in the first 6 months. Offer ends 2026-06-08."
 benefits:
   - name: "Business Travel Credit"
     value: 50

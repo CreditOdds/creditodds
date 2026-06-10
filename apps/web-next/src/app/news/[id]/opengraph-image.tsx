@@ -30,6 +30,7 @@ function toneForTag(tag: string): ToneKey {
     case 'discontinued':   return 'warn';
     case 'fee-change':     return 'gold';
     case 'limited-time':   return 'gold';
+    case 'rumor':          return 'gold';
     case 'bonus-change':
     case 'benefit-change':
     case 'policy-change':
