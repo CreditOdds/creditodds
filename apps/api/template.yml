@@ -101,6 +101,14 @@ Resources:
 
   AllCardsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/all-cards.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/all-cards.AllCardsHandler
       Runtime: nodejs22.x
@@ -127,6 +135,14 @@ Resources:
 
   CardByIdFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/card-by-id.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/card-by-id.CardByIdHandler
       Runtime: nodejs22.x
@@ -153,6 +169,14 @@ Resources:
 
   getCardGraphsFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/get-card-graphs.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
     Properties:
       Handler: src/handlers/get-card-graphs.getCardGraphsHandler
       Runtime: nodejs22.x

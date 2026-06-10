@@ -55,6 +55,13 @@ jobs:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds-Deploy
           aws-region: us-east-2
 
+      # SAM's esbuild BuildMethod (used by the bundled handlers) needs esbuild
+      # discoverable on PATH at build time. SAM's per-function npm install is
+      # production-only, so a global pinned install is the reliable way to
+      # provide it in CI.
+      - name: Install esbuild for SAM bundling
+        run: npm install -g esbuild@0.27.4
+
       - name: SAM build
         working-directory: apps/api
         run: sam build
