@@ -26,7 +26,18 @@ function LoginPageInner() {
   // Build redirect URL from query params
   const getRedirectUrl = () => {
     const redirect = searchParams.get('redirect');
-    if (!redirect) return '/profile';
+    // Only allow same-origin relative paths. Reject absolute and
+    // protocol-relative URLs (https://evil.com, //evil.com, /\evil.com) so a
+    // crafted ?redirect= can't bounce an authenticated user off-site (open
+    // redirect / phishing vector).
+    if (
+      !redirect ||
+      !redirect.startsWith('/') ||
+      redirect.startsWith('//') ||
+      redirect.startsWith('/\\')
+    ) {
+      return '/profile';
+    }
     // Preserve other query params for the redirect target
     const params = new URLSearchParams();
     searchParams.forEach((value, key) => {
