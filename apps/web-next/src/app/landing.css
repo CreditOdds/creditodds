@@ -7134,6 +7134,45 @@
   font-weight: 600;
 }
 
+/* "Highest bonus on record" callout pinned to the top of the Card wire rail. */
+.landing-v2 .cj-wire-high {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--line-2));
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--accent) 6%, var(--paper));
+}
+.landing-v2 .cj-wire-high-label {
+  flex: 1 1 100%;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.landing-v2 .cj-wire-high-val {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.landing-v2 .cj-wire-high-now {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0f8a5f;
+  background: color-mix(in oklab, #0f8a5f 12%, var(--paper));
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+.landing-v2 .cj-wire-high-date {
+  font-size: 11px;
+  color: var(--muted);
+}
+
 .landing-v2 .cj-two-up {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

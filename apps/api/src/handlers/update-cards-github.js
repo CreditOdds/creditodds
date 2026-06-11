@@ -65,14 +65,34 @@ async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
     // Skip initial backfill (old is null = first time populating metrics)
     if (oldStr === null) continue;
 
-    changes.push({ field: t.field, old_value: oldStr, new_value: newStr });
+    // The signup bonus value is unit-bearing (cash / points / miles / free
+    // nights), so stamp each row with its unit and never compare across units.
+    // When the unit itself changes (e.g. Marriott Bonvoy Boundless switched
+    // from free nights to points), the old->new numbers aren't comparable, so
+    // skip the diff entirely — the next same-unit change records cleanly, and
+    // the new value still surfaces as that row's old_value.
+    let unit = null;
+    if (t.field === "signup_bonus_value") {
+      const oldType = oldMetrics.signup_bonus_type ?? null;
+      const newType = newMetrics.signup_bonus_type ?? null;
+      if (oldType !== null && newType !== null && oldType !== newType) continue;
+      unit = newType;
+    }
+
+    changes.push({ field: t.field, old_value: oldStr, new_value: newStr, unit });
   }
 
   if (changes.length > 0) {
-    const placeholders = changes.map(() => "(?, ?, ?, ?)").join(", ");
-    const flat = changes.flatMap((c) => [cardId, c.field, c.old_value, c.new_value]);
+    const placeholders = changes.map(() => "(?, ?, ?, ?, ?)").join(", ");
+    const flat = changes.flatMap((c) => [
+      cardId,
+      c.field,
+      c.old_value,
+      c.new_value,
+      c.unit,
+    ]);
     await mysql.query(
-      `INSERT INTO card_wire (card_id, field, old_value, new_value) VALUES ${placeholders}`,
+      `INSERT INTO card_wire (card_id, field, old_value, new_value, unit) VALUES ${placeholders}`,
       flat
     );
   }
