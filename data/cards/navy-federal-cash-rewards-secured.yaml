@@ -1,0 +1,31 @@
+name: "Navy Federal cashRewards Secured"
+bank: "Navy Federal"
+slug: "navy-federal-cash-rewards-secured"
+accepting_applications: true
+category: "secured"
+image: "navy-federal-cash-rewards-secured.png"
+annual_fee: 0
+foreign_transaction_fee: false
+reward_type: "cashback"
+tags:
+  - secured
+  - credit_builder
+  - cashback
+rewards:
+  - category: everything_else
+    value: 1
+    unit: percent
+apr:
+  regular:
+    min: 18.00
+    max: 18.00
+benefits:
+  - name: "Upgrade Path to Unsecured cashRewards"
+    description: "Eligible for a credit limit increase after 3 months without adding to the deposit; reviewed monthly for upgrade to the unsecured cashRewards card starting at 6 months, with the security deposit ($200 minimum) returned upon upgrade"
+    category: "other"
+    enrollment_required: false
+  - name: "Collision Damage Waiver"
+    description: "Rental car collision damage waiver coverage when the rental is paid with the card"
+    category: "travel"
+    enrollment_required: false
+apply_link: https://www.navyfederal.org/loans-cards/credit-cards/cash-rewards-secured.html

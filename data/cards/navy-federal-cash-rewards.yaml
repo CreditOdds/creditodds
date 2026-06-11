@@ -1,0 +1,40 @@
+name: "Navy Federal cashRewards"
+bank: "Navy Federal"
+slug: "navy-federal-cash-rewards"
+accepting_applications: true
+category: "cashback"
+image: "navy-federal-cash-rewards.png"
+annual_fee: 0
+foreign_transaction_fee: false
+reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: everything_else
+    value: 1.5
+    unit: percent
+    note: "Approved credit limits of $5,000 or more are issued as cashRewards Plus, which earns 2% cash back"
+signup_bonus:
+  value: 250
+  type: cash
+  spend_requirement: 2500
+  timeframe_months: 3
+  note: "Offer valid for accounts opened through 6/30/2026"
+apr:
+  balance_transfer_intro:
+    rate: 1.99
+    months: 12
+  regular:
+    min: 14.15
+    max: 18.00
+benefits:
+  - name: "No Balance Transfer Fees"
+    description: "Navy Federal does not charge balance transfer fees on this card"
+    category: "other"
+    enrollment_required: false
+  - name: "Collision Damage Waiver"
+    description: "Rental car collision damage waiver coverage when the rental is paid with the card"
+    category: "travel"
+    enrollment_required: false
+apply_link: https://www.navyfederal.org/loans-cards/credit-cards/cash-rewards-alt.html
