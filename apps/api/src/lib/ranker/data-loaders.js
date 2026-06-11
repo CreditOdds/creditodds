@@ -1,15 +1,16 @@
 // Data-loading helpers for the wallet-picks Lambda handlers.
 //
-// - stores.json is bundled in the Lambda zip (see scripts/build-stores.js,
-//   which mirrors data/stores.json into this directory).
+// - stores.json is require()'d so esbuild inlines it into each handler's
+//   bundle (see scripts/build-stores.js, which mirrors data/stores.json into
+//   this directory). It must NOT be read as a loose file via fs/__dirname:
+//   under `BuildMethod: esbuild` the data file isn't copied next to the
+//   bundle, so a runtime read throws ENOENT and 500s every wallet-picks call.
 // - cards.json is fetched from CloudFront per cold start. The existing
 //   nearby-recommendations / card-by-id / all-cards handlers do the same
 //   per request; we cache at module scope here with a short TTL to keep
 //   warm-container wallet picks fast without holding stale data forever.
 
 const https = require("https");
-const path = require("path");
-const fs = require("fs");
 const mysql = require("../../db");
 
 const CARDS_URL =
@@ -95,15 +96,11 @@ async function getAllCards() {
   return enriched;
 }
 
-// stores.json — bundled in CodeUri, loaded once at module init.
-const STORES_PATH = path.join(__dirname, "stores.json");
-let storesData = null;
+// stores.json — inlined into the bundle at build time via require() so the
+// data survives esbuild bundling (a loose-file read would not).
+const storesData = require("./stores.json");
 
 function getStoresData() {
-  if (!storesData) {
-    const raw = fs.readFileSync(STORES_PATH, "utf8");
-    storesData = JSON.parse(raw);
-  }
   return storesData;
 }
 
