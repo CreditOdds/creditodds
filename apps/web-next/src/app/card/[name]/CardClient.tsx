@@ -1732,6 +1732,7 @@ export default function CardClient({
                   );
                 })}
               </ul>
+              <p className="cj-wire-rail-note">Tracked since April 2026</p>
             </div>
           )}
 
