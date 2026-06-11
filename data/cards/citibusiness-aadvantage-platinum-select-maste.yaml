@@ -6,6 +6,9 @@ previous_names:
 accepting_applications: true
 image: "citi-business-aadvantage-platinum-select.png"
 annual_fee: 99
+annual_fee_intro:
+  value: 0
+  months: 12
 foreign_transaction_fee: false
 reward_type: "miles"
 tags:
