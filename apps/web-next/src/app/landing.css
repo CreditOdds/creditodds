@@ -1545,6 +1545,13 @@
 .landing-v2 .filter-clear-btn:hover {
   text-decoration: underline;
 }
+.landing-v2 .empty-cta-link {
+  font-weight: 500;
+  color: var(--accent);
+}
+.landing-v2 .empty-cta-link:hover {
+  text-decoration: underline;
+}
 .landing-v2 .ct-odds.odds-green,
 .landing-v2 .cc-odds .pct.odds-green { color: #15803d; }
 .landing-v2 .ct-odds.odds-amber,
