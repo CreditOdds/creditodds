@@ -22,6 +22,11 @@ const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
 const SCRIPT_TIMEOUT_MS = 20 * 60 * 1000; // 20 min overall safety net
+// Max stripped page text handed to the extractor. Sized so nav-heavy issuer
+// pages still include the card terms — e.g. business.bankofamerica.com leads
+// with ~11k chars of menu chrome and the bonus/spend/timeframe land at ~12k–18k.
+// Most card pages strip to well under this, so the cap only bites on long pages.
+const MAX_CONTENT_CHARS = 18000;
 
 // ─── Timeout helpers ─────────────────────────────────────────────────────────
 
@@ -125,24 +130,24 @@ function stripHtml(html) {
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim()
-    .slice(0, 6000);
+    .slice(0, MAX_CONTENT_CHARS);
 }
 
-// Hosts/pages whose bot mitigation reliably defeats headless/CI fetches
-// (verified 2026-06-11). PNC (Akamai) resets the connection over HTTP/2 and
-// black-holes it over HTTP/1.1 — fails from CI and residential IPs alike.
-// alaskaair.com Atmos pages return 200 but are SPAs that render no card content
-// in headless Chromium (body innerText stays ~20 chars behind an Auth0 silent
-// frame). We short-circuit these so the run doesn't spend ~30s/card on
-// guaranteed timeouts; they still appear in the end-of-run skip summary so the
-// coverage gap stays visible. These cards are maintained manually for now —
-// remove an entry here to resume automated checks if a site's protection eases.
+// Hosts whose bot mitigation reliably defeats headless/CI fetches (verified
+// 2026-06-11). PNC (Akamai) resets the connection over HTTP/2 and black-holes
+// it over HTTP/1.1 — fails from CI and residential IPs alike, via browser and
+// curl. We short-circuit these so the run doesn't spend ~30s/card on guaranteed
+// timeouts; they still appear in the end-of-run skip summary so the coverage gap
+// stays visible. Maintained manually for now — remove an entry to resume
+// automated checks if a site's protection eases.
+//
+// (The Atmos cards previously listed here moved to scrapeable Bank of America
+// apply_links; the alaskaair.com SPA that rendered ~20 chars is no longer used.)
 function knownBlockedReason(url) {
   try {
     const u = new URL(url);
     const host = u.hostname.replace(/^www\./, '');
     if (host === 'pnc.com') return 'pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)';
-    if (host === 'alaskaair.com' && /\/atmosrewards\//i.test(u.pathname)) return 'alaskaair.com Atmos page is an SPA that renders no content in headless';
   } catch { /* malformed URL — let the normal fetch path handle it */ }
   return null;
 }
