@@ -973,6 +973,10 @@ export interface CardWireEntry {
   field: string;
   old_value: string | null;
   new_value: string | null;
+  // Bonus unit (cash / points / miles / free_nights) for signup_bonus_value
+  // rows, so values are never compared across units. Null on legacy rows
+  // written before the column existed.
+  unit?: string | null;
   changed_at: string;
 }
 
