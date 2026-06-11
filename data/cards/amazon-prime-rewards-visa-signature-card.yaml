@@ -28,16 +28,17 @@ rewards:
     value: 1
     unit: "percent"
 signup_bonus:
-  value: 150
+  value: 200
   type: "cash"
   spend_requirement: 0
   timeframe_months: 0
-  note: "$150 Amazon Gift Card instantly loaded upon approval"
+  note: "$200 Amazon Gift Card instantly loaded upon approval"
 apr:
   regular:
     min: 18.74
     max: 27.49
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
+special_apply_link: https://www.amazon.com/dp/BT00LN946S
 foreign_transaction_fee: false
 benefits:
   - name: "Purchase Protection"
