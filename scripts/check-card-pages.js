@@ -128,6 +128,25 @@ function stripHtml(html) {
     .slice(0, 6000);
 }
 
+// Hosts/pages whose bot mitigation reliably defeats headless/CI fetches
+// (verified 2026-06-11). PNC (Akamai) resets the connection over HTTP/2 and
+// black-holes it over HTTP/1.1 — fails from CI and residential IPs alike.
+// alaskaair.com Atmos pages return 200 but are SPAs that render no card content
+// in headless Chromium (body innerText stays ~20 chars behind an Auth0 silent
+// frame). We short-circuit these so the run doesn't spend ~30s/card on
+// guaranteed timeouts; they still appear in the end-of-run skip summary so the
+// coverage gap stays visible. These cards are maintained manually for now —
+// remove an entry here to resume automated checks if a site's protection eases.
+function knownBlockedReason(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, '');
+    if (host === 'pnc.com') return 'pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)';
+    if (host === 'alaskaair.com' && /\/atmosrewards\//i.test(u.pathname)) return 'alaskaair.com Atmos page is an SPA that renders no content in headless';
+  } catch { /* malformed URL — let the normal fetch path handle it */ }
+  return null;
+}
+
 async function fetchPageContent(url) {
   // Try simple fetch first
   try {
@@ -169,11 +188,19 @@ async function fetchPageContent(url) {
 
 let _browser = null;
 
+// Reason for the most recent browser-fetch failure, surfaced in the
+// end-of-run skip summary so silently-dropped cards stay visible.
+let lastFetchError = null;
+
 async function getBrowser() {
   if (!_browser) {
     try {
       const { chromium } = require('playwright');
-      _browser = await chromium.launch({ headless: true });
+      // --disable-http2 forces HTTP/1.1. Some issuer WAFs (e.g. pnc.com via
+      // Akamai) reset the HTTP/2 connection for datacenter/headless clients,
+      // which Chromium surfaces as net::ERR_HTTP2_PROTOCOL_ERROR and aborts the
+      // whole page load. HTTP/1.1 sidesteps that reset.
+      _browser = await chromium.launch({ headless: true, args: ['--disable-http2'] });
     } catch (err) {
       console.warn(`  Playwright not available: ${err.message}`);
       return null;
@@ -184,30 +211,39 @@ async function getBrowser() {
 
 async function fetchWithBrowser(url) {
   const browser = await getBrowser();
-  if (!browser) return null;
+  if (!browser) { lastFetchError = 'Playwright unavailable'; return null; }
 
-  let page;
+  let context;
   try {
-    const context = await browser.newContext({
+    context = await browser.newContext({
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      viewport: { width: 1280, height: 800 },
+      locale: 'en-US',
     });
-    page = await context.newPage();
+    const page = await context.newPage();
+    // domcontentloaded fires early and reliably (waitUntil:'load' can hang on
+    // ad/tracker-heavy issuer pages). Then give client-rendered content a
+    // best-effort settle window via networkidle, capped so pages with
+    // long-poll/keepalive connections don't stall the whole goto.
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    // Wait for content to render
+    await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
     await page.waitForTimeout(3000);
     const html = await page.content();
     await context.close();
 
     const stripped = stripHtml(html);
     if (stripped.length < 100) {
+      lastFetchError = `content too short (${stripped.length} chars)`;
       console.warn(`  Browser fetch still too short (${stripped.length} chars) — skipping`);
       return null;
     }
+    lastFetchError = null;
     console.log(`  Browser fetch succeeded (${stripped.length} chars)`);
     return stripped;
   } catch (err) {
+    lastFetchError = err.message.split('\n')[0];
     console.warn(`  Browser fetch error: ${err.message} — skipping`);
-    if (page) await page.context().close().catch(() => {});
+    if (context) await context.close().catch(() => {});
     return null;
   }
 }
@@ -614,6 +650,7 @@ async function main() {
   console.log('');
 
   const allChanges = [];
+  const skippedCards = [];
 
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
@@ -628,12 +665,20 @@ async function main() {
     console.log(`Checking: ${name}`);
     console.log(`  URL: ${apply_link}${card.data.special_apply_link ? ' (special_apply_link)' : ''}`);
 
+    const blockedReason = knownBlockedReason(apply_link);
+    if (blockedReason) {
+      console.log(`  Skipped (known bot-block — manual maintenance): ${blockedReason}\n`);
+      skippedCards.push({ name, url: apply_link, reason: `known block: ${blockedReason}` });
+      continue;
+    }
+
     try {
       await withTimeout((async () => {
         // Fetch page
         const fetchResult = await fetchPageContent(apply_link);
         if (!fetchResult) {
           console.log('  Skipped (could not fetch page)\n');
+          skippedCards.push({ name, url: apply_link, reason: lastFetchError || 'could not fetch page' });
           return;
         }
         let { content: pageContent, usedBrowser } = fetchResult;
@@ -685,6 +730,14 @@ async function main() {
 
     console.log('');
     await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
+  }
+
+  if (skippedCards.length > 0) {
+    console.log(`\n⚠️  Skipped ${skippedCards.length} card(s) due to fetch issues (not checked this run):`);
+    for (const s of skippedCards) {
+      console.log(`  - ${s.name}: ${s.reason}\n      ${s.url}`);
+    }
+    console.log('');
   }
 
   if (allChanges.length === 0) {
