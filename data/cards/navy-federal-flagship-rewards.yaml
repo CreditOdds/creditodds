@@ -1,0 +1,56 @@
+name: "Navy Federal Visa Signature Flagship Travel Rewards"
+bank: "Navy Federal"
+slug: "navy-federal-flagship-rewards"
+accepting_applications: true
+category: "travel"
+image: "navy-federal-flagship-rewards.png"
+annual_fee: 49
+foreign_transaction_fee: false
+reward_type: "points"
+tags:
+  - travel
+  - rewards
+  - premium
+rewards:
+  - category: travel
+    value: 3
+    unit: points_per_dollar
+    note: "Includes airlines, hotels, car rentals, ride-sharing, parking, tolls, museums, amusement parks, and golf courses"
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+signup_bonus:
+  value: 35000
+  type: points
+  spend_requirement: 3500
+  timeframe_months: 3
+  note: "Worth $350, plus a free year of Amazon Prime (a $139 value) when charged to the card; offer valid for accounts opened through 6/30/2026"
+apr:
+  regular:
+    min: 14.74
+    max: 18.00
+benefits:
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 in statement credits for Global Entry or TSA PreCheck application fees, once every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "GigSky Global Data Plan"
+    value: 20
+    description: "Complimentary 3GB GigSky international mobile data plan, valid for 15 days"
+    category: "travel"
+    enrollment_required: true
+  - name: "Travel Accident Insurance"
+    description: "Worldwide automatic travel accident insurance when travel is purchased with the card"
+    category: "insurance"
+    enrollment_required: false
+  - name: "Travel and Emergency Assistance"
+    description: "24/7 travel and emergency assistance services"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Balance Transfer Fees"
+    description: "Navy Federal does not charge balance transfer fees on this card"
+    category: "other"
+    enrollment_required: false
+apply_link: https://www.navyfederal.org/loans-cards/credit-cards/flagship-visa-signature.html
