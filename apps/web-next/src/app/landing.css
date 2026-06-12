@@ -2754,6 +2754,68 @@
   max-width: 620px;
   margin: 12px 0 16px;
 }
+.landing-v2.wire-v2 .wire-snapshot.has-follow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+/* Follow @card_wire callout */
+.landing-v2.wire-v2 .wire-follow {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+  padding: 10px 10px 10px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--paper);
+  text-decoration: none;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.landing-v2.wire-v2 .wire-follow:hover {
+  border-color: var(--muted-2);
+  box-shadow: var(--shadow);
+}
+.landing-v2.wire-v2 .wire-follow-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.landing-v2.wire-v2 .wire-follow-handle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.landing-v2.wire-v2 .wire-follow-x {
+  width: 13px;
+  height: 13px;
+  color: var(--ink);
+  flex: 0 0 auto;
+}
+.landing-v2.wire-v2 .wire-follow-sub {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.landing-v2.wire-v2 .wire-follow-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.landing-v2.wire-v2 .wire-follow:hover .wire-follow-btn { background: var(--accent-deep); }
 .landing-v2.wire-v2 .wire-snapshot .cj-readoff {
   margin-top: 4px;
 }
