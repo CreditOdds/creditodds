@@ -28,8 +28,10 @@ export default async function CardWirePage() {
   // Build card_name → slug map for linking
   const slugMap: Record<string, string> = {};
   const bonusTypeMap: Record<string, string> = {};
+  const bankMap: Record<string, string> = {};
   for (const card of cards) {
     slugMap[card.card_name] = String(card.slug ?? card.card_id);
+    if (card.bank) bankMap[card.card_name] = card.bank;
     if (card.signup_bonus?.type) {
       const typeLabels: Record<string, string> = {
         points: 'pts',
@@ -50,7 +52,12 @@ export default async function CardWirePage() {
           { name: 'Card Wire', url: 'https://creditodds.com/card-wire' },
         ]}
       />
-      <CardWireV2Client entries={entries} slugMap={slugMap} bonusTypeMap={bonusTypeMap} />
+      <CardWireV2Client
+        entries={entries}
+        slugMap={slugMap}
+        bonusTypeMap={bonusTypeMap}
+        bankMap={bankMap}
+      />
     </>
   );
 }

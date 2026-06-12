@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { V2Footer } from '@/components/landing-v2/Chrome';
@@ -13,16 +13,18 @@ interface Props {
   entries: CardWireEntry[];
   slugMap: Record<string, string>;
   bonusTypeMap: Record<string, string>;
+  bankMap: Record<string, string>;
 }
 
 type FilterKey = 'all' | 'fee' | 'bonus' | 'apr' | 'apps';
+type DirKey = 'all' | 'pos' | 'neg';
 
-const FILTERS: { key: FilterKey; num: string; label: string }[] = [
-  { key: 'all', num: '01', label: 'All' },
-  { key: 'fee', num: '02', label: 'Annual fee' },
-  { key: 'bonus', num: '03', label: 'Sign-up bonus' },
-  { key: 'apr', num: '04', label: 'APR' },
-  { key: 'apps', num: '05', label: 'Applications' },
+const FILTERS: { key: FilterKey; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'fee', label: 'Annual fee' },
+  { key: 'bonus', label: 'Sign-up bonus' },
+  { key: 'apr', label: 'APR' },
+  { key: 'apps', label: 'Applications' },
 ];
 
 const FIELD_LABELS: Record<string, string> = {
@@ -114,8 +116,10 @@ function formatDayShort(ts: string): string {
   });
 }
 
-export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Props) {
+export default function CardWireV2Client({ entries, slugMap, bonusTypeMap, bankMap }: Props) {
   const [filter, setFilter] = useState<FilterKey>('all');
+  const [issuer, setIssuer] = useState('all');
+  const [dir, setDir] = useState<DirKey>('all');
   const [page, setPage] = useState(1);
 
   const counts = useMemo(() => {
@@ -144,10 +148,26 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
     return superseded;
   }, [entries]);
 
+  const issuers = useMemo(() => {
+    const tally = new Map<string, number>();
+    for (const e of entries) {
+      const bank = bankMap[e.card_name];
+      if (!bank) continue;
+      tally.set(bank, (tally.get(bank) || 0) + 1);
+    }
+    return [...tally.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([name, count]) => ({ value: name, label: name, count }));
+  }, [entries, bankMap]);
+
   const filtered = useMemo(() => {
-    if (filter === 'all') return entries;
-    return entries.filter((e) => fieldGroup(e.field) === filter);
-  }, [entries, filter]);
+    return entries.filter((e) => {
+      if (filter !== 'all' && fieldGroup(e.field) !== filter) return false;
+      if (issuer !== 'all' && bankMap[e.card_name] !== issuer) return false;
+      if (dir !== 'all' && changeDirection(e.field, e.old_value, e.new_value) !== dir) return false;
+      return true;
+    });
+  }, [entries, filter, issuer, dir, bankMap]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -209,28 +229,77 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
           </p>
         </div>
 
-        {/* Sticky filter tabs — same shell as profile cj-main-tabs */}
-        <div className="cj-main-tabs wire-tabs">
-          {FILTERS.map((f) => {
-            const count = counts[f.key];
-            return (
+        {/* Sticky filter toolbar — segmented control + issuer select + direction */}
+        <div className="wire-bar-wrap">
+          <div className="wire-bar">
+            <div className="wire-bar-seg" role="group" aria-label="Change type">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.key}
+                  type="button"
+                  className={'wire-bar-seg-btn' + (filter === f.key ? ' active' : '')}
+                  aria-pressed={filter === f.key}
+                  onClick={() => {
+                    setFilter(f.key);
+                    setPage(1);
+                  }}
+                >
+                  {f.label}
+                  <span className="wire-bar-seg-count">{counts[f.key]}</span>
+                </button>
+              ))}
+            </div>
+            <span className="wire-bar-divider" aria-hidden="true" />
+            <IssuerSelect
+              issuers={issuers}
+              total={entries.length}
+              value={issuer}
+              onChange={(v) => {
+                setIssuer(v);
+                setPage(1);
+              }}
+            />
+            <span className="wire-bar-divider" aria-hidden="true" />
+            <div className="wire-bar-dir" role="group" aria-label="Change direction">
               <button
-                key={f.key}
                 type="button"
-                className={'cj-main-tab' + (filter === f.key ? ' active' : '')}
+                className={'wire-bar-dir-btn both' + (dir === 'all' ? ' active' : '')}
+                aria-pressed={dir === 'all'}
                 onClick={() => {
-                  setFilter(f.key);
+                  setDir('all');
                   setPage(1);
                 }}
               >
-                <span className="cj-main-tab-num">{f.num}</span>
-                {f.label}
-                {count > 0 && (
-                  <span className="cj-main-tab-count">· {count}</span>
-                )}
+                Both
               </button>
-            );
-          })}
+              <button
+                type="button"
+                className={'wire-bar-dir-btn up' + (dir === 'pos' ? ' active' : '')}
+                aria-pressed={dir === 'pos'}
+                onClick={() => {
+                  setDir('pos');
+                  setPage(1);
+                }}
+              >
+                ↑ Better
+              </button>
+              <button
+                type="button"
+                className={'wire-bar-dir-btn down' + (dir === 'neg' ? ' active' : '')}
+                aria-pressed={dir === 'neg'}
+                onClick={() => {
+                  setDir('neg');
+                  setPage(1);
+                }}
+              >
+                ↓ Worse
+              </button>
+            </div>
+            <span className="wire-bar-right">
+              <span className="wire-bar-dot" aria-hidden="true" />
+              {filtered.length} change{filtered.length === 1 ? '' : 's'}
+            </span>
+          </div>
         </div>
 
         <div className="cj-main-content">
@@ -281,6 +350,80 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap }: Pro
       </main>
       <V2Footer />
     </div>
+  );
+}
+
+function IssuerSelect({
+  issuers,
+  total,
+  value,
+  onChange,
+}: {
+  issuers: { value: string; label: string; count: number }[];
+  total: number;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDown(ev: MouseEvent) {
+      if (ref.current && !ref.current.contains(ev.target as Node)) setOpen(false);
+    }
+    function onKey(ev: KeyboardEvent) {
+      if (ev.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const options = [{ value: 'all', label: 'Every issuer', count: total }, ...issuers];
+  const current = options.find((o) => o.value === value) ?? options[0];
+
+  return (
+    <span className="wire-bar-select" ref={ref}>
+      <button
+        type="button"
+        className={
+          'wire-bar-select-btn' + (open ? ' open' : '') + (value !== 'all' ? ' set' : '')
+        }
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className="k">Issuer</span>
+        {current.label}
+        <span className="caret" aria-hidden="true">
+          ▼
+        </span>
+      </button>
+      {open && (
+        <span className="wire-bar-menu" role="listbox" aria-label="Issuer">
+          {options.map((o) => (
+            <button
+              key={o.value}
+              type="button"
+              role="option"
+              aria-selected={o.value === value}
+              className={'wire-bar-mi' + (o.value === value ? ' sel' : '')}
+              onClick={() => {
+                onChange(o.value);
+                setOpen(false);
+              }}
+            >
+              <span>{o.label}</span>
+              <span className="n">{o.count}</span>
+            </button>
+          ))}
+        </span>
+      )}
+    </span>
   );
 }
 
