@@ -218,15 +218,37 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap, bankM
       </div>
 
       <main className="cj-main wire-main">
-        {/* Snapshot — title + sub + readoff */}
-        <div className="cj-snapshot wire-snapshot">
-          <h1 className="cj-snapshot-h1">
-            The wire. <em>Every change.</em>
-          </h1>
-          <p className="wire-snapshot-sub">
-            A chronological feed of every credit-card change we track — annual
-            fees, sign-up bonuses, APR shifts, and application status.
-          </p>
+        {/* Snapshot — title + sub, with follow callout on the right */}
+        <div className="cj-snapshot wire-snapshot has-follow">
+          <div className="wire-snapshot-text">
+            <h1 className="cj-snapshot-h1">
+              The wire. <em>Every change.</em>
+            </h1>
+            <p className="wire-snapshot-sub">
+              A chronological feed of every credit-card change we track — annual
+              fees, sign-up bonuses, APR shifts, and application status.
+            </p>
+          </div>
+          <a
+            className="wire-follow"
+            href="https://x.com/card_wire"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="wire-follow-copy">
+              <span className="wire-follow-handle">
+                <svg className="wire-follow-x" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"
+                  />
+                </svg>
+                @card_wire
+              </span>
+              <span className="wire-follow-sub">Every change, the moment it posts</span>
+            </span>
+            <span className="wire-follow-btn">Follow</span>
+          </a>
         </div>
 
         {/* Sticky filter toolbar — segmented control + issuer select + direction */}
