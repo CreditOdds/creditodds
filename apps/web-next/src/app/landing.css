@@ -9724,3 +9724,125 @@
   font-size: 13px;
   letter-spacing: 0.02em;
 }
+
+/* ============================================================
+   Apply outcome prompt — post-apply check-in panel (card page)
+   ============================================================ */
+
+.landing-v2 .cj-outcome-prompt {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 90;
+  width: min(380px, calc(100vw - 32px));
+  background: var(--paper);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(26, 19, 48, 0.04), 0 24px 60px -12px rgba(26, 19, 48, 0.28);
+  padding: 16px 18px;
+  animation: cj-outcome-in 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@keyframes cj-outcome-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.landing-v2 .cj-outcome-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.landing-v2 .cj-outcome-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.landing-v2 .cj-outcome-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.landing-v2 .cj-outcome-close {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted-2);
+  cursor: pointer;
+}
+.landing-v2 .cj-outcome-close:hover {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+.landing-v2 .cj-outcome-q {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.landing-v2 .cj-outcome-q strong { font-weight: 600; }
+
+.landing-v2 .cj-outcome-sub {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.landing-v2 .cj-outcome-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.landing-v2 .cj-outcome-foot {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--muted-2);
+}
+
+@media (max-width: 480px) {
+  .landing-v2 .cj-outcome-prompt {
+    right: 16px;
+    left: 16px;
+    bottom: 16px;
+    width: auto;
+  }
+}
+
+.landing-v2 .cj-outcome-card-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.landing-v2 .cj-outcome-thumb {
+  position: relative;
+  display: block;
+  width: 72px;
+  height: 46px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+
+.landing-v2 .cj-outcome-card-row .cj-outcome-q {
+  margin: 0;
+}

@@ -61,6 +61,9 @@ interface SubmitRecordModalProps {
   card: Card;
   onSuccess?: () => void;
   editRecord?: EditRecord;
+  // Prefill the Approved/Denied outcome (e.g. from the post-apply check-in
+  // prompt). Overrides any saved draft's result so the two stay in sync.
+  initialResult?: boolean;
 }
 
 // "2026-05-08T00:00:00.000Z" → "2026-05" for the month input.
@@ -111,7 +114,7 @@ const deniedActiveStyle: React.CSSProperties = {
   fontWeight: 600,
 };
 
-export default function SubmitRecordModal({ show, handleClose, card, onSuccess, editRecord }: SubmitRecordModalProps) {
+export default function SubmitRecordModal({ show, handleClose, card, onSuccess, editRecord, initialResult }: SubmitRecordModalProps) {
   const { getToken } = useAuth();
   const isEditMode = !!editRecord;
   const [submitting, setSubmitting] = useState(false);
@@ -252,7 +255,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         date_applied: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`,
         length_credit: lastRecord?.length_credit ?? ('' as number | ''),
         bank_customer: false,
-        result: true,
+        result: initialResult ?? true,
         starting_credit_limit: undefined as number | undefined,
         reason_denied: "",
         reason_denied_code: "",
@@ -263,7 +266,12 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
       };
 
   const formik = useFormik({
-    initialValues: isEditMode ? defaultValues : (loadSavedForm() || defaultValues),
+    initialValues: isEditMode
+      ? defaultValues
+      : {
+          ...(loadSavedForm() || defaultValues),
+          ...(initialResult === undefined ? {} : { result: initialResult }),
+        },
     enableReinitialize: true,
     validationSchema: Yup.object({
       credit_score: Yup.number()

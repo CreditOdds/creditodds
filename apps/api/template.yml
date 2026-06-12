@@ -799,6 +799,51 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
+  ApplyOutcomeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/apply-outcome.ApplyOutcomeHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Record self-reported apply outcomes from the post-apply check-in prompt
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+          IP_HASH_PEPPER: !Ref IpHashPepper
+          FIREBASE_PROJECT_ID: creditodds
+      Events:
+        RecordOutcome:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /apply-outcome
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        GetOutcomes:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /apply-outcome
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        ApplyOutcomeOptions:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /apply-outcome
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   LeaderboardFunction:
     Type: AWS::Serverless::Function
     Metadata:

@@ -905,6 +905,31 @@ export async function trackCardApplyClick(
   // Fire and forget - don't throw on error
 }
 
+// One-tap self-reported outcome after an apply click ("did you apply?"
+// check-in on the card page). Anonymous tier-1 signal: directional data
+// linked server-side to the click via uid/ip_hash, separate from full
+// /records data points. Backend endpoint not built yet — fire and forget.
+export type ApplyOutcome = 'approved' | 'denied' | 'pending' | 'just_looking';
+
+export async function trackApplyOutcome(
+  cardId: number,
+  outcome: ApplyOutcome
+): Promise<void> {
+  const token = await getAnonymousAuthToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  await fetch(`${API_BASE}/apply-outcome`, {
+    method: 'POST',
+    headers,
+    keepalive: true,
+    body: JSON.stringify({
+      card_id: cardId,
+      outcome,
+    }),
+  });
+  // Fire and forget - don't throw on error
+}
+
 export interface CardApplyClickBreakdown {
   direct: number;
   referral: number;
