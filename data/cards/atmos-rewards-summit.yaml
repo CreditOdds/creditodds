@@ -28,8 +28,8 @@ rewards:
     unit: points_per_dollar
 signup_bonus:
   value: 100000
-  type: points
-  spend_requirement: 4000
+  type: "points"
+  spend_requirement: 6500
   timeframe_months: 3
 benefits:
   - name: "Annual Global 25K Companion Award"
