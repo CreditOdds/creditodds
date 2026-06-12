@@ -27,6 +27,7 @@ import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, fr
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
+import ApplyOutcomePrompt, { markApplyPending } from "@/components/forms/ApplyOutcomePrompt";
 import CardyComparePopup from "@/components/ui/CardyComparePopup";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -287,6 +288,9 @@ export default function CardClient({
 }: CardClientProps) {
   // ---------- State + chrome ----------
   const [showModal, setShowModal] = useState(false);
+  // Approved/Denied prefill when the modal is opened from the post-apply
+  // check-in prompt; undefined when opened from the regular buttons.
+  const [recordInitialResult, setRecordInitialResult] = useState<boolean | undefined>(undefined);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [activeChart, setActiveChart] = useState<"score" | "history" | "limit">("score");
@@ -360,6 +364,9 @@ export default function CardClient({
     const cardId = Number(card.card_id);
     if (Number.isInteger(cardId) && cardId > 0) {
       trackCardApplyClick(cardId, clickSource).catch(() => {});
+      // Remember the click so ApplyOutcomePrompt can ask how it went when
+      // the visitor comes back from the issuer tab.
+      markApplyPending(cardId);
     }
   };
 
@@ -1852,9 +1859,20 @@ export default function CardClient({
 
       <SubmitRecordModal
         show={showModal}
-        handleClose={() => setShowModal(false)}
+        handleClose={() => {
+          setShowModal(false);
+          setRecordInitialResult(undefined);
+        }}
         card={card}
         onSuccess={handleSubmitSuccess}
+        initialResult={recordInitialResult}
+      />
+      <ApplyOutcomePrompt
+        card={card}
+        onAddDetails={(result) => {
+          setRecordInitialResult(result);
+          setShowModal(true);
+        }}
       />
       <CardyComparePopup currentSlug={card.slug} currentName={card.card_name} currentImage={card.card_image_link} />
       <V2Footer />
