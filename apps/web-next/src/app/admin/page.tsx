@@ -15,6 +15,7 @@ import {
   getAdminUser,
   getAdminGraphs,
   getCardApplyClicksBreakdown,
+  getApplyOutcomesBreakdown,
   deleteAdminRecord,
   deleteAdminReferral,
   updateReferralApproval,
@@ -29,6 +30,7 @@ import {
   AuditLogEntry,
   AdminGraphsData,
   CardApplyClickBreakdown,
+  ApplyOutcomeBreakdown,
   Card
 } from "@/lib/api";
 import dynamic from "next/dynamic";
@@ -49,7 +51,8 @@ import {
   MagnifyingGlassIcon,
   UserIcon,
   CreditCardIcon,
-  CursorArrowRaysIcon
+  CursorArrowRaysIcon,
+  ClipboardDocumentCheckIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
@@ -351,6 +354,7 @@ export default function AdminPage() {
                 onGraphDaysChange={handleGraphDaysChange}
               />
               <ApplyClicksTab />
+              <ApplyOutcomesTab />
             </>
           )}
           {activeTab === 'records' && (
@@ -768,6 +772,229 @@ function ApplyClicksTab() {
                 <span>{row.referral.toLocaleString()}</span>
                 <span style={{ fontWeight: 600 }}>{row.total.toLocaleString()}</span>
                 <span className="av-mono" style={{ color: 'var(--ink-2)' }}>{row.unique_total.toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ============ APPLY OUTCOMES TAB ============
+// Self-reported one-tap outcomes from the post-apply check-in prompt. These
+// are anonymous tier-1 signals (deduped one-per-visitor-per-card), separate
+// from the full records data points — they gauge the click -> outcome funnel
+// and a directional approval rate. Reported rate = approved / (approved +
+// denied), ignoring pending / just-looking.
+const APPLY_OUTCOME_RANGES = APPLY_CLICK_RANGES;
+
+const OUTCOME_GREEN = '#15803d';
+
+type ApplyOutcomeSortKey = 'total' | 'approved' | 'denied' | 'pending' | 'rate';
+
+interface ApplyOutcomeRow {
+  cardId: number;
+  cardName: string;
+  cardImageLink?: string;
+  approved: number;
+  denied: number;
+  pending: number;
+  just_looking: number;
+  total: number;
+  decided: number;
+  // -1 when no decided outcomes yet, so those rows sort below any real rate.
+  rate: number;
+}
+
+function pct(n: number): string {
+  return `${Math.round(n * 100)}%`;
+}
+
+function ApplyOutcomesTab() {
+  const { cards } = useCardCatalog();
+  const [periodDays, setPeriodDays] = useState(30);
+  const [breakdown, setBreakdown] = useState<Record<number, ApplyOutcomeBreakdown>>({});
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [sortKey, setSortKey] = useState<ApplyOutcomeSortKey>('total');
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    setLoadError(null);
+    getApplyOutcomesBreakdown(periodDays)
+      .then((data) => {
+        if (!isMounted) return;
+        setBreakdown(data);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setLoadError('Failed to load apply outcome data');
+        setBreakdown({});
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, [periodDays]);
+
+  const cardsByDbId = new Map<number, Card>();
+  for (const card of cards) {
+    if (typeof card.db_card_id === 'number') {
+      cardsByDbId.set(card.db_card_id, card);
+    }
+  }
+
+  const rows: ApplyOutcomeRow[] = Object.entries(breakdown).map(([id, counts]) => {
+    const dbId = Number(id);
+    const card = cardsByDbId.get(dbId);
+    const decided = counts.approved + counts.denied;
+    return {
+      cardId: dbId,
+      cardName: card?.card_name ?? `Card #${dbId}`,
+      cardImageLink: card?.card_image_link,
+      approved: counts.approved,
+      denied: counts.denied,
+      pending: counts.pending,
+      just_looking: counts.just_looking,
+      total: counts.total,
+      decided,
+      rate: decided > 0 ? counts.approved / decided : -1,
+    };
+  });
+
+  rows.sort((a, b) => b[sortKey] - a[sortKey] || b.total - a.total);
+
+  const totals = rows.reduce(
+    (acc, row) => {
+      acc.approved += row.approved;
+      acc.denied += row.denied;
+      acc.pending += row.pending;
+      acc.just_looking += row.just_looking;
+      acc.total += row.total;
+      return acc;
+    },
+    { approved: 0, denied: 0, pending: 0, just_looking: 0, total: 0 }
+  );
+
+  const totalDecided = totals.approved + totals.denied;
+  const overallRate = totalDecided > 0 ? totals.approved / totalDecided : null;
+
+  const rangeLabel =
+    APPLY_OUTCOME_RANGES.find((r) => r.days === periodDays)?.label ?? `${periodDays}d`;
+
+  const gridCols = '32px minmax(200px, 1.4fr) 72px 72px 72px 72px 72px 84px';
+
+  return (
+    <section className="av-section">
+      <div className="av-section-head">
+        <div>
+          <h2 className="av-section-h">
+            <ClipboardDocumentCheckIcon className="av-section-h-icon" />
+            Apply outcomes
+          </h2>
+          <p className="av-section-sub">self-reported results from the post-apply check-in prompt. Not full data points.</p>
+        </div>
+        <div className="av-range">
+          {APPLY_OUTCOME_RANGES.map((range) => (
+            <button
+              key={range.days}
+              type="button"
+              onClick={() => setPeriodDays(range.days)}
+              className={'av-range-btn' + (periodDays === range.days ? ' active' : '')}
+            >
+              {range.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="av-readoff av-readoff-6">
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Responses</div>
+          <div className="av-readoff-v">{totals.total.toLocaleString()}</div>
+          <div className="av-readoff-foot">last {rangeLabel}</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Approved</div>
+          <div className="av-readoff-v" style={{ color: OUTCOME_GREEN }}>{totals.approved.toLocaleString()}</div>
+          <div className="av-readoff-foot">reported approved</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Denied</div>
+          <div className="av-readoff-v av-warn">{totals.denied.toLocaleString()}</div>
+          <div className="av-readoff-foot">reported denied</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Pending</div>
+          <div className="av-readoff-v">{totals.pending.toLocaleString()}</div>
+          <div className="av-readoff-foot">awaiting decision</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Just looking</div>
+          <div className="av-readoff-v">{totals.just_looking.toLocaleString()}</div>
+          <div className="av-readoff-foot">did not apply</div>
+        </div>
+        <div className="av-readoff-cell av-hl">
+          <div className="av-readoff-k">Approval rate</div>
+          <div className="av-readoff-v">{overallRate === null ? '—' : pct(overallRate)}</div>
+          <div className="av-readoff-foot">{totalDecided.toLocaleString()} decided</div>
+        </div>
+      </div>
+
+      {loadError && (
+        <div className="av-banner av-banner-err" style={{ marginTop: 14 }}>
+          {loadError}
+        </div>
+      )}
+
+      <div className="av-section-head" style={{ marginTop: 24 }}>
+        <h3 className="av-section-h" style={{ fontSize: 14 }}>Outcomes by card ({rangeLabel})</h3>
+        <span className="av-section-meta">{rows.length} cards</span>
+      </div>
+
+      {loading ? (
+        <div className="av-tape av-tape-empty">Loading…</div>
+      ) : rows.length === 0 ? (
+        <div className="av-tape av-tape-empty">No check-in responses recorded in this window.</div>
+      ) : (
+        <div className="av-tape">
+          <div className="av-tape-scroll">
+            <div className="av-tape-head" style={{ gridTemplateColumns: gridCols }}>
+              <span>#</span>
+              <span>Card</span>
+              <button type="button" onClick={() => setSortKey('approved')} className={sortKey === 'approved' ? 'active' : ''}>Appr {sortKey === 'approved' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('denied')} className={sortKey === 'denied' ? 'active' : ''}>Denied {sortKey === 'denied' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('pending')} className={sortKey === 'pending' ? 'active' : ''}>Pend {sortKey === 'pending' && '↓'}</button>
+              <span>Look</span>
+              <button type="button" onClick={() => setSortKey('total')} className={sortKey === 'total' ? 'active' : ''}>Total {sortKey === 'total' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('rate')} className={sortKey === 'rate' ? 'active' : ''}>Rate {sortKey === 'rate' && '↓'}</button>
+            </div>
+            {rows.map((row, index) => (
+              <div key={row.cardId} className="av-tape-row" style={{ gridTemplateColumns: gridCols }}>
+                <span className="av-list-num">{index + 1}</span>
+                <div className="av-card-cell">
+                  <div className="av-thumb">
+                    <CardImage
+                      cardImageLink={row.cardImageLink}
+                      alt={row.cardName}
+                      width={36}
+                      height={22}
+                    />
+                  </div>
+                  <div className="av-card-meta">
+                    <div className="av-card-name">{row.cardName}</div>
+                  </div>
+                </div>
+                <span style={{ color: row.approved > 0 ? OUTCOME_GREEN : 'var(--muted-2)' }}>{row.approved.toLocaleString()}</span>
+                <span style={{ color: row.denied > 0 ? 'var(--warn)' : 'var(--muted-2)' }}>{row.denied.toLocaleString()}</span>
+                <span style={{ color: row.pending > 0 ? 'var(--ink)' : 'var(--muted-2)' }}>{row.pending.toLocaleString()}</span>
+                <span style={{ color: 'var(--muted-2)' }}>{row.just_looking.toLocaleString()}</span>
+                <span style={{ fontWeight: 600 }}>{row.total.toLocaleString()}</span>
+                <span className="av-mono" style={{ color: 'var(--ink-2)' }}>{row.decided > 0 ? pct(row.rate) : '—'}</span>
               </div>
             ))}
           </div>

@@ -989,6 +989,46 @@ export async function getCardApplyClicksBreakdown(
   return normalized;
 }
 
+export interface ApplyOutcomeBreakdown {
+  approved: number;
+  denied: number;
+  pending: number;
+  just_looking: number;
+  total: number;
+}
+
+// Aggregated self-reported apply outcomes per card from the post-apply
+// check-in prompt. `period` is in days; pass 0 for all-time. These are
+// anonymous tier-1 signals (one row per visitor+card, deduped server-side)
+// and are NOT the same as the full records data points — used by the admin
+// dashboard to gauge the click -> outcome funnel. Returns {} on error.
+export async function getApplyOutcomesBreakdown(
+  period: number = 30
+): Promise<Record<number, ApplyOutcomeBreakdown>> {
+  const res = await fetch(
+    `${API_BASE}/apply-outcome?period=${period}`,
+    { cache: 'no-store' }
+  );
+  if (!res.ok) return {};
+  const data = await res.json();
+  const raw = (data.outcomes || {}) as Record<string, Partial<ApplyOutcomeBreakdown>>;
+  const normalized: Record<number, ApplyOutcomeBreakdown> = {};
+  for (const [id, value] of Object.entries(raw)) {
+    const approved = value.approved ?? 0;
+    const denied = value.denied ?? 0;
+    const pending = value.pending ?? 0;
+    const justLooking = value.just_looking ?? 0;
+    normalized[Number(id)] = {
+      approved,
+      denied,
+      pending,
+      just_looking: justLooking,
+      total: value.total ?? approved + denied + pending + justLooking,
+    };
+  }
+  return normalized;
+}
+
 // CardWire - card metric change history
 export interface CardWireEntry {
   id: number;
