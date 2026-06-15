@@ -52,6 +52,7 @@ jobs:
           fi
 
       - name: Create PR if changes found
+        id: create_pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CARD_SLUG: ${{ github.event.inputs.card_slug || '' }}
@@ -66,15 +67,31 @@ jobs:
             git commit -m "Card page check — $(date +%Y-%m-%d)"
             git push -u origin "$BRANCH"
 
+            TITLE="Card Page Check $(date +%Y-%m-%d)"
             if [ -f .card-page-check-summary.md ]; then
-              gh pr create \
-                --title "Card Page Check $(date +%Y-%m-%d)" \
-                --body-file .card-page-check-summary.md
+              PR_URL=$(gh pr create --title "$TITLE" --body-file .card-page-check-summary.md)
             else
-              gh pr create \
-                --title "Card Page Check $(date +%Y-%m-%d)" \
-                --body "Card page check. Please review changes to card YAML files."
+              PR_URL=$(gh pr create --title "$TITLE" --body "Card page check. Please review changes to card YAML files.")
             fi
+            echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
+            echo "pr_title=$TITLE" >> "$GITHUB_OUTPUT"
           else
             echo "No changes detected."
           fi
+
+      - name: Notify Slack
+        if: steps.create_pr.outputs.pr_url != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PR_URL: ${{ steps.create_pr.outputs.pr_url }}
+          PR_TITLE: ${{ steps.create_pr.outputs.pr_title }}
+        run: |
+          BODY="Please review the changes to card YAML files."
+          [ -f .card-page-check-summary.md ] && BODY=$(head -c 2800 .card-page-check-summary.md)
+          jq -n --arg t "$PR_TITLE" --arg u "$PR_URL" --arg b "$BODY" \
+            '{blocks:[
+               {type:"header",  text:{type:"plain_text", text:$t}},
+               {type:"section", text:{type:"mrkdwn", text:("<\($u)|View pull request →>")}},
+               {type:"section", text:{type:"mrkdwn", text:$b}}
+            ]}' \
+          | curl -sf -X POST -H 'Content-type: application/json' --data @- "$SLACK_WEBHOOK_URL"
