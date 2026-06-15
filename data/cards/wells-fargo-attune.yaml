@@ -32,7 +32,7 @@ rewards:
     note: "Also includes 4% on pet supplies, gardening, and select thrift stores (no matching taxonomy category)"
 signup_bonus:
   value: 100
-  type: cash
+  type: "cash"
   spend_requirement: 500
   timeframe_months: 3
 apr:
