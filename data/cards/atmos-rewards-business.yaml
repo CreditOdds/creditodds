@@ -5,7 +5,7 @@ image: "atmos-rewards-business.png"
 accepting_applications: true
 apply_link: https://business.bankofamerica.com/en/credit-cards/atmos-rewards
 category: "business"
-annual_fee: 95
+annual_fee: 70
 foreign_transaction_fee: false
 tags:
   - travel
@@ -33,10 +33,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 80000
-  type: points
-  spend_requirement: 5000
+  value: 70000
+  type: "points"
+  spend_requirement: 4000
   timeframe_months: 3
+  note: "Get 70,000 bonus points and a $99 Companion Fare (plus taxes and fees from $23) after you make $4,000 or more in purchases within the first 90 days of opening your account. Limited-time online offer."
 benefits:
   - name: "Coach Companion Fare"
     description: "Annual Coach Companion Fare from $121 (taxes and fees apply) on a paid Alaska Airlines flight"
