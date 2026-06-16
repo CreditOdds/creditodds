@@ -1,7 +1,7 @@
 name: "Wells Fargo Attune"
 bank: "Wells Fargo"
 slug: "wells-fargo-attune"
-accepting_applications: true
+accepting_applications: false
 category: "cashback"
 image: "wells-fargo-attune.png"
 annual_fee: 0
@@ -13,23 +13,38 @@ rewards:
   - category: gyms_fitness
     value: 4
     unit: percent
-    note: "Self-Care: fitness, wellness, spa, gym"
+    note: "Self-Care: gyms and fitness studios, beauty and barbershops, spas, massage"
   - category: entertainment
     value: 4
     unit: percent
-    note: "Sports, recreation, live events, movies"
+    note: "Sports, recreation and entertainment: movie theaters, live shows and sporting events, amusement parks, tourist attractions, campgrounds, sports supplies"
+  - category: streaming
+    value: 4
+    unit: percent
+    note: "Many streaming services"
+  - category: pet_supplies
+    value: 4
+    unit: percent
+    note: "Pet supplies, boarding and grooming"
+  - category: gardening
+    value: 4
+    unit: percent
+    note: "Gardening and floral stores"
   - category: transit
     value: 4
     unit: percent
-    note: "Impactful Purchases: public transportation"
+    note: "Good for the planet: public transportation (rideshare like Uber and Lyft does not qualify)"
   - category: ev_charging
     value: 4
     unit: percent
-    note: "Impactful Purchases: EV charging"
+    note: "Good for the planet: EV charging stations"
+  - category: secondhand_stores
+    value: 4
+    unit: percent
+    note: "Good for the planet: secondhand and vintage stores"
   - category: everything_else
     value: 1
     unit: percent
-    note: "Also includes 4% on pet supplies, gardening, and select thrift stores (no matching taxonomy category)"
 signup_bonus:
   value: 100
   type: cash

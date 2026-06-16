@@ -50,6 +50,9 @@ export const categoryLabels: Record<string, string> = {
   select_clothing: "Select Clothing Stores",
   sporting_goods: "Sporting Goods Stores",
   movie_theaters: "Movie Theaters",
+  pet_supplies: "Pet Supplies",
+  gardening: "Gardening & Floral",
+  secondhand_stores: "Secondhand & Vintage Stores",
 };
 
 export function isPortalCategory(category: string): boolean {
