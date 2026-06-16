@@ -98,3 +98,9 @@ categories:
     label: Sporting Goods Stores
   - id: movie_theaters
     label: Movie Theaters
+  - id: pet_supplies
+    label: Pet Supplies
+  - id: gardening
+    label: Gardening & Floral
+  - id: secondhand_stores
+    label: Secondhand & Vintage Stores
