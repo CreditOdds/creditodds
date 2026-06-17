@@ -34,7 +34,7 @@ const FIELD_LABELS: Record<string, string> = {
   apr_min: 'APR min',
   apr_max: 'APR max',
   intro_apr_purchase_months: 'Intro APR (purchases)',
-  intro_apr_bt_months: 'Intro APR (balance transfer)',
+  intro_apr_bt_months: 'Intro APR (transfers)',
 };
 
 const HIGHER_IS_BAD = new Set(['annual_fee', 'apr_min', 'apr_max']);
