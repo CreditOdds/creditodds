@@ -3183,6 +3183,17 @@
   white-space: nowrap;
   text-transform: uppercase;
 }
+/* Long field labels (e.g. "Intro APR (balance transfer)") overflow the fixed
+   130px FIELD column with nowrap and collide with the CHANGE column. In the
+   desktop grid cell, let the chip wrap within the column instead. The mobile
+   row uses its own single-column layout (.wire-row-mobile) and is unaffected. */
+.landing-v2.wire-v2 .wire-row-field .wire-field-chip {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
+}
 .landing-v2.wire-v2 .wire-field-chip.fee {
   background: color-mix(in oklab, var(--gold) 15%, var(--paper));
   color: var(--gold);
