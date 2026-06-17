@@ -5,7 +5,7 @@ accepting_applications: true
 apply_link: https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-business-card/
 category: "business"
 image: "barclays-wyndham-earner-business.png"
-annual_fee: 95
+annual_fee: 149
 foreign_transaction_fee: false
 reward_type: "points"
 tags:
@@ -27,10 +27,11 @@ rewards:
     unit: points_per_dollar
     note: "5x on marketing, advertising, and utility purchases"
 signup_bonus:
-  value: 45000
+  value: 100000
   type: "points"
-  spend_requirement: 3000
-  timeframe_months: 3
+  spend_requirement: 3500
+  timeframe_months: 6
+  note: "Earn 45,000 bonus points after spending $3,000 on purchases in the first 90 days and also earn 55,000 bonus points after spending $500 at Hotels by Wyndham in the first 180 days."
 apr:
   regular:
     min: 19.49
