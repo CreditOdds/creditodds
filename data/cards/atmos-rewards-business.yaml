@@ -5,7 +5,7 @@ image: "atmos-rewards-business.png"
 accepting_applications: true
 apply_link: https://business.bankofamerica.com/en/credit-cards/atmos-rewards
 category: "business"
-annual_fee: 99
+annual_fee: 95
 foreign_transaction_fee: false
 tags:
   - travel
