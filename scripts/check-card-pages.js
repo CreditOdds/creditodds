@@ -294,6 +294,10 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
     "timeframe_months": <number or null>,
     "authorized_user_bonus": <number or null>,
     "bonus_note": <string or null>
+  },
+  "apr": {
+    "purchase_intro_months": <number or null>,
+    "balance_transfer_intro_months": <number or null>
   }
 }
 
@@ -327,6 +331,12 @@ Rules:
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
 - CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
 - POINTS REDEEMED AS CASH: Some cards earn points that convert to a fixed cash amount (e.g. "15,000 bonus points = $150 when deposited into your Fidelity account"). The points and the dollar amount describe the SAME offer in two different units — they are NOT two stackable bonuses. If the current YAML's signup_bonus.type is "cash" or "cashback", return the DOLLAR value (150), NOT the points count (15000). If the current type is "points" or "miles", return the points count. When unsure which unit the card is denominated in, prefer the value matching the existing type. NEVER return a 5-figure number as the value for a card whose current type is cash/cashback — that is the points figure, not the bonus value.
+- INTRO APR: The introductory (promotional) APR is the temporary 0% (or low) APR a card extends to new cardholders. Issuer pages state its length in "months" or "billing cycles" — treat one billing cycle as one month. Extract the LENGTH in months only:
+    - apr.purchase_intro_months = the intro APR period for PURCHASES (e.g. "0% intro APR for 21 billing cycles on purchases" → 21).
+    - apr.balance_transfer_intro_months = the intro APR period for BALANCE TRANSFERS (e.g. "0% intro APR for 21 billing cycles on balance transfers" → 21).
+    - When a single 0% intro period is described as applying to both purchases and balance transfers, use that same value for both fields.
+    - These are the INTRO/promotional period ONLY. NEVER put the ongoing/regular APR here — e.g. "16.99%–27.99% variable APR" after the intro ends is the regular APR, not an intro length.
+    - Return null (NOT 0) when the card has no intro APR offer or the page doesn't state one. Ignore any intro APR length found inside [STRIKETHROUGH: ...] (expired offer) and use the live value.
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
 - Return null for any field you cannot determine with confidence.`;
 
@@ -548,6 +558,31 @@ function detectChanges(card, extracted) {
     }
   }
 
+  // Intro APR period length (months). Only diff a card that ALREADY stores an
+  // intro months value for that line — so we never invent an intro offer for a
+  // card without one, and never overwrite a real number with a null Haiku
+  // returns when the page wording it can't parse. The regular APR
+  // (apr.regular.min/max) is intentionally not compared here: it drifts with
+  // the prime rate and would generate constant false-positive PRs.
+  if (extracted.apr && current.apr) {
+    const introFields = [
+      { group: 'purchase_intro', extracted: extracted.apr.purchase_intro_months },
+      { group: 'balance_transfer_intro', extracted: extracted.apr.balance_transfer_intro_months },
+    ];
+    for (const f of introFields) {
+      const field = `apr.${f.group}.months`;
+      const curVal = current.apr[f.group]?.months;
+      if (
+        f.extracted !== null && f.extracted !== undefined &&
+        curVal !== null && curVal !== undefined &&
+        f.extracted !== curVal &&
+        !ignoreFields.has(field)
+      ) {
+        changes.push({ field, old_value: curVal, new_value: f.extracted });
+      }
+    }
+  }
+
   return changes;
 }
 
@@ -580,6 +615,15 @@ function applyChanges(allChanges, allCards) {
         if (!parsedData.signup_bonus) parsedData.signup_bonus = {};
         parsedData.signup_bonus[subfield] = new_value;
         yamlText = replaceYamlBlock(yamlText, 'signup_bonus', parsedData.signup_bonus);
+        modified = true;
+      } else if (field.startsWith('apr.')) {
+        // apr.<group>.<key>, e.g. apr.purchase_intro.months — re-dump the whole
+        // apr block so the untouched lines (rate, regular range) are preserved.
+        const [, group, key] = field.split('.');
+        if (!parsedData.apr) parsedData.apr = {};
+        if (!parsedData.apr[group]) parsedData.apr[group] = {};
+        parsedData.apr[group][key] = new_value;
+        yamlText = replaceYamlBlock(yamlText, 'apr', parsedData.apr);
         modified = true;
       }
 

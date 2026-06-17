@@ -60,6 +60,8 @@ const fieldLabels = {
   signup_bonus_value: 'Sign-up Bonus',
   apr_min: 'APR Min',
   apr_max: 'APR Max',
+  intro_apr_purchase_months: 'Intro APR (Purchases)',
+  intro_apr_bt_months: 'Intro APR (Balance Transfer)',
 };
 
 const higherIsBad = new Set(['annual_fee', 'apr_min', 'apr_max']);
@@ -87,6 +89,9 @@ function formatValue(field, value, bonusType) {
   }
   if (field === 'apr_min' || field === 'apr_max') {
     return !isNaN(num) ? `${num}%` : value;
+  }
+  if (field === 'intro_apr_purchase_months' || field === 'intro_apr_bt_months') {
+    return !isNaN(num) ? `${num} mo` : value;
   }
   return value;
 }
