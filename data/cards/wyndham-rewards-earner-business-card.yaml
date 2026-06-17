@@ -71,14 +71,3 @@ benefits:
     frequency: "annual"
     category: "statement_credit"
     enrollment_required: false
-  - name: "Accounting Software Statement Credit"
-    value: 50
-    description: "Up to $50 in annual statement credits toward accounting software."
-    frequency: "annual"
-    category: "statement_credit"
-    enrollment_required: false
-  - name: "National Car Rental Emerald Club Executive Status"
-    description: "Complimentary Emerald Club Executive status with National Car Rental for as long as you're a cardmember."
-    frequency: "annual"
-    category: "travel"
-    enrollment_required: false
