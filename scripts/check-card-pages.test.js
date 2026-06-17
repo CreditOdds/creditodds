@@ -116,4 +116,67 @@ test('tiered card: a genuine value INCREASE (offer got richer) still surfaces', 
   assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
 });
 
+// ─── Intro APR detection ────────────────────────────────────────────────────
+
+const SHIELD = {
+  data: {
+    name: 'US Bank Shield',
+    apr: {
+      purchase_intro: { rate: 0, months: 24 },
+      balance_transfer_intro: { rate: 0, months: 24 },
+      regular: { min: 16.99, max: 27.99 },
+    },
+  },
+};
+
+console.log('\nIntro APR detection:');
+
+test('a shortened intro APR (24 → 21) surfaces on both purchase and BT', () => {
+  const changes = detectChanges(SHIELD, {
+    apr: { purchase_intro_months: 21, balance_transfer_intro_months: 21 },
+  });
+  assert.deepEqual(fieldsChanged(changes), [
+    'apr.balance_transfer_intro.months',
+    'apr.purchase_intro.months',
+  ]);
+  const purchase = changes.find(c => c.field === 'apr.purchase_intro.months');
+  assert.equal(purchase.old_value, 24);
+  assert.equal(purchase.new_value, 21);
+});
+
+test('an unchanged intro APR produces no change', () => {
+  const changes = detectChanges(SHIELD, {
+    apr: { purchase_intro_months: 24, balance_transfer_intro_months: 24 },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a null intro months (page wording Haiku could not parse) never erases a real value', () => {
+  const changes = detectChanges(SHIELD, {
+    apr: { purchase_intro_months: null, balance_transfer_intro_months: null },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a card with no apr block is never given an invented intro offer', () => {
+  const noApr = { data: { name: 'No APR Card' } };
+  const changes = detectChanges(noApr, {
+    apr: { purchase_intro_months: 18, balance_transfer_intro_months: 18 },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('check_ignore suppresses an intro APR field', () => {
+  const ignored = {
+    data: {
+      ...SHIELD.data,
+      check_ignore: ['apr.purchase_intro.months'],
+    },
+  };
+  const changes = detectChanges(ignored, {
+    apr: { purchase_intro_months: 21, balance_transfer_intro_months: 21 },
+  });
+  assert.deepEqual(fieldsChanged(changes), ['apr.balance_transfer_intro.months']);
+});
+
 console.log('');

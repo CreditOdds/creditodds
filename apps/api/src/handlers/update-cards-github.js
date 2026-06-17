@@ -34,6 +34,8 @@ function extractMetrics(cdnCard) {
     signup_bonus_type: cdnCard.signup_bonus?.type ?? null,
     apr_min: cdnCard.apr?.regular?.min ?? null,
     apr_max: cdnCard.apr?.regular?.max ?? null,
+    intro_apr_purchase_months: cdnCard.apr?.purchase_intro?.months ?? null,
+    intro_apr_bt_months: cdnCard.apr?.balance_transfer_intro?.months ?? null,
   };
 }
 
@@ -45,6 +47,8 @@ async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
     { field: "signup_bonus_value", old: oldMetrics.signup_bonus_value, new: newMetrics.signup_bonus_value },
     { field: "apr_min", old: oldMetrics.apr_min, new: newMetrics.apr_min },
     { field: "apr_max", old: oldMetrics.apr_max, new: newMetrics.apr_max },
+    { field: "intro_apr_purchase_months", old: oldMetrics.intro_apr_purchase_months, new: newMetrics.intro_apr_purchase_months },
+    { field: "intro_apr_bt_months", old: oldMetrics.intro_apr_bt_months, new: newMetrics.intro_apr_bt_months },
   ];
 
   // Normalize values: parse through float so DECIMAL(5,2) "3.00" and integer 3 compare equal
@@ -114,7 +118,8 @@ async function syncCardsToDatabase(cdnCards) {
     const existingCards = await mysql.query(
       `SELECT card_id, card_name, bank, accepting_applications, annual_fee,
               signup_bonus_value, signup_bonus_type,
-              apr_min, apr_max
+              apr_min, apr_max,
+              intro_apr_purchase_months, intro_apr_bt_months
        FROM cards`
     );
 
@@ -180,7 +185,9 @@ async function syncCardsToDatabase(cdnCards) {
               signup_bonus_value = ?,
               signup_bonus_type = ?,
               apr_min = ?,
-              apr_max = ?
+              apr_max = ?,
+              intro_apr_purchase_months = ?,
+              intro_apr_bt_months = ?
             WHERE card_id = ?`,
             [
               name, bank, acceptingApplications,
@@ -188,6 +195,7 @@ async function syncCardsToDatabase(cdnCards) {
               newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
               newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
               newMetrics.apr_min, newMetrics.apr_max,
+              newMetrics.intro_apr_purchase_months, newMetrics.intro_apr_bt_months,
               existingCard.card_id,
             ]
           );
@@ -201,14 +209,15 @@ async function syncCardsToDatabase(cdnCards) {
             `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link,
               release_date, tags, annual_fee, apply_link, card_referral_link,
               signup_bonus_value, signup_bonus_type,
-              apr_min, apr_max, active)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+              apr_min, apr_max, intro_apr_purchase_months, intro_apr_bt_months, active)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
             [
               nextId, name, bank, acceptingApplications,
               cdnCard.image || null, cdnCard.release_date || null, tagsJson,
               newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
               newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
               newMetrics.apr_min, newMetrics.apr_max,
+              newMetrics.intro_apr_purchase_months, newMetrics.intro_apr_bt_months,
             ]
           );
           results.added.push(name);
