@@ -20,12 +20,21 @@ rewards:
     merchant_specific: true
     merchant_gate: [wyndham]
   - category: gas
-    value: 8
+    value: 5
+    unit: points_per_dollar
+  - category: ev_charging
+    value: 5
+    unit: points_per_dollar
+  - category: office_supplies
+    value: 5
+    unit: points_per_dollar
+  - category: shipping
+    value: 5
     unit: points_per_dollar
   - category: everything_else
     value: 1
     unit: points_per_dollar
-    note: "5x on marketing, advertising, and utility purchases"
+    note: "Also earns 5x on marketing, advertising, and Wyndham Vacation Club purchases"
 signup_bonus:
   value: 100000
   type: "points"
@@ -50,9 +59,26 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Points Redemption Discount"
-    value: 10
+    value: 20
     value_unit: "percent"
-    description: "Redeem 10% fewer Wyndham Rewards points when you book free nights."
+    description: "Redeem 20% fewer Wyndham Rewards points when you book free nights."
     frequency: "per_purchase"
     category: "rewards"
+    enrollment_required: false
+  - name: "Warehouse Club Statement Credit"
+    value: 65
+    description: "Up to $65 in annual statement credits toward a warehouse club membership."
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Accounting Software Statement Credit"
+    value: 50
+    description: "Up to $50 in annual statement credits toward accounting software."
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "National Car Rental Emerald Club Executive Status"
+    description: "Complimentary Emerald Club Executive status with National Car Rental for as long as you're a cardmember."
+    frequency: "annual"
+    category: "travel"
     enrollment_required: false
