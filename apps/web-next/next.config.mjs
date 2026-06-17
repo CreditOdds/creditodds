@@ -16,6 +16,19 @@ const nextConfig = {
     ];
   },
 
+  // The Wyndham Earner Premier launch coverage was first published under
+  // /articles, then moved to /news. Redirect the old URL so shared links and the
+  // auto-posted social link keep resolving instead of 404ing.
+  async redirects() {
+    return [
+      {
+        source: '/articles/wyndham-rewards-earner-premier',
+        destination: '/news/wyndham-rewards-earner-premier',
+        permanent: true,
+      },
+    ];
+  },
+
   images: {
     remotePatterns: [
       {
