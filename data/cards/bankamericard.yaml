@@ -10,10 +10,10 @@ tags:
 apr:
   purchase_intro:
     rate: 0
-    months: 18
+    months: 21
   balance_transfer_intro:
     rate: 0
-    months: 18
+    months: 21
   regular:
     min: 14.49
     max: 24.49
