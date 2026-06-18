@@ -297,6 +297,11 @@
       },
       "additionalProperties": false,
       "description": "APR details including intro offers and regular rate (optional)"
+    },
+    "check_ignore": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Field paths the automated check scripts (check-card-pages, check-card-rewards-and-benefits) skip when proposing updates, e.g. \"annual_fee\" or \"apr.purchase_intro.months\". Build-time only — stripped from cards.json output."
     }
   },
   "additionalProperties": false

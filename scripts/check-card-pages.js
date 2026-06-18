@@ -399,7 +399,32 @@ function detectChanges(card, extracted) {
   // annual_fee
   if (extracted.annual_fee !== null && extracted.annual_fee !== undefined) {
     const cur = current.annual_fee ?? null;
-    if (cur !== null && extracted.annual_fee !== cur && !ignoreFields.has('annual_fee')) {
+
+    // Defensive: cards with a first-year fee waiver (annual_fee_intro) render the
+    // ongoing fee client-side, so the stripped page text frequently shows only the
+    // waived "$0 first year" figure. Haiku then returns that waiver value as the
+    // annual fee, proposing a phantom drop from the ongoing fee to the intro value
+    // (Citi AAdvantage: ongoing $99, extracted 0 = the 12-month waiver — rejected
+    // on #1413/#1416/#1426/#1434). When the extracted value equals the card's known
+    // annual_fee_intro waiver value and differs from the ongoing fee, it's the
+    // waiver misread, not a real fee change — skip it.
+    const introWaiver = current.annual_fee_intro?.value;
+    const isIntroWaiverMisread =
+      introWaiver !== null && introWaiver !== undefined &&
+      extracted.annual_fee === introWaiver &&
+      cur !== introWaiver;
+    if (isIntroWaiverMisread) {
+      console.log(
+        `  Ignoring annual_fee change ${cur} → ${extracted.annual_fee}: matches the first-year annual_fee_intro waiver ($${introWaiver}), not the ongoing fee`
+      );
+    }
+
+    if (
+      cur !== null &&
+      extracted.annual_fee !== cur &&
+      !isIntroWaiverMisread &&
+      !ignoreFields.has('annual_fee')
+    ) {
       changes.push({ field: 'annual_fee', old_value: cur, new_value: extracted.annual_fee });
     }
   }
