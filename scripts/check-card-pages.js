@@ -306,6 +306,7 @@ Rules:
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 3 for "3 free night awards"). null if absent.
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
 - SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND bonus_note.
+- TIMEFRAME UNITS: signup_bonus.timeframe_months must be expressed in whole MONTHS, never raw days. Issuer pages often state the window in days (e.g. "within the first 90 days", "in the first 180 days") — convert to months: 90 days → 3, 120 days → 4, 150 days → 5, 180 days → 6, 270 days → 9, 365 days → 12. A welcome-offer window is essentially never longer than ~18 months, so NEVER return a value above 18 — if you computed one, you returned days by mistake and must convert it to months.
 - TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 70,000 miles after $3,000 in 6 months, plus an additional 20,000 miles after an additional $2,000 in 6 months", or "3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer is tiered, use the HEADLINE-MAX convention:
     - value = the **headline maximum** the issuer markets (e.g. 90000 for "up to 90,000 miles", or 4 for "up to 4 Free Night Awards")
     - spend_requirement = the **TOTAL** spend required to earn the maximum across all tiers (e.g. 5000 = $3,000 + $2,000)
@@ -389,6 +390,18 @@ function isExtractionEmpty(extracted) {
   return true;
 }
 
+// Haiku occasionally returns the signup-bonus timeframe as a raw DAY count instead
+// of months (e.g. "180 days" → 180 rather than 6), which surfaced a bogus
+// timeframe_months: 180 on Wyndham Earner Business (#1426). No real welcome offer
+// runs longer than ~18 months, so any extracted timeframe above 24 is a
+// days-as-months misread — convert it to whole months. Applied before the diff so
+// the change either disappears (YAML already stores the right month count) or
+// surfaces in the correct unit (e.g. a genuine 3 → 6 move) instead of as 180.
+function normalizeTimeframeMonths(v) {
+  if (typeof v === 'number' && v > 24) return Math.round(v / 30);
+  return v;
+}
+
 function detectChanges(card, extracted) {
   if (!extracted) return [];
 
@@ -433,6 +446,11 @@ function detectChanges(card, extracted) {
   if (extracted.signup_bonus && current.signup_bonus) {
     const sb = extracted.signup_bonus;
     const cur = current.signup_bonus;
+
+    // Convert a days-as-months misread before any comparison (see helper above).
+    if (sb.timeframe_months != null) {
+      sb.timeframe_months = normalizeTimeframeMonths(sb.timeframe_months);
+    }
 
     // Defensive: when Haiku reports both a value change and an authorized_user_bonus,
     // and the value delta is exactly the AU bonus, the page's headline is bundling
