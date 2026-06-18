@@ -217,4 +217,48 @@ test('check_ignore suppresses annual_fee (Atmos split per-card fee)', () => {
   assert.deepEqual(fieldsChanged(changes), []);
 });
 
+// ─── signup_bonus.timeframe_months: days-as-months misread ──────────────────
+
+// Wyndham Earner Business pattern: the 100k offer's second tier runs 180 days.
+// Haiku returned timeframe_months: 180 (raw days) on #1426; the real value is 6.
+const TIERED_180_DAYS = {
+  data: {
+    name: 'Wyndham Rewards Earner Business',
+    signup_bonus: { value: 100000, type: 'points', spend_requirement: 3500, timeframe_months: 6, note: null },
+  },
+};
+
+console.log('\nsignup_bonus timeframe days-as-months misread:');
+
+test('extracted 180 (days) normalizes to 6 months — no change when YAML already 6', () => {
+  const changes = detectChanges(TIERED_180_DAYS, {
+    signup_bonus: { value: 100000, spend_requirement: 3500, timeframe_months: 180 },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a real timeframe change stated in days (90→ proposes 6 months) surfaces with the converted value', () => {
+  const card = {
+    data: { name: 'Plain Card', signup_bonus: { value: 60000, type: 'points', spend_requirement: 3000, timeframe_months: 3, note: null } },
+  };
+  // Issuer moved the window to 180 days; Haiku returns 180, current is 3 months.
+  const changes = detectChanges(card, {
+    signup_bonus: { value: 60000, spend_requirement: 3000, timeframe_months: 180 },
+  });
+  assert.deepEqual(fieldsChanged(changes), ['signup_bonus.timeframe_months']);
+  const ch = changes.find(c => c.field === 'signup_bonus.timeframe_months');
+  assert.equal(ch.new_value, 6); // converted from 180 days, NOT 180
+});
+
+test('a normal months value (≤24) is left untouched', () => {
+  const card = {
+    data: { name: 'Plain Card', signup_bonus: { value: 60000, type: 'points', spend_requirement: 3000, timeframe_months: 3, note: null } },
+  };
+  const changes = detectChanges(card, {
+    signup_bonus: { value: 60000, spend_requirement: 3000, timeframe_months: 4 },
+  });
+  const ch = changes.find(c => c.field === 'signup_bonus.timeframe_months');
+  assert.equal(ch.new_value, 4);
+});
+
 console.log('');
