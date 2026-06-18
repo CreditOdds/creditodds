@@ -179,4 +179,42 @@ test('check_ignore suppresses an intro APR field', () => {
   assert.deepEqual(fieldsChanged(changes), ['apr.balance_transfer_intro.months']);
 });
 
+// ─── annual_fee: first-year-waiver misread + check_ignore ───────────────────
+
+// Citi AAdvantage pattern: ongoing $99, waived the first 12 months. The fee is
+// JS-rendered, so Haiku reads the waiver and returns 0 (#1413/#1434).
+const CITI_AADVANTAGE = {
+  data: {
+    name: 'Citi AAdvantage Platinum Select',
+    annual_fee: 99,
+    annual_fee_intro: { value: 0, months: 12 },
+  },
+};
+
+console.log('\nannual_fee first-year-waiver misread:');
+
+test('extracted annual_fee matching the intro waiver (99 → 0) is suppressed', () => {
+  const changes = detectChanges(CITI_AADVANTAGE, { annual_fee: 0 });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a real ongoing-fee change on a waiver card (99 → 149) still surfaces', () => {
+  const changes = detectChanges(CITI_AADVANTAGE, { annual_fee: 149 });
+  assert.deepEqual(fieldsChanged(changes), ['annual_fee']);
+});
+
+test('a normal card (no waiver) still surfaces a genuine annual_fee change', () => {
+  const plain = { data: { name: 'Plain Card', annual_fee: 95 } };
+  const changes = detectChanges(plain, { annual_fee: 99 });
+  assert.deepEqual(fieldsChanged(changes), ['annual_fee']);
+});
+
+test('check_ignore suppresses annual_fee (Atmos split per-card fee)', () => {
+  const atmos = {
+    data: { name: 'Atmos Rewards Business', annual_fee: 95, check_ignore: ['annual_fee'] },
+  };
+  const changes = detectChanges(atmos, { annual_fee: 70 });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
 console.log('');

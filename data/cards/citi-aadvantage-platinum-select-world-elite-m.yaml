@@ -3,6 +3,11 @@ bank: "Citi"
 slug: "citi-aadvantage-platinum-select-world-elite-m"
 accepting_applications: true
 annual_fee: 99
+# Ongoing fee is $99, waived the first 12 months (annual_fee_intro below). The fee
+# is JS-rendered, so card-page-check's extractor reads the waiver and proposes
+# phantom drops to 0 or 95. Ignore annual_fee for this card. (#1413/#1416/#1426/#1434)
+check_ignore:
+  - annual_fee
 annual_fee_intro:
   value: 0
   months: 12
