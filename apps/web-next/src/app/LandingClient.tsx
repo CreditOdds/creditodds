@@ -24,6 +24,7 @@ export type LandingCard = {
   slug: string;
   card_name: string;
   bank: string;
+  db_card_id?: number;
   card_image_link?: string;
   accepting_applications: boolean;
   approved_count?: number;
@@ -56,6 +57,7 @@ interface LandingClientProps {
   news: LandingNewsItem[];
   articles: LandingArticle[];
   bestPages: LandingBestPage[];
+  trendingViews: Record<number, number>;
 }
 
 const TOOL_LINKS: { name: string; value: string; href: string }[] = [
@@ -297,20 +299,41 @@ function Hero({ cards }: { cards: LandingCard[] }) {
   );
 }
 
-function PopularLane({ cards }: { cards: LandingCard[] }) {
+function PopularLane({
+  cards,
+  trendingViews,
+}: {
+  cards: LandingCard[];
+  trendingViews: Record<number, number>;
+}) {
   const popular = useMemo(() => {
     const active = cards.filter((c) => c.accepting_applications);
+    // Primary ranking: most-viewed in the last 30 days, matching the Explore
+    // page's "trending" sort (keyed by numeric db_card_id, tiebroken by records).
+    const viewsOf = (c: LandingCard) =>
+      c.db_card_id != null ? (trendingViews[c.db_card_id] ?? 0) : 0;
+    const hasViews = active.some((c) => viewsOf(c) > 0);
+    if (hasViews) {
+      return [...active]
+        .sort((a, b) => {
+          const dv = viewsOf(b) - viewsOf(a);
+          if (dv !== 0) return dv;
+          return totalRecords(b) - totalRecords(a);
+        })
+        .slice(0, 8);
+    }
+    // Fallback when view data is unavailable (endpoint failed/empty): record count.
     const hasRecords = active.some((c) => totalRecords(c) > 0);
     if (hasRecords) {
       return [...active].sort((a, b) => totalRecords(b) - totalRecords(a)).slice(0, 8);
     }
-    // Fallback for envs without record counts (local dev): curated set + first cards.
+    // Final fallback for envs without any stats (local dev): curated set + first cards.
     const bySlug = new Map(active.map((c) => [c.slug, c]));
     const curated = POPULAR_FALLBACK.map((s) => bySlug.get(s)).filter((c): c is LandingCard => !!c);
     const seen = new Set(curated.map((c) => c.slug));
     const rest = active.filter((c) => !seen.has(c.slug));
     return [...curated, ...rest].slice(0, 8);
-  }, [cards]);
+  }, [cards, trendingViews]);
 
   return (
     <div className="lane">
@@ -629,13 +652,14 @@ export default function LandingClient({
   news,
   articles,
   bestPages,
+  trendingViews,
 }: LandingClientProps) {
   return (
     <div className="landing-v2 landing-v3">
       <Hero cards={initialCards} />
       <section className="lanes">
         <div className="wrap">
-          <PopularLane cards={initialCards} />
+          <PopularLane cards={initialCards} trendingViews={trendingViews} />
           <BestForLane bestPages={bestPages} cards={initialCards} />
           <NewsLane news={news} articles={articles} />
         </div>
