@@ -6,14 +6,33 @@ interface ArticleContentProps {
   content: string;
 }
 
+// Escape HTML-significant characters so raw markup in the source can never reach
+// the DOM. We deliberately do NOT escape ">" so blockquote ("> ...") syntax keeps
+// working — a tag is impossible without an unescaped "<", so a lone ">" is inert.
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/"/g, "&quot;");
+}
+
+// Allowlist URL schemes for links/images. Blocks javascript:, data:, vbscript:,
+// etc. The value is already HTML-escaped by escapeHtml() before it reaches here,
+// so once the scheme passes it is safe to drop into an href/src attribute.
+function sanitizeUrl(rawUrl: string): string | null {
+  const url = rawUrl.trim();
+  return /^(https?:\/\/|\/|#|mailto:)/i.test(url) ? url : null;
+}
+
 // Enhanced markdown to HTML converter for article content
 function markdownToHtml(markdown: string): string {
-  let html = markdown;
+  // Escape first: everything below layers its own trusted tags on top of inert text.
+  let html = escapeHtml(markdown);
 
-  // Code blocks (must come before inline code)
+  // Code blocks (must come before inline code). Content is already escaped above.
   html = html.replace(/```(\w*)\n([\s\S]*?)```/gim, (_, lang, code) => {
     const langClass = lang ? ` language-${lang}` : '';
-    return `<pre class="bg-gray-900 text-gray-100 rounded-lg p-4 overflow-x-auto my-6${langClass}"><code>${code.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
+    return `<pre class="bg-gray-900 text-gray-100 rounded-lg p-4 overflow-x-auto my-6${langClass}"><code>${code.trim()}</code></pre>`;
   });
 
   // Inline code
@@ -22,8 +41,11 @@ function markdownToHtml(markdown: string): string {
   // Blockquotes
   html = html.replace(/^>\s*(.*)$/gim, '<blockquote class="border-l-4 border-indigo-500 pl-4 py-1 my-4 text-gray-600 italic">$1</blockquote>');
 
-  // Images
-  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, '<img src="$2" alt="$1" class="rounded-lg my-6 max-w-full h-auto" loading="lazy" />');
+  // Images (drop any image whose URL fails the scheme allowlist)
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, (_m, alt, url) => {
+    const safe = sanitizeUrl(url);
+    return safe ? `<img src="${safe}" alt="${alt}" class="rounded-lg my-6 max-w-full h-auto" loading="lazy" />` : '';
+  });
 
   // Headers with IDs for TOC linking
   html = html.replace(/^### (.+)$/gim, (_, text) => {
@@ -45,8 +67,11 @@ function markdownToHtml(markdown: string): string {
   // Italic
   html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>');
 
-  // Links
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" class="text-indigo-600 hover:text-indigo-800 underline">$1</a>');
+  // Links (drop the href but keep the visible text if the URL fails the allowlist)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/gim, (_m, text, url) => {
+    const safe = sanitizeUrl(url);
+    return safe ? `<a href="${safe}" class="text-indigo-600 hover:text-indigo-800 underline">${text}</a>` : text;
+  });
 
   // Horizontal rules
   html = html.replace(/^---$/gim, '<hr class="my-8 border-gray-200" />');
