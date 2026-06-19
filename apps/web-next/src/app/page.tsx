@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getAllCards, Card } from "@/lib/api";
+import { getAllCards, getCardViewCounts, Card } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import { getBestPages } from "@/lib/best";
@@ -41,6 +41,7 @@ function slimCard(c: Card): LandingCard {
     slug: c.slug,
     card_name: c.card_name,
     bank: c.bank,
+    db_card_id: c.db_card_id,
     card_image_link: c.card_image_link,
     accepting_applications: c.accepting_applications,
     approved_count: c.approved_count,
@@ -105,11 +106,12 @@ function slimNews(news: NewsItem[], cardImageBySlug: Map<string, string | undefi
 }
 
 export default async function LandingPage() {
-  const [cards, news, articles, bestPages] = await Promise.all([
+  const [cards, news, articles, bestPages, trendingViews] = await Promise.all([
     getAllCards(),
     getNews(),
     getArticles(),
     getBestPages(),
+    getCardViewCounts('trending').catch(() => ({}) as Record<number, number>),
   ]);
 
   const slimmedCards: LandingCard[] = cards.map(slimCard);
@@ -135,6 +137,7 @@ export default async function LandingPage() {
       news={slimmedNews}
       articles={slimmedArticles}
       bestPages={slimmedBest}
+      trendingViews={trendingViews}
     />
   );
 }
