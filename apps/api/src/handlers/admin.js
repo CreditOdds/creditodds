@@ -1,6 +1,7 @@
 // Comprehensive admin handler
 const yup = require("yup");
 const mysql = require("../db");
+const { validateReferralLink } = require("../lib/validate-referral-link");
 
 // Fallback admin user IDs (Firebase UIDs) - used if custom claims not set
 const FALLBACK_ADMIN_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
@@ -512,6 +513,19 @@ exports.AdminReferralsHandler = async (event) => {
             headers: responseHeaders,
             body: JSON.stringify({ error: "referral_id is required" }),
           };
+        }
+
+        // Validate the link whenever an admin edits/sets it (same guard as the
+        // user-facing submit path). Skip when no link is being changed.
+        if (referral_link !== undefined && referral_link !== null && referral_link !== "") {
+          const linkError = validateReferralLink(referral_link);
+          if (linkError) {
+            return {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: linkError }),
+            };
+          }
         }
 
         // Get referral details for audit log

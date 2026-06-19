@@ -1,5 +1,6 @@
 // Create clients and set shared const values outside of the handler.
 const mysql = require("../db");
+const { validateReferralLink } = require("../lib/validate-referral-link");
 
 const responseHeaders = {
   "Access-Control-Allow-Headers":
@@ -100,6 +101,17 @@ exports.UserReferralsHandler = async (event) => {
       try {
         const postBody = JSON.parse(event.body);
         const userId = event.requestContext.authorizer.sub;
+
+        // Validate the submitted link before it ever reaches the DB / an href.
+        const linkError = validateReferralLink(postBody.referral_link);
+        if (linkError) {
+          response = {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: linkError }),
+          };
+          break;
+        }
 
         // Check for existing active (non-archived) referral for this card by this user
         const existingActive = await mysql.query(
