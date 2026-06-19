@@ -199,7 +199,8 @@
   text-decoration: none;
   color: var(--ink);
 }
-.landing-v3 .search-results .opt:hover {
+.landing-v3 .search-results .opt:hover,
+.landing-v3 .search-results .opt.is-active {
   background: var(--paper-2);
 }
 .landing-v3 .search-results .opt-thumb {
@@ -796,4 +797,74 @@
     width: 100%;
     justify-content: center;
   }
+}
+
+/* =====================================================================
+   Card "digital rain" — hero-only styles (Concept A · Matrix · Medium)
+   Append to landing-v3.css (or a co-located module). Everything here is
+   scoped to .landing-v3 .hero-c, so nothing else on the page is touched.
+
+   The dark treatment + canvas are gated to >= 641px, so MOBILE IS UNCHANGED
+   (light hero, no rain). The <CardRainCanvas /> component also returns null
+   on mobile, so this is belt-and-suspenders.
+   ===================================================================== */
+
+/* hero-c already has `position: relative` in landing-v3.css — keep it.
+   These two layers fill the hero and sit BEHIND the content. */
+.landing-v3 .hero-rain,
+.landing-v3 .hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* the canvas is a replaced element — inset:0 alone won't stretch it */
+.landing-v3 .hero-rain {
+  width: 100%;
+  height: 100%;
+  -webkit-mask: linear-gradient(180deg, #000 0, #000 72%, transparent 100%);
+          mask: linear-gradient(180deg, #000 0, #000 72%, transparent 100%);
+}
+
+/* soft purple glow + vignette so the search bar reads cleanly over the rain */
+.landing-v3 .hero-scrim {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 34%, color-mix(in oklab, #7a4dff 32%, transparent), transparent 62%),
+    radial-gradient(ellipse 96% 76% at 50% 40%, rgba(11, 9, 24, 0.62), transparent 72%);
+}
+
+/* keep the real hero content above both layers */
+.landing-v3 .hero-c .top,
+.landing-v3 .hero-c .search-wrap { position: relative; z-index: 2; }
+/* float the live search results above the section below it */
+.landing-v3 .hero-c .search-bar { z-index: 30; }
+
+/* ---------------------------------------------------------------------
+   Dark "Matrix" treatment — DESKTOP ONLY. Add the class `hero--matrix`
+   to <section className="hero-c">; these rules only bite at >= 641px,
+   so the mobile hero stays exactly as it is today.
+   --------------------------------------------------------------------- */
+@media (min-width: 641px) {
+  .landing-v3 .hero-c.hero--matrix {
+    background: #0b0918;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+  .landing-v3 .hero-c.hero--matrix h1 { color: #f4f1ff; }
+  .landing-v3 .hero-c.hero--matrix h1 em { color: #c3a6ff; }
+  .landing-v3 .hero-c.hero--matrix .sub { color: #cfc8e4; }
+  .landing-v3 .hero-c.hero--matrix .explore-all {
+    color: #a99fc8;
+    border-bottom-color: rgba(255, 255, 255, 0.28);
+  }
+  .landing-v3 .hero-c.hero--matrix .explore-all:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+  }
+}
+
+/* Belt-and-suspenders: never show the rain layers on mobile. */
+@media (max-width: 640px) {
+  .landing-v3 .hero-rain,
+  .landing-v3 .hero-scrim { display: none !important; }
 }

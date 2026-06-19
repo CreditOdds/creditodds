@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
 import { categoryLabels, pickHeadlineReward } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch, expandSearchTerm } from '@/lib/searchAliases';
 import { V2Footer } from '@/components/landing-v2/Chrome';
+import CardRainCanvas from './CardRainCanvas';
 import './landing.css';
 import './landing-v3.css';
 
@@ -174,6 +175,8 @@ function Hero({ cards }: { cards: LandingCard[] }) {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
+  // Index of the keyboard-highlighted result; -1 means none highlighted.
+  const [active, setActive] = useState(-1);
 
   const matches = useMemo(() => {
     const q = query.trim();
@@ -191,8 +194,25 @@ function Hero({ cards }: { cards: LandingCard[] }) {
     router.push(`/card/${slug}`);
   }
 
+  function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (!matches.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setOpen(true);
+      setActive((i) => (i + 1) % matches.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setOpen(true);
+      setActive((i) => (i <= 0 ? matches.length - 1 : i - 1));
+    } else if (e.key === 'Escape') {
+      setOpen(false);
+      setActive(-1);
+    }
+  }
+
   return (
-    <section className="hero-c">
+    <section className="hero-c hero--matrix">
+      <CardRainCanvas />
       <div className="wrap">
         <div className="top">
           <h1>
@@ -210,7 +230,8 @@ function Hero({ cards }: { cards: LandingCard[] }) {
               className="search-c"
               onSubmit={(e) => {
                 e.preventDefault();
-                if (matches[0]) go(matches[0].slug);
+                const pick = matches[active] ?? matches[0];
+                if (pick) go(pick.slug);
               }}
             >
               <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -223,24 +244,34 @@ function Hero({ cards }: { cards: LandingCard[] }) {
                 onChange={(e) => {
                   setQuery(e.target.value);
                   setOpen(true);
+                  setActive(-1);
                 }}
+                onKeyDown={onKeyDown}
                 onFocus={() => setOpen(true)}
                 onBlur={() => setTimeout(() => setOpen(false), 150)}
                 aria-label="Search any card"
+                role="combobox"
+                aria-expanded={open && !!query.trim()}
+                aria-controls="hero-search-results"
+                aria-activedescendant={active >= 0 ? `hero-opt-${active}` : undefined}
               />
               <span className="kbd">Enter ↵</span>
             </form>
 
             {open && query.trim() && (
-              <div className="search-results" role="listbox">
+              <div className="search-results" role="listbox" id="hero-search-results">
                 {matches.length === 0 ? (
                   <div className="opt-empty">No cards match &ldquo;{query}&rdquo;.</div>
                 ) : (
-                  matches.map((c) => (
+                  matches.map((c, idx) => (
                     <Link
                       key={c.slug}
+                      id={`hero-opt-${idx}`}
                       href={`/card/${c.slug}`}
-                      className="opt"
+                      role="option"
+                      aria-selected={idx === active}
+                      className={`opt${idx === active ? ' is-active' : ''}`}
+                      onMouseEnter={() => setActive(idx)}
                       onMouseDown={(e) => e.preventDefault()}
                     >
                       <div className="opt-thumb">
