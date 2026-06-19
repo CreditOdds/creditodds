@@ -11,7 +11,7 @@ export default function LogRocketInit() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production' && !initialized) {
-      LogRocket.init('jff9jn/co');
+      LogRocket.init('5sdtr5/creditodds');
       initialized = true;
     }
   }, []);
