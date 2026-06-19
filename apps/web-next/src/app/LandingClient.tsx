@@ -49,7 +49,8 @@ export type LandingNewsItem = {
 export type LandingBestPage = {
   slug: string;
   title: string;
-  cardSlugs: string[];
+  cardCount: number;
+  cardImages: { src?: string; alt: string }[];
 };
 
 interface LandingClientProps {
@@ -391,19 +392,7 @@ function PopularLane({
   );
 }
 
-function BestForLane({
-  bestPages,
-  cards,
-}: {
-  bestPages: LandingBestPage[];
-  cards: LandingCard[];
-}) {
-  const nameBySlug = useMemo(() => {
-    const m = new Map<string, string>();
-    cards.forEach((c) => m.set(c.slug, shortName(c)));
-    return m;
-  }, [cards]);
-
+function BestForLane({ bestPages }: { bestPages: LandingBestPage[] }) {
   if (bestPages.length === 0) return null;
 
   return (
@@ -424,14 +413,27 @@ function BestForLane({
           <Link key={page.slug} href={`/best/${page.slug}`} className="lnk">
             <div className="cat">Best for</div>
             <h4>{shortenBestTitle(page.title)}</h4>
-            <div className="top3">
-              {page.cardSlugs.map((slug, i) => (
-                <div className="row" key={slug}>
-                  <span className="r">{i + 1}</span>
-                  <span>{nameBySlug.get(slug) ?? slug}</span>
+            <div className="bf-stack">
+              {page.cardImages.map((img, i) => (
+                <div className="bf-mini" key={i}>
+                  <CardImage
+                    cardImageLink={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes="64px"
+                    style={{ objectFit: 'cover', borderRadius: 4 }}
+                  />
+                  {i === 0 && (
+                    <span className="bf-crown" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4 18h16l1-9-5 3.5L12 6l-4 6.5L3 9z" />
+                      </svg>
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
+            <div className="bf-cta">{page.cardCount} cards ranked →</div>
           </Link>
         ))}
       </div>
@@ -660,7 +662,7 @@ export default function LandingClient({
       <section className="lanes">
         <div className="wrap">
           <PopularLane cards={initialCards} trendingViews={trendingViews} />
-          <BestForLane bestPages={bestPages} cards={initialCards} />
+          <BestForLane bestPages={bestPages} />
           <NewsLane news={news} articles={articles} />
         </div>
       </section>
