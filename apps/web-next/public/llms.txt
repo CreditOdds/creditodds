@@ -24,7 +24,7 @@ The authoritative reference for any individual card. Each card page contains:
 - APR (purchase intro, balance transfer intro, regular range)
 - Median approved credit score, median approved income, median credit history length
 - Total approval/rejection counts from community data
-- Schema.org `CreditCard` JSON-LD with `aggregateRating`, offers, and structured properties
+- Google-compatible `Product` JSON-LD with `additionalType: CreditCard`, `aggregateRating`, offers, and structured properties
 - Related cards, related news, related articles
 
 Examples: [Chase Sapphire Preferred](https://creditodds.com/card/chase-sapphire-preferred), [American Express Gold](https://creditodds.com/card/american-express-gold), [Capital One Venture X](https://creditodds.com/card/capital-one-venture-x).

@@ -4,6 +4,10 @@ const mysql = require("../db");
 const CARDS_URL = process.env.CARDS_JSON_URL || 'https://d2hxvzw7msbtvt.cloudfront.net/cards.json';
 
 const responseHeaders = {
+  // Authenticated, user-specific responses: never cache at browser or any
+  // shared edge (CloudFront/proxy). Belt-and-suspenders for routing the API
+  // through a CDN without leaking one user's data to another.
+  "Cache-Control": "no-store",
   "Access-Control-Allow-Headers":
     "Content-Type,X-Amz-Date,X-Amz-Security-Token,x-api-key,Authorization,Origin,Host,X-Requested-With,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
   "Access-Control-Allow-Origin": "*",
@@ -29,18 +33,23 @@ async function fetchCardsFromCDN() {
   });
 }
 
-// Fetch card stats and metadata from MySQL
-async function fetchCardStatsAndMetadata() {
+// Read precomputed per-card stats from card_stats (totals + medians) plus card
+// metadata. card_stats is refreshed every 5 min by RefreshCardStatsFunction and
+// is what /cards and /card already read, so check-odds no longer scans the full
+// records table (3 window-function CTEs + an aggregate) on every request — and
+// its numbers now stay consistent with the rest of the site. All card_stats
+// columns are INT, so values arrive as JS numbers.
+async function fetchStatsAndMetadata() {
   const [statsResults, cardResults] = await Promise.all([
     mysql.query(`
       SELECT
         card_id,
-        COUNT(*) as total_records,
-        SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
-        SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as rejected_count
-      FROM records
-      WHERE admin_review = 1 AND active = 1
-      GROUP BY card_id
+        total_records,
+        approved_count,
+        approved_median_credit_score,
+        approved_median_income,
+        approved_median_length_credit
+      FROM card_stats
     `),
     mysql.query(`
       SELECT card_id, card_name, card_image_link, accepting_applications, tags
@@ -70,76 +79,6 @@ async function fetchCardStatsAndMetadata() {
   return { statsMap, cardMap };
 }
 
-// Compute medians for all cards using ROW_NUMBER() CTEs
-async function fetchApprovedMedians() {
-  const [creditScoreResults, incomeResults, lengthCreditResults] = await Promise.all([
-    mysql.query(`
-      WITH ranked AS (
-        SELECT card_id, credit_score,
-          ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY credit_score) AS rn,
-          COUNT(*) OVER (PARTITION BY card_id) AS cnt
-        FROM records
-        WHERE admin_review = 1 AND active = 1 AND result = 1
-      )
-      SELECT card_id,
-        AVG(credit_score) AS median_credit_score,
-        MAX(cnt) AS approved_count
-      FROM ranked
-      WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
-      GROUP BY card_id
-    `),
-    mysql.query(`
-      WITH ranked AS (
-        SELECT card_id, listed_income,
-          ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY listed_income) AS rn,
-          COUNT(*) OVER (PARTITION BY card_id) AS cnt
-        FROM records
-        WHERE admin_review = 1 AND active = 1 AND result = 1 AND listed_income IS NOT NULL
-      )
-      SELECT card_id,
-        AVG(listed_income) AS median_income
-      FROM ranked
-      WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
-      GROUP BY card_id
-    `),
-    mysql.query(`
-      WITH ranked AS (
-        SELECT card_id, length_credit,
-          ROW_NUMBER() OVER (PARTITION BY card_id ORDER BY length_credit) AS rn,
-          COUNT(*) OVER (PARTITION BY card_id) AS cnt
-        FROM records
-        WHERE admin_review = 1 AND active = 1 AND result = 1
-      )
-      SELECT card_id,
-        AVG(length_credit) AS median_length_credit
-      FROM ranked
-      WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
-      GROUP BY card_id
-    `)
-  ]);
-
-  const medianMap = {};
-
-  for (const row of creditScoreResults) {
-    medianMap[row.card_id] = {
-      median_credit_score: Math.round(row.median_credit_score),
-      approved_count: row.approved_count,
-    };
-  }
-  for (const row of incomeResults) {
-    if (medianMap[row.card_id]) {
-      medianMap[row.card_id].median_income = Math.round(row.median_income);
-    }
-  }
-  for (const row of lengthCreditResults) {
-    if (medianMap[row.card_id]) {
-      medianMap[row.card_id].median_length_credit = Math.round(row.median_length_credit);
-    }
-  }
-
-  return medianMap;
-}
-
 // Validate input
 function validateInput(body) {
   const errors = [];
@@ -166,7 +105,7 @@ function validateInput(body) {
 }
 
 exports.CheckOddsHandler = async (event) => {
-  console.info("CheckOdds received:", event);
+  console.info("CheckOdds received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return {
@@ -208,10 +147,9 @@ exports.CheckOddsHandler = async (event) => {
         );
 
         // Fetch all data in parallel
-        const [cards, { statsMap, cardMap }, medianMap] = await Promise.all([
+        const [cards, { statsMap, cardMap }] = await Promise.all([
           fetchCardsFromCDN(),
-          fetchCardStatsAndMetadata(),
-          fetchApprovedMedians(),
+          fetchStatsAndMetadata(),
         ]);
 
         await mysql.end();
@@ -225,16 +163,19 @@ exports.CheckOddsHandler = async (event) => {
           .map(card => {
             const dbCard = cardMap[card.card_name] || cardMap[card.name] || {};
             const stats = statsMap[dbCard.db_card_id] || {};
-            const medians = medianMap[dbCard.db_card_id] || {};
 
-            const approvedCount = medians.approved_count || 0;
+            const approvedCount = stats.approved_count || 0;
             const hasEnoughData = approvedCount >= 5;
+
+            const medianCreditScore = stats.approved_median_credit_score;
+            const medianIncome = stats.approved_median_income;
+            const medianLengthCredit = stats.approved_median_length_credit;
 
             let matchScore = 0;
             if (hasEnoughData) {
-              if (credit_score >= medians.median_credit_score) matchScore++;
-              if (income >= medians.median_income) matchScore++;
-              if (length_credit >= medians.median_length_credit) matchScore++;
+              if (credit_score >= medianCreditScore) matchScore++;
+              if (income >= medianIncome) matchScore++;
+              if (length_credit >= medianLengthCredit) matchScore++;
             }
 
             return {
@@ -250,12 +191,12 @@ exports.CheckOddsHandler = async (event) => {
               total_records: stats.total_records || 0,
               approved_data_points: approvedCount,
               has_enough_data: hasEnoughData,
-              median_credit_score: hasEnoughData ? medians.median_credit_score : null,
-              median_income: hasEnoughData ? medians.median_income : null,
-              median_length_credit: hasEnoughData ? medians.median_length_credit : null,
-              above_credit_score: hasEnoughData ? credit_score >= medians.median_credit_score : null,
-              above_income: hasEnoughData ? income >= medians.median_income : null,
-              above_length_credit: hasEnoughData ? length_credit >= medians.median_length_credit : null,
+              median_credit_score: hasEnoughData ? medianCreditScore : null,
+              median_income: hasEnoughData ? medianIncome : null,
+              median_length_credit: hasEnoughData ? medianLengthCredit : null,
+              above_credit_score: hasEnoughData ? credit_score >= medianCreditScore : null,
+              above_income: hasEnoughData ? income >= medianIncome : null,
+              above_length_credit: hasEnoughData ? length_credit >= medianLengthCredit : null,
               match_score: matchScore,
             };
           });

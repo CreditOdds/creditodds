@@ -27,6 +27,7 @@ import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, fr
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
+import ApplyOutcomePrompt, { markApplyPending } from "@/components/forms/ApplyOutcomePrompt";
 import CardyComparePopup from "@/components/ui/CardyComparePopup";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
@@ -156,6 +157,20 @@ function wireDirection(
   return wentUp ? "pos" : "neg";
 }
 
+// Formats a signup-bonus amount in its natural unit (mirrors the headline
+// `bonusDisplay` logic so the rail's "highest ever" reads the same way).
+function formatBonusValue(value: number, type: string): string {
+  if (type === "cash") return `$${value.toLocaleString()}`;
+  if (type === "free_nights")
+    return `${value} night${value !== 1 ? "s" : ""}`;
+  const compact =
+    value >= 1000
+      ? `${(value / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 })}K`
+      : value.toLocaleString();
+  const unit = type === "miles" ? "mi" : "pts";
+  return `${compact} ${unit}`;
+}
+
 function WireChip({
   entry,
   label,
@@ -273,6 +288,9 @@ export default function CardClient({
 }: CardClientProps) {
   // ---------- State + chrome ----------
   const [showModal, setShowModal] = useState(false);
+  // Approved/Denied prefill when the modal is opened from the post-apply
+  // check-in prompt; undefined when opened from the regular buttons.
+  const [recordInitialResult, setRecordInitialResult] = useState<boolean | undefined>(undefined);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copiedShareLink, setCopiedShareLink] = useState(false);
   const [activeChart, setActiveChart] = useState<"score" | "history" | "limit">("score");
@@ -346,6 +364,9 @@ export default function CardClient({
     const cardId = Number(card.card_id);
     if (Number.isInteger(cardId) && cardId > 0) {
       trackCardApplyClick(cardId, clickSource).catch(() => {});
+      // Remember the click so ApplyOutcomePrompt can ask how it went when
+      // the visitor comes back from the issuer tab.
+      markApplyPending(cardId);
     }
   };
 
@@ -528,6 +549,57 @@ export default function CardClient({
     [wire],
   );
 
+  // Highest signup bonus ever seen — scans every wire diff's old/new value
+  // plus the current offer, so the rail can flag the all-time high (OP ask
+  // on Reddit: "what the best offer for a particular card has been").
+  const highestSub = useMemo(() => {
+    const sb = card.signup_bonus;
+    if (!sb || typeof sb.value !== "number" || sb.value <= 0) return null;
+
+    // Only compare bonuses in the current unit. New wire rows carry their unit;
+    // legacy rows (written before the column existed) don't, so fall back to a
+    // magnitude check — a past points offer on a now-free-nights card (e.g.
+    // Marriott Boundless: 125,000 pts vs 5 nights) is orders of magnitude off.
+    const inBand = (n: number) =>
+      n > 0 && n <= sb.value * 1000 && n >= sb.value / 1000;
+    const sameUnit = (w: CardWireEntry, n: number) =>
+      w.unit ? w.unit === sb.type : inBand(n);
+
+    let max = sb.value;
+    for (const w of wire) {
+      if (w.field !== "signup_bonus_value") continue;
+      for (const v of [w.old_value, w.new_value]) {
+        const n = v === null ? NaN : Number(v);
+        if (!Number.isNaN(n) && sameUnit(w, n) && n > max) max = n;
+      }
+    }
+
+    // Most recent date the bonus was observed at that high — either when it
+    // climbed to it (new_value) or last dropped away from it (old_value).
+    let asOfTs: number | null = null;
+    for (const w of wire) {
+      if (w.field !== "signup_bonus_value") continue;
+      const o = w.old_value === null ? NaN : Number(w.old_value);
+      const n = w.new_value === null ? NaN : Number(w.new_value);
+      if ((o === max && sameUnit(w, o)) || (n === max && sameUnit(w, n))) {
+        const ts = new Date(w.changed_at).getTime();
+        if (asOfTs === null || ts > asOfTs) asOfTs = ts;
+      }
+    }
+
+    return {
+      label: formatBonusValue(max, sb.type),
+      isCurrent: max <= sb.value,
+      asOf:
+        asOfTs === null
+          ? null
+          : new Date(asOfTs).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+            }),
+    };
+  }, [card.signup_bonus, wire]);
+
   const fieldLabel: Record<string, string> = {
     annual_fee: "Annual fee",
     signup_bonus_value: "Signup bonus",
@@ -573,9 +645,9 @@ export default function CardClient({
       )}
       {card.accepting_applications ? (
         <>
-          {card.apply_link && (
+          {(card.special_apply_link || card.apply_link) && (
             <a
-              href={withApplySource(card.apply_link)}
+              href={withApplySource(card.special_apply_link || card.apply_link!)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleCardApplyClick("direct")}
@@ -602,7 +674,7 @@ export default function CardClient({
               )}
             </a>
           )}
-          {!card.apply_link && !randomReferralUrl && (
+          {!card.apply_link && !card.special_apply_link && !randomReferralUrl && (
             <div className="cj-apply-closed">
               Apply link not available yet
             </div>
@@ -1619,6 +1691,23 @@ export default function CardClient({
           {wireEntries.length > 0 && (
             <div className="cj-rail-block cj-wire-rail">
               <div className="cj-rail-label">Card wire</div>
+              {highestSub && (
+                <div className="cj-wire-high">
+                  <span className="cj-wire-high-label">
+                    Highest bonus on record
+                  </span>
+                  <span className="cj-wire-high-val">{highestSub.label}</span>
+                  {highestSub.isCurrent ? (
+                    <span className="cj-wire-high-now">Live now</span>
+                  ) : (
+                    highestSub.asOf && (
+                      <span className="cj-wire-high-date">
+                        last offered {highestSub.asOf}
+                      </span>
+                    )
+                  )}
+                </div>
+              )}
               <ul className="cj-wire-rail-list">
                 {wireEntries.map((w) => {
                   const dir = wireDirection(w.field, w.old_value, w.new_value);
@@ -1650,6 +1739,7 @@ export default function CardClient({
                   );
                 })}
               </ul>
+              <p className="cj-wire-rail-note">Tracked since April 2026</p>
             </div>
           )}
 
@@ -1769,9 +1859,20 @@ export default function CardClient({
 
       <SubmitRecordModal
         show={showModal}
-        handleClose={() => setShowModal(false)}
+        handleClose={() => {
+          setShowModal(false);
+          setRecordInitialResult(undefined);
+        }}
         card={card}
         onSuccess={handleSubmitSuccess}
+        initialResult={recordInitialResult}
+      />
+      <ApplyOutcomePrompt
+        card={card}
+        onAddDetails={(result) => {
+          setRecordInitialResult(result);
+          setShowModal(true);
+        }}
       />
       <CardyComparePopup currentSlug={card.slug} currentName={card.card_name} currentImage={card.card_image_link} />
       <V2Footer />

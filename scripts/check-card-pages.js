@@ -22,6 +22,11 @@ const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
 const SCRIPT_TIMEOUT_MS = 20 * 60 * 1000; // 20 min overall safety net
+// Max stripped page text handed to the extractor. Sized so nav-heavy issuer
+// pages still include the card terms — e.g. business.bankofamerica.com leads
+// with ~11k chars of menu chrome and the bonus/spend/timeframe land at ~12k–18k.
+// Most card pages strip to well under this, so the cap only bites on long pages.
+const MAX_CONTENT_CHARS = 18000;
 
 // ─── Timeout helpers ─────────────────────────────────────────────────────────
 
@@ -83,9 +88,18 @@ function loadAllCards() {
   return cards;
 }
 
+// Card-page-check fetches whichever URL hosts the headline signup bonus.
+// When `special_apply_link` is set in the YAML, the SUB lives there — not on
+// the generic apply_link — so we treat it as the source of truth for this
+// script. The rewards/benefits check (which reads structural earn rates and
+// perks) still uses apply_link; see check-card-rewards-and-benefits.js.
+function checkUrlFor(card) {
+  return card.data.special_apply_link || card.data.apply_link;
+}
+
 function filterCardsForCheck(allCards, slugFilter) {
   let cards = allCards.filter(
-    c => c.data.accepting_applications !== false && c.data.apply_link
+    c => c.data.accepting_applications !== false && checkUrlFor(c)
   );
   if (slugFilter) {
     cards = cards.filter(c => c.slug === slugFilter);
@@ -116,7 +130,26 @@ function stripHtml(html) {
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim()
-    .slice(0, 6000);
+    .slice(0, MAX_CONTENT_CHARS);
+}
+
+// Hosts whose bot mitigation reliably defeats headless/CI fetches (verified
+// 2026-06-11). PNC (Akamai) resets the connection over HTTP/2 and black-holes
+// it over HTTP/1.1 — fails from CI and residential IPs alike, via browser and
+// curl. We short-circuit these so the run doesn't spend ~30s/card on guaranteed
+// timeouts; they still appear in the end-of-run skip summary so the coverage gap
+// stays visible. Maintained manually for now — remove an entry to resume
+// automated checks if a site's protection eases.
+//
+// (The Atmos cards previously listed here moved to scrapeable Bank of America
+// apply_links; the alaskaair.com SPA that rendered ~20 chars is no longer used.)
+function knownBlockedReason(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, '');
+    if (host === 'pnc.com') return 'pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)';
+  } catch { /* malformed URL — let the normal fetch path handle it */ }
+  return null;
 }
 
 async function fetchPageContent(url) {
@@ -160,11 +193,19 @@ async function fetchPageContent(url) {
 
 let _browser = null;
 
+// Reason for the most recent browser-fetch failure, surfaced in the
+// end-of-run skip summary so silently-dropped cards stay visible.
+let lastFetchError = null;
+
 async function getBrowser() {
   if (!_browser) {
     try {
       const { chromium } = require('playwright');
-      _browser = await chromium.launch({ headless: true });
+      // --disable-http2 forces HTTP/1.1. Some issuer WAFs (e.g. pnc.com via
+      // Akamai) reset the HTTP/2 connection for datacenter/headless clients,
+      // which Chromium surfaces as net::ERR_HTTP2_PROTOCOL_ERROR and aborts the
+      // whole page load. HTTP/1.1 sidesteps that reset.
+      _browser = await chromium.launch({ headless: true, args: ['--disable-http2'] });
     } catch (err) {
       console.warn(`  Playwright not available: ${err.message}`);
       return null;
@@ -175,30 +216,39 @@ async function getBrowser() {
 
 async function fetchWithBrowser(url) {
   const browser = await getBrowser();
-  if (!browser) return null;
+  if (!browser) { lastFetchError = 'Playwright unavailable'; return null; }
 
-  let page;
+  let context;
   try {
-    const context = await browser.newContext({
+    context = await browser.newContext({
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      viewport: { width: 1280, height: 800 },
+      locale: 'en-US',
     });
-    page = await context.newPage();
+    const page = await context.newPage();
+    // domcontentloaded fires early and reliably (waitUntil:'load' can hang on
+    // ad/tracker-heavy issuer pages). Then give client-rendered content a
+    // best-effort settle window via networkidle, capped so pages with
+    // long-poll/keepalive connections don't stall the whole goto.
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    // Wait for content to render
+    await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
     await page.waitForTimeout(3000);
     const html = await page.content();
     await context.close();
 
     const stripped = stripHtml(html);
     if (stripped.length < 100) {
+      lastFetchError = `content too short (${stripped.length} chars)`;
       console.warn(`  Browser fetch still too short (${stripped.length} chars) — skipping`);
       return null;
     }
+    lastFetchError = null;
     console.log(`  Browser fetch succeeded (${stripped.length} chars)`);
     return stripped;
   } catch (err) {
+    lastFetchError = err.message.split('\n')[0];
     console.warn(`  Browser fetch error: ${err.message} — skipping`);
-    if (page) await page.context().close().catch(() => {});
+    if (context) await context.close().catch(() => {});
     return null;
   }
 }
@@ -212,15 +262,24 @@ async function closeBrowser() {
 
 // ─── Claude Haiku extraction ──────────────────────────────────────────────────
 
-async function extractCardTerms(cardName, bankName, applyLink, pageContent) {
+async function extractCardTerms(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error('ANTHROPIC_API_KEY required');
+
+  const cur = currentSignupBonus || {};
+  const currentContext = `Current YAML values (for unit context — DO NOT copy these, extract fresh from the page):
+- signup_bonus.value: ${cur.value ?? 'null'}
+- signup_bonus.type: ${cur.type ?? 'null'}
+- signup_bonus.spend_requirement: ${cur.spend_requirement ?? 'null'}
+- signup_bonus.timeframe_months: ${cur.timeframe_months ?? 'null'}
+`;
 
   const prompt = `You are extracting credit card terms from a bank's apply page for human review.
 
 Card: ${cardName} (${bankName})
 Source URL: ${applyLink}
 
+${currentContext}
 Page content:
 ${pageContent}
 
@@ -235,6 +294,10 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
     "timeframe_months": <number or null>,
     "authorized_user_bonus": <number or null>,
     "bonus_note": <string or null>
+  },
+  "apr": {
+    "purchase_intro_months": <number or null>,
+    "balance_transfer_intro_months": <number or null>
   }
 }
 
@@ -243,12 +306,19 @@ Rules:
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 3 for "3 free night awards"). null if absent.
 - signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
 - SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND bonus_note.
-- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer itself has tiered/multi-level structure, extract ONLY the BASE/FIRST tier values for value, spend_requirement, and timeframe_months. Describe the additional tier(s) in bonus_note (see BONUS NOTE rule below).
+- TIMEFRAME UNITS: signup_bonus.timeframe_months must be expressed in whole MONTHS, never raw days. Issuer pages often state the window in days (e.g. "within the first 90 days", "in the first 180 days") — convert to months: 90 days → 3, 120 days → 4, 150 days → 5, 180 days → 6, 270 days → 9, 365 days → 12. A welcome-offer window is essentially never longer than ~18 months, so NEVER return a value above 18 — if you computed one, you returned days by mistake and must convert it to months.
+- TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 70,000 miles after $3,000 in 6 months, plus an additional 20,000 miles after an additional $2,000 in 6 months", or "3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer is tiered, use the HEADLINE-MAX convention:
+    - value = the **headline maximum** the issuer markets (e.g. 90000 for "up to 90,000 miles", or 4 for "up to 4 Free Night Awards")
+    - spend_requirement = the **TOTAL** spend required to earn the maximum across all tiers (e.g. 5000 = $3,000 + $2,000)
+    - timeframe_months = the **longest** window across all tiers (typically the same window throughout, e.g. 6)
+    - bonus_note = describes the tier structure in the issuer's own words, and includes the offer end date when present on the page (see BONUS NOTE rule below)
+  NEVER return just the first/base tier in value — always return the maximum attainable bonus. Floor-as-value is the OLD convention and is being phased out.
 - BONUS NOTE: Use bonus_note ONLY to describe structural aspects of the one-time welcome offer that the base fields (value/spend_requirement/timeframe_months) cannot express. Allowed cases, with example phrasing:
-  - Tiered/multi-step earn: "Plus 1 additional Free Night Award after spending $4,000 total in 4 months"
+  - Tiered/multi-step earn (describe each tier so readers see how the max breaks down): "Earn 70,000 miles after $3,000 spend in first 6 months, plus an additional 20,000 miles after an additional $2,000 spend within first 6 months. Offer ends 2026-07-15."
   - Multi-component bonus delivered as separate pieces: "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
   - Bonus delivered in a non-cash form or with unusual timing: "$150 Amazon Gift Card instantly loaded upon approval"
   - Points + separate cash combo earned alongside the main bonus: "Plus $300 Bilt Cash as a signup bonus"
+  When the apply page shows an explicit offer end date (e.g. "Offer ends 07/15/26."), append it to the note in ISO form ("Offer ends 2026-07-15.").
 
   DO NOT use bonus_note for ANY of the following, even when the apply page mentions them prominently — none of them are welcome-offer structure:
   - Redemption value or marketing restatements of the main bonus (e.g. "$600 toward your next trip", "$3,000 value through Chase Travel", "75,000 points valued at $750")
@@ -261,6 +331,13 @@ Rules:
   When in doubt, return null. A missing note is cheap; an incorrect note clutters the data and triggers false-positive PR proposals.
 - AUTHORIZED USER BONUSES: Do NOT include bonus miles/points earned for adding an authorized user in the "value" field. Only count the primary cardholder's signup bonus from spending. For example, if a card offers "90,000 miles after $4,000 spend + 10,000 miles for adding an authorized user", the value is 90000, NOT 100000. Instead, put the authorized user bonus amount in "authorized_user_bonus" (e.g. 10000). null if no AU bonus.
 - CASH vs POINTS: Do NOT combine cash/dollar bonuses with points/miles. If a card offers "50,000 points + $300 cash bonus", the signup_bonus value is 50000 (points only). Cash bonuses are separate from points/miles and must NOT be added to the value field. A $300 cash bonus is NOT 300 points.
+- POINTS REDEEMED AS CASH: Some cards earn points that convert to a fixed cash amount (e.g. "15,000 bonus points = $150 when deposited into your Fidelity account"). The points and the dollar amount describe the SAME offer in two different units — they are NOT two stackable bonuses. If the current YAML's signup_bonus.type is "cash" or "cashback", return the DOLLAR value (150), NOT the points count (15000). If the current type is "points" or "miles", return the points count. When unsure which unit the card is denominated in, prefer the value matching the existing type. NEVER return a 5-figure number as the value for a card whose current type is cash/cashback — that is the points figure, not the bonus value.
+- INTRO APR: The introductory (promotional) APR is the temporary 0% (or low) APR a card extends to new cardholders. Issuer pages state its length in "months" or "billing cycles" — treat one billing cycle as one month. Extract the LENGTH in months only:
+    - apr.purchase_intro_months = the intro APR period for PURCHASES (e.g. "0% intro APR for 21 billing cycles on purchases" → 21).
+    - apr.balance_transfer_intro_months = the intro APR period for BALANCE TRANSFERS (e.g. "0% intro APR for 21 billing cycles on balance transfers" → 21).
+    - When a single 0% intro period is described as applying to both purchases and balance transfers, use that same value for both fields.
+    - These are the INTRO/promotional period ONLY. NEVER put the ongoing/regular APR here — e.g. "16.99%–27.99% variable APR" after the intro ends is the regular APR, not an intro length.
+    - Return null (NOT 0) when the card has no intro APR offer or the page doesn't state one. Ignore any intro APR length found inside [STRIKETHROUGH: ...] (expired offer) and use the live value.
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
 - Return null for any field you cannot determine with confidence.`;
 
@@ -313,6 +390,18 @@ function isExtractionEmpty(extracted) {
   return true;
 }
 
+// Haiku occasionally returns the signup-bonus timeframe as a raw DAY count instead
+// of months (e.g. "180 days" → 180 rather than 6), which surfaced a bogus
+// timeframe_months: 180 on Wyndham Earner Business (#1426). No real welcome offer
+// runs longer than ~18 months, so any extracted timeframe above 24 is a
+// days-as-months misread — convert it to whole months. Applied before the diff so
+// the change either disappears (YAML already stores the right month count) or
+// surfaces in the correct unit (e.g. a genuine 3 → 6 move) instead of as 180.
+function normalizeTimeframeMonths(v) {
+  if (typeof v === 'number' && v > 24) return Math.round(v / 30);
+  return v;
+}
+
 function detectChanges(card, extracted) {
   if (!extracted) return [];
 
@@ -323,7 +412,32 @@ function detectChanges(card, extracted) {
   // annual_fee
   if (extracted.annual_fee !== null && extracted.annual_fee !== undefined) {
     const cur = current.annual_fee ?? null;
-    if (cur !== null && extracted.annual_fee !== cur && !ignoreFields.has('annual_fee')) {
+
+    // Defensive: cards with a first-year fee waiver (annual_fee_intro) render the
+    // ongoing fee client-side, so the stripped page text frequently shows only the
+    // waived "$0 first year" figure. Haiku then returns that waiver value as the
+    // annual fee, proposing a phantom drop from the ongoing fee to the intro value
+    // (Citi AAdvantage: ongoing $99, extracted 0 = the 12-month waiver — rejected
+    // on #1413/#1416/#1426/#1434). When the extracted value equals the card's known
+    // annual_fee_intro waiver value and differs from the ongoing fee, it's the
+    // waiver misread, not a real fee change — skip it.
+    const introWaiver = current.annual_fee_intro?.value;
+    const isIntroWaiverMisread =
+      introWaiver !== null && introWaiver !== undefined &&
+      extracted.annual_fee === introWaiver &&
+      cur !== introWaiver;
+    if (isIntroWaiverMisread) {
+      console.log(
+        `  Ignoring annual_fee change ${cur} → ${extracted.annual_fee}: matches the first-year annual_fee_intro waiver ($${introWaiver}), not the ongoing fee`
+      );
+    }
+
+    if (
+      cur !== null &&
+      extracted.annual_fee !== cur &&
+      !isIntroWaiverMisread &&
+      !ignoreFields.has('annual_fee')
+    ) {
       changes.push({ field: 'annual_fee', old_value: cur, new_value: extracted.annual_fee });
     }
   }
@@ -332,6 +446,11 @@ function detectChanges(card, extracted) {
   if (extracted.signup_bonus && current.signup_bonus) {
     const sb = extracted.signup_bonus;
     const cur = current.signup_bonus;
+
+    // Convert a days-as-months misread before any comparison (see helper above).
+    if (sb.timeframe_months != null) {
+      sb.timeframe_months = normalizeTimeframeMonths(sb.timeframe_months);
+    }
 
     // Defensive: when Haiku reports both a value change and an authorized_user_bonus,
     // and the value delta is exactly the AU bonus, the page's headline is bundling
@@ -351,8 +470,87 @@ function detectChanges(card, extracted) {
       );
     }
 
+    // Defensive: points-redeemed-as-cash cards (e.g. Fidelity Rewards Visa: "15,000
+    // points = $150 deposited into your Fidelity account") show both a points count
+    // and a dollar figure for the SAME offer. Haiku has a recurring habit of
+    // returning the points count as the new value, which would imply a 100x cash
+    // SUB jump. When the card's existing type is cash/cashback and the proposed
+    // value is ≥10x the current value, treat it as a points/cash confusion and
+    // skip. This pattern has been reverted at least twice (commits 65aecd16,
+    // c35d52cb) before this guard landed.
+    const cashType = cur.type === 'cash' || cur.type === 'cashback';
+    const skipValueAsPointsConfusion =
+      cashType &&
+      sb.value != null &&
+      cur.value != null &&
+      cur.value > 0 &&
+      sb.value >= cur.value * 10;
+
+    if (skipValueAsPointsConfusion) {
+      console.log(
+        `  Ignoring value change ${cur.value} → ${sb.value}: likely points-redeemed-as-cash misparse (current type=${cur.type}, ratio ${(sb.value / cur.value).toFixed(0)}x)`
+      );
+    }
+
+    // Defensive: tiered welcome offers under the headline-max convention
+    // (e.g. Amex Delta Gold: value=90,000 with note "Earn 70,000 ... plus
+    // additional 20,000"). YAML stores the MAX in value/spend_requirement/
+    // timeframe_months and the tier breakdown in note. Haiku misparses these
+    // in two recurring ways, both of which we suppress:
+    //
+    //   1. TIER COLLAPSE — returns only the FIRST/BASE tier (e.g. 70,000),
+    //      which looks like a phantom value downgrade (proposed value < cur).
+    //   2. OVERLAPPING-SPEND DOUBLE-COUNT — sums tier spend steps that overlap
+    //      in time, inflating spend_requirement above the stored max. The
+    //      World of Hyatt offer is the canonical case: "30,000 points after
+    //      $3,000 in 3 months, plus up to 30,000 more by earning 2x on up to
+    //      $15,000 in the first 6 months." The $3,000 step is *nested inside*
+    //      the $15,000 / 6-month window, so the true total to max the bonus is
+    //      $15,000 — but Haiku adds $3,000 + $15,000 = $18,000 and re-proposes
+    //      spend_requirement 15000 → 18000 every run (rejected on #1365, #1376).
+    //
+    // We detect a tiered note via the "additional N" / "N additional" phrasing
+    // OR the equivalent "more N" / "N more" phrasing (Chase uses "30,000 more
+    // Bonus Points"), with up to 4 filler words (e.g. "bonus", a brand name
+    // like "Marriott Bonvoy bonus") between the count and the unit. When the
+    // note is tiered, we skip the whole signup_bonus block for the run if the
+    // proposed value drops below the stored max (tier collapse) OR the proposed
+    // spend_requirement rises above it (overlapping-window double-count).
+    // Note: pre-2026-06-04 the convention was inverted (floor-as-value) and
+    // this guard skipped value INCREASES instead. See PR #1358 / memory
+    // feedback_tiered_sub_convention for the convention change.
+    const noteText = cur.note || '';
+    const tieredAdditionalMatch =
+      noteText.match(/(\d[\d,]*)\s+(?:additional|more)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
+      noteText.match(/(?:additional|more)\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
+    const noteDescribesTiered = !!tieredAdditionalMatch;
+
+    const tierCollapse =
+      noteDescribesTiered &&
+      sb.value != null &&
+      cur.value != null &&
+      sb.value < cur.value;
+
+    const spendOvercount =
+      noteDescribesTiered &&
+      sb.spend_requirement != null &&
+      cur.spend_requirement != null &&
+      sb.spend_requirement > cur.spend_requirement;
+
+    const skipAsTieredBonus = tierCollapse || spendOvercount;
+
+    if (skipAsTieredBonus) {
+      const reason = tierCollapse
+        ? `proposed value ${cur.value} → ${sb.value} looks like a base-tier-only misparse`
+        : `proposed spend_requirement ${cur.spend_requirement} → ${sb.spend_requirement} looks like an overlapping-window double-count`;
+      console.log(
+        `  Ignoring signup_bonus changes: current note describes a tiered offer (${tieredAdditionalMatch[1]}) — ${reason}`
+      );
+    }
+
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
-      if (key === 'value' && skipValueAsBundledAU) continue;
+      if (skipAsTieredBonus) continue;
+      if (key === 'value' && (skipValueAsBundledAU || skipValueAsPointsConfusion)) continue;
       if (sb[key] !== null && sb[key] !== undefined && cur[key] !== undefined) {
         const field = `signup_bonus.${key}`;
         if (sb[key] !== cur[key] && !ignoreFields.has(field)) {
@@ -403,6 +601,31 @@ function detectChanges(card, extracted) {
     }
   }
 
+  // Intro APR period length (months). Only diff a card that ALREADY stores an
+  // intro months value for that line — so we never invent an intro offer for a
+  // card without one, and never overwrite a real number with a null Haiku
+  // returns when the page wording it can't parse. The regular APR
+  // (apr.regular.min/max) is intentionally not compared here: it drifts with
+  // the prime rate and would generate constant false-positive PRs.
+  if (extracted.apr && current.apr) {
+    const introFields = [
+      { group: 'purchase_intro', extracted: extracted.apr.purchase_intro_months },
+      { group: 'balance_transfer_intro', extracted: extracted.apr.balance_transfer_intro_months },
+    ];
+    for (const f of introFields) {
+      const field = `apr.${f.group}.months`;
+      const curVal = current.apr[f.group]?.months;
+      if (
+        f.extracted !== null && f.extracted !== undefined &&
+        curVal !== null && curVal !== undefined &&
+        f.extracted !== curVal &&
+        !ignoreFields.has(field)
+      ) {
+        changes.push({ field, old_value: curVal, new_value: f.extracted });
+      }
+    }
+  }
+
   return changes;
 }
 
@@ -435,6 +658,15 @@ function applyChanges(allChanges, allCards) {
         if (!parsedData.signup_bonus) parsedData.signup_bonus = {};
         parsedData.signup_bonus[subfield] = new_value;
         yamlText = replaceYamlBlock(yamlText, 'signup_bonus', parsedData.signup_bonus);
+        modified = true;
+      } else if (field.startsWith('apr.')) {
+        // apr.<group>.<key>, e.g. apr.purchase_intro.months — re-dump the whole
+        // apr block so the untouched lines (rate, regular range) are preserved.
+        const [, group, key] = field.split('.');
+        if (!parsedData.apr) parsedData.apr = {};
+        if (!parsedData.apr[group]) parsedData.apr[group] = {};
+        parsedData.apr[group][key] = new_value;
+        yamlText = replaceYamlBlock(yamlText, 'apr', parsedData.apr);
         modified = true;
       }
 
@@ -506,10 +738,11 @@ async function main() {
   }
 
   console.log(`Checking ${cardsToCheck.length} card(s):`);
-  cardsToCheck.forEach(c => console.log(`  - ${c.data.name} (${c.data.apply_link})`));
+  cardsToCheck.forEach(c => console.log(`  - ${c.data.name} (${checkUrlFor(c)})`));
   console.log('');
 
   const allChanges = [];
+  const skippedCards = [];
 
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
@@ -519,9 +752,17 @@ async function main() {
       break;
     }
 
-    const { name, bank, apply_link } = card.data;
+    const { name, bank } = card.data;
+    const apply_link = checkUrlFor(card);
     console.log(`Checking: ${name}`);
-    console.log(`  URL: ${apply_link}`);
+    console.log(`  URL: ${apply_link}${card.data.special_apply_link ? ' (special_apply_link)' : ''}`);
+
+    const blockedReason = knownBlockedReason(apply_link);
+    if (blockedReason) {
+      console.log(`  Skipped (known bot-block — manual maintenance): ${blockedReason}\n`);
+      skippedCards.push({ name, url: apply_link, reason: `known block: ${blockedReason}` });
+      continue;
+    }
 
     try {
       await withTimeout((async () => {
@@ -529,6 +770,7 @@ async function main() {
         const fetchResult = await fetchPageContent(apply_link);
         if (!fetchResult) {
           console.log('  Skipped (could not fetch page)\n');
+          skippedCards.push({ name, url: apply_link, reason: lastFetchError || 'could not fetch page' });
           return;
         }
         let { content: pageContent, usedBrowser } = fetchResult;
@@ -537,7 +779,7 @@ async function main() {
         // Extract with Claude Haiku
         let extracted;
         try {
-          extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+          extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
         } catch (err) {
           console.warn(`  Extraction error: ${err.message} — skipping\n`);
           return;
@@ -552,7 +794,7 @@ async function main() {
           if (browserContent) {
             pageContent = browserContent;
             try {
-              extracted = await extractCardTerms(name, bank, apply_link, pageContent);
+              extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
             } catch (err) {
               console.warn(`  Retry extraction error: ${err.message} — skipping\n`);
               return;
@@ -582,6 +824,14 @@ async function main() {
     await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
   }
 
+  if (skippedCards.length > 0) {
+    console.log(`\n⚠️  Skipped ${skippedCards.length} card(s) due to fetch issues (not checked this run):`);
+    for (const s of skippedCards) {
+      console.log(`  - ${s.name}: ${s.reason}\n      ${s.url}`);
+    }
+    console.log('');
+  }
+
   if (allChanges.length === 0) {
     console.log('No changes detected. Exiting.');
     if (fs.existsSync(SUMMARY_FILE)) fs.unlinkSync(SUMMARY_FILE);
@@ -603,8 +853,12 @@ async function main() {
   console.log('\n=== Complete ===');
 }
 
-main().catch(async (err) => {
-  console.error('Fatal error:', err);
-  await closeBrowser();
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(async (err) => {
+    console.error('Fatal error:', err);
+    await closeBrowser();
+    process.exit(1);
+  });
+}
+
+module.exports = { detectChanges };

@@ -1,0 +1,10 @@
+name: "PNC Secured"
+bank: "PNC"
+slug: "pnc-secured"
+accepting_applications: true
+image: "pnc-secured.png"
+annual_fee: 0
+tags:
+  - secured
+  - credit_builder
+apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-secured-credit-card.html

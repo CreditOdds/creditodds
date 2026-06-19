@@ -54,6 +54,12 @@ benefits:
     frequency: "monthly"
     category: "shopping"
     enrollment_required: true
+  - name: "Squarespace Credit"
+    value: 150
+    description: "Up to $150 back annually in statement credits for U.S. purchases with Squarespace."
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: true
 tags:
   - business
   - rewards

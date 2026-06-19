@@ -130,15 +130,16 @@ Issuer: ${card.bank || 'unknown'}
 Details: ${summary || 'see card page for details'}
 
 Rules:
-- Lead with "NEW:" or "Just added:" to make it clear this is a new addition
+- Tone: formal and informative, like a brief from a financial publication. No clickbait, no hype, no sensational hooks
+- Open with a plain statement that the card is now listed, e.g. "Now on CreditOdds: ..." or "The ${card.name} has been added to CreditOdds"
 - Max 200 characters (shorter is better)
-- Highlight the single most compelling detail (sign-up bonus, top reward rate, or $0 annual fee — pick one)
-- Write like a human, not a corporate account — be direct, casual, punchy
+- State the most notable facts plainly (sign-up bonus, top reward rate, or annual fee) — facts only, no editorializing
+- No exclamation points, no all-caps words, no rhetorical questions
 - No filler words, no "excited to announce", no "stay tuned"
-- 1 hashtag max, only if it adds value. Skip hashtags if the tweet is strong without one
+- No hashtags
 - Do NOT include any URL
 - Do NOT use em dashes
-- Do NOT use emojis excessively — 0-1 emoji max`;
+- Do NOT use emojis`;
 
   const response = await fetchWithRetry('https://api.anthropic.com/v1/messages', {
     method: 'POST',

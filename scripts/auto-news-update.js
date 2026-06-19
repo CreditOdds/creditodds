@@ -28,6 +28,7 @@ const VALID_TAGS = [
   'benefit-change',
   'limited-time',
   'policy-change',
+  'rumor',
   'general'
 ];
 

@@ -3,9 +3,14 @@ bank: "Bank of America"
 slug: "atmos-rewards-business"
 image: "atmos-rewards-business.png"
 accepting_applications: true
-apply_link: https://www.alaskaair.com/atmosrewards/content/credit-cards/visa-small-business
+apply_link: https://business.bankofamerica.com/en/credit-cards/atmos-rewards
 category: "business"
 annual_fee: 95
+# $70 per company + $25 per card = $95 effective. The apply page only exposes the
+# $70 per-company figure, so card-page-check (a single-number extractor) keeps
+# proposing 95 -> 70. Ignore annual_fee for this card. (#1413/#1421/#1426/#1434)
+check_ignore:
+  - annual_fee
 foreign_transaction_fee: false
 tags:
   - travel

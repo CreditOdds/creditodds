@@ -1,17 +1,25 @@
 // User Wallet API - Manage cards in user's wallet
 //
 // Routes:
-//   GET    /wallet           — list every card instance in the user's wallet
-//   POST   /wallet           — add a new instance (duplicates of the same card_id are allowed)
-//   PUT    /wallet/reorder   — set sort_order for a list of wallet rows (drag-to-reorder)
-//   PUT    /wallet/{id}      — update acquired_month / acquired_year on a specific instance
-//   DELETE /wallet/{id}      — remove a specific instance
+//   GET    /wallet                          — list every card instance in the user's wallet
+//   POST   /wallet                          — add a new instance (duplicates of the same card_id are allowed)
+//   PUT    /wallet/reorder                  — set sort_order for a list of wallet rows (drag-to-reorder)
+//   GET    /wallet/events                   — list product-change events for the user
+//   PUT    /wallet/{id}                     — update acquired_month / acquired_year on a specific instance
+//   DELETE /wallet/{id}                     — remove a specific instance
+//   POST   /wallet/{id}/product-change      — convert a wallet row from one card to another (same issuer); logs the event
 //
 // Per-card identity is `user_cards.id` (auto-increment). Ratings live in `card_ratings`
 // keyed by (user_id, card_id) — one rating per card type, shared across duplicates.
+// Product changes preserve the wallet row id and acquired_month/year (same account,
+// different product) and append a row to `wallet_card_events`.
 const mysql = require("../db");
 
 const responseHeaders = {
+  // Authenticated, user-specific responses: never cache at browser or any
+  // shared edge (CloudFront/proxy). Belt-and-suspenders for routing the API
+  // through a CDN without leaking one user's data to another.
+  "Cache-Control": "no-store",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type,Authorization",
   "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
@@ -33,7 +41,7 @@ function validateAcquiredDate(acquired_month, acquired_year) {
 }
 
 exports.UserWalletHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   // Handle CORS preflight
   if (event.httpMethod === "OPTIONS") {
@@ -55,12 +63,51 @@ exports.UserWalletHandler = async (event) => {
   }
 
   const walletRowId = event.pathParameters?.id ? Number(event.pathParameters.id) : null;
-  const isReorderRoute = (event.resource || event.path || "").endsWith("/wallet/reorder");
+  const routeKey = event.resource || event.path || "";
+  const isReorderRoute = routeKey.endsWith("/wallet/reorder");
+  const isEventsRoute = routeKey.endsWith("/wallet/events");
+  const isProductChangeRoute = routeKey.endsWith("/wallet/{id}/product-change") || routeKey.endsWith("/product-change");
   let response = {};
 
   try {
     switch (event.httpMethod) {
       case "GET": {
+        if (isEventsRoute) {
+          // Product-change history for the user. Joins both old and new card
+          // names so the frontend can render "Sapphire Preferred → Sapphire
+          // Reserve" without a second lookup. Newest event first.
+          const events = await mysql.query(`
+            SELECT
+              e.id,
+              e.user_card_id,
+              e.event_type,
+              e.old_card_id,
+              e.new_card_id,
+              e.change_date,
+              e.reason,
+              e.note,
+              e.created_at,
+              co.card_name AS old_card_name,
+              co.card_image_link AS old_card_image_link,
+              cn.card_name AS new_card_name,
+              cn.card_image_link AS new_card_image_link,
+              cn.bank AS bank
+            FROM wallet_card_events e
+            LEFT JOIN cards co ON e.old_card_id = co.card_id
+            LEFT JOIN cards cn ON e.new_card_id = cn.card_id
+            WHERE e.user_id = ?
+            ORDER BY e.change_date DESC, e.id DESC
+          `, [userId]);
+          await mysql.end();
+
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify(events),
+          };
+          break;
+        }
+
         // Get all card instances in the user's wallet, with the shared
         // (per-card-type) rating preloaded so the edit modal doesn't flash empty stars.
         // Rows the user has explicitly reordered (sort_order set) come first; the rest
@@ -132,6 +179,153 @@ exports.UserWalletHandler = async (event) => {
       }
 
       case "POST": {
+        if (isProductChangeRoute) {
+          // Product change: same account, different card. Preserve the wallet
+          // row id, user_id, acquired_month, acquired_year, sort_order — only
+          // the linked card_id changes. Issuer (cards.bank) must match.
+          if (!walletRowId || !Number.isFinite(walletRowId)) {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "wallet row id is required in path" }),
+            };
+            break;
+          }
+
+          const body = JSON.parse(event.body || "{}");
+          const { new_card_id, change_date, reason, note } = body;
+
+          if (!new_card_id || !Number.isFinite(Number(new_card_id))) {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "new_card_id is required" }),
+            };
+            break;
+          }
+
+          if (reason && reason !== "voluntary" && reason !== "forced") {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "reason must be 'voluntary' or 'forced'" }),
+            };
+            break;
+          }
+
+          if (note && typeof note === "string" && note.length > 500) {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "note must be 500 characters or fewer" }),
+            };
+            break;
+          }
+
+          // Default change_date to today; validate YYYY-MM-DD when provided.
+          let effectiveDate = change_date;
+          if (effectiveDate) {
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(effectiveDate)) {
+              response = {
+                statusCode: 400,
+                headers: responseHeaders,
+                body: JSON.stringify({ error: "change_date must be YYYY-MM-DD" }),
+              };
+              break;
+            }
+          } else {
+            effectiveDate = new Date().toISOString().slice(0, 10);
+          }
+
+          // Load the wallet row + its current card's bank in one query so we
+          // can validate ownership and issuer match together.
+          const walletRow = await mysql.query(`
+            SELECT uc.id, uc.card_id, c.bank
+            FROM user_cards uc
+            JOIN cards c ON uc.card_id = c.card_id
+            WHERE uc.id = ? AND uc.user_id = ?
+          `, [walletRowId, userId]);
+
+          if (walletRow.length === 0) {
+            await mysql.end();
+            response = {
+              statusCode: 404,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "Wallet card not found" }),
+            };
+            break;
+          }
+
+          const oldCardId = walletRow[0].card_id;
+          const oldBank = walletRow[0].bank;
+
+          if (Number(new_card_id) === Number(oldCardId)) {
+            await mysql.end();
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "new_card_id must differ from the current card" }),
+            };
+            break;
+          }
+
+          const newCard = await mysql.query(
+            "SELECT card_id, bank FROM cards WHERE card_id = ?",
+            [new_card_id]
+          );
+          if (newCard.length === 0) {
+            await mysql.end();
+            response = {
+              statusCode: 404,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "Target card not found" }),
+            };
+            break;
+          }
+
+          if (newCard[0].bank !== oldBank) {
+            await mysql.end();
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({
+                error: `Product changes are only allowed between cards from the same issuer (current: ${oldBank}, target: ${newCard[0].bank})`,
+              }),
+            };
+            break;
+          }
+
+          // Update the wallet row's card_id, then log the event. Two statements
+          // (no transactions in the serverless-mysql wrapper); the event log is
+          // a record-keeping concern, so order matters less than atomicity.
+          await mysql.query(
+            "UPDATE user_cards SET card_id = ? WHERE id = ? AND user_id = ?",
+            [new_card_id, walletRowId, userId]
+          );
+
+          const insertResult = await mysql.query(`
+            INSERT INTO wallet_card_events
+              (user_id, user_card_id, event_type, old_card_id, new_card_id, change_date, reason, note)
+            VALUES (?, ?, 'product_change', ?, ?, ?, ?, ?)
+          `, [userId, walletRowId, oldCardId, new_card_id, effectiveDate, reason || null, note || null]);
+
+          await mysql.end();
+
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({
+              message: "Product change recorded",
+              event_id: insertResult.insertId,
+              wallet_card_id: walletRowId,
+              old_card_id: oldCardId,
+              new_card_id: Number(new_card_id),
+              change_date: effectiveDate,
+            }),
+          };
+          break;
+        }
+
         // Add a new card instance to the wallet. Duplicates of the same card_id are allowed —
         // each row has its own auto-increment `id`.
         const addBody = JSON.parse(event.body || "{}");

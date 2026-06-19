@@ -3,6 +3,11 @@ bank: "Citi"
 slug: "citi-aadvantage-platinum-select-world-elite-m"
 accepting_applications: true
 annual_fee: 99
+# Ongoing fee is $99, waived the first 12 months (annual_fee_intro below). The fee
+# is JS-rendered, so card-page-check's extractor reads the waiver and proposes
+# phantom drops to 0 or 95. Ignore annual_fee for this card. (#1413/#1416/#1426/#1434)
+check_ignore:
+  - annual_fee
 annual_fee_intro:
   value: 0
   months: 12
@@ -19,6 +24,13 @@ benefits:
     description: "Preferred boarding on American Airlines flights"
     frequency: "ongoing"
     category: "travel"
+  - name: "Inflight Purchase Discount"
+    value: 25
+    value_unit: "percent"
+    description: "25% savings on inflight food and beverage purchases on American Airlines flights"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
 tags:
   - travel
   - airline
@@ -38,12 +50,13 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 50000
+  value: 80000
   type: "miles"
-  spend_requirement: 2500
-  timeframe_months: 3
+  spend_requirement: 3500
+  timeframe_months: 4
 apr:
   regular:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-platinum-select-world-elite-mastercard
+foreign_transaction_fee: false

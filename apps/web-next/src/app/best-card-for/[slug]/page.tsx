@@ -88,10 +88,20 @@ export default async function BestCardForStorePage({ params }: PageProps) {
   const usingFallback = picks.length > 0 && picks.every(p => p.source === 'flat_rate');
   const pageUrl = `https://creditodds.com/best-card-for/${store.slug}`;
 
+  // Rank related stores by category overlap so the most-similar stores win.
+  // A store sharing both [hotels, travel] with Best Western beats one that
+  // only shares [travel] — otherwise broad categories like `travel` flood the
+  // list with whichever stores happen to come first alphabetically.
   const relatedStores = allStores
     .filter(s => s.slug !== store.slug)
-    .filter(s => s.categories.some(c => store.categories.includes(c)))
-    .slice(0, 8);
+    .map(s => ({
+      store: s,
+      overlap: s.categories.filter(c => store.categories.includes(c)).length,
+    }))
+    .filter(x => x.overlap > 0)
+    .sort((a, b) => b.overlap - a.overlap || a.store.name.localeCompare(b.store.name))
+    .slice(0, 8)
+    .map(x => x.store);
 
   return (
     <div className="landing-v2 store-v2">

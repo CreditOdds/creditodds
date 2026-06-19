@@ -28,14 +28,32 @@ rewards:
     value: 1
     unit: "percent"
 signup_bonus:
-  value: 150
+  value: 200
   type: "cash"
   spend_requirement: 0
   timeframe_months: 0
-  note: "$150 Amazon Gift Card instantly loaded upon approval"
+  note: "$200 Amazon Gift Card instantly loaded upon approval"
 apr:
   regular:
     min: 18.74
     max: 27.49
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
+special_apply_link: https://www.amazon.com/dp/BT00LN946S
 foreign_transaction_fee: false
+benefits:
+  - name: "Purchase Protection"
+    description: "Covers eligible new purchases for 120 days from purchase date against damage or theft up to $500 per item"
+    category: "protection"
+    enrollment_required: false
+  - name: "Baggage Delay Insurance"
+    description: "Reimburses up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
+    category: "travel"
+    enrollment_required: false
+  - name: "Travel Accident Insurance"
+    description: "Provides up to $500,000 in accidental death or dismemberment coverage when you pay for air, bus, train or cruise transportation with your card"
+    category: "travel"
+    enrollment_required: false
+  - name: "Lost Luggage Reimbursement"
+    description: "Provides reimbursement up to $3,000 per covered traveler for lost, damaged or stolen checked or carry-on baggage during a covered trip"
+    category: "travel"
+    enrollment_required: false

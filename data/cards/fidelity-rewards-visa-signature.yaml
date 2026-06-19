@@ -31,6 +31,7 @@ apr:
     min: 16.49
     max: 26.49
 apply_link: https://www.fidelity.com/spend-save/visa-signature-card
+special_apply_link: https://www.fidelity.com/go/visa-signature-rewards-1502
 foreign_transaction_fee: false
 benefits:
   - name: "Global Entry or TSA PreCheck Credit"

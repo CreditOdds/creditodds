@@ -83,6 +83,11 @@
       "format": "uri",
       "description": "Direct application URL for the card (optional)"
     },
+    "special_apply_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "Targeted offer URL — used for the Apply button and for signup-bonus extraction by check-card-pages.js when set. Falls back to apply_link. Use when the card's headline SUB lives on a different page than the generic marketing page (e.g. Fidelity's /go/ offer pages)."
+    },
     "card_referral_link": {
       "type": "string",
       "format": "uri",
@@ -292,6 +297,11 @@
       },
       "additionalProperties": false,
       "description": "APR details including intro offers and regular rate (optional)"
+    },
+    "check_ignore": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Field paths the automated check scripts (check-card-pages, check-card-rewards-and-benefits) skip when proposing updates, e.g. \"annual_fee\" or \"apr.purchase_intro.months\". Build-time only — stripped from cards.json output."
     }
   },
   "additionalProperties": false

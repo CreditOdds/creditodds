@@ -12,6 +12,10 @@
 const mysql = require("../db");
 
 const responseHeaders = {
+  // Authenticated, user-specific responses: never cache at browser or any
+  // shared edge (CloudFront/proxy). Belt-and-suspenders for routing the API
+  // through a CDN without leaking one user's data to another.
+  "Cache-Control": "no-store",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type,Authorization",
   "Access-Control-Allow-Methods": "GET,PUT,DELETE,OPTIONS",
@@ -34,7 +38,7 @@ function ok(body, status = 200) {
 }
 
 exports.UserCardSelectionsHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: "" };

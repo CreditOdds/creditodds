@@ -570,7 +570,28 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
               fontSize: 13,
             }}
           >
-            No cards match these filters.
+            <p>No cards match these filters.</p>
+            <p style={{ marginTop: 12 }}>
+              Missing a card?{' '}
+              <a
+                href="https://github.com/CreditOdds/creditodds/issues/new?title=Add+card:+&labels=new+card"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="empty-cta-link"
+              >
+                Open an issue
+              </a>{' '}
+              or{' '}
+              <a
+                href="https://github.com/CreditOdds/creditodds/blob/main/CONTRIBUTING.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="empty-cta-link"
+              >
+                add it yourself
+              </a>{' '}
+              on GitHub.
+            </p>
           </div>
         ) : view === 'grid' ? (
           <div className="card-grid">

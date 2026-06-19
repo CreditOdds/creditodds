@@ -10,7 +10,7 @@ const responseHeaders = {
 };
 
 exports.CardViewHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
 

@@ -30,7 +30,7 @@ export default function CheckOddsPage() {
       />
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current" aria-current="page">Check odds</span>
+          <span className="cj-crumb cj-crumb-current" aria-current="page">Check Odds</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">
@@ -43,7 +43,7 @@ export default function CheckOddsPage() {
         </h1>
         <p className="page-sub">
           Enter your credit profile and see how you stack up against real approved
-          applicants — before you take the hard pull.
+          applicants, before you take the hard pull.
         </p>
       </section>
       <div className="wrap" style={{ paddingTop: 8, paddingBottom: 64 }}>

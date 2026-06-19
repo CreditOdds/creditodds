@@ -1,6 +1,7 @@
 // Comprehensive admin handler
 const yup = require("yup");
 const mysql = require("../db");
+const { logAuditAction } = require("../lib/audit-log");
 const { validateReferralLink } = require("../lib/validate-referral-link");
 
 // Fallback admin user IDs (Firebase UIDs) - used if custom claims not set
@@ -21,6 +22,10 @@ function isAdmin(event) {
 }
 
 const responseHeaders = {
+  // Authenticated, user-specific responses: never cache at browser or any
+  // shared edge (CloudFront/proxy). Belt-and-suspenders for routing the API
+  // through a CDN without leaking one user's data to another.
+  "Cache-Control": "no-store",
   "Access-Control-Allow-Headers":
     "Content-Type,X-Amz-Date,X-Amz-Security-Token,x-api-key,Authorization,Origin,Host,X-Requested-With,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
   "Access-Control-Allow-Origin": "*",
@@ -28,22 +33,11 @@ const responseHeaders = {
   "X-Requested-With": "*",
 };
 
-// Helper to log admin actions
-async function logAuditAction(adminId, action, entityType, entityId, details = null) {
-  try {
-    await mysql.query(
-      "INSERT INTO audit_log (admin_id, action, entity_type, entity_id, details) VALUES (?, ?, ?, ?, ?)",
-      [adminId, action, entityType, entityId, details ? JSON.stringify(details) : null]
-    );
-  } catch (error) {
-    console.error("Failed to log audit action:", error);
-    // Don't throw - audit logging shouldn't break the main operation
-  }
-}
+// Admin action logging uses the shared `logAuditAction` helper (imported above).
 
 // ============ STATS HANDLER ============
 exports.AdminStatsHandler = async (event) => {
-  console.info("AdminStats received:", event);
+  console.info("AdminStats received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check (no auth headers on preflight)
   if (event.httpMethod === "OPTIONS") {
@@ -115,7 +109,7 @@ exports.AdminStatsHandler = async (event) => {
 
 // ============ RECORDS HANDLER ============
 exports.AdminRecordsHandler = async (event) => {
-  console.info("AdminRecords received:", event);
+  console.info("AdminRecords received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check
   if (event.httpMethod === "OPTIONS") {
@@ -419,7 +413,7 @@ exports.AdminRecordsHandler = async (event) => {
 
 // ============ REFERRALS HANDLER ============
 exports.AdminReferralsHandler = async (event) => {
-  console.info("AdminReferrals received:", event);
+  console.info("AdminReferrals received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check
   if (event.httpMethod === "OPTIONS") {
@@ -454,6 +448,10 @@ exports.AdminReferralsHandler = async (event) => {
             r.submit_datetime,
             r.admin_approved,
             r.archived_at,
+            r.archived_reason,
+            r.last_validated_at,
+            r.validation_status,
+            r.validation_consecutive_failures,
             c.card_name,
             c.card_image_link,
             c.bank,
@@ -635,7 +633,7 @@ exports.AdminReferralsHandler = async (event) => {
 
 // ============ SEARCHES HANDLER ============
 exports.AdminSearchesHandler = async (event) => {
-  console.info("AdminSearches received:", event);
+  console.info("AdminSearches received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
@@ -689,7 +687,7 @@ exports.AdminSearchesHandler = async (event) => {
 
 // ============ USER LOOKUP HANDLER ============
 exports.AdminUserLookupHandler = async (event) => {
-  console.info("AdminUserLookup received:", event);
+  console.info("AdminUserLookup received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
@@ -783,7 +781,7 @@ exports.AdminUserLookupHandler = async (event) => {
 
 // ============ GRAPHS HANDLER ============
 exports.AdminGraphsHandler = async (event) => {
-  console.info("AdminGraphs received:", event);
+  console.info("AdminGraphs received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: responseHeaders, body: JSON.stringify({ statusText: "OK" }) };
@@ -867,7 +865,7 @@ exports.AdminGraphsHandler = async (event) => {
 
 // ============ AUDIT LOG HANDLER ============
 exports.AdminAuditHandler = async (event) => {
-  console.info("AdminAudit received:", event);
+  console.info("AdminAudit received:", event.httpMethod, event.path);
 
   // Handle OPTIONS preflight BEFORE auth check
   if (event.httpMethod === "OPTIONS") {

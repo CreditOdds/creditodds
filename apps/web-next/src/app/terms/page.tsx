@@ -22,7 +22,7 @@ export default function TermsPage() {
     <div className="landing-v2 static-v2">
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current">terms</span>
+          <span className="cj-crumb cj-crumb-current">Terms</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">

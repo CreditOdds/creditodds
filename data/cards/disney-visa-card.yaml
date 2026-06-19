@@ -29,3 +29,11 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+  - name: "Purchase Protection"
+    description: "Covers eligible new purchases against damage or theft for 120 days from date of purchase up to $500 per item"
+    category: "protection"
+    enrollment_required: false
+  - name: "Baggage Delay Insurance"
+    description: "Reimburses up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
+    category: "travel"
+    enrollment_required: false

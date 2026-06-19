@@ -6,6 +6,14 @@ previous_names:
 accepting_applications: true
 image: "citi-business-aadvantage-platinum-select.png"
 annual_fee: 99
+# Ongoing fee is $99, waived the first 12 months (annual_fee_intro below). Same
+# JS-rendered-fee misread as the consumer Citi AAdvantage card; preempt it here so
+# the business variant doesn't generate the same false-positive PRs.
+check_ignore:
+  - annual_fee
+annual_fee_intro:
+  value: 0
+  months: 12
 foreign_transaction_fee: false
 reward_type: "miles"
 tags:

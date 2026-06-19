@@ -34,6 +34,8 @@ function extractMetrics(cdnCard) {
     signup_bonus_type: cdnCard.signup_bonus?.type ?? null,
     apr_min: cdnCard.apr?.regular?.min ?? null,
     apr_max: cdnCard.apr?.regular?.max ?? null,
+    intro_apr_purchase_months: cdnCard.apr?.purchase_intro?.months ?? null,
+    intro_apr_bt_months: cdnCard.apr?.balance_transfer_intro?.months ?? null,
   };
 }
 
@@ -45,6 +47,8 @@ async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
     { field: "signup_bonus_value", old: oldMetrics.signup_bonus_value, new: newMetrics.signup_bonus_value },
     { field: "apr_min", old: oldMetrics.apr_min, new: newMetrics.apr_min },
     { field: "apr_max", old: oldMetrics.apr_max, new: newMetrics.apr_max },
+    { field: "intro_apr_purchase_months", old: oldMetrics.intro_apr_purchase_months, new: newMetrics.intro_apr_purchase_months },
+    { field: "intro_apr_bt_months", old: oldMetrics.intro_apr_bt_months, new: newMetrics.intro_apr_bt_months },
   ];
 
   // Normalize values: parse through float so DECIMAL(5,2) "3.00" and integer 3 compare equal
@@ -65,14 +69,34 @@ async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
     // Skip initial backfill (old is null = first time populating metrics)
     if (oldStr === null) continue;
 
-    changes.push({ field: t.field, old_value: oldStr, new_value: newStr });
+    // The signup bonus value is unit-bearing (cash / points / miles / free
+    // nights), so stamp each row with its unit and never compare across units.
+    // When the unit itself changes (e.g. Marriott Bonvoy Boundless switched
+    // from free nights to points), the old->new numbers aren't comparable, so
+    // skip the diff entirely — the next same-unit change records cleanly, and
+    // the new value still surfaces as that row's old_value.
+    let unit = null;
+    if (t.field === "signup_bonus_value") {
+      const oldType = oldMetrics.signup_bonus_type ?? null;
+      const newType = newMetrics.signup_bonus_type ?? null;
+      if (oldType !== null && newType !== null && oldType !== newType) continue;
+      unit = newType;
+    }
+
+    changes.push({ field: t.field, old_value: oldStr, new_value: newStr, unit });
   }
 
   if (changes.length > 0) {
-    const placeholders = changes.map(() => "(?, ?, ?, ?)").join(", ");
-    const flat = changes.flatMap((c) => [cardId, c.field, c.old_value, c.new_value]);
+    const placeholders = changes.map(() => "(?, ?, ?, ?, ?)").join(", ");
+    const flat = changes.flatMap((c) => [
+      cardId,
+      c.field,
+      c.old_value,
+      c.new_value,
+      c.unit,
+    ]);
     await mysql.query(
-      `INSERT INTO card_wire (card_id, field, old_value, new_value) VALUES ${placeholders}`,
+      `INSERT INTO card_wire (card_id, field, old_value, new_value, unit) VALUES ${placeholders}`,
       flat
     );
   }
@@ -94,7 +118,8 @@ async function syncCardsToDatabase(cdnCards) {
     const existingCards = await mysql.query(
       `SELECT card_id, card_name, bank, accepting_applications, annual_fee,
               signup_bonus_value, signup_bonus_type,
-              apr_min, apr_max
+              apr_min, apr_max,
+              intro_apr_purchase_months, intro_apr_bt_months
        FROM cards`
     );
 
@@ -160,7 +185,9 @@ async function syncCardsToDatabase(cdnCards) {
               signup_bonus_value = ?,
               signup_bonus_type = ?,
               apr_min = ?,
-              apr_max = ?
+              apr_max = ?,
+              intro_apr_purchase_months = ?,
+              intro_apr_bt_months = ?
             WHERE card_id = ?`,
             [
               name, bank, acceptingApplications,
@@ -168,6 +195,7 @@ async function syncCardsToDatabase(cdnCards) {
               newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
               newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
               newMetrics.apr_min, newMetrics.apr_max,
+              newMetrics.intro_apr_purchase_months, newMetrics.intro_apr_bt_months,
               existingCard.card_id,
             ]
           );
@@ -181,14 +209,15 @@ async function syncCardsToDatabase(cdnCards) {
             `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link,
               release_date, tags, annual_fee, apply_link, card_referral_link,
               signup_bonus_value, signup_bonus_type,
-              apr_min, apr_max, active)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+              apr_min, apr_max, intro_apr_purchase_months, intro_apr_bt_months, active)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
             [
               nextId, name, bank, acceptingApplications,
               cdnCard.image || null, cdnCard.release_date || null, tagsJson,
               newMetrics.annual_fee, cdnCard.apply_link || null, cdnCard.card_referral_link || null,
               newMetrics.signup_bonus_value, newMetrics.signup_bonus_type,
               newMetrics.apr_min, newMetrics.apr_max,
+              newMetrics.intro_apr_purchase_months, newMetrics.intro_apr_bt_months,
             ]
           );
           results.added.push(name);
@@ -238,10 +267,12 @@ exports.updateCardsGitHubHandler = async (event) => {
     triggerReason = `PR #${event.pull_request.number} merged: ${event.pull_request.title}`;
   }
 
-  // Handle manual trigger
-  if (event.source === "manual" || event.httpMethod === "POST") {
+  // Handle direct invoke (build-cards GitHub Action) or manual trigger.
+  // The CI workflow invokes this Lambda directly with {"source":"github-action"};
+  // "manual" is kept for ad-hoc `aws lambda invoke` runs.
+  if (event.source === "manual" || event.source === "github-action") {
     shouldSync = true;
-    triggerReason = "Manual trigger";
+    triggerReason = `Direct invoke (${event.source})`;
   }
 
   if (!shouldSync) {

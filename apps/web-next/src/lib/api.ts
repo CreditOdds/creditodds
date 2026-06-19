@@ -140,6 +140,7 @@ export interface Card {
   annual_fee_intro?: { value: number; months: number };
   foreign_transaction_fee?: boolean;
   apply_link?: string;
+  special_apply_link?: string;
   card_referral_link?: string;
   referral_bonus?: string;
   referrals?: CardReferral[];
@@ -532,6 +533,71 @@ export async function removeFromWallet(walletRowId: number, token: string): Prom
   return res.json();
 }
 
+// Product-change history: one row per recorded conversion of a wallet card
+// from one product to another (same issuer). Sorted newest-first by the API.
+export interface WalletCardEvent {
+  id: number;
+  user_card_id: number | null;
+  event_type: 'product_change';
+  old_card_id: number;
+  new_card_id: number;
+  change_date: string;
+  reason: 'voluntary' | 'forced' | null;
+  note: string | null;
+  created_at: string;
+  old_card_name: string | null;
+  old_card_image_link: string | null;
+  new_card_name: string | null;
+  new_card_image_link: string | null;
+  bank: string | null;
+}
+
+export async function getWalletEvents(token: string): Promise<WalletCardEvent[]> {
+  const res = await fetch(`${API_BASE}/wallet/events`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch wallet events: ${errorText}`);
+  }
+  return res.json();
+}
+
+export interface ProductChangeBody {
+  new_card_id: number;
+  change_date?: string;
+  reason?: 'voluntary' | 'forced';
+  note?: string;
+}
+
+export async function productChangeWalletCard(
+  walletRowId: number,
+  body: ProductChangeBody,
+  token: string,
+): Promise<{
+  message: string;
+  event_id: number;
+  wallet_card_id: number;
+  old_card_id: number;
+  new_card_id: number;
+  change_date: string;
+}> {
+  const res = await fetch(`${API_BASE}/wallet/${walletRowId}/product-change`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(errorText || `Failed to record product change: ${res.status}`);
+  }
+  return res.json();
+}
+
 // User category selections per wallet card (Cash+, Custom Cash, etc).
 // PUT replaces the active set wholesale — partial updates aren't supported.
 export interface UpdateSelectionsBody {
@@ -839,6 +905,31 @@ export async function trackCardApplyClick(
   // Fire and forget - don't throw on error
 }
 
+// One-tap self-reported outcome after an apply click ("did you apply?"
+// check-in on the card page). Anonymous tier-1 signal: directional data
+// linked server-side to the click via uid/ip_hash, separate from full
+// /records data points. Backend endpoint not built yet — fire and forget.
+export type ApplyOutcome = 'approved' | 'denied' | 'pending' | 'just_looking';
+
+export async function trackApplyOutcome(
+  cardId: number,
+  outcome: ApplyOutcome
+): Promise<void> {
+  const token = await getAnonymousAuthToken();
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  await fetch(`${API_BASE}/apply-outcome`, {
+    method: 'POST',
+    headers,
+    keepalive: true,
+    body: JSON.stringify({
+      card_id: cardId,
+      outcome,
+    }),
+  });
+  // Fire and forget - don't throw on error
+}
+
 export interface CardApplyClickBreakdown {
   direct: number;
   referral: number;
@@ -898,6 +989,46 @@ export async function getCardApplyClicksBreakdown(
   return normalized;
 }
 
+export interface ApplyOutcomeBreakdown {
+  approved: number;
+  denied: number;
+  pending: number;
+  just_looking: number;
+  total: number;
+}
+
+// Aggregated self-reported apply outcomes per card from the post-apply
+// check-in prompt. `period` is in days; pass 0 for all-time. These are
+// anonymous tier-1 signals (one row per visitor+card, deduped server-side)
+// and are NOT the same as the full records data points — used by the admin
+// dashboard to gauge the click -> outcome funnel. Returns {} on error.
+export async function getApplyOutcomesBreakdown(
+  period: number = 30
+): Promise<Record<number, ApplyOutcomeBreakdown>> {
+  const res = await fetch(
+    `${API_BASE}/apply-outcome?period=${period}`,
+    { cache: 'no-store' }
+  );
+  if (!res.ok) return {};
+  const data = await res.json();
+  const raw = (data.outcomes || {}) as Record<string, Partial<ApplyOutcomeBreakdown>>;
+  const normalized: Record<number, ApplyOutcomeBreakdown> = {};
+  for (const [id, value] of Object.entries(raw)) {
+    const approved = value.approved ?? 0;
+    const denied = value.denied ?? 0;
+    const pending = value.pending ?? 0;
+    const justLooking = value.just_looking ?? 0;
+    normalized[Number(id)] = {
+      approved,
+      denied,
+      pending,
+      just_looking: justLooking,
+      total: value.total ?? approved + denied + pending + justLooking,
+    };
+  }
+  return normalized;
+}
+
 // CardWire - card metric change history
 export interface CardWireEntry {
   id: number;
@@ -907,6 +1038,10 @@ export interface CardWireEntry {
   field: string;
   old_value: string | null;
   new_value: string | null;
+  // Bonus unit (cash / points / miles / free_nights) for signup_bonus_value
+  // rows, so values are never compared across units. Null on legacy rows
+  // written before the column existed.
+  unit?: string | null;
   changed_at: string;
 }
 
@@ -1278,6 +1413,10 @@ export interface AdminReferral {
   submit_datetime: string;
   admin_approved: number;
   archived_at: string | null;
+  archived_reason?: string | null;
+  last_validated_at?: string | null;
+  validation_status?: 'valid' | 'expired' | 'unreachable' | null;
+  validation_consecutive_failures?: number;
   impressions: number;
   clicks: number;
   unique_clicks?: number;

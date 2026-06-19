@@ -3,6 +3,10 @@ const mysql = require("../db");
 const { validateReferralLink } = require("../lib/validate-referral-link");
 
 const responseHeaders = {
+  // Authenticated, user-specific responses: never cache at browser or any
+  // shared edge (CloudFront/proxy). Belt-and-suspenders for routing the API
+  // through a CDN without leaking one user's data to another.
+  "Cache-Control": "no-store",
   "Access-Control-Allow-Headers":
     "Content-Type,X-Amz-Date,X-Amz-Security-Token,x-api-key,Authorization,Origin,Host,X-Requested-With,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
   "Access-Control-Allow-Origin": "*",
@@ -12,7 +16,7 @@ const responseHeaders = {
 
 exports.UserReferralsHandler = async (event) => {
   // All log statements are written to CloudWatch
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   let response = {};
 
@@ -39,6 +43,7 @@ exports.UserReferralsHandler = async (event) => {
           `SELECT
              r.referral_id, r.card_id, r.referral_link, r.admin_approved,
              r.submit_datetime, r.archived_at, r.archived_reason,
+             r.validation_status, r.last_validated_at,
              c.card_name, c.card_image_link, c.card_referral_link
            FROM referrals r
            JOIN cards c ON r.card_id = c.card_id
@@ -205,7 +210,7 @@ exports.UserReferralsHandler = async (event) => {
   }
   // All log statements are written to CloudWatch
   console.info(
-    `response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`
+    `response from: ${event.path} statusCode: ${response.statusCode} bodyLength: ${response.body?.length ?? 0}`
   );
   return response;
 };

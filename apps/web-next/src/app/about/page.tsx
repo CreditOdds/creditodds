@@ -24,7 +24,7 @@ export default function AboutPage() {
     <div className="landing-v2 static-v2">
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current">about</span>
+          <span className="cj-crumb cj-crumb-current">About</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">

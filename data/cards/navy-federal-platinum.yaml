@@ -1,0 +1,31 @@
+name: "Navy Federal Platinum"
+bank: "Navy Federal"
+slug: "navy-federal-platinum"
+accepting_applications: true
+category: "balance_transfer"
+image: "navy-federal-platinum.png"
+annual_fee: 0
+foreign_transaction_fee: false
+tags:
+  - balance_transfer
+apr:
+  balance_transfer_intro:
+    rate: 0.99
+    months: 12
+  regular:
+    min: 10.24
+    max: 18.00
+benefits:
+  - name: "No Balance Transfer Fees"
+    description: "Navy Federal does not charge balance transfer fees, making this card built for paying down balances at its low standard APR"
+    category: "other"
+    enrollment_required: false
+  - name: "Collision Damage Waiver"
+    description: "Rental car collision damage waiver coverage for rentals of 15 days or less paid with the card"
+    category: "travel"
+    enrollment_required: false
+  - name: "Travel and Emergency Assistance"
+    description: "24/7 travel and emergency assistance services"
+    category: "travel"
+    enrollment_required: false
+apply_link: https://www.navyfederal.org/loans-cards/credit-cards/platinum-alt.html

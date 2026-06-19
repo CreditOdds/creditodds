@@ -1,8 +1,73 @@
 name: "Wyndham Rewards Earner Plus"
 bank: "Barclays"
 slug: "wyndham-rewards-earner-plus-card"
-accepting_applications: false
+accepting_applications: true
+apply_link: https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-plus-card/
 category: "travel"
 image: "barclays-wyndham-earner-plus.png"
-annual_fee: 75
+annual_fee: 95
+foreign_transaction_fee: false
 reward_type: "points"
+tags:
+  - hotel
+  - travel
+  - rewards
+rewards:
+  - category: hotels
+    value: 6
+    unit: points_per_dollar
+    note: "At Hotels by Wyndham"
+    merchant_specific: true
+    merchant_gate: [wyndham]
+  - category: dining
+    value: 4
+    unit: points_per_dollar
+  - category: groceries
+    value: 4
+    unit: points_per_dollar
+  - category: travel
+    value: 4
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 100000
+  type: "points"
+  spend_requirement: 1500
+  timeframe_months: 6
+  note: "Earn 45,000 bonus points after spending $1,000 on purchases in the first 90 days and also earn 55,000 bonus points after spending $500 at Hotels by Wyndham in the first 180 days."
+apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 19.24
+    max: 29.99
+benefits:
+  - name: "Anniversary Points Bonus"
+    value: 15000
+    value_unit: "points"
+    description: "15,000 bonus Wyndham Rewards points each anniversary year, enough for up to two free award nights at participating Wyndham hotels."
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Wyndham Rewards Status"
+    description: "Automatic Diamond status in your first year, then Platinum status, with perks like early check-in and late checkout."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Annual Free Night"
+    value: 15000
+    value_unit: "points"
+    description: "A free night worth up to 15,000 Wyndham Rewards points after you stay five or more nights in a calendar year."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Points Redemption Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Redeem 10% fewer Wyndham Rewards points when you book free nights."
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false

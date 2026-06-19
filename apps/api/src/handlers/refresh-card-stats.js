@@ -1,5 +1,7 @@
 // Recomputes per-card stats and upserts them into the card_stats table.
-// Triggered by EventBridge on a schedule; also callable via HTTP for ops use.
+// Triggered by EventBridge on a schedule. Invoke-only — there is no public
+// HTTP route (a manual recompute is `aws lambda invoke`). The httpMethod
+// branches below are inert defensive handling, kept in case of direct invoke.
 
 const mysql = require("../db");
 

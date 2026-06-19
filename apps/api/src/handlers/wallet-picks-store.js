@@ -14,6 +14,10 @@ const { getAllCards, getStoreBySlug } = require("../lib/ranker/data-loaders");
 const { loadUserWallet } = require("../lib/ranker/user-wallet-loader");
 
 const responseHeaders = {
+  // Authenticated, user-specific responses: never cache at browser or any
+  // shared edge (CloudFront/proxy). Belt-and-suspenders for routing the API
+  // through a CDN without leaking one user's data to another.
+  "Cache-Control": "no-store",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type,Authorization",
   "Access-Control-Allow-Methods": "POST,OPTIONS",

@@ -28,7 +28,13 @@ rewards:
   - category: travel
     value: 4
     unit: points_per_dollar
-    note: "Also gas stations and EV charging, up to $1,000/quarter"
+  - category: gas
+    value: 4
+    unit: points_per_dollar
+    note: "Includes EV charging stations"
+    spend_cap: 1000
+    cap_period: quarterly
+    rate_after_cap: 1
   - category: groceries
     value: 2
     unit: points_per_dollar

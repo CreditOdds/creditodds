@@ -60,11 +60,15 @@ const fieldLabels = {
   signup_bonus_value: 'Sign-up Bonus',
   apr_min: 'APR Min',
   apr_max: 'APR Max',
+  intro_apr_purchase_months: 'Intro APR (Purchases)',
+  intro_apr_bt_months: 'Intro APR (Balance Transfer)',
 };
 
 const higherIsBad = new Set(['annual_fee', 'apr_min', 'apr_max']);
 
-function formatValue(field, value) {
+// Mirrors `formatBonusValue` on the card page: cash uses a $ prefix, everything
+// else gets a points/miles/nights suffix. Defaults to "pts" when type unknown.
+function formatValue(field, value, bonusType) {
   if (value === null || value === '') return '\u2014';
   const num = parseFloat(value);
   if (field === 'accepting_applications') {
@@ -76,10 +80,18 @@ function formatValue(field, value) {
     return !isNaN(num) ? (num === 0 ? '$0' : `$${num.toLocaleString()}`) : value;
   }
   if (field === 'signup_bonus_value') {
-    return !isNaN(num) ? `${num.toLocaleString()} pts` : value;
+    if (isNaN(num)) return value;
+    const type = bonusType || 'points';
+    if (type === 'cash' || type === 'cashback') return `$${num.toLocaleString()}`;
+    if (type === 'free_nights') return `${num.toLocaleString()} night${num === 1 ? '' : 's'}`;
+    if (type === 'miles') return `${num.toLocaleString()} miles`;
+    return `${num.toLocaleString()} pts`;
   }
   if (field === 'apr_min' || field === 'apr_max') {
     return !isNaN(num) ? `${num}%` : value;
+  }
+  if (field === 'intro_apr_purchase_months' || field === 'intro_apr_bt_months') {
+    return !isNaN(num) ? `${num} mo` : value;
   }
   return value;
 }
@@ -293,15 +305,15 @@ async function renderTiltedCardArt(cardImageBuffer) {
   return { buffer: finalImg, width: rotMeta.width, height: finalH };
 }
 
-async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, timestamp = 'Just now') {
+async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, timestamp = 'Just now', bonusType) {
   const tone = overallTone(changes);
   const t = getTone(tone);
   const { primary, rest } = pickPrimaryChange(changes);
 
   const dir = primary.dir;
   const fieldLabel = fieldLabels[primary.c.field] || primary.c.field;
-  const oldFormatted = formatValue(primary.c.field, primary.c.old_value);
-  const newFormatted = formatValue(primary.c.field, primary.c.new_value);
+  const oldFormatted = formatValue(primary.c.field, primary.c.old_value, bonusType);
+  const newFormatted = formatValue(primary.c.field, primary.c.new_value, bonusType);
 
   const pillText = dir === 'positive' ? '↑ BETTER'
                  : dir === 'negative' ? '↓ WORSE'
@@ -456,13 +468,13 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
 
 // ── Tweet text ──
 
-function buildPostText(cardName, changes, bank) {
+function buildPostText(cardName, changes, bank, bonusType) {
   const parts = changes.map(c => {
     const label = fieldLabels[c.field] || c.field;
     const dir = getDirection(c.field, c.old_value, c.new_value);
     const arrow = dir === 'positive' ? '\u2B06\uFE0F' : dir === 'negative' ? '\u2B07\uFE0F' : '\u2796';
-    const oldF = formatValue(c.field, c.old_value);
-    const newF = formatValue(c.field, c.new_value);
+    const oldF = formatValue(c.field, c.old_value, bonusType);
+    const newF = formatValue(c.field, c.new_value, bonusType);
     return `${arrow} ${label}: ${oldF} \u2192 ${newF}`;
   });
 
@@ -479,7 +491,7 @@ function buildPostText(cardName, changes, bank) {
 
 function buildLinkUrl(slug) {
   const url = new URL(`https://creditodds.com/card/${slug}`);
-  url.searchParams.set('utm_source', 'twitter');
+  url.searchParams.set('utm_source', 'twitter_cardwire');
   url.searchParams.set('utm_medium', 'social');
   url.searchParams.set('utm_campaign', 'card-wire');
   return url.toString();
@@ -497,7 +509,9 @@ async function queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffe
     link_url: linkUrl,
     source_type: 'card-wire',
     source_id: sourceId,
-    platforms: ['twitter'],
+    // SUB-increase tweets route only to the dedicated @card_wire X account.
+    // (Omitting platforms would fan out to every connected account.)
+    platforms: ['twitter_cardwire'],
   };
   if (twitterText && twitterText !== textContent) {
     body.twitter_text = twitterText;
@@ -582,6 +596,7 @@ async function main() {
     const card = await getCardByName(cardName);
     const slug = card?.slug || card?.card_id || cardName.toLowerCase().replace(/\s+/g, '-');
     const bank = card?.bank || '';
+    const bonusType = card?.signup_bonus?.type || '';
 
     // Fetch card image
     let cardImageBuffer = null;
@@ -590,11 +605,11 @@ async function main() {
     }
 
     // Generate image
-    const imageBuffer = await generateCardWireImage(cardName, bank, cardChanges, cardImageBuffer);
+    const imageBuffer = await generateCardWireImage(cardName, bank, cardChanges, cardImageBuffer, 'Just now', bonusType);
     console.log(`  Image: ${(imageBuffer.length / 1024).toFixed(0)}KB`);
 
     // Build post text
-    const { textContent, twitterText } = buildPostText(cardName, cardChanges, bank);
+    const { textContent, twitterText } = buildPostText(cardName, cardChanges, bank, bonusType);
     const linkUrl = buildLinkUrl(slug);
     const sourceId = `wire-${slug}-${new Date().toISOString().slice(0, 10)}`;
 

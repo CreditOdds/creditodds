@@ -1,0 +1,40 @@
+name: "PNC Cash Unlimited"
+bank: "PNC"
+slug: "pnc-cash-unlimited"
+accepting_applications: true
+category: "cashback"
+image: "pnc-cash-unlimited.png"
+annual_fee: 0
+foreign_transaction_fee: false
+reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 18.49
+    max: 28.49
+benefits:
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Up to $800 per claim ($50 deductible) for cell phone damage or theft when you pay your monthly bill with the card; 2 claims per 12 months"
+    frequency: "ongoing"
+    category: "telecom"
+  - name: "Purchase Security"
+    value: 0
+    description: "Repair, replacement, or reimbursement for eligible items stolen or damaged within 90 days of purchase"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Visa Signature Concierge"
+    value: 0
+    description: "24/7 concierge service for reservations, tickets, and travel arrangements"
+    frequency: "ongoing"
+    category: "other"
+apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-unlimited-visa-credit-card.html

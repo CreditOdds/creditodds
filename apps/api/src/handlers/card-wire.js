@@ -8,8 +8,17 @@ const responseHeaders = {
   "X-Requested-With": "*",
 };
 
+
+// Cacheable headers for public GET reads: lets CloudFront/browser cache
+// successful responses (s-maxage matches the 300s ISR/stats cadence). Applied
+// only to 200 reads, never to errors or authenticated/POST responses.
+const cacheableHeaders = {
+  ...responseHeaders,
+  "Cache-Control": "public, max-age=60, s-maxage=300",
+};
+
 exports.CardWireHandler = async (event) => {
-  console.info("received:", event);
+  console.info("received:", event.httpMethod, event.path);
 
   if (event.httpMethod === "OPTIONS") {
     return {
@@ -38,7 +47,7 @@ exports.CardWireHandler = async (event) => {
     if (cardId) {
       rows = await mysql.query(
         `SELECT cw.id, cw.card_id, c.card_name, cw.field,
-                cw.old_value, cw.new_value, cw.changed_at
+                cw.old_value, cw.new_value, cw.unit, cw.changed_at
          FROM card_wire cw
          JOIN cards c ON c.card_id = cw.card_id
          WHERE cw.card_id = ?
@@ -50,7 +59,7 @@ exports.CardWireHandler = async (event) => {
     } else {
       rows = await mysql.query(
         `SELECT cw.id, cw.card_id, c.card_name, c.card_image_link,
-                cw.field, cw.old_value, cw.new_value, cw.changed_at
+                cw.field, cw.old_value, cw.new_value, cw.unit, cw.changed_at
          FROM card_wire cw
          JOIN cards c ON c.card_id = cw.card_id
          WHERE cw.field != 'reward_top_rate'
@@ -63,7 +72,7 @@ exports.CardWireHandler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: responseHeaders,
+      headers: cacheableHeaders,
       body: JSON.stringify({ changes: rows }),
     };
   } catch (error) {
