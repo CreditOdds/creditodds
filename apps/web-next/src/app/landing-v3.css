@@ -456,10 +456,12 @@
   text-decoration: none;
   color: inherit;
   display: block;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 .landing-v3 .lnk:hover {
   border-color: var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -18px rgba(109, 63, 232, 0.4);
 }
 .landing-v3 .lnk .cat {
   font-size: 11px;
@@ -476,18 +478,57 @@
   margin: 6px 0 10px;
   color: var(--ink);
 }
-.landing-v3 .lnk .top3 {
-  display: grid;
-  gap: 6px;
+/* Best-for card — fanned card-art stack */
+.landing-v3 .lnk .bf-stack {
+  display: flex;
+  align-items: center;
+  margin: 4px 0 12px;
+  padding: 4px 0 4px 3px;
+}
+.landing-v3 .lnk .bf-mini {
+  position: relative;
+  flex: 0 0 auto;
+  width: 60px;
+  height: 38px;
+  border-radius: 6px;
+  border: 2px solid var(--card);
+  background: var(--paper-2);
+}
+.landing-v3 .lnk .bf-mini + .bf-mini {
+  margin-left: -18px;
+}
+.landing-v3 .lnk .bf-mini:nth-child(1) {
+  z-index: 3;
+}
+.landing-v3 .lnk .bf-mini:nth-child(2) {
+  z-index: 2;
+}
+.landing-v3 .lnk .bf-mini:nth-child(3) {
+  z-index: 1;
+}
+.landing-v3 .lnk .bf-crown {
+  position: absolute;
+  top: -9px;
+  left: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+.landing-v3 .lnk .bf-crown svg {
+  width: 11px;
+  height: 11px;
+}
+.landing-v3 .lnk .bf-cta {
   font-size: 12px;
-}
-.landing-v3 .lnk .top3 .row {
-  display: grid;
-  grid-template-columns: 16px 1fr;
-  color: var(--ink-2);
-}
-.landing-v3 .lnk .top3 .row .r {
-  color: var(--muted);
+  font-weight: 600;
+  color: var(--accent);
 }
 
 /* ---------- Wallet + Tools split ---------- */

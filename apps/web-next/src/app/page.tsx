@@ -128,7 +128,11 @@ export default async function LandingPage() {
   const slimmedBest: LandingBestPage[] = bestPages.slice(0, 8).map((p) => ({
     slug: p.slug,
     title: p.title,
-    cardSlugs: p.cards.slice(0, 3).map((c) => c.slug),
+    cardCount: p.cards.length,
+    cardImages: p.cards.slice(0, 3).map((c) => ({
+      src: cardImageBySlug.get(c.slug),
+      alt: cardNameBySlug.get(c.slug) || c.slug,
+    })),
   }));
 
   return (
