@@ -667,6 +667,57 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
+  ContentViewFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/content-view.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
+    Properties:
+      Handler: src/handlers/content-view.ContentViewHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Track article/news page views and return view counts
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        TrackContentView:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /content-view
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        GetContentViews:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /content-view
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        ContentViewOptions:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /content-view
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   CardCompareEventFunction:
     Type: AWS::Serverless::Function
     Metadata:
