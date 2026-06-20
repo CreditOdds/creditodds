@@ -802,6 +802,40 @@ export async function getCardViewCounts(period: 'trending' | 'all-time' = 'trend
   return data.views || {};
 }
 
+// View counts for editorial content, keyed by slug (articles) / id (news).
+export type EditorialViewCounts = {
+  article: Record<string, number>;
+  news: Record<string, number>;
+};
+
+const EMPTY_EDITORIAL_VIEWS: EditorialViewCounts = { article: {}, news: {} };
+
+// Track an article/news page view (no auth required, fire-and-forget)
+export async function trackContentView(
+  contentType: 'article' | 'news',
+  contentKey: string,
+): Promise<void> {
+  await fetch(`${API_BASE}/content-view`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    keepalive: true,
+    body: JSON.stringify({ content_type: contentType, content_key: contentKey }),
+  });
+  // Fire and forget - don't throw on error
+}
+
+// Get article + news view counts over the trailing `periodDays` window.
+// Used to rank the landing page editorial lane by "top viewed this week".
+export async function getContentViewCounts(periodDays = 7): Promise<EditorialViewCounts> {
+  const res = await fetch(`${API_BASE}/content-view?period=${periodDays}`, {
+    next: { revalidate: 300 },
+  });
+  if (!res.ok) return EMPTY_EDITORIAL_VIEWS;
+  const data = await res.json();
+  const views = data.views || {};
+  return { article: views.article || {}, news: views.news || {} };
+}
+
 // Track a multi-card comparison so we can rank "frequently compared" partners
 // per card. Slugs are deduplicated and unordered server-side; fire-and-forget.
 export async function trackCardCompareEvent(slugs: string[]): Promise<void> {

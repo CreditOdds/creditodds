@@ -9,6 +9,7 @@ import { RelatedCards } from "@/components/articles/RelatedCards";
 import { RelatedCardInfo } from "@/lib/articles";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import ViewTracker from "@/components/ViewTracker";
 import { truncateTitle } from "@/lib/seo";
 import "../../landing.css";
 
@@ -92,6 +93,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   return (
     <>
       <ReadingProgressBar />
+      <ViewTracker type="news" contentKey={item.id} />
       <div className="landing-v2">
         <script
           type="application/ld+json"
