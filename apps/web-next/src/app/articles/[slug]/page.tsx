@@ -11,6 +11,7 @@ import { ShareButtons } from "@/components/articles/ShareButtons";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import ViewTracker from "@/components/ViewTracker";
 import { truncateTitle } from "@/lib/seo";
 import "../../landing.css";
 
@@ -120,6 +121,7 @@ export default async function ArticlePage({ params }: Props) {
         ]}
       />
       <ReadingProgressBar />
+      <ViewTracker type="article" contentKey={article.slug} />
 
       <div className="landing-v2 articles-v2">
         <div className="cj-terminal">

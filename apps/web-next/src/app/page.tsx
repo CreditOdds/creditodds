@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getAllCards, getCardViewCounts, Card } from "@/lib/api";
+import { getAllCards, getCardViewCounts, getContentViewCounts, EditorialViewCounts, Card } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import { getBestPages } from "@/lib/best";
@@ -72,6 +72,7 @@ function slimArticles(articles: Article[], cardImageBySlug: Map<string, string |
       title: a.title,
       date: a.date,
       tag: a.tags?.[0]?.replace(/-/g, ' '),
+      summary: a.summary,
       cardImages: (a.related_cards_info || a.related_cards || [])
         .slice(0, 3)
         .map((rc) => {
@@ -101,17 +102,18 @@ function slimNews(news: NewsItem[], cardImageBySlug: Map<string, string | undefi
             alt: cardNameBySlug.get(slug) || names[i] || '',
           }))
         : links.slice(0, 3).map((src, i) => ({ src, alt: names[i] || '' }));
-      return { id: n.id, title: n.title, date: n.date, cardImages };
+      return { id: n.id, title: n.title, date: n.date, summary: n.summary, cardImages };
     });
 }
 
 export default async function LandingPage() {
-  const [cards, news, articles, bestPages, trendingViews] = await Promise.all([
+  const [cards, news, articles, bestPages, trendingViews, editorialViews] = await Promise.all([
     getAllCards(),
     getNews(),
     getArticles(),
     getBestPages(),
     getCardViewCounts('trending').catch(() => ({}) as Record<number, number>),
+    getContentViewCounts(7).catch(() => ({ article: {}, news: {} }) as EditorialViewCounts),
   ]);
 
   const slimmedCards: LandingCard[] = cards.map(slimCard);
@@ -142,6 +144,7 @@ export default async function LandingPage() {
       articles={slimmedArticles}
       bestPages={slimmedBest}
       trendingViews={trendingViews}
+      editorialViews={editorialViews}
     />
   );
 }

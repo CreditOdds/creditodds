@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
 import { categoryLabels, pickHeadlineReward } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch, expandSearchTerm } from '@/lib/searchAliases';
+import type { EditorialViewCounts } from '@/lib/api';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import CardRainCanvas from './CardRainCanvas';
 import './landing.css';
@@ -38,12 +39,14 @@ export type LandingArticle = {
   title: string;
   date: string;
   tag?: string;
+  summary: string;
   cardImages: { src?: string; alt: string }[];
 };
 export type LandingNewsItem = {
   id: string;
   title: string;
   date: string;
+  summary: string;
   cardImages: { src?: string; alt: string }[];
 };
 export type LandingBestPage = {
@@ -59,6 +62,7 @@ interface LandingClientProps {
   articles: LandingArticle[];
   bestPages: LandingBestPage[];
   trendingViews: Record<number, number>;
+  editorialViews: EditorialViewCounts;
 }
 
 const TOOL_LINKS: { name: string; value: string; href: string }[] = [
@@ -446,35 +450,58 @@ type EditorialItem = {
   tag: string;
   date: string;
   title: string;
+  summary: string;
   cardImages: { src?: string; alt: string }[];
+  ts: number;
+  views: number;
 };
 
 function NewsLane({
   news,
   articles,
+  editorialViews,
 }: {
   news: LandingNewsItem[];
   articles: LandingArticle[];
+  editorialViews: EditorialViewCounts;
 }) {
   const items = useMemo<EditorialItem[]>(() => {
+    const toTs = (d: string) => {
+      const t = new Date(d).getTime();
+      return isNaN(t) ? 0 : t;
+    };
     const fromArticles: EditorialItem[] = articles.map((a) => ({
       href: `/articles/${a.slug}`,
       tag: a.tag || 'Article',
       date: formatNewsDate(a.date),
       title: a.title,
+      summary: a.summary,
       cardImages: a.cardImages,
+      ts: toTs(a.date),
+      views: editorialViews.article[a.slug] ?? 0,
     }));
     const fromNews: EditorialItem[] = news.map((n) => ({
       href: `/news/${n.id}`,
       tag: 'News',
       date: formatNewsDate(n.date),
       title: n.title,
+      summary: n.summary,
       cardImages: n.cardImages,
+      ts: toTs(n.date),
+      views: editorialViews.news[n.id] ?? 0,
     }));
-    return [...fromArticles, ...fromNews].slice(0, 6);
-  }, [news, articles]);
+    // Rank by most-viewed this week; tiebreak (and cold-start fallback when
+    // there's no view data yet) by newest first. lead = items[0], digest = rest.
+    return [...fromArticles, ...fromNews]
+      .sort((a, b) => b.views - a.views || b.ts - a.ts)
+      .slice(0, 5);
+  }, [news, articles, editorialViews]);
 
   if (items.length === 0) return null;
+
+  const [lead, ...digest] = items;
+  const leadImages = lead.cardImages.filter((img) => !!img.src);
+  const hasLeadArt = leadImages.length > 0;
 
   return (
     <div className="lane">
@@ -489,50 +516,66 @@ function NewsLane({
           All news →
         </Link>
       </div>
-      <div className="lane-track">
-        {items.map((it, i) => (
-          <Link key={it.href + i} href={it.href} className="lna">
-            <div className="cv">
+      <div className="ed-grid">
+        <Link href={lead.href} className="ed-lead">
+          <div className="ed-cv">
+            {hasLeadArt ? (
               <div className="stack">
-                {(it.cardImages.length > 0
-                  ? it.cardImages
-                  : [{ src: undefined, alt: '' }]
-                )
-                  .slice(0, 3)
-                  .map((img, j, arr) => {
-                    const center = (arr.length - 1) / 2;
-                    const offset = j - center;
-                    return (
-                      <div
-                        key={j}
-                        className="stack-item"
-                        style={{
-                          transform: `rotate(${offset * 8}deg) translateY(${
-                            arr.length > 1 && j === Math.round(center) ? -8 : 0
-                          }px)`,
-                        }}
-                      >
-                        <CardImage
-                          cardImageLink={img.src}
-                          alt={img.alt || it.title}
-                          fill
-                          sizes="86px"
-                          style={{ objectFit: 'cover' }}
-                        />
-                      </div>
-                    );
-                  })}
+                {leadImages.slice(0, 3).map((img, j, arr) => {
+                  const center = (arr.length - 1) / 2;
+                  const offset = j - center;
+                  return (
+                    <div
+                      key={j}
+                      className="stack-item"
+                      style={{
+                        transform: `rotate(${offset * 8}deg) translateY(${
+                          arr.length > 1 && j === Math.round(center) ? -10 : 0
+                        }px)`,
+                      }}
+                    >
+                      <CardImage
+                        cardImageLink={img.src}
+                        alt={img.alt || lead.title}
+                        fill
+                        sizes="120px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
+            ) : (
+              <div className="ed-plate">
+                <span className="ed-plate-kicker">— CreditOdds</span>
+                <span className="ed-plate-cat">{lead.tag}</span>
+              </div>
+            )}
+          </div>
+          <div className="ed-lead-bd">
+            <div className="meta">
+              <span className={`tag${lead.tag === 'News' ? ' is-news' : ''}`}>
+                {lead.tag}
+              </span>
+              <span>{lead.date}</span>
             </div>
-            <div className="bd">
+            <h4>{lead.title}</h4>
+            {lead.summary && <p className="dek">{lead.summary}</p>}
+          </div>
+        </Link>
+        <div className="ed-digest">
+          {digest.map((it, i) => (
+            <Link key={it.href + i} href={it.href} className="ed-row">
               <div className="meta">
-                <span className="tag">{it.tag}</span>
+                <span className={`tag${it.tag === 'News' ? ' is-news' : ''}`}>
+                  {it.tag}
+                </span>
                 <span>{it.date}</span>
               </div>
-              <h4>{it.title}</h4>
-            </div>
-          </Link>
-        ))}
+              <h5>{it.title}</h5>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -655,6 +698,7 @@ export default function LandingClient({
   articles,
   bestPages,
   trendingViews,
+  editorialViews,
 }: LandingClientProps) {
   return (
     <div className="landing-v2 landing-v3">
@@ -663,7 +707,7 @@ export default function LandingClient({
         <div className="wrap">
           <PopularLane cards={initialCards} trendingViews={trendingViews} />
           <BestForLane bestPages={bestPages} />
-          <NewsLane news={news} articles={articles} />
+          <NewsLane news={news} articles={articles} editorialViews={editorialViews} />
         </div>
       </section>
       <FooterBlocks cards={initialCards} />

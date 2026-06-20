@@ -372,76 +372,172 @@
   line-height: 1.2;
 }
 
-/* Lane card — article/news */
-.landing-v3 .lna {
-  flex: 0 0 360px;
+/* Lane 03 — editorial: lead story + headline digest */
+.landing-v3 .ed-grid {
+  display: grid;
+  grid-template-columns: 1.18fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.landing-v3 .ed-lead {
+  display: block;
   border: 1px solid var(--line-2);
   border-radius: 12px;
   background: var(--card);
   overflow: hidden;
-  cursor: pointer;
-  scroll-snap-align: start;
-  transition: border-color 0.15s ease;
   text-decoration: none;
   color: inherit;
-  display: block;
+  transition: border-color 0.15s ease;
 }
-.landing-v3 .lna:hover {
+.landing-v3 .ed-lead:hover {
   border-color: var(--ink);
 }
-.landing-v3 .lna .cv {
-  height: 140px;
+.landing-v3 .ed-cv {
+  height: 170px;
   background: linear-gradient(135deg, var(--accent-2), var(--paper-3));
   position: relative;
   overflow: hidden;
 }
-.landing-v3 .lna .cv::after {
+.landing-v3 .ed-cv::after {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse at 30% 30%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%);
   pointer-events: none;
 }
-.landing-v3 .lna .cv .stack {
+.landing-v3 .ed-cv .stack {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
-.landing-v3 .lna .cv .stack-item {
+.landing-v3 .ed-cv .stack-item {
   position: relative;
-  width: 86px;
-  height: 54px;
-  border-radius: 5px;
+  width: 104px;
+  height: 66px;
+  border-radius: 7px;
   overflow: hidden;
   background: var(--paper-2);
-  box-shadow: 0 4px 12px rgba(26, 19, 48, 0.18);
+  box-shadow: 0 5px 14px rgba(26, 19, 48, 0.19);
 }
-.landing-v3 .lna .bd {
-  padding: 14px 16px 16px;
-}
-.landing-v3 .lna .meta {
-  font-size: 10.5px;
-  color: var(--muted);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+/* Cover fallback when the lead has no card art — editorial "plate" */
+.landing-v3 .ed-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 24px;
+  text-align: center;
 }
-.landing-v3 .lna .meta .tag {
+.landing-v3 .ed-plate-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--accent);
 }
-.landing-v3 .lna h4 {
+.landing-v3 .ed-plate-cat {
   font-family: 'Inter Tight', sans-serif;
   font-weight: 500;
-  letter-spacing: -0.012em;
-  font-size: 16px;
-  line-height: 1.25;
-  margin: 6px 0 0;
+  letter-spacing: -0.02em;
+  font-size: clamp(26px, 3.6vw, 36px);
+  line-height: 1;
+  color: var(--accent-deep);
+  text-transform: capitalize;
+  text-wrap: balance;
+}
+.landing-v3 .ed-lead-bd {
+  padding: 13px 18px 15px;
+}
+.landing-v3 .ed-lead-bd h4 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.014em;
+  font-size: 18.5px;
+  line-height: 1.16;
+  margin: 7px 0 0;
   color: var(--ink);
+}
+.landing-v3 .ed-lead-bd .dek {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* shared meta row + tag chip */
+.landing-v3 .ed-grid .meta {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.landing-v3 .ed-grid .meta .tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.06em;
+  background: var(--line);
+  color: var(--muted);
+}
+.landing-v3 .ed-grid .meta .tag.is-news {
+  background: var(--accent-2);
+  color: var(--accent-deep);
+}
+/* headline digest */
+.landing-v3 .ed-digest {
+  display: flex;
+  flex-direction: column;
+}
+.landing-v3 .ed-row {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 13px 2px 14px;
+  border-bottom: 1px solid var(--line);
+  transition: padding-left 0.12s ease, border-color 0.12s ease;
+}
+.landing-v3 .ed-row:first-child {
+  padding-top: 2px;
+}
+.landing-v3 .ed-row:last-child {
+  border-bottom: 0;
+}
+.landing-v3 .ed-row:hover {
+  padding-left: 8px;
+  border-color: var(--line-2);
+}
+.landing-v3 .ed-row .meta {
+  margin-bottom: 6px;
+}
+.landing-v3 .ed-row h5 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-size: 15px;
+  line-height: 1.22;
+  margin: 0;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.landing-v3 .ed-row:hover h5 {
+  color: var(--accent-deep);
 }
 
 /* Lane card — best-for ranking */
@@ -793,9 +889,12 @@
     flex-basis: 78%;
     min-width: 240px;
   }
-  .landing-v3 .lna {
-    flex-basis: 90%;
-    min-width: 280px;
+  .landing-v3 .ed-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .landing-v3 .ed-cv {
+    height: 170px;
   }
   .landing-v3 .lnk {
     flex-basis: 70%;
