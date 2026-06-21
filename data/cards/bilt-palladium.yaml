@@ -14,6 +14,12 @@ benefits:
     description: "Pay rent with your credit card and earn points with no transaction fees"
     frequency: "ongoing"
     category: "other"
+  - name: "Bilt Dining"
+    value: 0
+    description: "Earn up to 5x points at participating Bilt Dining restaurants (limited network, not all restaurants)"
+    frequency: "ongoing"
+    category: "dining"
+    enrollment_required: false
   - name: "Bilt Travel Hotel Credit"
     value: 400
     description: "Annual hotel credit applied twice yearly as $200 statement credits for qualifying Bilt Travel Portal hotel bookings"
@@ -43,9 +49,14 @@ tags:
   - premium
   - dining
 rewards:
-  - category: travel
-    value: 2
+  - category: hotels_portal
+    value: 4
     unit: points_per_dollar
+    note: "Hotels booked through Bilt Travel"
+  - category: flights_portal
+    value: 3
+    unit: points_per_dollar
+    note: "Flights booked through Bilt Travel"
   - category: everything_else
     value: 2
     unit: points_per_dollar
