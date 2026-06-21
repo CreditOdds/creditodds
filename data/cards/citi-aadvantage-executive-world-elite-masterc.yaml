@@ -45,6 +45,13 @@ benefits:
     frequency: "annual"
     category: "car_rental"
     enrollment_required: false
+  - name: "Loyalty Points Bonus"
+    value: 20000
+    value_unit: "points"
+    description: "Earn 10,000 Loyalty Points bonus after reaching 50,000 Loyalty Points, and another 10,000 bonus after reaching 90,000 Loyalty Points in the same status qualification year."
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - travel
   - airline
