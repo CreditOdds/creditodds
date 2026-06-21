@@ -4,6 +4,7 @@ slug: "delta-skymiles-gold-american-express-card"
 image: "amex_delta_skymiles_gold.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-gold-american-express-card/
+foreign_transaction_fee: false
 annual_fee: 150
 reward_type: "miles"
 benefits:
@@ -41,6 +42,12 @@ benefits:
     frequency: "annual"
     category: "hotel"
     enrollment_required: false
+  - name: "American Express Venue Collection"
+    value: 250
+    description: "Enhanced experience at select stadiums and arenas with dedicated entrances and 10% back on qualifying concessions purchases up to $250 per calendar year."
+    frequency: "annual"
+    category: "entertainment"
+    enrollment_required: true
 tags:
   - airline
   - travel
