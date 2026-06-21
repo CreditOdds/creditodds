@@ -83,6 +83,13 @@ benefits:
     description: "Up to $200 each anniversary year on flights purchased directly with JSX"
     frequency: "annual"
     category: "travel"
+  - name: "Miles Redemption Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more when booking United flights with miles."
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - airline
   - travel
