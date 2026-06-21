@@ -7,18 +7,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build:web": "npm run build -w @creditodds/web",
     "build:web-next": "npm run build -w @creditodds/web-next",
     "build:cards": "node scripts/build-cards.js",
     "build:news": "node scripts/build-news.js",
     "build:articles": "node scripts/build-articles.js",
     "build:best": "node scripts/build-best.js",
     "build:stores": "node scripts/build-stores.js",
-    "start:web": "npm run start -w @creditodds/web",
     "start:web-next": "npm run dev -w @creditodds/web-next",
     "dev:web-next": "npm run dev -w @creditodds/web-next",
-    "test:web": "npm run test -w @creditodds/web",
-    "test:api": "npm run test -w @creditodds/api",
     "lint": "npm run lint --workspaces --if-present"
   },
   "dependencies": {
