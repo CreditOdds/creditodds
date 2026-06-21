@@ -33,6 +33,30 @@ benefits:
     frequency: "per_purchase"
     category: "rewards"
     enrollment_required: false
+  - name: "Global Entry / TSA PreCheck Statement Credit"
+    value: 120
+    description: "Statement credit of up to $120 every four years for Global Entry, TSA PreCheck, or NEXUS application fee."
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "travel"
+    enrollment_required: false
+  - name: "United TravelBank Cash"
+    value: 50
+    description: "Receive up to $50 United TravelBank Cash each calendar year after registering with MileagePlus account."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: true
+  - name: "DoorDash DashPass"
+    description: "One-year complimentary DashPass membership with unlimited deliveries and $0 delivery fees."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "DoorDash Quarterly Discount"
+    value: 10
+    description: "Up to $10 off quarterly on non-restaurant DoorDash orders through Dec 31, 2027."
+    frequency: "quarterly"
+    category: "dining"
+    enrollment_required: false
 tags:
   - hotel
   - travel
