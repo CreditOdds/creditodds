@@ -28,3 +28,10 @@ apr:
   regular:
     min: 17.49
     max: 28.49
+benefits:
+  - name: "REI Cooperative Action Fund Donation"
+    value: 2000000
+    description: "The REI Co-op Mastercard program donates $2M annually to the REI Cooperative Action Fund, a nonprofit supporting organizations promoting justice, equity, and inclusivity in the outdoors."
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
