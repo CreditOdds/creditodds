@@ -115,8 +115,11 @@ npm run build:cards
 | `npm run build:articles` | Build articles.json from Markdown files |
 | `npm run build:best` | Build best.json from Markdown files |
 | `npm run build:stores` | Build stores.json from YAML files |
-| `npm run test:api` | Run the API (Lambda) test suite |
 | `npm run lint` | Run ESLint across all workspaces |
+
+> **Tests:** the web app uses Vitest (`cd apps/web-next && npm test`). The API
+> has per-handler smoke tests run with SAM (`cd apps/api && npm run test-*`,
+> e.g. `npm run test-get-all-cards`).
 
 ## Key Features
 
