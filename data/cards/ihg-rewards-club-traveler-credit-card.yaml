@@ -28,6 +28,17 @@ benefits:
     frequency: "per_purchase"
     category: "rewards"
     enrollment_required: false
+  - name: "DoorDash DashPass"
+    description: "One-year complimentary DashPass membership for both DoorDash and Caviar providing unlimited deliveries with $0 delivery fees and lower service fees on eligible orders; plus up to $10 off quarterly on non-restaurant DoorDash orders through Dec 31, 2027."
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "Instacart Credit"
+    value: 120
+    description: "Receive a $10 Instacart credit monthly (up to $120 annually) plus a complimentary 3-month Instacart+ membership; benefits end 12/31/27."
+    frequency: "annual"
+    category: "shopping"
+    enrollment_required: true
 tags:
   - hotel
   - travel
@@ -71,3 +82,4 @@ apr:
     min: 19.24
     max: 29.99
 apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/traveler
+foreign_transaction_fee: false
