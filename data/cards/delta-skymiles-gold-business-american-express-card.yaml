@@ -76,3 +76,9 @@ benefits:
     frequency: "per_purchase"
     category: "dining_travel"
     enrollment_required: false
+  - name: "Rideshare Statement Credit"
+    value: 120
+    description: "Up to $10 in statement credits each month on U.S. rideshare purchases with select providers, after first card renewal"
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: true
