@@ -61,6 +61,11 @@ benefits:
     description: "Up to one extra year added to the original manufacturer's warranty on covered purchases (up to $10,000 per item, $50,000 per account per calendar year)"
     category: "protection"
     enrollment_required: false
+  - name: "Amazon Checkout Redemption"
+    description: "Redeem Reward Dollars at Amazon.com checkout with equal value to statement credit redemption."
+    frequency: "ongoing"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - cashback
   - shopping
