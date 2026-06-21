@@ -39,3 +39,9 @@ benefits:
     frequency: "per_purchase"
     category: "statement_credit"
     enrollment_required: false
+  - name: "Amex Venue Collection"
+    value: 250
+    description: "10% back on qualifying concessions purchases at select stadiums and arenas up to $250 per calendar year."
+    frequency: "annual"
+    category: "entertainment"
+    enrollment_required: true
