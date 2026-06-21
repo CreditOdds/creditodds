@@ -76,7 +76,7 @@ benefits:
     value: 120
     description: "$10 monthly Instacart credit through 12/31/27"
     frequency: "monthly"
-    category: "grocery"
+    category: "groceries"
   - name: "JSX Credit"
     value: 100
     description: "Up to $100 each anniversary year on flights purchased directly with JSX"
