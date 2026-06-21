@@ -18,6 +18,10 @@ tags:
   - rewards
   - travel
 rewards:
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+    note: "Up to 3x at participating Bilt Dining restaurants"
   - category: everything_else
     value: 1
     unit: points_per_dollar

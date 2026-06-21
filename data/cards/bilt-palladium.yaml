@@ -43,9 +43,18 @@ tags:
   - premium
   - dining
 rewards:
-  - category: travel
-    value: 2
+  - category: dining
+    value: 5
     unit: points_per_dollar
+    note: "Up to 5x at participating Bilt Dining restaurants"
+  - category: hotels_portal
+    value: 4
+    unit: points_per_dollar
+    note: "Hotels booked through Bilt Travel"
+  - category: flights_portal
+    value: 3
+    unit: points_per_dollar
+    note: "Flights booked through Bilt Travel"
   - category: everything_else
     value: 2
     unit: points_per_dollar
