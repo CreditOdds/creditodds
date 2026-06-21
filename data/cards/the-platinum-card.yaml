@@ -136,7 +136,6 @@ benefits:
     category: "travel"
     enrollment_required: true
   - name: "Delta Sky Club Visits"
-    value: 10
     description: "10 complimentary Delta Sky Club visits when flying on an eligible Delta flight."
     frequency: "annual"
     category: "lounge"
