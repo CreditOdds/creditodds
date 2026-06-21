@@ -102,7 +102,7 @@ benefits:
     value: 180
     description: "Up to $180 in Instacart credits each calendar year ($10 + $5 monthly; benefits end 12/31/27)"
     frequency: "annual"
-    category: "grocery"
+    category: "groceries"
     enrollment_required: true
   - name: "JSX Flight Credit"
     value: 150
