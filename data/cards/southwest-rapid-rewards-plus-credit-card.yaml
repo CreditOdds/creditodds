@@ -79,4 +79,10 @@ benefits:
     frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
+  - name: "Instacart Credit"
+    value: 120
+    description: "Up to $120 in annual Instacart credits including $0 delivery fees with 3 months of complimentary Instacart+ and a $10 monthly Instacart credit."
+    frequency: "annual"
+    category: "grocery"
+    enrollment_required: true
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/plus
