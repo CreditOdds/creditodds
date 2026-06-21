@@ -38,7 +38,7 @@ For code changes:
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/your-feature`
 3. Make your changes
-4. Run tests for the workspace you touched (`cd apps/web-next && npm test`, or `npm run test:api`)
+4. Run tests for the workspace you touched (web: `cd apps/web-next && npm test`; API: `cd apps/api && npm run test-*`, e.g. `npm run test-get-all-cards`)
 5. Submit a Pull Request
 
 ## Development Setup

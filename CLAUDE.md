@@ -20,7 +20,7 @@
   Code pushes to `main` fire the webhook via `.github/workflows/deploy-frontend.yml`;
   card/best/article/news data pushes fire it from their own `build-*.yml`
   workflow after syncing JSON to S3.
-- Cards data: Run `npm run build-cards` in web-next to rebuild cards.json
+- Cards data: Run `npm run build:cards` from the repo root to rebuild cards.json
 
 ### Backend CI/CD: GitHub Actions (`deploy-api.yml`)
 
@@ -61,6 +61,10 @@ was wiped from the stack when the broken template was applied).
 
 ## Database
 
-- MySQL database hosted on AWS
-- Migrations in `apps/api/migrations/`
-- Run migrations with `node scripts/run-migration.js <migration-file>`
+- MySQL database hosted on AWS (RDS), inside a **private VPC** — not reachable
+  from a local machine.
+- Migrations in `apps/api/migrations/`, numbered sequentially and
+  **single-statement only** (split multi-step changes into `NNNa_*`, `NNNb_*`).
+- To run a migration: wire `RunMigrationHandler` into `template.yml`, deploy,
+  invoke it, then unwire it. The `apps/api/scripts/run-migration.js` helper only
+  works from inside the VPC.
