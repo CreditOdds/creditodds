@@ -70,6 +70,12 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+  - name: "Instacart Credits"
+    value: 120
+    description: "Up to $120 in Instacart credits annually with $0 delivery fees and 3 months complimentary Instacart+."
+    frequency: "annual"
+    category: "groceries"
+    enrollment_required: true
 tags:
   - airline
   - travel
