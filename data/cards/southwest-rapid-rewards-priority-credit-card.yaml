@@ -71,6 +71,18 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+  - name: "First Checked Bag Free"
+    value: 90
+    description: "First checked bag free for cardholder and up to 8 additional passengers in the same reservation (up to $90 round trip)"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Instacart Credit"
+    value: 120
+    description: "Up to $120 in annual Instacart credits ($0 delivery fees with 3 months of complimentary Instacart+ and $10 monthly credit)"
+    frequency: "annual"
+    category: "groceries"
+    enrollment_required: true
 tags:
   - airline
   - travel
