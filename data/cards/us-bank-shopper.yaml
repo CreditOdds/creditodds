@@ -4,6 +4,9 @@ slug: "us-bank-shopper"
 image: "us-bank-shopper.png"
 accepting_applications: true
 annual_fee: 95
+annual_fee_intro:
+  value: 0
+  months: 12
 tags:
   - cashback
   - shopping
