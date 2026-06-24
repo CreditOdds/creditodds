@@ -102,22 +102,64 @@ async function fetchWithTimeout(url, timeoutMs) {
 }
 
 let _browser = null;
+let _launchChannel = null; // 'chrome' if real Chrome is available, else bundled chromium
 async function getBrowser() {
   if (_browser) return _browser;
+
+  // playwright-extra + stealth plugin patches the obvious headless tells
+  // (navigator.webdriver, missing plugins, headless UA, WebGL vendor, etc.)
+  // that bank WAFs use to return 403 to automated browsers.
+  let chromium;
   try {
-    const { chromium } = require('playwright');
-    _browser = await chromium.launch({ headless: true });
+    chromium = require('playwright-extra').chromium;
+    const stealth = require('puppeteer-extra-plugin-stealth')();
+    chromium.use(stealth);
   } catch (err) {
-    console.warn(`playwright unavailable: ${err.message}`);
-    return null;
+    console.warn(`playwright-extra unavailable, falling back to plain playwright: ${err.message}`);
+    try {
+      chromium = require('playwright').chromium;
+    } catch (err2) {
+      console.warn(`playwright unavailable: ${err2.message}`);
+      return null;
+    }
   }
+
+  // Prefer real Chrome (channel: 'chrome') — its TLS/JS fingerprint is far less
+  // bot-like than bundled chromium. Fall back to bundled chromium if absent.
+  try {
+    _browser = await chromium.launch({ headless: true, channel: 'chrome' });
+    _launchChannel = 'chrome';
+  } catch (err) {
+    console.warn(`real Chrome unavailable, using bundled chromium: ${err.message}`);
+    try {
+      _browser = await chromium.launch({ headless: true });
+      _launchChannel = 'chromium';
+    } catch (err2) {
+      console.warn(`chromium launch failed: ${err2.message}`);
+      return null;
+    }
+  }
+  console.log(`browser ready (channel: ${_launchChannel})`);
   return _browser;
 }
 
 async function fetchWithBrowser(url) {
   const browser = await getBrowser();
   if (!browser) return null;
-  const context = await browser.newContext({ userAgent: USER_AGENT });
+  const context = await browser.newContext({
+    userAgent: USER_AGENT,
+    viewport: { width: 1280, height: 800 },
+    locale: 'en-US',
+    timezoneId: 'America/New_York',
+    extraHTTPHeaders: {
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Upgrade-Insecure-Requests': '1',
+      'Sec-Fetch-Dest': 'document',
+      'Sec-Fetch-Mode': 'navigate',
+      'Sec-Fetch-Site': 'none',
+      'Sec-Fetch-User': '?1',
+    },
+  });
   const page = await context.newPage();
   try {
     const response = await page.goto(url, {

@@ -27,7 +27,9 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install chromium --with-deps
+        # Real Chrome (channel: chrome) has a far less bot-like fingerprint than
+        # bundled chromium; chromium is kept as a fallback. See check-apply-links.js.
+        run: npx playwright install chrome chromium --with-deps
 
       - name: Check apply links
         run: node scripts/check-apply-links.js
