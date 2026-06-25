@@ -1,6 +1,6 @@
 name: Check Referrals
 
-# Weekly validator for referral links.
+# Daily validator for referral links.
 #
 # Pulls the next batch of approved, non-archived referrals from the
 # ReferralValidationListFunction Lambda, fetches each URL (Playwright +
@@ -10,12 +10,14 @@ name: Check Referrals
 # language only. After 2 consecutive failed checks per referral, the
 # Complete Lambda auto-archives with archived_reason='auto: <status>'.
 #
-# Off-peak schedule (Mon 12:00 UTC) so it doesn't collide with the daily
-# card-page check.
+# Off-peak schedule (12:00 UTC) so it doesn't collide with the daily
+# card-page check. Runs daily; the List Lambda's 7-day re-check cooldown
+# keeps healthy links from being re-hit, so daily only picks up
+# newly-approved or stale (>7d) referrals.
 
 on:
   schedule:
-    - cron: '0 12 * * 1'  # Mondays 12:00 UTC
+    - cron: '0 12 * * *'  # Daily 12:00 UTC
   workflow_dispatch:
     inputs:
       limit:
