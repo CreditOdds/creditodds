@@ -1,88 +1,83 @@
 # ============================================================
-# Best Cash Back Credit Cards — Ranking Reasoning (2026-06-15)
+# Best Cash Back Credit Cards — Ranking Reasoning (2026-06-25)
+# Consensus of: Claude, GPT (borda count)
 # ============================================================
 #
-# #1 chase-freedom-flex (Best Overall)
-#   The Freedom Flex delivers the strongest combination of an easy-to-earn
-#   $200 bonus, the highest rotating category rate at 5%, and additional 3%
-#   categories that cover everyday spending. With no annual fee and a long
-#   intro APR period, it's the most well-rounded choice for most cardholders.
+# #1 chase-freedom-flex (Best Overall)  [Claude #1, GPT #1]
+#   The Freedom Flex combines the highest ongoing cash back rates with an easy
+#   sign-up bonus and extensive category coverage. Its rotating 5% categories
+#   and bonus category flexibility make it the top choice for most spenders
+#   seeking straightforward cash back rewards.
 #
-# #2 discover-it-cash-back (Best First-Year Value)
-#   The Discover it's first-year match feature effectively doubles rewards,
-#   making it unbeatable for new cardholders despite lacking a traditional
-#   signup bonus. The combination of 5% rotating categories, no annual fee,
-#   and the matching benefit creates exceptional first-year value that
-#   justifies its high ranking.
+# #2 discover-it-cash-back  [Claude #2, GPT #2]
+#   Discover's rotating categories match Chase's 5% rate, but the card lacks
+#   bonus categories in dining and drugstores that most spenders use
+#   regularly. It's a solid all-around option for those who want simplicity
+#   and strong introductory rates without a sign-up bonus requirement.
 #
-# #3 chase-freedom-unlimited (Best for Everyday Spending)
-#   The Freedom Unlimited is ideal for those who prefer simplicity and
-#   consistent earnings across all purchases. Its 1.5% flat rate on
-#   everything, combined with 3% category bonuses and the same easy $200 bonus
-#   as the Flex, makes it a stronger choice than the Flex only if you don't
-#   maximize rotating categories.
+# #3 chase-freedom-unlimited  [Claude #3, GPT #3]
+#   This card provides solid rewards across common spending categories and a
+#   straightforward sign-up bonus, but its 1.5% base rate and narrower bonus
+#   categories place it below the Freedom Flex for most spenders. It's best
+#   for those who prioritize dining and travel rewards over rotating
+#   categories.
 #
-# #4 wells-fargo-active-cash (Best Flat Rate)
-#   The Active Cash's 2% flat rate is the highest in the no-annual-fee
-#   category, beating the Freedom Unlimited's 1.5% base rate for those who
-#   don't want to optimize categories. The straightforward structure and
-#   strong flat-rate rewards make it compelling for simplicity-focused
-#   cardholders.
+# #4 citi-double-cash  [Claude #4, GPT #4]
+#   The Double Cash's dual 1% earning structure on all purchases mirrors a
+#   straightforward 2% rate. The extended balance transfer APR makes it worth
+#   considering for those carrying debt, but the higher spend requirement and
+#   lack of bonus categories limit its appeal compared to top-ranked cards.
 #
-# #5 citi-double-cash
-#   The Double Cash matches the Active Cash's 2% flat-rate earning but
-#   requires higher spending ($1,500 vs $500) to unlock its bonus. The
-#   18-month balance transfer intro APR is a standout feature, making it
-#   particularly valuable for those with transfer balances to manage.
+# #5 wells-fargo-active-cash (Best for Simple Earners)  [Claude #6, GPT #5]
+#   The Active Cash delivers a flat 2% rate that requires no strategy or
+#   category tracking, making it ideal for straightforward earners. While
+#   lower than category-based cards for those who optimize spending, it offers
+#   better baseline earning than many competitors and an easier value
+#   proposition.
 #
-# #6 citi-custom-cash
-#   The Custom Cash offers 5% on a rotating top category with a generous list
-#   of eligible options, but the $500/month cap limits earnings potential. The
-#   higher $1,500 spend requirement for the bonus and category rotation
-#   complexity place it below flat-rate alternatives for most users.
+# #6 citi-custom-cash  [Claude #5, GPT #6]
+#   The Custom Cash's rotating top-category approach offers flexibility if you
+#   have clear spending preferences, but the $500 monthly cap on 5% earning
+#   limits upside. The higher spend requirement relative to sign-up bonus
+#   value and narrower earning structure place it below simpler, broader
+#   alternatives.
 #
-# #7 blue-cash-everyday-card
-#   Blue Cash Everyday offers strong 3% categories across groceries, gas, and
-#   online shopping—practical everyday spends—but the $2,000 spend requirement
-#   for its $200 bonus is less competitive. The grocery category cap and
-#   higher minimum spending make it better suited for those with heavy
-#   expenses in these categories.
+# #7 blue-cash-everyday-card  [Claude #7, GPT #7]
+#   Blue Cash Everyday targets common spend categories with competitive 3%
+#   rates but requires the highest sign-up spend ($2,000) among bonus-eligible
+#   cards. American Express acceptance is less universal than Visa or
+#   Mastercard, and the everyday 1% rate trails flat-rate competitors.
 #
-# #8 wells-fargo-autograph
-#   The Autograph's bonus of 20,000 points is harder to value than flat cash
-#   and requires a $1,000 spend threshold. While the 3% multi-category rewards
-#   are solid, the lack of a clear cash-back earning structure and higher
-#   minimum spending place it below more straightforward cash back
-#   competitors.
+# #8 capital-one-quicksilver  [Claude #8, GPT #10]
 #
-# #9 amazon-prime-rewards-visa-signature-card
-#   The Amazon Prime card delivers exceptional value for Amazon and Whole
-#   Foods shoppers with no spend requirement for its $200 bonus, but its
-#   utility is highly dependent on Prime membership and shopping habits. It
-#   ranks here because its benefits are more niche compared to general-use
-#   cards, though the no-minimum bonus is attractive.
+# #9 amazon-prime-rewards-visa-signature-card  [Claude #9, GPT #9]
+#   This card excels for Amazon-heavy spenders but provides no bonus
+#   categories outside shopping, dining, gas, and transit. The no-requirement
+#   sign-up bonus is convenient, but the narrower earning potential and
+#   requirement for Prime membership limit its ranking compared to more
+#   versatile cards.
 #
-# #10 wells-fargo-attune
-#   The Attune's 4% rewards apply to niche, lifestyle-focused categories that
-#   don't fit most people's regular spending patterns. The lower $100 bonus
-#   and highly specific category focus make it a specialized card suitable
-#   only for those with significant spending in these areas.
+# #10 wells-fargo-attune  [Claude #11, GPT #8]
+#   The Attune targets niche spending categories at 4% rather than everyday
+#   purchases, making it useful only for those with significant spending in
+#   these specific areas. The lower sign-up bonus and narrow category appeal
+#   place it below cards serving broader spending patterns.
 #
-# #11 capital-one-savorone
-#   The SavorOne's $39 annual fee is difficult to justify for a card with 3%
-#   category rewards when no-fee alternatives like the Freedom Flex and Blue
-#   Cash offer similar or better rates. The fee effectively reduces earnings
-#   value unless cardholders consistently spend heavily across its categories.
+# #11 wells-fargo-autograph  [Claude #10, GPT #12]
+#   The Autograph uses a points-based structure rather than straight cash
+#   back, which requires redemption through Wells Fargo's portal and
+#   introduces variable value. While the bonus point value and category
+#   coverage are strong, the points model complexity places it below direct
+#   cash back cards on this ranking.
 #
-# #12 wells-fargo-signify-business-cash
-#   While this business card offers the highest absolute bonus at $500, it
-#   requires $5,000 in spending versus just $500 for personal cards ranked
-#   above it, making the relative bonus value lower. It's positioned here
-#   because it's designed for business use, placing it outside the primary
-#   personal-use category focus.
+# #12 capital-one-savorone  [Claude #12, GPT #11]
 #
-# #13 capital-one-quicksilver
-#   Kept from previous ranking (not included in AI response).
+# #13 wells-fargo-signify-business-cash  [Claude #13, GPT #13]
+#   Designed as a business card, Signify offers a higher sign-up bonus
+#   absolute value but requires significantly higher spending ($5,000) to
+#   obtain it. Its flat 2% rate matches other simplified offerings, but the
+#   business designation and stricter qualification limit its positioning on a
+#   general consumer ranking.
 #
 # ============================================================
 
@@ -91,61 +86,106 @@ slug: best-cash-back-cards
 title: Best Cash Back Credit Cards
 description: The top cash back credit cards ranked by earning rates, bonus categories, and signup offers — all with no annual fee unless noted.
 date: "2026-03-01"
-updated_at: "2026-06-15"
+updated_at: "2026-06-25"
 seo_title: Best Cash Back Credit Cards of 2026
 seo_description: Compare the best cash back credit cards of 2026. Flat-rate 2% cards, 5% rotating categories, and the best signup bonuses.
 intro: |
-  Cash back cards offer the simplest way to earn rewards — direct cash with no points to transfer or portals to navigate. We've ranked the best options based on signup bonus value and ease of earning it, ongoing cash back rates, and whether any annual fee is justified by the rewards you'll actually earn.
+  Cash back cards offer the simplest way to earn rewards, direct cash with no points to transfer or portals to navigate. We've ranked the best options based on signup bonus value, ongoing cash back rates across categories, and whether any annual fee is justified by the rewards you'll earn.
+
+panel:
+  method: borda
+  generated_at: "2026-06-25"
+  models:
+    - key: claude
+      label: Claude
+      model: claude-haiku-4-5-20251001
+    - key: openai
+      label: GPT
+      model: gpt-4o-mini
 
 cards:
   - slug: chase-freedom-flex
     badge: Best Overall
-    highlight: Earn $200 cash back after just $500 in spending, then enjoy 5% back on rotating quarterly categories and Chase Travel, 3% on dining and drugstores, and 1% on everything else—all with no annual fee and a 15-month intro APR on purchases.
+    highlight: Earn 5% cash back on rotating categories and travel purchases, plus 3% on dining and drugstores. Get a $200 sign-up bonus after spending $500 in 3 months, with no annual fee.
+    consensus:
+      score: 26
+      ranks: { claude: 1, openai: 1 }
 
   - slug: discover-it-cash-back
-    badge: Best First-Year Value
-    previous_rank: 3
-    highlight: Earn 5% cash back on rotating quarterly categories and 1% on everything else, with Discover matching all cash back earned in your first year to effectively double your rewards. No annual fee, no signup minimum, and 15-month intro APR on purchases.
+    highlight: Earn 5% cash back on rotating categories and 1% on everything else, with 0% APR on purchases and balance transfers for 15 months. No sign-up bonus or annual fee.
+    consensus:
+      score: 24
+      ranks: { claude: 2, openai: 2 }
 
   - slug: chase-freedom-unlimited
-    badge: Best for Everyday Spending
-    previous_rank: 2
-    highlight: Earn $200 cash back after $500 in spending, then get 1.5% back on all purchases plus 3% on dining and drugstores and 5% on Chase Travel—with no annual fee and 15-month intro APR on purchases and balance transfers.
-
-  - slug: wells-fargo-active-cash
-    badge: Best Flat Rate
-    highlight: Get 2% cash back on every purchase with no annual fee, no spending caps, and no categories to track. Earn a $200 bonus after $500 in spending.
+    highlight: Earn 5% cash back on travel through Chase's portal, 3% on dining and drugstores, and 1.5% on everything else. Get a $200 sign-up bonus after spending $500 in 3 months, with no annual fee.
+    consensus:
+      score: 22
+      ranks: { claude: 3, openai: 3 }
 
   - slug: citi-double-cash
-    previous_rank: 7
-    highlight: Earn 2% cash back on all purchases through a unique 1%-on-purchase, 1%-on-payment structure plus 5% on Chase Travel. Get a $200 bonus after $1,500 in 6 months with no annual fee and 18-month intro APR on balance transfers.
+    previous_rank: 5
+    highlight: Earn 2% cash back on all purchases (1% when you buy, 1% when you pay) plus 5% on travel through Citi's portal. Get a $200 sign-up bonus after spending $1,500 in 6 months, with 0% APR on balance transfers for 18 months.
+    consensus:
+      score: 20
+      ranks: { claude: 4, openai: 4 }
+
+  - slug: wells-fargo-active-cash
+    badge: Best for Simple Earners
+    previous_rank: 4
+    highlight: Earn 2% cash back on all purchases with no categories to track. Get a $200 sign-up bonus after spending $500 in 3 months, with 0% APR for 12 months on purchases and balance transfers.
+    consensus:
+      score: 17
+      ranks: { claude: 6, openai: 5 }
 
   - slug: citi-custom-cash
-    previous_rank: 5
-    highlight: Earn 5% cash back on your highest spending category each month (from dining, gas, groceries, transit, streaming, and more, capped at $500/month) plus 1% elsewhere. Get a $200 bonus after $1,500 in 6 months with no annual fee.
+    highlight: Earn up to 5% cash back on your highest spending category (capped at $500 per month) and 1% on everything else. Get a $200 sign-up bonus after spending $1,500 in 6 months, with 0% APR on purchases and balance transfers for 15 months.
+    consensus:
+      score: 17
+      ranks: { claude: 5, openai: 6 }
 
   - slug: blue-cash-everyday-card
-    previous_rank: 6
-    highlight: Earn 3% cash back at U.S. supermarkets (up to $6,000 yearly), 3% on gas, 3% on online shopping, and 1% elsewhere. Get a $200 bonus after $2,000 in 6 months with no annual fee.
-
-  - slug: wells-fargo-autograph
-    highlight: Earn 3% cash back on dining, travel, gas, transit, and streaming, plus 1% elsewhere. Get a $200 bonus (20,000 points) after $1,000 in 3 months with no annual fee.
-
-  - slug: amazon-prime-rewards-visa-signature-card
-    previous_rank: 12
-    highlight: Earn 5% cash back at Amazon and Whole Foods (for Prime members), 5% on Chase Travel, 2% on dining, gas, and transit, and 1% elsewhere. Get a $200 bonus with no spending requirement.
-
-  - slug: wells-fargo-attune
-    previous_rank: 9
-    highlight: Earn 4% cash back on fitness, wellness, sports, live events, pet supplies, transit, and EV charging, plus 1% elsewhere. Get a $100 bonus after $500 in spending with no annual fee.
-
-  - slug: capital-one-savorone
-    previous_rank: 10
-    highlight: Earn 3% cash back on dining, groceries, entertainment, and streaming, plus 1% elsewhere. Includes a $39 annual fee but offers a $200 bonus after $500 in spending.
-
-  - slug: wells-fargo-signify-business-cash
-    previous_rank: 11
-    highlight: Earn 2% cash back on all business purchases with no annual fee and no spending caps. Get a $500 bonus after $5,000 in 3 months—the highest flat bonus available.
+    highlight: Earn 3% cash back on groceries, gas, and online shopping, plus 1% on everything else. Get a $200 sign-up bonus after spending $2,000 in 6 months, with 0% APR for 15 months on purchases.
+    consensus:
+      score: 14
+      ranks: { claude: 7, openai: 7 }
 
   - slug: capital-one-quicksilver
-    highlight: 1.5% cash back on everything with no annual fee, no rotating categories, and no spending caps. Earn a $200 bonus after $500 in spending.
+    previous_rank: 13
+    highlight: 
+    consensus:
+      score: 10
+      ranks: { claude: 8, openai: 10 }
+
+  - slug: amazon-prime-rewards-visa-signature-card
+    highlight: Earn 5% cash back on Amazon purchases, 2% on dining and gas, and 1% on everything else. Get a $200 sign-up bonus with no spending requirement, with no annual fee.
+    consensus:
+      score: 10
+      ranks: { claude: 9, openai: 9 }
+
+  - slug: wells-fargo-attune
+    highlight: Earn 4% cash back on fitness, entertainment, streaming, pet supplies, gardening, transit, EV charging, and secondhand stores, plus 1% on everything else. Get a $100 sign-up bonus after spending $500 in 3 months.
+    consensus:
+      score: 9
+      ranks: { claude: 11, openai: 8 }
+
+  - slug: wells-fargo-autograph
+    previous_rank: 8
+    highlight: Earn 3 points per dollar on dining, travel, gas, transit, and streaming, plus 1 point per dollar on everything else. Get 20,000 bonus points after spending $1,000 in 3 months.
+    consensus:
+      score: 6
+      ranks: { claude: 10, openai: 12 }
+
+  - slug: capital-one-savorone
+    previous_rank: 11
+    highlight: 
+    consensus:
+      score: 5
+      ranks: { claude: 12, openai: 11 }
+
+  - slug: wells-fargo-signify-business-cash
+    previous_rank: 12
+    highlight: Earn 2% cash back on all purchases with no categories to track. Get a $500 sign-up bonus after spending $5,000 in 3 months, with 0% APR for 12 months on purchases.
+    consensus:
+      score: 2
+      ranks: { claude: 13, openai: 13 }
