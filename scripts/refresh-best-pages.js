@@ -65,7 +65,7 @@ const PANEL = [
     key: 'gemini',
     label: 'Gemini',
     envKey: 'GEMINI_API_KEY',
-    model: process.env.GEMINI_RANKING_MODEL || 'gemini-2.0-flash',
+    model: process.env.GEMINI_RANKING_MODEL || 'gemini-3.5-flash',
     call: callGemini,
   },
 ];
