@@ -32,6 +32,13 @@ apr:
     max: 25.49
 apply_link: https://www.discover.com/credit-cards/student/it-card.html
 foreign_transaction_fee: false
+our_take: >
+  One of the stronger starter cards for students: 5% on rotating quarterly categories (up to
+  $1,500 in spend), 1% elsewhere, no annual fee, and no foreign transaction fees for study
+  abroad. The standout is Cashback Match, which doubles all your first-year rewards with no
+  cap, effectively making that first year 10% on bonus categories. Approvals here skew toward
+  students with limited history and modest income, so it is realistically attainable while
+  you build credit.
 benefits:
   - name: "Cashback Match"
     value: 0

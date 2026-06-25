@@ -5,6 +5,12 @@ image: "citi-att-points-plus.png"
 accepting_applications: true
 apply_link: https://www.citi.com/credit-cards/citi-att-pointsplus-credit-card
 foreign_transaction_fee: false
+our_take: >
+  This card really only makes sense if you are an AT&T customer: the $10/line
+  wireless and $10 internet credits plus 2x on AT&T bills are where the value
+  lives, alongside 3x on gas and 2x on groceries with no annual fee or foreign
+  transaction fees. Cut the cord from AT&T and a flat 2% card earns more
+  everywhere, so the whole pitch hinges on keeping those telecom bills.
 annual_fee: 0
 reward_type: "points"
 tags:

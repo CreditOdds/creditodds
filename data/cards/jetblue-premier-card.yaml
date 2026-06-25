@@ -40,6 +40,12 @@ apr:
   regular:
     min: 19.49
     max: 29.49
+our_take: >
+  JetBlue's top-tier card at $499 a year, aimed at loyalists who will use the perks: 6x on
+  JetBlue, up to $300 in annual TrueBlue travel credits, BlueHouse lounge access, Priority
+  Pass, a free first bag, and a 15% award rebate. It earns the same 6x as the $99 JetBlue
+  Plus, so the $400 premium only pays off if you regularly tap the lounges, credits, and
+  Mosaic fast-track. Casual JetBlue flyers should drop down to the Plus.
 benefits:
   - name: "TrueBlue Travel Statement Credits"
     value: 300

@@ -48,6 +48,14 @@ apr:
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/savor/
 foreign_transaction_fee: false
+our_take: >
+  The Savor is a strong no-fee dining and entertainment card: 3% on dining,
+  groceries, entertainment, and streaming, plus 8% on Capital One Entertainment
+  bookings, with a $250 bonus after just $500 of spend. It covers more 3%
+  categories than most no-annual-fee cards and skips the foreign transaction
+  fee, which the older SavorOne (now carrying a small fee) doesn't beat. The
+  catch is the flat 1% outside those categories, so pair it with a 2% flat-rate
+  card for everything else.
 benefits:
   - name: "Price Drop Protection"
     value: 0

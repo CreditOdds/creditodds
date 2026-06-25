@@ -37,6 +37,13 @@ apr:
   regular:
     min: 19.49
     max: 29.49
+our_take: >
+  The JetBlue Business earns 6x on JetBlue and adds business-friendly 2x on dining
+  and office supplies, and the $99 fee is easy to justify if you fly JetBlue:
+  free first checked bag, 50% off inflight purchases, and a 5,000-point anniversary
+  bonus. The catch is the rewards are TrueBlue points, which are most valuable on
+  JetBlue itself, so this is a card for loyal JetBlue flyers rather than a
+  general business card.
 benefits:
   - name: "Anniversary Points Bonus"
     value: 5000

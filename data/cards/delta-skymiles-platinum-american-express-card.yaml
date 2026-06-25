@@ -5,6 +5,14 @@ image: "amex_delta_skymiles_platinum.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-platinum-american-express-card/
 foreign_transaction_fee: false
+our_take: >
+  This one earns its keep through perks, not its earn rates: the annual Main
+  Cabin companion certificate alone can offset most of the $350 fee, and you
+  also get a free first checked bag and a stack of monthly credits for
+  rideshare, dining, and Delta Stays. The 3x on Delta and 2x on dining and
+  groceries is fine but not the draw. It only makes sense if you fly Delta
+  regularly and will actually redeem the companion pass and credits, otherwise
+  the cheaper Delta Gold covers most casual flyers.
 annual_fee: 350
 reward_type: "miles"
 benefits:

@@ -8,6 +8,13 @@ foreign_transaction_fee: false
 annual_fee: 95
 reward_type: "points"
 release_date: "2025-01-15"
+our_take: >
+  This is the paid Bilt tier, justified mainly if you pay rent by card and value
+  flexible Bilt points: you get fee-free rent payments, a choice of 3x dining or
+  groceries, 2x travel, and a $100 annual hotel credit that nearly covers the $95
+  fee. The free Bilt Mastercard already does fee-free rent, so the upgrade only
+  pays off if you actually spend in the bonus categories and use the hotel credit.
+  Outside of rent and the chosen 3x category, the earn rates are average.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

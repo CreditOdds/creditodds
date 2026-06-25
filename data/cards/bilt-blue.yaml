@@ -8,6 +8,13 @@ foreign_transaction_fee: false
 annual_fee: 0
 reward_type: "points"
 release_date: "2025-01-15"
+our_take: >
+  Bilt Blue is the no-fee entry point to the Bilt ecosystem: its draw is paying
+  rent by card with no transaction fee, plus 4% Bilt Cash on everyday purchases.
+  Outside of rent and the limited Bilt Dining network the base earn is only 1x,
+  so it makes the most sense for renters who want rewards on their biggest
+  monthly bill. If you spend heavily elsewhere, pair it with a stronger everyday
+  card.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

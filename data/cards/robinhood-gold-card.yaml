@@ -39,3 +39,10 @@ apr:
     max: 29.99
 apply_link: https://robinhood.com/creditcard/
 foreign_transaction_fee: false
+our_take: >
+  The headline 3% flat cash back on everything is the best unlimited rate going, beating
+  standard 2% cards by a wide margin, with 5% on travel booked through Robinhood and no
+  foreign transaction fees. The real cost is the Robinhood Gold subscription you must keep to
+  hold the card, so factor that fee in: at moderate spend the 3% still wins, but it erodes the
+  edge for light spenders. Access has also been gated by waitlist, and the 29.99% APR means
+  this only pays off if you clear the balance every month.

@@ -6,6 +6,13 @@ accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/platinum/
 foreign_transaction_fee: false
 card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
+our_take: >
+  The Platinum is a luxury travel card built around perks, not spending: the best lounge access
+  in the market (Centurion plus Priority Pass), 5x on flights, and one of the largest signup
+  bonuses out there. The $895 fee is steep and only makes sense if you use the stack of
+  credits for airlines, hotels, streaming, Walmart+, Equinox, and more, which take effort to
+  redeem. Outside of travel it earns just 1x, so heavy frequent travelers get the value;
+  everyone else likely overpays.
 annual_fee: 895
 reward_type: "points"
 rewards:

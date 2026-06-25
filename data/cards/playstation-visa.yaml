@@ -38,6 +38,14 @@ apr:
   regular:
     min: 17.74
     max: 31.74
+our_take: >
+  A niche card for PlayStation diehards: 5x on PlayStation, PlayStation Direct,
+  and Sony Store purchases, plus 3x on streaming and 2x on dining, with no annual
+  fee. Points only redeem for PlayStation Store codes and gift cards, so the value
+  is locked into the Sony ecosystem and there is no flexibility if your habits
+  change. It also charges foreign transaction fees and tops out at a high 31.74%
+  APR, so treat it as a spend-and-redeem card for gaming, not a primary everyday
+  card.
 benefits:
   - name: "PlayStation Store redemptions"
     description: "Points redeemable for PlayStation Store codes and digital gift cards via the Account Center"

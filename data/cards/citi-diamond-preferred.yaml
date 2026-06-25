@@ -19,3 +19,10 @@ apr:
     max: 27.24
 apply_link: https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card
 foreign_transaction_fee: true
+our_take: >
+  The Diamond Preferred is a pure debt-payoff card: 21 months of 0% intro APR on
+  balance transfers (12 on purchases) with no annual fee, and it sits among the
+  longer 0% runways available. It earns no rewards at all, so open it to clear a
+  balance, run your payoff plan, and don't expect a reason to keep using it
+  after the intro window closes. Note the foreign transaction fee, which makes
+  it a poor travel companion.

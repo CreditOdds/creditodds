@@ -34,6 +34,14 @@ rewards:
     value: 1
     unit: points_per_dollar
     note: "Also earns 4x on Wyndham Vacation Club purchases"
+our_take: >
+  The top-tier Wyndham card justifies its $395 fee mostly through credits and elite perks:
+  30,000 anniversary points (enough for up to four award nights), automatic Diamond status,
+  8x at Wyndham hotels, and a stack of statement credits for streaming, meal delivery, a
+  wholesale club, and Global Entry. The math works only if you stay at Wyndham properties and
+  actually use those credits; otherwise the $95 Earner Plus delivers most of the value at a
+  fraction of the fee. Wyndham points are low-value, so this is a card for committed Wyndham
+  loyalists, not casual travelers.
 signup_bonus:
   value: 120000
   type: "points"

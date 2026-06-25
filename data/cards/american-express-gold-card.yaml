@@ -5,7 +5,14 @@ image: "amex_gold_card.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/gold-card/
 foreign_transaction_fee: false
-card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref=" 
+card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref="
+our_take: >
+  The Gold is built for people who spend heavily on food: 4x at restaurants and 4x at U.S.
+  supermarkets is among the best dining and grocery earning you can get, and it pairs with a
+  large 100,000-point signup bonus. The $325 fee only works out if you actually use the
+  monthly Uber, dining, Dunkin, and Resy credits, so this is a card to use, not to set and
+  forget. Approvals here lean toward solid credit, so it is more realistic once you are past
+  the credit-building stage.
 annual_fee: 325
 benefits:
   - name: "Uber Cash"

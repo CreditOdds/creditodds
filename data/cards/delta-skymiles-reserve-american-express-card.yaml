@@ -7,6 +7,13 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-
 foreign_transaction_fee: false
 annual_fee: 650
 reward_type: "miles"
+our_take: >
+  The Reserve is for frequent Delta flyers who want Sky Club access, the
+  first-class companion certificate, and an MQD headstart toward Medallion status.
+  Earning is thin outside Delta (3x on Delta, 1x elsewhere), so the $650 fee only
+  makes sense if you use the Sky Clubs and the recurring Resy, Delta Stays, and
+  rideshare credits. If you fly Delta less often, the $350 Platinum covers most of
+  the same ground for far less.
 benefits:
   - name: "Delta Sky Club Access"
     value: 0

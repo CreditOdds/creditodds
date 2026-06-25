@@ -8,6 +8,12 @@ image: "barclays-jetblue-plus.png"
 annual_fee: 99
 foreign_transaction_fee: false
 reward_type: "points"
+our_take: >
+  For regular JetBlue flyers this is an easy pick and one of the stronger airline cards on
+  our list: 6x on JetBlue, a free first checked bag, and a 5,000-point anniversary bonus that
+  roughly offsets the $99 fee on its own. The free bag alone usually pays for the card if you
+  fly JetBlue even twice a year, and the no-fee JetBlue card skips both the bag and the 6x.
+  The catch is it is only worth carrying if JetBlue is genuinely your airline.
 tags:
   - travel
   - airline

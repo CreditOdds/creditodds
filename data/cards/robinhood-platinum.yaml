@@ -105,3 +105,11 @@ rewards:
     unit: percent
 apply_link: https://robinhood.com/us/en/creditcard/platinum/
 foreign_transaction_fee: false
+our_take: >
+  Robinhood's $695 premium card leans on a long list of lifestyle credits (DoorDash, dining,
+  hotel and travel statement credits, plus health perks like One Medical and Oura) and
+  Priority Pass access, much of it routed through the Robinhood app. The earning is
+  credit-heavy, not rate-heavy: outside 5% dining and the 5% to 10% travel booked through
+  Robinhood's own portal, base spend earns just 1%. It only pays off if you live in the
+  Robinhood ecosystem and will actually use the credits.
+

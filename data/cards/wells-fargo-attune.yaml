@@ -58,6 +58,12 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/attune-credit-card
+our_take: >
+  A niche no-fee card paying 4% on an unusual mix: fitness and self-care,
+  entertainment, streaming, pet care, public transit, EV charging, and
+  secondhand stores. If your spending genuinely clusters in those lifestyle
+  categories it is one of the stronger no-fee earners, but the plain 1% on
+  everything else means most people will out-earn it with a flat 2% card.
 benefits:
   - name: "Cellular Telephone Protection"
     value: 0

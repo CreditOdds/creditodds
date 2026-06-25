@@ -33,3 +33,11 @@ apr:
     max: 29.49
 apply_link: https://www.amazon.com/Synchrony-Bank-Amazon-com-Store-Card/dp/B008A0GNA8
 foreign_transaction_fee: false
+our_take: >
+  This is a closed-loop store card that only earns its 5% at Amazon and Whole
+  Foods, and only with an active Prime membership, so it suits committed Amazon
+  shoppers and not much else. The Amazon Prime Visa earns the same 5% on Amazon
+  but works everywhere and adds 2% on dining and gas, so unless you can't
+  qualify for that Visa there is little reason to pick the store card. Mind the
+  29.49% APR: the equal-monthly-payment financing only helps if you clear it
+  before each promo window closes.

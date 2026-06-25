@@ -32,6 +32,13 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/quicksilver/
+our_take: >
+  The Quicksilver is a simple no-fee flat-rate card: 1.5% on everything, a $200
+  bonus after $500 of spend, and 15 months of 0% intro APR on purchases and
+  balance transfers. It is solid for hands-off spenders, but for the same $0 fee
+  the Wells Fargo Active Cash and Citi Double Cash both earn a flat 2%, so the
+  main reasons to pick this one are the long 0% window or wanting to stay in the
+  Capital One ecosystem.
 benefits:
   - name: "Price Drop Protection"
     value: 0

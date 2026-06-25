@@ -5,3 +5,8 @@ accepting_applications: false
 image: "citi-expedia-rewards.png"
 annual_fee: 0
 reward_type: "points"
+our_take: >
+  This co-branded Expedia card is no longer open to new applicants, so it is here for reference
+  only. It had no annual fee and earned points toward Expedia travel. If you book through
+  Expedia today, a general travel card or a portal-flexible option like Citi Strata Premier
+  will be more useful.

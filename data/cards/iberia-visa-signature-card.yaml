@@ -6,6 +6,13 @@ image: "iberia-plus.png"
 annual_fee: 95
 foreign_transaction_fee: false
 reward_type: "miles"
+our_take: >
+  A niche card for Avios collectors: 3x on Iberia, British Airways, and Aer
+  Lingus flights, a 75k-mile bonus, and no foreign transaction fees for a $95
+  fee. The signature draw is the companion voucher worth up to $1,000 after
+  $30,000 in annual spend, which is the main reason to keep it past year one. It
+  only makes sense if you fly the Iberia/BA/Aer Lingus network or value Avios;
+  otherwise a flexible travel card will serve you better.
 tags:
   - airline
   - travel

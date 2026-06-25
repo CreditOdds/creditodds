@@ -5,3 +5,8 @@ image: "wells_fargo_visa_signature.png"
 accepting_applications: false
 annual_fee: 0
 reward_type: "points"
+our_take: >
+  This is a legacy no-fee Wells Fargo points card that is no longer open to new
+  applicants, so it is not a card to chase today. Existing holders can keep it
+  for the lack of an annual fee, but Wells Fargo's current lineup, like the flat
+  2% Active Cash, is where new cardholders should look.

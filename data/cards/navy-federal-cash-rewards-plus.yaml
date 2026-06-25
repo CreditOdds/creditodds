@@ -7,6 +7,13 @@ image: "navy-federal-cash-rewards-plus.png"
 annual_fee: 0
 foreign_transaction_fee: false
 reward_type: "cashback"
+our_take: >
+  A clean flat-rate cash-back card for Navy Federal members: 2% on everything
+  (if approved at a $5,000+ limit, otherwise 1.5%), no annual fee, and no foreign
+  transaction fees, which makes it competitive with the best no-fee 2% cards.
+  The standout is Navy Federal's low APR (14.15% to 18% versus the high-20s
+  elsewhere) plus no balance transfer fees and a 1.99% intro BT rate. Membership
+  is required, but if you qualify it is one of the better everyday cards going.
 tags:
   - cashback
   - rewards

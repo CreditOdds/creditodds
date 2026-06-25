@@ -30,6 +30,12 @@ apr:
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/ventureone/
 foreign_transaction_fee: false
+our_take: >
+  The VentureOne is the no-fee, lighter version of Capital One's travel lineup: 1.25x miles
+  on everything, 5x through Capital One Travel, no foreign transaction fees, and a small
+  20,000-mile bonus after just $500 of spend. It is a reasonable entry point into
+  transferable Capital One miles, but the earn rate is thin. If you spend enough to justify
+  $95, the regular Venture's flat 2x and larger bonus pull well ahead.
 benefits:
   - name: "Price Drop Protection"
     value: 0

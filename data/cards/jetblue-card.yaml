@@ -39,6 +39,12 @@ apr:
   regular:
     min: 19.74
     max: 29.74
+our_take: >
+  The no-fee JetBlue card is for occasional JetBlue flyers: 3x on JetBlue, 2x on dining and
+  groceries, no foreign transaction fees, and 50% off inflight purchases. The small 10,000-point
+  bonus and modest earn rates keep it lightweight. If you fly JetBlue often, the $99 Plus card
+  earns 6x on JetBlue and carries a much larger 60,000-point bonus, so the fee pays off fast.
+  Get this one only if you want a JetBlue card with no annual cost.
 benefits:
   - name: "50% Off Inflight Purchases"
     value: 50

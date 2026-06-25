@@ -41,6 +41,12 @@ apr:
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/savor-student/
 foreign_transaction_fee: false
+our_take: >
+  One of the stronger student cards: 3% on dining, groceries, entertainment, and
+  streaming with no annual fee and no foreign transaction fees, matching the
+  regular Savor's earn rates while you build credit. The catch is the high APR,
+  so treat it as a rewards card you pay off in full, not one to carry a balance
+  on.
 benefits:
   - name: "Price Drop Protection"
     value: 0
