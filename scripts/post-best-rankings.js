@@ -88,6 +88,10 @@ function loadBestCategory(slug) {
     title: data.title,
     slug: data.slug,
     updatedAt: data.updated_at,
+    // Panel metadata when the list was produced by the multi-model consensus
+    // pipeline (data/best/*.yaml `panel:` block). Null for legacy single-model
+    // lists that have not been refreshed yet.
+    panel: data.panel || null,
     cards: (data.cards || []).slice(0, 5).map((c, i) => ({
       slug: c.slug,
       badge: c.badge || null,
@@ -339,7 +343,7 @@ function fitName(name, maxChars) {
   return name.slice(0, maxChars - 1).trim() + '…';
 }
 
-async function generateBestRankingsImage(categoryTitle, updatedAt, topCards, slug = '') {
+async function generateBestRankingsImage(categoryTitle, updatedAt, topCards, slug = '', hasConsensus = false) {
   const tone = pickTone(slug, categoryTitle);
   const t = getTone(tone);
 
@@ -381,7 +385,7 @@ async function generateBestRankingsImage(categoryTitle, updatedAt, topCards, slu
   const eyebrowSvg = soEyebrow({
     x: PADDING_X,
     y: eyebrowY,
-    key: 'Ranked',
+    key: hasConsensus ? 'AI Consensus' : 'Ranked',
     text: `Updated ${updatedDate}`,
     tone,
     size: 13,
@@ -472,10 +476,32 @@ async function generateBestRankingsImage(categoryTitle, updatedAt, topCards, slu
 
 // ─── Tweet text ──────────────────────────────────────────────────────────────
 
-function buildPostText(categoryTitle, topCards) {
-  const banks = topCards.map(c => c.bank).filter(Boolean);
+// Friendly, audience-recognizable names for the panel models (GPT -> ChatGPT).
+const SOCIAL_MODEL_NAMES = { claude: 'Claude', openai: 'ChatGPT', gemini: 'Gemini' };
 
-  // Try with badges first, fall back to without if text goes over 280
+function panelModelNames(panel) {
+  return (panel?.models || [])
+    .map(m => SOCIAL_MODEL_NAMES[m.key] || m.label)
+    .filter(Boolean);
+}
+
+function joinWithAnd(names) {
+  if (names.length <= 1) return names[0] || '';
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  return `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+}
+
+function buildPostText(categoryTitle, topCards, panel) {
+  const banks = topCards.map(c => c.bank).filter(Boolean);
+  const models = panelModelNames(panel);
+  // Multi-model lists get a consensus headline + a CTA naming the models.
+  const headline = models.length
+    ? `${categoryTitle}, ranked by AI consensus:`
+    : `${categoryTitle}, our top ${topCards.length}:`;
+  const cta = models.length ? `See where ${joinWithAnd(models)} rank these.` : '';
+  const suffix = cta ? `\n\n${cta}` : '';
+
+  // Try with badges first, then without; keep the headline + CTA intact.
   for (const includeBadges of [true, false]) {
     const list = topCards
       .map(card => {
@@ -484,7 +510,7 @@ function buildPostText(categoryTitle, topCards) {
       })
       .join('\n');
 
-    const base = `${categoryTitle} \u2014 Our Top 5:\n\n${list}`;
+    const base = `${headline}\n\n${list}${suffix}`;
     if (base.length <= 280) {
       const withHandles = appendBankHandles(base, banks, 280);
       return {
@@ -494,9 +520,19 @@ function buildPostText(categoryTitle, topCards) {
     }
   }
 
-  // Shouldn't happen, but truncate if still over
-  const list = topCards.map(card => `${card.rank}. ${card.name}`).join('\n');
-  const base = (`${categoryTitle} \u2014 Our Top 5:\n\n${list}`).slice(0, 280);
+  // Still over: trim the list (not the CTA) until it fits.
+  for (let n = topCards.length - 1; n >= 3; n--) {
+    const list = topCards.slice(0, n).map(card => `${card.rank}. ${card.name}`).join('\n');
+    const base = `${headline}\n\n${list}${suffix}`;
+    if (base.length <= 280) {
+      const withHandles = appendBankHandles(base, banks, 280);
+      return { textContent: base, twitterText: withHandles !== base ? withHandles : null };
+    }
+  }
+
+  // Last resort: hard truncate.
+  const list = topCards.slice(0, 3).map(card => `${card.rank}. ${card.name}`).join('\n');
+  const base = `${headline}\n\n${list}${suffix}`.slice(0, 280);
   const withHandles = appendBankHandles(base, banks, 280);
   return {
     textContent: base,
@@ -571,11 +607,16 @@ async function main() {
     console.log(`  #${card.rank} ${card.name}${badge}`);
   }
 
+  const hasConsensus = !!(bestData.panel && bestData.panel.models && bestData.panel.models.length);
+  if (hasConsensus) {
+    console.log(`Consensus panel: ${panelModelNames(bestData.panel).join(', ')}`);
+  }
+
   console.log('\nGenerating best rankings image...');
-  const imageBuffer = await generateBestRankingsImage(bestData.title, bestData.updatedAt, enrichedCards, bestData.slug);
+  const imageBuffer = await generateBestRankingsImage(bestData.title, bestData.updatedAt, enrichedCards, bestData.slug, hasConsensus);
   console.log(`  Image generated: ${(imageBuffer.length / 1024).toFixed(0)}KB`);
 
-  const { textContent, twitterText } = buildPostText(bestData.title, enrichedCards);
+  const { textContent, twitterText } = buildPostText(bestData.title, enrichedCards, bestData.panel);
   const linkUrl = buildLinkUrl(bestData.slug);
   const sourceId = `best-${bestData.slug}-${new Date().toISOString().slice(0, 10)}`;
 
