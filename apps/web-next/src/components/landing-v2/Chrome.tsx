@@ -73,7 +73,7 @@ export function V2Footer() {
                 maxWidth: 320,
               }}
             >
-              Community-powered approval odds for 140+ credit cards. Independent, free,
+              Community-powered approval odds for 150+ credit cards. Independent, free,
               and built on real data.
             </p>
           </div>
