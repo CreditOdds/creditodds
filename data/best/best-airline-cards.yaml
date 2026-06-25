@@ -1,121 +1,122 @@
 # ============================================================
-# Best Airline Credit Cards — Ranking Reasoning (2026-06-15)
+# Best Airline Credit Cards — Ranking Reasoning (2026-06-25)
+# Consensus of: Claude, GPT, Gemini (borda count)
 # ============================================================
 #
-# #1 united-gateway (Best No-Fee)
-#   The United Gateway offers the best entry point for airline cardholders
-#   with zero annual fee, a low spend requirement, and solid 2x earning on
-#   airline and common categories. Its accessible bonus and no-fee structure
-#   make it the clear choice for beginners and value-conscious travelers.
+# #1 jetblue-plus-card  [Claude #2, GPT #9, Gemini #1]
+#   The Plus card rewards consistent JetBlue flyers with best-in-class earning
+#   at 6x points on airline purchases. The bonus and strong category rates
+#   offset the annual fee for those who fly JetBlue regularly or value the
+#   12-month intro 0% balance transfer APR.
 #
-# #2 jetblue-plus-card (Best Overall Value)
-#   The JetBlue Plus delivers exceptional value with a strong 60,000-point
-#   bonus, industry-leading 6x earning on JetBlue flights, and meaningful
-#   travel perks that justify its $99 annual fee. The combination of high
-#   bonus, low spend requirement, and generous rewards make it the best
-#   overall option for JetBlue loyalty.
+# #2 southwest-rapid-rewards-plus-credit-card  [Claude #1, GPT #11, Gemini #2]
+#   This card delivers a competitive signup bonus and covers everyday spending
+#   categories, making it accessible for casual Southwest flyers. The $99 fee
+#   is justified by the higher bonus value compared to no-fee alternatives,
+#   though earning rates are more modest.
 #
-# #3 southwest-rapid-rewards-plus-credit-card
-#   Southwest Plus offers one of the highest signup bonuses for a low $1,000
-#   spend, making the bonus easily attainable. The $99 annual fee is
-#   reasonable given the 80,000-point bonus value and anniversary points,
-#   making it strong for Southwest frequent flyers.
+# #3 southwest-rapid-rewards-premier-credit-card  [Claude #4, GPT #3, Gemini #7]
+#   The Premier card bridges the gap between basic and luxury Southwest
+#   offerings with higher earnings on flights and dining. The $149 fee
+#   reflects upgraded benefits for committed Southwest loyalists, though the
+#   Plus version remains better value for most users.
 #
-# #4 jetblue-card (Best for Beginners)
-#   The no-fee JetBlue Card is ideal for casual travelers testing loyalty
-#   status with no financial commitment. While the 10,000-point bonus is
-#   modest, the 3x JetBlue earning rate and zero annual fee make it a
-#   risk-free entry point.
+# #4 citi-aadvantage-platinum-select-world-elite-m  [Claude #3, GPT #8, Gemini #4]
+#   The AAdvantage Platinum Select delivers a substantial bonus with a longer
+#   earn window, making it manageable for those unable to quickly meet higher
+#   spending minimums. The $99 fee is reasonable for American Airlines
+#   frequent flyers with diverse spending across dining and gas.
 #
-# #5 american-airlines-aadvantage-mileu-mastercard
-#   This no-fee card offers a straightforward American Airlines option with a
-#   modest but free entry point. The 15,000-mile bonus and 2x earning on
-#   airlines and groceries provide decent value without annual commitment.
+# #5 southwest-rapid-rewards-priority-credit-card  [Claude #7, GPT #4, Gemini #13]
+#   Priority serves Southwest's most active flyers with 4x airline earning and
+#   the highest signup bonus in the Southwest lineup. The $229 annual fee is
+#   justified by premium travel perks and the strongest earning rates, but
+#   only for those who fly Southwest frequently enough to offset the cost.
 #
-# #6 delta-skymiles-blue-american-express-card
-#   Delta Blue provides a no-fee entry point for Delta loyalty with manageable
-#   6-month spend window. The 10,000-mile bonus is modest, and the longer
-#   spending timeframe makes it less attractive than competitors offering
-#   higher bonuses with faster spend requirements.
+# #6 united-gateway (Best Overall)  [Claude #5, GPT #18, Gemini #3]
+#   The Gateway offers the lowest barrier to entry in the airline card
+#   category with no annual fee and a streamlined rewards structure. It
+#   provides solid earning rates and valuable intro APR for those starting
+#   their United loyalty journey without ongoing costs.
 #
-# #7 hawaiian-airlines-world-elite-mastercard
-#   This card delivers strong rewards on Hawaiian Airlines (3x) and everyday
-#   categories (2x) with a 50,000-mile bonus for reasonable $99 annual fee.
-#   The 15-month 0% APR on balance transfers adds balance-sheet value for
-#   those carrying debt.
+# #7 delta-skymiles-platinum-american-express-card  [Claude #12, GPT #2, Gemini #14]
+#   Platinum occupies the premium tier for Delta with strong earning across
+#   flights, hotels, dining, and groceries. The $350 annual fee and
+#   substantial bonus make it suitable for Delta elites who justify premium
+#   costs through frequent travel and engagement with benefits.
 #
-# #8 citi-aadvantage-platinum-select-world-elite-m
-#   The Citi Platinum Select offers a substantial 80,000-mile bonus with
-#   reasonable $99 annual fee, though the higher $3,500 spend requirement and
-#   4-month window demand more commitment. Strong perks like free checked bag
-#   and preferred boarding justify the fee for frequent American Airlines
-#   flyers.
+# #8 united-explorer  [Claude #11, GPT #12, Gemini #5]
+#   Explorer sits between Gateway and higher-tier United cards, offering
+#   mid-tier perks with 3x airline earning. The $150 annual fee and decent
+#   bonus make it appropriate for moderate United flyers who want more
+#   benefits than the no-fee option but aren't ready for premium tiers.
 #
-# #9 southwest-rapid-rewards-premier-credit-card
-#   This mid-tier Southwest card offers a higher 85,000-point bonus with 3x
-#   airline earning at $149 annual fee. The 4 annual upgraded boardings and
-#   anniversary points add tangible value for frequent Southwest travelers
-#   willing to spend the extra $50 vs. the Plus version.
+# #9 jetblue-card (Best No-Fee)  [Claude #10, GPT #10, Gemini #8]
+#   For JetBlue customers who want to avoid annual fees, this card provides
+#   solid 3x earning on airline spending with no ongoing cost. It's ideal for
+#   occasional flyers or those testing airline card benefits before committing
+#   to a premium option.
 #
-# #10 united-explorer
-#   United Explorer justifies its $150 annual fee with two United Club passes
-#   and free checked bag, delivering strong perks for serious United flyers.
-#   The 50,000-mile bonus and 3x airline earning make it competitive in the
-#   premium midtier segment.
+# #10 delta-skymiles-gold-american-express-card  [Claude #9, GPT #15, Gemini #6]
+#   The Gold card targets Delta loyalists with a meaningful bonus and solid
+#   earning on frequent categories. The longer earning window and $150 fee
+#   position it for committed Delta flyers who don't need the premium perks of
+#   higher-tier options.
 #
-# #11 delta-skymiles-gold-american-express-card
-#   Delta Gold's 90,000-mile bonus is substantial, though the $5,000 spend
-#   requirement and 6-month window are demanding. The $150 annual fee is
-#   justified by the large bonus, free checked bag benefit, and 2x earning
-#   across practical categories for Delta loyalists.
+# #11 hawaiian-airlines-world-elite-mastercard  [Claude #6, GPT #14, Gemini #12]
+#   This card offers balanced earning across everyday categories with strong
+#   Hawaiian Airlines rewards and a 15-month intro 0% balance transfer APR.
+#   It's well-suited for Hawaii-focused travelers seeking broad category
+#   coverage alongside premium airline benefits.
 #
-# #12 british-airways-visa-signature-card
-#   This card offers strong 3x earning on OneWorld alliance carriers and a
-#   solid 75,000 Avios bonus, though the $5,000 spend requirement is high. The
-#   $95 annual fee is reasonable for those committed to OneWorld travel.
+# #12 delta-skymiles-reserve-american-express-card  [Claude #15, GPT #1, Gemini #18]
+#   Reserve represents the pinnacle of Delta co-branded cards with the highest
+#   signup bonus and annual fee. It's exclusively for high-net-worth Delta
+#   loyalists who value premium cabin access and exclusive benefits enough to
+#   absorb the $650 annual cost.
 #
-# #13 southwest-rapid-rewards-priority-credit-card
-#   Southwest Priority delivers the highest Southwest earning rate (4x) and
-#   substantial annual benefits including $75 travel credit and anniversary
-#   points, though the $229 annual fee is steep. This is ideal for elite
-#   Southwest frequent flyers who will maximize the perks.
+# #13 citi-aadvantage-globe  [Claude #14, GPT #7, Gemini #16]
+#   The Globe targets premium American Airlines flyers who book hotels
+#   frequently through airline portals. The $350 annual fee and high spending
+#   requirement place it for affluent travelers maximizing portal redemptions
+#   alongside airline spending.
 #
-# #14 united-quest
-#   United Quest provides strong earning potential with 4x on flights and 5x
-#   on portal bookings, plus meaningful travel credits that offset the $350
-#   fee. This card rewards high-spend United loyalists who leverage both
-#   airline and hotel booking benefits.
+# #14 british-airways-visa-signature-card  [Claude #8, GPT #19, Gemini #11]
+#   This card appeals to British Airways and oneworld alliance flyers with
+#   strong airline earning and hotel rewards at a modest $95 annual fee. The
+#   high spend requirement limits broader appeal, but the bonus and earning
+#   rates reward committed transatlantic travelers.
 #
-# #15 citi-aadvantage-globe
-#   Citi Globe's premium positioning offers 6x portal earning and 3x on
-#   American Airlines flights, justifying the $350 fee for frequent bookers.
-#   The 90,000-mile bonus is strong, though the higher spend requirement and
-#   fee limit appeal to frequent travelers.
+# #15 citi-aadvantage-executive-world-elite-masterc  [Claude #17, GPT #5, Gemini #17]
+#   Executive is designed for the most premium American Airlines customers
+#   with the highest spending requirements. The $595 annual fee reflects luxe
+#   travel perks and extraordinary earning on portal bookings for those
+#   routinely charging large travel expenses.
 #
-# #16 delta-skymiles-platinum-american-express-card
-#   Delta Platinum offers a premium 100,000-mile bonus plus companion
-#   certificate at $350 annual fee, making it attractive for loyal Delta
-#   travelers. The 3x earning on flights and hotels provides meaningful
-#   ongoing value for frequent travelers.
+# #16 united-quest  [Claude #13, GPT #13, Gemini #15]
+#   Quest targets high-spending United elites with premium benefits and strong
+#   earning on airline and travel purchases. The $350 annual fee limits it to
+#   frequent business travelers and those booking most travel through United's
+#   portal who can justify the cost through premium perks.
 #
-# #17 citi-aadvantage-executive-world-elite-masterc
-#   This executive card targets elite American Airlines flyers with Admirals
-#   Club inclusion and powerful 10x portal earning. The $595 annual fee is
-#   justified primarily by lounge access and portal multipliers rather than
-#   the bonus alone.
+# #17 american-airlines-aadvantage-mileu-mastercard (Best for Beginners)  [Claude #16, GPT #17, Gemini #9]
+#   This entry-level American Airlines card has no annual fee and covers two
+#   high-spending categories, making it approachable for new airline loyalty
+#   members. The bonus and earning structure are straightforward without
+#   premium benefits that require sustained high spending.
 #
-# #18 delta-skymiles-reserve-american-express-card (Best Premium)
-#   Delta Reserve is the premium flagship option, offering the highest signup
-#   bonus (125,000 miles), companion certificate, and Delta Sky Club
-#   membership for the most committed Delta frequent flyers. The $650 annual
-#   fee is steep but justified by the elite perks and bonus value for
-#   high-spend travelers.
+# #18 united-club-infinite  [Claude #18, GPT #6, Gemini #19]
+#   Club Infinite sits at the luxury tier with the highest annual fee,
+#   justified only for ultra-frequent United flyers who maximize premium cabin
+#   awards and exclusive lounge experiences. The 5x airline earning and
+#   substantial benefits package target business travelers and frequent
+#   premium cabin bookers.
 #
-# #19 united-club-infinite
-#   United Club Infinite is the premium United card offering Club lounge
-#   access and strong 5x flight earning for the most elite frequent flyers.
-#   The $695 annual fee reflects premium lounge membership and 80,000-mile
-#   bonus value for those maximizing United loyalty.
+# #19 delta-skymiles-blue-american-express-card  [Claude #19, GPT #16, Gemini #10]
+#   Delta's no-fee option provides a low-cost entry point to SkyMiles earning,
+#   though the longer bonus period and modest signup miles place it lower than
+#   other no-fee offerings. It suits occasional Delta travelers unwilling to
+#   pay annual fees.
 #
 # ============================================================
 
@@ -124,82 +125,159 @@ slug: best-airline-cards
 title: Best Airline Credit Cards
 description: The top co-branded airline credit cards ranked by signup bonuses, earning rates, and travel perks.
 date: "2026-03-01"
-updated_at: "2026-06-15"
+updated_at: "2026-06-25"
 seo_title: Best Airline Credit Cards of 2026
 seo_description: Compare the best airline credit cards of 2026. Delta, United, American, Southwest, JetBlue, and more — ranked by value.
 intro: |
-  Airline credit cards earn miles or points in a specific loyalty program and come with perks like free checked bags, priority boarding, and lounge access. We've ranked these by overall value—considering signup bonuses, spending requirements, annual fees, earning rates, and travel benefits—to help you find the best fit whether you're a frequent flyer or casual traveler.
+  Airline credit cards earn miles or points in a specific loyalty program and come with perks like free checked bags, priority boarding, and lounge access. Whether you're maximizing a signup bonus, earning at a high rate on everyday purchases, or accessing premium travel benefits, the right card depends on your airline preference and spending patterns.
+
+panel:
+  method: borda
+  generated_at: "2026-06-25"
+  models:
+    - key: claude
+      label: Claude
+      model: claude-haiku-4-5-20251001
+    - key: openai
+      label: GPT
+      model: gpt-4o-mini
+    - key: gemini
+      label: Gemini
+      model: gemini-3.5-flash
 
 cards:
-  - slug: united-gateway
-    badge: Best No-Fee
-    highlight: 30,000-mile signup bonus after $1,000 spend in 3 months with no annual fee. Earns 2x miles on United, gas, and transit, plus 1x on everything else.
-
   - slug: jetblue-plus-card
-    badge: Best Overall Value
-    highlight: 60,000-point signup bonus after $1,000 spend in 3 months for $99/year. Earns 6x points on JetBlue flights, 2x on dining and groceries, plus free checked bag and 50% inflight savings.
+    previous_rank: 2
+    highlight: 60,000-point signup bonus after $1,000 spend in 3 months, plus a $99 annual fee. Earn 6x points on JetBlue flights and 2x on dining and groceries.
+    consensus:
+      score: 48
+      ranks: { claude: 2, openai: 9, gemini: 1 }
 
   - slug: southwest-rapid-rewards-plus-credit-card
-    previous_rank: 6
-    highlight: 80,000 Rapid Rewards points after $1,000 spend in 3 months for $99/year. Earns 2x points on Southwest, gas, and groceries, plus anniversary points toward the Companion Pass.
-
-  - slug: jetblue-card
-    badge: Best for Beginners
     previous_rank: 3
-    highlight: 10,000 points with no annual fee after $1,000 spend in 3 months. Earns 3x on JetBlue, 2x on dining and groceries, 1x on everything else.
-
-  - slug: american-airlines-aadvantage-mileu-mastercard
-    previous_rank: 4
-    highlight: 15,000 AAdvantage miles with no annual fee after $1,000 spend in 3 months. Earns 2x miles on American Airlines and groceries, 1x on everything else.
-
-  - slug: delta-skymiles-blue-american-express-card
-    previous_rank: 5
-    highlight: 10,000 SkyMiles with no annual fee after $1,000 spend in 6 months. Earns 2x miles on Delta and dining, 1x on everything else.
-
-  - slug: hawaiian-airlines-world-elite-mastercard
-    previous_rank: 8
-    highlight: 50,000 miles after $2,000 spend in 3 months for $99/year. Earns 3x on Hawaiian Airlines, 2x on dining, gas, and groceries, plus 0% APR on balance transfers for 15 months.
-
-  - slug: citi-aadvantage-platinum-select-world-elite-m
-    previous_rank: 7
-    highlight: 80,000 AAdvantage miles after $3,500 spend in 4 months for $99/year. Earns 2x miles on airlines, dining, and gas, plus free checked bag and preferred boarding.
+    highlight: 80,000-point signup bonus after $1,000 spend in 3 months with a $99 annual fee. Earn 2x points on Southwest flights, gas, and groceries.
+    consensus:
+      score: 46
+      ranks: { claude: 1, openai: 11, gemini: 2 }
 
   - slug: southwest-rapid-rewards-premier-credit-card
-    highlight: 85,000 Rapid Rewards points after $2,000 spend in 3 months for $149/year. Earns 3x on Southwest flights, 2x on groceries and dining, plus anniversary points and 4 upgraded boardings annually.
+    previous_rank: 9
+    highlight: 85,000-point signup bonus after $2,000 spend in 3 months, plus a $149 annual fee. Earn 3x points on Southwest flights and 2x on groceries and dining.
+    consensus:
+      score: 46
+      ranks: { claude: 4, openai: 3, gemini: 7 }
 
-  - slug: united-explorer
-    highlight: 50,000-mile signup bonus after $3,000 spend in 3 months for $150/year. Earns 3x miles on United flights, 2x on dining and hotels, plus free checked bag and two annual United Club passes.
-
-  - slug: delta-skymiles-gold-american-express-card
-    previous_rank: 12
-    highlight: 90,000 SkyMiles after $5,000 spend in 6 months for $150/year. Earns 2x miles on Delta, dining, and groceries, plus free first checked bag and companion baggage fees covered.
-
-  - slug: british-airways-visa-signature-card
-    previous_rank: 11
-    highlight: 75,000 Avios after $5,000 spend in 3 months for $95/year. Earns 3x on British Airways, Aer Lingus, and Iberia flights, 2x on hotels, 1x elsewhere.
+  - slug: citi-aadvantage-platinum-select-world-elite-m
+    previous_rank: 8
+    highlight: 80,000-mile signup bonus after $3,500 spend in 4 months with a $99 annual fee. Earn 2x miles on American Airlines flights, dining, and gas.
+    consensus:
+      score: 45
+      ranks: { claude: 3, openai: 8, gemini: 4 }
 
   - slug: southwest-rapid-rewards-priority-credit-card
-    highlight: 90,000 Rapid Rewards points, $75 annual travel credit, 4 upgraded boardings, and 7,500 anniversary points after $3,000 spend in 3 months for $229/year. Earns 4x on Southwest flights, 2x on gas and dining.
+    previous_rank: 13
+    highlight: 90,000-point signup bonus after $3,000 spend in 3 months, plus a $229 annual fee. Earn 4x points on Southwest flights and 2x on gas and dining.
+    consensus:
+      score: 36
+      ranks: { claude: 7, openai: 4, gemini: 13 }
 
-  - slug: united-quest
-    previous_rank: 15
-    highlight: 60,000 miles and up to $250 annual travel credits after $4,000 spend in 3 months for $350/year. Earns 4x on United flights, 5x through hotel portals, 2x on travel, dining, and streaming.
-
-  - slug: citi-aadvantage-globe
-    previous_rank: 14
-    highlight: 90,000 AAdvantage miles after $5,000 spend in 4 months for $350/year. Earns 6x on hotel and car bookings through Citi portals, 3x on American Airlines, 2x on dining and transit.
+  - slug: united-gateway
+    badge: Best Overall
+    previous_rank: 1
+    highlight: No annual fee with a 30,000-mile signup bonus after $1,000 spend in 3 months. Earn 2x miles on United flights, gas, and transit, plus a 12-month intro 0% APR on purchases.
+    consensus:
+      score: 34
+      ranks: { claude: 5, openai: 18, gemini: 3 }
 
   - slug: delta-skymiles-platinum-american-express-card
-    highlight: 100,000 SkyMiles and companion certificate after $6,000 spend in 6 months for $350/year. Earns 3x on Delta flights and hotels, 2x on dining and groceries, 1x elsewhere.
+    previous_rank: 16
+    highlight: 100,000-mile signup bonus after $6,000 spend in 6 months, plus a $350 annual fee. Earn 3x miles on Delta flights and hotels, plus 2x on dining and groceries.
+    consensus:
+      score: 32
+      ranks: { claude: 12, openai: 2, gemini: 14 }
 
-  - slug: citi-aadvantage-executive-world-elite-masterc
-    previous_rank: 18
-    highlight: 70,000 AAdvantage miles and Admirals Club lounge access after $7,000 spend in 3 months for $595/year. Earns 4x on American Airlines, 10x on Citi portal hotel and car bookings.
+  - slug: united-explorer
+    previous_rank: 10
+    highlight: 50,000-mile signup bonus after $3,000 spend in 3 months, plus a $150 annual fee. Earn 3x miles on United flights and 2x on dining and hotels.
+    consensus:
+      score: 32
+      ranks: { claude: 11, openai: 12, gemini: 5 }
+
+  - slug: jetblue-card
+    badge: Best No-Fee
+    previous_rank: 4
+    highlight: No annual fee with a 10,000-point signup bonus after $1,000 spend in 3 months. Earn 3x points on JetBlue flights and 2x on dining and groceries.
+    consensus:
+      score: 32
+      ranks: { claude: 10, openai: 10, gemini: 8 }
+
+  - slug: delta-skymiles-gold-american-express-card
+    previous_rank: 11
+    highlight: 90,000-mile signup bonus after $5,000 spend in 6 months, plus a $150 annual fee. Earn 2x miles on Delta flights, dining, and groceries.
+    consensus:
+      score: 30
+      ranks: { claude: 9, openai: 15, gemini: 6 }
+
+  - slug: hawaiian-airlines-world-elite-mastercard
+    previous_rank: 7
+    highlight: 50,000-mile signup bonus after $2,000 spend in 3 months, plus a $99 annual fee. Earn 3x miles on Hawaiian flights and 2x on gas, dining, and groceries.
+    consensus:
+      score: 28
+      ranks: { claude: 6, openai: 14, gemini: 12 }
 
   - slug: delta-skymiles-reserve-american-express-card
-    badge: Best Premium
+    previous_rank: 18
+    highlight: 125,000-mile signup bonus after $9,000 spend in 6 months, plus a $650 annual fee. Earn 3x miles on Delta flights and 1x on all other purchases.
+    consensus:
+      score: 26
+      ranks: { claude: 15, openai: 1, gemini: 18 }
+
+  - slug: citi-aadvantage-globe
+    previous_rank: 15
+    highlight: 90,000-mile signup bonus after $5,000 spend in 4 months, plus a $350 annual fee. Earn 6x miles on hotels through the portal, 3x on American Airlines flights, and 2x on dining and transit.
+    consensus:
+      score: 23
+      ranks: { claude: 14, openai: 7, gemini: 16 }
+
+  - slug: british-airways-visa-signature-card
+    previous_rank: 12
+    highlight: 75,000-mile signup bonus after $5,000 spend in 3 months, plus a $95 annual fee. Earn 3x miles on British Airways flights and 2x on hotels.
+    consensus:
+      score: 22
+      ranks: { claude: 8, openai: 19, gemini: 11 }
+
+  - slug: citi-aadvantage-executive-world-elite-masterc
     previous_rank: 17
-    highlight: 125,000 SkyMiles and companion certificate after $9,000 spend in 6 months for $650/year, plus Delta Sky Club membership. Earns 3x on Delta flights and hotels, 1x elsewhere.
+    highlight: 70,000-mile signup bonus after $7,000 spend in 3 months, plus a $595 annual fee. Earn 4x miles on American Airlines flights and 10x on hotels and car rentals through the portal.
+    consensus:
+      score: 21
+      ranks: { claude: 17, openai: 5, gemini: 17 }
+
+  - slug: united-quest
+    previous_rank: 14
+    highlight: 60,000-mile signup bonus after $4,000 spend in 3 months, plus a $350 annual fee. Earn 4x miles on United flights, 5x on the airline portal for hotels and car rentals, and 2x on dining and streaming.
+    consensus:
+      score: 19
+      ranks: { claude: 13, openai: 13, gemini: 15 }
+
+  - slug: american-airlines-aadvantage-mileu-mastercard
+    badge: Best for Beginners
+    previous_rank: 5
+    highlight: No annual fee with a 15,000-mile signup bonus after $1,000 spend in 3 months. Earn 2x miles on groceries and American Airlines flights.
+    consensus:
+      score: 18
+      ranks: { claude: 16, openai: 17, gemini: 9 }
 
   - slug: united-club-infinite
-    highlight: 80,000 miles and United Club Infinite lounge access after $5,000 spend in 3 months for $695/year. Earns 5x on United flights, 2x on dining and travel, 1.5x on everything else.
+    previous_rank: 19
+    highlight: 80,000-mile signup bonus after $5,000 spend in 3 months, plus a $695 annual fee. Earn 5x miles on United flights and 2x on dining and travel.
+    consensus:
+      score: 17
+      ranks: { claude: 18, openai: 6, gemini: 19 }
+
+  - slug: delta-skymiles-blue-american-express-card
+    previous_rank: 6
+    highlight: No annual fee with a 10,000-mile signup bonus after $1,000 spend in 6 months. Earn 2x miles on Delta flights and dining.
+    consensus:
+      score: 15
+      ranks: { claude: 19, openai: 16, gemini: 10 }
