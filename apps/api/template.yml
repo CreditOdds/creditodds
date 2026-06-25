@@ -88,6 +88,11 @@ Parameters:
 # deploys without a DSN behave exactly as before.
 # Layer ARN is region/version specific — this stack deploys to us-east-2; the
 # pinned version (v75 = SDK 10.61.0) comes from Sentry's release registry.
+#
+# Memory note: the layer + OpenTelemetry adds ~30-40MB of resident memory.
+# Functions previously at the 128MB minimum were running at ~94% utilization
+# (observed Max Memory Used ~120MB), close to an OOM kill — so the per-function
+# minimum was raised to 256MB to restore headroom.
 Globals:
   Function:
     Layers:
@@ -108,7 +113,7 @@ Resources:
     Properties:
       Handler: src/handlers/firebase-authorizer.firebaseAuthorizerHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 10
       Description: Firebase token authorizer for API Gateway
       Environment:
@@ -142,7 +147,7 @@ Resources:
     Properties:
       Handler: src/handlers/all-cards.AllCardsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Returns all cards for landing search
       Environment:
@@ -176,7 +181,7 @@ Resources:
     Properties:
       Handler: src/handlers/card-by-id.CardByIdHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Returns card details by name or slug
       Environment:
@@ -210,7 +215,7 @@ Resources:
     Properties:
       Handler: src/handlers/get-card-graphs.getCardGraphsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
       Environment:
@@ -389,7 +394,7 @@ Resources:
     Properties:
       Handler: src/handlers/delete-account.DeleteAccountHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Deletes user account, referrals, and wallet but keeps records
       Environment:
@@ -425,7 +430,7 @@ Resources:
       FunctionName: creditodds-sync-cards
       Handler: src/handlers/update-cards-github.updateCardsGitHubHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       # Invoke-only: triggered by the build-cards GitHub Action via direct
       # Lambda invoke (OIDC role), not a public API route. No API event.
@@ -615,7 +620,7 @@ Resources:
     Properties:
       Handler: src/handlers/referral-stats.ReferralStatsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Track referral impressions and clicks
       Environment:
@@ -659,7 +664,7 @@ Resources:
     Properties:
       Handler: src/handlers/card-view.CardViewHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Track card page views and return view counts
       Environment:
@@ -710,7 +715,7 @@ Resources:
     Properties:
       Handler: src/handlers/content-view.ContentViewHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Track article/news page views and return view counts
       Environment:
@@ -761,7 +766,7 @@ Resources:
     Properties:
       Handler: src/handlers/card-compare-event.CardCompareEventHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Track card-compare events and return frequent compare partners
       Environment:
@@ -804,7 +809,7 @@ Resources:
     Properties:
       Handler: src/handlers/best-card-here-report.BestCardHereReportHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Accept user reports about Best Card Here merchant matches
       Environment:
@@ -840,7 +845,7 @@ Resources:
     Properties:
       Handler: src/handlers/card-apply-click.CardApplyClickHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Track outbound apply clicks per card and return click counts
       Environment:
@@ -885,7 +890,7 @@ Resources:
     Properties:
       Handler: src/handlers/apply-outcome.ApplyOutcomeHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Record self-reported apply outcomes from the post-apply check-in prompt
       Environment:
@@ -938,7 +943,7 @@ Resources:
     Properties:
       Handler: src/handlers/leaderboard.LeaderboardHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Returns top contributors leaderboard
       Environment:
@@ -980,7 +985,7 @@ Resources:
     Properties:
       Handler: src/handlers/recent-records.RecentRecordsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Returns the most recent approved records for the ticker
       Environment:
@@ -1013,7 +1018,7 @@ Resources:
     Properties:
       Handler: src/handlers/admin.AdminStatsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Admin stats overview endpoint
       Environment:
@@ -1053,7 +1058,7 @@ Resources:
     Properties:
       Handler: src/handlers/admin.AdminRecordsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Admin records management endpoint
       Environment:
@@ -1114,7 +1119,7 @@ Resources:
     Properties:
       Handler: src/handlers/admin.AdminReferralsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Admin referrals management endpoint
       Environment:
@@ -1216,7 +1221,7 @@ Resources:
     Properties:
       Handler: src/handlers/admin.AdminGraphsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Admin graphs endpoint for time-series data
       Environment:
@@ -1256,7 +1261,7 @@ Resources:
     Properties:
       Handler: src/handlers/admin.AdminSearchesHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Admin approval searches endpoint
       Environment:
@@ -1296,7 +1301,7 @@ Resources:
     Properties:
       Handler: src/handlers/admin.AdminUserLookupHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Admin user lookup endpoint
       Environment:
@@ -1336,7 +1341,7 @@ Resources:
     Properties:
       Handler: src/handlers/admin.AdminAuditHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Admin audit log endpoint
       Environment:
@@ -1376,7 +1381,7 @@ Resources:
     Properties:
       Handler: src/handlers/card-ratings.CardRatingsHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Public card ratings aggregate endpoint
       Environment:
@@ -1418,7 +1423,7 @@ Resources:
     Properties:
       Handler: src/handlers/card-ratings.CardRatingsUserHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Authenticated user card rating endpoint
       Environment:
@@ -1863,7 +1868,7 @@ Resources:
     Properties:
       Handler: src/handlers/card-wire.CardWireHandler
       Runtime: nodejs22.x
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 100
       Description: Returns card metric change history (CardWire)
       Environment:
