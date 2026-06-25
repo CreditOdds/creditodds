@@ -1,11 +1,29 @@
 // Best pages API types and fetching
 import { fetchWithRetry } from './fetchWithRetry';
 
+export interface BestConsensus {
+  score?: number;
+  ranks?: Record<string, number>;
+}
+
+export interface BestPanelModel {
+  key: string;
+  label: string;
+  model?: string;
+}
+
+export interface BestPanel {
+  method?: string;
+  generated_at?: string;
+  models: BestPanelModel[];
+}
+
 export interface BestPageCard {
   slug: string;
   highlight?: string;
   badge?: string;
   previous_rank?: number;
+  consensus?: BestConsensus;
 }
 
 export interface BestPage {
@@ -20,6 +38,7 @@ export interface BestPage {
   seo_title?: string;
   seo_description?: string;
   intro?: string;
+  panel?: BestPanel;
   cards: BestPageCard[];
 }
 

@@ -3,8 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBestPage, getBestPages } from "@/lib/best";
 import { getAllCards } from "@/lib/api";
-import { BestCardList } from "@/components/best/BestCardList";
-import { BestComparisonTable } from "@/components/best/BestComparisonTable";
+import { BestRankingViews } from "@/components/best/BestRankingViews";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
@@ -157,8 +156,7 @@ export default async function BestDetailPage({ params }: Props) {
           </div>
         )}
 
-        <BestComparisonTable cards={enrichedCards} />
-        <BestCardList cards={enrichedCards} />
+        <BestRankingViews cards={enrichedCards} panel={page.panel} />
 
         <Link
           href="/best"
