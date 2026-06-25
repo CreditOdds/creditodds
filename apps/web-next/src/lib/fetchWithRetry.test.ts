@@ -44,6 +44,25 @@ describe("fetchWithRetry", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
+  it("retries when the response body terminates mid-stream", async () => {
+    // fetch() resolves 200, but reading the body throws "terminated" (undici
+    // keep-alive socket drop) — must retry, not surface to the caller.
+    const terminating = {
+      status: 200,
+      statusText: "OK",
+      headers: new Headers(),
+      arrayBuffer: () => Promise.reject(new TypeError("terminated")),
+    } as unknown as Response;
+    const good = new Response(JSON.stringify({ ok: true }), { status: 200 });
+    const fetchMock = vi.fn().mockResolvedValueOnce(terminating).mockResolvedValue(good);
+    vi.stubGlobal("fetch", fetchMock);
+
+    const out = await fetchWithRetry("https://x.test", undefined, { backoffMs: 0 });
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(await out.json()).toEqual({ ok: true });
+  });
+
   it("does not retry a 4xx", async () => {
     const fetchMock = vi.fn().mockResolvedValue(res(404));
     vi.stubGlobal("fetch", fetchMock);
