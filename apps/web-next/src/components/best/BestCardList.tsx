@@ -1,7 +1,7 @@
 import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
 import { Card } from '@/lib/api';
-import { BestPageCard } from '@/lib/best';
+import { BestPageCard, BestPanel } from '@/lib/best';
 import { ApplyButtons } from './ApplyButtons';
 import {
   getCentsPerPoint,
@@ -18,6 +18,31 @@ interface EnrichedCard extends BestPageCard {
 
 interface BestCardListProps {
   cards: EnrichedCard[];
+  panel?: BestPanel;
+  /** 'consensus', a model key, or undefined when no panel is available. */
+  activeView?: string;
+}
+
+/**
+ * Shows how the panel's models ranked this card — a spread chip in consensus
+ * view, or null when there is no panel data.
+ */
+function ConsensusChip({ entry }: { entry: EnrichedCard }) {
+  const ranks = entry.consensus?.ranks;
+  if (!ranks) return null;
+  const values = Object.values(ranks);
+  if (values.length < 2) return null;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const unanimous = min === max;
+  return (
+    <span
+      className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 whitespace-nowrap"
+      title={Object.entries(ranks).map(([k, v]) => `${k}: #${v}`).join(' · ')}
+    >
+      {unanimous ? `All models · #${min}` : `Models · #${min}–#${max}`}
+    </span>
+  );
 }
 
 function RankChange({ currentRank, previousRank }: { currentRank: number; previousRank?: number }) {
@@ -39,7 +64,8 @@ function RankChange({ currentRank, previousRank }: { currentRank: number; previo
   );
 }
 
-export function BestCardList({ cards }: BestCardListProps) {
+export function BestCardList({ cards, activeView }: BestCardListProps) {
+  const isConsensus = !activeView || activeView === 'consensus';
   return (
     <div className="space-y-6">
       {cards.map((entry, index) => {
@@ -60,13 +86,14 @@ export function BestCardList({ cards }: BestCardListProps) {
               <Link href={`/card/${card.slug}`} className="text-lg font-bold text-gray-900 hover:text-indigo-600 transition-colors">
                 {card.card_name}
               </Link>
-              {entry.badge && (
+              {isConsensus && entry.badge && (
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 whitespace-nowrap">
                   {entry.badge}
                 </span>
               )}
-              <span className="ml-auto flex-shrink-0">
-                <RankChange currentRank={rank} previousRank={entry.previous_rank} />
+              <span className="ml-auto flex-shrink-0 flex items-center gap-2">
+                {isConsensus && <ConsensusChip entry={entry} />}
+                {isConsensus && <RankChange currentRank={rank} previousRank={entry.previous_rank} />}
               </span>
             </div>
 
