@@ -1,4 +1,5 @@
 // Best pages API types and fetching
+import { fetchWithRetry } from './fetchWithRetry';
 
 export interface BestPageCard {
   slug: string;
@@ -47,7 +48,7 @@ export async function getBestPages(): Promise<BestPage[]> {
 
     // Use local API route on client to avoid CORS, direct CDN on server
     const url = isBrowser ? '/api/best' : BEST_CDN_URL;
-    const res = await fetch(url, isBrowser ? {} : {
+    const res = await fetchWithRetry(url, isBrowser ? {} : {
       next: { revalidate: 300 },
     });
 
