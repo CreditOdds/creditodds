@@ -1,3 +1,5 @@
+import { fetchWithRetry } from './fetchWithRetry';
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
 // Best-effort Firebase ID token grab for fire-and-forget click trackers.
@@ -191,7 +193,7 @@ export async function getAllCards(): Promise<Card[]> {
       // Fall through to network fetch if local file isn't built yet.
     }
   }
-  const res = await fetch(`${API_BASE}/cards`, {
+  const res = await fetchWithRetry(`${API_BASE}/cards`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch cards');
@@ -248,7 +250,7 @@ export async function getCard(cardName: string): Promise<Card> {
         } as Card;
 
         try {
-          const res = await fetch(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
+          const res = await fetchWithRetry(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
             next: { revalidate: 300 },
           });
           if (res.ok) {
@@ -272,7 +274,7 @@ export async function getCard(cardName: string): Promise<Card> {
       // Fall through to network fetch when local file isn't built yet.
     }
   }
-  const res = await fetch(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
+  const res = await fetchWithRetry(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch card');
@@ -280,7 +282,7 @@ export async function getCard(cardName: string): Promise<Card> {
 }
 
 export async function getCardGraphs(cardName: string): Promise<GraphData[]> {
-  const res = await fetch(`${API_BASE}/graphs?card_name=${encodeURIComponent(cardName)}`, {
+  const res = await fetchWithRetry(`${API_BASE}/graphs?card_name=${encodeURIComponent(cardName)}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch graphs');
@@ -307,7 +309,7 @@ export interface CardRecord {
 }
 
 export async function getCardRecords(cardName: string): Promise<CardRecord[]> {
-  const res = await fetch(`${API_BASE}/card-records?card_name=${encodeURIComponent(cardName)}`, {
+  const res = await fetchWithRetry(`${API_BASE}/card-records?card_name=${encodeURIComponent(cardName)}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch card records');

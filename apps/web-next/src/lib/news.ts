@@ -1,4 +1,5 @@
 // News API types and fetching
+import { fetchWithRetry } from './fetchWithRetry';
 
 export type NewsTag =
   | 'new-card'
@@ -83,7 +84,7 @@ export async function getNews(): Promise<NewsItem[]> {
 
     // Use local API route on client to avoid CORS, direct CDN on server
     const url = isBrowser ? '/api/news' : NEWS_CDN_URL;
-    const res = await fetch(url, isBrowser ? {} : {
+    const res = await fetchWithRetry(url, isBrowser ? {} : {
       next: { revalidate: 300 }, // Revalidate every 5 minutes (server only)
     });
 
