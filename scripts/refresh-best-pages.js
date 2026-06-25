@@ -201,6 +201,17 @@ function stripFences(text) {
     .trim();
 }
 
+// User-facing copy must never contain em dashes (project style rule). Models
+// usually comply, but guarantee it: collapse " — " to ", " and any stray em
+// dash to a comma. En dashes (ranges) are left alone.
+function sanitizeProse(text) {
+  if (!text) return text;
+  return text
+    .replace(/\s*—\s*/g, ', ')
+    .replace(/,\s*,/g, ',')
+    .trim();
+}
+
 // ─── Prompts ─────────────────────────────────────────────────────────────────
 
 const SHARED_GUIDELINES = `RANKING GUIDELINES:
@@ -368,11 +379,11 @@ async function writeProse(page, orderedCardsWithData, inputSlugs) {
       return {
         slug: c.slug,
         badge: w.badge && w.badge !== 'null' ? w.badge : null,
-        highlight: w.highlight || '',
+        highlight: sanitizeProse(w.highlight || ''),
         reasoning: w.reasoning || '',
       };
     });
-  return { intro: parsed.intro || page.data.intro || '', cards };
+  return { intro: sanitizeProse(parsed.intro || page.data.intro || ''), cards };
 }
 
 // Fallback prose: reuse the page's existing badges/highlights in consensus order.
