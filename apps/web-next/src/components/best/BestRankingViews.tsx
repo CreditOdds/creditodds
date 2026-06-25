@@ -5,6 +5,7 @@ import { Card } from '@/lib/api';
 import { BestPageCard, BestPanel } from '@/lib/best';
 import { BestComparisonTable } from './BestComparisonTable';
 import { BestCardList } from './BestCardList';
+import { ModelIcon } from './ModelIcon';
 
 type EnrichedCard = BestPageCard & { card: Card };
 
@@ -66,6 +67,7 @@ export function BestRankingViews({ cards, panel }: BestRankingViewsProps) {
                 <ViewButton
                   key={m.key}
                   label={m.label}
+                  icon={<ModelIcon modelKey={m.key} />}
                   active={view === m.key}
                   onClick={() => setView(m.key)}
                 />
@@ -74,7 +76,7 @@ export function BestRankingViews({ cards, panel }: BestRankingViewsProps) {
           </div>
           <p style={{ marginTop: 8, fontSize: 12.5, color: 'var(--muted)' }}>
             {view === CONSENSUS
-              ? `Consensus ranking — combined ${panel?.method === 'borda' ? 'Borda-count ' : ''}vote of ${models.length} models.`
+              ? `Consensus ranking, combined ${panel?.method === 'borda' ? 'Borda-count ' : ''}vote of ${models.length} models.`
               : `Showing ${models.find(m => m.key === view)?.label ?? 'this model'}'s individual ranking.`}
           </p>
         </div>
@@ -86,7 +88,17 @@ export function BestRankingViews({ cards, panel }: BestRankingViewsProps) {
   );
 }
 
-function ViewButton({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+function ViewButton({
+  label,
+  active,
+  onClick,
+  icon,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  icon?: React.ReactNode;
+}) {
   return (
     <button
       type="button"
@@ -94,6 +106,9 @@ function ViewButton({ label, active, onClick }: { label: string; active: boolean
       aria-selected={active}
       onClick={onClick}
       style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
         padding: '5px 12px',
         borderRadius: 7,
         border: 'none',
@@ -105,6 +120,7 @@ function ViewButton({ label, active, onClick }: { label: string; active: boolean
         transition: 'background 0.15s, color 0.15s',
       }}
     >
+      {icon}
       {label}
     </button>
   );
