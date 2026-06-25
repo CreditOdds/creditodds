@@ -1,97 +1,89 @@
 # ============================================================
-# Best Travel Credit Cards — Ranking Reasoning (2026-06-15)
+# Best Travel Credit Cards — Ranking Reasoning (2026-06-25)
+# Consensus of: Claude, GPT, Gemini (borda count)
 # ============================================================
 #
-# #1 chase-sapphire-preferred (Best Overall)
-#   The Sapphire Preferred offers the best balance of valuable signup bonus,
-#   strong ongoing rewards across travel-relevant categories, and a modest
-#   annual fee. Its broad earning potential and Chase's reliable transfer
-#   partnerships make it the top choice for most travelers.
+# #1 chase-sapphire-preferred (Best Overall)  [Claude #1, GPT #2, Gemini #1]
+#   The Sapphire Preferred delivers excellent value for most travelers without
+#   the steep annual fee of premium cards. Its broad 3x category coverage,
+#   generous signup bonus, and Ultimate Rewards transfer flexibility make it
+#   the most versatile choice for both everyday travel spending and planned
+#   trips.
 #
-# #2 chase-sapphire-reserve (Best Premium)
-#   For travelers who spend enough to leverage its premium perks and high
-#   earning rates, the Reserve delivers exceptional value despite its steep
-#   annual fee. The $300 travel credit, lounge access, and elite earning rates
-#   on travel categories make it the clear choice for frequent luxury
-#   travelers.
+# #2 citi-strata-premier  [Claude #2, GPT #5, Gemini #3]
+#   The Strata Premier's 10x portal multiplier provides exceptional value for
+#   travelers who book hotels and cars through Citi's platform. Though the
+#   signup bonus is smaller than competitors, the breadth of 3x categories and
+#   low annual fee make it competitive for frequent hotel bookers.
 #
-# #3 citi-strata-premier (Best Value)
-#   The Strata Premier offers the highest portal multiplier (10x) among
-#   non-premium cards, making it exceptional for hotel and car rentals booked
-#   through Citi Travel. The reasonable $95 annual fee combined with solid
-#   everyday rewards across multiple categories makes it a compelling value
-#   play.
+# #3 capital-one-venture-x  [Claude #4, GPT #4, Gemini #2]
+#   The Venture X targets premium travelers willing to pay for lounge access
+#   and travel protections. Its high annual fee limits value for most users
+#   compared to mid-tier alternatives, though the 10x portal multiplier and
+#   travel amenities appeal to frequent, high-spend travelers.
 #
-# #4 wells-fargo-autograph (Best No-Fee)
-#   The Autograph stands out as the strongest no-annual-fee option with 3x
-#   rewards across travel-relevant categories and a low spend requirement. The
-#   0% APR intro offer and broad 3x earning categories provide solid value
-#   without paying an annual fee.
+# #4 chase-sapphire-reserve (Best Premium)  [Claude #3, GPT #1, Gemini #7]
+#   The Sapphire Reserve is the premium choice for travelers who can leverage
+#   its travel credits and lounge benefits to offset the high annual fee. Its
+#   8x portal rate is the highest among major travel cards, making it ideal
+#   for those who book frequently and value luxury travel protections.
 #
-# #5 capital-one-venture-x
-#   Capital One Venture X competes directly with premium cards through its
-#   high portal multipliers and travel credit, but charges $395 annually
-#   versus the Sapphire Reserve's superior perks. It's best for travelers
-#   specifically focused on portal bookings who value Capital One's specific
-#   earning structure.
+# #5 american-express-gold-card  [Claude #5, GPT #6, Gemini #6]
 #
-# #6 capital-one-venture-rewards
-#   Venture Rewards provides excellent simplicity with its 2x flat rate on
-#   everything outside the portal, making it ideal for travelers who want
-#   uncomplicated rewards. The strong signup bonus and moderate annual fee
-#   offer good value, though it lacks the category-specific multipliers of
-#   competitors.
+# #6 capital-one-venture-rewards  [Claude #7, GPT #7, Gemini #5]
+#   The Venture Rewards provides simple, broad-based travel rewards at a
+#   reasonable cost. Its 5x portal multiplier is solid for hotel and car
+#   bookings, though the simplicity comes with less category specificity than
+#   competing mid-tier cards.
 #
-# #7 american-express-gold-card
-#   The Gold Card's high dining and grocery multipliers make it valuable for
-#   food-focused travelers, and its credits provide meaningful fee offsets.
-#   However, the $8,000 spend requirement over 6 months and $325 annual fee
-#   make it less accessible than competing mid-tier options.
+# #7 citi-strata-elite  [Claude #6, GPT #3, Gemini #11]
+#   The Strata Elite offers the highest portal multipliers among all cards
+#   reviewed, making it exceptional for travelers who heavily use Citi's
+#   booking platform. The steep annual fee limits mainstream appeal, suitable
+#   only for high-volume portal users who can justify the cost.
 #
-# #8 citi-strata-elite
-#   Strata Elite delivers the highest portal multipliers (12x on hotels/cars,
-#   6x on flights) but sits at the highest price point before premium tier
-#   cards. It's best suited for travelers who consistently book through Citi
-#   Travel and spend enough to justify the $595 annual cost.
+# #8 wells-fargo-autograph (Best No-Fee)  [Claude #8, GPT #8, Gemini #4]
+#   The Autograph is the best no-annual-fee option for travelers seeking broad
+#   rewards coverage without ongoing costs. Its 3x categories span the
+#   essentials for travel spending, and the zero-fee structure makes it
+#   accessible for those building credit or wanting to minimize costs.
 #
-# #9 us-bank-altitude-go-visa-signature
-#   Altitude Go competes well among no-fee options with its 4x dining rate and
-#   15-month 0% APR intro, making it attractive for balance transfer needs.
-#   However, its lack of travel-specific multipliers and lower signup bonus
-#   value limit its appeal compared to travel-focused competitors.
+# #9 us-bank-altitude-go-visa-signature  [Claude #10, GPT #12, Gemini #9]
+#   The US Bank Altitude Go is a solid no-fee alternative that emphasizes
+#   dining rewards at 4x points. The 15-month intro 0% APR is among the
+#   longest available, though the lower overall earning potential and limited
+#   travel-specific bonuses place it below other budget-friendly options.
 #
-# #10 bank-of-america-travel-rewards
-#   Bank of America Travel Rewards excels for simplicity and occasional
-#   travelers who don't want to track bonus categories. The flat 1.5x earn
-#   rate and no-fee structure provide basic value, but it falls behind cards
-#   with category-specific multipliers.
+# #10 atmos-rewards-summit  [Claude #9, GPT #9, Gemini #14]
+#   The Atmos Summit appeals to international travelers with its 3x foreign
+#   transaction bonus, rare among major cards. The high annual fee and
+#   airline-centric focus limit broad travel appeal compared to more balanced
+#   premium alternatives.
 #
-# #11 atmos-rewards-ascent
-#   Ascent offers solid value with a low $2,000 spend requirement and
-#   reasonable $95 annual fee, making it accessible for entry-level travel
-#   card users. However, its 3x airline-only rate and lack of hotel or dining
-#   multipliers make it narrower in scope than competing mid-tier cards.
+# #11 atmos-rewards-ascent  [Claude #13, GPT #11, Gemini #10]
+#   The Atmos Ascent targets airline-focused travelers with its 3x airline
+#   multiplier and modest annual fee. Its narrower category coverage and
+#   smaller signup bonus make it less versatile than competing mid-tier cards
+#   for general travel spending.
 #
-# #12 atmos-rewards-summit
-#   Summit's appeal lies in its 3x foreign transaction bonus and substantial
-#   signup bonus, making it niche for international diners and travelers.
-#   However, its $395 annual fee paired with modest ongoing earning rates (no
-#   hotel or portal multipliers) makes it difficult to justify versus premium
-#   alternatives.
+# #12 world-of-hyatt-business-credit-card  [Claude #12, GPT #10, Gemini #12]
+#   The World of Hyatt Business is specifically designed for frequent Hyatt
+#   stays, offering elite status and free nights that justify the annual fee
+#   for committed members. Its narrow category focus and loyalty program tie
+#   make it unsuitable for general travel spending or those who prefer hotel
+#   flexibility.
 #
-# #13 bilt-palladium
-#   Bilt Palladium's unique rent-earning feature appeals to a specific
-#   audience, but its modest 2x travel multiplier and high $495 annual fee
-#   make it difficult to recommend versus dedicated travel cards. It's best
-#   for renters who value transferable points and can maximize partner
-#   transfers.
+# #13 bank-of-america-travel-rewards  [Claude #14, GPT #13, Gemini #8]
+#   Bank of America Travel Rewards is the simplest no-fee option, offering
+#   uniform rewards across all spending with no category tracking. Its flat
+#   1.5x rate is respectable for basic travelers, though it underperforms
+#   specialized cards that offer higher rates on travel and dining categories.
 #
-# #14 world-of-hyatt-business-credit-card (Best for Hotel Loyalists)
-#   Hyatt Business is a specialty card for committed Hyatt loyalists who can
-#   leverage elite status and frequent stays. While it offers strong
-#   category-specific earning and valuable perks for Hyatt members, its narrow
-#   focus and modest $60,000 bonus limit its appeal for general travel
-#   purposes.
+# #14 bilt-palladium  [Claude #11, GPT #14, Gemini #13]
+#   The Bilt Palladium is purpose-built for hotel-focused travelers within the
+#   Bilt ecosystem. Its high annual fee and limited earning categories outside
+#   the portal make it a niche choice for those specifically seeking Bilt's
+#   hotel partnerships and rental benefits.
 #
 # ============================================================
 
@@ -100,65 +92,120 @@ slug: best-travel-cards
 title: Best Travel Credit Cards
 description: The top travel credit cards ranked by rewards, travel perks, and overall value — from premium to no-annual-fee options.
 date: "2026-03-01"
-updated_at: "2026-06-15"
+updated_at: "2026-06-25"
 seo_title: Best Travel Credit Cards of 2026
 seo_description: Compare the best travel credit cards of 2026. From Chase Sapphire Reserve to no-fee options — ranked by rewards and perks.
 intro: |
-  The best travel cards earn accelerated rewards on flights, hotels, and dining while offering premium perks like lounge access and travel credits. We've ranked these by overall value for travelers—considering signup bonuses, ongoing rewards, annual fees, and transfer partner flexibility.
+  Travel rewards cards range from no-annual-fee options that earn broadly on all spending to premium cards offering lounge access, travel credits, and elite hotel benefits. We've ranked these by value for travelers, weighing signup bonuses, ongoing rewards rates, annual fees, and the flexibility of each program's transfer partners or portal redemptions.
+
+panel:
+  method: borda
+  generated_at: "2026-06-25"
+  models:
+    - key: claude
+      label: Claude
+      model: claude-haiku-4-5-20251001
+    - key: openai
+      label: GPT
+      model: gpt-4o-mini
+    - key: gemini
+      label: Gemini
+      model: gemini-3.5-flash
 
 cards:
   - slug: chase-sapphire-preferred
     badge: Best Overall
-    highlight: Earns 5x points on Chase Travel portal, 3x on dining and streaming, and 2x on travel purchases. The 100,000-point signup bonus after $5,000 spend delivers strong upfront value, and the $95 annual fee is easily offset by everyday rewards.
+    highlight: Earn 100,000 points after spending $5,000 in 3 months, then enjoy 5x points on travel portal purchases, 3x on dining and streaming, and 2x on all other travel. With a $95 annual fee and flexible transfer partners, this card balances strong rewards with reasonable costs.
+    consensus:
+      score: 41
+      ranks: { claude: 1, openai: 2, gemini: 1 }
+
+  - slug: citi-strata-premier
+    previous_rank: 3
+    highlight: Earn 60,000 points after spending $4,000 in 3 months, then get 10x points booking hotels and rental cars through Citi's portal, plus 3x on airlines, hotels, dining, groceries, and gas. The $95 annual fee is among the lowest for a dedicated travel card.
+    consensus:
+      score: 35
+      ranks: { claude: 2, openai: 5, gemini: 3 }
+
+  - slug: capital-one-venture-x
+    previous_rank: 5
+    highlight: Earn 75,000 miles after spending $4,000 in 3 months, plus 10x miles on hotels and cars booked through the portal and 5x on flights through the portal. The $395 annual fee is substantial but comes with premium travel perks.
+    consensus:
+      score: 35
+      ranks: { claude: 4, openai: 4, gemini: 2 }
 
   - slug: chase-sapphire-reserve
     badge: Best Premium
-    previous_rank: 3
-    highlight: Earns 8x points on Chase Travel portal, 4x on hotels and airlines booked directly, and 3x on dining, plus a $300 annual travel credit and Priority Pass lounge access. The 100,000-point signup bonus after $6,000 spend justifies the $795 annual fee for frequent international travelers.
+    previous_rank: 2
+    highlight: Earn 100,000 points after spending $6,000 in 3 months, then earn 8x points on travel portal bookings and 4x on hotels and airlines directly. The $795 annual fee is offset by $300+ in annual travel credits and lounge access.
+    consensus:
+      score: 34
+      ranks: { claude: 3, openai: 1, gemini: 7 }
 
-  - slug: citi-strata-premier
-    badge: Best Value
-    previous_rank: 5
-    highlight: Earns 10x points on hotels and cars through Citi Travel, 3x on airlines, hotels, dining, groceries, and gas, and 1x elsewhere. The 60,000-point signup bonus after $4,000 spend provides strong portal value at just $95 annually.
+  - slug: american-express-gold-card
+    previous_rank: 7
+    highlight: 
+    consensus:
+      score: 28
+      ranks: { claude: 5, openai: 6, gemini: 6 }
+
+  - slug: capital-one-venture-rewards
+    highlight: Earn 75,000 miles after spending $4,000 in 3 months, then get 5x miles on hotels and rental cars booked through the portal and 2x on everything else. The $95 annual fee keeps this option affordable.
+    consensus:
+      score: 26
+      ranks: { claude: 7, openai: 7, gemini: 5 }
+
+  - slug: citi-strata-elite
+    previous_rank: 8
+    highlight: Earn 75,000 points after spending $6,000 in 3 months, then enjoy 12x points on hotels and rental cars booked through Citi's portal and 6x on flights through their portal. The $595 annual fee reflects its premium positioning.
+    consensus:
+      score: 25
+      ranks: { claude: 6, openai: 3, gemini: 11 }
 
   - slug: wells-fargo-autograph
     badge: Best No-Fee
-    previous_rank: 2
-    highlight: Earns 3x points on dining, travel, gas, transit, and streaming with zero annual fee. The 20,000-point signup bonus after just $1,000 spend and 12-month 0% APR intro offer exceptional accessibility for budget-conscious travelers.
-
-  - slug: capital-one-venture-x
-    previous_rank: 6
-    highlight: Earns 10x points on hotels and cars and 5x on flights through Capital One's portal, 2x on everything else, plus $300 annual travel credit and 10,000 bonus miles. The 75,000-mile signup bonus after $4,000 spend offers premium portal value, though the $395 annual fee requires significant travel spending.
-
-  - slug: capital-one-venture-rewards
     previous_rank: 4
-    highlight: Earns 5x points on hotels and cars through the portal and 2x on all other purchases with no category limits. The 75,000-mile signup bonus after $4,000 spend delivers strong value at just $95 annually.
-
-  - slug: american-express-gold-card
-    highlight: Earns 5x points on hotels through the portal, 4x on dining and groceries, 3x on flights booked directly, and 1x elsewhere. The 100,000-point signup bonus after $8,000 spend over 6 months includes monthly dining and Uber credits that help offset the $325 annual fee.
-
-  - slug: citi-strata-elite
-    highlight: Earns 12x points on hotels and cars and 6x on flights through Citi Travel, plus 3x on dining and 1.5x elsewhere. The 75,000-point signup bonus after $6,000 spend offers premium portal value, though the $595 annual fee requires significant travel spending to justify.
+    highlight: Earn 20,000 points after spending $1,000 in 3 months with no annual fee. Enjoy 3x points on dining, travel, gas, transit, and streaming, plus a 12-month 0% intro APR on purchases.
+    consensus:
+      score: 25
+      ranks: { claude: 8, openai: 8, gemini: 4 }
 
   - slug: us-bank-altitude-go-visa-signature
-    previous_rank: 11
-    highlight: Earns 4x points on dining, 2x on groceries, gas, and streaming, and 1x elsewhere with no annual fee. The 20,000-point signup bonus after $1,000 spend includes a 15-month intro 0% APR on purchases.
-
-  - slug: bank-of-america-travel-rewards
-    previous_rank: 12
-    highlight: Earns a flat 1.5x points on all purchases with no annual fee and no foreign transaction fees. The 25,000-point signup bonus after $1,000 spend and 15-month intro 0% APR suit occasional travelers seeking simplicity.
-
-  - slug: atmos-rewards-ascent
-    previous_rank: 10
-    highlight: Earns 3x points on airlines, 2x on gas, streaming, and transit, and 1x on everything else. The 50,000-point signup bonus after just $2,000 spend at $95 annually makes this an accessible mid-tier option.
+    highlight: Earn 20,000 points after spending $1,000 in 3 months with no annual fee. Get 4x points on dining, 2x on groceries, gas, and streaming, plus a 15-month 0% intro APR on purchases.
+    consensus:
+      score: 14
+      ranks: { claude: 10, openai: 12, gemini: 9 }
 
   - slug: atmos-rewards-summit
-    previous_rank: 9
-    highlight: Earns 3x points on airlines, dining, and foreign transactions, plus 1x elsewhere. The 100,000-point signup bonus after $6,500 spend emphasizes international travel benefits, though the $395 annual fee is steep for its earn structure.
+    previous_rank: 12
+    highlight: Earn 100,000 points after spending $6,500 in 3 months, then earn 3x points on airlines, dining, and foreign transactions. The $395 annual fee applies.
+    consensus:
+      score: 13
+      ranks: { claude: 9, openai: 9, gemini: 14 }
 
-  - slug: bilt-palladium
-    highlight: Earns 3x points on dining, 2x on travel and all other purchases, and uniquely earns 2x points on rent payments. The 50,000-point signup bonus after $4,000 spend transfers to partners like Hyatt and United, though the $495 annual fee is substantial.
+  - slug: atmos-rewards-ascent
+    highlight: Earn 50,000 points after spending $2,000 in 3 months, then get 3x points on airlines and 2x on gas, streaming, and transit. The $95 annual fee is moderate for an airline-focused card.
+    consensus:
+      score: 11
+      ranks: { claude: 13, openai: 11, gemini: 10 }
 
   - slug: world-of-hyatt-business-credit-card
-    badge: Best for Hotel Loyalists
-    highlight: Earns 4x points at Hyatt properties and 2x on dining, with automatic Discoverist elite status and annual free night award at Hyatt. The 60,000-point signup bonus after $5,000 spend works best for dedicated Hyatt members, though it requires a $199 annual fee.
+    previous_rank: 14
+    highlight: Earn 60,000 points after spending $5,000 in 3 months, then earn 4x points on hotel stays and 2x on dining. The $199 annual fee includes annual free night awards and Hyatt elite benefits.
+    consensus:
+      score: 11
+      ranks: { claude: 12, openai: 10, gemini: 12 }
+
+  - slug: bank-of-america-travel-rewards
+    previous_rank: 10
+    highlight: Earn 25,000 points after spending $1,000 in 3 months with no annual fee. Earn a flat 1.5x points on all purchases, plus 0% intro APR on purchases and balance transfers for 15 months.
+    consensus:
+      score: 10
+      ranks: { claude: 14, openai: 13, gemini: 8 }
+
+  - slug: bilt-palladium
+    previous_rank: 13
+    highlight: Earn 50,000 points after spending $4,000 in 3 months, then get 4x points on hotel bookings through Bilt's portal and 3x on flights. The $495 annual fee includes travel perks and protections.
+    consensus:
+      score: 7
+      ranks: { claude: 11, openai: 14, gemini: 13 }
