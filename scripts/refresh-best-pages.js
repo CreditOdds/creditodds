@@ -185,13 +185,19 @@ async function callGemini(model, prompt, apiKey) {
       generationConfig: {
         responseMimeType: 'application/json',
         temperature: 0.2,
-        maxOutputTokens: 4096,
+        maxOutputTokens: 8192,
+        // Disable "thinking": Gemini 2.5+/3.x Flash otherwise spend the output
+        // budget on reasoning and return empty/truncated JSON on larger lists.
+        thinkingConfig: { thinkingBudget: 0 },
       },
     }),
   });
   if (!res.ok) throw new Error(`Gemini API ${res.status}: ${await res.text()}`);
   const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const candidate = data.candidates?.[0];
+  const text = candidate?.content?.parts?.map(p => p.text).filter(Boolean).join('') || '';
+  if (!text) throw new Error(`empty response (finishReason: ${candidate?.finishReason || 'unknown'})`);
+  return text;
 }
 
 function stripFences(text) {
