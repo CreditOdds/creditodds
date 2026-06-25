@@ -1,4 +1,5 @@
 // Articles API types and fetching
+import { fetchWithRetry } from './fetchWithRetry';
 
 export type ArticleTag =
   | 'strategy'
@@ -87,7 +88,7 @@ export async function getArticles(): Promise<Article[]> {
 
     // Use local API route on client to avoid CORS, direct CDN on server
     const url = isBrowser ? '/api/articles' : ARTICLES_CDN_URL;
-    const res = await fetch(url, isBrowser ? {} : {
+    const res = await fetchWithRetry(url, isBrowser ? {} : {
       next: { revalidate: 300 }, // Revalidate every 5 minutes (server only)
     });
 

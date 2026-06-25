@@ -775,7 +775,7 @@ export interface RecentRecord {
 }
 
 export async function getRecentRecords(): Promise<RecentRecord[]> {
-  const res = await fetch(`${API_BASE}/recent-records`, {
+  const res = await fetchWithRetry(`${API_BASE}/recent-records`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) return [];
@@ -796,7 +796,7 @@ export async function trackCardView(cardId: number): Promise<void> {
 // Get card view counts for explore page sorting
 export async function getCardViewCounts(period: 'trending' | 'all-time' = 'trending'): Promise<Record<number, number>> {
   const days = period === 'trending' ? 30 : 0;
-  const res = await fetch(`${API_BASE}/card-view?period=${days}`, {
+  const res = await fetchWithRetry(`${API_BASE}/card-view?period=${days}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) return {};
@@ -829,7 +829,7 @@ export async function trackContentView(
 // Get article + news view counts over the trailing `periodDays` window.
 // Used to rank the landing page editorial lane by "top viewed this week".
 export async function getContentViewCounts(periodDays = 7): Promise<EditorialViewCounts> {
-  const res = await fetch(`${API_BASE}/content-view?period=${periodDays}`, {
+  const res = await fetchWithRetry(`${API_BASE}/content-view?period=${periodDays}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) return EMPTY_EDITORIAL_VIEWS;
@@ -864,7 +864,7 @@ export interface ComparePartner {
 // Used to populate "Often compared with" chips on the card detail page.
 export async function getComparePartners(slug: string, limit = 5): Promise<ComparePartner[]> {
   try {
-    const res = await fetch(
+    const res = await fetchWithRetry(
       `${API_BASE}/card-compare-event?slug=${encodeURIComponent(slug)}&limit=${limit}`,
       { next: { revalidate: 600 } },
     );
@@ -1082,7 +1082,7 @@ export interface CardWireEntry {
 }
 
 export async function getCardWire(cardId: number): Promise<CardWireEntry[]> {
-  const res = await fetch(`${API_BASE}/card-wire?card_id=${cardId}&limit=20`, {
+  const res = await fetchWithRetry(`${API_BASE}/card-wire?card_id=${cardId}&limit=20`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) return [];
@@ -1091,7 +1091,7 @@ export async function getCardWire(cardId: number): Promise<CardWireEntry[]> {
 }
 
 export async function getAllCardWire(limit = 100): Promise<CardWireEntry[]> {
-  const res = await fetch(`${API_BASE}/card-wire?limit=${limit}`, {
+  const res = await fetchWithRetry(`${API_BASE}/card-wire?limit=${limit}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) return [];
@@ -1144,7 +1144,7 @@ export interface LeaderboardResponse {
 }
 
 export async function getLeaderboard(limit = 25): Promise<LeaderboardResponse> {
-  const res = await fetch(`${API_BASE}/leaderboard?limit=${limit}`, {
+  const res = await fetchWithRetry(`${API_BASE}/leaderboard?limit=${limit}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) {
@@ -1246,7 +1246,7 @@ export interface CardRatingAggregates {
 }
 
 export async function getCardRatings(cardName: string): Promise<CardRatingAggregates> {
-  const res = await fetch(`${API_BASE}/ratings?card_name=${encodeURIComponent(cardName)}`, {
+  const res = await fetchWithRetry(`${API_BASE}/ratings?card_name=${encodeURIComponent(cardName)}`, {
     next: { revalidate: 300 },
   });
   if (!res.ok) return { count: 0, average: null };
