@@ -37,3 +37,10 @@ apr:
     max: 26.74
 apply_link: https://www.citi.com/credit-cards/costco-anywhere-visa-card
 foreign_transaction_fee: false
+our_take: >
+  This is the Costco member's default card: 4% on gas (up to $7,000 a year),
+  3% on dining and travel, and 2% inside Costco, all with no annual fee if you
+  already pay for membership. The catches are real: rewards arrive once a year
+  as a certificate redeemable only at Costco, and the 2% applies only to Costco
+  itself, not other warehouse clubs. If you don't shop Costco, a flat 2% card
+  like Active Cash pays out more flexibly and without the once-yearly lockup.

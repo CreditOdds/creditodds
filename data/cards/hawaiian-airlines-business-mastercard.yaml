@@ -35,6 +35,13 @@ signup_bonus:
   type: "miles"
   spend_requirement: 4000
   timeframe_months: 3
+our_take: >
+  A niche business card for owners who fly Hawaiian or Alaska, now earning into the combined
+  Atmos Rewards program: 3x on those airlines, 2x on gas, dining, and office supplies, and a
+  50,000-mile sign-up bonus for $99 a year. The big annual spend bonuses (20k at $50k, 40k at
+  $100k) only pay off for heavy spenders. Unless those two airlines are central to your
+  travel, a flexible business rewards card will stretch further.
+
 apr:
   regular:
     min: 20.24

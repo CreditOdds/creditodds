@@ -37,6 +37,12 @@ apr:
     max: 27.74
 apply_link: https://www.apple.com/apple-card/
 foreign_transaction_fee: false
+our_take: >
+  The Apple Card makes sense mainly if you live in the Apple ecosystem: 3% on Apple and a
+  few partner merchants, 2% on anything else through Apple Pay, but only 1% on the physical
+  titanium card. With no annual fee and no signup bonus, a flat 2% card like Wells Fargo
+  Active Cash beats it on most everyday spend that is not tapped through Apple Pay. The draw
+  is the daily cash, clean app, and no fees, not the earn rate.
 benefits:
   - name: "Booking.com Travel Credits"
     value: 2

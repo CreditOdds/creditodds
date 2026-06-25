@@ -47,6 +47,11 @@ apr:
   regular:
     min: 17.49
     max: 31.49
+our_take: >
+  A no-fee card built around driving: 5% back on gas and EV charging (capped at $350 in
+  cash back a year), plus 3% on groceries, dining, and travel. The 5% rate is strong for
+  no annual fee, but the low cap means heavy spenders top out fast, and you do not need a
+  AAA membership to apply. Fine as a gas card if you keep an eye on that cap.
 benefits:
   - name: "AAA Redemption Bonus"
     description: "5% more cash back when redeeming with AAA Northeast Counselors and Advisors"

@@ -5,6 +5,14 @@ image: "amex_marriott_bonvoy_brilliant.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/
 foreign_transaction_fee: false
+our_take: >
+  Marriott's premium card is a perk card, not an earn card: the $650 fee is
+  offset by $300 in annual dining credits, an 85,000-point free night, Platinum
+  Elite status, Priority Pass, and 25 elite night credits. It makes sense for
+  loyal Marriott guests who will use the free night and dining credit, since the
+  free night alone can cover most of the fee. If you don't need top-tier status,
+  the $250 Bevy delivers a similar free night and 6x at Marriott for far less,
+  so only step up to the Brilliant for the lounge access and elite benefits.
 annual_fee: 650
 reward_type: "points"
 rewards:

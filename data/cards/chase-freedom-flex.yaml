@@ -53,6 +53,14 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/flex
 foreign_transaction_fee: true
+our_take: >
+  The Freedom Flex is one of the strongest no-fee cash-back cards going: 5% on
+  rotating quarterly categories (up to $1,500/quarter), a permanent 5% on Chase
+  Travel, 3% on dining and drugstores, plus a $200 bonus and 15 months of 0%
+  intro APR. The catches are activating the rotating categories each quarter and
+  a foreign transaction fee that makes it a poor choice abroad. It shines most
+  when paired with a Chase Sapphire so the points convert to transferable Ultimate
+  Rewards; approvals here skew toward solid credit.
 benefits:
   - name: "Cell Phone Protection"
     value: 1000

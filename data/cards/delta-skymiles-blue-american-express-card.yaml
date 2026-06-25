@@ -5,6 +5,12 @@ image: "amex_delta_blue_skymiles.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-blue-american-express-card/
 foreign_transaction_fee: false
+our_take: >
+  The entry-level Delta card: no annual fee, 2x on Delta and dining, and no
+  foreign transaction fees, but it skips the checked bags, priority boarding,
+  and companion certificate that justify the paid Gold and Platinum versions.
+  Get it only if you fly Delta lightly and want to keep miles alive without a
+  fee; frequent flyers will earn far more value stepping up to Gold.
 annual_fee: 0
 reward_type: "miles"
 tags:

@@ -12,6 +12,14 @@ annual_fee: 95
 check_ignore:
   - annual_fee
 foreign_transaction_fee: false
+our_take: >
+  A business card built for Alaska and Atmos Rewards loyalists: 3x on airfare,
+  free first checked bag, an annual coach companion fare, and an 80,000-point
+  signup bonus after $5,000 in spend, with no foreign transaction fees. The
+  effective $95 fee (a $70 company fee plus $25 per card) is reasonable for the
+  perks, and the fact that activity does not hit your personal credit is a real
+  plus for keeping personal utilization clean. Worth it only if you actually fly
+  Alaska, since the 2x non-airline categories are nothing special.
 tags:
   - travel
   - airline

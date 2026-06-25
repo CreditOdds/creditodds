@@ -18,6 +18,12 @@ rewards:
   - category: everything_else
     value: 1.5
     unit: percent
+our_take: >
+  This makes sense for REI regulars: 5% back at REI and a flat 1.5% on everything else, with
+  no annual fee and no foreign transaction fees. The rewards come as REI credit, so the value
+  is tied to spending it back at the co-op rather than as cash. If REI is not a meaningful part
+  of your budget, a plain 1.5% or 2% flat-rate card does the everyday spend just as well without
+  locking your rewards to one retailer.
 signup_bonus:
   value: 100
   type: cash

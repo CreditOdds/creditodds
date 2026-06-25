@@ -29,6 +29,13 @@ apr:
   regular:
     min: 18.99
     max: 28.99
+our_take: >
+  The Eagle Navigator is a solid mid-tier travel card for the USAA crowd: a flat
+  2x on everything and 3x on travel, a $95 fee, and a Global Entry credit, plus the
+  fee is waived and the APR drops while you are on active duty. The 30,000-point
+  signup bonus is modest next to bank-agnostic travel cards, so the real reason to
+  pick it is USAA membership and the military protections rather than headline
+  rewards.
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
     value: 100

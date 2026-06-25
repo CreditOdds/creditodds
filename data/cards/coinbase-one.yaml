@@ -14,3 +14,9 @@ rewards:
     value: 2
     unit: percent
     note: "Up to 4% with higher crypto balances on Coinbase; requires Coinbase One membership"
+our_take: >
+  A flat-rate card aimed at crypto users: 2% back paid in your choice of crypto, scaling
+  up to 4% if you hold a large Coinbase balance and keep a Coinbase One membership. For
+  anyone not deep in the Coinbase ecosystem, a no-strings 2% cash card like Wells Fargo
+  Active Cash gives the same base rate without the membership requirement or crypto price
+  swings on your rewards.

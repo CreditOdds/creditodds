@@ -5,6 +5,14 @@ image: "amex_hilton_honors_surpass.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/
 annual_fee: 150
+our_take: >
+  The middle Hilton card, and the sweet spot for regular Hilton guests: 12x at
+  Hilton properties, 6x on U.S. dining, groceries, and gas, automatic Gold status,
+  and up to $200 a year in Hilton credits that largely offset the $150 fee. The
+  no-fee Hilton Honors card earns less and lacks the credits, while the $550 Aspire
+  adds Diamond status and a far richer credit stack. Pick the Surpass if you stay
+  at Hilton a few times a year but cannot justify the Aspire's fee; the catch is
+  Hilton points are low-value, so the math works best for Hilton loyalists.
 reward_type: "points"
 rewards:
   - category: hotels

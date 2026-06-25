@@ -38,6 +38,13 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited
+our_take: >
+  One of the strongest no-fee cash-back cards going: a flat 1.5% floor plus 3% on
+  dining and drugstores and 5% on Chase travel, with a 15-month 0% intro APR on
+  purchases and balance transfers. It really shines paired with a Chase Sapphire
+  card, since the cash back converts to transferable Ultimate Rewards points.
+  Approvals here skew toward solid credit (median score in the mid-740s), so it
+  is better suited to established borrowers than thin files.
 benefits:
   - name: "DashPass Complimentary Membership"
     description: "6 months of complimentary DashPass membership with $0 delivery fees on eligible orders."

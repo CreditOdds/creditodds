@@ -22,6 +22,13 @@ apr:
     max: 29.99
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
 foreign_transaction_fee: true
+our_take: >
+  This is a fan card, not a rewards card: a flat 1% in Disney Rewards Dollars is
+  weak next to no-fee cards earning 1.5% to 2% cash back you can spend anywhere.
+  It earns its keep through Disney perks and the $150 welcome offer if you are a
+  regular at the parks or store. Skip it as an everyday card, especially since it
+  charges foreign transaction fees, and reach for a flat-rate cash-back card
+  instead.
 benefits:
   - name: "DoorDash DashPass"
     value: 0

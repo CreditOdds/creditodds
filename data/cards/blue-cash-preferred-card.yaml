@@ -5,6 +5,13 @@ image: "amex_blue_cash_preferred.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/
 foreign_transaction_fee: true
+our_take: >
+  One of the strongest grocery cards going: 6% back at U.S. supermarkets on the
+  first $6,000 a year, plus 6% on select streaming and 3% on gas and transit.
+  If you spend the full grocery cap that is $360 back, easily clearing the $95
+  fee, and a Disney Bundle credit can offset the rest. The tradeoff is the
+  annual fee and a foreign transaction fee, so budget shoppers who stay under
+  the cap or travel abroad may prefer the no-fee Blue Cash Everyday at 3%.
 annual_fee: 95
 reward_type: "cashback"
 rewards:

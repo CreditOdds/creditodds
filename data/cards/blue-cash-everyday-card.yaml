@@ -6,6 +6,11 @@ accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/
 foreign_transaction_fee: true
 card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
+our_take: >
+  A solid no-fee everyday card earning 3% at U.S. supermarkets, gas, and online retail, each
+  capped at $6,000 a year. If your grocery spend is high, the $95 Blue Cash Preferred earns 6%
+  and usually pays for itself, so run the math before defaulting to this one. Note the foreign
+  transaction fee, which makes it a poor pick for travel abroad.
 annual_fee: 0
 reward_type: "cashback"
 tags:

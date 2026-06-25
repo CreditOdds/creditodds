@@ -29,6 +29,12 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
+our_take: >
+  A no-fee way to start earning AAdvantage miles, with 2x on groceries and on
+  American purchases plus a modest 15,000-mile bonus after $1,000 in spend. It
+  is the right pick only if you fly American occasionally and want miles without
+  a fee, since it skips the checked-bag and priority-boarding perks that make
+  the paid AAdvantage cards worth their cost.
 benefits:
   - name: "Inflight Food & Beverage Discount"
     value: 25

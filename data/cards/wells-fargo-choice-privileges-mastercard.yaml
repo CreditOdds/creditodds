@@ -42,6 +42,12 @@ apr:
     max: 28.74
 apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard
 foreign_transaction_fee: false
+our_take: >
+  A no-fee hotel card aimed at Choice Hotels guests: 5x at Choice properties, 3x on a wide
+  set of everyday categories like gas, groceries, and phone bills, automatic Gold Elite
+  status, and a 60,000-point welcome bonus. The unusually broad 3x earning makes it useful
+  even between hotel stays. Just remember Choice points are low-value, so the rewards stretch
+  furthest if you actually book Choice-brand hotels rather than redeem for anything else.
 benefits:
   - name: "Automatic Gold Elite Status"
     value: 0

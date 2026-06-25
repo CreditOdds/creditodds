@@ -5,6 +5,13 @@ image: "amex_hilton_honors.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors/
 foreign_transaction_fee: false
+our_take: >
+  This is the no-fee entry into Hilton: 7x at Hilton properties, a solid 5x on
+  U.S. dining, groceries, and gas, and free Silver status, with no annual fee or
+  foreign transaction fee. It is the right pick for occasional Hilton guests who
+  want hotel points without committing to a fee. If you stay often, the $150
+  Surpass earns 12x at Hilton and adds Gold status with free breakfast, which
+  usually outweighs its fee for regulars.
 card_referral_link: "https://www.americanexpress.com/en-us/credit-cards/referral/prospect/hilton-honors/personal?ref="
 annual_fee: 0
 reward_type: "points"

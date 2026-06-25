@@ -57,6 +57,12 @@ apr:
   regular:
     min: 17.49
     max: 31.49
+our_take: >
+  A no-fee everyday-spend card built around the AAA membership: 5% on groceries and 3% on
+  gas, EV charging, and wholesale clubs, plus 3% on streaming and drugstores. The real
+  catch is the cap, only $500 in cash back per year shared across the grocery, gas, and
+  wholesale-club rows, so those headline rates dry up fast for a heavy spender. Treat it as
+  a supplementary card for AAA members and pair it with a flat-rate 2% card once you cap out.
 benefits:
   - name: "AAA Redemption Bonus"
     description: "5% more cash back when redeeming with AAA Northeast Counselors and Advisors"

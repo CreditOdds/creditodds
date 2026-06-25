@@ -40,6 +40,13 @@ apr:
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
 special_apply_link: https://www.amazon.com/dp/BT00LN946S
 foreign_transaction_fee: false
+our_take: >
+  If you have a Prime membership and shop Amazon and Whole Foods regularly, this
+  is the no-fee card to do it with: 5% back on Amazon and Whole Foods, plus 2% on
+  dining, gas, and transit and no foreign transaction fees. The catch is the 5%
+  is tied to keeping Prime (it drops to 3% without it), and 1% on everything else
+  means this is a supplement to a flat-rate card, not your only one. The $200
+  instant gift card at approval is a nice no-spend bonus.
 benefits:
   - name: "Purchase Protection"
     description: "Covers eligible new purchases for 120 days from purchase date against damage or theft up to $500 per item"
