@@ -68,6 +68,36 @@ Parameters:
     Type: String
     Description: Public URL Plaid posts events to. Set after first deploy once the API Gateway URL is known (e.g. https://api.creditodds.com/plaid/webhook).
     Default: ""
+  SentryDsn:
+    Type: String
+    Description: Sentry DSN for the backend project. Leave empty to disable error reporting (the SDK initializes but sends nothing). Not secret — the DSN only carries a public ingest key.
+    Default: ""
+  SentryTracesSampleRate:
+    Type: String
+    Description: Fraction of requests traced for performance (0 = errors only). Kept low to limit OpenTelemetry cold-start/cost overhead on these Lambdas.
+    Default: "0.1"
+  SentryEnvironment:
+    Type: String
+    Description: Sentry "environment" tag applied to all backend events.
+    Default: production
+
+# Auto-instrument every Lambda with Sentry via the official Node layer + a
+# NODE_OPTIONS preload. This needs no per-handler code changes and does NOT
+# bundle the SDK (it ships in the layer), which is the supported path for our
+# esbuild-bundled handlers. When SentryDsn is empty the SDK stays inert, so
+# deploys without a DSN behave exactly as before.
+# Layer ARN is region/version specific — this stack deploys to us-east-2; the
+# pinned version (v75 = SDK 10.61.0) comes from Sentry's release registry.
+Globals:
+  Function:
+    Layers:
+      - arn:aws:lambda:us-east-2:943013980633:layer:SentryNodeServerlessSDKv10:75
+    Environment:
+      Variables:
+        NODE_OPTIONS: -r @sentry/aws-serverless/awslambda-auto
+        SENTRY_DSN: !Ref SentryDsn
+        SENTRY_TRACES_SAMPLE_RATE: !Ref SentryTracesSampleRate
+        SENTRY_ENVIRONMENT: !Ref SentryEnvironment
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
