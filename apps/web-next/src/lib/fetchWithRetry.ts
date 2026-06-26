@@ -18,10 +18,21 @@
 // IMPORTANT: only use this for GET reads. Never wrap POST/mutations — a retry
 // after the server already applied the write would double-apply it.
 
-const DEFAULT_RETRIES = 2;
-const DEFAULT_BACKOFF_MS = 250;
+// 4 retries (5 attempts) over a ~2.5s window. The upstream (API Gateway /
+// CloudFront) periodically closes idle keep-alive sockets, and Node's fetch can
+// reuse a just-closed one ("other side closed"); a wider window lets a brief
+// hiccup — or a poisoned connection pool — clear before we give up.
+const DEFAULT_RETRIES = 4;
+const DEFAULT_BACKOFF_MS = 200;
 
 const delay = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+// Linear backoff with a little jitter so concurrent renders don't retry in
+// lockstep. No jitter when backoff is 0 (keeps tests fast/deterministic).
+const backoffFor = (attempt: number, backoffMs: number) => {
+  const base = backoffMs * (attempt + 1);
+  return base > 0 ? base + Math.floor(Math.random() * 100) : 0;
+};
 
 // Statuses that the Response constructor requires to have a null body.
 const NULL_BODY_STATUSES = new Set([204, 205, 304]);
@@ -42,7 +53,7 @@ export async function fetchWithRetry(
       // Retry transient upstream failures (5xx), but never client errors (4xx).
       if (res.status >= 500 && attempt < retries) {
         await res.body?.cancel();
-        await delay(backoffMs * (attempt + 1));
+        await delay(backoffFor(attempt, backoffMs));
         continue;
       }
 
@@ -60,7 +71,7 @@ export async function fetchWithRetry(
       // (ETIMEDOUT / "fetch failed" / "terminated"). Retry if budget remains.
       lastError = error;
       if (attempt < retries) {
-        await delay(backoffMs * (attempt + 1));
+        await delay(backoffFor(attempt, backoffMs));
         continue;
       }
     }
