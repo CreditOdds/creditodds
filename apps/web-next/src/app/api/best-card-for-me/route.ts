@@ -86,10 +86,6 @@ export async function POST(request: Request) {
       netAnnualValue: Math.round(r.netAnnualValue),
       rewardsValue: Math.round(r.rewardsValue),
       annualFee: r.annualFee,
-      winningCategories: r.winningCategories.map((w) => ({
-        category: w.category,
-        annualValue: Math.round(w.annualValue),
-      })),
       // Full per-category comparison (wallet with vs without this card) for the
       // "why it helps / why it won't" table.
       categories: r.categories.map((c) => ({
@@ -110,11 +106,19 @@ export async function POST(request: Request) {
         reward_type: r.card.reward_type,
         annual_fee: r.card.annual_fee,
         signup_bonus: r.card.signup_bonus,
-        // The card's own earn categories for display. Portal-only rates
-        // (travel_portal, hotels_portal, …) are dropped — they only apply when
-        // booking through the issuer portal, not on general spend.
+        // The card's GENERAL-SPEND earn categories for display. Dropped:
+        // portal-only rates (travel_portal, …) and brand-locked rates
+        // (merchant_specific / merchant_gate, e.g. Choice Privileges' 5x at
+        // Choice Hotels) — showing those as plain "5x Hotels" would overstate
+        // everyday earning and contradict the ranking, which only credits them
+        // when the user is loyal to that brand.
         rewards: (r.card.rewards ?? [])
-          .filter((rw) => !isPortalCategory(rw.category))
+          .filter(
+            (rw) =>
+              !isPortalCategory(rw.category) &&
+              !rw.merchant_specific &&
+              !(rw.merchant_gate && rw.merchant_gate.length > 0),
+          )
           .map((rw) => ({ category: rw.category, value: rw.value, unit: rw.unit })),
       },
     }));

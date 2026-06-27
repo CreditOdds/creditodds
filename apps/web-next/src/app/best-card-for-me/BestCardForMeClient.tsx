@@ -44,7 +44,6 @@ interface Recommendation {
   netAnnualValue: number;
   rewardsValue: number;
   annualFee: number;
-  winningCategories: { category: string; annualValue: number }[];
   categories: CategoryRow[];
   card: RecCard;
 }
@@ -949,23 +948,33 @@ function Results({
 // The card's own earn categories (e.g. "5x Dining", "2% Everything else"),
 // highest rate first with everything-else last. Portal rates are already
 // stripped server-side.
+// Falls back to a title-cased version of the raw id for categories the shared
+// label map doesn't cover (e.g. "phone" → "Phone", "wholesale_clubs" → …).
+function rewardCategoryLabel(category: string): string {
+  return (
+    categoryLabels[category] ||
+    category.replace(/_/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase())
+  );
+}
+
 function RewardCategories({ rewards }: { rewards: RewardLine[] }) {
   if (!rewards || rewards.length === 0) return null;
-  const sorted = [...rewards]
-    .sort((a, b) => {
-      if (a.category === 'everything_else') return 1;
-      if (b.category === 'everything_else') return -1;
-      return b.value - a.value;
-    })
-    .slice(0, 6);
+  // Keep the universally-applicable base rate out of the cap so it's never
+  // dropped; show up to 5 bonus rows (highest first), then the base last.
+  const base = rewards.find((r) => r.category === 'everything_else');
+  const bonus = rewards
+    .filter((r) => r.category !== 'everything_else')
+    .sort((a, b) => b.value - a.value)
+    .slice(0, base ? 5 : 6);
+  const sorted = base ? [...bonus, base] : bonus;
   return (
     <ul className="bcfm-rec-rewards">
-      {sorted.map((r) => (
-        <li key={r.category}>
+      {sorted.map((r, i) => (
+        <li key={`${r.category}-${r.value}-${i}`}>
           <span className="bcfm-rec-reward-rate">
             {r.unit === 'percent' ? `${r.value}%` : `${r.value}x`}
           </span>
-          <span className="bcfm-rec-reward-cat">{categoryLabels[r.category] || r.category}</span>
+          <span className="bcfm-rec-reward-cat">{rewardCategoryLabel(r.category)}</span>
         </li>
       ))}
     </ul>

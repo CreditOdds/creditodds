@@ -10456,21 +10456,6 @@
   line-height: 1.45;
   margin: 0 0 10px;
 }
-.best-for-me-v2 .bcfm-rec-cats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-.best-for-me-v2 .bcfm-rec-cat {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: var(--paper-2);
-  border: 1px solid var(--line-2);
-  color: var(--ink-2);
-}
 .best-for-me-v2 .bcfm-rec-breakdown {
   display: flex;
   flex-wrap: wrap;
@@ -10540,7 +10525,9 @@
     grid-column: 2;
   }
   .best-for-me-v2 .bcfm-rec-cta {
-    flex-direction: row;
+    /* Keep the reward list stacked above the button on mobile (the list is
+       vertical; a side-by-side row would squish it). */
+    align-items: flex-start;
     margin-top: 6px;
   }
 }
