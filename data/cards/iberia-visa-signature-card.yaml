@@ -39,7 +39,7 @@ apr:
     max: 29.99
 benefits:
   - name: "Iberia Companion Voucher"
-    value: 1000
+    value: 0
     description: "Companion voucher worth up to $1,000 for two tickets on the same Iberia flight when you spend $30,000 in a calendar year"
     frequency: "annual"
     category: "travel"

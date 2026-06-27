@@ -10081,9 +10081,26 @@
   justify-content: space-between;
   gap: 12px;
 }
+.best-for-me-v2 .bcfm-profile-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
 .best-for-me-v2 .bcfm-spend-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   color: var(--ink-2);
   font-size: 14px;
+}
+.best-for-me-v2 .bcfm-spend-icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--muted);
 }
 .best-for-me-v2 .bcfm-spend-input {
   display: inline-flex;
