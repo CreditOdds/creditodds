@@ -261,9 +261,10 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     expect(rot?.rewardsValue ?? 0).toBeLessThan(150); // base 1% ($100), not 5% ($500)
   });
 
-  it('stacks two copies of the same card so their caps add up', () => {
+  it('stacks two copies of the same card as broken-out (A)/(B) tiers', () => {
     // Two Custom Cash (same slug listed twice) → 5% on the first $1,000/mo
-    // ($12k/yr) of dining. A flat 3% dining card adds nothing on top.
+    // ($12k/yr) of dining, but shown as two $500/mo layers so the user sees both
+    // physical cards. A flat 3% dining card adds nothing on top.
     const { walletAnalysis, recommendations } = rankNextCards({
       spend: { dining: 12000 },
       walletSlugs: ['cc', 'cc'],
@@ -272,9 +273,13 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     });
     const dining = walletAnalysis.find((w) => w.category === 'dining');
     expect(dining?.earned).toBeCloseTo(600); // all $12k at 5%
+    // Best tier = the first copy's $6k cap; the second copy catches the overflow.
     expect(dining?.best.rate).toBeCloseTo(5);
-    expect(dining?.best.spend).toBeCloseTo(12000); // both $6k caps cover all $12k
-    expect(dining?.next).toBeNull(); // nothing spills over
+    expect(dining?.best.spend).toBeCloseTo(6000);
+    expect(dining?.best.card).toBe('Custom Cash cc (A)');
+    expect(dining?.next?.rate).toBeCloseTo(5);
+    expect(dining?.next?.spend).toBeCloseTo(6000);
+    expect(dining?.next?.card).toBe('Custom Cash cc (B)');
     expect(recommendations.find((r) => r.card.slug === 'flat3')).toBeUndefined();
   });
 
