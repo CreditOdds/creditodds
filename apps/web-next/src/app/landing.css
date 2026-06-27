@@ -9929,28 +9929,12 @@
   padding-block: 28px 24px;
   border-bottom: 1px solid var(--line);
 }
-.best-for-me-v2 .bcfm-eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  margin: 0 0 10px;
-}
-.best-for-me-v2 .bcfm-hero-title {
-  font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(28px, 4.5vw, 42px);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  margin: 0 0 12px;
-}
 .best-for-me-v2 .bcfm-hero-sub {
   max-width: 60ch;
   color: var(--ink-2);
   font-size: 16px;
   line-height: 1.5;
-  margin: 0;
+  margin: 14px 0 0;
 }
 .best-for-me-v2 .bcfm-main {
   padding-block: 28px 80px;
@@ -10049,6 +10033,9 @@
   gap: 8px;
 }
 .best-for-me-v2 .bcfm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   padding: 8px 14px;
   border: 1px solid var(--line-2);
   border-radius: 6px;
@@ -10059,6 +10046,13 @@
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.best-for-me-v2 .bcfm-chip-logo {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  object-fit: contain;
+  flex: none;
 }
 .best-for-me-v2 .bcfm-chip:hover {
   border-color: var(--ink);
@@ -10132,6 +10126,46 @@
 .best-for-me-v2 .bcfm-permo {
   color: var(--muted);
   font-size: 12px;
+}
+/* Hide the number-input spinner arrows */
+.best-for-me-v2 .bcfm-spend-input input::-webkit-outer-spin-button,
+.best-for-me-v2 .bcfm-spend-input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.best-for-me-v2 .bcfm-spend-input input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.best-for-me-v2 .bcfm-spend-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.best-for-me-v2 .bcfm-spend-total-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.best-for-me-v2 .bcfm-spend-total-value {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.best-for-me-v2 .bcfm-spend-total-value span {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+  margin-left: 3px;
 }
 
 /* Existing-cards picker */

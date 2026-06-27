@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useReducer, useState } from 'react';
+import Image from 'next/image';
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
 import { cardMatchesSearch } from '@/lib/searchAliases';
@@ -57,6 +58,39 @@ const HOTEL_OPTIONS = [
   { value: 'hyatt', label: 'Hyatt' },
   { value: 'ihg', label: 'IHG' },
 ];
+
+// Brand logos we ship (public/logos). Programs without a logo render text-only.
+const ALLEGIANCE_LOGOS: Record<string, string> = {
+  delta: '/logos/delta.jpg',
+  united: '/logos/united.jpg',
+  southwest: '/logos/southwest.jpg',
+  marriott: '/logos/marriott.jpg',
+  hilton: '/logos/hilton.jpg',
+  hyatt: '/logos/hyatt.jpg',
+  ihg: '/logos/ihg.jpg',
+};
+
+function AllegianceChip({
+  value,
+  label,
+  selected,
+  onClick,
+}: {
+  value: string;
+  label: string;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  const logo = ALLEGIANCE_LOGOS[value];
+  return (
+    <button className={`bcfm-chip ${selected ? 'is-selected' : ''}`} onClick={onClick}>
+      {logo && (
+        <Image src={logo} alt={label} width={16} height={16} className="bcfm-chip-logo" />
+      )}
+      {label}
+    </button>
+  );
+}
 
 // Quick-start spending profiles. Clicking one populates every category's
 // monthly estimate; the user can then fine-tune any row. Values are rough
@@ -288,6 +322,7 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
   }, [phase, authState.isAuthenticated]);
 
   const hasAnySpend = Object.values(state.monthlySpend).some((v) => v > 0);
+  const monthlyTotal = Object.values(state.monthlySpend).reduce((sum, v) => sum + (v || 0), 0);
 
   // ---- Render ---------------------------------------------------------------
 
@@ -331,25 +366,25 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
             <p className="bcfm-group-label">Airlines</p>
             <div className="bcfm-chips">
               {AIRLINE_OPTIONS.map((opt) => (
-                <button
+                <AllegianceChip
                   key={opt.value}
-                  className={`bcfm-chip ${state.allegiances.includes(opt.value) ? 'is-selected' : ''}`}
+                  value={opt.value}
+                  label={opt.label}
+                  selected={state.allegiances.includes(opt.value)}
                   onClick={() => dispatch({ type: 'toggleAllegiance', value: opt.value })}
-                >
-                  {opt.label}
-                </button>
+                />
               ))}
             </div>
             <p className="bcfm-group-label">Hotels</p>
             <div className="bcfm-chips">
               {HOTEL_OPTIONS.map((opt) => (
-                <button
+                <AllegianceChip
                   key={opt.value}
-                  className={`bcfm-chip ${state.allegiances.includes(opt.value) ? 'is-selected' : ''}`}
+                  value={opt.value}
+                  label={opt.label}
+                  selected={state.allegiances.includes(opt.value)}
                   onClick={() => dispatch({ type: 'toggleAllegiance', value: opt.value })}
-                >
-                  {opt.label}
-                </button>
+                />
               ))}
             </div>
           </StepShell>
@@ -398,6 +433,13 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
                   </span>
                 </label>
               ))}
+            </div>
+            <div className="bcfm-spend-total">
+              <span className="bcfm-spend-total-label">Total monthly spend</span>
+              <span className="bcfm-spend-total-value">
+                ${monthlyTotal.toLocaleString()}
+                <span>/mo</span>
+              </span>
             </div>
           </StepShell>
         )}

@@ -32,6 +32,7 @@ apr:
     max: 29.99
 benefits:
   - name: "Travel Together Ticket"
+    value: 0
     description: "Companion travel ticket (or 50% Avios discount for solo travel) when you spend $30,000 in a calendar year"
     frequency: "annual"
     category: "travel"

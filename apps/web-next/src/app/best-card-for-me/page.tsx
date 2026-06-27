@@ -37,15 +37,27 @@ export default async function BestCardForMePage() {
         ]}
       />
 
-      <section className="bcfm-hero">
-        <div className="wrap">
-          <p className="bcfm-eyebrow">Personalized</p>
-          <h1 className="bcfm-hero-title">Which card should you get next?</h1>
-          <p className="bcfm-hero-sub">
-            Tell us how you spend and which cards you already carry. We rank the cards that add the
-            most ongoing value on top of your wallet, not just the flashiest signup bonus.
-          </p>
+      <div className="cj-terminal">
+        <nav className="cj-crumbs" aria-label="Breadcrumb">
+          <span className="cj-crumb cj-crumb-current">Best card for me</span>
+        </nav>
+        <span className="cj-spacer" />
+        <div className="cj-term-actions">
+          <span>
+            <span className="cj-status-dot" />
+            {cards.length} cards · personalized
+          </span>
         </div>
+      </div>
+
+      <section className="bcfm-hero wrap">
+        <h1 className="cj-section-h1">
+          Which card should you <em className="cj-section-accent">get next?</em>
+        </h1>
+        <p className="bcfm-hero-sub">
+          Tell us how you spend and which cards you already carry. We rank the cards that add the
+          most ongoing value on top of your wallet, not just the flashiest signup bonus.
+        </p>
       </section>
 
       <section className="wrap bcfm-main">
