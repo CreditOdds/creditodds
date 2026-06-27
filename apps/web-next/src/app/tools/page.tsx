@@ -7,7 +7,7 @@ import '../landing.css';
 
 export const metadata: Metadata = {
   title: 'Tools',
-  description: 'Free credit card tools and calculators. Convert miles and points to dollars for Chase, Amex, Delta, United, Southwest, Capital One, Marriott, Hilton, Hyatt, IHG, Bilt, and Citi.',
+  description: 'Free credit card tools and calculators. Convert miles and points to dollars for Chase, Amex, Delta, United, Southwest, Capital One, Marriott, Hilton, Hyatt, IHG, Choice Privileges, Bilt, and Citi.',
   openGraph: {
     title: 'Free Credit Card Tools | CreditOdds',
     description: 'Convert miles and points to dollars across all major loyalty programs.',
@@ -59,6 +59,7 @@ const categories: ToolCategory[] = [
       { name: 'Marriott Bonvoy', description: 'Convert Marriott Bonvoy points to dollars.', href: '/tools/marriott-bonvoy-points-to-usd', cpp: 0.7, unit: 'point', logo: '/logos/marriott.jpg' },
       { name: 'Hilton Honors', description: 'Convert Hilton Honors points to dollars.', href: '/tools/hilton-honors-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/hilton.jpg' },
       { name: 'IHG One Rewards', description: 'Convert IHG One Rewards points to dollars.', href: '/tools/ihg-one-rewards-points-to-usd', cpp: 0.5, unit: 'point', logo: '/logos/ihg.jpg' },
+      { name: 'Choice Privileges', description: 'Convert Choice Privileges points to dollars.', href: '/tools/choice-privileges-points-to-usd', cpp: 0.7, unit: 'point', logo: '/logos/choice.jpg' },
     ],
   },
 ];

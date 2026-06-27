@@ -16,6 +16,7 @@ const valuations = [
   { program: "Capital One Miles", slug: "capital-one-miles", cpp: 1.0, match: ["capital one"], toolSlug: "capital-one-miles" },
   { program: "Bilt Rewards", slug: "bilt-rewards", cpp: 1.5, match: ["bilt"], toolSlug: "bilt-rewards-points" },
   { program: "Citi ThankYou", slug: "citi-thankyou", cpp: 1.0, match: ["citi"], toolSlug: "citi-thankyou-points" },
+  { program: "Choice Privileges", slug: "choice-privileges", cpp: 0.7, match: ["choice"], toolSlug: "choice-privileges-points" },
   { program: "Wells Fargo Rewards", slug: "wells-fargo-rewards", cpp: 1.0, match: ["wells fargo"] },
   { program: "Southwest Rapid Rewards", slug: "southwest-rapid-rewards", cpp: 1.30, match: ["southwest"], toolSlug: "southwest-rapid-rewards" },
 ];
