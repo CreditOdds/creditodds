@@ -1,0 +1,47 @@
+slug: choice-privileges
+program: Choice Privileges
+unit: point
+
+# Only directly cited values from each source's published page or article.
+# See data/valuations/README.md for instructions on adding a new data point.
+data_points:
+  - year: 2024
+    source: WalletHub
+    cpp: 1.24
+    url: https://wallethub.com/answers/rp/choice-privileges-points-value-1000548-2140720017/
+    # May 2024 average redemption value
+
+  - year: 2025
+    source: TPG
+    cpp: 0.6
+    url: https://thepointsguy.com/loyalty-programs/choice-privileges/
+    # March 2025 hotel points valuation
+  - year: 2025
+    source: Frequent Miler
+    cpp: 0.67
+    url: https://frequentmiler.com/what-are-choice-points-worth/
+    # Reasonable Redemption Value prior to the March 2026 increase
+
+  - year: 2026
+    source: NerdWallet
+    cpp: 0.8
+    url: https://www.nerdwallet.com/travel/learn/what-are-choice-points-worth
+    # May 2026 — average drawn from real-world redemption data
+  - year: 2026
+    source: Frequent Miler
+    cpp: 0.75
+    url: https://frequentmiler.com/what-are-choice-points-worth/
+    # March 2026 — RRV raised from 0.67 to 0.75
+  - year: 2026
+    source: TPG
+    cpp: 0.6
+    url: https://thepointsguy.com/loyalty-programs/choice-privileges/
+    # March 2026 hotel points valuation
+  - year: 2026
+    source: Point.me
+    cpp: 0.6
+    url: https://www.point.me/insights/choice-hotels-points-value/
+  - year: 2026
+    source: WalletHub
+    cpp: 1.3
+    url: https://wallethub.com/answers/rp/choice-privileges-points-value-1000548-2140720017/
