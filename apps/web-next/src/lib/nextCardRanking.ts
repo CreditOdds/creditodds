@@ -4,16 +4,17 @@
 // with the rest of the ranker via the `@ranker/*` alias). It models the wallet
 // as a set of cards (duplicates allowed), allocates flexible/capped bonuses,
 // and reports per-category earnings. This file layers on the frontend parts —
-// credit amortization (reusing amortizedAnnualValue) and the cash-vs-points
-// soft preference — and produces the final, typed ranking + wallet analysis
-// the /best-card-for-me page renders.
+// the cash-vs-points soft preference and the "why" blurb — and produces the
+// final, typed ranking + wallet analysis the /best-card-for-me page renders.
 //
-// Ranking philosophy (locked in design): ONGOING value, computed MARGINALLY
-// over the user's existing wallet. A card that doesn't beat what they already
-// hold scores ~0 and drops out. The signup bonus is shown but never ranked on.
+// Ranking philosophy (locked in design): ONGOING value from CATEGORY EARNING
+// (cash back / points), computed MARGINALLY over the user's existing wallet,
+// minus the annual fee. Card credits/benefits are intentionally excluded so
+// heavy-credit cards (e.g. Amex Platinum) don't skew the ranking. A card that
+// doesn't beat what they already hold scores ~0 and drops out. The signup
+// bonus is shown but never ranked on.
 
-import type { Card, CardBenefit } from '@/lib/api';
-import { amortizedAnnualValue } from '@/lib/cardDisplayUtils';
+import type { Card } from '@/lib/api';
 import * as engine from '@ranker/nextCardRanking';
 
 export type RewardTypePref = 'cashback' | 'points' | null;
@@ -53,6 +54,7 @@ export interface CategoryBreakdown {
   spend: number;
   currentRate: number;
   currentCard: string | null;
+  currentCardImage: string | null;
   currentEarned: number;
   newRate: number;
   newEarned: number;
@@ -65,27 +67,23 @@ export interface WalletAnalysisRow {
   category: string;
   spend: number;
   rate: number;
+  cardImage: string | null;
   card: string | null;
   earned: number;
-}
-
-export interface MatchedCredit {
-  name: string;
-  value: number;
-  category: string;
 }
 
 export interface NextCardResult {
   card: Card;
   rank: number;
-  /** Honest ongoing value: marginal rewards + matched credits − annual fee. */
+  /** Ongoing value from category earning only: marginal rewards − annual fee.
+   *  Card credits/benefits are intentionally excluded so heavy-credit cards
+   *  (e.g. Amex Platinum) don't skew the ranking — this is about cash back and
+   *  points earned on the user's actual spending. */
   netAnnualValue: number;
   rewardsValue: number;
-  creditsValue: number;
   annualFee: number;
   winningCategories: WinningCategory[];
   categories: CategoryBreakdown[];
-  matchedCredits: MatchedCredit[];
 }
 
 export interface NextCardRanking {
@@ -106,44 +104,6 @@ export const SPEND_BUCKET_LABELS: Record<string, string> = {
   streaming: 'Streaming',
   everything_else: 'Everything else',
 };
-
-// A benefit credit counts toward ongoing value ONLY when it maps to a spend
-// bucket the user actually spends in (locked in design — avoids inflating
-// annual-fee cards with credits the user wouldn't use). Lifestyle credits with
-// no spend bucket (lounge, Global Entry, fitness, "other") are intentionally
-// omitted. The keys are CardBenefit['category'] values.
-const BENEFIT_CATEGORY_TO_BUCKETS: Record<string, string[]> = {
-  dining: ['dining'],
-  dining_travel: ['dining', 'travel'],
-  travel: ['travel'],
-  hotel: ['travel'],
-  gas: ['gas'],
-  grocery: ['groceries'],
-  rideshare: ['transit', 'travel'],
-  car_rental: ['travel'],
-  streaming: ['streaming'],
-  shopping: ['online_shopping'],
-  // entertainment, fitness, lounge, security, other → not a spend category
-};
-
-function matchedCreditsFor(
-  benefits: CardBenefit[] | undefined,
-  spend: NextCardSpend,
-): { total: number; matched: MatchedCredit[] } {
-  const matched: MatchedCredit[] = [];
-  let total = 0;
-  for (const b of benefits || []) {
-    const buckets = BENEFIT_CATEGORY_TO_BUCKETS[b.category];
-    if (!buckets) continue;
-    if (!buckets.some((bk) => (spend[bk] || 0) > 0)) continue;
-    const value = amortizedAnnualValue(b); // 0 for points/ongoing/per-use benefits
-    if (value > 0) {
-      total += value;
-      matched.push({ name: b.name, value, category: b.category });
-    }
-  }
-  return { total, matched };
-}
 
 // Short, prose-friendly category names for the "why" blurb (mid-sentence).
 const PROSE_CATEGORY: Record<string, string> = {
@@ -177,15 +137,7 @@ export function nextCardBlurb(rec: NextCardResult): string {
     lead = 'Adds ongoing value across your spending';
   }
 
-  let tail: string;
-  if (rec.annualFee > 0) {
-    tail =
-      rec.creditsValue >= rec.annualFee
-        ? `, and the credits you'd use more than cover the $${rec.annualFee} fee`
-        : `, even after the $${rec.annualFee} annual fee`;
-  } else {
-    tail = ', with no annual fee';
-  }
+  const tail = rec.annualFee > 0 ? `, even after the $${rec.annualFee} annual fee` : ', with no annual fee';
 
   return `${lead}${tail}.`;
 }
@@ -204,6 +156,11 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
   const limit = input.limit ?? 5;
 
   const bySlug = new Map(cards.map((c) => [c.slug, c]));
+  // The engine reports which card provides a category's top rate by name; map
+  // that back to the card image for the analysis tables.
+  const byName = new Map(cards.map((c) => [c.card_name, c]));
+  const imageFor = (name: string | null) =>
+    name ? byName.get(name)?.card_image_link ?? null : null;
   // Owned cards, WITH multiplicity (two Custom Cash → two entries).
   const owned = walletSlugs
     .map((slug) => bySlug.get(slug))
@@ -232,11 +189,12 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
       ) as {
         rewardsValue: number;
         winningCategories: WinningCategory[];
-        categories: CategoryBreakdown[];
+        categories: Omit<CategoryBreakdown, 'currentCardImage'>[];
       };
-      const { total: creditsValue, matched } = matchedCreditsFor(card.benefits, spend);
+      // Credits/benefits are intentionally excluded — value is category earning
+      // minus the annual fee, so heavy-credit cards don't dominate.
       const annualFee = card.annual_fee || 0;
-      const netAnnualValue = rewardsValue + creditsValue - annualFee;
+      const netAnnualValue = rewardsValue - annualFee;
 
       // Cash-vs-points is a soft preference, not a filter: a points card with a
       // big enough value edge still beats a cash card the user nominally prefers.
@@ -250,11 +208,9 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
         score,
         netAnnualValue,
         rewardsValue,
-        creditsValue,
         annualFee,
         winningCategories,
         categories,
-        matchedCredits: matched,
       };
     })
     // Only recommend cards that genuinely add positive ongoing value.
@@ -267,11 +223,12 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
     rank: i + 1,
     netAnnualValue: s.netAnnualValue,
     rewardsValue: s.rewardsValue,
-    creditsValue: s.creditsValue,
     annualFee: s.annualFee,
     winningCategories: s.winningCategories,
-    categories: s.categories,
-    matchedCredits: s.matchedCredits,
+    categories: s.categories.map((c) => ({
+      ...c,
+      currentCardImage: imageFor(c.currentCard),
+    })),
   }));
 
   const walletAnalysis: WalletAnalysisRow[] = SPEND_BUCKETS.filter(
@@ -281,6 +238,7 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
     spend: base.perBucket[b].spend,
     rate: base.perBucket[b].topRate,
     card: base.perBucket[b].topCard,
+    cardImage: imageFor(base.perBucket[b].topCard),
     earned: base.perBucket[b].earned,
   }));
 

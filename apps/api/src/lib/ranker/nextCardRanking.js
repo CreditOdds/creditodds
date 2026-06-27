@@ -122,32 +122,30 @@ function walletEarnings(cards, spend) {
   const assignedByBucket = {};
   for (const b of SPEND_BUCKETS) assignedByBucket[b] = [];
 
-  // Greedy: repeatedly place the flexible bonus whose best available bucket
-  // yields the largest incremental gain.
-  const remaining = flexible.slice();
-  while (remaining.length) {
+  // Assign each flexible bonus to the bucket where it adds the most value,
+  // MOST-CONSTRAINED FIRST (fewest productive eligible buckets, then highest
+  // rate). Processing the narrowly-eligible bonuses first stops a broad bonus
+  // from grabbing a shared bucket and stranding a bonus that can only earn
+  // there. The deterministic ordering also makes the result independent of the
+  // order cards were listed in.
+  const productive = (f) => f.eligible.filter((b) => (spend[b] || 0) > 0).length;
+  const ordered = flexible.slice().sort((a, b) => productive(a) - productive(b) || b.eff - a.eff);
+  for (const f of ordered) {
     let bestGain = 1e-9;
-    let bestIdx = -1;
     let bestBucket = null;
-    for (let i = 0; i < remaining.length; i++) {
-      const f = remaining[i];
-      for (const bucket of f.eligible) {
-        const s = spend[bucket] || 0;
-        if (s <= 0) continue;
-        const current = [...directByBucket[bucket], ...assignedByBucket[bucket]];
-        const before = bucketEarn(s, baseEff, current).earned;
-        const after = bucketEarn(s, baseEff, [...current, f]).earned;
-        const gain = after - before;
-        if (gain > bestGain) {
-          bestGain = gain;
-          bestIdx = i;
-          bestBucket = bucket;
-        }
+    for (const bucket of f.eligible) {
+      const s = spend[bucket] || 0;
+      if (s <= 0) continue;
+      const current = [...directByBucket[bucket], ...assignedByBucket[bucket]];
+      const before = bucketEarn(s, baseEff, current).earned;
+      const after = bucketEarn(s, baseEff, [...current, f]).earned;
+      const gain = after - before;
+      if (gain > bestGain) {
+        bestGain = gain;
+        bestBucket = bucket;
       }
     }
-    if (bestIdx === -1) break;
-    assignedByBucket[bestBucket].push(remaining[bestIdx]);
-    remaining.splice(bestIdx, 1);
+    if (bestBucket) assignedByBucket[bestBucket].push(f);
   }
 
   const perBucket = {};

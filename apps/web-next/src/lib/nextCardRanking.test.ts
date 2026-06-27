@@ -119,8 +119,8 @@ describe('rankNextCards — points valuation', () => {
   });
 });
 
-describe('rankNextCards — credits', () => {
-  it('counts a credit only when it maps to a spent category, net of fee', () => {
+describe('rankNextCards — credits are ignored', () => {
+  it('does not count card credits toward value (a fee a card cannot out-earn drops it)', () => {
     const benefits: CardBenefit[] = [
       { name: 'Dining Credit', value: 120, description: '', frequency: 'monthly', category: 'dining' },
       { name: 'Lounge Access', value: 600, description: '', frequency: 'annual', category: 'lounge' },
@@ -136,20 +136,20 @@ describe('rankNextCards — credits', () => {
       ],
       benefits,
     });
-    const { recommendations: res } = rankNextCards({
+    const { recommendations } = rankNextCards({
       spend: { dining: 5000 },
       walletSlugs: [],
       prefs: { rewardType: null },
-      cards: [premium],
+      cards: [premium, cashDining('cheap', 2)],
     });
-    // Dining credit ($120) counts; lounge credit does not (no spend bucket).
-    expect(res[0].creditsValue).toBeCloseTo(120);
-    expect(res[0].matchedCredits.map((c) => c.name)).toEqual(['Dining Credit']);
-    // $5k × 4% = $200 rewards + $120 credit − $250 fee = $70.
-    expect(res[0].netAnnualValue).toBeCloseTo(70);
+    // $5k × 4% = $200 rewards − $250 fee = −$50. With credits ignored, it is
+    // not worth recommending despite its big dining credit.
+    expect(recommendations.find((r) => r.card.slug === 'prem')).toBeUndefined();
+    // The no-fee 2% card wins on raw category earning.
+    expect(recommendations[0].card.slug).toBe('cheap');
   });
 
-  it('ignores a credit whose category the user does not spend in', () => {
+  it('ranks on category rewards minus the annual fee only', () => {
     const benefits: CardBenefit[] = [
       { name: 'Travel Credit', value: 300, description: '', frequency: 'annual', category: 'travel' },
     ];
@@ -164,15 +164,13 @@ describe('rankNextCards — credits', () => {
       ],
       benefits,
     });
-    // User spends only on dining, not travel → travel credit excluded.
     const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: [],
       prefs: { rewardType: null },
       cards: [travelCredit],
     });
-    expect(res[0].creditsValue).toBe(0);
-    // $300 rewards − $95 fee, no credit.
+    // $300 rewards − $95 fee = $205. The $300 travel credit is ignored entirely.
     expect(res[0].netAnnualValue).toBeCloseTo(205);
   });
 });
@@ -241,6 +239,42 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     expect(dining?.earned).toBeCloseTo(600); // all $12k at 5%
     expect(dining?.rate).toBeCloseTo(5);
     expect(recommendations.find((r) => r.card.slug === 'flat3')).toBeUndefined();
+  });
+
+  it('does not strand a narrowly-eligible flexible bonus behind a broad one', () => {
+    // Both 5%, capped $6k/yr. Broad earns on {gas, streaming}; narrow only on
+    // {gas}. With gas=$6k and streaming=$6k the optimal wallet earns $600
+    // (narrow→gas, broad→streaming), so the narrow card adds $240 over a wallet
+    // that already holds the broad one — it must NOT be scored at $0.
+    const flex = (slug: string, cats: string[]): Card =>
+      card({
+        slug,
+        card_name: `Flex ${slug}`,
+        reward_type: 'cashback',
+        rewards: [
+          {
+            category: 'top_category',
+            value: 5,
+            unit: 'percent',
+            mode: 'auto_top_spend',
+            eligible_categories: cats,
+            spend_cap: 500,
+            cap_period: 'monthly',
+            rate_after_cap: 1,
+          },
+          { category: 'everything_else', value: 1, unit: 'percent' },
+        ] as Reward[],
+      });
+    const { recommendations } = rankNextCards({
+      spend: { gas: 6000, streaming: 6000 },
+      walletSlugs: ['broad'],
+      prefs: { rewardType: null },
+      cards: [flex('broad', ['gas', 'streaming']), flex('narrow', ['gas'])],
+    });
+    const rec = recommendations.find((r) => r.card.slug === 'narrow');
+    expect(rec).toBeDefined();
+    // $6k gas × (5% − 1%) = $240 added once the broad bonus moves to streaming.
+    expect(rec?.rewardsValue).toBeCloseTo(240);
   });
 
   it('recognizes a card that helps only above the stacked cap', () => {

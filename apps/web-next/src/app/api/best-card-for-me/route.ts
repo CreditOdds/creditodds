@@ -83,7 +83,6 @@ export async function POST(request: Request) {
       blurb: nextCardBlurb(r),
       netAnnualValue: Math.round(r.netAnnualValue),
       rewardsValue: Math.round(r.rewardsValue),
-      creditsValue: Math.round(r.creditsValue),
       annualFee: r.annualFee,
       winningCategories: r.winningCategories.map((w) => ({
         category: w.category,
@@ -96,19 +95,16 @@ export async function POST(request: Request) {
         spend: Math.round(c.spend),
         currentRate: Number(c.currentRate.toFixed(2)),
         currentCard: c.currentCard,
+        currentCardImage: c.currentCardImage,
         newRate: Number(c.newRate.toFixed(2)),
         delta: Math.round(c.delta),
         helps: c.helps,
       })),
-      matchedCredits: r.matchedCredits,
       card: {
         slug: r.card.slug,
         card_name: r.card.card_name,
         bank: r.card.bank,
         card_image_link: r.card.card_image_link,
-        apply_link: r.card.apply_link,
-        special_apply_link: r.card.special_apply_link,
-        card_referral_link: r.card.card_referral_link,
         reward_type: r.card.reward_type,
         annual_fee: r.card.annual_fee,
         signup_bonus: r.card.signup_bonus,
@@ -120,6 +116,7 @@ export async function POST(request: Request) {
       spend: Math.round(w.spend),
       rate: Number(w.rate.toFixed(2)),
       card: w.card,
+      cardImage: w.cardImage,
       earned: Math.round(w.earned),
     }));
 

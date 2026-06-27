@@ -18,8 +18,6 @@ interface RecCard {
   card_name: string;
   bank: string;
   card_image_link?: string;
-  apply_link?: string;
-  special_apply_link?: string;
   reward_type?: 'cashback' | 'points' | 'miles';
   annual_fee?: number;
   signup_bonus?: SignupBonus;
@@ -29,6 +27,7 @@ interface CategoryRow {
   spend: number;
   currentRate: number;
   currentCard: string | null;
+  currentCardImage: string | null;
   newRate: number;
   delta: number;
   helps: boolean;
@@ -38,11 +37,9 @@ interface Recommendation {
   blurb: string;
   netAnnualValue: number;
   rewardsValue: number;
-  creditsValue: number;
   annualFee: number;
   winningCategories: { category: string; annualValue: number }[];
   categories: CategoryRow[];
-  matchedCredits: { name: string; value: number; category: string }[];
   card: RecCard;
 }
 interface WalletRow {
@@ -50,6 +47,7 @@ interface WalletRow {
   spend: number;
   rate: number;
   card: string | null;
+  cardImage: string | null;
   earned: number;
 }
 
@@ -592,51 +590,30 @@ function ExistingCardsPicker({
       .slice(0, 6);
   }, [query, allCards]);
 
-  // Group the wallet into unique cards with a count, preserving first-seen order.
-  const grouped = useMemo(() => {
-    const counts = new Map<string, number>();
-    const order: string[] = [];
-    for (const slug of selected) {
-      if (!counts.has(slug)) order.push(slug);
-      counts.set(slug, (counts.get(slug) || 0) + 1);
-    }
-    return order.map((slug) => ({ slug, count: counts.get(slug) || 0 }));
-  }, [selected]);
-
   return (
     <div className="bcfm-cards-picker">
-      {grouped.length > 0 && (
+      {selected.length > 0 && (
         <div className="bcfm-selected-cards">
-          {grouped.map(({ slug, count }) => {
+          {/* One chip per copy: a card added twice shows up twice. */}
+          {selected.map((slug, i) => {
             const c = slugToCard.get(slug);
             if (!c) return null;
             return (
-              <div key={slug} className="bcfm-selected-chip">
+              <button
+                key={`${slug}-${i}`}
+                className="bcfm-selected-chip"
+                onClick={() => onRemoveOne(slug)}
+                aria-label={`Remove ${c.card_name}`}
+              >
                 <CardImage
                   cardImageLink={c.card_image_link}
                   alt={c.card_name}
                   width={30}
                   height={19}
                 />
-                <span className="bcfm-chip-name">{c.card_name}</span>
-                <span className="bcfm-qty">
-                  <button
-                    type="button"
-                    aria-label={`Remove one ${c.card_name}`}
-                    onClick={() => onRemoveOne(slug)}
-                  >
-                    −
-                  </button>
-                  <span className="bcfm-qty-count">{count}</span>
-                  <button
-                    type="button"
-                    aria-label={`Add another ${c.card_name}`}
-                    onClick={() => onAdd(slug)}
-                  >
-                    +
-                  </button>
-                </span>
-              </div>
+                {c.card_name}
+                <span aria-hidden className="bcfm-x">×</span>
+              </button>
             );
           })}
         </div>
@@ -720,6 +697,31 @@ function formatRate(rate: number): string {
   return `${Number.isInteger(r) ? r : r.toFixed(1)}%`;
 }
 
+// A rate plus the card that provides it (image + name), used in both tables.
+function RateWithCard({
+  rate,
+  card,
+  cardImage,
+}: {
+  rate: number;
+  card: string | null;
+  cardImage: string | null;
+}) {
+  return (
+    <span className="bcfm-rate-cell">
+      {formatRate(rate)}
+      {card && (
+        <span className="bcfm-rate-card">
+          {cardImage && (
+            <CardImage cardImageLink={cardImage} alt={card} width={26} height={16} />
+          )}
+          <span className="bcfm-table-sub">{card}</span>
+        </span>
+      )}
+    </span>
+  );
+}
+
 function WalletTable({ rows }: { rows: WalletRow[] }) {
   if (rows.length === 0) return null;
   return (
@@ -738,11 +740,15 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
         <tbody>
           {rows.map((r) => (
             <tr key={r.category}>
-              <td>{SPEND_BUCKET_LABELS[r.category] || r.category}</td>
+              <td>
+                <span className="bcfm-table-cat">
+                  <CategoryIcon category={r.category} className="bcfm-table-icon" />
+                  {SPEND_BUCKET_LABELS[r.category] || r.category}
+                </span>
+              </td>
               <td className="num">${r.spend.toLocaleString()}</td>
               <td>
-                {formatRate(r.rate)}
-                {r.card && <span className="bcfm-table-sub"> · {r.card}</span>}
+                <RateWithCard rate={r.rate} card={r.card} cardImage={r.cardImage} />
               </td>
               <td className="num">${r.earned.toLocaleString()}</td>
             </tr>
@@ -767,12 +773,31 @@ function CategoryBreakdownTable({ categories }: { categories: CategoryRow[] }) {
       <tbody>
         {categories.map((cat) => (
           <tr key={cat.category} className={cat.helps ? 'helps' : ''}>
-            <td>{SPEND_BUCKET_LABELS[cat.category] || cat.category}</td>
             <td>
-              {formatRate(cat.currentRate)}
-              {cat.currentCard && <span className="bcfm-table-sub"> · {cat.currentCard}</span>}
+              <span className="bcfm-table-cat">
+                <CategoryIcon category={cat.category} className="bcfm-table-icon" />
+                {SPEND_BUCKET_LABELS[cat.category] || cat.category}
+              </span>
             </td>
-            <td>{cat.helps ? formatRate(cat.newRate) : <span className="bcfm-muted">no change</span>}</td>
+            <td>
+              <RateWithCard
+                rate={cat.currentRate}
+                card={cat.currentCard}
+                cardImage={cat.currentCardImage}
+              />
+            </td>
+            <td>
+              {!cat.helps ? (
+                <span className="bcfm-muted">no change</span>
+              ) : cat.newRate > cat.currentRate ? (
+                formatRate(cat.newRate)
+              ) : (
+                // Helps by covering more spend at the same headline rate (it
+                // earns above an owned card's cap), so a rate-to-rate compare
+                // would misleadingly read "5% → 5%".
+                <span className="bcfm-muted">more spend rewarded</span>
+              )}
+            </td>
             <td className={`num ${cat.delta > 0 ? 'pos' : ''}`}>
               {cat.delta > 0 ? `+$${cat.delta.toLocaleString()}` : '—'}
             </td>
@@ -852,15 +877,9 @@ function RecCardRow({ rec }: { rec: Recommendation }) {
           ))}
         </div>
         <div className="bcfm-rec-breakdown">
-          <span>Rewards ${rec.rewardsValue.toLocaleString()}/yr</span>
-          {rec.creditsValue > 0 && <span>Credits ${rec.creditsValue.toLocaleString()}/yr</span>}
+          <span>Rewards ${rec.rewardsValue.toLocaleString()}/yr on your spending</span>
           {rec.annualFee > 0 ? <span>Fee ${rec.annualFee}</span> : <span>No annual fee</span>}
         </div>
-        {rec.matchedCredits.length > 0 && (
-          <p className="bcfm-rec-credits">
-            Counts credits you&apos;d use: {rec.matchedCredits.map((m) => `${m.name} ($${m.value})`).join(', ')}
-          </p>
-        )}
         {c.signup_bonus && c.signup_bonus.value > 0 && (
           <p className="bcfm-rec-sub">
             Bonus: {c.signup_bonus.value.toLocaleString()} {c.signup_bonus.type} after $

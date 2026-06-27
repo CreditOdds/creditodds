@@ -10480,7 +10480,6 @@
   color: var(--ink-2);
   margin-bottom: 6px;
 }
-.best-for-me-v2 .bcfm-rec-credits,
 .best-for-me-v2 .bcfm-rec-sub {
   font-size: 12.5px;
   color: var(--muted);
@@ -10519,40 +10518,18 @@
   }
 }
 
-/* ---- best-card-for-me: multi-card stepper + results tables ---- */
-.best-for-me-v2 .bcfm-selected-chip .bcfm-chip-name {
-  white-space: nowrap;
-}
-.best-for-me-v2 .bcfm-qty {
+/* ---- best-card-for-me: results tables ---- */
+.best-for-me-v2 .bcfm-table-cat {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-left: 2px;
+  gap: 8px;
 }
-.best-for-me-v2 .bcfm-qty button {
-  width: 20px;
-  height: 20px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line-2);
-  border-radius: 4px;
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 14px;
-  line-height: 1;
-  cursor: pointer;
-  font-family: inherit;
+.best-for-me-v2 .bcfm-table-icon {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  color: var(--muted);
 }
-.best-for-me-v2 .bcfm-qty button:hover {
-  border-color: var(--ink);
-}
-.best-for-me-v2 .bcfm-qty-count {
-  min-width: 12px;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-}
-
 .best-for-me-v2 .bcfm-section-h {
   font-family: 'Inter Tight', 'Inter', sans-serif;
   font-size: 18px;
@@ -10602,6 +10579,22 @@
 }
 .best-for-me-v2 .bcfm-table-sub {
   color: var(--muted);
+}
+.best-for-me-v2 .bcfm-rate-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.best-for-me-v2 .bcfm-rate-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.best-for-me-v2 .bcfm-rate-card img {
+  border-radius: 2px;
+  object-fit: contain;
+  flex: none;
 }
 .best-for-me-v2 .bcfm-table-compact {
   font-size: 12.5px;
