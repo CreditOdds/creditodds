@@ -42,13 +42,18 @@ interface Recommendation {
   categories: CategoryRow[];
   card: RecCard;
 }
-interface WalletRow {
-  category: string;
-  spend: number;
+interface WalletTierRow {
   rate: number;
   card: string | null;
   cardImage: string | null;
+  spend: number;
+}
+interface WalletRow {
+  category: string;
+  spend: number;
   earned: number;
+  best: WalletTierRow;
+  next: WalletTierRow | null;
 }
 
 // ---- Quiz options -----------------------------------------------------------
@@ -729,34 +734,65 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
   return (
     <div className="bcfm-wallet-analysis">
       <h3 className="bcfm-section-h">Your wallet today</h3>
-      <p className="bcfm-section-sub">What the cards you already have earn on the spending you entered.</p>
-      <table className="bcfm-table">
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th className="num">Spend / yr</th>
-            <th>Best rate now</th>
-            <th className="num">Earns / yr</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.category}>
-              <td>
-                <span className="bcfm-table-cat">
-                  <CategoryIcon category={r.category} className="bcfm-table-icon" />
-                  {SPEND_BUCKET_LABELS[r.category] || r.category}
-                </span>
-              </td>
-              <td className="num">${r.spend.toLocaleString()}</td>
-              <td>
-                <RateWithCard rate={r.rate} card={r.card} cardImage={r.cardImage} />
-              </td>
-              <td className="num">${r.earned.toLocaleString()}</td>
+      <p className="bcfm-section-sub">
+        What your cards earn now, and where spending falls once a card&apos;s monthly cap is hit
+        (e.g. Custom Cash&apos;s 5% stops after $500/mo). Wherever &quot;the rest&quot; drops to a low
+        rate is a gap a new card can fill.
+      </p>
+      <div className="bcfm-table-wrap">
+        <table className="bcfm-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th className="num">Spend / yr</th>
+              <th>Best rate now</th>
+              <th>Then on the rest</th>
+              <th className="num">Earns / yr</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.category}>
+                <td>
+                  <span className="bcfm-table-cat">
+                    <CategoryIcon category={r.category} className="bcfm-table-icon" />
+                    {SPEND_BUCKET_LABELS[r.category] || r.category}
+                  </span>
+                </td>
+                <td className="num">${r.spend.toLocaleString()}</td>
+                <td>
+                  <RateWithCard rate={r.best.rate} card={r.best.card} cardImage={r.best.cardImage} />
+                  {r.next && (
+                    <span className="bcfm-tier-amt">first ${r.best.spend.toLocaleString()}/yr</span>
+                  )}
+                </td>
+                <td>
+                  {r.next ? (
+                    <>
+                      {r.next.card ? (
+                        <RateWithCard
+                          rate={r.next.rate}
+                          card={r.next.card}
+                          cardImage={r.next.cardImage}
+                        />
+                      ) : (
+                        <span className="bcfm-rate-cell">
+                          {formatRate(r.next.rate)}
+                          <span className="bcfm-table-sub">no bonus</span>
+                        </span>
+                      )}
+                      <span className="bcfm-tier-amt">next ${r.next.spend.toLocaleString()}/yr</span>
+                    </>
+                  ) : (
+                    <span className="bcfm-muted">—</span>
+                  )}
+                </td>
+                <td className="num">${r.earned.toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

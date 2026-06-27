@@ -62,14 +62,24 @@ export interface CategoryBreakdown {
   helps: boolean;
 }
 
-// One row of the "your wallet today" table.
+// A spend layer in a category: a rate, the card that earns it (null = base /
+// no bonus), and how much annual spend falls in this layer.
+export interface WalletTier {
+  rate: number;
+  card: string | null;
+  cardImage: string | null;
+  spend: number;
+}
+
+// One row of the "your wallet today" table. `best` is the top rate (up to its
+// cap); `next` is where the remaining spend falls once that cap is hit (e.g. a
+// 2nd Custom Cash, the next card, or base) — null when nothing spills over.
 export interface WalletAnalysisRow {
   category: string;
   spend: number;
-  rate: number;
-  cardImage: string | null;
-  card: string | null;
   earned: number;
+  best: WalletTier;
+  next: WalletTier | null;
 }
 
 export interface NextCardResult {
@@ -145,7 +155,13 @@ export function nextCardBlurb(rec: NextCardResult): string {
 interface WalletEarnings {
   perBucket: Record<
     string,
-    { spend: number; earned: number; topRate: number; topCard: string | null }
+    {
+      spend: number;
+      earned: number;
+      topRate: number;
+      topCard: string | null;
+      segments: { rate: number; amount: number; card: string | null }[];
+    }
   >;
   total: number;
   baseEff: number;
@@ -233,14 +249,38 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
 
   const walletAnalysis: WalletAnalysisRow[] = SPEND_BUCKETS.filter(
     (b) => (spend[b] || 0) > 0,
-  ).map((b) => ({
-    category: b,
-    spend: base.perBucket[b].spend,
-    rate: base.perBucket[b].topRate,
-    card: base.perBucket[b].topCard,
-    cardImage: imageFor(base.perBucket[b].topCard),
-    earned: base.perBucket[b].earned,
-  }));
+  ).map((b) => {
+    const pb = base.perBucket[b];
+    // Collapse the raw spend layers into tiers by rate (a $500/mo cap split
+    // across two Custom Cash merges into one 5% tier). best = top tier, next =
+    // where the overflow lands.
+    const tiers: { rate: number; card: string | null; spend: number }[] = [];
+    for (const seg of pb.segments) {
+      const last = tiers[tiers.length - 1];
+      if (last && Math.abs(last.rate - seg.rate) < 0.001) {
+        last.spend += seg.amount;
+        if (!last.card) last.card = seg.card;
+      } else {
+        tiers.push({ rate: seg.rate, card: seg.card, spend: seg.amount });
+      }
+    }
+    const toTier = (t: (typeof tiers)[number]): WalletTier => ({
+      rate: t.rate,
+      card: t.card,
+      cardImage: imageFor(t.card),
+      spend: t.spend,
+    });
+    const best: WalletTier = tiers[0]
+      ? toTier(tiers[0])
+      : { rate: pb.topRate, card: pb.topCard, cardImage: imageFor(pb.topCard), spend: pb.spend };
+    return {
+      category: b,
+      spend: pb.spend,
+      earned: pb.earned,
+      best,
+      next: tiers[1] ? toTier(tiers[1]) : null,
+    };
+  });
 
   return { recommendations, walletAnalysis };
 }

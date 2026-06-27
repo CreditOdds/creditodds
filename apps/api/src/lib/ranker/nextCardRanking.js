@@ -91,17 +91,27 @@ function bucketEarn(spend, baseEff, offers) {
   const sorted = offers.filter((o) => o.eff > baseEff).sort((a, b) => b.eff - a.eff);
   let remaining = spend;
   let earned = 0;
+  // The spend "layers": each chunk of spend and the rate/card that earns it,
+  // highest rate first. Exposes what catches spend after a card's cap is hit
+  // (e.g. the second $500/mo of Custom Cash dining falls to the next card).
+  const segments = [];
   for (const o of sorted) {
     if (remaining <= 0) break;
     const amt = Math.min(remaining, o.cap);
+    if (amt <= 0) continue;
     earned += (amt * o.eff) / 100;
+    segments.push({ rate: o.eff, amount: amt, card: o.cardName });
     remaining -= amt;
   }
-  earned += (Math.max(0, remaining) * baseEff) / 100;
+  if (remaining > 0) {
+    earned += (remaining * baseEff) / 100;
+    segments.push({ rate: baseEff, amount: remaining, card: null });
+  }
   return {
     earned,
     topRate: sorted.length ? sorted[0].eff : baseEff,
     topCard: sorted.length ? sorted[0].cardName : null,
+    segments,
   };
 }
 
@@ -153,8 +163,8 @@ function walletEarnings(cards, spend) {
   for (const bucket of SPEND_BUCKETS) {
     const s = spend[bucket] || 0;
     const offers = [...directByBucket[bucket], ...assignedByBucket[bucket]];
-    const { earned, topRate, topCard } = bucketEarn(s, baseEff, offers);
-    perBucket[bucket] = { spend: s, earned, topRate, topCard };
+    const { earned, topRate, topCard, segments } = bucketEarn(s, baseEff, offers);
+    perBucket[bucket] = { spend: s, earned, topRate, topCard, segments };
     total += earned;
   }
   return { perBucket, total, baseEff };

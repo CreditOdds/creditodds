@@ -6,6 +6,7 @@ import {
   SPEND_BUCKETS,
   type NextCardInput,
   type RewardTypePref,
+  type WalletTier,
 } from '@/lib/nextCardRanking';
 
 // POST /api/best-card-for-me
@@ -111,13 +112,21 @@ export async function POST(request: Request) {
       },
     }));
 
+    const tier = (t: WalletTier | null) =>
+      t
+        ? {
+            rate: Number(t.rate.toFixed(2)),
+            card: t.card,
+            cardImage: t.cardImage,
+            spend: Math.round(t.spend),
+          }
+        : null;
     const wallet = walletAnalysis.map((w) => ({
       category: w.category,
       spend: Math.round(w.spend),
-      rate: Number(w.rate.toFixed(2)),
-      card: w.card,
-      cardImage: w.cardImage,
       earned: Math.round(w.earned),
+      best: tier(w.best),
+      next: tier(w.next),
     }));
 
     return NextResponse.json({ recommendations, walletAnalysis: wallet });

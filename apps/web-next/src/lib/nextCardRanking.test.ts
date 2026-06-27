@@ -237,8 +237,27 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     });
     const dining = walletAnalysis.find((w) => w.category === 'dining');
     expect(dining?.earned).toBeCloseTo(600); // all $12k at 5%
-    expect(dining?.rate).toBeCloseTo(5);
+    expect(dining?.best.rate).toBeCloseTo(5);
+    expect(dining?.best.spend).toBeCloseTo(12000); // both $6k caps cover all $12k
+    expect(dining?.next).toBeNull(); // nothing spills over
     expect(recommendations.find((r) => r.card.slug === 'flat3')).toBeUndefined();
+  });
+
+  it('splits a category into best + overflow tiers when the cap is exceeded', () => {
+    // One Custom Cash, $12k dining: first $6k at 5%, the next $6k at base 1%.
+    const { walletAnalysis } = rankNextCards({
+      spend: { dining: 12000 },
+      walletSlugs: ['cc'],
+      prefs: { rewardType: null },
+      cards: [customCash('cc')],
+    });
+    const dining = walletAnalysis.find((w) => w.category === 'dining');
+    expect(dining?.best.rate).toBeCloseTo(5);
+    expect(dining?.best.spend).toBeCloseTo(6000); // the $500/mo cap
+    expect(dining?.best.card).toBe('Custom Cash cc');
+    expect(dining?.next?.rate).toBeCloseTo(1); // overflow falls to base
+    expect(dining?.next?.spend).toBeCloseTo(6000);
+    expect(dining?.next?.card).toBeNull(); // base rate, no bonus card
   });
 
   it('does not strand a narrowly-eligible flexible bonus behind a broad one', () => {
