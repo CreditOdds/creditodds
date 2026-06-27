@@ -42,6 +42,11 @@ const NAV_ITEMS: NavItem[] = [
     label: "Best Cards",
     matches: (pathname) => pathname === "/best" || pathname.startsWith("/best/"),
   },
+  {
+    href: "/best-card-for-me",
+    label: "Best Card for Me",
+    matches: (pathname) => pathname === "/best-card-for-me",
+  },
 ];
 
 function classNames(...classes: Array<string | false | null | undefined>) {
