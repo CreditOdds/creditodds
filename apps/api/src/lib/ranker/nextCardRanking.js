@@ -4,19 +4,22 @@
 // so a card's earn rate is computed exactly the way the wallet/store pages
 // compute it (rotating categories, point valuations, co-brand merchant gates).
 //
-// Plain CommonJS, consumed by the Next.js frontend through the `@ranker/*`
-// alias (see apps/web-next/src/lib/nextCardRanking.ts). This module owns only
-// the part that needs the ranker primitives: marginal REWARDS by spend.
-// Credits, reward-type preference and the final ranking are layered in the TS
-// wrapper, because credit amortization (amortizedAnnualValue) already lives on
-// the frontend and there is no Lambda consumer to keep in sync.
+// Models the wallet as a set of CARDS (duplicates allowed) and computes what
+// each spend category actually earns, accounting for:
+//   - direct (always-on) category bonuses,
+//   - flexible single-category bonuses (Custom Cash top-category, rotating,
+//     user-choice) allocated to wherever they add the most value,
+//   - per-reward spend caps (so a $500/mo 5% cap earns 5% on the first $6k/yr
+//     and the base rate beyond it), and
+//   - MULTIPLE copies of the same card stacking their caps (two Custom Cash
+//     cards earn 5% on the first $1,000/mo of the top category).
+//
+// A candidate card's value is the difference between what the wallet earns
+// with it and without it, per category. Plain CommonJS, consumed by the
+// Next.js frontend through the `@ranker/*` alias.
 
 const { findCategoryMatch, effectiveCashbackRate } = require("./storeRanking");
 
-// A user's spend bucket can be satisfied by any of several YAML reward
-// categories — "travel" spend earns on travel/airlines/hotels/car_rentals.
-// Portal categories (*_portal) are intentionally excluded: they only earn when
-// booked through the issuer portal, not on general spend.
 const SPEND_CATEGORY_MAP = {
   dining: ["dining"],
   groceries: ["groceries"],
@@ -30,9 +33,8 @@ const SPEND_CATEGORY_MAP = {
 
 const SPEND_BUCKETS = Object.keys(SPEND_CATEGORY_MAP);
 
-// Match modes that earn on ONE category at a time (the user's top/selected
-// category, or the current rotation) rather than always-on. Such a bonus must
-// be assigned to a single bucket, not credited across every eligible one.
+// Modes that earn on ONE category at a time (the user's top/selected category
+// or the current rotation) rather than always-on.
 const FLEXIBLE_MODES = new Set([
   "rotating_current",
   "user_choice",
@@ -40,149 +42,168 @@ const FLEXIBLE_MODES = new Set([
   "top_spend",
 ]);
 
-// Effective cents-per-dollar of a card's flat "everything else" reward.
 function flatRateEff(card) {
   const r = (card.rewards || []).find((x) => x.category === "everything_else");
   if (!r) return 0;
   return effectiveCashbackRate(r.value, r.unit, card.card_name);
 }
 
-// Annualized spend cap on a reward (Infinity when uncapped).
 function capAnnual(reward) {
   if (!reward.spend_cap || !reward.cap_period) return Infinity;
   const mult =
-    reward.cap_period === "monthly"
-      ? 12
-      : reward.cap_period === "quarterly"
-      ? 4
-      : 1; // annual / anything else
+    reward.cap_period === "monthly" ? 12 : reward.cap_period === "quarterly" ? 4 : 1;
   return reward.spend_cap * mult;
 }
 
-// Effective rate earned on spend ABOVE a reward's cap. Cards specify
-// rate_after_cap (in the reward's own unit); otherwise the category reverts to
-// the card's flat everything-else rate.
-function overCapEff(reward, cardName, baseEff) {
-  if (reward.rate_after_cap === undefined || reward.rate_after_cap === null) {
-    return baseEff;
-  }
-  return effectiveCashbackRate(reward.rate_after_cap, reward.unit, cardName);
-}
-
-// Per-bucket effective earning for a single card, given the user's spend.
-// Returns { rate, capAnnual, overEff } per bucket. Flexible (single-category)
-// bonuses are assigned to the user's highest-spend eligible bucket so a
-// Custom-Cash-style card earns its 5% on ONE category, not all of them.
-function cardRateMap(card, spend) {
+// The bonus offers a single card contributes: direct (always-on, fixed bucket)
+// and flexible (one of several eligible buckets). Each carries its cap and the
+// card name (so the analysis table can attribute the rate to a card).
+function cardOffers(card) {
   const baseEff = flatRateEff(card);
-  const map = {};
-  for (const bucket of SPEND_BUCKETS) {
-    map[bucket] = { rate: baseEff, capAnnual: Infinity, overEff: baseEff };
-  }
-
-  const flexible = []; // { bucket, reward, eff }
+  const direct = [];
+  const flexRaw = [];
   for (const bucket of SPEND_BUCKETS) {
     if (bucket === "everything_else") continue;
     const m = findCategoryMatch(card, SPEND_CATEGORY_MAP[bucket], null, true, null);
     if (!m || m.mode === "rotating_eligible") continue;
     const eff = effectiveCashbackRate(m.reward.value, m.reward.unit, card.card_name);
     if (eff <= baseEff) continue;
-    if (FLEXIBLE_MODES.has(m.mode)) {
-      flexible.push({ bucket, reward: m.reward, eff });
-    } else if (eff > map[bucket].rate) {
-      // Always-on (direct) bonus.
-      map[bucket] = {
-        rate: eff,
-        capAnnual: capAnnual(m.reward),
-        overEff: overCapEff(m.reward, card.card_name, baseEff),
-      };
+    const offer = { bucket, eff, cap: capAnnual(m.reward), cardName: card.card_name, reward: m.reward };
+    if (FLEXIBLE_MODES.has(m.mode)) flexRaw.push(offer);
+    else direct.push(offer);
+  }
+  // One flexible reward can match several buckets — collapse to a single
+  // choice with the full list of eligible buckets.
+  const byReward = new Map();
+  for (const f of flexRaw) {
+    if (!byReward.has(f.reward)) {
+      byReward.set(f.reward, { eff: f.eff, cap: f.cap, cardName: f.cardName, eligible: [] });
     }
+    byReward.get(f.reward).eligible.push(f.bucket);
+  }
+  return { baseEff, direct, flexible: [...byReward.values()] };
+}
+
+// Dollars earned in a bucket given annual spend, a base rate, and a set of
+// capped bonus offers. Fills the highest rate first up to its cap, then the
+// next, with any remainder at the base rate.
+function bucketEarn(spend, baseEff, offers) {
+  const sorted = offers.filter((o) => o.eff > baseEff).sort((a, b) => b.eff - a.eff);
+  let remaining = spend;
+  let earned = 0;
+  for (const o of sorted) {
+    if (remaining <= 0) break;
+    const amt = Math.min(remaining, o.cap);
+    earned += (amt * o.eff) / 100;
+    remaining -= amt;
+  }
+  earned += (Math.max(0, remaining) * baseEff) / 100;
+  return {
+    earned,
+    topRate: sorted.length ? sorted[0].eff : baseEff,
+    topCard: sorted.length ? sorted[0].cardName : null,
+  };
+}
+
+// Total earnings for a wallet (cards, duplicates allowed), allocating each
+// flexible bonus greedily to the bucket where it adds the most value.
+function walletEarnings(cards, spend) {
+  const baseEff = cards.length ? Math.max(...cards.map(flatRateEff)) : 0;
+
+  const directByBucket = {};
+  for (const b of SPEND_BUCKETS) directByBucket[b] = [];
+  const flexible = [];
+  for (const card of cards) {
+    const offers = cardOffers(card);
+    for (const d of offers.direct) directByBucket[d.bucket].push(d);
+    for (const f of offers.flexible) flexible.push(f);
   }
 
-  // Assign each flexible reward to the single eligible bucket where the user
-  // spends the most (where the bonus is worth the most). One reward can be
-  // returned for several buckets, so group by reward identity first.
-  const groups = new Map();
-  for (const f of flexible) {
-    if (!groups.has(f.reward)) groups.set(f.reward, []);
-    groups.get(f.reward).push(f);
-  }
-  for (const list of groups.values()) {
-    let chosen = null;
-    let chosenSpend = -1;
-    for (const f of list) {
-      const s = spend[f.bucket] || 0;
-      if (s > chosenSpend) {
-        chosenSpend = s;
-        chosen = f;
+  const assignedByBucket = {};
+  for (const b of SPEND_BUCKETS) assignedByBucket[b] = [];
+
+  // Greedy: repeatedly place the flexible bonus whose best available bucket
+  // yields the largest incremental gain.
+  const remaining = flexible.slice();
+  while (remaining.length) {
+    let bestGain = 1e-9;
+    let bestIdx = -1;
+    let bestBucket = null;
+    for (let i = 0; i < remaining.length; i++) {
+      const f = remaining[i];
+      for (const bucket of f.eligible) {
+        const s = spend[bucket] || 0;
+        if (s <= 0) continue;
+        const current = [...directByBucket[bucket], ...assignedByBucket[bucket]];
+        const before = bucketEarn(s, baseEff, current).earned;
+        const after = bucketEarn(s, baseEff, [...current, f]).earned;
+        const gain = after - before;
+        if (gain > bestGain) {
+          bestGain = gain;
+          bestIdx = i;
+          bestBucket = bucket;
+        }
       }
     }
-    if (chosen && chosen.eff > map[chosen.bucket].rate) {
-      map[chosen.bucket] = {
-        rate: chosen.eff,
-        capAnnual: capAnnual(chosen.reward),
-        overEff: overCapEff(chosen.reward, card.card_name, baseEff),
-      };
-    }
+    if (bestIdx === -1) break;
+    assignedByBucket[bestBucket].push(remaining[bestIdx]);
+    remaining.splice(bestIdx, 1);
   }
 
-  return map;
-}
-
-// Best effective rate per bucket across a set of owned cards, using the user's
-// spend to resolve each card's flexible bonus. An empty wallet yields all
-// zeros, so a first-time applicant naturally sees full (absolute) value.
-// Caps are ignored here (the baseline is an upper bound of what the wallet
-// already earns — a deliberately conservative direction for recommendations).
-function walletBaseline(ownedCards, spend) {
-  const baseline = {};
-  for (const bucket of SPEND_BUCKETS) baseline[bucket] = 0;
-  for (const card of ownedCards) {
-    const map = cardRateMap(card, spend);
-    for (const bucket of SPEND_BUCKETS) {
-      if (map[bucket].rate > baseline[bucket]) baseline[bucket] = map[bucket].rate;
-    }
-  }
-  return baseline;
-}
-
-// Marginal annual rewards ($) a candidate adds on top of the current wallet,
-// plus the per-bucket breakdown of where it actually wins. Honors per-reward
-// spend caps: the bonus rate earns only up to the cap, the remainder at the
-// card's after-cap rate.
-function marginalRewards(card, spend, baseline) {
-  const map = cardRateMap(card, spend);
-  let rewardsValue = 0;
-  const winningCategories = [];
+  const perBucket = {};
+  let total = 0;
   for (const bucket of SPEND_BUCKETS) {
-    const annualSpend = spend[bucket] || 0;
-    if (annualSpend <= 0) continue;
-    const prior = baseline[bucket] || 0;
-    const { rate, capAnnual: cap, overEff } = map[bucket];
-    const capped = Math.min(annualSpend, cap);
-    const over = annualSpend - capped;
-    const gain =
-      (capped * Math.max(0, rate - prior)) / 100 +
-      (over * Math.max(0, overEff - prior)) / 100;
-    if (gain > 0.005) {
-      winningCategories.push({
-        category: bucket,
-        rate,
-        priorRate: prior,
-        annualValue: gain,
-      });
-      rewardsValue += gain;
-    }
+    const s = spend[bucket] || 0;
+    const offers = [...directByBucket[bucket], ...assignedByBucket[bucket]];
+    const { earned, topRate, topCard } = bucketEarn(s, baseEff, offers);
+    perBucket[bucket] = { spend: s, earned, topRate, topCard };
+    total += earned;
   }
-  winningCategories.sort((a, b) => b.annualValue - a.annualValue);
-  return { rewardsValue, winningCategories };
+  return { perBucket, total, baseEff };
+}
+
+// What a candidate adds on top of the current wallet, per category. `base` is
+// walletEarnings(owned, spend), passed in so it is computed once per request.
+function recommendationBreakdown(candidate, owned, spend, base) {
+  const withCard = walletEarnings([...owned, candidate], spend);
+  const categories = [];
+  for (const bucket of SPEND_BUCKETS) {
+    const s = spend[bucket] || 0;
+    if (s <= 0) continue;
+    const before = base.perBucket[bucket];
+    const after = withCard.perBucket[bucket];
+    const delta = after.earned - before.earned;
+    categories.push({
+      category: bucket,
+      spend: s,
+      currentRate: before.topRate,
+      currentCard: before.topCard,
+      currentEarned: before.earned,
+      newRate: after.topRate,
+      newEarned: after.earned,
+      delta,
+      helps: delta > 0.5,
+    });
+  }
+  const rewardsValue = withCard.total - base.total;
+  const winningCategories = categories
+    .filter((c) => c.helps)
+    .sort((a, b) => b.delta - a.delta)
+    .map((c) => ({
+      category: c.category,
+      rate: c.newRate,
+      priorRate: c.currentRate,
+      annualValue: c.delta,
+    }));
+  return { rewardsValue, winningCategories, categories };
 }
 
 module.exports = {
   SPEND_CATEGORY_MAP,
   SPEND_BUCKETS,
   flatRateEff,
-  cardRateMap,
-  walletBaseline,
-  marginalRewards,
+  cardOffers,
+  bucketEarn,
+  walletEarnings,
+  recommendationBreakdown,
 };

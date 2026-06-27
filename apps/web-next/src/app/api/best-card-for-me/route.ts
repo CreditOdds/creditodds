@@ -74,7 +74,7 @@ export async function POST(request: Request) {
       cards,
       limit: 5,
     };
-    const results = rankNextCards(input);
+    const { recommendations: results, walletAnalysis } = rankNextCards(input);
 
     // Trim each card to the fields the results UI needs (keeps payload lean and
     // avoids shipping internal stats).
@@ -88,6 +88,17 @@ export async function POST(request: Request) {
       winningCategories: r.winningCategories.map((w) => ({
         category: w.category,
         annualValue: Math.round(w.annualValue),
+      })),
+      // Full per-category comparison (wallet with vs without this card) for the
+      // "why it helps / why it won't" table.
+      categories: r.categories.map((c) => ({
+        category: c.category,
+        spend: Math.round(c.spend),
+        currentRate: Number(c.currentRate.toFixed(2)),
+        currentCard: c.currentCard,
+        newRate: Number(c.newRate.toFixed(2)),
+        delta: Math.round(c.delta),
+        helps: c.helps,
       })),
       matchedCredits: r.matchedCredits,
       card: {
@@ -104,7 +115,15 @@ export async function POST(request: Request) {
       },
     }));
 
-    return NextResponse.json({ recommendations });
+    const wallet = walletAnalysis.map((w) => ({
+      category: w.category,
+      spend: Math.round(w.spend),
+      rate: Number(w.rate.toFixed(2)),
+      card: w.card,
+      earned: Math.round(w.earned),
+    }));
+
+    return NextResponse.json({ recommendations, walletAnalysis: wallet });
   } catch (error) {
     console.error('best-card-for-me ranking failed:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

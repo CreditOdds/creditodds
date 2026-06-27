@@ -1,10 +1,12 @@
 // TypeScript surface for the "best card for me" ranker.
 //
-// The marginal-rewards math lives in apps/api/src/lib/ranker/nextCardRanking.js
-// (shared with the rest of the ranker via the `@ranker/*` alias). This file
-// layers on the parts that belong to the frontend — credit amortization
-// (reusing amortizedAnnualValue) and the cash-vs-points soft preference — and
-// produces the final, typed ranking the /best-card-for-me page renders.
+// The earnings math lives in apps/api/src/lib/ranker/nextCardRanking.js (shared
+// with the rest of the ranker via the `@ranker/*` alias). It models the wallet
+// as a set of cards (duplicates allowed), allocates flexible/capped bonuses,
+// and reports per-category earnings. This file layers on the frontend parts —
+// credit amortization (reusing amortizedAnnualValue) and the cash-vs-points
+// soft preference — and produces the final, typed ranking + wallet analysis
+// the /best-card-for-me page renders.
 //
 // Ranking philosophy (locked in design): ONGOING value, computed MARGINALLY
 // over the user's existing wallet. A card that doesn't beat what they already
@@ -21,7 +23,8 @@ export type NextCardSpend = Record<string, number>;
 export interface NextCardInput {
   /** Annual dollar spend per bucket (see SPEND_BUCKETS). */
   spend: NextCardSpend;
-  /** Slugs of cards the user already holds. */
+  /** Slugs of cards the user already holds. May contain duplicates (e.g. two
+   *  Citi Custom Cash). */
   walletSlugs: string[];
   prefs: {
     rewardType: RewardTypePref;
@@ -44,6 +47,28 @@ export interface WinningCategory {
   annualValue: number;
 }
 
+// Per-category comparison of the wallet with vs without a candidate card.
+export interface CategoryBreakdown {
+  category: string;
+  spend: number;
+  currentRate: number;
+  currentCard: string | null;
+  currentEarned: number;
+  newRate: number;
+  newEarned: number;
+  delta: number;
+  helps: boolean;
+}
+
+// One row of the "your wallet today" table.
+export interface WalletAnalysisRow {
+  category: string;
+  spend: number;
+  rate: number;
+  card: string | null;
+  earned: number;
+}
+
 export interface MatchedCredit {
   name: string;
   value: number;
@@ -59,7 +84,13 @@ export interface NextCardResult {
   creditsValue: number;
   annualFee: number;
   winningCategories: WinningCategory[];
+  categories: CategoryBreakdown[];
   matchedCredits: MatchedCredit[];
+}
+
+export interface NextCardRanking {
+  recommendations: NextCardResult[];
+  walletAnalysis: WalletAnalysisRow[];
 }
 
 // The spend buckets the quiz asks about, and their display labels.
@@ -128,8 +159,6 @@ const PROSE_CATEGORY: Record<string, string> = {
 
 // A deterministic one-line rationale for why a card ranks where it does.
 // Templated (no LLM dependency) so results never block on an external call.
-// When ANTHROPIC_API_KEY is provisioned, this can be swapped for an LLM-written
-// line; the structured inputs (winning categories, credits, fee) are the prompt.
 export function nextCardBlurb(rec: NextCardResult): string {
   const bonusCats = rec.winningCategories
     .filter((w) => w.category !== 'everything_else')
@@ -161,18 +190,32 @@ export function nextCardBlurb(rec: NextCardResult): string {
   return `${lead}${tail}.`;
 }
 
-export function rankNextCards(input: NextCardInput): NextCardResult[] {
+interface WalletEarnings {
+  perBucket: Record<
+    string,
+    { spend: number; earned: number; topRate: number; topCard: string | null }
+  >;
+  total: number;
+  baseEff: number;
+}
+
+export function rankNextCards(input: NextCardInput): NextCardRanking {
   const { spend, walletSlugs, prefs, cards } = input;
   const limit = input.limit ?? 5;
 
+  const bySlug = new Map(cards.map((c) => [c.slug, c]));
+  // Owned cards, WITH multiplicity (two Custom Cash → two entries).
+  const owned = walletSlugs
+    .map((slug) => bySlug.get(slug))
+    .filter((c): c is Card => Boolean(c));
   const walletSet = new Set(walletSlugs);
-  const owned = cards.filter((c) => walletSet.has(c.slug));
-  const baseline = engine.walletBaseline(owned, spend);
+
+  const base = engine.walletEarnings(owned, spend) as WalletEarnings;
 
   const scored = cards
     // Never recommend a card the user already holds, or one that's no longer
     // accepting applications / has been discontinued. (Owned non-accepting
-    // cards still count toward the wallet baseline above — we just don't
+    // cards still count toward the wallet earnings above — we just don't
     // recommend them.)
     .filter(
       (c) =>
@@ -181,11 +224,16 @@ export function rankNextCards(input: NextCardInput): NextCardResult[] {
         c.active !== false,
     )
     .map((card) => {
-      const { rewardsValue, winningCategories } = engine.marginalRewards(
+      const { rewardsValue, winningCategories, categories } = engine.recommendationBreakdown(
         card,
+        owned,
         spend,
-        baseline,
-      ) as { rewardsValue: number; winningCategories: WinningCategory[] };
+        base,
+      ) as {
+        rewardsValue: number;
+        winningCategories: WinningCategory[];
+        categories: CategoryBreakdown[];
+      };
       const { total: creditsValue, matched } = matchedCreditsFor(card.benefits, spend);
       const annualFee = card.annual_fee || 0;
       const netAnnualValue = rewardsValue + creditsValue - annualFee;
@@ -205,6 +253,7 @@ export function rankNextCards(input: NextCardInput): NextCardResult[] {
         creditsValue,
         annualFee,
         winningCategories,
+        categories,
         matchedCredits: matched,
       };
     })
@@ -213,7 +262,7 @@ export function rankNextCards(input: NextCardInput): NextCardResult[] {
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 
-  return scored.map((s, i) => ({
+  const recommendations: NextCardResult[] = scored.map((s, i) => ({
     card: s.card,
     rank: i + 1,
     netAnnualValue: s.netAnnualValue,
@@ -221,6 +270,19 @@ export function rankNextCards(input: NextCardInput): NextCardResult[] {
     creditsValue: s.creditsValue,
     annualFee: s.annualFee,
     winningCategories: s.winningCategories,
+    categories: s.categories,
     matchedCredits: s.matchedCredits,
   }));
+
+  const walletAnalysis: WalletAnalysisRow[] = SPEND_BUCKETS.filter(
+    (b) => (spend[b] || 0) > 0,
+  ).map((b) => ({
+    category: b,
+    spend: base.perBucket[b].spend,
+    rate: base.perBucket[b].topRate,
+    card: base.perBucket[b].topCard,
+    earned: base.perBucket[b].earned,
+  }));
+
+  return { recommendations, walletAnalysis };
 }

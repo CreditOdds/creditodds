@@ -27,7 +27,7 @@ const cashDining = (slug: string, rate: number): Card =>
 
 describe('rankNextCards — marginal value', () => {
   it('empty wallet yields absolute value', () => {
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: [],
       prefs: { rewardType: null },
@@ -41,7 +41,7 @@ describe('rankNextCards — marginal value', () => {
   });
 
   it('scores a candidate marginally over the existing wallet', () => {
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: ['d3'], // already holds the 3% dining card
       prefs: { rewardType: null },
@@ -55,7 +55,7 @@ describe('rankNextCards — marginal value', () => {
   });
 
   it('drops a card that is redundant with the wallet', () => {
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: ['d4'], // already holds 4% dining
       prefs: { rewardType: null },
@@ -76,7 +76,7 @@ describe('rankNextCards — marginal value', () => {
         { category: 'everything_else', value: 1, unit: 'percent' },
       ],
     });
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: [],
       prefs: { rewardType: null },
@@ -87,7 +87,7 @@ describe('rankNextCards — marginal value', () => {
   });
 
   it('excludes cards the user already owns from results', () => {
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: ['d3'],
       prefs: { rewardType: null },
@@ -108,7 +108,7 @@ describe('rankNextCards — points valuation', () => {
         { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
       ],
     });
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: [],
       prefs: { rewardType: null },
@@ -136,7 +136,7 @@ describe('rankNextCards — credits', () => {
       ],
       benefits,
     });
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 5000 },
       walletSlugs: [],
       prefs: { rewardType: null },
@@ -165,7 +165,7 @@ describe('rankNextCards — credits', () => {
       benefits,
     });
     // User spends only on dining, not travel → travel credit excluded.
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: [],
       prefs: { rewardType: null },
@@ -201,7 +201,7 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     });
 
   it('awards a single-category bonus to only the top-spend category', () => {
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 6000, groceries: 4800, gas: 2400 },
       walletSlugs: [],
       prefs: { rewardType: null },
@@ -218,7 +218,7 @@ describe('rankNextCards — flexible bonuses and caps', () => {
 
   it('caps the bonus rate at the annualized spend cap', () => {
     // $12k dining, but only $6k/yr earns 5%; the rest earns 1% (rate_after_cap).
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 12000 },
       walletSlugs: [],
       prefs: { rewardType: null },
@@ -226,6 +226,35 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     });
     // $6k × 5% + $6k × 1% = $300 + $60 = $360.
     expect(res[0].rewardsValue).toBeCloseTo(360);
+  });
+
+  it('stacks two copies of the same card so their caps add up', () => {
+    // Two Custom Cash (same slug listed twice) → 5% on the first $1,000/mo
+    // ($12k/yr) of dining. A flat 3% dining card adds nothing on top.
+    const { walletAnalysis, recommendations } = rankNextCards({
+      spend: { dining: 12000 },
+      walletSlugs: ['cc', 'cc'],
+      prefs: { rewardType: null },
+      cards: [customCash('cc'), cashDining('flat3', 3)],
+    });
+    const dining = walletAnalysis.find((w) => w.category === 'dining');
+    expect(dining?.earned).toBeCloseTo(600); // all $12k at 5%
+    expect(dining?.rate).toBeCloseTo(5);
+    expect(recommendations.find((r) => r.card.slug === 'flat3')).toBeUndefined();
+  });
+
+  it('recognizes a card that helps only above the stacked cap', () => {
+    // Same two Custom Cash, but $18k dining: $12k at 5%, the next $6k at 1%.
+    // A flat 3% dining card now adds value on that above-cap $6k: 6k×(3−1)% = $120.
+    const { recommendations } = rankNextCards({
+      spend: { dining: 18000 },
+      walletSlugs: ['cc', 'cc'],
+      prefs: { rewardType: null },
+      cards: [customCash('cc'), cashDining('flat3', 3)],
+    });
+    const rec = recommendations.find((r) => r.card.slug === 'flat3');
+    expect(rec).toBeDefined();
+    expect(rec?.rewardsValue).toBeCloseTo(120);
   });
 });
 
@@ -241,7 +270,7 @@ describe('rankNextCards — cash vs points soft preference', () => {
         { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
       ],
     });
-    const res = rankNextCards({
+    const { recommendations: res } = rankNextCards({
       spend: { dining: 10000 },
       walletSlugs: [],
       prefs: { rewardType: 'cashback' },

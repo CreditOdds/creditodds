@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
 import { cardMatchesSearch } from '@/lib/searchAliases';
@@ -23,6 +24,15 @@ interface RecCard {
   annual_fee?: number;
   signup_bonus?: SignupBonus;
 }
+interface CategoryRow {
+  category: string;
+  spend: number;
+  currentRate: number;
+  currentCard: string | null;
+  newRate: number;
+  delta: number;
+  helps: boolean;
+}
 interface Recommendation {
   rank: number;
   blurb: string;
@@ -31,8 +41,16 @@ interface Recommendation {
   creditsValue: number;
   annualFee: number;
   winningCategories: { category: string; annualValue: number }[];
+  categories: CategoryRow[];
   matchedCredits: { name: string; value: number; category: string }[];
   card: RecCard;
+}
+interface WalletRow {
+  category: string;
+  spend: number;
+  rate: number;
+  card: string | null;
+  earned: number;
 }
 
 // ---- Quiz options -----------------------------------------------------------
@@ -116,6 +134,7 @@ interface QuizState {
 }
 
 const STORAGE_KEY = 'bcfm_quiz_state_v1';
+const RESULTS_KEY = 'bcfm_results_v1';
 
 const initialState: QuizState = {
   rewardType: null,
@@ -129,7 +148,8 @@ type Action =
   | { type: 'setSpend'; bucket: string; value: number }
   | { type: 'setAllSpend'; value: Record<string, number> }
   | { type: 'toggleAllegiance'; value: string }
-  | { type: 'toggleCard'; slug: string }
+  | { type: 'addCard'; slug: string }
+  | { type: 'removeCard'; slug: string }
   | { type: 'hydrate'; value: QuizState };
 
 function reducer(state: QuizState, action: Action): QuizState {
@@ -149,14 +169,14 @@ function reducer(state: QuizState, action: Action): QuizState {
           : [...state.allegiances, action.value],
       };
     }
-    case 'toggleCard': {
-      const has = state.walletSlugs.includes(action.slug);
-      return {
-        ...state,
-        walletSlugs: has
-          ? state.walletSlugs.filter((s) => s !== action.slug)
-          : [...state.walletSlugs, action.slug],
-      };
+    case 'addCard':
+      return { ...state, walletSlugs: [...state.walletSlugs, action.slug] };
+    case 'removeCard': {
+      const idx = state.walletSlugs.indexOf(action.slug);
+      if (idx === -1) return state;
+      const next = state.walletSlugs.slice();
+      next.splice(idx, 1);
+      return { ...state, walletSlugs: next };
     }
     case 'hydrate':
       return action.value;
@@ -173,16 +193,28 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
   const [step, setStep] = useState(0);
   const [phase, setPhase] = useState<'quiz' | 'gate' | 'results'>('quiz');
   const [results, setResults] = useState<Recommendation[] | null>(null);
+  const [walletAnalysis, setWalletAnalysis] = useState<WalletRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [walletPrefilled, setWalletPrefilled] = useState(false);
   const [activeProfile, setActiveProfile] = useState<string | null>(null);
 
-  // Persist answers so a sign-in redirect round-trip doesn't lose them.
+  // Persist answers so a sign-in redirect round-trip doesn't lose them, and
+  // restore completed results so navigating away and back doesn't restart the
+  // survey.
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem(STORAGE_KEY);
       if (saved) dispatch({ type: 'hydrate', value: JSON.parse(saved) });
+      const savedResults = sessionStorage.getItem(RESULTS_KEY);
+      if (savedResults) {
+        const parsed = JSON.parse(savedResults);
+        if (parsed.results) {
+          setResults(parsed.results);
+          setWalletAnalysis(parsed.walletAnalysis || []);
+          setPhase('results');
+        }
+      }
     } catch {
       /* ignore */
     }
@@ -194,20 +226,27 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
       /* ignore */
     }
   }, [state]);
+  useEffect(() => {
+    try {
+      if (phase === 'results' && results) {
+        sessionStorage.setItem(RESULTS_KEY, JSON.stringify({ results, walletAnalysis }));
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [phase, results, walletAnalysis]);
 
   const slugToCard = useMemo(() => new Map(allCards.map((c) => [c.slug, c])), [allCards]);
 
   // Map a user's stored wallet (numeric card_ids) back to catalog slugs.
+  // One slug per wallet ROW, so two of the same card surface as two entries
+  // (important for the stacked-cap calculus, e.g. two Citi Custom Cash).
   const walletToSlugs = useMemo(() => {
     const lookups = createCardLookups(allCards);
     return (wallet: { card_id: number; card_name: string }[]) =>
-      Array.from(
-        new Set(
-          wallet
-            .map((w) => (lookups.byWalletId.get(w.card_id) ?? lookups.byName.get(w.card_name))?.slug)
-            .filter((s): s is string => !!s),
-        ),
-      );
+      wallet
+        .map((w) => (lookups.byWalletId.get(w.card_id) ?? lookups.byName.get(w.card_name))?.slug)
+        .filter((s): s is string => !!s);
   }, [allCards]);
 
   // Signed-in users: pull their current cards from their wallet instead of
@@ -293,6 +332,7 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
       }
       const data = await res.json();
       setResults(data.recommendations);
+      setWalletAnalysis(data.walletAnalysis || []);
       setPhase('results');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong');
@@ -327,7 +367,23 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
   // ---- Render ---------------------------------------------------------------
 
   if (phase === 'results' && results) {
-    return <Results results={results} onRestart={() => { setPhase('quiz'); setStep(0); setResults(null); }} />;
+    return (
+      <Results
+        results={results}
+        walletAnalysis={walletAnalysis}
+        onRestart={() => {
+          setPhase('quiz');
+          setStep(0);
+          setResults(null);
+          setWalletAnalysis([]);
+          try {
+            sessionStorage.removeItem(RESULTS_KEY);
+          } catch {
+            /* ignore */
+          }
+        }}
+      />
+    );
   }
 
   if (phase === 'gate') {
@@ -457,7 +513,8 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
               allCards={allCards}
               selected={state.walletSlugs}
               slugToCard={slugToCard}
-              onToggle={(slug) => dispatch({ type: 'toggleCard', slug })}
+              onAdd={(slug) => dispatch({ type: 'addCard', slug })}
+              onRemoveOne={(slug) => dispatch({ type: 'removeCard', slug })}
             />
           </StepShell>
         )}
@@ -518,12 +575,14 @@ function ExistingCardsPicker({
   allCards,
   selected,
   slugToCard,
-  onToggle,
+  onAdd,
+  onRemoveOne,
 }: {
   allCards: Card[];
   selected: string[];
   slugToCard: Map<string, Card>;
-  onToggle: (slug: string) => void;
+  onAdd: (slug: string) => void;
+  onRemoveOne: (slug: string) => void;
 }) {
   const [query, setQuery] = useState('');
   const matches = useMemo(() => {
@@ -533,24 +592,51 @@ function ExistingCardsPicker({
       .slice(0, 6);
   }, [query, allCards]);
 
+  // Group the wallet into unique cards with a count, preserving first-seen order.
+  const grouped = useMemo(() => {
+    const counts = new Map<string, number>();
+    const order: string[] = [];
+    for (const slug of selected) {
+      if (!counts.has(slug)) order.push(slug);
+      counts.set(slug, (counts.get(slug) || 0) + 1);
+    }
+    return order.map((slug) => ({ slug, count: counts.get(slug) || 0 }));
+  }, [selected]);
+
   return (
     <div className="bcfm-cards-picker">
-      {selected.length > 0 && (
+      {grouped.length > 0 && (
         <div className="bcfm-selected-cards">
-          {selected.map((slug) => {
+          {grouped.map(({ slug, count }) => {
             const c = slugToCard.get(slug);
             if (!c) return null;
             return (
-              <button key={slug} className="bcfm-selected-chip" onClick={() => onToggle(slug)}>
+              <div key={slug} className="bcfm-selected-chip">
                 <CardImage
                   cardImageLink={c.card_image_link}
                   alt={c.card_name}
                   width={30}
                   height={19}
                 />
-                {c.card_name}
-                <span aria-hidden className="bcfm-x">×</span>
-              </button>
+                <span className="bcfm-chip-name">{c.card_name}</span>
+                <span className="bcfm-qty">
+                  <button
+                    type="button"
+                    aria-label={`Remove one ${c.card_name}`}
+                    onClick={() => onRemoveOne(slug)}
+                  >
+                    −
+                  </button>
+                  <span className="bcfm-qty-count">{count}</span>
+                  <button
+                    type="button"
+                    aria-label={`Add another ${c.card_name}`}
+                    onClick={() => onAdd(slug)}
+                  >
+                    +
+                  </button>
+                </span>
+              </div>
             );
           })}
         </div>
@@ -565,26 +651,29 @@ function ExistingCardsPicker({
       {matches.length > 0 && (
         <ul className="bcfm-search-results">
           {matches.map((c) => {
-            const isSel = selected.includes(c.slug);
+            const count = selected.filter((s) => s === c.slug).length;
             return (
               <li key={c.slug}>
                 <button
-                  className={`bcfm-search-item ${isSel ? 'is-selected' : ''}`}
+                  className={`bcfm-search-item ${count > 0 ? 'is-selected' : ''}`}
                   onClick={() => {
-                    onToggle(c.slug);
+                    onAdd(c.slug);
                     setQuery('');
                   }}
                 >
                   <CardImage cardImageLink={c.card_image_link} alt={c.card_name} width={40} height={25} />
                   <span>{c.card_name}</span>
-                  {isSel && <span className="bcfm-check">Added</span>}
+                  {count > 0 && <span className="bcfm-check">Added{count > 1 ? ` ×${count}` : ''}</span>}
                 </button>
               </li>
             );
           })}
         </ul>
       )}
-      <p className="bcfm-hint">Don&apos;t have any yet? Just continue, and we&apos;ll rank from scratch.</p>
+      <p className="bcfm-hint">
+        Have two of the same card? Add it twice. Don&apos;t have any yet? Just continue, and we&apos;ll
+        rank from scratch.
+      </p>
     </div>
   );
 }
@@ -625,27 +714,112 @@ function Gate({
   );
 }
 
-function Results({ results, onRestart }: { results: Recommendation[]; onRestart: () => void }) {
-  if (results.length === 0) {
-    return (
-      <div className="bcfm-results-empty">
-        <h2>No clear upgrades right now.</h2>
-        <p>Your current cards already cover your spending well. Add more spending detail or try again later.</p>
-        <button className="bcfm-btn bcfm-btn-primary" onClick={onRestart}>
-          Start over
-        </button>
-      </div>
-    );
-  }
+// Format an effective cents-per-dollar rate (e.g. 5 → "5%", 4.8 → "4.8%").
+function formatRate(rate: number): string {
+  const r = Math.round(rate * 10) / 10;
+  return `${Number.isInteger(r) ? r : r.toFixed(1)}%`;
+}
+
+function WalletTable({ rows }: { rows: WalletRow[] }) {
+  if (rows.length === 0) return null;
+  return (
+    <div className="bcfm-wallet-analysis">
+      <h3 className="bcfm-section-h">Your wallet today</h3>
+      <p className="bcfm-section-sub">What the cards you already have earn on the spending you entered.</p>
+      <table className="bcfm-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th className="num">Spend / yr</th>
+            <th>Best rate now</th>
+            <th className="num">Earns / yr</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.category}>
+              <td>{SPEND_BUCKET_LABELS[r.category] || r.category}</td>
+              <td className="num">${r.spend.toLocaleString()}</td>
+              <td>
+                {formatRate(r.rate)}
+                {r.card && <span className="bcfm-table-sub"> · {r.card}</span>}
+              </td>
+              <td className="num">${r.earned.toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function CategoryBreakdownTable({ categories }: { categories: CategoryRow[] }) {
+  return (
+    <table className="bcfm-table bcfm-table-compact">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>You earn now</th>
+          <th>With this card</th>
+          <th className="num">Added / yr</th>
+        </tr>
+      </thead>
+      <tbody>
+        {categories.map((cat) => (
+          <tr key={cat.category} className={cat.helps ? 'helps' : ''}>
+            <td>{SPEND_BUCKET_LABELS[cat.category] || cat.category}</td>
+            <td>
+              {formatRate(cat.currentRate)}
+              {cat.currentCard && <span className="bcfm-table-sub"> · {cat.currentCard}</span>}
+            </td>
+            <td>{cat.helps ? formatRate(cat.newRate) : <span className="bcfm-muted">no change</span>}</td>
+            <td className={`num ${cat.delta > 0 ? 'pos' : ''}`}>
+              {cat.delta > 0 ? `+$${cat.delta.toLocaleString()}` : '—'}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function Results({
+  results,
+  walletAnalysis,
+  onRestart,
+}: {
+  results: Recommendation[];
+  walletAnalysis: WalletRow[];
+  onRestart: () => void;
+}) {
   return (
     <div className="bcfm-results">
       <h2 className="bcfm-results-title">Your best cards to get next</h2>
-      <p className="bcfm-results-sub">Ranked by the ongoing value each adds on top of the cards you already have.</p>
-      <ol className="bcfm-rec-list">
-        {results.map((r) => (
-          <RecCardRow key={r.card.slug} rec={r} />
-        ))}
-      </ol>
+      <p className="bcfm-results-sub">
+        Ranked by the ongoing value each adds on top of the cards you already have.
+      </p>
+
+      <WalletTable rows={walletAnalysis} />
+
+      {results.length === 0 ? (
+        <div className="bcfm-results-empty">
+          <h3 className="bcfm-section-h">No clear upgrades right now</h3>
+          <p>
+            Your current cards already cover this spending well. Nothing in the catalog beats them by
+            enough to be worth another annual fee or hard pull.
+          </p>
+        </div>
+      ) : (
+        <>
+          <h3 className="bcfm-section-h">Recommended additions</h3>
+          <ol className="bcfm-rec-list">
+            {results.map((r) => (
+              <RecCardRow key={r.card.slug} rec={r} />
+            ))}
+          </ol>
+        </>
+      )}
+
       <button className="bcfm-btn bcfm-btn-ghost" onClick={onRestart}>
         Start over
       </button>
@@ -655,15 +829,17 @@ function Results({ results, onRestart }: { results: Recommendation[]; onRestart:
 
 function RecCardRow({ rec }: { rec: Recommendation }) {
   const c = rec.card;
-  const applyUrl = c.apply_link || c.special_apply_link;
+  const cardUrl = `/card/${c.slug}`;
   return (
     <li className="bcfm-rec">
       <div className="bcfm-rec-rank">{rec.rank}</div>
-      <div className="bcfm-rec-img">
+      <Link className="bcfm-rec-img" href={cardUrl}>
         <CardImage cardImageLink={c.card_image_link} alt={c.card_name} width={120} height={75} />
-      </div>
+      </Link>
       <div className="bcfm-rec-body">
-        <h3 className="bcfm-rec-name">{c.card_name}</h3>
+        <h3 className="bcfm-rec-name">
+          <Link href={cardUrl}>{c.card_name}</Link>
+        </h3>
         <p className="bcfm-rec-value">
           +${rec.netAnnualValue.toLocaleString()}<span>/yr over your wallet</span>
         </p>
@@ -691,16 +867,17 @@ function RecCardRow({ rec }: { rec: Recommendation }) {
             {c.signup_bonus.spend_requirement.toLocaleString()} in {c.signup_bonus.timeframe_months} mo
           </p>
         )}
+        {rec.categories.length > 0 && (
+          <details className="bcfm-rec-details">
+            <summary>How it changes each category</summary>
+            <CategoryBreakdownTable categories={rec.categories} />
+          </details>
+        )}
       </div>
       <div className="bcfm-rec-cta">
-        {applyUrl && (
-          <a className="bcfm-btn bcfm-btn-primary" href={applyUrl} target="_blank" rel="noopener noreferrer">
-            View card
-          </a>
-        )}
-        <a className="bcfm-rec-link" href={`/card/${c.slug}`}>
-          Details
-        </a>
+        <Link className="bcfm-btn bcfm-btn-primary" href={cardUrl}>
+          View card
+        </Link>
       </div>
     </li>
   );
