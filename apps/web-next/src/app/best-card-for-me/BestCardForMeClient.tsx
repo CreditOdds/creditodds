@@ -139,7 +139,28 @@ interface QuizState {
 const STORAGE_KEY = 'bcfm_quiz_state_v1';
 // Bump this when the persisted results shape changes so stale cached results
 // (e.g. from a build before a new field) are discarded instead of restored.
-const RESULTS_KEY = 'bcfm_results_v2';
+const RESULTS_KEY = 'bcfm_results_v3';
+
+// Guards against rendering results saved by an older build with a different
+// shape (which would crash). Belt-and-suspenders alongside the versioned key.
+function resultsShapeValid(
+  parsed: unknown,
+): parsed is { results: Recommendation[]; walletAnalysis: WalletRow[] } {
+  if (!parsed || typeof parsed !== 'object') return false;
+  const p = parsed as { results?: unknown; walletAnalysis?: unknown };
+  if (!Array.isArray(p.results) || !Array.isArray(p.walletAnalysis)) return false;
+  const recsOk = p.results.every(
+    (r) => r && typeof r === 'object' && Array.isArray((r as Recommendation).categories),
+  );
+  const walletOk = p.walletAnalysis.every(
+    (w) =>
+      w &&
+      typeof w === 'object' &&
+      (w as WalletRow).best &&
+      typeof (w as WalletRow).best.rate === 'number',
+  );
+  return recsOk && walletOk;
+}
 
 const initialState: QuizState = {
   rewardType: null,
@@ -214,10 +235,15 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
       const savedResults = sessionStorage.getItem(RESULTS_KEY);
       if (savedResults) {
         const parsed = JSON.parse(savedResults);
-        if (parsed.results) {
+        // Only restore if the cached data matches the CURRENT shape — a result
+        // saved by an older build (different fields) is discarded rather than
+        // rendered, which would crash. Self-heals across shape changes.
+        if (resultsShapeValid(parsed)) {
           setResults(parsed.results);
-          setWalletAnalysis(parsed.walletAnalysis || []);
+          setWalletAnalysis(parsed.walletAnalysis);
           setPhase('results');
+        } else {
+          sessionStorage.removeItem(RESULTS_KEY);
         }
       }
     } catch {
@@ -751,7 +777,9 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
+            {rows.map((r) => {
+              if (!r.best) return null;
+              return (
               <tr key={r.category}>
                 <td>
                   <span className="bcfm-table-cat">
@@ -789,7 +817,8 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
                 </td>
                 <td className="num">${r.earned.toLocaleString()}</td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>
