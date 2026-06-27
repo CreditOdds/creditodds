@@ -170,7 +170,16 @@ export function rankNextCards(input: NextCardInput): NextCardResult[] {
   const baseline = engine.walletBaseline(owned, spend);
 
   const scored = cards
-    .filter((c) => !walletSet.has(c.slug) && c.accepting_applications !== false)
+    // Never recommend a card the user already holds, or one that's no longer
+    // accepting applications / has been discontinued. (Owned non-accepting
+    // cards still count toward the wallet baseline above — we just don't
+    // recommend them.)
+    .filter(
+      (c) =>
+        !walletSet.has(c.slug) &&
+        c.accepting_applications !== false &&
+        c.active !== false,
+    )
     .map((card) => {
       const { rewardsValue, winningCategories } = engine.marginalRewards(
         card,

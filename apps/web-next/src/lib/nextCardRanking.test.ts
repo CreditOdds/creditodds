@@ -65,6 +65,27 @@ describe('rankNextCards — marginal value', () => {
     expect(res).toHaveLength(0);
   });
 
+  it('never recommends a card that is not accepting applications', () => {
+    const archived = card({
+      slug: 'archived',
+      card_name: 'Archived 5% Dining',
+      reward_type: 'cashback',
+      accepting_applications: false,
+      rewards: [
+        { category: 'dining', value: 5, unit: 'percent' },
+        { category: 'everything_else', value: 1, unit: 'percent' },
+      ],
+    });
+    const res = rankNextCards({
+      spend: { dining: 10000 },
+      walletSlugs: [],
+      prefs: { rewardType: null },
+      cards: [archived, cashDining('d2', 2)],
+    });
+    // The archived card has the higher rate but must not be recommended.
+    expect(res.map((r) => r.card.slug)).toEqual(['d2']);
+  });
+
   it('excludes cards the user already owns from results', () => {
     const res = rankNextCards({
       spend: { dining: 10000 },
