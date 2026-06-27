@@ -773,16 +773,13 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
   if (rows.length === 0) return null;
   const totalSpend = rows.reduce((s, r) => s + (r.spend || 0), 0);
   const totalEarned = rows.reduce((s, r) => s + (r.earned || 0), 0);
-  // The "Then on the rest" column only makes sense when at least one category
-  // overflows a card's cap — otherwise it's a column of dashes, so we hide it.
-  const hasOverflow = rows.some((r) => r.next);
   return (
     <div className="bcfm-wallet-analysis">
       <h3 className="bcfm-section-h">Your wallet today</h3>
       <p className="bcfm-section-sub">
-        {hasOverflow
-          ? 'What your cards earn now, and where spending falls once a card’s monthly cap is hit (e.g. Custom Cash’s 5% stops after $500/mo). Wherever “the rest” drops to a low rate is a gap a new card can fill.'
-          : 'What your current cards earn on the spending you entered. Any category at a low rate is a gap a new card can fill.'}
+        What your cards earn now, and where spending falls once a card&apos;s monthly cap is hit
+        (e.g. Custom Cash&apos;s 5% stops after $500/mo). Wherever &quot;the rest&quot; drops to a low
+        rate is a gap a new card can fill.
       </p>
       <div className="bcfm-table-wrap">
         <table className="bcfm-table">
@@ -791,7 +788,7 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
               <th>Category</th>
               <th className="num">Spend / mo</th>
               <th>Best rate now</th>
-              {hasOverflow && <th>Then on the rest</th>}
+              <th>Then on the rest</th>
               <th className="num">Earns / mo</th>
             </tr>
           </thead>
@@ -813,29 +810,28 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
                       <span className="bcfm-tier-amt">first ${perMonth(r.best.spend).toLocaleString()}/mo</span>
                     )}
                   </td>
-                  {hasOverflow && (
-                    <td>
-                      {r.next ? (
-                        <>
-                          {r.next.card ? (
-                            <RateWithCard
-                              rate={r.next.rate}
-                              card={r.next.card}
-                              cardImage={r.next.cardImage}
-                            />
-                          ) : (
-                            <span className="bcfm-rate-cell">
-                              {formatRate(r.next.rate)}
-                              <span className="bcfm-table-sub">no bonus</span>
-                            </span>
-                          )}
-                          <span className="bcfm-tier-amt">next ${perMonth(r.next.spend).toLocaleString()}/mo</span>
-                        </>
-                      ) : (
-                        <span className="bcfm-muted">—</span>
-                      )}
-                    </td>
-                  )}
+                  <td>
+                    {r.next ? (
+                      <>
+                        {r.next.card ? (
+                          <RateWithCard
+                            rate={r.next.rate}
+                            card={r.next.card}
+                            cardImage={r.next.cardImage}
+                          />
+                        ) : (
+                          <span className="bcfm-rate-cell">
+                            {formatRate(r.next.rate)}
+                            <span className="bcfm-table-sub">no bonus</span>
+                          </span>
+                        )}
+                        <span className="bcfm-tier-amt">next ${perMonth(r.next.spend).toLocaleString()}/mo</span>
+                      </>
+                    ) : (
+                      // No cap hit in this category — the best card covers all of it.
+                      <span className="bcfm-muted">all covered, no cap</span>
+                    )}
+                  </td>
                   <td className="num bcfm-earn">+${perMonth(r.earned).toLocaleString()}</td>
                 </tr>
               );
@@ -846,14 +842,14 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
               <td>Total / mo</td>
               <td className="num">${perMonth(totalSpend).toLocaleString()}</td>
               <td />
-              {hasOverflow && <td />}
+              <td />
               <td className="num bcfm-earn">+${perMonth(totalEarned).toLocaleString()}</td>
             </tr>
             <tr className="bcfm-table-total bcfm-table-total-year">
               <td>Total / yr</td>
               <td className="num">${totalSpend.toLocaleString()}</td>
               <td />
-              {hasOverflow && <td />}
+              <td />
               <td className="num bcfm-earn">+${totalEarned.toLocaleString()}</td>
             </tr>
           </tfoot>
