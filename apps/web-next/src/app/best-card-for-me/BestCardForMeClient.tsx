@@ -988,11 +988,16 @@ function RecCardRow({ rec }: { rec: Recommendation }) {
         <p className="bcfm-rec-value">
           +${rec.netAnnualValue.toLocaleString()}<span>/yr over your wallet</span>
         </p>
-        {rec.blurb && <p className="bcfm-rec-blurb">{rec.blurb}</p>}
+        {/* Make the net explicit: the headline value is rewards minus the fee. */}
         <div className="bcfm-rec-breakdown">
-          <span>Rewards ${rec.rewardsValue.toLocaleString()}/yr on your spending</span>
-          {rec.annualFee > 0 ? <span>Fee ${rec.annualFee}</span> : <span>No annual fee</span>}
+          <span>${rec.rewardsValue.toLocaleString()}/yr in rewards</span>
+          {rec.annualFee > 0 ? (
+            <span className="bcfm-rec-fee">− ${rec.annualFee.toLocaleString()} annual fee</span>
+          ) : (
+            <span>no annual fee</span>
+          )}
         </div>
+        {rec.blurb && <p className="bcfm-rec-blurb">{rec.blurb}</p>}
         {c.signup_bonus && c.signup_bonus.value > 0 && (
           <p className="bcfm-rec-sub">
             Bonus: {c.signup_bonus.value.toLocaleString()} {c.signup_bonus.type} after $

@@ -10478,7 +10478,10 @@
   font-size: 13px;
   font-variant-numeric: tabular-nums;
   color: var(--ink-2);
-  margin-bottom: 6px;
+  margin: 4px 0 8px;
+}
+.best-for-me-v2 .bcfm-rec-fee {
+  color: var(--warn);
 }
 .best-for-me-v2 .bcfm-rec-sub {
   font-size: 12.5px;

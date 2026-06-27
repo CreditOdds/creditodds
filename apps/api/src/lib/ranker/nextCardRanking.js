@@ -33,14 +33,16 @@ const SPEND_CATEGORY_MAP = {
 
 const SPEND_BUCKETS = Object.keys(SPEND_CATEGORY_MAP);
 
-// Modes that earn on ONE category at a time (the user's top/selected category
-// or the current rotation) rather than always-on.
-const FLEXIBLE_MODES = new Set([
-  "rotating_current",
-  "user_choice",
-  "user_selected",
-  "top_spend",
-]);
+// Single-category bonus modes the user CONTROLS: an auto top-spend category
+// (Custom Cash) or a category they choose (Cash+). These are allocated to one
+// bucket. Quarterly-rotating modes are deliberately excluded — the user can't
+// control which category is active, so we don't credit (or show) a rotating
+// card for a category just because it's this quarter's pick.
+const FLEXIBLE_MODES = new Set(["user_choice", "user_selected", "top_spend"]);
+
+// Issuer-rotated reward modes we never count: the active category changes each
+// quarter/month and isn't in the user's control.
+const ROTATING_MODES = new Set(["rotating_current", "rotating_eligible"]);
 
 // Portal-dependent reward categories (travel_portal, hotels_portal, …) only
 // earn when booked through the issuer portal, so they're excluded from general
@@ -135,7 +137,7 @@ function cardOffers(card, allegiances) {
       includeMerchantSpecific,
       null,
     );
-    if (!m || m.mode === "rotating_eligible") continue;
+    if (!m || ROTATING_MODES.has(m.mode)) continue;
     const eff = effectiveCashbackRate(m.reward.value, m.reward.unit, card.card_name);
     if (eff <= baseEff) continue;
     const offer = { bucket, eff, cap: capAnnual(m.reward), cardName: card.card_name, reward: m.reward };

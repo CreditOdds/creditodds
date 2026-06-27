@@ -226,6 +226,41 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     expect(res[0].rewardsValue).toBeCloseTo(360);
   });
 
+  it('does not credit a quarterly-rotating bonus, even for the current category', () => {
+    // Discover-it-style: 5% rotating, currently on dining, plus 1% base. The
+    // user can't control the rotation, so dining must only earn the 1% base —
+    // it loses to a plain 3% dining card.
+    const rotating = card({
+      slug: 'rot',
+      card_name: 'Rotating 5 Test',
+      reward_type: 'cashback',
+      rewards: [
+        {
+          category: 'rotating',
+          value: 5,
+          unit: 'percent',
+          mode: 'quarterly_rotating',
+          current_categories: [{ category: 'dining' }],
+          current_period: 'Q2',
+          spend_cap: 1500,
+          cap_period: 'quarterly',
+          rate_after_cap: 1,
+        },
+        { category: 'everything_else', value: 1, unit: 'percent' },
+      ] as Reward[],
+    });
+    const { recommendations } = rankNextCards({
+      spend: { dining: 10000 },
+      walletSlugs: [],
+      prefs: { rewardType: null },
+      cards: [rotating, cashDining('flat3', 3)],
+    });
+    // The 3% direct card wins; the rotating card only earns its 1% base.
+    expect(recommendations[0].card.slug).toBe('flat3');
+    const rot = recommendations.find((r) => r.card.slug === 'rot');
+    expect(rot?.rewardsValue ?? 0).toBeLessThan(150); // base 1% ($100), not 5% ($500)
+  });
+
   it('stacks two copies of the same card so their caps add up', () => {
     // Two Custom Cash (same slug listed twice) → 5% on the first $1,000/mo
     // ($12k/yr) of dining. A flat 3% dining card adds nothing on top.
