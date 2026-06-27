@@ -19,7 +19,7 @@ interface RequestBody {
   spend?: Record<string, unknown>;
   walletSlugs?: unknown;
   rewardType?: unknown;
-  allegiance?: unknown;
+  allegiances?: unknown;
 }
 
 const MAX_ANNUAL_SPEND = 1_000_000; // clamp absurd inputs
@@ -61,14 +61,16 @@ export async function POST(request: Request) {
       ? body.rewardType
       : null;
 
-  const allegiance = typeof body.allegiance === 'string' ? body.allegiance : null;
+  const allegiances = Array.isArray(body.allegiances)
+    ? body.allegiances.filter((s): s is string => typeof s === 'string')
+    : [];
 
   try {
     const cards = await getAllCards();
     const input: NextCardInput = {
       spend,
       walletSlugs,
-      prefs: { rewardType, allegiance },
+      prefs: { rewardType, allegiances },
       cards,
       limit: 5,
     };

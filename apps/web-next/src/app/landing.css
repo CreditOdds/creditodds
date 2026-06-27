@@ -10414,3 +10414,14 @@
   line-height: 1.45;
   margin: 0 0 10px;
 }
+.best-for-me-v2 .bcfm-group-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 16px 0 8px;
+}
+.best-for-me-v2 .bcfm-group-label:first-child {
+  margin-top: 0;
+}

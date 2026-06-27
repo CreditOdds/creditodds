@@ -5,7 +5,8 @@ import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import { SPEND_BUCKETS, SPEND_BUCKET_LABELS } from '@/lib/nextCardRanking';
-import type { Card, SignupBonus } from '@/lib/api';
+import { getWallet, addToWallet, type Card, type SignupBonus } from '@/lib/api';
+import { createCardLookups } from '@/app/profile/profileSelectors';
 
 // ---- Result shape returned by /api/best-card-for-me -------------------------
 
@@ -40,24 +41,27 @@ const REWARD_OPTIONS: { value: 'cashback' | 'points' | null; label: string; sub:
   { value: null, label: 'No preference', sub: 'Show me the best value' },
 ];
 
-const ALLEGIANCE_OPTIONS = [
-  { value: null, label: 'No allegiance' },
+const AIRLINE_OPTIONS = [
   { value: 'delta', label: 'Delta' },
   { value: 'united', label: 'United' },
   { value: 'american', label: 'American' },
   { value: 'southwest', label: 'Southwest' },
   { value: 'jetblue', label: 'JetBlue' },
   { value: 'alaska', label: 'Alaska' },
+];
+
+const HOTEL_OPTIONS = [
   { value: 'marriott', label: 'Marriott' },
   { value: 'hilton', label: 'Hilton' },
   { value: 'hyatt', label: 'Hyatt' },
+  { value: 'ihg', label: 'IHG' },
 ];
 
 // ---- Wizard state -----------------------------------------------------------
 
 interface QuizState {
   rewardType: 'cashback' | 'points' | null;
-  allegiance: string | null;
+  allegiances: string[];
   monthlySpend: Record<string, number>;
   walletSlugs: string[];
 }
@@ -66,7 +70,7 @@ const STORAGE_KEY = 'bcfm_quiz_state_v1';
 
 const initialState: QuizState = {
   rewardType: null,
-  allegiance: null,
+  allegiances: [],
   monthlySpend: Object.fromEntries(SPEND_BUCKETS.map((b) => [b, 0])),
   walletSlugs: [],
 };
@@ -74,6 +78,7 @@ const initialState: QuizState = {
 type Action =
   | { type: 'set'; key: keyof QuizState; value: QuizState[keyof QuizState] }
   | { type: 'setSpend'; bucket: string; value: number }
+  | { type: 'toggleAllegiance'; value: string }
   | { type: 'toggleCard'; slug: string }
   | { type: 'hydrate'; value: QuizState };
 
@@ -83,6 +88,15 @@ function reducer(state: QuizState, action: Action): QuizState {
       return { ...state, [action.key]: action.value };
     case 'setSpend':
       return { ...state, monthlySpend: { ...state.monthlySpend, [action.bucket]: action.value } };
+    case 'toggleAllegiance': {
+      const has = state.allegiances.includes(action.value);
+      return {
+        ...state,
+        allegiances: has
+          ? state.allegiances.filter((a) => a !== action.value)
+          : [...state.allegiances, action.value],
+      };
+    }
     case 'toggleCard': {
       const has = state.walletSlugs.includes(action.slug);
       return {
@@ -102,13 +116,14 @@ function reducer(state: QuizState, action: Action): QuizState {
 const STEPS = ['Rewards', 'Allegiance', 'Spending', 'Your cards'] as const;
 
 export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) {
-  const { authState, signInWithGoogle } = useAuth();
+  const { authState, signInWithGoogle, getToken } = useAuth();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [step, setStep] = useState(0);
   const [phase, setPhase] = useState<'quiz' | 'gate' | 'results'>('quiz');
   const [results, setResults] = useState<Recommendation[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [walletPrefilled, setWalletPrefilled] = useState(false);
 
   // Persist answers so a sign-in redirect round-trip doesn't lose them.
   useEffect(() => {
@@ -129,10 +144,82 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
 
   const slugToCard = useMemo(() => new Map(allCards.map((c) => [c.slug, c])), [allCards]);
 
+  // Map a user's stored wallet (numeric card_ids) back to catalog slugs.
+  const walletToSlugs = useMemo(() => {
+    const lookups = createCardLookups(allCards);
+    return (wallet: { card_id: number; card_name: string }[]) =>
+      Array.from(
+        new Set(
+          wallet
+            .map((w) => (lookups.byWalletId.get(w.card_id) ?? lookups.byName.get(w.card_name))?.slug)
+            .filter((s): s is string => !!s),
+        ),
+      );
+  }, [allCards]);
+
+  // Signed-in users: pull their current cards from their wallet instead of
+  // asking. Only overrides the picker when the wallet actually has cards.
+  useEffect(() => {
+    if (!authState.isAuthenticated) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const token = await getToken();
+        if (!token || cancelled) return;
+        const wallet = await getWallet(token);
+        if (cancelled || wallet.length === 0) return;
+        const slugs = walletToSlugs(wallet);
+        if (slugs.length === 0) return;
+        dispatch({ type: 'set', key: 'walletSlugs', value: slugs });
+        setWalletPrefilled(true);
+      } catch {
+        /* no wallet yet — fall back to asking */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authState.isAuthenticated]);
+
+  // Resolve the wallet slugs to rank against, and (for a brand-new signed-in
+  // user with no wallet) seed their wallet from the cards they entered — which
+  // also creates their profile. Never seeds when a wallet already exists.
+  async function resolveWalletSlugs(token: string): Promise<string[]> {
+    // Already loaded (and possibly edited) their existing wallet at start —
+    // rank against that view, and never reseed a wallet that already exists.
+    if (walletPrefilled) return state.walletSlugs;
+
+    let wallet: { card_id: number; card_name: string }[] = [];
+    try {
+      wallet = await getWallet(token);
+    } catch {
+      wallet = [];
+    }
+    if (wallet.length > 0) return walletToSlugs(wallet);
+
+    for (const slug of state.walletSlugs) {
+      const card = slugToCard.get(slug);
+      if (card?.db_card_id) {
+        try {
+          await addToWallet(card.db_card_id, undefined, undefined, token);
+        } catch {
+          /* skip cards that fail to add */
+        }
+      }
+    }
+    return state.walletSlugs;
+  }
+
   async function fetchResults() {
     setLoading(true);
     setError(null);
     try {
+      let walletSlugs = state.walletSlugs;
+      if (authState.isAuthenticated) {
+        const token = await getToken();
+        if (token) walletSlugs = await resolveWalletSlugs(token);
+      }
       const annualSpend: Record<string, number> = {};
       for (const [bucket, monthly] of Object.entries(state.monthlySpend)) {
         if (monthly > 0) annualSpend[bucket] = monthly * 12;
@@ -142,9 +229,9 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           spend: annualSpend,
-          walletSlugs: state.walletSlugs,
+          walletSlugs,
           rewardType: state.rewardType,
-          allegiance: state.allegiance,
+          allegiances: state.allegiances,
         }),
       });
       if (!res.ok) {
@@ -218,13 +305,29 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
         )}
 
         {step === 1 && (
-          <StepShell title="Any airline or hotel you're loyal to?" subtitle="Optional. It helps us value your points the way you'd actually use them.">
+          <StepShell
+            title="Any airlines or hotels you're loyal to?"
+            subtitle="Optional. Pick as many as you like. It helps us value your points the way you'd actually use them."
+          >
+            <p className="bcfm-group-label">Airlines</p>
             <div className="bcfm-chips">
-              {ALLEGIANCE_OPTIONS.map((opt) => (
+              {AIRLINE_OPTIONS.map((opt) => (
                 <button
-                  key={String(opt.value)}
-                  className={`bcfm-chip ${state.allegiance === opt.value ? 'is-selected' : ''}`}
-                  onClick={() => dispatch({ type: 'set', key: 'allegiance', value: opt.value })}
+                  key={opt.value}
+                  className={`bcfm-chip ${state.allegiances.includes(opt.value) ? 'is-selected' : ''}`}
+                  onClick={() => dispatch({ type: 'toggleAllegiance', value: opt.value })}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+            <p className="bcfm-group-label">Hotels</p>
+            <div className="bcfm-chips">
+              {HOTEL_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  className={`bcfm-chip ${state.allegiances.includes(opt.value) ? 'is-selected' : ''}`}
+                  onClick={() => dispatch({ type: 'toggleAllegiance', value: opt.value })}
                 >
                   {opt.label}
                 </button>
@@ -260,7 +363,14 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
         )}
 
         {step === 3 && (
-          <StepShell title="Which cards do you already have?" subtitle="We only recommend cards that beat what's already in your wallet.">
+          <StepShell
+            title={walletPrefilled ? 'Your wallet' : 'Which cards do you already have?'}
+            subtitle={
+              walletPrefilled
+                ? 'We pulled these from your account. Add or remove any to adjust.'
+                : "We only recommend cards that beat what's already in your wallet."
+            }
+          >
             <ExistingCardsPicker
               allCards={allCards}
               selected={state.walletSlugs}

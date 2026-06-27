@@ -25,9 +25,9 @@ export interface NextCardInput {
   walletSlugs: string[];
   prefs: {
     rewardType: RewardTypePref;
-    /** Airline/hotel allegiance — collected for display + blurb; value math
-     *  already honors it through point valuations, so it does not re-rank. */
-    allegiance?: string | null;
+    /** Airline/hotel allegiances — collected for display + blurb; value math
+     *  already honors them through point valuations, so they do not re-rank. */
+    allegiances?: string[];
   };
   cards: Card[];
   /** How many recommendations to return (default 5). */
