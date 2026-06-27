@@ -132,7 +132,9 @@ interface QuizState {
 }
 
 const STORAGE_KEY = 'bcfm_quiz_state_v1';
-const RESULTS_KEY = 'bcfm_results_v1';
+// Bump this when the persisted results shape changes so stale cached results
+// (e.g. from a build before a new field) are discarded instead of restored.
+const RESULTS_KEY = 'bcfm_results_v2';
 
 const initialState: QuizState = {
   rewardType: null,
