@@ -122,15 +122,21 @@ function AllegianceChip({
 // monthly estimate; the user can then fine-tune any row. Values are rough
 // monthly dollars per bucket.
 const SPEND_PROFILES: { key: string; label: string; spend: Record<string, number> }[] = [
-  { key: 'low', label: 'Low spender', spend: { dining: 80, groceries: 200, gas: 60, travel: 50, transit: 20, online_shopping: 60, streaming: 20, everything_else: 300 } },
-  { key: 'conservative', label: 'Conservative', spend: { dining: 150, groceries: 350, gas: 100, travel: 100, transit: 40, online_shopping: 120, streaming: 30, everything_else: 500 } },
-  { key: 'moderate', label: 'Moderate', spend: { dining: 300, groceries: 500, gas: 150, travel: 250, transit: 80, online_shopping: 200, streaming: 45, everything_else: 900 } },
-  { key: 'high', label: 'High', spend: { dining: 600, groceries: 800, gas: 250, travel: 600, transit: 150, online_shopping: 400, streaming: 60, everything_else: 1800 } },
-  { key: 'very_high', label: 'Very high', spend: { dining: 1200, groceries: 1200, gas: 400, travel: 1500, transit: 300, online_shopping: 800, streaming: 80, everything_else: 3500 } },
-  { key: 'eat_out', label: 'Eats out all the time', spend: { dining: 1000, groceries: 150, gas: 120, travel: 200, transit: 100, online_shopping: 150, streaming: 40, everything_else: 700 } },
-  { key: 'avid_diner', label: 'Avid diner', spend: { dining: 700, groceries: 600, gas: 120, travel: 300, transit: 60, online_shopping: 150, streaming: 40, everything_else: 700 } },
-  { key: 'avid_traveler', label: 'Avid traveler', spend: { dining: 350, groceries: 300, gas: 150, travel: 1500, transit: 200, online_shopping: 200, streaming: 40, everything_else: 900 } },
+  { key: 'low', label: 'Low spender', spend: { dining: 80, groceries: 200, gas: 60, flights: 30, hotels: 20, transit: 20, online_shopping: 60, streaming: 20, everything_else: 300 } },
+  { key: 'conservative', label: 'Conservative', spend: { dining: 150, groceries: 350, gas: 100, flights: 60, hotels: 40, transit: 40, online_shopping: 120, streaming: 30, everything_else: 500 } },
+  { key: 'moderate', label: 'Moderate', spend: { dining: 300, groceries: 500, gas: 150, flights: 150, hotels: 100, transit: 80, online_shopping: 200, streaming: 45, everything_else: 900 } },
+  { key: 'high', label: 'High', spend: { dining: 600, groceries: 800, gas: 250, flights: 350, hotels: 250, transit: 150, online_shopping: 400, streaming: 60, everything_else: 1800 } },
+  { key: 'very_high', label: 'Very high', spend: { dining: 1200, groceries: 1200, gas: 400, flights: 800, hotels: 700, transit: 300, online_shopping: 800, streaming: 80, everything_else: 3500 } },
+  { key: 'eat_out', label: 'Eats out all the time', spend: { dining: 1000, groceries: 150, gas: 120, flights: 120, hotels: 80, transit: 100, online_shopping: 150, streaming: 40, everything_else: 700 } },
+  { key: 'avid_diner', label: 'Avid diner', spend: { dining: 700, groceries: 600, gas: 120, flights: 180, hotels: 120, transit: 60, online_shopping: 150, streaming: 40, everything_else: 700 } },
+  { key: 'avid_traveler', label: 'Avid traveler', spend: { dining: 350, groceries: 300, gas: 150, flights: 850, hotels: 650, transit: 200, online_shopping: 200, streaming: 40, everything_else: 900 } },
 ];
+
+// The shared CategoryIcon keys most spend buckets 1:1; "flights" maps to the
+// airline (airplane) icon.
+function iconCategory(bucket: string): string {
+  return bucket === 'flights' ? 'airlines' : bucket;
+}
 
 // ---- Wizard state -----------------------------------------------------------
 
@@ -505,7 +511,7 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
               {SPEND_BUCKETS.map((bucket) => (
                 <label key={bucket} className="bcfm-spend-row">
                   <span className="bcfm-spend-label">
-                    <CategoryIcon category={bucket} className="bcfm-spend-icon" />
+                    <CategoryIcon category={iconCategory(bucket)} className="bcfm-spend-icon" />
                     {SPEND_BUCKET_LABELS[bucket]}
                   </span>
                   <span className="bcfm-spend-input">
@@ -767,13 +773,16 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
   if (rows.length === 0) return null;
   const totalSpend = rows.reduce((s, r) => s + (r.spend || 0), 0);
   const totalEarned = rows.reduce((s, r) => s + (r.earned || 0), 0);
+  // The "Then on the rest" column only makes sense when at least one category
+  // overflows a card's cap — otherwise it's a column of dashes, so we hide it.
+  const hasOverflow = rows.some((r) => r.next);
   return (
     <div className="bcfm-wallet-analysis">
       <h3 className="bcfm-section-h">Your wallet today</h3>
       <p className="bcfm-section-sub">
-        What your cards earn now, and where spending falls once a card&apos;s monthly cap is hit
-        (e.g. Custom Cash&apos;s 5% stops after $500/mo). Wherever &quot;the rest&quot; drops to a low
-        rate is a gap a new card can fill.
+        {hasOverflow
+          ? 'What your cards earn now, and where spending falls once a card’s monthly cap is hit (e.g. Custom Cash’s 5% stops after $500/mo). Wherever “the rest” drops to a low rate is a gap a new card can fill.'
+          : 'What your current cards earn on the spending you entered. Any category at a low rate is a gap a new card can fill.'}
       </p>
       <div className="bcfm-table-wrap">
         <table className="bcfm-table">
@@ -782,7 +791,7 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
               <th>Category</th>
               <th className="num">Spend / mo</th>
               <th>Best rate now</th>
-              <th>Then on the rest</th>
+              {hasOverflow && <th>Then on the rest</th>}
               <th className="num">Earns / mo</th>
             </tr>
           </thead>
@@ -793,7 +802,7 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
                 <tr key={r.category}>
                   <td>
                     <span className="bcfm-table-cat">
-                      <CategoryIcon category={r.category} className="bcfm-table-icon" />
+                      <CategoryIcon category={iconCategory(r.category)} className="bcfm-table-icon" />
                       {SPEND_BUCKET_LABELS[r.category] || r.category}
                     </span>
                   </td>
@@ -804,27 +813,29 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
                       <span className="bcfm-tier-amt">first ${perMonth(r.best.spend).toLocaleString()}/mo</span>
                     )}
                   </td>
-                  <td>
-                    {r.next ? (
-                      <>
-                        {r.next.card ? (
-                          <RateWithCard
-                            rate={r.next.rate}
-                            card={r.next.card}
-                            cardImage={r.next.cardImage}
-                          />
-                        ) : (
-                          <span className="bcfm-rate-cell">
-                            {formatRate(r.next.rate)}
-                            <span className="bcfm-table-sub">no bonus</span>
-                          </span>
-                        )}
-                        <span className="bcfm-tier-amt">next ${perMonth(r.next.spend).toLocaleString()}/mo</span>
-                      </>
-                    ) : (
-                      <span className="bcfm-muted">—</span>
-                    )}
-                  </td>
+                  {hasOverflow && (
+                    <td>
+                      {r.next ? (
+                        <>
+                          {r.next.card ? (
+                            <RateWithCard
+                              rate={r.next.rate}
+                              card={r.next.card}
+                              cardImage={r.next.cardImage}
+                            />
+                          ) : (
+                            <span className="bcfm-rate-cell">
+                              {formatRate(r.next.rate)}
+                              <span className="bcfm-table-sub">no bonus</span>
+                            </span>
+                          )}
+                          <span className="bcfm-tier-amt">next ${perMonth(r.next.spend).toLocaleString()}/mo</span>
+                        </>
+                      ) : (
+                        <span className="bcfm-muted">—</span>
+                      )}
+                    </td>
+                  )}
                   <td className="num bcfm-earn">+${perMonth(r.earned).toLocaleString()}</td>
                 </tr>
               );
@@ -835,14 +846,14 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
               <td>Total / mo</td>
               <td className="num">${perMonth(totalSpend).toLocaleString()}</td>
               <td />
-              <td />
+              {hasOverflow && <td />}
               <td className="num bcfm-earn">+${perMonth(totalEarned).toLocaleString()}</td>
             </tr>
             <tr className="bcfm-table-total bcfm-table-total-year">
               <td>Total / yr</td>
               <td className="num">${totalSpend.toLocaleString()}</td>
               <td />
-              <td />
+              {hasOverflow && <td />}
               <td className="num bcfm-earn">+${totalEarned.toLocaleString()}</td>
             </tr>
           </tfoot>
@@ -868,7 +879,7 @@ function CategoryBreakdownTable({ categories }: { categories: CategoryRow[] }) {
           <tr key={cat.category} className={cat.helps ? 'helps' : ''}>
             <td>
               <span className="bcfm-table-cat">
-                <CategoryIcon category={cat.category} className="bcfm-table-icon" />
+                <CategoryIcon category={iconCategory(cat.category)} className="bcfm-table-icon" />
                 {SPEND_BUCKET_LABELS[cat.category] || cat.category}
               </span>
             </td>

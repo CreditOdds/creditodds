@@ -403,11 +403,11 @@ describe('rankNextCards — brand loyalty on travel', () => {
     ],
   });
 
-  it('does not credit a brand-specific hotel rate against generic travel spend', () => {
+  it('does not credit a brand-specific hotel rate against generic hotel spend', () => {
     // No loyalty: Choice Privileges' 10x only applies at Choice Hotels. It still
-    // earns its 1% base on $6k travel ($60), but must NOT get the 10x ($600).
+    // earns its 1% base on $6k hotels ($60), but must NOT get the 10x ($600).
     const { recommendations } = rankNextCards({
-      spend: { travel: 6000 },
+      spend: { hotels: 6000 },
       walletSlugs: [],
       prefs: { rewardType: null },
       cards: [choice],
@@ -418,13 +418,13 @@ describe('rankNextCards — brand loyalty on travel', () => {
 
   it('counts a merchant-gated co-brand rate only when the user is loyal to that brand', () => {
     const noLoyalty = rankNextCards({
-      spend: { travel: 6000 },
+      spend: { flights: 6000 },
       walletSlugs: [],
       prefs: { rewardType: null },
       cards: [unitedCard],
     });
     const loyal = rankNextCards({
-      spend: { travel: 6000 },
+      spend: { flights: 6000 },
       walletSlugs: [],
       prefs: { rewardType: null, allegiances: ['united'] },
       cards: [unitedCard],
@@ -437,9 +437,9 @@ describe('rankNextCards — brand loyalty on travel', () => {
     expect(yesRec!.rewardsValue).toBeGreaterThan(noRec!.rewardsValue * 1.5);
   });
 
-  it('still counts generic travel rates regardless of loyalty', () => {
+  it('still counts generic travel rates (which apply to flights and hotels) regardless of loyalty', () => {
     const { recommendations } = rankNextCards({
-      spend: { travel: 6000 },
+      spend: { flights: 6000 },
       walletSlugs: [],
       prefs: { rewardType: null },
       cards: [genericTravel],

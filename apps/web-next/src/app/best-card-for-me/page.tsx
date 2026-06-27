@@ -39,7 +39,7 @@ export default async function BestCardForMePage() {
 
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <span className="cj-crumb cj-crumb-current">Best card for me</span>
+          <span className="cj-crumb cj-crumb-current">Best Card for Me</span>
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">

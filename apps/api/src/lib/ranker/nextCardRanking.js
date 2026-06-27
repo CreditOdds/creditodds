@@ -24,7 +24,11 @@ const SPEND_CATEGORY_MAP = {
   dining: ["dining"],
   groceries: ["groceries"],
   gas: ["gas"],
-  travel: ["travel", "airlines", "hotels", "car_rentals"],
+  // Flights vs hotels are separate buckets. A generic "travel" reward (earns on
+  // all travel) maps to BOTH; airline rates go to flights, hotel/car-rental
+  // rates go to hotels.
+  flights: ["travel", "airlines"],
+  hotels: ["travel", "hotels", "car_rentals"],
   transit: ["transit", "ground_transportation"],
   online_shopping: ["online_shopping"],
   streaming: ["streaming", "tv_internet_streaming"],
@@ -32,6 +36,10 @@ const SPEND_CATEGORY_MAP = {
 };
 
 const SPEND_BUCKETS = Object.keys(SPEND_CATEGORY_MAP);
+
+// Buckets whose spend is brand-loyalty-sensitive (a co-brand card's elevated
+// rate is tied to one airline/hotel).
+const TRAVEL_BUCKETS = new Set(["flights", "hotels"]);
 
 // Single-category bonus modes the user CONTROLS: an auto top-spend category
 // (Custom Cash) or a category they choose (Cash+). These are allocated to one
@@ -127,7 +135,7 @@ function cardOffers(card, allegiances) {
   const gateSlug = loyaltyMatch ? travelGateSlug(card) : null;
   for (const bucket of SPEND_BUCKETS) {
     if (bucket === "everything_else") continue;
-    const isTravel = bucket === "travel";
+    const isTravel = TRAVEL_BUCKETS.has(bucket);
     const includeMerchantSpecific = isTravel ? loyaltyMatch : true;
     const storeSlug = isTravel ? gateSlug : null;
     const m = findCategoryMatch(
