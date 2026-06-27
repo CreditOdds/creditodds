@@ -9942,7 +9942,7 @@
 
 /* Wizard shell — flat bordered panel, not a floating rounded card */
 .best-for-me-v2 .bcfm-wizard {
-  max-width: 660px;
+  max-width: 820px;
   margin: 0 auto;
   background: var(--card);
   border: 1px solid var(--line-2);
@@ -10372,7 +10372,7 @@
 /* Results — bordered, table-like list (matches card-table feel) */
 .best-for-me-v2 .bcfm-results,
 .best-for-me-v2 .bcfm-results-empty {
-  max-width: 820px;
+  max-width: 100%;
   margin: 0 auto;
 }
 .best-for-me-v2 .bcfm-results-title {
@@ -10392,7 +10392,7 @@
   margin: 0 0 24px;
   padding: 0;
   border: 1px solid var(--line-2);
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
 }
 .best-for-me-v2 .bcfm-rec {
@@ -10550,9 +10550,28 @@
   border-collapse: separate;
   border-spacing: 0;
   border: 1px solid var(--line-2);
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: 0;
   font-size: 13px;
+}
+/* Totals footer */
+.best-for-me-v2 .bcfm-table tfoot td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line-2);
+  background: var(--paper-2);
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.best-for-me-v2 .bcfm-table tfoot td.num {
+  text-align: right;
+  white-space: nowrap;
+}
+.best-for-me-v2 .bcfm-table tfoot .bcfm-table-total-year td {
+  border-top: 0;
+  padding-top: 0;
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 12px;
 }
 .best-for-me-v2 .bcfm-table thead th {
   text-align: left;

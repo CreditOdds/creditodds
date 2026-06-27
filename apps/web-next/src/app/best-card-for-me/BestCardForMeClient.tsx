@@ -755,8 +755,13 @@ function RateWithCard({
   );
 }
 
+// Annual dollars → rounded monthly.
+const perMonth = (annual: number) => Math.round((annual || 0) / 12);
+
 function WalletTable({ rows }: { rows: WalletRow[] }) {
   if (rows.length === 0) return null;
+  const totalSpend = rows.reduce((s, r) => s + (r.spend || 0), 0);
+  const totalEarned = rows.reduce((s, r) => s + (r.earned || 0), 0);
   return (
     <div className="bcfm-wallet-analysis">
       <h3 className="bcfm-section-h">Your wallet today</h3>
@@ -770,56 +775,72 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
           <thead>
             <tr>
               <th>Category</th>
-              <th className="num">Spend / yr</th>
+              <th className="num">Spend / mo</th>
               <th>Best rate now</th>
               <th>Then on the rest</th>
-              <th className="num">Earns / yr</th>
+              <th className="num">Earns / mo</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => {
               if (!r.best) return null;
               return (
-              <tr key={r.category}>
-                <td>
-                  <span className="bcfm-table-cat">
-                    <CategoryIcon category={r.category} className="bcfm-table-icon" />
-                    {SPEND_BUCKET_LABELS[r.category] || r.category}
-                  </span>
-                </td>
-                <td className="num">${r.spend.toLocaleString()}</td>
-                <td>
-                  <RateWithCard rate={r.best.rate} card={r.best.card} cardImage={r.best.cardImage} />
-                  {r.next && (
-                    <span className="bcfm-tier-amt">first ${r.best.spend.toLocaleString()}/yr</span>
-                  )}
-                </td>
-                <td>
-                  {r.next ? (
-                    <>
-                      {r.next.card ? (
-                        <RateWithCard
-                          rate={r.next.rate}
-                          card={r.next.card}
-                          cardImage={r.next.cardImage}
-                        />
-                      ) : (
-                        <span className="bcfm-rate-cell">
-                          {formatRate(r.next.rate)}
-                          <span className="bcfm-table-sub">no bonus</span>
-                        </span>
-                      )}
-                      <span className="bcfm-tier-amt">next ${r.next.spend.toLocaleString()}/yr</span>
-                    </>
-                  ) : (
-                    <span className="bcfm-muted">—</span>
-                  )}
-                </td>
-                <td className="num">${r.earned.toLocaleString()}</td>
-              </tr>
+                <tr key={r.category}>
+                  <td>
+                    <span className="bcfm-table-cat">
+                      <CategoryIcon category={r.category} className="bcfm-table-icon" />
+                      {SPEND_BUCKET_LABELS[r.category] || r.category}
+                    </span>
+                  </td>
+                  <td className="num">${perMonth(r.spend).toLocaleString()}</td>
+                  <td>
+                    <RateWithCard rate={r.best.rate} card={r.best.card} cardImage={r.best.cardImage} />
+                    {r.next && (
+                      <span className="bcfm-tier-amt">first ${perMonth(r.best.spend).toLocaleString()}/mo</span>
+                    )}
+                  </td>
+                  <td>
+                    {r.next ? (
+                      <>
+                        {r.next.card ? (
+                          <RateWithCard
+                            rate={r.next.rate}
+                            card={r.next.card}
+                            cardImage={r.next.cardImage}
+                          />
+                        ) : (
+                          <span className="bcfm-rate-cell">
+                            {formatRate(r.next.rate)}
+                            <span className="bcfm-table-sub">no bonus</span>
+                          </span>
+                        )}
+                        <span className="bcfm-tier-amt">next ${perMonth(r.next.spend).toLocaleString()}/mo</span>
+                      </>
+                    ) : (
+                      <span className="bcfm-muted">—</span>
+                    )}
+                  </td>
+                  <td className="num">${perMonth(r.earned).toLocaleString()}</td>
+                </tr>
               );
             })}
           </tbody>
+          <tfoot>
+            <tr className="bcfm-table-total">
+              <td>Total / mo</td>
+              <td className="num">${perMonth(totalSpend).toLocaleString()}</td>
+              <td />
+              <td />
+              <td className="num">${perMonth(totalEarned).toLocaleString()}</td>
+            </tr>
+            <tr className="bcfm-table-total bcfm-table-total-year">
+              <td>Total / yr</td>
+              <td className="num">${totalSpend.toLocaleString()}</td>
+              <td />
+              <td />
+              <td className="num">${totalEarned.toLocaleString()}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>

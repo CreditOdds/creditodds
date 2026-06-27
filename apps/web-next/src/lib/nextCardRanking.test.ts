@@ -311,6 +311,83 @@ describe('rankNextCards — flexible bonuses and caps', () => {
   });
 });
 
+describe('rankNextCards — brand loyalty on travel', () => {
+  // Choice-Privileges-style: 10x at one hotel brand (merchant_specific).
+  const choice = card({
+    slug: 'choice',
+    card_name: 'Wells Fargo Choice Privileges',
+    reward_type: 'points',
+    rewards: [
+      { category: 'hotels', value: 10, unit: 'points_per_dollar', merchant_specific: true },
+      { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+    ] as Reward[],
+  });
+  // United-Gateway-style: 2x gated to United (merchant_gate).
+  const unitedCard = card({
+    slug: 'united',
+    card_name: 'United Gateway',
+    reward_type: 'points',
+    rewards: [
+      { category: 'airlines', value: 2, unit: 'points_per_dollar', merchant_gate: ['united-airlines'] },
+      { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+    ] as Reward[],
+  });
+  const genericTravel = card({
+    slug: 'gt',
+    card_name: 'Generic Travel',
+    reward_type: 'cashback',
+    rewards: [
+      { category: 'travel', value: 3, unit: 'percent' },
+      { category: 'everything_else', value: 1, unit: 'percent' },
+    ],
+  });
+
+  it('does not credit a brand-specific hotel rate against generic travel spend', () => {
+    // No loyalty: Choice Privileges' 10x only applies at Choice Hotels. It still
+    // earns its 1% base on $6k travel ($60), but must NOT get the 10x ($600).
+    const { recommendations } = rankNextCards({
+      spend: { travel: 6000 },
+      walletSlugs: [],
+      prefs: { rewardType: null },
+      cards: [choice],
+    });
+    const rec = recommendations.find((r) => r.card.slug === 'choice');
+    expect(rec?.rewardsValue).toBeLessThan(120); // base ~$60, not the 10x ($600)
+  });
+
+  it('counts a merchant-gated co-brand rate only when the user is loyal to that brand', () => {
+    const noLoyalty = rankNextCards({
+      spend: { travel: 6000 },
+      walletSlugs: [],
+      prefs: { rewardType: null },
+      cards: [unitedCard],
+    });
+    const loyal = rankNextCards({
+      spend: { travel: 6000 },
+      walletSlugs: [],
+      prefs: { rewardType: null, allegiances: ['united'] },
+      cards: [unitedCard],
+    });
+    const noRec = noLoyalty.recommendations.find((r) => r.card.slug === 'united');
+    const yesRec = loyal.recommendations.find((r) => r.card.slug === 'united');
+    expect(noRec).toBeDefined();
+    expect(yesRec).toBeDefined();
+    // The 2x United airline rate is unlocked only by loyalty, ~doubling earning.
+    expect(yesRec!.rewardsValue).toBeGreaterThan(noRec!.rewardsValue * 1.5);
+  });
+
+  it('still counts generic travel rates regardless of loyalty', () => {
+    const { recommendations } = rankNextCards({
+      spend: { travel: 6000 },
+      walletSlugs: [],
+      prefs: { rewardType: null },
+      cards: [genericTravel],
+    });
+    expect(recommendations[0]?.card.slug).toBe('gt');
+    expect(recommendations[0]?.rewardsValue).toBeCloseTo(180); // $6k × 3%
+  });
+});
+
 describe('rankNextCards — cash vs points soft preference', () => {
   it('breaks an otherwise-tied ranking toward the preferred reward type', () => {
     const cash = cashDining('cash', 3); // $300 net

@@ -182,8 +182,9 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
     .map((slug) => bySlug.get(slug))
     .filter((c): c is Card => Boolean(c));
   const walletSet = new Set(walletSlugs);
+  const allegiances = prefs.allegiances ?? [];
 
-  const base = engine.walletEarnings(owned, spend) as WalletEarnings;
+  const base = engine.walletEarnings(owned, spend, allegiances) as WalletEarnings;
 
   const scored = cards
     // Never recommend a card the user already holds, or one that's no longer
@@ -202,6 +203,7 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
         owned,
         spend,
         base,
+        allegiances,
       ) as {
         rewardsValue: number;
         winningCategories: WinningCategory[];
