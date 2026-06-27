@@ -130,6 +130,7 @@ export async function POST(request: Request) {
             card: t.card,
             cardImage: t.cardImage,
             spend: Math.round(t.spend),
+            count: t.count,
           }
         : null;
     const wallet = walletAnalysis.map((w) => ({

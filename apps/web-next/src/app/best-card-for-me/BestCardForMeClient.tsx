@@ -52,6 +52,7 @@ interface WalletTierRow {
   card: string | null;
   cardImage: string | null;
   spend: number;
+  count: number;
 }
 interface WalletRow {
   category: string;
@@ -746,20 +747,38 @@ function RateWithCard({
   rate,
   card,
   cardImage,
+  count = 1,
 }: {
   rate: number;
   card: string | null;
   cardImage: string | null;
+  count?: number;
 }) {
+  // Two/three copies of the same card fan out as offset, stacked images so the
+  // combined cap (e.g. $1,000/mo across two Custom Cash) reads visually.
+  const copies = Math.max(1, Math.min(count, 3));
   return (
     <span className="bcfm-rate-cell">
       {formatRate(rate)}
       {card && (
         <span className="bcfm-rate-card">
           {cardImage && (
-            <CardImage cardImageLink={cardImage} alt={card} width={26} height={16} />
+            <span className="bcfm-card-stack" data-count={copies}>
+              {Array.from({ length: copies }).map((_, i) => (
+                <CardImage
+                  key={i}
+                  cardImageLink={cardImage}
+                  alt={i === 0 ? card : `${card}, copy ${i + 1}`}
+                  width={26}
+                  height={16}
+                />
+              ))}
+            </span>
           )}
-          <span className="bcfm-table-sub">{card}</span>
+          <span className="bcfm-table-sub">
+            {card}
+            {count > 1 && <span className="bcfm-card-mult"> ×{count}</span>}
+          </span>
         </span>
       )}
     </span>
@@ -805,7 +824,12 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
                   </td>
                   <td className="num">${perMonth(r.spend).toLocaleString()}</td>
                   <td>
-                    <RateWithCard rate={r.best.rate} card={r.best.card} cardImage={r.best.cardImage} />
+                    <RateWithCard
+                      rate={r.best.rate}
+                      card={r.best.card}
+                      cardImage={r.best.cardImage}
+                      count={r.best.count}
+                    />
                     {r.next && (
                       <span className="bcfm-tier-amt">first ${perMonth(r.best.spend).toLocaleString()}/mo</span>
                     )}
@@ -818,6 +842,7 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
                             rate={r.next.rate}
                             card={r.next.card}
                             cardImage={r.next.cardImage}
+                            count={r.next.count}
                           />
                         ) : (
                           <span className="bcfm-rate-cell">

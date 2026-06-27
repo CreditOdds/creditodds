@@ -69,6 +69,9 @@ export interface WalletTier {
   card: string | null;
   cardImage: string | null;
   spend: number;
+  // How many copies of this card stack into the tier (two Custom Cash → 2, so
+  // the UI fans out two card images and the combined $1,000/mo cap).
+  count: number;
 }
 
 // One row of the "your wallet today" table. `best` is the top rate (up to its
@@ -256,46 +259,39 @@ export function rankNextCards(input: NextCardInput): NextCardRanking {
     })),
   }));
 
-  // Cards the user holds more than one of get an (A)/(B) suffix so the wallet
-  // table reads like the wallet itself: two Custom Cash show as separate $500/mo
-  // layers (the second catching the overflow) instead of one merged $1,000/mo
-  // tier. Only the high-rate bonus layers map to a specific physical copy — the
-  // shared flat base rate ("either card") is left unsuffixed.
-  const copyCounts = new Map<string, number>();
-  for (const c of owned) copyCounts.set(c.card_name, (copyCounts.get(c.card_name) ?? 0) + 1);
-  const multiCopyNames = new Set(
-    [...copyCounts].filter(([, n]) => n > 1).map(([name]) => name),
-  );
-  const copySeen = new Map<string, number>();
-  const labelCopy = (name: string | null, rate: number): string | null => {
-    if (!name || !multiCopyNames.has(name) || rate <= base.baseEff + 0.001) return name;
-    const idx = copySeen.get(name) ?? 0;
-    copySeen.set(name, idx + 1);
-    return `${name} (${String.fromCharCode(65 + idx)})`;
-  };
-
   const walletAnalysis: WalletAnalysisRow[] = SPEND_BUCKETS.filter(
     (b) => (spend[b] || 0) > 0,
   ).map((b) => {
     const pb = base.perBucket[b];
-    // Each spend layer is its own tier (highest rate first). A $500/mo cap split
-    // across two Custom Cash stays two tiers — best = top layer, next = where
-    // the overflow lands (the second card, then the flat base).
-    const toTier = (seg: (typeof pb.segments)[number]): WalletTier => ({
-      rate: seg.rate,
-      card: labelCopy(seg.card, seg.rate),
-      cardImage: imageFor(seg.card),
-      spend: seg.amount,
+    // Collapse consecutive layers from the SAME card into one tier, counting the
+    // copies. Two Custom Cash → one 5% tier covering $1,000/mo with count 2 (the
+    // UI fans out two card images); the next DIFFERENT card is the overflow.
+    const tiers: { rate: number; card: string | null; spend: number; count: number }[] = [];
+    for (const seg of pb.segments) {
+      const last = tiers[tiers.length - 1];
+      if (last && last.card === seg.card && Math.abs(last.rate - seg.rate) < 0.001) {
+        last.spend += seg.amount;
+        last.count += 1;
+      } else {
+        tiers.push({ rate: seg.rate, card: seg.card, spend: seg.amount, count: 1 });
+      }
+    }
+    const toTier = (t: (typeof tiers)[number]): WalletTier => ({
+      rate: t.rate,
+      card: t.card,
+      cardImage: imageFor(t.card),
+      spend: t.spend,
+      count: t.count,
     });
-    const best: WalletTier = pb.segments[0]
-      ? toTier(pb.segments[0])
-      : { rate: pb.topRate, card: pb.topCard, cardImage: imageFor(pb.topCard), spend: pb.spend };
+    const best: WalletTier = tiers[0]
+      ? toTier(tiers[0])
+      : { rate: pb.topRate, card: pb.topCard, cardImage: imageFor(pb.topCard), spend: pb.spend, count: 1 };
     return {
       category: b,
       spend: pb.spend,
       earned: pb.earned,
       best,
-      next: pb.segments[1] ? toTier(pb.segments[1]) : null,
+      next: tiers[1] ? toTier(tiers[1]) : null,
     };
   });
 

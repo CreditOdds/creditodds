@@ -261,10 +261,10 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     expect(rot?.rewardsValue ?? 0).toBeLessThan(150); // base 1% ($100), not 5% ($500)
   });
 
-  it('stacks two copies of the same card as broken-out (A)/(B) tiers', () => {
+  it('stacks two copies of the same card into one tier with a count', () => {
     // Two Custom Cash (same slug listed twice) → 5% on the first $1,000/mo
-    // ($12k/yr) of dining, but shown as two $500/mo layers so the user sees both
-    // physical cards. A flat 3% dining card adds nothing on top.
+    // ($12k/yr) of dining, merged into one tier with count 2 so the UI fans out
+    // two card images. A flat 3% dining card adds nothing on top.
     const { walletAnalysis, recommendations } = rankNextCards({
       spend: { dining: 12000 },
       walletSlugs: ['cc', 'cc'],
@@ -273,14 +273,36 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     });
     const dining = walletAnalysis.find((w) => w.category === 'dining');
     expect(dining?.earned).toBeCloseTo(600); // all $12k at 5%
-    // Best tier = the first copy's $6k cap; the second copy catches the overflow.
     expect(dining?.best.rate).toBeCloseTo(5);
-    expect(dining?.best.spend).toBeCloseTo(6000);
-    expect(dining?.best.card).toBe('Custom Cash cc (A)');
-    expect(dining?.next?.rate).toBeCloseTo(5);
-    expect(dining?.next?.spend).toBeCloseTo(6000);
-    expect(dining?.next?.card).toBe('Custom Cash cc (B)');
+    expect(dining?.best.spend).toBeCloseTo(12000); // both $6k caps cover all $12k
+    expect(dining?.best.card).toBe('Custom Cash cc');
+    expect(dining?.best.count).toBe(2); // two stacked copies
+    expect(dining?.next).toBeNull(); // nothing spills over
     expect(recommendations.find((r) => r.card.slug === 'flat3')).toBeUndefined();
+  });
+
+  it('stacks three copies up to a $1,500/mo combined cap', () => {
+    // Three Custom Cash → 5% on the first $1,500/mo ($18k/yr); the remaining
+    // $6k/yr of dining overflows to the flat base.
+    const activeCash = card({
+      slug: 'active',
+      card_name: 'Wells Fargo Active Cash',
+      reward_type: 'cashback',
+      rewards: [{ category: 'everything_else', value: 2, unit: 'percent' }],
+    });
+    const { walletAnalysis } = rankNextCards({
+      spend: { dining: 24000 },
+      walletSlugs: ['cc', 'cc', 'cc', 'active'],
+      prefs: { rewardType: null },
+      cards: [customCash('cc'), activeCash],
+    });
+    const dining = walletAnalysis.find((w) => w.category === 'dining');
+    expect(dining?.best.rate).toBeCloseTo(5);
+    expect(dining?.best.spend).toBeCloseTo(18000); // 3 × $6k cap
+    expect(dining?.best.count).toBe(3);
+    expect(dining?.next?.rate).toBeCloseTo(2); // overflow to the 2% base
+    expect(dining?.next?.card).toBe('Wells Fargo Active Cash');
+    expect(dining?.next?.count).toBe(1);
   });
 
   it('splits a category into best + overflow tiers when the cap is exceeded', () => {
