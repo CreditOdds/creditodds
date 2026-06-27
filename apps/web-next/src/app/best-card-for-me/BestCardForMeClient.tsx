@@ -542,6 +542,12 @@ function ExistingCardsPicker({
             if (!c) return null;
             return (
               <button key={slug} className="bcfm-selected-chip" onClick={() => onToggle(slug)}>
+                <CardImage
+                  cardImageLink={c.card_image_link}
+                  alt={c.card_name}
+                  width={30}
+                  height={19}
+                />
                 {c.card_name}
                 <span aria-hidden className="bcfm-x">×</span>
               </button>

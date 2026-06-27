@@ -10193,7 +10193,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 10px 7px 12px;
+  padding: 6px 10px 6px 8px;
   background: var(--paper-2);
   border: 1px solid var(--line-2);
   border-radius: 6px;
@@ -10201,6 +10201,11 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+}
+.best-for-me-v2 .bcfm-selected-chip img {
+  border-radius: 3px;
+  object-fit: contain;
+  flex: none;
 }
 .best-for-me-v2 .bcfm-selected-chip:hover {
   border-color: var(--ink);
