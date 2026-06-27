@@ -1,0 +1,110 @@
+import { NextResponse } from 'next/server';
+import { getAllCards } from '@/lib/api';
+import {
+  rankNextCards,
+  nextCardBlurb,
+  SPEND_BUCKETS,
+  type NextCardInput,
+  type RewardTypePref,
+} from '@/lib/nextCardRanking';
+
+// POST /api/best-card-for-me
+// Body: { spend: Record<bucket, number>, walletSlugs: string[],
+//         rewardType: 'cashback'|'points'|null, allegiance?: string|null }
+// Returns the top-5 marginal-value recommendations for the given spend profile.
+
+export const dynamic = 'force-dynamic'; // personalized; never cache the response
+
+interface RequestBody {
+  spend?: Record<string, unknown>;
+  walletSlugs?: unknown;
+  rewardType?: unknown;
+  allegiance?: unknown;
+}
+
+const MAX_ANNUAL_SPEND = 1_000_000; // clamp absurd inputs
+
+function sanitizeSpend(raw: Record<string, unknown> | undefined): Record<string, number> {
+  const spend: Record<string, number> = {};
+  if (!raw) return spend;
+  for (const bucket of SPEND_BUCKETS) {
+    const v = Number(raw[bucket]);
+    if (Number.isFinite(v) && v > 0) {
+      spend[bucket] = Math.min(v, MAX_ANNUAL_SPEND);
+    }
+  }
+  return spend;
+}
+
+export async function POST(request: Request) {
+  let body: RequestBody;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+
+  const spend = sanitizeSpend(body.spend);
+  if (Object.keys(spend).length === 0) {
+    return NextResponse.json(
+      { error: 'Provide at least one positive spend category' },
+      { status: 400 },
+    );
+  }
+
+  const walletSlugs = Array.isArray(body.walletSlugs)
+    ? body.walletSlugs.filter((s): s is string => typeof s === 'string')
+    : [];
+
+  const rewardType: RewardTypePref =
+    body.rewardType === 'cashback' || body.rewardType === 'points'
+      ? body.rewardType
+      : null;
+
+  const allegiance = typeof body.allegiance === 'string' ? body.allegiance : null;
+
+  try {
+    const cards = await getAllCards();
+    const input: NextCardInput = {
+      spend,
+      walletSlugs,
+      prefs: { rewardType, allegiance },
+      cards,
+      limit: 5,
+    };
+    const results = rankNextCards(input);
+
+    // Trim each card to the fields the results UI needs (keeps payload lean and
+    // avoids shipping internal stats).
+    const recommendations = results.map((r) => ({
+      rank: r.rank,
+      blurb: nextCardBlurb(r),
+      netAnnualValue: Math.round(r.netAnnualValue),
+      rewardsValue: Math.round(r.rewardsValue),
+      creditsValue: Math.round(r.creditsValue),
+      annualFee: r.annualFee,
+      winningCategories: r.winningCategories.map((w) => ({
+        category: w.category,
+        annualValue: Math.round(w.annualValue),
+      })),
+      matchedCredits: r.matchedCredits,
+      card: {
+        slug: r.card.slug,
+        card_name: r.card.card_name,
+        bank: r.card.bank,
+        card_image_link: r.card.card_image_link,
+        apply_link: r.card.apply_link,
+        special_apply_link: r.card.special_apply_link,
+        card_referral_link: r.card.card_referral_link,
+        reward_type: r.card.reward_type,
+        annual_fee: r.card.annual_fee,
+        signup_bonus: r.card.signup_bonus,
+      },
+    }));
+
+    return NextResponse.json({ recommendations });
+  } catch (error) {
+    console.error('best-card-for-me ranking failed:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
