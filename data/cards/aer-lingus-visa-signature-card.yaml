@@ -35,6 +35,7 @@ apr:
     max: 28.49
 benefits:
   - name: "Companion Pass"
+    value: 0
     description: "Complimentary economy companion ticket valid for 12 months when you spend $30,000 on the card in a calendar year"
     frequency: "annual"
     category: "travel"
