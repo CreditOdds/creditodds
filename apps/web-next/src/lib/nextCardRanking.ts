@@ -104,6 +104,11 @@ export interface NextCardRanking {
 // The spend buckets the quiz asks about, and their display labels.
 export const SPEND_BUCKETS: string[] = engine.SPEND_BUCKETS as string[];
 
+// True for portal-dependent categories (travel_portal, …). Re-exported from the
+// ranker so the route can filter them without importing the React-heavy
+// cardDisplayUtils.
+export const isPortalCategory = engine.isPortalCategory as (category: string) => boolean;
+
 export const SPEND_BUCKET_LABELS: Record<string, string> = {
   dining: 'Dining & restaurants',
   groceries: 'Groceries',

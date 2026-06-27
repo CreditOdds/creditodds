@@ -9,10 +9,15 @@ import { cardMatchesSearch } from '@/lib/searchAliases';
 import { SPEND_BUCKETS, SPEND_BUCKET_LABELS } from '@/lib/nextCardRanking';
 import { getWallet, addToWallet, type Card, type SignupBonus } from '@/lib/api';
 import { createCardLookups } from '@/app/profile/profileSelectors';
-import { CategoryIcon } from '@/lib/cardDisplayUtils';
+import { CategoryIcon, categoryLabels } from '@/lib/cardDisplayUtils';
 
 // ---- Result shape returned by /api/best-card-for-me -------------------------
 
+interface RewardLine {
+  category: string;
+  value: number;
+  unit: string;
+}
 interface RecCard {
   slug: string;
   card_name: string;
@@ -21,6 +26,7 @@ interface RecCard {
   reward_type?: 'cashback' | 'points' | 'miles';
   annual_fee?: number;
   signup_bonus?: SignupBonus;
+  rewards?: RewardLine[];
 }
 interface CategoryRow {
   category: string;
@@ -940,6 +946,32 @@ function Results({
   );
 }
 
+// The card's own earn categories (e.g. "5x Dining", "2% Everything else"),
+// highest rate first with everything-else last. Portal rates are already
+// stripped server-side.
+function RewardCategories({ rewards }: { rewards: RewardLine[] }) {
+  if (!rewards || rewards.length === 0) return null;
+  const sorted = [...rewards]
+    .sort((a, b) => {
+      if (a.category === 'everything_else') return 1;
+      if (b.category === 'everything_else') return -1;
+      return b.value - a.value;
+    })
+    .slice(0, 6);
+  return (
+    <ul className="bcfm-rec-rewards">
+      {sorted.map((r) => (
+        <li key={r.category}>
+          <span className="bcfm-rec-reward-rate">
+            {r.unit === 'percent' ? `${r.value}%` : `${r.value}x`}
+          </span>
+          <span className="bcfm-rec-reward-cat">{categoryLabels[r.category] || r.category}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function RecCardRow({ rec }: { rec: Recommendation }) {
   const c = rec.card;
   const cardUrl = `/card/${c.slug}`;
@@ -957,13 +989,6 @@ function RecCardRow({ rec }: { rec: Recommendation }) {
           +${rec.netAnnualValue.toLocaleString()}<span>/yr over your wallet</span>
         </p>
         {rec.blurb && <p className="bcfm-rec-blurb">{rec.blurb}</p>}
-        <div className="bcfm-rec-cats">
-          {rec.winningCategories.slice(0, 4).map((w) => (
-            <span key={w.category} className="bcfm-rec-cat">
-              {SPEND_BUCKET_LABELS[w.category] || w.category}
-            </span>
-          ))}
-        </div>
         <div className="bcfm-rec-breakdown">
           <span>Rewards ${rec.rewardsValue.toLocaleString()}/yr on your spending</span>
           {rec.annualFee > 0 ? <span>Fee ${rec.annualFee}</span> : <span>No annual fee</span>}
@@ -982,6 +1007,7 @@ function RecCardRow({ rec }: { rec: Recommendation }) {
         )}
       </div>
       <div className="bcfm-rec-cta">
+        {c.rewards && c.rewards.length > 0 && <RewardCategories rewards={c.rewards} />}
         <Link className="bcfm-btn bcfm-btn-primary" href={cardUrl}>
           View card
         </Link>

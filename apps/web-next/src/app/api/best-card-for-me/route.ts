@@ -3,6 +3,7 @@ import { getAllCards } from '@/lib/api';
 import {
   rankNextCards,
   nextCardBlurb,
+  isPortalCategory,
   SPEND_BUCKETS,
   type NextCardInput,
   type RewardTypePref,
@@ -109,6 +110,12 @@ export async function POST(request: Request) {
         reward_type: r.card.reward_type,
         annual_fee: r.card.annual_fee,
         signup_bonus: r.card.signup_bonus,
+        // The card's own earn categories for display. Portal-only rates
+        // (travel_portal, hotels_portal, …) are dropped — they only apply when
+        // booking through the issuer portal, not on general spend.
+        rewards: (r.card.rewards ?? [])
+          .filter((rw) => !isPortalCategory(rw.category))
+          .map((rw) => ({ category: rw.category, value: rw.value, unit: rw.unit })),
       },
     }));
 

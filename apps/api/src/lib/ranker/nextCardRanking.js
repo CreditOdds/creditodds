@@ -42,6 +42,14 @@ const FLEXIBLE_MODES = new Set([
   "top_spend",
 ]);
 
+// Portal-dependent reward categories (travel_portal, hotels_portal, …) only
+// earn when booked through the issuer portal, so they're excluded from general
+// spend and from the card's displayed earn categories. The `_portal` suffix is
+// the catalog's convention for this (mirrors lib/cardDisplayUtils).
+function isPortalCategory(category) {
+  return typeof category === "string" && category.endsWith("_portal");
+}
+
 function flatRateEff(card) {
   const r = (card.rewards || []).find((x) => x.category === "everything_else");
   if (!r) return 0;
@@ -149,7 +157,7 @@ function cardOffers(card, allegiances) {
 // Dollars earned in a bucket given annual spend, a base rate, and a set of
 // capped bonus offers. Fills the highest rate first up to its cap, then the
 // next, with any remainder at the base rate.
-function bucketEarn(spend, baseEff, offers) {
+function bucketEarn(spend, baseEff, offers, baseCard) {
   const sorted = offers.filter((o) => o.eff > baseEff).sort((a, b) => b.eff - a.eff);
   let remaining = spend;
   let earned = 0;
@@ -167,12 +175,14 @@ function bucketEarn(spend, baseEff, offers) {
   }
   if (remaining > 0) {
     earned += (remaining * baseEff) / 100;
-    segments.push({ rate: baseEff, amount: remaining, card: null });
+    // The base/flat rate is provided by a card too (e.g. a 2% Active Cash), so
+    // attribute it instead of showing "no bonus".
+    segments.push({ rate: baseEff, amount: remaining, card: baseCard || null });
   }
   return {
     earned,
     topRate: sorted.length ? sorted[0].eff : baseEff,
-    topCard: sorted.length ? sorted[0].cardName : null,
+    topCard: sorted.length ? sorted[0].cardName : baseCard || null,
     segments,
   };
 }
@@ -181,7 +191,17 @@ function bucketEarn(spend, baseEff, offers) {
 // flexible bonus greedily to the bucket where it adds the most value.
 // `allegiances` (loyalty program keys) gate co-brand travel rates (see cardOffers).
 function walletEarnings(cards, spend, allegiances) {
-  const baseEff = cards.length ? Math.max(...cards.map(flatRateEff)) : 0;
+  // The base/flat rate is the best "everything else" rate in the wallet, and
+  // the card that provides it (so the table can name a 2% Active Cash, etc.).
+  let baseEff = 0;
+  let baseCard = null;
+  for (const card of cards) {
+    const f = flatRateEff(card);
+    if (f > baseEff) {
+      baseEff = f;
+      baseCard = card.card_name;
+    }
+  }
 
   const directByBucket = {};
   for (const b of SPEND_BUCKETS) directByBucket[b] = [];
@@ -226,7 +246,7 @@ function walletEarnings(cards, spend, allegiances) {
   for (const bucket of SPEND_BUCKETS) {
     const s = spend[bucket] || 0;
     const offers = [...directByBucket[bucket], ...assignedByBucket[bucket]];
-    const { earned, topRate, topCard, segments } = bucketEarn(s, baseEff, offers);
+    const { earned, topRate, topCard, segments } = bucketEarn(s, baseEff, offers, baseCard);
     perBucket[bucket] = { spend: s, earned, topRate, topCard, segments };
     total += earned;
   }
@@ -272,6 +292,7 @@ function recommendationBreakdown(candidate, owned, spend, base, allegiances) {
 module.exports = {
   SPEND_CATEGORY_MAP,
   SPEND_BUCKETS,
+  isPortalCategory,
   flatRateEff,
   cardOffers,
   bucketEarn,

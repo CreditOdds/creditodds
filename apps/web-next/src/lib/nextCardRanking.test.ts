@@ -257,7 +257,33 @@ describe('rankNextCards — flexible bonuses and caps', () => {
     expect(dining?.best.card).toBe('Custom Cash cc');
     expect(dining?.next?.rate).toBeCloseTo(1); // overflow falls to base
     expect(dining?.next?.spend).toBeCloseTo(6000);
-    expect(dining?.next?.card).toBeNull(); // base rate, no bonus card
+    // The base rate is attributed to the card that provides it (here the same
+    // Custom Cash, via its 1% everything-else).
+    expect(dining?.next?.card).toBe('Custom Cash cc');
+  });
+
+  it('attributes the base rate to a flat card like a 2% Active Cash', () => {
+    // Custom Cash 5% on the first $6k dining, then the 2% Active Cash catches
+    // the overflow (it provides the best everything-else rate in the wallet).
+    const activeCash = card({
+      slug: 'active',
+      card_name: 'Wells Fargo Active Cash',
+      reward_type: 'cashback',
+      rewards: [{ category: 'everything_else', value: 2, unit: 'percent' }],
+    });
+    const { walletAnalysis } = rankNextCards({
+      spend: { dining: 12000, everything_else: 6000 },
+      walletSlugs: ['cc', 'active'],
+      prefs: { rewardType: null },
+      cards: [customCash('cc'), activeCash],
+    });
+    const dining = walletAnalysis.find((w) => w.category === 'dining');
+    expect(dining?.next?.rate).toBeCloseTo(2);
+    expect(dining?.next?.card).toBe('Wells Fargo Active Cash');
+    // Everything-else earns the 2% flat, named to the card.
+    const everything = walletAnalysis.find((w) => w.category === 'everything_else');
+    expect(everything?.best.rate).toBeCloseTo(2);
+    expect(everything?.best.card).toBe('Wells Fargo Active Cash');
   });
 
   it('does not strand a narrowly-eligible flexible bonus behind a broad one', () => {

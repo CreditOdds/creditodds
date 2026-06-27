@@ -10489,8 +10489,32 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 6px;
-  min-width: 108px;
+  gap: 10px;
+  min-width: 190px;
+}
+/* The card's own earn categories, shown on the right of each recommendation */
+.best-for-me-v2 .bcfm-rec-rewards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.best-for-me-v2 .bcfm-rec-rewards li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+}
+.best-for-me-v2 .bcfm-rec-reward-rate {
+  flex: none;
+  min-width: 30px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.best-for-me-v2 .bcfm-rec-reward-cat {
+  color: var(--ink-2);
 }
 .best-for-me-v2 .bcfm-rec-link {
   text-align: center;
