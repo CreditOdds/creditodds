@@ -10397,7 +10397,7 @@
 }
 .best-for-me-v2 .bcfm-rec {
   display: grid;
-  grid-template-columns: 32px 110px 1fr auto;
+  grid-template-columns: 32px 110px 1fr auto auto;
   gap: 18px;
   align-items: start;
   padding: 20px;
@@ -10477,32 +10477,50 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: center;
   gap: 10px;
-  min-width: 190px;
+  min-width: 150px;
 }
-/* The card's own earn categories, shown on the right of each recommendation */
+/* The card's own earn categories — their own middle column, styled like the
+   earn-rate table on the card page (icon + category, rate aligned right). */
+.best-for-me-v2 .bcfm-rec-earns {
+  align-self: stretch;
+  min-width: 196px;
+  padding-left: 18px;
+  border-left: 1px solid var(--line);
+}
 .best-for-me-v2 .bcfm-rec-rewards {
   list-style: none;
   margin: 0;
   padding: 0;
+  width: 100%;
   display: grid;
-  gap: 4px;
+  gap: 7px;
 }
 .best-for-me-v2 .bcfm-rec-rewards li {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   font-size: 13px;
 }
-.best-for-me-v2 .bcfm-rec-reward-rate {
+.best-for-me-v2 .bcfm-rec-reward-icon {
+  width: 15px;
+  height: 15px;
   flex: none;
-  min-width: 30px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
+  color: var(--accent);
+}
+.best-for-me-v2 .bcfm-rec-reward-icon-muted {
+  color: var(--muted);
 }
 .best-for-me-v2 .bcfm-rec-reward-cat {
   color: var(--ink-2);
+}
+.best-for-me-v2 .bcfm-rec-reward-rate {
+  margin-left: auto;
+  flex: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
 }
 .best-for-me-v2 .bcfm-rec-link {
   text-align: center;
@@ -10520,13 +10538,25 @@
     grid-template-columns: 28px 1fr;
     gap: 12px;
   }
+  .best-for-me-v2 .bcfm-rec-rank {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  /* Everything else stacks vertically in column 2 (img, body, earns, button). */
   .best-for-me-v2 .bcfm-rec-img,
+  .best-for-me-v2 .bcfm-rec-body,
+  .best-for-me-v2 .bcfm-rec-earns,
   .best-for-me-v2 .bcfm-rec-cta {
     grid-column: 2;
   }
+  .best-for-me-v2 .bcfm-rec-earns {
+    /* Full-width stack on mobile — drop the column divider. */
+    border-left: 0;
+    padding-left: 0;
+    min-width: 0;
+    margin-top: 8px;
+  }
   .best-for-me-v2 .bcfm-rec-cta {
-    /* Keep the reward list stacked above the button on mobile (the list is
-       vertical; a side-by-side row would squish it). */
     align-items: flex-start;
     margin-top: 6px;
   }

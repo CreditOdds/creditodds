@@ -1003,10 +1003,14 @@ function RewardCategories({ rewards }: { rewards: RewardLine[] }) {
     <ul className="bcfm-rec-rewards">
       {sorted.map((r, i) => (
         <li key={`${r.category}-${r.value}-${i}`}>
+          <CategoryIcon
+            category={r.category}
+            className={`bcfm-rec-reward-icon${r.category === 'everything_else' ? ' bcfm-rec-reward-icon-muted' : ''}`}
+          />
+          <span className="bcfm-rec-reward-cat">{rewardCategoryLabel(r.category)}</span>
           <span className="bcfm-rec-reward-rate">
             {r.unit === 'percent' ? `${r.value}%` : `${r.value}x`}
           </span>
-          <span className="bcfm-rec-reward-cat">{rewardCategoryLabel(r.category)}</span>
         </li>
       ))}
     </ul>
@@ -1052,8 +1056,10 @@ function RecCardRow({ rec }: { rec: Recommendation }) {
           </details>
         )}
       </div>
-      <div className="bcfm-rec-cta">
+      <div className="bcfm-rec-earns">
         {c.rewards && c.rewards.length > 0 && <RewardCategories rewards={c.rewards} />}
+      </div>
+      <div className="bcfm-rec-cta">
         <Link className="bcfm-btn bcfm-btn-primary" href={cardUrl}>
           View card
         </Link>
