@@ -10553,6 +10553,11 @@
   border-radius: 0;
   font-size: 13px;
 }
+/* Earns column reads as a positive gain */
+.best-for-me-v2 .bcfm-table td.num.bcfm-earn {
+  color: #1f7a43;
+  font-weight: 600;
+}
 /* Totals footer */
 .best-for-me-v2 .bcfm-table tfoot td {
   padding: 12px 14px;

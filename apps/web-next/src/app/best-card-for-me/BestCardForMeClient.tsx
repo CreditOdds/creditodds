@@ -820,7 +820,7 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
                       <span className="bcfm-muted">—</span>
                     )}
                   </td>
-                  <td className="num">${perMonth(r.earned).toLocaleString()}</td>
+                  <td className="num bcfm-earn">+${perMonth(r.earned).toLocaleString()}</td>
                 </tr>
               );
             })}
@@ -831,14 +831,14 @@ function WalletTable({ rows }: { rows: WalletRow[] }) {
               <td className="num">${perMonth(totalSpend).toLocaleString()}</td>
               <td />
               <td />
-              <td className="num">${perMonth(totalEarned).toLocaleString()}</td>
+              <td className="num bcfm-earn">+${perMonth(totalEarned).toLocaleString()}</td>
             </tr>
             <tr className="bcfm-table-total bcfm-table-total-year">
               <td>Total / yr</td>
               <td className="num">${totalSpend.toLocaleString()}</td>
               <td />
               <td />
-              <td className="num">${totalEarned.toLocaleString()}</td>
+              <td className="num bcfm-earn">+${totalEarned.toLocaleString()}</td>
             </tr>
           </tfoot>
         </table>
