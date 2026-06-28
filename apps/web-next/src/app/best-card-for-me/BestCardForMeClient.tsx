@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
@@ -230,6 +230,20 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
   const [state, dispatch] = useReducer(reducer, initialState);
   const [step, setStep] = useState(0);
   const [phase, setPhase] = useState<'quiz' | 'gate' | 'results'>('quiz');
+
+  // Scroll back to the top of the wizard whenever the step actually changes, so
+  // a long step (e.g. the spend grid) doesn't leave the next question scrolled
+  // off the bottom of the screen. Comparing against the previous step (rather
+  // than a mount flag) skips the initial render and is safe against React
+  // StrictMode's dev double-invoke, so landing on the page never yanks past the
+  // hero.
+  const wizardRef = useRef<HTMLDivElement>(null);
+  const prevStepRef = useRef(step);
+  useEffect(() => {
+    if (prevStepRef.current === step) return;
+    prevStepRef.current = step;
+    wizardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [step]);
   const [results, setResults] = useState<Recommendation[] | null>(null);
   const [walletAnalysis, setWalletAnalysis] = useState<WalletRow[]>([]);
   const [loading, setLoading] = useState(false);
@@ -436,7 +450,7 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
   }
 
   return (
-    <div className="bcfm-wizard">
+    <div className="bcfm-wizard" ref={wizardRef}>
       <ProgressBar step={step} total={STEPS.length} />
 
       <div className="bcfm-step">
