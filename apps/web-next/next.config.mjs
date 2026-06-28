@@ -42,6 +42,17 @@ const contentSecurityPolicy = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    // Turbopack (the default builder in Next 16) generates ~37 MB of server
+    // source maps by default. They ship in the .next output and pushed the
+    // Amplify deploy artifact past its 220 MB limit. The Amplify build has no
+    // SENTRY_AUTH_TOKEN, so these maps are never uploaded — pure dead weight.
+    // Disable them. (To get readable server stack traces in Sentry later,
+    // re-enable + upload + delete them in a dedicated CI step rather than
+    // shipping the .map files in the deploy artifact.)
+    turbopackSourceMaps: false,
+  },
+
   // Rewrite /_admin to /admin (underscore folders are private in App Router)
   async rewrites() {
     return [
