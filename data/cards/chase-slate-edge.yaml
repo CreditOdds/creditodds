@@ -15,6 +15,7 @@ apr:
     min: 22.49
     max: 31.24
 apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge
+foreign_transaction_fee: true
 our_take: >
   The Slate Edge is a balance-transfer card first: 21 months of 0% intro APR with no annual
   fee, and a built-in incentive to lower your rate over time if you pay on time and spend a
