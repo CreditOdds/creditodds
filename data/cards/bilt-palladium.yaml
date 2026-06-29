@@ -8,9 +8,10 @@ foreign_transaction_fee: false
 our_take: >
   Bilt's premium card exists for one reason: paying rent with no transaction fee
   while still earning points, which no mainstream card does. At $495 it leans on
-  the $400 hotel credit, $200 Bilt Cash, and Priority Pass to offset the fee,
-  and the 4% Bilt Cash on everyday spend (separate from the 2x base points) is a
-  quirky extra. It is built for renters who pay a lot and will actually use the
+  the $400 hotel credit, $200 Bilt Cash, and Priority Pass to offset the fee.
+  The 4% Bilt Cash on everyday spend is an alternative to the rent points boost
+  rather than a bonus on top of the 2x points, and it is a separate, lower value
+  currency, so treat it as a minor extra. It is built for renters who pay a lot and will actually use the
   travel credits and lounge access; if rent isn't a major expense, the $495 fee
   is hard to justify.
 annual_fee: 495
@@ -68,7 +69,7 @@ rewards:
   - category: everything_else
     value: 2
     unit: points_per_dollar
-    note: "Also earns 4% Bilt Cash on everyday purchases (separate currency). Bilt Cash can be redeemed as point accelerators that temporarily boost $5,000 of spend to 3x points (up to 5 accelerators per year)."
+    note: "Everyday spend earns the base 2x in points. The 4% Bilt Cash option on everyday spend is an alternative to the up to 1.25x rent points, not an addition, and is a separate currency rather than cash back; its main use is buying point accelerators that temporarily lift $5,000 of spend to 3x points (up to 5 per year)."
 signup_bonus:
   value: 50000
   type: "points"
