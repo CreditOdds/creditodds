@@ -1427,6 +1427,10 @@ function writeRotatingPeriodSection(stale) {
 
 async function main() {
   const slugFilter = process.env.CARD_SLUG || '';
+  // Manual runs can bypass the 14-day recency guard: either explicitly via
+  // FORCE_CHECK=true, or implicitly when a specific CARD_SLUG is targeted
+  // (asking for one card by name is a clear intent to check it now).
+  const forceCheck = process.env.FORCE_CHECK === 'true' || slugFilter !== '';
   const allCards = loadAllCards();
   const cards = filterCardsForCheck(allCards, slugFilter);
   const policy = loadPolicy();
@@ -1444,7 +1448,9 @@ async function main() {
     }
   }
 
-  console.log(`\nChecking ${cards.length} active card(s) with apply_link...\n`);
+  console.log(`\nChecking ${cards.length} active card(s) with apply_link...`);
+  if (forceCheck) console.log('FORCE_CHECK active — bypassing the 14-day recency skip.');
+  console.log('');
 
   const summary = {
     fetched: 0,
@@ -1465,7 +1471,7 @@ async function main() {
       break;
     }
 
-    if (wasRecentlyEdited(card.filepath)) {
+    if (!forceCheck && wasRecentlyEdited(card.filepath)) {
       console.log(`[skip] ${card.data.name} — YAML edited within last 14 days`);
       summary.skippedRecentlyEdited++;
       continue;
