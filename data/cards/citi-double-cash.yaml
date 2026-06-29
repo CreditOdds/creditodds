@@ -30,6 +30,7 @@ apr:
     min: 17.49
     max: 27.49
 apply_link: https://www.citi.com/credit-cards/citi-double-cash-credit-card
+foreign_transaction_fee: true
 our_take: >
   A longtime flat-rate favorite: effectively 2% on everything (1% when you buy,
   1% when you pay) with no annual fee, and an 18-month 0% balance transfer
