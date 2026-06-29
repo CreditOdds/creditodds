@@ -4,7 +4,7 @@ slug: "robinhood-gold-card"
 accepting_applications: true
 image: "robinhood-gold-card.png"
 release_date: "2024-03-26"
-annual_fee: 50
+annual_fee: 0
 benefits:
   - name: "Travel Insurance"
     value: 0
