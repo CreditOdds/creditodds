@@ -43,6 +43,14 @@ rewards:
     spend_cap: 25000
     cap_period: annual
     rate_after_cap: 1
+  - category: "hotels_portal"
+    value: 4
+    unit: "points_per_dollar"
+    note: "Hotels booked through Bilt Travel"
+  - category: "flights_portal"
+    value: 3
+    unit: "points_per_dollar"
+    note: "Flights booked through Bilt Travel"
   - category: "travel"
     value: 2
     unit: "points_per_dollar"
