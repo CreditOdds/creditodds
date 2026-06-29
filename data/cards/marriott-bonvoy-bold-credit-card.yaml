@@ -22,6 +22,12 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+  - name: "Marriott Bonvoy Points Redemption"
+    value_unit: "points"
+    description: "Redeem points for a statement credit to cover qualifying travel purchases."
+    frequency: "ongoing"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - hotel
   - travel
