@@ -36,3 +36,11 @@ our_take: >
   not dollars. As a plain cash-back card it is unremarkable, the high end of the APR runs up
   to 34.99%, and the rewards' value rides on whatever coin you hold, so carry no balance and
   treat the payout as speculative.
+benefits:
+  - name: "Internet’s Favorite Brands Cashback"
+    value: 10
+    value_unit: "percent"
+    description: "10% back on the Internet’s favorite brands."
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
