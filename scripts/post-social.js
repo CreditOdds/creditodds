@@ -8,7 +8,7 @@
  *
  * Usage: node scripts/post-social.js --type news|article --files <yaml-paths...>
  *
- * Env vars: ANTHROPIC_API_KEY, TWITTER_API_KEY, TWITTER_API_SECRET,
+ * Env vars: OPENAI_API_KEY, TWITTER_API_KEY, TWITTER_API_SECRET,
  *           TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET
  */
 
@@ -75,9 +75,9 @@ function getCardNameList(item) {
 }
 
 async function generatePost(type, item) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error('ANTHROPIC_API_KEY environment variable is required');
+    throw new Error('OPENAI_API_KEY environment variable is required');
   }
 
   const cardList = getCardNameList(item);
@@ -97,15 +97,14 @@ Rules:
 - Do NOT include any URL
 - Do NOT use emojis excessively — 0-1 emoji max`;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'gpt-4o-mini',
       max_tokens: 256,
       messages: [
         { role: 'user', content: prompt },
@@ -115,11 +114,11 @@ Rules:
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Claude API error: ${response.status} - ${errorText}`);
+    throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
   }
 
   const data = await response.json();
-  let text = (data.content[0]?.text || '').trim();
+  let text = (data.choices[0]?.message?.content || '').trim();
 
   // Safety: truncate if somehow over 260 chars
   if (text.length > 260) {
@@ -160,8 +159,8 @@ async function main() {
 
   console.log(`=== Social Media Auto-Post (${type}) ===\n`);
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('Error: ANTHROPIC_API_KEY is not set');
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('Error: OPENAI_API_KEY is not set');
     process.exit(1);
   }
 

@@ -7,7 +7,7 @@
  *
  * Usage: node scripts/queue-social.js --type news|article|best|page --files <yaml-paths...>
  *
- * Env vars: ANTHROPIC_API_KEY, SOCIAL_API_URL, SOCIAL_API_KEY
+ * Env vars: OPENAI_API_KEY, SOCIAL_API_URL, SOCIAL_API_KEY
  */
 
 const fs = require('fs');
@@ -113,8 +113,8 @@ function getCardNameList(item) {
 }
 
 async function generatePost(type, item) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY is required');
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error('OPENAI_API_KEY is required');
 
   const cardList = getCardNameList(item);
   const cardNames = cardList.length > 0 ? cardList.join(', ') : 'N/A';
@@ -144,15 +144,14 @@ Rules:
 - Do NOT include any URL
 - Do NOT use emojis excessively — 0-1 emoji max`;
 
-  const response = await fetchWithRetry('https://api.anthropic.com/v1/messages', {
+  const response = await fetchWithRetry('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'gpt-4o-mini',
       max_tokens: 256,
       messages: [{ role: 'user', content: prompt }],
     }),
@@ -160,11 +159,11 @@ Rules:
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Claude API error: ${response.status} - ${errorText}`);
+    throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
   }
 
   const data = await response.json();
-  let text = (data.content[0]?.text || '').trim();
+  let text = (data.choices[0]?.message?.content || '').trim();
   if (text.length > 260) text = text.substring(0, 257) + '...';
   return text;
 }

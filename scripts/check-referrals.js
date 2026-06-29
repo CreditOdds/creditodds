@@ -18,7 +18,7 @@
  * Inputs (env / files):
  *   BATCH_FILE      : path to batch JSON                (default ./batch.json)
  *   RESULTS_FILE    : path to results JSON              (default ./results.json)
- *   ANTHROPIC_API_KEY : required for Haiku
+ *   OPENAI_API_KEY : required for classification
  *
  * batch.json shape : { referrals: [{ referral_id, card_id, card_name, referral_link }] }
  * results.json shape : { results: [{ referral_id, status, reason }] }
@@ -159,8 +159,8 @@ async function fetchReferralPage(url) {
 // ─── Claude Haiku classification ─────────────────────────────────────────────
 
 async function classifyWithHaiku(cardName, referralUrl, finalUrl, pageContent) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY required');
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error('OPENAI_API_KEY required');
 
   const prompt = `You are classifying a credit-card referral landing page.
 
@@ -194,27 +194,27 @@ Rules:
 - Do NOT mark "expired" because the signup bonus differs from what the user advertised.
 - When unsure, return "valid". A missed expiry is cheap; a wrong "expired" auto-archives a working link after two runs.`;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'gpt-4o-mini',
       max_tokens: 256,
       messages: [{ role: 'user', content: prompt }],
+      response_format: { type: 'json_object' },
     }),
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Claude API error: ${response.status} — ${errText}`);
+    throw new Error(`OpenAI API error: ${response.status} — ${errText}`);
   }
 
   const data = await response.json();
-  const text = (data.content[0]?.text || '{}')
+  const text = (data.choices[0]?.message?.content || '{}')
     .replace(/^```json?\n?/, '')
     .replace(/\n?```$/, '')
     .trim();
@@ -223,11 +223,11 @@ Rules:
   try {
     parsed = JSON.parse(text);
   } catch (err) {
-    console.warn(`  Could not parse Claude response: ${err.message}`);
-    return { status: 'valid', reason: 'unparseable Haiku response; defaulting to valid' };
+    console.warn(`  Could not parse OpenAI response: ${err.message}`);
+    return { status: 'valid', reason: 'unparseable model response; defaulting to valid' };
   }
   // Defensive: clamp to the two values we trust here. unreachable is
-  // produced by the network layer above; Haiku never emits it.
+  // produced by the network layer above; the model never emits it.
   const status = parsed.status === 'expired' ? 'expired' : 'valid';
   return { status, reason: String(parsed.reason || '').slice(0, 200) };
 }
@@ -237,8 +237,8 @@ Rules:
 async function main() {
   console.log('=== Check Referrals ===\n');
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('Error: ANTHROPIC_API_KEY environment variable is required');
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('Error: OPENAI_API_KEY environment variable is required');
     process.exit(1);
   }
 

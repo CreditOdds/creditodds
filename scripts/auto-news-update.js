@@ -315,9 +315,9 @@ Output raw JSON only, no markdown fences.`,
  * Call Claude API to analyze search results and generate news items
  */
 async function generateNewsWithClaude(searchResults, existingNews, rejectedNews, cards) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error('ANTHROPIC_API_KEY environment variable is required');
+    throw new Error('OPENAI_API_KEY environment variable is required');
   }
 
   // Build card reference for Claude
@@ -432,15 +432,14 @@ source: "The Points Guy"
 source_url: "https://example.com/article"
 \`\`\``;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'gpt-4o-mini',
       max_tokens: 4096,
       messages: [
         { role: 'user', content: prompt }
@@ -450,11 +449,11 @@ source_url: "https://example.com/article"
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Claude API error: ${response.status} - ${errorText}`);
+    throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
   }
 
   const data = await response.json();
-  return data.content[0]?.text || '';
+  return data.choices[0]?.message?.content || '';
 }
 
 /**
@@ -527,7 +526,7 @@ function validateNewsItem(item) {
  * Generate a full article body for a news item using Claude Sonnet
  */
 async function generateNewsBody(newsItem, searchResults) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return null;
 
   // Filter search results to ones relevant to this news item
@@ -574,15 +573,14 @@ ${sourcesContext || 'No additional sources available.'}
 - If the only concrete fact is what the summary already says, write a very short article (2-3 paragraphs). A short factual article is better than a long fluffy one.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'gpt-4o-mini',
         max_tokens: 4096,
         messages: [
           { role: 'user', content: prompt }
@@ -597,7 +595,7 @@ ${sourcesContext || 'No additional sources available.'}
     }
 
     const data = await response.json();
-    const body = data.content[0]?.text || '';
+    const body = data.choices[0]?.message?.content || '';
 
     if (body.length < 100) {
       console.warn('  Warning: Generated body too short, skipping');
@@ -656,7 +654,7 @@ function writeNewsFile(item) {
  * Returns { isDuplicate: true, matchedId, reason } or { isDuplicate: false }.
  */
 async function checkDuplicateWithClaude(candidate, existingNews) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return { isDuplicate: false };
 
   const existingList = existingNews
@@ -683,15 +681,14 @@ UNIQUE — if it is genuinely new news
 Do not explain. Just output one line.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'gpt-4o-mini',
         max_tokens: 50,
         messages: [{ role: 'user', content: prompt }],
       }),
@@ -703,11 +700,11 @@ Do not explain. Just output one line.`;
     }
 
     const data = await response.json();
-    const result = (data.content[0]?.text || '').trim();
+    const result = (data.choices[0]?.message?.content || '').trim();
 
     if (result.startsWith('DUPLICATE:')) {
       const matchedId = result.replace('DUPLICATE:', '').trim();
-      return { isDuplicate: true, matchedId, reason: 'Claude detected semantic duplicate' };
+      return { isDuplicate: true, matchedId, reason: 'model detected semantic duplicate' };
     }
 
     return { isDuplicate: false };
@@ -728,8 +725,8 @@ async function main() {
     console.error('Error: BRAVE_SEARCH_API_KEY environment variable is required');
     process.exit(1);
   }
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('Error: ANTHROPIC_API_KEY environment variable is required');
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('Error: OPENAI_API_KEY environment variable is required');
     process.exit(1);
   }
 

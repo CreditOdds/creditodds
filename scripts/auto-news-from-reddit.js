@@ -16,7 +16,7 @@
  *   --min-score <n>        Drop comments with score below this (default 2)
  *
  * Env:
- *   ANTHROPIC_API_KEY      Required
+ *   OPENAI_API_KEY         Required
  *   BRAVE_SEARCH_API_KEY   Optional — enables tier-B corroboration via Brave web search
  *   REDDIT_USER_AGENT      Optional — custom UA for Reddit fetches
  */
@@ -25,7 +25,7 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
-// Load .env from repo root if present so ANTHROPIC_API_KEY / BRAVE_SEARCH_API_KEY
+// Load .env from repo root if present so OPENAI_API_KEY / BRAVE_SEARCH_API_KEY
 // can be set once and reused for daily local runs (no new deps).
 loadDotenv(path.join(__dirname, '..', '.env'));
 
@@ -182,17 +182,16 @@ function writeNewsFile(item, outDir) {
   return filename;
 }
 
-// ── Claude wrapper ───────────────────────────────────────────────────────────
+// ── OpenAI wrapper ───────────────────────────────────────────────────────────
 
-async function callClaude(prompt, { maxTokens = 4096, model = 'claude-haiku-4-5-20251001' } = {}) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY is required');
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+async function callModel(prompt, { maxTokens = 4096, model = 'gpt-4o-mini' } = {}) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error('OPENAI_API_KEY is required');
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
       model,
@@ -200,9 +199,9 @@ async function callClaude(prompt, { maxTokens = 4096, model = 'claude-haiku-4-5-
       messages: [{ role: 'user', content: prompt }],
     }),
   });
-  if (!res.ok) throw new Error(`Claude ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw new Error(`OpenAI ${res.status}: ${await res.text()}`);
   const data = await res.json();
-  return data.content[0]?.text || '';
+  return data.choices[0]?.message?.content || '';
 }
 
 // ── Comment filtering ────────────────────────────────────────────────────────
@@ -272,7 +271,7 @@ Output a JSON array. For each newsworthy candidate, include:
 
 Return ONLY the JSON array, no prose. If nothing is newsworthy, return [].`;
 
-  const raw = await callClaude(prompt, { maxTokens: 2000 });
+  const raw = await callModel(prompt, { maxTokens: 2000 });
   const match = raw.match(/\[[\s\S]*\]/);
   if (!match) return [];
   try {
@@ -359,7 +358,7 @@ OUTCOME: <VERIFIED | PARTIAL | UNVERIFIED>
 REASON: <one sentence>
 REVISED_CLAIM: <only required when OUTCOME is PARTIAL; rewrite the claim to a factual statement of the current state per the page; omit otherwise>`;
 
-  const res = await callClaude(prompt, { maxTokens: 400 });
+  const res = await callModel(prompt, { maxTokens: 400 });
   const lines = (res || '').trim().split('\n');
   const get = (prefix) => {
     const line = lines.find((l) => l.trim().toUpperCase().startsWith(prefix));
@@ -462,7 +461,7 @@ Return ONE YAML block inside \`\`\`yaml ... \`\`\`. Fields:
 
 Do NOT invent details. If a field is uncertain, omit it.`;
 
-  const raw = await callClaude(prompt, { maxTokens: 2500 });
+  const raw = await callModel(prompt, { maxTokens: 2500 });
   const match = raw.match(/```yaml\n([\s\S]*?)```/);
   if (!match) return null;
   try {
@@ -491,7 +490,7 @@ Reply on one line:
 DUPLICATE:<id> — if duplicate
 UNIQUE — otherwise`;
 
-  const res = await callClaude(prompt, { maxTokens: 50 });
+  const res = await callModel(prompt, { maxTokens: 50 });
   const line = (res || '').trim();
   if (line.startsWith('DUPLICATE:')) {
     return { isDuplicate: true, matchedId: line.replace('DUPLICATE:', '').trim() };
@@ -503,8 +502,8 @@ UNIQUE — otherwise`;
 
 async function main() {
   const opts = parseArgs();
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY is required');
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY is required');
     process.exit(1);
   }
 

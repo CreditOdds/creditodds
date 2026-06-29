@@ -31,7 +31,7 @@ jobs:
 
       - name: Queue posts
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
           SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
         run: |

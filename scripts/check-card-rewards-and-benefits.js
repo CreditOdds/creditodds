@@ -260,11 +260,11 @@ function buildFewShotExamples(allCards, exampleSlugs) {
   return examples;
 }
 
-// ─── Claude Haiku extraction ────────────────────────────────────────────────
+// ─── OpenAI extraction ──────────────────────────────────────────────────────
 
 async function extractRewardsAndBenefits(card, applyLink, pageContent, examples) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY required');
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error('OPENAI_API_KEY required');
 
   const examplesBlock = examples
     .slice(0, 3)
@@ -518,27 +518,27 @@ ${examplesBlock}
 
 Now extract for ${card.data.name}.`;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'gpt-4o-mini',
       max_tokens: 4000,
       messages: [{ role: 'user', content: prompt }],
+      response_format: { type: 'json_object' },
     }),
   });
 
   if (!response.ok) {
     const text = await response.text().catch(() => '');
-    throw new Error(`Claude API ${response.status}: ${text.slice(0, 200)}`);
+    throw new Error(`OpenAI API ${response.status}: ${text.slice(0, 200)}`);
   }
 
   const data = await response.json();
-  const text = (data.content[0]?.text || '{}')
+  const text = (data.choices[0]?.message?.content || '{}')
     .replace(/^```json?\n?/, '')
     .replace(/\n?```$/, '')
     .trim();
