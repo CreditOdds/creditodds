@@ -57,3 +57,10 @@ benefits:
     frequency: "one_time"
     category: "rideshare"
     enrollment_required: true
+  - name: "Hertz Rental Car Savings"
+    value: 5
+    value_unit: "percent"
+    description: "Receive at least 5% off Pay Later base rates on Hertz rentals"
+    frequency: "per_rental"
+    category: "car_rental"
+    enrollment_required: true
