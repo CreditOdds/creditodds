@@ -41,7 +41,7 @@ valuations:
     match: ["capital one"]
   - program: "Bilt Rewards"
     slug: "bilt-rewards"
-    cpp: 1.5
+    cpp: 1.0
     match: ["bilt"]
   - program: "Citi ThankYou"
     slug: "citi-thankyou"
