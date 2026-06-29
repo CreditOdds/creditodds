@@ -67,3 +67,9 @@ our_take: >
   after $8,000 in spend. It shines for businesses with real spend in those bonus
   categories, but the combined caps and plain 1% on everything else mean you
   will want a flat-rate card to pair with it for general purchases.
+benefits:
+  - name: "Instacart+ Membership"
+    description: "Complimentary three-month Instacart+ membership with a $20 Instacart credit each month"
+    frequency: "one_time"
+    category: "shopping"
+    enrollment_required: true
