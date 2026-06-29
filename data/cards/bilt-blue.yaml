@@ -10,7 +10,10 @@ reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
   Bilt Blue is the no-fee entry point to the Bilt ecosystem: its draw is paying
-  rent by card with no transaction fee, plus 4% Bilt Cash on everyday purchases.
+  rent by card with no transaction fee. You can instead opt for 4% Bilt Cash on
+  everyday spend in place of the rent points boost, though Bilt Cash is a
+  separate, lower value currency (used mostly for point accelerators) rather
+  than cash back.
   Outside of rent and the limited Bilt Dining network the base earn is only 1x,
   so it makes the most sense for renters who want rewards on their biggest
   monthly bill. If you spend heavily elsewhere, pair it with a stronger everyday
@@ -42,4 +45,4 @@ rewards:
   - category: everything_else
     value: 1
     unit: points_per_dollar
-    note: "Also earns 4% Bilt Cash on everyday purchases"
+    note: "Everyday spend earns the base 1x in points. Bilt also offers a 4% Bilt Cash option on everyday spend as an alternative to the up to 1.25x rent points (you choose one track, not both); Bilt Cash is a separate currency used mainly for point accelerators, not cash back."
