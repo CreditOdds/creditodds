@@ -14,6 +14,11 @@ on:
         description: 'Specific card slug to check (leave empty for all)'
         required: false
         default: ''
+      force:
+        description: 'Bypass the 14-day recently-edited skip (check all matched cards now)'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
@@ -46,6 +51,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CARD_SLUG: ${{ github.event.inputs.card_slug || '' }}
+          FORCE_CHECK: ${{ github.event.inputs.force || 'false' }}
         run: node scripts/check-card-rewards-and-benefits.js
 
       - name: Validate updated card YAMLs
