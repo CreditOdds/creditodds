@@ -34,3 +34,9 @@ apr:
   regular:
     min: 17.49
     max: 28.49
+benefits:
+  - name: "Annual Donation"
+    description: "$2 million annual donation to the REI Cooperative Action Fund"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
