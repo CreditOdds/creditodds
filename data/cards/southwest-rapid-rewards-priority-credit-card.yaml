@@ -83,6 +83,11 @@ benefits:
     frequency: "annual"
     category: "groceries"
     enrollment_required: true
+  - name: "A-List Status TQPs"
+    description: "Earn 2,500 tier qualifying points for every $5,000 spent in purchases annually toward A-List status"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - airline
   - travel
