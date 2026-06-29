@@ -27,6 +27,24 @@ export default async function BestIndexPage() {
     cards.map((c) => c.bank?.trim()).filter(Boolean)
   ).size;
 
+  // Top-3 card image previews per ranking page (mirrors the landing page).
+  const cardImageBySlug = new Map<string, string | undefined>();
+  const cardNameBySlug = new Map<string, string>();
+  for (const c of cards) {
+    cardImageBySlug.set(c.slug, c.card_image_link);
+    cardNameBySlug.set(c.slug, c.card_name);
+  }
+  const previews: Record<string, { src?: string; alt: string }[]> = {};
+  for (const page of pages) {
+    previews[page.slug] = page.cards
+      .filter((c) => cardImageBySlug.has(c.slug))
+      .slice(0, 3)
+      .map((c) => ({
+        src: cardImageBySlug.get(c.slug),
+        alt: cardNameBySlug.get(c.slug) || c.slug,
+      }));
+  }
+
   const collectionJsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -55,7 +73,7 @@ export default async function BestIndexPage() {
           { name: 'Best Cards', url: 'https://creditodds.com/best' },
         ]}
       />
-      <BestV2Client pages={pages} totalIssuers={totalIssuers} totalCards={cards.length} />
+      <BestV2Client pages={pages} previews={previews} totalIssuers={totalIssuers} totalCards={cards.length} />
     </>
   );
 }

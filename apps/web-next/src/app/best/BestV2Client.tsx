@@ -2,38 +2,16 @@
 
 import Link from 'next/link';
 import { V2Footer } from '@/components/landing-v2/Chrome';
-import {
-  TrophyIcon,
-  GiftIcon,
-  PaperAirplaneIcon,
-  PercentBadgeIcon,
-  ShieldCheckIcon,
-  ShoppingCartIcon,
-  BanknotesIcon,
-  GlobeAltIcon,
-  SparklesIcon,
-} from '@heroicons/react/24/solid';
+import CardImage from '@/components/ui/CardImage';
 import type { BestPage } from '@/lib/best';
 import '../landing.css';
 
 interface BestV2ClientProps {
   pages: BestPage[];
+  previews: Record<string, { src?: string; alt: string }[]>;
   totalIssuers: number;
   totalCards: number;
 }
-
-const PAGE_ICONS: Record<
-  string,
-  React.ComponentType<React.SVGProps<SVGSVGElement>>
-> = {
-  'best-signup-bonuses': GiftIcon,
-  'best-airline-cards': PaperAirplaneIcon,
-  'best-0-apr-cards': PercentBadgeIcon,
-  'best-dining-grocery-cards': ShoppingCartIcon,
-  'best-secured-cards': ShieldCheckIcon,
-  'best-cash-back-cards': BanknotesIcon,
-  'best-travel-cards': GlobeAltIcon,
-};
 
 function formatShortDate(iso?: string): string {
   if (!iso) return '';
@@ -44,6 +22,7 @@ function formatShortDate(iso?: string): string {
 
 export default function BestV2Client({
   pages,
+  previews,
   totalIssuers,
   totalCards,
 }: BestV2ClientProps) {
@@ -74,16 +53,30 @@ export default function BestV2Client({
       </section>
 
       <div className="wrap">
-        <Link href="/best-card-for" className="best-cross-promo">
-          <span className="bcp-kicker">By store</span>
-          <span className="bcp-text">
-            <strong>Shopping somewhere specific?</strong> See the best card to use at
-            every major U.S. retailer we track — Amazon, Costco, Whole Foods, and more.
-          </span>
-          <span className="bcp-arrow" aria-hidden>
-            →
-          </span>
-        </Link>
+        <div className="best-promos">
+          <Link href="/best-card-for" className="best-promo">
+            <span className="bp-kicker">By store</span>
+            <h3 className="bp-title">Best card for every store</h3>
+            <p className="bp-desc">
+              See the top card to use at every major U.S. retailer we track, from
+              Amazon and Costco to Whole Foods.
+            </p>
+            <span className="bp-cta">
+              Browse by store <span aria-hidden>→</span>
+            </span>
+          </Link>
+          <Link href="/best-card-for-me" className="best-promo">
+            <span className="bp-kicker">For you</span>
+            <h3 className="bp-title">Best card for me</h3>
+            <p className="bp-desc">
+              Answer a few questions about your wallet and spending, and get a
+              ranked shortlist of the cards to get next.
+            </p>
+            <span className="bp-cta">
+              Find my next card <span aria-hidden>→</span>
+            </span>
+          </Link>
+        </div>
 
         <div className="best-hero-stats">
           <div className="bhs">
@@ -118,20 +111,37 @@ export default function BestV2Client({
           </div>
         ) : (
           <div className="best-grid">
-            {pages.map((page, index) => {
-              const Icon = PAGE_ICONS[page.slug] ?? SparklesIcon;
+            {pages.map((page) => {
               return (
                 <Link key={page.id} href={`/best/${page.slug}`} className="best-card">
-                  <div className="best-cover">
-                    <div className="best-cover-pattern" />
-                    <div className="best-cover-num">
-                      Series · {String(index + 1).padStart(2, '0')}
-                    </div>
-                    <Icon className="best-cover-icon" width={56} height={56} />
-                  </div>
                   <div className="best-body">
                     <h2 className="best-title">{page.title}</h2>
                     <p className="best-desc">{page.description}</p>
+                    {(previews[page.slug]?.length ?? 0) > 0 && (
+                      <div className="best-preview">
+                        <div className="best-preview-stack">
+                          {previews[page.slug].map((img, i) => (
+                            <div className="bf-mini" key={i}>
+                              <CardImage
+                                cardImageLink={img.src}
+                                alt={img.alt}
+                                fill
+                                sizes="64px"
+                                style={{ objectFit: 'cover', borderRadius: 4 }}
+                              />
+                              {i === 0 && (
+                                <span className="bf-crown" aria-hidden="true">
+                                  <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M4 18h16l1-9-5 3.5L12 6l-4 6.5L3 9z" />
+                                  </svg>
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        <span className="best-preview-label">Top picks</span>
+                      </div>
+                    )}
                     <div className="best-meta">
                       <span>Updated · {formatShortDate(page.updated_at || page.date)}</span>
                       <span className="count">{page.cards.length} cards</span>
