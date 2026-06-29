@@ -11,11 +11,6 @@ benefits:
     description: "Statement credit for hotel stays booked through Chase Travel"
     frequency: "annual"
     category: "hotel"
-  - name: "Anniversary Bonus Points"
-    description: "Earn bonus points equal to 10% of total purchases made the previous year on each account anniversary."
-    frequency: "annual"
-    category: "rewards"
-    enrollment_required: false
   - name: "Global Entry/TSA PreCheck/NEXUS Credit"
     value: 120
     description: "Receive one statement credit of up to $120 every four years as reimbursement for the application fee."
@@ -44,12 +39,15 @@ rewards:
   - category: "travel_portal"
     value: 5
     unit: "points_per_dollar"
+    note: "All Chase Travel purchases — flights, hotels, rental cars, vacation homes, cruises, activities, and tours"
   - category: "dining"
     value: 3
     unit: "points_per_dollar"
-  - category: "streaming"
+    note: "Dining worldwide, including takeout and eligible delivery"
+  - category: "gas"
     value: 3
     unit: "points_per_dollar"
+    note: "Gas and EV charging"
   - category: "groceries"
     value: 3
     unit: "points_per_dollar"
@@ -58,9 +56,18 @@ rewards:
     # online, etc.) — keep merchant_specific to suppress in-store grocery
     # store-page matching (Kroger, Safeway, in-person Whole Foods).
     merchant_specific: true
+  - category: "streaming"
+    value: 3
+    unit: "points_per_dollar"
+  - category: "vacation_rentals"
+    value: 3
+    unit: "points_per_dollar"
+    note: "Vacation homes booked directly with top brands like Airbnb, Vrbo, Plum Guide, HomeAway, Homestay.com, and Vacasa"
+    merchant_specific: true
   - category: "travel"
     value: 2
     unit: "points_per_dollar"
+    note: "All other travel worldwide"
   - category: "everything_else"
     value: 1
     unit: "points_per_dollar"
