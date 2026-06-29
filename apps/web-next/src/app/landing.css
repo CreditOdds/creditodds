@@ -9948,6 +9948,10 @@
   border: 1px solid var(--line-2);
   border-radius: 8px;
   padding: 28px;
+  /* When we scroll the wizard to the top on each step change (see the
+     step-change effect in BestCardForMeClient), clear the 65px sticky navbar
+     plus a little breathing room so the progress bar isn't tucked underneath. */
+  scroll-margin-top: 84px;
 }
 .best-for-me-v2 .bcfm-progress {
   display: flex;
