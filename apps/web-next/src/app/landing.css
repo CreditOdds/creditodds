@@ -1396,6 +1396,16 @@
   margin-bottom: 0;
 }
 
+/* Best detail: rectangular look. Zero out radius on the comparison table,
+   the per-card containers, inner callouts, and buttons. Circular elements
+   (rank badges, model icons, status dots use rounded-full) are left alone. */
+.landing-v2.best-detail-v2 .rounded,
+.landing-v2.best-detail-v2 .rounded-md,
+.landing-v2.best-detail-v2 .rounded-lg,
+.landing-v2.best-detail-v2 .rounded-xl {
+  border-radius: 0;
+}
+
 /* ---------- Explore v2 (editorial / journal theme) ---------- */
 .landing-v2.explore-v2 .explore-hero {
   padding-block: 28px 28px;
