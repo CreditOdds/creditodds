@@ -71,6 +71,11 @@ rewards:
   - category: flights_portal
     value: 5
     unit: points_per_dollar
+  - category: entertainment_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Capital One Entertainment platform purchases only — excludes general entertainment, dining reservations, and Capital One Dining"
+    merchant_specific: true
   - category: everything_else
     value: 2
     unit: points_per_dollar

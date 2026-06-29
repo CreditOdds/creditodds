@@ -23,6 +23,8 @@ categories:
     label: Airlines
   - id: car_rentals
     label: Car Rentals
+  - id: vacation_rentals
+    label: Vacation Rentals
   - id: entertainment
     label: Entertainment
   - id: rotating
@@ -41,6 +43,8 @@ categories:
     label: Car Rentals (via Portal)
   - id: hotels_car_portal
     label: Hotels & Car Rentals (via Portal)
+  - id: entertainment_portal
+    label: Entertainment (via Portal)
   - id: amazon
     label: Amazon.com
   - id: rei
