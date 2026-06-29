@@ -29,6 +29,7 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
+foreign_transaction_fee: true
 our_take: >
   A no-fee way to start earning AAdvantage miles, with 2x on groceries and on
   American purchases plus a modest 15,000-mile bonus after $1,000 in spend. It
