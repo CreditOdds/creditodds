@@ -36,3 +36,10 @@ our_take: >
   cash back into transferable Ultimate Rewards. On its own it is a flat-rate card, so a
   category-heavy spender may earn more with Ink Business Cash.
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
+foreign_transaction_fee: true
+benefits:
+  - name: "Instacart+ Membership"
+    description: "Complimentary three-month Instacart+ membership with a $20 Instacart credit each month"
+    frequency: "one_time"
+    category: "shopping"
+    enrollment_required: true
