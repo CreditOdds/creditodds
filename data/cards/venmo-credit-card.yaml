@@ -46,7 +46,7 @@ apr:
     min: 19.99
     max: 31.99
 apply_link: https://venmo.com/about/creditcard
-foreign_transaction_fee: false
+foreign_transaction_fee: true
 our_take: >
   A no-fee card that auto-adjusts to your spending: 3% on your top category and 2%
   on your second each statement period, from a list of eight, with 1% on the rest.
