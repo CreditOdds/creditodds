@@ -78,6 +78,12 @@ benefits:
     description: "Earn another Free Night Reward after $30,000 in purchases and one more after $60,000 in a calendar year"
     frequency: "annual"
     category: "hotel"
+  - name: "Property Credit"
+    value: 100
+    description: "Receive up to a $100 credit for qualifying charges at Waldorf Astoria and Conrad properties when booking a 2-night minimum stay"
+    frequency: "per_rental"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - hotel
   - travel
