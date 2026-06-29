@@ -1374,6 +1374,38 @@
   margin: 0 0 12px;
 }
 
+/* Best detail: let the hero copy span the full main-content width, and render
+   the page intro as flowing text right under the subtitle (not a boxed card). */
+.landing-v2.best-detail-v2 .page-sub {
+  max-width: none;
+}
+.landing-v2.best-detail-v2 .hero-intro {
+  max-width: none;
+  margin-top: 10px;
+}
+.landing-v2.best-detail-v2 .hero-intro .prose,
+.landing-v2.best-detail-v2 .hero-intro .prose p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.landing-v2.best-detail-v2 .hero-intro .prose p {
+  margin: 0 0 10px;
+}
+.landing-v2.best-detail-v2 .hero-intro .prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Best detail: rectangular look. Zero out radius on the comparison table,
+   the per-card containers, inner callouts, and buttons. Circular elements
+   (rank badges, model icons, status dots use rounded-full) are left alone. */
+.landing-v2.best-detail-v2 .rounded,
+.landing-v2.best-detail-v2 .rounded-md,
+.landing-v2.best-detail-v2 .rounded-lg,
+.landing-v2.best-detail-v2 .rounded-xl {
+  border-radius: 0;
+}
+
 /* ---------- Explore v2 (editorial / journal theme) ---------- */
 .landing-v2.explore-v2 .explore-hero {
   padding-block: 28px 28px;

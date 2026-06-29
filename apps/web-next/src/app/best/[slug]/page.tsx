@@ -108,6 +108,11 @@ export default async function BestDetailPage({ params }: Props) {
       <section className="page-hero wrap">
         <h1 className="page-title">{page.title}</h1>
         <p className="page-sub">{page.description}</p>
+        {page.intro && (
+          <div className="hero-intro">
+            <ArticleContent content={page.intro} />
+          </div>
+        )}
         <div
           style={{
             display: 'flex',
@@ -150,12 +155,6 @@ export default async function BestDetailPage({ params }: Props) {
       </section>
 
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 64 }}>
-        {page.intro && (
-          <div className="article-body" style={{ marginBottom: 36 }}>
-            <ArticleContent content={page.intro} />
-          </div>
-        )}
-
         <BestRankingViews cards={enrichedCards} panel={page.panel} />
 
         <Link
