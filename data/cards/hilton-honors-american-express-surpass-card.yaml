@@ -4,6 +4,7 @@ slug: "hilton-honors-american-express-surpass-card"
 image: "amex_hilton_honors_surpass.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/
+foreign_transaction_fee: false
 annual_fee: 150
 our_take: >
   The middle Hilton card, and the sweet spot for regular Hilton guests: 12x at
