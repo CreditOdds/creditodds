@@ -52,6 +52,18 @@ benefits:
     frequency: "annual"
     category: "lounge"
     enrollment_required: false
+  - name: "Citigold Relationship Credit"
+    value: 145
+    description: "$145 annual credit for qualifying Citigold clients with an assessed Annual Membership Fee"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
+  - name: "Citigold Private Client Relationship Credit"
+    value: 145
+    description: "$595 first year credit and $145 annual thereafter for qualifying Citigold Private Clients with an assessed Annual Membership Fee"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - travel
   - rewards
