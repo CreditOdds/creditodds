@@ -49,6 +49,7 @@ apr:
     min: 17.74
     max: 27.99
 apply_link: https://www.usbank.com/credit-cards/cash-plus-visa-signature-credit-card.html
+foreign_transaction_fee: true
 our_take: >
   One of the more flexible no-fee 5% cards: you pick two 5% categories each quarter
   from a list that includes utilities, cell phone, streaming, and fast food on up
