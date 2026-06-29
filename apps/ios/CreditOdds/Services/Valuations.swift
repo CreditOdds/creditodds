@@ -24,7 +24,7 @@ enum Valuations {
         Program(cpp: 0.50, match: ["ihg"], exclude: []),
         Program(cpp: 0.70, match: ["marriott", "bonvoy"], exclude: []),
         Program(cpp: 1.00, match: ["capital one"], exclude: []),
-        Program(cpp: 1.50, match: ["bilt"], exclude: []),
+        Program(cpp: 1.00, match: ["bilt"], exclude: []),
         Program(cpp: 1.00, match: ["citi"], exclude: []),
         Program(cpp: 1.00, match: ["wells fargo"], exclude: []),
         Program(cpp: 1.40, match: ["southwest"], exclude: []),
