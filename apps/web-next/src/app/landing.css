@@ -7359,7 +7359,7 @@
   padding: 10px 12px;
   margin-bottom: 12px;
   border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--line-2));
-  border-radius: 8px;
+  border-radius: 0;
   background: color-mix(in oklab, var(--accent) 6%, var(--paper));
 }
 .landing-v2 .cj-wire-high-label {

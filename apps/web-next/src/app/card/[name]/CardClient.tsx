@@ -869,17 +869,22 @@ export default function CardClient({
           <a href="#earn" className="cj-toc-link">
             <span className="cj-toc-num">02</span>Earn &amp; credits
           </a>
+          {(card.apr || typeof card.foreign_transaction_fee === "boolean") && (
+            <a href="#details" className="cj-toc-link">
+              <span className="cj-toc-num">03</span>Card details
+            </a>
+          )}
           <a href="#odds" className="cj-toc-link">
-            <span className="cj-toc-num">03</span>Approval odds
+            <span className="cj-toc-num">04</span>Approval odds
           </a>
           {newsEntries.length > 0 && (
             <a href="#wire" className="cj-toc-link">
-              <span className="cj-toc-num">04</span>News
+              <span className="cj-toc-num">05</span>News
             </a>
           )}
           {articles.length > 0 && (
             <a href="#reading" className="cj-toc-link">
-              <span className="cj-toc-num">05</span>Reading
+              <span className="cj-toc-num">06</span>Reading
             </a>
           )}
         </aside>
@@ -1239,39 +1244,77 @@ export default function CardClient({
                 )}
               </div>
             </div>
-
-            {card.apr &&
-              (card.apr.purchase_intro || card.apr.balance_transfer_intro) && (
-                <div className="cj-intro-apr">
-                  <div className="cj-intro-apr-label">Intro APR</div>
-                  <div className="cj-intro-apr-rows">
-                    {card.apr.balance_transfer_intro && (
-                      <div>
-                        <b>{card.apr.balance_transfer_intro.rate}%</b> for{" "}
-                        {card.apr.balance_transfer_intro.months} months on
-                        balance transfers
-                      </div>
-                    )}
-                    {card.apr.purchase_intro && (
-                      <div>
-                        <b>{card.apr.purchase_intro.rate}%</b> for{" "}
-                        {card.apr.purchase_intro.months} months on purchases
-                      </div>
-                    )}
-                    {card.apr.regular && (
-                      <div className="cj-intro-apr-then">
-                        Then {card.apr.regular.min}%–{card.apr.regular.max}%
-                        variable APR
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
           </section>
 
-          {/* 03 Approval odds */}
+          {/* 03 Card details */}
+          {(card.apr ||
+            typeof card.foreign_transaction_fee === "boolean") && (
+            <section id="details" className="cj-section">
+              <div className="cj-section-num">03 · card details</div>
+              <h2 className="cj-section-h2">
+                Card <em className="cj-section-accent">details</em>
+              </h2>
+              <table className="cj-table">
+                <tbody>
+                  {card.apr?.regular && (
+                    <tr>
+                      <td>
+                        <div className="cj-cell-primary">Regular APR</div>
+                      </td>
+                      <td className="cj-tr">
+                        {card.apr.regular.min === card.apr.regular.max
+                          ? `${card.apr.regular.min}%`
+                          : `${card.apr.regular.min}%–${card.apr.regular.max}%`}{" "}
+                        variable
+                      </td>
+                    </tr>
+                  )}
+                  {card.apr?.purchase_intro && (
+                    <tr>
+                      <td>
+                        <div className="cj-cell-primary">
+                          Intro APR on purchases
+                        </div>
+                      </td>
+                      <td className="cj-tr">
+                        {card.apr.purchase_intro.rate}% for{" "}
+                        {card.apr.purchase_intro.months} months
+                      </td>
+                    </tr>
+                  )}
+                  {card.apr?.balance_transfer_intro && (
+                    <tr>
+                      <td>
+                        <div className="cj-cell-primary">
+                          Intro APR on balance transfers
+                        </div>
+                      </td>
+                      <td className="cj-tr">
+                        {card.apr.balance_transfer_intro.rate}% for{" "}
+                        {card.apr.balance_transfer_intro.months} months
+                      </td>
+                    </tr>
+                  )}
+                  {typeof card.foreign_transaction_fee === "boolean" && (
+                    <tr>
+                      <td>
+                        <div className="cj-cell-primary">
+                          Foreign transaction fee
+                        </div>
+                      </td>
+                      <td className="cj-tr">
+                        {card.foreign_transaction_fee ? "Yes" : "None"}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </section>
+          )}
+
+          {/* 04 Approval odds */}
           <section id="odds" className="cj-section">
-            <div className="cj-section-num">03 · approval odds</div>
+            <div className="cj-section-num">04 · approval odds</div>
             <div className="cj-odds-header">
               <h2 className="cj-section-h2">
                 Approval <em className="cj-section-accent">odds</em>
@@ -1595,7 +1638,7 @@ export default function CardClient({
           {/* 04 News */}
           {newsEntries.length > 0 && (
             <section id="wire" className="cj-section">
-              <div className="cj-section-num">04 · news</div>
+              <div className="cj-section-num">05 · news</div>
               <h2 className="cj-section-h2">
                 In the <em className="cj-section-accent">news</em>
               </h2>
@@ -1642,7 +1685,7 @@ export default function CardClient({
           {/* 05 Reading */}
           {articles.length > 0 && (
             <section id="reading" className="cj-section">
-              <div className="cj-section-num">05 · reading</div>
+              <div className="cj-section-num">06 · reading</div>
               <h2 className="cj-section-h2">
                 Further <em className="cj-section-accent">reading</em>
               </h2>
