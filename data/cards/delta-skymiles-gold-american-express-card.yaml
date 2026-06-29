@@ -56,6 +56,12 @@ benefits:
     frequency: "annual"
     category: "entertainment"
     enrollment_required: true
+  - name: "Rideshare Statement Credit"
+    value: 120
+    description: "Earn up to $10 in statement credits each month on U.S. rideshare purchases with select providers"
+    frequency: "monthly"
+    category: "rideshare"
+    enrollment_required: true
 tags:
   - airline
   - travel
