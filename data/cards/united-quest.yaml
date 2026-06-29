@@ -7,7 +7,7 @@ annual_fee: 350
 reward_type: "miles"
 rewards:
   - category: airlines
-    value: 4
+    value: 5
     unit: points_per_dollar
     note: "United purchases"
     merchant_gate: [united-airlines]
@@ -129,6 +129,7 @@ tags:
   - travel
   - premium
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-quest
+foreign_transaction_fee: false
 our_take: >
   The mid-tier United card for frequent flyers, and one of the stronger airline cards on our
   lists, anchored by a $200 annual United travel credit, two free checked bags, and a deep
