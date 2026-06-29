@@ -91,6 +91,8 @@ const ALLEGIANCE_LOGOS: Record<string, string> = {
   delta: '/logos/delta.jpg',
   united: '/logos/united.jpg',
   southwest: '/logos/southwest.jpg',
+  jetblue: '/logos/jetblue.jpg',
+  alaska: '/logos/alaskan.jpg',
   marriott: '/logos/marriott.jpg',
   hilton: '/logos/hilton.jpg',
   hyatt: '/logos/hyatt.jpg',
