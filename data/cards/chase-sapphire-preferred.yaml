@@ -21,6 +21,25 @@ benefits:
     frequency: "annual"
     category: "rewards"
     enrollment_required: false
+  - name: "Global Entry/TSA PreCheck/NEXUS Credit"
+    value: 120
+    description: "Receive one statement credit of up to $120 every four years as reimbursement for the application fee."
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "security"
+    enrollment_required: false
+  - name: "Apple TV Membership"
+    value: 156
+    description: "Get a year of complimentary Apple TV when activated by December 31, 2026."
+    frequency: "one_time"
+    category: "entertainment"
+    enrollment_required: true
+  - name: "Lyft Credits"
+    value: 120
+    description: "DashPass members get a $10 promo each month to save on groceries, retail orders, and more through December 31, 2027."
+    frequency: "monthly"
+    category: "rideshare"
+    enrollment_required: true
 tags:
   - travel
   - dining
