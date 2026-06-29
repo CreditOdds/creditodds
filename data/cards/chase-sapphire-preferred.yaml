@@ -21,6 +21,25 @@ benefits:
     frequency: "annual"
     category: "rewards"
     enrollment_required: false
+  - name: "Global Entry/TSA PreCheck/NEXUS Credit"
+    value: 120
+    description: "Receive one statement credit of up to $120 every four years as reimbursement for the application fee."
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "security"
+    enrollment_required: false
+  - name: "Apple TV Membership"
+    value: 156
+    description: "Get a year of complimentary Apple TV when activated by December 31, 2026."
+    frequency: "one_time"
+    category: "entertainment"
+    enrollment_required: true
+  - name: "DoorDash DashPass Membership"
+    value: 120
+    description: "Complimentary DashPass for one year; members get up to $10 each month on groceries, retail, and more, plus $0 delivery fees on eligible orders."
+    frequency: "monthly"
+    category: "dining"
+    enrollment_required: true
 tags:
   - travel
   - dining
