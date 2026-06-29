@@ -11,11 +11,6 @@ benefits:
     description: "Statement credit for hotel stays booked through Chase Travel"
     frequency: "annual"
     category: "hotel"
-  - name: "DoorDash DashPass"
-    value: 0
-    description: "Complimentary DoorDash DashPass membership"
-    frequency: "ongoing"
-    category: "dining"
   - name: "Anniversary Bonus Points"
     description: "Earn bonus points equal to 10% of total purchases made the previous year on each account anniversary."
     frequency: "annual"
