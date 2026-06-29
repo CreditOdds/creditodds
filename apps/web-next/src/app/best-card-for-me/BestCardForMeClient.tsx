@@ -88,6 +88,7 @@ const HOTEL_OPTIONS = [
 
 // Brand logos we ship (public/logos). Programs without a logo render text-only.
 const ALLEGIANCE_LOGOS: Record<string, string> = {
+  american: '/logos/american.jpg',
   delta: '/logos/delta.jpg',
   united: '/logos/united.jpg',
   southwest: '/logos/southwest.jpg',
