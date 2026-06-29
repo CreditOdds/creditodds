@@ -37,7 +37,7 @@ rewards:
     unit: percent
     note: "Hotel and car reservations booked in the Travel Center"
   - category: everything_else
-    value: 1.5
+    value: 1
     unit: percent
 signup_bonus:
   value: 250
@@ -61,6 +61,19 @@ benefits:
     frequency: "per_claim"
     category: "telecom"
     enrollment_required: false
+  - name: "Annual Walmart+ Membership"
+    value: 155
+    description: "Statement credit for Walmart+ membership."
+    frequency: "annual"
+    category: "shopping"
+    enrollment_required: true
+  - name: "Streaming Subscription Credit"
+    value: 15
+    value_unit: "percent"
+    description: "15% statement credit on streaming service purchases."
+    frequency: "annual"
+    category: "streaming"
+    enrollment_required: false
 our_take: >
   The draw is 6% back at two retailers you choose each quarter (Amazon, Target,
   Walmart, Costco, and others) on up to $1,500 in combined spend, plus a 3%
@@ -68,3 +81,4 @@ our_take: >
   at big-box stores, but the $95 fee (waived year one) and quarterly selection
   hassle mean casual shoppers are better off with a simple no-fee card.
 apply_link: https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html
+foreign_transaction_fee: true
