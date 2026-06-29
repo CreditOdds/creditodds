@@ -260,11 +260,11 @@ async function closeBrowser() {
   }
 }
 
-// ─── Claude Haiku extraction ──────────────────────────────────────────────────
+// ─── OpenAI extraction ────────────────────────────────────────────────────────
 
 async function extractCardTerms(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY required');
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error('OPENAI_API_KEY required');
 
   const cur = currentSignupBonus || {};
   const currentContext = `Current YAML values (for unit context — DO NOT copy these, extract fresh from the page):
@@ -341,27 +341,27 @@ Rules:
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
 - Return null for any field you cannot determine with confidence.`;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'gpt-4o',
       max_tokens: 512,
       messages: [{ role: 'user', content: prompt }],
+      response_format: { type: 'json_object' },
     }),
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Claude API error: ${response.status} — ${errText}`);
+    throw new Error(`OpenAI API error: ${response.status} — ${errText}`);
   }
 
   const data = await response.json();
-  const text = (data.content[0]?.text || '{}')
+  const text = (data.choices[0]?.message?.content || '{}')
     .replace(/^```json?\n?/, '')
     .replace(/\n?```$/, '')
     .trim();
@@ -369,7 +369,7 @@ Rules:
   try {
     return JSON.parse(text);
   } catch (err) {
-    console.warn(`  Could not parse Claude response: ${err.message}`);
+    console.warn(`  Could not parse OpenAI response: ${err.message}`);
     return null;
   }
 }
@@ -721,8 +721,8 @@ function generateSummary(applied) {
 async function main() {
   console.log('=== Check Card Pages ===\n');
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('Error: ANTHROPIC_API_KEY environment variable is required');
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('Error: OPENAI_API_KEY environment variable is required');
     process.exit(1);
   }
 

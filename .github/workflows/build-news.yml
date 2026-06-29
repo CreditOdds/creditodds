@@ -91,7 +91,7 @@ jobs:
       - name: Queue new news for social media
         if: steps.new-files.outputs.files != ''
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
           SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
         run: node scripts/queue-social.js --type news --files ${{ steps.new-files.outputs.files }}

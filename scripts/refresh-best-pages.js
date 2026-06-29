@@ -7,9 +7,9 @@
  * a single consensus ranking. For each page:
  *   1. Loads current card list and enriches with live data from cards.json
  *   2. Sends an IDENTICAL ranking prompt to every available voter model
- *      (Claude, OpenAI, Gemini) and collects each model's ranked order.
+ *      (OpenAI, Gemini) and collects each model's ranked order.
  *   3. Aggregates the votes with a Borda count → consensus order.
- *   4. Claude (the "writer") writes the intro + per-card badge/highlight for
+ *   4. GPT (the "writer") writes the intro + per-card badge/highlight for
  *      the consensus order (prose is never voted on — one editorial voice).
  *   5. Writes updated YAML with the consensus order, badges, highlights,
  *      reasoning comments, a `panel:` block, and per-card `consensus:` data
@@ -17,16 +17,14 @@
  *
  * Graceful degradation: a voter that errors / returns bad JSON is dropped from
  * the panel for that run (logged), and the refresh still ships with the
- * survivors. Anthropic is required (it is the writer); if it fails on a page,
+ * survivors. OpenAI is required (it is the writer); if it fails on a page,
  * the page keeps its previous prose but still adopts the consensus order.
  *
  * Creates a summary file (.refresh-best-summary.md) for the PR body.
  *
  * Env:
- *   ANTHROPIC_API_KEY    (required — Claude votes AND writes)
- *   OPENAI_API_KEY       (optional — adds GPT to the panel)
+ *   OPENAI_API_KEY       (required — GPT votes AND writes)
  *   GEMINI_API_KEY       (optional — adds Gemini to the panel)
- *   RANKING_MODEL        (optional, default: claude-haiku-4-5-20251001)
  *   OPENAI_RANKING_MODEL (optional, default: gpt-4o-mini)
  *   GEMINI_RANKING_MODEL (optional, default: gemini-2.0-flash)
  */
@@ -43,23 +41,16 @@ const AGGREGATION_METHOD = 'borda';
 
 // ─── Panel definition ────────────────────────────────────────────────────────
 // `key` is the stable identifier stored in YAML and used by the frontend toggle.
-// Anthropic is `required` because it is also the writer.
+// OpenAI is `required` because it is also the writer.
 
 const PANEL = [
-  {
-    key: 'claude',
-    label: 'Claude',
-    envKey: 'ANTHROPIC_API_KEY',
-    model: process.env.RANKING_MODEL || 'claude-haiku-4-5-20251001',
-    call: callAnthropic,
-    required: true,
-  },
   {
     key: 'openai',
     label: 'GPT',
     envKey: 'OPENAI_API_KEY',
     model: process.env.OPENAI_RANKING_MODEL || 'gpt-4o-mini',
     call: callOpenAI,
+    required: true,
   },
   {
     key: 'gemini',
@@ -70,7 +61,7 @@ const PANEL = [
   },
 ];
 
-const WRITER_KEY = 'claude';
+const WRITER_KEY = 'openai';
 
 // ─── Data loading ────────────────────────────────────────────────────────────
 
@@ -136,25 +127,6 @@ function buildCardsWithData(page, cardsLookup) {
 
 // ─── Provider adapters (each returns raw response text) ───────────────────────
 
-async function callAnthropic(model, prompt, apiKey) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model,
-      max_tokens: 8192,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  });
-  if (!res.ok) throw new Error(`Anthropic API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  return data.content?.[0]?.text || '';
-}
-
 async function callOpenAI(model, prompt, apiKey) {
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -167,7 +139,9 @@ async function callOpenAI(model, prompt, apiKey) {
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
       temperature: 0.2,
-      max_tokens: 4096,
+      // OpenAI is now both a voter (short ranking) and the writer (full
+      // intro + per-card prose), so budget for the larger writer output.
+      max_tokens: 8192,
     }),
   });
   if (!res.ok) throw new Error(`OpenAI API ${res.status}: ${await res.text()}`);
@@ -317,7 +291,7 @@ async function collectVotes(page, cardsWithData) {
   for (const provider of PANEL) {
     const apiKey = process.env[provider.envKey];
     if (!apiKey) {
-      if (provider.required) throw new Error(`${provider.envKey} required (Claude is the writer)`);
+      if (provider.required) throw new Error(`${provider.envKey} required (it is the writer)`);
       console.log(`    ${provider.label}: no ${provider.envKey} — skipping`);
       continue;
     }
@@ -369,8 +343,8 @@ function aggregate(votes, inputSlugs) {
 // ─── Writer pass ─────────────────────────────────────────────────────────────
 
 async function writeProse(page, orderedCardsWithData, inputSlugs) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
   const writer = PANEL.find(p => p.key === WRITER_KEY);
+  const apiKey = process.env[writer.envKey];
   const text = await writer.call(writer.model, buildWriterPrompt(page, orderedCardsWithData), apiKey);
   const parsed = JSON.parse(stripFences(text));
   if (!Array.isArray(parsed.cards)) throw new Error('writer returned no cards array');
@@ -654,8 +628,8 @@ async function main() {
   const available = PANEL.filter(p => process.env[p.envKey]);
   console.log(`Panel: ${available.map(p => `${p.label} (${p.model})`).join(', ') || '(none)'}\n`);
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('Error: ANTHROPIC_API_KEY is required (Claude is the writer)');
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('Error: OPENAI_API_KEY is required (GPT is the writer)');
     process.exit(1);
   }
 
