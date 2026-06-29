@@ -12,6 +12,7 @@ apr:
     min: 26.74
     max: 26.74
 apply_link: https://www.citi.com/credit-cards/citi-secured-credit-card
+foreign_transaction_fee: true
 our_take: >
   A no-frills credit builder: no annual fee, reports to all three bureaus, and a
   clear path to establishing history from a refundable deposit. It earns no
