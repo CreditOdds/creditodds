@@ -31,6 +31,14 @@ tags:
   - rewards
   - travel
 rewards:
+  - category: hotels_portal
+    value: 3
+    unit: points_per_dollar
+    note: "Hotels booked through Bilt Travel"
+  - category: flights_portal
+    value: 2
+    unit: points_per_dollar
+    note: "Flights booked through Bilt Travel"
   - category: everything_else
     value: 1
     unit: points_per_dollar
