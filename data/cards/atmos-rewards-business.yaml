@@ -77,3 +77,10 @@ benefits:
     frequency: "annual"
     category: "other"
     enrollment_required: false
+  - name: "Inflight Purchase Rebate"
+    value: 20
+    value_unit: "percent"
+    description: "20% back on Alaska Airlines and Hawaiian Airlines inflight purchases"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
