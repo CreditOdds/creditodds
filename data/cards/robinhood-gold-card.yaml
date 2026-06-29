@@ -4,6 +4,12 @@ slug: "robinhood-gold-card"
 accepting_applications: true
 image: "robinhood-gold-card.png"
 release_date: "2024-03-26"
+# The $50 annual_fee models the required Robinhood Gold membership ($5/mo or
+# $50/yr) you must hold to get this card. The card page itself lists a $0 annual
+# fee, so card-page-check keeps proposing 50 -> 0. The $50 is an intentional
+# modeling decision (#1494); ignore annual_fee for this card.
+check_ignore:
+  - annual_fee
 annual_fee: 50
 benefits:
   - name: "Travel Insurance"
