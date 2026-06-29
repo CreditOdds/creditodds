@@ -6,7 +6,7 @@ apply_link: https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner
 category: "travel"
 image: "barclays-wyndham-earner.png"
 annual_fee: 0
-foreign_transaction_fee: false
+foreign_transaction_fee: true
 our_take: >
   The no-fee entry to Wyndham's lineup: 5x at Hotels by Wyndham, 2x on dining,
   groceries, and gas, automatic Gold status, and a 10% discount on award-night
