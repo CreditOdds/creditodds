@@ -13,7 +13,7 @@ our_take: >
   credits for airlines, hotels, streaming, Walmart+, Equinox, and more, which take effort to
   redeem. Outside of travel it earns just 1x, so heavy frequent travelers get the value;
   everyone else likely overpays.
-annual_fee: 895
+annual_fee: 695
 reward_type: "points"
 rewards:
   - category: airlines
