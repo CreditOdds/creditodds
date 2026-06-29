@@ -525,7 +525,7 @@ Now extract for ${card.data.name}.`;
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o',
       max_tokens: 4000,
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },

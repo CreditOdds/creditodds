@@ -348,7 +348,7 @@ Rules:
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o',
       max_tokens: 512,
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
