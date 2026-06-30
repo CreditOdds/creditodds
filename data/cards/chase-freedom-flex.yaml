@@ -14,13 +14,19 @@ rewards:
     unit: "percent"
     mode: "quarterly_rotating"
     # Chase Travel (travel_portal) is a permanent 5% on this card, so it is
-    # intentionally NOT listed here. Donations to Feeding America don't map to
-    # a spending category — kept in the umbrella note for context.
+    # intentionally NOT listed here. Donations to United Way don't map to
+    # a spending category, so they're kept in the umbrella note for context.
     current_categories:
-      - category: "amazon"
-        note: "Amazon.com (Q2 2026 rotation)"
-    current_period: "Q2 2026"
-    note: "Q2 2026: Amazon, Chase Travel, and donations to Feeding America"
+      - category: "gas"
+        note: "Gas stations (Q3 2026 rotation)"
+      - category: "ev_charging"
+        note: "EV charging (Q3 2026 rotation)"
+      - category: "transit"
+        note: "Public transit (Q3 2026 rotation)"
+      - category: "entertainment"
+        note: "Select live entertainment (Q3 2026 rotation)"
+    current_period: "Q3 2026"
+    note: "Q3 2026: gas stations and EV charging, public transit, select live entertainment, and donations to United Way"
     spend_cap: 1500
     cap_period: quarterly
     rate_after_cap: 1
