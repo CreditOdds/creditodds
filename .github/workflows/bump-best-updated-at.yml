@@ -1,0 +1,71 @@
+name: Bump Best Updated-At Date
+
+# Every ~11 days, refresh the `updated_at` date on every /best ranking page
+# so the dateModified signal that Google reads (CollectionPage JSON-LD +
+# OpenGraph article:modified_time) stays current between full re-ranks.
+#
+# This is the lightweight freshness touch — it only rewrites the date. The
+# heavyweight LLM re-rank that actually changes the rankings lives in
+# refresh-best-pages.yml (1st & 15th of each month, via PR).
+#
+# Cadence caveat: GitHub cron cannot express a true rolling 11-day interval,
+# because the day-of-month field resets every month. `*/11` fires on days
+# 1, 12, and 23 of every month — ~11-day gaps, with a shorter gap at the
+# month rollover (e.g. the 23rd to the next 1st). Closest practical match.
+#
+# Like publish-scheduled-articles.yml, this pushes with the default
+# GITHUB_TOKEN and then explicitly dispatches build-best.yml — because
+# GITHUB_TOKEN pushes do not trigger downstream workflows, but
+# workflow_dispatch events do.
+
+on:
+  schedule:
+    - cron: '0 12 */11 * *'  # days 1, 12, 23 each month, noon UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  actions: write  # required to call `gh workflow run` against build-best.yml
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump updated_at to today (UTC)
+        id: bump
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          # Rewrite every `updated_at: "..."` line in the best YAML to today.
+          sed -i -E "s/^updated_at: \".*\"/updated_at: \"$TODAY\"/" data/best/*.yaml
+          if git diff --quiet data/best/; then
+            echo "No date change needed — already $TODAY."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "today=$TODAY" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/best/*.yaml
+          git commit -m "chore(best): bump updated_at to ${{ steps.bump.outputs.today }}"
+          git push
+
+      - name: Dispatch build-best workflow
+        if: steps.bump.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # GITHUB_TOKEN pushes don't trigger downstream workflows, but
+          # workflow_dispatch events do — so we chain explicitly into the
+          # build/deploy (build:best, S3 upload, CloudFront, Amplify).
+          gh workflow run build-best.yml --ref main
