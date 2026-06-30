@@ -5,7 +5,7 @@ import { getBestPage, getBestPages } from "@/lib/best";
 import { getAllCards } from "@/lib/api";
 import { BestRankingViews } from "@/components/best/BestRankingViews";
 import { ArticleContent } from "@/components/articles/ArticleContent";
-import { BreadcrumbSchema } from "@/components/seo/JsonLd";
+import { BreadcrumbSchema, CollectionPageSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import "../../landing.css";
 
@@ -64,26 +64,18 @@ export default async function BestDetailPage({ params }: Props) {
 
   const pageUrl = `https://creditodds.com/best/${page.slug}`;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: page.title,
-    description: page.description,
-    url: pageUrl,
-    numberOfItems: enrichedCards.length,
-    itemListElement: enrichedCards.map((entry, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: entry.card.card_name,
-      url: `https://creditodds.com/card/${entry.card.slug}`,
-    })),
-  };
-
   return (
     <div className="landing-v2 best-detail-v2">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <CollectionPageSchema
+        url={pageUrl}
+        name={page.title}
+        description={page.description}
+        datePublished={page.date}
+        dateModified={page.updated_at || page.date}
+        items={enrichedCards.map((entry) => ({
+          name: entry.card.card_name,
+          url: `https://creditodds.com/card/${entry.card.slug}`,
+        }))}
       />
       <BreadcrumbSchema
         items={[
