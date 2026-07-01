@@ -14,8 +14,8 @@ rewards:
     value: 5
     unit: percent
     mode: quarterly_rotating
-    current_categories: [dining, home_improvement]
-    current_period: "Q2 2026"
+    current_categories: [gas, ev_charging, transit, airlines, drugstores]
+    current_period: "Q3 2026"
     note: "Activation required each quarter"
     spend_cap: 1500
     cap_period: quarterly
