@@ -1,9 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useMemo, useState, type KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
+
+const NEWS_IMG_CDN = 'https://d3ay3etzd1512y.cloudfront.net/news_images';
 import { categoryLabels, pickHeadlineReward } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch, expandSearchTerm } from '@/lib/searchAliases';
 import type { EditorialViewCounts } from '@/lib/api';
@@ -48,6 +51,7 @@ export type LandingNewsItem = {
   date: string;
   summary: string;
   cardImages: { src?: string; alt: string }[];
+  newsImage?: string;
 };
 export type LandingBestPage = {
   slug: string;
@@ -452,6 +456,8 @@ type EditorialItem = {
   title: string;
   summary: string;
   cardImages: { src?: string; alt: string }[];
+  /** Full-bleed hero image (news AI scene). Preferred over the fanned cardImages. */
+  image?: string;
   ts: number;
   views: number;
 };
@@ -487,6 +493,7 @@ function NewsLane({
       title: n.title,
       summary: n.summary,
       cardImages: n.cardImages,
+      image: n.newsImage ? `${NEWS_IMG_CDN}/${n.newsImage}` : undefined,
       ts: toTs(n.date),
       views: editorialViews.news[n.id] ?? 0,
     }));
@@ -519,7 +526,15 @@ function NewsLane({
       <div className="ed-grid">
         <Link href={lead.href} className="ed-lead">
           <div className="ed-cv">
-            {hasLeadArt ? (
+            {lead.image ? (
+              <Image
+                src={lead.image}
+                alt={lead.title}
+                fill
+                sizes="(max-width: 900px) 100vw, 520px"
+                style={{ objectFit: 'cover' }}
+              />
+            ) : hasLeadArt ? (
               <div className="stack">
                 {leadImages.slice(0, 3).map((img, j, arr) => {
                   const center = (arr.length - 1) / 2;
