@@ -8,7 +8,7 @@ import { useAuth } from '@/auth/AuthProvider';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import { SPEND_BUCKETS, SPEND_BUCKET_LABELS } from '@/lib/nextCardRanking';
 import { getWallet, addToWallet, type Card, type SignupBonus } from '@/lib/api';
-import { createCardLookups } from '@/app/profile/profileSelectors';
+import { createCardLookups, normalizeCardName } from '@/app/profile/profileSelectors';
 import { CategoryIcon, categoryLabels } from '@/lib/cardDisplayUtils';
 
 // ---- Result shape returned by /api/best-card-for-me -------------------------
@@ -305,7 +305,14 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
     const lookups = createCardLookups(allCards);
     return (wallet: { card_id: number; card_name: string }[]) =>
       wallet
-        .map((w) => (lookups.byWalletId.get(w.card_id) ?? lookups.byName.get(w.card_name))?.slug)
+        .map(
+          (w) =>
+            (
+              lookups.byWalletId.get(w.card_id) ??
+              lookups.byName.get(w.card_name) ??
+              lookups.byNameNormalized.get(normalizeCardName(w.card_name))
+            )?.slug,
+        )
         .filter((s): s is string => !!s);
   }, [allCards]);
 

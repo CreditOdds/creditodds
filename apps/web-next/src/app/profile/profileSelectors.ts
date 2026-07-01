@@ -14,15 +14,27 @@ export interface EligibleReferralCard {
 
 export interface CardLookups {
   byName: Map<string, Card>;
+  byNameNormalized: Map<string, Card>;
   byWalletId: Map<number, Card>;
+}
+
+// Fold punctuation/case drift that breaks exact card-name matching between the
+// wallet (stored in the DB) and the catalog. The main offender is the "U.S.
+// Bank" -> "US Bank" rename: a wallet still holding the old name must still
+// resolve to the renamed catalog card. Periods are dropped ("U.S." -> "US");
+// meaningful marks like the "+" in "Cash+" are preserved.
+export function normalizeCardName(name: string): string {
+  return name.toLowerCase().replace(/\./g, "").replace(/\s+/g, " ").trim();
 }
 
 export function createCardLookups(allCards: Card[]): CardLookups {
   const byName = new Map<string, Card>();
+  const byNameNormalized = new Map<string, Card>();
   const byWalletId = new Map<number, Card>();
 
   for (const card of allCards) {
     byName.set(card.card_name, card);
+    byNameNormalized.set(normalizeCardName(card.card_name), card);
 
     const primaryId = Number(card.card_id);
     if (!Number.isNaN(primaryId)) {
@@ -34,11 +46,15 @@ export function createCardLookups(allCards: Card[]): CardLookups {
     }
   }
 
-  return { byName, byWalletId };
+  return { byName, byNameNormalized, byWalletId };
 }
 
 function getCardForWalletCard(walletCard: WalletCard, lookups: CardLookups) {
-  return lookups.byWalletId.get(walletCard.card_id) ?? lookups.byName.get(walletCard.card_name);
+  return (
+    lookups.byWalletId.get(walletCard.card_id) ??
+    lookups.byName.get(walletCard.card_name) ??
+    lookups.byNameNormalized.get(normalizeCardName(walletCard.card_name))
+  );
 }
 
 export function getEligibleReferralCards(
