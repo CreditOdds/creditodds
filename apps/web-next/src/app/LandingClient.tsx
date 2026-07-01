@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useMemo, useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useState, type KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import CardImage from '@/components/ui/CardImage';
 
@@ -69,19 +69,29 @@ interface LandingClientProps {
   editorialViews: EditorialViewCounts;
 }
 
-const TOOL_LINKS: { name: string; value: string; href: string }[] = [
-  { name: 'Chase UR', value: '1 ≈ 1.25¢', href: '/tools/chase-ultimate-rewards-to-usd' },
-  { name: 'Amex MR', value: '1 ≈ 1.2¢', href: '/tools/amex-membership-rewards-to-usd' },
-  { name: 'Cap One miles', value: '1 ≈ 1.0¢', href: '/tools/capital-one-miles-to-usd' },
-  { name: 'Bilt points', value: '1 ≈ 1.5¢', href: '/tools/bilt-rewards-points-to-usd' },
-  { name: 'Hyatt points', value: '1 ≈ 2.0¢', href: '/tools/world-of-hyatt-points-to-usd' },
-  { name: 'Delta SkyMiles', value: '1 ≈ 1.1¢', href: '/tools/delta-skymiles-to-usd' },
-  { name: 'United miles', value: '1 ≈ 1.2¢', href: '/tools/united-miles-to-usd' },
-  { name: 'Marriott', value: '1 ≈ 0.7¢', href: '/tools/marriott-bonvoy-points-to-usd' },
+const TOOL_LINKS: { name: string; value: string; href: string; logo: string }[] = [
+  { name: 'Chase UR', value: '1 ≈ 1.25¢', href: '/tools/chase-ultimate-rewards-to-usd', logo: '/logos/chase.jpg' },
+  { name: 'Amex MR', value: '1 ≈ 1.2¢', href: '/tools/amex-membership-rewards-to-usd', logo: '/logos/amex.jpg' },
+  { name: 'Cap One miles', value: '1 ≈ 1.0¢', href: '/tools/capital-one-miles-to-usd', logo: '/logos/capital-one.jpg' },
+  { name: 'Bilt points', value: '1 ≈ 1.5¢', href: '/tools/bilt-rewards-points-to-usd', logo: '/logos/bilt.jpg' },
+  { name: 'Hyatt points', value: '1 ≈ 2.0¢', href: '/tools/world-of-hyatt-points-to-usd', logo: '/logos/hyatt.jpg' },
+  { name: 'Delta SkyMiles', value: '1 ≈ 1.1¢', href: '/tools/delta-skymiles-to-usd', logo: '/logos/delta.jpg' },
+  { name: 'United miles', value: '1 ≈ 1.2¢', href: '/tools/united-miles-to-usd', logo: '/logos/united.jpg' },
+  { name: 'Marriott', value: '1 ≈ 0.7¢', href: '/tools/marriott-bonvoy-points-to-usd', logo: '/logos/marriott.jpg' },
 ];
 
-const WALLET_SLUGS = ['chase-sapphire-reserve', 'the-platinum-card', 'bilt-mastercard'];
+const WALLET_SLUGS = ['chase-sapphire-reserve', 'the-platinum-card', 'wells-fargo-active-cash'];
 const WALLET_RENEWALS = ['Renews Jan 27', 'Renews Mar 27', 'Renews in 11d'];
+
+// Rotating "best card here" scenarios that light up the wallet rows in turn.
+// Each scenario maps to one of the WALLET_SLUGS above and mirrors what the real
+// /wallet-picks/nearby ranker would return for that place (rates from card YAML).
+const WALLET_SCENARIOS: { slug: string; place: string; badge: string }[] = [
+  { slug: 'chase-sapphire-reserve', place: 'Blue Bottle Coffee', badge: 'Best · 3x' },
+  { slug: 'the-platinum-card', place: 'United counter · SFO', badge: 'Best · 5x' },
+  { slug: 'wells-fargo-active-cash', place: "Trader Joe's", badge: 'Best · 2%' },
+];
+const WALLET_ROTATE_MS = 5500;
 
 const POPULAR_FALLBACK = [
   'chase-sapphire-preferred',
@@ -605,6 +615,26 @@ function FooterBlocks({ cards }: { cards: LandingCard[] }) {
 
   const totalFee = walletCards.reduce((sum, c) => sum + (c.annual_fee ?? 0), 0);
 
+  // Only rotate through scenarios whose card is actually present in the wallet.
+  const scenarios = useMemo(
+    () => WALLET_SCENARIOS.filter((s) => walletCards.some((c) => c.slug === s.slug)),
+    [walletCards],
+  );
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    if (scenarios.length < 2) return;
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    const id = setInterval(() => {
+      setActiveIdx((i) => (i + 1) % scenarios.length);
+    }, WALLET_ROTATE_MS);
+    return () => clearInterval(id);
+  }, [scenarios.length]);
+
+  const active = scenarios[activeIdx % scenarios.length] ?? null;
+
   return (
     <section className="footer-blocks">
       <div className="wrap">
@@ -623,21 +653,40 @@ function FooterBlocks({ cards }: { cards: LandingCard[] }) {
                 <span>{walletCards.length} cards</span>
                 <span>${totalFee.toLocaleString()}/yr in fees</span>
               </div>
-              {walletCards.map((c, i) => (
-                <div className="wm-row" key={c.slug}>
-                  <div className="wm-thumb">
-                    <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="50px" style={{ objectFit: 'cover' }} />
-                  </div>
-                  <div>
-                    <div className="nm">{shortName(c)}</div>
-                    <div className="iss">{c.bank}</div>
-                  </div>
-                  <div className="v">
-                    ${c.annual_fee ?? 0}
-                    <span className="sub">{WALLET_RENEWALS[i]}</span>
-                  </div>
+              {active && (
+                <div className="wm-context" aria-live="polite">
+                  <span className="wm-ctx-place" key={active.place}>
+                    <span className="wm-ctx-pin" aria-hidden>📍</span>
+                    Near you: {active.place}
+                  </span>
+                  <span className="wm-ctx-hint">best card ↓</span>
                 </div>
-              ))}
+              )}
+              {walletCards.map((c, i) => {
+                const isActive = active?.slug === c.slug;
+                return (
+                  <div
+                    className={`wm-row${active ? (isActive ? ' active' : ' dim') : ''}`}
+                    key={c.slug}
+                  >
+                    <div className="wm-thumb">
+                      <CardImage cardImageLink={c.card_image_link} alt={c.card_name} fill sizes="50px" style={{ objectFit: 'cover' }} />
+                    </div>
+                    <div>
+                      <div className="nm">{shortName(c)}</div>
+                      <div className="iss">{c.bank}</div>
+                    </div>
+                    <div className="v">
+                      ${c.annual_fee ?? 0}
+                      {isActive ? (
+                        <span className="sub wm-best">{active.badge}</span>
+                      ) : (
+                        <span className="sub">{WALLET_RENEWALS[i]}</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -660,6 +709,7 @@ function FooterBlocks({ cards }: { cards: LandingCard[] }) {
               </Link>
               {TOOL_LINKS.map((t) => (
                 <Link key={t.href} href={t.href} className="tmini">
+                  <Image src={t.logo} alt={`${t.name} logo`} width={16} height={16} className="tmini-logo" />
                   <div className="nm">{t.name}</div>
                   <div className="v">{t.value}</div>
                 </Link>
