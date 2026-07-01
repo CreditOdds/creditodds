@@ -678,6 +678,7 @@
   gap: 8px;
 }
 .landing-v3 .tmini {
+  position: relative;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 12px;
@@ -686,6 +687,18 @@
   color: inherit;
   display: block;
   transition: background 0.15s ease;
+}
+.landing-v3 .tmini-logo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  object-fit: contain;
+}
+.landing-v3 .tmini .nm {
+  padding-left: 22px;
 }
 .landing-v3 .tmini:hover {
   background: var(--accent-2);
@@ -777,6 +790,75 @@
   display: block;
   font-weight: 400;
   margin-top: 1px;
+}
+
+/* Rotating "best card here" context line + row highlight */
+.landing-v3 .wm-context {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in oklab, var(--accent) 6%, var(--card));
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.landing-v3 .wm-ctx-place {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  animation: wmCtxIn 0.4s ease;
+}
+.landing-v3 .wm-ctx-pin {
+  font-size: 11px;
+}
+.landing-v3 .wm-ctx-hint {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.landing-v3 .wm-row {
+  transition: opacity 0.35s ease, background 0.35s ease;
+  position: relative;
+}
+.landing-v3 .wm-row.dim {
+  opacity: 0.5;
+}
+.landing-v3 .wm-row.active {
+  background: color-mix(in oklab, var(--accent) 7%, var(--card));
+}
+.landing-v3 .wm-row.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+.landing-v3 .wm-row .v .sub.wm-best {
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+@keyframes wmCtxIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-v3 .wm-row {
+    transition: none;
+  }
+  .landing-v3 .wm-ctx-place {
+    animation: none;
+  }
 }
 
 /* ---------- Final CTA (dark) ---------- */
