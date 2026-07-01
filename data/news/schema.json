@@ -85,6 +85,10 @@
       "type": "string",
       "maxLength": 15000,
       "description": "Full article body in markdown (optional)"
+    },
+    "news_image": {
+      "type": "string",
+      "description": "AI-generated hero image filename under news_images/ on the assets CDN (optional). Auto-populated by scripts/sync-news-images.js; set here to override with a specific filename."
     }
   }
 }

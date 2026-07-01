@@ -45,6 +45,12 @@ jobs:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
           aws-region: us-east-2
 
+      - name: Sync news hero images (generate missing via OpenAI)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          S3_IMAGES_BUCKET_NAME: ${{ secrets.S3_IMAGES_BUCKET_NAME }}
+        run: node scripts/sync-news-images.js
+
       - name: Upload news.json to S3
         run: aws s3 cp data/news.json s3://${{ secrets.S3_BUCKET_NAME }}/news.json --content-type application/json --cache-control "max-age=300"
 

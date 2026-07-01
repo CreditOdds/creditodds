@@ -28,6 +28,8 @@ export interface NewsItem {
   source?: string;
   source_url?: string;
   body?: string;
+  /** AI-generated hero image filename under news_images/ on the assets CDN. */
+  news_image?: string;
 }
 
 export interface NewsResponse {
