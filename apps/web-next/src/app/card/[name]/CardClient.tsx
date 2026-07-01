@@ -1735,7 +1735,9 @@ export default function CardClient({
             <div className="cj-rail-block cj-wire-rail">
               <div className="cj-rail-label">Card wire</div>
               {highestSub && (
-                <div className="cj-wire-high">
+                <div
+                  className={`cj-wire-high${highestSub.isCurrent ? "" : " cj-wire-high-stale"}`}
+                >
                   <span className="cj-wire-high-label">
                     Highest bonus on record
                   </span>

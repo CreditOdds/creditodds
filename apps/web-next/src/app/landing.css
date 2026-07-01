@@ -7429,6 +7429,13 @@
   border-radius: 0;
   background: color-mix(in oklab, var(--accent) 6%, var(--paper));
 }
+.landing-v2 .cj-wire-high-stale {
+  border-color: var(--line-2);
+  background: color-mix(in oklab, var(--ink) 4%, var(--paper));
+}
+.landing-v2 .cj-wire-high-stale .cj-wire-high-val {
+  color: var(--ink);
+}
 .landing-v2 .cj-wire-high-label {
   flex: 1 1 100%;
   font-size: 11px;
