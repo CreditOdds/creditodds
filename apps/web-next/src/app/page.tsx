@@ -102,7 +102,7 @@ function slimNews(news: NewsItem[], cardImageBySlug: Map<string, string | undefi
             alt: cardNameBySlug.get(slug) || names[i] || '',
           }))
         : links.slice(0, 3).map((src, i) => ({ src, alt: names[i] || '' }));
-      return { id: n.id, title: n.title, date: n.date, summary: n.summary, cardImages };
+      return { id: n.id, title: n.title, date: n.date, summary: n.summary, cardImages, newsImage: n.news_image };
     });
 }
 
