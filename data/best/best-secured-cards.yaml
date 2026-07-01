@@ -1,43 +1,42 @@
 # ============================================================
-# Best Secured Credit Cards — Ranking Reasoning (2026-06-25)
-# Consensus of: Claude, GPT, Gemini (borda count)
+# Best Secured Credit Cards — Ranking Reasoning (2026-07-01)
+# Consensus of: GPT, Gemini (borda count)
 # ============================================================
 #
-# #1 discover-it-secured-credit-card (Best Overall)  [Claude #1, GPT #1, Gemini #3]
-#   This card combines competitive rewards across multiple categories with an
-#   introductory balance transfer rate, making it the strongest choice for
-#   building credit while earning meaningful cash back. The category-based
-#   rewards structure and Discover's reputation for credit reporting make it
-#   an excellent starting point.
+# #1 discover-it-secured-credit-card (Best Overall)  [GPT #1, Gemini #3]
+#   This card stands out for its generous rewards structure, allowing
+#   cardholders to earn cash back on common spending categories. Its low
+#   introductory APR and commitment to reporting to all three credit bureaus
+#   make it an excellent choice for those looking to build credit.
 #
-# #2 capital-one-quicksilver-secured (Best for Travel Rewards)  [Claude #2, GPT #2, Gemini #2]
-#   This card stands out for higher rewards rates, particularly if you book
-#   travel through the Capital One portal. The flat 1.5% on non-travel
-#   purchases also beats most competitors, making it a strong second choice
-#   for those who travel or want higher baseline rewards.
+# #2 bank-of-america-cash-rewards-secured  [GPT #3, Gemini #1]
+#   This card's customizable rewards categories provide flexibility for users
+#   to maximize their cash back potential. Although it has a higher regular
+#   APR, the absence of an annual fee makes it a viable option for those
+#   focused on building credit.
 #
-# #3 bank-of-america-cash-rewards-secured  [Claude #3, GPT #3, Gemini #1]
-#   This card provides customizable category rewards and a strong grocery
-#   rate, though the regular APR is slightly higher than the top two options.
-#   It's a solid choice for cardholders who want flexibility in choosing their
-#   bonus category.
+# #3 capital-one-quicksilver-secured (Best Value)  [GPT #2, Gemini #2]
+#   This card offers a strong rewards program, particularly for travel-related
+#   expenses, making it a great value for frequent travelers. Its competitive
+#   APR and lack of an annual fee further enhance its appeal for those looking
+#   to improve their credit.
 #
-# #4 citi-secured-mastercard  [Claude #4, GPT #5, Gemini #4]
-#   This no-rewards card is best suited for those who prioritize simplicity
-#   and focus entirely on credit rebuilding. While it lacks cash back
-#   opportunities, it remains a viable option for borrowers who want a basic
-#   secured card with competitive APR.
+# #4 citi-secured-mastercard  [GPT #4, Gemini #4]
+#   While it lacks rewards, this card is straightforward and effective for
+#   those looking to establish or rebuild credit. Its competitive APR and
+#   reporting to all major credit bureaus make it a reliable choice.
 #
-# #5 capital-one-platinum-secured  [Claude #6, GPT #4, Gemini #6]
-#   This card is designed for those who need credit building without
-#   complexity or additional features. Its higher APR compared to other
-#   options makes it less competitive, though it remains accessible for
-#   applicants with limited credit history.
+# #5 us-bank-secured  [GPT #5, Gemini #5]
+#   This card serves as a solid option for individuals looking to establish
+#   credit without incurring annual fees. While it does not offer rewards, its
+#   straightforward terms and reporting to credit bureaus make it a dependable
+#   choice.
 #
-# #6 us-bank-secured  [Claude #5, GPT #6, Gemini #5]
-#   This basic secured card serves as a straightforward credit-building tool
-#   without cash back benefits. It's positioned for borrowers who want a
-#   no-frills option from an established national bank.
+# #6 capital-one-platinum-secured  [GPT #6, Gemini #6]
+#   This card is designed for those who may not qualify for other secured
+#   cards, providing a straightforward path to building credit. Its lack of
+#   rewards is offset by the absence of an annual fee, making it a practical
+#   option.
 #
 # ============================================================
 
@@ -46,19 +45,16 @@ slug: best-secured-cards
 title: Best Secured Credit Cards
 description: The best secured credit cards for building or rebuilding credit, all with no annual fee.
 date: "2026-03-01"
-updated_at: "2026-06-29"
+updated_at: "2026-07-01"
 seo_title: Best Secured Credit Cards of 2026
 seo_description: Compare the best secured credit cards of 2026 for building credit. All have $0 annual fees and report to all three bureaus.
 intro: |
-  Secured credit cards are designed to help you build or rebuild credit by using a refundable security deposit as your credit limit. The best options report to all three major credit bureaus, charge no annual fee, and offer cash back rewards to maximize the value of your spending.
+  Secured credit cards are an effective tool for building or rebuilding credit, utilizing a refundable security deposit as your credit limit. The best options in this category report to all three major credit bureaus, charge no annual fee, and offer valuable rewards to enhance your spending.
 
 panel:
   method: borda
-  generated_at: "2026-06-25"
+  generated_at: "2026-07-01"
   models:
-    - key: claude
-      label: Claude
-      model: claude-haiku-4-5-20251001
     - key: openai
       label: GPT
       model: gpt-4o-mini
@@ -69,40 +65,42 @@ panel:
 cards:
   - slug: discover-it-secured-credit-card
     badge: Best Overall
-    highlight: Discover it Secured offers 2% cash back on gas and dining purchases, 1% on everything else, with no annual fee and a 6-month intro APR of 10.99% on balance transfers.
+    highlight: The Discover it Secured card offers 2% cash back on gas and dining, and 1% on all other purchases, with no annual fee. It features a 10.99% introductory APR on balance transfers for the first six months.
     consensus:
-      score: 16
-      ranks: { claude: 1, openai: 1, gemini: 3 }
-
-  - slug: capital-one-quicksilver-secured
-    badge: Best for Travel Rewards
-    highlight: Capital One Quicksilver Secured Cash Rewards provides 5% cash back on hotels and rental cars booked through their portal, plus 1.5% on all other purchases, with no annual fee.
-    consensus:
-      score: 15
-      ranks: { claude: 2, openai: 2, gemini: 2 }
+      score: 10
+      ranks: { openai: 1, gemini: 3 }
 
   - slug: bank-of-america-cash-rewards-secured
-    highlight: Bank of America Cash Rewards Secured offers 3% cash back in one category of your choice, 2% on groceries, and 1% on all other purchases, with no annual fee.
+    previous_rank: 3
+    highlight: The Bank of America Cash Rewards Secured card allows cardholders to earn 3% cash back in selected categories, 2% on groceries, and 1% on all other purchases, with no annual fee. The regular APR is set at 27.49%.
     consensus:
-      score: 14
-      ranks: { claude: 3, openai: 3, gemini: 1 }
+      score: 10
+      ranks: { openai: 3, gemini: 1 }
+
+  - slug: capital-one-quicksilver-secured
+    badge: Best Value
+    previous_rank: 2
+    highlight: The Capital One Quicksilver Secured card provides 5% cash back on hotels booked through its portal and 1.5% on all other purchases, with no annual fee. It also offers a 10.99% introductory APR on balance transfers for six months.
+    consensus:
+      score: 10
+      ranks: { openai: 2, gemini: 2 }
 
   - slug: citi-secured-mastercard
-    previous_rank: 5
-    highlight: Citi Secured Mastercard offers no annual fee and a straightforward approach to credit building with no rewards categories.
+    highlight: The Citi Secured Mastercard has no annual fee and a regular APR of 26.74%.
     consensus:
-      score: 8
-      ranks: { claude: 4, openai: 5, gemini: 4 }
-
-  - slug: capital-one-platinum-secured
-    previous_rank: 4
-    highlight: Capital One Platinum Secured provides no annual fee and no rewards, focusing purely on credit building fundamentals.
-    consensus:
-      score: 5
-      ranks: { claude: 6, openai: 4, gemini: 6 }
+      score: 6
+      ranks: { openai: 4, gemini: 4 }
 
   - slug: us-bank-secured
-    highlight: US Bank Secured offers no annual fee and no rewards categories, keeping the focus on credit building.
+    previous_rank: 6
+    highlight: The US Bank Secured card features no annual fee and a regular APR of 27.49%.
     consensus:
-      score: 5
-      ranks: { claude: 5, openai: 6, gemini: 5 }
+      score: 4
+      ranks: { openai: 5, gemini: 5 }
+
+  - slug: capital-one-platinum-secured
+    previous_rank: 5
+    highlight: The Capital One Platinum Secured card comes with no annual fee and a regular APR of 28.99%.
+    consensus:
+      score: 2
+      ranks: { openai: 6, gemini: 6 }
