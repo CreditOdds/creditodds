@@ -1,0 +1,63 @@
+name: X Reply Agent
+
+# Autonomous reply agent for @creditodds. Runs hourly; the active-hours filter in
+# the script keeps it to the ET daytime window and conserves the Basic-tier read
+# budget. Posts AT MOST one reply per run.
+#
+# Mode is driven by the repo variable X_AGENT_MODE (default 'shadow' = never posts).
+# Flip the trial live by setting the repo variable X_AGENT_MODE=live. Emergency
+# stop: set repo variable X_AGENT_KILL=1. A manual dispatch can override the mode
+# for a one-off run.
+
+on:
+  schedule:
+    - cron: '0 * * * *' # hourly (UTC); script gates to ET active hours
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Run mode for this one-off run'
+        required: false
+        default: 'shadow'
+        type: choice
+        options: [shadow, live]
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: x-agent
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
+          aws-region: us-east-2
+
+      - name: Run reply agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          X_AGENT_STATE_S3: s3://${{ secrets.S3_BUCKET_NAME }}/x-agent/state.json
+          # Scheduled runs use the repo variable (default shadow); a manual
+          # dispatch overrides via its input.
+          X_AGENT_MODE: ${{ github.event.inputs.mode || vars.X_AGENT_MODE || 'shadow' }}
+          X_AGENT_KILL: ${{ vars.X_AGENT_KILL || '' }}
+        run: node scripts/x-agent/run.js
