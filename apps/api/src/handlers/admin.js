@@ -7,6 +7,24 @@ const { validateReferralLink } = require("../lib/validate-referral-link");
 // Fallback admin user IDs (Firebase UIDs) - used if custom claims not set
 const FALLBACK_ADMIN_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
 
+// Structured codes for the issuer-cited reason on a denial. Kept in sync with
+// REASON_DENIED_CODES in apps/api/src/handlers/user-records.js and the
+// REASON_DENIED_OPTIONS list on the client so admin manual entry captures the
+// same denial reasons as the public submit-record form.
+const REASON_DENIED_CODES = [
+  "too_many_inquiries",
+  "too_many_recent_accounts",
+  "length_of_credit_too_short",
+  "credit_score_too_low",
+  "high_utilization",
+  "too_much_credit_with_issuer",
+  "income_too_low",
+  "recent_delinquency",
+  "bankruptcy_or_public_record",
+  "other",
+  "not_specified",
+];
+
 // Check if user is admin via custom claim or fallback list
 function isAdmin(event) {
   const userId = event.requestContext?.authorizer?.sub;
@@ -144,6 +162,7 @@ exports.AdminRecordsHandler = async (event) => {
         // Return extra fields when filtering by card
         const extraFields = cardIdFilter
           ? `, r.credit_score_source, r.starting_credit_limit, r.bank_customer, r.reason_denied,
+             r.reason_denied_code, r.total_open_cards,
              r.inquiries_3, r.inquiries_12, r.inquiries_24, r.admin_review`
           : '';
 
@@ -227,6 +246,8 @@ exports.AdminRecordsHandler = async (event) => {
           length_credit: yup.number().integer().min(0).max(100).nullable(),
           starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
           reason_denied: yup.string().max(254).nullable(),
+          reason_denied_code: yup.string().oneOf([...REASON_DENIED_CODES, null]).nullable(),
+          total_open_cards: yup.number().integer().min(0).max(500).nullable(),
           date_applied: yup.date(),
           bank_customer: yup.boolean(),
           inquiries_3: yup.number().integer().min(0).max(50).nullable(),
@@ -240,6 +261,7 @@ exports.AdminRecordsHandler = async (event) => {
         if (validated.result !== undefined) {
           if (validated.result) {
             validated.reason_denied = null;
+            validated.reason_denied_code = null;
           } else {
             validated.starting_credit_limit = null;
           }
@@ -303,7 +325,9 @@ exports.AdminRecordsHandler = async (event) => {
           listed_income: yup.number().integer().min(0).max(1000000).required(),
           length_credit: yup.number().integer().min(0).max(100).nullable(),
           starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
-          reason_denied: yup.string().max(254),
+          reason_denied: yup.string().max(254).nullable(),
+          reason_denied_code: yup.string().oneOf([...REASON_DENIED_CODES, null]).nullable(),
+          total_open_cards: yup.number().integer().min(0).max(500).nullable(),
           date_applied: yup.date().required(),
           bank_customer: yup.boolean().required(),
           inquiries_3: yup.number().integer().min(0).max(50).nullable(),
@@ -316,6 +340,7 @@ exports.AdminRecordsHandler = async (event) => {
         // Clear irrelevant fields based on result
         if (value.result) {
           value.reason_denied = null;
+          value.reason_denied_code = null;
         } else {
           value.starting_credit_limit = null;
         }
@@ -334,6 +359,8 @@ exports.AdminRecordsHandler = async (event) => {
           submit_datetime: new Date(),
           bank_customer: value.bank_customer,
           reason_denied: value.reason_denied,
+          reason_denied_code: value.reason_denied_code ?? null,
+          total_open_cards: value.total_open_cards ?? null,
           inquiries_3: value.inquiries_3,
           inquiries_12: value.inquiries_12,
           inquiries_24: value.inquiries_24,
