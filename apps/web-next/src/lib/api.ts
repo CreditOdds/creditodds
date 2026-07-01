@@ -1350,6 +1350,8 @@ export interface AdminRecordDetail extends AdminRecord {
   starting_credit_limit?: number | null;
   bank_customer?: boolean;
   reason_denied?: string | null;
+  reason_denied_code?: string | null;
+  total_open_cards?: number | null;
   inquiries_3?: number | null;
   inquiries_12?: number | null;
   inquiries_24?: number | null;

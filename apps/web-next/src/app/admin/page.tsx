@@ -1787,8 +1787,10 @@ function EditRecordModal({
   const [creditScoreSource, setCreditScoreSource] = useState(record.credit_score_source ?? 0);
   const [income, setIncome] = useState(record.listed_income);
   const [lengthCredit, setLengthCredit] = useState<number | null>(record.length_credit ?? null);
+  const [totalOpenCards, setTotalOpenCards] = useState<number | null>(record.total_open_cards ?? null);
   const [result, setResult] = useState(!!record.result);
   const [startingCreditLimit, setStartingCreditLimit] = useState<number | null>(record.starting_credit_limit ?? null);
+  const [reasonDeniedCode, setReasonDeniedCode] = useState(record.reason_denied_code ?? '');
   const [bankCustomer, setBankCustomer] = useState(!!record.bank_customer);
   const [inquiries3, setInquiries3] = useState<number | null>(record.inquiries_3 ?? null);
   const [inquiries12, setInquiries12] = useState<number | null>(record.inquiries_12 ?? null);
@@ -1802,8 +1804,10 @@ function EditRecordModal({
       credit_score_source: creditScoreSource,
       listed_income: income,
       length_credit: lengthCredit,
+      total_open_cards: totalOpenCards,
       result,
       starting_credit_limit: result ? startingCreditLimit : null,
+      reason_denied_code: result ? null : (reasonDeniedCode || null),
       bank_customer: bankCustomer,
       inquiries_3: inquiries3,
       inquiries_12: inquiries12,
@@ -1857,17 +1861,31 @@ function EditRecordModal({
                 />
               </div>
 
-              <div className="av-field">
-                <label className="av-field-label">Age of Oldest Account (years)</label>
-                <input
-                  type="number"
-                  value={lengthCredit ?? ''}
-                  onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
-                  min={0}
-                  max={100}
-                  placeholder="Optional"
-                  className="av-input"
-                />
+              <div className="av-grid-2">
+                <div className="av-field">
+                  <label className="av-field-label">Age of Oldest Account (years)</label>
+                  <input
+                    type="number"
+                    value={lengthCredit ?? ''}
+                    onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
+                    min={0}
+                    max={100}
+                    placeholder="Optional"
+                    className="av-input"
+                  />
+                </div>
+                <div className="av-field">
+                  <label className="av-field-label">Total Open Cards</label>
+                  <input
+                    type="number"
+                    value={totalOpenCards ?? ''}
+                    onChange={(e) => setTotalOpenCards(e.target.value === '' ? null : parseInt(e.target.value))}
+                    min={0}
+                    max={500}
+                    placeholder="Optional"
+                    className="av-input"
+                  />
+                </div>
               </div>
 
               <div className="av-field" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -1951,6 +1969,22 @@ function EditRecordModal({
                   />
                 </div>
               )}
+
+              {!result && (
+                <div className="av-field">
+                  <label className="av-field-label">Reason for Denial</label>
+                  <select
+                    value={reasonDeniedCode}
+                    onChange={(e) => setReasonDeniedCode(e.target.value)}
+                    className="av-select"
+                  >
+                    <option value="">Select a reason…</option>
+                    {REASON_DENIED_OPTIONS.map((opt) => (
+                      <option key={opt.code} value={opt.code}>{opt.label}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
             <div className="av-modal-foot">
               <button type="submit" disabled={processing} className="av-btn av-btn-primary">
@@ -1969,6 +2003,23 @@ function EditRecordModal({
 
 // ============ SUBMIT RECORD TAB ============
 
+// Keep in sync with REASON_DENIED_OPTIONS in
+// apps/web-next/src/components/forms/SubmitRecordModal.tsx and
+// REASON_DENIED_CODES in apps/api/src/handlers/user-records.js.
+const REASON_DENIED_OPTIONS: ReadonlyArray<{ code: string; label: string }> = [
+  { code: 'not_specified', label: "Issuer didn't say" },
+  { code: 'too_many_inquiries', label: 'Too many recent inquiries' },
+  { code: 'too_many_recent_accounts', label: 'Too many recently opened accounts' },
+  { code: 'length_of_credit_too_short', label: 'Credit history too short' },
+  { code: 'credit_score_too_low', label: 'Credit score too low' },
+  { code: 'high_utilization', label: 'High utilization / too much revolving debt' },
+  { code: 'too_much_credit_with_issuer', label: 'Too much credit already with this issuer' },
+  { code: 'income_too_low', label: 'Income too low' },
+  { code: 'recent_delinquency', label: 'Recent delinquency or late payment' },
+  { code: 'bankruptcy_or_public_record', label: 'Bankruptcy or public record' },
+  { code: 'other', label: 'Other' },
+];
+
 function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<string | null>; onSuccess: () => void }) {
   const { cards, error: cardCatalogError } = useCardCatalog({ activeOnly: true });
   const [cardSearch, setCardSearch] = useState('');
@@ -1983,12 +2034,14 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   });
   const [lengthCredit, setLengthCredit] = useState<number | null>(null);
+  const [totalOpenCards, setTotalOpenCards] = useState<number | null>(null);
   const [bankCustomer, setBankCustomer] = useState(false);
   const [inquiries3, setInquiries3] = useState<number | null>(null);
   const [inquiries12, setInquiries12] = useState<number | null>(null);
   const [inquiries24, setInquiries24] = useState<number | null>(null);
   const [result, setResult] = useState(true);
   const [startingCreditLimit, setStartingCreditLimit] = useState<number | null>(null);
+  const [reasonDeniedCode, setReasonDeniedCode] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -2011,12 +2064,14 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
     const now = new Date();
     setDateApplied(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`);
     setLengthCredit(null);
+    setTotalOpenCards(null);
     setBankCustomer(false);
     setInquiries3(null);
     setInquiries12(null);
     setInquiries24(null);
     setResult(true);
     setStartingCreditLimit(null);
+    setReasonDeniedCode('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -2051,7 +2106,9 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
         result,
         listed_income: income,
         length_credit: lengthCredit ?? undefined,
+        total_open_cards: totalOpenCards ?? undefined,
         starting_credit_limit: result && startingCreditLimit != null ? startingCreditLimit : undefined,
+        reason_denied_code: !result && reasonDeniedCode ? reasonDeniedCode : undefined,
         date_applied: dateAppliedValue,
         bank_customer: bankCustomer,
         inquiries_3: inquiries3 ?? undefined,
@@ -2207,17 +2264,31 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
             </div>
           </div>
 
-          <div className="av-field">
-            <label className="av-field-label">Age of oldest account (years)</label>
-            <input
-              type="number"
-              value={lengthCredit ?? ''}
-              onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
-              min={0}
-              max={100}
-              placeholder="Optional"
-              className="av-input"
-            />
+          <div className="av-grid-2">
+            <div className="av-field">
+              <label className="av-field-label">Age of oldest account (years)</label>
+              <input
+                type="number"
+                value={lengthCredit ?? ''}
+                onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
+                min={0}
+                max={100}
+                placeholder="Optional"
+                className="av-input"
+              />
+            </div>
+            <div className="av-field">
+              <label className="av-field-label">Total open cards</label>
+              <input
+                type="number"
+                value={totalOpenCards ?? ''}
+                onChange={(e) => setTotalOpenCards(e.target.value === '' ? null : parseInt(e.target.value))}
+                min={0}
+                max={500}
+                placeholder="Optional"
+                className="av-input"
+              />
+            </div>
           </div>
 
           <div className="av-field" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -2299,6 +2370,22 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
                 placeholder="Optional"
                 className="av-input"
               />
+            </div>
+          )}
+
+          {!result && (
+            <div className="av-field">
+              <label className="av-field-label">Reason for denial</label>
+              <select
+                value={reasonDeniedCode}
+                onChange={(e) => setReasonDeniedCode(e.target.value)}
+                className="av-select"
+              >
+                <option value="">Select a reason…</option>
+                {REASON_DENIED_OPTIONS.map((opt) => (
+                  <option key={opt.code} value={opt.code}>{opt.label}</option>
+                ))}
+              </select>
             </div>
           )}
 
