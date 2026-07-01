@@ -192,7 +192,19 @@ async function generateNewsImage(item) {
 
   let buf;
   if (cards.length > 0) {
-    buf = await callOpenAIEdit(buildEditPrompt(scene, cards.map((c) => c.name)), cards);
+    try {
+      buf = await callOpenAIEdit(buildEditPrompt(scene, cards.map((c) => c.name)), cards);
+    } catch (err) {
+      // Some card art (licensed IP / characters, e.g. Disney) trips OpenAI's
+      // moderation when passed as a reference image. Fall back to the card-less
+      // text-to-image scene so the item still gets a hero image.
+      if (/moderation_blocked|safety system/i.test(err.message)) {
+        log(`  edit moderation-blocked for ${item.id} — falling back to card-less scene`);
+        buf = await callOpenAIGenerate(buildThemePrompt(scene, item));
+      } else {
+        throw err;
+      }
+    }
   } else {
     buf = await callOpenAIGenerate(buildThemePrompt(scene, item));
   }
