@@ -10,6 +10,7 @@
     "build:web-next": "npm run build -w @creditodds/web-next",
     "build:cards": "node scripts/build-cards.js",
     "build:news": "node scripts/build-news.js",
+    "sync:news-images": "node scripts/sync-news-images.js",
     "build:articles": "node scripts/build-articles.js",
     "build:best": "node scripts/build-best.js",
     "build:stores": "node scripts/build-stores.js",

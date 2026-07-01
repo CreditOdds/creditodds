@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getNews, getNewsItem, tagLabels } from "@/lib/news";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
@@ -12,6 +13,8 @@ import { V2Footer } from "@/components/landing-v2/Chrome";
 import ViewTracker from "@/components/ViewTracker";
 import { truncateTitle } from "@/lib/seo";
 import "../../landing.css";
+
+const NEWS_IMG_CDN = "https://d3ay3etzd1512y.cloudfront.net/news_images";
 
 interface NewsDetailPageProps {
   params: Promise<{ id: string }>;
@@ -37,6 +40,18 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
       url: `https://creditodds.com/news/${item.id}`,
       type: "article",
       publishedTime: item.date,
+      ...(item.news_image
+        ? {
+            images: [
+              {
+                url: `${NEWS_IMG_CDN}/${item.news_image}`,
+                width: 1536,
+                height: 1024,
+                alt: item.title,
+              },
+            ],
+          }
+        : {}),
     },
     alternates: {
       canonical: `https://creditodds.com/news/${item.id}`,
@@ -78,7 +93,9 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     datePublished: item.date,
     dateModified: item.date,
     url,
-    image: `https://creditodds.com/news/${item.id}/opengraph-image`,
+    image: item.news_image
+      ? `${NEWS_IMG_CDN}/${item.news_image}`
+      : `https://creditodds.com/news/${item.id}/opengraph-image`,
     author: { "@type": "Organization", name: "CreditOdds" },
     publisher: {
       "@type": "Organization",
@@ -163,6 +180,28 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                 </Link>
               ))}
             </div>
+          )}
+
+          {item.news_image && (
+            <figure
+              style={{
+                position: 'relative',
+                aspectRatio: '3 / 2',
+                margin: '22px 0 8px',
+                borderRadius: 16,
+                overflow: 'hidden',
+                border: '1px solid var(--line, rgba(0,0,0,0.08))',
+              }}
+            >
+              <Image
+                src={`${NEWS_IMG_CDN}/${item.news_image}`}
+                alt={item.title}
+                fill
+                sizes="(max-width: 820px) 100vw, 760px"
+                style={{ objectFit: 'cover' }}
+                priority
+              />
+            </figure>
           )}
 
           <div className="article-body">

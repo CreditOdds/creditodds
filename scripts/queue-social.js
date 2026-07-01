@@ -291,6 +291,14 @@ async function main() {
       const socialFilename = item.social_image || `${item.slug}-social.png`;
       imageUrl = `https://d3ay3etzd1512y.cloudfront.net/article_images/${socialFilename}`;
       console.log(`  Image: ${imageUrl}`);
+    } else if (type === 'news' && item.id) {
+      // sync-news-images.js (run earlier in build-news.yml) generates and
+      // uploads news_images/<id>.png. It stamps news.json, not this YAML, so we
+      // rebuild the conventional URL from the id. fetchImageAsBase64 falls back
+      // gracefully if the image isn't on the CDN yet.
+      const newsFilename = item.news_image || `${item.id}.png`;
+      imageUrl = `https://d3ay3etzd1512y.cloudfront.net/news_images/${newsFilename}`;
+      console.log(`  Image: ${imageUrl}`);
     }
 
     try {

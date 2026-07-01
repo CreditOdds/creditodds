@@ -2,10 +2,13 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import CardImage from '@/components/ui/CardImage';
 import type { NewsItem, NewsTag } from '@/lib/news';
 import '../landing.css';
+
+const NEWS_IMG_CDN = 'https://d3ay3etzd1512y.cloudfront.net/news_images';
 
 interface NewsV2ClientProps {
   items: NewsItem[];
@@ -67,7 +70,7 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
     return items.filter((i) => (i.tags ?? []).includes(filter));
   }, [filter, items]);
 
-  const imaged = filtered.filter((i) => Boolean(i.card_image_link));
+  const imaged = filtered.filter((i) => Boolean(i.news_image || i.card_image_link));
   const featured = imaged[0];
   const secondary = imaged.slice(1, 4);
   const usedIds = new Set(
@@ -126,16 +129,28 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
           <div className="news-grid">
             <Link href={`/news/${featured.id}`} className="feat-article">
               <div className="feat-cover">
-                <div className="cover-pattern" />
-                <div className="cover-card">
-                  <CardImage
-                    cardImageLink={featured.card_image_link}
-                    alt={featured.card_names?.[0] || featured.title}
+                {featured.news_image ? (
+                  <Image
+                    src={`${NEWS_IMG_CDN}/${featured.news_image}`}
+                    alt={featured.title}
                     fill
-                    sizes="240px"
+                    sizes="(max-width: 900px) 100vw, 480px"
                     style={{ objectFit: 'cover' }}
                   />
-                </div>
+                ) : (
+                  <>
+                    <div className="cover-pattern" />
+                    <div className="cover-card">
+                      <CardImage
+                        cardImageLink={featured.card_image_link}
+                        alt={featured.card_names?.[0] || featured.title}
+                        fill
+                        sizes="240px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
               <div className="feat-body">
                 <div className="feat-meta">
@@ -184,16 +199,28 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
             {secondary.map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="news-card">
                 <div className="nc-cover">
-                  <div className="nc-pattern" />
-                  <div className="nc-card-thumb">
-                    <CardImage
-                      cardImageLink={item.card_image_link}
-                      alt={item.card_names?.[0] || item.title}
+                  {item.news_image ? (
+                    <Image
+                      src={`${NEWS_IMG_CDN}/${item.news_image}`}
+                      alt={item.title}
                       fill
-                      sizes="160px"
+                      sizes="(max-width: 640px) 100vw, 320px"
                       style={{ objectFit: 'cover' }}
                     />
-                  </div>
+                  ) : (
+                    <>
+                      <div className="nc-pattern" />
+                      <div className="nc-card-thumb">
+                        <CardImage
+                          cardImageLink={item.card_image_link}
+                          alt={item.card_names?.[0] || item.title}
+                          fill
+                          sizes="160px"
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="nc-body">
                   <div className="nc-meta">
