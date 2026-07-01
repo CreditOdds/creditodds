@@ -393,7 +393,7 @@
   border-color: var(--ink);
 }
 .landing-v3 .ed-cv {
-  height: 170px;
+  height: 204px;
   background: linear-gradient(135deg, var(--accent-2), var(--paper-3));
   position: relative;
   overflow: hidden;
@@ -976,7 +976,7 @@
     gap: 16px;
   }
   .landing-v3 .ed-cv {
-    height: 170px;
+    height: 204px;
   }
   .landing-v3 .lnk {
     flex-basis: 70%;
