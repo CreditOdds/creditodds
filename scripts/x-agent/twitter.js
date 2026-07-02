@@ -89,6 +89,19 @@ async function getTweet(id) {
 /**
  * Post a reply to a given tweet. Returns the new tweet id.
  */
+async function postQuote(text, quoteTweetId) {
+  const client = getClient();
+  try {
+    const { data } = await client.v2.tweet(text, { quote_tweet_id: quoteTweetId });
+    return data.id;
+  } catch (err) {
+    const detail = err && (err.data || err.errors) ? JSON.stringify(err.data || err.errors) : '';
+    const e = new Error(`${err.message}${detail ? ` | ${detail}` : ''}`);
+    e.code = err.code;
+    throw e;
+  }
+}
+
 async function postReply(text, inReplyToTweetId) {
   const client = getClient();
   try {
@@ -125,4 +138,4 @@ async function getMetrics(ids) {
   return out;
 }
 
-module.exports = { searchRecent, getTweet, postReply, getMetrics, buildQuery };
+module.exports = { searchRecent, getTweet, postReply, postQuote, getMetrics, buildQuery };
