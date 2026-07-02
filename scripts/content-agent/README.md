@@ -4,8 +4,10 @@ Watches competitor accounts and turns notable card/points developments into **ou
 original articles and tweets. Compliant with X's no-programmatic-replies policy — it
 only creates original content, never replies.
 
-**Status: Phase 1 (shadow) built.** Decides + fact-checks + reports to Slack; posts and
-publishes nothing.
+**Status: Phase 2 live.** Tweet-worthy items that pass the fact-check gate are drafted
+(tweetgen.js), judged, and queued as ORIGINAL posts via the social-posting-service
+(blackout-aware, X + FB fanout). Article-worthy items are still report-only (Phase 3).
+`CONTENT_AGENT_MODE=shadow` reverts to report-only.
 
 ## Pipeline (hourly)
 
