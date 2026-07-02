@@ -32,6 +32,9 @@ async function main() {
   const tweet = { author: t.author, tier: 'competitor', text: t.text, id: t.id };
   const candidates = await generateCandidates(tweet, { dataPoint: null });
 
+  const asQuote = ['1', 'true', 'yes'].includes(String(process.env.QUOTE || '').toLowerCase());
+  console.log(asQuote ? '(mode: QUOTE TWEET)\n' : '(mode: REPLY)\n');
+
   for (const c of candidates) {
     const verdict = await judgeCandidate(tweet, c.text);
     if (!verdict.pass) {
@@ -39,8 +42,10 @@ async function main() {
       continue;
     }
     console.log(`Posting <${c.register} q:${verdict.score}>: ${c.text}`);
-    const replyId = await twitter.postReply(c.text, t.id);
-    console.log(`\nPOSTED ✅ https://x.com/creditodds/status/${replyId}`);
+    const newId = asQuote
+      ? await twitter.postQuote(c.text, t.id)
+      : await twitter.postReply(c.text, t.id);
+    console.log(`\nPOSTED ✅ https://x.com/creditodds/status/${newId}`);
     return;
   }
   console.log('No candidate passed the judge.');
