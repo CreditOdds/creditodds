@@ -70,12 +70,16 @@ async function main() {
   // Mark everything we pulled as seen so we don't reprocess next run.
   state.markSeen(st, search.tweets.map((t) => t.id));
 
+  // Reply-settings gate: X rejects (403) replies to conversations the author has
+  // locked to followers/mentions. Only 'everyone' tweets are actually repliable.
+  const openReplies = fresh.filter((t) => t.replySettings === 'everyone');
+
   // Relevance gate: skip tweets that aren't about credit / cards / points. Keeps
   // the agent from forcing card replies onto broad influencers' off-topic tweets.
-  const relevant = fresh.filter((t) => relevance.isRelevant(t.text));
+  const relevant = openReplies.filter((t) => relevance.isRelevant(t.text));
 
-  log(`Fetched ${search.tweets.length} tweet(s), ${fresh.length} fresh, ${relevant.length} card-relevant.`);
-  if (!relevant.length) { state.save(st); log('Nothing relevant to do.'); return; }
+  log(`Fetched ${search.tweets.length} tweet(s), ${fresh.length} fresh, ${openReplies.length} open-reply, ${relevant.length} card-relevant.`);
+  if (!relevant.length) { state.save(st); log('Nothing relevant & repliable to do.'); return; }
 
   // 3+4. Generate + judge, collect postable candidates
   const postable = [];
