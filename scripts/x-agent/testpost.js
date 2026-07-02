@@ -32,8 +32,11 @@ async function main() {
   const tweet = { author: t.author, tier: 'competitor', text: t.text, id: t.id };
   const candidates = await generateCandidates(tweet, { dataPoint: null });
 
-  const asQuote = ['1', 'true', 'yes'].includes(String(process.env.QUOTE || '').toLowerCase());
-  console.log(asQuote ? '(mode: QUOTE TWEET)\n' : '(mode: REPLY)\n');
+  const truthy = (v) => ['1', 'true', 'yes'].includes(String(v || '').toLowerCase());
+  const asQuote = truthy(process.env.QUOTE);
+  const asOriginal = truthy(process.env.ORIGINAL);
+  const mode = asOriginal ? 'ORIGINAL (post + delete)' : asQuote ? 'QUOTE TWEET' : 'REPLY';
+  console.log(`(mode: ${mode})\n`);
 
   for (const c of candidates) {
     const verdict = await judgeCandidate(tweet, c.text);
@@ -42,6 +45,14 @@ async function main() {
       continue;
     }
     console.log(`Posting <${c.register} q:${verdict.score}>: ${c.text}`);
+    if (asOriginal) {
+      // Original-tweet write test: post, confirm, then delete so nothing lingers.
+      const newId = await twitter.postTweet(c.text);
+      console.log(`\nPOSTED ✅ https://x.com/creditodds/status/${newId}`);
+      await twitter.deleteTweet(newId);
+      console.log('Deleted the test tweet (write path confirmed).');
+      return;
+    }
     const newId = asQuote
       ? await twitter.postQuote(c.text, t.id)
       : await twitter.postReply(c.text, t.id);
