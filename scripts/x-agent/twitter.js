@@ -68,8 +68,19 @@ async function searchRecent(handles, { sinceId, maxResults = 30 } = {}) {
  */
 async function postReply(text, inReplyToTweetId) {
   const client = getClient();
-  const { data } = await client.v2.reply(text, inReplyToTweetId);
-  return data.id;
+  try {
+    const { data } = await client.v2.reply(text, inReplyToTweetId);
+    return data.id;
+  } catch (err) {
+    // Surface the X API's actual error body (title/detail/errors) — a bare
+    // "code 403" hides whether it's a permissions, duplicate, or scope problem.
+    const detail = err && (err.data || err.errors)
+      ? JSON.stringify(err.data || err.errors)
+      : '';
+    const e = new Error(`${err.message}${detail ? ` | ${detail}` : ''}`);
+    e.code = err.code;
+    throw e;
+  }
 }
 
 /**
