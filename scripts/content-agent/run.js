@@ -20,8 +20,8 @@ const state = require('./state');
 const { triage } = require('./triage');
 const { checkDuplicate } = require('./dedup');
 const { factCheck } = require('./factcheck');
-const { generateTweet, judgeTweet } = require('./tweetgen');
-const { queueTweet, buildLinkUrl } = require('./post');
+const { generateNewsItem, writeNewsYaml } = require('./newsgen');
+const { publishNews } = require('./publish-news');
 
 function log(...a) { console.log(...a); }
 
@@ -98,45 +98,49 @@ async function main() {
       : (fc.confidence >= RAILS.minTweetConfidence);
     const passes = gate && ['verified', 'partly'].includes(fc.verdict);
 
-    // Draft the tweet for anything tweet-worthy that passes, in both modes —
-    // in shadow it shows in Slack, in live it posts.
-    let draft = null;
-    let judged = null;
+    // News path: medium-size items become a published news page (build-news.yml
+    // then handles site publish, hero image, and the social post that links to
+    // it). This replaced the old naked-tweet path — a tweet with no destination
+    // captures no traffic.
+    let newsDraft = null;
+    let action = 'reported';
     if (passes && it.decision === 'tweet') {
       try {
-        draft = await generateTweet(it);
-        judged = await judgeTweet(it, draft);
+        newsDraft = await generateNewsItem(it, state.todayET());
       } catch (err) {
-        log(`  tweetgen error: ${err.message}`);
+        log(`  newsgen error: ${err.message}`);
       }
     }
 
-    let action = 'reported';
-    if (MODE === 'live' && passes && it.decision === 'tweet' && judged?.pass) {
+    if (MODE === 'live' && passes && it.decision === 'tweet' && newsDraft && newsDraft.body) {
       if (st.day.tweets >= RAILS.maxTweetsPerDay) {
-        action = 'held (daily tweet cap)';
+        action = 'held (daily news cap)';
       } else {
         try {
-          const sourceId = `ca-${it.tweet.id}`;
-          await queueTweet({ text: draft, sourceId, linkUrl: buildLinkUrl(sourceId) });
+          const { filename, filepath } = writeNewsYaml(newsDraft);
+          const { prUrl } = await publishNews({
+            filepath, filename, title: newsDraft.title,
+            sourceUrl: newsDraft.source_url, factcheck: fc,
+          });
           st.day.tweets += 1;
-          action = 'QUEUED TWEET';
+          action = `PUBLISHED NEWS (${prUrl})`;
         } catch (err) {
-          action = `queue failed: ${err.message}`;
+          action = `publish failed: ${err.message}`;
           log(`  ${action}`);
         }
       }
     }
 
     const srcLines = fc.sources.slice(0, 3).map((s) => `   • ${s.primary ? '(primary) ' : ''}<${s.url}|${s.title}>`).join('\n');
-    const tag = MODE === 'live' ? (action === 'QUEUED TWEET' ? ':rotating_light: LIVE' : 'LIVE') : 'SHADOW';
+    const label = it.decision === 'tweet' ? 'NEWS' : it.decision.toUpperCase();
+    const tag = MODE === 'live' ? (action.startsWith('PUBLISHED') ? ':rotating_light: LIVE' : 'LIVE') : 'SHADOW';
     const lines = [
-      `*:mag: [${tag}] ${it.decision.toUpperCase()}* — ${passes ? ':white_check_mark: passes gate' : ':no_entry: held (gate not met)'}${action !== 'reported' ? ` · *${action}*` : ''}`,
+      `*:mag: [${tag}] ${label}* — ${passes ? ':white_check_mark: passes gate' : ':no_entry: held (gate not met)'}${action !== 'reported' ? ` · *${action}*` : ''}`,
       `topic: *${it.topic}* (from <https://x.com/${it.tweet.author}/status/${it.tweet.id}|@${it.tweet.author}>)`,
       `claim: ${it.claim}`,
       `fact-check: *${fc.verdict}* · confidence ${fc.confidence.toFixed(2)} · primary source: ${fc.primarySource ? 'yes' : 'no'}`,
       fc.notes ? `notes: ${fc.notes}` : '',
-      draft ? `draft tweet${judged && !judged.pass ? ` (:no_entry: judge: ${judged.detail})` : ''}: "${draft}"` : '',
+      newsDraft ? `news draft: *${newsDraft.title}* — ${newsDraft.summary}` : '',
       srcLines ? `sources:\n${srcLines}` : '   (no corroborating sources found)',
     ].filter(Boolean);
     await slack.send({ text: lines.join('\n') });
@@ -144,7 +148,7 @@ async function main() {
   }
 
   if (actionable.length) {
-    await slack.send({ text: `:memo: content agent (${MODE}): ${actionable.length} candidate(s) this run — ${actionable.filter((i) => i.decision === 'article').length} article, ${actionable.filter((i) => i.decision === 'tweet').length} tweet. Tweets today: ${st.day.tweets}/${RAILS.maxTweetsPerDay}.` });
+    await slack.send({ text: `:memo: content agent (${MODE}): ${actionable.length} candidate(s) this run — ${actionable.filter((i) => i.decision === 'article').length} article, ${actionable.filter((i) => i.decision === 'tweet').length} news. News today: ${st.day.tweets}/${RAILS.maxTweetsPerDay}.` });
   }
 
   state.save(st);

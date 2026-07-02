@@ -138,6 +138,8 @@ Cards: ${cardNames}
 Rules:
 - Max 200 characters (shorter is better)
 - Lead with a hook like "BREAKING:" or "NEW:" or a bold statement when appropriate
+- State the concrete terms from the summary (exact amounts, spend requirements, deadlines) — "$200 back on $1,000" beats "a great new offer"
+- If the summary says where to act (an app tab, activation page), include it
 - Write like a human, not a corporate account — be direct, casual, punchy
 - No filler words, no "excited to announce", no "stay tuned"
 - 1 hashtag max, only if it adds value. Skip hashtags if the tweet is strong without one
