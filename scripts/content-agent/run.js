@@ -20,6 +20,8 @@ const state = require('./state');
 const { triage } = require('./triage');
 const { checkDuplicate } = require('./dedup');
 const { factCheck } = require('./factcheck');
+const { generateTweet, judgeTweet } = require('./tweetgen');
+const { queueTweet, buildLinkUrl } = require('./post');
 
 function log(...a) { console.log(...a); }
 
@@ -87,29 +89,62 @@ async function main() {
 
   log(`Actionable (post-dedup): ${actionable.length}`);
 
-  // Phase 1: report to Slack only. Nothing is posted or published.
+  // Act on each candidate. Tweets auto-post in live mode (Phase 2); articles
+  // remain report-only until Phase 3.
   for (const it of actionable) {
     const fc = it.factcheck;
     const gate = it.decision === 'article'
       ? (fc.confidence >= RAILS.minArticleConfidence && (!RAILS.requirePrimarySourceForArticle || fc.primarySource))
       : (fc.confidence >= RAILS.minTweetConfidence);
-    const wouldAct = gate && ['verified', 'partly'].includes(fc.verdict);
+    const passes = gate && ['verified', 'partly'].includes(fc.verdict);
+
+    // Draft the tweet for anything tweet-worthy that passes, in both modes —
+    // in shadow it shows in Slack, in live it posts.
+    let draft = null;
+    let judged = null;
+    if (passes && it.decision === 'tweet') {
+      try {
+        draft = await generateTweet(it);
+        judged = await judgeTweet(it, draft);
+      } catch (err) {
+        log(`  tweetgen error: ${err.message}`);
+      }
+    }
+
+    let action = 'reported';
+    if (MODE === 'live' && passes && it.decision === 'tweet' && judged?.pass) {
+      if (st.day.tweets >= RAILS.maxTweetsPerDay) {
+        action = 'held (daily tweet cap)';
+      } else {
+        try {
+          const sourceId = `ca-${it.tweet.id}`;
+          await queueTweet({ text: draft, sourceId, linkUrl: buildLinkUrl(sourceId) });
+          st.day.tweets += 1;
+          action = 'QUEUED TWEET';
+        } catch (err) {
+          action = `queue failed: ${err.message}`;
+          log(`  ${action}`);
+        }
+      }
+    }
 
     const srcLines = fc.sources.slice(0, 3).map((s) => `   • ${s.primary ? '(primary) ' : ''}<${s.url}|${s.title}>`).join('\n');
+    const tag = MODE === 'live' ? (action === 'QUEUED TWEET' ? ':rotating_light: LIVE' : 'LIVE') : 'SHADOW';
     const lines = [
-      `*:mag: [SHADOW] would ${it.decision.toUpperCase()}* — ${wouldAct ? ':white_check_mark: passes gate' : ':no_entry: held (gate not met)'}`,
+      `*:mag: [${tag}] ${it.decision.toUpperCase()}* — ${passes ? ':white_check_mark: passes gate' : ':no_entry: held (gate not met)'}${action !== 'reported' ? ` · *${action}*` : ''}`,
       `topic: *${it.topic}* (from <https://x.com/${it.tweet.author}/status/${it.tweet.id}|@${it.tweet.author}>)`,
       `claim: ${it.claim}`,
       `fact-check: *${fc.verdict}* · confidence ${fc.confidence.toFixed(2)} · primary source: ${fc.primarySource ? 'yes' : 'no'}`,
       fc.notes ? `notes: ${fc.notes}` : '',
+      draft ? `draft tweet${judged && !judged.pass ? ` (:no_entry: judge: ${judged.detail})` : ''}: "${draft}"` : '',
       srcLines ? `sources:\n${srcLines}` : '   (no corroborating sources found)',
     ].filter(Boolean);
     await slack.send({ text: lines.join('\n') });
-    log(`  [${it.decision}] ${wouldAct ? 'PASS' : 'held'} — ${it.topic} (${fc.verdict}/${fc.confidence.toFixed(2)})`);
+    log(`  [${it.decision}] ${passes ? 'PASS' : 'held'} (${action}) — ${it.topic} (${fc.verdict}/${fc.confidence.toFixed(2)})`);
   }
 
   if (actionable.length) {
-    await slack.send({ text: `:memo: content agent (shadow): ${actionable.length} candidate(s) this run — ${actionable.filter((i) => i.decision === 'article').length} article, ${actionable.filter((i) => i.decision === 'tweet').length} tweet.` });
+    await slack.send({ text: `:memo: content agent (${MODE}): ${actionable.length} candidate(s) this run — ${actionable.filter((i) => i.decision === 'article').length} article, ${actionable.filter((i) => i.decision === 'tweet').length} tweet. Tweets today: ${st.day.tweets}/${RAILS.maxTweetsPerDay}.` });
   }
 
   state.save(st);
