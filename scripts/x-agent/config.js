@@ -18,15 +18,15 @@ const MODE = process.env.X_AGENT_MODE === 'live' ? 'live' : 'shadow';
 // Kept deliberately tight because the Basic API tier makes reads the scarce
 // resource. Quality of targets over quantity.
 const TARGETS = [
-  // Competitors / blogs — auto-reply eligible
+  // Competitors / blogs — auto-reply eligible. All handles verified real & active.
   { handle: 'thepointsguy', tier: 'competitor' },
   { handle: 'nerdwallet', tier: 'competitor' },
   { handle: 'onemileatatime', tier: 'competitor' },
   { handle: 'milestomemories', tier: 'competitor' },
-  { handle: 'FrugalFlyerca', tier: 'competitor' },
-  { handle: 'awardtravel', tier: 'competitor' },
-  { handle: 'CardChronicles', tier: 'competitor' },
-  { handle: 'UpgradedPoints', tier: 'competitor' },
+  { handle: 'frugalflyer', tier: 'competitor' },
+  { handle: 'upgradedpoints', tier: 'competitor' },
+  { handle: 'drofcredit', tier: 'competitor' },
+  { handle: 'godsavethepoint', tier: 'competitor' },
 
   // Issuers — WATCH ONLY in the trial. Never auto-replied to.
   { handle: 'AmericanExpress', tier: 'issuer' },
