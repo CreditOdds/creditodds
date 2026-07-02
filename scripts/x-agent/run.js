@@ -19,6 +19,7 @@ const rails = require('./rails');
 const { generateCandidates } = require('./generate');
 const { judgeCandidate } = require('./judge');
 const twitter = require('./twitter');
+const slack = require('./slack');
 
 const MAX_TWEETS_PER_RUN = 8; // bound LLM cost per invocation
 
@@ -129,8 +130,13 @@ async function main() {
         text: selected.text, register: selected.register, score: selected.score,
         mode: 'live', ts,
       });
+      await slack.notifyReply({
+        mode: 'live', author: selected.tweet.author, register: selected.register,
+        score: selected.score, text: selected.text, tweetId: selected.tweet.id, replyId,
+      });
     } catch (err) {
       log(`  POST FAILED: ${err.message}`);
+      await slack.send({ text: `:warning: x-agent post FAILED replying to @${selected.tweet.author}: ${err.message}` });
     }
   } else {
     log('  SHADOW mode — not posting.');
@@ -138,6 +144,10 @@ async function main() {
       tweetId: selected.tweet.id, replyId: null, author: selected.tweet.author,
       text: selected.text, register: selected.register, score: selected.score,
       mode: 'shadow', ts,
+    });
+    await slack.notifyReply({
+      mode: 'shadow', author: selected.tweet.author, register: selected.register,
+      score: selected.score, text: selected.text, tweetId: selected.tweet.id,
     });
   }
 

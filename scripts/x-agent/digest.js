@@ -9,6 +9,7 @@
 
 const state = require('./state');
 const twitter = require('./twitter');
+const slack = require('./slack');
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -53,6 +54,21 @@ async function main() {
 
   if (!recent.length) console.log('\n(nothing in the last 24h)');
   console.log('\n===== END DIGEST =====\n');
+
+  // Mirror a compact summary to Slack.
+  const slackLines = [
+    `*:bar_chart: X reply agent — daily digest*`,
+    `last 24h: *${live.length}* live · *${shadow.length}* shadow · daily live count ${st.day?.count || 0}`,
+  ];
+  for (const p of live) {
+    const m = metrics[p.replyId] || {};
+    slackLines.push(`• :rotating_light: <https://x.com/creditodds/status/${p.replyId}|@${p.author}> ♥${m.like_count ?? '?'} ↻${m.retweet_count ?? '?'} 👁${m.impression_count ?? '?'} — ${p.text}`);
+  }
+  for (const p of shadow) {
+    slackLines.push(`• :eyes: re @${p.author} [q${p.score}] — ${p.text}`);
+  }
+  if (!recent.length) slackLines.push('_(nothing in the last 24h)_');
+  await slack.send({ text: slackLines.join('\n') });
 }
 
 main().catch((err) => { console.error('Fatal:', err); process.exit(1); });
