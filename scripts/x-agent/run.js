@@ -108,60 +108,73 @@ async function main() {
   log(`Postable candidates this run: ${postable.length}`);
   if (!postable.length) { state.save(st); log('No postable candidate. Skipping.'); return; }
 
-  // 5. Select the best, subject to rate rails
+  // 5. Order candidates by score and drop any blocked by the rate rails.
   postable.sort((a, b) => b.score - a.score);
   const ts = Date.now();
 
-  let selected = null;
-  let railBlock = null;
-  for (const cand of postable) {
-    const gate = rails.canPostNow(st, cand.tweet.author);
-    if (gate.ok) { selected = cand; break; }
-    railBlock = gate.reason;
-  }
-
-  if (!selected) {
-    log(`All candidates blocked by rate rails (${railBlock}).`);
-    // Still show the top pick for the digest/visibility.
+  const eligible = postable.filter((c) => rails.canPostNow(st, c.tweet.author).ok);
+  if (!eligible.length) {
+    const reason = rails.canPostNow(st, postable[0].tweet.author).reason;
+    log(`All candidates blocked by rate rails (${reason}).`);
     const top = postable[0];
     log(`  (best pick, held back) <${top.register} q:${top.score}> @${top.tweet.author}: ${top.text}`);
     state.save(st);
     return;
   }
 
-  const url = `https://x.com/${selected.tweet.author}/status/${selected.tweet.id}`;
-  log(`SELECTED <${selected.register} q:${selected.score}> reply to @${selected.tweet.author}`);
-  log(`  in reply to: ${url}`);
-  log(`  text: ${selected.text}`);
-
-  if (MODE === 'live') {
-    try {
-      const replyId = await twitter.postReply(selected.text, selected.tweet.id);
-      log(`  POSTED: https://x.com/creditodds/status/${replyId}`);
-      state.recordPost(st, {
-        tweetId: selected.tweet.id, replyId, author: selected.tweet.author,
-        text: selected.text, register: selected.register, score: selected.score,
-        mode: 'live', ts,
-      });
-      await slack.notifyReply({
-        mode: 'live', author: selected.tweet.author, register: selected.register,
-        score: selected.score, text: selected.text, tweetId: selected.tweet.id, replyId,
-      });
-    } catch (err) {
-      log(`  POST FAILED: ${err.message}`);
-      await slack.send({ text: `:warning: x-agent post FAILED replying to @${selected.tweet.author}: ${err.message}` });
-    }
-  } else {
+  // Shadow: just record the top candidate, don't post.
+  if (MODE !== 'live') {
+    const sel = eligible[0];
+    log(`SELECTED <${sel.register} q:${sel.score}> reply to @${sel.tweet.author}`);
+    log(`  in reply to: https://x.com/${sel.tweet.author}/status/${sel.tweet.id}`);
+    log(`  text: ${sel.text}`);
     log('  SHADOW mode — not posting.');
     state.recordPost(st, {
-      tweetId: selected.tweet.id, replyId: null, author: selected.tweet.author,
-      text: selected.text, register: selected.register, score: selected.score,
-      mode: 'shadow', ts,
+      tweetId: sel.tweet.id, replyId: null, author: sel.tweet.author,
+      text: sel.text, register: sel.register, score: sel.score, mode: 'shadow', ts,
     });
     await slack.notifyReply({
-      mode: 'shadow', author: selected.tweet.author, register: selected.register,
-      score: selected.score, text: selected.text, tweetId: selected.tweet.id,
+      mode: 'shadow', author: sel.tweet.author, register: sel.register,
+      score: sel.score, text: sel.text, tweetId: sel.tweet.id,
     });
+    state.save(st);
+    log('=== done ===');
+    return;
+  }
+
+  // Live: try candidates in score order until one posts. If the author has locked
+  // the conversation (reply-restriction 403), skip it and try the next.
+  const LOCKED_RE = /Reply to this conversation is not allowed|have not been mentioned/i;
+  let posted = false;
+  let locked = 0;
+  for (const sel of eligible) {
+    log(`Trying <${sel.register} q:${sel.score}> reply to @${sel.tweet.author}: ${sel.text}`);
+    try {
+      const replyId = await twitter.postReply(sel.text, sel.tweet.id);
+      log(`  POSTED: https://x.com/creditodds/status/${replyId}`);
+      state.recordPost(st, {
+        tweetId: sel.tweet.id, replyId, author: sel.tweet.author,
+        text: sel.text, register: sel.register, score: sel.score, mode: 'live', ts,
+      });
+      await slack.notifyReply({
+        mode: 'live', author: sel.tweet.author, register: sel.register,
+        score: sel.score, text: sel.text, tweetId: sel.tweet.id, replyId,
+      });
+      posted = true;
+      break;
+    } catch (err) {
+      if (LOCKED_RE.test(err.message)) {
+        log(`  skip (conversation locked): @${sel.tweet.author}`);
+        locked += 1;
+        continue;
+      }
+      log(`  POST FAILED: ${err.message}`);
+      await slack.send({ text: `:warning: x-agent post FAILED replying to @${sel.tweet.author}: ${err.message}` });
+      break;
+    }
+  }
+  if (!posted) {
+    log(`No reply posted this run (${locked}/${eligible.length} candidates had locked conversations).`);
   }
 
   state.save(st);
