@@ -31,7 +31,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 2500
   timeframe_months: 3
-  note: "Plus Buy One, Get One companion ticket ($0 fare plus taxes and fees from $23)"
+  note: "Plus a $99 Companion Fare (plus taxes and fees from $23)"
 benefits:
   - name: "Companion Fare"
     value: 0
