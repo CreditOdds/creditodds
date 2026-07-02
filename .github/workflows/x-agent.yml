@@ -20,6 +20,11 @@ on:
         default: 'shadow'
         type: choice
         options: [shadow, live]
+      force:
+        description: 'Bypass the active-hours gate (manual runs only)'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   id-token: write
@@ -61,4 +66,7 @@ jobs:
           # dispatch overrides via its input.
           X_AGENT_MODE: ${{ github.event.inputs.mode || vars.X_AGENT_MODE || 'shadow' }}
           X_AGENT_KILL: ${{ vars.X_AGENT_KILL || '' }}
+          # Manual dispatch bypasses the active-hours gate by default; scheduled
+          # runs leave this empty and keep respecting active hours.
+          X_AGENT_FORCE: ${{ github.event.inputs.force }}
         run: node scripts/x-agent/run.js
