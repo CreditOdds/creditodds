@@ -52,9 +52,6 @@ const RAILS = {
   // Only consider tweets newer than this (a reply to a stale tweet is pointless
   // and reads as a bot trawling history).
   maxTweetAgeMinutes: 90,
-  // Only operate during these ET hours (inclusive start, exclusive end).
-  // Keeps us out of the overnight window and conserves the read budget.
-  activeHoursET: { start: 8, end: 23 },
   // Both judge passes must clear a candidate before it can post.
   requireBothJudgePasses: true,
   // Reject a candidate if it is too similar to any of the last N posted replies

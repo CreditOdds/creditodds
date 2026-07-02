@@ -36,11 +36,6 @@ async function main() {
   const st = state.load();
   state.rolloverDay(st);
 
-  if (!rails.isActiveHours()) {
-    log(`Outside active hours (ET hour ${rails.currentHourET()}). Skipping to conserve reads.`);
-    return;
-  }
-
   const handles = TARGETS.filter((t) => REPLYABLE_TIERS.includes(t.tier)).map((t) => t.handle);
   const tierByHandle = new Map(TARGETS.map((t) => [t.handle.toLowerCase(), t.tier]));
 

@@ -6,22 +6,6 @@
 const { RAILS } = require('./config');
 const { todayET } = require('./state');
 
-/** Current hour (0-23) in America/New_York. */
-function currentHourET() {
-  const h = new Date().toLocaleString('en-US', {
-    timeZone: 'America/New_York',
-    hour: '2-digit',
-    hour12: false,
-  });
-  return parseInt(h, 10) % 24;
-}
-
-function isActiveHours() {
-  const h = currentHourET();
-  const { start, end } = RAILS.activeHoursET;
-  return h >= start && h < end;
-}
-
 function tweetAgeMinutes(createdAt) {
   if (!createdAt) return Infinity;
   return (Date.now() - new Date(createdAt).getTime()) / 60000;
@@ -73,8 +57,6 @@ function canPostNow(state, targetHandle) {
 }
 
 module.exports = {
-  isActiveHours,
-  currentHourET,
   tweetAgeMinutes,
   tweetFreshEnough,
   isRepetitive,
