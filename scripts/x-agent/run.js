@@ -13,7 +13,7 @@
  * Usage: node scripts/x-agent/run.js
  */
 
-const { MODE, TARGETS, REPLYABLE_TIERS, KILL_SWITCH, FORCE, CANDIDATES_PER_TWEET } = require('./config');
+const { MODE, TARGETS, REPLYABLE_TIERS, KILL_SWITCH, FORCE, RESET, CANDIDATES_PER_TWEET } = require('./config');
 const state = require('./state');
 const rails = require('./rails');
 const { generateCandidates } = require('./generate');
@@ -34,7 +34,8 @@ async function main() {
     return;
   }
 
-  const st = state.load();
+  const st = RESET ? JSON.parse(JSON.stringify(state.EMPTY)) : state.load();
+  if (RESET) log('X_AGENT_RESET set — ignoring saved state, doing a fresh scan.');
   state.rolloverDay(st);
 
   if (!rails.isActiveHours()) {

@@ -25,6 +25,11 @@ on:
         required: false
         default: true
         type: boolean
+      reset:
+        description: 'Ignore saved state and do a fresh scan (re-processes recent tweets)'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   id-token: write
@@ -69,4 +74,5 @@ jobs:
           # Manual dispatch bypasses the active-hours gate by default; scheduled
           # runs leave this empty and keep respecting active hours.
           X_AGENT_FORCE: ${{ github.event.inputs.force }}
+          X_AGENT_RESET: ${{ github.event.inputs.reset }}
         run: node scripts/x-agent/run.js

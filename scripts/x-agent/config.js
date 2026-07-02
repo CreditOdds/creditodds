@@ -105,6 +105,13 @@ const FORCE = ['1', 'true', 'yes'].includes(
   String(process.env.X_AGENT_FORCE || '').toLowerCase()
 );
 
+// Reset flag: ignore saved S3 state and do a fresh scan (no since_id watermark,
+// no seen-id memory). Set by manual dispatch. Useful to re-scan recent tweets on
+// demand, e.g. to re-hit the post path for debugging.
+const RESET = ['1', 'true', 'yes'].includes(
+  String(process.env.X_AGENT_RESET || '').toLowerCase()
+);
+
 module.exports = {
   MODE,
   TARGETS,
@@ -114,4 +121,5 @@ module.exports = {
   CANDIDATES_PER_TWEET,
   KILL_SWITCH,
   FORCE,
+  RESET,
 };
