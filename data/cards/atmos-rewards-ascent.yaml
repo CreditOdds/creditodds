@@ -27,9 +27,9 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 50000
+  value: 70000
   type: "points"
-  spend_requirement: 2000
+  spend_requirement: 2500
   timeframe_months: 3
   note: "Plus Buy One, Get One companion ticket ($0 fare plus taxes and fees from $23)"
 benefits:

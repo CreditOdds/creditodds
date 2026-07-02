@@ -35,10 +35,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 100000
+  value: 80000
   type: "points"
-  spend_requirement: 6500
+  spend_requirement: 4000
   timeframe_months: 3
+  note: "Earn 80,000 bonus points and a 25,000-point Global Companion Award after spending $4,000 or more on purchases within the first 90 days."
 benefits:
   - name: "Annual Global 25K Companion Award"
     value: 25000
