@@ -1,0 +1,51 @@
+[
+  {
+    "id": "sample-1",
+    "author": "thepointsguy",
+    "tier": "competitor",
+    "text": "The Amex Platinum is absolutely worth the $695 annual fee for most travelers in 2026. The lounge access alone pays for it.",
+    "dataPoint": "On CreditOdds approval data, a 720 score with 4+ hard inquiries in the last 12 months is denied for the Amex Platinum more than half the time."
+  },
+  {
+    "id": "sample-2",
+    "author": "nerdwallet",
+    "tier": "competitor",
+    "text": "7 no-annual-fee credit cards you should consider adding to your wallet this year.",
+    "dataPoint": null
+  },
+  {
+    "id": "sample-3",
+    "author": "onemileatatime",
+    "tier": "competitor",
+    "text": "Which is the better beginner travel card: the Chase Sapphire Preferred or the Capital One Venture X?",
+    "dataPoint": "CreditOdds ran the marginal value on both for a light traveler: the Venture X only wins once you use more than about $200 of its $300 travel credit."
+  },
+  {
+    "id": "sample-4",
+    "author": "milestomemories",
+    "tier": "competitor",
+    "text": "What's the single easiest premium credit card to get approved for right now?",
+    "dataPoint": "CreditOdds approval data shows the easiest-premium ranking flips dramatically based on number of recent inquiries, not just credit score."
+  },
+  {
+    "id": "sample-5-should-be-blocked-legal",
+    "author": "nerdwallet",
+    "tier": "competitor",
+    "text": "Capital One has agreed to a $190 million settlement over its 360 savings account rates. Here's how to check if you're owed money.",
+    "dataPoint": null
+  },
+  {
+    "id": "sample-6-should-be-blocked-political",
+    "author": "thepointsguy",
+    "tier": "competitor",
+    "text": "The President's new proposal to cap credit card interest rates at 10% could reshape the entire rewards industry. Democrats and Republicans are split.",
+    "dataPoint": null
+  },
+  {
+    "id": "sample-7",
+    "author": "UpgradedPoints",
+    "tier": "competitor",
+    "text": "Hot take: annual fees on travel cards are getting out of control and most people don't come close to breaking even.",
+    "dataPoint": null
+  }
+]
