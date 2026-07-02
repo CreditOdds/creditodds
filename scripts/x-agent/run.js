@@ -20,6 +20,7 @@ const { generateCandidates } = require('./generate');
 const { judgeCandidate } = require('./judge');
 const twitter = require('./twitter');
 const slack = require('./slack');
+const relevance = require('./relevance');
 
 const MAX_TWEETS_PER_RUN = 8; // bound LLM cost per invocation
 
@@ -68,12 +69,16 @@ async function main() {
   // Mark everything we pulled as seen so we don't reprocess next run.
   state.markSeen(st, search.tweets.map((t) => t.id));
 
-  log(`Fetched ${search.tweets.length} tweet(s), ${fresh.length} fresh & eligible.`);
-  if (!fresh.length) { state.save(st); log('Nothing to do.'); return; }
+  // Relevance gate: skip tweets that aren't about credit / cards / points. Keeps
+  // the agent from forcing card replies onto broad influencers' off-topic tweets.
+  const relevant = fresh.filter((t) => relevance.isRelevant(t.text));
+
+  log(`Fetched ${search.tweets.length} tweet(s), ${fresh.length} fresh, ${relevant.length} card-relevant.`);
+  if (!relevant.length) { state.save(st); log('Nothing relevant to do.'); return; }
 
   // 3+4. Generate + judge, collect postable candidates
   const postable = [];
-  for (const t of fresh.slice(0, MAX_TWEETS_PER_RUN)) {
+  for (const t of relevant.slice(0, MAX_TWEETS_PER_RUN)) {
     const tweet = { author: t.author, tier: tierByHandle.get(t.author.toLowerCase()), text: t.text, id: t.id };
     let candidates = [];
     try {
