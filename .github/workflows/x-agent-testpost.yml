@@ -15,6 +15,11 @@ on:
         required: false
         default: false
         type: boolean
+      original:
+        description: 'Post an original tweet then delete it (write-path test)'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -38,4 +43,5 @@ jobs:
           TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
           TWEET: ${{ github.event.inputs.tweet }}
           QUOTE: ${{ github.event.inputs.quote }}
+          ORIGINAL: ${{ github.event.inputs.original }}
         run: node scripts/x-agent/testpost.js

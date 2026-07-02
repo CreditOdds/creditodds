@@ -86,6 +86,24 @@ async function getTweet(id) {
   };
 }
 
+async function postTweet(text) {
+  const client = getClient();
+  try {
+    const { data } = await client.v2.tweet(text);
+    return data.id;
+  } catch (err) {
+    const detail = err && (err.data || err.errors) ? JSON.stringify(err.data || err.errors) : '';
+    const e = new Error(`${err.message}${detail ? ` | ${detail}` : ''}`);
+    e.code = err.code;
+    throw e;
+  }
+}
+
+async function deleteTweet(id) {
+  const client = getClient();
+  return client.v2.deleteTweet(id);
+}
+
 /**
  * Post a reply to a given tweet. Returns the new tweet id.
  */
@@ -138,4 +156,4 @@ async function getMetrics(ids) {
   return out;
 }
 
-module.exports = { searchRecent, getTweet, postReply, postQuote, getMetrics, buildQuery };
+module.exports = { searchRecent, getTweet, postReply, postQuote, postTweet, deleteTweet, getMetrics, buildQuery };
