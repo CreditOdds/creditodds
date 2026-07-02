@@ -15,9 +15,13 @@ on:
         default: false
         type: boolean
 
+# contents/pull-requests/actions write: the news path commits a YAML via an
+# auto-PR, self-merges it, and dispatches build-news.yml.
 permissions:
   id-token: write
-  contents: read
+  contents: write
+  pull-requests: write
+  actions: write
 
 concurrency:
   group: content-agent
@@ -54,4 +58,5 @@ jobs:
           CONTENT_AGENT_MODE: ${{ vars.CONTENT_AGENT_MODE || 'shadow' }}
           CONTENT_AGENT_KILL: ${{ vars.CONTENT_AGENT_KILL || '' }}
           CONTENT_AGENT_RESET: ${{ github.event.inputs.reset }}
+          GH_TOKEN: ${{ github.token }}
         run: node scripts/content-agent/run.js
