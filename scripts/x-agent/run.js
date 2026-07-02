@@ -13,7 +13,7 @@
  * Usage: node scripts/x-agent/run.js
  */
 
-const { MODE, TARGETS, REPLYABLE_TIERS, KILL_SWITCH, CANDIDATES_PER_TWEET } = require('./config');
+const { MODE, TARGETS, REPLYABLE_TIERS, KILL_SWITCH, FORCE, CANDIDATES_PER_TWEET } = require('./config');
 const state = require('./state');
 const rails = require('./rails');
 const { generateCandidates } = require('./generate');
@@ -37,8 +37,11 @@ async function main() {
   state.rolloverDay(st);
 
   if (!rails.isActiveHours()) {
-    log(`Outside active hours (ET hour ${rails.currentHourET()}). Skipping to conserve reads.`);
-    return;
+    if (!FORCE) {
+      log(`Outside active hours (ET hour ${rails.currentHourET()}). Skipping to conserve reads.`);
+      return;
+    }
+    log(`Outside active hours (ET hour ${rails.currentHourET()}), but X_AGENT_FORCE is set — proceeding.`);
   }
 
   const handles = TARGETS.filter((t) => REPLYABLE_TIERS.includes(t.tier)).map((t) => t.handle);

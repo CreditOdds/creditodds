@@ -81,6 +81,13 @@ const KILL_SWITCH = ['1', 'true', 'yes'].includes(
   String(process.env.X_AGENT_KILL || '').toLowerCase()
 );
 
+// Force flag: bypass the active-hours gate for this run. Set by manual dispatch
+// so an operator can trigger an off-hours run on demand. Scheduled runs leave it
+// unset and keep respecting active hours.
+const FORCE = ['1', 'true', 'yes'].includes(
+  String(process.env.X_AGENT_FORCE || '').toLowerCase()
+);
+
 module.exports = {
   MODE,
   TARGETS,
@@ -89,4 +96,5 @@ module.exports = {
   MODELS,
   CANDIDATES_PER_TWEET,
   KILL_SWITCH,
+  FORCE,
 };
