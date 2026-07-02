@@ -15,6 +15,10 @@ async function queueTweet({ text, sourceId, linkUrl }) {
     link_url: linkUrl,
     source_type: 'content-agent',
     source_id: sourceId,
+    // Content-agent items are tweets only. Without this the service fans out to
+    // every active platform (Facebook included) — these quick takes are X-native
+    // and shouldn't hit FB unless they graduate to a full article.
+    platforms: ['twitter'],
   };
 
   const res = await fetch(`${apiUrl}/social/queue`, {
