@@ -28,6 +28,23 @@ const TARGETS = [
   { handle: 'drofcredit', tier: 'competitor' },
   { handle: 'godsavethepoint', tier: 'competitor' },
 
+  // Points/miles/credit creators + credit experts (web-verified X-active).
+  { handle: 'dannydealguru', tier: 'competitor' },
+  { handle: 'garyleff', tier: 'competitor' },
+  { handle: 'FrequentMiler', tier: 'competitor' },
+  { handle: 'AskSebby', tier: 'competitor' },
+  { handle: 'TheCreditShifu', tier: 'competitor' },
+  { handle: 'PointsWithACrew', tier: 'competitor' },
+  { handle: 'johnulzheimer', tier: 'competitor' },
+  { handle: '10xTravel', tier: 'competitor' },
+  { handle: 'EyeOfTheFlyer', tier: 'competitor' },
+  { handle: 'FrugalTravelGuy', tier: 'competitor' },
+
+  // Broad personal-finance voices — the relevance filter gates their off-topic
+  // (crypto/investing/real-estate) tweets so we only engage credit-card content.
+  { handle: 'Humphreytalks', tier: 'competitor' },
+  { handle: 'GrahamStephan', tier: 'competitor' },
+
   // Issuers — WATCH ONLY in the trial. Never auto-replied to.
   { handle: 'AmericanExpress', tier: 'issuer' },
   { handle: 'Chase', tier: 'issuer' },
