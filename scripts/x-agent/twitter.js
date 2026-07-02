@@ -67,6 +67,26 @@ async function searchRecent(handles, { sinceId, maxResults = 30 } = {}) {
 }
 
 /**
+ * Fetch a single tweet by id (author + text + reply_settings). Used by the
+ * targeted test-post diagnostic.
+ */
+async function getTweet(id) {
+  const client = getClient();
+  const res = await client.v2.get(`tweets/${id}`, {
+    'tweet.fields': 'author_id,reply_settings,created_at',
+    expansions: 'author_id',
+    'user.fields': 'username',
+  });
+  const u = (res.includes?.users || [])[0];
+  return {
+    id: res.data.id,
+    text: res.data.text,
+    author: u?.username || res.data.author_id,
+    replySettings: res.data.reply_settings || null,
+  };
+}
+
+/**
  * Post a reply to a given tweet. Returns the new tweet id.
  */
 async function postReply(text, inReplyToTweetId) {
@@ -105,4 +125,4 @@ async function getMetrics(ids) {
   return out;
 }
 
-module.exports = { searchRecent, postReply, getMetrics, buildQuery };
+module.exports = { searchRecent, getTweet, postReply, getMetrics, buildQuery };
