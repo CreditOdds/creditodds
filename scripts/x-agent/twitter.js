@@ -41,7 +41,9 @@ async function searchRecent(handles, { sinceId, maxResults = 30 } = {}) {
   const params = {
     query: buildQuery(handles),
     max_results: Math.min(Math.max(maxResults, 10), 100),
-    'tweet.fields': 'created_at,author_id,public_metrics',
+    // reply_settings tells us whether the conversation is open to replies. If it
+    // isn't 'everyone', a reply from us is rejected with a 403, so we filter on it.
+    'tweet.fields': 'created_at,author_id,public_metrics,reply_settings',
     expansions: 'author_id',
     'user.fields': 'username',
   };
@@ -56,6 +58,7 @@ async function searchRecent(handles, { sinceId, maxResults = 30 } = {}) {
     author: users.get(t.author_id) || t.author_id,
     text: t.text,
     createdAt: t.created_at,
+    replySettings: t.reply_settings || null,
     metrics: t.public_metrics || null,
   }));
 
