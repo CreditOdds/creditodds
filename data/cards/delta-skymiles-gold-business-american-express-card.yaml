@@ -39,7 +39,7 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 60000
+  value: 0
   type: "miles"
   spend_requirement: 4000
   timeframe_months: 6
