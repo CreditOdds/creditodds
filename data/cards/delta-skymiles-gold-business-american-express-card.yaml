@@ -39,10 +39,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 60000
+  value: 90000
   type: "miles"
-  spend_requirement: 4000
+  spend_requirement: 6000
   timeframe_months: 6
+  note: "Limited-time offer, up from 60,000. Offer ends 2026-07-15."
 apr:
   regular:
     min: 19.49
