@@ -716,6 +716,23 @@ function generateSummary(applied) {
   return md;
 }
 
+// ─── Fetched-text audit logging ───────────────────────────────────────────────
+
+// Dump the exact page text handed to Haiku plus Haiku's parsed output, wrapped in
+// greppable delimiters. Lets a reviewer audit a detected change after the fact —
+// search a run log for "FETCHED-TEXT <card>" to see whether the offer figure was
+// even present in what the model saw, vs. present-but-misread. This is the gap
+// that made Delta Gold Business's 60000→0 impossible to diagnose from logs alone
+// (we only logged the char count, not the content). Called for every changed card;
+// set LOG_FETCHED_TEXT=all to also dump unchanged cards (catches silent
+// non-checks, e.g. Amex pages that fetch chrome but no client-rendered offer).
+function logFetchedText(name, url, usedBrowser, pageContent, extracted) {
+  console.log(`  >>>>> FETCHED-TEXT ${name} | ${url} | via ${usedBrowser ? 'browser' : 'simple-fetch'} | ${pageContent.length} chars`);
+  console.log(`  >>>>> EXTRACTED-JSON ${name}: ${JSON.stringify(extracted)}`);
+  console.log(pageContent);
+  console.log(`  <<<<< FETCHED-TEXT-END ${name}`);
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -793,6 +810,7 @@ async function main() {
           const browserContent = await fetchWithBrowser(apply_link);
           if (browserContent) {
             pageContent = browserContent;
+            usedBrowser = true;
             try {
               extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
             } catch (err) {
@@ -811,9 +829,16 @@ async function main() {
         const changes = detectChanges(card, extracted);
         if (changes.length > 0) {
           console.log(`  ${changes.length} change(s) detected`);
+          // Every detected change becomes a PR row a human must verify against
+          // the source page — log what Haiku saw + returned so it's auditable
+          // later without a re-run.
+          logFetchedText(name, apply_link, usedBrowser, pageContent, extracted);
           allChanges.push({ slug: card.slug, card_name: name, apply_link, changes });
         } else {
           console.log('  No changes');
+          if (process.env.LOG_FETCHED_TEXT === 'all') {
+            logFetchedText(name, apply_link, usedBrowser, pageContent, extracted);
+          }
         }
       })(), PER_CARD_TIMEOUT_MS, name);
     } catch (err) {
