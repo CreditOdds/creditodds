@@ -1,6 +1,6 @@
 // Sentry configuration for the browser. Next.js loads this automatically on the
 // client (replaces the legacy sentry.client.config.ts).
-// Session replay is intentionally NOT enabled here — LogRocket already provides
+// Session replay is intentionally NOT enabled here — PostHog already provides
 // session replay for the site, so adding Sentry Replay would be redundant cost
 // and an extra CSP/worker surface.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/

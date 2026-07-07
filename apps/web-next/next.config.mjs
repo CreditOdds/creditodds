@@ -10,7 +10,8 @@ const withBundleAnalyzer = bundleAnalyzer({
 // page, so we can tune it against real traffic before enforcing. Before flipping
 // the header name to 'Content-Security-Policy', replace 'unsafe-inline' /
 // 'unsafe-eval' with per-request nonces and prune anything unused.
-// Third parties inventoried: LogRocket (cdn.lr-*), Firebase Auth (apis.google.com,
+// Third parties inventoried: PostHog (us.i.posthog.com / us-assets.i.posthog.com),
+// Firebase Auth (apis.google.com,
 // gstatic, *.googleapis.com, creditodds.firebaseapp.com, accounts.google.com),
 // Google Fonts, Highcharts (bundled — no external origin), the card-image CDN/S3,
 // Google profile photos, and the API origin.
@@ -30,11 +31,11 @@ const contentSecurityPolicy = [
   `object-src 'none'`,
   `frame-ancestors 'none'`,
   `form-action 'self'`,
-  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://cdn.lr-ingest.io https://cdn.lr-in.com https://cdn.lr-in-prod.com https://cdn.logrocket.io https://cdn.lr-hv-ingest.io`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://us-assets.i.posthog.com`,
   `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
   `font-src 'self' data: https://fonts.gstatic.com`,
   `img-src 'self' data: blob: https://d3ay3etzd1512y.cloudfront.net https://credit-card-data-site.s3.us-east-2.amazonaws.com https://*.googleusercontent.com`,
-  `connect-src 'self' ${API_ORIGIN} https://*.googleapis.com https://*.lr-ingest.io https://*.logrocket.io https://*.lr-in.com https://*.lr-in-prod.com https://*.lr-hv-ingest.io https://fonts.gstatic.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
+  `connect-src 'self' ${API_ORIGIN} https://*.googleapis.com https://us.i.posthog.com https://us-assets.i.posthog.com https://fonts.gstatic.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
   `frame-src 'self' https://creditodds.firebaseapp.com https://accounts.google.com https://apis.google.com`,
   `worker-src 'self' blob:`,
   `manifest-src 'self'`,
