@@ -80,6 +80,14 @@ Parameters:
     Type: String
     Description: Sentry "environment" tag applied to all backend events.
     Default: production
+  VpcPrivateSubnetIds:
+    Type: CommaDelimitedList
+    Description: Private subnets from the creditodds-network stack (infra/network.yml). All functions attach here so DB traffic egresses from the stack's single NAT EIP.
+    Default: subnet-07c1b621c70d72719,subnet-02aa47f397dd8e08d
+  VpcLambdaSecurityGroupId:
+    Type: String
+    Description: Lambda security group from the creditodds-network stack.
+    Default: sg-06399ba7e0a0b885c
 
 # Auto-instrument every Lambda with Sentry via the official Node layer + a
 # NODE_OPTIONS preload. This needs no per-handler code changes and does NOT
@@ -103,6 +111,15 @@ Globals:
         SENTRY_DSN: !Ref SentryDsn
         SENTRY_TRACES_SAMPLE_RATE: !Ref SentryTracesSampleRate
         SENTRY_ENVIRONMENT: !Ref SentryEnvironment
+    # Every function runs in the creditodds-network VPC so outbound traffic
+    # (Aurora in us-east-1, Google Places, Plaid, Firebase, Sentry) leaves via
+    # the NAT gateway's static EIP - the only address the database security
+    # group allowlists on 3306. SAM adds AWSLambdaVPCAccessExecutionRole to the
+    # generated roles automatically when VpcConfig is present.
+    VpcConfig:
+      SecurityGroupIds:
+        - !Ref VpcLambdaSecurityGroupId
+      SubnetIds: !Ref VpcPrivateSubnetIds
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html

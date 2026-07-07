@@ -12,6 +12,21 @@
 - `apps/web-next/` - Next.js frontend
 - `data/cards/` - YAML card definitions
 
+## Networking & Database Access
+
+- All backend Lambdas (this repo's `CreditCardOddsAPI` stack and the separate
+  `CreditOddsSocialPostingService` stack) run inside the `creditodds-network`
+  VPC (us-east-2, defined in `infra/network.yml`). Outbound traffic leaves via
+  a single NAT gateway Elastic IP — **3.13.85.124** — which is the only
+  address the shared Aurora cluster's security group allowlists on TCP 3306.
+- The database (`database-3` cluster, us-east-1) is shared with other apps.
+  CreditOdds connects as the schema-scoped user `creditodds_app` (grants on
+  `creditodds.*` only). Never use the cluster `admin` user. The credential
+  lives in SSM Parameter Store (us-east-2): `/creditodds/db/{host,database,username,password}`.
+- Consequence: the DB is NOT reachable from a local machine or from any
+  compute outside the VPC. Anything that needs SQL access must run as a
+  Lambda in the VPC (e.g. `RunMigrationHandler` for migrations).
+
 ## Deployment
 
 - Backend: `cd apps/api && sam build && sam deploy`

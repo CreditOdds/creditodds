@@ -1,0 +1,156 @@
+# CreditOdds shared network stack (us-east-2) — fixed egress IP for all
+# Lambda compute (CreditCardOddsAPI + CreditOddsSocialPostingService).
+#
+# Why: the shared Aurora cluster (database-3, us-east-1) is dropping its
+# 0.0.0.0/0 security-group rule and will allowlist exactly one /32 on 3306.
+# Un-VPC'd Lambdas egress from ephemeral AWS IPs, so every function is
+# attached to the private subnets here and all outbound traffic (DB,
+# Google Places, Plaid, Sentry, Firebase, ...) leaves via one NAT gateway
+# Elastic IP. Cost: ~$32/month NAT hourly + $0.045/GB processed.
+#
+# Deploy:  aws cloudformation deploy --region us-east-2 \
+#            --template-file infra/network.yml --stack-name creditodds-network
+# The NAT EIP (stack output NatEip) is the address the database side must
+# allowlist. Single-NAT/single-AZ by design: one static IP is the requirement;
+# if us-east-2a fails, NAT egress fails with it (accepted trade-off).
+AWSTemplateFormatVersion: 2010-09-09
+Description: CreditOdds Lambda egress network - VPC, single NAT gateway with static EIP
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.42.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags: [{ Key: Name, Value: creditodds-network }]
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags: [{ Key: Name, Value: creditodds-igw }]
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.42.0.0/24
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags: [{ Key: Name, Value: creditodds-public-a }]
+
+  # Two private subnets across AZs for Lambda availability; both route out
+  # through the single NAT so the egress IP stays constant.
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.42.16.0/20
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags: [{ Key: Name, Value: creditodds-private-a }]
+
+  PrivateSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.42.32.0/20
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      Tags: [{ Key: Name, Value: creditodds-private-b }]
+
+  NatEip:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags: [{ Key: Name, Value: creditodds-nat-eip }]
+
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      AllocationId: !GetAtt NatEip.AllocationId
+      SubnetId: !Ref PublicSubnet
+      Tags: [{ Key: Name, Value: creditodds-nat }]
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags: [{ Key: Name, Value: creditodds-public-rt }]
+
+  PublicDefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags: [{ Key: Name, Value: creditodds-private-rt }]
+
+  PrivateDefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway
+
+  PrivateSubnetARouteAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetA
+      RouteTableId: !Ref PrivateRouteTable
+
+  PrivateSubnetBRouteAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetB
+      RouteTableId: !Ref PrivateRouteTable
+
+  # S3 traffic (social uploads, SAM artifacts) bypasses the NAT for free.
+  S3GatewayEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcId: !Ref Vpc
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.s3
+      VpcEndpointType: Gateway
+      RouteTableIds:
+        - !Ref PrivateRouteTable
+
+  LambdaSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: CreditOdds Lambdas - all egress, no ingress
+      VpcId: !Ref Vpc
+      SecurityGroupEgress:
+        - IpProtocol: "-1"
+          CidrIp: 0.0.0.0/0
+      Tags: [{ Key: Name, Value: creditodds-lambda-sg }]
+
+Outputs:
+  NatEip:
+    Description: Static egress IP - allowlist this /32 on the database security group (TCP 3306)
+    Value: !Ref NatEip
+  PrivateSubnetAId:
+    Value: !Ref PrivateSubnetA
+    Export: { Name: creditodds-network-PrivateSubnetAId }
+  PrivateSubnetBId:
+    Value: !Ref PrivateSubnetB
+    Export: { Name: creditodds-network-PrivateSubnetBId }
+  LambdaSecurityGroupId:
+    Value: !Ref LambdaSecurityGroup
+    Export: { Name: creditodds-network-LambdaSecurityGroupId }
