@@ -17,6 +17,7 @@ import ProfileLoader from "./ProfileLoader";
 import { amortizedAnnualValue, categoryLabels } from "@/lib/cardDisplayUtils";
 import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
+import posthog from "posthog-js";
 import {
   createCardLookups,
   dedupeWalletByCardName,
@@ -378,6 +379,8 @@ export default function ProfileClient() {
       const token = await getToken();
       if (!token) return;
       await deleteRecord(recordId, token);
+      const deleted = records.find(r => r.record_id === recordId);
+      posthog.capture("record_deleted", { card_name: deleted?.card_name });
       setRecords(records.filter(r => r.record_id !== recordId));
     } catch (e) {
       console.error("Error deleting record:", e);
@@ -392,6 +395,8 @@ export default function ProfileClient() {
       const token = await getToken();
       if (!token) return;
       await archiveReferral(referralId, token);
+      const archived = referrals.find(r => r.referral_id === referralId);
+      posthog.capture("referral_archived", { card_name: archived?.card_name });
       setReferrals(referrals.filter(r => r.referral_id !== referralId));
     } catch (e) {
       console.error("Error archiving referral:", e);
@@ -406,6 +411,7 @@ export default function ProfileClient() {
       const token = await getToken();
       if (!token) { alert("No auth token available"); return; }
       await deleteAccount(token);
+      posthog.capture("account_deleted");
       alert("Your account has been deleted. Thank you for contributing to CreditOdds.");
       await logout();
       router.push("/");
@@ -709,7 +715,10 @@ export default function ProfileClient() {
                 setDeleteConfirmText={setDeleteConfirmText}
                 deletingAccount={deletingAccount}
                 onDeleteAccount={handleDeleteAccount}
-                onLogout={() => { logout().then(() => router.push("/")); }}
+                onLogout={() => {
+                  posthog.capture("user_signed_out");
+                  logout().then(() => router.push("/"));
+                }}
               />
             )}
 
@@ -757,7 +766,10 @@ export default function ProfileClient() {
                   setDeleteConfirmText={setDeleteConfirmText}
                   deletingAccount={deletingAccount}
                   onDeleteAccount={handleDeleteAccount}
-                  onLogout={() => { logout().then(() => router.push("/")); }}
+                  onLogout={() => {
+                    posthog.capture("user_signed_out");
+                    logout().then(() => router.push("/"));
+                  }}
                 />
               </section>
             )}

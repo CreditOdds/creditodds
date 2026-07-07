@@ -4,7 +4,6 @@ import { UserSettingsProvider } from "@/user-settings/UserSettingsProvider";
 import { ConditionalNavbar } from "@/components/layout/ConditionalChrome";
 import SkipLink from "@/components/ui/SkipLink";
 import WebVitalsReporter from "@/components/ui/WebVitalsReporter";
-import LogRocketInit from "@/components/ui/LogRocketInit";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -75,7 +74,6 @@ export default function RootLayout({
                 @/components/landing-v2/Chrome — no global footer here. */}
             <ToastContainer />
             <WebVitalsReporter />
-            <LogRocketInit />
           </UserSettingsProvider>
         </AuthProvider>
       </body>

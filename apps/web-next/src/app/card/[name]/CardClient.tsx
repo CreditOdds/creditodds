@@ -33,6 +33,7 @@ import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
 import { withApplySource } from "@/lib/applyLink";
+import posthog from "posthog-js";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import CardRecordsTable from "./CardRecordsTable";
 import "../../landing.css";
@@ -364,10 +365,15 @@ export default function CardClient({
     const cardId = Number(card.card_id);
     if (Number.isInteger(cardId) && cardId > 0) {
       trackCardApplyClick(cardId, clickSource).catch(() => {});
-      // Remember the click so ApplyOutcomePrompt can ask how it went when
-      // the visitor comes back from the issuer tab.
       markApplyPending(cardId);
     }
+    posthog.capture("card_applied", {
+      card_name: card.card_name,
+      card_slug: card.slug,
+      bank: card.bank,
+      click_source: clickSource,
+      annual_fee: card.annual_fee,
+    });
   };
 
   const handleReferralClick = () => {

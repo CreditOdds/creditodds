@@ -5,6 +5,7 @@ import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
 import { toast } from 'react-toastify';
+import posthog from 'posthog-js';
 
 interface OpenReferral {
   card_id: string;
@@ -103,6 +104,7 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
         throw new Error(errorText || 'Failed to submit referral');
       }
 
+      posthog.capture("referral_submitted", { card_name: selected?.card_name });
       toast.success('Your referral was submitted!', { position: 'top-right', autoClose: 5000 });
       onSuccess();
       close();

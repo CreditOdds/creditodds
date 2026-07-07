@@ -5,6 +5,7 @@ import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import CardImage from '@/components/ui/CardImage';
 import { Card, getAllCards, addToWallet } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
+import posthog from 'posthog-js';
 
 interface AddToWalletModalProps {
   show: boolean;
@@ -61,6 +62,11 @@ export default function AddToWalletModal({ show, onClose, onSuccess, existingCar
     try {
       const token = await getToken();
       await addToWallet(selectedCard.db_card_id, acquiredMonth, acquiredYear, token || undefined);
+      posthog.capture("wallet_card_added", {
+        card_name: selectedCard.card_name,
+        bank: selectedCard.bank,
+        annual_fee: selectedCard.annual_fee,
+      });
       onSuccess();
       handleClose();
     } catch (err) {

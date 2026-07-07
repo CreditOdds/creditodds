@@ -12,6 +12,7 @@ import {
   signInWithEmailLink,
 } from "firebase/auth";
 import { getFirebaseAuth } from "./firebase";
+import posthog from "posthog-js";
 
 // Key for storing email in localStorage for email link sign-in
 const EMAIL_FOR_SIGN_IN_KEY = 'emailForSignIn';
@@ -61,6 +62,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading: false,
         user,
       });
+      if (user) {
+        posthog.identify(user.uid, {
+          email: user.email,
+          name: user.displayName,
+        });
+      }
     });
 
     return () => unsubscribe();
@@ -130,6 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     const auth = getFirebaseAuth();
     if (!auth) return;
+    posthog.reset();
     await signOut(auth);
   }, []);
 

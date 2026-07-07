@@ -1,11 +1,26 @@
 // Sentry configuration for the browser. Next.js loads this automatically on the
 // client (replaces the legacy sentry.client.config.ts).
-// Session replay is intentionally NOT enabled here — LogRocket already provides
+// Session replay is intentionally NOT enabled here — PostHog already provides
 // session replay for the site, so adding Sentry Replay would be redundant cost
 // and an extra CSP/worker surface.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
+//
+// PostHog (product analytics + session replay) is initialized here too. Next.js
+// loads exactly one instrumentation-client file, so both SDKs must share it —
+// the PostHog wizard's separate root-level file was merged in here.
 import * as Sentry from '@sentry/nextjs';
+import posthog from 'posthog-js';
 import { isBenignClientError } from '@/lib/benignClientError';
+
+posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
+  // Same-origin reverse proxy (see rewrites() in next.config.mjs) to dodge
+  // ad-blockers; keeps the browser talking only to our own origin.
+  api_host: '/ingest',
+  ui_host: 'https://us.posthog.com',
+  defaults: '2026-01-30',
+  capture_exceptions: true,
+  debug: process.env.NODE_ENV === 'development',
+});
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,

@@ -10,6 +10,7 @@ import CardImage from '@/components/ui/CardImage';
 import { useAuth } from "@/auth/AuthProvider";
 import { toast } from "react-toastify";
 import { getRecords, getWallet, addToWallet, updateRecord } from "@/lib/api";
+import posthog from "posthog-js";
 import confetti from "canvas-confetti";
 
 // Form persistence key prefix (#7)
@@ -379,6 +380,11 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
           console.warn("Auto-add to wallet failed (non-blocking):", walletError);
         }
 
+        posthog.capture("record_submitted", {
+          card_name: card.card_name,
+          result: values.result,
+          credit_score: values.credit_score,
+        });
         toast.success("Your record was submitted successfully!", {
           position: "top-right",
           autoClose: 5000,

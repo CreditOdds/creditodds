@@ -9,6 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { checkOdds, CheckOddsCard, CheckOddsResponse, getWallet, WalletCard } from "@/lib/api";
 import { calculateApplicationRules, RuleResult } from "@/lib/applicationRules";
 import { cardMatchesSearch } from "@/lib/searchAliases";
+import posthog from "posthog-js";
 
 type SortOption = 'match' | 'name' | 'bank';
 
@@ -113,6 +114,12 @@ export default function CheckOddsClient() {
       setResults(data);
       setWalletCards(wallet);
       saveResultsToCache(data);
+      posthog.capture("odds_checked", {
+        credit_score: csVal,
+        income: incVal,
+        length_credit: clVal,
+        total_cards: data.cards.length,
+      });
     } catch (err: unknown) {
       const error = err as Error;
       setError(error.message || 'Failed to check odds');
