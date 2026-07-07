@@ -55,14 +55,29 @@ const nextConfig = {
   },
 
   // Rewrite /_admin to /admin (underscore folders are private in App Router)
+  // Also proxy PostHog ingestion through /ingest to avoid ad-blockers.
   async rewrites() {
     return [
       {
         source: '/_admin',
         destination: '/admin',
       },
+      {
+        source: '/ingest/static/:path*',
+        destination: 'https://us-assets.i.posthog.com/static/:path*',
+      },
+      {
+        source: '/ingest/array/:path*',
+        destination: 'https://us-assets.i.posthog.com/array/:path*',
+      },
+      {
+        source: '/ingest/:path*',
+        destination: 'https://us.i.posthog.com/:path*',
+      },
     ];
   },
+
+  skipTrailingSlashRedirect: true,
 
   // The Wyndham Earner Premier launch coverage was first published under
   // /articles, then moved to /news. Redirect the old URL so shared links and the

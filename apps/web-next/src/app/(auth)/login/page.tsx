@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { XCircleIcon, CheckCircleIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 import { useAuth } from "@/auth/AuthProvider";
+import posthog from "posthog-js";
 
 export default function LoginPage() {
   return (
@@ -59,6 +60,7 @@ function LoginPageInner() {
     setLoading(true);
     try {
       await signInWithGoogle();
+      posthog.capture("user_signed_in", { method: "google" });
       router.push(getRedirectUrl());
     } catch (err: unknown) {
       const error = err as Error;
@@ -75,6 +77,7 @@ function LoginPageInner() {
 
     try {
       await sendEmailLink(email);
+      posthog.capture("email_link_sent", { method: "email" });
       setEmailSent(true);
     } catch (err: unknown) {
       const error = err as Error;
