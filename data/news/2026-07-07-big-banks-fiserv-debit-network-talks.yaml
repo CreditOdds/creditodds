@@ -1,0 +1,35 @@
+id: "big-banks-fiserv-debit-network-talks"
+date: "2026-07-07"
+title: "Big Banks Explore Deal to Bypass Debit Fee Caps"
+summary: "According to The Wall Street Journal, JPMorgan Chase, Bank of America, Wells Fargo, and PNC have held preliminary talks to acquire a debit network from Fiserv. Owning a network would exempt the banks from the Durbin amendment's cap on debit interchange fees, following the playbook of Capital One's Discover acquisition."
+tags:
+  - "policy-change"
+  - "rumor"
+source: "The Wall Street Journal"
+source_url: "https://www.wsj.com/finance/banking/jpmorgan-bank-of-america-and-other-banks-explore-a-deal-to-shake-up-payments-world-9d8639fb"
+body: |
+  **Breaking:** According to a new report from [The Wall Street Journal](https://www.wsj.com/finance/banking/jpmorgan-bank-of-america-and-other-banks-explore-a-deal-to-shake-up-payments-world-9d8639fb), some of the largest banks in the country, including **JPMorgan Chase, Bank of America, Wells Fargo, and PNC**, have held preliminary discussions in recent months about acquiring a payment network owned by financial technology company **Fiserv**.
+
+  The target would be one of Fiserv's debit networks, STAR and Accel, which process debit card transactions. The talks are described as early and tentative, and the Journal reports there is no certainty a deal happens. Several of the banks involved have reportedly already concluded they are unlikely to move forward.
+
+  ## Why Banks Want to Own a Network
+
+  The motivation comes down to one law: the **Durbin amendment**, part of the 2010 Dodd-Frank Act. It caps the interchange fees that banks with $10 billion or more in assets can collect from merchants on debit card transactions, but only when those transactions run over an outside network. A bank that owns the network itself is exempt from the cap.
+
+  That exemption is exactly what Capital One picked up in its $50.6 billion acquisition of Discover. By owning the Discover network, Capital One can route transactions itself, deal directly with merchants, and sidestep the fee limits that apply to its rivals. According to the WSJ, other big banks have been looking on with envy ever since.
+
+  ## What It Could Mean for Consumers
+
+  Debit interchange fees are worth billions of dollars a year across the industry. Banks have long argued that the Durbin cap is the reason debit card rewards programs and free checking largely disappeared after 2011. If a group of major issuers escaped the cap by owning a network, richer debit rewards could plausibly return.
+
+  Merchants and supporters of the law see it differently: they argue the capped fees have been passed through to consumers as lower prices, and that a workaround would ultimately raise costs at the register.
+
+  Notably, the Durbin amendment does not cap **credit card** interchange, so this fight is specific to debit. Credit card fees remain their own ongoing battle in Washington, including the proposed Credit Card Competition Act.
+
+  ## The Backlash Risk
+
+  Per the Journal's reporting, some bank executives are privately worried that a deal would invite a strong response from lawmakers, regulators, and merchant groups, which is a key reason several participants have cooled on the idea.
+
+  Fiserv, for its part, has been under pressure, with its stock down roughly 70% over the past year.
+
+  Even if this particular deal never materializes, the talks show how aggressively the biggest issuers are hunting for an edge in payments, and how much the Capital One and Discover combination has changed the strategic map. We will track any developments and what they mean for cardholders.
