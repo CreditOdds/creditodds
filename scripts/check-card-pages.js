@@ -10,6 +10,19 @@
  * Only processes cards where:
  *   - accepting_applications !== false
  *   - apply_link is set
+ *
+ * Skip handling: a card that can't be fetched or extracted produces no changes,
+ * which at the aggregate level is indistinguishable from a card whose terms are
+ * unchanged. "No PR opened" therefore reads as "everything is fine" even when a
+ * card hasn't actually been verified in weeks — that is how Fidelity's dead offer
+ * page (HTTP 400, browser goto timing out) went unnoticed while its stale $150 SUB
+ * stayed published. To close that gap:
+ *   - every skip path records into `skippedCards` (see recordSkip)
+ *   - consecutive skips per card persist across runs in .github/card-page-check-state.json
+ *   - a card skipped SKIP_ALERT_THRESHOLD runs in a row fails the job loudly
+ *   - HTTP >= 400 is a hard fetch failure, never scraped as if it were card content
+ * Cards in knownBlockedReason() are excluded from the alarm: they are permanent,
+ * deliberate skips, so counting them would keep the alarm on forever.
  */
 
 const fs = require('fs');
@@ -18,6 +31,19 @@ const yaml = require('js-yaml');
 
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const SUMMARY_FILE = path.join(__dirname, '..', '.card-page-check-summary.md');
+// Consecutive-skip counters, committed to main by the workflow so the count
+// survives across runs. Lives under .github/ because every push-triggered
+// workflow either filters on data/** or (deploy-frontend) ignores it — dropping
+// this file anywhere under data/ would fire an Amplify build every night.
+const STATE_FILE = path.join(__dirname, '..', '.github', 'card-page-check-state.json');
+// Written only when a card has been skipped too many runs in a row; the workflow
+// keys its Slack ping / GitHub issue / red build off this file's existence.
+const STALE_REPORT_FILE = path.join(__dirname, '..', '.card-page-check-stale.md');
+// A skipped card is silently indistinguishable from a healthy one — no changes
+// detected either way. After this many consecutive skips the card is presumed
+// rotting (dead URL, permanent bot-block, extractor blind spot) and the run
+// fails loudly rather than reporting another quiet green.
+const SKIP_ALERT_THRESHOLD = Number(process.env.CARD_PAGE_SKIP_ALERT_THRESHOLD || 3);
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
@@ -163,6 +189,11 @@ function knownBlockedReason(url) {
 }
 
 async function fetchPageContent(url) {
+  // Status from the plain fetch, remembered so that if the browser fallback also
+  // fails we report the origin's real complaint ("HTTP 400") rather than the
+  // downstream symptom ("Timeout 30000ms exceeded").
+  let simpleStatus = null;
+
   // Try simple fetch first
   try {
     const controller = new AbortController();
@@ -180,6 +211,7 @@ async function fetchPageContent(url) {
     });
 
     clearTimeout(timer);
+    simpleStatus = response.status;
 
     if (response.ok) {
       const contentType = response.headers.get('content-type') || '';
@@ -191,6 +223,10 @@ async function fetchPageContent(url) {
         }
         console.warn(`  Simple fetch returned too little content (${stripped.length} chars) — falling back to browser`);
       }
+    } else {
+      // 403/429 are usually bot mitigation the browser can get past, so still fall
+      // through. Other 4xx/5xx mean the page is genuinely gone or broken.
+      console.warn(`  Simple fetch returned HTTP ${response.status} — falling back to browser`);
     }
   } catch (err) {
     console.warn(`  Simple fetch failed: ${err.message} — falling back to browser`);
@@ -198,7 +234,12 @@ async function fetchPageContent(url) {
 
   // Fall back to Playwright for JS-rendered pages
   const content = await fetchWithBrowser(url);
-  return content ? { content, usedBrowser: true } : null;
+  if (content) return { content, usedBrowser: true };
+
+  if (simpleStatus !== null && simpleStatus >= 400) {
+    lastFetchError = `HTTP ${simpleStatus} from origin (browser fallback also failed: ${lastFetchError || 'unknown'})`;
+  }
+  return null;
 }
 
 let _browser = null;
@@ -240,7 +281,20 @@ async function fetchWithBrowser(url) {
     // ad/tracker-heavy issuer pages). Then give client-rendered content a
     // best-effort settle window via networkidle, capped so pages with
     // long-poll/keepalive connections don't stall the whole goto.
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+
+    // page.goto resolves for 4xx/5xx — it only rejects on transport errors. Without
+    // this guard an issuer's "page moved or deleted" template strips to plenty of
+    // text, gets handed to the extractor, yields nulls, and is read as "no changes".
+    // A retired offer page then looks exactly like an unchanged one.
+    const status = response ? response.status() : 0;
+    if (status >= 400) {
+      lastFetchError = `HTTP ${status}`;
+      console.warn(`  Browser fetch returned HTTP ${status} — treating as fetch failure, not content`);
+      await context.close();
+      return null;
+    }
+
     await page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
     await page.waitForTimeout(3000);
     const html = await page.content();
@@ -898,6 +952,94 @@ function logFetchedText(name, url, usedBrowser, pageContent, extracted) {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
+// ─── Consecutive-skip state ──────────────────────────────────────────────────
+
+function loadSkipState() {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
+    return parsed && typeof parsed.cards === 'object' && parsed.cards ? parsed.cards : {};
+  } catch {
+    // Missing or corrupt state is not fatal — every card just starts at zero. The
+    // alarm re-arms after SKIP_ALERT_THRESHOLD runs rather than never firing.
+    return {};
+  }
+}
+
+function writeSkipState(cards, checkedAt) {
+  const sorted = {};
+  for (const slug of Object.keys(cards).sort()) sorted[slug] = cards[slug];
+  fs.mkdirSync(path.dirname(STATE_FILE), { recursive: true });
+  fs.writeFileSync(STATE_FILE, JSON.stringify({ updated_at: checkedAt, cards: sorted }, null, 2) + '\n');
+}
+
+/**
+ * Fold this run's outcomes into the persisted counters.
+ *
+ * A partial run (CARD_SLUG=…) must not touch cards it never looked at, and must
+ * not prune them — otherwise one single-card run would wipe every other card's
+ * accumulated history and silently disarm the alarm.
+ */
+function updateSkipState(prev, { checkedSlugs, skippedCards, checkedAt, isPartialRun }) {
+  const next = { ...prev };
+  const skippedBySlug = new Map(skippedCards.map(s => [s.slug, s]));
+
+  for (const slug of checkedSlugs) {
+    const skip = skippedBySlug.get(slug);
+    if (!skip) {
+      next[slug] = { consecutive_skips: 0, last_ok: checkedAt };
+      continue;
+    }
+    const previous = prev[slug] || {};
+    next[slug] = {
+      consecutive_skips: (previous.consecutive_skips || 0) + 1,
+      last_ok: previous.last_ok || null,
+      last_skip: checkedAt,
+      last_reason: skip.reason,
+      // Permanent, deliberate skips (see knownBlockedReason) count but never alarm.
+      known_block: Boolean(skip.knownBlock),
+    };
+  }
+
+  if (isPartialRun) return next;
+
+  // Full run: drop cards that no longer exist so a renamed slug can't alarm forever.
+  for (const slug of Object.keys(next)) {
+    if (!checkedSlugs.has(slug)) delete next[slug];
+  }
+  return next;
+}
+
+function staleCardsFrom(state) {
+  return Object.entries(state)
+    .filter(([, s]) => !s.known_block && (s.consecutive_skips || 0) >= SKIP_ALERT_THRESHOLD)
+    .map(([slug, s]) => ({ slug, ...s }))
+    .sort((a, b) => b.consecutive_skips - a.consecutive_skips);
+}
+
+function writeStaleReport(stale, cardsBySlug) {
+  const lines = [
+    `## ⚠️ ${stale.length} card(s) not verified in ${SKIP_ALERT_THRESHOLD}+ consecutive runs`,
+    '',
+    'These cards were skipped, not checked. Their published terms have gone unverified',
+    'for at least ' + SKIP_ALERT_THRESHOLD + ' runs — a dead apply URL or a blocked fetch looks identical',
+    'to "no changes" in this job, so treat each row as possibly-stale data, not as passing.',
+    '',
+    '| Card | Consecutive skips | Last verified | Latest reason |',
+    '|------|-------------------|---------------|---------------|',
+  ];
+  for (const s of stale) {
+    const card = cardsBySlug.get(s.slug);
+    const name = card ? card.data.name : s.slug;
+    const url = card ? checkUrlFor(card) : null;
+    const label = url ? `[${name}](${url})` : name;
+    lines.push(`| ${label} | ${s.consecutive_skips} | ${s.last_ok || 'never'} | ${s.last_reason || 'unknown'} |`);
+  }
+  lines.push('', '_Fix the URL, add the host to `knownBlockedReason()`, or set `accepting_applications: false`._');
+  const report = lines.join('\n') + '\n';
+  fs.writeFileSync(STALE_REPORT_FILE, report);
+  return report;
+}
+
 async function main() {
   console.log('=== Check Card Pages ===\n');
 
@@ -925,6 +1067,18 @@ async function main() {
   const skippedCards = [];
   const allSuppressions = [];
 
+  // Every path that abandons a card must land here. A skip that isn't recorded is
+  // worse than a loud failure: it silently shrinks the verified set while the run
+  // still reports success.
+  const recordSkip = (card, reason, opts = {}) =>
+    skippedCards.push({
+      slug: card.slug,
+      name: card.data.name,
+      url: checkUrlFor(card),
+      reason,
+      knownBlock: Boolean(opts.knownBlock),
+    });
+
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
   for (const [i, card] of cardsToCheck.entries()) {
@@ -936,11 +1090,7 @@ async function main() {
       const mins = SCRIPT_TIMEOUT_MS / 60000;
       console.warn(`\nScript timeout reached (${mins} min) — stopping early; ${unreached.length} card(s) never checked.`);
       for (const c of unreached) {
-        skippedCards.push({
-          name: c.data.name,
-          url: checkUrlFor(c),
-          reason: `script timeout (${mins} min) reached before this card was checked`,
-        });
+        recordSkip(c, `script timeout (${mins} min) reached before this card was checked`);
       }
       break;
     }
@@ -953,7 +1103,7 @@ async function main() {
     const blockedReason = knownBlockedReason(apply_link);
     if (blockedReason) {
       console.log(`  Skipped (known bot-block — manual maintenance): ${blockedReason}\n`);
-      skippedCards.push({ name, url: apply_link, reason: `known block: ${blockedReason}` });
+      recordSkip(card, `known block: ${blockedReason}`, { knownBlock: true });
       continue;
     }
 
@@ -963,7 +1113,7 @@ async function main() {
         const fetchResult = await fetchPageContent(apply_link);
         if (!fetchResult) {
           console.log('  Skipped (could not fetch page)\n');
-          skippedCards.push({ name, url: apply_link, reason: lastFetchError || 'could not fetch page' });
+          recordSkip(card, lastFetchError || 'could not fetch page');
           return;
         }
         let { content: pageContent, usedBrowser } = fetchResult;
@@ -975,6 +1125,7 @@ async function main() {
           extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
         } catch (err) {
           console.warn(`  Extraction error: ${err.message} — skipping\n`);
+          recordSkip(card, `extraction error: ${err.message}`);
           return;
         }
 
@@ -993,6 +1144,7 @@ async function main() {
               extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
             } catch (err) {
               console.warn(`  Retry extraction error: ${err.message} — skipping\n`);
+              recordSkip(card, `retry extraction error: ${err.message}`);
               return;
             }
           }
@@ -1000,6 +1152,7 @@ async function main() {
 
         if (!extracted) {
           console.log('  No data extracted — skipping\n');
+          recordSkip(card, 'no data extracted from page');
           return;
         }
 
@@ -1021,6 +1174,7 @@ async function main() {
       })(), PER_CARD_TIMEOUT_MS, name);
     } catch (err) {
       console.warn(`  ${err.message} — skipping\n`);
+      recordSkip(card, err.message);
     }
 
     console.log('');
@@ -1028,15 +1182,41 @@ async function main() {
   }
 
   if (skippedCards.length > 0) {
-    console.log(`\n⚠️  Skipped ${skippedCards.length} card(s) due to fetch issues (not checked this run):`);
+    console.log(`\n⚠️  Skipped ${skippedCards.length} card(s) (NOT checked this run — not the same as unchanged):`);
     for (const s of skippedCards) {
       console.log(`  - ${s.name}: ${s.reason}\n      ${s.url}`);
     }
     console.log('');
   }
 
+  // Fold this run into the persisted counters before any early return below —
+  // a run that found changes still needs to record which cards it never verified.
+  const checkedAt = new Date().toISOString();
+  const checkedSlugs = new Set(cardsToCheck.map(c => c.slug));
+  const nextState = updateSkipState(loadSkipState(), {
+    checkedSlugs,
+    skippedCards,
+    checkedAt,
+    isPartialRun: Boolean(slugFilter),
+  });
+  writeSkipState(nextState, checkedAt);
+
+  const verified = checkedSlugs.size - skippedCards.length;
+  console.log(`Verified ${verified}/${checkedSlugs.size} card(s) against their live page this run.`);
+
+  const stale = staleCardsFrom(nextState);
+  if (fs.existsSync(STALE_REPORT_FILE)) fs.unlinkSync(STALE_REPORT_FILE);
+  if (stale.length > 0) {
+    const cardsBySlug = new Map(allCards.map(c => [c.slug, c]));
+    console.warn('\n' + writeStaleReport(stale, cardsBySlug));
+  }
+
   reportSuppressions(allSuppressions);
 
+  // NB: a stale-card alarm must not fail this script. The workflow still has to
+  // commit the state file, open the changes PR, and post to Slack — all of which
+  // are skipped if this step exits non-zero. The workflow's final step reads
+  // STALE_REPORT_FILE and fails the build there instead.
   if (allChanges.length === 0) {
     console.log('No changes detected. Exiting.');
     if (fs.existsSync(SUMMARY_FILE)) fs.unlinkSync(SUMMARY_FILE);
@@ -1066,4 +1246,11 @@ if (require.main === module) {
   });
 }
 
-module.exports = { detectChanges, applyChanges, needsBrowserRetry };
+module.exports = {
+  detectChanges,
+  applyChanges,
+  needsBrowserRetry,
+  updateSkipState,
+  staleCardsFrom,
+  SKIP_ALERT_THRESHOLD,
+};

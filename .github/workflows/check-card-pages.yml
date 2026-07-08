@@ -54,6 +54,38 @@ jobs:
             fi
           fi
 
+      # Consecutive-skip counters only mean anything if they survive the run.
+      # Committed straight to main rather than folded into the card PR, so the
+      # counters still advance on nights that produce no PR — which is precisely
+      # when a card is quietly rotting. deploy-frontend.yml ignores this path, so
+      # the push triggers no Amplify build.
+      #
+      # Written through the contents API rather than `git commit` on purpose: the
+      # card edits are sitting uncommitted in the working tree for the PR step
+      # below, and any local commit/stash/rebase dance risks eating them.
+      - name: Persist skip-tracking state
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          STATE_FILE=".github/card-page-check-state.json"
+          if [ -z "$(git status --porcelain "$STATE_FILE")" ]; then
+            echo "Skip-tracking state unchanged."
+            exit 0
+          fi
+
+          # Blank sha => file does not exist upstream yet (first ever run).
+          SHA=$(gh api "repos/${GITHUB_REPOSITORY}/contents/${STATE_FILE}?ref=main" \
+            --jq '.sha' 2>/dev/null || true)
+
+          ARGS=(-X PUT "repos/${GITHUB_REPOSITORY}/contents/${STATE_FILE}"
+            -f message='chore: update card-page skip-tracking state [skip ci]'
+            -f branch=main
+            -f content="$(base64 -w0 < "$STATE_FILE")")
+          [ -n "$SHA" ] && ARGS+=(-f sha="$SHA")
+
+          gh api "${ARGS[@]}" --jq '.commit.sha' | sed 's/^/Committed state as /'
+
       - name: Create PR if changes found
         id: create_pr
         env:
@@ -98,3 +130,61 @@ jobs:
                {type:"section", text:{type:"mrkdwn", text:$b}}
             ]}' \
           | curl -sf -X POST -H 'Content-type: application/json' --data @- "$SLACK_WEBHOOK_URL"
+
+      # A card skipped N runs in a row has unverified terms on a live page. That is a
+      # data-integrity problem, not a flake — it gets its own issue, its own Slack
+      # ping, and a red build. `always()` so it still fires on a run that opened no PR
+      # (the common case) or one whose earlier step failed.
+      - name: Report cards that have gone unverified
+        id: stale
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          set -euo pipefail
+
+          gh label create "card-page-stale" \
+            --description "Cards the daily page check has failed to verify for several runs running" \
+            --color "b60205" 2>/dev/null || true
+
+          EXISTING=$(gh issue list --state open --label "card-page-stale" --limit 1 \
+            --json number --jq '.[0].number // empty')
+
+          if [ ! -f .card-page-check-stale.md ]; then
+            echo "Every card was verified against its live page."
+            if [ -n "$EXISTING" ]; then
+              gh issue close "$EXISTING" --comment "All cards verified on $(date -u +%Y-%m-%dT%H:%M:%SZ). Closing automatically."
+            fi
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "stale=true" >> "$GITHUB_OUTPUT"
+          COUNT=$(grep -c '^| \[' .card-page-check-stale.md || true)
+          TITLE="Cards unverified for several runs — ${COUNT:-?} card(s)"
+
+          if [ -n "$EXISTING" ]; then
+            gh issue edit "$EXISTING" --title "$TITLE" --body-file .card-page-check-stale.md
+          else
+            gh issue create --title "$TITLE" --label "card-page-stale" --body-file .card-page-check-stale.md
+          fi
+
+          if [ -n "${SLACK_WEBHOOK_URL:-}" ]; then
+            jq -n --arg t "$TITLE" --arg b "$(head -c 2800 .card-page-check-stale.md)" \
+              '{blocks:[
+                 {type:"header",  text:{type:"plain_text", text:$t}},
+                 {type:"section", text:{type:"mrkdwn", text:$b}}
+              ]}' \
+            | curl -sf -X POST -H 'Content-type: application/json' --data @- "$SLACK_WEBHOOK_URL" || true
+          fi
+
+      # Last step on purpose: the PR, the state commit, the issue and the Slack ping
+      # have all already happened. This only turns the run red so a silent coverage
+      # gap can never be mistaken for a clean nightly pass.
+      - name: Fail if any card went unverified
+        if: always() && steps.stale.outputs.stale == 'true'
+        run: |
+          echo "::error::Cards have gone unverified for several consecutive runs — see the card-page-stale issue."
+          cat .card-page-check-stale.md
+          exit 1
