@@ -8696,6 +8696,123 @@
   color: var(--ink);
   max-width: none;
 }
+/* Affiliate CTA — sits at the top of the body, directly under the hero
+   paragraph and above the ranked picks. A flat neutral card: the button is
+   the only saturated element, so the module reads as a utility row rather
+   than a decorated callout. */
+.landing-v2.store-v2 .store-affiliate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 28px;
+  margin: 0 0 24px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+}
+/* The panel opens the body, where .store-body's 24px padding-top reads as too
+   much air under the hero divider. Pull it up to a 12px gap — enough to keep
+   the panel's own top border from stacking on the divider as a 2px rule. */
+.landing-v2.store-v2 .store-affiliate:first-child {
+  margin-top: -12px;
+}
+/* Title and disclosure share the left column so they stack tight against each
+   other. Keeping the disclosure as a sibling of the button instead would leave
+   a dead band under the title: the button is the tallest item in the row, and
+   align-items: center splits its extra height above and below the copy.
+   flex-basis 360px is the wrap trigger — below that the button drops beneath. */
+.landing-v2.store-v2 .store-affiliate-body {
+  flex: 1 1 360px;
+  min-width: 0;
+}
+.landing-v2.store-v2 .store-affiliate-title {
+  font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0;
+}
+/* inline-block, not inline-flex: on narrow screens a long label like
+   "Shop at Banana Republic with CreditOdds" wraps, and as a flex item the
+   label box would stretch to the full line, stranding the arrow against the
+   button's right edge. Letting the arrow flow inline keeps it welded to the
+   last word at every width. */
+.landing-v2.store-v2 .store-affiliate-btn {
+  display: inline-block;
+  /* 0 1 auto, not `none`: the button must be allowed to shrink and wrap its
+     label, or a long one ("Shop at Extended Stay America with CreditOdds")
+     pushes the panel past the viewport on mobile. */
+  flex: 0 1 auto;
+  position: relative;
+  /* clips the shimmer sweep to the button's box */
+  overflow: hidden;
+  padding: 12px 20px;
+  border-radius: 0;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+.landing-v2.store-v2 .store-affiliate-btn:hover {
+  background: var(--accent-deep);
+}
+/* Shimmer: a light sweep that crosses the button, then rests. The gradient is
+   an overlay, so it must not eat the click. Sweep occupies the first ~35% of
+   the cycle; the rest is the pause that keeps it from reading as a spinner. */
+.landing-v2.store-v2 .store-affiliate-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 65%
+  );
+  transform: translateX(-100%);
+  animation: store-affiliate-shimmer 3.6s ease-in-out infinite;
+}
+@keyframes store-affiliate-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  35%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-v2.store-v2 .store-affiliate-btn::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+.landing-v2.store-v2 .store-affiliate-btn-tail {
+  white-space: nowrap;
+}
+.landing-v2.store-v2 .store-affiliate-btn-icon {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 8px;
+  vertical-align: -2px;
+}
+.landing-v2.store-v2 .store-affiliate-disclosure {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 /* The hero intro paragraph is shared as .page-sub (max-width: 620px) across
    most pages. On store pages we want it to read across the full hero width
    so it doesn't visually anchor only to the left half. */

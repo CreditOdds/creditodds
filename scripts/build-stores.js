@@ -23,6 +23,7 @@ const LAMBDA_BUNDLE_OUTPUT = path.join(
 );
 const CATEGORIES_FILE = path.join(__dirname, '..', 'data', 'categories.yaml');
 const CARDS_FILE = path.join(__dirname, '..', 'data', 'cards.json');
+const AFFILIATES_FILE = path.join(__dirname, '..', 'data', 'affiliates.yaml');
 
 function loadJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -43,6 +44,65 @@ function loadCardSlugs() {
   }
   const data = loadJson(CARDS_FILE);
   return new Set((data.cards || []).map(c => c.slug));
+}
+
+// Returns a Map<slug, {url, network, cta?}>. Missing file is fine — the
+// affiliate program is additive, and a fresh checkout should still build.
+function loadAffiliates() {
+  if (!fs.existsSync(AFFILIATES_FILE)) {
+    console.warn('  (warning) affiliates.yaml not found — no affiliate links will be attached.');
+    return new Map();
+  }
+
+  const data = yaml.load(fs.readFileSync(AFFILIATES_FILE, 'utf8')) || {};
+  const defaultNetwork = data.network;
+  const merchants = data.merchants || {};
+  const errors = [];
+  const result = new Map();
+
+  for (const [slug, raw] of Object.entries(merchants)) {
+    const entry = typeof raw === 'string' ? { url: raw } : raw;
+
+    if (!entry || typeof entry.url !== 'string' || !entry.url.startsWith('https://')) {
+      errors.push(`affiliates.yaml: ${slug} needs an https url`);
+      continue;
+    }
+
+    const network = entry.network || defaultNetwork;
+    if (!network) {
+      errors.push(`affiliates.yaml: ${slug} has no network (set one on the entry or the top-level default)`);
+      continue;
+    }
+    if (entry.cta !== undefined && typeof entry.cta !== 'string') {
+      errors.push(`affiliates.yaml: ${slug} cta must be a string`);
+      continue;
+    }
+    if (entry.offer !== undefined && typeof entry.offer !== 'string') {
+      errors.push(`affiliates.yaml: ${slug} offer must be a string`);
+      continue;
+    }
+    // The offer is interpolated as "See {offer} at {store}". A trailing period
+    // or a sentence-shaped value means someone wrote a blurb, not a phrase.
+    if (typeof entry.offer === 'string' && /[.!]$/.test(entry.offer.trim())) {
+      errors.push(`affiliates.yaml: ${slug} offer must be a phrase, not a sentence (drop the trailing period): "${entry.offer}"`);
+      continue;
+    }
+
+    result.set(slug, {
+      url: entry.url,
+      network,
+      ...(entry.offer ? { offer: entry.offer } : {}),
+      ...(entry.cta ? { cta: entry.cta } : {}),
+    });
+  }
+
+  if (errors.length > 0) {
+    console.error('\nAffiliate validation failed:');
+    for (const err of errors) console.error(`  - ${err}`);
+    process.exit(1);
+  }
+
+  return result;
 }
 
 function validateStore(store, schema, categoryIds, cardSlugs) {
@@ -135,6 +195,7 @@ function buildStores() {
   const schema = loadJson(SCHEMA_FILE);
   const categoryIds = loadCategoryIds();
   const cardSlugs = loadCardSlugs();
+  const affiliates = loadAffiliates();
   const stores = [];
   const errors = [];
   const seenSlugs = new Set();
@@ -167,8 +228,11 @@ function buildStores() {
         continue;
       }
 
+      const affiliate = affiliates.get(store.slug);
+      if (affiliate) store.affiliate = affiliate;
+
       stores.push(store);
-      console.log(`  OK: ${store.name}`);
+      console.log(`  OK: ${store.name}${affiliate ? ' (+ affiliate)' : ''}`);
     } catch (err) {
       errors.push({ file, errors: [err.message] });
       console.log(`  ERROR: ${err.message}`);
@@ -176,6 +240,16 @@ function buildStores() {
   }
 
   console.log('\n---');
+
+  // An affiliate slug with no matching store silently drops a live link, so
+  // treat it as a build error rather than a warning.
+  const orphanAffiliates = [...affiliates.keys()].filter(slug => !seenSlugs.has(slug));
+  if (orphanAffiliates.length > 0) {
+    errors.push({
+      file: 'affiliates.yaml',
+      errors: orphanAffiliates.map(slug => `no store with slug "${slug}" (check data/stores/${slug}.yaml)`),
+    });
+  }
 
   if (errors.length > 0) {
     console.error(`\nValidation failed with ${errors.length} error(s):`);
@@ -198,6 +272,7 @@ function buildStores() {
   fs.writeFileSync(OUTPUT_FILE, serialized);
   fs.writeFileSync(LAMBDA_BUNDLE_OUTPUT, serialized);
   console.log(`\nSuccessfully built ${stores.length} store(s) to ${OUTPUT_FILE}`);
+  console.log(`  ${affiliates.size} affiliate link(s) attached`);
   console.log(`  + mirrored to Lambda bundle at ${LAMBDA_BUNDLE_OUTPUT}`);
 }
 

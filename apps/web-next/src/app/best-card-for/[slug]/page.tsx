@@ -9,6 +9,7 @@ import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { PencilSquareIcon, ExclamationTriangleIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
 import StorePersonalRow from "./StorePersonalRow";
+import StoreAffiliateCta from "./StoreAffiliateCta";
 import "../../landing.css";
 
 interface PageProps {
@@ -161,6 +162,15 @@ export default async function BestCardForStorePage({ params }: PageProps) {
       </section>
 
       <div className="wrap store-body">
+        {store.affiliate && (
+          <StoreAffiliateCta
+            storeName={store.name}
+            storeSlug={store.slug}
+            affiliate={store.affiliate}
+            topPickName={picks[0]?.card.card_name}
+          />
+        )}
+
         {usingFallback && (
           <div className="store-banner">
             <b>Honest answer:</b> no card we track gives a category bonus on{' '}
