@@ -33,6 +33,20 @@ const TWEET_MAX = 274;
 
 const HEADER = 'Weekly Sign Up Bonus Changes from CardWire';
 
+/**
+ * Rough cash value of one unit, used only to rank changes against each other —
+ * never displayed. Ranking by percent instead would let a $10 -> $0 store-card
+ * gift card (a 100% drop) outrank a 185,000 -> 140,000 point devaluation (24%),
+ * and would divide by zero whenever a bonus starts at 0.
+ */
+const UNIT_VALUE_USD = {
+  cash: 1,
+  cashback: 1,
+  points: 0.015,
+  miles: 0.013,
+  free_nights: 150,
+};
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -131,15 +145,10 @@ function collapsePerCard(rows) {
     const newNum = parseFloat(latest.new_value);
     if (Number.isNaN(oldNum) || Number.isNaN(newNum) || oldNum === newNum) continue;
 
-    // A bonus value of 0 means "no publicly-visible offer" (e.g. the amount is
-    // sign-in gated), not a literal $0 bonus. Announcing "$10 -> $0" would
-    // report a devaluation that never happened, and "0 -> 90,000" would report
-    // an increase off a value that was only ever unknown. Suppress both.
-    if (oldNum === 0 || newNum === 0) {
-      console.log(`  Skipping ${latest.card_name}: ${first.old_value} -> ${latest.new_value} (0 = offer not publicly visible)`);
-      continue;
-    }
-
+    // A value of 0 is real data: it means the public sees no bonus amount.
+    // Cards that simply have no bonus omit `signup_bonus` entirely, so a 0 here
+    // is always a deliberate statement about the public offer, and a move to or
+    // from it is a genuine change worth reporting.
     collapsed.push({
       cardName: shortenCardName(latest.card_name),
       unit: latest.unit,
@@ -147,9 +156,9 @@ function collapsePerCard(rows) {
       newValue: latest.new_value,
       oldNum,
       newNum,
-      // Percent magnitude ranks changes across units (a $50 -> $100 cash bump
-      // and a 75k -> 150k points bump both read as +100%).
-      magnitude: Math.abs((newNum - oldNum) / oldNum),
+      // Approximate cash value of the swing, so changes rank against each other
+      // across units. Ordering only — never shown in the post.
+      weight: Math.abs(newNum - oldNum) * (UNIT_VALUE_USD[latest.unit] ?? 0.015),
       changedAt: latest.changed_at,
     });
   }
@@ -163,8 +172,8 @@ function renderLine(change) {
 }
 
 /**
- * Fills the tweet greedily, biggest movers first, then reports whatever didn't
- * fit as a "+N more" pointer to the CardWire link in the reply.
+ * Fills the tweet greedily, most valuable movers first, then reports whatever
+ * didn't fit as a "+N more" pointer to the CardWire link in the reply.
  */
 function buildPostText(increases, decreases) {
   const sections = [
@@ -271,9 +280,9 @@ async function main() {
     return;
   }
 
-  const byMagnitude = (a, b) => b.magnitude - a.magnitude;
-  const increases = collapsed.filter(c => c.newNum > c.oldNum).sort(byMagnitude);
-  const decreases = collapsed.filter(c => c.newNum < c.oldNum).sort(byMagnitude);
+  const byWeight = (a, b) => b.weight - a.weight;
+  const increases = collapsed.filter(c => c.newNum > c.oldNum).sort(byWeight);
+  const decreases = collapsed.filter(c => c.newNum < c.oldNum).sort(byWeight);
 
   console.log(`  ${increases.length} increase(s), ${decreases.length} decrease(s)\n`);
   for (const c of [...increases, ...decreases]) {
