@@ -12,7 +12,7 @@
 // Run: `node scripts/check-card-pages.test.js`. Exits non-zero on any failure.
 
 const assert = require('node:assert/strict');
-const { detectChanges } = require('./check-card-pages');
+const { detectChanges, needsBrowserRetry } = require('./check-card-pages');
 
 function test(name, fn) {
   try {
@@ -342,6 +342,50 @@ test('a normal months value (≤24) is left untouched', () => {
   });
   const ch = changes.find(c => c.field === 'signup_bonus.timeframe_months');
   assert.equal(ch.new_value, 4);
+});
+
+console.log('');
+// ─── Browser retry when the page hides the welcome offer ────────────────────
+
+// Amex's Delta business pages render the fee server-side and the welcome offer
+// client-side ("Welcome Offer & Key Details … Loading"). The fee made the
+// extraction look non-empty, so the browser retry never fired and the extractor
+// returned value: 0 for the placeholder — proposing 90,000 → 0 (caught on #1589).
+console.log('\nBrowser retry on a missing signup-bonus signal:');
+
+const HAS_SUB = { value: 90000, type: 'miles', spend_requirement: 6000, timeframe_months: 6 };
+
+test('fee extracted but bonus value 0 → retry (the Delta Gold Business case)', () => {
+  const extracted = { annual_fee: 150, signup_bonus: { value: 0, spend_requirement: null } };
+  assert.equal(needsBrowserRetry(extracted, HAS_SUB), true);
+});
+
+test('fee extracted but bonus value null → retry', () => {
+  const extracted = { annual_fee: 150, signup_bonus: { value: null } };
+  assert.equal(needsBrowserRetry(extracted, HAS_SUB), true);
+});
+
+test('a real bonus value → no retry', () => {
+  const extracted = { annual_fee: 150, signup_bonus: { value: 90000 } };
+  assert.equal(needsBrowserRetry(extracted, HAS_SUB), false);
+});
+
+test('a card that stores no bonus never triggers the bonus-signal retry', () => {
+  const extracted = { annual_fee: 95, signup_bonus: { value: null } };
+  assert.equal(needsBrowserRetry(extracted, undefined), false);
+  assert.equal(needsBrowserRetry(extracted, { value: 0 }), false);
+});
+
+test('a wholly empty extraction still retries (existing citi.com behavior)', () => {
+  assert.equal(needsBrowserRetry({ annual_fee: null, signup_bonus: { value: null } }, HAS_SUB), true);
+  assert.equal(needsBrowserRetry(null, undefined), true);
+});
+
+test('a browser-rendered zero is NOT suppressed downstream (Amazon Store, #1579)', () => {
+  // needsBrowserRetry only forces a second look; a genuine 0 must still surface.
+  const card = { data: { name: 'Amazon Store', signup_bonus: { value: 60, type: 'cash', note: null } } };
+  const changes = detectChanges(card, { signup_bonus: { value: 0 } });
+  assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
 });
 
 console.log('');

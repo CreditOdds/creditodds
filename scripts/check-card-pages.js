@@ -21,7 +21,17 @@ const SUMMARY_FILE = path.join(__dirname, '..', '.card-page-check-summary.md');
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
-const SCRIPT_TIMEOUT_MS = 20 * 60 * 1000; // 20 min overall safety net
+// Overall safety net. Widening the browser-retry condition (needsBrowserRetry)
+// makes every card whose welcome offer is client-side — most of the ~20 Amex
+// cards — pay one extra Playwright fetch (~13s measured) per run, roughly +4 min
+// on a run that already took ~14 min. Raised 20 → 30 min so that added work
+// doesn't silently truncate coverage.
+//
+// MUST stay comfortably below `timeout-minutes` in .github/workflows/check-card-pages.yml
+// (currently 45): the job needs headroom after this deadline to write the skip
+// summary and open the PR. If the two are equal, GitHub hard-kills the job and
+// the graceful exit path never runs.
+const SCRIPT_TIMEOUT_MS = 30 * 60 * 1000; // 30 min overall safety net
 // Max stripped page text handed to the extractor. Sized so nav-heavy issuer
 // pages still include the card terms — e.g. business.bankofamerica.com leads
 // with ~11k chars of menu chrome and the bonus/spend/timeframe land at ~12k–18k.
@@ -388,6 +398,26 @@ function isExtractionEmpty(extracted) {
     return false;
   }
   return true;
+}
+
+// isExtractionEmpty only catches a page that yielded NOTHING. A page can render
+// its annual fee server-side and its welcome offer client-side — Amex's Delta
+// business pages ship the fee in the HTML and leave "Welcome Offer & Key
+// Details … Loading" where the bonus belongs. The fee alone made the extraction
+// look non-empty, the browser retry never ran, and the extractor returned
+// value: 0 for the placeholder, proposing 90,000 → 0 on a card whose offer had
+// not moved (caught in review on PR #1589). value: 0 also slips past the
+// "a null never erases a real value" rule, since 0 is not null.
+//
+// So retry whenever the page gave us no signup-bonus signal for a card that
+// stores one. This deliberately does NOT suppress a zero — a card really can
+// lose its public offer (see the Amazon Store card, #1579). It only insists we
+// look at a fully rendered page before believing it.
+function needsBrowserRetry(extracted, currentSignupBonus) {
+  if (isExtractionEmpty(extracted)) return true;
+  if (!(currentSignupBonus?.value > 0)) return false;
+  const proposed = extracted.signup_bonus?.value;
+  return proposed == null || proposed === 0;
 }
 
 // Haiku occasionally returns the signup-bonus timeframe as a raw DAY count instead
@@ -801,9 +831,21 @@ async function main() {
 
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
-  for (const card of cardsToCheck) {
+  for (const [i, card] of cardsToCheck.entries()) {
     if (Date.now() > scriptDeadline) {
-      console.warn(`\nScript timeout reached (${SCRIPT_TIMEOUT_MS / 60000} min) — stopping early.`);
+      // Record the cards we never reached. Without this the loop just breaks and
+      // they vanish — absent from both the checked set and the end-of-run skip
+      // summary, so a truncated run is indistinguishable from a clean one.
+      const unreached = cardsToCheck.slice(i);
+      const mins = SCRIPT_TIMEOUT_MS / 60000;
+      console.warn(`\nScript timeout reached (${mins} min) — stopping early; ${unreached.length} card(s) never checked.`);
+      for (const c of unreached) {
+        skippedCards.push({
+          name: c.data.name,
+          url: checkUrlFor(c),
+          reason: `script timeout (${mins} min) reached before this card was checked`,
+        });
+      }
       break;
     }
 
@@ -841,10 +883,12 @@ async function main() {
         }
 
         // Self-heal: simple-fetch HTML can be 200 OK but missing JS-rendered
-        // bonus values (e.g. citi.com). Haiku then returns all-null, which the
-        // detector silently treats as "no changes". Retry once with the browser.
-        if (!usedBrowser && isExtractionEmpty(extracted)) {
-          console.log('  Extraction returned no signal — retrying with browser');
+        // bonus values (e.g. citi.com, Amex business pages). Haiku then returns
+        // nulls — or a 0 for a "Loading" placeholder — which the detector reads
+        // as "no changes" or, worse, as a real SUB going to zero. Retry once
+        // with the browser.
+        if (!usedBrowser && needsBrowserRetry(extracted, card.data.signup_bonus)) {
+          console.log('  Extraction returned no signup-bonus signal — retrying with browser');
           const browserContent = await fetchWithBrowser(apply_link);
           if (browserContent) {
             pageContent = browserContent;
@@ -924,4 +968,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { detectChanges };
+module.exports = { detectChanges, needsBrowserRetry };
