@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T13:51:06.502Z",
+  "generated_at": "2026-07-08T15:11:07.300Z",
   "count": 558,
   "stores": [
     {
@@ -148,7 +148,11 @@
         "online_shopping"
       ],
       "website": "https://shop.advanceautoparts.com",
-      "intro": "Advance Auto Parts is a U.S. auto parts retailer with about 4,700 domestic\nstores plus the Carquest commercial parts network. In-store charges code as\nauto parts; advance auto parts.com codes as online shopping. The Speed Perks\nloyalty program is free and issues percent-back rewards in store credit. Pair\nwith flat-rate cashback or an online-shopping-bonus card for digital orders.\n"
+      "intro": "Advance Auto Parts is a U.S. auto parts retailer with about 4,700 domestic\nstores plus the Carquest commercial parts network. In-store charges code as\nauto parts; advance auto parts.com codes as online shopping. The Speed Perks\nloyalty program is free and issues percent-back rewards in store credit. Pair\nwith flat-rate cashback or an online-shopping-bonus card for digital orders.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.2190.994818&trid=1552713.157187&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Aerie",
@@ -168,7 +172,12 @@
         "department_stores"
       ],
       "website": "https://www.aeropostale.com",
-      "intro": "Aeropostale is a teen-focused mall apparel brand selling casual basics, hoodies, and logo tees. Buying online runs through as online shopping or general retail, where a portal or rotating-category bonus can help, while in-store swipes usually fall to your flat-rate card since clothing rarely earns a standalone bonus.\n"
+      "intro": "Aeropostale is a teen-focused mall apparel brand selling casual basics, hoodies, and logo tees. Buying online runs through as online shopping or general retail, where a portal or rotating-category bonus can help, while in-store swipes usually fall to your flat-rate card since clothing rarely earns a standalone bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.5423.277877&trid=1552713.190392&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "free shipping over $50"
+      }
     },
     {
       "name": "Air Canada",
@@ -290,7 +299,12 @@
         "online_shopping"
       ],
       "website": "https://www.aliexpress.com",
-      "intro": "AliExpress is Alibaba's consumer-facing global marketplace, connecting Chinese\nmanufacturers and merchants with international buyers. The platform sells everything\nfrom electronics and apparel to home goods at low price points, with shipping times\nthat vary widely by item. Purchases code as online shopping for credit card networks,\nso an online-shopping category bonus card earns its multiplier. Some AliExpress sellers\ninvoice through international processors, so foreign transaction fees can apply on\ncards without an FTF waiver, which is worth checking before a large order.\n"
+      "intro": "AliExpress is Alibaba's consumer-facing global marketplace, connecting Chinese\nmanufacturers and merchants with international buyers. The platform sells everything\nfrom electronics and apparel to home goods at low price points, with shipping times\nthat vary widely by item. Purchases code as online shopping for credit card networks,\nso an online-shopping category bonus card earns its multiplier. Some AliExpress sellers\ninvoice through international processors, so foreign transaction fees can apply on\ncards without an FTF waiver, which is worth checking before a large order.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.6378.3982947&trid=1552713.188226&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "$12 off for new users"
+      }
     },
     {
       "name": "Allegiant Air",
@@ -413,7 +427,12 @@
         "department_stores"
       ],
       "website": "https://www.anntaylor.com",
-      "intro": "Ann Taylor focuses on tailored women's workwear and wear-to-work staples. Shopping its site codes as online shopping or general retail, where a rotating category or portal can boost earnings, but in person the charge typically falls to a flat-rate card because apparel seldom carries a bonus rate.\n"
+      "intro": "Ann Taylor focuses on tailored women's workwear and wear-to-work staples. Shopping its site codes as online shopping or general retail, where a rotating category or portal can boost earnings, but in person the charge typically falls to a flat-rate card because apparel seldom carries a bonus rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.27704.2241364&trid=1552713.158368&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "free shipping over $150"
+      }
     },
     {
       "name": "Anthropologie",
@@ -426,7 +445,11 @@
         "department_stores"
       ],
       "website": "https://www.anthropologie.com",
-      "intro": "Anthropologie is a U.S. lifestyle retailer with about 200 stores selling apparel,\nhome goods, and accessories, owned by URBN (also Urban Outfitters and Free People).\nIn-store charges code as department stores; anthropologie.com codes as online\nshopping. AnthroPerks (free) and the AnthroPerks+ paid tier add free shipping and\nbirthday rewards. Strongest pairings are an online-shopping-bonus card or\nflat-rate cashback for in-store.\n"
+      "intro": "Anthropologie is a U.S. lifestyle retailer with about 200 stores selling apparel,\nhome goods, and accessories, owned by URBN (also Urban Outfitters and Free People).\nIn-store charges code as department stores; anthropologie.com codes as online\nshopping. AnthroPerks (free) and the AnthroPerks+ paid tier add free shipping and\nbirthday rewards. Strongest pairings are an online-shopping-bonus card or\nflat-rate cashback for in-store.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.39789.1000001653&trid=1552713.226041&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Anytime Fitness",
@@ -521,7 +544,11 @@
         "online_shopping"
       ],
       "website": "https://www.ashleyfurniture.com",
-      "intro": "Ashley Furniture HomeStore is the largest furniture retailer in the United States by\nstore count, selling sofas, dining sets, mattresses, and bedroom collections through\nmore than 1,000 corporate and licensed locations. Furniture purchases generally code\nas general retail on Visa, Mastercard, and Amex networks, so they do not trigger\nthe home improvement bonus that covers only Home Depot and Lowe's.\n\nBig-ticket furniture buys are a natural fit for signup bonus minimum spend on cards\nlike the Chase Sapphire Preferred or Amex Gold. Ashley also pushes its own Ashley\nAdvantage financing card with deferred-interest promotions, though paying with a\nrewards card and avoiding interest usually beats the financing math.\n"
+      "intro": "Ashley Furniture HomeStore is the largest furniture retailer in the United States by\nstore count, selling sofas, dining sets, mattresses, and bedroom collections through\nmore than 1,000 corporate and licensed locations. Furniture purchases generally code\nas general retail on Visa, Mastercard, and Amex networks, so they do not trigger\nthe home improvement bonus that covers only Home Depot and Lowe's.\n\nBig-ticket furniture buys are a natural fit for signup bonus minimum spend on cards\nlike the Chase Sapphire Preferred or Amex Gold. Ashley also pushes its own Ashley\nAdvantage financing card with deferred-interest promotions, though paying with a\nrewards card and avoiding interest usually beats the financing math.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.40094.1000002322&trid=1552713.171284&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "ASOS",
@@ -539,7 +566,11 @@
         "online_shopping"
       ],
       "website": "https://www.asus.com",
-      "intro": "ASUS makes laptops, motherboards, graphics cards and ROG gaming hardware sold through its online store and partners. Buying direct usually codes as online shopping or electronics retail, so a card with an online or general retail bonus earns well, while in-store purchases at other retailers typically default to a flat rate.\n"
+      "intro": "ASUS makes laptops, motherboards, graphics cards and ROG gaming hardware sold through its online store and partners. Buying direct usually codes as online shopping or electronics retail, so a card with an online or general retail bonus earns well, while in-store purchases at other retailers typically default to a flat rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.31828.3867909&trid=1552713.237737&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "At Home",
@@ -549,7 +580,11 @@
         "online_shopping"
       ],
       "website": "https://www.athome.com",
-      "intro": "At Home operates over 260 big-box home decor superstores stocking patio furniture,\nseasonal decor, wall art, and bedding at warehouse-style pricing. Most major credit\ncards code At Home as general retail, so it sits outside the typical home improvement\nbonus that covers only Lowe's and Home Depot on cards like the Wells Fargo Bilt or\nChase Freedom rotating quarters.\n\nOnline orders through athome.com can hit online shopping bonuses on cards like the\nCapital One SavorOne and Bank of America Customized Cash when that category is\nselected. At Home Insider Perks members also stack store coupons with credit card\ncash back, which matters on big-ticket patio and Christmas decor seasons.\n"
+      "intro": "At Home operates over 260 big-box home decor superstores stocking patio furniture,\nseasonal decor, wall art, and bedding at warehouse-style pricing. Most major credit\ncards code At Home as general retail, so it sits outside the typical home improvement\nbonus that covers only Lowe's and Home Depot on cards like the Wells Fargo Bilt or\nChase Freedom rotating quarters.\n\nOnline orders through athome.com can hit online shopping bonuses on cards like the\nCapital One SavorOne and Bank of America Customized Cash when that category is\nselected. At Home Insider Perks members also stack store coupons with credit card\ncash back, which matters on big-ticket patio and Christmas decor seasons.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.47781.1000000003&trid=1552713.226370&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "AT&T",
@@ -568,7 +603,11 @@
         "online_shopping"
       ],
       "website": "https://athleta.gap.com",
-      "intro": "Athleta is Gap Inc's women's performance and athleisure brand and one of the company's\nfastest-growing banners, with around 270 U.S. stores plus a strong DTC channel. Most\ngeneral-purpose cards code in-store purchases as department store and athleta.gap.com\norders as online shopping. The Gap Inc Barclays cards earn elevated points across\nAthleta, Old Navy, Gap, and Banana Republic, so loyal shoppers usually consolidate\nspend on that program.\n"
+      "intro": "Athleta is Gap Inc's women's performance and athleisure brand and one of the company's\nfastest-growing banners, with around 270 U.S. stores plus a strong DTC channel. Most\ngeneral-purpose cards code in-store purchases as department store and athleta.gap.com\norders as online shopping. The Gap Inc Barclays cards earn elevated points across\nAthleta, Old Navy, Gap, and Banana Republic, so loyal shoppers usually consolidate\nspend on that program.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.5556.660821&trid=1552713.162754&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Audible",
@@ -609,7 +648,12 @@
         "travel"
       ],
       "website": "https://www.avis.com",
-      "intro": "Avis is one of the three large U.S. car-rental brands, sister company to Budget under\nAvis Budget Group. Rentals code as car rentals on every card we track. Several\npremium cards confer Avis President's Club status (Amex Platinum, Capital One Venture\nX) which adds a guaranteed upgrade plus free additional driver. Booking via a card's\ntravel portal earns the portal bonus rate but may forfeit Avis Preferred earnings\nand direct-booking promo codes.\n"
+      "intro": "Avis is one of the three large U.S. car-rental brands, sister company to Budget under\nAvis Budget Group. Rentals code as car rentals on every card we track. Several\npremium cards confer Avis President's Club status (Amex Platinum, Capital One Venture\nX) which adds a guaranteed upgrade plus free additional driver. Booking via a card's\ntravel portal earns the portal bonus rate but may forfeit Avis Preferred earnings\nand direct-booking promo codes.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.110000459.1011178499&trid=1552713.235866&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "the free upgrade offer"
+      }
     },
     {
       "name": "B&H Photo",
@@ -632,7 +676,11 @@
         "online_shopping"
       ],
       "website": "https://bananarepublic.gap.com",
-      "intro": "Banana Republic is the upscale apparel brand within Gap Inc, positioned above Gap and\nOld Navy with workwear, suiting, and elevated basics across roughly 400 stores plus a\ngrowing factory outlet network. The in-house Banana Republic Rewards Mastercard from\nBarclays earns accelerated points across all Gap Inc banners, while general-purpose\ncards typically code purchases as department store in-mall and online shopping for\nbananarepublic.gap.com orders.\n"
+      "intro": "Banana Republic is the upscale apparel brand within Gap Inc, positioned above Gap and\nOld Navy with workwear, suiting, and elevated basics across roughly 400 stores plus a\ngrowing factory outlet network. The in-house Banana Republic Rewards Mastercard from\nBarclays earns accelerated points across all Gap Inc banners, while general-purpose\ncards typically code purchases as department store in-mall and online shopping for\nbananarepublic.gap.com orders.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.10152.821953&trid=1552713.196751&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "BarkBox",
@@ -644,7 +692,11 @@
         "online_shopping"
       ],
       "website": "https://www.barkbox.com",
-      "intro": "BarkBox is the flagship subscription service from Bark, sending a themed monthly box\nof toys, treats, and chews tailored to a dog's size. Bark also operates Super Chewer\nfor heavy chewers, Bright dental subscriptions, and Bark Food. As a recurring online\nsubscription, BarkBox charges typically code as online shopping or direct marketing\non most credit card networks.\n\nCards with online shopping bonuses can pay better on BarkBox renewals. Bank of\nAmerica Customized Cash and U.S. Bank Cash+ both offer selectable online shopping\ncategories worth 3 to 5 percent, and the Chase Freedom Flex sometimes features\nonline shopping in its rotating 5 percent quarter. BarkBox also frequently appears\nin shopping portals like Rakuten with stacking cash back.\n"
+      "intro": "BarkBox is the flagship subscription service from Bark, sending a themed monthly box\nof toys, treats, and chews tailored to a dog's size. Bark also operates Super Chewer\nfor heavy chewers, Bright dental subscriptions, and Bark Food. As a recurring online\nsubscription, BarkBox charges typically code as online shopping or direct marketing\non most credit card networks.\n\nCards with online shopping bonuses can pay better on BarkBox renewals. Bank of\nAmerica Customized Cash and U.S. Bank Cash+ both offer selectable online shopping\ncategories worth 3 to 5 percent, and the Chase Freedom Flex sometimes features\nonline shopping in its rotating 5 percent quarter. BarkBox also frequently appears\nin shopping portals like Rakuten with stacking cash back.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.34203.3007009&trid=1552713.179044&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Barnes & Noble",
@@ -883,7 +935,11 @@
       ],
       "website": "https://www.bloomingdales.com",
       "parent_company": "Macy's, Inc.",
-      "intro": "Bloomingdale's is a luxury-leaning department store with about 30 full-line locations\nin the U.S., plus the higher-end Bloomingdale's by Bloomingdale's outlet stores. Most\nshoppers are paying full price on apparel, beauty, and home goods, so the cashback rate\non your card matters more here than at a discount retailer.\n\nBloomingdale's accepts all four major networks (Visa, Mastercard, Amex, Discover) and\nApple Pay in stores. There is a co-branded Bloomingdale's American Express that earns\nLoyallist points, but most general-purpose cards will pay you better in cashback unless\nyou spend several thousand dollars a year at Bloomingdale's specifically.\n"
+      "intro": "Bloomingdale's is a luxury-leaning department store with about 30 full-line locations\nin the U.S., plus the higher-end Bloomingdale's by Bloomingdale's outlet stores. Most\nshoppers are paying full price on apparel, beauty, and home goods, so the cashback rate\non your card matters more here than at a discount retailer.\n\nBloomingdale's accepts all four major networks (Visa, Mastercard, Amex, Discover) and\nApple Pay in stores. There is a co-branded Bloomingdale's American Express that earns\nLoyallist points, but most general-purpose cards will pay you better in cashback unless\nyou spend several thousand dollars a year at Bloomingdale's specifically.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.13867.1010007903&trid=1552713.619&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Blue Apron",
@@ -901,7 +957,12 @@
         "dining"
       ],
       "website": "https://bluebottlecoffee.com",
-      "intro": "Blue Bottle Coffee is a specialty roaster, now Nestle-owned, with minimalist cafes concentrated in major US cities and a strong single-origin focus. In-cafe purchases code as dining or restaurants on most cards, so a dining bonus earns well. Bagged-bean and subscription orders from the website usually code as online shopping rather than dining.\n"
+      "intro": "Blue Bottle Coffee is a specialty roaster, now Nestle-owned, with minimalist cafes concentrated in major US cities and a strong single-origin focus. In-cafe purchases code as dining or restaurants on most cards, so a dining bonus earns well. Bagged-bean and subscription orders from the website usually code as online shopping rather than dining.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.8124.308393&trid=1552713.230054&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "your first bag for $5"
+      }
     },
     {
       "name": "Blue Nile",
@@ -920,7 +981,11 @@
         "online_shopping"
       ],
       "website": "https://bluemercury.com",
-      "intro": "Bluemercury is a prestige beauty chain owned by Macy's Inc, with around 160 U.S.\nboutiques plus bluemercury.com selling skincare, makeup, fragrance, and the in-house\nM-61 and Lune+Aster brands. Direct purchases typically code as department store in\nperson and online shopping for web orders. Because Bluemercury is part of Macy's, the\nfree BlueRewards program is paired with Macy's Star Rewards and the Macy's\nCiti-issued credit cards earn elevated points on Bluemercury spend.\n"
+      "intro": "Bluemercury is a prestige beauty chain owned by Macy's Inc, with around 160 U.S.\nboutiques plus bluemercury.com selling skincare, makeup, fragrance, and the in-house\nM-61 and Lune+Aster brands. Direct purchases typically code as department store in\nperson and online shopping for web orders. Because Bluemercury is part of Macy's, the\nfree BlueRewards program is paired with Macy's Star Rewards and the Macy's\nCiti-issued credit cards earn elevated points on Bluemercury spend.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43420.1000001003&trid=1552713.169800&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Bob's Discount Furniture",
@@ -1061,7 +1126,11 @@
         "travel"
       ],
       "website": "https://www.budget.com",
-      "intro": "Budget is the value-priced sister brand to Avis under Avis Budget Group. Rentals\ncode as car rentals on every card we track. Pricing is generally a tier below Avis\nfor the same fleet, and the Avis Preferred program covers Budget rentals too.\nGeneral travel cards (Sapphire Preferred, Venture, Venture X) are the standard\npairing — most users book direct rather than via a card's travel portal because\nBudget's coupon ecosystem (BCD codes, AAA, Costco) usually beats portal pricing.\n"
+      "intro": "Budget is the value-priced sister brand to Avis under Avis Budget Group. Rentals\ncode as car rentals on every card we track. Pricing is generally a tier below Avis\nfor the same fleet, and the Avis Preferred program covers Budget rentals too.\nGeneral travel cards (Sapphire Preferred, Venture, Venture X) are the standard\npairing — most users book direct rather than via a card's travel portal because\nBudget's coupon ecosystem (BCD codes, AAA, Costco) usually beats portal pricing.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1011016332&trid=1552713.235827&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Buffalo Wild Wings",
@@ -1087,7 +1156,11 @@
         "department_stores"
       ],
       "website": "https://www.buildabear.com",
-      "intro": "Build-A-Bear Workshop lets customers assemble stuffed animals at mall workshops and online. Spending tends to code as a department store or general retail rather than as a toy-specific category, so grocery and dining bonuses will not apply. Use a flat-rate card or one that rewards online shopping for orders placed on its website.\n"
+      "intro": "Build-A-Bear Workshop lets customers assemble stuffed animals at mall workshops and online. Spending tends to code as a department store or general retail rather than as a toy-specific category, so grocery and dining bonuses will not apply. Use a flat-rate card or one that rewards online shopping for orders placed on its website.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.9841.625281&trid=1552713.228001&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Burger King",
@@ -1153,7 +1226,12 @@
         "online_shopping"
       ],
       "website": "https://www.carhartt.com",
-      "intro": "Carhartt is a private, family-owned workwear brand based in Dearborn, Michigan, with\nabout 30 company stores plus wide distribution through Tractor Supply, farm and ranch\nretailers, and carhartt.com. Most cards code direct purchases at company stores or the\nwebsite as department store or online shopping, while buying Carhartt at a tractor or\nfarm supply retailer typically codes under that merchant's category. There is no\nCarhartt branded credit card today.\n"
+      "intro": "Carhartt is a private, family-owned workwear brand based in Dearborn, Michigan, with\nabout 30 company stores plus wide distribution through Tractor Supply, farm and ranch\nretailers, and carhartt.com. Most cards code direct purchases at company stores or the\nwebsite as department store or online shopping, while buying Carhartt at a tractor or\nfarm supply retailer typically codes under that merchant's category. There is no\nCarhartt branded credit card today.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.16441.1470306&trid=1552713.172497&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "free US ground shipping"
+      }
     },
     {
       "name": "Caribou Coffee",
@@ -1235,7 +1313,11 @@
         "online_shopping"
       ],
       "website": "https://casper.com",
-      "intro": "Casper is a direct-to-consumer mattress brand that helped define the bed-in-a-box\ncategory, with foam, hybrid, and Wave mattress lines plus pillows, sheets, and\nbedroom furniture. Most Casper purchases happen online at casper.com, which means\nrewards cards that pay bonuses for online shopping see the most upside.\n\nBank of America Customized Cash and U.S. Bank Cash+ can route Casper orders into a\nselectable 5 percent online shopping category, while the Capital One SavorOne pays\n3 percent on entertainment, dining, and streaming but only base earn on mattresses.\nCasper occasionally appears in shopping portals like Rakuten or Capital One\nShopping, where portal cash back can stack with credit card rewards.\n"
+      "intro": "Casper is a direct-to-consumer mattress brand that helped define the bed-in-a-box\ncategory, with foam, hybrid, and Wave mattress lines plus pillows, sheets, and\nbedroom furniture. Most Casper purchases happen online at casper.com, which means\nrewards cards that pay bonuses for online shopping see the most upside.\n\nBank of America Customized Cash and U.S. Bank Cash+ can route Casper orders into a\nselectable 5 percent online shopping category, while the Capital One SavorOne pays\n3 percent on entertainment, dining, and streaming but only base earn on mattresses.\nCasper occasionally appears in shopping portals like Rakuten or Capital One\nShopping, where portal cash back can stack with credit card rewards.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.101106444.1011176221&trid=1552713.215199&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Cathay Pacific",
@@ -1254,7 +1336,11 @@
         "online_shopping"
       ],
       "website": "https://www.cb2.com",
-      "intro": "CB2 is the modern, design-forward offshoot of Crate & Barrel under Otto family-owned\nEuromarket Designs, with about 25 U.S. stores plus cb2.com selling contemporary\nfurniture, lighting, and decor. The Crate & Barrel credit card from Comenity covers\nCB2 purchases too and earns rewards across the family of brands. General-purpose\ncards typically code CB2 as home improvement or department store in person and\nonline shopping for web orders.\n"
+      "intro": "CB2 is the modern, design-forward offshoot of Crate & Barrel under Otto family-owned\nEuromarket Designs, with about 25 U.S. stores plus cb2.com selling contemporary\nfurniture, lighting, and decor. The Crate & Barrel credit card from Comenity covers\nCB2 purchases too and earns rewards across the family of brands. General-purpose\ncards typically code CB2 as home improvement or department store in person and\nonline shopping for web orders.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.20480.3280840&trid=1552713.226049&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Celebrity Cruises",
@@ -1263,7 +1349,11 @@
         "travel"
       ],
       "website": "https://www.celebritycruises.com",
-      "intro": "Celebrity Cruises positions itself in the premium contemporary segment under the Royal Caribbean Group umbrella. Fares paid directly usually code as travel and earn on cards with a travel category bonus, though cruise lines can code unpredictably. To be safe, lean on a card that explicitly counts cruises as travel or a strong flat-rate everyday card.\n"
+      "intro": "Celebrity Cruises positions itself in the premium contemporary segment under the Royal Caribbean Group umbrella. Fares paid directly usually code as travel and earn on cards with a travel category bonus, though cruise lines can code unpredictably. To be safe, lean on a card that explicitly counts cruises as travel or a strong flat-rate everyday card.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.50028.1000000604&trid=1552713.230239&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Champs Sports",
@@ -1341,7 +1431,11 @@
         "department_stores"
       ],
       "website": "https://www.chicos.com",
-      "intro": "Chico's offers women's apparel and jewelry with a relaxed, artisan-leaning style, part of the same group as White House Black Market. Online orders code as online shopping or retail and may earn through a portal, while store visits usually default to flat-rate since clothing is rarely its own bonus category.\n"
+      "intro": "Chico's offers women's apparel and jewelry with a relaxed, artisan-leaning style, part of the same group as White House Black Market. Online orders code as online shopping or retail and may earn through a portal, while store visits usually default to flat-rate since clothing is rarely its own bonus category.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.16588.1461727&trid=1552713.158270&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Chili's",
@@ -1444,7 +1538,12 @@
         "department_stores"
       ],
       "website": "https://www.clarks.com",
-      "intro": "Clarks is a heritage British shoemaker known for Desert Boots and cushioned comfort footwear. Online orders code as online shopping or general retail and can earn through a portal, but in-person purchases usually default to flat-rate since footwear rarely qualifies for a bonus rate.\n"
+      "intro": "Clarks is a heritage British shoemaker known for Desert Boots and cushioned comfort footwear. Online orders code as online shopping or general retail and can earn through a portal, but in-person purchases usually default to flat-rate since footwear rarely qualifies for a bonus rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.124082.3714472&trid=1552713.159764&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "15% off when you sign up"
+      }
     },
     {
       "name": "Clinique",
@@ -1453,7 +1552,12 @@
         "online_shopping"
       ],
       "website": "https://www.clinique.com",
-      "intro": "Clinique, the allergy-tested Estee Lauder brand, sells its Dramatically Different lotion and three-step skincare through clinique.com, with checkout coding as online shopping or general retail. Cosmetics rarely trigger a bonus category, so a card that rewards online purchases or carries a high flat rate is the practical pick. Counter purchases at department stores follow that store's coding instead.\n"
+      "intro": "Clinique, the allergy-tested Estee Lauder brand, sells its Dramatically Different lotion and three-step skincare through clinique.com, with checkout coding as online shopping or general retail. Cosmetics rarely trigger a bonus category, so a card that rewards online purchases or carries a high flat rate is the practical pick. Counter purchases at department stores follow that store's coding instead.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.24775.1010002498&trid=1552713.193625&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "6 free samples"
+      }
     },
     {
       "name": "Coach",
@@ -1524,7 +1628,11 @@
         "tv_internet_streaming"
       ],
       "website": "https://www.cox.com",
-      "intro": "Cox Communications is one of the largest privately held broadband providers in the US, bundling internet, cable TV, and home phone. Recurring Cox bills code as a cable or internet purchase, so they only earn elevated rewards on a card carrying an internet or cable category bonus. Without one, route the autopay to your best flat-rate card and pocket the points monthly.\n"
+      "intro": "Cox Communications is one of the largest privately held broadband providers in the US, bundling internet, cable TV, and home phone. Recurring Cox bills code as a cable or internet purchase, so they only earn elevated rewards on a card carrying an internet or cable category bonus. Without one, route the autopay to your best flat-rate card and pocket the points monthly.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.101100508.1011106275&trid=1552713.203132&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Cracker Barrel",
@@ -1571,7 +1679,12 @@
         "online_shopping"
       ],
       "website": "https://www.crocs.com",
-      "intro": "Crocs Inc is a Broomfield, Colorado footwear company best known for its foam clogs and\nJibbitz charms, plus the HEYDUDE acquisition. The U.S. footprint includes about 150\noutlet and full-price stores along with a strong DTC business at crocs.com. Direct\npurchases typically code as department store in person and online shopping for web\norders. The free Crocs Club loyalty program offers points and member discounts that\nstack with credit card rewards.\n"
+      "intro": "Crocs Inc is a Broomfield, Colorado footwear company best known for its foam clogs and\nJibbitz charms, plus the HEYDUDE acquisition. The U.S. footprint includes about 150\noutlet and full-price stores along with a strong DTC business at crocs.com. Direct\npurchases typically code as department store in person and online shopping for web\norders. The free Crocs Club loyalty program offers points and member discounts that\nstack with credit card rewards.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.8119.2132677&trid=1552713.156899&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "15% off with Crocs Club"
+      }
     },
     {
       "name": "Crumbl Cookies",
@@ -1939,7 +2052,12 @@
         "online_shopping"
       ],
       "website": "https://www.ediblearrangements.com",
-      "intro": "Edible Arrangements builds fresh-fruit bouquets and chocolate-dipped treats sold for delivery and pickup. Despite the food angle, orders usually code as online shopping rather than as groceries or dining, so those bonuses will not apply. Reach for a flat-rate card or one that rewards online retail when ordering gift arrangements.\n"
+      "intro": "Edible Arrangements builds fresh-fruit bouquets and chocolate-dipped treats sold for delivery and pickup. Despite the food angle, orders usually code as online shopping rather than as groceries or dining, so those bonuses will not apply. Reach for a flat-rate card or one that rewards online retail when ordering gift arrangements.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.31430.2836765&trid=1552713.191403&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "free shipping over $79"
+      }
     },
     {
       "name": "Einstein Bros. Bagels",
@@ -2071,7 +2189,11 @@
         "online_shopping"
       ],
       "website": "https://www.express.com",
-      "intro": "Express is a mall-based apparel chain known for workwear and going out looks for men\nand women, operating through a mix of full-line stores, Express Factory Outlet, and\nexpress.com after the brand emerged from Chapter 11 restructuring. The Express Next\nstore credit card from Comenity earns A-List points on every purchase and pairs with\nthe free loyalty tier. General-purpose cards typically code Express as department\nstore at the register and online shopping for web orders.\n"
+      "intro": "Express is a mall-based apparel chain known for workwear and going out looks for men\nand women, operating through a mix of full-line stores, Express Factory Outlet, and\nexpress.com after the brand emerged from Chapter 11 restructuring. The Express Next\nstore credit card from Comenity earns A-List points on every purchase and pairs with\nthe free loyalty tier. General-purpose cards typically code Express as department\nstore at the register and online shopping for web orders.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.22046.3297509&trid=1552713.159956&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Extended Stay America",
@@ -2084,7 +2206,11 @@
         "travel"
       ],
       "website": "https://www.extendedstayamerica.com",
-      "intro": "Extended Stay America operates more than 600 budget long-stay hotels across the US, each\nroom equipped with a full kitchen, dishware, and weekly housekeeping options, targeting\nbusiness travelers, contractors, and relocating families who need stays of a week or longer.\nThe chain also runs Extended Stay America Suites and Extended Stay America Premier Suites.\nESA charges code as lodging/hotels on every credit card. Hotel-bonus cards earn full rate:\nChase Sapphire Reserve at 4x direct, Capital One Venture X at 2x base, Amex Platinum at 5x prepaid.\n"
+      "intro": "Extended Stay America operates more than 600 budget long-stay hotels across the US, each\nroom equipped with a full kitchen, dishware, and weekly housekeeping options, targeting\nbusiness travelers, contractors, and relocating families who need stays of a week or longer.\nThe chain also runs Extended Stay America Suites and Extended Stay America Premier Suites.\nESA charges code as lodging/hotels on every credit card. Hotel-bonus cards earn full rate:\nChase Sapphire Reserve at 4x direct, Capital One Venture X at 2x base, Amex Platinum at 5x prepaid.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.4500.287312&trid=1552713.160228&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "ExxonMobil",
@@ -2177,7 +2303,11 @@
         "online_shopping"
       ],
       "website": "https://www.ferguson.com",
-      "intro": "Ferguson is the largest U.S. wholesale distributor of plumbing, HVAC, lighting,\nappliances, and waterworks products, with over 1,600 locations including Ferguson\nBath, Kitchen & Lighting Gallery showrooms. Many Ferguson locations code as home\nimprovement on credit card networks, which makes large remodel and new construction\npurchases eligible for home improvement bonus categories.\n\nCards like the U.S. Bank Cash+ with home improvement selected and the Bank of\nAmerica Customized Cash can earn 3 to 5 percent on Ferguson invoices. Kitchen and\nbath renovations frequently run five figures, which makes the retailer useful for\nclearing premium signup bonus minimums on the Capital One Venture X or the Chase\nSapphire Reserve.\n"
+      "intro": "Ferguson is the largest U.S. wholesale distributor of plumbing, HVAC, lighting,\nappliances, and waterworks products, with over 1,600 locations including Ferguson\nBath, Kitchen & Lighting Gallery showrooms. Many Ferguson locations code as home\nimprovement on credit card networks, which makes large remodel and new construction\npurchases eligible for home improvement bonus categories.\n\nCards like the U.S. Bank Cash+ with home improvement selected and the Bank of\nAmerica Customized Cash can earn 3 to 5 percent on Ferguson invoices. Kitchen and\nbath renovations frequently run five figures, which makes the retailer useful for\nclearing premium signup bonus minimums on the Capital One Venture X or the Chase\nSapphire Reserve.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14079.2005752&trid=1552713.159185&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Finish Line",
@@ -2187,7 +2317,12 @@
         "department_stores"
       ],
       "website": "https://www.finishline.com",
-      "intro": "Finish Line is an athletic footwear and apparel retailer with a large presence inside Macy's stores. Buying from its website codes as online shopping or retail, where a portal or rotating bonus can add value, while in-store sneaker purchases generally earn the flat base rate.\n"
+      "intro": "Finish Line is an athletic footwear and apparel retailer with a large presence inside Macy's stores. Buying from its website codes as online shopping or retail, where a portal or rotating bonus can add value, while in-store sneaker purchases generally earn the flat base rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.37731.1000002779&trid=1552713.158794&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "$10 off $100"
+      }
     },
     {
       "name": "Firehouse Subs",
@@ -2435,7 +2570,11 @@
         "online_shopping"
       ],
       "website": "https://www.glassesusa.com",
-      "intro": "GlassesUSA is an online-only eyewear retailer selling prescription glasses, sunglasses, and contacts, often pushing aggressive promo codes and virtual try-on. Because there is no storefront, every purchase codes as online shopping, making a card with an online-purchase bonus the natural fit. Stacking a coupon with that bonus, plus any FSA reimbursement, stretches each order further.\n"
+      "intro": "GlassesUSA is an online-only eyewear retailer selling prescription glasses, sunglasses, and contacts, often pushing aggressive promo codes and virtual try-on. Because there is no storefront, every purchase codes as online shopping, making a card with an online-purchase bonus the natural fit. Stacking a coupon with that bonus, plus any FSA reimbursement, stretches each order further.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.1546.2329237&trid=1552713.215491&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "GOAT",
@@ -2634,7 +2773,12 @@
         "online_shopping"
       ],
       "website": "https://www.harrys.com",
-      "intro": "Harry's sells razors, blades, and men's grooming products mostly through its own direct-to-consumer site and subscription refills. Purchases here generally code as online shopping, so a flat-rate card or one with an online retail bonus earns the most. There is no widely recognized co-branded store card, so lean on a general-purpose rewards card for the recurring shipments.\n"
+      "intro": "Harry's sells razors, blades, and men's grooming products mostly through its own direct-to-consumer site and subscription refills. Purchases here generally code as online shopping, so a flat-rate card or one with an online retail bonus earns the most. There is no widely recognized co-branded store card, so lean on a general-purpose rewards card for the recurring shipments.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.4972.2134695&trid=1552713.239745&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "up to 15% off with Subscribe & Save"
+      }
     },
     {
       "name": "Hawaiian Airlines",
@@ -2663,7 +2807,12 @@
         "online_shopping"
       ],
       "website": "https://www.hellofresh.com",
-      "intro": "HelloFresh is the largest meal-kit delivery service in the United States, shipping pre-portioned\ningredients and recipe cards weekly to subscribers across most ZIP codes. The HelloFresh\ngroup also operates Factor (prepared meals), Green Chef, and EveryPlate. HelloFresh charges\ntypically code as online retail or grocery delivery, not dining or in-store groceries, which\naffects which cards earn bonus. Online-shopping bonuses (Chase Freedom Flex rotating quarters,\nDiscover it 5% categories) and flat-rate cards (Citi Double Cash 2%) are usually the best fit.\n"
+      "intro": "HelloFresh is the largest meal-kit delivery service in the United States, shipping pre-portioned\ningredients and recipe cards weekly to subscribers across most ZIP codes. The HelloFresh\ngroup also operates Factor (prepared meals), Green Chef, and EveryPlate. HelloFresh charges\ntypically code as online retail or grocery delivery, not dining or in-store groceries, which\naffects which cards earn bonus. Online-shopping bonuses (Chase Freedom Flex rotating quarters,\nDiscover it 5% categories) and flat-rate cards (Citi Double Cash 2%) are usually the best fit.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.41352.3278751&trid=1552713.160089&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "10 free meals"
+      }
     },
     {
       "name": "Hertz",
@@ -2721,7 +2870,11 @@
         "online_shopping"
       ],
       "website": "https://www.hims.com",
-      "intro": "Hims sells prescription and over-the-counter products for hair loss, skin, sexual health and mental wellness, shipped through its telehealth subscription model. Because most orders run through its website, charges generally code as online shopping or general merchandise rather than a drugstore, so a card that rewards online or everyday spending usually earns the most here.\n"
+      "intro": "Hims sells prescription and over-the-counter products for hair loss, skin, sexual health and mental wellness, shipped through its telehealth subscription model. Because most orders run through its website, charges generally code as online shopping or general merchandise rather than a drugstore, so a card that rewards online or everyday spending usually earns the most here.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.23929.2906777&trid=1552713.199713&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Hobby Lobby",
@@ -2875,7 +3028,12 @@
         "streaming"
       ],
       "website": "https://www.hulu.com",
-      "intro": "Hulu is a U.S. streaming-video service offering on-demand library content and a\nlive-TV bundle, owned by Disney. Monthly subscriptions code as streaming on\nevery card we track. Streaming-bonus cards (Blue Cash Preferred 6%, U.S. Bank\nCash+ 5% on selected categories) are the strongest pairings. Hulu (with-ads)\nis also bundled with Disney+ and ESPN+ as the Disney Bundle for the lowest\nper-service cost.\n"
+      "intro": "Hulu is a U.S. streaming-video service offering on-demand library content and a\nlive-TV bundle, owned by Disney. Monthly subscriptions code as streaming on\nevery card we track. Streaming-bonus cards (Blue Cash Preferred 6%, U.S. Bank\nCash+ 5% on selected categories) are the strongest pairings. Hulu (with-ads)\nis also bundled with Disney+ and ESPN+ as the Disney Bundle for the lowest\nper-service cost.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.42392.1000001517&trid=1552713.191558&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "the free trial"
+      }
     },
     {
       "name": "Hy-Vee",
@@ -3287,7 +3445,12 @@
         "online_shopping"
       ],
       "website": "https://usa.loccitane.com",
-      "intro": "L'Occitane en Provence stocks hand creams, shea butter, and fragrances, and orders at usa.loccitane.com normally code as online shopping or general retail. The French brand runs hundreds of US boutiques plus its site, but beauty has no dedicated rewards tier. Lean on a card with strong online-shopping or flat-rate earning rather than expecting a category multiplier here.\n"
+      "intro": "L'Occitane en Provence stocks hand creams, shea butter, and fragrances, and orders at usa.loccitane.com normally code as online shopping or general retail. The French brand runs hundreds of US boutiques plus its site, but beauty has no dedicated rewards tier. Lean on a card with strong online-shopping or flat-rate earning rather than expecting a category multiplier here.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.110106629.1100204342&trid=1552713.159479&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "$20 off your first order"
+      }
     },
     {
       "name": "LA Fitness",
@@ -3326,7 +3489,11 @@
         "department_stores"
       ],
       "website": "https://www.lanebryant.com",
-      "intro": "Lane Bryant is a leading plus-size women's apparel retailer offering everything from denim to intimates. Buying on the website codes as online shopping or general retail and can earn via a portal, but in-store transactions usually default to a flat-rate card with no clothing-specific bonus.\n"
+      "intro": "Lane Bryant is a leading plus-size women's apparel retailer offering everything from denim to intimates. Buying on the website codes as online shopping or general retail and can earn via a portal, but in-store transactions usually default to a flat-rate card with no clothing-specific bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.38549.1000003615&trid=1552713.158952&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "LEGO Store",
@@ -3339,7 +3506,11 @@
         "department_stores"
       ],
       "website": "https://www.lego.com",
-      "intro": "The LEGO Store sells building sets in mall locations and through lego.com, where most rewards-seekers shop. Online orders generally code as online shopping, while a physical store often rings up as a department store or general retail. There is no broad bonus category for toys, so a flat-rate or online-shopping card usually works best.\n"
+      "intro": "The LEGO Store sells building sets in mall locations and through lego.com, where most rewards-seekers shop. Online orders generally code as online shopping, while a physical store often rings up as a department store or general retail. There is no broad bonus category for toys, so a flat-rate or online-shopping card usually works best.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.13923.1010001193&trid=1552713.159468&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Lenovo",
@@ -3382,7 +3553,12 @@
         "online_shopping"
       ],
       "website": "https://www.levi.com",
-      "intro": "Levi's is the flagship denim brand of Levi Strauss & Co, sold through about 200 U.S.\ncompany stores, levi.com, and a wide wholesale footprint at department stores and\nspecialty retailers. Direct purchases at Levi's stores or the website typically code\nas department store or online shopping, while buying Levi's at Macy's or Kohl's codes\nunder that retailer. The free Levi's Red Tab membership stacks with credit card\nrewards, and there is no Levi's branded credit card.\n"
+      "intro": "Levi's is the flagship denim brand of Levi Strauss & Co, sold through about 200 U.S.\ncompany stores, levi.com, and a wide wholesale footprint at department stores and\nspecialty retailers. Direct purchases at Levi's stores or the website typically code\nas department store or online shopping, while buying Levi's at Macy's or Kohl's codes\nunder that retailer. The free Levi's Red Tab membership stacks with credit card\nrewards, and there is no Levi's branded credit card.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.53220.1000000212&trid=1552713.170038&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "40% off kids' styles"
+      }
     },
     {
       "name": "Lidl",
@@ -3423,7 +3599,11 @@
         "online_shopping"
       ],
       "website": "https://www.llflooring.com",
-      "intro": "LL Flooring, formerly known as Lumber Liquidators, is a flooring specialty retailer\nwith over 400 U.S. stores selling hardwood, bamboo, vinyl plank, laminate, and tile\nflooring along with installation supplies. The chain typically codes as home\nimprovement on most credit card networks, which makes it eligible for cards that\ncarry a home improvement bonus category.\n\nCards like the U.S. Bank Cash+ and Bank of America Customized Cash can route LL\nFlooring purchases into a selectable bonus, while the Chase Freedom Flex sometimes\nfeatures home improvement in its 5 percent rotating quarters. Whole-house flooring\nprojects are large enough to clear most credit card signup bonus minimums in a\nsingle transaction.\n"
+      "intro": "LL Flooring, formerly known as Lumber Liquidators, is a flooring specialty retailer\nwith over 400 U.S. stores selling hardwood, bamboo, vinyl plank, laminate, and tile\nflooring along with installation supplies. The chain typically codes as home\nimprovement on most credit card networks, which makes it eligible for cards that\ncarry a home improvement bonus category.\n\nCards like the U.S. Bank Cash+ and Bank of America Customized Cash can route LL\nFlooring purchases into a selectable bonus, while the Chase Freedom Flex sometimes\nfeatures home improvement in its 5 percent rotating quarters. Whole-house flooring\nprojects are large enough to clear most credit card signup bonus minimums in a\nsingle transaction.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.11231.2158448&trid=1552713.244085&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Loews Hotels",
@@ -3442,7 +3622,11 @@
         "department_stores"
       ],
       "website": "https://www.loft.com",
-      "intro": "LOFT, a sister brand to Ann Taylor, sells more casual and relaxed women's clothing. Online checkout codes as online shopping or retail, so a shopping portal or rotating bonus may apply, while in-store purchases generally earn the base rate since clothing rarely qualifies for a category bonus.\n"
+      "intro": "LOFT, a sister brand to Ann Taylor, sells more casual and relaxed women's clothing. Online checkout codes as online shopping or retail, so a shopping portal or rotating bonus may apply, while in-store purchases generally earn the base rate since clothing rarely qualifies for a category bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.27705.3286435&trid=1552713.158369&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Long John Silver's",
@@ -3767,7 +3951,11 @@
         "hotels"
       ],
       "website": "https://www.mgmresorts.com",
-      "intro": "MGM Resorts operates major casino hotels on the Las Vegas Strip and beyond, including Bellagio and MGM Grand. Lodging charges usually code as a hotel or travel purchase, though casino, gaming, and some resort transactions can code differently and may not earn travel bonuses. Use a hotel or travel card for the room, and watch for cash-advance coding on any gaming-related charges.\n"
+      "intro": "MGM Resorts operates major casino hotels on the Las Vegas Strip and beyond, including Bellagio and MGM Grand. Lodging charges usually code as a hotel or travel purchase, though casino, gaming, and some resort transactions can code differently and may not earn travel bonuses. Use a hotel or travel card for the room, and watch for cash-advance coding on any gaming-related charges.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.101106514.1011163374&trid=1552713.249226&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Michael Kors",
@@ -3869,7 +4057,12 @@
         "online_shopping"
       ],
       "website": "https://www.napaonline.com",
-      "intro": "NAPA Auto Parts is one of the largest independent auto parts networks in North\nAmerica, with roughly 6,000 U.S. stores operated by independent jobbers and Genuine\nParts Company. NAPA carries replacement parts, batteries, tools, and chemicals for\nDIY drivers and professional repair shops. Auto parts purchases typically code as\ngeneral retail rather than triggering a dedicated bonus category.\n\nCards with selectable cash back categories can sometimes treat NAPA as an auto\ncategory, with Citi Custom Cash and Bank of America Customized Cash both rewarding\nthe top-spend or selected category. Online orders through napaonline.com may also\nqualify for online shopping bonuses on the Chase Freedom Flex when that category\nrotates in.\n"
+      "intro": "NAPA Auto Parts is one of the largest independent auto parts networks in North\nAmerica, with roughly 6,000 U.S. stores operated by independent jobbers and Genuine\nParts Company. NAPA carries replacement parts, batteries, tools, and chemicals for\nDIY drivers and professional repair shops. Auto parts purchases typically code as\ngeneral retail rather than triggering a dedicated bonus category.\n\nCards with selectable cash back categories can sometimes treat NAPA as an auto\ncategory, with Citi Custom Cash and Bank of America Customized Cash both rewarding\nthe top-spend or selected category. Online orders through napaonline.com may also\nqualify for online shopping bonuses on the Chase Freedom Flex when that category\nrotates in.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.50383.1000000205&trid=1552713.232615&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "20% off"
+      }
     },
     {
       "name": "National Car Rental",
@@ -3883,7 +4076,11 @@
         "travel"
       ],
       "website": "https://www.nationalcar.com",
-      "intro": "National is the upmarket Enterprise sister brand, beloved by frequent business\ntravelers for its Emerald Aisle \"pick any car\" benefit. Rentals code as car rentals\non every card we track. Several premium cards confer Emerald Club Executive (Amex\nPlatinum, Capital One Venture X) which adds Executive Aisle access — a wider\nselection of higher-tier vehicles. National rarely publishes deep promo codes, so\npaying with a 3x-on-travel card often beats hunting for portal discounts.\n"
+      "intro": "National is the upmarket Enterprise sister brand, beloved by frequent business\ntravelers for its Emerald Aisle \"pick any car\" benefit. Rentals code as car rentals\non every card we track. Several premium cards confer Emerald Club Executive (Amex\nPlatinum, Capital One Venture X) which adds Executive Aisle access — a wider\nselection of higher-tier vehicles. National rarely publishes deep promo codes, so\npaying with a 3x-on-travel card often beats hunting for portal discounts.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.4723.333534&trid=1552713.192325&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Neiman Marcus",
@@ -4031,7 +4228,11 @@
       ],
       "website": "https://www.oldnavy.gap.com",
       "parent_company": "Gap, Inc.",
-      "intro": "Old Navy is Gap, Inc.'s value-priced apparel banner with about 1,200 U.S. stores and a\nstrong online catalog. Apparel doesn't have a dedicated reward category on most\ngeneral-purpose credit cards, so card choice usually comes down to whether you're\nshopping online (where online-shopping bonuses apply) or in-store (where you're\ntypically falling back to a strong flat-rate cashback card).\n"
+      "intro": "Old Navy is Gap, Inc.'s value-priced apparel banner with about 1,200 U.S. stores and a\nstrong online catalog. Apparel doesn't have a dedicated reward category on most\ngeneral-purpose credit cards, so card choice usually comes down to whether you're\nshopping online (where online-shopping bonuses apply) or in-store (where you're\ntypically falling back to a strong flat-rate cashback card).\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.5555.660845&trid=1552713.162751&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Olive Garden",
@@ -4189,7 +4390,12 @@
         "streaming"
       ],
       "website": "https://www.paramountplus.com",
-      "intro": "Paramount+ streams CBS, Paramount, and Showtime content along with live sports like NFL and soccer. The subscription codes as streaming, so a card with a streaming bonus rewards it best, while other cards earn flat-rate. Choosing the annual plan over monthly and charging it to a streaming-category card maximizes both the discount and the points.\n"
+      "intro": "Paramount+ streams CBS, Paramount, and Showtime content along with live sports like NFL and soccer. The subscription codes as streaming, so a card with a streaming bonus rewards it best, while other cards earn flat-rate. Choosing the annual plan over monthly and charging it to a streaming-category card maximizes both the discount and the points.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=24.247735.6671404&trid=1552713.247735&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "the free trial"
+      }
     },
     {
       "name": "Patagonia",
@@ -4256,7 +4462,12 @@
         "online_shopping"
       ],
       "website": "https://www.petsupermarket.com",
-      "intro": "Pet Supermarket is a Southeast U.S. pet specialty chain with around 200 stores\nacross Florida, Georgia, the Carolinas, Alabama, and neighboring states. The\nretailer carries dog and cat food, small animal supplies, fish, reptiles, and live\nbird departments. Most Pet Supermarket locations code as pet shops or general\nretail on credit card networks, not as a standalone rewards category.\n\nCards with selectable categories like U.S. Bank Cash+ can include pet shops in\ntheir lineup, while flat-rate cards such as the Citi Double Cash or Wells Fargo\nActive Cash deliver a steady 2 percent on every pet food run. Online orders\nthrough petsupermarket.com may trigger online shopping bonuses on Bank of America\nCustomized Cash and Chase Freedom Flex rotating quarters.\n"
+      "intro": "Pet Supermarket is a Southeast U.S. pet specialty chain with around 200 stores\nacross Florida, Georgia, the Carolinas, Alabama, and neighboring states. The\nretailer carries dog and cat food, small animal supplies, fish, reptiles, and live\nbird departments. Most Pet Supermarket locations code as pet shops or general\nretail on credit card networks, not as a standalone rewards category.\n\nCards with selectable categories like U.S. Bank Cash+ can include pet shops in\ntheir lineup, while flat-rate cards such as the Citi Double Cash or Wells Fargo\nActive Cash deliver a steady 2 percent on every pet food run. Online orders\nthrough petsupermarket.com may trigger online shopping bonuses on Bank of America\nCustomized Cash and Chase Freedom Flex rotating quarters.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.9554.311023&trid=1552713.214692&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "free shipping over $49"
+      }
     },
     {
       "name": "Pet Supplies Plus",
@@ -4563,7 +4774,11 @@
         "travel"
       ],
       "website": "https://www.radissonhotels.com",
-      "intro": "Radisson Hotel Group operates a global portfolio that includes Radisson Collection, Radisson\nBlu, Radisson, Radisson RED, Park Plaza, Park Inn, and Country Inn & Suites, spanning roughly\n1,100 hotels worldwide. In the Americas, Radisson Hotels Americas was sold to Choice Hotels\nin 2022, which complicates loyalty mapping: US stays now mostly earn Choice Privileges,\nwhile EMEA/APAC stays earn Radisson Rewards. Radisson stays code as lodging/hotels. Travel\ncards with hotel bonuses (Amex Gold 3x on prepaid, Chase Sapphire Reserve 4x direct) earn full rate.\n"
+      "intro": "Radisson Hotel Group operates a global portfolio that includes Radisson Collection, Radisson\nBlu, Radisson, Radisson RED, Park Plaza, Park Inn, and Country Inn & Suites, spanning roughly\n1,100 hotels worldwide. In the Americas, Radisson Hotels Americas was sold to Choice Hotels\nin 2022, which complicates loyalty mapping: US stays now mostly earn Choice Privileges,\nwhile EMEA/APAC stays earn Radisson Rewards. Radisson stays code as lodging/hotels. Travel\ncards with hotel bonuses (Amex Gold 3x on prepaid, Chase Sapphire Reserve 4x direct) earn full rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.5907.3049906&trid=1552713.179007&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Raising Cane's",
@@ -4849,7 +5064,12 @@
         "online_shopping"
       ],
       "website": "https://www.sallybeauty.com",
-      "intro": "Sally Beauty is the U.S. retail banner of Sally Beauty Holdings, with about 2,400\nstores plus sallybeauty.com selling professional hair color, salon supplies, and at\nhome beauty products. The free Sally Beauty Rewards program offers points and member\npricing, while a separate Pro Card serves licensed cosmetologists. General-purpose\ncards typically code Sally Beauty as department store in person and online shopping\nfor web orders.\n"
+      "intro": "Sally Beauty is the U.S. retail banner of Sally Beauty Holdings, with about 2,400\nstores plus sallybeauty.com selling professional hair color, salon supplies, and at\nhome beauty products. The free Sally Beauty Rewards program offers points and member\npricing, while a separate Pro Card serves licensed cosmetologists. General-purpose\ncards typically code Sally Beauty as department store in person and online shopping\nfor web orders.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.34853.3148970&trid=1552713.157115&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "free 2-hour delivery"
+      }
     },
     {
       "name": "Sam's Club",
@@ -4862,7 +5082,11 @@
       ],
       "website": "https://www.samsclub.com",
       "parent_company": "Walmart, Inc.",
-      "intro": "Sam's Club is Walmart's warehouse-club arm, with about 600 U.S. clubs and a steadily\ngrowing online and Scan & Go catalog. Member tiers (Club vs. Plus) affect free-shipping\nand curbside perks but not the rewards math at the register. Sam's accepts Visa,\nMastercard, Amex, and Discover, and Sam's Club gas pumps code as wholesale clubs rather\nthan gas stations — the same rule as Costco.\n"
+      "intro": "Sam's Club is Walmart's warehouse-club arm, with about 600 U.S. clubs and a steadily\ngrowing online and Scan & Go catalog. Member tiers (Club vs. Plus) affect free-shipping\nand curbside perks but not the rewards math at the register. Sam's accepts Visa,\nMastercard, Amex, and Discover, and Sam's Club gas pumps code as wholesale clubs rather\nthan gas stations — the same rule as Costco.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.38733.1007189514&trid=1552713.157929&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Samsung",
@@ -4881,7 +5105,11 @@
         "department_stores"
       ],
       "website": "https://www.scheels.com",
-      "intro": "Scheels is an employee-owned chain famous for stadium-sized stores with Ferris wheels and aquariums, and its sprawling locations generally code as a department store. A trip there will not earn grocery or dining bonuses despite the variety on offer. Online purchases at scheels.com typically code as online shopping, so a flat-rate or online card returns the most.\n"
+      "intro": "Scheels is an employee-owned chain famous for stadium-sized stores with Ferris wheels and aquariums, and its sprawling locations generally code as a department store. A trip there will not earn grocery or dining bonuses despite the variety on offer. Online purchases at scheels.com typically code as online shopping, so a flat-rate or online card returns the most.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.53843.1000000218&trid=1552713.228963&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Schnucks",
@@ -4908,7 +5136,11 @@
         "entertainment"
       ],
       "website": "https://seatgeek.com",
-      "intro": "SeatGeek aggregates primary and resale tickets and grades listings with its Deal Score tool for concerts, sports, and theater. Spending codes as entertainment or ticketing, so a card carrying an entertainment bonus earns at the higher rate. It is a frequent partner for sports leagues and teams, which can mean exclusive presales worth pairing with the right card.\n"
+      "intro": "SeatGeek aggregates primary and resale tickets and grades listings with its Deal Score tool for concerts, sports, and theater. Spending codes as entertainment or ticketing, so a card carrying an entertainment bonus earns at the higher rate. It is a frequent partner for sports leagues and teams, which can mean exclusive presales worth pairing with the right card.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.20501.3036868&trid=1552713.177170&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Sephora",
@@ -4985,7 +5217,11 @@
         "groceries"
       ],
       "website": "https://www.shipt.com",
-      "intro": "Shipt is a same-day delivery service owned by Target, with grocery, household, and\nsome specialty retail (Petco, CVS) partners. Most Shipt charges code as groceries\nor as the underlying merchant — worth checking your statement before relying on\na category-bonus card. Shipt is bundled into Target Circle 360 (Target's premium\nmembership), so heavy Target shoppers often pair it with a Target REDcard for\nthe in-store discount.\n"
+      "intro": "Shipt is a same-day delivery service owned by Target, with grocery, household, and\nsome specialty retail (Petco, CVS) partners. Most Shipt charges code as groceries\nor as the underlying merchant — worth checking your statement before relying on\na category-bonus card. Shipt is bundled into Target Circle 360 (Target's premium\nmembership), so heavy Target shoppers often pair it with a Target REDcard for\nthe in-store discount.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.16249.2851846&trid=1552713.198916&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Shoe Carnival",
@@ -5013,7 +5249,11 @@
         "online_shopping"
       ],
       "website": "https://www.shutterfly.com",
-      "intro": "Shutterfly turns photos into prints, books, cards, and personalized gifts ordered entirely online. These purchases code as online shopping, with no photo-specific bonus on mainstream cards. A flat-rate card or one with an online-shopping multiplier works best, and the site runs frequent promotions worth stacking with card-linked offers.\n"
+      "intro": "Shutterfly turns photos into prints, books, cards, and personalized gifts ordered entirely online. These purchases code as online shopping, with no photo-specific bonus on mainstream cards. A flat-rate card or one with an online-shopping multiplier works best, and the site runs frequent promotions worth stacking with card-linked offers.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54144.1000000017&trid=1552713.249967&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Sierra",
@@ -5047,7 +5287,11 @@
         "airlines"
       ],
       "website": "https://www.singaporeair.com",
-      "intro": "Singapore Airlines is a Star Alliance carrier renowned for its Suites and service, flying ultra-long-haul routes from US hubs. Airfare codes as an airline or travel purchase, well matched to a card with an airline or travel bonus. Its KrisFlyer program partners with the major transferable-points programs, so funding awards via transfers is frequently a stronger play than buying tickets outright.\n"
+      "intro": "Singapore Airlines is a Star Alliance carrier renowned for its Suites and service, flying ultra-long-haul routes from US hubs. Airfare codes as an airline or travel purchase, well matched to a card with an airline or travel bonus. Its KrisFlyer program partners with the major transferable-points programs, so funding awards via transfers is frequently a stronger play than buying tickets outright.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43929.4611686018427605410&trid=1552713.237830&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Sixt",
@@ -5097,7 +5341,12 @@
         "online_shopping"
       ],
       "website": "https://www.snapfish.com",
-      "intro": "Snapfish is an online photo service for prints, photo books, and custom products, competing directly with Shutterfly. Orders code as online shopping rather than any specialized category, so a flat-rate or online-retail card earns the most. Its steady stream of discount codes pairs well with a card that rewards web purchases.\n"
+      "intro": "Snapfish is an online photo service for prints, photo books, and custom products, competing directly with Shutterfly. Orders code as online shopping rather than any specialized category, so a flat-rate or online-retail card earns the most. Its steady stream of discount codes pairs well with a card that rewards web purchases.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54145.1000000010&trid=1552713.245768&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "70% off"
+      }
     },
     {
       "name": "Sonesta",
@@ -5308,7 +5557,11 @@
         "entertainment"
       ],
       "website": "https://www.stubhub.com",
-      "intro": "StubHub is a leading resale marketplace where fans buy and sell tickets to live events, with prices that float based on demand. Purchases typically code as entertainment or ticketing, so a card with an entertainment category bonus is the strongest pick. Because resale prices swing widely, timing your buy often saves more than any rewards rate you could earn on the order.\n"
+      "intro": "StubHub is a leading resale marketplace where fans buy and sell tickets to live events, with prices that float based on demand. Purchases typically code as entertainment or ticketing, so a card with an entertainment category bonus is the strongest pick. Because resale prices swing widely, timing your buy often saves more than any rewards rate you could earn on the order.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.110100799.1011103770&trid=1552713.257&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Subway",
@@ -5533,7 +5786,12 @@
         "online_shopping"
       ],
       "website": "https://www.therealreal.com",
-      "intro": "The RealReal is an authenticated luxury consignment marketplace selling pre-owned\ndesigner apparel, handbags, watches, jewelry, and home goods online and through a\nhandful of physical stores. Every item is inspected and authenticated by in-house\nexperts before listing, which is the platform's main differentiator versus\npeer-to-peer resale. Purchases code as online shopping for credit card networks, so\nan online-shopping category bonus card will earn its multiplier. Given the higher\naverage ticket on luxury items, 3-5x earn rates can produce meaningful rewards.\n"
+      "intro": "The RealReal is an authenticated luxury consignment marketplace selling pre-owned\ndesigner apparel, handbags, watches, jewelry, and home goods online and through a\nhandful of physical stores. Every item is inspected and authenticated by in-house\nexperts before listing, which is the platform's main differentiator versus\npeer-to-peer resale. Purchases code as online shopping for credit card networks, so\nan online-shopping category bonus card will earn its multiplier. Given the higher\naverage ticket on luxury items, 3-5x earn rates can produce meaningful rewards.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.8270.887764&trid=1552713.245338&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "the $25 new member credit"
+      }
     },
     {
       "name": "The UPS Store",
@@ -5676,7 +5934,12 @@
         "online_shopping"
       ],
       "website": "https://www.totalwine.com",
-      "intro": "Total Wine & More is one of the largest US wine, beer, and spirits retailers, with sprawling warehouse stores and online ordering. Purchases usually code as a liquor or general retail merchant rather than as a supermarket, so grocery bonuses rarely apply. A flat-rate card, or one rewarding online shopping for site orders, is the safer bet.\n"
+      "intro": "Total Wine & More is one of the largest US wine, beer, and spirits retailers, with sprawling warehouse stores and online ordering. Purchases usually code as a liquor or general retail merchant rather than as a supermarket, so grocery bonuses rarely apply. A flat-rate card, or one rewarding online shopping for site orders, is the safer bet.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.9710.624887&trid=1552713.225825&foc=16&fot=9999&fos=6",
+        "network": "flexoffers",
+        "offer": "wines under $15"
+      }
     },
     {
       "name": "Tractor Supply Co",
@@ -5689,7 +5952,11 @@
         "online_shopping"
       ],
       "website": "https://www.tractorsupply.com",
-      "intro": "Tractor Supply Co is the largest rural lifestyle retailer in the United States,\noperating more than 2,200 stores stocked with livestock feed, fencing, riding mowers,\nworkwear, and pet supplies. Card networks sometimes code Tractor Supply as a farm\nsupply merchant rather than a home improvement store, which can keep it out of the\nHome Depot and Lowe's bonus on cards like the Wells Fargo Bilt.\n\nThe Tractor Supply Neighbor's Club loyalty program is one of the best in retail,\nlayering points-based rewards on top of credit card cash back. Cards with rotating\nonline shopping quarters, including Chase Freedom Flex and Discover it, occasionally\nbump tractorsupply.com orders to 5 percent for the quarter.\n"
+      "intro": "Tractor Supply Co is the largest rural lifestyle retailer in the United States,\noperating more than 2,200 stores stocked with livestock feed, fencing, riding mowers,\nworkwear, and pet supplies. Card networks sometimes code Tractor Supply as a farm\nsupply merchant rather than a home improvement store, which can keep it out of the\nHome Depot and Lowe's bonus on cards like the Wells Fargo Bilt.\n\nThe Tractor Supply Neighbor's Club loyalty program is one of the best in retail,\nlayering points-based rewards on top of credit card cash back. Cards with rotating\nonline shopping quarters, including Chase Freedom Flex and Discover it, occasionally\nbump tractorsupply.com orders to 5 percent for the quarter.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.7937.260594&trid=1552713.159505&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Trader Joe's",
@@ -5805,7 +6072,11 @@
         "department_stores"
       ],
       "website": "https://www.uniqlo.com",
-      "intro": "Uniqlo is a Japan-headquartered apparel chain with about 65 U.S. stores, focused\non basics and technical fabrics like Heattech and AIRism. In-store charges code\nas department stores or apparel; uniqlo.com codes as online shopping. There's\nno co-branded U.S. credit card, so the strongest pairings are an online-shopping\ncard for uniqlo.com or a flat-rate cashback card in store.\n"
+      "intro": "Uniqlo is a Japan-headquartered apparel chain with about 65 U.S. stores, focused\non basics and technical fabrics like Heattech and AIRism. In-store charges code\nas department stores or apparel; uniqlo.com codes as online shopping. There's\nno co-branded U.S. credit card, so the strongest pairings are an online-shopping\ncard for uniqlo.com or a flat-rate cashback card in store.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.40462.1000003914&trid=1552713.189444&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "United Airlines",
@@ -5879,7 +6150,11 @@
         "online_shopping"
       ],
       "website": "https://www.vans.com",
-      "intro": "Vans is the skate and lifestyle footwear and apparel brand owned by VF Corporation,\nwith several hundred U.S. stores and a strong DTC site at vans.com. Direct purchases\ntypically code as department store in person and online shopping for web orders,\nwhile Vans bought at Foot Locker, Journeys, or Zumiez codes under that retailer. The\nfree Vans Family loyalty program offers points, free shipping, and event perks, but\nVans does not run a U.S. branded credit card today.\n"
+      "intro": "Vans is the skate and lifestyle footwear and apparel brand owned by VF Corporation,\nwith several hundred U.S. stores and a strong DTC site at vans.com. Direct purchases\ntypically code as department store in person and online shopping for web orders,\nwhile Vans bought at Foot Locker, Journeys, or Zumiez codes under that retailer. The\nfree Vans Family loyalty program offers points, free shipping, and event perks, but\nVans does not run a U.S. branded credit card today.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.48802.3801899&trid=1552713.166134&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Verizon",
@@ -5911,7 +6186,11 @@
         "entertainment"
       ],
       "website": "https://www.vividseats.com",
-      "intro": "Vivid Seats is a ticket resale marketplace covering concerts, sports, and live theater, known for its loyalty program that hands back credit toward future orders. Purchases code as entertainment or ticketing, making a card with an entertainment bonus the best fit. Stacking its rewards credit with card points can compound value across repeat buyers.\n"
+      "intro": "Vivid Seats is a ticket resale marketplace covering concerts, sports, and live theater, known for its loyalty program that hands back credit toward future orders. Purchases code as entertainment or ticketing, making a card with an entertainment bonus the best fit. Stacking its rewards credit with card points can compound value across repeat buyers.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.12730.2851893&trid=1552713.159252&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Vons",
@@ -5986,7 +6265,11 @@
           "note": "If selected as one of your 2 quarterly retailers (up to $1,500/quarter, then 1.5%)"
         }
       ],
-      "intro": "Walmart is the country's largest grocer and one of its largest general retailers, but it\nsits in an awkward spot for credit-card rewards. Most cards' grocery 3-5% bonuses\nexplicitly exclude Walmart (it codes as a discount store, not a supermarket), and\nWalmart's gas stations code as Walmart, not gas. Walmart.com purchases code as online\nshopping on most cards, which opens up the strongest non-co-branded earn rates —\nin-store purchases generally fall back to flat-rate cashback unless you're using a\nWalmart-issued card.\n"
+      "intro": "Walmart is the country's largest grocer and one of its largest general retailers, but it\nsits in an awkward spot for credit-card rewards. Most cards' grocery 3-5% bonuses\nexplicitly exclude Walmart (it codes as a discount store, not a supermarket), and\nWalmart's gas stations code as Walmart, not gas. Walmart.com purchases code as online\nshopping on most cards, which opens up the strongest non-co-branded earn rates —\nin-store purchases generally fall back to flat-rate cashback unless you're using a\nWalmart-issued card.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.9383.1486423&trid=1552713.156813&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Warby Parker",
@@ -6116,7 +6399,11 @@
         "online_shopping"
       ],
       "website": "https://www.wine.com",
-      "intro": "Wine.com is the largest online wine retailer in the US, shipping bottles and cases directly to customers. Because it is web-only, purchases code as online shopping rather than as groceries, so supermarket bonuses do not apply. A flat-rate card or one with an online-retail multiplier captures the most on your wine deliveries.\n"
+      "intro": "Wine.com is the largest online wine retailer in the US, shipping bottles and cases directly to customers. Because it is web-only, purchases code as online shopping rather than as groceries, so supermarket bonuses do not apply. A flat-rate card or one with an online-retail multiplier captures the most on your wine deliveries.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.2025.1010005014&trid=1552713.323&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Wingstop",
@@ -6231,7 +6518,11 @@
         "online_shopping"
       ],
       "website": "https://www.zappos.com",
-      "intro": "Zappos, an Amazon-owned retailer, is built around shoes and apparel with free shipping and returns. Being web-only, its orders code as online shopping rather than as a department store or clothing-specific category. A flat-rate card or one with an online-shopping multiplier earns the most on footwear and wardrobe purchases.\n"
+      "intro": "Zappos, an Amazon-owned retailer, is built around shoes and apparel with free shipping and returns. Being web-only, its orders code as online shopping rather than as a department store or clothing-specific category. A flat-rate card or one with an online-shopping multiplier earns the most on footwear and wardrobe purchases.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54033.1000000004&trid=1552713.179549&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Zara",

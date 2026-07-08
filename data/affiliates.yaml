@@ -1,0 +1,263 @@
+# Affiliate links, keyed by store slug (must match a file in data/stores/).
+#
+# Kept central rather than inline in each store YAML: links exist for only a
+# small subset of the ~560 stores, they are monetization data rather than
+# editorial copy, and a single file makes the whole program auditable in one
+# read (which network, which merchant, which links have gone stale).
+#
+# `scripts/build-stores.js` merges these into data/stores.json as
+# `store.affiliate`, and the build FAILS on a slug that has no matching store
+# so a typo can't silently drop revenue.
+#
+# Fields per entry:
+#   url      (required) the tracking link, https only
+#   network  (optional) overrides the top-level default, for future networks
+#   offer    (optional) the merchant's standing offer, phrased to read between
+#            "See " and " at {store.name}" — e.g. offer "10 free meals" gives
+#            the button "See 10 free meals at HelloFresh".
+#            ONLY evergreen offers: no end dates, no seasonal sales, no
+#            collabs, no product drops. A page still advertising a "Labor Day
+#            Sale" in November is worse than one with no offer at all.
+#   cta      (optional) overrides the button label entirely; beats `offer`.
+#
+# IMPORTANT: these are affiliate tracking links. Any offer belongs to the
+# MERCHANT. CreditOdds provides no discount and the user's price is unchanged,
+# so copy must never imply a CreditOdds discount, deal, or exclusive.
+#
+# Rendered by StoreAffiliateCta at the top of /best-card-for/[slug], with
+# rel="sponsored nofollow noopener" and an FTC disclosure.
+
+network: flexoffers
+
+merchants:
+  # Advance Auto Parts — Top text link (Buy online pickup instore)
+  advance-auto-parts:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.2190.994818&trid=1552713.157187&foc=16&fot=9999&fos=6"
+  # Aeropostale — Free Shipping over $50
+  aeropostale:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.5423.277877&trid=1552713.190392&foc=16&fot=9999&fos=6"
+    offer: "free shipping over $50"
+  # Aliexpress (Worldwide) — Top text link ($12 off new users)
+  aliexpress:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.6378.3982947&trid=1552713.188226&foc=16&fot=9999&fos=6"
+    offer: "$12 off for new users"
+  # Ann Taylor — Top text link (Weekend Collection
+  ann-taylor:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27704.2241364&trid=1552713.158368&foc=16&fot=9999&fos=6"
+    offer: "free shipping over $150"
+  # Anthropologie (US) — Top text link (Teacher's Appreciation)
+  anthropologie:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.39789.1000001653&trid=1552713.226041&foc=16&fot=9999&fos=6"
+  # Ashley Homestore — Top text link (72 Hour Sale up to 50% off)
+  ashley-furniture:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.40094.1000002322&trid=1552713.171284&foc=16&fot=9999&fos=6"
+  # ASUS (US & Canada) — Top text link (LEGO Batman gaming laptop promo)
+  asus:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.31828.3867909&trid=1552713.237737&foc=16&fot=9999&fos=6"
+  # At Home — Shop At Home homepage
+  at-home:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.47781.1000000003&trid=1552713.226370&foc=16&fot=9999&fos=6"
+  # Athleta — Athleta Landing Page
+  athleta:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5556.660821&trid=1552713.162754&foc=16&fot=9999&fos=6"
+  # Avis Car Rental — Top text link (Free Upgrade offer)
+  avis:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110000459.1011178499&trid=1552713.235866&foc=16&fot=9999&fos=6"
+    offer: "the free upgrade offer"
+  # Banana Republic Factory — Banana Republic Factory Deep Link
+  banana-republic:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10152.821953&trid=1552713.196751&foc=16&fot=9999&fos=6"
+  # BarkBox — Double Deluxe Text Link
+  barkbox:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.34203.3007009&trid=1552713.179044&foc=16&fot=9999&fos=6"
+  # Bloomingdale's — Top text link (TUMI Markdowns)
+  bloomingdales:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.13867.1010007903&trid=1552713.619&foc=16&fot=9999&fos=6"
+  # Blue Bottle Coffee — Top text link (First Bag $5)
+  blue-bottle-coffee:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8124.308393&trid=1552713.230054&foc=16&fot=9999&fos=6"
+    offer: "your first bag for $5"
+  # Bluemercury — Top text link (BlueRewards promo)
+  bluemercury:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43420.1000001003&trid=1552713.169800&foc=16&fot=9999&fos=6"
+  # Budget Car Rental — Top text link (SUV offer)
+  budget:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1011016332&trid=1552713.235827&foc=16&fot=9999&fos=6"
+  # Build-A-Bear Workshop — Top text link (Bluey Buddies)
+  build-a-bear-workshop:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9841.625281&trid=1552713.228001&foc=16&fot=9999&fos=6"
+  # Carhartt — Top text link (Free US Ground Shipping)
+  carhartt:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16441.1470306&trid=1552713.172497&foc=16&fot=9999&fos=6"
+    offer: "free US ground shipping"
+  # Casper (US) — Top text link (Casper comfort)
+  casper:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106444.1011176221&trid=1552713.215199&foc=16&fot=9999&fos=6"
+  # CB2 — Top text link (Fall 2 Collection)
+  cb2:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20480.3280840&trid=1552713.226049&foc=16&fot=9999&fos=6"
+  # Celebrity Cruises — Top text link (Labor Day Sale)
+  celebrity-cruises:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.50028.1000000604&trid=1552713.230239&foc=16&fot=9999&fos=6"
+  # Chico's — Shop Chico's Travelers Collection
+  chicos:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16588.1461727&trid=1552713.158270&foc=16&fot=9999&fos=6"
+  # Clarks — Top text link (Sign up 15% off)
+  clarks:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.124082.3714472&trid=1552713.159764&foc=16&fot=9999&fos=6"
+    offer: "15% off when you sign up"
+  # Clinique Online — Top text link (6 free samples)
+  clinique:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.24775.1010002498&trid=1552713.193625&foc=16&fot=9999&fos=6"
+    offer: "6 free samples"
+  # Cox Communications — Top text link (Cox Mobile)
+  cox-communications:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101100508.1011106275&trid=1552713.203132&foc=16&fot=9999&fos=6"
+  # Crocs US — Top text link (Crocs Club 15% off)
+  crocs:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8119.2132677&trid=1552713.156899&foc=16&fot=9999&fos=6"
+    offer: "15% off with Crocs Club"
+  # Edible Arrangements — Free Shipping over $79
+  edible-arrangements:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31430.2836765&trid=1552713.191403&foc=16&fot=9999&fos=6"
+    offer: "free shipping over $79"
+  # Express — Top text link (Beckham Collab)
+  express:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.22046.3297509&trid=1552713.159956&foc=16&fot=9999&fos=6"
+  # Extended Stay America — Ongoing Extended Stay America Hotels
+  extended-stay-america:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4500.287312&trid=1552713.160228&foc=16&fot=9999&fos=6"
+  # Ferguson Home — Pro Signup
+  ferguson:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14079.2005752&trid=1552713.159185&foc=16&fot=9999&fos=6"
+  # Finish Line — Top text link ($10 off $100
+  finish-line:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.37731.1000002779&trid=1552713.158794&foc=16&fot=9999&fos=6"
+    offer: "$10 off $100"
+  # GlassesUSA.com — Top text link (homepage/influencer promo)
+  glassesusa:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.1546.2329237&trid=1552713.215491&foc=16&fot=9999&fos=6"
+  # Harry's — Subscribe & Save up to 15%
+  harrys:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4972.2134695&trid=1552713.239745&foc=16&fot=9999&fos=6"
+    offer: "up to 15% off with Subscribe & Save"
+  # HelloFresh - US — Top text link (10 Free Meals)
+  hellofresh:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41352.3278751&trid=1552713.160089&foc=16&fot=9999&fos=6"
+    offer: "10 free meals"
+  # Hims, Inc. — Hims Multi-category Solutions
+  hims:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23929.2906777&trid=1552713.199713&foc=16&fot=9999&fos=6"
+  # Hulu — Hulu + Live TV Free Trial
+  hulu:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.42392.1000001517&trid=1552713.191558&foc=16&fot=9999&fos=6"
+    offer: "the free trial"
+  # Lane Bryant — Shop Lane Bryant
+  lane-bryant:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.38549.1000003615&trid=1552713.158952&foc=16&fot=9999&fos=6"
+  # LEGO — Top text link (Koenigsegg set)
+  lego-store:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.13923.1010001193&trid=1552713.159468&foc=16&fot=9999&fos=6"
+  # Levi's — Top text link (Kids 40% Off)
+  levis:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.53220.1000000212&trid=1552713.170038&foc=16&fot=9999&fos=6"
+    offer: "40% off kids' styles"
+  # LL Flooring (formerly Lumber Liquidators) — Top text link (Closing Sales)
+  ll-flooring:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11231.2158448&trid=1552713.244085&foc=16&fot=9999&fos=6"
+  # L'Occitane - US — Top text link ($20 off first order)
+  loccitane:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106629.1100204342&trid=1552713.159479&foc=16&fot=9999&fos=6"
+    offer: "$20 off your first order"
+  # LOFT — Top text link is a product page; homepage via Deep Link Generator recommended
+  loft:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27705.3286435&trid=1552713.158369&foc=16&fot=9999&fos=6"
+  # MGM Resorts — Top text link (ARIA Las Vegas)
+  mgm-resorts:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106514.1011163374&trid=1552713.249226&foc=16&fot=9999&fos=6"
+  # NAPA (Auto) — Top text link (20% off promo)
+  napa-auto-parts:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.50383.1000000205&trid=1552713.232615&foc=16&fot=9999&fos=6"
+    offer: "20% off"
+  # National Car Rental — Top text link (Last Minute Specials)
+  national-car-rental:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4723.333534&trid=1552713.192325&foc=16&fot=9999&fos=6"
+  # Old Navy — Old Navy Landing Page
+  old-navy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5555.660845&trid=1552713.162751&foc=16&fot=9999&fos=6"
+  # Paramount+ Video On Demand — Paramount+ Free Trial - US
+  paramount-plus:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=24.247735.6671404&trid=1552713.247735&foc=16&fot=9999&fos=6"
+    offer: "the free trial"
+  # Pet Supermarket — Free shipping over $49
+  pet-supermarket:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9554.311023&trid=1552713.214692&foc=16&fot=9999&fos=6"
+    offer: "free shipping over $49"
+  # Radisson Hotels (US) — Top text link (Plan & Save with Park Plaza)
+  radisson:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.5907.3049906&trid=1552713.179007&foc=16&fot=9999&fos=6"
+  # Sally Beauty — Top text link (Free 2hr delivery)
+  sally-beauty:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.34853.3148970&trid=1552713.157115&foc=16&fot=9999&fos=6"
+    offer: "free 2-hour delivery"
+  # Sam's Club — Top text link (Club $25 promo)
+  sams-club:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.38733.1007189514&trid=1552713.157929&foc=16&fot=9999&fos=6"
+  # Scheels — Top text link (Turtlebox promo)
+  scheels:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.53843.1000000218&trid=1552713.228963&foc=16&fot=9999&fos=6"
+  # SeatGeek — Top text link (Code: GATHERXP10)
+  seatgeek:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20501.3036868&trid=1552713.177170&foc=16&fot=9999&fos=6"
+  # Shipt — Top text link (Lowe's same-day)
+  shipt:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16249.2851846&trid=1552713.198916&foc=16&fot=9999&fos=6"
+  # Shutterfly, Inc. (US) — Top text link (Code: PAGES4LESS)
+  shutterfly:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54144.1000000017&trid=1552713.249967&foc=16&fot=9999&fos=6"
+  # Singapore Airlines — Enjoy more freedom when you book with Singapore Airlines
+  singapore-airlines:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43929.4611686018427605410&trid=1552713.237830&foc=16&fot=9999&fos=6"
+  # Snapfish USA — Top text link (70% off promo)
+  snapfish:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54145.1000000010&trid=1552713.245768&foc=16&fot=9999&fos=6"
+    offer: "70% off"
+  # Stubhub NORAM — Top text link (Concert tickets)
+  stubhub:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100799.1011103770&trid=1552713.257&foc=16&fot=9999&fos=6"
+  # The RealReal — Top text link ($25 New Member Credit)
+  the-realreal:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8270.887764&trid=1552713.245338&foc=16&fot=9999&fos=6"
+    offer: "the $25 new member credit"
+  # Total Wine — Top text link (wines under $15)
+  total-wine-and-more:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9710.624887&trid=1552713.225825&foc=16&fot=9999&fos=6"
+    offer: "wines under $15"
+  # Tractor Supply — Shop Clothing and Accessories
+  tractor-supply:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.7937.260594&trid=1552713.159505&foc=16&fot=9999&fos=6"
+  # UNIQLO USA — Top text link (Pokemon)
+  uniqlo:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.40462.1000003914&trid=1552713.189444&foc=16&fot=9999&fos=6"
+  # Vans — Homepage
+  vans:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.48802.3801899&trid=1552713.166134&foc=16&fot=9999&fos=6"
+  # Vivid Seats — Top text link (College Basketball Crown)
+  vivid-seats:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12730.2851893&trid=1552713.159252&foc=16&fot=9999&fos=6"
+  # Walmart.com US — Home Savings
+  walmart:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9383.1486423&trid=1552713.156813&foc=16&fot=9999&fos=6"
+  # Wine.com — July Monthly Offer (Code: SAVENOW15)
+  winecom:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.2025.1010005014&trid=1552713.323&foc=16&fot=9999&fos=6"
+  # Zappos.com — Top text link (Win the Day)
+  zappos:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54033.1000000004&trid=1552713.179549&foc=16&fot=9999&fos=6"
+
+# Approved in FlexOffers but intentionally not listed above:
+#   Costco Membership: no text link in FlexOffers (banners/widgets only)
+#   Princess Cruise Lines: no text link in FlexOffers (banners/widgets only)
+#   TransUnion Credit Monitoring: no matching store page (and a credit product, not a merchant)
+#   Trip.com: link is Trip.com India; pull a US text link before shipping
+#   e.l.f. Cosmetics: link is a Canada-titled promo; pull a US text link before shipping

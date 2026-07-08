@@ -13,6 +13,20 @@ export interface StoreFaq {
   a: string;
 }
 
+/** Merged in at build time from data/affiliates.yaml, keyed by store slug. */
+export interface StoreAffiliate {
+  url: string;
+  network: string;
+  /**
+   * The merchant's standing offer, phrased to read between "See " and
+   * " at {name}" — e.g. "10 free meals". Belongs to the merchant, never to
+   * CreditOdds. Evergreen only; see data/affiliates.yaml.
+   */
+  offer?: string;
+  /** Overrides the button label entirely. Beats `offer`. */
+  cta?: string;
+}
+
 export interface Store {
   name: string;
   slug: string;
@@ -25,6 +39,7 @@ export interface Store {
   also_earns?: StoreAlsoEarns[];
   intro: string;
   faq?: StoreFaq[];
+  affiliate?: StoreAffiliate;
 }
 
 interface StoresFile {
