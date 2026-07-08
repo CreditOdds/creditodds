@@ -85,7 +85,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Earn 150,000 points after spending $3,000 in the first 3 months, plus an additional 35,000 points after spending a total of $6,000 in the first 6 months"
+  note: "Plus 10,000 bonus points for adding an authorized user"
 apr:
   regular:
     min: 19.24
