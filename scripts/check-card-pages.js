@@ -390,6 +390,26 @@ function isExtractionEmpty(extracted) {
   return true;
 }
 
+// isExtractionEmpty only catches a page that yielded NOTHING. A page can render
+// its annual fee server-side and its welcome offer client-side — Amex's Delta
+// business pages ship the fee in the HTML and leave "Welcome Offer & Key
+// Details … Loading" where the bonus belongs. The fee alone made the extraction
+// look non-empty, the browser retry never ran, and the extractor returned
+// value: 0 for the placeholder, proposing 90,000 → 0 on a card whose offer had
+// not moved (caught in review on PR #1589). value: 0 also slips past the
+// "a null never erases a real value" rule, since 0 is not null.
+//
+// So retry whenever the page gave us no signup-bonus signal for a card that
+// stores one. This deliberately does NOT suppress a zero — a card really can
+// lose its public offer (see the Amazon Store card, #1579). It only insists we
+// look at a fully rendered page before believing it.
+function needsBrowserRetry(extracted, currentSignupBonus) {
+  if (isExtractionEmpty(extracted)) return true;
+  if (!(currentSignupBonus?.value > 0)) return false;
+  const proposed = extracted.signup_bonus?.value;
+  return proposed == null || proposed === 0;
+}
+
 // Haiku occasionally returns the signup-bonus timeframe as a raw DAY count instead
 // of months (e.g. "180 days" → 180 rather than 6), which surfaced a bogus
 // timeframe_months: 180 on Wyndham Earner Business (#1426). No real welcome offer
@@ -841,10 +861,12 @@ async function main() {
         }
 
         // Self-heal: simple-fetch HTML can be 200 OK but missing JS-rendered
-        // bonus values (e.g. citi.com). Haiku then returns all-null, which the
-        // detector silently treats as "no changes". Retry once with the browser.
-        if (!usedBrowser && isExtractionEmpty(extracted)) {
-          console.log('  Extraction returned no signal — retrying with browser');
+        // bonus values (e.g. citi.com, Amex business pages). Haiku then returns
+        // nulls — or a 0 for a "Loading" placeholder — which the detector reads
+        // as "no changes" or, worse, as a real SUB going to zero. Retry once
+        // with the browser.
+        if (!usedBrowser && needsBrowserRetry(extracted, card.data.signup_bonus)) {
+          console.log('  Extraction returned no signup-bonus signal — retrying with browser');
           const browserContent = await fetchWithBrowser(apply_link);
           if (browserContent) {
             pageContent = browserContent;
@@ -924,4 +946,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { detectChanges };
+module.exports = { detectChanges, needsBrowserRetry };
