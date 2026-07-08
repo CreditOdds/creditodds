@@ -53,7 +53,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds-Deploy
-          aws-region: us-east-2
+          aws-region: us-east-1
 
       # SAM's esbuild BuildMethod (used by the bundled handlers) needs esbuild
       # discoverable on PATH at build time. SAM's per-function npm install is
@@ -75,9 +75,9 @@ jobs:
         run: |
           sam deploy \
             --stack-name CreditCardOddsAPI \
-            --s3-bucket codepipeline-us-east-2-534542813767 \
+            --resolve-s3 \
             --s3-prefix CreditCardOddsAPI \
-            --region us-east-2 \
+            --region us-east-1 \
             --capabilities CAPABILITY_IAM \
             --no-confirm-changeset \
             --no-fail-on-empty-changeset
