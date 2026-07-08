@@ -168,6 +168,120 @@ test('spend figures in the note are not mistaken for tier amounts', () => {
   assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
 });
 
+// ─── The live page overrules the stored note ────────────────────────────────
+
+// The residual hole after the expiry + tier-value narrowings: a tiered note with
+// NO end date whose replacement offer happens to equal a named tier. Hyatt's
+// 30k + 30k collapsing to a flat 30,000 is, by value alone, identical to the
+// base-tier misparse the guard exists to suppress. Only the page can settle it.
+
+console.log('\nLive page overrules the stored note (offer_is_tiered):');
+
+test('offer_is_tiered=false surfaces a change that lands exactly on a named tier', () => {
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: { value: 30000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: false },
+  });
+  assert.deepEqual(fieldsChanged(changes), [
+    'signup_bonus.note',
+    'signup_bonus.spend_requirement',
+    'signup_bonus.timeframe_months',
+    'signup_bonus.value',
+  ]);
+});
+
+test('offer_is_tiered=false retires the stale tier breakdown (note → null)', () => {
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: { value: 30000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: false },
+  });
+  const note = changes.find(c => c.field === 'signup_bonus.note');
+  assert.equal(note.new_value, null);
+  assert.equal(note.old_value, WORLD_OF_HYATT.data.signup_bonus.note);
+});
+
+test("offer_is_tiered=false prefers the extractor's replacement note over deletion", () => {
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: {
+      value: 30000,
+      spend_requirement: 3000,
+      timeframe_months: 3,
+      offer_is_tiered: false,
+      bonus_note: 'Plus $300 Bilt Cash as a signup bonus',
+    },
+  });
+  const note = changes.find(c => c.field === 'signup_bonus.note');
+  assert.equal(note.new_value, 'Plus $300 Bilt Cash as a signup bonus');
+});
+
+test('offer_is_tiered=true keeps the guard armed (the #1365/#1376 false positive)', () => {
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: { value: 60000, spend_requirement: 18000, timeframe_months: 6, offer_is_tiered: true },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('offer_is_tiered omitted (null) falls back to the note heuristics', () => {
+  // Unchanged behavior for a model that declines to judge: base-tier collapse
+  // still suppressed, and no note is retired.
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: { value: 30000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: null },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a flat page does not retire a note on a card whose note was never tiered', () => {
+  const card = {
+    data: {
+      name: 'Bilt',
+      signup_bonus: { value: 60000, type: 'points', spend_requirement: 3000, timeframe_months: 3, note: 'Plus $300 Bilt Cash as a signup bonus' },
+    },
+  };
+  const changes = detectChanges(card, {
+    signup_bonus: { value: 60000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: false },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('check_ignore on signup_bonus.note blocks stale-note retirement', () => {
+  const ignored = {
+    data: { ...WORLD_OF_HYATT.data, check_ignore: ['signup_bonus.note'] },
+  };
+  const changes = detectChanges(ignored, {
+    signup_bonus: { value: 30000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: false },
+  });
+  assert.ok(!fieldsChanged(changes).includes('signup_bonus.note'));
+  assert.ok(fieldsChanged(changes).includes('signup_bonus.value'));
+});
+
+// ─── Suppressions are recorded, never silent ────────────────────────────────
+
+console.log('\nSuppressions are recorded:');
+
+test('a suppressed tier collapse is appended to the suppressions out-param', () => {
+  const suppressions = [];
+  detectChanges(
+    WORLD_OF_HYATT,
+    { signup_bonus: { value: 30000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: true } },
+    new Date('2026-07-08T00:00:00Z'),
+    suppressions
+  );
+  assert.equal(suppressions.length, 1);
+  assert.equal(suppressions[0].guard, 'tier-collapse');
+  assert.equal(suppressions[0].card_name, 'World of Hyatt');
+  assert.equal(suppressions[0].page_says_tiered, true);
+});
+
+test('a suppression with no page verdict records page_says_tiered=unknown', () => {
+  const suppressions = [];
+  detectChanges(DELTA_GOLD, { signup_bonus: { value: 70000 } }, new Date('2026-07-08T00:00:00Z'), suppressions);
+  assert.equal(suppressions[0].page_says_tiered, 'unknown');
+});
+
+test('a run with nothing suppressed records nothing', () => {
+  const suppressions = [];
+  detectChanges(WORLD_OF_HYATT, { signup_bonus: { value: 65000 } }, new Date(), suppressions);
+  assert.deepEqual(suppressions, []);
+});
+
 // ─── Legitimate changes must still surface ──────────────────────────────────
 
 console.log('\nLegitimate changes still surface:');

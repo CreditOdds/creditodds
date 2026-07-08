@@ -303,7 +303,8 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
     "spend_requirement": <number or null>,
     "timeframe_months": <number or null>,
     "authorized_user_bonus": <number or null>,
-    "bonus_note": <string or null>
+    "bonus_note": <string or null>,
+    "offer_is_tiered": <true|false or null>
   },
   "apr": {
     "purchase_intro_months": <number or null>,
@@ -323,6 +324,11 @@ Rules:
     - timeframe_months = the **longest** window across all tiers (typically the same window throughout, e.g. 6)
     - bonus_note = describes the tier structure in the issuer's own words, and includes the offer end date when present on the page (see BONUS NOTE rule below)
   NEVER return just the first/base tier in value — always return the maximum attainable bonus. Floor-as-value is the OLD convention and is being phased out.
+- OFFER IS TIERED: signup_bonus.offer_is_tiered describes the welcome offer AS ADVERTISED ON THE PAGE RIGHT NOW. Judge it from the page alone — ignore anything you know or infer about the card's past offers.
+    - true = the live welcome offer has two or more earn steps ("earn X after $A, plus an additional Y after $B").
+    - false = the live welcome offer is a single flat bonus with one spend requirement ("earn 100,000 miles when you spend $10,000 in the first 3 months"). A lone authorized-user bonus alongside a flat offer is still false — an AU bonus is not an earn tier.
+    - null ONLY when the page states no welcome offer at all, or the wording is too ambiguous to judge.
+  This field decides whether a stored tier breakdown is still accurate, so answer it from the live page even when every other field is null.
 - BONUS NOTE: Use bonus_note ONLY to describe structural aspects of the one-time welcome offer that the base fields (value/spend_requirement/timeframe_months) cannot express. Allowed cases, with example phrasing:
   - Tiered/multi-step earn (describe each tier so readers see how the max breaks down): "Earn 70,000 miles after $3,000 spend in first 6 months, plus an additional 20,000 miles after an additional $2,000 spend within first 6 months. Offer ends 2026-07-15."
   - Multi-component bonus delivered as separate pieces: "$400 Disney eGift Card upon approval + $200 statement credit after spending $1,000 in first 3 months"
@@ -456,7 +462,10 @@ function noteOfferHasExpired(noteText, now) {
   return today > end;
 }
 
-function detectChanges(card, extracted, now = new Date()) {
+// `suppressions` is an out-param: every guard that swallows a change appends a
+// record so the run can report what it chose not to show. A silent suppressor is
+// indistinguishable from a correct one.
+function detectChanges(card, extracted, now = new Date(), suppressions = []) {
   if (!extracted) return [];
 
   const current = card.data;
@@ -586,11 +595,25 @@ function detectChanges(card, extracted, now = new Date()) {
     //      the tier amounts the note names. A base-tier misparse returns a
     //      number that is written in the note (70,000 / 30,000 / 75,000); a
     //      replacement offer returns one that isn't.
+    //   c. The LIVE PAGE OVERRULES THE NOTE. (a) and (b) are still note-derived,
+    //      so they can't see a replacement offer that carries no end date and
+    //      happens to land on a named tier — e.g. Hyatt's tiered 30k+30k
+    //      collapsing to a flat 30,000 is, by value alone, indistinguishable
+    //      from the base-tier misparse this guard exists to suppress. Only the
+    //      page can settle it, so the extractor reports offer_is_tiered for the
+    //      offer as advertised today. When it says false, the stored breakdown
+    //      describes a dead offer: surface the change and retire the note.
+    //      When it can't tell (null), fall back to the note heuristics.
+    //
+    // Ordering matters: a suppression that fires forever is invisible, so every
+    // skip is recorded in `suppressions` and reported at the end of the run.
     const noteText = cur.note || '';
     const tieredAdditionalMatch =
       noteText.match(/(\d[\d,]*)\s+(?:additional|more)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
       noteText.match(/(?:additional|more)\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
-    const noteDescribesTiered = !!tieredAdditionalMatch && !noteOfferHasExpired(noteText, now);
+    const pageSaysFlat = sb.offer_is_tiered === false;
+    const noteDescribesTiered =
+      !!tieredAdditionalMatch && !noteOfferHasExpired(noteText, now) && !pageSaysFlat;
 
     const tierCollapse =
       noteDescribesTiered &&
@@ -614,6 +637,15 @@ function detectChanges(card, extracted, now = new Date()) {
       console.log(
         `  Ignoring signup_bonus changes: current note describes a tiered offer (${tieredAdditionalMatch[1]}) — ${reason}`
       );
+      suppressions.push({
+        card_name: current.name,
+        guard: tierCollapse ? 'tier-collapse' : 'spend-overcount',
+        reason,
+        // Recorded so a human can tell a stable, correct suppression from one
+        // that has quietly outlived the offer it was written for.
+        page_says_tiered: sb.offer_is_tiered ?? 'unknown',
+        note: noteText,
+      });
     }
 
     for (const key of ['value', 'spend_requirement', 'timeframe_months']) {
@@ -666,6 +698,21 @@ function detectChanges(card, extracted, now = new Date()) {
           new_value: sb.bonus_note,
         });
       }
+    }
+
+    // Retire a tier breakdown the live page no longer advertises. Without this
+    // the note outlives the offer it describes and re-arms the guard against
+    // the NEXT change (the Venture Business note had to be deleted by hand).
+    // Only fires when nothing above already proposed a note — the extractor's
+    // own bonus_note, when it supplies one, is the better replacement.
+    const noteAlreadyProposed = changes.some(c => c.field === 'signup_bonus.note');
+    if (
+      pageSaysFlat &&
+      !!tieredAdditionalMatch &&
+      !noteAlreadyProposed &&
+      !ignoreFields.has('signup_bonus.note')
+    ) {
+      changes.push({ field: 'signup_bonus.note', old_value: cur.note, new_value: null });
     }
   }
 
@@ -724,7 +771,10 @@ function applyChanges(allChanges, allCards) {
       } else if (field.startsWith('signup_bonus.')) {
         const subfield = field.split('.')[1];
         if (!parsedData.signup_bonus) parsedData.signup_bonus = {};
-        parsedData.signup_bonus[subfield] = new_value;
+        // new_value null means "retire this subfield" (a stale tier breakdown).
+        // Drop the key rather than dumping `note: null` into the YAML.
+        if (new_value === null) delete parsedData.signup_bonus[subfield];
+        else parsedData.signup_bonus[subfield] = new_value;
         yamlText = replaceYamlBlock(yamlText, 'signup_bonus', parsedData.signup_bonus);
         modified = true;
       } else if (field.startsWith('apr.')) {
@@ -750,6 +800,51 @@ function applyChanges(allChanges, allCards) {
   }
 
   return applied;
+}
+
+// Suppressed changes are the script's blind spot: a guard that swallows the same
+// proposal on every run looks exactly like a card whose terms never move. Print
+// them, and when running under Actions push them to the job summary too — a run
+// that finds no changes opens no PR, so stdout would be the only trace and it
+// ages out with the logs. `page_says_tiered` is the column to read: `true` means
+// the live page corroborates the stored tier breakdown and the suppression is
+// sound; `unknown` means the extractor couldn't tell and the skip rests on the
+// note alone, which is the case worth spot-checking. (`false` can't appear —
+// it disarms the guard rather than suppressing.)
+function reportSuppressions(suppressions) {
+  if (suppressions.length === 0) return;
+
+  console.log(`\n🔇 Suppressed ${suppressions.length} proposed change(s) as likely misparses:`);
+  for (const s of suppressions) {
+    console.log(`  - ${s.card_name} [${s.guard}] ${s.reason}`);
+    console.log(`      page_says_tiered=${s.page_says_tiered}`);
+  }
+  console.log('');
+
+  const stepSummary = process.env.GITHUB_STEP_SUMMARY;
+  if (!stepSummary) return;
+
+  const rows = suppressions
+    .map(s => `| ${s.card_name} | ${s.guard} | ${s.page_says_tiered} | ${s.reason} |`)
+    .join('\n');
+  const md = [
+    '## Suppressed changes',
+    '',
+    'These proposals were withheld as likely extraction misparses. `page_says_tiered = true`',
+    'means the live page still advertises the stored tier breakdown, so the skip is sound.',
+    '`unknown` means the extractor could not tell and the skip rests on the stored note alone —',
+    'worth spot-checking against the issuer page.',
+    '',
+    '| Card | Guard | page_says_tiered | Reason |',
+    '| --- | --- | --- | --- |',
+    rows,
+    '',
+  ].join('\n');
+  try {
+    fs.appendFileSync(stepSummary, md);
+  } catch (err) {
+    console.warn(`  Could not write job summary: ${err.message}`);
+  }
 }
 
 // ─── PR summary ───────────────────────────────────────────────────────────────
@@ -828,6 +923,7 @@ async function main() {
 
   const allChanges = [];
   const skippedCards = [];
+  const allSuppressions = [];
 
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
@@ -908,7 +1004,7 @@ async function main() {
         }
 
         // Compare against YAML
-        const changes = detectChanges(card, extracted);
+        const changes = detectChanges(card, extracted, new Date(), allSuppressions);
         if (changes.length > 0) {
           console.log(`  ${changes.length} change(s) detected`);
           // Every detected change becomes a PR row a human must verify against
@@ -939,6 +1035,8 @@ async function main() {
     console.log('');
   }
 
+  reportSuppressions(allSuppressions);
+
   if (allChanges.length === 0) {
     console.log('No changes detected. Exiting.');
     if (fs.existsSync(SUMMARY_FILE)) fs.unlinkSync(SUMMARY_FILE);
@@ -968,4 +1066,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { detectChanges, needsBrowserRetry };
+module.exports = { detectChanges, applyChanges, needsBrowserRetry };
