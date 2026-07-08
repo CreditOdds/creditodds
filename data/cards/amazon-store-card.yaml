@@ -26,7 +26,7 @@ signup_bonus:
   type: "cash"
   spend_requirement: 0
   timeframe_months: 0
-  note: "$10 Amazon Gift Card instantly added to Amazon wallet upon approval"
+  note: "Amazon Gift Card instantly added to Amazon wallet upon approval; amount shown after sign-in"
 apr:
   regular:
     min: 29.49

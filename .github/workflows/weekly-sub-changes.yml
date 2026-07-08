@@ -1,0 +1,26 @@
+name: Weekly Sign-up Bonus Changes Post
+
+on:
+  schedule:
+    # Every Thursday at 3pm UTC (11am ET during DST / 10am ET otherwise).
+    # Comfortably outside the social service's ~21:00-07:00 ET posting blackout.
+    - cron: '0 15 * * 4'
+  workflow_dispatch: {}
+
+jobs:
+  post-sub-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 18
+
+      - run: npm ci
+
+      - name: Queue weekly sign-up bonus changes post
+        env:
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+        run: node scripts/post-weekly-sub-changes.js
