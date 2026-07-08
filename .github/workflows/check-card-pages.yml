@@ -17,7 +17,10 @@ permissions:
 jobs:
   check-card-pages:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # Must stay above SCRIPT_TIMEOUT_MS (30 min) in scripts/check-card-pages.js, with
+    # headroom for setup, the skip summary, and PR creation. If they were equal, the
+    # job would be hard-killed at the script's own deadline and never open the PR.
+    timeout-minutes: 45
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

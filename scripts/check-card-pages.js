@@ -21,7 +21,17 @@ const SUMMARY_FILE = path.join(__dirname, '..', '.card-page-check-summary.md');
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
-const SCRIPT_TIMEOUT_MS = 20 * 60 * 1000; // 20 min overall safety net
+// Overall safety net. Widening the browser-retry condition (needsBrowserRetry)
+// makes every card whose welcome offer is client-side — most of the ~20 Amex
+// cards — pay one extra Playwright fetch (~13s measured) per run, roughly +4 min
+// on a run that already took ~14 min. Raised 20 → 30 min so that added work
+// doesn't silently truncate coverage.
+//
+// MUST stay comfortably below `timeout-minutes` in .github/workflows/check-card-pages.yml
+// (currently 45): the job needs headroom after this deadline to write the skip
+// summary and open the PR. If the two are equal, GitHub hard-kills the job and
+// the graceful exit path never runs.
+const SCRIPT_TIMEOUT_MS = 30 * 60 * 1000; // 30 min overall safety net
 // Max stripped page text handed to the extractor. Sized so nav-heavy issuer
 // pages still include the card terms — e.g. business.bankofamerica.com leads
 // with ~11k chars of menu chrome and the bonus/spend/timeframe land at ~12k–18k.
@@ -821,9 +831,21 @@ async function main() {
 
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
-  for (const card of cardsToCheck) {
+  for (const [i, card] of cardsToCheck.entries()) {
     if (Date.now() > scriptDeadline) {
-      console.warn(`\nScript timeout reached (${SCRIPT_TIMEOUT_MS / 60000} min) — stopping early.`);
+      // Record the cards we never reached. Without this the loop just breaks and
+      // they vanish — absent from both the checked set and the end-of-run skip
+      // summary, so a truncated run is indistinguishable from a clean one.
+      const unreached = cardsToCheck.slice(i);
+      const mins = SCRIPT_TIMEOUT_MS / 60000;
+      console.warn(`\nScript timeout reached (${mins} min) — stopping early; ${unreached.length} card(s) never checked.`);
+      for (const c of unreached) {
+        skippedCards.push({
+          name: c.data.name,
+          url: checkUrlFor(c),
+          reason: `script timeout (${mins} min) reached before this card was checked`,
+        });
+      }
       break;
     }
 
