@@ -72,10 +72,10 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 125000
+  value: 80000
   type: "points"
-  spend_requirement: 4000
-  timeframe_months: 6
+  spend_requirement: 2000
+  timeframe_months: 3
   note: "Earn 90,000 points after spending $2,000 in the first 3 months, plus an additional 35,000 points after spending a total of $4,000 in the first 6 months"
 apr:
   regular:
