@@ -82,20 +82,26 @@ Parameters:
     Default: production
   VpcPrivateSubnetIds:
     Type: CommaDelimitedList
-    Description: Private subnets from the creditodds-network stack (infra/network.yml). All functions attach here so DB traffic egresses from the stack's single NAT EIP.
-    Default: subnet-07c1b621c70d72719,subnet-02aa47f397dd8e08d
+    Description: NAT-routed private subnets the functions attach to. Defaults are the shared us-east-1 VPC (vpc-0cc30471) next to the database; the retired us-east-2 stack used the creditodds-network subnets.
+    Default: subnet-38dcb136,subnet-7a936d4b
   VpcLambdaSecurityGroupId:
     Type: String
-    Description: Lambda security group from the creditodds-network stack.
-    Default: sg-06399ba7e0a0b885c
+    Description: Security group for the functions. Default is the shared VPC's self-referencing default SG, which is what grants database access.
+    Default: sg-d83c41e6
 
 # Auto-instrument every Lambda with Sentry via the official Node layer + a
 # NODE_OPTIONS preload. This needs no per-handler code changes and does NOT
 # bundle the SDK (it ships in the layer), which is the supported path for our
 # esbuild-bundled handlers. When SentryDsn is empty the SDK stays inert, so
 # deploys without a DSN behave exactly as before.
-# Layer ARN is region/version specific — this stack deploys to us-east-2; the
-# pinned version (v75 = SDK 10.61.0) comes from Sentry's release registry.
+# Layer ARNs are region/version specific, so the pinned version (v75 =
+# SDK 10.61.0, from Sentry's release registry) is mapped per region below.
+Mappings:
+  RegionConfig:
+    us-east-1:
+      SentryLayerArn: arn:aws:lambda:us-east-1:943013980633:layer:SentryNodeServerlessSDKv10:75
+    us-east-2:
+      SentryLayerArn: arn:aws:lambda:us-east-2:943013980633:layer:SentryNodeServerlessSDKv10:75
 #
 # Memory note: the layer + OpenTelemetry adds ~30-40MB of resident memory.
 # Functions previously at the 128MB minimum were running at ~94% utilization
@@ -104,7 +110,7 @@ Parameters:
 Globals:
   Function:
     Layers:
-      - arn:aws:lambda:us-east-2:943013980633:layer:SentryNodeServerlessSDKv10:75
+      - !FindInMap [RegionConfig, !Ref AWS::Region, SentryLayerArn]
     Environment:
       Variables:
         NODE_OPTIONS: -r @sentry/aws-serverless/awslambda-auto
