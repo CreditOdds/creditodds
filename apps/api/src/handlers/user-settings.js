@@ -1,4 +1,4 @@
-// /user-settings — per-user flags (plaid beta, avatar seed, future toggles).
+// /user-settings — per-user flags (avatar seed, future toggles).
 // GET returns the authenticated user's settings, falling back to defaults if no row exists.
 // PUT upserts updatable fields (currently: avatar_seed).
 
@@ -30,12 +30,11 @@ exports.UserSettingsHandler = async (event) => {
   try {
     if (event.httpMethod === 'GET') {
       const rows = await mysql.query(
-        'SELECT plaid_beta_enabled, avatar_seed FROM user_settings WHERE user_id = ? LIMIT 1',
+        'SELECT avatar_seed FROM user_settings WHERE user_id = ? LIMIT 1',
         [userId]
       );
       await mysql.end();
       const settings = {
-        plaid_beta_enabled: rows.length > 0 ? Boolean(rows[0].plaid_beta_enabled) : false,
         avatar_seed: rows.length > 0 ? rows[0].avatar_seed : null,
       };
       return { statusCode: 200, headers: responseHeaders, body: JSON.stringify(settings) };
@@ -72,12 +71,11 @@ exports.UserSettingsHandler = async (event) => {
         [userId, avatarSeed]
       );
       const rows = await mysql.query(
-        'SELECT plaid_beta_enabled, avatar_seed FROM user_settings WHERE user_id = ? LIMIT 1',
+        'SELECT avatar_seed FROM user_settings WHERE user_id = ? LIMIT 1',
         [userId]
       );
       await mysql.end();
       const settings = {
-        plaid_beta_enabled: rows.length > 0 ? Boolean(rows[0].plaid_beta_enabled) : false,
         avatar_seed: rows.length > 0 ? rows[0].avatar_seed : null,
       };
       return { statusCode: 200, headers: responseHeaders, body: JSON.stringify(settings) };

@@ -15,7 +15,6 @@ import { useAuth } from '@/auth/AuthProvider';
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
 export interface UserSettings {
-  plaid_beta_enabled: boolean;
   avatar_seed: string | null;
 }
 
@@ -26,7 +25,6 @@ interface UserSettingsContextType {
 }
 
 const DEFAULT_SETTINGS: UserSettings = {
-  plaid_beta_enabled: false,
   avatar_seed: null,
 };
 
