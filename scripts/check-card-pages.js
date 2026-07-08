@@ -402,7 +402,31 @@ function normalizeTimeframeMonths(v) {
   return v;
 }
 
-function detectChanges(card, extracted) {
+// A tiered note carries the tier amounts it describes ("70,000 miles ... an
+// additional 20,000 miles"). Pull them out so the tier-collapse guard can
+// insist that a proposed downgrade actually LANDS on one of them. Only counts
+// followed by a reward unit qualify — spend figures ("$3,000 on purchases")
+// never sit next to points/miles/nights, so they don't leak in.
+function tierAmountsInNote(noteText) {
+  const matches = noteText.matchAll(
+    /(\d[\d,]{2,})\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+nights?)/gi
+  );
+  return [...matches].map(m => Number(m[1].replace(/,/g, '')));
+}
+
+// The script writes "Offer ends YYYY-MM-DD." into notes when the apply page
+// states an end date (see the extraction prompt). Read it back: once that date
+// has passed, the note is a description of a DEAD offer and has no authority
+// over what the live page says today.
+function noteOfferHasExpired(noteText, now) {
+  const m = noteText.match(/Offer ends (\d{4})-(\d{2})-(\d{2})/i);
+  if (!m) return false;
+  const end = Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return today > end;
+}
+
+function detectChanges(card, extracted, now = new Date()) {
   if (!extracted) return [];
 
   const current = card.data;
@@ -519,17 +543,31 @@ function detectChanges(card, extracted) {
     // Note: pre-2026-06-04 the convention was inverted (floor-as-value) and
     // this guard skipped value INCREASES instead. See PR #1358 / memory
     // feedback_tiered_sub_convention for the convention change.
+    //
+    // Both suppressions trust the stored note to describe the LIVE offer. When
+    // an issuer replaces a tiered offer with a smaller flat one, that trust is
+    // misplaced and the guard silently swallows a real change on every run
+    // (Capital One Venture Business: tiered 75k+75k retired, replaced by a flat
+    // 100,000 / $10,000 / 3 months — suppressed because 100000 < 150000). Two
+    // narrowings keep the guard honest:
+    //
+    //   a. An expired "Offer ends" date in the note disarms it entirely.
+    //   b. Tier collapse requires the proposed value to actually EQUAL one of
+    //      the tier amounts the note names. A base-tier misparse returns a
+    //      number that is written in the note (70,000 / 30,000 / 75,000); a
+    //      replacement offer returns one that isn't.
     const noteText = cur.note || '';
     const tieredAdditionalMatch =
       noteText.match(/(\d[\d,]*)\s+(?:additional|more)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
       noteText.match(/(?:additional|more)\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
-    const noteDescribesTiered = !!tieredAdditionalMatch;
+    const noteDescribesTiered = !!tieredAdditionalMatch && !noteOfferHasExpired(noteText, now);
 
     const tierCollapse =
       noteDescribesTiered &&
       sb.value != null &&
       cur.value != null &&
-      sb.value < cur.value;
+      sb.value < cur.value &&
+      tierAmountsInNote(noteText).includes(sb.value);
 
     const spendOvercount =
       noteDescribesTiered &&

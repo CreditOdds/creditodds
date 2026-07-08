@@ -85,6 +85,89 @@ test('base-tier-only value downgrade 90000 → 70000 is suppressed', () => {
   assert.deepEqual(fieldsChanged(changes), []);
 });
 
+// ─── Replaced offers must NOT be swallowed by the tiered guard ──────────────
+
+// Capital One Venture Business: the tiered 75k + 75k offer ended 2026-06-08 and
+// was replaced by a flat 100,000 / $10,000 / 3 months. The guard suppressed the
+// whole signup_bonus block every run ("No changes") because the stale note still
+// said "additional 75,000 miles" and 100,000 < 150,000.
+const VENTURE_BUSINESS = {
+  data: {
+    name: 'Capital One Venture Business',
+    signup_bonus: {
+      value: 150000,
+      type: 'miles',
+      spend_requirement: 37500,
+      timeframe_months: 6,
+      note: 'Earn up to 75,000 miles once you spend $7,500 in the first 3 months and an additional 75,000 miles once you spend $30,000 in the first 6 months. Offer ends 2026-06-08.',
+    },
+  },
+};
+
+const LIVE_OFFER = { signup_bonus: { value: 100000, spend_requirement: 10000, timeframe_months: 3 } };
+const AFTER_EXPIRY = new Date('2026-07-08T00:00:00Z');
+const BEFORE_EXPIRY = new Date('2026-06-01T00:00:00Z');
+
+console.log('\nReplaced-offer detection (stale tiered note):');
+
+test('an expired "Offer ends" date disarms the tiered guard entirely', () => {
+  const changes = detectChanges(VENTURE_BUSINESS, LIVE_OFFER, AFTER_EXPIRY);
+  assert.deepEqual(fieldsChanged(changes), [
+    'signup_bonus.spend_requirement',
+    'signup_bonus.timeframe_months',
+    'signup_bonus.value',
+  ]);
+  const value = changes.find(c => c.field === 'signup_bonus.value');
+  assert.equal(value.old_value, 150000);
+  assert.equal(value.new_value, 100000);
+});
+
+test('a value matching NO tier in the note surfaces even while the offer is live', () => {
+  // Same card, evaluated a week before the stated end date: 100,000 appears
+  // nowhere in the note (its tiers are 75,000 and 75,000), so it cannot be a
+  // base-tier misparse.
+  const changes = detectChanges(VENTURE_BUSINESS, LIVE_OFFER, BEFORE_EXPIRY);
+  assert.deepEqual(fieldsChanged(changes), [
+    'signup_bonus.spend_requirement',
+    'signup_bonus.timeframe_months',
+    'signup_bonus.value',
+  ]);
+});
+
+test('a value matching a named tier is still suppressed before the end date', () => {
+  // The genuine base-tier misparse this guard exists for: 75,000 IS in the note.
+  const changes = detectChanges(
+    VENTURE_BUSINESS,
+    { signup_bonus: { value: 75000, spend_requirement: 7500, timeframe_months: 3 } },
+    BEFORE_EXPIRY
+  );
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('spend_requirement overcount is suppressed while live, surfaces once expired', () => {
+  const overcount = { signup_bonus: { value: 150000, spend_requirement: 37501, timeframe_months: 6 } };
+  assert.deepEqual(fieldsChanged(detectChanges(VENTURE_BUSINESS, overcount, BEFORE_EXPIRY)), []);
+  assert.deepEqual(fieldsChanged(detectChanges(VENTURE_BUSINESS, overcount, AFTER_EXPIRY)), [
+    'signup_bonus.spend_requirement',
+  ]);
+});
+
+test('a note with no end date keeps the guard armed regardless of date', () => {
+  assert.deepEqual(
+    fieldsChanged(detectChanges(DELTA_GOLD, { signup_bonus: { value: 70000 } }, AFTER_EXPIRY)),
+    []
+  );
+});
+
+test('spend figures in the note are not mistaken for tier amounts', () => {
+  // Hyatt's note contains "$3,000" and "$15,000" — neither is followed by a
+  // reward unit, so a proposed value of 3000 must not read as a tier match.
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: { value: 3000, spend_requirement: 15000, timeframe_months: 6 },
+  });
+  assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
+});
+
 // ─── Legitimate changes must still surface ──────────────────────────────────
 
 console.log('\nLegitimate changes still surface:');
