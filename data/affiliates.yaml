@@ -261,42 +261,52 @@ merchants:
   # 1-800 CONTACTS
   1-800-contacts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.52869.1000000157&trid=1552713.158602&foc=16&fot=9999&fos=6"
+    offer: "30% off for new customers"
   # 1-800-PACK-RAT
   1-800-pack-rat:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15653.2015612&trid=1552713.243983&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off with code SPRING50"
   # 1800PetMeds
   1800petmeds:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9643.322259&trid=1552713.187444&foc=16&fot=9999&fos=6"
+    offer: "40% off your first order with code NEW40"
   # 32 Degrees
   32-degrees:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25938.2098587&trid=1552713.195512&foc=16&fot=9999&fos=6"
   # 5.11 Tactical
   511-tactical:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14180.3964608&trid=1552713.160494&foc=16&fot=9999&fos=6"
+    offer: "25% off clearance"
   # 7 For All Mankind
   7-for-all-mankind:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36145.1010001182&trid=1552713.190539&foc=16&fot=9999&fos=6"
+    offer: "15% off your first purchase"
   # Adam & Eve
   adam-and-eve:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.6898.330062&trid=1552713.163415&foc=16&fot=9999&fos=6"
+    offer: "50% off with code BEMINE50"
   # Aesop US
   aesop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9664.622458&trid=1552713.234849&foc=16&fot=9999&fos=6"
+    offer: "15% off"
   # Agent Provocateur
   agent-provocateur:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39673.4611686018427606343&trid=1552713.234784&foc=16&fot=9999&fos=6"
   # Airalo
   airalo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15608.2071037&trid=1552713.235201&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order"
   # Alice + Olivia
   alice-plus-olivia:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46320.1000000420&trid=1552713.171105&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off"
   # Alo Yoga
   alo-yoga:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9050.342887&trid=1552713.199850&foc=16&fot=9999&fos=6"
   # Alpha Industries
   alpha-industries:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10348.694149&trid=1552713.160630&foc=16&fot=9999&fos=6"
+    offer: "up to 70% off"
   # AltraRunning.com
   altra-running:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25235.2222689&trid=1552713.208254&foc=16&fot=9999&fos=6"
@@ -309,105 +319,133 @@ merchants:
   # American Tourister
   american-tourister:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11773.3362296&trid=1552713.228756&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off clearance"
   # Amerisleep
   amerisleep:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.34206.2911518&trid=1552713.235962&foc=16&fot=9999&fos=6"
   # Anastasia of Beverly Hills
   anastasia-of-beverly-hills:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.52750.1000000259&trid=1552713.243843&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off"
   # Anker US
   anker:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43469.1000000368&trid=1552713.201036&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off"
   # Ariat
   ariat:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10644.3947926&trid=1552713.240088&foc=16&fot=9999&fos=6"
+    offer: "buy one get one 50% off"
   # Art.com
   art-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.45368.1000000115&trid=1552713.215196&foc=16&fot=9999&fos=6"
   # ASICS America
   asics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40996.1000000724&trid=1552713.180034&foc=16&fot=9999&fos=6"
+    offer: "30% off"
   # Aspen Dental
   aspen-dental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20979.3298152&trid=1552713.239908&foc=16&fot=9999&fos=6"
+    offer: "20% off"
   # Astound Broadband Powered by RCN
   astound-broadband-powered-by-rcn:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4318.3845202&trid=1552713.180101&foc=16&fot=9999&fos=6"
   # Autonomous Inc.
   autonomous:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42643.1000000306&trid=1552713.193704&foc=16&fot=9999&fos=6"
+    offer: "up to 18% off"
   # Aventon Bikes
   aventon-bikes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.19453.1322385&trid=1552713.228738&foc=16&fot=9999&fos=6"
   # Avery
   avery:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8547.483063&trid=1552713.190782&foc=16&fot=9999&fos=6"
+    offer: "25% off with code A25OFF1000"
   # Away
   away:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8621.615456&trid=1552713.233568&foc=16&fot=9999&fos=6"
+    offer: "50% off"
   # Babylist
   babylist:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13580.1458037&trid=1552713.237794&foc=16&fot=9999&fos=6"
+    offer: "10% off"
   # Banana Republic Factory
   banana-republic-factory:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10152.3965949&trid=1552713.196751&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off select styles"
   # Barefoot Dreams, Inc.
   barefoot-dreams:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20795.3952919&trid=1552713.237568&foc=16&fot=9999&fos=6"
+    offer: "up to 70% off with code DREAM15"
   # Beautyrest
   beautyrest:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10598.1938255&trid=1552713.248817&foc=16&fot=9999&fos=6"
+    offer: "50% off"
   # Benefit Cosmetics
   benefit-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.24765.169441110001948&trid=1552713.169943&foc=16&fot=9999&fos=6"
+    offer: "15% off"
   # Blenders Eyewear
   blenders-eyewear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.60071.4611686018427604884&trid=1552713.207001&foc=16&fot=9999&fos=6"
   # Blueair
   blueair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16168.3107588&trid=1552713.243992&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off"
   # Bombas Socks
   bombas-socks:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8171.618217&trid=1552713.240202&foc=16&fot=9999&fos=6"
+    offer: "25% off your first purchase"
   # Bonobos eCommerce Performance
   bonobos:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11113.3963402&trid=1552713.248479&foc=16&fot=9999&fos=6"
+    offer: "30% off select styles"
   # Bowflex
   bowflex:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25788.2161948&trid=1552713.159315&foc=16&fot=9999&fos=6"
+    offer: "15% off $400+ with code SAVE15"
   # brahmin.com
   brahmin:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39712.1000000416&trid=1552713.245806&foc=16&fot=9999&fos=6"
+    offer: "15% off orders over $250"
   # Braun
   braun:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23589.3769635&trid=1552713.226436&foc=16&fot=9999&fos=6"
+    offer: "15% off first purchase with code SMOOTH15"
   # Brooks Brothers
   brooks-brothers:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10113.589809&trid=1552713.245195&foc=16&fot=9999&fos=6"
   # Budget Car Rental
   budget-car-rental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1100135418&trid=1552713.235827&foc=16&fot=9999&fos=6"
+    offer: "up to 35% off"
   # Budget Truck Rental
   budget-truck-rental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101100538.1011107121&trid=1552713.235867&foc=16&fot=9999&fos=6"
+    offer: "20% off with code 20DIS"
   # Buffy Inc
   buffy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.28059.2836301&trid=1552713.214427&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off sale items"
   # Bumble and Bumble US
   bumble-and-bumble:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38785.1000001546&trid=1552713.179164&foc=16&fot=9999&fos=6"
+    offer: "up to 30% off"
   # Bushnell
   bushnell:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.20977.1329725&trid=1552713.237984&foc=16&fot=9999&fos=6"
+    offer: "25% off sitewide"
   # Caesars Rewards: Hotels (Global)
   caesars-rewards:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.6145.3660150&trid=1552713.194743&foc=16&fot=9999&fos=6"
+    offer: "33% off"
   # Calvin Klein
   calvin-klein:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43317.4611686018427577129&trid=1552713.188219&foc=16&fot=9999&fos=6"
+    offer: "buy 1 get 1 50% off sitewide"
   # Calzedonia
   calzedonia:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43180.1000000423&trid=1552713.199589&foc=16&fot=9999&fos=6"
+    offer: "50% off select styles"
   # Camp Chef
   camp-chef:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.30761.1209073&trid=1552713.239313&foc=16&fot=9999&fos=6"
@@ -420,9 +458,11 @@ merchants:
   # Cavender's
   cavenders:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.36070.3856555&trid=1552713.246090&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off"
   # CHARLES & KEITH (US)
   charles-and-keith:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13805.3939221&trid=1552713.194849&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off select styles"
   # CheapOair.ca
   cheapoair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156105.37732.1000000463&trid=1552713.158377&foc=16&fot=9999&fos=6"
@@ -435,21 +475,25 @@ merchants:
   # Cole Haan
   cole-haan:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.45770.1000000714&trid=1552713.196522&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off sale items"
   # Cometeer
   cometeer:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15716.1950739&trid=1552713.228152&foc=16&fot=9999&fos=6"
   # Corkcicle
   corkcicle:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13045.3363020&trid=1552713.245365&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off sale items"
   # CORSAIR
   corsair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8513.2643428&trid=1552713.233391&foc=16&fot=9999&fos=6"
   # COS
   cos:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42840.1000000776&trid=1552713.227732&foc=16&fot=9999&fos=6"
+    offer: "10% off your first order"
   # Cosori
   cosori:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41709.3818110&trid=1552713.245911&foc=16&fot=9999&fos=6"
+    offer: "10% off sitewide"
   # Cruise America
   cruise-america:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.29922.2807206&trid=1552713.245350&foc=16&fot=9999&fos=6"
@@ -459,75 +503,94 @@ merchants:
   # David's Bridal
   davids-bridal:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.52798.1000000070&trid=1552713.235285&foc=16&fot=9999&fos=6"
+    offer: "10% off"
   # Delonghi US
   delonghi:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.33739.2287345&trid=1552713.232052&foc=16&fot=9999&fos=6"
+    offer: "10% off your first order"
   # DELSEY Paris
   delsey-paris:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.36622.3294033&trid=1552713.234891&foc=16&fot=9999&fos=6"
+    offer: "20% off with code TRAVEL20"
   # Dermalogica
   dermalogica:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40620.1000000137&trid=1552713.226144&foc=16&fot=9999&fos=6"
+    offer: "up to 30% off"
   # Dermstore
   dermstore:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53945.1000000106&trid=1552713.209693&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off"
   # DEWALT
   dewalt:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.27569.1152773&trid=1552713.237589&foc=16&fot=9999&fos=6"
   # DHgate
   dhgate:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12108.1466364&trid=1552713.243958&foc=16&fot=9999&fos=6"
+    offer: "up to 80% off"
   # Diane von Furstenberg EU
   diane-von-furstenberg:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156174.53601.1000000014&trid=1552713.230273&foc=16&fot=9999&fos=6"
+    offer: "15% off"
   # Dickies
   dickies:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25209.2029313&trid=1552713.230392&foc=16&fot=9999&fos=6"
+    offer: "15% off for new customers"
   # Diesel US
   diesel:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.49384.1000000078&trid=1552713.232396&foc=16&fot=9999&fos=6"
+    offer: "50% off"
   # DIFF Eyewear
   diff-eyewear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9933.288188&trid=1552713.211526&foc=16&fot=9999&fos=6"
+    offer: "40% off your next order"
   # Dinnerly (US)
   dinnerly:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.10033.3840387&trid=1552713.195361&foc=16&fot=9999&fos=6"
+    offer: "up to $185 off your first 5 boxes"
   # DJI
   dji:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.7327.4611686018427603991&trid=1552713.217744&foc=16&fot=9999&fos=6"
   # Dooney & Bourke
   dooney-and-bourke:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.6652.625287&trid=1552713.162489&foc=16&fot=9999&fos=6"
+    offer: "up to 70% off clearance"
   # Dorothy Perkins UK
   dorothy-perkins:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.1134.3978513&trid=1552713.232050&foc=16&fot=9999&fos=6"
+    offer: "up to 75% off"
   # Dr. Scholl's
   dr-scholls:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9749.620939&trid=1552713.235857&foc=16&fot=9999&fos=6"
+    offer: "up to 20% off"
   # Drunk Elephant
   drunk-elephant:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10029.623157&trid=1552713.232403&foc=16&fot=9999&fos=6"
+    offer: "30% off"
   # Eagle Creek
   eagle-creek:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.31713.1398401&trid=1552713.239618&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off"
   # Eastern Mountain Sports
   eastern-mountain-sports:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53845.1000000002&trid=1552713.159802&foc=16&fot=9999&fos=6"
   # ECCO US & CA
   ecco:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39558.1000002653&trid=1552713.180375&foc=16&fot=9999&fos=6"
+    offer: "20% off $250+ with code ECCODEAL"
   # ecobee
   ecobee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46044.1000000018&trid=1552713.215645&foc=16&fot=9999&fos=6"
   # EILEEN FISHER
   eileen-fisher:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42820.1000000372&trid=1552713.213376&foc=16&fot=9999&fos=6"
+    offer: "15% off your first purchase"
   # e.l.f. Cosmetics
   elf-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39724.1000001482&trid=1552713.157129&foc=16&fot=9999&fos=6"
   # Estee Lauder
   estee-lauder:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36314.1010001823&trid=1552713.186487&foc=16&fot=9999&fos=6"
+    offer: "15% off"
   # Etihad Airways (Global)
   etihad-airways:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1100166.1011162159&trid=1552713.226079&foc=16&fot=9999&fos=6"
@@ -540,33 +603,39 @@ merchants:
   # Farberware
   farberware:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11993.3959083&trid=1552713.239550&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off"
   # Fender Musical Instruments Corp.
   fender:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33985.2956212&trid=1552713.242190&foc=16&fot=9999&fos=6"
   # Fenty Beauty (Global)
   fenty-beauty:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42834.1000001431&trid=1552713.214878&foc=16&fot=9999&fos=6"
+    offer: "50% off"
   # FitFlop
   fitflop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.41223.1000001291&trid=1552713.179233&foc=16&fot=9999&fos=6"
+    offer: "15% off"
   # Fjällräven
   fjallraven:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.29113.1175129&trid=1552713.235909&foc=16&fot=9999&fos=6"
   # Florsheim
   florsheim:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.3382.119544810000835&trid=1552713.462&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off select styles"
   # fuboTV
   fubotv:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5119.383725&trid=1552713.176972&foc=16&fot=9999&fos=6"
   # Furla US
   furla:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101105919.1011116822&trid=1552713.226358&foc=16&fot=9999&fos=6"
+    offer: "10% off"
   # G-Star RAW
   g-star-raw:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110101042.101161543&trid=1552713.207312&foc=16&fot=9999&fos=6"
   # Gametime
   gametime:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10874.1443269&trid=1552713.214076&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off"
   # Gazelle
   gazelle:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17233.3877131&trid=1552713.202442&foc=16&fot=9999&fos=6"
@@ -576,51 +645,64 @@ merchants:
   # ghd (US)
   ghd:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.8033.3960327&trid=1552713.178100&foc=16&fot=9999&fos=6"
+    offer: "25% off sitewide"
   # Gilt & Gilt City
   gilt-and-gilt-city:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1000009372.1100147967&trid=1552713.158309&foc=16&fot=9999&fos=6"
+    offer: "80% off"
   # Glossier
   glossier:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7573.2132593&trid=1552713.171220&foc=16&fot=9999&fos=6"
   # GNC
   gnc:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53638.1000000515&trid=1552713.162841&foc=16&fot=9999&fos=6"
+    offer: "buy one get one 50% off vitamins"
   # Godiva
   godiva:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106374.111034562&trid=1552713.159640&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order with code WELCOME15"
   # Going
   going:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10802.731100&trid=1552713.237685&foc=16&fot=9999&fos=6"
+    offer: "up to 90% off"
   # Goldbelly
   goldbelly:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13451.3881759&trid=1552713.215607&foc=16&fot=9999&fos=6"
+    offer: "30% off"
   # GOVEE
   govee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12845.2840658&trid=1552713.224344&foc=16&fot=9999&fos=6"
+    offer: "60% off"
   # Greenworks Tools
   greenworks-tools:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53521.1000000004&trid=1552713.232799&foc=16&fot=9999&fos=6"
   # Grove Collaborative
   grove-collaborative:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8442.2825761&trid=1552713.201205&foc=16&fot=9999&fos=6"
+    offer: "20% off your first order with code WELCOME"
   # Guess
   guess:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9298.616619&trid=1552713.158989&foc=16&fot=9999&fos=6"
+    offer: "30% off $250+ with code GET30OFF"
   # Gymboree
   gymboree:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10756.2013600&trid=1552713.214444&foc=16&fot=9999&fos=6"
+    offer: "80% off clearance"
   # Hanes.com
   hanes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.24366.1010005156&trid=1552713.166211&foc=16&fot=9999&fos=6"
+    offer: "50% off select styles"
   # Hanna Andersson
   hanna-andersson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5644.2692567&trid=1552713.181293&foc=16&fot=9999&fos=6"
+    offer: "20% off for new customers"
   # Hers
   hers:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23930.4611686018427603203&trid=1552713.203896&foc=16&fot=9999&fos=6"
   # Hey Dude Shoes
   hey-dude-shoes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16269.1358297&trid=1552713.227887&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off select styles"
   # Hickory Farms
   hickory-farms:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5619.1568327&trid=1552713.196521&foc=16&fot=9999&fos=6"
@@ -630,33 +712,40 @@ merchants:
   # Hill's Pet Nutrition US
   hills-pet-nutrition:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53370.1000000017&trid=1552713.243039&foc=16&fot=9999&fos=6"
+    offer: "40% off your first order with code SUMMER40"
   # HOKA DE
   hoka:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.17204.3988217&trid=1552713.231962&foc=16&fot=9999&fos=6"
   # Homedics
   homedics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11735.1101069&trid=1552713.239601&foc=16&fot=9999&fos=6"
+    offer: "10% off"
   # Huel (US)
   huel:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.54599.4611686018427605580&trid=1552713.235672&foc=16&fot=9999&fos=6"
   # Hugo Boss
   hugo-boss:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39079.1000000422&trid=1552713.160207&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off sale items"
   # Hungryroot
   hungryroot:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53058.1000000002&trid=1552713.201413&foc=16&fot=9999&fos=6"
+    offer: "30% off orders $99+"
   # Hydro Flask
   hydro-flask:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18825.1922057&trid=1552713.202999&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off"
   # Icebreaker US
   icebreaker:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25168.2082702&trid=1552713.247495&foc=16&fot=9999&fos=6"
   # Igloo Coolers
   igloo-coolers:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46441.1000000006&trid=1552713.208505&foc=16&fot=9999&fos=6"
+    offer: "up to 35% off"
   # Innisfree
   innisfree:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.48045.1000000392&trid=1552713.239749&foc=16&fot=9999&fos=6"
+    offer: "25% off"
   # IPSY
   ipsy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10459.2078428&trid=1552713.226275&foc=16&fot=9999&fos=6"
@@ -666,48 +755,60 @@ merchants:
   # J. Jill
   j-jill:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.54107.198854455&trid=1552713.201947&foc=16&fot=9999&fos=6"
+    offer: "40% off sale styles"
   # JD Sports
   jd-sports:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43953.1000000043&trid=1552713.206768&foc=16&fot=9999&fos=6"
   # Johnston & Murphy
   johnston-and-murphy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38419.1000000980&trid=1552713.162278&foc=16&fot=9999&fos=6"
+    offer: "20% off select styles"
   # Jonathan Adler
   jonathan-adler:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.50036.1000000004&trid=1552713.216122&foc=16&fot=9999&fos=6"
+    offer: "up to 65% off"
   # Jos. A. Bank
   jos-a-bank:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38377.1000016446&trid=1552713.196&foc=16&fot=9999&fos=6"
+    offer: "up to 70% off clearance"
   # K-Swiss
   k-swiss:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9956.311096&trid=1552713.227940&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off select styles"
   # Kaplan North America
   kaplan:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.1697.1010005031&trid=1552713.200470&foc=16&fot=9999&fos=6"
+    offer: "25% off with code FRESHSTART25"
   # Keds
   keds:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110006127.1100126495&trid=1552713.160396&foc=16&fot=9999&fos=6"
+    offer: "up to 70% off sale styles"
   # KEEN Footwear
   keen-footwear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.34908.2993656&trid=1552713.243968&foc=16&fot=9999&fos=6"
   # Kendra Scott
   kendra-scott:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.50471.3951190&trid=1552713.199434&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off"
   # Keurig
   keurig:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39219.1000002801&trid=1552713.170716&foc=16&fot=9999&fos=6"
+    offer: "50% off"
   # Kobo Australia
   kobo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156124.38131.1000001233&trid=1552713.172439&foc=16&fot=9999&fos=6"
   # Kohler
   kohler:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.44732.1000000352&trid=1552713.215079&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off vanities & sinks"
   # Kylie Cosmetics US
   kylie-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46759.1000000061&trid=1552713.224336&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order"
   # LastPass
   lastpass:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8692.2595725&trid=1552713.206309&foc=16&fot=9999&fos=6"
+    offer: "20% off for new customers"
   # LATAM Airlines
   latam-airlines:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25131.3887134&trid=1552713.237808&foc=16&fot=9999&fos=6"
@@ -717,45 +818,55 @@ merchants:
   # Lee Jeans
   lee-jeans:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11766.3960014&trid=1552713.237878&foc=16&fot=9999&fos=6"
+    offer: "50% off with code SHORT"
   # LegalZoom.com
   legalzoom:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26746.2115304&trid=1552713.240854&foc=16&fot=9999&fos=6"
   # Levoit
   levoit:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41708.3910127&trid=1552713.235505&foc=16&fot=9999&fos=6"
+    offer: "40% off"
   # Life is Good
   life-is-good:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14635.1948131&trid=1552713.158389&foc=16&fot=9999&fos=6"
+    offer: "25% off"
   # Lindt Chocolatier
   lindt-chocolatier:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8053.574848&trid=1552713.180430&foc=16&fot=9999&fos=6"
   # Liquid I.V.
   liquid-iv:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13609.1958902&trid=1552713.242792&foc=16&fot=9999&fos=6"
+    offer: "30% off"
   # Little Sleepies
   little-sleepies:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20265.2102732&trid=1552713.233129&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off sale items"
   # LOOKFANTASTIC US
   lookfantastic:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.29067.4611686018427603543&trid=1552713.178746&foc=16&fot=9999&fos=6"
   # Lucky Brand
   lucky-brand:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9596.504271&trid=1552713.187771&foc=16&fot=9999&fos=6"
+    offer: "up to 75% off"
   # Lucky Strike
   lucky-strike:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53231.1000000002&trid=1552713.239304&foc=16&fot=9999&fos=6"
   # Lumens Light + Living
   lumens-light-plus-living:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.3281.197540&trid=1552713.158720&foc=16&fot=9999&fos=6"
+    offer: "up to 75% off clearance"
   # Madison Reed
   madison-reed:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13741.3966078&trid=1552713.200433&foc=16&fot=9999&fos=6"
+    offer: "25% off with code BDAY26"
   # Manscaped UK
   manscaped:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156139.48084.1000000017&trid=1552713.249081&foc=16&fot=9999&fos=6"
+    offer: "up to 22% off"
   # Marc Jacobs
   marc-jacobs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8338.584825&trid=1552713.205419&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off"
   # Mario Badescu
   mario-badescu:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.122442.4611686018427605569&trid=1552713.233679&foc=16&fot=9999&fos=6"
@@ -774,24 +885,29 @@ merchants:
   # MeUndies
   meundies:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26749.3868010&trid=1552713.197539&foc=16&fot=9999&fos=6"
+    offer: "30% off your first purchase"
   # Milani Cosmetics
   milani-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.50546.1000000123&trid=1552713.232500&foc=16&fot=9999&fos=6"
+    offer: "25% off"
   # Milk Bar
   milk-bar:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9484.411983&trid=1552713.211101&foc=16&fot=9999&fos=6"
   # Milk Makeup
   milk-makeup:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.21499.1993215&trid=1552713.199552&foc=16&fot=9999&fos=6"
+    offer: "up to 98% off"
   # Mint Mobile
   mint-mobile:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7915.2191950&trid=1552713.199305&foc=16&fot=9999&fos=6"
   # Minted
   minted:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.19909.3746698&trid=1552713.200435&foc=16&fot=9999&fos=6"
+    offer: "25% off with code ENGAGED25"
   # Misfits Market
   misfits-market:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12419.2170579&trid=1552713.236533&foc=16&fot=9999&fos=6"
+    offer: "up to 30% off"
   # Mizuno
   mizuno:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5422.2862402&trid=1552713.158961&foc=16&fot=9999&fos=6"
@@ -801,24 +917,30 @@ merchants:
   # Moroccanoil
   moroccanoil:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43410.1000000587&trid=1552713.211705&foc=16&fot=9999&fos=6"
+    offer: "25% off with code STYLERS2026"
   # Movado
   movado:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46238.1000000020&trid=1552713.226379&foc=16&fot=9999&fos=6"
   # Munchkin
   munchkin:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7649.483108&trid=1552713.163230&foc=16&fot=9999&fos=6"
+    offer: "10% off with sign up"
   # Naked Wines
   naked-wines:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13852.1723735&trid=1552713.163400&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off with code IMPACT12PK"
   # Nars
   nars:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8113.610942&trid=1552713.194170&foc=16&fot=9999&fos=6"
+    offer: "up to 48% off"
   # Native Shoes
   native-shoes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14513.1998567&trid=1552713.234726&foc=16&fot=9999&fos=6"
+    offer: "10% off with sign up"
   # Nautica.com
   nautica:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.5361.260311&trid=1552713.161992&foc=16&fot=9999&fos=6"
+    offer: "15% off"
   # NBA League Pass
   nba-league-pass:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16284.2176785&trid=1552713.240613&foc=16&fot=9999&fos=6"
@@ -828,42 +950,52 @@ merchants:
   # New Era
   new-era:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.45269.1000000343&trid=1552713.215793&foc=16&fot=9999&fos=6"
+    offer: "up to 45% off select styles"
   # NFL+
   nfl-plus:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.5298.618531&trid=1552713.160987&foc=16&fot=9999&fos=6"
   # Nutribullet
   nutribullet:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9496.622476&trid=1552713.211957&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off"
   # Off-White
   off-white:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106474.4611686018427604358&trid=1552713.241259&foc=16&fot=9999&fos=6"
   # OLAPLEX
   olaplex:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.49376.1000000046&trid=1552713.232646&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order"
   # Olipop
   olipop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12980.1270029&trid=1552713.226085&foc=16&fot=9999&fos=6"
+    offer: "32% off with code SODALOVE"
   # OmahaSteaks.com, Inc.
   omaha-steaks:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.147.4611686018427592559&trid=1552713.185&foc=16&fot=9999&fos=6"
+    offer: "50% off sitewide"
   # One Kings Lane
   one-kings-lane:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10043.582414&trid=1552713.233565&foc=16&fot=9999&fos=6"
+    offer: "20% off"
   # OneTravel.com
   onetravel:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.35420.1010000558&trid=1552713.157114&foc=16&fot=9999&fos=6"
   # Osprey
   osprey:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20745.2991713&trid=1552713.243977&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off sale items"
   # Outdoor Voices
   outdoor-voices:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25944.3907598&trid=1552713.207781&foc=16&fot=9999&fos=6"
+    offer: "20% off your first order"
   # Owlet
   owlet:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.93077.3306615&trid=1552713.224412&foc=16&fot=9999&fos=6"
+    offer: "10% off with code BIRTHCOLLECTIVE10"
   # OXO
   oxo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9558.2991709&trid=1552713.207703&foc=16&fot=9999&fos=6"
+    offer: "up to 20% off"
   # Paul Smith USA
   paul-smith:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.127483.4611686018427606298&trid=1552713.232801&foc=16&fot=9999&fos=6"
@@ -873,12 +1005,15 @@ merchants:
   # Penske Truck Rental
   penske-truck-rental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106404.111000691&trid=1552713.242188&foc=16&fot=9999&fos=6"
+    offer: "10% off with code GETMOVING"
   # PerriconeMD US
   perricone-md:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.21122.3969291&trid=1552713.178759&foc=16&fot=9999&fos=6"
+    offer: "50% off with code EYE50"
   # Personalization Mall
   personalization-mall:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.29824.3960848&trid=1552713.243972&foc=16&fot=9999&fos=6"
+    offer: "50% off"
   # Peter Thomas Roth Labs
   peter-thomas-roth:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36862.1000000967&trid=1552713.192437&foc=16&fot=9999&fos=6"
@@ -891,48 +1026,60 @@ merchants:
   # Polk Audio Global
   polk-audio:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106052.1100105683&trid=1552713.225844&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off"
   # Princess Cruise Lines, Ltd.
   princess-cruises:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40030.1000000599&trid=1552713.172492&foc=16&fot=9999&fos=6"
   # Prose
   prose:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11046.1964687&trid=1552713.202760&foc=16&fot=9999&fos=6"
+    offer: "50% off your first order"
   # Public Goods
   public-goods:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11802.918004&trid=1552713.226288&foc=16&fot=9999&fos=6"
+    offer: "10% off your first purchase with code RMN10"
   # Puffy Mattress
   puffy-mattress:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12125.1617842&trid=1552713.239252&foc=16&fot=9999&fos=6"
+    offer: "15% off with code EDU"
   # Purple Carrot
   purple-carrot:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9141.778037&trid=1552713.206350&foc=16&fot=9999&fos=6"
   # Quill
   quill:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110006434.1011166830&trid=1552713.159251&foc=16&fot=9999&fos=6"
+    offer: "52% off"
   # rag & bone
   rag-and-bone:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.19645.3764113&trid=1552713.233128&foc=16&fot=9999&fos=6"
   # Razer Online Store
   razer-online-store:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10229.1781361&trid=1552713.163469&foc=16&fot=9999&fos=6"
+    offer: "75% off"
   # RC Willey
   rc-willey:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39945.1000001540&trid=1552713.195269&foc=16&fot=9999&fos=6"
+    offer: "up to 75% off clearance"
   # Rebecca Minkoff US
   rebecca-minkoff:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9950.511647&trid=1552713.162599&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off select styles"
   # Reef
   reef:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23921.1999849&trid=1552713.194581&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order"
   # Rent the Runway
   rent-the-runway:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9690.590512&trid=1552713.225416&foc=16&fot=9999&fos=6"
+    offer: "up to 90% off sale items"
   # ResortPass
   resortpass:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.50076.3871321&trid=1552713.237733&foc=16&fot=9999&fos=6"
+    offer: "$20 off your first booking over $100"
   # Restaurant.com
   restaurant-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.21234.1813802&trid=1552713.157348&foc=16&fot=9999&fos=6"
+    offer: "50% off dining deals"
   # Reverb
   reverb:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.67144.4611686018427603056&trid=1552713.232346&foc=16&fot=9999&fos=6"
@@ -942,18 +1089,22 @@ merchants:
   # Roborock
   roborock:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14848.1705455&trid=1552713.240023&foc=16&fot=9999&fos=6"
+    offer: "4% off"
   # Rosetta Stone
   rosetta-stone:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18979.2904352&trid=1552713.172635&foc=16&fot=9999&fos=6"
+    offer: "up to 55% off"
   # RTIC Outdoors
   rtic-outdoors:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25922.4611686018427603539&trid=1552713.228765&foc=16&fot=9999&fos=6"
   # Rue La La
   rue-la-la:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1000005478.1011209521&trid=1552713.161427&foc=16&fot=9999&fos=6"
+    offer: "up to 90% off"
   # Rugs USA
   rugs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9280.3964472&trid=1552713.203964&foc=16&fot=9999&fos=6"
+    offer: "20% off with code SUMMER"
   # Samsung
   samsung:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.47773.1000000009&trid=1552713.159074&foc=16&fot=9999&fos=6"
@@ -963,12 +1114,14 @@ merchants:
   # Scholastic
   scholastic:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8138.229226&trid=1552713.158514&foc=16&fot=9999&fos=6"
+    offer: "up to 30% off"
   # Schwinn Fitness
   schwinn-fitness:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25824.2760452&trid=1552713.246191&foc=16&fot=9999&fos=6"
   # Seed Health, Inc
   seed-health:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.19848.1987528&trid=1552713.240621&foc=16&fot=9999&fos=6"
+    offer: "15% off"
   # Segway Inc.
   segway:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.31949.1241153&trid=1552713.240078&foc=16&fot=9999&fos=6"
@@ -978,6 +1131,7 @@ merchants:
   # SharkNinja
   sharkninja:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8359.1823241&trid=1552713.225856&foc=16&fot=9999&fos=6"
+    offer: "20% off with code STYLE20"
   # Shiseido
   shiseido:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.43599.4611686018427606376&trid=1552713.191860&foc=16&fot=9999&fos=6"
@@ -987,18 +1141,21 @@ merchants:
   # Shopbop
   shopbop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42352.1000000904&trid=1552713.178509&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order"
   # Skillshare
   skillshare:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4650.2163448&trid=1552713.196037&foc=16&fot=9999&fos=6"
   # Sleep Number
   sleep-number:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12365.3966027&trid=1552713.225614&foc=16&fot=9999&fos=6"
+    offer: "50% off"
   # Smartwool
   smartwool:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25166.2184624&trid=1552713.245347&foc=16&fot=9999&fos=6"
   # SOCCER.com
   soccer-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8096.576831&trid=1552713.157185&foc=16&fot=9999&fos=6"
+    offer: "up to 70% off"
   # SodaStream USA
   sodastream:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42748.1000000195&trid=1552713.165&foc=16&fot=9999&fos=6"
@@ -1017,18 +1174,21 @@ merchants:
   # Stila Cosmetics
   stila-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.116637.3227301&trid=1552713.158360&foc=16&fot=9999&fos=6"
+    offer: "up to 60% off with code SAVEMORE"
   # Straight Talk
   straight-talk:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15770.1370616&trid=1552713.158359&foc=16&fot=9999&fos=6"
   # Stride Rite
   stride-rite:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37376.3385185&trid=1552713.159288&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order"
   # Talkspace
   talkspace:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14729.2226977&trid=1552713.196110&foc=16&fot=9999&fos=6"
   # Taskrabbit North America
   taskrabbit:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18223.2951684&trid=1552713.234963&foc=16&fot=9999&fos=6"
+    offer: "$10 off for new customers"
   # Tatcha
   tatcha:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38643.1000000452&trid=1552713.181394&foc=16&fot=9999&fos=6"
@@ -1038,30 +1198,38 @@ merchants:
   # The Bouqs
   the-bouqs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.39813.3964750&trid=1552713.161010&foc=16&fot=9999&fos=6"
+    offer: "30% off with code FLASH"
   # The Knot
   the-knot:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12032.1985622&trid=1552713.222266&foc=16&fot=9999&fos=6"
+    offer: "15% off with code PAPER15"
   # The Men's Wearhouse
   the-mens-wearhouse:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.41420.1000012226&trid=1552713.178339&foc=16&fot=9999&fos=6"
+    offer: "up to 70% off clearance"
   # Therabody
   therabody:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10041.3230206&trid=1552713.243987&foc=16&fot=9999&fos=6"
   # Thrive Causemetics
   thrive-causemetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110003653.1100176299&trid=1552713.232808&foc=16&fot=9999&fos=6"
+    offer: "up to 40% off"
   # Timberland US
   timberland:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25164.2107591&trid=1552713.239487&foc=16&fot=9999&fos=6"
+    offer: "20% off on your birthday"
   # Tommy Bahama
   tommy-bahama:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106073.1100207512&trid=1552713.196026&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off women's apparel"
   # Trade Coffee
   trade-coffee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9472.2913607&trid=1552713.230744&foc=16&fot=9999&fos=6"
+    offer: "50% off your first order"
   # Tramontina (US)
   tramontina:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.62429.2605926&trid=1552713.245572&foc=16&fot=9999&fos=6"
+    offer: "10% off first purchase with code WELCOME10"
   # TransUnion Credit Monitoring
   transunion-credit-monitoring:
     url: "https://track.flexlinkspro.com/g.ashx?foid=24.239403.6662804&trid=1552713.239403&foc=16&fot=9999&fos=6"
@@ -1074,18 +1242,22 @@ merchants:
   # True Religion
   true-religion:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8543.610615&trid=1552713.201072&foc=16&fot=9999&fos=6"
+    offer: "60% off"
   # Trust & Will
   trust-and-will:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11883.851571&trid=1552713.202805&foc=16&fot=9999&fos=6"
+    offer: "10% off with code EXCLUSIVE10"
   # TRX Training
   trx-training:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26332.2748229&trid=1552713.161965&foc=16&fot=9999&fos=6"
   # Universal Standard
   universal-standard:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11299.2922125&trid=1552713.215260&foc=16&fot=9999&fos=6"
+    offer: "20% off for new customers"
   # Vera Bradley Designs, Inc.
   vera-bradley:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.24943.1010003564&trid=1552713.157861&foc=16&fot=9999&fos=6"
+    offer: "20% off for new customers"
   # Viagogo
   viagogo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110105856.1100139725&trid=1552713.199427&foc=16&fot=9999&fos=6"
@@ -1095,9 +1267,11 @@ merchants:
   # Vince Camuto
   vince-camuto:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36963.1010000549&trid=1552713.158615&foc=16&fot=9999&fos=6"
+    offer: "20% off your first order"
   # vineyard vines
   vineyard-vines:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9524.2004980&trid=1552713.197884&foc=16&fot=9999&fos=6"
+    offer: "20% off your first order"
   # Vionic Group LLC
   vionic:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43354.1000000060&trid=1552713.239779&foc=16&fot=9999&fos=6"
@@ -1107,27 +1281,33 @@ merchants:
   # Visible
   visible:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12909.1586315&trid=1552713.213808&foc=16&fot=9999&fos=6"
+    offer: "up to 50% off when you upgrade"
   # Wacoal America
   wacoal:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.92241.4611686018427604523&trid=1552713.216130&foc=16&fot=9999&fos=6"
   # Weber Inc.
   weber:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14695.3749619&trid=1552713.247914&foc=16&fot=9999&fos=6"
+    offer: "20% off"
   # Weleda
   weleda:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.44684.1000000098&trid=1552713.209906&foc=16&fot=9999&fos=6"
+    offer: "15% off your first order"
   # West Marine
   west-marine:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.44722.4611686018427605117&trid=1552713.234705&foc=16&fot=9999&fos=6"
   # Westgate Resorts
   westgate-resorts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106385.1101155989&trid=1552713.245447&foc=16&fot=9999&fos=6"
+    offer: "up to 20% off nightly rates"
   # Wish US & CA
   wish:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53195.1000000011&trid=1552713.216420&foc=16&fot=9999&fos=6"
+    offer: "15% off first purchase with code WISHSHOPPING"
   # Wrangler
   wrangler:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25202.3966290&trid=1552713.193401&foc=16&fot=9999&fos=6"
+    offer: "buy one get one 50% off shorts"
 
 # Approved in FlexOffers but intentionally not listed above:
 #   Costco Membership: no text link in FlexOffers (banners/widgets only)
