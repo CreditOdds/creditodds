@@ -519,7 +519,25 @@ function noteOfferHasExpired(noteText, now) {
 // `suppressions` is an out-param: every guard that swallows a change appends a
 // record so the run can report what it chose not to show. A silent suppressor is
 // indistinguishable from a correct one.
-function detectChanges(card, extracted, now = new Date(), suppressions = []) {
+// True when the fetched page actually rendered a new-cardmember welcome OFFER
+// BODY. JS/API-gated offer pages (consumer Amex Delta/Marriott — verified
+// 2026-07-09 that the offer is absent even after a full ~14s browser render)
+// yield only earn-rate copy ("Earn 3X Miles"), so the extractor echoes the stored
+// value and defaults offer_is_tiered:false. Trusting that "flat" reading would
+// delete a live tiered note (#1598).
+//
+// Keyed strictly on the offer's spend-requirement language ("after you spend $X",
+// "after $N ...") — that only appears once the offer body renders. Header labels
+// like "Welcome Offer" are deliberately NOT used: Amex ships that header with a
+// "Loading" body (Delta Gold Business, #1590), so it's present even when the offer
+// isn't. Unknown input (no pageContent, e.g. unit tests) is treated as present so
+// callers without it keep their prior behavior.
+function pageShowsSignupOffer(pageContent) {
+  if (pageContent == null) return true;
+  return /\bafter (?:you )?(?:spend|spending|make|making)\b|\bafter \$\s?[\d,]+/i.test(pageContent);
+}
+
+function detectChanges(card, extracted, now = new Date(), suppressions = [], pageContent = null) {
   if (!extracted) return [];
 
   const current = card.data;
@@ -665,7 +683,12 @@ function detectChanges(card, extracted, now = new Date(), suppressions = []) {
     const tieredAdditionalMatch =
       noteText.match(/(\d[\d,]*)\s+(?:additional|more)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
       noteText.match(/(?:additional|more)\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
-    const pageSaysFlat = sb.offer_is_tiered === false;
+    // offer_is_tiered:false is only trustworthy when the page actually rendered
+    // the welcome offer. On JS-gated pages the extractor echoes the stored value
+    // and defaults offer_is_tiered:false; treating that as "flat" would disarm the
+    // tier guards below AND delete a live tiered note (the 4 Amex cards on #1598).
+    // Require a rendered offer before believing the offer went flat.
+    const pageSaysFlat = sb.offer_is_tiered === false && pageShowsSignupOffer(pageContent);
     const noteDescribesTiered =
       !!tieredAdditionalMatch && !noteOfferHasExpired(noteText, now) && !pageSaysFlat;
 
@@ -1157,7 +1180,7 @@ async function main() {
         }
 
         // Compare against YAML
-        const changes = detectChanges(card, extracted, new Date(), allSuppressions);
+        const changes = detectChanges(card, extracted, new Date(), allSuppressions, pageContent);
         if (changes.length > 0) {
           console.log(`  ${changes.length} change(s) detected`);
           // Every detected change becomes a PR row a human must verify against
@@ -1250,6 +1273,7 @@ module.exports = {
   detectChanges,
   applyChanges,
   needsBrowserRetry,
+  pageShowsSignupOffer,
   updateSkipState,
   staleCardsFrom,
   SKIP_ALERT_THRESHOLD,
