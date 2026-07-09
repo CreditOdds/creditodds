@@ -55,6 +55,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 4000
   timeframe_months: 3
+  note: "Plus 10,000 bonus points for adding an employee card"
 apr:
   regular:
     min: 19.24

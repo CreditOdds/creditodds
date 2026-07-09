@@ -85,6 +85,7 @@ signup_bonus:
   type: "miles"
   spend_requirement: 9000
   timeframe_months: 6
+  note: "Earn 100,000 miles after $6,000 spend in first 6 months, plus an additional 25,000 miles after an additional $3,000 spend within first 6 months. Offer ends 2026-07-15."
 apr:
   regular:
     min: 19.49
