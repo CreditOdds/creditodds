@@ -435,6 +435,9 @@ export interface WalletCard {
   created_at: string;
   user_rating?: number | null;
   selections?: WalletCardSelection[];
+  // Set when the card has been closed. GET /wallet only returns open cards, so
+  // this is null on every row it returns; kept on the type for completeness.
+  closed_date?: string | null;
 }
 
 export async function getWallet(token: string): Promise<WalletCard[]> {
@@ -535,14 +538,17 @@ export async function removeFromWallet(walletRowId: number, token: string): Prom
   return res.json();
 }
 
-// Product-change history: one row per recorded conversion of a wallet card
-// from one product to another (same issuer). Sorted newest-first by the API.
+// Wallet history: one row per recorded lifecycle event on a wallet card —
+// a product change (converted to another product, same issuer) or a closure.
+// Sorted newest-first by the API. For a closure new_card_* is null and
+// change_date is the close date; opened_month/opened_year give the open date
+// so the history can show the full credit-history span.
 export interface WalletCardEvent {
   id: number;
   user_card_id: number | null;
-  event_type: 'product_change';
+  event_type: 'product_change' | 'card_closed';
   old_card_id: number;
-  new_card_id: number;
+  new_card_id: number | null;
   change_date: string;
   reason: 'voluntary' | 'forced' | null;
   note: string | null;
@@ -552,6 +558,8 @@ export interface WalletCardEvent {
   new_card_name: string | null;
   new_card_image_link: string | null;
   bank: string | null;
+  opened_month: number | null;
+  opened_year: number | null;
 }
 
 export async function getWalletEvents(token: string): Promise<WalletCardEvent[]> {
@@ -596,6 +604,41 @@ export async function productChangeWalletCard(
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');
     throw new Error(errorText || `Failed to record product change: ${res.status}`);
+  }
+  return res.json();
+}
+
+// Close a wallet card: keeps the row (and its open date) for credit-history
+// tracking but removes it from the active wallet, and logs a closure event.
+// Distinct from removeFromWallet, which hard-deletes with no history.
+export interface CloseCardBody {
+  close_date?: string;
+  reason?: 'voluntary' | 'forced';
+  note?: string;
+}
+
+export async function closeWalletCard(
+  walletRowId: number,
+  body: CloseCardBody,
+  token: string,
+): Promise<{
+  message: string;
+  event_id: number;
+  wallet_card_id: number;
+  card_id: number;
+  close_date: string;
+}> {
+  const res = await fetch(`${API_BASE}/wallet/${walletRowId}/close`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(errorText || `Failed to close card: ${res.status}`);
   }
   return res.json();
 }

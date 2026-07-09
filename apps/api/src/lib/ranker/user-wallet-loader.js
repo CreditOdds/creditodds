@@ -12,7 +12,7 @@ async function loadUserWallet(userId) {
     `SELECT uc.id, c.card_name
      FROM user_cards uc
      JOIN cards c ON uc.card_id = c.card_id
-     WHERE uc.user_id = ?`,
+     WHERE uc.user_id = ? AND uc.closed_date IS NULL`,
     [userId],
   );
 
