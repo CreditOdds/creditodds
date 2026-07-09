@@ -98,6 +98,7 @@ export function V2Footer() {
             <Link href="/how">How it works</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/privacy">Privacy</Link>
+            <Link href="/disclosures">Disclosures</Link>
           </div>
           <div>
             <h4>Community</h4>
