@@ -31,9 +31,9 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 250
-  type: cash
-  spend_requirement: 500
+  value: 200
+  type: "cash"
+  spend_requirement: 1000
   timeframe_months: 3
   note: "$250 statement credit after $500 spend in first 3 months"
 benefits:
