@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node ../../scripts/build-cards.js",
     "dev": "next dev",
     "prebuild": "node scripts/check-seo.mjs",
     "build": "next build",

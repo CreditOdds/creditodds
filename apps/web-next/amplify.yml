@@ -7,6 +7,11 @@ applications:
             # Install dependencies from repo root (monorepo with workspaces)
             # Use subshell to preserve working directory
             - (cd ../.. && npm ci)
+            # data/cards.json is gitignored (generated, not committed), so build
+            # it here — card/[name]/page.tsx reads it at build time for the
+            # benefits fallback. Regenerating also keeps it fresh vs. the old
+            # stale committed copy.
+            - (cd ../.. && npm run build:cards)
         build:
           commands:
             - env | grep -e NEXT_PUBLIC_ >> .env.production || true
