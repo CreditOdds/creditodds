@@ -8736,14 +8736,14 @@
   margin: 0;
 }
 /* inline-block, not inline-flex: on narrow screens a long label like
-   "Shop at Banana Republic with CreditOdds" wraps, and as a flex item the
+   "See exclusive discounts at Banana Republic" wraps, and as a flex item the
    label box would stretch to the full line, stranding the arrow against the
    button's right edge. Letting the arrow flow inline keeps it welded to the
    last word at every width. */
 .landing-v2.store-v2 .store-affiliate-btn {
   display: inline-block;
   /* 0 1 auto, not `none`: the button must be allowed to shrink and wrap its
-     label, or a long one ("Shop at Extended Stay America with CreditOdds")
+     label, or a long one ("See exclusive discounts at Extended Stay America")
      pushes the panel past the viewport on mobile. */
   flex: 0 1 auto;
   position: relative;

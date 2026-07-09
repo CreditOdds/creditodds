@@ -25,7 +25,7 @@ export default function StoreAffiliateCta({
     affiliate.cta ??
     (affiliate.offer
       ? `See ${affiliate.offer} at ${storeName}`
-      : `Shop at ${storeName} with CreditOdds`);
+      : `See exclusive discounts at ${storeName}`);
 
   // Keep the arrow welded to the final word. Without this, a label that wraps
   // (narrow screens, long store names) can strand the arrow alone on its own
