@@ -16,6 +16,8 @@ import {
   getAdminGraphs,
   getCardApplyClicksBreakdown,
   getApplyOutcomesBreakdown,
+  getStorePageEventStats,
+  StorePageEventStat,
   deleteAdminRecord,
   deleteAdminReferral,
   updateReferralApproval,
@@ -52,7 +54,8 @@ import {
   UserIcon,
   CreditCardIcon,
   CursorArrowRaysIcon,
-  ClipboardDocumentCheckIcon
+  ClipboardDocumentCheckIcon,
+  BuildingStorefrontIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
@@ -355,6 +358,7 @@ export default function AdminPage() {
               />
               <ApplyClicksTab />
               <ApplyOutcomesTab />
+              <StoreTrafficTab getToken={getToken} />
             </>
           )}
           {activeTab === 'records' && (
@@ -995,6 +999,169 @@ function ApplyOutcomesTab() {
                 <span style={{ color: 'var(--muted-2)' }}>{row.just_looking.toLocaleString()}</span>
                 <span style={{ fontWeight: 600 }}>{row.total.toLocaleString()}</span>
                 <span className="av-mono" style={{ color: 'var(--ink-2)' }}>{row.decided > 0 ? pct(row.rate) : '—'}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ============ STORE TRAFFIC TAB ============
+// Visits + affiliate-CTA clicks on the /best-card-for/{slug} store pages.
+// Visits are tracked on every store page; affiliate clicks only exist for
+// stores that have an affiliate CTA, so per-store CTR = clicks / visits.
+const STORE_TRAFFIC_RANGES = APPLY_CLICK_RANGES;
+
+type StoreTrafficSortKey = 'visits' | 'clicks' | 'ctr';
+
+interface StoreTrafficRow extends StorePageEventStat {
+  ctr: number; // clicks / visits; 0 when no visits
+}
+
+function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> }) {
+  const [periodDays, setPeriodDays] = useState(30);
+  const [stats, setStats] = useState<StorePageEventStat[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [sortKey, setSortKey] = useState<StoreTrafficSortKey>('visits');
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    setLoadError(null);
+    getToken()
+      .then((token) => {
+        if (!token) throw new Error('no token');
+        return getStorePageEventStats(token, periodDays);
+      })
+      .then((data) => {
+        if (!isMounted) return;
+        setStats(data);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setLoadError('Failed to load store traffic data');
+        setStats([]);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, [periodDays, getToken]);
+
+  const rows: StoreTrafficRow[] = stats.map((s) => ({
+    ...s,
+    ctr: s.visits > 0 ? s.clicks / s.visits : 0,
+  }));
+
+  rows.sort((a, b) => b[sortKey] - a[sortKey] || b.visits - a.visits);
+
+  const totals = rows.reduce(
+    (acc, row) => {
+      acc.visits += row.visits;
+      acc.clicks += row.clicks;
+      return acc;
+    },
+    { visits: 0, clicks: 0 }
+  );
+  const overallCtr = totals.visits > 0 ? totals.clicks / totals.visits : 0;
+
+  const rangeLabel =
+    STORE_TRAFFIC_RANGES.find((r) => r.days === periodDays)?.label ?? `${periodDays}d`;
+
+  return (
+    <section className="av-section">
+      <div className="av-section-head">
+        <div>
+          <h2 className="av-section-h">
+            <BuildingStorefrontIcon className="av-section-h-icon" />
+            Store page traffic
+          </h2>
+          <p className="av-section-sub">visits + affiliate-link clicks on /best-card-for store pages.</p>
+        </div>
+        <div className="av-range">
+          {STORE_TRAFFIC_RANGES.map((range) => (
+            <button
+              key={range.days}
+              type="button"
+              onClick={() => setPeriodDays(range.days)}
+              className={'av-range-btn' + (periodDays === range.days ? ' active' : '')}
+            >
+              {range.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="av-readoff av-readoff-4">
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Total visits</div>
+          <div className="av-readoff-v">{totals.visits.toLocaleString()}</div>
+          <div className="av-readoff-foot">last {rangeLabel}</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Affiliate clicks</div>
+          <div className="av-readoff-v av-accent">{totals.clicks.toLocaleString()}</div>
+          <div className="av-readoff-foot">outbound CTA</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Click-through rate</div>
+          <div className="av-readoff-v">{pct(overallCtr)}</div>
+          <div className="av-readoff-foot">clicks / visits</div>
+        </div>
+        <div className="av-readoff-cell">
+          <div className="av-readoff-k">Stores tracked</div>
+          <div className="av-readoff-v">{rows.length.toLocaleString()}</div>
+          <div className="av-readoff-foot">with activity</div>
+        </div>
+      </div>
+
+      {loadError && (
+        <div className="av-banner av-banner-err" style={{ marginTop: 14 }}>
+          {loadError}
+        </div>
+      )}
+
+      <div className="av-section-head" style={{ marginTop: 24 }}>
+        <h3 className="av-section-h" style={{ fontSize: 14 }}>Stores by traffic ({rangeLabel})</h3>
+        <span className="av-section-meta">{rows.length} stores</span>
+      </div>
+
+      {loading ? (
+        <div className="av-tape av-tape-empty">Loading…</div>
+      ) : rows.length === 0 ? (
+        <div className="av-tape av-tape-empty">No store page activity recorded in this window.</div>
+      ) : (
+        <div className="av-tape">
+          <div className="av-tape-scroll">
+            <div className="av-tape-head" style={{ gridTemplateColumns: '32px minmax(200px, 1.6fr) 90px 90px 80px' }}>
+              <span>#</span>
+              <span>Store</span>
+              <button type="button" onClick={() => setSortKey('visits')} className={sortKey === 'visits' ? 'active' : ''}>Visits {sortKey === 'visits' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('clicks')} className={sortKey === 'clicks' ? 'active' : ''}>Clicks {sortKey === 'clicks' && '↓'}</button>
+              <button type="button" onClick={() => setSortKey('ctr')} className={sortKey === 'ctr' ? 'active' : ''}>CTR {sortKey === 'ctr' && '↓'}</button>
+            </div>
+            {rows.map((row, index) => (
+              <div key={row.slug} className="av-tape-row" style={{ gridTemplateColumns: '32px minmax(200px, 1.6fr) 90px 90px 80px' }}>
+                <span className="av-list-num">{index + 1}</span>
+                <div className="av-card-meta">
+                  <a
+                    href={`/best-card-for/${row.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="av-card-name"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    {row.slug}
+                  </a>
+                </div>
+                <span style={{ fontWeight: 600 }}>{row.visits.toLocaleString()}</span>
+                <span className="av-accent">{row.clicks.toLocaleString()}</span>
+                <span className="av-mono" style={{ color: 'var(--ink-2)' }}>{pct(row.ctr)}</span>
               </div>
             ))}
           </div>

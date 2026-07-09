@@ -838,6 +838,47 @@ export async function getContentViewCounts(periodDays = 7): Promise<EditorialVie
   return { article: views.article || {}, news: views.news || {} };
 }
 
+// Track an engagement event on a /best-card-for/{slug} store page — a page
+// 'visit' or an 'affiliate_click' on the store's affiliate CTA. No auth,
+// fire-and-forget (keepalive so the click event survives navigation).
+export async function trackStoreEvent(
+  eventType: 'visit' | 'affiliate_click',
+  storeSlug: string,
+): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/store-event`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({ event_type: eventType, store_slug: storeSlug }),
+    });
+  } catch {
+    // fire and forget - don't throw on error
+  }
+}
+
+export interface StorePageEventStat {
+  slug: string;
+  visits: number;
+  clicks: number;
+}
+
+// Admin-only: per-store visit + affiliate-click counts for the
+// /best-card-for store pages over the trailing `period` days (0 = all-time).
+// Requires an admin Firebase token. Returns [] on error.
+export async function getStorePageEventStats(
+  token: string,
+  period = 30,
+): Promise<StorePageEventStat[]> {
+  const res = await fetch(`${API_BASE}/store-event?period=${period}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return Array.isArray(data.stores) ? data.stores : [];
+}
+
 // Track a multi-card comparison so we can rank "frequently compared" partners
 // per card. Slugs are deduplicated and unordered server-side; fire-and-forget.
 export async function trackCardCompareEvent(slugs: string[]): Promise<void> {
