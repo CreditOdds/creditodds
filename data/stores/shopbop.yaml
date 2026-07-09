@@ -1,0 +1,14 @@
+name: "Shopbop"
+slug: "shopbop"
+categories:
+  - online_shopping
+  - select_clothing
+website: "https://www.shopbop.com"
+parent_company: "Amazon"
+intro: |
+  Shopbop is an online fashion retailer specializing in designer and contemporary apparel,
+  shoes, and accessories, curating collections from hundreds of brands for a customer base
+  that skews toward higher-end, trend-driven fashion. Based in Madison, Wisconsin, it has
+  been owned by Amazon since 2006 but continues to operate as its own distinct storefront and
+  brand. There's no Shopbop co-brand credit card, so purchases are best charged to an apparel
+  or general online shopping rewards card, or a flat-rate cashback card.

@@ -1,0 +1,16 @@
+name: "Eventbrite"
+slug: "eventbrite"
+aliases:
+  - "Eventbrite.com"
+categories:
+  - entertainment
+website: "https://www.eventbrite.com"
+intro: |
+  Eventbrite is a self-service ticketing and event-registration platform used by everyone
+  from local meetup organizers to concert promoters and conference producers, letting anyone
+  create a listing and sell tickets without going through a traditional box office. It's
+  distinct from resale marketplaces like StubHub or SeatGeek in that most listings are
+  primary-market tickets sold directly by the event organizer. Eventbrite has no co-brand
+  credit card, so the best approach is a card that earns bonus rewards on entertainment
+  purchases, or a broad travel or dining card if entertainment isn't a defined category,
+  since ticket purchases there are typically coded as entertainment spend.
