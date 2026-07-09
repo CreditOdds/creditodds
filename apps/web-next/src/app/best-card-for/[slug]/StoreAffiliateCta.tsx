@@ -3,6 +3,7 @@
 import posthog from 'posthog-js';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 import type { StoreAffiliate } from '@/lib/stores';
+import { trackStoreEvent } from '@/lib/api';
 
 interface Props {
   storeName: string;
@@ -52,15 +53,18 @@ export default function StoreAffiliateCta({
         target="_blank"
         rel="sponsored nofollow noopener noreferrer"
         className="store-affiliate-btn"
-        onClick={() =>
+        onClick={() => {
+          // First-party beacon for the admin traffic dashboard...
+          trackStoreEvent('affiliate_click', storeSlug).catch(() => {});
+          // ...plus the existing PostHog event.
           posthog.capture('affiliate_link_clicked', {
             store_slug: storeSlug,
             store_name: storeName,
             network: affiliate.network,
             top_pick: topPickName,
             offer: affiliate.offer ?? null,
-          })
-        }
+          });
+        }}
       >
         {head && `${head} `}
         <span className="store-affiliate-btn-tail">

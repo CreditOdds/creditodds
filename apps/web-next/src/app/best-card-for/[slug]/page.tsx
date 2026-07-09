@@ -10,6 +10,7 @@ import { V2Footer } from "@/components/landing-v2/Chrome";
 import { PencilSquareIcon, ExclamationTriangleIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
 import StorePersonalRow from "./StorePersonalRow";
 import StoreAffiliateCta from "./StoreAffiliateCta";
+import StoreVisitTracker from "./StoreVisitTracker";
 import "../../landing.css";
 
 interface PageProps {
@@ -127,6 +128,9 @@ export default async function BestCardForStorePage({ params }: PageProps) {
       {store.faq && store.faq.length > 0 && (
         <FAQSchema questions={store.faq.map(f => ({ question: f.q, answer: f.a }))} />
       )}
+
+      {/* Fire a one-shot 'visit' beacon for the admin traffic dashboard. */}
+      <StoreVisitTracker storeSlug={store.slug} />
 
       {/* Terminal strip — dark bar with breadcrumb + pick count, matching
           /card and /profile so the editorial chrome is consistent. */}

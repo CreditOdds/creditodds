@@ -750,6 +750,57 @@ Resources:
             RestApiId:
               Ref: CreditCardOddsAPI
 
+  StoreEventFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/store-event.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
+    Properties:
+      Handler: src/handlers/store-event.StoreEventHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 100
+      Description: Track /best-card-for store page visits + affiliate clicks, return admin stats
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        TrackStoreEvent:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /store-event
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        GetStoreEvents:
+          # Admin-only; goes through the default Firebase authorizer so the
+          # handler's isAdmin() check can read the caller's claims.
+          Type: Api
+          Properties:
+            Path: /store-event
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        StoreEventOptions:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /store-event
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   CardCompareEventFunction:
     Type: AWS::Serverless::Function
     Metadata:
