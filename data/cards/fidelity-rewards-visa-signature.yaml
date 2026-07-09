@@ -14,12 +14,6 @@ rewards:
     value: 2
     unit: percent
     note: "When deposited into an eligible Fidelity account"
-signup_bonus:
-  value: 150
-  type: "cash"
-  spend_requirement: 1000
-  timeframe_months: 3
-  note: "15,000 bonus points (worth $150) when deposited into an eligible Fidelity account"
 apr:
   purchase_intro:
     rate: 0
@@ -31,7 +25,10 @@ apr:
     min: 16.49
     max: 26.49
 apply_link: https://www.fidelity.com/spend-save/visa-signature-card
-special_apply_link: https://www.fidelity.com/go/visa-signature-rewards-1502
+# 2026-07-08: special_apply_link (fidelity.com/go/visa-signature-rewards-1502) started
+# returning HTTP 400 "this page was moved or deleted". The $150 / 15,000-point SUB lived
+# only on that landing page and is not advertised on the public apply page, so the bonus
+# was removed with it. Restore both together if Fidelity publishes a new offer page.
 foreign_transaction_fee: false
 our_take: >
   The Fidelity Rewards Visa is a clean 2% flat-rate card with no annual fee and no

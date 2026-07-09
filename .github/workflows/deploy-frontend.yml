@@ -21,6 +21,10 @@ on:
       - 'data/best/**'
       - 'data/articles/**'
       - 'data/news/**'
+      # Bookkeeping for check-card-pages.yml, pushed to main on every nightly run.
+      # It affects no build output, so building for it would mean a pointless
+      # Amplify build every single night.
+      - '.github/card-page-check-state.json'
   workflow_dispatch: {}
 
 jobs:

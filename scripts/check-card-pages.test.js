@@ -12,7 +12,13 @@
 // Run: `node scripts/check-card-pages.test.js`. Exits non-zero on any failure.
 
 const assert = require('node:assert/strict');
-const { detectChanges, needsBrowserRetry } = require('./check-card-pages');
+const {
+  detectChanges,
+  needsBrowserRetry,
+  updateSkipState,
+  staleCardsFrom,
+  SKIP_ALERT_THRESHOLD,
+} = require('./check-card-pages');
 
 function test(name, fn) {
   try {
@@ -500,6 +506,85 @@ test('a browser-rendered zero is NOT suppressed downstream (Amazon Store, #1579)
   const card = { data: { name: 'Amazon Store', signup_bonus: { value: 60, type: 'cash', note: null } } };
   const changes = detectChanges(card, { signup_bonus: { value: 0 } });
   assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
+});
+
+// ─── Consecutive-skip tracking ───────────────────────────────────────────────
+//
+// A skipped card produces no changes, exactly like a card whose terms are
+// unchanged. These guard the state machine that tells the two apart across runs.
+
+const AT = '2026-07-08T11:00:00.000Z';
+const skip = (slug, reason = 'HTTP 400', knownBlock = false) => ({ slug, reason, knownBlock });
+const fold = (prev, checked, skipped, opts = {}) =>
+  updateSkipState(prev, {
+    checkedSlugs: new Set(checked),
+    skippedCards: skipped,
+    checkedAt: AT,
+    isPartialRun: false,
+    ...opts,
+  });
+
+test('a skipped card increments; a verified card resets to zero', () => {
+  const after = fold({ a: { consecutive_skips: 2 }, b: { consecutive_skips: 4 } }, ['a', 'b'], [skip('a')]);
+  assert.equal(after.a.consecutive_skips, 3);
+  assert.equal(after.a.last_reason, 'HTTP 400');
+  assert.equal(after.b.consecutive_skips, 0, 'a successful check must clear the counter');
+  assert.equal(after.b.last_ok, AT);
+});
+
+test('a verified card keeps no stale skip reason', () => {
+  const after = fold({ a: { consecutive_skips: 9, last_reason: 'HTTP 400' } }, ['a'], []);
+  assert.equal(after.a.consecutive_skips, 0);
+  assert.equal(after.a.last_reason, undefined);
+});
+
+test('reaching the threshold marks a card stale; below it does not', () => {
+  const below = fold({ a: { consecutive_skips: SKIP_ALERT_THRESHOLD - 2 } }, ['a'], [skip('a')]);
+  assert.deepEqual(staleCardsFrom(below), [], 'must not alarm before the threshold');
+
+  const at = fold({ a: { consecutive_skips: SKIP_ALERT_THRESHOLD - 1 } }, ['a'], [skip('a')]);
+  assert.deepEqual(staleCardsFrom(at).map(c => c.slug), ['a']);
+});
+
+test('known bot-blocks never alarm, however long they persist', () => {
+  // pnc.com is a deliberate, permanent skip — counting it would pin the alarm on.
+  const after = fold({ pnc: { consecutive_skips: 99 } }, ['pnc'], [skip('pnc', 'known block: akamai', true)]);
+  assert.equal(after.pnc.consecutive_skips, 100);
+  assert.deepEqual(staleCardsFrom(after), []);
+});
+
+test('a full run prunes cards that no longer exist', () => {
+  const after = fold({ gone: { consecutive_skips: 7 }, a: { consecutive_skips: 0 } }, ['a'], []);
+  assert.deepEqual(Object.keys(after), ['a'], 'a renamed slug must not alarm forever');
+});
+
+test('a single-card run leaves every other card untouched', () => {
+  // The regression that would silently disarm the alarm: CARD_SLUG=a wiping b's
+  // accumulated history, resetting a rotting card to zero every time.
+  const prev = { a: { consecutive_skips: 1 }, b: { consecutive_skips: SKIP_ALERT_THRESHOLD } };
+  const after = fold(prev, ['a'], [skip('a')], { isPartialRun: true });
+  assert.equal(after.a.consecutive_skips, 2);
+  assert.deepEqual(after.b, prev.b, 'untouched card must keep its counter');
+  assert.deepEqual(staleCardsFrom(after).map(c => c.slug), ['b']);
+});
+
+test('stale cards are reported worst-first', () => {
+  const state = {
+    mild: { consecutive_skips: SKIP_ALERT_THRESHOLD },
+    severe: { consecutive_skips: SKIP_ALERT_THRESHOLD + 10 },
+  };
+  assert.deepEqual(staleCardsFrom(state).map(c => c.slug), ['severe', 'mild']);
+});
+
+test('the Fidelity case: a dead offer page alarms after the threshold', () => {
+  let state = {};
+  for (let run = 1; run <= SKIP_ALERT_THRESHOLD; run++) {
+    state = fold(state, ['fidelity', 'chase'], [skip('fidelity', 'HTTP 400 from origin')]);
+    const stale = staleCardsFrom(state).map(c => c.slug);
+    if (run < SKIP_ALERT_THRESHOLD) assert.deepEqual(stale, [], `run ${run} should stay quiet`);
+    else assert.deepEqual(stale, ['fidelity'], `run ${run} must alarm`);
+  }
+  assert.equal(state.chase.consecutive_skips, 0, 'healthy cards stay green throughout');
 });
 
 console.log('');

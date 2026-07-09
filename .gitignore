@@ -42,6 +42,9 @@ coverage/
 .apply-link-check-result.json
 .issue-body.md
 .card-page-check-summary.md
+.card-page-check-stale.md
+# NB: .github/card-page-check-state.json is deliberately NOT ignored — the
+# consecutive-skip counters only work if they persist across runs.
 
 # Claude Code local settings
 .claude/

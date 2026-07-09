@@ -1,0 +1,14 @@
+name: "Budget Truck Rental"
+slug: "budget-truck-rental"
+parent_company: "Avis Budget Group"
+categories:
+  - car_rentals
+  - travel
+website: "https://www.budgettruck.com"
+intro: |
+  Budget Truck Rental is the moving-truck division of Avis Budget Group, offering cargo
+  vans and box trucks for local and one-way moves through a network of dealer locations
+  across the U.S. It operates separately from the Budget car rental brand, though it shares
+  the same corporate parent and branding. There's no Budget Truck Rental co-brand credit
+  card, so a card that bonuses car rentals or the general travel category is the closest
+  fit, with a flat-rate cashback card as a reasonable fallback for a moving-truck charge.

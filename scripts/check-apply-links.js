@@ -3,11 +3,21 @@
 /**
  * Apply Link Health Check
  *
- * Validates the apply_link for every active card in data/cards.
+ * Validates every outbound apply URL for each active card in data/cards —
+ * both `apply_link` and `special_apply_link`. Checking only `apply_link` used to
+ * hide real breakage: `special_apply_link` is the URL the card page actually sends
+ * users to when it is set (see CardClient.tsx), so a dead special link is invisible
+ * while the untrafficked generic link keeps returning 200. That is exactly how
+ * Fidelity's dead offer page survived a daily green check.
+ *
  * A link is flagged as broken if any of these are true:
  *   - HTTP status is 4xx or 5xx (after retrying with a browser for 403/429)
  *   - Final redirect URL matches an error path (e.g. /error/500, /404, /page-not-found)
  *   - Page title or body contains common error markers
+ *
+ * A broken `special_apply_link` on a card that has a `signup_bonus` is additionally
+ * marked `sub_at_risk`: the SUB is usually only offered on that landing page, so if
+ * the page is gone the advertised bonus is probably gone too and both must be pulled.
  *
  * Writes JSON to .apply-link-check-result.json so the workflow can decide
  * whether to open, update, or close an issue.
@@ -46,7 +56,34 @@ const ERROR_BODY_PATTERNS = [
   /we can(?:'?| no)t find (?:the |that )?page/i,
   /sorry, (?:we|this) (?:can(?:'?| no)t|couldn'?t)/i,
   /404 error/i,
+  // Fidelity's retired-offer page ("this page was moved or deleted"). It currently
+  // serves a 400 so the status check catches it, but soft-404s are common enough
+  // on bank marketing pages that the copy is worth matching directly.
+  /page was (?:moved or deleted|removed)/i,
 ];
+
+// One check target per outbound URL. A card with a distinct `special_apply_link`
+// yields two targets; if the two URLs are identical we only check it once.
+function targetsForCard(data, file) {
+  const targets = [];
+  const seen = new Set();
+  for (const linkType of ['apply_link', 'special_apply_link']) {
+    const url = data[linkType];
+    if (!url || seen.has(url)) continue;
+    seen.add(url);
+    targets.push({
+      slug: data.slug,
+      name: data.name || data.slug,
+      bank: data.bank || '',
+      file,
+      link_type: linkType,
+      apply_link: url,
+      // A dead special link almost certainly means the offer behind it is dead too.
+      sub_at_risk: linkType === 'special_apply_link' && Boolean(data.signup_bonus),
+    });
+  }
+  return targets;
+}
 
 function loadActiveCards() {
   const files = fs.readdirSync(CARDS_DIR).filter(f => f.endsWith('.yaml'));
@@ -57,16 +94,10 @@ function loadActiveCards() {
       if (
         data &&
         data.slug &&
-        data.apply_link &&
+        (data.apply_link || data.special_apply_link) &&
         data.accepting_applications !== false
       ) {
-        cards.push({
-          slug: data.slug,
-          name: data.name || data.slug,
-          bank: data.bank || '',
-          file,
-          apply_link: data.apply_link,
-        });
+        cards.push(...targetsForCard(data, file));
       }
     } catch (err) {
       console.warn(`skip ${file}: ${err.message}`);
@@ -279,34 +310,47 @@ async function main() {
   const results = await runWithConcurrency(cards, CONCURRENCY, async (card, idx) => {
     const r = await checkOne(card);
     const tag = r.ok ? 'OK ' : 'BAD';
-    console.log(`[${idx + 1}/${cards.length}] ${tag} ${card.slug} — ${r.reason || r.finalUrl || ''}`);
+    const which = card.link_type === 'special_apply_link' ? ' [special]' : '';
+    console.log(
+      `[${idx + 1}/${cards.length}] ${tag} ${card.slug}${which} — ${r.reason || r.finalUrl || ''}`
+    );
     return r;
   });
 
   if (_browser) await _browser.close();
 
   const broken = results.filter(r => !r.ok);
+  const subAtRisk = broken.filter(r => r.sub_at_risk);
   const summary = {
     checked_at: new Date().toISOString(),
     total: results.length,
     broken_count: broken.length,
+    sub_at_risk_count: subAtRisk.length,
     broken: broken.map(r => ({
       slug: r.slug,
       name: r.name,
       bank: r.bank,
       file: r.file,
+      link_type: r.link_type,
       apply_link: r.apply_link,
       final_url: r.finalUrl || null,
       reason: r.reason || 'unknown',
+      sub_at_risk: Boolean(r.sub_at_risk),
     })),
   };
 
   fs.writeFileSync(RESULT_FILE, JSON.stringify(summary, null, 2));
   console.log(`\nDone: ${broken.length} broken / ${results.length} total`);
+  if (subAtRisk.length) {
+    console.log(
+      `${subAtRisk.length} broken special_apply_link(s) with a signup_bonus — verify the SUB still exists:`
+    );
+    for (const r of subAtRisk) console.log(`  - ${r.slug} (${r.file})`);
+  }
   console.log(`Wrote ${RESULT_FILE}`);
 }
 
-module.exports = { checkOne, classify, loadActiveCards };
+module.exports = { checkOne, classify, loadActiveCards, targetsForCard };
 
 if (require.main === module) {
   main().catch(err => {
