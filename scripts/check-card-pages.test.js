@@ -15,6 +15,7 @@ const assert = require('node:assert/strict');
 const {
   detectChanges,
   needsBrowserRetry,
+  pageShowsSignupOffer,
   updateSkipState,
   staleCardsFrom,
   SKIP_ALERT_THRESHOLD,
@@ -256,6 +257,54 @@ test('check_ignore on signup_bonus.note blocks stale-note retirement', () => {
   });
   assert.ok(!fieldsChanged(changes).includes('signup_bonus.note'));
   assert.ok(fieldsChanged(changes).includes('signup_bonus.value'));
+});
+
+// ─── offer_is_tiered:false is only trusted from a rendered offer page ────────
+
+// The 4 Amex cards on #1598: the welcome offer is JS/API-gated and never renders
+// (verified — absent even after a full browser fetch). The extractor echoes the
+// stored value and defaults offer_is_tiered:false; without a page-render check
+// that deletes a live tiered note. The offer BODY ("after you spend $X") is the
+// trustworthy signal; the "Welcome Offer" header is not (Amex ships it with a
+// "Loading" body).
+console.log('\noffer_is_tiered:false requires a rendered offer page:');
+
+const AMEX_EARN_ONLY = 'Rewards Earn 3X Miles on Delta Purchases. Earn 2X Miles at restaurants. Earn 1X Miles on all other eligible purchases. Welcome Offer Key Details Loading Loading';
+const RENDERED_FLAT_OFFER = 'Limited Time Offer. Earn 30,000 bonus points after you spend $3,000 on purchases in the first 3 months from account opening.';
+
+test('de-tiering is NOT trusted when the page never rendered the offer (#1598 Amex)', () => {
+  // Echoed value (== stored) + offer_is_tiered:false, but only earn-rate copy.
+  const changes = detectChanges(
+    WORLD_OF_HYATT,
+    { signup_bonus: { value: 60000, spend_requirement: 15000, timeframe_months: 6, offer_is_tiered: false } },
+    new Date(), [], AMEX_EARN_ONLY,
+  );
+  assert.deepEqual(fieldsChanged(changes), []); // note NOT retired; no phantom change
+});
+
+test('de-tiering IS trusted when the offer body rendered ("after you spend $X")', () => {
+  const changes = detectChanges(
+    WORLD_OF_HYATT,
+    { signup_bonus: { value: 30000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: false } },
+    new Date(), [], RENDERED_FLAT_OFFER,
+  );
+  const note = changes.find(c => c.field === 'signup_bonus.note');
+  assert.equal(note && note.new_value, null); // stale tier note retired
+});
+
+test('no pageContent (unit-test / legacy call) keeps prior behavior', () => {
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: { value: 30000, spend_requirement: 3000, timeframe_months: 3, offer_is_tiered: false },
+  });
+  assert.ok(fieldsChanged(changes).includes('signup_bonus.note'));
+});
+
+test('pageShowsSignupOffer: offer-body language vs earn-rate-only vs Loading header', () => {
+  assert.equal(pageShowsSignupOffer('Earn 140,000 Bonus Points after spending $4,000 in the first 3 months'), true);
+  assert.equal(pageShowsSignupOffer('bonus miles after $ 500 in purchases'), true); // Citi spacing
+  assert.equal(pageShowsSignupOffer('after you make $6,000 in purchases'), true);
+  assert.equal(pageShowsSignupOffer('Earn 3X Miles. Welcome Offer Key Details Loading'), false); // header only
+  assert.equal(pageShowsSignupOffer(null), true); // unknown → present (back-compat)
 });
 
 // ─── Suppressions are recorded, never silent ────────────────────────────────
