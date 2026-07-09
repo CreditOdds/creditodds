@@ -81,11 +81,30 @@ interface Referral {
   unique_clicks?: number;
 }
 
-// A referral was auto-archived by the weekly validity check when
+// A referral was auto-archived by the referral validity check when
 // archived_reason starts with "auto:". Used in the profile referrals tab
 // to surface a "this link expired" banner + "add replacement" CTA.
 function isAutoArchivedReferral(r: Pick<Referral, 'archived_at' | 'archived_reason'>): boolean {
   return !!r.archived_at && typeof r.archived_reason === 'string' && r.archived_reason.startsWith('auto:');
+}
+
+// An auto-archived referral only "needs attention" until the user submits a
+// replacement for the same card. A replacement is any non-archived referral
+// on that card_id — including one still "in review" (admin_approved = false),
+// since the user has already done their part. Without this, the expired
+// banner and the tab's "needs attention" badge would persist after a
+// replacement is submitted, and the banner's CTA would flip to a misleading
+// "card not held" (getEligibleReferralCards excludes any card that already
+// has a non-archived referral).
+function getUnreplacedAutoArchivedReferrals<
+  T extends Pick<Referral, 'archived_at' | 'archived_reason' | 'card_id'>,
+>(referrals: T[]): T[] {
+  const replacedCardIds = new Set(
+    referrals.filter((r) => !r.archived_at).map((r) => String(r.card_id)),
+  );
+  return referrals.filter(
+    (r) => isAutoArchivedReferral(r) && !replacedCardIds.has(String(r.card_id)),
+  );
 }
 
 type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings' | 'news' | 'more';
@@ -431,10 +450,10 @@ export default function ProfileClient() {
   const displayName = authState.user?.displayName || authState.user?.email?.split('@')[0] || 'there';
   const handle = authState.user?.email?.split('@')[0] || '';
   const activeReferralsCount = referrals.filter(r => !r.archived_at).length;
-  // Referrals that the weekly validator auto-archived. We want the
+  // Referrals that the referral validator auto-archived. We want the
   // referrals tab to surface a "needs attention" cue in its label so
   // users notice without having to click in.
-  const expiredReferralsCount = referrals.filter(isAutoArchivedReferral).length;
+  const expiredReferralsCount = getUnreplacedAutoArchivedReferrals(referrals).length;
   const visibleWalletCards = activeWalletCards;
 
   const tabs: { key: TabKey; num: string; label: string; count: string }[] = [
@@ -1417,9 +1436,9 @@ function ReferralsTab(props: ReferralsTabProps) {
 
   const active = referrals.filter(r => !r.archived_at);
   // Split archived referrals: auto = expired/unreachable detection by the
-  // weekly validator (need a replacement), manual = admin or user
+  // referral validator (need a replacement), manual = admin or user
   // archived (already shown as the existing yellow notice).
-  const autoArchived = referrals.filter(isAutoArchivedReferral);
+  const autoArchived = getUnreplacedAutoArchivedReferrals(referrals);
   const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason && !isAutoArchivedReferral(r));
   const eligibleCardIds = new Set(eligibleReferralCards.map(c => c.card_id));
   const totalImpressions = active.reduce((s, r) => s + (r.impressions ?? 0), 0);
@@ -1456,7 +1475,7 @@ function ReferralsTab(props: ReferralsTabProps) {
               : `${autoArchived.length} referral links look like they expired`}
           </div>
           <div style={{ fontSize: 12, color: '#5c4318', marginBottom: 10 }}>
-            Our weekly check stopped serving {autoArchived.length === 1 ? 'this one' : 'these'} on card pages. Add a replacement to start collecting clicks again. The old stats below stay yours.
+            Our link check stopped serving {autoArchived.length === 1 ? 'this one' : 'these'} on card pages. Add a replacement to start collecting clicks again. The old stats below stay yours.
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {autoArchived.map((r) => {
