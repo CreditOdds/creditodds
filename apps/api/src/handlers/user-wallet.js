@@ -6,8 +6,9 @@
 //   PUT    /wallet/reorder                  — set sort_order for a list of wallet rows (drag-to-reorder)
 //   GET    /wallet/events                   — list product-change events for the user
 //   PUT    /wallet/{id}                     — update acquired_month / acquired_year on a specific instance
-//   DELETE /wallet/{id}                     — remove a specific instance
+//   DELETE /wallet/{id}                     — remove a specific instance (hard delete, no history kept)
 //   POST   /wallet/{id}/product-change      — convert a wallet row from one card to another (same issuer); logs the event
+//   POST   /wallet/{id}/close               — mark a wallet row closed (keeps the row + credit-history span); logs the event
 //
 // Per-card identity is `user_cards.id` (auto-increment). Ratings live in `card_ratings`
 // keyed by (user_id, card_id) — one rating per card type, shared across duplicates.
@@ -67,15 +68,19 @@ exports.UserWalletHandler = async (event) => {
   const isReorderRoute = routeKey.endsWith("/wallet/reorder");
   const isEventsRoute = routeKey.endsWith("/wallet/events");
   const isProductChangeRoute = routeKey.endsWith("/wallet/{id}/product-change") || routeKey.endsWith("/product-change");
+  const isCloseRoute = routeKey.endsWith("/wallet/{id}/close") || routeKey.endsWith("/close");
   let response = {};
 
   try {
     switch (event.httpMethod) {
       case "GET": {
         if (isEventsRoute) {
-          // Product-change history for the user. Joins both old and new card
-          // names so the frontend can render "Sapphire Preferred → Sapphire
-          // Reserve" without a second lookup. Newest event first.
+          // Wallet history for the user: product changes ("Sapphire Preferred →
+          // Sapphire Reserve") and card closures. Joins both old and new card
+          // names so the frontend can render without a second lookup; a closure
+          // has a null new_card_id so the cn.* columns come back null. Also joins
+          // the wallet row (kept alive for closed cards) so a closure can show
+          // the open→close span. Newest event first.
           const events = await mysql.query(`
             SELECT
               e.id,
@@ -91,10 +96,13 @@ exports.UserWalletHandler = async (event) => {
               co.card_image_link AS old_card_image_link,
               cn.card_name AS new_card_name,
               cn.card_image_link AS new_card_image_link,
-              cn.bank AS bank
+              COALESCE(cn.bank, co.bank) AS bank,
+              uc.acquired_month AS opened_month,
+              uc.acquired_year AS opened_year
             FROM wallet_card_events e
             LEFT JOIN cards co ON e.old_card_id = co.card_id
             LEFT JOIN cards cn ON e.new_card_id = cn.card_id
+            LEFT JOIN user_cards uc ON e.user_card_id = uc.id
             WHERE e.user_id = ?
             ORDER BY e.change_date DESC, e.id DESC
           `, [userId]);
@@ -131,7 +139,7 @@ exports.UserWalletHandler = async (event) => {
           JOIN cards c ON uc.card_id = c.card_id
           LEFT JOIN card_ratings cr
             ON cr.card_id = uc.card_id AND cr.user_id = uc.user_id
-          WHERE uc.user_id = ?
+          WHERE uc.user_id = ? AND uc.closed_date IS NULL
           ORDER BY (uc.sort_order IS NULL), uc.sort_order ASC, uc.created_at ASC, uc.id ASC
         `, [userId]);
 
@@ -321,6 +329,114 @@ exports.UserWalletHandler = async (event) => {
               old_card_id: oldCardId,
               new_card_id: Number(new_card_id),
               change_date: effectiveDate,
+            }),
+          };
+          break;
+        }
+
+        if (isCloseRoute) {
+          // Close a card: the account was closed but should still count toward
+          // credit history. Unlike DELETE (a hard remove), we keep the row and
+          // stamp closed_date, so acquired_month/year → closed_date is the span.
+          // The row drops out of the active wallet (GET filters closed_date IS
+          // NULL) and the closure is logged in wallet_card_events. Keyed by row
+          // id so one instance of a duplicated card can be closed on its own.
+          if (!walletRowId || !Number.isFinite(walletRowId)) {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "wallet row id is required in path" }),
+            };
+            break;
+          }
+
+          const body = JSON.parse(event.body || "{}");
+          const { close_date, reason, note } = body;
+
+          if (reason && reason !== "voluntary" && reason !== "forced") {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "reason must be 'voluntary' or 'forced'" }),
+            };
+            break;
+          }
+
+          if (note && typeof note === "string" && note.length > 500) {
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "note must be 500 characters or fewer" }),
+            };
+            break;
+          }
+
+          // Default close_date to today; validate YYYY-MM-DD when provided.
+          let effectiveClose = close_date;
+          if (effectiveClose) {
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(effectiveClose)) {
+              response = {
+                statusCode: 400,
+                headers: responseHeaders,
+                body: JSON.stringify({ error: "close_date must be YYYY-MM-DD" }),
+              };
+              break;
+            }
+          } else {
+            effectiveClose = new Date().toISOString().slice(0, 10);
+          }
+
+          // Verify ownership and that the row isn't already closed.
+          const closeRow = await mysql.query(
+            "SELECT id, card_id, closed_date FROM user_cards WHERE id = ? AND user_id = ?",
+            [walletRowId, userId]
+          );
+          if (closeRow.length === 0) {
+            await mysql.end();
+            response = {
+              statusCode: 404,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "Wallet card not found" }),
+            };
+            break;
+          }
+          if (closeRow[0].closed_date) {
+            await mysql.end();
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "Card is already closed" }),
+            };
+            break;
+          }
+
+          const closedCardId = closeRow[0].card_id;
+
+          // Stamp the close date, then log the event. Two statements (no
+          // transactions in the serverless-mysql wrapper); the event log is a
+          // record-keeping concern, so order matters less than atomicity.
+          await mysql.query(
+            "UPDATE user_cards SET closed_date = ? WHERE id = ? AND user_id = ? AND closed_date IS NULL",
+            [effectiveClose, walletRowId, userId]
+          );
+
+          const closeInsert = await mysql.query(`
+            INSERT INTO wallet_card_events
+              (user_id, user_card_id, event_type, old_card_id, new_card_id, change_date, reason, note)
+            VALUES (?, ?, 'card_closed', ?, NULL, ?, ?, ?)
+          `, [userId, walletRowId, closedCardId, effectiveClose, reason || null, note || null]);
+
+          await mysql.end();
+
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({
+              message: "Card closed",
+              event_id: closeInsert.insertId,
+              wallet_card_id: walletRowId,
+              card_id: closedCardId,
+              close_date: effectiveClose,
             }),
           };
           break;

@@ -19,10 +19,18 @@ function formatDate(iso: string | null | undefined): string {
   return `${MONTHS_SHORT[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
-function reasonLabel(reason: WalletCardEvent['reason']): string | null {
-  if (reason === 'voluntary') return 'You requested it';
-  if (reason === 'forced') return 'Bank initiated';
+function reasonLabel(event: WalletCardEvent): string | null {
+  const closed = event.event_type === 'card_closed';
+  if (event.reason === 'voluntary') return closed ? 'You closed it' : 'You requested it';
+  if (event.reason === 'forced') return closed ? 'Bank closed it' : 'Bank initiated';
   return null;
+}
+
+function openedLabel(event: WalletCardEvent): string | null {
+  if (!event.opened_month && !event.opened_year) return null;
+  const m = event.opened_month ? MONTHS_SHORT[event.opened_month - 1] : '';
+  if (event.opened_year) return `${m ? m + ' ' : ''}${event.opened_year}`;
+  return m || null;
 }
 
 export default function WalletHistoryClient() {
@@ -64,7 +72,7 @@ export default function WalletHistoryClient() {
 
           <h1 style={{ fontSize: 28, fontWeight: 600, margin: '0 0 4px' }}>Wallet history</h1>
           <p style={{ fontSize: 14, color: 'var(--muted)', margin: '0 0 24px' }}>
-            Every product change recorded on your wallet cards, newest first.
+            Every product change and card closure recorded on your wallet cards, newest first.
           </p>
 
           {error && <div className="cj-modal-error" style={{ marginBottom: 16 }}>{error}</div>}
@@ -75,14 +83,16 @@ export default function WalletHistoryClient() {
 
           {loaded && events.length === 0 && !error && (
             <div style={{ border: '1px solid var(--border)', borderRadius: 12, padding: 24, color: 'var(--muted)', fontSize: 14 }}>
-              No product changes recorded yet. When you convert a wallet card to another product from the same issuer, the change shows up here.
+              Nothing recorded yet. When you convert a wallet card to another product from the same issuer, or close a card, it shows up here.
             </div>
           )}
 
           {loaded && events.length > 0 && (
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
               {events.map((e) => {
-                const reason = reasonLabel(e.reason);
+                const reason = reasonLabel(e);
+                const isClosed = e.event_type === 'card_closed';
+                const opened = openedLabel(e);
                 return (
                   <li
                     key={e.id}
@@ -98,36 +108,59 @@ export default function WalletHistoryClient() {
                         <span className="cj-modal-thumb" style={{ flexShrink: 0 }}>
                           <CardImage
                             cardImageLink={e.old_card_image_link || undefined}
-                            alt={e.old_card_name || 'Old card'}
+                            alt={e.old_card_name || 'Card'}
                             fill
                             className="object-contain"
                             sizes="56px"
                           />
                         </span>
-                        <span style={{ fontSize: 13, color: 'var(--text)', minWidth: 0 }}>
+                        <span style={{ fontSize: 13, fontWeight: isClosed ? 600 : 400, color: 'var(--text)', minWidth: 0 }}>
                           {e.old_card_name || `Card #${e.old_card_id}`}
                         </span>
                       </div>
 
-                      <ArrowRightIcon style={{ width: 14, height: 14, color: 'var(--muted)', flexShrink: 0 }} />
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                        <span className="cj-modal-thumb" style={{ flexShrink: 0 }}>
-                          <CardImage
-                            cardImageLink={e.new_card_image_link || undefined}
-                            alt={e.new_card_name || 'New card'}
-                            fill
-                            className="object-contain"
-                            sizes="56px"
-                          />
+                      {isClosed ? (
+                        <span
+                          style={{
+                            fontSize: 11,
+                            fontWeight: 600,
+                            textTransform: 'uppercase',
+                            letterSpacing: 0.4,
+                            color: 'var(--muted)',
+                            border: '1px solid var(--border)',
+                            borderRadius: 999,
+                            padding: '2px 8px',
+                            flexShrink: 0,
+                          }}
+                        >
+                          Closed
                         </span>
-                        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', minWidth: 0 }}>
-                          {e.new_card_name || `Card #${e.new_card_id}`}
-                        </span>
-                      </div>
+                      ) : (
+                        <>
+                          <ArrowRightIcon style={{ width: 14, height: 14, color: 'var(--muted)', flexShrink: 0 }} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                            <span className="cj-modal-thumb" style={{ flexShrink: 0 }}>
+                              <CardImage
+                                cardImageLink={e.new_card_image_link || undefined}
+                                alt={e.new_card_name || 'New card'}
+                                fill
+                                className="object-contain"
+                                sizes="56px"
+                              />
+                            </span>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', minWidth: 0 }}>
+                              {e.new_card_name || `Card #${e.new_card_id}`}
+                            </span>
+                          </div>
+                        </>
+                      )}
 
                       <div style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--muted)', textAlign: 'right' }}>
-                        <div>{formatDate(e.change_date)}</div>
+                        <div>
+                          {isClosed
+                            ? `${opened ? `Opened ${opened} · ` : ''}Closed ${formatDate(e.change_date)}`
+                            : formatDate(e.change_date)}
+                        </div>
                         {e.bank && <div style={{ fontSize: 11 }}>{e.bank}</div>}
                       </div>
                     </div>

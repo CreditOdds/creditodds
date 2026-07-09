@@ -557,6 +557,22 @@ Resources:
               Ref: CreditCardOddsAPI
             Auth:
               Authorizer: NONE
+        WalletClose:
+          Type: Api
+          Properties:
+            Path: /wallet/{id}/close
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        WalletCloseOptions:
+          Type: Api
+          Properties:
+            Path: /wallet/{id}/close
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
 
   UserCardSelectionsFunction:
     Type: AWS::Serverless::Function

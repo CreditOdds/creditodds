@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
-import { XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon, ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, TrashIcon, ArrowTopRightOnSquareIcon, ArrowsRightLeftIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import { updateWalletCard, removeFromWallet, WalletCard, WalletCardEvent, getUserCardRating, submitCardRating } from '@/lib/api';
 import { useAuth } from '@/auth/AuthProvider';
 
@@ -24,6 +24,11 @@ interface EditWalletCardModalProps {
   // Opens the product-change picker. The host is expected to close this modal
   // and show the ProductChangeModal in its place.
   onRequestProductChange?: () => void;
+  // Opens the close-card flow. Like a product change, the host closes this
+  // modal and shows the CloseCardModal in its place. Distinct from the
+  // "remove from wallet" delete in the footer — closing keeps the card's
+  // history for length-of-credit tracking.
+  onRequestCloseCard?: () => void;
 }
 
 const RATING_LABELS: Record<number, string> = {
@@ -49,7 +54,7 @@ const months = [
   { value: 10, label: 'October' }, { value: 11, label: 'November' }, { value: 12, label: 'December' },
 ];
 
-export default function EditWalletCardModal({ show, card, cardSlug, annualFee, displayName, lastProductChange, onClose, onSuccess, onRequestProductChange }: EditWalletCardModalProps) {
+export default function EditWalletCardModal({ show, card, cardSlug, annualFee, displayName, lastProductChange, onClose, onSuccess, onRequestProductChange, onRequestCloseCard }: EditWalletCardModalProps) {
   const { getToken } = useAuth();
   const [acquiredMonth, setAcquiredMonth] = useState<number | undefined>();
   const [acquiredYear, setAcquiredYear] = useState<number | undefined>();
@@ -215,6 +220,16 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4, marginLeft: cardSlug ? 12 : 0 }}
                 >
                   <ArrowsRightLeftIcon style={{ width: 11, height: 11 }} /> product change
+                </button>
+              )}
+              {onRequestCloseCard && (
+                <button
+                  type="button"
+                  className="cj-modal-link"
+                  onClick={onRequestCloseCard}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4, marginLeft: 12 }}
+                >
+                  <LockClosedIcon style={{ width: 11, height: 11 }} /> close card
                 </button>
               )}
             </div>

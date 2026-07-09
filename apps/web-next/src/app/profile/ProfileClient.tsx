@@ -33,6 +33,7 @@ const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), 
 const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), { ssr: false, loading: () => null });
 const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), { ssr: false, loading: () => null });
 const ProductChangeModal = dynamic(() => import("@/components/wallet/ProductChangeModal"), { ssr: false, loading: () => null });
+const CloseCardModal = dynamic(() => import("@/components/wallet/CloseCardModal"), { ssr: false, loading: () => null });
 const SelectCategoriesModal = dynamic(() => import("@/components/wallet/SelectCategoriesModal"), { ssr: false, loading: () => null });
 const BestCardByCategory = dynamic(() => import("@/components/wallet/BestCardByCategory"), { ssr: false, loading: () => null });
 const BestCardHere = dynamic(() => import("@/components/wallet/BestCardHere"), { ssr: false, loading: () => null });
@@ -174,6 +175,7 @@ export default function ProfileClient() {
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
   const [productChangingCard, setProductChangingCard] = useState<WalletCard | null>(null);
+  const [closingCard, setClosingCard] = useState<WalletCard | null>(null);
   const [walletEvents, setWalletEvents] = useState<WalletCardEvent[]>([]);
   const [submitRecordCard, setSubmitRecordCard] = useState<{ card_id: number; card_name: string; card_image_link?: string; bank: string } | null>(null);
   const [showRecordCardPicker, setShowRecordCardPicker] = useState(false);
@@ -917,11 +919,23 @@ export default function ProfileClient() {
           setEditingCard(null);
           setProductChangingCard(current);
         } : undefined}
+        onRequestCloseCard={editingCard ? () => {
+          const current = editingCard;
+          setEditingCard(null);
+          setClosingCard(current);
+        } : undefined}
       />
       <ProductChangeModal
         show={!!productChangingCard}
         card={productChangingCard}
         onClose={() => setProductChangingCard(null)}
+        onSuccess={loadData}
+      />
+      <CloseCardModal
+        show={!!closingCard}
+        card={closingCard}
+        displayName={closingCard ? walletDisplayNames.get(closingCard.id) : undefined}
+        onClose={() => setClosingCard(null)}
         onSuccess={loadData}
       />
       <SelectCategoriesModal
@@ -1068,19 +1082,19 @@ function CardsTab(props: CardsTabProps) {
           </div>
           {walletEvents.length === 0 ? (
             <div style={{ padding: 24, fontSize: 13, color: 'var(--muted)' }}>
-              No product changes recorded yet. When you convert a wallet card to another product from the same issuer, the change shows up here.
+              Nothing recorded yet. When you convert a wallet card to another product from the same issuer, or close a card, it shows up here.
             </div>
           ) : (
             walletEvents.map((e) => {
+              const isClosed = e.event_type === 'card_closed';
               const reasonLabel = e.reason === 'voluntary' ? 'you' : e.reason === 'forced' ? 'bank' : '—';
               const dateLabel = e.change_date ? e.change_date.slice(0, 10) : '';
-              const arrow = ' → ';
               return (
                 <div key={e.id} className="cj-wallet-crow" style={{ cursor: 'default' }}>
                   <span className="cj-cw-thumb">
                     <CardImage
-                      cardImageLink={e.new_card_image_link || undefined}
-                      alt={e.new_card_name || 'new card'}
+                      cardImageLink={(isClosed ? e.old_card_image_link : e.new_card_image_link) || undefined}
+                      alt={(isClosed ? e.old_card_name : e.new_card_name) || 'card'}
                       fill
                       sizes="36px"
                       className="object-contain"
@@ -1088,9 +1102,18 @@ function CardsTab(props: CardsTabProps) {
                   </span>
                   <div className="cj-cw-name">
                     <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      <span style={{ color: 'var(--muted)' }}>{e.old_card_name || `#${e.old_card_id}`}</span>
-                      {arrow}
-                      {e.new_card_name || `#${e.new_card_id}`}
+                      {isClosed ? (
+                        <>
+                          {e.old_card_name || `#${e.old_card_id}`}
+                          <span style={{ color: 'var(--muted)' }}> · closed</span>
+                        </>
+                      ) : (
+                        <>
+                          <span style={{ color: 'var(--muted)' }}>{e.old_card_name || `#${e.old_card_id}`}</span>
+                          {' → '}
+                          {e.new_card_name || `#${e.new_card_id}`}
+                        </>
+                      )}
                     </span>
                   </div>
                   <div className="cj-cw-renew">{dateLabel}</div>
