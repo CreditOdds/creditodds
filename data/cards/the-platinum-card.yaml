@@ -59,8 +59,9 @@ benefits:
     category: "rideshare"
     enrollment_required: true
   - name: "Digital Entertainment Credit"
-    value: 240
-    description: "$20/month toward select streaming subscriptions: Disney Bundle, Peacock, NYT, Audible, SiriusXM"
+    value: 300
+    value_per_cycle: 25
+    description: "$25/month toward eligible subscriptions with Disney+, ESPN, Hulu, Paramount+, Peacock, NYT, WSJ, and YouTube (from 8/1/26 Peacock bundles and add-ons are ineligible)"
     frequency: "monthly"
     category: "streaming"
     enrollment_required: true
