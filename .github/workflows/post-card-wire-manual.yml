@@ -1,0 +1,66 @@
+name: Post CardWire (manual)
+
+# Manually post CardWire updates to the @card_wire X account.
+#
+# Why this exists: card-wire tweets normally fire from build-cards.yml, but only
+# when its "Sync cards to database" step succeeds AND returns wire_changes. Any
+# other path leaves the card_wire row written with no tweet — e.g. on 2026-07-10
+# the sync step died with ResourceNotFoundException (it still pointed at the
+# deleted us-east-2 Lambda, fixed in #1617), the post step was skipped, and the
+# World of Hyatt 60k -> 75k row was later backfilled by a direct Lambda invoke
+# that never calls post-card-wire.js.
+#
+# post-card-wire.js sends idempotency_key = source_id (wire-<slug>-<YYYY-MM-DD>),
+# so re-running this for a card already posted today is a no-op (the social API
+# returns deduped: true). Safe to retry.
+#
+# Only a sign-up-bonus INCREASE produces a tweet; other fields are ignored by the
+# script, so passing them is harmless.
+
+on:
+  workflow_dispatch:
+    inputs:
+      changes:
+        description: 'wire_changes JSON, e.g. [{"card":"World of Hyatt","changes":[{"field":"signup_bonus_value","old_value":"60000","new_value":"75000","unit":"points"}]}]'
+        required: true
+        type: string
+      dry_run:
+        description: 'Render the image and print the text without posting'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Post CardWire update
+        env:
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+          # Pass via env, not inline ${{ }}, so a card name containing a quote
+          # can't break out of the shell argument or inject commands.
+          WIRE_CHANGES: ${{ inputs.changes }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            node scripts/post-card-wire.js --changes "$WIRE_CHANGES" --dry-run
+          else
+            node scripts/post-card-wire.js --changes "$WIRE_CHANGES"
+          fi
