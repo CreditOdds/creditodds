@@ -121,6 +121,10 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
+      # Gzip responses over 1 KB (API Gateway sends identity by default even
+      # when the client offers Accept-Encoding). /cards alone is ~368 KB raw
+      # vs ~70 KB gzipped.
+      MinimumCompressionSize: 1024
       Auth:
         DefaultAuthorizer: FirebaseAuthorizer
         Authorizers:

@@ -3,6 +3,23 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Card, getAllCards } from '@/lib/api';
 
+// Share one in-flight/settled catalog fetch across all hook consumers.
+// Several components mount the hook at once (e.g. the admin stats tab), and
+// concurrent fetches don't dedupe through the browser cache, so without this
+// each mount pulls the full ~370 KB catalog again. Cleared on failure so a
+// remount can retry.
+let catalogPromise: Promise<Card[]> | null = null;
+
+function fetchCatalog(): Promise<Card[]> {
+  if (!catalogPromise) {
+    catalogPromise = getAllCards().catch((err) => {
+      catalogPromise = null;
+      throw err;
+    });
+  }
+  return catalogPromise;
+}
+
 interface UseCardCatalogOptions {
   activeOnly?: boolean;
 }
@@ -28,7 +45,7 @@ export function useCardCatalog(options: UseCardCatalogOptions = {}) {
   useEffect(() => {
     let isMounted = true;
 
-    getAllCards()
+    fetchCatalog()
       .then((data) => {
         if (!isMounted) return;
 
