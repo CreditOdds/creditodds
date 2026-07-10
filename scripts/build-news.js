@@ -128,6 +128,20 @@ function buildNews() {
   const newsItems = [];
   const errors = [];
 
+  // Fail loud if cards.json didn't load. Without it, every related-card image
+  // lookup below resolves to null and gets filtered to [], silently shipping a
+  // news.json where related cards render the gray placeholder instead of card
+  // art. That is a systemic build error, not a per-item content issue, so stop
+  // rather than deploy broken data. (data/cards.json is gitignored — CI must run
+  // `npm run build:cards` before this script.)
+  if (Object.keys(cardsLookup).length === 0) {
+    console.error(
+      'ERROR: cards lookup is empty — data/cards.json is missing or unreadable.\n' +
+      'Run `npm run build:cards` before building news, or related-card images will be blank.'
+    );
+    process.exit(1);
+  }
+
   // Read all YAML files in the news directory
   const files = fs.readdirSync(NEWS_DIR).filter(f => f.endsWith('.yaml') || f.endsWith('.yml'));
 
@@ -168,7 +182,11 @@ function buildNews() {
       if (item.card_slugs) {
         item.card_image_links = item.card_slugs.map(slug => {
           const card = cardsLookup[slug];
-          return card ? card.image : null;
+          if (!card) {
+            console.warn(`  WARN: card_slug "${slug}" not found in cards.json — related-card image will be blank`);
+            return null;
+          }
+          return card.image;
         }).filter(Boolean);
         if (item.card_image_links.length > 0) {
           item.card_image_link = item.card_image_links[0];
