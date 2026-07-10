@@ -526,15 +526,36 @@ function noteOfferHasExpired(noteText, now) {
 // value and defaults offer_is_tiered:false. Trusting that "flat" reading would
 // delete a live tiered note (#1598).
 //
-// Keyed strictly on the offer's spend-requirement language ("after you spend $X",
-// "after $N ...") — that only appears once the offer body renders. Header labels
-// like "Welcome Offer" are deliberately NOT used: Amex ships that header with a
-// "Loading" body (Delta Gold Business, #1590), so it's present even when the offer
-// isn't. Unknown input (no pageContent, e.g. unit tests) is treated as present so
-// callers without it keep their prior behavior.
+// Keyed on the offer's spend-requirement language ("after you spend $X",
+// "after $N ...") ANCHORED to a new-account window phrase nearby ("in your first
+// 3 months", "within the first 90 days", "of account opening", "of Card
+// Membership"). Spend language alone is NOT enough: ongoing BENEFITS use the same
+// construction — Marriott Bevy's "Free Night Award after spending $15,000 ... in
+// a calendar year" and Brilliant's "Each calendar year after spending $60,000"
+// defeated the spend-only gate and re-deleted live tiered notes (#1613). Only a
+// welcome offer ties the spend to the account's first N months/days, so require
+// that anchor within ±150 chars of the spend match.
+//
+// Header labels like "Welcome Offer" are deliberately NOT used: Amex ships that
+// header with a "Loading" body (Delta Gold Business, #1590), so it's present even
+// when the offer isn't. The window phrase alone is also not enough — intro-APR
+// copy says "for the first 15 months" with no spend language. Unknown input (no
+// pageContent, e.g. unit tests) is treated as present so callers without it keep
+// their prior behavior.
 function pageShowsSignupOffer(pageContent) {
   if (pageContent == null) return true;
-  return /\bafter (?:you )?(?:spend|spending|make|making)\b|\bafter \$\s?[\d,]+/i.test(pageContent);
+  // "after you use your new Card to make $X" is Amex's Marriott offer wording —
+  // the plain (?:you )?(make) alternative misses it because of the intervening
+  // "use your new Card to".
+  const spendRe = /\bafter (?:you )?(?:spend|spending|make|making)\b|\bafter you use your new card\b|\bafter \$\s?[\d,]+/gi;
+  const windowRe = /\bfirst\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s+(?:months?|days?)\b|\baccount opening\b|\bcard membership\b|\bopening your account\b/i;
+  let m;
+  while ((m = spendRe.exec(pageContent)) !== null) {
+    const start = Math.max(0, m.index - 150);
+    const end = Math.min(pageContent.length, m.index + m[0].length + 150);
+    if (windowRe.test(pageContent.slice(start, end))) return true;
+  }
+  return false;
 }
 
 function detectChanges(card, extracted, now = new Date(), suppressions = [], pageContent = null) {

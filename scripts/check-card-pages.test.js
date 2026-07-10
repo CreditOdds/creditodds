@@ -299,12 +299,45 @@ test('no pageContent (unit-test / legacy call) keeps prior behavior', () => {
   assert.ok(fieldsChanged(changes).includes('signup_bonus.note'));
 });
 
-test('pageShowsSignupOffer: offer-body language vs earn-rate-only vs Loading header', () => {
-  assert.equal(pageShowsSignupOffer('Earn 140,000 Bonus Points after spending $4,000 in the first 3 months'), true);
-  assert.equal(pageShowsSignupOffer('bonus miles after $ 500 in purchases'), true); // Citi spacing
-  assert.equal(pageShowsSignupOffer('after you make $6,000 in purchases'), true);
+test('pageShowsSignupOffer: spend language must anchor to a new-account window', () => {
+  // Real offer bodies — spend + first-N-months window nearby (issuer wordings)
+  assert.equal(pageShowsSignupOffer('Earn 140,000 Bonus Points after spending $4,000 in the first 3 months from account opening'), true);
+  assert.equal(pageShowsSignupOffer('bonus miles after $ 500 in purchases in the first 3 months'), true); // Citi spacing
+  assert.equal(pageShowsSignupOffer('after you make $6,000 in purchases within the first 6 months of Card Membership'), true);
+  assert.equal(pageShowsSignupOffer('after you make $4,000 or more in purchases within the first 90 days of opening your account'), true); // BofA
+  assert.equal(pageShowsSignupOffer('after you spend $6,000 in purchases within your first six months of Card Membership'), true); // spelled-out count
+  // Not offers
   assert.equal(pageShowsSignupOffer('Earn 3X Miles. Welcome Offer Key Details Loading'), false); // header only
+  assert.equal(pageShowsSignupOffer('0% intro APR for the first 15 months on purchases'), false); // window without spend
   assert.equal(pageShowsSignupOffer(null), true); // unknown → present (back-compat)
+});
+
+test('pageShowsSignupOffer: BENEFIT spend thresholds do not count (#1613 Marriott)', () => {
+  // Verbatim from the 2026-07-10 run's fetched text — these defeated the spend-only gate.
+  const BEVY_BENEFIT = 'nvoy Bevy Free Night Award benefit, Card Members can earn 1 Free Night Award after spending $15,000 on eligible purchases with their Marriott Bonvoy Bevy card in a calendar year';
+  const BRILLIANT_BENEFIT = 'Each calendar year after spending $60,000 on eligible purchases on your Marriott Bonvoy Brilliant Card, Card Members are eligible for Ambassador Elite status';
+  assert.equal(pageShowsSignupOffer(BEVY_BENEFIT), false);
+  assert.equal(pageShowsSignupOffer(BRILLIANT_BENEFIT), false);
+  // And the same page with a genuinely rendered offer still passes
+  const BRILLIANT_WITH_OFFER = BRILLIANT_BENEFIT + ' Card Member Offer: Earn 100,000 Marriott Bonvoy bonus points after you use your new Card to make $6,000 in purchases within the first 6 months of Card Membership.';
+  assert.equal(pageShowsSignupOffer(BRILLIANT_WITH_OFFER), true);
+});
+
+test('de-tiering is NOT trusted when only benefit spend text rendered (#1613 end-to-end)', () => {
+  // Echoed value + offer_is_tiered:false + benefit-only page → no note deletion.
+  const bevyBody = 'Earn 6X points at hotels. Card Members can earn 1 Free Night Award after spending $15,000 on eligible purchases in a calendar year. Welcome Offer Key Details';
+  const card = {
+    data: {
+      name: 'Marriott Bonvoy Bevy',
+      signup_bonus: { value: 135000, type: 'points', spend_requirement: 7000, timeframe_months: 6, note: 'Earn 85,000 Marriott Bonvoy bonus points after $5,000 in purchases within first 6 months, plus an additional 50,000 bonus points after an additional $2,000 in purchases within first 6 months of Card Membership.' },
+    },
+  };
+  const changes = detectChanges(
+    card,
+    { signup_bonus: { value: 135000, spend_requirement: 7000, timeframe_months: 6, bonus_note: null, offer_is_tiered: false } },
+    new Date(), [], bevyBody,
+  );
+  assert.deepEqual(fieldsChanged(changes), []);
 });
 
 // ─── Suppressions are recorded, never silent ────────────────────────────────
