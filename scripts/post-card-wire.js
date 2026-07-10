@@ -509,6 +509,12 @@ async function queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffe
     link_url: linkUrl,
     source_type: 'card-wire',
     source_id: sourceId,
+    // sourceId is `wire-<slug>-<YYYY-MM-DD>`, i.e. one post per card per day —
+    // exactly the right idempotency scope. Sending it lets the social API
+    // dedupe (returns `deduped: true`) instead of double-tweeting, so a retry,
+    // a re-run of the manual workflow, or a future reconciler that re-posts
+    // stranded card_wire rows is always safe.
+    idempotency_key: sourceId,
     // SUB-increase tweets route only to the dedicated @card_wire X account.
     // (Omitting platforms would fan out to every connected account.)
     platforms: ['twitter_cardwire'],
