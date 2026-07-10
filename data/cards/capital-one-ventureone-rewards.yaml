@@ -14,7 +14,7 @@ rewards:
     value: 5
     unit: points_per_dollar
   - category: everything_else
-    value: 1.25
+    value: 1
     unit: points_per_dollar
 signup_bonus:
   value: 20000
