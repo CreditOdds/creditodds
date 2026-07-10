@@ -1,5 +1,6 @@
 // Create clients and set shared const values outside of the handler.
 const mysql = require("../db");
+const { getClientIp } = require("../click-identity");
 
 // Yup Schema Validation for Record Submit
 const yup = require("yup");
@@ -185,7 +186,7 @@ exports.UserRecordsHandler = async (event) => {
               length_credit: value.length_credit,
               starting_credit_limit: value.starting_credit_limit,
               submitter_id: submitterId,
-              submitter_ip_address: event.requestContext.identity.sourceIp,
+              submitter_ip_address: getClientIp(event),
               submit_datetime: new Date(),
               bank_customer: value.bank_customer,
               reason_denied: value.reason_denied,

@@ -1,6 +1,7 @@
 // Create clients and set shared const values outside of the handler.
 const mysql = require("../db");
 const { validateReferralLink } = require("../lib/validate-referral-link");
+const { getClientIp } = require("../click-identity");
 
 const responseHeaders = {
   // Authenticated, user-specific responses: never cache at browser or any
@@ -140,7 +141,7 @@ exports.UserReferralsHandler = async (event) => {
           card_id: postBody.card_id,
           referral_link: postBody.referral_link,
           submitter_id: userId,
-          submitter_ip_address: event.requestContext.identity.sourceIp,
+          submitter_ip_address: getClientIp(event),
           submit_datetime: new Date(),
         });
         await mysql.end();
