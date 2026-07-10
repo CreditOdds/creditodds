@@ -38,6 +38,7 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited
+foreign_transaction_fee: true
 our_take: >
   One of the strongest no-fee cash-back cards going: a flat 1.5% floor plus 3% on
   dining and drugstores and 5% on Chase travel, with a 15-month 0% intro APR on
