@@ -240,6 +240,50 @@ test('Legit co-brand earn increase (no bundle language) still surfaces', () => {
   assert.equal(diff.changed[0].to.value, 3);
 });
 
+console.log('\nBase-rate downgrade guard (everything_else):');
+
+test('everything_else cut routes to review, not auto-PR', () => {
+  // The 2026-07-10 batch: Venture X 2→1, VentureOne 1.25→1, Bilt 2→1,
+  // U.S. Bank Shopper 1.5→1 — all misreads. A downward everything_else
+  // proposal must land in `downgraded` (review queue), never `changed`.
+  const current = [{ category: 'everything_else', value: 2, unit: 'points_per_dollar' }];
+  const proposed = [{ category: 'everything_else', value: 1, unit: 'points_per_dollar' }];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.changed.length, 0, 'downgrade must not be auto-PR\'d');
+  assert.equal(diff.downgraded.length, 1, 'downgrade must be routed to review');
+  assert.equal(diff.downgraded[0].from.value, 2);
+  assert.equal(diff.downgraded[0].to.value, 1);
+});
+
+test('fractional everything_else cut (1.25→1) also routes to review', () => {
+  const current = [{ category: 'everything_else', value: 1.25, unit: 'points_per_dollar' }];
+  const proposed = [{ category: 'everything_else', value: 1, unit: 'points_per_dollar' }];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.changed.length, 0);
+  assert.equal(diff.downgraded.length, 1);
+});
+
+test('everything_else INCREASE still auto-PRs (not treated as a downgrade)', () => {
+  // A plausible upward move (below the big-jump guard) is a real change and
+  // must still flow to `changed`.
+  const current = [{ category: 'everything_else', value: 1, unit: 'percent' }];
+  const proposed = [{ category: 'everything_else', value: 1.5, unit: 'percent' }];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.downgraded.length, 0, 'an increase is not a downgrade');
+  assert.equal(diff.changed.length, 1, 'a plausible base-rate increase still surfaces');
+  assert.equal(diff.changed[0].to.value, 1.5);
+});
+
+test('non-everything_else category cut still auto-PRs', () => {
+  // The guard is scoped to everything_else only — a bonus-category rate
+  // change is comparatively low-stakes and keeps auto-PRing.
+  const current = [{ category: 'dining', value: 4, unit: 'percent' }];
+  const proposed = [{ category: 'dining', value: 3, unit: 'percent' }];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.downgraded.length, 0);
+  assert.equal(diff.changed.length, 1, 'a bonus-category change still surfaces as a change');
+});
+
 console.log('\nFTF page-content validation:');
 
 test('pageEvidencesNoFtf returns false when page has fee-table line item', () => {
