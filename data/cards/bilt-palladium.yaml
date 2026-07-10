@@ -67,7 +67,7 @@ rewards:
     unit: points_per_dollar
     note: "Flights booked through Bilt Travel"
   - category: everything_else
-    value: 2
+    value: 1
     unit: points_per_dollar
     note: "Everyday spend earns the base 2x in points. The 4% Bilt Cash option on everyday spend is an alternative to the up to 1.25x rent points, not an addition, and is a separate currency rather than cash back; its main use is buying point accelerators that temporarily lift $5,000 of spend to 3x points (up to 5 per year)."
 signup_bonus:
