@@ -1,0 +1,1 @@
+ALTER TABLE card_ratings MODIFY user_id VARCHAR(128) NULL;

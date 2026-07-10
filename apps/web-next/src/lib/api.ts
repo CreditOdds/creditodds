@@ -1347,6 +1347,31 @@ export async function getUserCardRating(cardName: string, token: string): Promis
   return data.rating;
 }
 
+// Public rate-a-card endpoint: works signed-out (server dedupes by a salted
+// IP hash) or signed-in (pass a token to upsert the account's rating).
+export async function submitPublicCardRating(
+  cardName: string,
+  rating: number,
+  comment?: string,
+  token?: string | null
+): Promise<void> {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const res = await fetch(`${API_BASE}/ratings`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      card_name: cardName,
+      rating,
+      ...(comment?.trim() ? { comment: comment.trim() } : {}),
+    }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to submit rating: ${errorText}`);
+  }
+}
+
 export async function submitCardRating(
   cardName: string,
   rating: number,

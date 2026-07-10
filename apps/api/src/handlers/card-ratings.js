@@ -1,4 +1,14 @@
 const mysql = require("../db");
+const { getClientIp, hashIp, getOptionalUserId } = require("../click-identity");
+
+const COMMENT_MAX = 2000;
+
+function normalizeComment(value) {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.length > COMMENT_MAX ? trimmed.substring(0, COMMENT_MAX) : trimmed;
+}
 
 const responseHeaders = {
   // Authenticated, user-specific responses: never cache at browser or any
@@ -82,6 +92,90 @@ exports.CardRatingsHandler = async (event) => {
             count: results[0].count,
             average: results[0].average ? parseFloat(results[0].average.toFixed(2)) : null,
           }),
+        };
+        break;
+      } catch (error) {
+        await mysql.end();
+        response = {
+          statusCode: 500,
+          headers: responseHeaders,
+          body: JSON.stringify({ error: String(error) }),
+        };
+        break;
+      }
+
+    // POST /ratings — public rate-a-card. Signed-in callers (valid Firebase
+    // token) upsert on (user_id, card_id); anonymous callers upsert on
+    // (ip_hash, card_id) so one IP gets one vote per card, editable.
+    case "POST":
+      try {
+        const body = typeof event.body === "string" ? JSON.parse(event.body || "{}") : (event.body || {});
+        const { card_name: cardName, rating } = body;
+        const comment = normalizeComment(body.comment);
+
+        if (!cardName || rating === undefined || rating === null) {
+          response = {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "card_name and rating are required" }),
+          };
+          break;
+        }
+
+        if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+          response = {
+            statusCode: 400,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "rating must be an integer between 1 and 5" }),
+          };
+          break;
+        }
+
+        const cardId = await resolveCardId(cardName);
+        if (!cardId) {
+          await mysql.end();
+          response = {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Card not found" }),
+          };
+          break;
+        }
+
+        const userId = await getOptionalUserId(event);
+        if (userId) {
+          await mysql.query(
+            `INSERT INTO card_ratings (user_id, card_id, rating, comment)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE rating = VALUES(rating), comment = VALUES(comment), updated_at = NOW()`,
+            [userId, cardId, rating, comment]
+          );
+        } else {
+          const ipHash = hashIp(getClientIp(event));
+          if (!ipHash) {
+            // Without a stable identity we can't enforce one vote per
+            // visitor, so reject rather than accept unlimited votes.
+            await mysql.end();
+            response = {
+              statusCode: 400,
+              headers: responseHeaders,
+              body: JSON.stringify({ error: "Unable to accept rating" }),
+            };
+            break;
+          }
+          await mysql.query(
+            `INSERT INTO card_ratings (ip_hash, card_id, rating, comment)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE rating = VALUES(rating), comment = VALUES(comment), updated_at = NOW()`,
+            [ipHash, cardId, rating, comment]
+          );
+        }
+        await mysql.end();
+
+        response = {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify({ success: true, rating }),
         };
         break;
       } catch (error) {

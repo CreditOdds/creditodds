@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useMemo, useEffect, useRef, useId } from "react";
+import { Suspense, useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import CardImage from "@/components/ui/CardImage";
 import Link from "next/link";
@@ -27,6 +27,7 @@ import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, fr
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
+import RateCardStars from "@/components/forms/RateCardStars";
 import ApplyOutcomePrompt, { markApplyPending } from "@/components/forms/ApplyOutcomePrompt";
 import CardyComparePopup from "@/components/ui/CardyComparePopup";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
@@ -84,35 +85,6 @@ function getStableReferralIndex(cardKey: string, referralCount: number): number 
     hash = (hash * 31 + cardKey.charCodeAt(i)) | 0;
   }
   return Math.abs(hash) % referralCount;
-}
-
-function StarIcon({
-  fill = 1,
-  size = 14,
-}: {
-  fill?: number;
-  size?: number;
-}) {
-  const gradientId = useId();
-  const pct = Math.max(0, Math.min(1, fill)) * 100;
-  const path =
-    "M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z";
-  return (
-    <svg width={size} height={size} viewBox="0 0 20 20">
-      <defs>
-        <linearGradient id={gradientId} x1="0" x2="1" y1="0" y2="0">
-          <stop offset={`${pct}%`} stopColor="currentColor" stopOpacity={1} />
-          <stop offset={`${pct}%`} stopColor="currentColor" stopOpacity={0} />
-        </linearGradient>
-      </defs>
-      <path
-        d={path}
-        fill={`url(#${gradientId})`}
-        stroke="currentColor"
-        strokeWidth={1.2}
-      />
-    </svg>
-  );
 }
 
 const MIN_DATA_POINTS_FOR_CHARTS = 5;
@@ -1794,34 +1766,13 @@ export default function CardClient({
             </div>
           )}
 
-          {ratings.average !== null && ratings.count > 0 && (
-            <div className="cj-rating">
-              <div>
-                <div className="cj-rating-v">
-                  {ratings.average.toFixed(1)}{" "}
-                  <small>/ 5</small>
-                </div>
-                <div
-                  style={{
-                    fontSize: 11,
-                    color: "var(--muted)",
-                    marginTop: 2,
-                  }}
-                >
-                  {ratings.count}{" "}
-                  {ratings.count === 1 ? "rating" : "ratings"}
-                </div>
-              </div>
-              <div className="cj-rating-stars">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <StarIcon
-                    key={s}
-                    fill={(ratings.average ?? 0) - (s - 1)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          <RateCardStars
+            cardName={card.card_name}
+            slug={card.slug}
+            cardImageLink={card.card_image_link}
+            bank={card.bank}
+            ratings={ratings}
+          />
 
           <Link
             href={`/compare?cards=${card.slug}`}
