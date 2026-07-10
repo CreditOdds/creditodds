@@ -1337,6 +1337,9 @@ merchants:
   # Giant Food
   giant-food:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10968&trid=1552713.215429&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fgiantfood.com"
+  # Jo Malone London (new store page added in this batch)
+  jo-malone:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.39512&trid=1552713.203102&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fjomalone.com"
   # Kohl's
   kohls:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5349&trid=1552713.157993&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fkohls.com"
@@ -1361,6 +1364,9 @@ merchants:
   # Steve Madden
   steve-madden:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.37487&trid=1552713.163728&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fstevemadden.com"
+  # Tempur-Pedic (new store page added in this batch)
+  tempur-pedic:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13723&trid=1552713.199665&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ftempurpedic.com"
   # The Coffee Bean & Tea Leaf
   the-coffee-bean-and-tea-leaf:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8262&trid=1552713.186151&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fcoffeebean.com"

@@ -36,6 +36,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # cards.json is gitignored, so it is absent from a fresh checkout. build-news.js
+      # looks up each related card's image filename in data/cards.json; without it every
+      # card_image_links entry resolves to null and gets filtered to [], leaving related
+      # cards with no art on the live site. Build cards first so the lookup succeeds.
+      - name: Build cards.json
+        run: npm run build:cards
+
       - name: Build news.json
         run: npm run build:news
 

@@ -73,12 +73,18 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   if (!item) notFound();
 
   const relatedCards: RelatedCardInfo[] = [];
-  if (item.card_slugs && item.card_names && item.card_image_links) {
+  if (item.card_slugs && item.card_names) {
     for (let i = 0; i < item.card_slugs.length; i++) {
+      // Skip entries with no resolved image. An empty card_image_links array is
+      // truthy, so a stale/partial news.json (image lookup failed at build time)
+      // would otherwise render related cards with a blank gray placeholder rather
+      // than being omitted. Better to show nothing than broken art.
+      const image = item.card_image_links?.[i];
+      if (!image) continue;
       relatedCards.push({
         slug: item.card_slugs[i],
         name: item.card_names[i],
-        image: item.card_image_links[i] || '',
+        image,
         bank: item.bank || '',
       });
     }
