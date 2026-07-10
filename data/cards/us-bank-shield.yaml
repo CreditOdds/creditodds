@@ -24,6 +24,7 @@ apr:
     min: 16.99
     max: 27.99
 apply_link: https://www.usbank.com/credit-cards/pm/shield-visa-credit-card.html
+foreign_transaction_fee: true
 our_take: >
   U.S. Bank recently trimmed the Shield's 0% intro APR from 24 months to 21,
   but even after the cut it remains one of the longest runways on the market,
