@@ -134,9 +134,19 @@ async function fetchWithTimeout(url, timeoutMs) {
 
 let _browser = null;
 let _launchChannel = null; // 'chrome' if real Chrome is available, else bundled chromium
-async function getBrowser() {
-  if (_browser) return _browser;
+let _browserPromise = null;
 
+// Memoize the in-flight launch, not just the resolved browser. Several
+// concurrency workers can hit getBrowser() simultaneously; without this guard
+// they'd each see _browser === null and launch their own Chrome, orphaning all
+// but the last. Those orphaned browsers keep open handles that prevent Node
+// from exiting, so the script hangs until the CI timeout kills it.
+function getBrowser() {
+  if (!_browserPromise) _browserPromise = launchBrowser();
+  return _browserPromise;
+}
+
+async function launchBrowser() {
   // playwright-extra + stealth plugin patches the obvious headless tells
   // (navigator.webdriver, missing plugins, headless UA, WebGL vendor, etc.)
   // that bank WAFs use to return 403 to automated browsers.
@@ -353,8 +363,14 @@ async function main() {
 module.exports = { checkOne, classify, loadActiveCards, targetsForCard };
 
 if (require.main === module) {
-  main().catch(err => {
-    console.error(err);
-    process.exit(1);
-  });
+  main()
+    .then(() => {
+      // Force exit even if a stray browser handle lingers — all work is done
+      // and stdout is flushed by this point, so there's nothing left to await.
+      process.exit(0);
+    })
+    .catch(err => {
+      console.error(err);
+      process.exit(1);
+    });
 }
