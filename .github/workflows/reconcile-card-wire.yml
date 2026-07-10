@@ -1,0 +1,81 @@
+name: Reconcile CardWire posts
+
+# Safety net for stranded card_wire rows.
+#
+# build-cards.yml only tweets when its "Sync cards to database" step succeeds AND
+# returns wire_changes. Any other path writes the card_wire row with no tweet:
+#   - the sync step fails (2026-07-10: ResourceNotFoundException against the
+#     deleted us-east-2 Lambda, fixed in #1617) and the post step is skipped;
+#   - the sync Lambda is invoked directly (backfills, remediation), which never
+#     calls post-card-wire.js;
+#   - the post step itself errors.
+# In each case the SUB increase silently never reaches X.
+#
+# This job re-posts every sign-up-bonus increase from the last 48h. Re-posting is
+# a no-op for anything already tweeted: each post carries
+# idempotency_key = source_id (wire-<slug>-<YYYY-MM-DD>) and the social API
+# returns `deduped: true` for a key it has seen. Reconciled entries are keyed by
+# the wire row's own date, so a row stranded yesterday can't be re-keyed under
+# today and double-post.
+#
+# The window is short on purpose: recovering a stranded row is good, tweeting a
+# week-old bonus bump as news is not. Use workflow_dispatch with a larger
+# `hours` for a deliberate catch-up.
+
+on:
+  schedule:
+    # Every 30 minutes. The happy path already publishes within seconds
+    # (social-queue kicks the scheduler for card-wire posts), so this only needs
+    # to bound the worst case for the rare stranded row.
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Look-back window in hours (default 48)'
+        required: false
+        default: '48'
+        type: string
+      dry_run:
+        description: 'Render and print without posting'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  # Two overlapping runs would race on the same idempotency key. The API would
+  # dedupe via its unique index, but serialising keeps the logs honest.
+  group: reconcile-card-wire
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Reconcile CardWire posts
+        env:
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+          HOURS: ${{ inputs.hours || '48' }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            node scripts/post-card-wire.js --reconcile "$HOURS" --dry-run
+          else
+            node scripts/post-card-wire.js --reconcile "$HOURS"
+          fi
