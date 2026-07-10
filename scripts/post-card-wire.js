@@ -9,9 +9,24 @@
  * Usage:
  *   node scripts/post-card-wire.js --changes '<JSON>'
  *   node scripts/post-card-wire.js --changes '<JSON>' --dry-run
+ *   node scripts/post-card-wire.js --reconcile [hours]   (default 48)
  *
  * The --changes JSON is the wire_changes array from the /sync-cards response:
  *   [{ "card": "Chase Sapphire Preferred", "changes": [{ "field": "annual_fee", "old_value": "95", "new_value": "250" }] }]
+ *
+ * --reconcile reads recent rows straight from the card_wire table (via /card-wire)
+ * instead of a sync response, and re-posts any SUB increase in the window. This is
+ * the safety net for rows that get written without a tweet: build-cards.yml only
+ * posts when its sync step succeeds AND returns wire_changes, so a failed sync
+ * step or a direct Lambda invoke strands the row silently (World of Hyatt
+ * 60k -> 75k on 2026-07-10). Re-posting is safe because every post carries
+ * idempotency_key = source_id, and the social API returns `deduped: true` for a
+ * key it has already seen — so an already-tweeted change is a no-op.
+ *
+ * source_id is `wire-<slug>-<YYYY-MM-DD>`. Reconciled entries carry the wire
+ * row's own date so the key matches whatever the normal path would have used
+ * that day; without that, a row stranded yesterday would be keyed under today
+ * and could double-post.
  *
  * Env vars: SOCIAL_API_URL, SOCIAL_API_KEY
  */
@@ -113,6 +128,47 @@ function hasSubIncrease(changes) {
     c => c.field === 'signup_bonus_value' &&
       getDirection(c.field, c.old_value, c.new_value) === 'positive'
   );
+}
+
+// ── Reconciliation: read stranded rows straight from the card wire ──
+
+// Pull recent card_wire rows and rebuild the same shape the sync response would
+// have produced, so the rest of the pipeline is identical. Only SUB increases
+// tweet, so we filter to signup_bonus_value here and let hasSubIncrease() make
+// the final call on direction.
+//
+// The window is deliberately short (default 48h): a stranded row is worth
+// recovering, but silently tweeting a week-old bonus bump as news is worse than
+// not tweeting it. Widen it with `--reconcile <hours>` for a deliberate catch-up.
+async function fetchRecentWireChanges(hours) {
+  const res = await fetch(`${API_BASE}/card-wire?limit=200&_=${Date.now()}`);
+  if (!res.ok) throw new Error(`Failed to fetch card wire: ${res.status}`);
+  const rows = (await res.json()).changes || [];
+
+  const cutoff = Date.now() - hours * 3600 * 1000;
+  const byCard = new Map();
+
+  for (const row of rows) {
+    if (row.field !== 'signup_bonus_value') continue;
+    const changedAt = Date.parse(row.changed_at);
+    if (!Number.isFinite(changedAt) || changedAt < cutoff) continue;
+    if (getDirection(row.field, row.old_value, row.new_value) !== 'positive') continue;
+
+    const name = row.card_name;
+    if (!byCard.has(name)) {
+      // Key the post under the day the change landed, not today — otherwise a
+      // row stranded yesterday gets today's idempotency key and double-posts.
+      byCard.set(name, { card: name, date: row.changed_at.slice(0, 10), changes: [] });
+    }
+    byCard.get(name).changes.push({
+      field: row.field,
+      old_value: row.old_value,
+      new_value: row.new_value,
+      unit: row.unit,
+    });
+  }
+
+  return [...byCard.values()];
 }
 
 // ── Card data lookup ──
@@ -547,21 +603,37 @@ async function queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffe
 
 // ── Main ──
 
+const DEFAULT_RECONCILE_HOURS = 48;
+
 function parseArgs() {
   const args = process.argv.slice(2);
   let changesJson = null;
   let dryRun = false;
+  let reconcileHours = null;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--changes' && args[i + 1]) {
       changesJson = args[++i];
     } else if (args[i] === '--dry-run') {
       dryRun = true;
+    } else if (args[i] === '--reconcile') {
+      // Optional hours argument; a bare --reconcile uses the default window.
+      const next = args[i + 1];
+      reconcileHours = next && /^\d+$/.test(next) ? Number(args[++i]) : DEFAULT_RECONCILE_HOURS;
     }
+  }
+
+  if (reconcileHours !== null) {
+    if (changesJson) {
+      console.error('--reconcile and --changes are mutually exclusive');
+      process.exit(1);
+    }
+    return { changes: null, dryRun, reconcileHours };
   }
 
   if (!changesJson) {
     console.error('Usage: node scripts/post-card-wire.js --changes \'<JSON>\' [--dry-run]');
+    console.error('       node scripts/post-card-wire.js --reconcile [hours] [--dry-run]');
     process.exit(1);
   }
 
@@ -573,11 +645,19 @@ function parseArgs() {
     process.exit(1);
   }
 
-  return { changes, dryRun };
+  return { changes, dryRun, reconcileHours: null };
 }
 
 async function main() {
-  const { changes, dryRun } = parseArgs();
+  const { changes: argChanges, dryRun, reconcileHours } = parseArgs();
+
+  let changes = argChanges;
+  if (reconcileHours !== null) {
+    console.log(`=== CardWire Reconcile (last ${reconcileHours}h) ===\n`);
+    changes = await fetchRecentWireChanges(reconcileHours);
+    console.log(`${changes.length} card(s) with a sign-up bonus increase in window`);
+    console.log('Already-posted changes dedupe on idempotency_key; re-posting is a no-op.\n');
+  }
 
   if (!changes || changes.length === 0) {
     console.log('No wire changes to post.');
@@ -617,12 +697,18 @@ async function main() {
     // Build post text
     const { textContent, twitterText } = buildPostText(cardName, cardChanges, bank, bonusType);
     const linkUrl = buildLinkUrl(slug);
-    const sourceId = `wire-${slug}-${new Date().toISOString().slice(0, 10)}`;
+    // Reconciled entries carry the wire row's own date so the idempotency key
+    // matches what the normal path would have used that day. Sync-driven entries
+    // have no date and are posted the moment the change lands, so today is right.
+    const postDate = entry.date || new Date().toISOString().slice(0, 10);
+    const sourceId = `wire-${slug}-${postDate}`;
 
     console.log(`  Text (${textContent.length} chars): ${textContent.replace(/\n/g, ' | ')}`);
     if (twitterText) {
       console.log(`  Twitter variant (${twitterText.length} chars): ${twitterText.replace(/\n/g, ' | ')}`);
     }
+
+    console.log(`  Idempotency key: ${sourceId}`);
 
     if (dryRun) {
       const outPath = path.join(__dirname, '..', `card-wire-preview-${slug}.png`);
@@ -633,7 +719,11 @@ async function main() {
 
     try {
       const result = await queuePost(textContent, twitterText, linkUrl, sourceId, imageBuffer);
-      console.log(`  Queued! Post ID: ${result.id}\n`);
+      if (result.deduped) {
+        console.log(`  Already posted (${sourceId}) — skipped. Post ID: ${result.id}\n`);
+      } else {
+        console.log(`  Queued! Post ID: ${result.id}\n`);
+      }
     } catch (err) {
       console.error(`  Failed to queue: ${err.message}\n`);
     }
