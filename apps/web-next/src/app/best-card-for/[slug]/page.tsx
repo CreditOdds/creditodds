@@ -277,6 +277,14 @@ export default async function BestCardForStorePage({ params }: PageProps) {
               </li>
             ))}
           </ol>
+          {store.affiliate && (
+            <StoreAffiliateCta
+              storeName={store.name}
+              storeSlug={store.slug}
+              affiliate={store.affiliate}
+              topPickName={picks[0]?.card.card_name}
+            />
+          )}
           </>
         )}
 

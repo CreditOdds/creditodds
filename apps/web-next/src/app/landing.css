@@ -8474,6 +8474,9 @@
   display: grid;
   gap: 12px;
 }
+.landing-v2.store-v2 .store-picks + .store-affiliate {
+  margin-top: 24px;
+}
 .landing-v2.store-v2 .store-pick {
   display: flex;
   align-items: flex-start;
@@ -8717,11 +8720,8 @@
 .landing-v2.store-v2 .store-affiliate:first-child {
   margin-top: -12px;
 }
-/* Title and disclosure share the left column so they stack tight against each
-   other. Keeping the disclosure as a sibling of the button instead would leave
-   a dead band under the title: the button is the tallest item in the row, and
-   align-items: center splits its extra height above and below the copy.
-   flex-basis 360px is the wrap trigger — below that the button drops beneath. */
+/* Title column. flex-basis 360px is the wrap trigger — below that the button
+   drops beneath. */
 .landing-v2.store-v2 .store-affiliate-body {
   flex: 1 1 360px;
   min-width: 0;
@@ -8805,12 +8805,6 @@
   height: 15px;
   margin-left: 8px;
   vertical-align: -2px;
-}
-.landing-v2.store-v2 .store-affiliate-disclosure {
-  margin: 5px 0 0;
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--muted);
 }
 
 /* The hero intro paragraph is shared as .page-sub (max-width: 620px) across
