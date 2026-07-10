@@ -74,7 +74,11 @@ jobs:
         id: sync
         run: |
           echo "Invoking sync-cards Lambda directly (no public endpoint)..."
+          # NB: --region is explicit because the job's default region is
+          # us-east-2 (where the S3 buckets still live). The Lambdas moved
+          # to us-east-1 with the rest of the stack.
           aws lambda invoke \
+            --region us-east-1 \
             --function-name creditodds-sync-cards \
             --payload '{"source":"github-action"}' \
             --cli-binary-format raw-in-base64-out \

@@ -58,7 +58,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds-Deploy
-          aws-region: us-east-2
+          aws-region: us-east-1
 
       - name: Fetch batch from ReferralValidationListFunction
         env:
@@ -77,12 +77,23 @@ jobs:
           # for pages where no match exists). `head -n 1` after `--output
           # text` keeps the first non-empty line and is the same fix used
           # in the deploy workflow.
+          #
+          # NB: resolve the name into a variable and assert it is non-empty.
+          # An empty substitution makes `--function-name` swallow the next
+          # flag, and the CLI then reports a misleading ParamValidation
+          # error instead of "no such function".
+          fn=$(aws lambda list-functions \
+            --region us-east-1 \
+            --query "Functions[?contains(FunctionName, 'ReferralValidationList')].FunctionName" \
+            --output text | tr '\t' '\n' | grep -v '^$' | head -n 1)
+          if [ -z "$fn" ]; then
+            echo "::error::No Lambda matching 'ReferralValidationList' in us-east-1"
+            exit 1
+          fi
+          echo "Using $fn"
           aws lambda invoke \
-            --region us-east-2 \
-            --function-name $(aws lambda list-functions \
-              --region us-east-2 \
-              --query "Functions[?contains(FunctionName, 'ReferralValidationList')].FunctionName" \
-              --output text | tr '\t' '\n' | grep -v '^$' | head -n 1) \
+            --region us-east-1 \
+            --function-name "$fn" \
             --cli-binary-format raw-in-base64-out \
             --payload "{\"limit\": ${LIMIT}}" \
             --cli-read-timeout 70 \
@@ -100,12 +111,18 @@ jobs:
             echo "No results to post."
             exit 0
           fi
+          fn=$(aws lambda list-functions \
+            --region us-east-1 \
+            --query "Functions[?contains(FunctionName, 'ReferralValidationComplete')].FunctionName" \
+            --output text | tr '\t' '\n' | grep -v '^$' | head -n 1)
+          if [ -z "$fn" ]; then
+            echo "::error::No Lambda matching 'ReferralValidationComplete' in us-east-1"
+            exit 1
+          fi
+          echo "Using $fn"
           aws lambda invoke \
-            --region us-east-2 \
-            --function-name $(aws lambda list-functions \
-              --region us-east-2 \
-              --query "Functions[?contains(FunctionName, 'ReferralValidationComplete')].FunctionName" \
-              --output text | tr '\t' '\n' | grep -v '^$' | head -n 1) \
+            --region us-east-1 \
+            --function-name "$fn" \
             --cli-binary-format raw-in-base64-out \
             --payload fileb://results.json \
             --cli-read-timeout 310 \
