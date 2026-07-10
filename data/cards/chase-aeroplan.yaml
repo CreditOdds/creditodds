@@ -65,6 +65,11 @@ benefits:
     description: "Complimentary Visa Infinite 24/7 concierge service"
     frequency: "ongoing"
     category: "travel"
+  - name: "Pay Yourself Back"
+    description: "Redeem Aeroplan Points for statement credit on recent travel, dining, grocery store and gas station purchases"
+    frequency: "ongoing"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - airline
   - travel
