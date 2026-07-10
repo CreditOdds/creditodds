@@ -742,6 +742,7 @@ function diffRewards(current, proposed) {
   const added = [];
   const removed = [];
   const changed = [];
+  const downgraded = [];
   for (const [cat, p] of prop) {
     const c = cur.get(cat);
     if (!c) {
@@ -774,6 +775,15 @@ function diffRewards(current, proposed) {
       // includes the loyalty program's member/elite earning, not just the
       // card. Skip silently (see Guard 4 above).
       continue;
+    } else if (cat === 'everything_else' && p.value < c.value) {
+      // Guard 5 — base-rate DOWNGRADE on everything_else. The extractor
+      // repeatedly reads a card's flat base rate as 1 (confirmed 2026-07-10:
+      // Venture X 2→1, VentureOne 1.25→1, Bilt Palladium 2→1, U.S. Bank
+      // Shopper 1.5→1 — all wrong). A real base-rate cut does happen, but
+      // it's rare and high-stakes, so route it to the human review queue
+      // instead of auto-PRing it. (Capped/composed everything_else downgrades
+      // are already skipped silently by the guard above.)
+      downgraded.push({ from: c, to: p });
     } else if (
       c.value !== p.value ||
       c.spend_cap !== p.spend_cap ||
@@ -795,7 +805,7 @@ function diffRewards(current, proposed) {
     if (PORTAL_ALIAS_GROUP.has(cat) && proposalHasPortalRow) continue;
     removed.push(c);
   }
-  return { added, removed, changed };
+  return { added, removed, changed, downgraded };
 }
 
 // Tokenize a benefit name into meaningful words for fuzzy duplicate detection.
@@ -1323,13 +1333,26 @@ function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
 // ─── Review-queue formatting ────────────────────────────────────────────────
 
 function appendReviewEntries(cardName, applyLink, reviewItems, rewardsDiff, ftxnDiff) {
-  if (reviewItems.length === 0 && rewardsDiff.added.length === 0 && rewardsDiff.removed.length === 0) {
+  const downgraded = rewardsDiff.downgraded || [];
+  if (
+    reviewItems.length === 0 &&
+    rewardsDiff.added.length === 0 &&
+    rewardsDiff.removed.length === 0 &&
+    downgraded.length === 0
+  ) {
     return;
   }
   const lines = [];
   lines.push(`\n## ${cardName}`);
   lines.push(`**Apply link:** ${applyLink}\n`);
 
+  if (downgraded.length > 0) {
+    lines.push(`### Base-rate decrease proposed — verify against the live page before applying`);
+    for (const { from, to } of downgraded) {
+      const u = to.unit === 'percent' ? '%' : 'x';
+      lines.push(`- \`${to.category}\`: ${from.value}${u} → ${to.value}${u} (the extractor frequently misreads flat base rates as 1 — confirm the cut is real)`);
+    }
+  }
   if (rewardsDiff.added.length > 0) {
     lines.push(`### New reward category proposed (needs human routing)`);
     for (const r of rewardsDiff.added) {
@@ -1518,8 +1541,18 @@ async function main() {
       );
     }
 
+    if (rewardsDiff.downgraded.length > 0) {
+      for (const { from, to } of rewardsDiff.downgraded) {
+        console.log(`  [review] ${to.category} base-rate cut ${from.value}→${to.value} routed to review (not auto-PR'd)`);
+      }
+    }
+
     appendReviewEntries(card.data.name, card.data.apply_link, benefitsDiff.review, rewardsDiff, ftxnDiff);
-    summary.reviewItems += benefitsDiff.review.length + rewardsDiff.added.length + rewardsDiff.removed.length;
+    summary.reviewItems +=
+      benefitsDiff.review.length +
+      rewardsDiff.added.length +
+      rewardsDiff.removed.length +
+      rewardsDiff.downgraded.length;
 
     await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
   }
