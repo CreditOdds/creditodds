@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-10T12:31:51.323Z",
-  "count": 844,
+  "generated_at": "2026-07-10T12:44:05.063Z",
+  "count": 846,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -5612,6 +5612,25 @@
       "intro": "Jimmy John's is an Illinois-based sub sandwich chain known for its \"Freaky Fast\"\ndelivery, day-baked French bread, and a streamlined menu of cold subs including\nthe Vito, Turkey Tom, and Italian Night Club. The chain operates over 2,600\nlocations nationwide and is owned by Inspire Brands. Jimmy John's transactions code\nas restaurants on Visa, Mastercard, and Amex networks.\n\nThe Amex Gold pays 4x points on U.S. restaurants and leads the field for daily\nJimmy John's lunches, while the Chase Sapphire Reserve pays 3x on dining and\nincludes travel-friendly redemptions. No-annual-fee dining picks like the Capital\nOne SavorOne and Wells Fargo Autograph each earn 3 percent or 3x on restaurants.\nThe Freaky Fast Rewards program adds points and free sandwiches on top of credit\ncard cash back.\n"
     },
     {
+      "name": "Jo Malone London",
+      "slug": "jo-malone",
+      "aliases": [
+        "Jo Malone",
+        "JoMalone.com"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.jomalone.com",
+      "parent_company": "The Estée Lauder Companies",
+      "intro": "Jo Malone London is a British luxury fragrance and scented-home brand owned by The\nEstee Lauder Companies, known for its layerable colognes, candles, and bath lines and\nsold through its own boutiques, jomalone.com, and prestige department stores such as\nNordstrom, Bloomingdale's, and Saks. A purchase direct from the website or a Jo Malone\nboutique typically codes as online shopping or a department store, while the same\nbottle bought inside a larger department store can instead lean on that retailer's\ncategory bonus if one applies. There is no Jo Malone co-brand credit card, so shoppers\nget the most value from a card with a strong online shopping multiplier or a selectable\ndepartment store category, and because fragrance restocks are small purchases a\nflat-rate cashback card works well too.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.39512&trid=1552713.203102&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fjomalone.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "JOANN",
       "slug": "joann",
       "aliases": [
@@ -10033,6 +10052,25 @@
       "intro": "Tecovas is a direct-to-consumer western brand best known for handcrafted leather cowboy\nboots, later expanded into western-styled apparel, belts, and bags, sold through its own\nwebsite and a growing number of physical stores. It carries no co-brand credit card.\nShoppers should look to a card with a solid online shopping or select-clothing bonus\ncategory when ordering online, or a general flat-rate cashback card for purchases made at\none of its brick-and-mortar locations.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14836.3361613&trid=1552713.239177&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Tempur-Pedic",
+      "slug": "tempur-pedic",
+      "aliases": [
+        "TempurPedic",
+        "Tempurpedic.com"
+      ],
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.tempurpedic.com",
+      "parent_company": "Tempur Sealy International",
+      "intro": "Tempur-Pedic is the flagship memory-foam mattress brand of Tempur Sealy International,\nthe same parent behind Stearns & Foster and Sealy, selling its TEMPUR-material\nmattresses, pillows, and bedding direct at tempurpedic.com and through mattress\nspecialists, furniture stores, and department retailers. There is no Tempur-Pedic\nco-brand credit card. Because a mattress is an infrequent, high-dollar purchase,\nshoppers usually come out ahead with a furniture or home-goods category card, a card\nthat pays a bonus on online shopping, or simply a flat-rate cashback card for the one\nbig charge. Tempur-Pedic bought at a department store or mattress chain can instead\nearn under that retailer's own category rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.13723&trid=1552713.199665&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ftempurpedic.com",
         "network": "flexoffers"
       }
     },
