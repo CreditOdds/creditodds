@@ -1,5 +1,6 @@
 'use client';
 
+import { useId } from 'react';
 import posthog from 'posthog-js';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 import type { StoreAffiliate } from '@/lib/stores';
@@ -34,18 +35,14 @@ export default function StoreAffiliateCta({
   const words = label.trim().split(/\s+/);
   const tail = words.pop() ?? '';
   const head = words.join(' ');
+  const titleId = useId();
 
   return (
-    <aside className="store-affiliate" aria-labelledby="store-affiliate-title">
+    <aside className="store-affiliate" aria-labelledby={titleId}>
       <div className="store-affiliate-body">
-        <h2 id="store-affiliate-title" className="store-affiliate-title">
+        <h2 id={titleId} className="store-affiliate-title">
           Shopping at {storeName}?
         </h2>
-        <p className="store-affiliate-disclosure">
-          {affiliate.offer && `Offer shown as listed by ${storeName}, and subject to change. `}
-          CreditOdds may earn a commission on purchases made through this link. It never
-          affects how we rank cards.
-        </p>
       </div>
 
       <a
