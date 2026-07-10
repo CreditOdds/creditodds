@@ -34,7 +34,9 @@ const SUMMARY_FILE = path.join(ROOT, '.card-rewards-benefits-summary.md');
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 90 * 1000;
-const SCRIPT_TIMEOUT_MS = 25 * 60 * 1000;
+// A full sweep of every active card runs ~20 min. Keep real headroom: hitting
+// this cap stops the run early, silently dropping the tail of the alphabet.
+const SCRIPT_TIMEOUT_MS = 35 * 60 * 1000;
 
 // ─── Timeout helpers ─────────────────────────────────────────────────────────
 
@@ -78,23 +80,6 @@ function filterCardsForCheck(allCards, slugFilter) {
     }
   }
   return cards;
-}
-
-// Skip cards whose YAML was edited in the last N days — protects fresh manual
-// edits from being stomped by the auto-checker.
-function wasRecentlyEdited(filepath, days = 14) {
-  try {
-    const out = execFileSync(
-      'git',
-      ['log', '-1', '--format=%ct', '--', filepath],
-      { cwd: ROOT, encoding: 'utf8' }
-    ).trim();
-    if (!out) return false;
-    const lastEditMs = parseInt(out, 10) * 1000;
-    return Date.now() - lastEditMs < days * 24 * 60 * 60 * 1000;
-  } catch {
-    return false;
-  }
 }
 
 // ─── Per-card removed-benefit history ───────────────────────────────────────
@@ -1427,10 +1412,6 @@ function writeRotatingPeriodSection(stale) {
 
 async function main() {
   const slugFilter = process.env.CARD_SLUG || '';
-  // Manual runs can bypass the 14-day recency guard: either explicitly via
-  // FORCE_CHECK=true, or implicitly when a specific CARD_SLUG is targeted
-  // (asking for one card by name is a clear intent to check it now).
-  const forceCheck = process.env.FORCE_CHECK === 'true' || slugFilter !== '';
   const allCards = loadAllCards();
   const cards = filterCardsForCheck(allCards, slugFilter);
   const policy = loadPolicy();
@@ -1449,14 +1430,12 @@ async function main() {
   }
 
   console.log(`\nChecking ${cards.length} active card(s) with apply_link...`);
-  if (forceCheck) console.log('FORCE_CHECK active — bypassing the 14-day recency skip.');
   console.log('');
 
   const summary = {
     fetched: 0,
     extractFailed: 0,
     fetchFailed: 0,
-    skippedRecentlyEdited: 0,
     cardsModified: 0,
     autoChanges: 0,
     reviewItems: 0,
@@ -1469,12 +1448,6 @@ async function main() {
     if (Date.now() - startMs > SCRIPT_TIMEOUT_MS) {
       console.warn(`Script-level timeout reached, stopping early.`);
       break;
-    }
-
-    if (!forceCheck && wasRecentlyEdited(card.filepath)) {
-      console.log(`[skip] ${card.data.name} — YAML edited within last 14 days`);
-      summary.skippedRecentlyEdited++;
-      continue;
     }
 
     console.log(`[fetch] ${card.data.name}`);
