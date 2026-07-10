@@ -59,6 +59,12 @@ benefits:
     frequency: "per_purchase"
     category: "entertainment"
     enrollment_required: false
+  - name: "Discounted Cultivist Membership"
+    description: "50% off the Enthusiast membership to The Cultivist for up to 2 years"
+    frequency: "multi_year"
+    frequency_years: 2
+    category: "entertainment"
+    enrollment_required: false
 tags:
   - travel
   - premium
