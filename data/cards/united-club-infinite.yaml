@@ -83,6 +83,13 @@ benefits:
     description: "Up to $200 each anniversary year on flights purchased directly with JSX"
     frequency: "annual"
     category: "travel"
+  - name: "Mile Flight Savings"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more when booking flights with miles"
+    frequency: "per_flight"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - airline
   - travel
