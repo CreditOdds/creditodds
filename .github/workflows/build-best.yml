@@ -33,7 +33,7 @@ jobs:
         run: npm run build:best
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
           aws-region: us-east-2
