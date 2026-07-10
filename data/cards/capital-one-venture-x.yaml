@@ -59,6 +59,12 @@ benefits:
     frequency: "per_purchase"
     category: "entertainment"
     enrollment_required: false
+  - name: "Discounted Cultivist Membership"
+    description: "50% off the Enthusiast membership to The Cultivist for up to 2 years"
+    frequency: "multi_year"
+    frequency_years: 2
+    category: "entertainment"
+    enrollment_required: false
 tags:
   - travel
   - premium
@@ -77,7 +83,7 @@ rewards:
     note: "Capital One Entertainment platform purchases only — excludes general entertainment, dining reservations, and Capital One Dining"
     merchant_specific: true
   - category: everything_else
-    value: 2
+    value: 1
     unit: points_per_dollar
 signup_bonus:
   value: 75000
