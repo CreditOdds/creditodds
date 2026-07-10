@@ -39,6 +39,14 @@ describe("isBenignClientError", () => {
     expect(isBenignClientError(wrapped)).toBe(true);
   });
 
+  it("drops Safari/WebExtension runtime.sendMessage tab-missing noise", () => {
+    expect(
+      isBenignClientError(
+        new Error("Invalid call to runtime.sendMessage(). Tab not found."),
+      ),
+    ).toBe(true);
+  });
+
   it("keeps a real AbortError that isn't IndexedDB-related", () => {
     // e.g. a genuine fetch abort we'd still want to see — bare name only is
     // benign, but a descriptive non-idb abort message is not matched.
@@ -51,6 +59,14 @@ describe("isBenignClientError", () => {
     expect(
       isBenignClientError(
         domException("Cannot read properties of undefined", "TypeError", 0),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps unrelated extension API failures", () => {
+    expect(
+      isBenignClientError(
+        new Error("Invalid call to runtime.sendMessage(). Permission denied."),
       ),
     ).toBe(false);
   });

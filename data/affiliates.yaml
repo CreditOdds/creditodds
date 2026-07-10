@@ -1309,5 +1309,64 @@ merchants:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25202.3966290&trid=1552713.193401&foc=16&fot=9999&fos=6"
     offer: "buy one get one 50% off shorts"
 
-# Approved in FlexOffers but intentionally not listed above:
-#   Costco Membership: no text link in FlexOffers (banners/widgets only)
+  # --- Added 2026-07-10 from FlexOffers approved-advertiser list ---
+  # Deep links (foc=17) with the merchant homepage appended to `&url=`. No
+  # `offer` attached: the sheet lists commission rates, not evergreen consumer
+  # offers (per the offer rules above). Costco Membership now has a trackable
+  # deep link (previously banners/widgets only), so it is included here.
+  # Three more approvals (everyplate, factor, stop-and-shop) had a null
+  # FlexLink in the sheet and are pending a link from their Get Links page.
+  # Ace Hardware
+  ace-hardware:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9988&trid=1552713.161558&foc=17&fot=9999&fos=6&url=https%3A%2F%2Facehardware.com"
+  # Best Buy
+  best-buy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10014&trid=1552713.712&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.bestbuy.com"
+  # Costco Membership
+  costco:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106609&trid=1552713.248906&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.costco.com%2Fjoin-costco.html%2F"
+  # Dollar Rent-a-Car
+  dollar-rent-a-car:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.35267&trid=1552713.158829&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.dollar.com"
+  # Famous Footwear
+  famous-footwear:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.38507&trid=1552713.280&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ffamousfootwear.com"
+  # Food Lion
+  food-lion:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10965&trid=1552713.226393&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ffoodlion.com%2F"
+  # Giant Food
+  giant-food:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10968&trid=1552713.215429&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fgiantfood.com"
+  # Kohl's
+  kohls:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5349&trid=1552713.157993&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fkohls.com"
+  # Lenovo USA
+  lenovo:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.3808&trid=1552713.157497&foc=17&fot=9999&fos=6&url=https%3A%2F%2Flenovo.com"
+  # MAC Cosmetics
+  mac-cosmetics:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.41340&trid=1552713.201336&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fmaccosmetics.com"
+  # Melissa and Doug
+  melissa-and-doug:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.41493&trid=1552713.159291&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fmelissaanddoug.com%2F"
+  # PacSun
+  pacsun:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.28645&trid=1552713.159888&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fpacsun.com%2F"
+  # PETCO
+  petco:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10290&trid=1552713.189505&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fpetco.com"
+  # Rover
+  rover:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.46193&trid=1552713.209001&foc=17&fot=9999&fos=6&url=https%3A%2F%2Frover.com"
+  # Steve Madden
+  steve-madden:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.37487&trid=1552713.163728&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fstevemadden.com"
+  # The Coffee Bean & Tea Leaf
+  the-coffee-bean-and-tea-leaf:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8262&trid=1552713.186151&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fcoffeebean.com"
+  # The Container Store
+  the-container-store:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24840&trid=1552713.189823&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fcontainerstore.com"
+  # Thrifty Rent-A-Car
+  thrifty:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.3088&trid=1552713.158782&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fthrifty.com"

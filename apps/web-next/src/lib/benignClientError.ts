@@ -9,12 +9,20 @@
 // unhandled rejection. The page itself loads fine — these are not actionable,
 // so we drop them in instrumentation-client.ts (mirrors the server-side
 // self-healing-network filter in transientNetworkError.ts).
+//
+// Mobile Safari can also surface WebExtension content-script messaging failures
+// as page-level unhandled rejections even though the page never calls the
+// extension API. These are user-extension/WebKit noise, not app failures.
 const BENIGN_CLIENT_SIGNATURES = [
   'The transaction was aborted',
   'database connection is closing',
   'idb-get',
   'idb-set',
   'IndexedDB',
+];
+
+const BENIGN_EXTENSION_SIGNATURES = [
+  'Invalid call to runtime.sendMessage(). Tab not found.',
 ];
 
 // DOMException.ABORT_ERR — the numeric code carried by AbortErrors.
@@ -33,6 +41,10 @@ export function isBenignClientError(error: unknown): boolean {
     const name = typeof e.name === 'string' ? e.name : '';
     const message = typeof e.message === 'string' ? e.message : '';
     const isAbort = name === 'AbortError' || e.code === ABORT_ERR_CODE;
+
+    if (BENIGN_EXTENSION_SIGNATURES.some((sig) => message.includes(sig))) {
+      return true;
+    }
 
     if (isAbort) {
       // Bare "AbortError: AbortError" (Firebase's rethrow loses the original
