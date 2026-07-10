@@ -1,6 +1,6 @@
 // Track referral impressions and clicks
 const mysql = require("../db");
-const { hashIp, getOptionalUserId } = require("../click-identity");
+const { getClientIp, hashIp, getOptionalUserId } = require("../click-identity");
 
 const responseHeaders = {
   "Access-Control-Allow-Headers":
@@ -51,7 +51,7 @@ exports.ReferralStatsHandler = async (event) => {
         // forward; ip_hash (sha256(pepper + ip)) is the stable per-IP token
         // we use for unique-click counting. user_id is the Firebase uid when
         // the caller is signed in, otherwise null.
-        const ipAddress = event.requestContext?.identity?.sourceIp || null;
+        const ipAddress = getClientIp(event);
         const userAgent = event.headers?.['User-Agent'] || event.headers?.['user-agent'] || null;
         const ipHash = hashIp(ipAddress);
         const userId = await getOptionalUserId(event);

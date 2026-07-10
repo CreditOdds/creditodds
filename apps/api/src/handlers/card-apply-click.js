@@ -12,7 +12,7 @@
 //   from it. We keep summing it into total counts for historical continuity,
 //   but uniques only reflect new (post-rollout) clicks.
 const mysql = require("../db");
-const { hashIp, getOptionalUserId } = require("../click-identity");
+const { getClientIp, hashIp, getOptionalUserId } = require("../click-identity");
 
 const responseHeaders = {
   "Access-Control-Allow-Headers":
@@ -100,7 +100,7 @@ exports.CardApplyClickHandler = async (event) => {
           break;
         }
 
-        const ip = event.requestContext?.identity?.sourceIp || null;
+        const ip = getClientIp(event);
         const ipHash = hashIp(ip);
         const userId = await getOptionalUserId(event);
 

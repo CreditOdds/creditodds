@@ -3,7 +3,7 @@
 // account can flag a wrong category / wrong card / missing merchant in
 // two taps. One row per submission; admins read directly from the DB.
 const mysql = require("../db");
-const { hashIp, getOptionalUserId } = require("../click-identity");
+const { getClientIp, hashIp, getOptionalUserId } = require("../click-identity");
 
 const responseHeaders = {
   "Access-Control-Allow-Headers":
@@ -127,7 +127,7 @@ exports.BestCardHereReportHandler = async (event) => {
           break;
         }
 
-        const ip = event.requestContext?.identity?.sourceIp || null;
+        const ip = getClientIp(event);
         const ipHash = hashIp(ip);
         const userId = await getOptionalUserId(event);
 

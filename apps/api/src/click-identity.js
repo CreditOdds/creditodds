@@ -26,6 +26,25 @@ function getFirebaseAdmin() {
   }
 }
 
+// The API sits behind CloudFront, so requestContext.identity.sourceIp is a
+// CloudFront edge address, not the visitor. In the X-Forwarded-For chain the
+// last entry is CloudFront's own IP (appended by the API Gateway hop) and the
+// second-to-last is the address CloudFront saw as its TCP peer — the real
+// client. Anything earlier is client-supplied and spoofable.
+function getClientIp(event) {
+  const xff =
+    event.headers?.["X-Forwarded-For"] || event.headers?.["x-forwarded-for"];
+  if (xff) {
+    const chain = xff
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (chain.length >= 2) return chain[chain.length - 2];
+    if (chain.length === 1) return chain[0];
+  }
+  return event.requestContext?.identity?.sourceIp || null;
+}
+
 function hashIp(ip) {
   if (!ip) return null;
   const pepper = process.env.IP_HASH_PEPPER;
@@ -57,4 +76,4 @@ async function getOptionalUserId(event) {
   }
 }
 
-module.exports = { hashIp, getOptionalUserId };
+module.exports = { getClientIp, hashIp, getOptionalUserId };

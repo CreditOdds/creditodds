@@ -14,7 +14,7 @@
 //   These are anonymous tier-1 signals. They do NOT feed the public odds
 //   charts — full data points live in the records table.
 const mysql = require("../db");
-const { hashIp, getOptionalUserId } = require("../click-identity");
+const { getClientIp, hashIp, getOptionalUserId } = require("../click-identity");
 
 const responseHeaders = {
   "Access-Control-Allow-Headers":
@@ -105,7 +105,7 @@ exports.ApplyOutcomeHandler = async (event) => {
           break;
         }
 
-        const ip = event.requestContext?.identity?.sourceIp || null;
+        const ip = getClientIp(event);
         const ipHash = hashIp(ip);
         const userId = await getOptionalUserId(event);
         const identityKey = userId || ipHash;
