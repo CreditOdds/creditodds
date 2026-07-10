@@ -1,0 +1,1 @@
+ALTER TABLE card_ratings ADD COLUMN comment VARCHAR(2000) NULL AFTER rating;

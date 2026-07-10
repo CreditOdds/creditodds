@@ -8178,6 +8178,57 @@
 }
 .landing-v2 .cj-rating-v small { color: var(--muted); font-size: 14px; font-weight: 400; }
 .landing-v2 .cj-rating-stars { color: var(--gold); display: flex; gap: 1px; }
+.landing-v2 .cj-rating-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.landing-v2 .cj-rating-star-btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 2px;
+  margin: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  line-height: 0;
+}
+.landing-v2 .cj-rating-star-btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+.landing-v2 .cj-rating-mine {
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+/* Star selector inside the rate-card modal */
+.landing-v2 .cj-rate-stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  color: var(--gold);
+  padding: 4px 0 2px;
+}
+.landing-v2 .cj-rate-star-btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 2px;
+  margin: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  line-height: 0;
+}
+.landing-v2 .cj-rate-star-btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
 
 /* Skeleton loader — subtle shimmer, scoped to journal */
 .landing-v2 .cj-skeleton {
