@@ -29,6 +29,12 @@ benefits:
     description: "Up to $15,000 reimbursement for lodging, flights, and activities if trip is canceled for a covered reason"
     category: "travel"
     enrollment_required: false
+  - name: "Annual Statement Credit"
+    value: 50
+    description: "Annual statement credit with $50 minimum airline purchase"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
 tags:
   - travel
   - rewards
