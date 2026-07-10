@@ -83,7 +83,7 @@ rewards:
     note: "Capital One Entertainment platform purchases only — excludes general entertainment, dining reservations, and Capital One Dining"
     merchant_specific: true
   - category: everything_else
-    value: 1
+    value: 2
     unit: points_per_dollar
 signup_bonus:
   value: 75000
