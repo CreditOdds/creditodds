@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-10T12:44:05.063Z",
-  "count": 846,
+  "generated_at": "2026-07-11T12:57:36.792Z",
+  "count": 857,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -1322,6 +1322,23 @@
       "intro": "Bath & Body Works is a U.S. personal-care chain with about 1,800 domestic stores,\nselling soaps, lotions, candles, and home fragrance. In-store charges code as\ndepartment stores; bathandbodyworks.com codes as online shopping. The My Bath &\nBody Works Rewards program issues a free reward at sign-up plus per-spend points;\na Comenity Bank-issued co-branded credit card layers additional cashback for\nheavy shoppers.\n"
     },
     {
+      "name": "Batteries Plus",
+      "slug": "batteries-plus",
+      "aliases": [
+        "Batteries Plus Bulbs",
+        "BatteriesPlus.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.batteriesplus.com",
+      "intro": "Batteries Plus is a national retail chain selling batteries, light bulbs, phone-repair\nservices, and key fobs through more than 700 stores and batteriesplus.com. There is no\nBatteries Plus co-brand credit card, so in-store and online purchases earn on whatever card\nyou use. A card with a strong online shopping bonus or a reliable flat-rate cashback rate is\nthe simplest way to earn on both replacement batteries and one-off repairs.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.45126&trid=1552713.212470&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.batteriesplus.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Beautyrest",
       "slug": "beautyrest",
       "parent_company": "Serta Simmons Bedding",
@@ -1482,6 +1499,24 @@
       "intro": "Birkenstock sells its cork-footbed sandals and clogs directly through birkenstock.com, and that online checkout typically codes as online shopping or general retail. The brand is centuries old and now publicly traded, with most US sales running through its own site and select retailers. Pair a card that rewards online purchases, since a sandals order rarely qualifies for grocery or dining bonuses.\n"
     },
     {
+      "name": "Bissell",
+      "slug": "bissell",
+      "aliases": [
+        "BISSELL",
+        "Bissell.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.bissell.com",
+      "parent_company": "BISSELL Homecare",
+      "intro": "Bissell is a family-owned American floor-care brand making vacuums, carpet cleaners, and\ncleaning solutions, sold direct at bissell.com and through mass and online retailers. There\nis no Bissell co-brand credit card. For a direct purchase, a card with a strong online\nshopping bonus or a flat-rate cashback card works best, while the same machine bought at a\nbig-box retailer can lean on that store's category rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.8952&trid=1552713.198815&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.bissell.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "BJ's Restaurant",
       "slug": "bjs-restaurant",
       "aliases": [
@@ -1505,6 +1540,25 @@
       ],
       "website": "https://www.bjs.com",
       "intro": "BJ's Wholesale Club is the East Coast-focused warehouse retailer with about 240 clubs\nand a growing online catalog. Unlike Costco and Sam's Club, BJ's accepts manufacturer\ncoupons in addition to its own discounts, which can stack on top of card rewards. BJ's\naccepts all four card networks, and BJ's gas pumps code as wholesale clubs — not as gas\n— so a flat 5% gas card will not earn at the pump here.\n"
+    },
+    {
+      "name": "BLACK+DECKER",
+      "slug": "black-and-decker",
+      "aliases": [
+        "Black and Decker",
+        "BlackandDecker.com"
+      ],
+      "categories": [
+        "home_improvement",
+        "online_shopping"
+      ],
+      "website": "https://www.blackanddecker.com",
+      "parent_company": "Stanley Black & Decker",
+      "intro": "BLACK+DECKER is a long-running power-tool and home-appliance brand owned by Stanley Black &\nDecker, selling drills, yard tools, and small household appliances direct at\nblackanddecker.com and through home-improvement and mass retailers. There is no BLACK+DECKER\nco-brand credit card, so a direct purchase pairs best with a card that pays a bonus on home\nimprovement or online shopping, while the same tool bought at a hardware chain can earn\nunder that store's category rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10047&trid=1552713.234710&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.blackanddecker.com",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Blaze Pizza",
@@ -1944,6 +1998,24 @@
       "intro": "Build-A-Bear Workshop lets customers assemble stuffed animals at mall workshops and online. Spending tends to code as a department store or general retail rather than as a toy-specific category, so grocery and dining bonuses will not apply. Use a flat-rate card or one that rewards online shopping for orders placed on its website.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.9841.625281&trid=1552713.228001&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Bulova",
+      "slug": "bulova",
+      "aliases": [
+        "Bulova.com"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.bulova.com",
+      "parent_company": "Citizen Watch Co.",
+      "intro": "Bulova is an American watch brand founded in 1875 and now owned by Japan's Citizen Watch\nCo., selling watches and clocks direct at bulova.com and through department stores and\nauthorized jewelers. There is no Bulova co-brand credit card, so a purchase codes as a\ndepartment store or online shopping charge. Because a watch is an occasional higher-dollar\nbuy, shoppers usually get the most from a card with a selectable department store category,\na strong online shopping multiplier, or a flat-rate cashback card for the one purchase.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.16604&trid=1552713.212036&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fbulova.com",
         "network": "flexoffers"
       }
     },
@@ -2915,6 +2987,25 @@
       }
     },
     {
+      "name": "Decathlon",
+      "slug": "decathlon",
+      "aliases": [
+        "Decathlon America",
+        "Decathlon.com"
+      ],
+      "categories": [
+        "sporting_goods",
+        "online_shopping"
+      ],
+      "website": "https://www.decathlon.com",
+      "parent_company": "Decathlon",
+      "intro": "Decathlon is a French sporting-goods giant expanding across the United States, selling\naffordable gear for dozens of sports through its growing store footprint and decathlon.com.\nThere is no Decathlon co-brand credit card, so purchases earn on whatever card you use. A\ncard that pays a bonus on sporting goods or on general online shopping is the best fit for\nboth in-store and online orders.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.25038&trid=1552713.232439&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.decathlon.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Del Taco",
       "slug": "del-taco",
       "categories": [
@@ -3454,6 +3545,22 @@
       ],
       "website": "https://www.dutchbros.com",
       "intro": "Dutch Bros Coffee has grown from a single Oregon pushcart in 1992 to more than 950 drive-thru\ncoffee shops across roughly 18 states, with a menu that leans heavily on flavored Rebel\nenergy drinks, blended Freezes, and customizable lattes. Every Dutch Bros purchase codes as\ndining/restaurants regardless of whether you swipe in the drive-thru lane or reload your\nDutch Rewards account in the app. Cards with strong dining multipliers (Amex Gold at 4x,\nCapital One SavorOne at 3%, Chase Sapphire Preferred at 3x) all earn full bonus rewards.\n"
+    },
+    {
+      "name": "Dyson",
+      "slug": "dyson",
+      "aliases": [
+        "Dyson.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.dyson.com",
+      "intro": "Dyson is a British technology company known for its vacuums, air purifiers, hair-care tools,\nand fans, sold direct at dyson.com, in Dyson Demo stores, and through retailers like Best\nBuy and department stores. There is no Dyson co-brand credit card. Dyson products carry high\nprice tags but rarely go on deep discount, so shoppers usually earn the most with a card\nthat has a strong online shopping multiplier, or by buying at a retailer whose own category\nbonus applies.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.36310&trid=1552713.189851&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fdyson.com",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "e.l.f. Cosmetics",
@@ -5490,6 +5597,22 @@
       "intro": "Jack in the Box operates roughly 2,200 locations concentrated in the western United States,\nbuilt around a 24-hour menu that mixes burgers, tacos, breakfast sandwiches, and late-night\nmunchie meals. Drive-thru and mobile-app orders code as standard quick-service restaurants,\nso any card paying a dining bonus (3-5% on cards like the Capital One Savor or Amex Gold)\nearns full rate. The Jack app supports Apple Pay and Google Pay funding, which lets you\nstack a card's dining multiplier with mobile-wallet bonuses on cards that offer them.\n"
     },
     {
+      "name": "Jackery",
+      "slug": "jackery",
+      "aliases": [
+        "Jackery.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.jackery.com",
+      "intro": "Jackery is a fast-growing maker of portable power stations and solar generators, sold mostly\ndirect-to-consumer at jackery.com alongside Amazon and select electronics retailers. There\nis no Jackery co-brand credit card, and because a power station is an infrequent,\nhigher-dollar purchase, shoppers typically come out ahead with a card that pays a bonus on\nonline shopping or a flat-rate cashback card for the one big order.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.18694&trid=1552713.230818&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.jackery.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Jamba",
       "slug": "jamba",
       "aliases": [
@@ -6342,6 +6465,24 @@
       "intro": "LOFT, a sister brand to Ann Taylor, sells more casual and relaxed women's clothing. Online checkout codes as online shopping or retail, so a shopping portal or rotating bonus may apply, while in-store purchases generally earn the base rate since clothing rarely qualifies for a category bonus.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.27705.3286435&trid=1552713.158369&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Logitech",
+      "slug": "logitech",
+      "aliases": [
+        "Logitech.com",
+        "Logitech G"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.logitech.com",
+      "parent_company": "Logitech International",
+      "intro": "Logitech is a Swiss-American maker of computer peripherals and accessories, from mice and\nkeyboards to webcams, gaming gear under Logitech G, and streaming equipment, sold direct at\nlogitech.com and through electronics and online retailers. There is no Logitech co-brand\ncredit card, so purchases earn best on a card with a strong online shopping multiplier, or\nat a retailer like Best Buy whose electronics category bonus can apply.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.8585&trid=1552713.157431&foc=17&fot=9999&fos=6&url=https%3A%2F%2Flogitech.com",
         "network": "flexoffers"
       }
     },
@@ -9069,6 +9210,24 @@
       }
     },
     {
+      "name": "Samsonite",
+      "slug": "samsonite",
+      "aliases": [
+        "Samsonite.com"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://shop.samsonite.com",
+      "parent_company": "Samsonite International",
+      "intro": "Samsonite is the world's largest luggage maker, selling suitcases, carry-ons, and travel\nbags direct at samsonite.com and through department stores and travel retailers. There is no\nSamsonite co-brand credit card, so a purchase codes as a department store or online shopping\ncharge. Since luggage is bought ahead of travel, a good pairing is a card with a department\nstore or online shopping bonus, and some travel cards also treat luggage as a\ntravel-adjacent purchase.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.11771&trid=1552713.158800&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fshop.samsonite.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Samsung",
       "slug": "samsung",
       "categories": [
@@ -9154,6 +9313,24 @@
       ],
       "website": "https://www.scooterscoffee.com",
       "intro": "Scooter's Coffee is a fast-growing Omaha-born drive-thru chain built around its signature Caramelicious latte and quick coffee kiosks. Orders code as dining or restaurants on most rewards cards, so a dining multiplier is the right tool. Mobile app reloads can sometimes code differently, but a straight tap at the window stays in the dining bucket.\n"
+    },
+    {
+      "name": "Sealy",
+      "slug": "sealy",
+      "aliases": [
+        "Sealy.com"
+      ],
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.sealy.com",
+      "parent_company": "Tempur Sealy International",
+      "intro": "Sealy is one of America's best-known mainstream mattress brands, part of Tempur Sealy\nInternational alongside Tempur-Pedic and Stearns & Foster, sold direct at sealy.com and\nthrough mattress specialists, furniture stores, and department retailers. There is no Sealy\nco-brand credit card. Because a mattress is an infrequent, high-dollar purchase, shoppers\nusually come out ahead with a furniture or home-goods category card, a card that pays a\nbonus on online shopping, or a flat-rate cashback card for the one big charge.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.13726&trid=1552713.228816&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fsealy.com",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "SeatGeek",
@@ -10679,6 +10856,25 @@
       ],
       "website": "https://www.ubereats.com",
       "intro": "Uber Eats is the second-largest U.S. food-delivery service and is bundled with Uber\nrideshare for many users. Restaurant orders code as dining/restaurants on every card we\ntrack, and several cards (notably the Amex Gold and Platinum) include Uber Cash credits\nthat can be applied to Uber Eats orders. Grocery orders through Uber Eats typically code\nas the underlying merchant.\n"
+    },
+    {
+      "name": "UGG",
+      "slug": "ugg",
+      "aliases": [
+        "UGG.com",
+        "UGG Australia"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.ugg.com",
+      "parent_company": "Deckers Brands",
+      "intro": "UGG is a footwear and apparel brand owned by Deckers Brands, best known for its sheepskin\nboots and slippers and sold direct at ugg.com, in UGG stores, and through department stores.\nThere is no UGG co-brand credit card, so a purchase codes as clothing or online shopping.\nShoppers earn the most with a card that has a clothing or online shopping category bonus,\nand the same boots bought at a department store can instead earn under that retailer's rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43728&trid=1552713.158350&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fugg.com",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Ulta Beauty",
