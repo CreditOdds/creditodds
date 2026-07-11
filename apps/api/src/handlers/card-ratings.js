@@ -31,6 +31,25 @@ async function resolveCardId(cardName) {
   return rows.length > 0 ? rows[0].card_id : null;
 }
 
+// Resolve a rating request to a numeric card_id. Prefer an explicit numeric
+// card_id when the caller has one (the web card page and wallet both do): it is
+// stable across card renames, whereas matching on the display name breaks the
+// moment the YAML/CDN name drifts from the DB `cards.card_name` (e.g. a rename
+// whose DB migration never ran). Fall back to resolving the card_name string
+// for legacy/iOS callers that only send a name.
+async function resolveRatingCardId({ cardId, cardName }) {
+  const numericId = Number(cardId);
+  if (Number.isInteger(numericId) && numericId > 0) {
+    const rows = await mysql.query(
+      `SELECT card_id FROM cards WHERE card_id = ? LIMIT 1`,
+      [numericId]
+    );
+    if (rows.length > 0) return rows[0].card_id;
+  }
+  if (cardName) return resolveCardId(cardName);
+  return null;
+}
+
 // GET /ratings?card_name=Chase+Sapphire+Preferred — public, returns avg + count
 
 // Cacheable headers for public GET reads: lets CloudFront/browser cache
@@ -58,16 +77,17 @@ exports.CardRatingsHandler = async (event) => {
     case "GET":
       try {
         const cardName = event.queryStringParameters?.card_name;
-        if (!cardName) {
+        const cardIdParam = event.queryStringParameters?.card_id;
+        if (!cardName && !cardIdParam) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_name is required" }),
+            body: JSON.stringify({ error: "card_name or card_id is required" }),
           };
           break;
         }
 
-        const cardId = await resolveCardId(cardName);
+        const cardId = await resolveRatingCardId({ cardId: cardIdParam, cardName });
         if (!cardId) {
           await mysql.end();
           response = {
@@ -110,14 +130,14 @@ exports.CardRatingsHandler = async (event) => {
     case "POST":
       try {
         const body = typeof event.body === "string" ? JSON.parse(event.body || "{}") : (event.body || {});
-        const { card_name: cardName, rating } = body;
+        const { card_name: cardName, card_id: cardIdInput, rating } = body;
         const comment = normalizeComment(body.comment);
 
-        if (!cardName || rating === undefined || rating === null) {
+        if ((!cardName && !cardIdInput) || rating === undefined || rating === null) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_name and rating are required" }),
+            body: JSON.stringify({ error: "card_name or card_id, and rating, are required" }),
           };
           break;
         }
@@ -131,7 +151,7 @@ exports.CardRatingsHandler = async (event) => {
           break;
         }
 
-        const cardId = await resolveCardId(cardName);
+        const cardId = await resolveRatingCardId({ cardId: cardIdInput, cardName });
         if (!cardId) {
           await mysql.end();
           response = {
@@ -220,16 +240,17 @@ exports.CardRatingsUserHandler = async (event) => {
     case "GET":
       try {
         const cardName = event.queryStringParameters?.card_name;
-        if (!cardName) {
+        const cardIdParam = event.queryStringParameters?.card_id;
+        if (!cardName && !cardIdParam) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_name is required" }),
+            body: JSON.stringify({ error: "card_name or card_id is required" }),
           };
           break;
         }
 
-        const cardId = await resolveCardId(cardName);
+        const cardId = await resolveRatingCardId({ cardId: cardIdParam, cardName });
         if (!cardId) {
           await mysql.end();
           response = {
@@ -267,13 +288,13 @@ exports.CardRatingsUserHandler = async (event) => {
     case "POST":
       try {
         const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-        const { card_name: cardName, rating } = body;
+        const { card_name: cardName, card_id: cardIdInput, rating } = body;
 
-        if (!cardName || !rating) {
+        if ((!cardName && !cardIdInput) || !rating) {
           response = {
             statusCode: 400,
             headers: responseHeaders,
-            body: JSON.stringify({ error: "card_name and rating are required" }),
+            body: JSON.stringify({ error: "card_name or card_id, and rating, are required" }),
           };
           break;
         }
@@ -287,7 +308,7 @@ exports.CardRatingsUserHandler = async (event) => {
           break;
         }
 
-        const cardId = await resolveCardId(cardName);
+        const cardId = await resolveRatingCardId({ cardId: cardIdInput, cardName });
         if (!cardId) {
           await mysql.end();
           response = {

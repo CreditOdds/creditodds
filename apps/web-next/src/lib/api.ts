@@ -1332,19 +1332,33 @@ export interface CardRatingAggregates {
   average: number | null;
 }
 
-export async function getCardRatings(cardName: string): Promise<CardRatingAggregates> {
-  const res = await fetchWithRetry(`${API_BASE}/ratings?card_name=${encodeURIComponent(cardName)}`, {
-    next: { revalidate: 300 },
-  });
+// Ratings resolve to a card by numeric card_id when one is passed (stable
+// across card renames), falling back to the card_name string otherwise. The web
+// always has the numeric id (from getCard / the wallet), so it passes it; the
+// card_name is kept for legacy/iOS callers and as a human-readable fallback.
+function ratingsCardIdParam(cardId?: number | string): string {
+  return cardId != null && cardId !== '' ? `&card_id=${encodeURIComponent(String(cardId))}` : '';
+}
+
+export async function getCardRatings(cardName: string, cardId?: number | string): Promise<CardRatingAggregates> {
+  const res = await fetchWithRetry(
+    `${API_BASE}/ratings?card_name=${encodeURIComponent(cardName)}${ratingsCardIdParam(cardId)}`,
+    {
+      next: { revalidate: 300 },
+    }
+  );
   if (!res.ok) return { count: 0, average: null };
   return res.json();
 }
 
-export async function getUserCardRating(cardName: string, token: string): Promise<number | null> {
-  const res = await fetch(`${API_BASE}/ratings/me?card_name=${encodeURIComponent(cardName)}`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: 'no-store',
-  });
+export async function getUserCardRating(cardName: string, token: string, cardId?: number | string): Promise<number | null> {
+  const res = await fetch(
+    `${API_BASE}/ratings/me?card_name=${encodeURIComponent(cardName)}${ratingsCardIdParam(cardId)}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: 'no-store',
+    }
+  );
   if (!res.ok) return null;
   const data = await res.json();
   return data.rating;
@@ -1356,7 +1370,8 @@ export async function submitPublicCardRating(
   cardName: string,
   rating: number,
   comment?: string,
-  token?: string | null
+  token?: string | null,
+  cardId?: number | string
 ): Promise<void> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (token) headers.Authorization = `Bearer ${token}`;
@@ -1365,6 +1380,7 @@ export async function submitPublicCardRating(
     headers,
     body: JSON.stringify({
       card_name: cardName,
+      ...(cardId != null && cardId !== '' ? { card_id: cardId } : {}),
       rating,
       ...(comment?.trim() ? { comment: comment.trim() } : {}),
     }),
@@ -1378,7 +1394,8 @@ export async function submitPublicCardRating(
 export async function submitCardRating(
   cardName: string,
   rating: number,
-  token: string
+  token: string,
+  cardId?: number | string
 ): Promise<void> {
   const res = await fetch(`${API_BASE}/ratings/me`, {
     method: 'POST',
@@ -1386,7 +1403,11 @@ export async function submitCardRating(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ card_name: cardName, rating }),
+    body: JSON.stringify({
+      card_name: cardName,
+      ...(cardId != null && cardId !== '' ? { card_id: cardId } : {}),
+      rating,
+    }),
   });
   if (!res.ok) {
     const errorText = await res.text().catch(() => 'Unknown error');

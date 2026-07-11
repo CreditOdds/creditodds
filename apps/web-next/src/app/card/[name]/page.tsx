@@ -168,7 +168,7 @@ export default async function CardPage({ params }: CardPageProps) {
     const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages] = await Promise.all([
       getCard(slug).then(async (card) => ({
         card,
-        ratings: await getCardRatings(card.card_name).catch(() => ({ count: 0, average: null })),
+        ratings: await getCardRatings(card.card_name, card.db_card_id ?? card.card_id).catch(() => ({ count: 0, average: null })),
         wire: await getCardWire(Number(card.card_id)).catch(() => [] as CardWireEntry[]),
       })),
       getCardGraphs(slug).catch(() => [] as GraphData[]),
