@@ -97,7 +97,7 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
         (async () => {
           const token = await getToken();
           if (!token) return;
-          const rating = await getUserCardRating(card.card_name, token);
+          const rating = await getUserCardRating(card.card_name, token, card.card_id);
           setUserRating(rating);
         })();
       }
@@ -145,7 +145,7 @@ export default function EditWalletCardModal({ show, card, cardSlug, annualFee, d
     try {
       const token = await getToken();
       if (!token) return;
-      await submitCardRating(card.card_name, rating, token);
+      await submitCardRating(card.card_name, rating, token, card.card_id);
       setUserRating(rating);
     } catch {
       // Silently fail

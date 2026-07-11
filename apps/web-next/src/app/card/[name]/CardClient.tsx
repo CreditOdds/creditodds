@@ -1784,6 +1784,7 @@ export default function CardClient({
 
           <RateCardStars
             cardName={card.card_name}
+            cardId={card.db_card_id ?? card.card_id}
             slug={card.slug}
             cardImageLink={card.card_image_link}
             bank={card.bank}

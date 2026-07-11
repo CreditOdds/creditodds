@@ -37,6 +37,9 @@ function StarIcon({ fill = 1, size = 14 }: { fill?: number; size?: number }) {
 
 interface RateCardStarsProps {
   cardName: string;
+  // Numeric DB card_id. Preferred over cardName for resolving the card so
+  // ratings survive card renames; cardName stays the human-readable fallback.
+  cardId?: number | string;
   slug: string;
   cardImageLink?: string;
   bank?: string;
@@ -49,6 +52,7 @@ const storageKey = (slug: string) => `co_card_rating_${slug}`;
 
 export default function RateCardStars({
   cardName,
+  cardId,
   slug,
   cardImageLink,
   bank,
@@ -86,13 +90,13 @@ export default function RateCardStars({
     (async () => {
       const token = await getToken();
       if (!token) return;
-      const rating = await getUserCardRating(cardName, token).catch(() => null);
+      const rating = await getUserCardRating(cardName, token, cardId).catch(() => null);
       if (!cancelled && rating && rating >= 1 && rating <= 5) setMyRating(rating);
     })();
     return () => {
       cancelled = true;
     };
-  }, [authState.isAuthenticated, cardName, getToken]);
+  }, [authState.isAuthenticated, cardName, cardId, getToken]);
 
   // Lock body scroll while the modal is open. Plain overflow:hidden (NOT
   // position:fixed) to avoid the iOS touch-freeze bug.
@@ -123,7 +127,7 @@ export default function RateCardStars({
     setError(null);
     try {
       const token = authState.isAuthenticated ? await getToken() : null;
-      await submitPublicCardRating(cardName, modalRating, comment, token);
+      await submitPublicCardRating(cardName, modalRating, comment, token, cardId);
       setMyRating(modalRating);
       setJustSubmitted(true);
       if (!token) {
