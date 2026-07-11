@@ -61,4 +61,6 @@ benefits:
     frequency: "monthly"
     category: "rewards"
     enrollment_required: true
+    merchants:
+      - doordash
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/business-preferred

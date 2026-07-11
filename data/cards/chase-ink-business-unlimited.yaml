@@ -44,3 +44,5 @@ benefits:
     frequency: "one_time"
     category: "shopping"
     enrollment_required: true
+    merchants:
+      - instacart

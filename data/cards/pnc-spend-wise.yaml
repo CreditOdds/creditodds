@@ -27,6 +27,10 @@ benefits:
     description: "Up to $25 in annual credits for eligible Spotify, Netflix, and Disney+ purchases"
     frequency: "annual"
     category: "streaming"
+    merchants:
+      - spotify
+      - netflix
+      - disney-plus
   - name: "Price Protection"
     value: 0
     description: "Reimbursement for the price difference (up to $1,000) if an eligible item drops in price within 60 days of purchase"

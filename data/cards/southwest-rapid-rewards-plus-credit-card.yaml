@@ -74,6 +74,8 @@ benefits:
     frequency: "annual"
     category: "rewards"
     enrollment_required: true
+    merchants:
+      - doordash
   - name: "No Foreign Transaction Fees"
     description: "No foreign transaction fees on purchases made outside the US"
     frequency: "per_purchase"
@@ -85,6 +87,8 @@ benefits:
     frequency: "annual"
     category: "groceries"
     enrollment_required: true
+    merchants:
+      - instacart
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/plus
 our_take: >
   The cheapest way into the Southwest card lineup at $99, and it still delivers the parts

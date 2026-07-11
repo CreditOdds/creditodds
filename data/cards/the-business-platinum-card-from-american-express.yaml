@@ -43,6 +43,8 @@ benefits:
     frequency: "annual"
     category: "shopping"
     enrollment_required: true
+    merchants:
+      - dell
   - name: "Hilton for Business Credit"
     value: 200
     description: "Up to $50 per quarter on eligible purchases made directly with Hilton portfolio properties"

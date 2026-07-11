@@ -8,10 +8,27 @@ const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const OUTPUT_FILE = path.join(__dirname, '..', 'data', 'cards.json');
 const SCHEMA_FILE = path.join(CARDS_DIR, 'schema.json');
 const CATEGORIES_FILE = path.join(__dirname, '..', 'data', 'categories.yaml');
+const STORES_DIR = path.join(__dirname, '..', 'data', 'stores');
 
 function loadSchema() {
   const schemaContent = fs.readFileSync(SCHEMA_FILE, 'utf8');
   return JSON.parse(schemaContent);
+}
+
+// Set of valid store slugs, so we can validate that a benefit's `merchants`
+// list points at real /best-card-for/<slug> pages. Store files are named
+// <slug>.yaml (the on-page "Edit this page" link and routing both assume
+// filename === slug), so the directory listing is the canonical slug set —
+// no YAML parse needed. Returns an empty set if the directory is absent, in
+// which case merchant validation is skipped (build stays resilient).
+function loadStoreSlugs() {
+  if (!fs.existsSync(STORES_DIR)) return new Set();
+  return new Set(
+    fs
+      .readdirSync(STORES_DIR)
+      .filter(f => f.endsWith('.yaml') || f.endsWith('.yml'))
+      .map(f => f.replace(/\.ya?ml$/, '')),
+  );
 }
 
 function loadCategories() {
@@ -20,7 +37,7 @@ function loadCategories() {
   return data.categories;
 }
 
-function validateCard(card, schema, categoryIds) {
+function validateCard(card, schema, categoryIds, storeSlugs) {
   const errors = [];
 
   // Check required fields
@@ -156,6 +173,27 @@ function validateCard(card, schema, categoryIds) {
     }
   }
 
+  // Validate benefit merchant links. A benefit's `merchants` array ties a
+  // statement credit to specific /best-card-for/<slug> pages (e.g. the CSR
+  // StubHub credit → [stubhub, viagogo]). Every slug must resolve to a real
+  // store, or the credit would point at a 404 and never render.
+  if (card.benefits) {
+    for (const benefit of card.benefits) {
+      if (benefit.merchants === undefined) continue;
+      if (!Array.isArray(benefit.merchants)) {
+        errors.push(`Invalid merchants for benefit "${benefit.name}": must be an array of store slugs`);
+        continue;
+      }
+      for (const slug of benefit.merchants) {
+        if (typeof slug !== 'string' || !/^[a-z0-9-]+$/.test(slug)) {
+          errors.push(`Invalid merchant slug for benefit "${benefit.name}": ${slug} (lowercase, hyphens only)`);
+        } else if (storeSlugs.size > 0 && !storeSlugs.has(slug)) {
+          errors.push(`Unknown merchant slug for benefit "${benefit.name}": ${slug} (no data/stores/${slug}.yaml)`);
+        }
+      }
+    }
+  }
+
   // Validate APR
   if (card.apr) {
     if (typeof card.apr !== 'object' || Array.isArray(card.apr)) {
@@ -237,6 +275,7 @@ function buildCards() {
   const schema = loadSchema();
   const categories = loadCategories();
   const categoryIds = new Set(categories.map(c => c.id));
+  const storeSlugs = loadStoreSlugs();
   const cards = [];
   const cardsWithFiles = [];
   const errors = [];
@@ -255,7 +294,7 @@ function buildCards() {
       const card = yaml.load(content);
 
       // Validate the card
-      const validationErrors = validateCard(card, schema, categoryIds);
+      const validationErrors = validateCard(card, schema, categoryIds, storeSlugs);
       if (validationErrors.length > 0) {
         errors.push({ file, errors: validationErrors });
         console.log(`  ERROR: ${validationErrors.join(', ')}`);

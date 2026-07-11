@@ -120,6 +120,13 @@ export interface CardBenefit {
   value_per_cycle?: number;
   category: 'dining' | 'dining_travel' | 'travel' | 'hotel' | 'entertainment' | 'shopping' | 'fitness' | 'lounge' | 'security' | 'gas' | 'streaming' | 'grocery' | 'rideshare' | 'car_rental' | 'other';
   enrollment_required?: boolean;
+  // Store slugs (from data/stores/) this credit applies at. A statement credit
+  // is a fixed capped dollar amount, not an earn rate, so it can't be honestly
+  // ranked into the rate-sorted picks list. Instead, /best-card-for/<slug>
+  // renders a dedicated "Statement credits" block listing every card whose
+  // benefit `merchants` includes that store slug (e.g. the CSR StubHub credit
+  // carries merchants: ["stubhub", "viagogo"]). build-cards validates each slug.
+  merchants?: string[];
 }
 
 export interface Card {

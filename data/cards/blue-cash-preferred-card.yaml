@@ -56,6 +56,10 @@ benefits:
     frequency: "monthly"
     category: "streaming"
     enrollment_required: true
+    merchants:
+      - disney-plus
+      - hulu
+      - espn-plus
   - name: "Purchase Protection"
     description: "Coverage up to $1,000 per covered purchase and $50,000 per account per calendar year if a charged item is stolen or accidentally damaged within 90 days"
     category: "protection"

@@ -26,6 +26,8 @@ benefits:
     frequency: "annual"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash
 tags:
   - hotel
   - travel

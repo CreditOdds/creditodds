@@ -33,12 +33,16 @@ benefits:
     frequency: "annual"
     category: "rideshare"
     enrollment_required: true
+    merchants:
+      - lyft
   - name: "Grubhub Statement Credit"
     value: 120
     description: "Up to $120 annual statement credit on eligible Grubhub purchases ($10 per monthly billing statement)"
     frequency: "annual"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - grubhub
   - name: "Avis and Budget Car Rental Credit"
     value: 120
     description: "Up to $120 annual statement credit for eligible prepaid car rentals booked directly on avis.com or budget.com"

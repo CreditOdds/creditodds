@@ -53,6 +53,8 @@ benefits:
     frequency: "annual"
     category: "rewards"
     enrollment_required: true
+    merchants:
+      - doordash
   - name: "Baggage Delay Insurance"
     description: "Reimbursement up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
     category: "travel"

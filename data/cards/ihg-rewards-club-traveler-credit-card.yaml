@@ -33,12 +33,16 @@ benefits:
     frequency: "annual"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash
   - name: "Instacart Credit"
     value: 120
     description: "Receive a $10 Instacart credit monthly (up to $120 annually) plus a complimentary 3-month Instacart+ membership; benefits end 12/31/27."
     frequency: "annual"
     category: "shopping"
     enrollment_required: true
+    merchants:
+      - instacart
 tags:
   - hotel
   - travel

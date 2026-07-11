@@ -22,6 +22,8 @@ benefits:
     description: "$250 annual DoorDash credit plus complimentary DashPass membership"
     frequency: "annual"
     category: "dining"
+    merchants:
+      - doordash
   - name: "Autonomous Ride Credit"
     value: 250
     description: "$250 annual credit for eligible autonomous ride purchases"
@@ -59,6 +61,8 @@ benefits:
     frequency: "ongoing"
     category: "dining"
     enrollment_required: false
+    merchants:
+      - doordash
   - name: "Global Entry or TSA PreCheck"
     value: 100
     description: "Application fee credit for Global Entry or TSA PreCheck."

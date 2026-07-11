@@ -8302,6 +8302,175 @@
   font-size: 15px;
 }
 
+/* ---------- Merchant statement-credit callout (above the ranked picks) ----------
+   Statement credits are fixed capped dollar amounts, not earn rates, so they
+   render in their own accent-tinted block instead of competing in the % list. */
+.landing-v2.store-v2 .store-credits {
+  margin-bottom: 28px;
+  padding: 18px 18px 20px;
+  background: var(--accent-2);
+  border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
+  border-radius: 6px;
+}
+.landing-v2.store-v2 .store-credits-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.landing-v2.store-v2 .store-credits-head-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.landing-v2.store-v2 .store-credits-title {
+  font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+}
+.landing-v2.store-v2 .store-credits-sub {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+.landing-v2.store-v2 .store-credits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.landing-v2.store-v2 .store-credit {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+.landing-v2.store-v2 .store-credit-image {
+  flex-shrink: 0;
+  width: 64px;
+  height: 40px;
+  display: block;
+}
+.landing-v2.store-v2 .store-credit-body {
+  flex: 1;
+  min-width: 0;
+}
+.landing-v2.store-v2 .store-credit-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.landing-v2.store-v2 .store-credit-name {
+  font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.landing-v2.store-v2 .store-credit-name:hover {
+  color: var(--accent);
+}
+.landing-v2.store-v2 .store-credit-flag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: color-mix(in oklab, var(--gold) 10%, var(--paper));
+  border: 1px solid color-mix(in oklab, var(--gold) 30%, transparent);
+  padding: 2px 7px;
+  border-radius: 999px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.landing-v2.store-v2 .store-credit-bank {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.landing-v2.store-v2 .store-credit-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin-top: 6px;
+}
+.landing-v2.store-v2 .store-credit-amount {
+  flex-shrink: 0;
+  font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  padding-top: 1px;
+}
+/* Compact chip list for value-0 complimentary memberships (e.g. free DashPass
+   across ~17 cards), so they don't bury the dollar credits above. */
+.landing-v2.store-v2 .store-credits-perks {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in oklab, var(--accent) 15%, transparent);
+}
+.landing-v2.store-v2 .store-credits-perks-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.landing-v2.store-v2 .store-credits-perk-chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.landing-v2.store-v2 .store-credits-perk-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 5px 11px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: border-color 0.12s, color 0.12s;
+}
+.landing-v2.store-v2 .store-credits-perk-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+@media (max-width: 640px) {
+  .landing-v2.store-v2 .store-credit {
+    padding: 12px;
+    gap: 10px;
+  }
+  .landing-v2.store-v2 .store-credit-image {
+    width: 52px;
+    height: 33px;
+  }
+  .landing-v2.store-v2 .store-credit-amount {
+    font-size: 17px;
+  }
+}
+
 /* ---------- Personal "From your wallet" row (above the picks list) ---------- */
 .landing-v2.store-v2 .store-personal-row {
   margin-bottom: 20px;

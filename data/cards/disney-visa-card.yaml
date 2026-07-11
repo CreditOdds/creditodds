@@ -36,6 +36,8 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash
   - name: "Purchase Protection"
     description: "Covers eligible new purchases against damage or theft for 120 days from date of purchase up to $500 per item"
     category: "protection"
