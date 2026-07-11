@@ -1376,3 +1376,40 @@ merchants:
   # Thrifty Rent-A-Car
   thrifty:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.3088&trid=1552713.158782&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fthrifty.com"
+
+  # --- Added 2026-07-11 (Tier A new store pages, FlexOffers approvals) ---
+  # Deep links (foc=17) with the merchant homepage appended to `&url=`. Each ships
+  # with a new data/stores/<slug>.yaml page in the same change.
+  # Batteries Plus
+  batteries-plus:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.45126&trid=1552713.212470&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.batteriesplus.com"
+  # Bissell
+  bissell:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8952&trid=1552713.198815&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.bissell.com"
+  # BLACK+DECKER
+  black-and-decker:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10047&trid=1552713.234710&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.blackanddecker.com"
+  # Bulova
+  bulova:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16604&trid=1552713.212036&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fbulova.com"
+  # Decathlon
+  decathlon:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25038&trid=1552713.232439&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.decathlon.com"
+  # Dyson
+  dyson:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.36310&trid=1552713.189851&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fdyson.com"
+  # Jackery
+  jackery:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18694&trid=1552713.230818&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.jackery.com"
+  # Logitech
+  logitech:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8585&trid=1552713.157431&foc=17&fot=9999&fos=6&url=https%3A%2F%2Flogitech.com"
+  # Samsonite
+  samsonite:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11771&trid=1552713.158800&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fshop.samsonite.com"
+  # Sealy
+  sealy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13726&trid=1552713.228816&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fsealy.com"
+  # UGG
+  ugg:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43728&trid=1552713.158350&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fugg.com"
