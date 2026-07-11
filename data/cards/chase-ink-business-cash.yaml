@@ -45,6 +45,10 @@ rewards:
     spend_cap: 25000
     cap_period: annual
     rate_after_cap: 1
+  - category: transit
+    value: 5
+    unit: percent
+    note: "On Lyft rides through September 30, 2027 (limited-time promo)"
   - category: everything_else
     value: 1
     unit: percent
