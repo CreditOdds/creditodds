@@ -130,6 +130,19 @@ function wireDirection(
   return wentUp ? "pos" : "neg";
 }
 
+// Renders a reward's `expires` ISO date as "Sep 30, 2027". Parsed as UTC (append
+// T00:00:00Z) so the day doesn't slip in negative-offset timezones.
+function formatExpiresDate(iso: string): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 // Formats a signup-bonus amount in its natural unit (mirrors the headline
 // `bonusDisplay` logic so the rail's "highest ever" reads the same way).
 function formatBonusValue(value: number, type: string): string {
@@ -1107,6 +1120,11 @@ export default function CardClient({
                               </div>
                               {r.note && (
                                 <div className="cj-cell-detail">{r.note}</div>
+                              )}
+                              {r.expires && (
+                                <div className="cj-cell-detail cj-reward-expires">
+                                  {`Through ${formatExpiresDate(r.expires)}`}
+                                </div>
                               )}
                               {r.spend_cap && (
                                 <div className="cj-cell-detail">

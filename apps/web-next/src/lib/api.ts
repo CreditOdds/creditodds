@@ -35,6 +35,9 @@ export interface Reward {
   value: number;
   unit: string;
   note?: string;
+  // ISO date (YYYY-MM-DD) a limited-time promo reward stops earning, e.g. the
+  // Chase Lyft 5% through 2027-09-30. Rendered as a "Through <date>" badge.
+  expires?: string;
   mode?: 'quarterly_rotating' | 'user_choice' | 'auto_top_spend';
   eligible_categories?: string[];
   choices?: number;

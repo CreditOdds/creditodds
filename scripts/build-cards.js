@@ -95,6 +95,15 @@ function validateCard(card, schema, categoryIds) {
       if (reward.note !== undefined && typeof reward.note !== 'string') {
         errors.push(`Invalid reward note for ${reward.category}: must be a string`);
       }
+      if (reward.expires !== undefined) {
+        if (typeof reward.expires !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(reward.expires)) {
+          errors.push(`Invalid reward expires for ${reward.category}: must be an ISO date (YYYY-MM-DD)`);
+        } else if (reward.expires < new Date().toISOString().slice(0, 10)) {
+          // Past its end date but still in the YAML: warn (don't fail the build)
+          // so the stale promo gets pruned instead of silently over-rewarding.
+          console.warn(`  ⚠️  Expired promo reward still in YAML: ${card.name} ${reward.category} ${reward.value}${reward.unit === 'percent' ? '%' : 'x'} expired ${reward.expires} — remove it`);
+        }
+      }
       if (reward.mode !== undefined && !validModes.includes(reward.mode)) {
         errors.push(`Invalid reward mode for ${reward.category}: ${reward.mode} (must be one of ${validModes.join(', ')})`);
       }
