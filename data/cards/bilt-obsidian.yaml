@@ -39,7 +39,7 @@ rewards:
     eligible_categories:
       - "dining"
       - "groceries"
-    note: "Choose dining (default) or groceries as your 3x category annually (cap applies when groceries is selected)"
+    note: "Choose dining (default) or groceries as your 3x category annually (cap applies when groceries is selected). Earn up to 6x at participating Bilt Dining restaurants (limited network) when Dining is the selected category."
     spend_cap: 25000
     cap_period: annual
     rate_after_cap: 1
@@ -54,6 +54,11 @@ rewards:
   - category: "travel"
     value: 2
     unit: "points_per_dollar"
+    note: "Other travel not booked through Bilt Travel"
+  - category: "transit"
+    value: 3
+    unit: "points_per_dollar"
+    note: "On Lyft rides (after linking your Lyft account)"
   - category: "everything_else"
     value: 1
     unit: "points_per_dollar"

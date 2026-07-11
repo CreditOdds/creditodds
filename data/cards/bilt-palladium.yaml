@@ -66,6 +66,10 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "Flights booked through Bilt Travel"
+  - category: transit
+    value: 4
+    unit: points_per_dollar
+    note: "On Lyft rides (after linking your Lyft account)"
   - category: everything_else
     value: 2
     unit: points_per_dollar
