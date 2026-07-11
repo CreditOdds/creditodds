@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-11T12:57:36.792Z",
-  "count": 857,
+  "generated_at": "2026-07-11T13:01:07.318Z",
+  "count": 875,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -524,6 +524,24 @@
       ],
       "website": "https://www.allegiantair.com",
       "intro": "Allegiant Air is a Las Vegas-based ultra-low-cost carrier that connects small and mid-sized\nUS cities to leisure destinations like Las Vegas, Orlando-Sanford, Phoenix-Mesa, and Florida\nGulf Coast airports, flying point-to-point on a fleet of Airbus A319/A320 aircraft. Like\nother ULCCs, Allegiant unbundles fares: bags, seat assignments, and printed boarding passes\nare all add-ons. Allegiant purchases code as airlines/airfare on every card network. Travel\ncards with airfare bonuses (Amex Gold 3x on flights booked direct, Chase Sapphire Reserve 4x,\nCapital One Venture X 2x) all earn their full rate on Allegiant tickets and ancillary fees.\n"
+    },
+    {
+      "name": "Allen Edmonds",
+      "slug": "allen-edmonds",
+      "aliases": [
+        "AllenEdmonds.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.allenedmonds.com",
+      "parent_company": "Caleres",
+      "intro": "Allen Edmonds is an American maker of premium men's dress shoes and leather goods, owned by\nCaleres and sold direct at allenedmonds.com and in its own stores. There is no Allen Edmonds\nco-brand credit card, and because its shoes are a higher-dollar purchase, a card with a\nclothing or online shopping category bonus, or a flat-rate cashback card, earns the most.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.48019&trid=1552713.159887&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fallenedmonds.com",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Alo Yoga",
@@ -1375,6 +1393,23 @@
       "intro": "Belk is a Southeast U.S. department store chain with about 290 locations across 16\nstates, anchored in the Carolinas. The merchandise mix is comparable to a regional\nMacy's: apparel, cosmetics, accessories, and home goods, with a focus on national and\nprivate-label brands. Belk codes as a department store, so a department-store\ncategory bonus card earns its full rate. The Belk Rewards Mastercard (issued by\nSynchrony) layers store-specific Belk Rewards points on top, with extra earn during\npromotional events.\n"
     },
     {
+      "name": "Bellroy",
+      "slug": "bellroy",
+      "aliases": [
+        "Bellroy.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://bellroy.com",
+      "parent_company": "Bellroy",
+      "intro": "Bellroy is an Australian maker of slim leather wallets, bags, and phone cases, sold mostly\ndirect-to-consumer at bellroy.com. There is no Bellroy co-brand credit card, so purchases\nearn best on a card with a strong online shopping multiplier or a dependable flat-rate\ncashback rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43345&trid=1552713.200708&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fbellroy.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Benefit Cosmetics",
       "slug": "benefit-cosmetics",
       "parent_company": "LVMH",
@@ -1687,6 +1722,24 @@
       ],
       "website": "https://www.mybobs.com",
       "intro": "Bob's Discount Furniture is a value-focused furniture chain with over 175 stores\nacross the Northeast, Mid-Atlantic, Midwest, and Southwest. The retailer is known\nfor its Goof Proof protection plan, free in-store Bob-O-Pedic samples, and pricing\nthat undercuts traditional furniture stores. Purchases code as general retail on\nVisa, Mastercard, and Amex, not as home improvement.\n\nSectionals and bedroom sets at Bob's frequently run $1,500 to $3,000, which makes\nthe chain a strong venue for credit card signup bonus minimum spend. Flat-rate\nearners like the Wells Fargo Active Cash and Citi Double Cash handle furniture spend\ncleanly, while occasional Amex Offers on home retailers can stack additional\nstatement credits on top.\n"
+    },
+    {
+      "name": "Bobbi Brown",
+      "slug": "bobbi-brown",
+      "aliases": [
+        "Bobbi Brown Cosmetics",
+        "BobbiBrownCosmetics.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.bobbibrowncosmetics.com",
+      "parent_company": "The Estée Lauder Companies",
+      "intro": "Bobbi Brown Cosmetics is a prestige makeup and skincare brand owned by The Estee Lauder\nCompanies, sold direct at bobbibrowncosmetics.com and through Sephora, Ulta, and department\nstores. There is no Bobbi Brown co-brand credit card, so a direct purchase codes as online\nshopping, while the same items at a beauty retailer or department store can earn under that\nstore's category bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.35154&trid=1552713.185515&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fbobbibrowncosmetics.com",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Bojangles",
@@ -2390,6 +2443,24 @@
       }
     },
     {
+      "name": "Charlotte Tilbury",
+      "slug": "charlotte-tilbury",
+      "aliases": [
+        "Charlotte Tilbury US",
+        "CharlotteTilbury.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.charlottetilbury.com",
+      "parent_company": "Puig",
+      "intro": "Charlotte Tilbury is a prestige British makeup and skincare brand owned by Puig, known for\nits Pillow Talk range and sold direct at charlottetilbury.com, in its own counters, and\nthrough Sephora and department stores. There is no Charlotte Tilbury co-brand credit card,\nso a direct purchase codes as online shopping, while the same products at Sephora or a\ndepartment store can earn under that retailer's rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.110100564&trid=1552713.191863&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fcharlottetilbury.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "CheapOair",
       "slug": "cheapoair",
       "aliases": [
@@ -2984,6 +3055,24 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.52798.1000000070&trid=1552713.235285&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "10% off"
+      }
+    },
+    {
+      "name": "DC Shoes",
+      "slug": "dc-shoes",
+      "aliases": [
+        "DCShoes.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.dcshoes.com",
+      "parent_company": "Boardriders",
+      "intro": "DC Shoes is a skate and snow footwear and apparel brand under the Boardriders group, sold\ndirect at dcshoes.com and through skate, sporting, and department stores. There is no DC\nShoes co-brand credit card, so purchases earn the most on a card with a clothing or online\nshopping category bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.53685&trid=1552713.158793&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fdcshoes.com",
+        "network": "flexoffers"
       }
     },
     {
@@ -4253,6 +4342,23 @@
       ],
       "website": "https://www.fourseasons.com",
       "intro": "Four Seasons is a luxury hotel and resort operator running properties worldwide, known for high service standards and notable suites. Room charges code as a hotel or travel purchase, so a premium travel card with a strong hotel bonus shines here. Booking through a card issuer's luxury hotel program can layer perks like credits and upgrades on top of the points you earn on the stay.\n"
+    },
+    {
+      "name": "Fox Rent A Car",
+      "slug": "fox-rent-a-car",
+      "aliases": [
+        "Fox Rent a Car",
+        "FoxRentACar.com"
+      ],
+      "categories": [
+        "car_rentals"
+      ],
+      "website": "https://www.foxrentacar.com",
+      "intro": "Fox Rent A Car is a value car-rental company operating at major US airports and vacation\ndestinations, booked at foxrentacar.com. There is no Fox co-brand credit card, so the best\npairing is a card that earns bonus rewards on car rentals or on general travel, and many\ntravel cards also add secondary or primary rental car coverage when you pay with them.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43381&trid=1552713.206854&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ffoxrentacar.com",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Fred Meyer",
@@ -5634,6 +5740,23 @@
       "intro": "James Allen lets buyers inspect diamonds in 360-degree detail online, and orders at jamesallen.com code as online shopping or general retail. Engagement rings here can be a couple's largest single purchase, so the rewards rate compounds quickly on one transaction. With no jewelry bonus category, a card that rewards online spending or a high flat rate delivers the most.\n"
     },
     {
+      "name": "JanSport",
+      "slug": "jansport",
+      "aliases": [
+        "JanSport.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.jansport.com",
+      "parent_company": "VF Corporation",
+      "intro": "JanSport is an American backpack and bag brand owned by VF Corporation, sold direct at\njansport.com and through sporting-goods and department stores. There is no JanSport co-brand\ncredit card, so purchases earn best on a card with a strong online shopping multiplier or a\nflat-rate cashback rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.42224&trid=1552713.190203&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.jansport.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Jared",
       "slug": "jared",
       "aliases": [
@@ -6169,6 +6292,24 @@
       }
     },
     {
+      "name": "Laneige",
+      "slug": "laneige",
+      "aliases": [
+        "Laneige US",
+        "LANEIGE"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://us.laneige.com",
+      "parent_company": "Amorepacific",
+      "intro": "Laneige is a popular Korean skincare and beauty brand owned by Amorepacific, best known for\nits Lip Sleeping Mask and Water Bank line, sold direct at us.laneige.com and through\nSephora, Ulta, and Amazon. There is no Laneige co-brand credit card, so a direct purchase\ncodes as online shopping, while the same products at a beauty retailer can earn under that\nstore's rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.41770&trid=1552713.248464&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fus.laneige.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "LastPass",
       "slug": "lastpass",
       "categories": [
@@ -6419,6 +6560,23 @@
       }
     },
     {
+      "name": "Little Tikes",
+      "slug": "little-tikes",
+      "aliases": [
+        "LittleTikes.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.littletikes.com",
+      "parent_company": "MGA Entertainment",
+      "intro": "Little Tikes is a classic American toy brand owned by MGA Entertainment, making playhouses,\nslides, ride-ons, and outdoor play sets, sold direct at littletikes.com and through toy and\nmass retailers. There is no Little Tikes co-brand credit card, so a direct purchase earns\nbest on a card with a strong online shopping multiplier or a flat-rate cashback rate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.53444&trid=1552713.245527&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.littletikes.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Living Spaces",
       "slug": "living-spaces",
       "categories": [
@@ -6442,6 +6600,24 @@
       "intro": "LL Flooring, formerly known as Lumber Liquidators, is a flooring specialty retailer\nwith over 400 U.S. stores selling hardwood, bamboo, vinyl plank, laminate, and tile\nflooring along with installation supplies. The chain typically codes as home\nimprovement on most credit card networks, which makes it eligible for cards that\ncarry a home improvement bonus category.\n\nCards like the U.S. Bank Cash+ and Bank of America Customized Cash can route LL\nFlooring purchases into a selectable bonus, while the Chase Freedom Flex sometimes\nfeatures home improvement in its 5 percent rotating quarters. Whole-house flooring\nprojects are large enough to clear most credit card signup bonus minimums in a\nsingle transaction.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.11231.2158448&trid=1552713.244085&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Lodge Cast Iron",
+      "slug": "lodge-cast-iron",
+      "aliases": [
+        "Lodge",
+        "LodgeCastIron.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.lodgecastiron.com",
+      "parent_company": "Lodge Manufacturing",
+      "intro": "Lodge Cast Iron is a family-owned American cookware maker known for its pre-seasoned\nskillets and Dutch ovens, sold direct at lodgecastiron.com and through home and mass\nretailers. There is no Lodge co-brand credit card, so a direct purchase earns best on a card\nwith an online shopping bonus or a flat-rate cashback rate, while the same pan bought at a\nhome-goods store can lean on that retailer's category.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.23521&trid=1552713.245339&foc=17&fot=9999&fos=6&url=http%3A%2F%2Fwww.lodgecastiron.com",
         "network": "flexoffers"
       }
     },
@@ -7259,6 +7435,24 @@
       "intro": "Moen is a major American manufacturer of kitchen and bathroom faucets, sinks,\nand showering fixtures, widely sold through home-improvement retailers like\nHome Depot and Lowe's as well as its own site. The brand is owned by Fortune\nBrands Innovations and is a common fixture choice in both new construction and\nrenovation projects. There is no Moen co-brand credit card, so a\nhome-improvement category card is the natural fit for a fixture purchase, or a\nflat-rate cashback card for a simpler approach.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.28862.4611686018427604202&trid=1552713.239522&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Molton Brown",
+      "slug": "molton-brown",
+      "aliases": [
+        "Molton Brown US",
+        "MoltonBrown.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.moltonbrown.com",
+      "parent_company": "Kao Corporation",
+      "intro": "Molton Brown is a British luxury bath, body, and fragrance brand owned by Kao Corporation,\nsold direct at moltonbrown.com and through prestige department stores. There is no Molton\nBrown co-brand credit card, so a purchase codes as online shopping, and a card with a strong\nonline shopping bonus or a flat-rate cashback rate earns the most.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.36974&trid=1552713.160370&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.moltonbrown.com",
         "network": "flexoffers"
       }
     },
@@ -8594,6 +8788,24 @@
       "intro": "QFC, short for Quality Food Centers, is Kroger's upscale Seattle-area banner known for fresh and prepared foods. Spending at the store codes as groceries on most rewards cards, so reach for whatever supermarket multiplier you carry. As with other Kroger banners, any attached fuel center rings up as gas rather than groceries, so plan accordingly.\n"
     },
     {
+      "name": "Quiksilver",
+      "slug": "quiksilver",
+      "aliases": [
+        "Quiksilver.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.quiksilver.com",
+      "parent_company": "Boardriders",
+      "intro": "Quiksilver is a boardsports apparel and footwear brand under the Boardriders group, sold\ndirect at quiksilver.com and through surf, sporting, and department stores. There is no\nQuiksilver co-brand credit card, so a card with a clothing or online shopping bonus, or a\nflat-rate cashback card, is the best way to earn.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.53003&trid=1552713.158828&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fquiksilver.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "QuikTrip",
       "slug": "quiktrip",
       "aliases": [
@@ -9052,6 +9264,24 @@
       }
     },
     {
+      "name": "Roxy",
+      "slug": "roxy",
+      "aliases": [
+        "Roxy.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.roxy.com",
+      "parent_company": "Boardriders",
+      "intro": "Roxy is a women's surf, snow, and beach apparel brand under the Boardriders group alongside\nQuiksilver and DC Shoes, sold direct at roxy.com and through sporting and department stores.\nThere is no Roxy co-brand credit card, so purchases earn best on a card with a clothing or\nonline shopping category bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.53683&trid=1552713.158792&foc=17&fot=9999&fos=6&url=https%3A%2F%2Froxy.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Royal Caribbean",
       "slug": "royal-caribbean",
       "aliases": [
@@ -9190,6 +9420,24 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.34853.3148970&trid=1552713.157115&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "free 2-hour delivery"
+      }
+    },
+    {
+      "name": "Sam Edelman",
+      "slug": "sam-edelman",
+      "aliases": [
+        "SamEdelman.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.samedelman.com",
+      "parent_company": "Caleres",
+      "intro": "Sam Edelman is a contemporary footwear and accessories brand owned by Caleres, sold direct\nat samedelman.com and through department stores. There is no Sam Edelman co-brand credit\ncard, so a purchase codes as clothing or online shopping, and shoppers earn the most with a\ncard that carries a clothing or online shopping bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.7334&trid=1552713.182964&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.samedelman.com",
+        "network": "flexoffers"
       }
     },
     {
@@ -9632,6 +9880,23 @@
       "intro": "Skillshare is an online learning platform built around short, project-based video classes\ncovering creative skills like design, illustration, photography, and writing, along with\nbusiness and productivity topics, taught by working professionals rather than traditional\nacademic instructors. Access is sold as a recurring subscription rather than individual\ncourse purchases. There's no Skillshare co-brand credit card, so a subscription payment is\nbest charged to a general online shopping or flat-rate cashback card.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.4650.2163448&trid=1552713.196037&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Skullcandy",
+      "slug": "skullcandy",
+      "aliases": [
+        "Skullcandy US",
+        "Skullcandy.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.skullcandy.com",
+      "intro": "Skullcandy is an audio brand making headphones, earbuds, and speakers, sold direct at\nskullcandy.com and through electronics and mass retailers. There is no Skullcandy co-brand\ncredit card, so a direct purchase earns best on a card with a strong online shopping\nmultiplier, while the same pair bought at an electronics store can lean on that retailer's\ncategory bonus.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.31426&trid=1552713.214403&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.skullcandy.com",
         "network": "flexoffers"
       }
     },
@@ -10261,6 +10526,24 @@
       "intro": "Temu is a U.S.-facing online marketplace owned by Chinese e-commerce giant PDD\nHoldings, launched stateside in 2022 and aggressively marketed on ultra-low prices and\ndirect-from-manufacturer shipping. Purchases typically code as online shopping or\nmerchandise, so a card with an online-shopping category bonus (Capital One SavorOne\npromotions, Chase Freedom Flex when activated, Citi Custom Cash on online shopping\nmonth) will earn its full multiplier. Temu has no co-brand credit card, so the best\nearn comes from a general online-shopping bonus.\n"
     },
     {
+      "name": "Teva",
+      "slug": "teva",
+      "aliases": [
+        "Teva.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.teva.com",
+      "parent_company": "Deckers Brands",
+      "intro": "Teva is an outdoor footwear brand owned by Deckers Brands, best known for its sport sandals\nand sold direct at teva.com and through outdoor, sporting, and department stores. There is\nno Teva co-brand credit card, so a purchase codes as clothing or online shopping, and a card\nwith a clothing or online shopping category bonus earns the most.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43730&trid=1552713.206852&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fteva.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Texas Roadhouse",
       "slug": "texas-roadhouse",
       "categories": [
@@ -10824,6 +11107,25 @@
       }
     },
     {
+      "name": "Tumi",
+      "slug": "tumi",
+      "aliases": [
+        "TUMI",
+        "Tumi.com"
+      ],
+      "categories": [
+        "department_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.tumi.com",
+      "parent_company": "Samsonite International",
+      "intro": "Tumi is a premium travel and lifestyle brand owned by Samsonite International, known for its\ndurable luggage and business bags and sold direct at tumi.com, in Tumi stores, and through\ndepartment stores. There is no Tumi co-brand credit card, so a purchase codes as a\ndepartment store or online shopping charge. Because its bags are a higher-dollar buy, a card\nwith a department store or online shopping bonus, or a travel card that treats luggage as\ntravel-adjacent, is the best fit.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.42396&trid=1552713.192534&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ftumi.com",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Turkish Airlines",
       "slug": "turkish-airlines",
       "categories": [
@@ -11269,6 +11571,24 @@
       ],
       "website": "https://www.warbyparker.com",
       "intro": "Warby Parker sells prescription glasses and contacts, famous for its low flat price and home try-on program, online and in roughly 250 stores. Orders placed on its site code as online shopping, rewarding a card with an online-purchase bonus, while in-store visits usually fall to flat-rate. FSA and HSA dollars often cover the cost, so weigh card rewards against pretax funds.\n"
+    },
+    {
+      "name": "Waterford",
+      "slug": "waterford",
+      "aliases": [
+        "Waterford Crystal",
+        "Waterford US"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.waterford.com/en-us",
+      "parent_company": "Fiskars Group",
+      "intro": "Waterford is a heritage Irish crystal brand, now part of Fiskars Group, selling stemware,\nbarware, and home and gift pieces direct at waterford.com and through department stores.\nThere is no Waterford co-brand credit card, and because crystal is often a gift or\noccasional splurge, a card with a department store or online shopping bonus, or a flat-rate\ncashback card, is the best fit.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.58339&trid=1552713.170660&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.waterford.com%2Fen-us",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Wawa",

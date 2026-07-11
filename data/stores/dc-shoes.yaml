@@ -1,0 +1,14 @@
+name: "DC Shoes"
+slug: "dc-shoes"
+aliases:
+  - "DCShoes.com"
+categories:
+  - select_clothing
+  - online_shopping
+website: "https://www.dcshoes.com"
+parent_company: "Boardriders"
+intro: |
+  DC Shoes is a skate and snow footwear and apparel brand under the Boardriders group, sold
+  direct at dcshoes.com and through skate, sporting, and department stores. There is no DC
+  Shoes co-brand credit card, so purchases earn the most on a card with a clothing or online
+  shopping category bonus.
