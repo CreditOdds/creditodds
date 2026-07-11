@@ -1471,3 +1471,11 @@ merchants:
   # Waterford
   waterford:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.58339&trid=1552713.170660&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.waterford.com%2Fen-us"
+
+  # --- Added 2026-07-11 (CJ Affiliate approvals) ---
+  # First non-FlexOffers links: `network: cj` overrides the top-level default.
+  # CJ "CLICK URL" is complete and used as-is (no `&url=` homepage append).
+  # NordVPN
+  nordvpn:
+    url: "https://www.tkqlhce.com/click-101737824-12814518"
+    network: cj
