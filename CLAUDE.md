@@ -74,6 +74,43 @@ functions from production. Recovery required a manual
 `IpHashPepper` (the previous value lived only on the deployer's machine and
 was wiped from the stack when the broken template was applied).
 
+### Data-pipeline workflows: the us-east-1 / us-east-2 region split
+
+The `build-*.yml` data workflows straddle two regions, and this is
+**deliberate, not a bug**:
+
+- **S3 stays in us-east-2.** The data bucket `creditodds-cards-data`
+  (holds `cards.json`, `articles.json`, `news.json`, `best.json`, and
+  `content-agent/state.json`) never migrated. So `aws s3 cp` steps — and
+  the job-level `aws-region: us-east-2` default in `build-articles.yml`,
+  `build-news.yml`, `build-best.yml`, and `content-agent.yml` — are correct.
+- **Lambdas moved to us-east-1** with the rest of the stack (see us-east-1
+  migration below). Any `aws lambda invoke` must pass `--region us-east-1`
+  explicitly. `build-cards.yml` does both: job default `us-east-2` for the
+  S3 upload, `--region us-east-1` on the `creditodds-sync-cards` invoke.
+  `check-referrals.yml` is all us-east-1 (it only invokes Lambdas).
+
+**Gotcha — IAM policy region ARNs (fixed 2026-07-11):** the `Build and Deploy
+Cards` job started failing at the "Sync cards to database" step with
+`AccessDeniedException ... not authorized to perform lambda:InvokeFunction on
+arn:aws:lambda:us-east-1:...:creditodds-sync-cards`. The workflow region was
+right, but the `InvokeSyncCards` inline policy on the **`GitHubActions-CreditOdds`**
+role still pinned its `Resource` to the old `us-east-2` ARN (PR #1617 fixed the
+workflow region refs but missed this policy). Fix was to repoint the ARN:
+
+```
+aws iam put-role-policy --role-name GitHubActions-CreditOdds \
+  --policy-name InvokeSyncCards --policy-document '{"Version":"2012-10-17",
+  "Statement":[{"Sid":"InvokeSyncCards","Effect":"Allow","Action":"lambda:InvokeFunction",
+  "Resource":"arn:aws:lambda:us-east-1:953352003729:function:creditodds-sync-cards"}]}'
+```
+
+While it was broken, `cards.json` still synced to S3/CDN (live site stayed
+current) but the **DB layer** (numeric `card_id`, `card_stats`, and CardWire
+`wire_changes` → social posts) silently stalled. When touching post-migration
+infra, check IAM policy Resource ARNs for stale `us-east-2` regions, not just
+workflow YAML.
+
 ## Database
 
 - MySQL database hosted on AWS (RDS), inside a **private VPC** — not reachable
