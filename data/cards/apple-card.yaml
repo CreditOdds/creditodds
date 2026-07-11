@@ -57,6 +57,9 @@ benefits:
     frequency: "one_time"
     category: "rideshare"
     enrollment_required: true
+    merchants:
+      - uber
+      - uber-eats
   - name: "Hertz Car Rental Benefits"
     value: 5
     value_unit: "percent"

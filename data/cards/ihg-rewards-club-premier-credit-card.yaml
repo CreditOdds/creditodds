@@ -51,12 +51,16 @@ benefits:
     frequency: "annual"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash
   - name: "DoorDash Quarterly Discount"
     value: 10
     description: "Up to $10 off quarterly on non-restaurant DoorDash orders through Dec 31, 2027."
     frequency: "quarterly"
     category: "dining"
     enrollment_required: false
+    merchants:
+      - doordash
 tags:
   - hotel
   - travel

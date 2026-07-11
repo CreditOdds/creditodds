@@ -61,24 +61,33 @@ benefits:
     frequency: "annual"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash
   - name: "DoorDash Promos"
     value: 300
     description: "Up to $25 per month ($5 restaurant promo + two $10 grocery/retail promos) to spend on DoorDash through December 31, 2027."
     frequency: "annual"
     category: "dining"
     enrollment_required: false
+    merchants:
+      - doordash
   - name: "StubHub Credits"
     value: 300
     description: "Up to $150 in statement credits from January–June and July–December for StubHub and viagogo purchases, maximum $300 annually through December 31, 2027."
     frequency: "annual"
     category: "entertainment"
     enrollment_required: true
+    merchants:
+      - stubhub
+      - viagogo
   - name: "Lyft Credits"
     value: 120
     description: "Up to $10 in monthly in-app credits for Lyft rides through September 30, 2027."
     frequency: "annual"
     category: "rideshare"
     enrollment_required: false
+    merchants:
+      - lyft
   - name: "Peloton Credits"
     value: 120
     description: "Up to $10 in statement credits per month on eligible Peloton memberships, maximum $120 annually through December 31, 2027."

@@ -41,6 +41,9 @@ benefits:
     frequency: "monthly"
     category: "other"
     enrollment_required: true
+    merchants:
+      - fedex-office
+      - grubhub
   - name: "ChatGPT Credits"
     value: 300
     description: "$300 in annual ChatGPT credits for AI-powered productivity tools"
@@ -54,6 +57,8 @@ benefits:
     frequency: "monthly"
     category: "shopping"
     enrollment_required: true
+    merchants:
+      - walmart
   - name: "Squarespace Credit"
     value: 150
     description: "Up to $150 back annually in statement credits for U.S. purchases with Squarespace."

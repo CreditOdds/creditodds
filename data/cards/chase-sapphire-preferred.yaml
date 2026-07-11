@@ -30,6 +30,8 @@ benefits:
     frequency: "monthly"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash
 tags:
   - travel
   - dining

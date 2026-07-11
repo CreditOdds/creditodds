@@ -7,7 +7,7 @@ import { rankCards, formatRate, labelForCategory } from "@/lib/storeRanking";
 import { BreadcrumbSchema, FAQSchema, CollectionPageSchema } from "@/components/seo/JsonLd";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { PencilSquareIcon, ExclamationTriangleIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, ExclamationTriangleIcon, CalendarDaysIcon, BanknotesIcon } from "@heroicons/react/24/outline";
 import StorePersonalRow from "./StorePersonalRow";
 import StoreAffiliateCta from "./StoreAffiliateCta";
 import StoreVisitTracker from "./StoreVisitTracker";
@@ -76,6 +76,24 @@ function tagLabelForCategory(id: string): string {
     || id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
+// Cadence suffix for a credit amount. A benefit's `value` is always the annual
+// rollup (see CardBenefit in lib/api.ts — value_per_cycle holds the per-cycle
+// figure), so every recurring frequency renders "/yr"; a $10/month credit is
+// stored as value: 120 and shows "$120/yr", not "$120/mo".
+const CREDIT_FREQUENCY_SUFFIX: Record<string, string> = {
+  annual: '/yr',
+  semi_annual: '/yr',
+  quarterly: '/yr',
+  monthly: '/yr',
+  multi_year: '',
+  ongoing: '',
+};
+
+function creditAmountLabel(value: number, frequency: string): string {
+  if (!value || value <= 0) return '';
+  return `$${value.toLocaleString()}${CREDIT_FREQUENCY_SUFFIX[frequency] ?? ''}`;
+}
+
 export default async function BestCardForStorePage({ params }: PageProps) {
   const { slug } = await params;
   const [store, allCards, allStores, generatedAt] = await Promise.all([
@@ -89,6 +107,39 @@ export default async function BestCardForStorePage({ params }: PageProps) {
   const picks = rankCards(store, allCards, { maxPicks: 20 });
   const usingFallback = picks.length > 0 && picks.every(p => p.source === 'flat_rate');
   const pageUrl = `https://creditodds.com/best-card-for/${store.slug}`;
+
+  // Merchant credits & perks: cards whose benefit is tagged with this store
+  // slug. These are fixed capped dollar amounts or complimentary memberships
+  // (e.g. CSR's $300/yr StubHub credit, a free DashPass at DoorDash), not earn
+  // rates, so they can't be ranked into `picks` by effective % — they get their
+  // own block. Sort by value, highest first.
+  const merchantCredits = allCards
+    .filter(c => c.accepting_applications !== false)
+    .flatMap(c =>
+      (c.benefits ?? [])
+        .filter(b => Array.isArray(b.merchants) && b.merchants.includes(store.slug))
+        .map(b => ({ card: c, benefit: b })),
+    )
+    .sort((a, b) => (b.benefit.value ?? 0) - (a.benefit.value ?? 0));
+
+  // Split into monetary credits (rendered as full rows) and value-0
+  // complimentary memberships (collapsed into a compact chip list). Popular
+  // merchants like DoorDash carry ~17 near-identical "free DashPass" perks —
+  // a wall of identical rows buries the actual dollar credits, so the perks
+  // become chips beneath the credits that matter.
+  const dollarCredits = merchantCredits.filter(mc => (mc.benefit.value ?? 0) > 0);
+  // Perk-only chips: value-0 complimentary memberships. Dedupe to one chip per
+  // card, and drop any card that already has a dollar credit above (e.g.
+  // Robinhood Platinum's $250 credit already names its free DashPass — no need
+  // to also chip it as a bare membership).
+  const dollarCreditSlugs = new Set(dollarCredits.map(mc => mc.card.slug));
+  const perkMemberships = Array.from(
+    new Map(
+      merchantCredits
+        .filter(mc => (mc.benefit.value ?? 0) <= 0 && !dollarCreditSlugs.has(mc.card.slug))
+        .map(mc => [mc.card.slug, mc]),
+    ).values(),
+  );
 
   // Rank related stores by category overlap so the most-similar stores win.
   // A store sharing both [hotels, travel] with Best Western beats one that
@@ -173,6 +224,77 @@ export default async function BestCardForStorePage({ params }: PageProps) {
             affiliate={store.affiliate}
             topPickName={picks[0]?.card.card_name}
           />
+        )}
+
+        {merchantCredits.length > 0 && (
+          <section className="store-credits" aria-labelledby="store-credits-title">
+            <div className="store-credits-head">
+              <BanknotesIcon className="store-credits-head-icon" aria-hidden="true" />
+              <h2 id="store-credits-title" className="store-credits-title">
+                Credits &amp; perks at {store.name}
+              </h2>
+            </div>
+            <p className="store-credits-sub">
+              These cards include a statement credit or complimentary membership you can use at{' '}
+              {store.name}, on top of whatever you earn on the purchase. Weigh these alongside the
+              ranked picks below.
+            </p>
+            {dollarCredits.length > 0 && (
+              <ul className="store-credits-list">
+                {dollarCredits.map(({ card, benefit }) => {
+                  const amount = creditAmountLabel(benefit.value, benefit.frequency);
+                  return (
+                    <li key={`${card.slug}-${benefit.name}`} className="store-credit">
+                      <Link
+                        href={`/card/${card.slug}`}
+                        className="store-credit-image"
+                        aria-hidden="true"
+                        tabIndex={-1}
+                      >
+                        <CardImage
+                          cardImageLink={card.card_image_link}
+                          alt={card.card_name}
+                          width={64}
+                          height={40}
+                          style={{ width: 64, height: 40, objectFit: 'contain' }}
+                        />
+                      </Link>
+                      <div className="store-credit-body">
+                        <div className="store-credit-name-row">
+                          <Link href={`/card/${card.slug}`} className="store-credit-name">
+                            {card.card_name}
+                          </Link>
+                          {benefit.enrollment_required && (
+                            <span className="store-credit-flag">Enrollment required</span>
+                          )}
+                        </div>
+                        <div className="store-credit-bank">{card.bank}</div>
+                        <div className="store-credit-desc">{benefit.description}</div>
+                      </div>
+                      {amount && <div className="store-credit-amount">{amount}</div>}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+            {perkMemberships.length > 0 && (
+              <div className="store-credits-perks">
+                <div className="store-credits-perks-label">
+                  {dollarCredits.length > 0 ? 'Also comes with' : 'Comes with'} a complimentary{' '}
+                  membership at {store.name}:
+                </div>
+                <ul className="store-credits-perk-chips">
+                  {perkMemberships.map(({ card }) => (
+                    <li key={card.slug}>
+                      <Link href={`/card/${card.slug}`} className="store-credits-perk-chip">
+                        {card.card_name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
         )}
 
         {usingFallback && (

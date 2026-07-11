@@ -24,6 +24,8 @@ benefits:
     frequency: "annual"
     category: "fitness"
     enrollment_required: true
+    merchants:
+      - equinox
   - name: "Global Entry / TSA PreCheck Credit"
     value: 100
     description: "Statement credit for Global Entry or TSA PreCheck application fee"
@@ -41,6 +43,9 @@ benefits:
     frequency: "annual"
     category: "statement_credit"
     enrollment_required: false
+    merchants:
+      - best-buy
+      - american-airlines
   - name: "Annual Blacklane Credit"
     value: 200
     description: "Up to $200 annual statement credit when booking with Blacklane premium chauffeur service ($100 Jan-Jun, $100 Jul-Dec)."

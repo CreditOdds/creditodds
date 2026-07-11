@@ -104,6 +104,8 @@ benefits:
     frequency: "annual"
     category: "groceries"
     enrollment_required: true
+    merchants:
+      - instacart
   - name: "JSX Flight Credit"
     value: 150
     description: "Up to $150 in statement credits each anniversary year on flights purchased directly through JSX"

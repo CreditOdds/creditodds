@@ -29,3 +29,5 @@ benefits:
     frequency: "one_time"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash

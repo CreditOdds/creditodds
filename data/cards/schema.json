@@ -264,6 +264,11 @@
           "enrollment_required": {
             "type": "boolean",
             "description": "Whether the cardholder must enroll or activate to receive the benefit"
+          },
+          "merchants": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+            "description": "Store slugs (from data/stores/) this credit applies at. Surfaces the card in a 'Statement credits' block on each of those /best-card-for/<slug> pages. Statement credits are fixed capped dollar amounts, not earn rates, so they get their own section instead of competing in the rate-ranked list. Use for merchant-linked credits like the CSR StubHub credit (merchants: [stubhub, viagogo]). Every slug must exist as a store; build-cards fails otherwise."
           }
         }
       },
