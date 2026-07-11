@@ -7640,6 +7640,19 @@
   color: var(--muted);
   margin-top: 1px;
 }
+/* Limited-time promo end date (reward.expires) — a small clock-tagged caption. */
+.landing-v2 .cj-reward-expires {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.landing-v2 .cj-reward-expires::before {
+  content: "\23F1"; /* stopwatch */
+  font-weight: 400;
+  opacity: 0.8;
+}
 .landing-v2 .cj-rate-mono { font-family: 'Inter', sans-serif; font-weight: 600; }
 .landing-v2 .cj-eff-pct {
   font-family: 'Inter Tight', sans-serif;
