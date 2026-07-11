@@ -26,7 +26,7 @@ benefits:
     category: "other"
   - name: "Bilt Dining"
     value: 0
-    description: "Earn up to 3x points at participating Bilt Dining restaurants (limited network, not all restaurants)"
+    description: "Earn up to 4x points at participating Bilt Dining restaurants (limited network, not all restaurants)"
     frequency: "ongoing"
     category: "dining"
     enrollment_required: false
@@ -42,6 +42,10 @@ rewards:
     value: 2
     unit: points_per_dollar
     note: "Flights booked through Bilt Travel"
+  - category: transit
+    value: 3
+    unit: points_per_dollar
+    note: "On Lyft rides (after linking your Lyft account)"
   - category: everything_else
     value: 1
     unit: points_per_dollar
