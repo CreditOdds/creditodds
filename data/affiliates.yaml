@@ -1413,3 +1413,61 @@ merchants:
   # UGG
   ugg:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43728&trid=1552713.158350&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fugg.com"
+
+  # --- Added 2026-07-11 (Tier B new store pages, FlexOffers approvals) ---
+  # Deep links (foc=17) with the merchant homepage appended to `&url=`. Each ships
+  # with a new data/stores/<slug>.yaml page in the same change.
+  # Allen Edmonds
+  allen-edmonds:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.48019&trid=1552713.159887&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fallenedmonds.com"
+  # Bellroy
+  bellroy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43345&trid=1552713.200708&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fbellroy.com"
+  # Bobbi Brown
+  bobbi-brown:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.35154&trid=1552713.185515&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fbobbibrowncosmetics.com"
+  # Charlotte Tilbury
+  charlotte-tilbury:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100564&trid=1552713.191863&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fcharlottetilbury.com"
+  # DC Shoes
+  dc-shoes:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.53685&trid=1552713.158793&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fdcshoes.com"
+  # Fox Rent A Car
+  fox-rent-a-car:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43381&trid=1552713.206854&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ffoxrentacar.com"
+  # JanSport
+  jansport:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.42224&trid=1552713.190203&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.jansport.com"
+  # Laneige
+  laneige:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41770&trid=1552713.248464&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fus.laneige.com"
+  # Little Tikes
+  little-tikes:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.53444&trid=1552713.245527&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.littletikes.com"
+  # Lodge Cast Iron
+  lodge-cast-iron:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23521&trid=1552713.245339&foc=17&fot=9999&fos=6&url=http%3A%2F%2Fwww.lodgecastiron.com"
+  # Molton Brown
+  molton-brown:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.36974&trid=1552713.160370&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.moltonbrown.com"
+  # Quiksilver
+  quiksilver:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.53003&trid=1552713.158828&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fquiksilver.com"
+  # Roxy
+  roxy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.53683&trid=1552713.158792&foc=17&fot=9999&fos=6&url=https%3A%2F%2Froxy.com"
+  # Sam Edelman
+  sam-edelman:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.7334&trid=1552713.182964&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.samedelman.com"
+  # Skullcandy
+  skullcandy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31426&trid=1552713.214403&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.skullcandy.com"
+  # Teva
+  teva:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43730&trid=1552713.206852&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fteva.com"
+  # Tumi
+  tumi:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.42396&trid=1552713.192534&foc=17&fot=9999&fos=6&url=https%3A%2F%2Ftumi.com"
+  # Waterford
+  waterford:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.58339&trid=1552713.170660&foc=17&fot=9999&fos=6&url=https%3A%2F%2Fwww.waterford.com%2Fen-us"
