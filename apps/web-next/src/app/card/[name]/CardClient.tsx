@@ -1709,7 +1709,7 @@ export default function CardClient({
                         {a.image ? (
                           <img
                             src={`https://d3ay3etzd1512y.cloudfront.net/article_images/${a.image}`}
-                            alt=""
+                            alt={a.title}
                             loading="lazy"
                           />
                         ) : (
