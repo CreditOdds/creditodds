@@ -386,8 +386,19 @@ async function syncVariant(variantName, articles, results) {
     if (!slug) continue;
 
     const force = forceAll || forceSlugs.has(slug);
-    const userSet = article[variant.field] && !force;
-    if (userSet) continue;
+
+    // A manually-set image / social_image is only respected if the file it
+    // points at actually exists on S3. If the field is set but that object is
+    // missing (e.g. an author named the field expecting CI to generate it), we
+    // fall through and generate rather than silently serving a broken image.
+    // --force always regenerates.
+    const userValue = article[variant.field];
+    if (userValue && !force) {
+      if (s3HasObject(`${S3_PREFIX}/${userValue}`)) continue;
+      log(
+        `${variant.field} set to "${userValue}" for ${slug} but missing on S3 — generating instead of skipping`
+      );
+    }
 
     const expected = variant.filenameFor(slug);
     const key = variant.keyFor(slug);
