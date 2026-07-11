@@ -1669,7 +1669,7 @@ export default function CardClient({
               </h2>
               <div className="cj-tape cj-tape-reading">
                 <div className="cj-tape-head">
-                  <div className="cj-tape-by">By</div>
+                  <div className="cj-tape-thumb-head" aria-hidden="true"></div>
                   <div>Title</div>
                   <div className="cj-tape-res">Read</div>
                 </div>
@@ -1687,11 +1687,23 @@ export default function CardClient({
                       href={`/articles/${a.slug}`}
                       className="cj-tape-row"
                     >
-                      <div className="cj-tape-when cj-tape-by">{a.author}</div>
+                      <div className="cj-tape-thumb" aria-hidden="true">
+                        {a.image ? (
+                          <img
+                            src={`https://d3ay3etzd1512y.cloudfront.net/article_images/${a.image}`}
+                            alt=""
+                            loading="lazy"
+                          />
+                        ) : (
+                          <span className="cj-tape-thumb-fallback">
+                            {a.title.charAt(0).toUpperCase()}
+                          </span>
+                        )}
+                      </div>
                       <div className="cj-tape-event">
                         <span className="cj-tape-field">{a.title}</span>
                         {articleDateText && (
-                          <span className="cj-tape-mob-date">
+                          <span className="cj-tape-meta">
                             {articleDateText}
                           </span>
                         )}
