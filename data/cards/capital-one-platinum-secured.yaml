@@ -13,6 +13,7 @@ apr:
     min: 28.99
     max: 28.99
 apply_link: https://www.capitalone.com/credit-cards/platinum-secured/
+foreign_transaction_fee: true
 our_take: >
   A solid no-frills credit builder: no annual fee, reports to all three bureaus, and one of
   the more accessible secured cards for fair or thin credit. The tradeoffs are no rewards
