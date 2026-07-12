@@ -19,6 +19,11 @@ const CARDS_JSON = path.join(__dirname, '..', 'data', 'cards.json');
 const REJECTED_NEWS_FILE = path.join(__dirname, '..', 'data', 'news-rejected.yaml');
 const MAX_NEWS_ITEMS = 3;
 
+// Our own properties — never valid as a news SOURCE. Matches creditodds.com (and
+// subdomains) and our @creditodds X/Twitter account. Used to strip self-referential
+// results at intake and to reject any generated item sourced back to us.
+const SELF_SOURCE_RE = /(?:^|\/\/|\.)creditodds\.com(?:[\/?#]|$)|(?:x|twitter|nitter)\.com\/creditodds(?:[\/?#]|$)/i;
+
 // Valid tags from schema
 const VALID_TAGS = [
   'new-card',
@@ -251,6 +256,7 @@ Return ONLY a JSON array of the most relevant posts/discussions from the past we
 - "description": the key details being discussed (max 300 chars)
 
 Return 5-10 items max. Only include posts with real news (announcements, changes, launches), not opinions or promotions.
+Do NOT include posts from @creditodds — that is our own account, not a news source.
 Output raw JSON only, no markdown fences.`,
         },
       ],
@@ -834,6 +840,19 @@ async function main() {
     console.log('  Skipped (XAI_API_KEY not set)');
   }
 
+  // Never treat our own content as a news source. The X search (and, less often,
+  // web/RSS) echoes our own prior @creditodds posts and creditodds.com pages back
+  // to us as "news" — a self-referential loop that regenerates things we already
+  // published (see closed auto-news PR citing x.com/creditodds). Drop them here so
+  // it covers every source at once. Filter in place to keep the const binding.
+  const kept = allResults.filter((r) => !(r.url && SELF_SOURCE_RE.test(r.url)));
+  const droppedSelf = allResults.length - kept.length;
+  if (droppedSelf > 0) {
+    allResults.length = 0;
+    allResults.push(...kept);
+    console.log(`  Dropped ${droppedSelf} self-sourced result(s) (@creditodds / creditodds.com)`);
+  }
+
   console.log(`\nTotal unique search results: ${allResults.length}`);
 
   // Cap total results to avoid exceeding Claude's token limit
@@ -879,6 +898,12 @@ async function main() {
     // Skip duplicates by ID
     if (avoidNewsIds.has(item.id)) {
       console.log(`  Skipping "${item.id}": Already exists or rejected (exact ID match)`);
+      continue;
+    }
+
+    // Never publish an item that cites our own account/site as its source.
+    if (item.source_url && SELF_SOURCE_RE.test(item.source_url)) {
+      console.log(`  Skipping "${item.id}": self-sourced (${item.source_url})`);
       continue;
     }
 
