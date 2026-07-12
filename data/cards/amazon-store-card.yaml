@@ -32,7 +32,7 @@ apr:
     min: 29.49
     max: 29.49
 apply_link: https://www.amazon.com/Synchrony-Bank-Amazon-com-Store-Card/dp/B008A0GNA8
-foreign_transaction_fee: false
+foreign_transaction_fee: true
 our_take: >
   This is a closed-loop store card that only earns its 5% at Amazon and Whole
   Foods, and only with an active Prime membership, so it suits committed Amazon
