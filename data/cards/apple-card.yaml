@@ -29,6 +29,7 @@ rewards:
   - category: everything_else
     value: 2
     unit: percent
+    note: "2% Daily Cash requires paying with Apple Pay; the physical titanium card earns 1%"
 tags:
   - cashback
 apr:
