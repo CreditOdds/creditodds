@@ -32,7 +32,7 @@ tags:
   - rewards
 rewards:
   - category: hotels
-    value: 26
+    value: 10
     unit: points_per_dollar
     note: "Up to 26x total points at IHG hotels"
     merchant_specific: true
