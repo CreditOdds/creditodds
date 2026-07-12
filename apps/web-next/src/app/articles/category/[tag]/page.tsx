@@ -111,7 +111,7 @@ export default async function CategoryPage({ params }: Props) {
               padding: '80px 0',
               textAlign: 'center',
               color: 'var(--muted)',
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-inter), sans-serif",
               fontSize: 13,
             }}
           >

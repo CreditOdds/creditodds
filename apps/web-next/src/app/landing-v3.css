@@ -29,7 +29,7 @@
   margin-bottom: 40px;
 }
 .landing-v3 .hero-c h1 {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.04em;
   font-size: clamp(48px, 6vw, 88px);
@@ -93,7 +93,7 @@
   flex: 1;
   border: 0;
   outline: 0;
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.012em;
   font-size: 22px;
@@ -253,7 +253,7 @@
   font-weight: 600;
 }
 .landing-v3 .lane-hd h3 {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.018em;
   font-size: 28px;
@@ -443,7 +443,7 @@
   color: var(--accent);
 }
 .landing-v3 .ed-plate-cat {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.02em;
   font-size: clamp(26px, 3.6vw, 36px);
@@ -456,7 +456,7 @@
   padding: 13px 18px 15px;
 }
 .landing-v3 .ed-lead-bd h4 {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.014em;
   font-size: 18.5px;
@@ -524,7 +524,7 @@
   margin-bottom: 6px;
 }
 .landing-v3 .ed-row h5 {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.01em;
   font-size: 15px;
@@ -567,7 +567,7 @@
   font-weight: 600;
 }
 .landing-v3 .lnk h4 {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   font-size: 15px;
   letter-spacing: -0.005em;
@@ -642,7 +642,7 @@
   padding-right: 24px;
 }
 .landing-v3 .fb .sec-num {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: 11px;
   letter-spacing: 0.16em;
   color: var(--muted);
@@ -651,7 +651,7 @@
   margin-bottom: 14px;
 }
 .landing-v3 .fb h3 {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.022em;
   font-size: 32px;
@@ -869,7 +869,7 @@
   color: #fff;
 }
 .landing-v3 .final-c h2 {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: var(--font-inter-tight), sans-serif;
   font-weight: 500;
   letter-spacing: -0.035em;
   font-size: clamp(48px, 6vw, 88px);

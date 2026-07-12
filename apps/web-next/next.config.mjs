@@ -13,8 +13,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 // Third parties inventoried: PostHog (us.i.posthog.com / us-assets.i.posthog.com),
 // Firebase Auth (apis.google.com,
 // gstatic, *.googleapis.com, creditodds.firebaseapp.com, accounts.google.com),
-// Google Fonts, Highcharts (bundled — no external origin), the card-image CDN/S3,
-// Google profile photos, and the API origin.
+// Highcharts (bundled — no external origin), the card-image CDN/S3,
+// Google profile photos, and the API origin. Fonts are self-hosted via
+// next/font, so no Google Fonts origins are needed.
 const DEFAULT_API_ORIGIN = 'https://d2ojrhbh2dincr.cloudfront.net';
 // Normalize to a bare origin — a CSP host-source must not carry a path (the env
 // var may include one, e.g. an API Gateway ".../Prod" URL in some environments).
@@ -32,10 +33,10 @@ const contentSecurityPolicy = [
   `frame-ancestors 'none'`,
   `form-action 'self'`,
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://us-assets.i.posthog.com`,
-  `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
-  `font-src 'self' data: https://fonts.gstatic.com`,
+  `style-src 'self' 'unsafe-inline'`,
+  `font-src 'self' data:`,
   `img-src 'self' data: blob: https://d3ay3etzd1512y.cloudfront.net https://credit-card-data-site.s3.us-east-2.amazonaws.com https://*.googleusercontent.com`,
-  `connect-src 'self' ${API_ORIGIN} https://*.googleapis.com https://us.i.posthog.com https://us-assets.i.posthog.com https://fonts.gstatic.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
+  `connect-src 'self' ${API_ORIGIN} https://*.googleapis.com https://us.i.posthog.com https://us-assets.i.posthog.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
   `frame-src 'self' https://creditodds.firebaseapp.com https://accounts.google.com https://apis.google.com`,
   `worker-src 'self' blob:`,
   `manifest-src 'self'`,

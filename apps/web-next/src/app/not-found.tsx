@@ -20,7 +20,7 @@ export default function NotFound() {
             display: 'flex',
             flexWrap: 'wrap',
             gap: 12,
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-inter), sans-serif",
             fontSize: 12,
           }}
         >

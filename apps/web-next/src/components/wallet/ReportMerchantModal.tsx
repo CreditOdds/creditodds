@@ -137,7 +137,7 @@ export default function ReportMerchantModal({ show, onClose, payload }: ReportMe
                 <CheckIcon style={{ width: 28, height: 28, strokeWidth: 2.5 }} />
               </span>
               <div style={{
-                fontFamily: "'Inter Tight', sans-serif",
+                fontFamily: "var(--font-inter-tight), sans-serif",
                 fontSize: 18,
                 fontWeight: 600,
                 letterSpacing: '-0.01em',

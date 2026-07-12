@@ -67,7 +67,7 @@ export default function ScatterPlot({
         margin: 16,
         style: {
           fontFamily:
-            'Inter Tight, Inter, ui-sans-serif, system-ui, sans-serif',
+            'var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui, sans-serif',
           fontSize: "14px",
           fontWeight: "500",
           letterSpacing: "-0.01em",
