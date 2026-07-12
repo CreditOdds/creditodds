@@ -63,7 +63,7 @@ body {
   border: 1px solid #ddd7ec;
   border-left-width: 4px;
   color: #1a1330;
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
   font-size: 14px;
   font-weight: 500;
   padding: 10px 14px;

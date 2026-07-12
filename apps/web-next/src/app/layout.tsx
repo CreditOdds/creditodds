@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Inter_Tight } from "next/font/google";
 import { AuthProvider } from "@/auth/AuthProvider";
 import { UserSettingsProvider } from "@/user-settings/UserSettingsProvider";
 import { ConditionalNavbar } from "@/components/layout/ConditionalChrome";
@@ -8,6 +9,25 @@ import { OrganizationSchema, WebsiteSchema } from "@/components/seo/JsonLd";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+
+// Self-hosted via next/font: same families and the same four static weights
+// the old Google Fonts <link> served, exposed as CSS variables so stylesheets
+// keep their existing font stacks. Weights outside this list (e.g. Tailwind's
+// font-extrabold) must keep resolving to 700, so do not switch these to the
+// variable axis without auditing weight usage.
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter-tight",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -45,20 +65,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${interTight.variable}`}>
       <head>
         {/* Preconnect to external domains for faster loading */}
         <link rel="preconnect" href="https://d3ay3etzd1512y.cloudfront.net" />
         <link rel="preconnect" href="https://d2ojrhbh2dincr.cloudfront.net" />
         <link rel="dns-prefetch" href="https://d3ay3etzd1512y.cloudfront.net" />
         <link rel="dns-prefetch" href="https://d2ojrhbh2dincr.cloudfront.net" />
-        {/* Landing v2 fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body className="min-h-screen flex flex-col">
         <OrganizationSchema />

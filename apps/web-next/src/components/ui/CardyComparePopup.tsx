@@ -98,7 +98,7 @@ export default function CardyComparePopup({ currentSlug, currentName, currentIma
           box-shadow:
             0 1px 0 rgba(26, 19, 48, 0.04),
             0 16px 40px -16px rgba(109, 63, 232, 0.22);
-          font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+          font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
           color: #1a1330;
           animation: cmp-pop-in 220ms ease-out;
         }
@@ -167,7 +167,7 @@ export default function CardyComparePopup({ currentSlug, currentName, currentIma
           overflow: hidden;
         }
         .cmp-name {
-          font-family: 'Inter Tight', 'Inter', sans-serif;
+          font-family: var(--font-inter-tight), var(--font-inter), sans-serif;
           letter-spacing: -0.01em;
           font-size: 13px;
           font-weight: 600;
@@ -189,7 +189,7 @@ export default function CardyComparePopup({ currentSlug, currentName, currentIma
         }
         .cmp-prompt {
           margin: 14px 0 12px;
-          font-family: 'Inter Tight', 'Inter', sans-serif;
+          font-family: var(--font-inter-tight), var(--font-inter), sans-serif;
           letter-spacing: -0.01em;
           font-size: 15px;
           font-weight: 500;
