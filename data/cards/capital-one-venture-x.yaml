@@ -65,6 +65,11 @@ benefits:
     frequency_years: 2
     category: "entertainment"
     enrollment_required: false
+  - name: "Enhanced Hotel Benefits"
+    description: "Includes up to $100 hotel credit, daily breakfast, room upgrades, and more at Premier and Lifestyle Collection hotels"
+    frequency: "per_trip"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - travel
   - premium
