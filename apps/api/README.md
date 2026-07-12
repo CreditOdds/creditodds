@@ -10,7 +10,8 @@ For the full endpoint reference and database schema, see the
 
 ## Layout
 
-- `src/handlers/` — Lambda handlers, one file per route (≈34 handlers)
+- `src/handlers/` — Lambda handlers (~32 files backing ~39 functions; some
+  files, like `admin.js`, back several function resources)
 - `src/lib/` — shared helpers (DB access via `serverless-mysql`, the wallet
   `ranker/`, auth, etc.)
 - `template.yml` — SAM/CloudFormation template defining every function, the
