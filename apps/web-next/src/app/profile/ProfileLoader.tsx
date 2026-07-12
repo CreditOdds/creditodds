@@ -46,6 +46,9 @@ function LoaderDeal({ caption }: { caption: string }) {
 export default function ProfileLoader() {
   const [variant, setVariant] = useState<'riffle' | 'deal'>('riffle');
   useEffect(() => {
+    // Randomizing in the useState initializer would make the server and client
+    // pick different variants and mismatch on hydration; settle it post-mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVariant(Math.random() < 0.5 ? 'riffle' : 'deal');
   }, []);
   return variant === 'riffle' ? (

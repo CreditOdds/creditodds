@@ -101,7 +101,6 @@ export default async function OGImage({ params }: Props) {
                     '0 0 0 1px rgba(255,255,255,0.12), 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(109,63,232,0.25)',
                 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={cardImageUrl}
                   alt={card.card_name}

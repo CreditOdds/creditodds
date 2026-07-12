@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import CardImage from "@/components/ui/CardImage";
 import { useAuth } from "@/auth/AuthProvider";
@@ -87,6 +87,10 @@ export default function AdminPage() {
   const [searchesTotal, setSearchesTotal] = useState(0);
   const [graphData, setGraphData] = useState<AdminGraphsData | null>(null);
   const [graphDays, setGraphDays] = useState(30);
+  // Mirror of graphDays for loadData: keeps loadData's identity stable so the
+  // auth effect that depends on it doesn't re-run a full reload when the graph
+  // period changes (loadGraphs alone handles that).
+  const graphDaysRef = useRef(30);
   const [userLookupId, setUserLookupId] = useState('');
 
   // UI states for condensed tabs
@@ -97,22 +101,6 @@ export default function AdminPage() {
   const [processingId, setProcessingId] = useState<number | null>(null);
 
   const isAdmin = authState.user && ADMIN_USER_IDS.includes(authState.user.uid);
-
-  useEffect(() => {
-    if (!authState.isLoading && !authState.isAuthenticated) {
-      router.replace("/login");
-      return;
-    }
-
-    if (authState.isAuthenticated && !isAdmin) {
-      router.replace("/");
-      return;
-    }
-
-    if (authState.isAuthenticated && isAdmin) {
-      loadData();
-    }
-  }, [authState.isAuthenticated, authState.isLoading, isAdmin, router]);
 
   const loadGraphs = async (days: number) => {
     try {
@@ -126,11 +114,12 @@ export default function AdminPage() {
   };
 
   const handleGraphDaysChange = (days: number) => {
+    graphDaysRef.current = days;
     setGraphDays(days);
     loadGraphs(days);
   };
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -147,7 +136,7 @@ export default function AdminPage() {
         getAdminReferrals(token),
         getAdminAuditLog(token),
         getAdminSearches(token),
-        getAdminGraphs(token, graphDays).catch(() => null)
+        getAdminGraphs(token, graphDaysRef.current).catch(() => null)
       ]);
 
       setStats(statsData);
@@ -166,7 +155,23 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getToken]);
+
+  useEffect(() => {
+    if (!authState.isLoading && !authState.isAuthenticated) {
+      router.replace("/login");
+      return;
+    }
+
+    if (authState.isAuthenticated && !isAdmin) {
+      router.replace("/");
+      return;
+    }
+
+    if (authState.isAuthenticated && isAdmin) {
+      loadData();
+    }
+  }, [authState.isAuthenticated, authState.isLoading, isAdmin, router, loadData]);
 
   const handleDeleteRecord = async (recordId: number) => {
     if (!confirm("Are you sure you want to delete this record?")) return;
@@ -619,27 +624,30 @@ interface ApplyClickRow {
 function ApplyClicksTab() {
   const { cards } = useCardCatalog();
   const [periodDays, setPeriodDays] = useState(30);
-  const [breakdown, setBreakdown] = useState<Record<number, CardApplyClickBreakdown>>({});
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  // Loading/error/data are derived from the last settled fetch, keyed by the
+  // period it was for — no synchronous loading-flag setState in the effect.
+  const [fetched, setFetched] = useState<{
+    period: number;
+    breakdown: Record<number, CardApplyClickBreakdown>;
+    error: string | null;
+  } | null>(null);
   const [sortKey, setSortKey] = useState<ApplyClickSortKey>('total');
+
+  const settled = fetched !== null && fetched.period === periodDays ? fetched : null;
+  const loading = settled === null;
+  const breakdown = settled && !settled.error ? settled.breakdown : {};
+  const loadError = settled ? settled.error : null;
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
-    setLoadError(null);
     getCardApplyClicksBreakdown(periodDays)
       .then((data) => {
         if (!isMounted) return;
-        setBreakdown(data);
+        setFetched({ period: periodDays, breakdown: data, error: null });
       })
       .catch(() => {
         if (!isMounted) return;
-        setLoadError('Failed to load apply click data');
-        setBreakdown({});
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
+        setFetched({ period: periodDays, breakdown: {}, error: 'Failed to load apply click data' });
       });
     return () => {
       isMounted = false;
@@ -818,27 +826,29 @@ function pct(n: number): string {
 function ApplyOutcomesTab() {
   const { cards } = useCardCatalog();
   const [periodDays, setPeriodDays] = useState(30);
-  const [breakdown, setBreakdown] = useState<Record<number, ApplyOutcomeBreakdown>>({});
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  // Same derived-loading pattern as CardApplyClicksTab above.
+  const [fetched, setFetched] = useState<{
+    period: number;
+    breakdown: Record<number, ApplyOutcomeBreakdown>;
+    error: string | null;
+  } | null>(null);
   const [sortKey, setSortKey] = useState<ApplyOutcomeSortKey>('total');
+
+  const settled = fetched !== null && fetched.period === periodDays ? fetched : null;
+  const loading = settled === null;
+  const breakdown = settled && !settled.error ? settled.breakdown : {};
+  const loadError = settled ? settled.error : null;
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
-    setLoadError(null);
     getApplyOutcomesBreakdown(periodDays)
       .then((data) => {
         if (!isMounted) return;
-        setBreakdown(data);
+        setFetched({ period: periodDays, breakdown: data, error: null });
       })
       .catch(() => {
         if (!isMounted) return;
-        setLoadError('Failed to load apply outcome data');
-        setBreakdown({});
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
+        setFetched({ period: periodDays, breakdown: {}, error: 'Failed to load apply outcome data' });
       });
     return () => {
       isMounted = false;
@@ -1022,15 +1032,21 @@ interface StoreTrafficRow extends StorePageEventStat {
 
 function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> }) {
   const [periodDays, setPeriodDays] = useState(30);
-  const [stats, setStats] = useState<StorePageEventStat[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  // Same derived-loading pattern as CardApplyClicksTab above.
+  const [fetched, setFetched] = useState<{
+    period: number;
+    stats: StorePageEventStat[];
+    error: string | null;
+  } | null>(null);
   const [sortKey, setSortKey] = useState<StoreTrafficSortKey>('visits');
+
+  const settled = fetched !== null && fetched.period === periodDays ? fetched : null;
+  const loading = settled === null;
+  const stats = settled && !settled.error ? settled.stats : [];
+  const loadError = settled ? settled.error : null;
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
-    setLoadError(null);
     getToken()
       .then((token) => {
         if (!token) throw new Error('no token');
@@ -1038,15 +1054,11 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
       })
       .then((data) => {
         if (!isMounted) return;
-        setStats(data);
+        setFetched({ period: periodDays, stats: data, error: null });
       })
       .catch(() => {
         if (!isMounted) return;
-        setLoadError('Failed to load store traffic data');
-        setStats([]);
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
+        setFetched({ period: periodDays, stats: [], error: 'Failed to load store traffic data' });
       });
     return () => {
       isMounted = false;
@@ -1485,15 +1497,10 @@ function UserLookupTab({
   const [lookupLoading, setLookupLoading] = useState(false);
   const [lookupError, setLookupError] = useState('');
 
-  useEffect(() => {
-    if (initialUserId) {
-      setUserId(initialUserId);
-      doLookup(initialUserId);
-    }
-  }, [initialUserId]);
-
-  const doLookup = async (uid?: string) => {
-    const lookupId = uid || userId;
+  // Stable lookup runner (doesn't close over the userId input state) so the
+  // initialUserId effect can list it as a dependency without re-firing on
+  // every keystroke in the UID field.
+  const runLookup = useCallback(async (lookupId: string) => {
     if (!lookupId.trim()) return;
 
     setLookupLoading(true);
@@ -1513,7 +1520,16 @@ function UserLookupTab({
     } finally {
       setLookupLoading(false);
     }
-  };
+  }, [getToken]);
+
+  useEffect(() => {
+    if (initialUserId) {
+      setUserId(initialUserId);
+      runLookup(initialUserId);
+    }
+  }, [initialUserId, runLookup]);
+
+  const doLookup = () => runLookup(userId);
 
   return (
     <>

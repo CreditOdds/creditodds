@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import CardImage from "@/components/ui/CardImage";
 import { useAuth } from "@/auth/AuthProvider";
-import { checkOdds, CheckOddsCard, CheckOddsResponse, getWallet, WalletCard } from "@/lib/api";
+import { checkOdds, CheckOddsResponse, getWallet, WalletCard } from "@/lib/api";
 import { calculateApplicationRules, RuleResult } from "@/lib/applicationRules";
 import { cardMatchesSearch } from "@/lib/searchAliases";
 import posthog from "posthog-js";
@@ -146,7 +146,7 @@ export default function CheckOddsClient() {
   const filteredCards = useMemo(() => {
     if (!results) return [];
 
-    let filtered = results.cards.filter(card =>
+    const filtered = results.cards.filter(card =>
       cardMatchesSearch(card.card_name, card.bank, search)
     );
 
@@ -457,7 +457,6 @@ export default function CheckOddsClient() {
 }
 
 function MedianIndicator({
-  value,
   median,
   isAbove,
   isCurrency,
@@ -511,21 +510,6 @@ function MobileIndicator({
   return (
     <span className={isAbove ? 'text-green-700' : 'text-red-700'}>
       {label} {isAbove ? '\u2191' : '\u2193'} {formatted}
-    </span>
-  );
-}
-
-function MatchBadge({ score }: { score: number }) {
-  const colors = {
-    3: 'bg-green-100 text-green-800',
-    2: 'bg-lime-100 text-lime-800',
-    1: 'bg-amber-100 text-amber-800',
-    0: 'bg-red-100 text-red-800',
-  };
-
-  return (
-    <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${colors[score as keyof typeof colors] || colors[0]}`}>
-      {score}/3
     </span>
   );
 }

@@ -80,9 +80,12 @@ export async function GET(request: Request) {
                   gap: 16,
                 }}
               >
-                {/* Card image or placeholder */}
+                {/* Card image or placeholder. Plain <img> is required: this JSX
+                    is rendered by satori into a static OG image, not by the DOM. */}
                 {card!.card_image_link ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
+                    alt={card!.card_name}
                     src={`${CDN_BASE}/${card!.card_image_link}`}
                     width={280}
                     height={176}

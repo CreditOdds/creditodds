@@ -52,6 +52,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const auth = getFirebaseAuth();
     if (!auth) {
       console.warn('Firebase auth not available');
+      // Firebase is unavailable (missing env): there is no auth system to
+      // subscribe to, so settle the auth state once instead of loading forever.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthState({ isAuthenticated: false, isLoading: false, user: null });
       return;
     }

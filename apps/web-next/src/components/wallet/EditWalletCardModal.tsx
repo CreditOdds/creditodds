@@ -54,7 +54,7 @@ const months = [
   { value: 10, label: 'October' }, { value: 11, label: 'November' }, { value: 12, label: 'December' },
 ];
 
-export default function EditWalletCardModal({ show, card, cardSlug, annualFee, displayName, lastProductChange, onClose, onSuccess, onRequestProductChange, onRequestCloseCard }: EditWalletCardModalProps) {
+export default function EditWalletCardModal({ show, card, cardSlug, displayName, lastProductChange, onClose, onSuccess, onRequestProductChange, onRequestCloseCard }: EditWalletCardModalProps) {
   const { getToken } = useAuth();
   const [acquiredMonth, setAcquiredMonth] = useState<number | undefined>();
   const [acquiredYear, setAcquiredYear] = useState<number | undefined>();

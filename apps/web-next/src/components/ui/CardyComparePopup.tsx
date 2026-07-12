@@ -56,6 +56,9 @@ export default function CardyComparePopup({ currentSlug, currentName, currentIma
     if (priorUniques.length === 0) return;
 
     const prev = priorUniques[priorUniques.length - 1];
+    // One-time sync from localStorage visit history after hydration; it isn't
+    // readable during SSR, so it can't be a useState initializer w/o mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPreviousCard(prev);
 
     const timer = setTimeout(() => {

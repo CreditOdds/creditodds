@@ -30,6 +30,10 @@ export default function CardSelect({ allCards }: CardSelectProps) {
         const recentCards = recentNames
           .map(name => allCards.find(c => c.card_name === name))
           .filter((c): c is Card => c !== undefined);
+        // One-time sync from localStorage after hydration; reading it during
+        // render or a useState initializer would mismatch the server-rendered
+        // empty state.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setRecentSearches(recentCards);
       }
     } catch {

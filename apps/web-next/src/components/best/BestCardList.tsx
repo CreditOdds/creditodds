@@ -4,7 +4,6 @@ import { Card } from '@/lib/api';
 import { BestPageCard, BestPanel } from '@/lib/best';
 import { ApplyButtons } from './ApplyButtons';
 import {
-  getCentsPerPoint,
   formatEstimatedValue,
   formatBonusValue,
   formatBonusRequirement,

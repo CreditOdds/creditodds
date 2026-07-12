@@ -61,7 +61,7 @@ export default function StorePersonalRow({ store }: Props) {
           <div className="store-personal-row-eyebrow">Your wallet</div>
           <div className="store-personal-row-cta-line">
             <Link href="/register" className="store-personal-row-cta-link">Sign up free</Link>{' '}
-            and we'll show you the best card you already own to use at {store.name}.
+            and we&apos;ll show you the best card you already own to use at {store.name}.
           </div>
         </div>
       </div>
@@ -91,11 +91,11 @@ export default function StorePersonalRow({ store }: Props) {
               <>
                 Add cards to{' '}
                 <Link href="/profile" className="store-personal-row-cta-link">your wallet</Link>{' '}
-                and we'll surface your best pick for {store.name} here.
+                and we&apos;ll surface your best pick for {store.name} here.
               </>
             ) : (
               <>
-                Couldn't load your wallet. <Link href="/profile" className="store-personal-row-cta-link">View your wallet</Link>.
+                Couldn&apos;t load your wallet. <Link href="/profile" className="store-personal-row-cta-link">View your wallet</Link>.
               </>
             )}
           </div>

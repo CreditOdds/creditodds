@@ -301,13 +301,13 @@ export default async function BestCardForStorePage({ params }: PageProps) {
           <div className="store-banner">
             <b>Honest answer:</b> no card we track gives a category bonus on{' '}
             {store.categories.map(labelForCategory).join(' or ')} purchases. Your best
-            move is a strong flat-rate cashback card — these are the ones we'd pick.
+            move is a strong flat-rate cashback card — these are the ones we&apos;d pick.
           </div>
         )}
 
         {picks.length === 0 ? (
           <p className="store-empty">
-            We don't have a strong recommendation for {store.name} yet. Check back as we
+            We don&apos;t have a strong recommendation for {store.name} yet. Check back as we
             add more cards.
           </p>
         ) : (

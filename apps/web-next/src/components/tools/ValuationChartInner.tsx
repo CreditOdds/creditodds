@@ -162,7 +162,7 @@ export default function ValuationChart({ programName, unit, dataPoints }: Valuat
       <div className="flex flex-col gap-1 mb-4">
         <h2 className="text-lg font-semibold text-gray-900">{programName} valuation, by year</h2>
         <p className="text-sm text-gray-600">
-          High, low, and median cents-per-{unit} across major published valuations. Each gray dot is one source's published number for that year — click a dot to view the source.
+          High, low, and median cents-per-{unit} across major published valuations. Each gray dot is one source&apos;s published number for that year — click a dot to view the source.
         </p>
       </div>
 
@@ -194,7 +194,7 @@ export default function ValuationChart({ programName, unit, dataPoints }: Valuat
       </div>
 
       <p className="mt-4 text-xs text-gray-500">
-        {sourceCount > 0 ? `Sources: ${sourceList}.` : ''} Only directly cited values from each source's published page or article are included.
+        {sourceCount > 0 ? `Sources: ${sourceList}.` : ''} Only directly cited values from each source&apos;s published page or article are included.
       </p>
     </div>
   );
