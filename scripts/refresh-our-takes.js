@@ -61,6 +61,9 @@ const MIN_TAKE_LENGTH = 60; // guard against a truncated / empty generation
 const DRY_RUN = process.env.OUR_TAKE_DRY_RUN === '1';
 const DRY_RUN_FILE = path.join(__dirname, '..', 'our-takes-dryrun.json');
 
+// Cap the number of cards processed (0 = all). Handy for a quick sample preview.
+const LIMIT = Number(process.env.OUR_TAKE_LIMIT || 0);
+
 // CardWire stores raw field keys; translate to something the writer reads cleanly.
 const WIRE_FIELD_LABELS = {
   accepting_applications: 'Accepting new applications',
@@ -355,16 +358,20 @@ async function main() {
     })
     .filter(Boolean);
 
+  const queue = LIMIT > 0 ? cards.slice(0, LIMIT) : cards;
+  const total = queue.length;
+
   console.log(
-    `\nRegenerating our_take for ${cards.length} cards with ${MODEL}${DRY_RUN ? ' (dry run, no writes)' : ''}...\n`
+    `\nRegenerating our_take for ${total}${LIMIT > 0 ? ` of ${cards.length}` : ''} cards with ${MODEL}${DRY_RUN ? ' (dry run, no writes)' : ''}...\n`
   );
 
   let changed = 0;
   let unchanged = 0;
   let failed = 0;
+  let processed = 0;
   const previews = [];
 
-  await mapPool(cards, CONCURRENCY, async card => {
+  await mapPool(queue, CONCURRENCY, async card => {
     const wire = wireByName.get(normalizeName(card.data.name)) || [];
     const featured = featuredBySlug.get(card.data.slug) || [];
     const prompt = buildUserPrompt(card.data, wire, featured);
@@ -373,18 +380,19 @@ async function main() {
     try {
       take = await generateTake(prompt);
     } catch (err) {
-      console.error(`  FAIL   ${card.data.name}: ${err.message}`);
+      console.error(`  [${++processed}/${total}] FAIL ${card.data.name}: ${err.message}`);
       failed++;
       return;
     }
 
     if (!take || take.length < MIN_TAKE_LENGTH) {
-      console.error(`  FAIL   ${card.data.name}: empty or too-short take.`);
+      console.error(`  [${++processed}/${total}] FAIL ${card.data.name}: empty or too-short take.`);
       failed++;
       return;
     }
 
     const isChanged = normalizeText(take) !== normalizeText(card.data.our_take);
+    console.log(`  [${++processed}/${total}] ${isChanged ? 'CHANGED ' : 'same    '} ${card.data.name}`);
 
     if (DRY_RUN) {
       previews.push({
@@ -405,11 +413,10 @@ async function main() {
 
     fs.writeFileSync(card.filepath, upsertOurTake(card.raw, take));
     changed++;
-    console.log(`  UPDATE ${card.data.name}`);
   });
 
   console.log(
-    `\nDone. ${changed} ${DRY_RUN ? 'would change' : 'updated'}, ${unchanged} unchanged, ${failed} failed (${cards.length} total).`
+    `\nDone. ${changed} ${DRY_RUN ? 'would change' : 'updated'}, ${unchanged} unchanged, ${failed} failed (${total} total).`
   );
 
   if (DRY_RUN) {
