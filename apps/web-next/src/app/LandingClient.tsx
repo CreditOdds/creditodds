@@ -701,9 +701,34 @@ function FooterBlocks({ cards }: { cards: LandingCard[] }) {
             </p>
             <div className="tool-mini-grid">
               <Link href="/check-odds" className="tmini odds">
-                <div>
-                  <div className="nm">Approval odds</div>
-                  <div className="v">Real probability · live data</div>
+                <div className="odds-left">
+                  <svg className="odds-dice" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 3 L20 7.5 L12 12 L4 7.5 Z" fill="rgba(255,255,255,0.45)" />
+                    <path d="M12 12 L20 7.5 V16.5 L12 21 Z" fill="rgba(255,255,255,0.22)" />
+                    <path d="M4 7.5 L12 12 V21 L4 16.5 Z" fill="rgba(255,255,255,0.08)" />
+                    <path
+                      d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z"
+                      stroke="#fff"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M4 7.5 L12 12 L20 7.5 M12 12 V21"
+                      stroke="#fff"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    <ellipse cx="12" cy="7.5" rx="1.7" ry="1.05" fill="#fff" />
+                    <ellipse cx="6.3" cy="12.4" rx="0.95" ry="1.15" fill="#fff" />
+                    <ellipse cx="9.7" cy="16.4" rx="0.95" ry="1.15" fill="#fff" />
+                    <ellipse cx="14.3" cy="12.6" rx="0.95" ry="1.15" fill="#fff" />
+                    <ellipse cx="16" cy="14.3" rx="0.95" ry="1.15" fill="#fff" />
+                    <ellipse cx="17.7" cy="16" rx="0.95" ry="1.15" fill="#fff" />
+                  </svg>
+                  <div>
+                    <div className="nm">Approval odds</div>
+                    <div className="v">Real probability · live data</div>
+                  </div>
                 </div>
                 <span style={{ fontSize: 18 }}>→</span>
               </Link>
