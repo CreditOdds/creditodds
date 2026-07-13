@@ -1,0 +1,105 @@
+name: Refresh Our Takes
+
+# Twice a month, a few hours after Refresh Best Pages (0 12 1,15), regenerate
+# every card's `our_take` editorial paragraph with an OpenAI writer and commit
+# the changes straight to main. A GITHUB_TOKEN push does not cascade into other
+# workflows, so the publish step explicitly dispatches Build and Deploy Cards to
+# push the refreshed cards.json to S3/CDN.
+#
+# A manual run defaults to PREVIEW mode: it generates the whole batch and uploads
+# it as an artifact (our-takes-dryrun.json) without touching main, so a run can
+# be reviewed before anything goes live. Scheduled runs always publish.
+
+on:
+  schedule:
+    - cron: '0 16 1,15 * *'  # 1st & 15th of each month, 16:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview only: generate + upload the batch as an artifact, do not commit to main'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # commit + push the refreshed YAML to main
+  actions: write    # dispatch the Build and Deploy Cards workflow
+
+concurrency:
+  group: refresh-our-takes
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine mode
+        id: mode
+        run: |
+          # Publish only on the schedule, or an explicit non-dry-run dispatch from main.
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            MODE=publish
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] \
+            && [ "${{ inputs.dry_run }}" = "false" ] \
+            && [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            MODE=publish
+          else
+            MODE=preview
+          fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "Running in $MODE mode."
+
+      - name: Build fresh inputs (cards.json + best.json)
+        run: |
+          npm run build:cards
+          npm run build:best
+
+      - name: Regenerate our_take editorial copy
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_TAKE_MODEL: gpt-4o
+          OUR_TAKE_DRY_RUN: ${{ steps.mode.outputs.mode == 'preview' && '1' || '0' }}
+        run: node scripts/refresh-our-takes.js
+
+      - name: Upload preview batch (preview mode)
+        if: always() && steps.mode.outputs.mode == 'preview'
+        uses: actions/upload-artifact@v4
+        with:
+          name: our-takes-preview
+          path: our-takes-dryrun.json
+          if-no-files-found: warn
+
+      - name: Validate cards still build (publish mode)
+        if: steps.mode.outputs.mode == 'publish'
+        run: npm run build:cards
+
+      - name: Commit refreshed takes to main and deploy (publish mode)
+        if: steps.mode.outputs.mode == 'publish'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # best.json is tracked and gets rebuilt above; we only commit card YAML.
+          git checkout -- data/best.json 2>/dev/null || true
+          if [ -z "$(git status --porcelain data/cards/)" ]; then
+            echo "No take changes this run."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/cards/
+          git commit -m "chore: refresh our_take editorial copy ($(date +%Y-%m-%d))"
+          git push origin HEAD:main
+          echo "Pushed refreshed takes to main; dispatching Build and Deploy Cards..."
+          gh workflow run build-cards.yml --ref main
