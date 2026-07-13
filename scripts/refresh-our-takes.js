@@ -64,6 +64,12 @@ const DRY_RUN_FILE = path.join(__dirname, '..', 'our-takes-dryrun.json');
 // Cap the number of cards processed (0 = all). Handy for a quick sample preview.
 const LIMIT = Number(process.env.OUR_TAKE_LIMIT || 0);
 
+// Restrict to specific cards by slug or name (comma-separated). For targeted tests.
+const ONLY = (process.env.OUR_TAKE_ONLY || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+
 // CardWire stores raw field keys; translate to something the writer reads cleanly.
 const WIRE_FIELD_LABELS = {
   accepting_applications: 'Accepting new applications',
@@ -378,7 +384,14 @@ async function main() {
     })
     .filter(Boolean);
 
-  const queue = LIMIT > 0 ? cards.slice(0, LIMIT) : cards;
+  let queue = cards;
+  if (ONLY.length) {
+    const want = new Set(ONLY.map(s => s.toLowerCase()));
+    queue = cards.filter(
+      c => want.has((c.data.slug || '').toLowerCase()) || want.has(normalizeName(c.data.name))
+    );
+  }
+  if (LIMIT > 0) queue = queue.slice(0, LIMIT);
   const total = queue.length;
 
   console.log(
