@@ -74,7 +74,7 @@ jobs:
         run: node scripts/refresh-our-takes.js
 
       - name: Upload preview batch (preview mode)
-        if: steps.mode.outputs.mode == 'preview'
+        if: always() && steps.mode.outputs.mode == 'preview'
         uses: actions/upload-artifact@v4
         with:
           name: our-takes-preview

@@ -48,7 +48,10 @@ const CARD_WIRE_URL =
 const WIRE_WINDOW_DAYS = Number(process.env.WIRE_WINDOW_DAYS || 120);
 const WIRE_FETCH_LIMIT = 500;
 
-const CONCURRENCY = 4;
+// gpt-4o rate limits are tight, so keep concurrency low and let the request
+// spacing + Retry-After handling below do the real pacing. Both overridable.
+const CONCURRENCY = Number(process.env.OUR_TAKE_CONCURRENCY || 2);
+const REQUEST_SPACING_MS = Number(process.env.OUR_TAKE_SPACING_MS || 350);
 const WRAP_WIDTH = 76; // content columns; a 2-space indent lands near the 78 the YAML files use
 const MIN_TAKE_LENGTH = 60; // guard against a truncated / empty generation
 
@@ -102,21 +105,43 @@ function normalizeText(s) {
   return (s || '').replace(/\s+/g, ' ').trim();
 }
 
-async function fetchWithRetry(url, options = {}, { maxRetries = 3, baseDelay = 1500 } = {}) {
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+// Global request-start spacing so a pool of workers doesn't fire a burst that
+// trips the rate limit on the very first round.
+let nextSlot = 0;
+async function rateGate(spacingMs) {
+  const now = Date.now();
+  const wait = Math.max(0, nextSlot - now);
+  nextSlot = Math.max(now, nextSlot) + spacingMs;
+  if (wait > 0) await sleep(wait);
+}
+
+async function fetchWithRetry(url, options = {}, { maxRetries = 10, baseDelay = 2000 } = {}) {
   let lastErr;
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
       const res = await fetch(url, options);
-      if (res.status === 429 || res.status >= 500) throw new Error(`HTTP ${res.status}`);
+      if ((res.status === 429 || res.status >= 500) && attempt < maxRetries) {
+        // Honor the server's Retry-After when present, else capped exponential backoff.
+        const retryAfter = Number(res.headers.get('retry-after'));
+        const wait =
+          Number.isFinite(retryAfter) && retryAfter > 0
+            ? retryAfter * 1000 + 250
+            : Math.min(baseDelay * Math.pow(2, attempt), 30000);
+        await sleep(wait + Math.floor(Math.random() * 500)); // jitter to desync workers
+        continue;
+      }
       return res;
     } catch (err) {
       lastErr = err;
-      if (attempt < maxRetries) {
-        await new Promise(r => setTimeout(r, baseDelay * Math.pow(2, attempt)));
-      }
+      if (attempt >= maxRetries) throw lastErr;
+      await sleep(Math.min(baseDelay * Math.pow(2, attempt), 30000));
     }
   }
-  throw lastErr;
+  throw lastErr || new Error('fetchWithRetry: retries exhausted');
 }
 
 async function mapPool(items, concurrency, fn) {
@@ -269,6 +294,7 @@ function buildUserPrompt(card, wire, featured) {
 }
 
 async function generateTake(prompt) {
+  await rateGate(REQUEST_SPACING_MS);
   const res = await fetchWithRetry('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -401,8 +427,9 @@ async function main() {
   }
 
   // A large failure rate usually means a bad key or a rate-limit wall; don't
-  // ship a half-refreshed batch.
-  if (failed > cards.length / 2) {
+  // ship a half-refreshed batch. In dry run we still want the artifact, so we
+  // report but never hard-fail.
+  if (!DRY_RUN && failed > cards.length / 2) {
     console.error('More than half the cards failed to generate; failing the run.');
     process.exit(1);
   }
