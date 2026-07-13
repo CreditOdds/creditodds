@@ -52,6 +52,12 @@ const CONCURRENCY = 4;
 const WRAP_WIDTH = 76; // content columns; a 2-space indent lands near the 78 the YAML files use
 const MIN_TAKE_LENGTH = 60; // guard against a truncated / empty generation
 
+// Preview mode: generate every take but write NOTHING back to the YAML. Instead
+// dump the results to our-takes-dryrun.json and print a few samples, so a run
+// can be reviewed before any take goes live. Set OUR_TAKE_DRY_RUN=1.
+const DRY_RUN = process.env.OUR_TAKE_DRY_RUN === '1';
+const DRY_RUN_FILE = path.join(__dirname, '..', 'our-takes-dryrun.json');
+
 // CardWire stores raw field keys; translate to something the writer reads cleanly.
 const WIRE_FIELD_LABELS = {
   accepting_applications: 'Accepting new applications',
@@ -323,11 +329,14 @@ async function main() {
     })
     .filter(Boolean);
 
-  console.log(`\nRegenerating our_take for ${cards.length} cards with ${MODEL}...\n`);
+  console.log(
+    `\nRegenerating our_take for ${cards.length} cards with ${MODEL}${DRY_RUN ? ' (dry run, no writes)' : ''}...\n`
+  );
 
   let changed = 0;
   let unchanged = 0;
   let failed = 0;
+  const previews = [];
 
   await mapPool(cards, CONCURRENCY, async card => {
     const wire = wireByName.get(normalizeName(card.data.name)) || [];
@@ -349,7 +358,21 @@ async function main() {
       return;
     }
 
-    if (normalizeText(take) === normalizeText(card.data.our_take)) {
+    const isChanged = normalizeText(take) !== normalizeText(card.data.our_take);
+
+    if (DRY_RUN) {
+      previews.push({
+        slug: card.data.slug,
+        name: card.data.name,
+        changed: isChanged,
+        old_take: card.data.our_take || null,
+        new_take: take,
+      });
+      isChanged ? changed++ : unchanged++;
+      return;
+    }
+
+    if (!isChanged) {
       unchanged++;
       return;
     }
@@ -360,8 +383,22 @@ async function main() {
   });
 
   console.log(
-    `\nDone. ${changed} updated, ${unchanged} unchanged, ${failed} failed (${cards.length} total).`
+    `\nDone. ${changed} ${DRY_RUN ? 'would change' : 'updated'}, ${unchanged} unchanged, ${failed} failed (${cards.length} total).`
   );
+
+  if (DRY_RUN) {
+    previews.sort((a, b) => a.name.localeCompare(b.name));
+    fs.writeFileSync(DRY_RUN_FILE, JSON.stringify(previews, null, 2));
+    console.log(`\n[dry run] Wrote ${previews.length} takes to ${DRY_RUN_FILE}. No YAML modified.`);
+
+    const samples = previews.filter(p => p.changed).slice(0, 8);
+    console.log(`\n===== SAMPLE TAKES (${samples.length} of ${changed} changed) =====`);
+    for (const s of samples) {
+      console.log(`\n### ${s.name} (${s.slug})`);
+      console.log(s.new_take);
+    }
+    console.log('\n===== END SAMPLES =====');
+  }
 
   // A large failure rate usually means a bad key or a rate-limit wall; don't
   // ship a half-refreshed batch.
