@@ -18,8 +18,8 @@ function getTopReward(rewards: Reward[] | undefined): Reward | null {
 export default function BankCardsTable({ cards, trendingViews }: BankCardsTableProps) {
   const [showArchived, setShowArchived] = useState(false);
 
-  // Count active and archived cards
-  const { activeCount, archivedCount } = useMemo(() => {
+  // Count archived cards (the active count isn't currently displayed)
+  const { archivedCount } = useMemo(() => {
     let active = 0;
     let archived = 0;
     cards.forEach(card => {

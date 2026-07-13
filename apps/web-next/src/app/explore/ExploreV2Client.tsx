@@ -218,14 +218,6 @@ function topReward(card: Card): Reward | null {
   return pick?.reward ?? null;
 }
 
-function formatTopReward(card: Card): string {
-  const top = topReward(card);
-  if (!top) return '—';
-  const rate = top.unit === 'percent' ? `${top.value}%` : `${top.value}x`;
-  const label = categoryLabels[top.category] || top.category;
-  return `${rate} ${label}`;
-}
-
 function rewardTypeLabel(card: Card): string {
   switch (card.reward_type) {
     case 'cashback':
@@ -282,6 +274,10 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search).get('q');
+    // One-time sync from the URL after hydration; the query string isn't
+    // available during SSR, so seeding it in the useState initializer would
+    // cause a hydration mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (q) setQuery(q);
   }, []);
   const [sort, setSort] = useState<SortKey>('trending');

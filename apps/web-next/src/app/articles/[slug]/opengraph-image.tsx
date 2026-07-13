@@ -156,7 +156,6 @@ export default async function OGImage({ params }: Props) {
                 overflow: 'hidden',
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={articleImageUrl}
                 alt={article.title}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
 import { XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import CardImage from "@/components/ui/CardImage";
@@ -39,9 +39,14 @@ export default function SubmitRecordCardPicker({
 }: SubmitRecordCardPickerProps) {
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
+  // Reset the search box when the picker closes, using the adjust-state-during-
+  // render pattern (https://react.dev/learn/you-might-not-need-an-effect) instead
+  // of an effect, so the cleared state is visible on the very next render.
+  const [prevShow, setPrevShow] = useState(show);
+  if (prevShow !== show) {
+    setPrevShow(show);
     if (!show) setSearch("");
-  }, [show]);
+  }
 
   const eligible = useMemo(() => {
     const inWallet = walletCardNames ?? new Set<string>();

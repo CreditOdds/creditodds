@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { XCircleIcon, CheckCircleIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
@@ -25,7 +25,7 @@ function LoginPageInner() {
   const { authState, signInWithGoogle, sendEmailLink } = useAuth();
 
   // Build redirect URL from query params
-  const getRedirectUrl = () => {
+  const getRedirectUrl = useCallback(() => {
     const redirect = searchParams.get('redirect');
     // Only allow same-origin relative paths. Reject absolute and
     // protocol-relative URLs (https://evil.com, //evil.com, /\evil.com) so a
@@ -46,14 +46,14 @@ function LoginPageInner() {
     });
     const qs = params.toString();
     return qs ? `${redirect}?${qs}` : redirect;
-  };
+  }, [searchParams]);
 
   // Redirect if already authenticated
   useEffect(() => {
     if (authState.isAuthenticated) {
       router.push(getRedirectUrl());
     }
-  }, [authState.isAuthenticated, router, searchParams]);
+  }, [authState.isAuthenticated, router, getRedirectUrl]);
 
   const handleGoogleSignIn = async () => {
     setErrorMessage("");

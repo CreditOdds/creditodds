@@ -161,7 +161,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
   }, [storageKey]);
 
   // Save form data to localStorage (#7)
-  const saveFormData = useCallback((values: typeof formik.values) => {
+  const saveFormData = useCallback((values: unknown) => {
     if (typeof window === 'undefined') return;
     try {
       localStorage.setItem(storageKey, JSON.stringify(values));

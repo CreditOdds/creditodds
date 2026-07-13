@@ -11,7 +11,6 @@
 
 import type { Card, WalletCardSelection } from '@/lib/api';
 import type { Store } from '@/lib/stores';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 import * as ranker from '@ranker/storeRanking';
 
 export type MatchMode =

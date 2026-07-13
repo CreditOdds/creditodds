@@ -838,7 +838,7 @@ export default function ProfileClient() {
                 {upcomingRenewals.map((r) => (
                   <li key={r.name} className="cj-rail-row">
                     <div className="cj-rail-row-meta">
-                      <span className="cj-rail-row-date">{r.renewal.split(' ')[0]} '{r.renewal.split(' ')[1].slice(2)}</span>
+                      <span className="cj-rail-row-date">{r.renewal.split(' ')[0]} &apos;{r.renewal.split(' ')[1].slice(2)}</span>
                       <span className="cj-rail-row-field">{r.name.replace(/ Card$/, '')}</span>
                     </div>
                     <div className="cj-rail-row-detail">

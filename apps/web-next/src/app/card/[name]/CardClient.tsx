@@ -23,7 +23,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
-import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel, isMonetaryBenefit } from "@/lib/cardDisplayUtils";
+import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -388,8 +388,6 @@ export default function CardClient({
 
   const acceptedBuckets = bucketize(chartOne[0] || [], FICO_BUCKETS);
   const rejectedBuckets = bucketize(chartOne[1] || [], FICO_BUCKETS);
-  const totalRecordsFromChart =
-    (chartOne[0]?.length || 0) + (chartOne[1]?.length || 0);
   const maxBucketTotal = Math.max(
     1,
     ...FICO_BUCKETS.map(
@@ -463,14 +461,12 @@ export default function CardClient({
   }, [card, sortedRewards]);
 
   // Headline: split on last space so the closing word can take the accent color.
-  const { headlineMain, headlineAccent } = useMemo(() => {
-    const words = card.card_name.trim().split(/\s+/);
-    if (words.length < 2) return { headlineMain: "", headlineAccent: card.card_name };
-    return {
-      headlineMain: words.slice(0, -1).join(" "),
-      headlineAccent: words[words.length - 1],
-    };
-  }, [card.card_name]);
+  // Plain computation (cheap string split) — was a useMemo the React Compiler
+  // couldn't preserve.
+  const headlineWords = card.card_name.trim().split(/\s+/);
+  const headlineMain = headlineWords.length < 2 ? "" : headlineWords.slice(0, -1).join(" ");
+  const headlineAccent =
+    headlineWords.length < 2 ? card.card_name : headlineWords[headlineWords.length - 1];
 
   const bonusDisplay = useMemo(() => {
     const sb = card.signup_bonus;
@@ -500,13 +496,6 @@ export default function CardClient({
   }, [card.card_name, card.signup_bonus]);
 
   const ourTake = card.our_take?.trim() || null;
-
-  const approvalRate =
-    card.approved_count !== undefined &&
-    card.total_records &&
-    card.total_records > 0
-      ? Math.round((card.approved_count / card.total_records) * 100)
-      : null;
 
   const creditLength = (() => {
     const v = card.approved_median_length_credit;

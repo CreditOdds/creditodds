@@ -19,7 +19,6 @@ import {
   CategoryIcon,
   formatBonusValue,
   formatEstimatedValue,
-  formatBonusRequirement,
   formatAnnualFee,
   formatRewardWithUsdEquivalent,
   formatRewardCapCaveat,

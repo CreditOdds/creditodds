@@ -1,5 +1,10 @@
 'use client';
 
+/* eslint-disable react-hooks/unsupported-syntax --
+   Highcharts axis/tooltip formatter callbacks receive their context as `this`
+   (that's the Highcharts API), which the React Compiler can't analyze. The
+   compiler simply skips this component; the chart itself is unaffected. */
+
 import { useMemo, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
