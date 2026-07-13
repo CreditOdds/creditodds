@@ -122,26 +122,46 @@ async function rateGate(spacingMs) {
   if (wait > 0) await sleep(wait);
 }
 
-async function fetchWithRetry(url, options = {}, { maxRetries = 10, baseDelay = 2000 } = {}) {
+let loggedRetryReason = false;
+
+async function fetchWithRetry(url, options = {}, { maxRetries = 6, baseDelay = 2000 } = {}) {
   let lastErr;
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
       const res = await fetch(url, options);
-      if ((res.status === 429 || res.status >= 500) && attempt < maxRetries) {
-        // Honor the server's Retry-After when present, else capped exponential backoff.
-        const retryAfter = Number(res.headers.get('retry-after'));
-        const wait =
-          Number.isFinite(retryAfter) && retryAfter > 0
-            ? retryAfter * 1000 + 250
-            : Math.min(baseDelay * Math.pow(2, attempt), 30000);
-        await sleep(wait + Math.floor(Math.random() * 500)); // jitter to desync workers
-        continue;
+      if (res.status === 429 || res.status >= 500) {
+        // Peek at the body to tell a transient rate limit apart from a terminal
+        // quota/billing error, which no amount of retrying will fix.
+        let snippet = '';
+        try {
+          snippet = (await res.clone().text()).slice(0, 300);
+        } catch {
+          /* body unreadable; treat as transient */
+        }
+        const terminal = /insufficient_quota|exceeded your current quota|billing_hard_limit|account_deactivated/i.test(snippet);
+        if (terminal) {
+          console.error(`Non-retryable ${res.status}: ${snippet}`);
+          return res; // let the caller throw with the real message; don't burn retries
+        }
+        if (attempt < maxRetries) {
+          if (!loggedRetryReason) {
+            loggedRetryReason = true;
+            console.warn(`  Rate limited (${res.status}); backing off and retrying. First body: ${snippet.slice(0, 160)}`);
+          }
+          const retryAfter = Number(res.headers.get('retry-after'));
+          const wait =
+            Number.isFinite(retryAfter) && retryAfter > 0
+              ? retryAfter * 1000 + 250
+              : Math.min(baseDelay * Math.pow(2, attempt), 20000);
+          await sleep(wait + Math.floor(Math.random() * 500)); // jitter to desync workers
+          continue;
+        }
       }
       return res;
     } catch (err) {
       lastErr = err;
       if (attempt >= maxRetries) throw lastErr;
-      await sleep(Math.min(baseDelay * Math.pow(2, attempt), 30000));
+      await sleep(Math.min(baseDelay * Math.pow(2, attempt), 20000));
     }
   }
   throw lastErr || new Error('fetchWithRetry: retries exhausted');
