@@ -725,9 +725,47 @@
 .landing-v3 .tmini.odds:hover {
   background: var(--accent-deep);
 }
+.landing-v3 .tmini.odds .odds-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.landing-v3 .odds-dice {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  transform-origin: center;
+}
+.landing-v3 .tmini.odds:hover .odds-dice {
+  animation: dice-roll 0.8s cubic-bezier(0.3, 0.7, 0.4, 1) both;
+}
+@keyframes dice-roll {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-9px) rotate(150deg);
+  }
+  55% {
+    transform: translateY(0) rotate(265deg);
+  }
+  72% {
+    transform: translateY(-4px) rotate(325deg);
+  }
+  88%,
+  100% {
+    transform: translateY(0) rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-v3 .tmini.odds:hover .odds-dice {
+    animation: none;
+  }
+}
 .landing-v3 .tmini.odds .nm {
   color: #fff;
   font-size: 14px;
+  padding-left: 0;
 }
 .landing-v3 .tmini.odds .v {
   color: rgba(255, 255, 255, 0.85);
