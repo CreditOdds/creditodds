@@ -1,15 +1,17 @@
 import { Metadata } from "next";
+import { Fragment } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllStores, getStore, getStoresGeneratedAt } from "@/lib/stores";
 import { getAllCards } from "@/lib/api";
 import { rankCards, formatRate, labelForCategory } from "@/lib/storeRanking";
+import { getRelatedStores } from "@/lib/relatedStores";
 import { BreadcrumbSchema, FAQSchema, CollectionPageSchema } from "@/components/seo/JsonLd";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { PencilSquareIcon, ExclamationTriangleIcon, CalendarDaysIcon, BanknotesIcon } from "@heroicons/react/24/outline";
 import StorePersonalRow from "./StorePersonalRow";
-import StoreAffiliateCta from "./StoreAffiliateCta";
+import StoreAffiliateExperiment from "./StoreAffiliateCta";
 import StoreVisitTracker from "./StoreVisitTracker";
 import "../../landing.css";
 
@@ -141,20 +143,18 @@ export default async function BestCardForStorePage({ params }: PageProps) {
     ).values(),
   );
 
-  // Rank related stores by category overlap so the most-similar stores win.
-  // A store sharing both [hotels, travel] with Best Western beats one that
-  // only shares [travel] — otherwise broad categories like `travel` flood the
-  // list with whichever stores happen to come first alphabetically.
-  const relatedStores = allStores
-    .filter(s => s.slug !== store.slug)
-    .map(s => ({
-      store: s,
-      overlap: s.categories.filter(c => store.categories.includes(c)).length,
-    }))
-    .filter(x => x.overlap > 0)
-    .sort((a, b) => b.overlap - a.overlap || a.store.name.localeCompare(b.store.name))
-    .slice(0, 8)
-    .map(x => x.store);
+  // Use the same primary-category definition as the /best-card-for index so
+  // broad secondary categories cannot pull unrelated stores into this list.
+  const relatedStores = getRelatedStores(store, allStores);
+  const topPick = picks[0];
+  const affiliateExperimentProps = store.affiliate ? {
+    storeName: store.name,
+    storeSlug: store.slug,
+    affiliate: store.affiliate,
+    topPickName: topPick?.card.card_name,
+    topPickRateLabel: topPick ? formatRate(topPick.rate, topPick.unit) : undefined,
+    topPickRewardRate: topPick?.effectiveRate,
+  } : null;
 
   return (
     <div className="landing-v2 store-v2">
@@ -217,13 +217,8 @@ export default async function BestCardForStorePage({ params }: PageProps) {
       </section>
 
       <div className="wrap store-body">
-        {store.affiliate && (
-          <StoreAffiliateCta
-            storeName={store.name}
-            storeSlug={store.slug}
-            affiliate={store.affiliate}
-            topPickName={picks[0]?.card.card_name}
-          />
+        {affiliateExperimentProps && (
+          <StoreAffiliateExperiment {...affiliateExperimentProps} placement="top" />
         )}
 
         {merchantCredits.length > 0 && (
@@ -322,7 +317,11 @@ export default async function BestCardForStorePage({ params }: PageProps) {
           )}
           <ol className="store-picks">
             {picks.map((pick, i) => (
-              <li key={pick.card.slug} className="store-pick">
+              <Fragment key={pick.card.slug}>
+              <li
+                id={i === 0 ? 'store-top-pick' : undefined}
+                className="store-pick"
+              >
                 <div className="store-pick-rank">#{i + 1}</div>
                 <Link
                   href={`/card/${pick.card.slug}`}
@@ -397,15 +396,17 @@ export default async function BestCardForStorePage({ params }: PageProps) {
                   )}
                 </div>
               </li>
+              {i === 0 && affiliateExperimentProps && (
+                <StoreAffiliateExperiment
+                  {...affiliateExperimentProps}
+                  placement="after_first"
+                />
+              )}
+              </Fragment>
             ))}
           </ol>
-          {store.affiliate && (
-            <StoreAffiliateCta
-              storeName={store.name}
-              storeSlug={store.slug}
-              affiliate={store.affiliate}
-              topPickName={picks[0]?.card.card_name}
-            />
+          {affiliateExperimentProps && (
+            <StoreAffiliateExperiment {...affiliateExperimentProps} placement="after_picks" />
           )}
           </>
         )}

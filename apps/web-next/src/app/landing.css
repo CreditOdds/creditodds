@@ -9048,6 +9048,208 @@
   vertical-align: -2px;
 }
 
+/* Affiliate CTA experiment treatments. Each treatment uses the same visual
+   vocabulary as the ranked picks so it feels like the final step of the
+   recommendation instead of a detached display ad. */
+.landing-v2.store-v2 .store-affiliate-experiment-item {
+  list-style: none;
+  margin: 2px 0 6px;
+}
+.landing-v2.store-v2 .store-affiliate-plan,
+.landing-v2.store-v2 .store-affiliate-calculator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in oklab, var(--accent) 35%, var(--line));
+  border-left: 4px solid var(--accent);
+  background: color-mix(in oklab, var(--accent) 5%, var(--paper));
+  box-shadow: var(--shadow-sm);
+}
+.landing-v2.store-v2 .store-affiliate-plan-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  color: var(--accent-deep);
+}
+.landing-v2.store-v2 .store-affiliate-plan-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.landing-v2.store-v2 .store-affiliate-plan-kicker {
+  margin-bottom: 4px;
+  color: var(--accent-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.landing-v2.store-v2 .store-affiliate-plan-title {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45;
+}
+.landing-v2.store-v2 .store-affiliate-plan-offer {
+  margin-top: 4px;
+  color: var(--ink-2);
+  font-size: 13px;
+}
+.landing-v2.store-v2 .store-affiliate-calculator {
+  display: block;
+}
+.landing-v2.store-v2 .store-affiliate-calculator-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.landing-v2.store-v2 .store-affiliate-calculator-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.landing-v2.store-v2 .store-affiliate-spend-input {
+  display: flex;
+  align-items: center;
+  width: 116px;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--muted);
+  font-weight: 700;
+}
+.landing-v2.store-v2 .store-affiliate-spend-input input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+}
+.landing-v2.store-v2 .store-affiliate-spend-chips {
+  display: flex;
+  gap: 6px;
+}
+.landing-v2.store-v2 .store-affiliate-spend-chips button {
+  height: 34px;
+  padding: 0 9px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-2);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 650;
+}
+.landing-v2.store-v2 .store-affiliate-spend-chips button:hover,
+.landing-v2.store-v2 .store-affiliate-spend-chips button.is-active {
+  border-color: var(--accent);
+  color: var(--accent-deep);
+}
+.landing-v2.store-v2 .store-affiliate-calculator-controls .store-affiliate-btn {
+  margin-left: auto;
+}
+.landing-v2.store-v2 .store-affiliate-estimate-note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.landing-v2.store-v2 .store-affiliate-sticky {
+  position: fixed;
+  z-index: 80;
+  right: 24px;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 12px 14px 12px 18px;
+  border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--line));
+  background: color-mix(in oklab, var(--paper) 94%, transparent);
+  box-shadow: 0 12px 36px rgba(12, 18, 28, 0.22);
+  backdrop-filter: blur(12px);
+}
+.landing-v2.store-v2 .store-affiliate-sticky-copy {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.landing-v2.store-v2 .store-affiliate-sticky-copy span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.landing-v2.store-v2 .store-affiliate-sticky-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.landing-v2.store-v2 .store-affiliate-sticky-btn:hover {
+  background: var(--accent-deep);
+}
+.landing-v2.store-v2 .store-affiliate-sticky-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.landing-v2.store-v2 .store-affiliate-sticky-dismiss {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  place-items: center;
+}
+.landing-v2.store-v2 .store-affiliate-sticky-dismiss svg {
+  width: 18px;
+  height: 18px;
+}
+@media (max-width: 720px) {
+  .landing-v2.store-v2 .store-affiliate-plan {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .landing-v2.store-v2 .store-affiliate-plan .store-affiliate-btn,
+  .landing-v2.store-v2 .store-affiliate-calculator-controls .store-affiliate-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+  .landing-v2.store-v2 .store-affiliate-spend-chips {
+    order: 3;
+    width: 100%;
+  }
+  .landing-v2.store-v2 .store-affiliate-sticky {
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 8px;
+    gap: 10px;
+    padding: 10px 8px 10px 12px;
+  }
+  .landing-v2.store-v2 .store-affiliate-sticky-copy span {
+    max-width: 32ch;
+  }
+  .landing-v2.store-v2 .store-affiliate-sticky-btn {
+    padding: 9px 10px;
+  }
+}
+
 /* The hero intro paragraph is shared as .page-sub (max-width: 620px) across
    most pages. On store pages we want it to read across the full hero width
    so it doesn't visually anchor only to the left half. */

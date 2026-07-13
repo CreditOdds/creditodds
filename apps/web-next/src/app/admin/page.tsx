@@ -17,6 +17,7 @@ import {
   getCardApplyClicksBreakdown,
   getApplyOutcomesBreakdown,
   getStorePageEventStats,
+  AffiliateExperimentStat,
   StorePageEventStat,
   deleteAdminRecord,
   deleteAdminReferral,
@@ -1023,26 +1024,36 @@ function ApplyOutcomesTab() {
 // Visits are tracked on every store page; affiliate clicks only exist for
 // stores that have an affiliate CTA, so per-store CTR = clicks / visits.
 const STORE_TRAFFIC_RANGES = APPLY_CLICK_RANGES;
+const STORE_AFFILIATE_EXPERIMENT_VARIANTS = [
+  ['control', 'Control'],
+  ['checkout_plan', 'Checkout plan'],
+  ['reward_calculator', 'Reward calculator'],
+  ['sticky_bar', 'Sticky bar'],
+] as const;
 
 type StoreTrafficSortKey = 'visits' | 'clicks' | 'ctr';
+type StoreTrafficAffiliateFilter = 'all' | 'with' | 'without';
 
 interface StoreTrafficRow extends StorePageEventStat {
   ctr: number; // clicks / visits; 0 when no visits
 }
 
 function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> }) {
-  const [periodDays, setPeriodDays] = useState(30);
+  const [periodDays, setPeriodDays] = useState(7);
   // Same derived-loading pattern as CardApplyClicksTab above.
   const [fetched, setFetched] = useState<{
     period: number;
     stats: StorePageEventStat[];
+    experiment: AffiliateExperimentStat[];
     error: string | null;
   } | null>(null);
   const [sortKey, setSortKey] = useState<StoreTrafficSortKey>('visits');
+  const [affiliateFilter, setAffiliateFilter] = useState<StoreTrafficAffiliateFilter>('all');
 
   const settled = fetched !== null && fetched.period === periodDays ? fetched : null;
   const loading = settled === null;
   const stats = settled && !settled.error ? settled.stats : [];
+  const experiment = settled && !settled.error ? settled.experiment : [];
   const loadError = settled ? settled.error : null;
 
   useEffect(() => {
@@ -1054,11 +1065,21 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
       })
       .then((data) => {
         if (!isMounted) return;
-        setFetched({ period: periodDays, stats: data, error: null });
+        setFetched({
+          period: periodDays,
+          stats: data.stores,
+          experiment: data.affiliateExperiment,
+          error: null,
+        });
       })
       .catch(() => {
         if (!isMounted) return;
-        setFetched({ period: periodDays, stats: [], error: 'Failed to load store traffic data' });
+        setFetched({
+          period: periodDays,
+          stats: [],
+          experiment: [],
+          error: 'Failed to load store traffic data',
+        });
       });
     return () => {
       isMounted = false;
@@ -1068,7 +1089,11 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
   const rows: StoreTrafficRow[] = stats.map((s) => ({
     ...s,
     ctr: s.visits > 0 ? s.clicks / s.visits : 0,
-  }));
+  })).filter((row) => {
+    if (affiliateFilter === 'with') return row.hasAffiliate;
+    if (affiliateFilter === 'without') return !row.hasAffiliate;
+    return true;
+  });
 
   rows.sort((a, b) => b[sortKey] - a[sortKey] || b.visits - a.visits);
 
@@ -1081,6 +1106,14 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
     { visits: 0, clicks: 0 }
   );
   const overallCtr = totals.visits > 0 ? totals.clicks / totals.visits : 0;
+  const experimentByVariant = new Map(experiment.map(row => [row.variant, row]));
+  const experimentRows = STORE_AFFILIATE_EXPERIMENT_VARIANTS.map(([variant, label]) => {
+    const row = experimentByVariant.get(variant);
+    const views = row?.views ?? 0;
+    const clicks = row?.clicks ?? 0;
+    return { variant, label, views, clicks, ctr: views > 0 ? clicks / views : 0 };
+  });
+  const controlCtr = experimentRows.find(row => row.variant === 'control')?.ctr ?? 0;
 
   const rangeLabel =
     STORE_TRAFFIC_RANGES.find((r) => r.days === periodDays)?.label ?? `${periodDays}d`;
@@ -1139,26 +1172,103 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
       )}
 
       <div className="av-section-head" style={{ marginTop: 24 }}>
-        <h3 className="av-section-h" style={{ fontSize: 14 }}>Stores by traffic ({rangeLabel})</h3>
-        <span className="av-section-meta">{rows.length} stores</span>
+        <div>
+          <h3 className="av-section-h" style={{ fontSize: 14 }}>
+            Affiliate CTA experiment ({rangeLabel})
+          </h3>
+          <p className="av-section-sub">
+            One stable variant per visitor. CTR is attributed clicks / assigned page views.
+          </p>
+        </div>
+        <span className="av-section-meta">affiliate-cta-v1</span>
+      </div>
+
+      {loading ? (
+        <div className="av-tape av-tape-empty">Loading experiment…</div>
+      ) : experimentRows.every(row => row.views === 0) ? (
+        <div className="av-tape av-tape-empty">No experiment activity recorded in this window.</div>
+      ) : (
+        <div className="av-tape">
+          <div className="av-tape-scroll">
+            <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(180px, 1.5fr) 100px 100px 100px 100px' }}>
+              <span>Variant</span>
+              <span>Views</span>
+              <span>Clicks</span>
+              <span>CTR</span>
+              <span>vs control</span>
+            </div>
+            {experimentRows.map(row => {
+              const lift = controlCtr > 0 ? (row.ctr - controlCtr) / controlCtr : null;
+              return (
+                <div
+                  key={row.variant}
+                  className="av-tape-row"
+                  style={{ gridTemplateColumns: 'minmax(180px, 1.5fr) 100px 100px 100px 100px' }}
+                >
+                  <span style={{ fontWeight: 650 }}>{row.label}</span>
+                  <span>{row.views.toLocaleString()}</span>
+                  <span className="av-accent">{row.clicks.toLocaleString()}</span>
+                  <span className="av-mono">{row.views > 0 ? pct(row.ctr) : '—'}</span>
+                  <span
+                    className="av-mono"
+                    style={{
+                      color: lift === null || row.variant === 'control'
+                        ? 'var(--muted-2)'
+                        : lift >= 0 ? OUTCOME_GREEN : 'var(--warn)',
+                    }}
+                  >
+                    {row.variant === 'control' || lift === null
+                      ? '—'
+                      : `${lift >= 0 ? '+' : ''}${pct(lift)}`}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div className="av-section-head" style={{ marginTop: 24 }}>
+        <div>
+          <h3 className="av-section-h" style={{ fontSize: 14 }}>Stores by traffic ({rangeLabel})</h3>
+          <span className="av-section-meta">{rows.length} stores</span>
+        </div>
+        <div className="av-range" aria-label="Filter stores by affiliate link status">
+          {([
+            ['all', 'All pages'],
+            ['with', 'Affiliate link'],
+            ['without', 'No affiliate link'],
+          ] as const).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setAffiliateFilter(value)}
+              className={'av-range-btn' + (affiliateFilter === value ? ' active' : '')}
+              aria-pressed={affiliateFilter === value}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {loading ? (
         <div className="av-tape av-tape-empty">Loading…</div>
       ) : rows.length === 0 ? (
-        <div className="av-tape av-tape-empty">No store page activity recorded in this window.</div>
+        <div className="av-tape av-tape-empty">No store page activity matches this filter.</div>
       ) : (
         <div className="av-tape">
           <div className="av-tape-scroll">
-            <div className="av-tape-head" style={{ gridTemplateColumns: '32px minmax(200px, 1.6fr) 90px 90px 80px' }}>
+            <div className="av-tape-head" style={{ gridTemplateColumns: '32px minmax(200px, 1.6fr) 100px 90px 90px 80px' }}>
               <span>#</span>
               <span>Store</span>
+              <span>Affiliate</span>
               <button type="button" onClick={() => setSortKey('visits')} className={sortKey === 'visits' ? 'active' : ''}>Visits {sortKey === 'visits' && '↓'}</button>
               <button type="button" onClick={() => setSortKey('clicks')} className={sortKey === 'clicks' ? 'active' : ''}>Clicks {sortKey === 'clicks' && '↓'}</button>
               <button type="button" onClick={() => setSortKey('ctr')} className={sortKey === 'ctr' ? 'active' : ''}>CTR {sortKey === 'ctr' && '↓'}</button>
             </div>
             {rows.map((row, index) => (
-              <div key={row.slug} className="av-tape-row" style={{ gridTemplateColumns: '32px minmax(200px, 1.6fr) 90px 90px 80px' }}>
+              <div key={row.slug} className="av-tape-row" style={{ gridTemplateColumns: '32px minmax(200px, 1.6fr) 100px 90px 90px 80px' }}>
                 <span className="av-list-num">{index + 1}</span>
                 <div className="av-card-meta">
                   <a
@@ -1171,6 +1281,9 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
                     {row.slug}
                   </a>
                 </div>
+                <span style={{ color: row.hasAffiliate ? OUTCOME_GREEN : 'var(--muted-2)' }}>
+                  {row.hasAffiliate ? 'Linked' : 'None'}
+                </span>
                 <span style={{ fontWeight: 600 }}>{row.visits.toLocaleString()}</span>
                 <span className="av-accent">{row.clicks.toLocaleString()}</span>
                 <span className="av-mono" style={{ color: 'var(--ink-2)' }}>{pct(row.ctr)}</span>
