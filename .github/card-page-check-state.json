@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-14T12:31:20.295Z",
+  "updated_at": "2026-07-14T20:22:25.730Z",
   "cards": {
     "aaa-daily-advantage-visa-signature": {
       "consecutive_skips": 0,
@@ -227,7 +227,8 @@
     },
     "citi-double-cash": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-14T12:31:20.295Z"
+      "last_ok": "2026-07-14T20:22:25.730Z",
+      "browser_first": "2026-07-14T20:22:25.729Z"
     },
     "citi-secured-mastercard": {
       "consecutive_skips": 0,
