@@ -89,6 +89,10 @@ function isAutoArchivedReferral(r: Pick<Referral, 'archived_at' | 'archived_reas
   return !!r.archived_at && typeof r.archived_reason === 'string' && r.archived_reason.startsWith('auto:');
 }
 
+function isWalletArchivedReferral(r: Pick<Referral, 'archived_at' | 'archived_reason'>): boolean {
+  return !!r.archived_at && typeof r.archived_reason === 'string' && r.archived_reason.startsWith('wallet:');
+}
+
 // An auto-archived referral only "needs attention" until the user submits a
 // replacement for the same card. A replacement is any non-archived referral
 // on that card_id — including one still "in review" (admin_approved = false),
@@ -1462,7 +1466,9 @@ function ReferralsTab(props: ReferralsTabProps) {
   // referral validator (need a replacement), manual = admin or user
   // archived (already shown as the existing yellow notice).
   const autoArchived = getUnreplacedAutoArchivedReferrals(referrals);
-  const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason && !isAutoArchivedReferral(r));
+  const walletArchived = referrals.filter(isWalletArchivedReferral);
+  const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason && !isAutoArchivedReferral(r) && !isWalletArchivedReferral(r));
+  const removedCount = walletArchived.length + adminArchived.length;
   const eligibleCardIds = new Set(eligibleReferralCards.map(c => c.card_id));
   const totalImpressions = active.reduce((s, r) => s + (r.impressions ?? 0), 0);
   const totalClicks = active.reduce((s, r) => s + (r.clicks ?? 0), 0);
@@ -1475,7 +1481,7 @@ function ReferralsTab(props: ReferralsTabProps) {
           <div className="cj-readoff-k">Active links</div>
           <div className="cj-readoff-v">{active.length}</div>
           <div className="cj-readoff-foot">
-            {adminArchived.length > 0 ? `${adminArchived.length} removed` : 'submit more anytime'}
+            {removedCount > 0 ? `${removedCount} removed` : 'submit more anytime'}
           </div>
         </div>
         <div className="cj-readoff-cell">
@@ -1605,6 +1611,17 @@ function ReferralsTab(props: ReferralsTabProps) {
               : `${adminArchived.length} referrals were removed`}
           </b>{' '}
           because the link{adminArchived.length === 1 ? ' was' : 's were'} no longer working. You can submit new ones anytime.
+        </div>
+      )}
+
+      {walletArchived.length > 0 && (
+        <div className="cj-verdict" style={{ marginTop: 16, background: '#fef9e8', borderLeftColor: '#a8792a', color: '#5c4318' }}>
+          <b style={{ color: '#a8792a' }}>
+            {walletArchived.length === 1
+              ? `Your referral for ${walletArchived[0].card_name} was deactivated`
+              : `${walletArchived.length} referrals were deactivated`}
+          </b>{' '}
+          when the associated card{walletArchived.length === 1 ? ' was' : 's were'} closed or removed from your wallet, so the link{walletArchived.length === 1 ? ' is' : 's are'} no longer circulating.
         </div>
       )}
     </section>

@@ -41,6 +41,16 @@ function validateAcquiredDate(acquired_month, acquired_year) {
   return null;
 }
 
+async function archiveCardReferrals(userId, cardId, reason) {
+  const result = await mysql.query(
+    `UPDATE referrals
+     SET archived_at = NOW(), archived_reason = ?
+     WHERE submitter_id = ? AND card_id = ? AND archived_at IS NULL`,
+    [reason, userId, cardId]
+  );
+  return result.affectedRows || 0;
+}
+
 exports.UserWalletHandler = async (event) => {
   console.info("received:", event.httpMethod, event.path);
 
@@ -420,6 +430,15 @@ exports.UserWalletHandler = async (event) => {
             [effectiveClose, walletRowId, userId]
           );
 
+          // A referral should only circulate while the user still presents the
+          // card as active. Keep the row and its stats for history, but archive
+          // every active referral for this user/card as part of the closure.
+          const referralsArchived = await archiveCardReferrals(
+            userId,
+            closedCardId,
+            "wallet: card closed"
+          );
+
           const closeInsert = await mysql.query(`
             INSERT INTO wallet_card_events
               (user_id, user_card_id, event_type, old_card_id, new_card_id, change_date, reason, note)
@@ -437,6 +456,7 @@ exports.UserWalletHandler = async (event) => {
               wallet_card_id: walletRowId,
               card_id: closedCardId,
               close_date: effectiveClose,
+              referrals_archived: referralsArchived,
             }),
           };
           break;
@@ -605,23 +625,49 @@ exports.UserWalletHandler = async (event) => {
           break;
         }
 
+        // Load the card id before deleting the wallet row; referrals are keyed
+        // by card type rather than by a specific user_cards instance.
+        const deleteRow = await mysql.query(
+          "SELECT card_id FROM user_cards WHERE id = ? AND user_id = ?",
+          [walletRowId, userId]
+        );
+        if (deleteRow.length === 0) {
+          await mysql.end();
+          response = {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Wallet card not found" }),
+          };
+          break;
+        }
+
+        const removedCardId = deleteRow[0].card_id;
         const deleteResult = await mysql.query(
           "DELETE FROM user_cards WHERE id = ? AND user_id = ?",
           [walletRowId, userId]
         );
-        await mysql.end();
 
         if (deleteResult.affectedRows === 0) {
+          await mysql.end();
           response = {
             statusCode: 404,
             headers: responseHeaders,
             body: JSON.stringify({ error: "Wallet card not found" }),
           };
         } else {
+          const referralsArchived = await archiveCardReferrals(
+            userId,
+            removedCardId,
+            "wallet: card removed"
+          );
+          await mysql.end();
           response = {
             statusCode: 200,
             headers: responseHeaders,
-            body: JSON.stringify({ message: "Card removed from wallet" }),
+            body: JSON.stringify({
+              message: "Card removed from wallet",
+              referrals_archived: referralsArchived,
+            }),
           };
         }
         break;
