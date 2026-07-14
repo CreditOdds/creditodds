@@ -87,7 +87,7 @@ export function V2Footer() {
           <div>
             <h4>Content</h4>
             <Link href="/articles">Articles</Link>
-            <Link href="/best">Best cards</Link>
+            <Link href="/best">Best Cards</Link>
             <Link href="/best-card-for">Best card by store</Link>
             <Link href="/best-card-for-me">Best card for me</Link>
             <Link href="/news">Card news</Link>
