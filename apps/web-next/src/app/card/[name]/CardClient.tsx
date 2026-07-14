@@ -89,24 +89,6 @@ function getStableReferralIndex(cardKey: string, referralCount: number): number 
 
 const MIN_DATA_POINTS_FOR_CHARTS = 5;
 
-const FICO_BUCKETS: { label: string; min: number; max: number }[] = [
-  { label: "790+", min: 790, max: 850 },
-  { label: "760–789", min: 760, max: 789 },
-  { label: "730–759", min: 730, max: 759 },
-  { label: "700–729", min: 700, max: 729 },
-  { label: "670–699", min: 670, max: 699 },
-  { label: "< 670", min: 0, max: 669 },
-];
-
-function bucketize(
-  pairs: [number, number][],
-  buckets: { min: number; max: number }[],
-): number[] {
-  return buckets.map(
-    (b) => pairs.filter((p) => p[0] >= b.min && p[0] <= b.max).length,
-  );
-}
-
 // Returns 'pos' (good for the cardholder), 'neg' (worse), or null.
 // `annual_fee`, `apr_min`, `apr_max` are inverted — lower is better.
 function wireDirection(
@@ -417,15 +399,6 @@ export default function CardClient({
   );
   const hasChartThree = chartThree.some(
     (s) => Array.isArray(s) && s.length > 0,
-  );
-
-  const acceptedBuckets = bucketize(chartOne[0] || [], FICO_BUCKETS);
-  const rejectedBuckets = bucketize(chartOne[1] || [], FICO_BUCKETS);
-  const maxBucketTotal = Math.max(
-    1,
-    ...FICO_BUCKETS.map(
-      (_, i) => acceptedBuckets[i] + rejectedBuckets[i],
-    ),
   );
 
   const sortedRewards = useMemo<Reward[]>(
@@ -1414,70 +1387,6 @@ export default function CardClient({
                   <div className="cj-stat">
                     <div className="cj-stat-k">Credit history</div>
                     <div className="cj-stat-v">{creditLength ?? "—"}</div>
-                  </div>
-                </div>
-
-                <div style={{ marginTop: 24 }}>
-                  <div className="cj-table-label">
-                    Approval rate by FICO score
-                  </div>
-                  <div className="cj-bars">
-                    {FICO_BUCKETS.map((b, i) => {
-                      const a = acceptedBuckets[i];
-                      const r = rejectedBuckets[i];
-                      const total = a + r;
-                      const aPct =
-                        total > 0 ? (a / maxBucketTotal) * 100 : 0;
-                      const rPct =
-                        total > 0 ? (r / maxBucketTotal) * 100 : 0;
-                      const rate =
-                        total > 0 ? Math.round((a / total) * 100) : null;
-                      return (
-                        <div key={b.label} className="cj-bar-row">
-                          <span className="cj-bar-label">{b.label}</span>
-                          {total > 0 ? (
-                            <span className="cj-bar-track">
-                              <span
-                                className="cj-bar-app"
-                                style={{ width: `${aPct}%` }}
-                              />
-                              <span
-                                className="cj-bar-den"
-                                style={{ width: `${rPct}%` }}
-                              />
-                            </span>
-                          ) : (
-                            <span className="cj-bar-track">
-                              <span
-                                className="cj-bar-empty"
-                                style={{ padding: "0 6px", fontSize: 10 }}
-                              >
-                                no data
-                              </span>
-                            </span>
-                          )}
-                          <span className="cj-bar-n">
-                            {rate !== null ? `${rate}%` : "—"}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="cj-bar-legend">
-                    <span>
-                      <span
-                        className="cj-bar-legend-swatch"
-                        style={{ background: "var(--accent)" }}
-                      />
-                      Approved
-                    </span>
-                    <span>
-                      <span
-                        className="cj-bar-legend-swatch"
-                        style={{ background: "var(--warn)", opacity: 0.4 }}
-                      />
-                      Denied
-                    </span>
                   </div>
                 </div>
 
