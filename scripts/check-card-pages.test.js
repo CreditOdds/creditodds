@@ -669,4 +669,54 @@ test('the Fidelity case: a dead offer page alarms after the threshold', () => {
   assert.equal(state.chase.consecutive_skips, 0, 'healthy cards stay green throughout');
 });
 
+// ─── browser_first memory ────────────────────────────────────────────────────
+//
+// The ~30 JS-rendered issuer pages (Citi, BofA, most Amex) fail the simple
+// fetch identically every night; the flag lets the next run skip that doomed
+// fetch and its wasted extraction. These guard the flag's lifecycle inside
+// updateSkipState — set on a browser-verified card, kept across skips, dropped
+// once the simple fetch suffices again.
+
+console.log('\nbrowser_first memory:');
+
+test('a browser-verified card records browser_first; a simple-fetch card does not', () => {
+  const after = fold({}, ['citi', 'chase'], [], { browserFirst: new Map([['citi', AT]]) });
+  assert.equal(after.citi.browser_first, AT);
+  assert.equal(after.chase.browser_first, undefined);
+});
+
+test('a verified card whose simple fetch sufficed drops its stale flag', () => {
+  // Page reverted to server-rendered HTML after the TTL re-probe: this run
+  // verified it without the browser, so no entry in browserFirst.
+  const prev = { citi: { consecutive_skips: 0, browser_first: '2026-06-01T00:00:00.000Z' } };
+  const after = fold(prev, ['citi'], []);
+  assert.equal(after.citi.browser_first, undefined);
+});
+
+test('a skip proves nothing about rendering — the flag survives it', () => {
+  const prev = { citi: { consecutive_skips: 0, browser_first: '2026-06-01T00:00:00.000Z' } };
+  const after = fold(prev, ['citi'], [skip('citi', 'Timed out after 60000ms')]);
+  assert.equal(after.citi.browser_first, '2026-06-01T00:00:00.000Z');
+  assert.equal(after.citi.consecutive_skips, 1);
+});
+
+test('a carried-forward flag keeps its original date (so the TTL can expire)', () => {
+  // main() passes the PREVIOUS date for a still-valid flag; a fresh date would
+  // make the TTL unreachable since browser-first guarantees browser use.
+  const original = '2026-06-20T00:00:00.000Z';
+  const prev = { citi: { consecutive_skips: 0, browser_first: original } };
+  const after = fold(prev, ['citi'], [], { browserFirst: new Map([['citi', original]]) });
+  assert.equal(after.citi.browser_first, original);
+});
+
+test('callers without a browserFirst map (legacy/tests) still work', () => {
+  const after = updateSkipState({}, {
+    checkedSlugs: new Set(['a']),
+    skippedCards: [],
+    checkedAt: AT,
+    isPartialRun: false,
+  });
+  assert.equal(after.a.consecutive_skips, 0);
+});
+
 console.log('');

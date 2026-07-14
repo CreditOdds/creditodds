@@ -44,7 +44,22 @@ const STALE_REPORT_FILE = path.join(__dirname, '..', '.card-page-check-stale.md'
 // rotting (dead URL, permanent bot-block, extractor blind spot) and the run
 // fails loudly rather than reporting another quiet green.
 const SKIP_ALERT_THRESHOLD = Number(process.env.CARD_PAGE_SKIP_ALERT_THRESHOLD || 3);
+// Minimum gap between two requests to the SAME host. Politeness only matters
+// per-issuer — chase.com doesn't care that citi.com was hit 1s ago — so the gap
+// is enforced per hostname, not as a flat sleep between cards. Extraction
+// (~1.5–3s of OpenAI latency) usually covers the window for consecutive
+// same-host cards, so in practice this rarely sleeps at all; the old
+// unconditional 2s sleep was ~5 min of every nightly run.
 const FETCH_DELAY_MS = 2000;
+// A page that needed the browser once (JS-rendered offer, bot-blocked simple
+// fetch) will need it tomorrow too — the ~30 such cards are the same set every
+// night. Remember it in the state file and go browser-first, skipping the
+// doomed simple fetch AND the wasted extraction of placeholder HTML. The flag
+// ages out so a page that reverts to server-rendered HTML stops paying the
+// ~10s browser tax after one month (and a flag set by a one-night transport
+// blip doesn't stick forever); on expiry the card re-probes simple-first and
+// re-flags itself if still browser-dependent.
+const BROWSER_FIRST_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
 // Overall safety net. Widening the browser-retry condition (needsBrowserRetry)
@@ -67,12 +82,14 @@ const MAX_CONTENT_CHARS = 18000;
 // ─── Timeout helpers ─────────────────────────────────────────────────────────
 
 function withTimeout(promise, ms, label) {
-  return Promise.race([
-    promise,
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(`Timed out after ${ms}ms: ${label}`)), ms)
-    ),
-  ]);
+  // The timer must die with the race: a pending 60s per-card timeout otherwise
+  // keeps the Node event loop alive after main() returns — the final card's
+  // timer alone held every nightly run open ~55s past "Exiting." (run #155).
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`Timed out after ${ms}ms: ${label}`)), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
 // ─── YAML helpers ────────────────────────────────────────────────────────────
@@ -1023,14 +1040,21 @@ function writeSkipState(cards, checkedAt) {
  * not prune them — otherwise one single-card run would wipe every other card's
  * accumulated history and silently disarm the alarm.
  */
-function updateSkipState(prev, { checkedSlugs, skippedCards, checkedAt, isPartialRun }) {
+function updateSkipState(prev, { checkedSlugs, skippedCards, checkedAt, isPartialRun, browserFirst = new Map() }) {
   const next = { ...prev };
   const skippedBySlug = new Map(skippedCards.map(s => [s.slug, s]));
 
   for (const slug of checkedSlugs) {
     const skip = skippedBySlug.get(slug);
     if (!skip) {
-      next[slug] = { consecutive_skips: 0, last_ok: checkedAt };
+      // browser_first present only when this run's content came via the
+      // browser — a card whose simple fetch sufficed drops any stale flag.
+      const bf = browserFirst.get(slug);
+      next[slug] = {
+        consecutive_skips: 0,
+        last_ok: checkedAt,
+        ...(bf ? { browser_first: bf } : {}),
+      };
       continue;
     }
     const previous = prev[slug] || {};
@@ -1041,6 +1065,8 @@ function updateSkipState(prev, { checkedSlugs, skippedCards, checkedAt, isPartia
       last_reason: skip.reason,
       // Permanent, deliberate skips (see knownBlockedReason) count but never alarm.
       known_block: Boolean(skip.knownBlock),
+      // A skip proves nothing about how the page renders — keep what we knew.
+      ...(previous.browser_first ? { browser_first: previous.browser_first } : {}),
     };
   }
 
@@ -1125,6 +1151,19 @@ async function main() {
 
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
+  // Prior runs' per-card knowledge, read once up front: which cards are known
+  // to need the browser (see BROWSER_FIRST_TTL_MS). `browserFirstBySlug`
+  // collects the flags to persist for THIS run — a still-valid flag is carried
+  // forward with its original date so it eventually expires and re-probes.
+  const prevState = loadSkipState();
+  const browserFirstBySlug = new Map();
+
+  // Last time each hostname was actually hit; enforces FETCH_DELAY_MS per host.
+  const lastHostHit = new Map();
+  const hostOf = (url) => {
+    try { return new URL(url).hostname; } catch { return url; }
+  };
+
   for (const [i, card] of cardsToCheck.entries()) {
     if (Date.now() > scriptDeadline) {
       // Record the cards we never reached. Without this the loop just breaks and
@@ -1151,10 +1190,35 @@ async function main() {
       continue;
     }
 
+    // Per-host politeness gate (outside withTimeout so waiting here can never
+    // eat into the card's own 60s budget).
+    const host = hostOf(apply_link);
+    const hostWaitMs = (lastHostHit.get(host) || 0) + FETCH_DELAY_MS - Date.now();
+    if (hostWaitMs > 0) await new Promise(r => setTimeout(r, hostWaitMs));
+
+    const prevBrowserFirst = prevState[card.slug]?.browser_first;
+    const browserFirstValid = Boolean(
+      prevBrowserFirst && Date.now() - Date.parse(prevBrowserFirst) < BROWSER_FIRST_TTL_MS
+    );
+
     try {
       await withTimeout((async () => {
-        // Fetch page
-        const fetchResult = await fetchPageContent(apply_link);
+        // Fetch page. A card flagged browser_first goes straight to Playwright:
+        // its simple fetch is known to return placeholder/blocked content, and
+        // extracting that placeholder costs a full OpenAI call that always
+        // comes back empty. If the browser fails, this is an honest skip (it
+        // feeds the stale alarm) rather than a fall-back to content we already
+        // know can't be trusted — a placeholder page reading as "no changes"
+        // is exactly the false-verified case the retry path exists to prevent.
+        let fetchResult;
+        if (browserFirstValid) {
+          console.log('  Known browser-dependent page — skipping simple fetch');
+          const content = await fetchWithBrowser(apply_link);
+          fetchResult = content ? { content, usedBrowser: true } : null;
+        } else {
+          fetchResult = await fetchPageContent(apply_link);
+        }
+        lastHostHit.set(host, Date.now());
         if (!fetchResult) {
           console.log('  Skipped (could not fetch page)\n');
           recordSkip(card, lastFetchError || 'could not fetch page');
@@ -1181,6 +1245,7 @@ async function main() {
         if (!usedBrowser && needsBrowserRetry(extracted, card.data.signup_bonus)) {
           console.log('  Extraction returned no signup-bonus signal — retrying with browser');
           const browserContent = await fetchWithBrowser(apply_link);
+          lastHostHit.set(host, Date.now());
           if (browserContent) {
             pageContent = browserContent;
             usedBrowser = true;
@@ -1198,6 +1263,17 @@ async function main() {
           console.log('  No data extracted — skipping\n');
           recordSkip(card, 'no data extracted from page');
           return;
+        }
+
+        // The page needed the browser this run, so flag it for next run. A
+        // still-valid flag keeps its ORIGINAL date — refreshing it on every
+        // browser-first use would make the TTL unreachable, since the flag
+        // itself guarantees the browser gets used.
+        if (usedBrowser) {
+          browserFirstBySlug.set(
+            card.slug,
+            browserFirstValid ? prevBrowserFirst : new Date().toISOString()
+          );
         }
 
         // Compare against YAML
@@ -1219,10 +1295,11 @@ async function main() {
     } catch (err) {
       console.warn(`  ${err.message} — skipping\n`);
       recordSkip(card, err.message);
+      // A timeout can fire mid-request, after the host was already hit.
+      lastHostHit.set(host, Date.now());
     }
 
     console.log('');
-    await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
   }
 
   if (skippedCards.length > 0) {
@@ -1237,11 +1314,12 @@ async function main() {
   // a run that found changes still needs to record which cards it never verified.
   const checkedAt = new Date().toISOString();
   const checkedSlugs = new Set(cardsToCheck.map(c => c.slug));
-  const nextState = updateSkipState(loadSkipState(), {
+  const nextState = updateSkipState(prevState, {
     checkedSlugs,
     skippedCards,
     checkedAt,
     isPartialRun: Boolean(slugFilter),
+    browserFirst: browserFirstBySlug,
   });
   writeSkipState(nextState, checkedAt);
 
