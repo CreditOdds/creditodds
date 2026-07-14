@@ -87,7 +87,7 @@ export default async function BestDetailPage({ params }: Props) {
 
       <div className="cj-terminal">
         <nav className="cj-crumbs" aria-label="Breadcrumb">
-          <Link href="/best" className="cj-crumb">Best cards</Link>
+          <Link href="/best" className="cj-crumb">Best Cards</Link>
           <span className="cj-sep">/</span>
           <span className="cj-crumb cj-crumb-current" aria-current="page">{page.title}</span>
         </nav>
