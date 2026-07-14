@@ -23,6 +23,12 @@ jobs:
     steps:
       - name: Checkout default branch
         uses: actions/checkout@v6
+        with:
+          # On pull_request events a bare checkout gives the PR's merge ref —
+          # a DETACHED HEAD — so the plain `git push` below dies with
+          # "fatal: You are not currently on a branch" (run #957, the first
+          # time the reject path ever fired). Pin to main explicitly.
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -48,7 +54,9 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add data/news-rejected.yaml
             git commit -m "Record rejected news from PR #${PR_NUMBER}"
-            git push
+            # Other bots (card-page check state, content agent) also push to
+            # main; rebase-retry once instead of failing on a stale ref.
+            git push || (git pull --rebase origin main && git push)
           else
             echo "No rejected news to record"
           fi

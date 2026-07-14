@@ -113,10 +113,11 @@ function buildSearchQueries() {
   const year = now.getFullYear();
   const month = now.toLocaleString('default', { month: 'long' });
 
-  // Generic credit card news queries — use month+year to avoid old results
+  // Generic credit card news queries — use month+year to avoid old results.
+  // No bonus-change query: SUB moves are CardWire territory, never news (the
+  // prompt rejects them), so hunting for them only wastes a search slot.
   const queries = [
     `credit card news ${month} ${year}`,
-    `credit card bonus change ${month} ${year}`,
     `credit card annual fee change ${month} ${year}`,
     `new credit card launch ${month} ${year}`,
   ];
@@ -398,6 +399,7 @@ ${[...existingNewsIds, ...rejectedNewsIds].filter(Boolean).join(', ') || 'None'}
 - Generic credit card advice articles
 - **CRITICAL — NEVER INCLUDE**: Settlements, lawsuits, class actions, regulatory fines, or enforcement actions where a credit card issuer, bank, or network (Visa/Mastercard/Amex/Discover) is the defendant or accused party. We partner with these companies and surfacing negative legal coverage damages those relationships. This applies even if cardholders are eligible for payouts. Examples to reject: "Capital One $X million settlement," "Chase agrees to pay $X to settle," "Bank of America class action," "Visa/Mastercard antitrust settlement."
 - Lobbying, regulatory advocacy, or capital-rule debates (e.g. Basel proposals, banks pushing back on regulators) — these have no direct, actionable impact on cardholders this week.
+- **CRITICAL — NEVER INCLUDE**: Signup-bonus (welcome offer) changes on existing cards — elevated offers, reduced offers, returning offers ("Card X's 100K bonus is back"), or limited-time SUB promotions. CreditOdds already covers every SUB move in the dedicated CardWire / weekly sign-up bonus changes posts, so a news article duplicates that coverage (this is why "Chase Sapphire Preferred's 100K Bonus Is Back" was rejected on PR #1680). A brand-new card LAUNCH is still news even when the coverage leads with its launch bonus — the launch is the story, not the bonus.
 - **CRITICAL — NEVER INCLUDE**: Politically slanted, partisan, or politician-centered stories. Reject anything framed around a political figure (president, cabinet officials, members of Congress, governors, candidates), a party, an administration, or a partisan critique — even if it mentions credit cards. CreditOdds is a non-political product and any political slant alienates a meaningful share of our audience and partners. Examples to reject: "[Politician] says Americans' card spending is soaring," "[Administration] policy hurts cardholders," "Democrats/Republicans push card legislation," election or campaign-related framing. Macroeconomic context (inflation, interest rates, consumer debt levels) is fine ONLY when reported as neutral data without political framing or quoted political commentary.
 - **CRITICAL**: Old news being re-reported. If a card was launched, a benefit changed, or a policy was updated more than a week ago, it is NOT news even if a new article was just published about it. Check the actual event date, not just the article publication date.
 - **CRITICAL**: News about the same topic as existing items above, even if worded differently. If we already posted about a card's fee change, benefit update, or policy change this month, do NOT post about it again even if there's a new article about the same thing.
@@ -784,7 +786,6 @@ async function main() {
   // Google News RSS
   console.log('\n--- Google News RSS ---');
   const googleQueries = [
-    'credit card bonus change',
     'credit card new launch',
     'credit card annual fee',
     'credit card benefit update',
@@ -815,7 +816,7 @@ async function main() {
     console.log('\n--- xAI X/Twitter Search ---');
     const xQueries = [
       'credit card news announcement',
-      'credit card bonus change new card launch',
+      'new credit card launch',
     ];
 
     for (const query of xQueries) {

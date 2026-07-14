@@ -239,14 +239,14 @@ Below are top-level comments from today's thread. Your job is to identify which 
 
 ## NEWSWORTHY items (include)
 - New card launches, relaunches, or discontinuations
-- Sign-up bonus changes (elevated offer, reduced offer, public→targeted)
 - Annual fee changes
 - Benefit changes (lounge access, credits added/removed)
 - Transfer partner changes, rate changes
 - Policy changes (referral caps, application rules, approval logic)
-- Time-limited offers that are broadly useful (expires in >=3 days, publicly available)
+- Time-limited offers that are broadly useful (expires in >=3 days, publicly available) — EXCEPT signup-bonus offers, see below
 
 ## NOT NEWSWORTHY (skip)
+- Sign-up bonus changes on existing cards (elevated, reduced, returning, or public→targeted offers) — CreditOdds covers every SUB move in the CardWire / weekly sign-up bonus changes posts, never as news. A brand-new card launch is still newsworthy even if the coverage leads with its launch bonus.
 - Single-person data points ("I got approved for X", "I got a targeted offer")
 - General questions, speculation, or subjective opinions
 - Off-topic discussion, subreddit drama

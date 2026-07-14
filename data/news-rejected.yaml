@@ -22,3 +22,9 @@
   source_url: "https://www.usnews.com/info/blogs/press-room/articles/2026-03-10/u-s-news-world-report-debuts-2026-credit-card-awards"
   rejected_at: "2026-03-11"
   pr: 247
+- id: "chase-sapphire-preferred-100k-bonus-back"
+  title: "Chase Sapphire Preferred's 100K Bonus Is Back"
+  source_url: "https://thepointsguy.com/news/chase-sapphire-preferred-2026-new-benefits-100k-live/"
+  date_rejected: "2026-07-14"
+  reason: "Signup-bonus change on an existing card — SUB moves (elevated/reduced/returning offers) are covered by CardWire and the weekly sign-up bonus changes post, never as news articles. Recorded manually: the Record Rejected News run for this PR failed on a detached-HEAD push (run #957)."
+  pr: 1680
