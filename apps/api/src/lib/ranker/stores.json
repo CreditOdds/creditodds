@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-11T14:38:33.665Z",
-  "count": 932,
+  "generated_at": "2026-07-14T15:16:44.495Z",
+  "count": 957,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -529,6 +529,23 @@
       }
     },
     {
+      "name": "All-Clad",
+      "slug": "all-clad",
+      "aliases": [
+        "All-Clad.com",
+        "Home & Cook"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.all-clad.com",
+      "intro": "All-Clad is a Pennsylvania cookware maker known for bonded stainless steel pots,\npans, and kitchen electrics, sold direct and through the Groupe SEB Home & Cook\noutlet alongside sibling brands Krups, Rowenta, and T-Fal. Orders at all-clad.com\ncode as online shopping on the cards we track. There is no All-Clad co-brand\ncredit card, so the strongest play is a card with an online shopping bonus or a\nflat-rate cashback card, and factory-second sales make big-ticket cookware easy\nspend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-17166872",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Allegiant Air",
       "slug": "allegiant-air",
       "aliases": [
@@ -800,6 +817,23 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.52750.1000000259&trid=1552713.243843&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "up to 40% off"
+      }
+    },
+    {
+      "name": "AndaSeat",
+      "slug": "andaseat",
+      "aliases": [
+        "AndaSeat.com"
+      ],
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.andaseat.com",
+      "intro": "AndaSeat makes ergonomic gaming and office chairs, including its Kaiser and X-Air\nmesh lines, plus desks and accessories, sold direct at andaseat.com. Orders\ntypically code as furniture or online shopping on the cards we track. There is no\nAndaSeat co-brand credit card, so the best fit is a card with a furniture or\nonline shopping bonus, and because a premium chair is a big-ticket item, it can\nput solid spend toward a signup bonus on a flat-rate cashback card.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-16960640",
+        "network": "cj"
       }
     },
     {
@@ -1757,6 +1791,22 @@
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43420.1000001003&trid=1552713.169800&foc=16&fot=9999&fos=6",
         "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Bluetti",
+      "slug": "bluetti",
+      "aliases": [
+        "Bluetti Power"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.bluettipower.com",
+      "intro": "Bluetti makes portable power stations, solar generators, and home battery backup\nsystems, competing directly with Jackery and EcoFlow, sold direct at\nbluettipower.com. These are big-ticket electronics, and orders typically code as\nonline shopping on the cards we track. There is no Bluetti co-brand credit card,\nso the best fit is a card with a strong online shopping multiplier or a flat-rate\ncashback card, and a full solar-plus-battery kit is easy spend toward a signup\nbonus.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-16981946",
+        "network": "cj"
       }
     },
     {
@@ -2864,6 +2914,23 @@
       }
     },
     {
+      "name": "Coofandy",
+      "slug": "coofandy",
+      "aliases": [
+        "Coofandy.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://coofandy.com",
+      "intro": "Coofandy is a men's fashion brand selling affordable dress shirts, blazers, and\ncasual apparel direct at coofandy.com. Orders code as select clothing or online\nshopping on the cards we track. There is no Coofandy co-brand credit card, so the\nbest fit is a card with a clothing or online shopping bonus, and otherwise a\nflat-rate cashback card works well on a wardrobe refresh or a bundle of\nbest-selling shirts.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-17313938",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Corel",
       "slug": "corel",
       "aliases": [
@@ -3533,6 +3600,22 @@
       }
     },
     {
+      "name": "DirectDeals",
+      "slug": "directdeals",
+      "aliases": [
+        "DirectDeals.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.directdeals.com",
+      "intro": "DirectDeals is an online retailer of discounted software licenses, computers, and\nIT hardware, including Microsoft and antivirus keys, sold at directdeals.com.\nOrders code as online shopping on the cards we track. There is no DirectDeals\nco-brand credit card, so the best fit is a card with a strong online shopping\nmultiplier or a flat-rate cashback card, and a bulk software or hardware order can\nput meaningful spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-15448276",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Discount Tire",
       "slug": "discount-tire",
       "aliases": [
@@ -3713,6 +3796,23 @@
       }
     },
     {
+      "name": "Dreame",
+      "slug": "dreame",
+      "aliases": [
+        "Dreame Technology",
+        "Dreametech"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.dreametech.com",
+      "intro": "Dreame makes robot vacuums, cordless stick vacuums, wet-dry floor cleaners, and\nhigh-speed hair care devices, sold direct at dreametech.com. Orders code as\nonline shopping on the cards we track. There is no Dreame co-brand credit card,\nso the strongest play for a home appliance purchase is a card with an elevated\nonline shopping rate or a flat-rate cashback card, and a robot vacuum or hair\nstyler often clears enough spend to help toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.jdoqocy.com/click-101737824-17221077",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Drizly",
       "slug": "drizly",
       "categories": [
@@ -3787,6 +3887,24 @@
       ],
       "website": "https://www.dunkindonuts.com",
       "intro": "Dunkin' is a U.S. coffee-and-donut chain with about 9,000 domestic locations.\nCharges code as dining on every card we track, so any restaurant-bonus card\napplies — Amex Gold's 4x dining (capped), Capital One SavorOne's 3%, Sapphire\nPreferred's 3x. Heavy regulars also use the free DD Perks/Dunkin' Rewards app\nfor free drinks and bonus-point promotions, which stack on top of card bonuses.\n"
+    },
+    {
+      "name": "Durango Boots",
+      "slug": "durango-boots",
+      "aliases": [
+        "DurangoBoots.com",
+        "Durango"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.durangoboots.com",
+      "intro": "Durango Boots makes Western, work, and fashion boots with a heritage cowboy style,\nsold direct at durangoboots.com. Orders code as select clothing or online shopping\non the cards we track. There is no Durango co-brand credit card, so the best fit\nis a card with a clothing or online shopping bonus, and otherwise a flat-rate\ncashback card works well on a pair of Western boots or a seasonal restock.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-15490992",
+        "network": "cj"
+      }
     },
     {
       "name": "Dutch Bros",
@@ -3927,6 +4045,22 @@
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.46044.1000000018&trid=1552713.215645&foc=16&fot=9999&fos=6",
         "network": "flexoffers"
+      }
+    },
+    {
+      "name": "eCosmetics",
+      "slug": "ecosmetics",
+      "aliases": [
+        "eCosmetics.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.ecosmetics.com",
+      "intro": "eCosmetics is an online beauty retailer selling discounted fragrance, makeup, and\nskincare from brands like Obagi and major designer labels at ecosmetics.com.\nOrders code as online shopping on the cards we track. There is no eCosmetics\nco-brand credit card, so the best fit is a card with a strong online shopping\nmultiplier or a flat-rate cashback card, and a stock-up on fragrance and skincare\ncan put meaningful spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-17031341",
+        "network": "cj"
       }
     },
     {
@@ -4286,6 +4420,22 @@
       ],
       "website": "https://www.fandango.com",
       "intro": "Fandango sells advance movie tickets for most major US theater chains, plus gift cards and digital rentals through Vudu. Ticket purchases generally code as entertainment, so a card with an entertainment category bonus earns the most. Some rewards cards once treated Fandango as a movie-specific perk, but for most buyers it simply rewards an entertainment-bonus card today.\n"
+    },
+    {
+      "name": "Fanttik",
+      "slug": "fanttik",
+      "aliases": [
+        "Fanttik.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://fanttik.com",
+      "intro": "Fanttik makes lithium-powered gear including tire inflators, jump starters,\ncordless screwdrivers, DIY tool kits, and portable power stations, sold direct at\nfanttik.com. Orders code as online shopping on the cards we track. There is no\nFanttik co-brand credit card, so the best fit is a card with a strong online\nshopping multiplier or a flat-rate cashback card, and a power station or full tool\nkit can add up to real spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.kqzyfj.com/click-101737824-17178221",
+        "network": "cj"
+      }
     },
     {
       "name": "Farberware",
@@ -4733,6 +4883,23 @@
       }
     },
     {
+      "name": "Gabb Wireless",
+      "slug": "gabb-wireless",
+      "aliases": [
+        "Gabb"
+      ],
+      "categories": [
+        "cell_phone_providers",
+        "online_shopping"
+      ],
+      "website": "https://gabb.com",
+      "intro": "Gabb Wireless is a US carrier built for kids, selling safe phones, watches, and\nno-internet plans that block social media, games, and an open browser. Monthly\nservice and device orders at gabb.com typically code as a cell phone provider or\nonline shopping. There is no Gabb co-brand credit card, so parents get the most\nback with a card that earns an elevated rate on cell phone bills, or otherwise a\nflat-rate cashback card on the hardware and recurring plan.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-17216185",
+        "network": "cj"
+      }
+    },
+    {
       "name": "GameFly",
       "slug": "gamefly",
       "aliases": [
@@ -4794,6 +4961,23 @@
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.17233.3877131&trid=1552713.202442&foc=16&fot=9999&fos=6",
         "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Georgia Boot",
+      "slug": "georgia-boot",
+      "aliases": [
+        "GeorgiaBoot.com"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.georgiaboot.com",
+      "intro": "Georgia Boot makes rugged work, farm, and hunting boots built for durability and\ncomfort on the job, sold direct at georgiaboot.com. Orders code as select clothing\nor online shopping on the cards we track. There is no Georgia Boot co-brand credit\ncard, so the best fit is a card with a clothing or online shopping bonus, and\notherwise a flat-rate cashback card works well on a pair of work boots or a\nrestock of everyday footwear.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-15430262",
+        "network": "cj"
       }
     },
     {
@@ -5030,6 +5214,23 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.12845.2840658&trid=1552713.224344&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "60% off"
+      }
+    },
+    {
+      "name": "GraphicAudio",
+      "slug": "graphicaudio",
+      "aliases": [
+        "GraphicAudio.net"
+      ],
+      "categories": [
+        "entertainment",
+        "online_shopping"
+      ],
+      "website": "https://www.graphicaudio.net",
+      "intro": "GraphicAudio produces full-cast audio dramas, calling them movies in your mind,\nadapting fantasy, sci-fi, and comic titles with music and sound effects, sold as\ndownloads at graphicaudio.net. Orders code as entertainment or online shopping on\nthe cards we track. There is no GraphicAudio co-brand credit card, so the best fit\nis a card with an entertainment or online shopping bonus, and otherwise a\nflat-rate cashback card works well across a growing audio library.\n",
+      "affiliate": {
+        "url": "https://www.jdoqocy.com/click-101737824-14572805",
+        "network": "cj"
       }
     },
     {
@@ -5529,6 +5730,23 @@
       ],
       "website": "https://hollywoodfeed.com",
       "intro": "Hollywood Feed is a specialty pet retailer focused on premium food and natural products, with a growing store footprint and an online shop. Online orders typically code as online shopping or general retail and earn on cards with an online or flat-rate bonus, while in-store purchases usually post at flat-rate. A dependable everyday card is the simplest approach for recurring supplies.\n"
+    },
+    {
+      "name": "Homary",
+      "slug": "homary",
+      "aliases": [
+        "Homary.com"
+      ],
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.homary.com",
+      "intro": "Homary is an online home retailer selling modern furniture, lighting, and kitchen\nand bath fixtures shipped direct to consumers at homary.com. Orders code as\nfurniture or online shopping on the cards we track. There is no Homary co-brand\ncredit card, so the best fit is a card with a furniture or online shopping bonus,\nand because dining sets and sofas are big-ticket, a single order can go a long way\ntoward a signup bonus on a flat-rate cashback card.\n",
+      "affiliate": {
+        "url": "https://www.kqzyfj.com/click-101737824-17138394",
+        "network": "cj"
+      }
     },
     {
       "name": "Home Chef",
@@ -6430,6 +6648,23 @@
       "intro": "King Soopers is Kroger's dominant Colorado chain, with many Front Range stores carrying full grocery plus fuel and pharmacy. Purchases at the supermarket register code as groceries on most cards, so pair it with a card that pays a bonus on supermarkets. Fuel bought at an attached King Soopers gas station instead codes as gas, where a separate fuel bonus can apply.\n"
     },
     {
+      "name": "Kinship",
+      "slug": "kinship",
+      "aliases": [
+        "Kinship JP"
+      ],
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://kinship.jp",
+      "intro": "Kinship is a luxury designer retailer selling footwear, clothing, and accessories\nfrom houses like The Row, Loro Piana, and Maison Margiela, shipping worldwide from\nits online store. Orders code as online shopping or select clothing on the cards\nwe track. There is no Kinship co-brand credit card, so the best fit is a card with\nan online shopping or clothing bonus, and because the pieces are high-ticket, a\nsingle order can go a long way toward a signup bonus on a flat-rate cashback card.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-17027223",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Kirkland's",
       "slug": "kirklands",
       "categories": [
@@ -6510,6 +6745,22 @@
       ],
       "website": "https://www.kroger.com",
       "intro": "Kroger is the largest dedicated U.S. supermarket operator, running about 2,700 stores\nunder Kroger and a stack of regional banners (Ralphs, Fred Meyer, Smith's, King Soopers,\nHarris Teeter, Fry's, and others). All code as groceries at the register and most do\nonline shopping via the Kroger app/site. Any standard supermarket-bonus card earns here.\nKroger's own fuel-points program layers on top of card cashback.\n"
+    },
+    {
+      "name": "KSP Performance",
+      "slug": "ksp-performance",
+      "aliases": [
+        "KSP Motor"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.kspmotor.com",
+      "intro": "KSP Performance is an aftermarket auto parts brand selling control arms,\nsuspension components, wheel spacers, and brake kits direct at kspmotor.com.\nOrders code as online shopping or auto parts on the cards we track. There is no\nKSP co-brand credit card, so the strongest play is a card with an elevated online\nshopping rate or a flat-rate cashback card, and a full suspension or brake build\ncan add up to real spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-17190030",
+        "network": "cj"
+      }
     },
     {
       "name": "Kwik Trip",
@@ -8644,6 +8895,22 @@
       "intro": "Papa Murphy's sells take-and-bake pizzas you finish in your own oven, the largest chain of its kind. Despite the grocery-like format, transactions typically code as dining or restaurants rather than supermarket, so a card with a restaurant bonus usually beats a grocery card here.\n"
     },
     {
+      "name": "Parallels",
+      "slug": "parallels",
+      "aliases": [
+        "Parallels Desktop"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.parallels.com",
+      "intro": "Parallels makes Parallels Desktop, the software that runs Windows and other\noperating systems on a Mac, sold as a one-time license or annual subscription at\nparallels.com. The download or recurring plan typically codes as online shopping\non the cards we track. There is no Parallels co-brand credit card, so the best\nfit is a card with a strong online shopping multiplier or a flat-rate cashback\ncard, and a multi-seat or Pro subscription is easy spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-15311542",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Paramount+",
       "slug": "paramount-plus",
       "aliases": [
@@ -8740,7 +9007,11 @@
         "dining"
       ],
       "website": "https://www.peets.com",
-      "intro": "Peet's Coffee is a specialty coffee roaster and cafe chain with about 200 U.S.\ncafes, primarily in California. In-cafe charges code as dining on every card we\ntrack. Bagged-bean orders shipped from peets.com sometimes code as online shopping\nrather than dining — worth checking before relying on a 4x dining card. Heavy\nregulars stack the Peetnik Rewards loyalty program on top of card bonuses.\n"
+      "intro": "Peet's Coffee is a specialty coffee roaster and cafe chain with about 200 U.S.\ncafes, primarily in California. In-cafe charges code as dining on every card we\ntrack. Bagged-bean orders shipped from peets.com sometimes code as online shopping\nrather than dining — worth checking before relying on a 4x dining card. Heavy\nregulars stack the Peetnik Rewards loyalty program on top of card bonuses.\n",
+      "affiliate": {
+        "url": "https://www.jdoqocy.com/click-101737824-17125210",
+        "network": "cj"
+      }
     },
     {
       "name": "Penske Truck Rental",
@@ -9344,6 +9615,23 @@
       "intro": "QVC is a multichannel retailer that sells via live television broadcasts, qvc.com, and\nmobile apps, owned by Qurate Retail Group (which also runs HSN). The merchandise mix\nspans apparel, jewelry, beauty, kitchen, electronics, and home goods, often pitched\nby celebrity hosts in real time. QVC purchases code as online shopping or general\nmerchandise for credit card networks, so an online-shopping category bonus card will\ngenerally earn its multiplier. QVC also offers its Easy Pay installment program at\ncheckout, billed against the saved card on file.\n"
     },
     {
+      "name": "RaceMe",
+      "slug": "raceme",
+      "aliases": [
+        "Racemeofficial.com",
+        "RaceME Tuner"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.racemeofficial.com",
+      "intro": "RaceMe makes performance tuners and monitors for diesel trucks, letting owners\nadjust power, read engine data, and clear codes, sold direct at racemeofficial.com.\nOrders code as online shopping or auto-related spend on the cards we track. There\nis no RaceMe co-brand credit card, so the strongest play is a card with an\nelevated online shopping rate or a flat-rate cashback card, and a tuner plus\ngauge package is easy spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-17179513",
+        "network": "cj"
+      }
+    },
+    {
       "name": "RaceTrac",
       "slug": "racetrac",
       "categories": [
@@ -9694,6 +9982,22 @@
       ],
       "website": "https://ro.co",
       "intro": "Ro runs a direct-to-consumer telehealth platform covering weight management, men's health and primary care, billing through online subscriptions rather than a retail pharmacy counter. Its charges tend to code as online shopping or general retail, so the right play is a card with an online or flat-rate everyday bonus rather than chasing a drugstore category.\n"
+    },
+    {
+      "name": "RoboForm",
+      "slug": "roboform",
+      "aliases": [
+        "RoboForm.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.roboform.com",
+      "intro": "RoboForm is a password manager that stores logins, autofills forms, and generates\nstrong passwords across devices, sold as an annual subscription at roboform.com.\nThe recurring plan codes as online shopping on the cards we track. There is no\nRoboForm co-brand credit card, so the best fit for the subscription is a card with\na strong online shopping multiplier or a flat-rate cashback card, and a multi-year\nfamily plan is easy spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-13790972",
+        "network": "cj"
+      }
     },
     {
       "name": "Roborock",
@@ -10287,6 +10591,22 @@
       "intro": "Sherwin-Williams is the largest U.S. paint manufacturer and retailer, with over\n4,700 company-owned stores serving residential painters, contractors, and designers.\nSherwin-Williams typically codes as home improvement on Visa, Mastercard, and Amex\nnetworks, which makes paint purchases eligible for the home improvement bonus on\ncards that carry the category.\n\nThe U.S. Bank Cash+ and Bank of America Customized Cash can both route Sherwin\npurchases into a selectable 3 to 5 percent bonus. The chain runs frequent 30 to 40\npercent off paint promotions that stack with credit card cash back, and Sherwin's\nPaintPerks loyalty program adds member pricing on top of any rewards a credit card\ndelivers.\n"
     },
     {
+      "name": "ShipStation",
+      "slug": "shipstation",
+      "aliases": [
+        "ShipStation.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.shipstation.com",
+      "intro": "ShipStation is shipping software for online sellers, connecting stores and\nmarketplaces to discounted carrier rates and batch label printing on a monthly\nsubscription at shipstation.com. The recurring plan codes as online shopping on\nthe cards we track. There is no ShipStation co-brand credit card, so the best fit\nis a card with a strong online shopping bonus or a flat-rate cashback card, and a\nhigh-volume seller can put steady monthly spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-13896119",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Shipt",
       "slug": "shipt",
       "categories": [
@@ -10522,6 +10842,38 @@
       ],
       "website": "https://www.smartandfinal.com",
       "intro": "Smart & Final is a California-based hybrid warehouse/grocery chain with about 250\nstores across the Western U.S. and Mexico. Unlike Costco or Sam's, no membership is\nrequired, so any shopper can walk in and buy bulk packaged goods alongside normal\ngrocery items. Merchant category coding is the gotcha here: most Smart & Final stores\nhistorically code as warehouse club rather than supermarket, which means a grocery\nbonus card (Amex Gold, Blue Cash Preferred) may not trigger its multiplier. Coding can\nvary by location, so check a recent statement before assuming a category bonus applies.\n"
+    },
+    {
+      "name": "SmartBuyGlasses",
+      "slug": "smartbuyglasses",
+      "aliases": [
+        "SmartBuyGlasses.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.smartbuyglasses.com",
+      "intro": "SmartBuyGlasses is an online eyewear retailer selling designer prescription\nglasses, sunglasses, and contact lenses from brands like Ray-Ban and Oakley at\nsmartbuyglasses.com. Orders code as online shopping on the cards we track. There\nis no SmartBuyGlasses co-brand credit card, so the best fit is a card with a\nstrong online shopping multiplier or a flat-rate cashback card, and a pair of\ndesigner sunglasses plus lenses can add up to useful spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.kqzyfj.com/click-101737824-15493022",
+        "network": "cj"
+      }
+    },
+    {
+      "name": "SmartCredit",
+      "slug": "smartcredit",
+      "aliases": [
+        "SmartCredit.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.smartcredit.com",
+      "intro": "SmartCredit is a credit monitoring and reporting service offering three-bureau\nscores, alerts, and money-management tools on a monthly subscription at\nsmartcredit.com. The recurring charge typically codes as online shopping on the\ncards we track. There is no SmartCredit co-brand credit card, so the best fit for\nthe ongoing subscription is a card with a strong online shopping multiplier or a\nflat-rate cashback card that earns on every recurring bill.\n",
+      "affiliate": {
+        "url": "https://www.kqzyfj.com/click-101737824-17138841",
+        "network": "cj"
+      }
     },
     {
       "name": "Smartwool",
@@ -10760,6 +11112,22 @@
       ],
       "website": "https://www.sprouts.com",
       "intro": "Sprouts Farmers Market is a natural-and-organic grocery chain with about 400 U.S.\nstores, leaning heavily on fresh produce and bulk foods. Sprouts codes cleanly as\ngroceries on every card we track. The strongest pairings are 6% Blue Cash Preferred\nand the U.S. Bank Shopper Cash Rewards (if Sprouts is selected as a chosen retailer);\nCapital One SavorOne earns 3% on groceries with no cap. Sprouts doesn't run a\nco-branded card, so general grocery cards are the standard answer.\n"
+    },
+    {
+      "name": "Stamps.com",
+      "slug": "stamps-com",
+      "aliases": [
+        "Stamps"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.stamps.com",
+      "intro": "Stamps.com lets home offices and small businesses print USPS postage and shipping\nlabels online for a monthly subscription plus the cost of postage at stamps.com.\nThe subscription and postage typically code as online shopping or office-related\nspend on the cards we track. There is no Stamps.com co-brand credit card, so the\nbest fit is a card with a strong online shopping or office supply bonus, and a\nhigh-volume shipper can put real spend on a flat-rate cashback card each month.\n",
+      "affiliate": {
+        "url": "https://www.kqzyfj.com/click-101737824-15461513",
+        "network": "cj"
+      }
     },
     {
       "name": "Stanley",
@@ -11211,6 +11579,23 @@
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14836.3361613&trid=1552713.239177&foc=16&fot=9999&fos=6",
         "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Tello",
+      "slug": "tello",
+      "aliases": [
+        "Tello Mobile"
+      ],
+      "categories": [
+        "cell_phone_providers",
+        "online_shopping"
+      ],
+      "website": "https://tello.com",
+      "intro": "Tello is a US mobile virtual network operator running on the T-Mobile network,\nselling low-cost no-contract prepaid plans with customizable data, talk, and text\nat tello.com. Monthly service and device orders typically code as a cell phone\nprovider or online shopping. There is no Tello co-brand credit card, so the\nstrongest play is a card that earns an elevated rate on cell phone bills, and\notherwise a flat-rate cashback card works well on the plan and any hardware.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-12834157",
+        "network": "cj"
       }
     },
     {
@@ -12228,6 +12613,23 @@
       }
     },
     {
+      "name": "vidaXL",
+      "slug": "vidaxl",
+      "aliases": [
+        "vidaXL.com"
+      ],
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.vidaxl.com",
+      "intro": "vidaXL is an online retailer of home, garden, and DIY goods, selling furniture,\noutdoor gear, and household items shipped direct at vidaxl.com. Orders code as\nfurniture or online shopping on the cards we track. There is no vidaXL co-brand\ncredit card, so the best fit is a card with a furniture or online shopping bonus,\nand because it stocks big-ticket outdoor and room furnishings, a single order can\ngo toward a signup bonus on a flat-rate cashback card.\n",
+      "affiliate": {
+        "url": "https://www.kqzyfj.com/click-101737824-15884296",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Vince Camuto",
       "slug": "vince-camuto",
       "categories": [
@@ -12469,6 +12871,22 @@
       ],
       "website": "https://www.warbyparker.com",
       "intro": "Warby Parker sells prescription glasses and contacts, famous for its low flat price and home try-on program, online and in roughly 250 stores. Orders placed on its site code as online shopping, rewarding a card with an online-purchase bonus, while in-store visits usually fall to flat-rate. FSA and HSA dollars often cover the cost, so weigh card rewards against pretax funds.\n"
+    },
+    {
+      "name": "Watch Gang",
+      "slug": "watch-gang",
+      "aliases": [
+        "WatchGang"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.watchgang.com",
+      "intro": "Watch Gang is a watch subscription and marketplace that ships a curated timepiece\neach month and runs member giveaways, billed at watchgang.com. Subscriptions and\nwatch orders code as online shopping or jewelry on the cards we track. There is no\nWatch Gang co-brand credit card, so the best fit is a card with a strong online\nshopping multiplier or a flat-rate cashback card, and a higher membership tier is\nsteady recurring spend toward a signup bonus.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-17317630",
+        "network": "cj"
+      }
     },
     {
       "name": "Waterford",
