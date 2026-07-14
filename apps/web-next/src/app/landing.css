@@ -7770,46 +7770,6 @@
   line-height: 1;
 }
 
-.landing-v2 .cj-bars {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-}
-.landing-v2 .cj-bar-row {
-  display: grid;
-  grid-template-columns: 88px 1fr 52px;
-  gap: 10px;
-  align-items: center;
-  font-family: var(--font-inter), sans-serif;
-  font-size: 11px;
-}
-.landing-v2 .cj-bar-label { color: var(--muted); }
-.landing-v2 .cj-bar-track {
-  height: 14px;
-  background: var(--line);
-  border-radius: 2px;
-  overflow: hidden;
-  display: flex;
-}
-.landing-v2 .cj-bar-app { background: var(--accent); }
-.landing-v2 .cj-bar-den { background: var(--warn); opacity: 0.4; }
-.landing-v2 .cj-bar-n { text-align: right; color: var(--ink); }
-.landing-v2 .cj-bar-empty { color: var(--muted-2); font-style: italic; }
-.landing-v2 .cj-bar-legend {
-  display: flex;
-  gap: 14px;
-  font-family: var(--font-inter), sans-serif;
-  font-size: 10.5px;
-  color: var(--muted);
-  margin-top: 10px;
-}
-.landing-v2 .cj-bar-legend-swatch {
-  display: inline-block;
-  width: 10px; height: 10px;
-  vertical-align: middle;
-  margin-right: 5px;
-}
-
 .landing-v2 .cj-tape {
   border: 1px solid var(--line-2);
 }
