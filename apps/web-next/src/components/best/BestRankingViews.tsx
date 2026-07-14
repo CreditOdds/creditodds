@@ -12,11 +12,12 @@ type EnrichedCard = BestPageCard & { card: Card };
 interface BestRankingViewsProps {
   cards: EnrichedCard[];
   panel?: BestPanel;
+  bestPageSlug: string;
 }
 
 const CONSENSUS = 'consensus';
 
-export function BestRankingViews({ cards, panel }: BestRankingViewsProps) {
+export function BestRankingViews({ cards, panel, bestPageSlug }: BestRankingViewsProps) {
   const models = panel?.models ?? [];
   // Only offer per-model views when we have a real panel (2+ models) and the
   // cards actually carry per-model ranks.
@@ -82,8 +83,13 @@ export function BestRankingViews({ cards, panel }: BestRankingViewsProps) {
         </div>
       )}
 
-      <BestComparisonTable cards={ordered} />
-      <BestCardList cards={ordered} panel={panel} activeView={hasPanel ? view : undefined} />
+      <BestComparisonTable cards={ordered} bestPageSlug={bestPageSlug} />
+      <BestCardList
+        cards={ordered}
+        panel={panel}
+        activeView={hasPanel ? view : undefined}
+        bestPageSlug={bestPageSlug}
+      />
     </>
   );
 }

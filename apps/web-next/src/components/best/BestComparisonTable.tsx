@@ -2,6 +2,7 @@ import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard } from '@/lib/best';
+import { bestCardDetailHref } from '@/lib/applyLink';
 import {
   formatAnnualFee,
   formatBonusValue,
@@ -16,6 +17,7 @@ interface EnrichedCard extends BestPageCard {
 
 interface BestComparisonTableProps {
   cards: EnrichedCard[];
+  bestPageSlug: string;
 }
 
 function getTopRewardLabel(card: Card): string {
@@ -71,7 +73,7 @@ function RankChangeSmall({ currentRank, previousRank }: { currentRank: number; p
   );
 }
 
-export function BestComparisonTable({ cards }: BestComparisonTableProps) {
+export function BestComparisonTable({ cards, bestPageSlug }: BestComparisonTableProps) {
   if (cards.length === 0) return null;
 
   // Determine which columns to show based on data
@@ -108,6 +110,7 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
           <tbody className="divide-y divide-gray-200">
             {cards.map((entry, index) => {
               const { card } = entry;
+              const cardHref = bestCardDetailHref(card.slug, bestPageSlug);
               return (
                 <tr key={card.slug} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3 whitespace-nowrap">
@@ -120,7 +123,7 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
                   </td>
                   <td className="px-4 py-3 align-top">
                     <div className="flex items-start gap-3 min-w-0">
-                      <Link href={`/card/${card.slug}`} className="flex-shrink-0">
+                      <Link href={cardHref} className="flex-shrink-0">
                         <CardImage
                           cardImageLink={card.card_image_link}
                           alt={card.card_name}
@@ -131,7 +134,7 @@ export function BestComparisonTable({ cards }: BestComparisonTableProps) {
                       </Link>
                       <div className="min-w-0">
                         <Link
-                          href={`/card/${card.slug}`}
+                          href={cardHref}
                           className="block text-sm font-medium text-indigo-600 hover:text-indigo-900 break-words leading-snug"
                         >
                           {card.card_name}
