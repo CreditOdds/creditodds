@@ -858,7 +858,7 @@ export default function ProfileClient() {
                   <li key={n.id} className="cj-rail-row">
                     <div className="cj-rail-row-meta">
                       <span className="cj-rail-row-date">
-                        {new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        {new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}
                       </span>
                       {n.tags?.[0] && (
                         <span className={`cj-news-tag cj-news-tag--${n.tags[0]}`}>
@@ -1863,7 +1863,7 @@ function MobileNewsView({ relevantNews, walletCardsCount }: { relevantNews: News
               </span>
               <div>
                 <div className="cj-mob-news-meta">
-                  <span>{new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  <span>{new Date(n.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}</span>
                   <span style={{ color: 'var(--muted-2)' }}>·</span>
                   {n.tags?.[0] && (
                     <span className={`cj-mob-news-tag cj-mob-news-tag--${n.tags[0]}`}>

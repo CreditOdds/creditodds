@@ -187,10 +187,14 @@ function WireChip({
 
   if (!entry) return null;
 
+  // timeZone: "UTC" on the date formats below keeps SSR and client output
+  // identical — local-zone formatting shifts the day for visitors west of
+  // UTC and breaks hydration.
   const date = new Date(entry.changed_at).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "2-digit",
+    timeZone: "UTC",
   });
 
   const dir = wireDirection(entry.field, entry.old_value, entry.new_value);
@@ -576,6 +580,7 @@ export default function CardClient({
           : new Date(asOfTs).toLocaleDateString("en-US", {
               month: "short",
               year: "numeric",
+              timeZone: "UTC",
             }),
     };
   }, [card.signup_bonus, wire]);
@@ -1636,7 +1641,7 @@ export default function CardClient({
                 {newsEntries.map((n, i) => {
                   const dateText = new Date(n.date).toLocaleDateString(
                     "en-US",
-                    { year: "numeric", month: "short", day: "numeric" },
+                    { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" },
                   );
                   const tag = n.tags[0] as NewsTag | undefined;
                   return (
@@ -1685,6 +1690,7 @@ export default function CardClient({
                         year: "numeric",
                         month: "short",
                         day: "numeric",
+                        timeZone: "UTC",
                       })
                     : "";
                   return (
@@ -1742,7 +1748,7 @@ export default function CardClient({
                   const dirClass = dir ? ` cj-wire-${dir}` : "";
                   const date = new Date(w.changed_at).toLocaleDateString(
                     "en-US",
-                    { month: "short", day: "numeric" },
+                    { month: "short", day: "numeric", timeZone: "UTC" },
                   );
                   return (
                     <li key={w.id} className="cj-wire-rail-row">
