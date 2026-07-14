@@ -33,7 +33,7 @@ import CardyComparePopup from "@/components/ui/CardyComparePopup";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
-import { withApplySource } from "@/lib/applyLink";
+import { resolveApplyLink, withApplySource } from "@/lib/applyLink";
 import posthog from "posthog-js";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import CardRecordsTable from "./CardRecordsTable";
@@ -262,6 +262,35 @@ function SubmitParamWatcher({ slug, onTrigger }: { slug: string; onTrigger: () =
     }
   }, [searchParams, authState.isAuthenticated, slug, router, onTrigger]);
   return null;
+}
+
+function DirectApplyLink({
+  cardSlug,
+  defaultUrl,
+  onClick,
+}: {
+  cardSlug: string;
+  defaultUrl: string;
+  onClick: () => void;
+}) {
+  const searchParams = useSearchParams();
+  const href = resolveApplyLink({
+    cardSlug,
+    defaultUrl,
+    source: searchParams.get('from'),
+  });
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={onClick}
+      className="cj-apply-btn"
+    >
+      Apply now
+    </a>
+  );
 }
 
 export default function CardClient({
@@ -631,15 +660,25 @@ export default function CardClient({
       {card.accepting_applications ? (
         <>
           {(card.special_apply_link || card.apply_link) && (
-            <a
-              href={withApplySource(card.special_apply_link || card.apply_link!)}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => handleCardApplyClick("direct")}
-              className="cj-apply-btn"
+            <Suspense
+              fallback={(
+                <a
+                  href={withApplySource(card.special_apply_link || card.apply_link!)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => handleCardApplyClick("direct")}
+                  className="cj-apply-btn"
+                >
+                  Apply now
+                </a>
+              )}
             >
-              Apply now
-            </a>
+              <DirectApplyLink
+                cardSlug={card.slug}
+                defaultUrl={card.special_apply_link || card.apply_link!}
+                onClick={() => handleCardApplyClick("direct")}
+              />
+            </Suspense>
           )}
           {randomReferralUrl && (
             <a

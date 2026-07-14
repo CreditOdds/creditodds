@@ -147,7 +147,11 @@ export default async function BestDetailPage({ params }: Props) {
       </section>
 
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 64 }}>
-        <BestRankingViews cards={enrichedCards} panel={page.panel} />
+        <BestRankingViews
+          cards={enrichedCards}
+          panel={page.panel}
+          bestPageSlug={page.slug}
+        />
 
         <Link
           href="/best"

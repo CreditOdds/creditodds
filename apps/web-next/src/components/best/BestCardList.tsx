@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard, BestPanel } from '@/lib/best';
 import { ApplyButtons } from './ApplyButtons';
+import { bestCardDetailHref } from '@/lib/applyLink';
 import {
   formatEstimatedValue,
   formatBonusValue,
@@ -20,6 +21,7 @@ interface BestCardListProps {
   panel?: BestPanel;
   /** 'consensus', a model key, or undefined when no panel is available. */
   activeView?: string;
+  bestPageSlug: string;
 }
 
 /**
@@ -63,7 +65,7 @@ function RankChange({ currentRank, previousRank }: { currentRank: number; previo
   );
 }
 
-export function BestCardList({ cards, activeView }: BestCardListProps) {
+export function BestCardList({ cards, activeView, bestPageSlug }: BestCardListProps) {
   const isConsensus = !activeView || activeView === 'consensus';
   return (
     <div className="space-y-6">
@@ -71,6 +73,7 @@ export function BestCardList({ cards, activeView }: BestCardListProps) {
         const { card } = entry;
         const rank = index + 1;
         const topRewards = (card.rewards || []).slice(0, 3);
+        const cardHref = bestCardDetailHref(card.slug, bestPageSlug);
 
         return (
           <div
@@ -82,7 +85,7 @@ export function BestCardList({ cards, activeView }: BestCardListProps) {
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex-shrink-0">
                 {rank}
               </span>
-              <Link href={`/card/${card.slug}`} className="text-lg font-bold text-gray-900 hover:text-indigo-600 transition-colors">
+              <Link href={cardHref} className="text-lg font-bold text-gray-900 hover:text-indigo-600 transition-colors">
                 {card.card_name}
               </Link>
               {isConsensus && entry.badge && (
@@ -100,7 +103,7 @@ export function BestCardList({ cards, activeView }: BestCardListProps) {
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                 {/* Card image */}
                 <div className="flex-shrink-0">
-                  <Link href={`/card/${card.slug}`}>
+                  <Link href={cardHref}>
                     <CardImage
                       cardImageLink={card.card_image_link}
                       alt={card.card_name}
@@ -184,7 +187,7 @@ export function BestCardList({ cards, activeView }: BestCardListProps) {
                   )}
 
                   {/* Card details link */}
-                  <ApplyButtons slug={card.slug} />
+                  <ApplyButtons href={cardHref} />
                 </div>
               </div>
             </div>
