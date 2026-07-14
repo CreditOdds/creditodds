@@ -10,7 +10,9 @@ function formatMonth(dateStr: string | null): string {
   if (!dateStr) return '—';
   const d = new Date(dateStr);
   if (Number.isNaN(d.getTime())) return '—';
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+  // timeZone: 'UTC' keeps SSR and client output identical — local-zone
+  // formatting shifts the day for visitors west of UTC and breaks hydration.
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' });
 }
 
 function formatInquiries(r: CardRecord): string {

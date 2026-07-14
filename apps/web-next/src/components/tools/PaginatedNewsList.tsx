@@ -34,7 +34,7 @@ export default function PaginatedNewsList({
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
                 <p className="text-xs text-gray-500">
-                  {new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })}
                 </p>
                 <p className="text-sm font-medium text-gray-900 mt-1">
                   {item.body ? (

@@ -107,10 +107,13 @@ function changeDirection(
 function formatDay(ts: string): string {
   const d = new Date(ts);
   if (Number.isNaN(d.getTime())) return ts;
+  // timeZone: 'UTC' keeps SSR and client output identical — local-zone
+  // formatting shifts the day for visitors west of UTC and breaks hydration.
   return d.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
+    timeZone: 'UTC',
   });
 }
 
@@ -120,6 +123,7 @@ function formatDayShort(ts: string): string {
   return d.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
+    timeZone: 'UTC',
   });
 }
 

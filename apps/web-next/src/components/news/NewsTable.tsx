@@ -11,10 +11,14 @@ const PAGE_SIZE = 15;
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
+  // timeZone: 'UTC' keeps SSR and client output identical — date-only strings
+  // parse as UTC midnight, so local-zone formatting shifts the day for
+  // visitors west of UTC and breaks hydration.
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+    timeZone: 'UTC',
   });
 }
 

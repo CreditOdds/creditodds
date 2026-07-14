@@ -186,7 +186,10 @@ function formatNewsDate(dateStr: string): string {
   try {
     const d = new Date(dateStr);
     if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    // timeZone: 'UTC' keeps SSR and client output identical — date-only
+    // strings parse as UTC midnight, so local-zone formatting shifts the day
+    // for visitors west of UTC and breaks hydration.
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
   } catch {
     return dateStr;
   }

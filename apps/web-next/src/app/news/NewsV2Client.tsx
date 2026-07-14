@@ -43,13 +43,16 @@ const TAG_DISPLAY: Record<NewsTag, string> = {
 function formatDate(iso: string) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  // timeZone: 'UTC' keeps SSR and client output identical — date-only strings
+  // parse as UTC midnight, so local-zone formatting shifts the day for
+  // visitors west of UTC and breaks hydration.
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
 
 function formatDateShort(iso: string) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
 }
 
 function primaryTag(item: NewsItem): NewsTag {
