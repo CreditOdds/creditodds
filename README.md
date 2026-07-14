@@ -39,7 +39,7 @@ creditodds/
 - Highcharts for data visualization (code-split, client-only)
 - Firebase Authentication (Google Sign-in, Email Magic Links)
 - SSR/SSG with ISR (most pages revalidate every 5 minutes)
-- Sentry error monitoring, PostHog analytics (proxied through `/ingest`), Web Vitals reporting
+- Sentry error monitoring, PostHog analytics (proxied through `relay.creditodds.com`), Web Vitals reporting
 - Security headers (HSTS, X-Frame-Options, Permissions-Policy) plus a report-only CSP
 - SEO: per-page JSON-LD, ~40 OpenGraph image routes, sitemap + Google News sitemap, a prebuild SEO gate (`scripts/check-seo.mjs`)
 - Tests with Vitest; ESLint with zero-warning policy
@@ -224,7 +224,7 @@ LLM-powered scripts use OpenAI (plus xAI Grok for X/Twitter search in news disco
 ## Monitoring
 
 - **Sentry**: frontend (`@sentry/nextjs`, tunneled through `/monitoring`) and every backend Lambda (Sentry Lambda layer)
-- **PostHog**: product analytics, proxied through the site's `/ingest` rewrite
+- **PostHog**: product analytics, proxied through the managed `relay.creditodds.com` reverse proxy
 - **Web Vitals**: reported from the root layout
 
 ## Architecture

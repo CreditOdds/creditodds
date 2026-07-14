@@ -12,12 +12,11 @@ import * as Sentry from '@sentry/nextjs';
 import posthog from 'posthog-js';
 import { isBenignClientError } from '@/lib/benignClientError';
 
-posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
-  // Same-origin reverse proxy (see rewrites() in next.config.mjs) to dodge
-  // ad-blockers; keeps the browser talking only to our own origin.
-  api_host: '/ingest',
+posthog.init('phc_oPFKvUCGmpZdRPug7TvYDRRSZpJ9oUmLZphkjrSV3fCd', {
+  // Managed first-party reverse proxy configured in Route 53.
+  api_host: 'https://relay.creditodds.com',
   ui_host: 'https://us.posthog.com',
-  defaults: '2026-01-30',
+  defaults: '2026-05-30',
   capture_exceptions: true,
   debug: process.env.NODE_ENV === 'development',
 });

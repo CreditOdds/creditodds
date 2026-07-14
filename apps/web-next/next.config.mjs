@@ -10,7 +10,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 // page, so we can tune it against real traffic before enforcing. Before flipping
 // the header name to 'Content-Security-Policy', replace 'unsafe-inline' /
 // 'unsafe-eval' with per-request nonces and prune anything unused.
-// Third parties inventoried: PostHog (us.i.posthog.com / us-assets.i.posthog.com),
+// Third parties inventoried: PostHog (relay.creditodds.com),
 // Firebase Auth (apis.google.com,
 // gstatic, *.googleapis.com, creditodds.firebaseapp.com, accounts.google.com),
 // Highcharts (bundled — no external origin), the card-image CDN/S3,
@@ -32,11 +32,11 @@ const contentSecurityPolicy = [
   `object-src 'none'`,
   `frame-ancestors 'none'`,
   `form-action 'self'`,
-  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://us-assets.i.posthog.com`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com https://relay.creditodds.com`,
   `style-src 'self' 'unsafe-inline'`,
   `font-src 'self' data:`,
   `img-src 'self' data: blob: https://d3ay3etzd1512y.cloudfront.net https://credit-card-data-site.s3.us-east-2.amazonaws.com https://*.googleusercontent.com`,
-  `connect-src 'self' ${API_ORIGIN} https://*.googleapis.com https://us.i.posthog.com https://us-assets.i.posthog.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
+  `connect-src 'self' ${API_ORIGIN} https://*.googleapis.com https://relay.creditodds.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
   `frame-src 'self' https://creditodds.firebaseapp.com https://accounts.google.com https://apis.google.com`,
   `worker-src 'self' blob:`,
   `manifest-src 'self'`,
@@ -55,25 +55,12 @@ const nextConfig = {
     turbopackSourceMaps: false,
   },
 
-  // Rewrite /_admin to /admin (underscore folders are private in App Router)
-  // Also proxy PostHog ingestion through /ingest to avoid ad-blockers.
+  // Rewrite /_admin to /admin (underscore folders are private in App Router).
   async rewrites() {
     return [
       {
         source: '/_admin',
         destination: '/admin',
-      },
-      {
-        source: '/ingest/static/:path*',
-        destination: 'https://us-assets.i.posthog.com/static/:path*',
-      },
-      {
-        source: '/ingest/array/:path*',
-        destination: 'https://us-assets.i.posthog.com/array/:path*',
-      },
-      {
-        source: '/ingest/:path*',
-        destination: 'https://us.i.posthog.com/:path*',
       },
     ];
   },
