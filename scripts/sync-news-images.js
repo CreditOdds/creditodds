@@ -119,6 +119,33 @@ function buildThemePrompt(scene, item) {
 
 // ── OpenAI ────────────────────────────────────────────────────────────────
 
+// Retry transient OpenAI/CDN failures (5xx incl. Cloudflare 520, 429 rate
+// limits, and dropped connections) with exponential backoff. Client errors
+// (4xx — bad request, moderation_blocked, auth) are NOT retryable and rethrow
+// immediately so the caller's fallback logic can run. Without this, a single
+// transient 520 permanently leaves a news item with no hero image (and the
+// social post goes out image-less).
+async function withRetry(fn, { attempts = 4, baseMs = 2000, label = 'openai' } = {}) {
+  let lastErr;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      const msg = err.message || '';
+      const retryable =
+        /HTTP 5\d\d|HTTP 429|ECONNRESET|ETIMEDOUT|EAI_AGAIN|fetch failed|network|socket hang up/i.test(
+          msg
+        );
+      if (!retryable || i === attempts) break;
+      const delay = baseMs * 2 ** (i - 1);
+      log(`  ${label} attempt ${i}/${attempts} failed (${msg.slice(0, 80)}) — retrying in ${delay}ms`);
+      await new Promise((r) => setTimeout(r, delay));
+    }
+  }
+  throw lastErr;
+}
+
 async function fetchCardBuffer(filename) {
   try {
     const res = await fetch(`${CARD_CDN}/${filename}`);
@@ -193,20 +220,27 @@ async function generateNewsImage(item) {
   let buf;
   if (cards.length > 0) {
     try {
-      buf = await callOpenAIEdit(buildEditPrompt(scene, cards.map((c) => c.name)), cards);
+      buf = await withRetry(
+        () => callOpenAIEdit(buildEditPrompt(scene, cards.map((c) => c.name)), cards),
+        { label: `edit ${item.id}` }
+      );
     } catch (err) {
       // Some card art (licensed IP / characters, e.g. Disney) trips OpenAI's
       // moderation when passed as a reference image. Fall back to the card-less
       // text-to-image scene so the item still gets a hero image.
       if (/moderation_blocked|safety system/i.test(err.message)) {
         log(`  edit moderation-blocked for ${item.id} — falling back to card-less scene`);
-        buf = await callOpenAIGenerate(buildThemePrompt(scene, item));
+        buf = await withRetry(() => callOpenAIGenerate(buildThemePrompt(scene, item)), {
+          label: `generate ${item.id}`,
+        });
       } else {
         throw err;
       }
     }
   } else {
-    buf = await callOpenAIGenerate(buildThemePrompt(scene, item));
+    buf = await withRetry(() => callOpenAIGenerate(buildThemePrompt(scene, item)), {
+      label: `generate ${item.id}`,
+    });
   }
   const tmp = path.join(os.tmpdir(), `news-${item.id}.png`);
   fs.writeFileSync(tmp, buf);
@@ -306,7 +340,13 @@ async function main() {
       `skipped: ${results.skipped}, failed: ${results.failed.length}, total: ${items.length}`
   );
   if (results.generated.length) log(`generated: ${results.generated.join(', ')}`);
-  if (results.failed.length) log(`FAILED:    ${results.failed.join(', ')}`);
+  if (results.failed.length) {
+    log(`FAILED:    ${results.failed.join(', ')}`);
+    // Fail the CI step loudly. A swallowed image failure previously let the
+    // workflow report "success" and post an image-less social update; blocking
+    // the downstream news.json upload / social steps is the safer default.
+    process.exitCode = 1;
+  }
 }
 
 main().catch((err) => {
