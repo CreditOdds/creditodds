@@ -6,14 +6,19 @@ accepting_applications: true
 apply_link: https://www.biltrewards.com/card/apply
 foreign_transaction_fee: false
 our_take: >
-  Bilt's premium card exists for one reason: paying rent with no transaction fee
-  while still earning points, which no mainstream card does. At $495 it leans on
-  the $400 hotel credit, $200 Bilt Cash, and Priority Pass to offset the fee.
-  The 4% Bilt Cash on everyday spend is an alternative to the rent points boost
-  rather than a bonus on top of the 2x points, and it is a separate, lower value
-  currency, so treat it as a minor extra. It is built for renters who pay a lot and will actually use the
-  travel credits and lounge access; if rent isn't a major expense, the $495 fee
-  is hard to justify.
+  The Bilt Palladium card stands out with its unique ability to pay rent
+  without transaction fees while earning points, a rare feature among premium
+  cards. With a hefty $495 annual fee, it offers substantial benefits like a
+  $400 annual hotel credit through the Bilt Travel Portal, complimentary
+  Priority Pass lounge access, and a lucrative signup bonus of 50,000 points
+  plus $300 Bilt Cash after spending $4,000 in the first 90 days. The card
+  excels in dining with up to 5x points at participating Bilt Dining
+  restaurants and 4x points on Lyft rides, but the limited dining network and
+  specific booking channels for travel rewards may not suit everyone. The
+  annual Bilt Cash Award of $200 and the potential to earn Gold Status add
+  further value, though the card's rewards structure can be complex. Overall,
+  it's a strong choice for frequent travelers and renters who can leverage its
+  benefits to offset the high fee.
 annual_fee: 495
 reward_type: "points"
 release_date: "2025-01-15"

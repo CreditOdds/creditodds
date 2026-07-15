@@ -40,12 +40,16 @@ apr:
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited
 foreign_transaction_fee: true
 our_take: >
-  One of the strongest no-fee cash-back cards going: a flat 1.5% floor plus 3% on
-  dining and drugstores and 5% on Chase travel, with a 15-month 0% intro APR on
-  purchases and balance transfers. It really shines paired with a Chase Sapphire
-  card, since the cash back converts to transferable Ultimate Rewards points.
-  Approvals here skew toward solid credit (median score in the mid-740s), so it
-  is better suited to established borrowers than thin files.
+  The Chase Freedom Unlimited is a versatile cash-back card with no annual
+  fee, offering a solid 1.5% back on all purchases and higher rates in
+  specific categories: 5% on travel booked through Chase, and 3% on dining and
+  drugstore purchases. It also features a 0% intro APR for 15 months on both
+  purchases and balance transfers, making it a strong option for those looking
+  to manage interest costs in the short term. The current signup bonus is $200
+  after spending $500 in the first three months, which is competitive but
+  recently reduced from $250. However, the card does charge foreign
+  transaction fees, so it's not ideal for international use. The complimentary
+  6-month DashPass membership adds value for frequent DoorDash users.
 benefits:
   - name: "DashPass Complimentary Membership"
     description: "6 months of complimentary DashPass membership with $0 delivery fees on eligible orders."

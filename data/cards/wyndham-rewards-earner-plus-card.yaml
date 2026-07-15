@@ -45,12 +45,17 @@ apr:
     min: 19.24
     max: 29.99
 our_take: >
-  The Earner Plus is the sweet spot of Wyndham's lineup: 6x at Wyndham hotels plus
-  a useful 4x on dining, groceries, and travel, and a 15,000-point anniversary
-  bonus that can cover a free night or two and easily justify the $95 fee. Add
-  automatic Diamond status in year one, and it is worth the step up from the no-fee
-  Earner if you stay at Wyndham at all regularly. Just remember Wyndham points are
-  low-value, so this pays off through cheap award nights, not flexible rewards.
+  The Wyndham Rewards Earner Plus card offers a compelling value for frequent
+  Wyndham guests, with 6 points per dollar on Wyndham hotel stays and a
+  generous 100,000-point signup bonus if you meet the spending requirements.
+  However, the recent increase in the annual fee from $75 to $95 means you'll
+  need to take full advantage of its perks, like the 15,000 anniversary points
+  and automatic Diamond status in the first year, to justify the cost. The
+  card also earns 4 points per dollar on dining, groceries, and travel, making
+  it versatile for everyday spending. While it lacks a foreign transaction
+  fee, the regular APR can be as high as 29.99%, so it's best for those who
+  pay off their balance monthly. Overall, this card is a strong choice for
+  loyal Wyndham travelers who can leverage its rewards and benefits.
 benefits:
   - name: "Anniversary Points Bonus"
     value: 15000

@@ -39,11 +39,17 @@ apr:
 apply_link: https://www.apple.com/apple-card/
 foreign_transaction_fee: false
 our_take: >
-  The Apple Card makes sense mainly if you live in the Apple ecosystem: 3% on Apple and a
-  few partner merchants, 2% on anything else through Apple Pay, but only 1% on the physical
-  titanium card. With no annual fee and no signup bonus, a flat 2% card like Wells Fargo
-  Active Cash beats it on most everyday spend that is not tapped through Apple Pay. The draw
-  is the daily cash, clean app, and no fees, not the earn rate.
+  The Apple Card stands out for its seamless integration with Apple Pay,
+  offering 3% cash back on Apple purchases and select merchants like Nike and
+  Uber, and 2% on dining, transit, and groceries when using Apple Pay. There's
+  no annual fee, making it an attractive option for Apple enthusiasts who
+  frequently use Apple Pay. However, if you rely on the physical card, the
+  cash back drops to just 1% on all purchases, which is a significant
+  drawback. The card also includes some niche perks like a six-month free
+  trial of Uber One and travel credits on Booking.com, but these require
+  enrollment and might not appeal to everyone. Overall, it's a solid choice
+  for digital wallet users who can maximize the higher cash back rates through
+  Apple Pay.
 benefits:
   - name: "Booking.com Travel Credits"
     value: 2

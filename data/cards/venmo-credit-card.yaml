@@ -48,10 +48,13 @@ apr:
 apply_link: https://venmo.com/about/creditcard
 foreign_transaction_fee: false
 our_take: >
-  A no-fee card that auto-adjusts to your spending: 3% on your top category and 2%
-  on your second each statement period, from a list of eight, with 1% on the rest.
-  It is a good fit for existing Venmo users who want rewards without picking
-  categories, and there are no foreign transaction fees. The tradeoff is the lack
-  of a real signup bonus and a high APR up to 31.99%, so flat 2%-on-everything
-  cards like the Wells Fargo Active Cash or Citi Double Cash will out-earn it
-  unless your spending is concentrated in those top two categories.
+  The Venmo Credit Card offers a straightforward and flexible cashback
+  structure with no annual fee, making it a practical choice for everyday
+  spending. You'll earn 3% cash back automatically on your highest-spend
+  category and 2% on your second-highest each statement period, across a broad
+  range of categories like groceries, dining, and travel. This auto-adjusting
+  feature ensures you maximize rewards without needing to track spending
+  manually. However, the regular APR ranges from 19.99% to 31.99%, which is on
+  the higher side, so it's best suited for those who pay off their balance in
+  full each month. With no foreign transaction fees, it also makes a decent
+  companion for international travel.

@@ -8,12 +8,18 @@ foreign_transaction_fee: false
 annual_fee: 650
 reward_type: "miles"
 our_take: >
-  The Reserve is for frequent Delta flyers who want Sky Club access, the
-  first-class companion certificate, and an MQD headstart toward Medallion status.
-  Earning is thin outside Delta (3x on Delta, 1x elsewhere), so the $650 fee only
-  makes sense if you use the Sky Clubs and the recurring Resy, Delta Stays, and
-  rideshare credits. If you fly Delta less often, the $350 Platinum covers most of
-  the same ground for far less.
+  The Delta SkyMiles Reserve American Express card stands out for frequent
+  Delta flyers with its complimentary Delta Sky Club access and a generous
+  125,000-mile signup bonus after meeting the $9,000 spend requirement in the
+  first 6 months. This offer, recently increased, makes it an attractive
+  choice for those looking to maximize their miles. However, the $650 annual
+  fee is steep, and the rewards rate is limited to 3 miles per dollar on Delta
+  purchases and 1 mile per dollar on everything else. The card's value is
+  bolstered by additional perks like the annual First Class companion
+  certificate and up to $240 in Resy dining credits, but you'll need to
+  leverage these benefits to justify the high cost. It's a premium card best
+  suited for dedicated Delta travelers who can take full advantage of its
+  travel-centric benefits.
 benefits:
   - name: "Delta Sky Club Access"
     value: 0

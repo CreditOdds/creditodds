@@ -30,9 +30,12 @@ apr:
 apply_link: https://www.gemini.com/credit-card
 foreign_transaction_fee: false
 our_take: >
-  The hook here is that rewards pay out in crypto, with 4% on gas (capped at $300/month),
-  3% dining, 2% groceries, and 1% on everything else, all with no annual fee or foreign
-  transaction fees. It makes sense if you actively use Gemini and want to accumulate crypto,
-  not dollars. As a plain cash-back card it is unremarkable, the high end of the APR runs up
-  to 34.99%, and the rewards' value rides on whatever coin you hold, so carry no balance and
-  treat the payout as speculative.
+  The Gemini Credit card offers a solid cashback structure with no annual fee,
+  making it a worthwhile option for those who spend on gas, dining, and
+  groceries. You'll earn 4% back on gas and EV charging for the first $300
+  each month, 3% on dining, and 2% on groceries, which can add up if these are
+  your primary expenses. However, the card's appeal diminishes if your
+  spending doesn't align with these categories, as everything else earns just
+  1%. With no foreign transaction fees, it's also a practical choice for
+  international use. Keep in mind the regular APR ranges from 18.99% to
+  34.99%, so carrying a balance could become costly.

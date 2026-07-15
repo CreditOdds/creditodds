@@ -60,13 +60,18 @@ apr:
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/flex
 foreign_transaction_fee: true
 our_take: >
-  The Freedom Flex is one of the strongest no-fee cash-back cards going: 5% on
-  rotating quarterly categories (up to $1,500/quarter), a permanent 5% on Chase
-  Travel, 3% on dining and drugstores, plus a $200 bonus and 15 months of 0%
-  intro APR. The catches are activating the rotating categories each quarter and
-  a foreign transaction fee that makes it a poor choice abroad. It shines most
-  when paired with a Chase Sapphire so the points convert to transferable Ultimate
-  Rewards; approvals here skew toward solid credit.
+  The Chase Freedom Flex stands out as the top pick for cash back enthusiasts,
+  offering a robust 5% back on quarterly rotating categories like gas
+  stations, EV charging, public transit, and select live entertainment, up to
+  $1,500 per quarter. With no annual fee, it's a versatile card that also
+  provides 5% back on travel booked through Chase, 3% on dining and
+  drugstores, and 1% on everything else. The $200 signup bonus after spending
+  $500 in the first three months is a compelling incentive for new
+  cardholders. However, the card does carry a foreign transaction fee, making
+  it less ideal for international use. The 15-month 0% intro APR on purchases
+  and balance transfers adds further appeal, especially if you're planning a
+  big purchase or need to manage existing debt. Cell phone protection is a
+  nice touch, offering up to $1,000 per year in coverage.
 benefits:
   - name: "Cell Phone Protection"
     value: 1000

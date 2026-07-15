@@ -9,12 +9,16 @@ annual_fee: 95
 reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
-  This is the paid Bilt tier, justified mainly if you pay rent by card and value
-  flexible Bilt points: you get fee-free rent payments, a choice of 3x dining or
-  groceries, 2x travel, and a $100 annual hotel credit that nearly covers the $95
-  fee. The free Bilt Mastercard already does fee-free rent, so the upgrade only
-  pays off if you actually spend in the bonus categories and use the hotel credit.
-  Outside of rent and the chosen 3x category, the earn rates are average.
+  The Bilt Obsidian card is a compelling option for renters who want to earn
+  rewards without paying transaction fees on rent payments. With a $95 annual
+  fee, it offers flexible earning potential: 3 points per dollar in your
+  choice of dining or groceries, up to 6x at select Bilt Dining restaurants,
+  and 4x on hotels booked through the Bilt Travel Portal. The card also
+  provides a $100 annual hotel credit split into two $50 credits, which can
+  help offset the annual fee if you utilize the Bilt Travel Portal. However,
+  the rewards cap on groceries and the limited network for the 6x dining rate
+  might restrict your earning potential. Overall, it's a solid pick for those
+  who can maximize its unique rent payment feature and travel benefits.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

@@ -39,13 +39,18 @@ apr:
     min: 17.74
     max: 31.74
 our_take: >
-  A niche card for PlayStation diehards: 5x on PlayStation, PlayStation Direct,
-  and Sony Store purchases, plus 3x on streaming and 2x on dining, with no annual
-  fee. Points only redeem for PlayStation Store codes and gift cards, so the value
-  is locked into the Sony ecosystem and there is no flexibility if your habits
-  change. It also charges foreign transaction fees and tops out at a high 31.74%
-  APR, so treat it as a spend-and-redeem card for gaming, not a primary everyday
-  card.
+  The PlayStation Visa card is a strong choice for dedicated gamers and Sony
+  enthusiasts, offering 5 points per dollar on purchases at PlayStation,
+  PlayStation Direct, and the Sony Store. With no annual fee and a $100
+  statement credit after spending $500 within the first 60 days, it provides a
+  solid upfront value. However, the card's foreign transaction fee limits its
+  utility for international purchases, and the rewards structure is heavily
+  tilted towards PlayStation-related spending. While it also offers 3 points
+  per dollar on streaming, cable, and internet subscriptions, and 2 points on
+  dining, the 1 point per dollar on everything else is less competitive. This
+  card is best suited for those who can maximize the PlayStation-specific
+  rewards and are comfortable with the limited redemption options focused on
+  PlayStation Store codes and digital gift cards.
 benefits:
   - name: "PlayStation Store redemptions"
     description: "Points redeemable for PlayStation Store codes and digital gift cards via the Account Center"

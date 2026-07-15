@@ -41,11 +41,17 @@ apr:
     min: 19.49
     max: 29.49
 our_take: >
-  JetBlue's top-tier card at $499 a year, aimed at loyalists who will use the perks: 6x on
-  JetBlue, up to $300 in annual TrueBlue travel credits, BlueHouse lounge access, Priority
-  Pass, a free first bag, and a 15% award rebate. It earns the same 6x as the $99 JetBlue
-  Plus, so the $400 premium only pays off if you regularly tap the lounges, credits, and
-  Mosaic fast-track. Casual JetBlue flyers should drop down to the Plus.
+  The JetBlue Premier card from Barclays is a powerhouse for frequent JetBlue
+  flyers, offering a hefty 6 points per dollar on JetBlue and TrueBlue Travel
+  purchases. The card's $499 annual fee is steep, but it comes with
+  substantial perks like $300 in annual TrueBlue Travel statement credits,
+  complimentary BlueHouse lounge access, and a 15% rebate on award flight
+  redemptions. You'll also earn 100,000 bonus points after spending $5,000 in
+  the first three months, which can significantly offset travel costs.
+  However, the card's value diminishes for those who don't frequently fly with
+  JetBlue, as its highest earn rate is limited to their purchases. Consider
+  this card if you can leverage the travel benefits and rewards to justify the
+  annual fee.
 benefits:
   - name: "TrueBlue Travel Statement Credits"
     value: 300

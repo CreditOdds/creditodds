@@ -58,11 +58,17 @@ apr:
     min: 17.49
     max: 31.49
 our_take: >
-  A no-fee everyday-spend card built around the AAA membership: 5% on groceries and 3% on
-  gas, EV charging, and wholesale clubs, plus 3% on streaming and drugstores. The real
-  catch is the cap, only $500 in cash back per year shared across the grocery, gas, and
-  wholesale-club rows, so those headline rates dry up fast for a heavy spender. Treat it as
-  a supplementary card for AAA members and pair it with a flat-rate 2% card once you cap out.
+  The AAA Daily Advantage Visa Signature card offers a compelling 5% cash back
+  on groceries, but keep in mind the combined $500 annual cap with wholesale
+  clubs and gas/EV-charging stations, after which the rate drops to 1%. With
+  no annual fee and no foreign transaction fees, it makes for a cost-effective
+  option for everyday spending. The card also provides 3% cash back on gas, EV
+  charging, streaming, drugstores, and AAA purchases, which adds versatility
+  to its rewards structure. However, the cap on higher earn rates means it
+  might not be the best fit for heavy spenders in these categories. A $100
+  signup bonus for spending $1,000 in the first three months sweetens the
+  deal, and the AAA Redemption Bonus offers an extra 5% when redeeming with
+  AAA Northeast Counselors and Advisors.
 benefits:
   - name: "AAA Redemption Bonus"
     description: "5% more cash back when redeeming with AAA Northeast Counselors and Advisors"
