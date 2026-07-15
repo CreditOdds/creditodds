@@ -7,7 +7,7 @@
  * a single consensus ranking. For each page:
  *   1. Loads current card list and enriches with live data from cards.json
  *   2. Sends an IDENTICAL ranking prompt to every available voter model
- *      (OpenAI, Gemini) and collects each model's ranked order.
+ *      (OpenAI, Gemini, Claude) and collects each model's ranked order.
  *   3. Aggregates the votes with a Borda count → consensus order.
  *   4. GPT (the "writer") writes the intro + per-card badge/highlight for
  *      the consensus order (prose is never voted on — one editorial voice).
@@ -25,8 +25,10 @@
  * Env:
  *   OPENAI_API_KEY       (required — GPT votes AND writes)
  *   GEMINI_API_KEY       (optional — adds Gemini to the panel)
+ *   ANTHROPIC_API_KEY    (optional — adds Claude to the panel)
  *   OPENAI_RANKING_MODEL (optional, default: gpt-4o-mini)
  *   GEMINI_RANKING_MODEL (optional, default: gemini-2.0-flash)
+ *   RANKING_MODEL        (optional, default: claude-haiku-4-5-20251001)
  */
 
 const fs = require('fs');
@@ -58,6 +60,13 @@ const PANEL = [
     envKey: 'GEMINI_API_KEY',
     model: process.env.GEMINI_RANKING_MODEL || 'gemini-3.5-flash',
     call: callGemini,
+  },
+  {
+    key: 'claude',
+    label: 'Claude',
+    envKey: 'ANTHROPIC_API_KEY',
+    model: process.env.RANKING_MODEL || 'claude-haiku-4-5-20251001',
+    call: callAnthropic,
   },
 ];
 
@@ -126,6 +135,25 @@ function buildCardsWithData(page, cardsLookup) {
 }
 
 // ─── Provider adapters (each returns raw response text) ───────────────────────
+
+async function callAnthropic(model, prompt, apiKey) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 8192,
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  });
+  if (!res.ok) throw new Error(`Anthropic API ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  return data.content?.[0]?.text || '';
+}
 
 async function callOpenAI(model, prompt, apiKey) {
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
