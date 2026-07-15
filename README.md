@@ -214,7 +214,7 @@ all human-in-the-loop (content changes land as PRs or issues for review):
 |----------|-----------|
 | Deploys | `deploy-api`, `deploy-frontend` |
 | Data builds | `build-cards`, `build-news`, `build-articles`, `build-best` |
-| Content automation | `auto-news` (2x daily news discovery → PR), `content-agent` (hourly competitor watch), `publish-scheduled-articles` (daily), `refresh-best-pages` (twice monthly LLM re-rank → PR), `bump-best-updated-at`, `reject-news` |
+| Content automation | `publish-scheduled-articles` (daily), `refresh-best-pages` (twice monthly LLM re-rank → PR), `bump-best-updated-at`, `reject-news` |
 | Data quality | `check-card-pages` (daily scrape/verify → PR), `check-card-rewards-and-benefits` (weekly → PR), `check-apply-links` (daily → issue), `check-referrals` (daily validation) |
 | Social | `queue-social`, `post-best-rankings`, `post-card-wire-manual`, `reconcile-card-wire` (every 30 min), `weekly-sub-changes`, `weekly-top-cards` |
 

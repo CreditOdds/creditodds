@@ -80,10 +80,10 @@ The `build-*.yml` data workflows straddle two regions, and this is
 **deliberate, not a bug**:
 
 - **S3 stays in us-east-2.** The data bucket `creditodds-cards-data`
-  (holds `cards.json`, `articles.json`, `news.json`, `best.json`, and
-  `content-agent/state.json`) never migrated. So `aws s3 cp` steps — and
-  the job-level `aws-region: us-east-2` default in `build-articles.yml`,
-  `build-news.yml`, `build-best.yml`, and `content-agent.yml` — are correct.
+  (holds `cards.json`, `articles.json`, `news.json`, and `best.json`)
+  never migrated. So `aws s3 cp` steps — and the job-level
+  `aws-region: us-east-2` default in `build-articles.yml`,
+  `build-news.yml`, and `build-best.yml` — are correct.
 - **Lambdas moved to us-east-1** with the rest of the stack (see us-east-1
   migration below). Any `aws lambda invoke` must pass `--region us-east-1`
   explicitly. `build-cards.yml` does both: job default `us-east-2` for the
