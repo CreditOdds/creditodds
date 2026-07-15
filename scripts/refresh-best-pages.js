@@ -461,6 +461,15 @@ async function rankPage(page, cardsLookup) {
 
 // ─── YAML generation ─────────────────────────────────────────────────────────
 
+// Emit a value as a safe single-line YAML scalar. Delegates to js-yaml so it
+// quotes/escapes ONLY when necessary — a clean title stays unquoted (no diff
+// churn), but a generated string containing a colon (e.g. a highlight like
+// "2% cash back on all purchases: 1% when you buy and 1% when you redeem")
+// gets quoted instead of being misread as a nested mapping.
+function yamlScalar(value) {
+  return yaml.dump(value == null ? '' : String(value), { lineWidth: -1 }).trimEnd();
+}
+
 function buildYaml(page, updates, today) {
   const d = page.data;
   const lines = [];
@@ -487,14 +496,14 @@ function buildYaml(page, updates, today) {
   // Metadata
   lines.push(`id: ${d.id}`);
   lines.push(`slug: ${d.slug}`);
-  lines.push(`title: ${d.title}`);
-  lines.push(`description: ${d.description}`);
+  lines.push(`title: ${yamlScalar(d.title)}`);
+  lines.push(`description: ${yamlScalar(d.description)}`);
   lines.push(`date: "${d.date}"`);
   lines.push(`updated_at: "${today}"`);
-  if (d.author) lines.push(`author: ${d.author}`);
+  if (d.author) lines.push(`author: ${yamlScalar(d.author)}`);
   if (d.author_slug) lines.push(`author_slug: ${d.author_slug}`);
-  if (d.seo_title) lines.push(`seo_title: ${d.seo_title}`);
-  if (d.seo_description) lines.push(`seo_description: ${d.seo_description}`);
+  if (d.seo_title) lines.push(`seo_title: ${yamlScalar(d.seo_title)}`);
+  if (d.seo_description) lines.push(`seo_description: ${yamlScalar(d.seo_description)}`);
 
   // Intro
   const intro = updates.intro || d.intro;
@@ -526,9 +535,9 @@ function buildYaml(page, updates, today) {
     const newRank = i + 1;
     const oldRank = oldOrder.indexOf(card.slug) + 1;
     lines.push(`  - slug: ${card.slug}`);
-    if (card.badge) lines.push(`    badge: ${card.badge}`);
+    if (card.badge) lines.push(`    badge: ${yamlScalar(card.badge)}`);
     if (oldRank > 0 && oldRank !== newRank) lines.push(`    previous_rank: ${oldRank}`);
-    lines.push(`    highlight: ${card.highlight}`);
+    lines.push(`    highlight: ${yamlScalar(card.highlight)}`);
     lines.push('    consensus:');
     lines.push(`      score: ${card.score}`);
     lines.push(`      ranks: { ${updates.panel.map(p => `${p.key}: ${card.ranks[p.key]}`).join(', ')} }`);
