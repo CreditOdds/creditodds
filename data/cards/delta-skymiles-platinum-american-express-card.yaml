@@ -104,6 +104,7 @@ signup_bonus:
   type: "miles"
   spend_requirement: 3000
   timeframe_months: 6
+  note: "Variable offer shown as 'as high as' 90,000 miles; welcome offers vary by applicant and you may not be eligible for an offer"
 apr:
   regular:
     min: 19.49
