@@ -11,6 +11,10 @@ rewards:
     unit: points_per_dollar
     note: "United purchases"
     merchant_gate: [united-airlines]
+  - category: hotels_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers"
   - category: dining
     value: 2
     unit: points_per_dollar
@@ -40,7 +44,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "2 Free Checked Bags"
     value: 0
@@ -52,6 +56,12 @@ benefits:
     description: "Priority check-in, security, boarding, and baggage handling on United"
     frequency: "ongoing"
     category: "travel"
+  - name: "Premier Qualifying Points"
+    value: 0
+    description: "1,500 Card Bonus Premier qualifying points (PQP) each year, plus 1 PQP for every $15 spent on purchases, up to 28,000 PQP per year"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
   - name: "Award Flight Discounts"
     value: 0
     description: "Earn a 10,000-mile award flight discount after $20,000 in purchases, up to two times each calendar year"
@@ -97,6 +107,7 @@ tags:
   - travel
   - premium
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/club-infinite
+foreign_transaction_fee: false
 our_take: >
   This is a card you buy for the United Club membership, which runs well over
   $700 on its own, plus two free checked bags, Premier Access, and a deep bench

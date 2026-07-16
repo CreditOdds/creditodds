@@ -37,8 +37,8 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 19.74
-    max: 29.74
+    min: 19.49
+    max: 29.49
 our_take: >
   The no-fee JetBlue card is for occasional JetBlue flyers: 3x on JetBlue, 2x on dining and
   groceries, no foreign transaction fees, and 50% off inflight purchases. The small 10,000-point

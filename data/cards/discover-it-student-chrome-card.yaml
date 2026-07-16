@@ -25,9 +25,6 @@ apr:
   purchase_intro:
     rate: 0
     months: 6
-  balance_transfer_intro:
-    rate: 0
-    months: 18
   regular:
     min: 16.49
     max: 25.49
@@ -37,7 +34,7 @@ our_take: >
   A starter card for students who want simple, capped rewards without tracking
   rotating categories: 2% at gas and restaurants on up to $1,000 combined per
   quarter, 1% elsewhere, no annual fee, and no foreign transaction fees. It also
-  brings an 18-month 0% intro APR on balance transfers, unusually long for a
-  student card. If you can handle quarterly activation, Discover's rotating 5%
+  brings a 6-month 0% intro APR on purchases to ease into your first card. If
+  you can handle quarterly activation, Discover's rotating 5%
   student card earns more; this one trades that upside for set-and-forget
   simplicity, making it a fine first card to build credit responsibly.

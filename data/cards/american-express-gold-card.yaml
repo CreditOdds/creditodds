@@ -72,9 +72,15 @@ rewards:
   - category: dining
     value: 4
     unit: points_per_dollar
+    spend_cap: 50000
+    cap_period: annual
+    rate_after_cap: 1
   - category: groceries
     value: 4
     unit: points_per_dollar
+    spend_cap: 25000
+    cap_period: annual
+    rate_after_cap: 1
   - category: airlines
     value: 3
     unit: points_per_dollar
@@ -82,6 +88,10 @@ rewards:
     value: 5
     unit: points_per_dollar
     note: "Hotels prepaid through Amex Travel"
+  - category: travel_portal
+    value: 2
+    unit: points_per_dollar
+    note: "Prepaid car rentals and cruises booked through AmexTravel.com"
   - category: everything_else
     value: 1
     unit: points_per_dollar
@@ -90,3 +100,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 8000
   timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49

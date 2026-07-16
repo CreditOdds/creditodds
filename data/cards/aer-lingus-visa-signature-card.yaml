@@ -27,12 +27,9 @@ signup_bonus:
   spend_requirement: 5000
   timeframe_months: 3
 apr:
-  purchase_intro:
-    rate: 0
-    months: 12
   regular:
-    min: 18.49
-    max: 28.49
+    min: 19.24
+    max: 27.74
 benefits:
   - name: "Companion Pass"
     value: 0

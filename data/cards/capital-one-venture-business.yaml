@@ -39,7 +39,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "Free Employee Cards"
     value: 0
@@ -52,6 +52,10 @@ benefits:
     frequency: "per_trip"
     category: "hotel"
     enrollment_required: false
+apr:
+  regular:
+    min: 24.49
+    max: 24.49
 apply_link: https://www.capitalone.com/small-business/credit-cards/venture-business/
 foreign_transaction_fee: false
 our_take: >

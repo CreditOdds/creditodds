@@ -10,13 +10,14 @@ tags:
   - credit_builder
 apr:
   regular:
-    min: 11.40
-    max: 21.40
+    min: 26.40
+    max: 26.40
+foreign_transaction_fee: false
 our_take: >
-  This is a no-fee secured card for building or rebuilding credit, and its
-  standout feature is the APR: an 11.40% to 21.40% range that sits far below most
-  secured cards, where rates near 26% to 29% are typical. That makes it more
-  forgiving if you ever carry a balance, though the goal with any secured card is
-  to pay in full. The catch is eligibility, since USAA membership is generally
-  limited to the military community; if you qualify, it is one of the cheaper
-  ways to establish credit.
+  This is a no-fee secured card for building or rebuilding credit. The 26.40%
+  APR is in line with typical secured cards, so treat it as a credit-building
+  tool and pay the balance in full each month rather than carrying a balance.
+  There are no foreign transaction fees, a rarity in the secured space. The
+  catch is eligibility, since USAA membership is generally limited to the
+  military community; if you qualify, it is a solid no-fee way to establish
+  credit.

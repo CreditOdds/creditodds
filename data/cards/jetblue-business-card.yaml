@@ -74,3 +74,14 @@ benefits:
     frequency: "per_trip"
     category: "rewards"
     enrollment_required: false
+  - name: "JetBlue Vacations Statement Credit"
+    value: 100
+    description: "Receive a $100 statement credit after you purchase a JetBlue Vacations package of $100 or more with your card. Limited to one statement credit per calendar year."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Group 3 Boarding"
+    description: "Group 3 boarding on JetBlue-operated flights"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false

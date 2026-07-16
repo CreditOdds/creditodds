@@ -39,6 +39,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/savorone/
+foreign_transaction_fee: false
 our_take: >
   A solid dining-and-everyday earner: 3% on dining, entertainment, streaming,
   and groceries with no caps, and it ranks among the better dining and grocery

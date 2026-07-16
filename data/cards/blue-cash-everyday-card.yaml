@@ -49,6 +49,10 @@ apr:
   purchase_intro:
     rate: 0
     months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+    note: "0% intro APR for 15 months on balance transfers requested within 60 days of account opening"
   regular:
     min: 19.49
     max: 28.49

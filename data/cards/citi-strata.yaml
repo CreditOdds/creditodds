@@ -51,6 +51,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.citi.com/credit-cards/citi-strata-credit-card
+foreign_transaction_fee: true
 our_take: >
   A strong no-annual-fee everyday earner: 3x on groceries, gas, transit, and a self-select
   category, plus 2x dining and 5x on Citi Travel bookings. The 0% intro APR on purchases and

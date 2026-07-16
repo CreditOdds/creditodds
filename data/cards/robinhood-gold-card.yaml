@@ -22,11 +22,6 @@ benefits:
     description: "Cell phone damage and theft protection when you pay your bill with the card"
     frequency: "ongoing"
     category: "other"
-  - name: "No Foreign Transaction Fees"
-    value: 0
-    description: "No foreign transaction fees on purchases made abroad"
-    frequency: "ongoing"
-    category: "travel"
 tags:
   - cashback
   - rewards
@@ -44,11 +39,14 @@ apr:
     min: 29.99
     max: 29.99
 apply_link: https://robinhood.com/creditcard/
-foreign_transaction_fee: false
+# The 3% foreign transaction fee applies to accounts opened on or after
+# 2026-07-01; accounts opened before that date are grandfathered with no fee.
+foreign_transaction_fee: true
 our_take: >
   The headline 3% flat cash back on everything is the best unlimited rate going, beating
-  standard 2% cards by a wide margin, with 5% on travel booked through Robinhood and no
-  foreign transaction fees. The real cost is the Robinhood Gold subscription you must keep to
+  standard 2% cards by a wide margin, with 5% on travel booked through Robinhood. A 3%
+  foreign transaction fee now applies to accounts opened on or after July 1, 2026 (earlier
+  accounts keep the no-fee terms). The real cost is the Robinhood Gold subscription you must keep to
   hold the card, so factor that fee in: at moderate spend the 3% still wins, but it erodes the
   edge for light spenders. Access has also been gated by waitlist, and the 29.99% APR means
   this only pays off if you clear the balance every month.

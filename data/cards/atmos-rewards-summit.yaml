@@ -40,6 +40,10 @@ signup_bonus:
   spend_requirement: 4000
   timeframe_months: 3
   note: "Earn 80,000 bonus points and a 25,000-point Global Companion Award after spending $4,000 or more on purchases within the first 90 days."
+apr:
+  regular:
+    min: 19.49
+    max: 27.49
 benefits:
   - name: "Annual Global 25K Companion Award"
     value: 25000
@@ -62,7 +66,7 @@ benefits:
     enrollment_required: false
   - name: "Alaska Lounge Passes"
     value: 500
-    description: "8 Alaska Lounge passes plus 8 Wi-Fi passes each anniversary year"
+    description: "8 Alaska Lounge passes each calendar year (2 per quarter) plus 8 Wi-Fi passes"
     frequency: "annual"
     category: "lounge"
     enrollment_required: false

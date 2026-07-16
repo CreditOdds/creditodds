@@ -36,7 +36,7 @@ signup_bonus:
 apr:
   regular:
     min: 19.24
-    max: 29.99
+    max: 27.74
 benefits:
   - name: "Iberia Companion Voucher"
     value: 0

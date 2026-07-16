@@ -13,7 +13,11 @@ rewards:
   - category: gas
     value: 4
     unit: percent
-    note: "First $300/month on gas and EV charging"
+    note: "Gas, EV charging, and transit combined: 4% on the first $300 in spend per month, then 1%; the cap resets on the 1st of each month"
+  - category: transit
+    value: 4
+    unit: percent
+    note: "Shares the $300/month cap with gas and EV charging, then 1%; the cap resets on the 1st of each month"
   - category: dining
     value: 3
     unit: percent
@@ -25,14 +29,14 @@ rewards:
     unit: percent
 apr:
   regular:
-    min: 18.99
-    max: 34.99
+    min: 16.49
+    max: 34.49
 apply_link: https://www.gemini.com/credit-card
 foreign_transaction_fee: false
 our_take: >
-  The hook here is that rewards pay out in crypto, with 4% on gas (capped at $300/month),
-  3% dining, 2% groceries, and 1% on everything else, all with no annual fee or foreign
-  transaction fees. It makes sense if you actively use Gemini and want to accumulate crypto,
-  not dollars. As a plain cash-back card it is unremarkable, the high end of the APR runs up
-  to 34.99%, and the rewards' value rides on whatever coin you hold, so carry no balance and
-  treat the payout as speculative.
+  The hook here is that rewards pay out in crypto, with 4% on gas, EV charging, and transit
+  (capped at $300 of combined spend per month), 3% dining, 2% groceries, and 1% on everything
+  else, all with no annual fee or foreign transaction fees. It makes sense if you actively use
+  Gemini and want to accumulate crypto, not dollars. As a plain cash-back card it is
+  unremarkable, the high end of the APR runs up to 34.49%, and the rewards' value rides on
+  whatever coin you hold, so carry no balance and treat the payout as speculative.

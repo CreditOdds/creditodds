@@ -13,7 +13,7 @@ rewards:
     value: 5
     unit: percent
     mode: quarterly_rotating
-    current_categories: [gas, ev_charging, transit, airlines, drugstores]
+    current_categories: [gas, ev_charging, transit, drugstores]
     current_period: "Q3 2026"
     note: "Activation required each quarter"
     spend_cap: 1500
@@ -30,9 +30,10 @@ apr:
     rate: 0
     months: 15
   regular:
-    min: 18.24
-    max: 28.24
+    min: 17.49
+    max: 26.49
 apply_link: https://www.discover.com/credit-cards/cash-back/nhl-card.html
+foreign_transaction_fee: false
 our_take: >
   This is the standard Discover it Cash Back in NHL team branding: same 5%
   rotating quarterly categories (up to $1,500, activation required), 1% on

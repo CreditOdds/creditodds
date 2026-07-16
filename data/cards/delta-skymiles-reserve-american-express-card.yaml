@@ -17,19 +17,24 @@ our_take: >
 benefits:
   - name: "Delta Sky Club Access"
     value: 0
-    description: "Complimentary access to Delta Sky Clubs when flying Delta"
+    description: "15 Delta Sky Club visits per Medallion Year when flying Delta, with unlimited visits after $75,000 in purchases in a calendar year"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Centurion Lounge Access"
+    value: 0
+    description: "Complimentary access to The Centurion Lounge when your Delta flight is booked with the Reserve card"
     frequency: "ongoing"
     category: "lounge"
   - name: "Companion Certificate"
     value: 0
-    description: "Annual domestic First Class companion certificate after spending $30,000 in a year"
+    description: "Companion certificate issued each year after Card renewal, no spend requirement, valid for a Delta First, Premium Select, Comfort, or Main round-trip flight within the U.S. and to Mexico, the Caribbean, or Central America"
     frequency: "annual"
     category: "travel"
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Statement credit every 4 years for the $120 Global Entry application fee or up to $85 for TSA PreCheck"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "TakeOff 15"
     value: 0
@@ -40,6 +45,12 @@ benefits:
     value: 0
     description: "$2,500 Medallion Qualification Dollars (MQD) headstart each Medallion Qualification Year, applied toward Delta elite status qualification"
     frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "MQD Boost"
+    value: 0
+    description: "Earn $1 Medallion Qualification Dollar for every $10 in eligible purchases on the card"
+    frequency: "ongoing"
     category: "travel"
     enrollment_required: false
   - name: "Resy Dining Credit"

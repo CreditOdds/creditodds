@@ -35,7 +35,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "First Checked Bag Free"
     value: 0
@@ -90,12 +90,6 @@ benefits:
     description: "25% back as statement credit on food, beverages, Wi-Fi on United-operated flights and Club premium drinks"
     frequency: "per_purchase"
     category: "statement_credit"
-    enrollment_required: false
-  - name: "Avis Car Rental Credit"
-    value: 50
-    description: "Up to $50 in United travel credits annually for Avis or Budget car rentals booked through cars.united.com"
-    frequency: "annual"
-    category: "car_rental"
     enrollment_required: false
 tags:
   - airline

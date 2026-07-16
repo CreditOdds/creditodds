@@ -38,8 +38,8 @@ signup_bonus:
   timeframe_months: 3
 apr:
   regular:
-    min: 19.99
-    max: 28.74
+    min: 19.74
+    max: 28.49
 apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard
 foreign_transaction_fee: false
 our_take: >

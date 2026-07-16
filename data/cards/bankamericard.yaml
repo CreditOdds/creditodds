@@ -15,8 +15,8 @@ apr:
     rate: 0
     months: 21
   regular:
-    min: 14.49
-    max: 24.49
+    min: 14.99
+    max: 25.99
 apply_link: https://www.bankofamerica.com/credit-cards/products/bankamericard-credit-card/
 our_take: >
   A straight 0% intro APR play: 21 months on both purchases and balance transfers with no

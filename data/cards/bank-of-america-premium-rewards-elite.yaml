@@ -5,6 +5,7 @@ accepting_applications: true
 image: "premium-rewards.png"
 category: "travel"
 annual_fee: 550
+foreign_transaction_fee: false
 reward_type: "points"
 benefits:
   - name: "Lifestyle Credit"
@@ -23,7 +24,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "Priority Pass Select"
     value: 0

@@ -12,9 +12,10 @@ rewards:
     unit: percent
 apr:
   regular:
-    min: 25.24
-    max: 25.24
+    min: 18.24
+    max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
+foreign_transaction_fee: true
 our_take: >
   An entry-level card for people new to credit: a flat 1.5% back, no annual fee, and a
   $25 credit for setting up autopay. Approvals here skew young and approachable (low

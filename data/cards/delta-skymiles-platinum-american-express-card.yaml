@@ -18,14 +18,14 @@ reward_type: "miles"
 benefits:
   - name: "Companion Certificate"
     value: 0
-    description: "Annual domestic Main Cabin companion certificate after meeting spend requirements"
+    description: "Companion certificate issued each year after Card renewal, no spend requirement, valid for a Delta Main round-trip flight within the U.S. and to Mexico, the Caribbean, or Central America"
     frequency: "annual"
     category: "travel"
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Statement credit every 4 years for the $120 Global Entry application fee or up to $85 for TSA PreCheck"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "TakeOff 15"
     value: 0
@@ -41,6 +41,12 @@ benefits:
     value: 0
     description: "$2,500 Medallion Qualification Dollars (MQD) headstart each Medallion Qualification Year, applied toward Delta elite status qualification"
     frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "MQD Boost"
+    value: 0
+    description: "Earn $1 Medallion Qualification Dollar for every $20 in eligible purchases on the card"
+    frequency: "ongoing"
     category: "travel"
     enrollment_required: false
   - name: "Rideshare Credit"

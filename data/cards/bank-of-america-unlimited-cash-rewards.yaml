@@ -5,6 +5,7 @@ accepting_applications: true
 category: "cashback"
 image: "unlimited-cash-rewards.png"
 annual_fee: 0
+foreign_transaction_fee: true
 reward_type: "cashback"
 tags:
   - cashback

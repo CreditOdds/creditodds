@@ -5,6 +5,7 @@ accepting_applications: true
 category: "travel"
 image: "barclays-hawaiian.png"
 annual_fee: 99
+foreign_transaction_fee: false
 reward_type: "miles"
 tags:
   - travel
@@ -48,3 +49,22 @@ our_take: >
   Hawaiian routes who want a few bonus categories alongside the airline loyalty.
   The 50,000-mile bonus after $2,000 of spend is easy to hit; just don't expect
   premium travel perks at this price.
+benefits:
+  - name: "Two Free Checked Bags"
+    description: "First and second checked bags free for the cardmember on eligible Hawaiian Airlines and Alaska Airlines operated flights when the card is used to book"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Anniversary Companion Discount"
+    value: 100
+    description: "$100 companion discount for a roundtrip flight between Hawaii and North America each account anniversary"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "One-Time 50% Off Companion Discount"
+    value: 50
+    value_unit: "percent"
+    description: "One-time 50% off companion discount for a roundtrip coach ticket between Hawaii and North America"
+    frequency: "one_time"
+    category: "travel"
+    enrollment_required: false

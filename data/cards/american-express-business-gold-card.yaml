@@ -13,11 +13,12 @@ rewards:
     mode: auto_top_spend
     choices: 2
     eligible_categories:
-      - airlines
-      - gas
+      - electronics_stores
       - dining
+      - gas
       - transit
-    note: "Automatically on your top 2 spending categories each billing cycle from 6 eligible (airfare, U.S. advertising, U.S. gas, U.S. restaurants, U.S. computer/cloud, transit) — combined cap"
+      - phone
+    note: "Automatically on your top 2 spending categories each billing cycle from 6 eligible (U.S. advertising, U.S. electronic goods retailers and software/cloud providers, U.S. restaurants, U.S. gas stations, transit, U.S. wireless telephone service), combined cap. Flights earn 3x via AmexTravel.com."
     spend_cap: 150000
     cap_period: annual
     rate_after_cap: 1
@@ -34,6 +35,10 @@ signup_bonus:
   spend_requirement: 15000
   timeframe_months: 3
   note: 'Amex advertises this as "as high as 200,000 Membership Rewards Points"; actual offer may be lower.'
+apr:
+  regular:
+    min: 17.74
+    max: 28.49
 benefits:
   - name: "Business Statement Credits"
     value: 240
@@ -73,9 +78,9 @@ apply_link: https://www.americanexpress.com/us/credit-cards/business/business-cr
 foreign_transaction_fee: false
 our_take: >
   Built for businesses with lumpy, varied spend: 4x auto-applies to your top
-  two categories each cycle (airfare, U.S. gas, dining, advertising, cloud,
-  transit) up to $150k a year, which beats fixed-category business cards if your
-  spending moves around. The catch is a $375 fee that you mostly justify through
+  two categories each cycle (U.S. advertising, electronics and cloud, dining,
+  gas, transit, wireless) up to $150k a year, which beats fixed-category
+  business cards if your spending moves around. The catch is a $375 fee that you mostly justify through
   the statement credits (FedEx/Grubhub/office supply, Walmart+, Squarespace),
   so it pays off only if you actually use those. If you want simpler flat-rate
   earning, the no-fee Blue Business Plus is the easier hold.

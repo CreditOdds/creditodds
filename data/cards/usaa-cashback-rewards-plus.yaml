@@ -26,9 +26,14 @@ rewards:
     value: 1
     unit: percent
 apr:
+  balance_transfer_intro:
+    rate: 0
+    months: 20
+    note: "0% intro APR through the March 2028 billing cycle on balance transfers posting by November 30, 2026 (5% transfer fee)"
   regular:
-    min: 16.90
-    max: 30.90
+    min: 15.40
+    max: 27.40
+foreign_transaction_fee: false
 our_take: >
   A strong no-fee everyday card for the USAA-eligible: 5% on gas and on
   military base purchases plus 3% on groceries, all with annual caps, and 1% on

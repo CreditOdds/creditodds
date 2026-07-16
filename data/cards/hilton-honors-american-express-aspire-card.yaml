@@ -63,8 +63,8 @@ benefits:
     category: "travel"
     enrollment_required: true
   - name: "CLEAR Plus Credit"
-    value: 209
-    description: "Statement credit for CLEAR Plus airport security membership"
+    value: 219
+    description: "Up to $219 in statement credits per calendar year for CLEAR Plus airport security membership"
     frequency: "annual"
     category: "security"
     enrollment_required: true
@@ -84,6 +84,12 @@ benefits:
     frequency: "per_rental"
     category: "hotel"
     enrollment_required: false
+  - name: "American Express Venue Collection"
+    value: 250
+    description: "10% back on food and beverage concessions purchases at Amex Venue Collection stadiums and arenas, up to $250 per calendar year"
+    frequency: "annual"
+    category: "entertainment"
+    enrollment_required: true
 tags:
   - hotel
   - travel

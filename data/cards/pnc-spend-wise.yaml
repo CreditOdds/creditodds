@@ -16,6 +16,7 @@ apr:
   regular:
     min: 19.49
     max: 27.49
+foreign_transaction_fee: true
 benefits:
   - name: "Purchase APR Reduction Program"
     value: 0

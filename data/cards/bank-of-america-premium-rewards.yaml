@@ -5,6 +5,7 @@ image: "premium-rewards.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
+foreign_transaction_fee: false
 reward_type: "points"
 benefits:
   - name: "Airline Incidental Credit"
@@ -13,10 +14,10 @@ benefits:
     frequency: "annual"
     category: "travel"
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 120
-    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
+    value: 100
+    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fee every four years"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
 tags:
   - travel

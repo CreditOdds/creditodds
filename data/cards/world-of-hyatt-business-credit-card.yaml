@@ -7,19 +7,24 @@ category: "business"
 annual_fee: 199
 reward_type: "points"
 benefits:
-  - name: "Free Night Award"
-    value: 0
-    description: "One annual free night award at any Category 1-4 Hyatt hotel"
-    frequency: "annual"
-    category: "hotel"
   - name: "Discoverist Status"
     value: 0
     description: "Automatic World of Hyatt Discoverist elite status"
     frequency: "ongoing"
     category: "hotel"
-  - name: "5 Qualifying Night Credits"
+  - name: "Tier-Qualifying Night Credits"
     value: 0
-    description: "5 qualifying night credits toward Hyatt elite status each year"
+    description: "5 Tier-Qualifying Night credits toward Hyatt elite status for every $10,000 spent each calendar year"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Hyatt Statement Credits"
+    value: 100
+    description: "Up to $100 in Hyatt statement credits per anniversary year: a $50 credit per qualifying Hyatt purchase, up to 2 times"
+    frequency: "annual"
+    category: "hotel"
+  - name: "10% Points Back on Redemptions"
+    value: 0
+    description: "After spending $50,000 in a calendar year, get 10% of redeemed points back on up to 200,000 points redeemed per year"
     frequency: "annual"
     category: "hotel"
 tags:
@@ -34,24 +39,35 @@ rewards:
     note: "At Hyatt hotels, up to 9x total with World of Hyatt membership"
     merchant_specific: true
     merchant_gate: [hyatt]
-  - category: dining
+  - category: top_category
     value: 2
     unit: points_per_dollar
+    mode: auto_top_spend
+    note: "Automatically in your top three spend categories each quarter"
+  - category: gyms_fitness
+    value: 2
+    unit: points_per_dollar
+    note: "Fitness club and gym memberships"
   - category: everything_else
     value: 1
     unit: points_per_dollar
-    note: "2x on top 3 spend categories each quarter"
 signup_bonus:
   value: 60000
   type: "points"
   spend_requirement: 5000
   timeframe_months: 3
+apr:
+  regular:
+    min: 19.24
+    max: 27.74
 apply_link: https://creditcards.chase.com/business-credit-cards/world-of-hyatt/hyatt-business-card
 foreign_transaction_fee: false
 our_take: >
   Aimed at business owners loyal to Hyatt: up to 9x at Hyatt properties,
-  automatic Discoverist status, an annual Category 1-4 free night, and one of
-  the larger signup bonuses at 60,000 points after $5,000 in spend. The $199 fee
-  and Hyatt-centric perks only pay off if you stay with Hyatt regularly, since
-  the value comes almost entirely from the free night and elite-night credits
-  rather than everyday earning.
+  automatic Discoverist status, up to $100 in Hyatt statement credits each
+  anniversary year, and 2x in your top three spend categories each quarter.
+  Unlike the personal card there is no annual free night, so the $199 fee has
+  to be earned back through the credits and the spend-based perks, which are 5
+  elite night credits per $10,000 spent and 10% of redeemed points back after
+  $50,000 in annual spend. It only pays off if both your stays and your
+  business spending run through Hyatt at real volume.

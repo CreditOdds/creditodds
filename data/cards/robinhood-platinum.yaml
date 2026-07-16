@@ -30,8 +30,8 @@ benefits:
     frequency: "annual"
     category: "travel"
   - name: "Health Wearable Credit"
-    value: 200
-    description: "$200 annual credit toward eligible health wearable purchases"
+    value: 270
+    description: "$270 Health Wearables Statement Credit"
     frequency: "annual"
     category: "fitness"
   - name: "One Medical Membership"
@@ -42,11 +42,6 @@ benefits:
   - name: "Function Health Membership"
     value: 0
     description: "Complimentary Function Health membership"
-    frequency: "ongoing"
-    category: "fitness"
-  - name: "Oura Membership"
-    value: 0
-    description: "Complimentary Oura membership"
     frequency: "ongoing"
     category: "fitness"
   - name: "Restaurant Credit"
@@ -64,10 +59,10 @@ benefits:
     merchants:
       - doordash
   - name: "Global Entry or TSA PreCheck"
-    value: 100
-    description: "Application fee credit for Global Entry or TSA PreCheck."
+    value: 120
+    description: "Up to $120 application fee credit for Global Entry or TSA PreCheck every 4 years."
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
     enrollment_required: false
   - name: "Hotel Credit"
@@ -107,11 +102,16 @@ rewards:
   - category: everything_else
     value: 1
     unit: percent
+apr:
+  regular:
+    min: 29.99
+    max: 29.99
 apply_link: https://robinhood.com/us/en/creditcard/platinum/
 foreign_transaction_fee: false
 our_take: >
   Robinhood's $695 premium card leans on a long list of lifestyle credits (DoorDash, dining,
-  hotel and travel statement credits, plus health perks like One Medical and Oura) and
+  hotel and travel statement credits, plus health perks like One Medical and a $270
+  wearables credit) and
   Priority Pass access, much of it routed through the Robinhood app. The earning is
   credit-heavy, not rate-heavy: outside 5% dining and the 5% to 10% travel booked through
   Robinhood's own portal, base spend earns just 1%. It only pays off if you live in the

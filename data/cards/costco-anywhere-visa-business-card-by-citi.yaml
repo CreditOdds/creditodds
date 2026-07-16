@@ -11,9 +11,9 @@ tags:
   - business
 rewards:
   - category: gas
-    value: 4
+    value: 5
     unit: percent
-    note: "On eligible gas and EV charging worldwide, first $7,000/year combined"
+    note: "5% at Costco gas stations. 4% on other eligible gas and EV charging worldwide, first $7,000/year combined."
   - category: dining
     value: 3
     unit: percent
@@ -40,8 +40,9 @@ apply_link: https://www.citi.com/credit-cards/costco-anywhere-visa-business-card
 foreign_transaction_fee: false
 our_take: >
   Effectively free if you are already paying for a Costco membership (no separate
-  annual fee), and the gas rate is the draw: 4% on up to $7,000 a year in gas and
-  EV charging, plus 3% on dining and travel and no foreign transaction fees. The
+  annual fee), and the gas rate is the draw: 5% at Costco gas stations and 4% on
+  other gas and EV charging, on up to $7,000 a year combined, plus 3% on dining
+  and travel and no foreign transaction fees. The
   rewards mirror the personal Costco Anywhere card, so it is best for business
   owners who fuel up a lot and shop Costco. The big catches are that cash back
   comes once a year as a certificate redeemable only at Costco, and you must keep

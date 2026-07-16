@@ -43,8 +43,8 @@ rewards:
     unit: "percent"
 apr:
   regular:
-    min: 19.99
-    max: 31.99
+    min: 18.74
+    max: 30.74
 apply_link: https://venmo.com/about/creditcard
 foreign_transaction_fee: false
 our_take: >
@@ -52,6 +52,6 @@ our_take: >
   on your second each statement period, from a list of eight, with 1% on the rest.
   It is a good fit for existing Venmo users who want rewards without picking
   categories, and there are no foreign transaction fees. The tradeoff is the lack
-  of a real signup bonus and a high APR up to 31.99%, so flat 2%-on-everything
+  of a real signup bonus and a high APR up to 30.74%, so flat 2%-on-everything
   cards like the Wells Fargo Active Cash or Citi Double Cash will out-earn it
   unless your spending is concentrated in those top two categories.

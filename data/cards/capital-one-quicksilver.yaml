@@ -32,6 +32,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/quicksilver/
+foreign_transaction_fee: false
 our_take: >
   The Quicksilver is a simple no-fee flat-rate card: 1.5% on everything, a $200
   bonus after $500 of spend, and 15 months of 0% intro APR on purchases and

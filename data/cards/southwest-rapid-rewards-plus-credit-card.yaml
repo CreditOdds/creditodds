@@ -28,8 +28,8 @@ signup_bonus:
   timeframe_months: 3
 apr:
   regular:
-    min: 20.49
-    max: 27.49
+    min: 19.24
+    max: 27.74
 image: "chase-southwest-rapid-rewards-plus.png"
 tags:
   - airline
@@ -90,6 +90,7 @@ benefits:
     merchants:
       - instacart
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/plus
+foreign_transaction_fee: false
 our_take: >
   The cheapest way into the Southwest card lineup at $99, and it still delivers the parts
   that matter to loyalists: 3,000 anniversary points, 10,000 Companion Pass qualifying

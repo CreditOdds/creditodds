@@ -10,12 +10,14 @@ tags:
 apr:
   balance_transfer_intro:
     rate: 0
-    months: 15
+    months: 20
+    note: "0% intro APR through the March 2028 billing cycle on balance transfers posting by November 30, 2026 (5% transfer fee)"
   regular:
     min: 10.40
     max: 24.40
+foreign_transaction_fee: false
 our_take: >
-  A low-rate card for USAA members who carry a balance: a 15-month 0% intro on transfers and,
+  A low-rate card for USAA members who carry a balance: a roughly 20-month 0% intro on transfers and,
   more notably, an ongoing regular APR that starts as low as 10.40%, well below most cards.
   It earns no rewards and has no signup bonus, so the entire pitch is cheap borrowing. For a
   pure 0% balance-transfer runway, the Wells Fargo Reflect and U.S. Bank Shield go longer at

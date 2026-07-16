@@ -14,6 +14,9 @@ rewards:
     value: 4
     unit: points_per_dollar
     note: "Up to $2,000/quarter"
+    spend_cap: 2000
+    cap_period: quarterly
+    rate_after_cap: 1
   - category: groceries
     value: 2
     unit: points_per_dollar
@@ -35,6 +38,10 @@ apr:
   purchase_intro:
     rate: 0
     months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+    note: "0% intro APR for 15 billing cycles on balance transfers made within 60 days of account opening (5% transfer fee)"
   regular:
     min: 17.49
     max: 27.49

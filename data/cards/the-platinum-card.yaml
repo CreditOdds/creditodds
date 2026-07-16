@@ -32,6 +32,10 @@ signup_bonus:
   type: points
   spend_requirement: 12000
   timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
 benefits:
   - name: "Uber Cash"
     value: 200
@@ -50,11 +54,23 @@ benefits:
     category: "travel"
     enrollment_required: true
   - name: "Hotel Credit"
-    value: 200
-    description: "Statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel"
-    frequency: "annual"
+    value: 600
+    description: "Up to $600 per year ($300 semi-annually) in statement credits on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel"
+    frequency: "semi_annual"
     category: "hotel"
     enrollment_required: false
+  - name: "Resy Dining Credit"
+    value: 400
+    description: "Up to $100 in statement credits each quarter at U.S. Resy restaurants and other eligible Resy purchases"
+    frequency: "quarterly"
+    category: "dining"
+    enrollment_required: true
+  - name: "Oura Ring Credit"
+    value: 200
+    description: "Up to $200 in statement credits per calendar year on Oura Ring purchases at ouraring.com"
+    frequency: "annual"
+    category: "fitness"
+    enrollment_required: true
   - name: "Uber One Credit"
     value: 120
     description: "Up to $10/month back on an auto-renewing Uber One membership"
@@ -79,8 +95,8 @@ benefits:
       - peacock
       - youtube-tv
   - name: "CLEAR Plus Credit"
-    value: 209
-    description: "Statement credit for CLEAR Plus airport security membership"
+    value: 219
+    description: "Up to $219 in statement credits per calendar year for CLEAR Plus airport security membership"
     frequency: "annual"
     category: "security"
     enrollment_required: true
@@ -93,19 +109,11 @@ benefits:
     enrollment_required: true
     merchants:
       - walmart
-  - name: "Saks Fifth Avenue Credit"
-    value: 100
-    description: "$50 semiannually (Jan–Jun and Jul–Dec) at Saks Fifth Avenue"
-    frequency: "semi_annual"
-    category: "shopping"
-    enrollment_required: true
-    merchants:
-      - saks-fifth-avenue
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120
-    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
+    description: "Statement credit every 4 years for the $120 Global Entry application fee or up to $85 for TSA PreCheck"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "travel"
     enrollment_required: false
   - name: "Equinox Credit"

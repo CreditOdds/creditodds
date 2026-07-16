@@ -7,14 +7,9 @@ category: "travel"
 annual_fee: 95
 reward_type: "points"
 benefits:
-  - name: "Annual Airline Credit"
-    value: 100
-    description: "Annual credit for airline purchases"
-    frequency: "annual"
-    category: "travel"
   - name: "Cell Phone Protection"
     value: 0
-    description: "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card"
+    description: "Up to $1,000 per claim for cell phone damage or theft when you pay your bill with the card, subject to a $25 deductible"
     frequency: "ongoing"
     category: "other"
   - name: "Travel Accident Insurance"
@@ -62,13 +57,13 @@ signup_bonus:
   timeframe_months: 3
 apr:
   regular:
-    min: 18.49
+    min: 19.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card
 foreign_transaction_fee: false
 our_take: >
   A strong mid-tier travel card: 5x on hotels, 4x on airlines, and 3x on dining and other
-  travel, plus a $100 annual airline credit and no foreign transaction fee for $95. The travel
+  travel, plus a $50 annual statement credit and no foreign transaction fee for $95. The travel
   earning rates beat the Chase Sapphire Preferred and Citi Strata Premier in their own
   categories, and the 60,000-point bonus only needs $4,000 in three months. The main caveat is
   that Wells Fargo's points transfer to fewer partners than Chase or Amex, so weigh how you

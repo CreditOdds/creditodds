@@ -56,8 +56,8 @@ signup_bonus:
   timeframe_months: 4
 apr:
   regular:
-    min: 21.24
-    max: 29.99
+    min: 19.49
+    max: 28.49
 benefits:
   - name: "First Checked Bag Free"
     description: "First checked bag free on domestic American Airlines itineraries for the cardmember and up to 4 companions on the same reservation"

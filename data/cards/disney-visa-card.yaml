@@ -19,7 +19,7 @@ signup_bonus:
 apr:
   regular:
     min: 18.24
-    max: 29.99
+    max: 27.74
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
 foreign_transaction_fee: true
 our_take: >
@@ -45,4 +45,24 @@ benefits:
   - name: "Baggage Delay Insurance"
     description: "Reimburses up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
     category: "travel"
+    enrollment_required: false
+  - name: "Disney Park Merchandise Discount"
+    description: "10% off select merchandise purchases at Disneyland and Walt Disney World Resort locations"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Disney Park Dining Discount"
+    description: "10% off select dining locations at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
+  - name: "Disney Guided Tour Discount"
+    description: "15% off select guided tours at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "DisneyStore.com Discount"
+    description: "10% savings on select purchases at DisneyStore.com"
+    frequency: "per_purchase"
+    category: "shopping"
     enrollment_required: false

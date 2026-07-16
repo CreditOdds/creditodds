@@ -9,8 +9,8 @@ tags:
   - credit_builder
 apr:
   regular:
-    min: 26.74
-    max: 26.74
+    min: 25.99
+    max: 25.99
 apply_link: https://www.citi.com/credit-cards/citi-secured-credit-card
 foreign_transaction_fee: true
 our_take: >

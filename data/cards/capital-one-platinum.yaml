@@ -12,6 +12,7 @@ apr:
     min: 28.99
     max: 28.99
 apply_link: https://www.capitalone.com/credit-cards/platinum/
+foreign_transaction_fee: false
 our_take: >
   A bare-bones credit builder: no annual fee, no rewards, and a flat 28.99% APR, aimed at
   people with fair or limited credit who want a path to a real Capital One card. It does the

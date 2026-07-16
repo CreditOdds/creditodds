@@ -13,6 +13,7 @@ our_take: >
 category: "travel"
 image: "barclays-princess.png"
 annual_fee: 0
+foreign_transaction_fee: false
 reward_type: "points"
 rewards:
   - category: travel

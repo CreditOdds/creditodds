@@ -32,10 +32,14 @@ signup_bonus:
   type: points
   spend_requirement: 3000
   timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
 benefits:
   - name: "CLEAR Plus Credit"
-    value: 209
-    description: "Statement credit for CLEAR Plus airport security membership"
+    value: 219
+    description: "Up to $219 in statement credits per calendar year for CLEAR Plus airport security membership"
     frequency: "annual"
     category: "security"
     enrollment_required: true

@@ -16,6 +16,12 @@ benefits:
     frequency: "per_trip"
     category: "hotel"
     enrollment_required: false
+  - name: "Silver Elite Status"
+    value: 0
+    description: "Automatic IHG One Rewards Silver Elite status for as long as you remain a cardmember"
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: false
   - name: "Gold Elite Status Qualification"
     description: "Qualify for Gold Elite Status through December 31st of the following year when purchases total $20,000 or more in a calendar year."
     frequency: "annual"
@@ -84,7 +90,7 @@ signup_bonus:
 apr:
   regular:
     min: 19.24
-    max: 29.99
+    max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/traveler
 foreign_transaction_fee: false
 our_take: >

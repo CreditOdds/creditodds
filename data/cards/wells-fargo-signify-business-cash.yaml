@@ -3,11 +3,12 @@ bank: "Wells Fargo"
 slug: "wells-fargo-signify-business-cash"
 accepting_applications: true
 apply_link: https://creditcards.wellsfargo.com/business-credit-cards/signify-business-cash-credit-card/
-foreign_transaction_fee: false
+foreign_transaction_fee: true
 our_take: >
   A clean, no-fee business card built on simplicity: a flat 2% back on every
-  purchase with no categories to track, no foreign transaction fees, and a 12-month
-  0% intro APR on purchases. The $500 bonus after $5,000 in spend is one of the
+  purchase with no categories to track and a 12-month 0% intro APR on purchases,
+  though it does charge a 3% foreign transaction fee, so leave it home when
+  traveling abroad. The $500 bonus after $5,000 in spend is one of the
   better no-fee business offers around, and the flat 2% means it earns well as a
   catch-all for mixed business spending. If your purchases concentrate in specific
   categories, a tiered business card may beat it, but for broad spend this is hard
@@ -30,8 +31,8 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 18.49
-    max: 26.49
+    min: 16.74
+    max: 24.74
 benefits:
   - name: "Travel Accident Insurance"
     description: "Up to $250,000 in travel accident insurance coverage when airline or common carrier tickets are purchased with the card"

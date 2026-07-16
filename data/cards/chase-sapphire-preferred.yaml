@@ -7,8 +7,8 @@ category: "travel"
 annual_fee: 95
 benefits:
   - name: "Annual Hotel Credit"
-    value: 50
-    description: "Statement credit for hotel stays booked through Chase Travel"
+    value: 100
+    description: "Up to $100 in statement credits each account anniversary year for hotel stays purchased through Chase Travel"
     frequency: "annual"
     category: "hotel"
   - name: "Global Entry/TSA PreCheck/NEXUS Credit"

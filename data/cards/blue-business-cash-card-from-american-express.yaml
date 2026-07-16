@@ -23,12 +23,13 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 18.49
-    max: 26.49
+    min: 16.74
+    max: 28.49
 tags:
   - business
   - cashback
 apply_link: https://www.americanexpress.com/en-us/business/credit-cards/blue-business-cash
+foreign_transaction_fee: true
 our_take: >
   A simple flat-rate business card: 2% back on everything up to $50,000 a year,
   then 1%, with no annual fee and a 12-month 0% intro APR for early purchases.

@@ -36,6 +36,10 @@ signup_bonus:
   spend_requirement: 1000
   timeframe_months: 3
   note: "$250 statement credit after $500 spend in first 3 months"
+apr:
+  regular:
+    min: 19.49
+    max: 27.49
 benefits:
   - name: "AT&T Wireless Discount"
     value: 120
@@ -51,7 +55,7 @@ benefits:
     enrollment_required: true
   - name: "Monthly Spend Statement Credit"
     value: 240
-    description: "$10 statement credit after $500 spend or $20 after $1,000 spend per billing cycle, up to $240/year"
+    description: "$20 statement credit after $1,000 or more in purchases per billing cycle, up to $240/year"
     frequency: "monthly"
     category: "statement_credit"
     enrollment_required: false
