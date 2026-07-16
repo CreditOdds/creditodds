@@ -17,11 +17,16 @@ apr:
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
 foreign_transaction_fee: true
 our_take: >
-  An entry-level card for people new to credit: a flat 1.5% back, no annual fee, and a
-  $25 credit for setting up autopay. Approvals here skew young and approachable (low
-  income and short credit history get in), so it works well as a first Chase card and a
-  foot in the door to better Freedom and Sapphire products later. Once your credit is
-  established, a 2% flat card like Wells Fargo Active Cash earns more.
+  The Chase Freedom Rise offers a straightforward 1.5% cash back on all
+  purchases with no annual fee, making it a solid entry-level choice for those
+  looking to earn rewards on everyday spending. The real draw is the $25
+  statement credit for enrolling in automatic payments within the first three
+  months, which can be a nice bonus for setting up good financial habits.
+  However, the card's high regular APR of 25.24% means it's best suited for
+  those who plan to pay off their balance in full each month. The 6-month
+  complimentary DashPass membership adds some value for frequent DoorDash or
+  Caviar users, but it's a one-time perk. Overall, it's a decent starter card
+  for building credit and earning consistent cash back.
 benefits:
   - name: "DashPass Complimentary Membership"
     value: 0

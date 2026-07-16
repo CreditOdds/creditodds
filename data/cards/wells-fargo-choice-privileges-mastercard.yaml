@@ -43,11 +43,17 @@ apr:
 apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard
 foreign_transaction_fee: false
 our_take: >
-  A no-fee hotel card aimed at Choice Hotels guests: 5x at Choice properties, 3x on a wide
-  set of everyday categories like gas, groceries, and phone bills, automatic Gold Elite
-  status, and a 60,000-point welcome bonus. The unusually broad 3x earning makes it useful
-  even between hotel stays. Just remember Choice points are low-value, so the rewards stretch
-  furthest if you actually book Choice-brand hotels rather than redeem for anything else.
+  The Wells Fargo Choice Privileges Mastercard is a strong contender for
+  travelers who frequently stay at Choice Hotels, offering 5 points per dollar
+  on stays at participating properties. With no annual fee and a generous
+  60,000-point signup bonus after spending $1,000 in the first three months,
+  it's a cost-effective option for budget-conscious travelers. You'll also
+  earn 3 points per dollar on gas, groceries, home improvement, and phone
+  expenses, which adds value for everyday purchases. The card includes
+  automatic Gold Elite Status and 10 elite qualifying nights annually,
+  enhancing your hotel experience. However, the regular APR ranges from 19.99%
+  to 28.74%, so carrying a balance could be costly. With no foreign
+  transaction fees, it's also a practical choice for international travel.
 benefits:
   - name: "Automatic Gold Elite Status"
     value: 0

@@ -6,13 +6,20 @@ accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-platinum-american-express-card/
 foreign_transaction_fee: false
 our_take: >
-  This one earns its keep through perks, not its earn rates: the annual Main
-  Cabin companion certificate alone can offset most of the $350 fee, and you
-  also get a free first checked bag and a stack of monthly credits for
-  rideshare, dining, and Delta Stays. The 3x on Delta and 2x on dining and
-  groceries is fine but not the draw. It only makes sense if you fly Delta
-  regularly and will actually redeem the companion pass and credits, otherwise
-  the cheaper Delta Gold covers most casual flyers.
+  The Delta SkyMiles Platinum American Express card is a strong contender for
+  frequent Delta flyers, offering a generous signup bonus of up to 100,000
+  miles after meeting a $6,000 spend requirement within six months. This card
+  shines with travel perks like an annual domestic Main Cabin companion
+  certificate and 15% off Delta award flights, making it a valuable asset for
+  those who often fly with Delta. However, the $350 annual fee is a
+  significant consideration, and while the card offers solid earn rates of 3
+  miles per dollar on Delta and direct hotel purchases, 2 miles on dining and
+  U.S. supermarkets, and 1 mile on everything else, the rewards may not
+  outweigh the fee for infrequent travelers. Added benefits like a $100 Global
+  Entry or TSA PreCheck credit and various monthly credits for rideshares and
+  dining help offset the cost, but the value is best realized by those who can
+  fully utilize these perks. If you're a Delta loyalist looking to maximize
+  travel benefits, this card could be a worthwhile addition to your wallet.
 annual_fee: 350
 reward_type: "miles"
 benefits:
@@ -99,11 +106,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 100000
+  value: 90000
   type: "miles"
-  spend_requirement: 6000
+  spend_requirement: 3000
   timeframe_months: 6
-  note: "Tiered bonus: 80,000 miles after $4,000 spend in first 6 months, plus additional 20,000 miles after additional $2,000 spend within first 6 months. Offer ends 2026-07-15."
+  note: "Variable offer shown as 'as high as' 90,000 miles; welcome offers vary by applicant and you may not be eligible for an offer"
 apr:
   regular:
     min: 19.49

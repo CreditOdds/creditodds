@@ -31,11 +31,18 @@ apr:
 apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
 foreign_transaction_fee: true
 our_take: >
-  A no-fee way to start earning AAdvantage miles, with 2x on groceries and on
-  American purchases plus a modest 15,000-mile bonus after $1,000 in spend. It
-  is the right pick only if you fly American occasionally and want miles without
-  a fee, since it skips the checked-bag and priority-boarding perks that make
-  the paid AAdvantage cards worth their cost.
+  The American Airlines AAdvantage MileUp Mastercard is a solid choice for
+  frequent flyers who want to earn miles without paying an annual fee. With 2
+  miles per dollar on groceries and eligible American Airlines purchases, plus
+  1 mile per dollar on everything else, it offers a straightforward way to
+  accumulate miles. The card also includes a 15,000-mile signup bonus after
+  spending $500 in the first three months, which is a decent boost for new
+  cardholders. However, the regular APR ranges from 19.49% to 29.49%, so it's
+  best suited for those who can pay off their balance monthly. The 25%
+  discount on inflight food and beverages is a nice perk, but the foreign
+  transaction fee means it's less ideal for international travel. Overall,
+  it's a practical card for domestic travelers who fly American Airlines and
+  want to earn rewards without additional costs.
 benefits:
   - name: "Inflight Food & Beverage Discount"
     value: 25

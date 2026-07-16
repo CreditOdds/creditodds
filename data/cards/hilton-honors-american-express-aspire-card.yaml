@@ -6,12 +6,18 @@ accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/
 foreign_transaction_fee: false
 our_take: >
-  The top Hilton card and a strong value if you stay with Hilton regularly: automatic
-  Diamond status, a free night each year, and 14x at Hilton properties, with up to $400
-  in resort credits, $200 in flight credits, and a CLEAR credit that together can cover
-  most of the $550 fee. If you do not put the credits and free night to use, step down to
-  the Surpass ($150) or the no-fee Hilton card, since the Aspire only pays off for
-  committed Hilton guests.
+  The Hilton Honors American Express Aspire card is a powerhouse for frequent
+  Hilton guests, offering a massive 14 points per dollar on eligible Hilton
+  purchases and a generous 175,000-point signup bonus after spending $6,000 in
+  the first six months. The card's $550 annual fee is steep, but the extensive
+  benefits can offset this cost if you maximize them: a $400 Hilton resort
+  credit, a $200 flight credit, and a complimentary night annually at most
+  Hilton properties. Additionally, the card provides Hilton Honors Diamond
+  status, which includes perks like room upgrades and executive lounge access.
+  However, if you don't frequently stay at Hilton hotels or can't fully
+  utilize the credits, the high annual fee may outweigh the rewards. Consider
+  this card if you're a dedicated Hilton traveler who can leverage its rich
+  rewards and benefits.
 annual_fee: 550
 reward_type: "points"
 rewards:

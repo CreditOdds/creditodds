@@ -25,8 +25,13 @@ apr:
 apply_link: https://www.paypal.com/us/digital-wallet/manage-money/paypal-cashback-mastercard
 foreign_transaction_fee: true
 our_take: >
-  Worth it only if you check out with PayPal a lot: 3% back when you pay through PayPal
-  online or via in-store QR, dropping to 1.5% everywhere else, with no annual fee. Since
-  the 3% is gated to PayPal and the card charges foreign transaction fees, most people
-  are better served by a flat 2% card like Wells Fargo Active Cash that pays everywhere
-  without the PayPal requirement.
+  The PayPal Cashback Mastercard stands out for its simple and effective
+  rewards structure: 3% cash back on purchases made through PayPal checkout,
+  whether online or using in-store QR codes, and 1.5% on all other purchases.
+  With no annual fee, it's a good choice for frequent PayPal users who want to
+  maximize their cash back on online shopping. However, the card's rewards
+  drop to 1.5% when PayPal isn't used, which is less competitive compared to
+  other flat-rate cash back cards. Additionally, the card carries a foreign
+  transaction fee, making it less ideal for international use. If you often
+  shop online and use PayPal regularly, this card can offer solid value
+  without added costs.

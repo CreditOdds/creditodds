@@ -6,13 +6,17 @@ accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-gold-american-express-card/
 foreign_transaction_fee: false
 our_take: >
-  The entry Delta card for frequent flyers: a free first checked bag and Main
-  Cabin 1 priority boarding effectively pay the $150 fee if you fly Delta a few
-  times a year, and the current 90k-mile bonus is one of the better offers in
-  its tier (ends 2026-07-15). Earning is thin outside Delta, dining, and U.S.
-  supermarkets at 2x, with no foreign transaction fees. If you want lounge
-  access or a stronger elite head start, step up to the $350 Delta Platinum,
-  which carries a richer bonus and 3x on Delta and direct hotels.
+  The Delta SkyMiles Gold American Express card stands out with its generous
+  signup bonus of up to 90,000 miles, which requires $5,000 in spending within
+  the first six months. This card is particularly appealing for frequent Delta
+  flyers, offering perks like a free first checked bag and priority boarding
+  on Delta flights. You'll also earn 2 miles per dollar on Delta purchases,
+  dining, and U.S. supermarkets, which can add up quickly for everyday
+  spenders. However, the $150 annual fee is a consideration, especially since
+  the card's ongoing rewards rate is modest outside of Delta and select
+  categories. The lack of foreign transaction fees is a plus for international
+  travelers, but be sure to weigh the benefits against the cost if you're not
+  a regular Delta customer.
 annual_fee: 150
 reward_type: "miles"
 benefits:
@@ -83,11 +87,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 90000
+  value: 80000
   type: "miles"
-  spend_requirement: 5000
+  spend_requirement: 2000
   timeframe_months: 6
-  note: "Earn 70,000 miles after $3,000 spend in first 6 months, plus an additional 20,000 miles after an additional $2,000 spend within first 6 months. Offer ends 2026-07-15."
+  note: "Variable offer shown as 'as high as' 80,000 miles; welcome offers vary by applicant and you may not be eligible for an offer"
 apr:
   regular:
     min: 19.49

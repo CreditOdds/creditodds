@@ -25,11 +25,17 @@ apply_link: https://www.fidelity.com/spend-save/visa-signature-card
 # was removed with it. Restore both together if Fidelity publishes a new offer page.
 foreign_transaction_fee: false
 our_take: >
-  The Fidelity Rewards Visa is a clean 2% flat-rate card with no annual fee and no
-  foreign transaction fee, best suited to people who already use Fidelity since the
-  full 2% only lands when rewards are deposited into an eligible Fidelity account.
-  It is competitive with the Wells Fargo Active Cash and Citi Double Cash, and the
-  built-in retirement-funnel makes it a quiet way to auto-invest your cash back.
+  The Fidelity Rewards Visa Signature card offers a straightforward 2% cash
+  back on all purchases when you deposit the rewards into an eligible Fidelity
+  account, making it a solid choice for those who want to boost their
+  investment savings with everyday spending. With no annual fee and a 12-month
+  0% intro APR on both purchases and balance transfers, it provides a decent
+  runway for managing expenses interest-free. However, the recent removal of
+  the signup bonus means there's no initial incentive beyond the ongoing earn
+  rate. The card also includes a valuable perk of up to $100 in reward points
+  for Global Entry or TSA PreCheck application fees every five years. While
+  the regular APR has been slightly reduced, ranging from 16.49% to 26.49%,
+  it's still important to pay off balances to avoid interest charges.
 benefits:
   - name: "Global Entry or TSA PreCheck Credit"
     value: 100

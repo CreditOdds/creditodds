@@ -31,11 +31,19 @@ apr:
     min: 16.74
     max: 24.74
 our_take: >
-  The no-fee workhorse of Chase's business lineup: a flat 1.5% on everything, a strong $1,000
-  bonus after $8,000 of spend, and 12 months of 0% intro APR. Its real value shows when paired
-  with a points-earning Chase card like Ink Business Preferred, since you can convert the
-  cash back into transferable Ultimate Rewards. On its own it is a flat-rate card, so a
-  category-heavy spender may earn more with Ink Business Cash.
+  The Ink Business Unlimited card from Chase offers a straightforward 1.5%
+  cash back on all purchases, making it an easy choice for business owners who
+  want simple, reliable rewards without tracking bonus categories. A standout
+  feature is the recently increased signup bonus of $1,000 after spending
+  $8,000 in the first four months, which is a generous incentive for new
+  cardholders. The card also provides a 12-month 0% intro APR on purchases,
+  which can be beneficial for managing cash flow on new business expenses.
+  However, the card does carry a foreign transaction fee, so it's not ideal
+  for international business travel. Additionally, there's a limited-time
+  offer of 5% back on Lyft rides through September 2027 and a complimentary
+  three-month Instacart+ membership with monthly credits, adding some extra
+  value. With no annual fee, this card is a solid option for businesses
+  seeking uncomplicated rewards and a strong introductory offer.
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
 foreign_transaction_fee: true
 benefits:
