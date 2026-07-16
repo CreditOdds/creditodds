@@ -100,11 +100,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 100000
+  value: 90000
   type: "miles"
-  spend_requirement: 6000
+  spend_requirement: 3000
   timeframe_months: 6
-  note: "Tiered bonus: 80,000 miles after $4,000 spend in first 6 months, plus additional 20,000 miles after additional $2,000 spend within first 6 months. Offer ends 2026-07-15."
+  note: "Variable offer shown as 'as high as' 90,000 miles; welcome offers vary by applicant and you may not be eligible for an offer"
 apr:
   regular:
     min: 19.49
