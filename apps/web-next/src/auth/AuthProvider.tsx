@@ -17,6 +17,33 @@ import posthog from "posthog-js";
 // Key for storing email in localStorage for email link sign-in
 const EMAIL_FOR_SIGN_IN_KEY = 'emailForSignIn';
 
+// localStorage throws SecurityError in Safari when "Block all cookies" is
+// on. The email-link flow works without it — the user just gets prompted
+// for their email again — so storage failures are swallowed.
+function readEmailForSignIn(): string | null {
+  try {
+    return window.localStorage.getItem(EMAIL_FOR_SIGN_IN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function storeEmailForSignIn(email: string) {
+  try {
+    window.localStorage.setItem(EMAIL_FOR_SIGN_IN_KEY, email);
+  } catch {
+    // ignore
+  }
+}
+
+function clearEmailForSignIn() {
+  try {
+    window.localStorage.removeItem(EMAIL_FOR_SIGN_IN_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -83,7 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!auth) return;
 
     if (isSignInWithEmailLink(auth, window.location.href)) {
-      let email = window.localStorage.getItem(EMAIL_FOR_SIGN_IN_KEY);
+      let email = readEmailForSignIn();
 
       if (!email) {
         // User opened the link on a different device, prompt for email
@@ -93,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (email) {
         signInWithEmailLink(auth, email, window.location.href)
           .then(() => {
-            window.localStorage.removeItem(EMAIL_FOR_SIGN_IN_KEY);
+            clearEmailForSignIn();
             // Clean up the URL
             window.history.replaceState({}, document.title, window.location.pathname);
           })
@@ -119,7 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
     // Save the email locally to complete sign-in if user opens link on same device
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem(EMAIL_FOR_SIGN_IN_KEY, email);
+      storeEmailForSignIn(email);
     }
   }, []);
 
@@ -131,7 +158,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (isSignInWithEmailLink(auth, window.location.href)) {
       await signInWithEmailLink(auth, email, window.location.href);
-      window.localStorage.removeItem(EMAIL_FOR_SIGN_IN_KEY);
+      clearEmailForSignIn();
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);

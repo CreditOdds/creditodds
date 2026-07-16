@@ -47,6 +47,36 @@ describe("isBenignClientError", () => {
     ).toBe(true);
   });
 
+  it("drops WebKit's IDB-server-connection-lost noise (DOMException shape)", () => {
+    expect(
+      isBenignClientError(
+        domException(
+          "Connection to Indexed Database server lost. Refresh the page to try again",
+          "UnknownError",
+          0,
+        ),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops WebKit's IDB-server-connection-lost noise (wrapped-message shape)", () => {
+    expect(
+      isBenignClientError(
+        new Error(
+          "UnknownError: Connection to Indexed Database server lost. Refresh the page to try again",
+        ),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps unrelated UnknownErrors", () => {
+    expect(
+      isBenignClientError(
+        domException("An internal error was encountered.", "UnknownError", 0),
+      ),
+    ).toBe(false);
+  });
+
   it("keeps a real AbortError that isn't IndexedDB-related", () => {
     // e.g. a genuine fetch abort we'd still want to see — bare name only is
     // benign, but a descriptive non-idb abort message is not matched.
