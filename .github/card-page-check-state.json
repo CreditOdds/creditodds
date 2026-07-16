@@ -1,640 +1,642 @@
 {
-  "updated_at": "2026-07-15T12:27:14.947Z",
+  "updated_at": "2026-07-16T12:31:59.149Z",
   "cards": {
     "aaa-daily-advantage-visa-signature": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "aaa-travel-advantage-visa-signature": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "aer-lingus-visa-signature-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "amazon-prime-rewards-visa-signature-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "amazon-store-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "american-airlines-aadvantage-mileu-mastercard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:16:13.498Z"
     },
     "american-express-business-gold-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "american-express-gold-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:16:32.139Z"
     },
     "american-express-green-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "apple-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "atlas-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "atmos-rewards-ascent": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:16:49.709Z"
     },
     "atmos-rewards-business": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "atmos-rewards-summit": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:17:04.592Z"
     },
     "att-points-plus-from-citi": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:17:19.353Z"
     },
     "bank-of-america-cash-rewards-secured": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:17:29.324Z"
     },
     "bank-of-america-customized-cash-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:17:40.118Z"
     },
     "bank-of-america-premium-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:18:00.708Z"
     },
     "bank-of-america-premium-rewards-elite": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:17:50.135Z"
     },
     "bank-of-america-travel-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:18:11.085Z"
     },
     "bank-of-america-unlimited-cash-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:18:21.363Z"
     },
     "bankamericard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:18:31.448Z"
     },
     "bilt-blue": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "bilt-obsidian": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "bilt-palladium": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:18:50.864Z"
     },
     "blue-business-cash-card-from-american-express": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "blue-business-plus-credit-card-from-american-express": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "blue-cash-everyday-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "blue-cash-preferred-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:19:13.375Z"
     },
     "british-airways-visa-signature-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-platinum": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-platinum-secured": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:19:27.716Z"
     },
     "capital-one-quicksilver": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-quicksilver-secured": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:19:40.011Z"
     },
     "capital-one-quicksilverone": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:19:53.334Z"
     },
     "capital-one-savor": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-savor-student": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-savorone": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-venture-business": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-venture-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-venture-x": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "capital-one-ventureone-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-aeroplan": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-freedom-flex": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-freedom-student": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-freedom-unlimited": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-ink-business-cash": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-ink-business-preferred": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-ink-business-unlimited": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-sapphire-preferred": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-sapphire-reserve": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "chase-slate-edge": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "citi-aadvantage-executive-world-elite-masterc": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "citi-aadvantage-globe": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:20:53.257Z"
     },
     "citi-aadvantage-platinum-select-world-elite-m": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:21:07.915Z"
     },
     "citi-diamond-preferred": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "citi-double-cash": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-14T20:22:25.729Z"
     },
     "citi-secured-mastercard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "citi-simplicity-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "citi-strata": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:22:18.333Z"
     },
     "citi-strata-elite": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:21:46.669Z"
     },
     "citi-strata-premier": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:22:02.630Z"
     },
     "citibusiness-aadvantage-platinum-select-maste": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:22:33.365Z"
     },
     "costco-anywhere-visa-business-card-by-citi": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "costco-anywhere-visa-card-by-citi": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "delta-skymiles-blue-american-express-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:22:53.742Z"
     },
     "delta-skymiles-gold-american-express-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:23:10.471Z"
     },
     "delta-skymiles-gold-business-american-express-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "delta-skymiles-platinum-american-express-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:23:31.004Z"
     },
     "delta-skymiles-reserve-american-express-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "discover-it-cash-back": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "discover-it-for-students-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "discover-it-miles": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "discover-it-secured-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:23:55.653Z"
     },
     "discover-it-student-chrome-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "disney-inspire-visa": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "disney-premier-visa-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "disney-visa-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "fidelity-rewards-visa-signature": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "gemini-credit": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "graphite-business-cash-unlimited": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "hawaiian-airlines-business-mastercard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "hilton-honors-american-express-aspire-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:24:30.853Z"
     },
     "hilton-honors-american-express-surpass-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "hilton-honors-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z",
+      "browser_first": "2026-07-16T12:29:09.161Z"
     },
     "iberia-visa-signature-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "ihg-rewards-club-premier-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "ihg-rewards-club-traveler-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "ihg-rewards-premier-business": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "jetblue-business-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "jetblue-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "jetblue-plus-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "jetblue-premier-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "marriott-bonvoy-bevy-american-express": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "marriott-bonvoy-bold-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "marriott-bonvoy-boundless-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "marriott-bonvoy-brilliant-american-express": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z",
+      "browser_first": "2026-07-16T12:29:50.212Z"
     },
     "navy-federal-cash-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "navy-federal-cash-rewards-plus": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "navy-federal-cash-rewards-secured": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "navy-federal-flagship-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "navy-federal-go-biz-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "navy-federal-go-rewards": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "navy-federal-more-rewards-american-express": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "navy-federal-platinum": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "nhl-discover-it": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "paypal-cashback-mastercard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "playstation-visa": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "pnc-cash-rewards": {
-      "consecutive_skips": 7,
+      "consecutive_skips": 8,
       "last_ok": null,
-      "last_skip": "2026-07-15T12:27:14.947Z",
+      "last_skip": "2026-07-16T12:31:59.149Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "pnc-cash-unlimited": {
-      "consecutive_skips": 7,
+      "consecutive_skips": 8,
       "last_ok": null,
-      "last_skip": "2026-07-15T12:27:14.947Z",
+      "last_skip": "2026-07-16T12:31:59.149Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "pnc-secured": {
-      "consecutive_skips": 7,
+      "consecutive_skips": 8,
       "last_ok": null,
-      "last_skip": "2026-07-15T12:27:14.947Z",
+      "last_skip": "2026-07-16T12:31:59.149Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "pnc-spend-wise": {
-      "consecutive_skips": 7,
+      "consecutive_skips": 8,
       "last_ok": null,
-      "last_skip": "2026-07-15T12:27:14.947Z",
+      "last_skip": "2026-07-16T12:31:59.149Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "princess-cruises-rewards-visa-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:25:40.756Z"
     },
     "rakuten-american-express": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z",
+      "last_ok": "2026-07-16T12:31:59.149Z",
       "browser_first": "2026-07-15T12:25:48.872Z"
     },
     "rei-co-op-mastercard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "robinhood-gold-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "robinhood-platinum": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "southwest-rapid-rewards-plus-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "southwest-rapid-rewards-premier-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "southwest-rapid-rewards-priority-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "the-business-platinum-card-from-american-express": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "the-platinum-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "united-club-infinite": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "united-explorer": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "united-gateway": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "united-quest": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-altitude-connect": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-altitude-go-visa-signature": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-cash-plus-visa-signature": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-secured": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-shield": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-shopper": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-smartly-visa-signature": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "us-bank-split": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "venmo-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wells-fargo-active-cash": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wells-fargo-autograph": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wells-fargo-autograph-journey": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wells-fargo-choice-privileges-mastercard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wells-fargo-choice-privileges-select-mastercard": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wells-fargo-reflect": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wells-fargo-signify-business-cash": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "world-of-hyatt-business-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "world-of-hyatt-credit-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wyndham-rewards-earner-business-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wyndham-rewards-earner-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wyndham-rewards-earner-plus-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     },
     "wyndham-rewards-earner-premier-card": {
       "consecutive_skips": 0,
-      "last_ok": "2026-07-15T12:27:14.947Z"
+      "last_ok": "2026-07-16T12:31:59.149Z"
     }
   }
 }
