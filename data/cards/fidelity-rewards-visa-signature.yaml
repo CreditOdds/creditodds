@@ -15,12 +15,6 @@ rewards:
     unit: percent
     note: "When deposited into an eligible Fidelity account"
 apr:
-  purchase_intro:
-    rate: 0
-    months: 12
-  balance_transfer_intro:
-    rate: 0
-    months: 12
   regular:
     min: 16.49
     max: 26.49

@@ -39,6 +39,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/savorone/
+foreign_transaction_fee: false
 our_take: >
   The Capital One SavorOne Cash Rewards card offers a strong 3% cash back rate
   on dining, entertainment, streaming, and groceries, making it a versatile

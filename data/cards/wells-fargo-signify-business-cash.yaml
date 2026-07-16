@@ -3,18 +3,16 @@ bank: "Wells Fargo"
 slug: "wells-fargo-signify-business-cash"
 accepting_applications: true
 apply_link: https://creditcards.wellsfargo.com/business-credit-cards/signify-business-cash-credit-card/
-foreign_transaction_fee: false
+foreign_transaction_fee: true
 our_take: >
-  The Wells Fargo Signify Business Cash card stands out for its
-  straightforward 2% cash back on all purchases, making it a solid choice for
-  businesses with varied spending needs. With no annual fee and no foreign
-  transaction fees, it offers cost-effective value for international and
-  domestic use. The card also comes with a generous $500 signup bonus after
-  spending $5,000 in the first three months, which is a strong incentive for
-  new cardholders. However, the 0% intro APR on purchases only lasts for 12
-  months, and the regular APR ranges from 18.49% to 26.49%, which could be
-  high if you carry a balance. Travel accident insurance is a nice perk, but
-  the card's primary appeal is its simple and rewarding cash back structure.
+  A clean, no-fee business card built on simplicity: a flat 2% back on every
+  purchase with no categories to track and a 12-month 0% intro APR on purchases,
+  though it does charge a 3% foreign transaction fee, so leave it home when
+  traveling abroad. The $500 bonus after $5,000 in spend is one of the
+  better no-fee business offers around, and the flat 2% means it earns well as a
+  catch-all for mixed business spending. If your purchases concentrate in specific
+  categories, a tiered business card may beat it, but for broad spend this is hard
+  to fault.
 image: "wells-fargo-signify-business-cash.png"
 category: "business"
 annual_fee: 0
@@ -33,8 +31,8 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 18.49
-    max: 26.49
+    min: 16.74
+    max: 24.74
 benefits:
   - name: "Travel Accident Insurance"
     description: "Up to $250,000 in travel accident insurance coverage when airline or common carrier tickets are purchased with the card"

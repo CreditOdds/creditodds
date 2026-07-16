@@ -59,6 +59,17 @@ benefits:
     description: "Complimentary Hilton Honors Silver status with 5th night free on reward stays"
     frequency: "ongoing"
     category: "hotel"
+  - name: "Gold Status Through Spend"
+    value: 0
+    description: "Upgrade to Hilton Honors Gold status after $20,000 in eligible purchases in a calendar year, valid for that year and the next"
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "American Express Venue Collection"
+    value: 250
+    description: "10% back on food and beverage concessions purchases at Amex Venue Collection stadiums and arenas, up to $250 per calendar year"
+    frequency: "annual"
+    category: "entertainment"
+    enrollment_required: true
 tags:
   - hotel
   - travel

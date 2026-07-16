@@ -51,6 +51,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.citi.com/credit-cards/citi-strata-credit-card
+foreign_transaction_fee: true
 our_take: >
   The Citi Strata card stands out with its 5 points per dollar on hotels, car
   rentals, and attractions booked through Citi Travel, making it a strong

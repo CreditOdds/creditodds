@@ -36,7 +36,7 @@ signup_bonus:
   note: "Plus 10,000 bonus miles after adding an authorized user in the first 3 months. Plus 500 Premier qualifying points (PQP)."
 apr:
   regular:
-    min: 21.24
+    min: 19.74
     max: 28.24
 benefits:
   - name: "Annual United Travel Credit"

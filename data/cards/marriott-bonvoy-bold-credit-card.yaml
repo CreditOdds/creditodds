@@ -24,6 +24,22 @@ benefits:
     enrollment_required: true
     merchants:
       - doordash
+  - name: "Baggage Delay Insurance"
+    description: "Reimburses up to $100 per day for up to 5 days for essential purchases when baggage is delayed over 6 hours"
+    category: "travel"
+    enrollment_required: false
+  - name: "Lost Luggage Reimbursement"
+    description: "Reimbursement up to $3,000 per covered traveler for lost, damaged, or stolen checked or carry-on baggage during a covered trip"
+    category: "travel"
+    enrollment_required: false
+  - name: "Trip Delay Reimbursement"
+    description: "Up to $500 per ticket for unreimbursed expenses when your trip is delayed more than 12 hours or requires an overnight stay"
+    category: "travel"
+    enrollment_required: false
+  - name: "Purchase Protection"
+    description: "Covers eligible new purchases for 120 days from purchase date against damage or theft, up to $500 per item"
+    category: "protection"
+    enrollment_required: false
 tags:
   - hotel
   - travel

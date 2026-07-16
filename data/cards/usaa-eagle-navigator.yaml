@@ -14,6 +14,7 @@ rewards:
   - category: travel
     value: 3
     unit: points_per_dollar
+    note: "Travel plus transit, including rideshare and tolls"
   - category: everything_else
     value: 2
     unit: points_per_dollar
@@ -23,12 +24,9 @@ signup_bonus:
   spend_requirement: 3000
   timeframe_months: 3
 apr:
-  purchase_intro:
-    rate: 0
-    months: 12
   regular:
-    min: 18.99
-    max: 28.99
+    min: 18.40
+    max: 26.65
 our_take: >
   The USAA Eagle Navigator card is a solid choice for frequent travelers,
   offering 3 points per dollar spent on travel and 2 points on all other
@@ -43,9 +41,15 @@ our_take: >
   use.
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Up to $100 statement credit for Global Entry or TSA PreCheck application fees, once"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fees, once"
     frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "Annual Rewards Center Booking Bonus"
+    value: 0
+    description: "10,000 bonus points each year after booking a hotel stay or car rental through the USAA Rewards Center"
+    frequency: "annual"
     category: "travel"
     enrollment_required: false
   - name: "Active Duty Military Benefits"

@@ -9,33 +9,30 @@ tags:
   - secured
   - cashback
 rewards:
-  - category: gas
-    value: 2
+  - category: rotating
+    value: 5
     unit: percent
-    note: "Up to $1,000/quarter combined with dining"
-  - category: dining
-    value: 2
-    unit: percent
-    note: "Up to $1,000/quarter combined with gas"
+    mode: quarterly_rotating
+    current_categories: [gas, ev_charging, transit, drugstores]
+    current_period: "Q3 2026"
+    note: "Activation required each quarter"
+    spend_cap: 1500
+    cap_period: quarterly
+    rate_after_cap: 1
   - category: everything_else
     value: 1
     unit: percent
 apr:
-  balance_transfer_intro:
-    rate: 10.99
-    months: 6
   regular:
     min: 26.49
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/secured-credit-card/
+foreign_transaction_fee: false
 our_take: >
-  The Discover it Secured card stands out as the top choice in the secured
-  card category, especially for those looking to build or rebuild their credit
-  without an annual fee. It offers a rare combination of rewards and
-  credit-building potential, with 2% cash back on gas and dining purchases up
-  to $1,000 each quarter combined, and 1% on everything else. While the 10.99%
-  intro APR on balance transfers for six months is a nice touch, the regular
-  APR of 26.49% is on the higher side, so it's best to avoid carrying a
-  balance. The card's real strength lies in its ability to help you establish
-  a positive credit history while earning some cash back along the way. Just
-  be mindful of the spending cap on the higher earn rate categories.
+  One of the best secured cards for building credit because it earns like a real
+  rewards card: 5% on rotating quarterly categories (up to $1,500 in spend,
+  activation required) and 1% on everything else, with no annual fee and automatic
+  reviews to graduate to the unsecured Discover it Cash Back. Reported approvals
+  skew toward fair credit and are not guaranteed, so fund the deposit and keep
+  balances low against the 26.49% APR. It out-earns rewardless secured cards while
+  still being a genuine credit-builder.

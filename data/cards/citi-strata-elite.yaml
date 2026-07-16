@@ -8,29 +8,15 @@ annual_fee: 595
 reward_type: "points"
 benefits:
   - name: "Annual Hotel Credit"
-    value: 200
-    description: "Credit for hotel bookings through the ThankYou Rewards portal"
+    value: 300
+    description: "Up to $300 off a single hotel stay of 2 or more nights booked through cititravel.com, once per calendar year"
     frequency: "annual"
     category: "hotel"
-  - name: "Annual Dining Credit"
-    value: 120
-    description: "$10/month dining credit at eligible restaurants"
-    frequency: "monthly"
-    category: "dining"
-    enrollment_required: true
-  - name: "Lifestyle Credit"
-    value: 120
-    description: "Annual credit for Peloton, SoulCycle, Equinox, and other fitness brands"
-    frequency: "annual"
-    category: "fitness"
-    enrollment_required: true
-    merchants:
-      - equinox
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "Priority Pass Select"
     value: 0
@@ -39,7 +25,7 @@ benefits:
     category: "lounge"
   - name: "Annual Splurge Credit"
     value: 200
-    description: "Up to $200 annual statement credit on select brands: 1stDibs, American Airlines, Best Buy, Future Personal Training, or Live Nation."
+    description: "Up to $200 annual statement credit on your choice of up to 2 of these 5 brands: 1stDibs, American Airlines, Best Buy, Future Personal Training, and Live Nation."
     frequency: "annual"
     category: "statement_credit"
     enrollment_required: false
@@ -96,19 +82,14 @@ signup_bonus:
   timeframe_months: 3
 apr:
   regular:
-    min: 21.24
-    max: 29.24
+    min: 20.49
+    max: 28.49
 apply_link: https://www.citi.com/credit-cards/citi-strata-elite-credit-card
 foreign_transaction_fee: false
 our_take: >
-  The Citi Strata Elite card is a powerhouse for frequent travelers who can
-  leverage its extensive benefits and high earn rates. With 12 points per
-  dollar on hotels and car rentals booked through Citi Travel and 6 points per
-  dollar on flights, it offers substantial rewards for travel expenses. The
-  $595 annual fee is steep, but the card offsets this with a $200 annual hotel
-  credit, $120 in dining credits, and a variety of other perks like unlimited
-  Priority Pass lounge access and four annual Admirals Club passes. However,
-  to truly benefit, you'll need to maximize these credits and be comfortable
-  with the high spending requirement to earn the 75,000-point signup bonus.
-  It's best suited for those who travel regularly and can take full advantage
-  of the card's premium features.
+  Citi's run at the premium-travel tier, a $595 card stacked with credits (hotel,
+  splurge, Blacklane), Priority Pass, and a strong 75,000-point bonus, and it ranks among
+  the better travel cards on our lists. The 1.5x base earn is soft for the price, so the math
+  only works if you reliably use the credits and value ThankYou transfer partners. Against
+  the $795 Sapphire Reserve and $395 Venture X, it lands in between: cheaper than Chase, more
+  credit-juggling than Capital One.

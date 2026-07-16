@@ -79,6 +79,14 @@ rewards:
     value: 2
     unit: points_per_dollar
     note: "Everyday spend earns the base 2x in points. The 4% Bilt Cash option on everyday spend is an alternative to the up to 1.25x rent points, not an addition, and is a separate currency rather than cash back; its main use is buying point accelerators that temporarily lift $5,000 of spend to 3x points (up to 5 per year)."
+apr:
+  purchase_intro:
+    rate: 10.00
+    months: 12
+    note: "Low fixed 10% intro rate on new card purchases for the first 12 billing cycles (unusual: not a 0% intro)"
+  regular:
+    min: 26.74
+    max: 34.74
 signup_bonus:
   value: 50000
   type: "points"

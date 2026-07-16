@@ -7,11 +7,42 @@ category: "rewards"
 annual_fee: 149
 reward_type: "cashback"
 benefits:
-  - name: "Annual Disney Statement Credit"
-    value: 50
-    description: "Annual statement credit for Disney purchases"
+  - name: "Disney Park Tickets Credit"
+    value: 100
+    description: "$100 statement credit after spending $200 each anniversary year on U.S. Disney theme park tickets"
     frequency: "annual"
     category: "entertainment"
+  - name: "Disney Resorts & Cruise Line Bonus"
+    value: 200
+    description: "200 Disney Rewards Dollars after spending $2,000 each anniversary year at U.S. Disney Resorts and Disney Cruise Line"
+    frequency: "annual"
+    category: "travel"
+  - name: "Disney Streaming Credit"
+    value: 120
+    description: "$10 monthly statement credit (up to $120 per year) when you spend $10 or more each month on Disney+, Hulu, or ESPN+; annual enrollment required"
+    frequency: "monthly"
+    category: "streaming"
+    enrollment_required: true
+  - name: "Disney Park Merchandise Discount"
+    description: "10% off select merchandise purchases at Disneyland and Walt Disney World Resort locations"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
+  - name: "Disney Park Dining Discount"
+    description: "10% off select dining locations at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "dining"
+    enrollment_required: false
+  - name: "Disney Guided Tour Discount"
+    description: "15% off select guided tours at Disneyland and Walt Disney World Resort"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: false
+  - name: "DisneyStore.com Discount"
+    description: "10% savings on select purchases at DisneyStore.com"
+    frequency: "per_purchase"
+    category: "shopping"
+    enrollment_required: false
   - name: "Purchase Protection"
     description: "Covers eligible new purchases for 120 days from date of purchase against damage or theft, up to $500 per item"
     category: "protection"
@@ -57,14 +88,11 @@ apr:
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/inspire
 foreign_transaction_fee: false
 our_take: >
-  The Disney Inspire Visa from Chase is a compelling choice for Disney
-  enthusiasts, offering a generous 10% cashback on Disney+, Hulu, and ESPN+
-  streaming services, alongside 3% at most U.S. Disney locations and on gas.
-  The card's standout feature is its $500 signup bonus, which includes a $400
-  Disney eGift Card upon approval and a $200 statement credit after spending
-  $1,000 in the first three months. However, the $149 annual fee might be a
-  hurdle if you're not a frequent Disney spender. The card also provides a $50
-  annual Disney statement credit and valuable purchase protection, but its
-  everyday rewards are modest, with only 2% on groceries and dining and 1% on
-  everything else. It's a great fit if you're planning significant
-  Disney-related spending, but the annual fee requires careful consideration.
+  The Inspire is the top Disney card, with a $149 fee buying a $400 Disney eGift
+  card up front, 10% back on Disney+/Hulu/ESPN+, and 3% on Disney purchases.
+  But the earn rates are mediocre for a fee card (most spend lands at 1-2%), and
+  the park-ticket, resort, and streaming credits all require Disney spending to
+  unlock, so they only cover the cost if you spend heavily in the Disney
+  ecosystem. For most fans the $49 Disney
+  Premier or even the no-fee Disney Visa is the saner choice; reach for the
+  Inspire only if you are a frequent park-goer who values the extra perks.

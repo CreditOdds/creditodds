@@ -12,10 +12,10 @@ benefits:
     frequency: "ongoing"
     category: "lounge"
   - name: "Global Entry / TSA PreCheck Credit"
-    value: 100
-    description: "Statement credit for Global Entry or TSA PreCheck application fee"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "First Checked Bag Free"
     value: 0
@@ -68,7 +68,7 @@ rewards:
   - category: airlines
     value: 4
     unit: points_per_dollar
-    note: "On eligible American Airlines purchases"
+    note: "On eligible American Airlines purchases; increases to 5x on American Airlines purchases after $150,000 spend in a calendar year"
     merchant_gate: [american-airlines]
   - category: everything_else
     value: 1

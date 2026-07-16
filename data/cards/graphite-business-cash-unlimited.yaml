@@ -43,6 +43,10 @@ signup_bonus:
   type: cash
   spend_requirement: 50000
   timeframe_months: 6
+apr:
+  regular:
+    min: 17.74
+    max: 28.49
 benefits:
   - name: "One AP Statement Credits"
     value: 0

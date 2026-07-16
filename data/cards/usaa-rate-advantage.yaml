@@ -10,16 +10,15 @@ tags:
 apr:
   balance_transfer_intro:
     rate: 0
-    months: 15
+    months: 20
+    note: "0% intro APR through the March 2028 billing cycle on balance transfers posting by November 30, 2026 (5% transfer fee)"
   regular:
     min: 10.40
     max: 24.40
+foreign_transaction_fee: false
 our_take: >
-  The USAA Rate Advantage card offers a 0% intro APR on balance transfers for
-  15 months, making it a solid choice for those looking to manage existing
-  debt without incurring interest. With no annual fee, it provides a
-  straightforward way to pay down balances over a reasonable period. However,
-  the card does not offer any rewards, so once the intro period ends, there's
-  little incentive to keep it in your wallet unless you value its relatively
-  low regular APR range of 10.4% to 24.4%. This card is best suited for USAA
-  members focused on debt repayment rather than earning rewards.
+  A low-rate card for USAA members who carry a balance: a roughly 20-month 0% intro on transfers and,
+  more notably, an ongoing regular APR that starts as low as 10.40%, well below most cards.
+  It earns no rewards and has no signup bonus, so the entire pitch is cheap borrowing. For a
+  pure 0% balance-transfer runway, the Wells Fargo Reflect and U.S. Bank Shield go longer at
+  21 months, but neither matches this card's low rate once the intro period ends.

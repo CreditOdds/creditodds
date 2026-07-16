@@ -11,7 +11,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "Lifestyle Collection Experience Credit"
     value: 0
@@ -31,6 +31,11 @@ rewards:
   - category: hotels_car_portal
     value: 5
     unit: points_per_dollar
+  - category: entertainment_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Capital One Entertainment platform purchases only, excludes general entertainment, dining reservations, and Capital One Dining"
+    merchant_specific: true
   - category: everything_else
     value: 2
     unit: points_per_dollar

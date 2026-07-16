@@ -4,6 +4,7 @@ slug: "delta-skymiles-gold-business-american-express-card"
 image: "amex_delta_skymiles_gold_business.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/en-us/business/credit-cards/delta-skymiles-gold
+foreign_transaction_fee: false
 our_take: >
   The Delta SkyMiles Gold Business American Express card stands out with a
   limited-time signup bonus of 90,000 miles after spending $6,000 in the first
@@ -37,7 +38,7 @@ rewards:
   - category: shipping
     value: 2
     unit: points_per_dollar
-    note: "U.S. shipping providers and U.S. advertising in select media (combined cap)"
+    note: "U.S. shipping providers; U.S. advertising in select media also earns 2x with its own separate $50,000 annual cap"
     spend_cap: 50000
     cap_period: annual
     rate_after_cap: 1
@@ -55,9 +56,9 @@ apr:
     min: 19.49
     max: 28.49
 benefits:
-  - name: "First Checked Bag Free"
+  - name: "Free Checked Bags"
     value: 0
-    description: "First checked bag free on Delta flights for you and up to 8 companions on the same reservation"
+    description: "First checked bag free on Delta flights worldwide and second checked bag free on domestic Delta flights, for you and up to 8 companions on the same reservation"
     frequency: "ongoing"
     category: "travel"
   - name: "Priority Boarding"

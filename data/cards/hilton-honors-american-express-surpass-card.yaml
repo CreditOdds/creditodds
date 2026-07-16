@@ -38,6 +38,10 @@ rewards:
     value: 6
     unit: points_per_dollar
     note: "U.S. gas stations"
+  - category: online_shopping
+    value: 4
+    unit: points_per_dollar
+    note: "Eligible U.S. online retail purchases"
   - category: everything_else
     value: 3
     unit: points_per_dollar
@@ -48,12 +52,9 @@ signup_bonus:
   timeframe_months: 6
   note: "Plus a Free Night Reward after meeting the $3,000 spend requirement"
 apr:
-  purchase_intro:
-    rate: 0
-    months: 15
   regular:
-    min: 17.49
-    max: 27.49
+    min: 19.49
+    max: 28.49
 benefits:
   - name: "Hilton Credit"
     value: 200
@@ -75,6 +76,12 @@ benefits:
     description: "Upgrade to Hilton Honors Diamond status through the end of the next calendar year after $40,000 in annual purchases"
     frequency: "ongoing"
     category: "hotel"
+  - name: "American Express Venue Collection"
+    value: 250
+    description: "10% back on food and beverage concessions purchases at Amex Venue Collection stadiums and arenas, up to $250 per calendar year"
+    frequency: "annual"
+    category: "entertainment"
+    enrollment_required: true
 tags:
   - hotel
   - travel

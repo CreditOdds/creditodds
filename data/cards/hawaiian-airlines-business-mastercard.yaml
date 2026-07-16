@@ -6,6 +6,7 @@ apply_link: https://cards.barclaycardus.com/banking/credit-card/hawaiian-airline
 category: "business"
 image: "barclays-hawaiian-business.png"
 annual_fee: 99
+foreign_transaction_fee: false
 reward_type: "miles"
 tags:
   - travel
@@ -51,8 +52,8 @@ our_take: >
 
 apr:
   regular:
-    min: 20.24
-    max: 29.99
+    min: 19.49
+    max: 29.49
 benefits:
   - name: "Annual Spend Bonus (20k)"
     value: 20000
@@ -67,4 +68,11 @@ benefits:
     description: "Additional 40,000 bonus Atmos Rewards points after spending $100,000 or more in purchases each calendar year (in lieu of the 20k tier)"
     frequency: "annual"
     category: "rewards"
+    enrollment_required: false
+  - name: "One-Time 50% Off Companion Discount"
+    value: 50
+    value_unit: "percent"
+    description: "One-time 50% off companion discount for roundtrip main cabin travel on eligible flights"
+    frequency: "one_time"
+    category: "travel"
     enrollment_required: false

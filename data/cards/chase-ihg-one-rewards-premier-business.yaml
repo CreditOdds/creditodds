@@ -26,6 +26,12 @@ benefits:
     description: "10,000 bonus points and a $100 statement credit after $20,000 in annual purchases"
     frequency: "annual"
     category: "hotel"
+  - name: "Global Entry / TSA PreCheck / NEXUS Credit"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees every four years"
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "travel"
 tags:
   - hotel
   - travel
@@ -59,7 +65,7 @@ signup_bonus:
 apr:
   regular:
     min: 19.24
-    max: 29.99
+    max: 27.74
 apply_link: https://creditcards.chase.com/business-credit-cards/IHG/business-premier
 foreign_transaction_fee: false
 our_take: >

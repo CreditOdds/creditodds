@@ -20,9 +20,9 @@ our_take: >
 annual_fee: 150
 reward_type: "miles"
 benefits:
-  - name: "First Checked Bag Free"
+  - name: "Free Checked Bags"
     value: 0
-    description: "First checked bag free on Delta flights for you and up to 8 companions on the same reservation"
+    description: "First checked bag free on Delta flights worldwide and second checked bag free on domestic Delta flights, for you and up to 8 companions on the same reservation"
     frequency: "ongoing"
     category: "travel"
   - name: "Priority Boarding"

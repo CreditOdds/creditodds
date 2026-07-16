@@ -38,7 +38,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
     enrollment_required: false
   - name: "Companion Certificate"

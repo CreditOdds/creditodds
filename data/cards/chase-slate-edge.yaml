@@ -8,25 +8,18 @@ tags:
   - balance_transfer
 annual_fee: 0
 apr:
-  balance_transfer_intro:
-    rate: 0
-    months: 21
   regular:
-    min: 22.49
-    max: 31.24
+    min: 28.99
+    max: 28.99
 apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge
 foreign_transaction_fee: true
 our_take: >
-  The Chase Slate Edge offers a lengthy 21-month 0% intro APR on balance
-  transfers, making it a strong contender for those looking to consolidate and
-  pay down debt without interest. With no annual fee, it's a cost-effective
-  choice for managing existing balances. However, the card's regular APR is on
-  the higher side, ranging from 22.49% to 31.24%, so it's crucial to pay off
-  your balance before the intro period ends. The card doesn't offer rewards,
-  which limits its long-term value once the balance transfer window closes. A
-  notable perk is the 6-month complimentary DashPass membership, which can
-  provide some savings on food delivery, but it requires enrollment and is a
-  one-time benefit.
+  The Slate Edge is a simple no-annual-fee card built around one idea: a built-in incentive
+  to lower your APR over time if you pay on time and spend a set amount each year. It no
+  longer carries the long 0% intro balance-transfer offer it was once known for, and it
+  earns no rewards, so it mainly suits people who sometimes carry a balance and want an
+  automatic path to a lower rate. If you need a true 0% intro window, cards like the Wells
+  Fargo Reflect are the better tool.
 benefits:
   - name: "Complimentary DashPass"
     value: 0

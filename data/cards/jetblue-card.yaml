@@ -37,8 +37,8 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 19.74
-    max: 29.74
+    min: 19.49
+    max: 29.49
 our_take: >
   The JetBlue Card by Barclays stands out with its 3 points per dollar on
   JetBlue purchases, making it a solid choice for frequent flyers of the

@@ -13,6 +13,7 @@ apr:
     min: 28.99
     max: 28.99
 apply_link: https://www.capitalone.com/credit-cards/platinum-secured/
+foreign_transaction_fee: false
 our_take: >
   The Capital One Platinum Secured card is a solid option for those looking to
   build or rebuild their credit, with no annual fee and a refundable security

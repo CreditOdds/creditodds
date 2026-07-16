@@ -23,12 +23,13 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 18.49
-    max: 26.49
+    min: 16.74
+    max: 28.49
 tags:
   - business
   - cashback
 apply_link: https://www.americanexpress.com/en-us/business/credit-cards/blue-business-cash
+foreign_transaction_fee: true
 our_take: >
   The Blue Business Cash Card from American Express offers a straightforward
   2% cash back on all purchases up to $50,000 annually, then 1% thereafter,

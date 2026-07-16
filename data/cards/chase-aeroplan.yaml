@@ -43,7 +43,7 @@ benefits:
     value: 120
     description: "Up to $120 statement credit for Global Entry, TSA PreCheck, or NEXUS application fees"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "No Foreign Transaction Fees"
     value: 0
@@ -62,7 +62,7 @@ benefits:
     category: "travel"
   - name: "24/7 Concierge"
     value: 0
-    description: "Complimentary Visa Infinite 24/7 concierge service"
+    description: "Complimentary Mastercard World Elite 24/7 concierge service"
     frequency: "ongoing"
     category: "travel"
 tags:

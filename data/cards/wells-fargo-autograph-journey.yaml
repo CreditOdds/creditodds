@@ -7,14 +7,9 @@ category: "travel"
 annual_fee: 95
 reward_type: "points"
 benefits:
-  - name: "Annual Airline Credit"
-    value: 100
-    description: "Annual credit for airline purchases"
-    frequency: "annual"
-    category: "travel"
   - name: "Cell Phone Protection"
     value: 0
-    description: "Up to $800 per claim for cell phone damage or theft when you pay your bill with the card"
+    description: "Up to $1,000 per claim for cell phone damage or theft when you pay your bill with the card, subject to a $25 deductible"
     frequency: "ongoing"
     category: "other"
   - name: "Travel Accident Insurance"
@@ -62,19 +57,14 @@ signup_bonus:
   timeframe_months: 3
 apr:
   regular:
-    min: 18.49
+    min: 19.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card
 foreign_transaction_fee: false
 our_take: >
-  The Wells Fargo Autograph Journey card offers a strong travel rewards
-  package, highlighted by a generous 60,000-point signup bonus after spending
-  $4,000 in the first three months. With 5 points per dollar on hotel stays
-  and 4 points on airfare, it caters well to frequent travelers. The $95
-  annual fee is offset by a $100 annual airline credit, making it effectively
-  free if you use the credit fully. However, the card's value diminishes for
-  everyday purchases, earning just 1 point per dollar outside of travel and
-  dining categories. Additional perks like up to $800 in cell phone protection
-  and comprehensive travel insurance add extra peace of mind for travelers. If
-  travel is a significant part of your spending, this card could be a valuable
-  addition to your wallet.
+  A strong mid-tier travel card: 5x on hotels, 4x on airlines, and 3x on dining and other
+  travel, plus a $50 annual statement credit and no foreign transaction fee for $95. The travel
+  earning rates beat the Chase Sapphire Preferred and Citi Strata Premier in their own
+  categories, and the 60,000-point bonus only needs $4,000 in three months. The main caveat is
+  that Wells Fargo's points transfer to fewer partners than Chase or Amex, so weigh how you
+  plan to redeem.

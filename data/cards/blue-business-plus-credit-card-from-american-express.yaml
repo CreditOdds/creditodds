@@ -23,8 +23,8 @@ apr:
     rate: 0
     months: 12
   regular:
-    min: 17.49
-    max: 25.49
+    min: 16.74
+    max: 28.49
 tags:
   - business
   - rewards

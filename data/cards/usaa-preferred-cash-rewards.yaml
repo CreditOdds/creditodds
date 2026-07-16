@@ -15,29 +15,18 @@ rewards:
     value: 1.5
     unit: percent
 our_take: >
-  The USAA Preferred Cash Rewards card offers a straightforward 1.5% cash back
-  on all purchases, making it a solid choice for those who prefer simplicity
-  without having to juggle multiple bonus categories. With no annual fee and a
-  $250 signup bonus after spending $1,000 in the first three months, it
-  provides a decent upfront incentive. The card also features a 0% intro APR
-  on purchases and balance transfers for 12 months, which can be helpful if
-  you're planning to make a large purchase or need to consolidate debt.
-  However, the regular APR ranges from 18.49% to 28.49%, so it's important to
-  pay off your balance before the intro period ends to avoid high interest
-  charges. While it doesn't top any Best-of lists, it remains a reliable
-  option for consistent cash back without the hassle of fees.
+  A straightforward no-fee card for USAA members: a flat 1.5% on everything, a $250 bonus
+  after $1,000 of spend, and no foreign transaction fees.
+  It is fine as a simple everyday card, but the 1.5% rate is beaten by widely available flat
+  2% cards like Wells Fargo Active Cash. Get it mainly if you already bank with USAA and want
+  to keep your cards under one roof.
 signup_bonus:
   value: 250
   type: cash
   spend_requirement: 1000
   timeframe_months: 3
 apr:
-  purchase_intro:
-    rate: 0
-    months: 12
-  balance_transfer_intro:
-    rate: 0
-    months: 12
   regular:
-    min: 18.49
-    max: 28.49
+    min: 15.40
+    max: 27.40
+foreign_transaction_fee: false

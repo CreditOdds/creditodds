@@ -40,11 +40,12 @@ benefits:
     description: "7,500 bonus points on card anniversary each year"
     frequency: "annual"
     category: "travel"
-  - name: "4 Upgraded Boardings"
+  - name: "Extra Legroom Seat Upgrades"
     value: 0
-    description: "4 upgraded boardings per year when available"
-    frequency: "annual"
+    description: "Unlimited upgrades to an Extra Legroom seat within 48 hours prior to departure at no additional charge, when available"
+    frequency: "per_flight"
     category: "travel"
+    enrollment_required: false
   - name: "Complimentary Preferred Seat"
     value: 0
     description: "Complimentary Preferred seat selection at booking when available (valued on average at $70 round trip)"

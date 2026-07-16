@@ -48,6 +48,13 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-rewards-visa-credit-card.html
+foreign_transaction_fee: true
+benefits:
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Up to $800 per claim ($50 deductible) for cell phone damage or theft when you pay your monthly wireless bill with the card; 2 claims per 12 months"
+    frequency: "ongoing"
+    category: "telecom"
 our_take: >
   The PNC Cash Rewards card stands out for its generous 4% cash back on gas
   purchases, making it a great choice for frequent drivers. It also offers 3%

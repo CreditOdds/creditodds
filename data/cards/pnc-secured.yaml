@@ -7,6 +7,11 @@ annual_fee: 0
 tags:
   - secured
   - credit_builder
+apr:
+  regular:
+    min: 25.49
+    max: 25.49
+foreign_transaction_fee: true
 apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-secured-credit-card.html
 our_take: >
   The PNC Secured card is a straightforward option for those looking to build

@@ -59,7 +59,7 @@ signup_bonus:
   note: "Get 70,000 bonus points and a $99 Companion Fare (plus taxes and fees from $23) after you make $4,000 or more in purchases within the first 90 days of opening your account."
 benefits:
   - name: "Coach Companion Fare"
-    description: "Annual Coach Companion Fare from $121 (taxes and fees apply) on a paid Alaska Airlines flight"
+    description: "$99 Companion Fare (plus taxes and fees from $23) every year that you spend at least $6,000 on purchases with the card"
     frequency: "annual"
     category: "travel"
     enrollment_required: false

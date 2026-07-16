@@ -66,3 +66,11 @@ rewards:
   - category: "everything_else"
     value: 1
     unit: "points_per_dollar"
+apr:
+  purchase_intro:
+    rate: 10.00
+    months: 12
+    note: "Low fixed 10% intro rate on new card purchases for the first 12 billing cycles (unusual: not a 0% intro)"
+  regular:
+    min: 26.74
+    max: 34.74

@@ -13,7 +13,16 @@ rewards:
   - category: everything_else
     value: 2
     unit: percent
-    note: "Up to 4% with higher crypto balances on Coinbase; requires Coinbase One membership"
+    note: "Tiers of 2%, 2.5%, 3%, or 4% based on assets held on Coinbase; tiers above 2% are capped at $10,000 in eligible purchases per month, then 2%. Requires Coinbase One membership."
+  - category: travel_portal
+    value: 5
+    unit: percent
+    note: "5% bitcoin back on flights, hotels, and cars booked through the Coinbase One Card Travel portal (not subject to the tier cap)"
+apr:
+  regular:
+    min: 19.49
+    max: 29.49
+foreign_transaction_fee: false
 our_take: >
   The Coinbase One card offers a straightforward 2% cashback rate on all
   purchases, which can be increased to 4% if you maintain higher crypto

@@ -61,6 +61,20 @@ benefits:
     enrollment_required: false
     merchants:
       - doordash
+  - name: "Instacart Credit"
+    value: 120
+    description: "Receive a $10 Instacart credit monthly (up to $120 annually) plus a complimentary 3-month Instacart+ membership."
+    frequency: "monthly"
+    category: "shopping"
+    enrollment_required: true
+    merchants:
+      - instacart
+  - name: "Diamond Elite Status Upgrade"
+    value: 0
+    description: "Earn automatic IHG One Rewards Diamond Elite status after spending $40,000 or more in a calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - hotel
   - travel
@@ -93,7 +107,7 @@ signup_bonus:
 apr:
   regular:
     min: 19.24
-    max: 29.99
+    max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/premier
 foreign_transaction_fee: false
 our_take: >

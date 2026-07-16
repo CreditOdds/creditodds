@@ -5,6 +5,7 @@ image: "atmos-rewards-ascent.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
+foreign_transaction_fee: false
 tags:
   - travel
   - airline
@@ -15,6 +16,9 @@ rewards:
     value: 3
     unit: points_per_dollar
   - category: gas
+    value: 2
+    unit: points_per_dollar
+  - category: ev_charging
     value: 2
     unit: points_per_dollar
   - category: streaming
@@ -32,12 +36,34 @@ signup_bonus:
   spend_requirement: 2500
   timeframe_months: 3
   note: "Plus a $99 Companion Fare (plus taxes and fees from $23)"
+apr:
+  regular:
+    min: 19.49
+    max: 27.49
 benefits:
   - name: "Companion Fare"
     value: 0
     description: "$99 Companion Fare (plus taxes and fees from $23) each account anniversary after spending $6,000 or more in purchases within the prior anniversary year"
     frequency: "annual"
     category: "travel"
+  - name: "Free Checked Bag and Preferred Boarding"
+    description: "First checked bag free and preferred boarding for the cardmember and up to 6 guests on the same reservation"
+    frequency: "per_flight"
+    category: "travel"
+    enrollment_required: false
+  - name: "Alaska Lounge+ Membership Discount"
+    value: 100
+    description: "$100 off an annual Alaska Lounge+ membership purchased with the card"
+    frequency: "annual"
+    category: "lounge"
+    enrollment_required: false
+  - name: "Inflight Purchase Rebate"
+    value: 20
+    value_unit: "percent"
+    description: "20% back on Alaska Airlines and Hawaiian Airlines inflight purchases"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
 apply_link: https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/
 our_take: >
   The Atmos Rewards Ascent card offers a compelling signup bonus of 70,000

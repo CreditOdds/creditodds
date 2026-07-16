@@ -17,22 +17,15 @@ rewards:
     value: 1.5
     unit: percent
 apr:
-  balance_transfer_intro:
-    rate: 10.99
-    months: 6
   regular:
-    min: 26.49
-    max: 26.49
+    min: 28.99
+    max: 28.99
 apply_link: https://www.capitalone.com/credit-cards/quicksilver-secured/
+foreign_transaction_fee: false
 our_take: >
-  The Capital One Quicksilver Secured Cash Rewards card stands out in the
-  secured card category with its 1.5% cash back on all purchases and an
-  impressive 5% back on hotels and rental cars booked through Capital One
-  Travel. With no annual fee, it's a solid option for building or rebuilding
-  credit while earning rewards on everyday spending. However, the card's
-  regular APR is steep at 26.49%, so it's crucial to pay off your balance in
-  full each month to avoid interest charges. The 10.99% intro APR on balance
-  transfers for six months is a nice touch, but its short duration limits its
-  appeal. As the card ranks #2 on our Best Secured Credit Cards list, it's
-  worth considering if you need a secured card with a straightforward rewards
-  structure.
+  One of the stronger secured cards because it actually earns: a flat 1.5% on
+  everything plus 5% on hotels and rental cars booked through Capital One Travel, with
+  no annual fee and a path to graduate to an unsecured card. Most secured cards earn
+  nothing, so if you can fund the deposit this is a better credit-builder than a
+  rewardless option like the Citi or U.S. Bank secured cards. The 28.99% APR means you
+  still want to pay in full each month.
