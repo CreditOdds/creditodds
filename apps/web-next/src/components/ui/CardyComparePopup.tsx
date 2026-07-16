@@ -38,6 +38,17 @@ function writeVisits(visits: VisitedCard[]) {
   }
 }
 
+function popupAlreadyShown(): boolean {
+  try {
+    return sessionStorage.getItem(SHOWN_KEY) === 'true';
+  } catch {
+    // Safari with "Block all cookies" throws SecurityError on any storage
+    // access; without storage we can't cap the popup to once per session,
+    // so never show it (Sentry CREDITODDS-JAVASCRIPT-NEXTJS-V).
+    return true;
+  }
+}
+
 export default function CardyComparePopup({ currentSlug, currentName, currentImage }: CardyComparePopupProps) {
   const [visible, setVisible] = useState(false);
   const [previousCard, setPreviousCard] = useState<VisitedCard | null>(null);
@@ -50,7 +61,7 @@ export default function CardyComparePopup({ currentSlug, currentName, currentIma
     const updated = [...filtered, { slug: currentSlug, name: currentName, image: currentImage ?? null }].slice(-10);
     writeVisits(updated);
 
-    if (sessionStorage.getItem(SHOWN_KEY) === 'true') return;
+    if (popupAlreadyShown()) return;
 
     const priorUniques = filtered;
     if (priorUniques.length === 0) return;

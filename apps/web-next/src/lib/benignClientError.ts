@@ -10,6 +10,13 @@
 // so we drop them in instrumentation-client.ts (mirrors the server-side
 // self-healing-network filter in transientNetworkError.ts).
 //
+// WebKit also drops the page's connection to the IndexedDB server outright
+// when it suspends a backgrounded tab (tab switch, screen lock, memory
+// pressure). On resume, Firebase's internal IDB operations reject with
+// "UnknownError: Connection to Indexed Database server lost. Refresh the
+// page to try again" — name/code don't match the AbortError gate below, so
+// that signature is matched unconditionally. The page itself is unaffected.
+//
 // Mobile Safari can also surface WebExtension content-script messaging failures
 // as page-level unhandled rejections even though the page never calls the
 // extension API. These are user-extension/WebKit noise, not app failures.
@@ -21,8 +28,11 @@ const BENIGN_CLIENT_SIGNATURES = [
   'IndexedDB',
 ];
 
-const BENIGN_EXTENSION_SIGNATURES = [
+// Matched on any error, regardless of name/code (unlike the abort-gated
+// signatures above).
+const BENIGN_ANY_ERROR_SIGNATURES = [
   'Invalid call to runtime.sendMessage(). Tab not found.',
+  'Connection to Indexed Database server lost',
 ];
 
 // DOMException.ABORT_ERR — the numeric code carried by AbortErrors.
@@ -42,7 +52,7 @@ export function isBenignClientError(error: unknown): boolean {
     const message = typeof e.message === 'string' ? e.message : '';
     const isAbort = name === 'AbortError' || e.code === ABORT_ERR_CODE;
 
-    if (BENIGN_EXTENSION_SIGNATURES.some((sig) => message.includes(sig))) {
+    if (BENIGN_ANY_ERROR_SIGNATURES.some((sig) => message.includes(sig))) {
       return true;
     }
 
