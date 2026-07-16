@@ -51,7 +51,7 @@ exports.CardWireHandler = async (event) => {
          FROM card_wire cw
          JOIN cards c ON c.card_id = cw.card_id
          WHERE cw.card_id = ?
-           AND cw.field != 'reward_top_rate'
+           AND cw.field NOT IN ('reward_top_rate', 'apr_min', 'apr_max', 'intro_apr_purchase_months', 'intro_apr_bt_months')
          ORDER BY cw.changed_at DESC
          LIMIT ?`,
         [parseInt(cardId, 10), limit]
@@ -62,7 +62,7 @@ exports.CardWireHandler = async (event) => {
                 cw.field, cw.old_value, cw.new_value, cw.unit, cw.changed_at
          FROM card_wire cw
          JOIN cards c ON c.card_id = cw.card_id
-         WHERE cw.field != 'reward_top_rate'
+         WHERE cw.field NOT IN ('reward_top_rate', 'apr_min', 'apr_max', 'intro_apr_purchase_months', 'intro_apr_bt_months')
          ORDER BY cw.changed_at DESC
          LIMIT ?`,
         [limit]

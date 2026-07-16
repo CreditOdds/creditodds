@@ -23,7 +23,8 @@ const FILTERS: { key: FilterKey; label: string }[] = [
   { key: 'all', label: 'All' },
   { key: 'fee', label: 'Annual fee' },
   { key: 'bonus', label: 'Sign-up bonus' },
-  { key: 'apr', label: 'APR' },
+  // 'apr' tab hidden while the card-wire API suppresses apr_min/apr_max and
+  // intro-APR rows (still tracked in card_wire); restore the entry to re-enable.
   { key: 'apps', label: 'Applications' },
 ];
 
@@ -237,7 +238,7 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap, bankM
             </h1>
             <p className="wire-snapshot-sub">
               A chronological feed of every credit-card change we track — annual
-              fees, sign-up bonuses, APR shifts, and application status.
+              fees, sign-up bonuses, and application status.
             </p>
           </div>
           <a

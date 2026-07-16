@@ -5,7 +5,7 @@ import CardWireV2Client from './CardWireV2Client';
 
 export const metadata: Metadata = {
   title: 'Card Wire - Credit Card Updates & Changes',
-  description: 'A live feed of credit card changes — annual fee updates, sign-up bonus changes, reward rate shifts, and APR adjustments across all major cards.',
+  description: 'A live feed of credit card changes — annual fee updates, sign-up bonus changes, reward rate shifts, and application status across all major cards.',
   openGraph: {
     title: 'Card Wire | CreditOdds',
     description: 'Live feed of credit card changes — fees, bonuses, rates, and more.',
