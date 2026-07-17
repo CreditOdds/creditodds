@@ -10,6 +10,7 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "Air Canada direct purchases"
+    merchant_gate: [air-canada]
   - category: dining
     value: 3
     unit: points_per_dollar

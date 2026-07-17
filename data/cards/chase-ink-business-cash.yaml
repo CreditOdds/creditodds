@@ -50,6 +50,7 @@ rewards:
     unit: percent
     note: "On Lyft rides through September 30, 2027 (limited-time promo)"
     expires: "2027-09-30"
+    merchant_gate: [lyft]
   - category: everything_else
     value: 1
     unit: percent
