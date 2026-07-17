@@ -59,6 +59,7 @@ rewards:
     value: 10
     unit: percent
     note: "Disney+, Hulu, and ESPN+ purchases"
+    merchant_gate: [disney-plus, hulu, espn-plus]
   - category: gas
     value: 3
     unit: percent
