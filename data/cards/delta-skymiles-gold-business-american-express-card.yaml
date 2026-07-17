@@ -50,7 +50,6 @@ signup_bonus:
   type: "miles"
   spend_requirement: 4000
   timeframe_months: 6
-  note: "Limited-time offer, up from 60,000. Offer ends 2026-07-15."
 apr:
   regular:
     min: 19.49
