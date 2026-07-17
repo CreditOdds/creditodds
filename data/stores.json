@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T15:16:44.495Z",
+  "generated_at": "2026-07-17T14:16:46.619Z",
   "count": 957,
   "stores": [
     {
@@ -367,6 +367,9 @@
     {
       "name": "Air Canada",
       "slug": "air-canada",
+      "co_brand_cards": [
+        "chase-aeroplan"
+      ],
       "categories": [
         "airlines",
         "travel"
@@ -397,7 +400,8 @@
       ],
       "categories": [
         "travel",
-        "cell_phone_providers"
+        "cell_phone_providers",
+        "phone"
       ],
       "website": "https://www.airalo.com",
       "intro": "Airalo is an eSIM marketplace that sells prepaid mobile data plans for travelers,\nletting a phone connect to a local or regional carrier's network abroad without\nswapping a physical SIM card. It covers plans for well over 100 countries and is\ncommonly used as an alternative to international roaming fees. There is no Airalo\ncredit card, and eSIM purchases typically code as either travel or a phone or\ntelecom service depending on the issuer, so a card that bonuses travel purchases,\nor a flat-rate cashback card, is the reasonable choice when buying a plan.\n",
@@ -453,6 +457,9 @@
       "aliases": [
         "Alaska",
         "Mileage Plan"
+      ],
+      "co_brand_cards": [
+        "atmos-rewards-ascent"
       ],
       "categories": [
         "airlines",
@@ -1145,7 +1152,8 @@
       "name": "AT&T",
       "slug": "atandt",
       "categories": [
-        "cell_phone_providers"
+        "cell_phone_providers",
+        "phone"
       ],
       "website": "https://www.att.com",
       "intro": "AT&T provides wireless service, fiber internet and TV bundles to millions of US customers. Your monthly bill earns a bonus only on cards that reward wireless or telecom spending, otherwise it lands on the flat rate, and certain cards include cell-phone protection if you charge the bill to them.\n"
@@ -2005,6 +2013,9 @@
       "slug": "british-airways",
       "aliases": [
         "BA"
+      ],
+      "co_brand_cards": [
+        "british-airways-visa-signature-card"
       ],
       "categories": [
         "airlines",
@@ -3107,7 +3118,8 @@
         "Cricket"
       ],
       "categories": [
-        "cell_phone_providers"
+        "cell_phone_providers",
+        "phone"
       ],
       "website": "https://www.cricketwireless.com",
       "intro": "Cricket Wireless, AT&T's prepaid brand, sells no-contract phone plans and devices. Payments code as a wireless or telecom charge, so they earn extra only on a card with a cell-phone or wireless bonus, otherwise dropping to flat-rate. A bonus here is that some cards add cell-phone protection when you pay the monthly bill with them, which is worth checking before you set autopay.\n"
@@ -4890,6 +4902,7 @@
       ],
       "categories": [
         "cell_phone_providers",
+        "phone",
         "online_shopping"
       ],
       "website": "https://gabb.com",
@@ -5510,7 +5523,8 @@
       ],
       "website": "https://www.hawaiianairlines.com",
       "co_brand_cards": [
-        "hawaiian-airlines-world-elite-mastercard"
+        "hawaiian-airlines-world-elite-mastercard",
+        "atmos-rewards-ascent"
       ],
       "intro": "Hawaiian Airlines is the dominant carrier between the U.S. mainland and Hawaii, plus\ninter-island routes. Tickets code as airfare on every card we track. The co-branded\nHawaiian Airlines World Elite Mastercard offers a discount on round-trip companion\ntickets to Hawaii each year and bonus miles on the airline. With Alaska Airlines'\nacquisition closed, Hawaiian's loyalty program is integrating with Alaska's Mileage\nPlan, so long-term value will increasingly route through Alaska's award chart.\n"
     },
@@ -6097,6 +6111,7 @@
       ],
       "categories": [
         "cell_phone_providers",
+        "phone",
         "online_shopping"
       ],
       "website": "https://www.infimobile.com",
@@ -9241,6 +9256,7 @@
       ],
       "categories": [
         "cell_phone_providers",
+        "phone",
         "online_shopping"
       ],
       "website": "https://www.phone.com",
@@ -11435,7 +11451,8 @@
       "name": "T-Mobile",
       "slug": "t-mobile",
       "categories": [
-        "cell_phone_providers"
+        "cell_phone_providers",
+        "phone"
       ],
       "website": "https://www.t-mobile.com",
       "intro": "T-Mobile is one of the big three US carriers, offering wireless plans plus home internet. Wireless bills earn extra only on cards with a phone or wireless bonus, otherwise they code at the flat rate, and a handful of cards throw in cell-phone protection when the bill is paid with that card.\n"
@@ -11589,6 +11606,7 @@
       ],
       "categories": [
         "cell_phone_providers",
+        "phone",
         "online_shopping"
       ],
       "website": "https://tello.com",
@@ -12563,7 +12581,8 @@
       "name": "Verizon",
       "slug": "verizon",
       "categories": [
-        "cell_phone_providers"
+        "cell_phone_providers",
+        "phone"
       ],
       "website": "https://www.verizon.com",
       "intro": "Verizon is the largest US wireless carrier, billing for phone plans, devices and home internet. Wireless and internet charges earn a bonus only on cards that specifically reward phone or internet bills, otherwise they fall to a flat rate, though some cards add cell-phone protection when you pay the bill with them.\n"

@@ -75,6 +75,7 @@ rewards:
     value: 4
     unit: points_per_dollar
     note: "On Lyft rides (after linking your Lyft account)"
+    merchant_gate: [lyft]
   - category: everything_else
     value: 2
     unit: points_per_dollar

@@ -14,7 +14,8 @@ rewards:
   - category: entertainment
     value: 2
     unit: percent
-    note: "Select Disney purchases, gas stations, and grocery stores"
+    note: "Most U.S. Disney locations"
+    merchant_specific: true
   - category: gas
     value: 2
     unit: percent

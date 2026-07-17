@@ -2,6 +2,8 @@ name: "British Airways"
 slug: "british-airways"
 aliases:
   - "BA"
+co_brand_cards:
+  - british-airways-visa-signature-card
 categories:
   - airlines
   - travel

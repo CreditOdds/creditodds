@@ -10,9 +10,9 @@ tags:
   - rewards
 rewards:
   - category: "gas"
-    value: 5
+    value: 4
     unit: "percent"
-    note: "5% at Costco gas stations. 4% on other eligible gas and EV charging worldwide, first $7,000/year combined."
+    note: "4% on eligible gas and EV charging worldwide (first $7,000/year combined, then 1%); 5% at Costco gas stations."
   - category: "dining"
     value: 3
     unit: "percent"

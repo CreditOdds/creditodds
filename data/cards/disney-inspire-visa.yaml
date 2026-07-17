@@ -67,6 +67,7 @@ rewards:
     value: 3
     unit: percent
     note: "Most U.S. Disney locations"
+    merchant_specific: true
   - category: groceries
     value: 2
     unit: percent

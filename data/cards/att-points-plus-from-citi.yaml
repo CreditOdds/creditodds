@@ -34,6 +34,7 @@ rewards:
     value: 2
     unit: points_per_dollar
     note: "AT&T products, services, and bill payments"
+    merchant_gate: [atandt]
   - category: everything_else
     value: 1
     unit: points_per_dollar

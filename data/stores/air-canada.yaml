@@ -1,5 +1,7 @@
 name: "Air Canada"
 slug: "air-canada"
+co_brand_cards:
+  - chase-aeroplan
 categories:
   - airlines
   - travel

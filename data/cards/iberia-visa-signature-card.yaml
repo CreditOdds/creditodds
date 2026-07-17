@@ -26,6 +26,7 @@ rewards:
     value: 3
     unit: points_per_dollar
     note: "Iberia, British Airways, and Aer Lingus flights"
+    merchant_gate: [british-airways]
   - category: hotels
     value: 2
     unit: points_per_dollar
