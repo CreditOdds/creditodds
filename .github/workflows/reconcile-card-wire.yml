@@ -24,10 +24,12 @@ name: Reconcile CardWire posts
 
 on:
   schedule:
-    # Every 30 minutes. The happy path already publishes within seconds
+    # Every 6 hours. The happy path already publishes within seconds
     # (social-queue kicks the scheduler for card-wire posts), so this only needs
-    # to bound the worst case for the rare stranded row.
-    - cron: '*/30 * * * *'
+    # to bound the worst case for the rare stranded row. Against a 48h look-back
+    # window a 6h cadence still recovers a stranded row while it is timely news,
+    # and every run in between was a no-op dedupe against the same post ID.
+    - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
       hours:
