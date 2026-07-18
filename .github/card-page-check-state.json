@@ -1,646 +1,1075 @@
 {
-  "updated_at": "2026-07-17T12:21:25.490Z",
+  "updated_at": "2026-07-18T12:02:25.974Z",
   "cards": {
     "aaa-daily-advantage-visa-signature": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "aaa-travel-advantage-visa-signature": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "aer-lingus-visa-signature-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "amazon-prime-rewards-visa-signature-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "amazon-store-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "american-airlines-aadvantage-mileu-mastercard": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:16:13.498Z"
     },
     "american-express-business-gold-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "american-express-gold-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:16:32.139Z"
     },
     "american-express-green-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "apple-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "atlas-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "atmos-rewards-ascent": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:16:49.709Z"
     },
     "atmos-rewards-business": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403 from origin (browser fallback also failed: HTTP 403)",
+      "known_block": false
     },
     "atmos-rewards-summit": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:17:04.592Z"
     },
     "att-points-plus-from-citi": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:17:19.353Z"
     },
     "bank-of-america-cash-rewards-secured": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:17:29.324Z"
     },
     "bank-of-america-customized-cash-rewards": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:17:40.118Z"
     },
     "bank-of-america-premium-rewards": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:18:00.708Z"
     },
     "bank-of-america-premium-rewards-elite": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:17:50.135Z"
     },
     "bank-of-america-travel-rewards": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:18:11.085Z"
     },
     "bank-of-america-unlimited-cash-rewards": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:18:21.363Z"
     },
     "bankamericard": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "HTTP 403",
+      "known_block": false,
       "browser_first": "2026-07-15T12:18:31.448Z"
     },
     "bilt-blue": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "bilt-obsidian": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "bilt-palladium": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:18:50.864Z"
     },
     "blue-business-cash-card-from-american-express": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "blue-business-plus-credit-card-from-american-express": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "blue-cash-everyday-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "blue-cash-preferred-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:19:13.375Z"
     },
     "british-airways-visa-signature-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-platinum": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-platinum-secured": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:19:27.716Z"
     },
     "capital-one-quicksilver": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-quicksilver-secured": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:19:40.011Z"
     },
     "capital-one-quicksilverone": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:19:53.334Z"
     },
     "capital-one-savor": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-savor-student": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-savorone": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-venture-business": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-venture-rewards": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-venture-x": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "capital-one-ventureone-rewards": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-aeroplan": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-freedom-flex": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-freedom-student": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-freedom-unlimited": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-ink-business-cash": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-ink-business-preferred": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-ink-business-unlimited": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-sapphire-preferred": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-sapphire-reserve": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "chase-slate-edge": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "citi-aadvantage-executive-world-elite-masterc": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "citi-aadvantage-globe": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:20:53.257Z"
     },
     "citi-aadvantage-platinum-select-world-elite-m": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:21:07.915Z"
     },
     "citi-diamond-preferred": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "citi-double-cash": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-14T20:22:25.729Z"
     },
     "citi-secured-mastercard": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "citi-simplicity-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "citi-strata": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:22:18.333Z"
     },
     "citi-strata-elite": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:21:46.669Z"
     },
     "citi-strata-premier": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:22:02.630Z"
     },
     "citibusiness-aadvantage-platinum-select-maste": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:22:33.365Z"
     },
     "costco-anywhere-visa-business-card-by-citi": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "costco-anywhere-visa-card-by-citi": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "delta-skymiles-blue-american-express-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:22:53.742Z"
     },
     "delta-skymiles-gold-american-express-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:23:10.471Z"
     },
     "delta-skymiles-gold-business-american-express-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-17T12:16:47.178Z"
     },
     "delta-skymiles-platinum-american-express-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:23:31.004Z"
     },
     "delta-skymiles-reserve-american-express-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-17T12:17:16.633Z"
     },
     "discover-it-cash-back": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "discover-it-for-students-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "discover-it-miles": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "discover-it-secured-credit-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:23:55.653Z"
     },
     "discover-it-student-chrome-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "disney-inspire-visa": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "disney-premier-visa-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "disney-visa-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "fidelity-rewards-visa-signature": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "gemini-credit": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "graphite-business-cash-unlimited": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "hawaiian-airlines-business-mastercard": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "hilton-honors-american-express-aspire-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:24:30.853Z"
     },
     "hilton-honors-american-express-surpass-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-17T12:18:26.072Z"
     },
     "hilton-honors-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-16T12:29:09.161Z"
     },
     "iberia-visa-signature-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "ihg-rewards-club-premier-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "ihg-rewards-club-traveler-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "ihg-rewards-premier-business": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "jetblue-business-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "jetblue-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "jetblue-plus-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "jetblue-premier-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "marriott-bonvoy-bevy-american-express": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "marriott-bonvoy-bold-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "marriott-bonvoy-boundless-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "marriott-bonvoy-brilliant-american-express": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-16T12:29:50.212Z"
     },
     "navy-federal-cash-rewards": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "navy-federal-cash-rewards-plus": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "navy-federal-cash-rewards-secured": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "navy-federal-flagship-rewards": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "navy-federal-go-biz-rewards": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "navy-federal-go-rewards": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "navy-federal-more-rewards-american-express": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "navy-federal-platinum": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "nhl-discover-it": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "paypal-cashback-mastercard": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "playstation-visa": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "pnc-cash-rewards": {
-      "consecutive_skips": 9,
+      "consecutive_skips": 10,
       "last_ok": null,
-      "last_skip": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "pnc-cash-unlimited": {
-      "consecutive_skips": 9,
+      "consecutive_skips": 10,
       "last_ok": null,
-      "last_skip": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "pnc-secured": {
-      "consecutive_skips": 9,
+      "consecutive_skips": 10,
       "last_ok": null,
-      "last_skip": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "pnc-spend-wise": {
-      "consecutive_skips": 9,
+      "consecutive_skips": 10,
       "last_ok": null,
-      "last_skip": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
       "last_reason": "known block: pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)",
       "known_block": true
     },
     "princess-cruises-rewards-visa-card": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:25:40.756Z"
     },
     "rakuten-american-express": {
-      "consecutive_skips": 0,
+      "consecutive_skips": 1,
       "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false,
       "browser_first": "2026-07-15T12:25:48.872Z"
     },
     "rei-co-op-mastercard": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "robinhood-gold-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "robinhood-platinum": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "southwest-rapid-rewards-plus-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "southwest-rapid-rewards-premier-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "southwest-rapid-rewards-priority-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "the-business-platinum-card-from-american-express": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "the-platinum-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "united-club-infinite": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "united-explorer": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "united-gateway": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "united-quest": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-altitude-connect": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-altitude-go-visa-signature": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-cash-plus-visa-signature": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-secured": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-shield": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-shopper": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-smartly-visa-signature": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "us-bank-split": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "venmo-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wells-fargo-active-cash": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wells-fargo-autograph": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wells-fargo-autograph-journey": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wells-fargo-choice-privileges-mastercard": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wells-fargo-choice-privileges-select-mastercard": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wells-fargo-reflect": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wells-fargo-signify-business-cash": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "world-of-hyatt-business-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "world-of-hyatt-credit-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wyndham-rewards-earner-business-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wyndham-rewards-earner-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wyndham-rewards-earner-plus-card": {
-      "consecutive_skips": 0,
-      "last_ok": "2026-07-17T12:21:25.490Z"
+      "consecutive_skips": 1,
+      "last_ok": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
+      "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
+      "known_block": false
     },
     "wyndham-rewards-earner-premier-card": {
-      "consecutive_skips": 1,
+      "consecutive_skips": 2,
       "last_ok": "2026-07-16T12:31:59.149Z",
-      "last_skip": "2026-07-17T12:21:25.490Z",
+      "last_skip": "2026-07-18T12:02:25.974Z",
       "last_reason": "extraction error: OpenAI API error: 429 — {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.\",\n        \"type\": \"insufficient_quota\",\n        \"param\": null,\n        \"code\": \"insufficient_quota\"\n    }\n}\n",
       "known_block": false
     }
