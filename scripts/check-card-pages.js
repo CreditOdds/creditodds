@@ -390,38 +390,6 @@ async function closeBrowser() {
 
 // ─── Extraction ───────────────────────────────────────────────────────────────
 
-// The JSON contract both backends must satisfy. OpenAI gets it as
-// `response_format: json_object` plus the shape spelled out in the prompt;
-// the Claude CLI gets it as a real `--json-schema`, which is strictly
-// stronger — malformed output is rejected before it ever reaches us.
-const EXTRACTION_SCHEMA = {
-  type: 'object',
-  properties: {
-    annual_fee: { type: ['number', 'null'] },
-    signup_bonus: {
-      type: 'object',
-      properties: {
-        value: { type: ['number', 'null'] },
-        type: { type: ['string', 'null'], enum: ['points', 'miles', 'cashback', 'free_nights', null] },
-        spend_requirement: { type: ['number', 'null'] },
-        timeframe_months: { type: ['number', 'null'] },
-        authorized_user_bonus: { type: ['number', 'null'] },
-        bonus_note: { type: ['string', 'null'] },
-        offer_is_tiered: { type: ['boolean', 'null'] },
-      },
-      required: ['value', 'type', 'spend_requirement', 'timeframe_months'],
-    },
-    apr: {
-      type: 'object',
-      properties: {
-        purchase_intro_months: { type: ['number', 'null'] },
-        balance_transfer_intro_months: { type: ['number', 'null'] },
-      },
-    },
-  },
-  required: ['annual_fee', 'signup_bonus'],
-};
-
 function buildExtractionPrompt(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
   const cur = currentSignupBonus || {};
   const currentContext = `Current YAML values (for unit context — DO NOT copy these, extract fresh from the page):
