@@ -446,7 +446,7 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
   "annual_fee": <number or null>,
   "signup_bonus": {
     "value": <number or null>,
-    "type": <"points"|"miles"|"cashback"|"free_nights" or null>,
+    "type": <"points"|"miles"|"cash"|"cashback"|"free_nights" or null>,
     "spend_requirement": <number or null>,
     "timeframe_months": <number or null>,
     "authorized_user_bonus": <number or null>,
@@ -462,7 +462,7 @@ Extract the following fields and return ONLY valid JSON — no markdown fences, 
 Rules:
 - annual_fee: the ongoing annual fee, NOT an introductory/$0 first year rate. If the card says "$0 intro annual fee" but $99 after, use 99. Use 0 only if the card truly has no annual fee. null if not stated at all.
 - signup_bonus.value: raw number only (e.g. 60000 for "60,000 points", or 3 for "3 free night awards"). null if absent.
-- signup_bonus.type: use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates).
+- signup_bonus.type: the unit the bonus is denominated in. Use "free_nights" when the bonus is free hotel night awards (e.g. Marriott free night certificates). "cash" and "cashback" both mean a dollar-denominated bonus and are treated as identical — return either. Report the unit the page ACTUALLY advertises today; do not copy the current YAML type if the page contradicts it.
 - SIGNUP BONUS SCOPE: All signup_bonus fields refer ONLY to the one-time welcome/new-cardmember offer earned during the initial signup window. NEVER capture recurring/ongoing rewards in any signup_bonus field — including: anniversary bonuses, "each calendar year" bonuses, "every account year" bonuses, annual spend bonuses earned year after year, statement credits that reset annually, or cardmember-anniversary point awards. Those are ongoing benefits, not signup bonuses. If the offer is described with phrases like "each year", "every year", "annually", "each calendar year", "each anniversary", "every account anniversary" → it is NOT a signup bonus and must be excluded from value, spend_requirement, timeframe_months, AND bonus_note.
 - TIMEFRAME UNITS: signup_bonus.timeframe_months must be expressed in whole MONTHS, never raw days. Issuer pages often state the window in days (e.g. "within the first 90 days", "in the first 180 days") — convert to months: 90 days → 3, 120 days → 4, 150 days → 5, 180 days → 6, 270 days → 9, 365 days → 12. A welcome-offer window is essentially never longer than ~18 months, so NEVER return a value above 18 — if you computed one, you returned days by mistake and must convert it to months.
 - TIERED BONUSES: Many cards have one-time tiered signup bonuses (e.g., "earn 70,000 miles after $3,000 in 6 months, plus an additional 20,000 miles after an additional $2,000 in 6 months", or "3 free nights after $3,000 in 3 months, plus 1 more after $4,000 total in 4 months"). When the welcome offer is tiered, use the HEADLINE-MAX convention:
@@ -599,6 +599,21 @@ function needsBrowserRetry(extracted, currentSignupBonus) {
 function normalizeTimeframeMonths(v) {
   if (typeof v === 'number' && v > 24) return Math.round(v / 30);
   return v;
+}
+
+// The extraction prompt and the YAML convention spell dollar-denominated
+// bonuses differently: the prompt's enum says "cashback", YAML says "cash" (36
+// cards). They denote the same unit, so collapse them to one canonical form
+// before comparing — otherwise every cash-back card would propose a phantom
+// cash → cashback change on every run. The remaining values (points, miles,
+// free_nights) are shared by both vocabularies and pass through untouched.
+const BONUS_TYPE_ALIASES = { cashback: 'cash' };
+
+function normalizeBonusType(type) {
+  if (type == null) return null;
+  const t = String(type).trim().toLowerCase();
+  if (!t) return null;
+  return BONUS_TYPE_ALIASES[t] ?? t;
 }
 
 // A tiered note carries the tier amounts it describes ("70,000 miles ... an
@@ -870,6 +885,60 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
           });
         }
       }
+    }
+
+    // signup_bonus.type — the unit the bonus is denominated in. Left undiffed
+    // until now, silently: a bonus converting from cashback to points, or from
+    // free nights to points, never surfaced in a check PR. That silence was
+    // half-deliberate (a naive diff proposes cash → cashback on all 36 cash-back
+    // cards, forever, because the prompt's enum and the YAML convention spell
+    // the same unit differently) but it was never written down, and it
+    // suppressed real changes along with the phantom ones. normalizeBonusType
+    // collapses the cash/cashback pair so only genuine unit switches survive.
+    //
+    // Unit switches are not hypothetical — Marriott Bonvoy Boundless moved from
+    // free nights to points, and card-wire carries a purpose-built guard for
+    // that exact transition (apps/api/src/handlers/update-cards-github.js).
+    //
+    // The unit is load-bearing in three places downstream, which is what made
+    // the silence expensive: card_wire stamps every signup_bonus_value row with
+    // it and refuses to diff across units (so a stale type lets it compare
+    // "3" free nights against "125,000" points as a numeric jump), /compare
+    // reads cash/cashback as dollars and everything else as points, and
+    // cardDisplayUtils suppresses the dollar estimate for free_nights.
+    //
+    // Guards, mirroring the rest of this block:
+    //   - the page must actually render an offer, so a JS-gated page can't flip
+    //     a card's unit off an echoed or guessed currency (same gate as
+    //     pageSaysFlat above)
+    //   - a concrete extracted value is required, as further evidence the
+    //     extractor read a real offer instead of inferring a currency from the
+    //     card's branding
+    //   - a run suppressed as tiered skips type too: if the offer parse isn't
+    //     trusted enough to move value, it isn't trusted to rewrite the unit
+    //
+    // Known ambiguity: the Avios trio (British Airways / Iberia / Aer Lingus)
+    // stores "miles" while the issuer pages say "Avios", so the extractor can
+    // land on either side of points/miles. That surfaces as a reviewable row in
+    // the PR, not an auto-merge; add `signup_bonus.type` to a card's
+    // check_ignore if one proves recurring.
+    const proposedType = normalizeBonusType(sb.type);
+    if (
+      !skipAsTieredBonus &&
+      proposedType !== null &&
+      sb.value != null &&
+      cur.type != null &&
+      proposedType !== normalizeBonusType(cur.type) &&
+      pageShowsSignupOffer(pageContent) &&
+      !ignoreFields.has('signup_bonus.type')
+    ) {
+      changes.push({
+        field: 'signup_bonus.type',
+        old_value: cur.type,
+        // Canonical spelling, so an extractor "cashback" never lands in YAML
+        // beside the 36 cards that say "cash".
+        new_value: proposedType,
+      });
     }
 
     // Authorized user bonus → generate templated note if detected and card has none.
@@ -1645,6 +1714,7 @@ module.exports = {
   detectChanges,
   applyChanges,
   needsBrowserRetry,
+  normalizeBonusType,
   pageShowsSignupOffer,
   updateSkipState,
   staleCardsFrom,

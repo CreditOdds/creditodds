@@ -15,6 +15,7 @@ const assert = require('node:assert/strict');
 const {
   detectChanges,
   needsBrowserRetry,
+  normalizeBonusType,
   pageShowsSignupOffer,
   updateSkipState,
   staleCardsFrom,
@@ -544,6 +545,128 @@ test('a normal months value (≤24) is left untouched', () => {
   });
   const ch = changes.find(c => c.field === 'signup_bonus.timeframe_months');
   assert.equal(ch.new_value, 4);
+});
+
+console.log('');
+// ─── signup_bonus.type: unit switches, through the cash/cashback alias ──────
+
+// type went undiffed entirely until this section existed, so a bonus converting
+// from cashback to points (or free nights to points, as Marriott Bonvoy
+// Boundless actually did) never surfaced. The blocker was vocabulary: the
+// extraction prompt says "cashback", YAML says "cash" on 36 cards, so a naive
+// diff proposes a phantom change on every cash-back card. normalizeBonusType
+// collapses that pair; everything else compares straight.
+
+// A page whose offer body actually rendered — pageShowsSignupOffer gates the
+// type diff, so the JS-gated case has to be tested separately.
+const OFFER_PAGE =
+  'Earn 60,000 bonus points after you spend $4,000 on purchases in the first 3 months from account opening.';
+
+function typedCard(type, extra = {}) {
+  return {
+    data: {
+      name: 'Type Test',
+      signup_bonus: { value: 60000, type, spend_requirement: 4000, timeframe_months: 3, note: null, ...extra },
+    },
+  };
+}
+
+function typedExtract(type, extra = {}) {
+  return {
+    signup_bonus: { value: 60000, type, spend_requirement: 4000, timeframe_months: 3, ...extra },
+  };
+}
+
+function typeChange(card, extracted, page = OFFER_PAGE) {
+  return detectChanges(card, extracted, new Date(), [], page).find(c => c.field === 'signup_bonus.type');
+}
+
+console.log('\nsignup_bonus.type normalization:');
+
+test('cash → cashback is NOT a change (the phantom that kept type undiffed)', () => {
+  assert.equal(typeChange(typedCard('cash'), typedExtract('cashback')), undefined);
+});
+
+test('cashback → cash is NOT a change either (alias is symmetric)', () => {
+  assert.equal(typeChange(typedCard('cashback'), typedExtract('cash')), undefined);
+});
+
+test('the alias is case- and whitespace-insensitive', () => {
+  assert.equal(typeChange(typedCard('cash'), typedExtract('  CashBack ')), undefined);
+});
+
+test('normalizeBonusType collapses only the cash pair', () => {
+  assert.equal(normalizeBonusType('cashback'), 'cash');
+  assert.equal(normalizeBonusType('cash'), 'cash');
+  assert.equal(normalizeBonusType('points'), 'points');
+  assert.equal(normalizeBonusType('miles'), 'miles');
+  assert.equal(normalizeBonusType('free_nights'), 'free_nights');
+  assert.equal(normalizeBonusType(null), null);
+  assert.equal(normalizeBonusType('   '), null);
+});
+
+console.log('\nsignup_bonus.type genuine unit switches:');
+
+test('cash → points surfaces as a real change', () => {
+  const ch = typeChange(typedCard('cash'), typedExtract('points'));
+  assert.deepEqual([ch.old_value, ch.new_value], ['cash', 'points']);
+});
+
+test('points → miles surfaces as a real change', () => {
+  const ch = typeChange(typedCard('points'), typedExtract('miles'));
+  assert.deepEqual([ch.old_value, ch.new_value], ['points', 'miles']);
+});
+
+test('free nights → points surfaces (the Marriott Bonvoy Boundless transition)', () => {
+  const ch = typeChange(typedCard('free_nights', { value: 3 }), typedExtract('points', { value: 125000 }));
+  assert.deepEqual([ch.old_value, ch.new_value], ['free_nights', 'points']);
+});
+
+test('a points → cashback switch is written in the YAML spelling ("cash", not "cashback")', () => {
+  const ch = typeChange(typedCard('points'), typedExtract('cashback'));
+  assert.equal(ch.new_value, 'cash');
+});
+
+console.log('\nsignup_bonus.type guards:');
+
+test('a JS-gated page (offer never rendered) cannot flip the unit', () => {
+  assert.equal(typeChange(typedCard('points'), typedExtract('cash'), 'Rewards Terms apply. Member FDIC.'), undefined);
+});
+
+test('a null extracted type never erases a real one', () => {
+  assert.equal(typeChange(typedCard('points'), typedExtract(null)), undefined);
+});
+
+test('a null extracted value blocks the flip (no concrete offer was read)', () => {
+  assert.equal(typeChange(typedCard('points'), typedExtract('cash', { value: null })), undefined);
+});
+
+test('a card with no stored type is never given one', () => {
+  const card = typedCard('points');
+  delete card.data.signup_bonus.type;
+  assert.equal(typeChange(card, typedExtract('miles')), undefined);
+});
+
+test('check_ignore on signup_bonus.type suppresses the flip', () => {
+  const card = typedCard('miles');
+  card.data.check_ignore = ['signup_bonus.type'];
+  assert.equal(typeChange(card, typedExtract('points')), undefined);
+});
+
+test('a run suppressed as tiered skips type along with value', () => {
+  const card = typedCard('points', {
+    value: 90000,
+    note: 'Earn 70,000 points after you spend $3,000, plus an additional 20,000 points after $2,000 more.',
+  });
+  // Base-tier misparse: value collapses to a named tier AND the unit flips.
+  // Neither is trusted — the offer parse itself is in doubt.
+  const changes = detectChanges(card, typedExtract('miles', { value: 70000 }), new Date(), [], OFFER_PAGE);
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('legacy two-arg calls (no pageContent) still diff type', () => {
+  const changes = detectChanges(typedCard('cash'), typedExtract('points'));
+  assert.ok(changes.some(c => c.field === 'signup_bonus.type'));
 });
 
 console.log('');
