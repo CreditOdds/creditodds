@@ -1,12 +1,14 @@
 name: Check Card Pages
 
-# The nightly schedule moved to a LOCAL scheduled task
-# (`card-page-check-local`, daily 7 AM ET) that runs scripts/check-card-pages-local.sh
-# with CARD_PAGE_EXTRACTOR=claude. The extraction now bills against the Claude
-# subscription instead of the OpenAI API, which is where ~$82/mo of this job's
-# cost was going. The cron is disabled rather than deleted so this workflow can
-# still be dispatched manually if OpenAI credit is restored — that path is
-# unchanged and still uses gpt-4o.
+# The nightly schedule moved to a LOCAL scheduled task (`card-page-check-local`,
+# daily 7 AM). That task runs the check in two phases —
+# `--phase=fetch` then `--phase=finish` — and performs the extraction itself
+# inside the Claude Code session, so no OpenAI key and no CLI token is involved.
+# That is where ~$82/mo of this job's cost was going.
+#
+# The cron is disabled rather than deleted so this workflow can still be
+# dispatched manually if OpenAI credit is restored. That path runs the original
+# single pass (`--phase=all`) on gpt-4o and is unchanged.
 on:
   workflow_dispatch:
     inputs:

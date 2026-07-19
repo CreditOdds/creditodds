@@ -7,13 +7,18 @@
  * extracts current terms with an LLM, and creates a PR for human review when
  * changes are detected.
  *
- * Extraction backend is selected by CARD_PAGE_EXTRACTOR:
- *   'openai' (default) — gpt-4o via the API; what workflow_dispatch runs.
- *   'claude'           — the local Claude Code CLI, used by the nightly local
- *                        task (scripts/check-card-pages-local.sh) so the
- *                        inference bills against the subscription rather than
- *                        a metered API.
- * Both share one prompt and one JSON contract; nothing downstream differs.
+ * Run shape is selected by --phase:
+ *   all (default) — fetch + extract in one loop via gpt-4o; what
+ *                   workflow_dispatch runs.
+ *   fetch         — fetch pages and write one extraction prompt per card to
+ *                   .card-page-check-work/, then stop.
+ *   finish        — read the answers back from
+ *                   .card-page-check-work/extractions.json and do the diffing,
+ *                   YAML edits and reporting.
+ *
+ * The fetch/finish split exists so the nightly run can happen inside a Claude
+ * Code session, which answers the prompts itself. That path needs no API key
+ * and no CLI token. All three phases share one prompt and one JSON contract.
  *
  * Only processes cards where:
  *   - accepting_applications !== false
@@ -34,9 +39,7 @@
  */
 
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
-const { execFile } = require('child_process');
 const yaml = require('js-yaml');
 
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
@@ -72,39 +75,50 @@ const FETCH_DELAY_MS = 2000;
 const BROWSER_FIRST_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 15000;
 
-// ─── Extraction backend ──────────────────────────────────────────────────────
-// 'openai' (default) keeps CI on gpt-4o. 'claude' shells out to the locally
-// authenticated Claude Code CLI instead, moving the per-card inference off a
-// metered API and onto the subscription — the whole point of running this
-// nightly job locally. Nothing else in the script changes: same prompt, same
-// JSON contract, same downstream diffing.
-const EXTRACTOR = (process.env.CARD_PAGE_EXTRACTOR || 'openai').toLowerCase();
-const CLAUDE_BIN = process.env.CLAUDE_BIN || 'claude';
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-sonnet-5';
+// ─── Run phases ──────────────────────────────────────────────────────────────
+// 'all' (default) is the original single pass: fetch and extract each card in
+// one loop, calling gpt-4o. That is what workflow_dispatch still runs.
+//
+// 'fetch' and 'finish' split that pass in two so the extraction step can be
+// performed by the Claude Code session itself rather than by any API this
+// script calls. `fetch` writes one self-contained prompt per card to WORK_DIR;
+// the session answers them and writes extractions.json; `finish` reads those
+// answers back and does the diffing, YAML edits and reporting exactly as the
+// single pass would. No API key and no CLI token are involved on that path —
+// the inference happens inside the already-authenticated session.
+//
+// Everything that must be exact (fetching, change detection, YAML rewriting,
+// skip accounting) stays in this script. Only the extraction, which is the
+// genuinely model-shaped part, moves out.
+const PHASE = (() => {
+  const arg = process.argv.find(a => a.startsWith('--phase='));
+  const v = (arg ? arg.slice('--phase='.length) : process.env.CARD_PAGE_PHASE || 'all').toLowerCase();
+  return v;
+})();
+const WORK_DIR = path.join(__dirname, '..', '.card-page-check-work');
+const PROMPTS_DIR = path.join(WORK_DIR, 'prompts');
+const PAGES_DIR = path.join(WORK_DIR, 'pages');
+const FETCH_STATE_FILE = path.join(WORK_DIR, 'fetch-state.json');
+const EXTRACTIONS_FILE = path.join(WORK_DIR, 'extractions.json');
 
-// A `claude -p` round trip (process spawn + inference) runs several times longer
-// than gpt-4o's ~1.5–3s, so both budgets have to grow with the claude backend or
-// the run truncates itself: cards would trip the per-card timeout, and the whole
-// job would hit its deadline with most of the list unchecked. Locally there is
-// no 45-minute GitHub job cap to stay under, so the ceiling can move.
-const usingClaude = EXTRACTOR === 'claude';
-const PER_CARD_TIMEOUT_MS = Number(
-  process.env.CARD_PAGE_PER_CARD_TIMEOUT_MS || (usingClaude ? 180000 : 60000)
-);
+const PER_CARD_TIMEOUT_MS = Number(process.env.CARD_PAGE_PER_CARD_TIMEOUT_MS || 60000);
 // Overall safety net. Widening the browser-retry condition (needsBrowserRetry)
 // makes every card whose welcome offer is client-side — most of the ~20 Amex
 // cards — pay one extra Playwright fetch (~13s measured) per run, roughly +4 min
 // on a run that already took ~14 min. Raised 20 → 30 min so that added work
 // doesn't silently truncate coverage.
 //
-// On the openai/CI path this MUST stay comfortably below `timeout-minutes` in
-// .github/workflows/check-card-pages.yml (currently 45): the job needs headroom
-// after this deadline to write the skip summary and open the PR. If the two are
-// equal, GitHub hard-kills the job and the graceful exit path never runs.
-// The claude/local path has no such job cap, which is why it gets a far larger
-// budget — it needs one, since each extraction is a process spawn plus inference.
+// On the single-pass/CI path this MUST stay comfortably below `timeout-minutes`
+// in .github/workflows/check-card-pages.yml (currently 45): the job needs
+// headroom after this deadline to write the skip summary and open the PR. If the
+// two are equal, GitHub hard-kills the job and the graceful exit path never runs.
+//
+// The 'fetch' phase gets a larger budget: it runs locally with no job cap, and
+// it browser-renders far more pages than the single pass does (see FETCH_PHASE
+// note in the card loop), which is slower but removes the need for a second
+// extraction round trip.
 const SCRIPT_TIMEOUT_MS = Number(
-  process.env.CARD_PAGE_SCRIPT_TIMEOUT_MS || (usingClaude ? 120 * 60 * 1000 : 30 * 60 * 1000)
+  process.env.CARD_PAGE_SCRIPT_TIMEOUT_MS || (PHASE === 'fetch' ? 90 * 60 * 1000 : 30 * 60 * 1000)
 );
 // Max stripped page text handed to the extractor. Sized so nav-heavy issuer
 // pages still include the card terms — e.g. business.bankofamerica.com leads
@@ -533,74 +547,9 @@ async function extractViaOpenAI(prompt) {
   return parseExtractionJson(data.choices[0]?.message?.content, 'OpenAI');
 }
 
-// Shells out to the locally authenticated Claude Code CLI.
-//
-// `--tools ""` is load-bearing, not tidiness. `pageContent` is untrusted HTML
-// scraped from a third-party issuer site, and it lands verbatim in the prompt.
-// The OpenAI path is inert because that endpoint has no tools at all; a bare
-// `claude -p` does, so a card page carrying injected instructions could
-// otherwise reach Bash/Edit against this repo. Disabling the toolset removes
-// the capability rather than trusting the model to decline.
-//
-// `--bare` skips hooks, LSP and plugin loading — none of which this text-only
-// call needs, and all of which add seconds to a spawn we pay 148 times a night.
-function extractViaClaude(prompt) {
-  return new Promise((resolve, reject) => {
-    const args = [
-      '-p',
-      '--bare',
-      '--tools', '',
-      '--model', CLAUDE_MODEL,
-      '--output-format', 'json',
-      '--json-schema', JSON.stringify(EXTRACTION_SCHEMA),
-    ];
-
-    const child = execFile(
-      CLAUDE_BIN,
-      args,
-      {
-        // Run outside the repo so the CLI picks up no project CLAUDE.md, no
-        // settings, no MCP servers — this call must depend on the prompt alone.
-        cwd: os.tmpdir(),
-        maxBuffer: 10 * 1024 * 1024,
-        timeout: PER_CARD_TIMEOUT_MS,
-      },
-      (err, stdout, stderr) => {
-        // Parse stdout FIRST, even on a non-zero exit. The CLI reports real
-        // failures ("Not logged in", quota) in the envelope's `result` while
-        // also exiting non-zero, and execFile's err.message is just the whole
-        // command line — including the ~700-char schema — which buries the one
-        // string that says what actually went wrong.
-        let envelope = null;
-        try {
-          envelope = JSON.parse(stdout);
-        } catch { /* fall through to the raw-error path below */ }
-
-        if (envelope && envelope.is_error) {
-          return reject(new Error(`claude CLI: ${envelope.result || 'unknown error'}`));
-        }
-
-        if (err) {
-          const detail = (stderr || '').trim().split('\n')[0] || err.message.split('\n')[0];
-          return reject(new Error(`claude CLI failed: ${detail.slice(0, 200)}`));
-        }
-
-        if (!envelope) {
-          return reject(new Error(`claude CLI returned non-JSON: ${stdout.slice(0, 200)}`));
-        }
-
-        resolve(parseExtractionJson(envelope.result, 'Claude'));
-      }
-    );
-
-    child.stdin.on('error', () => {});
-    child.stdin.end(prompt);
-  });
-}
-
 async function extractCardTerms(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
   const prompt = buildExtractionPrompt(cardName, bankName, applyLink, pageContent, currentSignupBonus);
-  return usingClaude ? extractViaClaude(prompt) : extractViaOpenAI(prompt);
+  return extractViaOpenAI(prompt);
 }
 
 // ─── Change detection ─────────────────────────────────────────────────────────
@@ -1255,29 +1204,20 @@ function writeStaleReport(stale, cardsBySlug) {
 async function main() {
   console.log('=== Check Card Pages ===\n');
 
-  if (!['openai', 'claude'].includes(EXTRACTOR)) {
-    console.error(`Error: CARD_PAGE_EXTRACTOR must be 'openai' or 'claude' (got '${EXTRACTOR}')`);
+  if (!['all', 'fetch', 'finish'].includes(PHASE)) {
+    console.error(`Error: --phase must be 'all', 'fetch' or 'finish' (got '${PHASE}')`);
     process.exit(1);
   }
 
-  if (EXTRACTOR === 'openai' && !process.env.OPENAI_API_KEY) {
+  // Only the single pass talks to OpenAI. The fetch/finish split does its
+  // inference in the calling session, so it must not demand a key.
+  if (PHASE === 'all' && !process.env.OPENAI_API_KEY) {
     console.error('Error: OPENAI_API_KEY environment variable is required');
     process.exit(1);
   }
 
-  // Fail fast on a dead CLI rather than discovering it 148 times. Without this
-  // an unauthenticated CLI turns every card into an "extraction error" skip —
-  // a slow, expensive way to learn the run was never going to work.
-  if (EXTRACTOR === 'claude') {
-    console.log(`Extractor: claude CLI (${CLAUDE_MODEL})`);
-    try {
-      await extractViaClaude('Reply with only this JSON and nothing else: {"annual_fee":0,"signup_bonus":{"value":null,"type":null,"spend_requirement":null,"timeframe_months":null}}');
-    } catch (err) {
-      console.error(`Error: claude CLI preflight failed — ${err.message}`);
-      console.error("Run 'claude setup-token' to authenticate the CLI for headless use.");
-      process.exit(1);
-    }
-  }
+  console.log(`Phase: ${PHASE}\n`);
+  if (PHASE === 'finish') return finishPhase();
 
   const slugFilter = process.env.CARD_SLUG || null;
 
@@ -1297,6 +1237,16 @@ async function main() {
   const allChanges = [];
   const skippedCards = [];
   const allSuppressions = [];
+  const fetchedSlugs = [];
+
+  if (PHASE === 'fetch') {
+    // Wipe rather than merge: a stale prompt left from a previous night would be
+    // answered as if it were current, silently verifying a card against page
+    // content that is a day old.
+    fs.rmSync(WORK_DIR, { recursive: true, force: true });
+    fs.mkdirSync(PROMPTS_DIR, { recursive: true });
+    fs.mkdirSync(PAGES_DIR, { recursive: true });
+  }
 
   // Every path that abandons a card must land here. A skip that isn't recorded is
   // worse than a loud failure: it silently shrinks the verified set while the run
@@ -1388,6 +1338,44 @@ async function main() {
         let { content: pageContent, usedBrowser } = fetchResult;
         console.log(`  Fetched ${pageContent.length} chars`);
 
+        // FETCH_PHASE: write the prompt out and stop — the caller does the
+        // extraction. The single pass decides whether a page needs re-fetching
+        // with the browser by looking at what the extractor returned
+        // (needsBrowserRetry), which is unavailable here because nothing has
+        // been extracted yet. pageShowsSignupOffer is the deterministic stand-in:
+        // a simple-fetch page with no offer language anywhere in it is the same
+        // JS-rendered placeholder case the retry exists to catch. Re-fetching on
+        // that signal keeps the self-heal without needing a second extract/fetch
+        // round trip — at the cost of a wasted browser fetch on cards that
+        // genuinely have no welcome offer, which is time, not accuracy.
+        if (PHASE === 'fetch') {
+          if (!usedBrowser && !pageShowsSignupOffer(pageContent)) {
+            console.log('  No offer language in simple fetch — re-fetching with browser');
+            const browserContent = await fetchWithBrowser(apply_link);
+            lastHostHit.set(host, Date.now());
+            if (browserContent) {
+              pageContent = browserContent;
+              usedBrowser = true;
+            }
+          }
+
+          fs.writeFileSync(
+            path.join(PROMPTS_DIR, `${card.slug}.txt`),
+            buildExtractionPrompt(name, bank, apply_link, pageContent, card.data.signup_bonus)
+          );
+          fs.writeFileSync(path.join(PAGES_DIR, `${card.slug}.txt`), pageContent);
+
+          if (usedBrowser) {
+            browserFirstBySlug.set(
+              card.slug,
+              browserFirstValid ? prevBrowserFirst : new Date().toISOString()
+            );
+          }
+          fetchedSlugs.push(card.slug);
+          console.log('  Prompt written');
+          return;
+        }
+
         // Extract with Claude Haiku
         let extracted;
         try {
@@ -1463,6 +1451,127 @@ async function main() {
     console.log('');
   }
 
+  // FETCH_PHASE ends here. Deliberately does NOT touch the skip counters or the
+  // stale report: nothing has been verified yet, and a card whose prompt was
+  // written but never answered is a skip that only `finish` can see. Recording
+  // success here would let an abandoned run (session closed mid-extraction)
+  // advance the counters as though every card had been checked.
+  if (PHASE === 'fetch') {
+    fs.writeFileSync(FETCH_STATE_FILE, JSON.stringify({
+      fetched_at: new Date().toISOString(),
+      slug_filter: slugFilter,
+      fetched: fetchedSlugs,
+      skipped: skippedCards,
+      browser_first: Object.fromEntries(browserFirstBySlug),
+    }, null, 2));
+
+    await closeBrowser();
+    console.log(`\nWrote ${fetchedSlugs.length} prompt(s) to ${path.relative(process.cwd(), PROMPTS_DIR)}`);
+    console.log(`Skipped ${skippedCards.length} card(s) before extraction.`);
+    console.log('\nNext: answer each prompt and write {"<slug>": {...}} to');
+    console.log(`  ${path.relative(process.cwd(), EXTRACTIONS_FILE)}`);
+    console.log('then run: node scripts/check-card-pages.js --phase=finish');
+    console.log('\n=== Fetch phase complete ===');
+    return;
+  }
+
+  return finalize({
+    allCards, cardsToCheck, skippedCards, allChanges, allSuppressions,
+    slugFilter, prevState, browserFirstBySlug,
+  });
+}
+// ─── Finish phase ────────────────────────────────────────────────────────────
+// Reads back the extractions the calling session produced and runs them through
+// exactly the same detectChanges/applyChanges path the single pass uses. The
+// model's only contribution is the JSON; every judgement about what counts as a
+// change, what gets suppressed and what reaches a human still lives here.
+async function finishPhase() {
+  if (!fs.existsSync(FETCH_STATE_FILE)) {
+    console.error(`Error: ${path.relative(process.cwd(), FETCH_STATE_FILE)} not found — run --phase=fetch first.`);
+    process.exit(1);
+  }
+  if (!fs.existsSync(EXTRACTIONS_FILE)) {
+    console.error(`Error: ${path.relative(process.cwd(), EXTRACTIONS_FILE)} not found — nothing to finish.`);
+    process.exit(1);
+  }
+
+  const fetchState = JSON.parse(fs.readFileSync(FETCH_STATE_FILE, 'utf8'));
+  let extractions;
+  try {
+    extractions = JSON.parse(fs.readFileSync(EXTRACTIONS_FILE, 'utf8'));
+  } catch (err) {
+    console.error(`Error: extractions.json is not valid JSON — ${err.message}`);
+    process.exit(1);
+  }
+
+  const allCards = loadAllCards();
+  const cardsBySlug = new Map(allCards.map(c => [c.slug, c]));
+  const cardsToCheck = filterCardsForCheck(allCards, fetchState.slug_filter || null);
+
+  const allChanges = [];
+  const allSuppressions = [];
+  // Skips recorded during fetch (dead URL, bot-block, timeout) carry straight
+  // through — those cards were never verified, and which phase noticed is
+  // irrelevant to the counter.
+  const skippedCards = [...(fetchState.skipped || [])];
+
+  const now = new Date();
+  for (const slug of fetchState.fetched || []) {
+    const card = cardsBySlug.get(slug);
+    if (!card) continue;  // card deleted between phases
+
+    const extracted = extractions[slug];
+    // A prompt that was written but came back missing, null, or non-object is a
+    // card that did NOT get verified. It must land in skippedCards, not be
+    // quietly treated as "no changes" — that equivalence is the exact failure
+    // this script's skip accounting exists to prevent.
+    if (!extracted || typeof extracted !== 'object') {
+      console.warn(`  ${card.data.name}: no extraction returned — skipping`);
+      skippedCards.push({
+        slug,
+        name: card.data.name,
+        url: checkUrlFor(card),
+        reason: 'no extraction returned for this card',
+        knownBlock: false,
+      });
+      continue;
+    }
+
+    const pageFile = path.join(PAGES_DIR, `${slug}.txt`);
+    const pageContent = fs.existsSync(pageFile) ? fs.readFileSync(pageFile, 'utf8') : null;
+
+    const changes = detectChanges(card, extracted, now, allSuppressions, pageContent);
+    if (changes.length > 0) {
+      console.log(`${card.data.name}: ${changes.length} change(s) detected`);
+      logFetchedText(card.data.name, checkUrlFor(card), true, pageContent || '', extracted);
+      allChanges.push({
+        slug,
+        card_name: card.data.name,
+        apply_link: checkUrlFor(card),
+        changes,
+      });
+    }
+  }
+
+  return finalize({
+    allCards,
+    cardsToCheck,
+    skippedCards,
+    allChanges,
+    allSuppressions,
+    slugFilter: fetchState.slug_filter || null,
+    prevState: loadSkipState(),
+    browserFirstBySlug: new Map(Object.entries(fetchState.browser_first || {})),
+  });
+}
+
+// ─── Shared finalization ─────────────────────────────────────────────────────
+// Everything after the per-card loop: skip reporting, counter persistence, the
+// stale alarm, YAML application and the PR summary. Factored out because the
+// single pass and the finish phase must do this identically — if they drift,
+// one of them silently stops advancing the skip counters that are the only
+// guard against a card rotting unverified.
+async function finalize({ allCards, cardsToCheck, skippedCards, allChanges, allSuppressions, slugFilter, prevState, browserFirstBySlug }) {
   if (skippedCards.length > 0) {
     console.log(`\n⚠️  Skipped ${skippedCards.length} card(s) (NOT checked this run — not the same as unchanged):`);
     for (const s of skippedCards) {

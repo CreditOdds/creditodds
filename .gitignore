@@ -46,6 +46,7 @@ coverage/
 # Workflow artifacts
 .apply-link-check-result.json
 .issue-body.md
+.card-page-check-work/
 .card-page-check-summary.md
 .card-page-check-stale.md
 # NB: .github/card-page-check-state.json is deliberately NOT ignored — the
