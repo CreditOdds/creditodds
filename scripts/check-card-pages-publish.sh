@@ -56,7 +56,14 @@ if [ -n "$(git status --porcelain data/cards/)" ]; then
   echo "=== Opening PR ==="
   SLUG="${CARD_SLUG:-all}"
   BRANCH="card-page-check-${SLUG}-$(date +%Y-%m-%d-%H%M%S)"
-  git checkout -q -b "$BRANCH"
+  # Explicitly base the card PR on origin/main, not on whatever HEAD happens to
+  # be. In CI those are the same thing, but locally the check may well have been
+  # run from a feature branch — and branching off HEAD there would sweep that
+  # branch's unrelated commits into a PR that is supposed to contain nothing but
+  # card YAML. The uncommitted data/cards/ edits carry across cleanly because
+  # they are the only modified paths.
+  git fetch -q origin main
+  git checkout -q -b "$BRANCH" origin/main
   git add data/cards/
   git commit -q -m "Card page check — $(date +%Y-%m-%d)"
   git push -q -u origin "$BRANCH"
