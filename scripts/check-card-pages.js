@@ -4,8 +4,16 @@
  * Check Card Pages Script
  *
  * Fetches the apply page for each active card that has an apply_link,
- * uses Claude Haiku to extract current terms, and creates a PR for
- * human review when changes are detected.
+ * extracts current terms with an LLM, and creates a PR for human review when
+ * changes are detected.
+ *
+ * Extraction backend is selected by CARD_PAGE_EXTRACTOR:
+ *   'openai' (default) — gpt-4o via the API; what workflow_dispatch runs.
+ *   'claude'           — the local Claude Code CLI, used by the nightly local
+ *                        task (scripts/check-card-pages-local.sh) so the
+ *                        inference bills against the subscription rather than
+ *                        a metered API.
+ * Both share one prompt and one JSON contract; nothing downstream differs.
  *
  * Only processes cards where:
  *   - accepting_applications !== false
@@ -26,7 +34,9 @@
  */
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { execFile } = require('child_process');
 const yaml = require('js-yaml');
 
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
@@ -61,18 +71,41 @@ const FETCH_DELAY_MS = 2000;
 // re-flags itself if still browser-dependent.
 const BROWSER_FIRST_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 15000;
-const PER_CARD_TIMEOUT_MS = 60000;   // 60s max per card (fetch + extraction)
+
+// ─── Extraction backend ──────────────────────────────────────────────────────
+// 'openai' (default) keeps CI on gpt-4o. 'claude' shells out to the locally
+// authenticated Claude Code CLI instead, moving the per-card inference off a
+// metered API and onto the subscription — the whole point of running this
+// nightly job locally. Nothing else in the script changes: same prompt, same
+// JSON contract, same downstream diffing.
+const EXTRACTOR = (process.env.CARD_PAGE_EXTRACTOR || 'openai').toLowerCase();
+const CLAUDE_BIN = process.env.CLAUDE_BIN || 'claude';
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-sonnet-5';
+
+// A `claude -p` round trip (process spawn + inference) runs several times longer
+// than gpt-4o's ~1.5–3s, so both budgets have to grow with the claude backend or
+// the run truncates itself: cards would trip the per-card timeout, and the whole
+// job would hit its deadline with most of the list unchecked. Locally there is
+// no 45-minute GitHub job cap to stay under, so the ceiling can move.
+const usingClaude = EXTRACTOR === 'claude';
+const PER_CARD_TIMEOUT_MS = Number(
+  process.env.CARD_PAGE_PER_CARD_TIMEOUT_MS || (usingClaude ? 180000 : 60000)
+);
 // Overall safety net. Widening the browser-retry condition (needsBrowserRetry)
 // makes every card whose welcome offer is client-side — most of the ~20 Amex
 // cards — pay one extra Playwright fetch (~13s measured) per run, roughly +4 min
 // on a run that already took ~14 min. Raised 20 → 30 min so that added work
 // doesn't silently truncate coverage.
 //
-// MUST stay comfortably below `timeout-minutes` in .github/workflows/check-card-pages.yml
-// (currently 45): the job needs headroom after this deadline to write the skip
-// summary and open the PR. If the two are equal, GitHub hard-kills the job and
-// the graceful exit path never runs.
-const SCRIPT_TIMEOUT_MS = 30 * 60 * 1000; // 30 min overall safety net
+// On the openai/CI path this MUST stay comfortably below `timeout-minutes` in
+// .github/workflows/check-card-pages.yml (currently 45): the job needs headroom
+// after this deadline to write the skip summary and open the PR. If the two are
+// equal, GitHub hard-kills the job and the graceful exit path never runs.
+// The claude/local path has no such job cap, which is why it gets a far larger
+// budget — it needs one, since each extraction is a process spawn plus inference.
+const SCRIPT_TIMEOUT_MS = Number(
+  process.env.CARD_PAGE_SCRIPT_TIMEOUT_MS || (usingClaude ? 120 * 60 * 1000 : 30 * 60 * 1000)
+);
 // Max stripped page text handed to the extractor. Sized so nav-heavy issuer
 // pages still include the card terms — e.g. business.bankofamerica.com leads
 // with ~11k chars of menu chrome and the bonus/spend/timeframe land at ~12k–18k.
@@ -341,12 +374,41 @@ async function closeBrowser() {
   }
 }
 
-// ─── OpenAI extraction ────────────────────────────────────────────────────────
+// ─── Extraction ───────────────────────────────────────────────────────────────
 
-async function extractCardTerms(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error('OPENAI_API_KEY required');
+// The JSON contract both backends must satisfy. OpenAI gets it as
+// `response_format: json_object` plus the shape spelled out in the prompt;
+// the Claude CLI gets it as a real `--json-schema`, which is strictly
+// stronger — malformed output is rejected before it ever reaches us.
+const EXTRACTION_SCHEMA = {
+  type: 'object',
+  properties: {
+    annual_fee: { type: ['number', 'null'] },
+    signup_bonus: {
+      type: 'object',
+      properties: {
+        value: { type: ['number', 'null'] },
+        type: { type: ['string', 'null'], enum: ['points', 'miles', 'cashback', 'free_nights', null] },
+        spend_requirement: { type: ['number', 'null'] },
+        timeframe_months: { type: ['number', 'null'] },
+        authorized_user_bonus: { type: ['number', 'null'] },
+        bonus_note: { type: ['string', 'null'] },
+        offer_is_tiered: { type: ['boolean', 'null'] },
+      },
+      required: ['value', 'type', 'spend_requirement', 'timeframe_months'],
+    },
+    apr: {
+      type: 'object',
+      properties: {
+        purchase_intro_months: { type: ['number', 'null'] },
+        balance_transfer_intro_months: { type: ['number', 'null'] },
+      },
+    },
+  },
+  required: ['annual_fee', 'signup_bonus'],
+};
 
+function buildExtractionPrompt(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
   const cur = currentSignupBonus || {};
   const currentContext = `Current YAML values (for unit context — DO NOT copy these, extract fresh from the page):
 - signup_bonus.value: ${cur.value ?? 'null'}
@@ -428,6 +490,26 @@ Rules:
 - STRIKETHROUGH TEXT: Text wrapped in [STRIKETHROUGH: ...] is struck through on the page and represents old/expired values. Always ignore strikethrough values and use the non-strikethrough value instead.
 - Return null for any field you cannot determine with confidence.`;
 
+  return prompt;
+}
+
+function parseExtractionJson(text, label) {
+  const cleaned = (text || '{}')
+    .replace(/^```json?\n?/, '')
+    .replace(/\n?```$/, '')
+    .trim();
+  try {
+    return JSON.parse(cleaned);
+  } catch (err) {
+    console.warn(`  Could not parse ${label} response: ${err.message}`);
+    return null;
+  }
+}
+
+async function extractViaOpenAI(prompt) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error('OPENAI_API_KEY required');
+
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -448,17 +530,77 @@ Rules:
   }
 
   const data = await response.json();
-  const text = (data.choices[0]?.message?.content || '{}')
-    .replace(/^```json?\n?/, '')
-    .replace(/\n?```$/, '')
-    .trim();
+  return parseExtractionJson(data.choices[0]?.message?.content, 'OpenAI');
+}
 
-  try {
-    return JSON.parse(text);
-  } catch (err) {
-    console.warn(`  Could not parse OpenAI response: ${err.message}`);
-    return null;
-  }
+// Shells out to the locally authenticated Claude Code CLI.
+//
+// `--tools ""` is load-bearing, not tidiness. `pageContent` is untrusted HTML
+// scraped from a third-party issuer site, and it lands verbatim in the prompt.
+// The OpenAI path is inert because that endpoint has no tools at all; a bare
+// `claude -p` does, so a card page carrying injected instructions could
+// otherwise reach Bash/Edit against this repo. Disabling the toolset removes
+// the capability rather than trusting the model to decline.
+//
+// `--bare` skips hooks, LSP and plugin loading — none of which this text-only
+// call needs, and all of which add seconds to a spawn we pay 148 times a night.
+function extractViaClaude(prompt) {
+  return new Promise((resolve, reject) => {
+    const args = [
+      '-p',
+      '--bare',
+      '--tools', '',
+      '--model', CLAUDE_MODEL,
+      '--output-format', 'json',
+      '--json-schema', JSON.stringify(EXTRACTION_SCHEMA),
+    ];
+
+    const child = execFile(
+      CLAUDE_BIN,
+      args,
+      {
+        // Run outside the repo so the CLI picks up no project CLAUDE.md, no
+        // settings, no MCP servers — this call must depend on the prompt alone.
+        cwd: os.tmpdir(),
+        maxBuffer: 10 * 1024 * 1024,
+        timeout: PER_CARD_TIMEOUT_MS,
+      },
+      (err, stdout, stderr) => {
+        // Parse stdout FIRST, even on a non-zero exit. The CLI reports real
+        // failures ("Not logged in", quota) in the envelope's `result` while
+        // also exiting non-zero, and execFile's err.message is just the whole
+        // command line — including the ~700-char schema — which buries the one
+        // string that says what actually went wrong.
+        let envelope = null;
+        try {
+          envelope = JSON.parse(stdout);
+        } catch { /* fall through to the raw-error path below */ }
+
+        if (envelope && envelope.is_error) {
+          return reject(new Error(`claude CLI: ${envelope.result || 'unknown error'}`));
+        }
+
+        if (err) {
+          const detail = (stderr || '').trim().split('\n')[0] || err.message.split('\n')[0];
+          return reject(new Error(`claude CLI failed: ${detail.slice(0, 200)}`));
+        }
+
+        if (!envelope) {
+          return reject(new Error(`claude CLI returned non-JSON: ${stdout.slice(0, 200)}`));
+        }
+
+        resolve(parseExtractionJson(envelope.result, 'Claude'));
+      }
+    );
+
+    child.stdin.on('error', () => {});
+    child.stdin.end(prompt);
+  });
+}
+
+async function extractCardTerms(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
+  const prompt = buildExtractionPrompt(cardName, bankName, applyLink, pageContent, currentSignupBonus);
+  return usingClaude ? extractViaClaude(prompt) : extractViaOpenAI(prompt);
 }
 
 // ─── Change detection ─────────────────────────────────────────────────────────
@@ -1113,9 +1255,28 @@ function writeStaleReport(stale, cardsBySlug) {
 async function main() {
   console.log('=== Check Card Pages ===\n');
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!['openai', 'claude'].includes(EXTRACTOR)) {
+    console.error(`Error: CARD_PAGE_EXTRACTOR must be 'openai' or 'claude' (got '${EXTRACTOR}')`);
+    process.exit(1);
+  }
+
+  if (EXTRACTOR === 'openai' && !process.env.OPENAI_API_KEY) {
     console.error('Error: OPENAI_API_KEY environment variable is required');
     process.exit(1);
+  }
+
+  // Fail fast on a dead CLI rather than discovering it 148 times. Without this
+  // an unauthenticated CLI turns every card into an "extraction error" skip —
+  // a slow, expensive way to learn the run was never going to work.
+  if (EXTRACTOR === 'claude') {
+    console.log(`Extractor: claude CLI (${CLAUDE_MODEL})`);
+    try {
+      await extractViaClaude('Reply with only this JSON and nothing else: {"annual_fee":0,"signup_bonus":{"value":null,"type":null,"spend_requirement":null,"timeframe_months":null}}');
+    } catch (err) {
+      console.error(`Error: claude CLI preflight failed — ${err.message}`);
+      console.error("Run 'claude setup-token' to authenticate the CLI for headless use.");
+      process.exit(1);
+    }
   }
 
   const slugFilter = process.env.CARD_SLUG || null;
