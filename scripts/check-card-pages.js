@@ -554,10 +554,10 @@ async function extractCardTerms(cardName, bankName, applyLink, pageContent, curr
 
 // ─── Change detection ─────────────────────────────────────────────────────────
 
-// True when Haiku returned no signal — every primary field is null/undefined.
-// Used to decide whether to retry a simple-fetch result with the browser, since
-// JS-rendered pages (e.g. citi.com) return real HTML but with empty bonus
-// placeholders that Haiku can't extract from.
+// True when the extractor returned no signal — every primary field is
+// null/undefined. Used to decide whether to retry a simple-fetch result with the
+// browser, since JS-rendered pages (e.g. citi.com) return real HTML but with
+// empty bonus placeholders that hold nothing to extract.
 function isExtractionEmpty(extracted) {
   if (!extracted) return true;
   if (extracted.annual_fee != null) return false;
@@ -588,13 +588,14 @@ function needsBrowserRetry(extracted, currentSignupBonus) {
   return proposed == null || proposed === 0;
 }
 
-// Haiku occasionally returns the signup-bonus timeframe as a raw DAY count instead
-// of months (e.g. "180 days" → 180 rather than 6), which surfaced a bogus
-// timeframe_months: 180 on Wyndham Earner Business (#1426). No real welcome offer
-// runs longer than ~18 months, so any extracted timeframe above 24 is a
-// days-as-months misread — convert it to whole months. Applied before the diff so
-// the change either disappears (YAML already stores the right month count) or
-// surfaces in the correct unit (e.g. a genuine 3 → 6 move) instead of as 180.
+// The extractor occasionally returns the signup-bonus timeframe as a raw DAY
+// count instead of months (e.g. "180 days" → 180 rather than 6), which surfaced
+// a bogus timeframe_months: 180 on Wyndham Earner Business (#1426). No real
+// welcome offer runs longer than ~18 months, so any extracted timeframe above 24
+// is a days-as-months misread — convert it to whole months. Applied before the
+// diff so the change either disappears (YAML already stores the right month
+// count) or surfaces in the correct unit (e.g. a genuine 3 → 6 move) instead of
+// as 180.
 function normalizeTimeframeMonths(v) {
   if (typeof v === 'number' && v > 24) return Math.round(v / 30);
   return v;
@@ -679,12 +680,12 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
 
     // Defensive: cards with a first-year fee waiver (annual_fee_intro) render the
     // ongoing fee client-side, so the stripped page text frequently shows only the
-    // waived "$0 first year" figure. Haiku then returns that waiver value as the
-    // annual fee, proposing a phantom drop from the ongoing fee to the intro value
-    // (Citi AAdvantage: ongoing $99, extracted 0 = the 12-month waiver — rejected
-    // on #1413/#1416/#1426/#1434). When the extracted value equals the card's known
-    // annual_fee_intro waiver value and differs from the ongoing fee, it's the
-    // waiver misread, not a real fee change — skip it.
+    // waived "$0 first year" figure. The extractor then returns that waiver value
+    // as the annual fee, proposing a phantom drop from the ongoing fee to the
+    // intro value (Citi AAdvantage: ongoing $99, extracted 0 = the 12-month
+    // waiver — rejected on #1413/#1416/#1426/#1434). When the extracted value
+    // equals the card's known annual_fee_intro waiver value and differs from the
+    // ongoing fee, it's the waiver misread, not a real fee change — skip it.
     const introWaiver = current.annual_fee_intro?.value;
     const isIntroWaiverMisread =
       introWaiver !== null && introWaiver !== undefined &&
@@ -716,11 +717,12 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
       sb.timeframe_months = normalizeTimeframeMonths(sb.timeframe_months);
     }
 
-    // Defensive: when Haiku reports both a value change and an authorized_user_bonus,
-    // and the value delta is exactly the AU bonus, the page's headline is bundling
-    // the AU bonus into the displayed total (e.g. Chase's United Gateway shows
-    // "40,000 bonus miles" = 30k base + 10k AU). Skip the value change — the AU
-    // split is already captured in signup_bonus.note.
+    // Defensive: when the extractor reports both a value change and an
+    // authorized_user_bonus, and the value delta is exactly the AU bonus, the
+    // page's headline is bundling the AU bonus into the displayed total (e.g.
+    // Chase's United Gateway shows "40,000 bonus miles" = 30k base + 10k AU).
+    // Skip the value change — the AU split is already captured in
+    // signup_bonus.note.
     const skipValueAsBundledAU =
       sb.value != null &&
       cur.value != null &&
@@ -736,8 +738,8 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
 
     // Defensive: points-redeemed-as-cash cards (e.g. Fidelity Rewards Visa: "15,000
     // points = $150 deposited into your Fidelity account") show both a points count
-    // and a dollar figure for the SAME offer. Haiku has a recurring habit of
-    // returning the points count as the new value, which would imply a 100x cash
+    // and a dollar figure for the SAME offer. The extractor has a recurring habit
+    // of returning the points count as the new value, which would imply a 100x cash
     // SUB jump. When the card's existing type is cash/cashback and the proposed
     // value is ≥10x the current value, treat it as a points/cash confusion and
     // skip. This pattern has been reverted at least twice (commits 65aecd16,
@@ -759,8 +761,8 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
     // Defensive: tiered welcome offers under the headline-max convention
     // (e.g. Amex Delta Gold: value=90,000 with note "Earn 70,000 ... plus
     // additional 20,000"). YAML stores the MAX in value/spend_requirement/
-    // timeframe_months and the tier breakdown in note. Haiku misparses these
-    // in two recurring ways, both of which we suppress:
+    // timeframe_months and the tier breakdown in note. The extractor misparses
+    // these in two recurring ways, both of which we suppress:
     //
     //   1. TIER COLLAPSE — returns only the FIRST/BASE tier (e.g. 70,000),
     //      which looks like a phantom value downgrade (proposed value < cur).
@@ -770,8 +772,9 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
     //      $3,000 in 3 months, plus up to 30,000 more by earning 2x on up to
     //      $15,000 in the first 6 months." The $3,000 step is *nested inside*
     //      the $15,000 / 6-month window, so the true total to max the bonus is
-    //      $15,000 — but Haiku adds $3,000 + $15,000 = $18,000 and re-proposes
-    //      spend_requirement 15000 → 18000 every run (rejected on #1365, #1376).
+    //      $15,000 — but the extractor adds $3,000 + $15,000 = $18,000 and
+    //      re-proposes spend_requirement 15000 → 18000 every run (rejected on
+    //      #1365, #1376).
     //
     // We detect a tiered note via the "additional N" / "N additional" phrasing
     // OR the equivalent "more N" / "N more" phrasing (Chase uses "30,000 more
@@ -871,7 +874,7 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
 
     // Authorized user bonus → generate templated note if detected and card has none.
     // Takes priority over bonus_note when both are present — templated text is more
-    // predictable than Haiku's free-form description.
+    // predictable than the extractor's free-form description.
     if (sb.authorized_user_bonus != null && !cur.note) {
       const bonusType = cur.type || 'points';
       const note = `Plus ${sb.authorized_user_bonus.toLocaleString()} bonus ${bonusType} for adding an authorized user`;
@@ -883,7 +886,7 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
     } else if (sb.bonus_note) {
       // Only propose a note change when signup_bonus.value also changed in
       // this run. Applies to both adding a new note and updating an existing
-      // one. Without this gate Haiku reliably manufactures boilerplate notes
+      // one. Without this gate the extractor reliably manufactures boilerplate notes
       // on cards whose SUB hasn't moved — "Welcome offers vary…", "$N cash
       // redemption value", or text lifted from a benefit on the same page
       // (e.g. Fidelity's Global Entry credit) — and each one becomes a
@@ -924,8 +927,8 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
 
   // Intro APR period length (months). Only diff a card that ALREADY stores an
   // intro months value for that line — so we never invent an intro offer for a
-  // card without one, and never overwrite a real number with a null Haiku
-  // returns when the page wording it can't parse. The regular APR
+  // card without one, and never overwrite a real number with a null returned
+  // for page wording the extractor can't parse. The regular APR
   // (apr.regular.min/max) is intentionally not compared here: it drifts with
   // the prime rate and would generate constant false-positive PRs.
   if (extracted.apr && current.apr) {
@@ -1061,7 +1064,7 @@ function generateSummary(applied) {
   const today = new Date().toISOString().slice(0, 10);
 
   let md = `## Card Page Check — ${today}\n\n`;
-  md += 'Detected by fetching official apply pages and extracting card terms with Claude Haiku.\n';
+  md += 'Detected by fetching official apply pages and extracting card terms with an LLM.\n';
   md += '**Verify each change against the source page before merging.**\n\n';
 
   md += '### Term Changes\n\n';
@@ -1087,8 +1090,8 @@ function generateSummary(applied) {
 
 // ─── Fetched-text audit logging ───────────────────────────────────────────────
 
-// Dump the exact page text handed to Haiku plus Haiku's parsed output, wrapped in
-// greppable delimiters. Lets a reviewer audit a detected change after the fact —
+// Dump the exact page text handed to the extractor plus its parsed output,
+// wrapped in greppable delimiters. Lets a reviewer audit a change after the fact —
 // search a run log for "FETCHED-TEXT <card>" to see whether the offer figure was
 // even present in what the model saw, vs. present-but-misread. This is the gap
 // that made Delta Gold Business's 60000→0 impossible to diagnose from logs alone
@@ -1376,7 +1379,7 @@ async function main() {
           return;
         }
 
-        // Extract with Claude Haiku
+        // Extract the card's current terms from the fetched page
         let extracted;
         try {
           extracted = await extractCardTerms(name, bank, apply_link, pageContent, card.data.signup_bonus);
@@ -1387,10 +1390,10 @@ async function main() {
         }
 
         // Self-heal: simple-fetch HTML can be 200 OK but missing JS-rendered
-        // bonus values (e.g. citi.com, Amex business pages). Haiku then returns
-        // nulls — or a 0 for a "Loading" placeholder — which the detector reads
-        // as "no changes" or, worse, as a real SUB going to zero. Retry once
-        // with the browser.
+        // bonus values (e.g. citi.com, Amex business pages). The extractor then
+        // returns nulls — or a 0 for a "Loading" placeholder — which the
+        // detector reads as "no changes" or, worse, as a real SUB going to
+        // zero. Retry once with the browser.
         if (!usedBrowser && needsBrowserRetry(extracted, card.data.signup_bonus)) {
           console.log('  Extraction returned no signup-bonus signal — retrying with browser');
           const browserContent = await fetchWithBrowser(apply_link);
@@ -1430,7 +1433,7 @@ async function main() {
         if (changes.length > 0) {
           console.log(`  ${changes.length} change(s) detected`);
           // Every detected change becomes a PR row a human must verify against
-          // the source page — log what Haiku saw + returned so it's auditable
+          // the source page — log what the extractor saw + returned so it's auditable
           // later without a re-run.
           logFetchedText(name, apply_link, usedBrowser, pageContent, extracted);
           allChanges.push({ slug: card.slug, card_name: name, apply_link, changes });
