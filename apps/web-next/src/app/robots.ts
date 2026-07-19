@@ -31,18 +31,30 @@ export default function robots(): MetadataRoute.Robots {
     'YouBot',
   ];
 
+  // NOTE: '/auth/' used to be listed here and never did anything — (auth) is an
+  // App Router route *group*, so it is stripped from the URL and no request path
+  // ever starts with /auth/. The pages it was meant to cover live at /login,
+  // /register and /forgot.
+  //
+  // Do NOT add /login here to "fix" the duplicate-URL reports in Search Console.
+  // /login is deliberately left crawlable so Googlebot can reach it and read the
+  // noindex in app/(auth)/layout.tsx. A Disallow would block the crawl, the
+  // noindex would never be seen, and the already-discovered
+  // /login?redirect=... URLs would stay stuck in the index reports indefinitely.
+  const disallow = ['/profile', '/admin', '/api/'];
+
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/profile', '/admin', '/api/', '/auth/'],
+        disallow,
       },
       // Explicitly welcome AI crawlers — same allowlist as humans, just signaled clearly
       ...aiCrawlers.map((userAgent) => ({
         userAgent,
         allow: '/',
-        disallow: ['/profile', '/admin', '/api/', '/auth/'],
+        disallow,
       })),
     ],
     sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/news-sitemap.xml`],
