@@ -1505,6 +1505,7 @@ export default function CardClient({
                     ) : (
                       <Link
                         href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                        rel="nofollow"
                         style={{ color: "var(--accent)", fontWeight: 600 }}
                       >
                         Log in to submit a data point →
@@ -1536,6 +1537,7 @@ export default function CardClient({
                 ) : (
                   <Link
                     href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                    rel="nofollow"
                     style={{ color: "var(--accent)", fontWeight: 600 }}
                   >
                     Log in to submit →
@@ -1564,6 +1566,7 @@ export default function CardClient({
                 ) : (
                   <Link
                     href={`/login?redirect=${encodeURIComponent(`/card/${card.slug}?submit=true`)}`}
+                    rel="nofollow"
                     style={{ color: "var(--accent)", fontWeight: 600 }}
                   >
                     Log in to submit →
