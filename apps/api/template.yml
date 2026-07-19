@@ -135,6 +135,38 @@ Resources:
               Header: Authorization
               ReauthorizeEvery: 300
 
+  # Serves /robots.txt so crawlers have a directive for api.creditodds.com.
+  # Without it every path on the domain — robots.txt included — returned API
+  # Gateway's default 403, which is what Search Console flagged on the root.
+  # Inherits the Globals VpcConfig it does not need; not worth an override to
+  # save a cold start on a route crawlers hit about once a day.
+  RobotsFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/robots.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
+    Properties:
+      Handler: src/handlers/robots.RobotsHandler
+      Runtime: nodejs22.x
+      MemorySize: 128
+      Timeout: 5
+      Description: Returns a Disallow-all robots.txt for the API domain
+      Events:
+        CreditCardOddsAPI:
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /robots.txt
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+
   AllCardsFunction:
     Type: AWS::Serverless::Function
     Metadata:
