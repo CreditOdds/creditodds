@@ -88,6 +88,11 @@
       "format": "uri",
       "description": "Targeted offer URL — used for the Apply button and for signup-bonus extraction by check-card-pages.js when set. Falls back to apply_link. Use when the card's headline SUB lives on a different page than the generic marketing page (e.g. Fidelity's /go/ offer pages)."
     },
+    "page_check_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Checker-only override for check-card-pages.js — the page whose live terms should be verified. NOT rendered as the Apply button (unlike apply_link / special_apply_link). Use when the SUB lives on a page the Apply button shouldn't point at, e.g. a card whose marketing page renders its terms inside a cross-origin iframe (Rakuten → rakuten.imprint.co)."
+    },
     "card_referral_link": {
       "type": "string",
       "format": "uri",

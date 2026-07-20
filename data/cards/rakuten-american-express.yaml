@@ -3,6 +3,13 @@ bank: "American Express"
 slug: "rakuten-american-express"
 accepting_applications: true
 apply_link: https://www.rakuten.com/american-express-card
+# Checker-only: rakuten.com renders this card's page inside a cross-origin iframe
+# served from rakuten.imprint.co (Imprint issues the card), so a fetch of
+# apply_link strips to ~523 chars of accessibility boilerplate. Point the page
+# check at the framed document directly; the Apply button still uses apply_link.
+# NOTE: this path is a dated campaign slug and will rotate — when the check skips
+# Rakuten with an HTTP 404, re-read the iframe src on apply_link and update it.
+page_check_url: https://rakuten.imprint.co/cham-july-2026
 category: "cashback"
 image: "rakuten-american-express.png"
 annual_fee: 0

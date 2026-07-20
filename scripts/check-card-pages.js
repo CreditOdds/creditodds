@@ -193,8 +193,24 @@ function loadAllCards() {
 // the generic apply_link — so we treat it as the source of truth for this
 // script. The rewards/benefits check (which reads structural earn rates and
 // perks) still uses apply_link; see check-card-rewards-and-benefits.js.
+//
+// Two escape hatches keep this from checking an unfetchable page while leaving
+// the card's user-facing Apply button untouched (the frontend renders
+// `special_apply_link || apply_link` as the button href — see CardClient.tsx):
+//   1. `page_check_url` (checker-only, never rendered) overrides everything.
+//      Use it when the SUB lives on a page the Apply button shouldn't point at —
+//      e.g. Rakuten, whose marketing page renders the card inside a cross-origin
+//      Imprint iframe that a fetch of apply_link can't see into.
+//   2. A `special_apply_link` on a knownBlockedReason() host is skipped in favor
+//      of apply_link, so a bot-walled targeted-offer URL doesn't blind the check
+//      when the generic page is still scrapeable — e.g. Amazon Prime, whose
+//      amazon.com/dp offer page is an interstitial but whose Chase apply_link
+//      states the same $150 SUB.
 function checkUrlFor(card) {
-  return card.data.special_apply_link || card.data.apply_link;
+  const { page_check_url, special_apply_link, apply_link } = card.data;
+  if (page_check_url) return page_check_url;
+  if (special_apply_link && !knownBlockedReason(special_apply_link)) return special_apply_link;
+  return apply_link || special_apply_link;
 }
 
 function filterCardsForCheck(allCards, slugFilter) {
@@ -248,6 +264,14 @@ function knownBlockedReason(url) {
     const u = new URL(url);
     const host = u.hostname.replace(/^www\./, '');
     if (host === 'pnc.com') return 'pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)';
+    // amazon.com serves an automation interstitial ("Click the button below to
+    // continue shopping") instead of card terms. This permanently skips the
+    // Amazon Store card, whose only apply_link is an amazon.com listing with no
+    // scrapeable issuer equivalent (Synchrony has no public product page). The
+    // Amazon Prime card also carries an amazon.com special_apply_link, but
+    // checkUrlFor() routes its check to the scrapeable Chase apply_link instead,
+    // so this entry does not blind Prime.
+    if (host === 'amazon.com') return 'amazon.com serves an automation interstitial ("Continue shopping") instead of card terms';
   } catch { /* malformed URL — let the normal fetch path handle it */ }
   return null;
 }
@@ -1331,8 +1355,14 @@ async function main() {
 
     const { name, bank } = card.data;
     const apply_link = checkUrlFor(card);
+    // Label the URL by which field actually supplied it — checkUrlFor may skip a
+    // bot-walled special_apply_link, so keying the tag off its mere presence lies.
+    const urlSource =
+      apply_link === card.data.page_check_url ? ' (page_check_url)'
+      : apply_link === card.data.special_apply_link ? ' (special_apply_link)'
+      : '';
     console.log(`Checking: ${name}`);
-    console.log(`  URL: ${apply_link}${card.data.special_apply_link ? ' (special_apply_link)' : ''}`);
+    console.log(`  URL: ${apply_link}${urlSource}`);
 
     const blockedReason = knownBlockedReason(apply_link);
     if (blockedReason) {
