@@ -70,6 +70,12 @@ benefits:
     frequency: "annual"
     category: "statement_credit"
     enrollment_required: true
+  - name: "The Hotel Collection Credit"
+    value: 100
+    description: "$100 credit toward eligible on-property charges plus a room upgrade when available at over 1,300 hotels, on two-night-minimum stays booked through AmexTravel.com."
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - business
   - rewards
