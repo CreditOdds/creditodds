@@ -27,6 +27,12 @@ benefits:
     description: "After spending $50,000 in a calendar year, get 10% of redeemed points back on up to 200,000 points redeemed per year"
     frequency: "annual"
     category: "hotel"
+  - name: "DoorDash DashPass Membership"
+    value: 120
+    description: "12 months of complimentary DashPass when the membership is first activated with the card between 02/01/2025 and 12/31/2027"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
 tags:
   - hotel
   - travel
