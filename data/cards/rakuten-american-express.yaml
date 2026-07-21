@@ -38,9 +38,9 @@ rewards:
     value: 1
     unit: "percent"
 signup_bonus:
-  value: 200
+  value: 100
   type: "cash"
-  spend_requirement: 2000
+  spend_requirement: 1000
   timeframe_months: 3
 apr:
   regular:
@@ -49,7 +49,7 @@ apr:
 foreign_transaction_fee: false
 our_take: >
   This card is built for Rakuten loyalists: 4% on Rakuten.com (up to $10,000 a year)
-  and 5% on Rakuten Dining stack on top of the usual cash-back portal, with a $200
+  and 5% on Rakuten Dining stack on top of the usual cash-back portal, with a $100
   signup bonus, all for no annual fee.
   Off the Rakuten ecosystem the rates are ordinary (2% groceries and dining, 1% on
   everything else), so a flat 2% card like the Active Cash will beat it for general
