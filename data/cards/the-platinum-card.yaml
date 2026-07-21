@@ -185,6 +185,11 @@ benefits:
     frequency: "annual"
     category: "lounge"
     enrollment_required: false
+  - name: "Leaders Club Sterling Status"
+    description: "Complimentary Leaders Club Sterling Status from The Leading Hotels of the World, including a 5% Leaders Club points bonus on qualifying stays."
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - travel
   - premium
