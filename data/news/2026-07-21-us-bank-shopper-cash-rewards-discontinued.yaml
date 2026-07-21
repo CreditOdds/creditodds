@@ -1,0 +1,56 @@
+id: "us-bank-shopper-cash-rewards-discontinued"
+date: "2026-07-21"
+title: "U.S. Bank Drops the Shopper Cash Rewards"
+summary: "U.S. Bank has pulled the Shopper Cash Rewards from its lineup. The card's product page now redirects to the bank's general credit card listing, and the card no longer appears among its available products. U.S. Bank has not published an announcement, and it has not said what happens to existing accounts."
+tags:
+  - "discontinued"
+  - "policy-change"
+bank: "U.S. Bank"
+card_slug: "us-bank-shopper"
+card_name: "US Bank Shopper Cash Rewards"
+source: "U.S. Bank"
+source_url: "https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html"
+body: |
+  The **U.S. Bank Shopper Cash Rewards** is no longer available to new applicants. Its application page is gone.
+
+  The card's product URL, `usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html`, no longer serves a product page. It now redirects to U.S. Bank's [general credit card listing](https://www.usbank.com/credit-cards.html), where the Shopper Cash Rewards does not appear among the bank's available cards.
+
+  Worth noting how the page fails. The old URL does not return a "page not found" error. It answers with a normal success response and quietly lands you on a different page. That distinction matters, because a broken application link that still reports success is easy to miss, both for shoppers clicking through from a comparison site and for automated checks watching the page.
+
+  U.S. Bank has not published an announcement. Cardholders on [r/CreditCards](https://www.reddit.com/r/CreditCards/comments/1ucyhei/us_bank_shopper_cash_rewards/) first noticed the card had vanished from the website roughly a month ago, and the redirect has persisted since.
+
+  ## What the card offered
+
+  The Shopper Cash Rewards was built around picking your own merchants each quarter:
+
+  - **6% back** at two retailers of your choice each quarter, from a fixed list that included Amazon, Apple, Costco, Target, and Walmart, on up to **$1,500 combined per quarter**
+  - **3% back** in one everyday category of your choice each quarter, from gas, wholesale clubs, or utilities, on up to **$1,500 per quarter**
+  - **5.5% back** on hotels and car rentals booked through the U.S. Bank travel center
+  - **1.5% back** on everything else, including spend past the quarterly caps
+
+  It carried a **$95 annual fee** waived for the first year, and most recently offered a **$250 sign-up bonus** after $2,000 of spend in the first four months. Cell phone protection was included when the monthly phone bill was charged to the card.
+
+  ## Why it may have gone
+
+  U.S. Bank has given no reason, so anything beyond that is inference.
+
+  The structure did invite optimization. Both bonus tiers were capped at $1,500 per quarter, which put a firm ceiling on how much elevated cash back any one cardholder could earn, while the retailer list covered exactly the merchants people spend the most at. Cardholders in the r/CreditCards discussion widely read the card as one you held for the two chosen categories and little else, which is a difficult mix to sustain against a $95 fee and standard interchange.
+
+  It also lands in a broader pattern. U.S. Bank stopped accepting applications for its [Kroger co-branded cards](/news/us-bank-kroger-cards-no-longer-accepting-applications) in May, and has been trimming its co-branded and niche card lineup for some time.
+
+  ## If you already hold the card
+
+  U.S. Bank has not said what happens to existing accounts, and the Kroger precedent did not resolve quickly either. Based on how issuers usually handle a closed-to-new-applicants product, existing accounts typically keep working until the bank either converts them to another card or sunsets the product outright, but none of that is confirmed here.
+
+  A few practical notes:
+
+  - **Nothing has been announced about closures.** Do not assume your account is going away, and do not assume it is safe.
+  - **Watch for a change in terms notice.** Pricing and product changes reach you through your secure inbox or mailed disclosures. That is where a conversion or closure would appear first.
+  - **Think about the annual fee before it posts.** If the card's value for you rested entirely on the quarterly 6% picks, it is worth deciding ahead of your renewal date whether it still earns its $95.
+  - **A product change may be available.** Cardholders in the same discussion reported moving to other U.S. Bank products. The [U.S. Bank Cash+ Visa Signature](/card/us-bank-cash-plus-visa-signature) is the closest no-annual-fee sibling, with 5% back on two categories you choose each quarter.
+
+  ## What this means for our data
+
+  We have marked the Shopper Cash Rewards as no longer accepting applications, so it no longer surfaces in recommendations for new cardholders. Its terms remain on the site for anyone who still holds it.
+
+  We will update this story if U.S. Bank confirms the discontinuation or announces what happens to existing accounts.

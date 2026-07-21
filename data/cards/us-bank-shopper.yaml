@@ -2,7 +2,7 @@ name: "US Bank Shopper Cash Rewards"
 bank: "U.S. Bank"
 slug: "us-bank-shopper"
 image: "us-bank-shopper.png"
-accepting_applications: true
+accepting_applications: false
 annual_fee: 95
 annual_fee_intro:
   value: 0
