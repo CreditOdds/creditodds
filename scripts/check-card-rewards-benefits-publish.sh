@@ -33,7 +33,11 @@ if [ -n "$(git status --porcelain data/cards/)" ]; then
   git checkout -- data/cards.json 2>/dev/null || true
 fi
 
-ORIGINAL_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+# Remember where to return to. `--abbrev-ref HEAD` yields the literal string
+# "HEAD" on a detached checkout, and `git checkout HEAD` is a no-op that leaves
+# us parked on whichever auto/* branch was created last. Fall back to the commit
+# SHA so a detached worktree lands back where it started.
+ORIGINAL_REF="$(git symbolic-ref --quiet --short HEAD || git rev-parse HEAD)"
 
 if [ -z "$(git status --porcelain data/cards/)" ]; then
   echo "No card YAMLs changed."
@@ -85,7 +89,7 @@ else
     rm -f "$BODY_FILE"
   done
 
-  git checkout -q "$ORIGINAL_BRANCH"
+  git checkout -q "$ORIGINAL_REF"
   git stash drop -q "stash@{0}" || true
 fi
 
