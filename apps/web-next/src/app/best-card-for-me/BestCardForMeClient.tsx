@@ -7,7 +7,14 @@ import CardImage from '@/components/ui/CardImage';
 import { useAuth } from '@/auth/AuthProvider';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import { SPEND_BUCKETS, SPEND_BUCKET_LABELS } from '@/lib/nextCardRanking';
-import { getWallet, addToWallet, type Card, type SignupBonus } from '@/lib/api';
+import {
+  getWallet,
+  addToWallet,
+  removeFromWallet,
+  type Card,
+  type SignupBonus,
+  type WalletCard,
+} from '@/lib/api';
 import { createCardLookups, normalizeCardName } from '@/app/profile/profileSelectors';
 import { CategoryIcon, categoryLabels } from '@/lib/cardDisplayUtils';
 
@@ -60,6 +67,12 @@ interface WalletRow {
   earned: number;
   best: WalletTierRow;
   next: WalletTierRow | null;
+}
+
+// One row of the signed-in user's stored wallet, resolved to a catalog slug.
+interface WalletEntry {
+  rowId: number;
+  slug: string;
 }
 
 // ---- Quiz options -----------------------------------------------------------
@@ -252,6 +265,13 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [walletPrefilled, setWalletPrefilled] = useState(false);
+  // The wallet exactly as it was pulled at start, one entry per ROW. Kept so
+  // edits made in the picker can be written back: a removal needs the row id,
+  // not the slug.
+  const [prefilledEntries, setPrefilledEntries] = useState<WalletEntry[]>([]);
+  // Opt-in. Defaults off so a card removed just to model "what if I dropped
+  // this?" never silently deletes it from the real wallet.
+  const [saveWalletEdits, setSaveWalletEdits] = useState(false);
   const [activeProfile, setActiveProfile] = useState<string | null>(null);
 
   // Persist answers so a sign-in redirect round-trip doesn't lose them, and
@@ -299,22 +319,44 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
   const slugToCard = useMemo(() => new Map(allCards.map((c) => [c.slug, c])), [allCards]);
 
   // Map a user's stored wallet (numeric card_ids) back to catalog slugs.
-  // One slug per wallet ROW, so two of the same card surface as two entries
+  // One entry per wallet ROW, so two of the same card surface as two entries
   // (important for the stacked-cap calculus, e.g. two Citi Custom Cash).
-  const walletToSlugs = useMemo(() => {
+  // Rows that don't resolve to a catalog card are dropped, which also means
+  // saveWalletDiff can never remove them — it only ever touches rows it saw.
+  const walletToEntries = useMemo(() => {
     const lookups = createCardLookups(allCards);
-    return (wallet: { card_id: number; card_name: string }[]) =>
+    return (wallet: WalletCard[]): WalletEntry[] =>
       wallet
-        .map(
-          (w) =>
-            (
-              lookups.byWalletId.get(w.card_id) ??
-              lookups.byName.get(w.card_name) ??
-              lookups.byNameNormalized.get(normalizeCardName(w.card_name))
-            )?.slug,
-        )
-        .filter((s): s is string => !!s);
+        .map((w) => ({
+          rowId: w.id,
+          slug: (
+            lookups.byWalletId.get(w.card_id) ??
+            lookups.byName.get(w.card_name) ??
+            lookups.byNameNormalized.get(normalizeCardName(w.card_name))
+          )?.slug,
+        }))
+        .filter((e): e is WalletEntry => !!e.slug);
   }, [allCards]);
+
+  const walletToSlugs = useMemo(
+    () => (wallet: WalletCard[]) => walletToEntries(wallet).map((e) => e.slug),
+    [walletToEntries],
+  );
+
+  // True once the picker no longer matches the wallet we loaded. Multiset
+  // compare, not set compare — dropping one of two identical cards is an edit.
+  const walletEdited = useMemo(() => {
+    if (!walletPrefilled) return false;
+    if (prefilledEntries.length !== state.walletSlugs.length) return true;
+    const counts = new Map<string, number>();
+    for (const e of prefilledEntries) counts.set(e.slug, (counts.get(e.slug) ?? 0) + 1);
+    for (const slug of state.walletSlugs) {
+      const n = counts.get(slug);
+      if (!n) return true;
+      counts.set(slug, n - 1);
+    }
+    return false;
+  }, [walletPrefilled, prefilledEntries, state.walletSlugs]);
 
   // Signed-in users: pull their current cards from their wallet instead of
   // asking. Only overrides the picker when the wallet actually has cards.
@@ -327,9 +369,10 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
         if (!token || cancelled) return;
         const wallet = await getWallet(token);
         if (cancelled || wallet.length === 0) return;
-        const slugs = walletToSlugs(wallet);
-        if (slugs.length === 0) return;
-        dispatch({ type: 'set', key: 'walletSlugs', value: slugs });
+        const entries = walletToEntries(wallet);
+        if (entries.length === 0) return;
+        dispatch({ type: 'set', key: 'walletSlugs', value: entries.map((e) => e.slug) });
+        setPrefilledEntries(entries);
         setWalletPrefilled(true);
       } catch {
         /* no wallet yet — fall back to asking */
@@ -341,15 +384,56 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState.isAuthenticated]);
 
+  // Write the picker's edits back to an existing wallet as an add/remove diff.
+  // Only ever called for a wallet we loaded ourselves, and only on opt-in.
+  async function saveWalletDiff(token: string) {
+    const desired = new Map<string, number>();
+    for (const slug of state.walletSlugs) desired.set(slug, (desired.get(slug) ?? 0) + 1);
+
+    // Walk the rows we loaded: each one either covers a still-wanted copy of
+    // that card, or it's a removal. Decrementing as we go keeps duplicates
+    // straight (two Custom Cash minus one leaves exactly one row alive).
+    const removals: number[] = [];
+    for (const entry of prefilledEntries) {
+      const want = desired.get(entry.slug) ?? 0;
+      if (want > 0) desired.set(entry.slug, want - 1);
+      else removals.push(entry.rowId);
+    }
+
+    // Whatever count is still outstanding is a genuine addition.
+    for (const [slug, count] of desired) {
+      const card = slugToCard.get(slug);
+      if (!card?.db_card_id) continue;
+      for (let i = 0; i < count; i++) {
+        try {
+          await addToWallet(card.db_card_id, undefined, undefined, token);
+        } catch (err) {
+          console.warn('bcfm: failed to add card to wallet', slug, err);
+        }
+      }
+    }
+    for (const rowId of removals) {
+      try {
+        await removeFromWallet(rowId, token);
+      } catch (err) {
+        console.warn('bcfm: failed to remove wallet row', rowId, err);
+      }
+    }
+  }
+
   // Resolve the wallet slugs to rank against, and (for a brand-new signed-in
   // user with no wallet) seed their wallet from the cards they entered — which
   // also creates their profile. Never seeds when a wallet already exists.
   async function resolveWalletSlugs(token: string): Promise<string[]> {
     // Already loaded (and possibly edited) their existing wallet at start —
     // rank against that view, and never reseed a wallet that already exists.
-    if (walletPrefilled) return state.walletSlugs;
+    // Edits only reach the stored wallet when the user opted in on step 3.
+    if (walletPrefilled) {
+      if (saveWalletEdits && walletEdited) await saveWalletDiff(token);
+      return state.walletSlugs;
+    }
 
-    let wallet: { card_id: number; card_name: string }[] = [];
+    let wallet: WalletCard[] = [];
     try {
       wallet = await getWallet(token);
     } catch {
@@ -572,7 +656,7 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
             title={walletPrefilled ? 'Your wallet' : 'Which cards do you already have?'}
             subtitle={
               walletPrefilled
-                ? 'We pulled these from your account. Add or remove any to adjust.'
+                ? 'We pulled these from your account. Add or remove any to adjust this ranking.'
                 : "We only recommend cards that beat what's already in your wallet."
             }
           >
@@ -583,6 +667,21 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
               onAdd={(slug) => dispatch({ type: 'addCard', slug })}
               onRemoveOne={(slug) => dispatch({ type: 'removeCard', slug })}
             />
+            {walletEdited && (
+              <label className="bcfm-save-wallet">
+                <input
+                  type="checkbox"
+                  checked={saveWalletEdits}
+                  onChange={(e) => setSaveWalletEdits(e.target.checked)}
+                />
+                <span>
+                  Save these changes to my wallet
+                  <span className="bcfm-save-wallet-sub">
+                    Otherwise they only apply to this ranking and your profile stays as it is.
+                  </span>
+                </span>
+              </label>
+            )}
           </StepShell>
         )}
       </div>
