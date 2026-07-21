@@ -52,11 +52,38 @@ jobs:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
           aws-region: us-east-2
 
+      # Non-blocking on purpose. A hero image is decoration; the article is the
+      # product. This step is not allowed to decide whether news ships.
+      #
+      # It blocked publishing twice on 2026-07-21 — once when the OpenAI balance
+      # ran out, once on a bad parameter — and because every later step is
+      # sequential, `Upload news.json to S3`, the Amplify rebuild, the social
+      # queue and IndexNow were all skipped. The article existed on main and was
+      # invisible on the site, which is a worse outcome than an article with a
+      # missing image.
+      #
+      # A failure here is still surfaced: the next step annotates the run and
+      # `image_status` marks the job so a silent image outage cannot masquerade
+      # as a clean deploy.
       - name: Sync news hero images (generate missing via OpenAI)
+        id: hero-images
+        continue-on-error: true
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           S3_IMAGES_BUCKET_NAME: ${{ secrets.S3_IMAGES_BUCKET_NAME }}
         run: node scripts/sync-news-images.js
+
+      - name: Flag hero-image failure
+        if: steps.hero-images.outcome == 'failure'
+        run: |
+          echo "::warning title=Hero images failed::sync-news-images.js failed; news is publishing without new hero images. Check the OpenAI balance and the step log above."
+          {
+            echo "### ⚠️ Hero images failed"
+            echo ""
+            echo "\`sync-news-images.js\` did not complete. News still published, but any new item may be missing its hero image (used on the news page, the OG card, and the social post)."
+            echo ""
+            echo "Re-run this workflow once the cause is fixed to backfill; S3 is the source of truth, so images that already exist are not regenerated."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload news.json to S3
         run: aws s3 cp data/news.json s3://${{ secrets.S3_BUCKET_NAME }}/news.json --content-type application/json --cache-control "max-age=300"
