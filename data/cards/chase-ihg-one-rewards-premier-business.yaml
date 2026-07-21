@@ -32,13 +32,20 @@ benefits:
     frequency: "multi_year"
     frequency_years: 4
     category: "travel"
+  - name: "Points Purchase Discount"
+    value: 20
+    value_unit: "percent"
+    description: "Save at least 20% when you buy IHG One Rewards points with this card."
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - hotel
   - travel
   - rewards
 rewards:
   - category: hotels
-    value: 26
+    value: 10
     unit: points_per_dollar
     note: "Up to 26x total points at IHG hotels"
     merchant_specific: true
