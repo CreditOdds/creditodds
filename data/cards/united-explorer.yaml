@@ -91,6 +91,13 @@ benefits:
     frequency: "per_purchase"
     category: "statement_credit"
     enrollment_required: false
+  - name: "Mile Flight Savings"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more when booking flights with miles; Premier members save even more."
+    frequency: "per_flight"
+    category: "rewards"
+    enrollment_required: false
 tags:
   - airline
   - travel
