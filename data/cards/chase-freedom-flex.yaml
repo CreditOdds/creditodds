@@ -79,3 +79,8 @@ benefits:
     frequency: "per_claim"
     category: "other"
     enrollment_required: false
+  - name: "DashPass Complimentary Membership"
+    description: "6 months of complimentary DashPass on DoorDash and Caviar, plus $10 off one non-restaurant DoorDash order each quarter while enrolled."
+    frequency: "one_time"
+    category: "dining"
+    enrollment_required: true
