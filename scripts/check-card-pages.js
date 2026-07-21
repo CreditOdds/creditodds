@@ -263,14 +263,27 @@ function knownBlockedReason(url) {
   try {
     const u = new URL(url);
     const host = u.hostname.replace(/^www\./, '');
-    if (host === 'pnc.com') return 'pnc.com bot mitigation blocks automated fetches (HTTP/2 reset + HTTP/1.1 black-hole)';
+    // pnc.com was listed here until 2026-07-21. The block was written when this
+    // job ran in GitHub Actions, and it was really about the runner's datacenter
+    // IP, not about pnc.com in general. Now that the check runs locally (see the
+    // `card-page-check-local` scheduled task) all four PNC cards fetch fine:
+    // 10.5k-12.7k chars of real product page, verified per card before removal.
+    // Re-add it if the check ever moves back into CI.
+
     // amazon.com serves an automation interstitial ("Click the button below to
-    // continue shopping") instead of card terms. This permanently skips the
-    // Amazon Store card, whose only apply_link is an amazon.com listing with no
-    // scrapeable issuer equivalent (Synchrony has no public product page). The
-    // Amazon Prime card also carries an amazon.com special_apply_link, but
-    // checkUrlFor() routes its check to the scrapeable Chase apply_link instead,
-    // so this entry does not blind Prime.
+    // continue shopping") instead of card terms. Re-verified from a residential
+    // IP on 2026-07-21 and it STILL does: the Amazon Store apply_link returned
+    // 154 chars of interstitial. It is inconsistent rather than fixed — one
+    // fetch returned 18k chars of product page, but with no offer language in
+    // it — so the entry stays.
+    //
+    // This entry is also load-bearing for a card it does not name. Amazon Prime
+    // carries an amazon.com `special_apply_link`, and checkUrlFor() only skips a
+    // special_apply_link when knownBlockedReason() flags its host. Drop this
+    // entry and Prime silently stops being checked against its scrapeable Chase
+    // apply_link and starts being checked against a 153-char interstitial.
+    // Measured, not theorised. If you remove this, give Prime an explicit
+    // `page_check_url` pointing at the Chase page first.
     if (host === 'amazon.com') return 'amazon.com serves an automation interstitial ("Continue shopping") instead of card terms';
   } catch { /* malformed URL — let the normal fetch path handle it */ }
   return null;
