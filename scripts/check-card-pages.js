@@ -1466,9 +1466,13 @@ async function main() {
   //
   // Shared with the network-error retry pass so a retried card produces exactly
   // the artifacts it would have produced on the first attempt.
-  const writeFetchArtifacts = async (card, { pageContent, usedBrowser, browserFirstValid, prevBrowserFirst }) => {
+  // `apply_link` is passed in rather than recomputed from checkUrlFor(card):
+  // the iframe self-heal may have re-pointed it at a freshly-derived URL after
+  // the stored page_check_url 404'd, and the prompt must name the URL the
+  // content actually came from. Recomputing here would silently label healed
+  // content with the dead URL.
+  const writeFetchArtifacts = async (card, { apply_link, pageContent, usedBrowser, browserFirstValid, prevBrowserFirst }) => {
     const { name, bank } = card.data;
-    const apply_link = checkUrlFor(card);
 
     if (!usedBrowser && !pageShowsSignupOffer(pageContent)) {
       console.log('  No offer language in simple fetch — re-fetching with browser');
@@ -1543,7 +1547,9 @@ async function main() {
 
     try {
       await withTimeout((async () => {
-        const fetchResult = await fetchCardPage(apply_link, browserFirstValid);
+        // `let`, not `const`: the iframe self-heal below reassigns this when it
+        // recovers a card whose stored page_check_url has rotated to a 404.
+        let fetchResult = await fetchCardPage(apply_link, browserFirstValid);
         lastHostHit.set(host, Date.now());
 
         // Iframe self-heal: the primary fetch failed (typically a 404 from a
@@ -1580,7 +1586,7 @@ async function main() {
 
         // FETCH_PHASE stops here — see writeFetchArtifacts.
         if (PHASE === 'fetch') {
-          await writeFetchArtifacts(card, { pageContent, usedBrowser, browserFirstValid, prevBrowserFirst });
+          await writeFetchArtifacts(card, { apply_link, pageContent, usedBrowser, browserFirstValid, prevBrowserFirst });
           return;
         }
 
@@ -1731,6 +1737,7 @@ async function main() {
               return;
             }
             await writeFetchArtifacts(card, {
+              apply_link,
               pageContent: fetchResult.content,
               usedBrowser: fetchResult.usedBrowser,
               browserFirstValid,
