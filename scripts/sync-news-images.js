@@ -9,7 +9,7 @@
  * The image is a surreal-but-photoreal scene (beach, circus, stadium, …,
  * picked deterministically by the news id) in which the REAL card art for the
  * cards the story is about is composited in as the hero subject. We use
- * OpenAI's gpt-image-1 EDITS endpoint with the actual card PNGs as reference
+ * OpenAI's image EDITS endpoint with the actual card PNGs as reference
  * images (`input_fidelity: high`) so the cards stay recognizable rather than
  * being invented from scratch. News items with no associated card fall back to
  * the text-to-image generations endpoint with a generic card in the scene.
@@ -30,7 +30,9 @@
  *   --force-all        Regenerate every news item (expensive).
  *   --only <id>        Process just this one id (handy for previews).
  *   --limit <n>        Stop after generating <n> images this run (backfill in batches).
- *   --quality <q>      gpt-image-1 quality: low | medium | high (default high).
+ *   --quality <q>      Image quality: low | medium | high (default medium).
+ *   --model <m>        Image model (default gpt-image-1-mini). Use gpt-image-1,
+ *                      gpt-image-1.5 or gpt-image-2 for a one-off flagship render.
  *   --dry-run          Log what would happen, but don't call OpenAI or S3.
  */
 
@@ -57,7 +59,19 @@ const forceIds = new Set(
 );
 const onlyId = argVal('--only');
 const limit = argVal('--limit') ? parseInt(argVal('--limit'), 10) : Infinity;
-const quality = argVal('--quality') || 'high';
+// Defaults chosen for cost. gpt-image-1 at high/1536x1024 is $0.25 per image,
+// the most expensive combination OpenAI sells for that model, and every
+// successor now undercuts it (gpt-image-1.5 ~$0.20, gpt-image-2 ~$0.165).
+// gpt-image-1-mini supports the same /images/edits endpoint with reference
+// images, the same sizes, and the same three quality tiers, at $0.019 for
+// medium/1536x1024 — a ~92% cut with the pipeline unchanged. Matches the
+// quality tier sync-article-images.js has always used.
+//
+// Both are overridable per run (--model, --quality) so a hero image that
+// genuinely needs the flagship can have it without changing the default for
+// the other ~99% of generations.
+const model = argVal('--model') || 'gpt-image-1-mini';
+const quality = argVal('--quality') || 'medium';
 
 const bucket = process.env.S3_IMAGES_BUCKET_NAME;
 const openaiKey = process.env.OPENAI_API_KEY;
@@ -156,11 +170,11 @@ async function fetchCardBuffer(filename) {
   }
 }
 
-// gpt-image-1 EDITS: real card art in, scene out. Cards stay faithful.
+// EDITS: real card art in, scene out. Cards stay faithful.
 async function callOpenAIEdit(prompt, cards) {
   if (!openaiKey) throw new Error('OPENAI_API_KEY not set — cannot generate');
   const form = new FormData();
-  form.append('model', 'gpt-image-1');
+  form.append('model', model);
   form.append('prompt', prompt);
   form.append('size', '1536x1024');
   form.append('quality', quality);
@@ -181,7 +195,7 @@ async function callOpenAIEdit(prompt, cards) {
   return Buffer.from(b64, 'base64');
 }
 
-// gpt-image-1 GENERATIONS: for news items with no associated card art.
+// GENERATIONS: for news items with no associated card art.
 async function callOpenAIGenerate(prompt) {
   if (!openaiKey) throw new Error('OPENAI_API_KEY not set — cannot generate');
   const res = await fetch('https://api.openai.com/v1/images/generations', {
@@ -191,7 +205,7 @@ async function callOpenAIGenerate(prompt) {
       Authorization: `Bearer ${openaiKey}`,
     },
     body: JSON.stringify({
-      model: 'gpt-image-1',
+      model,
       prompt,
       size: '1536x1024',
       quality,
@@ -281,6 +295,11 @@ async function main() {
   const data = JSON.parse(fs.readFileSync(NEWS_JSON, 'utf8'));
   const items = data.items || data;
   if (!Array.isArray(items)) throw new Error('news.json shape unexpected');
+
+  // Logged every run so the CI output records what a given batch of images
+  // actually cost. An accidental `--quality high` is a ~5x bill and is
+  // otherwise invisible after the fact.
+  log(`model: ${model} | quality: ${quality} | size: 1536x1024`);
 
   const results = { generated: [], stamped: [], skipped: 0, failed: [] };
   let generatedThisRun = 0;
