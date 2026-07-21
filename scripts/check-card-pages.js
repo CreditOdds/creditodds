@@ -405,6 +405,64 @@ async function fetchWithBrowser(url) {
   }
 }
 
+// Self-heal for cards whose terms render inside a cross-origin iframe on their
+// marketing page (e.g. Rakuten → rakuten.imprint.co). We store that iframe URL
+// in page_check_url, but issuers serve it from a dated campaign slug that
+// rotates (cham-july-2026 → …), so the stored URL eventually 404s. When that
+// happens, load the parent page and re-derive the current iframe URL at runtime
+// — the check keeps verifying across rotations instead of going dark until a
+// human bumps the slug. Returns the largest visible cross-origin http(s) iframe
+// src, or null if the page has no such frame (the common case — most pages don't
+// nest their terms, so this returns null cheaply and the card just skips).
+// Timeouts are tighter than fetchWithBrowser so this fits inside the per-card
+// budget even after the primary fetch already spent some of it.
+async function resolveContentIframe(url) {
+  const browser = await getBrowser();
+  if (!browser) return null;
+
+  let context;
+  try {
+    context = await browser.newContext({
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      viewport: { width: 1280, height: 800 },
+      locale: 'en-US',
+    });
+    const page = await context.newPage();
+    const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 20000 });
+    if (response && response.status() >= 400) { await context.close(); return null; }
+    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(2000);
+
+    // Pick the largest visibly-rendered iframe with a cross-origin http(s) src.
+    // The size gate (≥ 400×300) filters out the 0×0 tracking pixels (DoubleClick,
+    // analytics) these pages are littered with, leaving the content frame.
+    const src = await page.evaluate((parentHref) => {
+      let parentHost = '';
+      try { parentHost = new URL(parentHref).hostname.replace(/^www\./, ''); } catch { /* ignore */ }
+      let best = null, bestArea = 0;
+      for (const f of document.querySelectorAll('iframe')) {
+        const s = f.src || '';
+        if (!/^https?:\/\//i.test(s)) continue;
+        let host;
+        try { host = new URL(s).hostname.replace(/^www\./, ''); } catch { continue; }
+        if (host === parentHost) continue; // same-origin frame is not the swapped-in issuer page
+        const area = f.offsetWidth * f.offsetHeight;
+        if (area >= 400 * 300 && area > bestArea) { bestArea = area; best = s; }
+      }
+      return best;
+    }, url);
+
+    await context.close();
+    return src || null;
+  } catch (err) {
+    // Non-fatal: the card falls through to its normal skip, but say why so a
+    // failed re-derivation isn't indistinguishable from "page has no iframe".
+    console.warn(`  Iframe re-derivation failed: ${err.message.split('\n')[0]}`);
+    if (context) await context.close().catch(() => {});
+    return null;
+  }
+}
+
 async function closeBrowser() {
   if (_browser) {
     await _browser.close();
@@ -1354,7 +1412,9 @@ async function main() {
     }
 
     const { name, bank } = card.data;
-    const apply_link = checkUrlFor(card);
+    // `let`, not `const`: the iframe self-heal below may re-point this at a
+    // freshly-derived URL when a stored page_check_url has rotated to a 404.
+    let apply_link = checkUrlFor(card);
     // Label the URL by which field actually supplied it — checkUrlFor may skip a
     // bot-walled special_apply_link, so keying the tag off its mere presence lies.
     const urlSource =
@@ -1400,6 +1460,31 @@ async function main() {
           fetchResult = await fetchPageContent(apply_link);
         }
         lastHostHit.set(host, Date.now());
+
+        // Iframe self-heal: the primary fetch failed (typically a 404 from a
+        // rotated page_check_url slug, or an issuer page that renders its terms
+        // in a cross-origin iframe). Before skipping, load the card's own
+        // apply_link and re-derive the current content-iframe URL, then fetch
+        // that. Only runs on failure, so a card that was going to skip either
+        // recovers or skips as before — it can never regress a healthy card.
+        if (!fetchResult && card.data.apply_link && card.data.apply_link !== apply_link) {
+          console.log(`  Primary fetch failed (${lastFetchError || 'no content'}) — re-deriving content iframe from apply_link`);
+          const iframeUrl = await resolveContentIframe(card.data.apply_link);
+          lastHostHit.set(hostOf(card.data.apply_link), Date.now());
+          if (iframeUrl && iframeUrl !== apply_link) {
+            console.log(`  Found content iframe: ${iframeUrl}`);
+            const healedContent = await fetchWithBrowser(iframeUrl);
+            lastHostHit.set(hostOf(iframeUrl), Date.now());
+            if (healedContent) {
+              fetchResult = { content: healedContent, usedBrowser: true };
+              if (iframeUrl !== card.data.page_check_url) {
+                console.log(`  NOTE: page_check_url is stale — update the YAML to: ${iframeUrl}`);
+              }
+              apply_link = iframeUrl; // downstream prompt/extraction use the healed URL
+            }
+          }
+        }
+
         if (!fetchResult) {
           console.log('  Skipped (could not fetch page)\n');
           recordSkip(card, lastFetchError || 'could not fetch page');
