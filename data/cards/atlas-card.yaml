@@ -115,6 +115,12 @@ benefits:
     description: "21g mirror-finished steel card, CNC-milled and laser-engraved with cardholder's preferred first name"
     frequency: "ongoing"
     category: "other"
+  - name: "Slate Shared Membership"
+    value: 595
+    description: "Complimentary one-year Slate Shared Membership ($595 value) plus $395 off every seat between New York, the Hamptons, Nantucket, and South Florida"
+    frequency: "one_time"
+    category: "travel"
+    enrollment_required: true
 tags:
   - premium
   - travel
