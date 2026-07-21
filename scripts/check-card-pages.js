@@ -276,6 +276,47 @@ function knownBlockedReason(url) {
   return null;
 }
 
+// Transport-level failures that say nothing about the page itself: the request
+// never reached the origin, so the card is unchecked for a reason that may be
+// gone seconds later. These are the only skips the retry pass reopens.
+//
+// Deliberately NOT here: HTTP 4xx/5xx, "content too short", and known blocks.
+// Each of those is a real answer about the page, and retrying them would burn
+// the deadline while blurring the very signal the stale alarm reads.
+const NETWORK_ERROR_PATTERNS = [
+  /net::ERR_INTERNET_DISCONNECTED/i,
+  /net::ERR_NAME_NOT_RESOLVED/i,
+  /net::ERR_NETWORK_CHANGED/i,
+  /net::ERR_NETWORK_IO_SUSPENDED/i,
+  /net::ERR_CONNECTION_(RESET|REFUSED|CLOSED|ABORTED|FAILED|TIMED_OUT)/i,
+  /net::ERR_(ADDRESS_UNREACHABLE|SOCKET_NOT_CONNECTED|EMPTY_RESPONSE|TIMED_OUT)/i,
+  /\b(ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ETIMEDOUT|ENETDOWN|ENETUNREACH|EHOSTUNREACH)\b/,
+  /fetch failed/i,
+  /socket hang up/i,
+  /network (?:error|timeout)/i,
+  // page.goto's own transport timeout, and this script's per-card withTimeout.
+  // A page slow enough to blow either is usually a stalled connection rather
+  // than a slow renderer, and a retry is cheap next to a false stale alarm.
+  /Timeout \d+ms exceeded/i,
+  /Timed out after \d+ms/i,
+];
+
+function isTransientNetworkError(reason) {
+  if (!reason) return false;
+  return NETWORK_ERROR_PATTERNS.some(re => re.test(reason));
+}
+
+// Settle delays before each retry round. An outage that killed one fetch is
+// usually still in progress a second later, so retrying immediately just
+// re-records the same failure; these waits give the link time to come back.
+// Two rounds covers a multi-minute blip without turning a genuinely offline
+// machine into a 90-minute no-op.
+const NETWORK_RETRY_BACKOFFS_MS = (
+  process.env.CARD_PAGE_NETWORK_RETRY_BACKOFFS_MS
+    ? process.env.CARD_PAGE_NETWORK_RETRY_BACKOFFS_MS.split(',').map(Number)
+    : [30 * 1000, 120 * 1000]
+).filter(ms => Number.isFinite(ms) && ms >= 0);
+
 async function fetchPageContent(url) {
   // Status from the plain fetch, remembered so that if the browser fallback also
   // fails we report the origin's real complaint ("HTTP 400") rather than the
@@ -1397,6 +1438,64 @@ async function main() {
     try { return new URL(url).hostname; } catch { return url; }
   };
 
+  // Fetch page. A card flagged browser_first goes straight to Playwright: its
+  // simple fetch is known to return placeholder/blocked content, and extracting
+  // that placeholder costs a full OpenAI call that always comes back empty. If
+  // the browser fails, this is an honest skip (it feeds the stale alarm) rather
+  // than a fall-back to content we already know can't be trusted — a placeholder
+  // page reading as "no changes" is exactly the false-verified case the browser
+  // retry path exists to prevent.
+  const fetchCardPage = async (apply_link, browserFirstValid) => {
+    if (browserFirstValid) {
+      console.log('  Known browser-dependent page — skipping simple fetch');
+      const content = await fetchWithBrowser(apply_link);
+      return content ? { content, usedBrowser: true } : null;
+    }
+    return fetchPageContent(apply_link);
+  };
+
+  // FETCH_PHASE: write the prompt out and stop — the caller does the extraction.
+  // The single pass decides whether a page needs re-fetching with the browser by
+  // looking at what the extractor returned (needsBrowserRetry), which is
+  // unavailable here because nothing has been extracted yet. pageShowsSignupOffer
+  // is the deterministic stand-in: a simple-fetch page with no offer language
+  // anywhere in it is the same JS-rendered placeholder case the retry exists to
+  // catch. Re-fetching on that signal keeps the self-heal without needing a
+  // second extract/fetch round trip — at the cost of a wasted browser fetch on
+  // cards that genuinely have no welcome offer, which is time, not accuracy.
+  //
+  // Shared with the network-error retry pass so a retried card produces exactly
+  // the artifacts it would have produced on the first attempt.
+  const writeFetchArtifacts = async (card, { pageContent, usedBrowser, browserFirstValid, prevBrowserFirst }) => {
+    const { name, bank } = card.data;
+    const apply_link = checkUrlFor(card);
+
+    if (!usedBrowser && !pageShowsSignupOffer(pageContent)) {
+      console.log('  No offer language in simple fetch — re-fetching with browser');
+      const browserContent = await fetchWithBrowser(apply_link);
+      lastHostHit.set(hostOf(apply_link), Date.now());
+      if (browserContent) {
+        pageContent = browserContent;
+        usedBrowser = true;
+      }
+    }
+
+    fs.writeFileSync(
+      path.join(PROMPTS_DIR, `${card.slug}.txt`),
+      buildExtractionPrompt(name, bank, apply_link, pageContent, card.data.signup_bonus)
+    );
+    fs.writeFileSync(path.join(PAGES_DIR, `${card.slug}.txt`), pageContent);
+
+    if (usedBrowser) {
+      browserFirstBySlug.set(
+        card.slug,
+        browserFirstValid ? prevBrowserFirst : new Date().toISOString()
+      );
+    }
+    fetchedSlugs.push(card.slug);
+    console.log('  Prompt written');
+  };
+
   for (const [i, card] of cardsToCheck.entries()) {
     if (Date.now() > scriptDeadline) {
       // Record the cards we never reached. Without this the loop just breaks and
@@ -1444,21 +1543,7 @@ async function main() {
 
     try {
       await withTimeout((async () => {
-        // Fetch page. A card flagged browser_first goes straight to Playwright:
-        // its simple fetch is known to return placeholder/blocked content, and
-        // extracting that placeholder costs a full OpenAI call that always
-        // comes back empty. If the browser fails, this is an honest skip (it
-        // feeds the stale alarm) rather than a fall-back to content we already
-        // know can't be trusted — a placeholder page reading as "no changes"
-        // is exactly the false-verified case the retry path exists to prevent.
-        let fetchResult;
-        if (browserFirstValid) {
-          console.log('  Known browser-dependent page — skipping simple fetch');
-          const content = await fetchWithBrowser(apply_link);
-          fetchResult = content ? { content, usedBrowser: true } : null;
-        } else {
-          fetchResult = await fetchPageContent(apply_link);
-        }
+        const fetchResult = await fetchCardPage(apply_link, browserFirstValid);
         lastHostHit.set(host, Date.now());
 
         // Iframe self-heal: the primary fetch failed (typically a 404 from a
@@ -1493,41 +1578,9 @@ async function main() {
         let { content: pageContent, usedBrowser } = fetchResult;
         console.log(`  Fetched ${pageContent.length} chars`);
 
-        // FETCH_PHASE: write the prompt out and stop — the caller does the
-        // extraction. The single pass decides whether a page needs re-fetching
-        // with the browser by looking at what the extractor returned
-        // (needsBrowserRetry), which is unavailable here because nothing has
-        // been extracted yet. pageShowsSignupOffer is the deterministic stand-in:
-        // a simple-fetch page with no offer language anywhere in it is the same
-        // JS-rendered placeholder case the retry exists to catch. Re-fetching on
-        // that signal keeps the self-heal without needing a second extract/fetch
-        // round trip — at the cost of a wasted browser fetch on cards that
-        // genuinely have no welcome offer, which is time, not accuracy.
+        // FETCH_PHASE stops here — see writeFetchArtifacts.
         if (PHASE === 'fetch') {
-          if (!usedBrowser && !pageShowsSignupOffer(pageContent)) {
-            console.log('  No offer language in simple fetch — re-fetching with browser');
-            const browserContent = await fetchWithBrowser(apply_link);
-            lastHostHit.set(host, Date.now());
-            if (browserContent) {
-              pageContent = browserContent;
-              usedBrowser = true;
-            }
-          }
-
-          fs.writeFileSync(
-            path.join(PROMPTS_DIR, `${card.slug}.txt`),
-            buildExtractionPrompt(name, bank, apply_link, pageContent, card.data.signup_bonus)
-          );
-          fs.writeFileSync(path.join(PAGES_DIR, `${card.slug}.txt`), pageContent);
-
-          if (usedBrowser) {
-            browserFirstBySlug.set(
-              card.slug,
-              browserFirstValid ? prevBrowserFirst : new Date().toISOString()
-            );
-          }
-          fetchedSlugs.push(card.slug);
-          console.log('  Prompt written');
+          await writeFetchArtifacts(card, { pageContent, usedBrowser, browserFirstValid, prevBrowserFirst });
           return;
         }
 
@@ -1604,6 +1657,98 @@ async function main() {
     }
 
     console.log('');
+  }
+
+  // Second chance for cards the network dropped under us, before any of this is
+  // written down. A transient disconnect is indistinguishable in the state file
+  // from a page that is genuinely gone — both land in skippedCards, and from
+  // there both read as "not verified" for as long as they persist. But only one
+  // of the two is recoverable inside the same run.
+  //
+  // Sizing: on 2026-07-21 a local link drop skipped 87 of 148 cards in a single
+  // pass. Every one of them would have entered the stale alarm as though its
+  // issuer page had broken, and the re-run that recovered them was manual.
+  //
+  // Fetch phase only. The single pass would also have to re-run extraction to
+  // retry a card, and that path is the API-key-dependent one; the fetch phase's
+  // work is pure I/O, so reopening it is cheap and side-effect-free.
+  if (PHASE === 'fetch' && NETWORK_RETRY_BACKOFFS_MS.length > 0) {
+    const cardBySlug = new Map(cardsToCheck.map(c => [c.slug, c]));
+
+    for (const [round, settleMs] of NETWORK_RETRY_BACKOFFS_MS.entries()) {
+      const pending = skippedCards.filter(s => !s.knownBlock && isTransientNetworkError(s.reason));
+      if (pending.length === 0) break;
+
+      if (Date.now() + settleMs > scriptDeadline) {
+        console.warn(
+          `\n⚠️  ${pending.length} network-error skip(s) left unretried — script deadline reached.`
+        );
+        break;
+      }
+
+      console.log(
+        `\n=== Network-error retry ${round + 1}/${NETWORK_RETRY_BACKOFFS_MS.length}: ` +
+        `${pending.length} card(s) ===`
+      );
+      console.log(`Waiting ${Math.round(settleMs / 1000)}s for connectivity to settle...`);
+      await new Promise(r => setTimeout(r, settleMs));
+
+      for (const entry of pending) {
+        if (Date.now() > scriptDeadline) {
+          console.warn('Script timeout reached — abandoning the remaining retries.');
+          break;
+        }
+
+        const card = cardBySlug.get(entry.slug);
+        // A slug with no card can't happen today (pending is built from skips
+        // this run recorded), but retrying a card we can't re-resolve would
+        // write a prompt under a slug nothing reads back.
+        if (!card) continue;
+
+        const apply_link = checkUrlFor(card);
+        const host = hostOf(apply_link);
+        console.log(`Retrying: ${card.data.name}`);
+        console.log(`  URL: ${apply_link}`);
+
+        const hostWaitMs = (lastHostHit.get(host) || 0) + FETCH_DELAY_MS - Date.now();
+        if (hostWaitMs > 0) await new Promise(r => setTimeout(r, hostWaitMs));
+
+        const prevBrowserFirst = prevState[card.slug]?.browser_first;
+        const browserFirstValid = Boolean(
+          prevBrowserFirst && Date.now() - Date.parse(prevBrowserFirst) < BROWSER_FIRST_TTL_MS
+        );
+
+        try {
+          await withTimeout((async () => {
+            const fetchResult = await fetchCardPage(apply_link, browserFirstValid);
+            lastHostHit.set(host, Date.now());
+            if (!fetchResult) {
+              // Keep the card skipped, but carry the newest reason forward: a
+              // disconnect that resolves into "HTTP 404" on retry is a real
+              // finding, and overwriting says so.
+              entry.reason = lastFetchError || entry.reason;
+              console.log('  Still failing — leaving skipped\n');
+              return;
+            }
+            await writeFetchArtifacts(card, {
+              pageContent: fetchResult.content,
+              usedBrowser: fetchResult.usedBrowser,
+              browserFirstValid,
+              prevBrowserFirst,
+            });
+            // Recovered: drop it from the skip list so the run reports it as
+            // checked and the stale counter for this card resets.
+            const at = skippedCards.indexOf(entry);
+            if (at !== -1) skippedCards.splice(at, 1);
+            console.log('');
+          })(), PER_CARD_TIMEOUT_MS, card.data.name);
+        } catch (err) {
+          entry.reason = err.message;
+          console.warn(`  ${err.message} — leaving skipped\n`);
+          lastHostHit.set(host, Date.now());
+        }
+      }
+    }
   }
 
   // FETCH_PHASE ends here. Deliberately does NOT touch the skip counters or the
@@ -1801,5 +1946,6 @@ module.exports = {
   pageShowsSignupOffer,
   updateSkipState,
   staleCardsFrom,
+  isTransientNetworkError,
   SKIP_ALERT_THRESHOLD,
 };
