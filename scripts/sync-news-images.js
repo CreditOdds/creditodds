@@ -31,8 +31,9 @@
  *   --only <id>        Process just this one id (handy for previews).
  *   --limit <n>        Stop after generating <n> images this run (backfill in batches).
  *   --quality <q>      Image quality: low | medium | high (default medium).
- *   --model <m>        Image model (default gpt-image-1-mini). Use gpt-image-1,
- *                      gpt-image-1.5 or gpt-image-2 for a one-off flagship render.
+ *   --model <m>        Image model (default gpt-image-1.5). gpt-image-1 and
+ *                      gpt-image-1.5 accept input_fidelity: high; gpt-image-2 is
+ *                      always high fidelity; gpt-image-1-mini has none.
  *   --dry-run          Log what would happen, but don't call OpenAI or S3.
  */
 
@@ -59,19 +60,35 @@ const forceIds = new Set(
 );
 const onlyId = argVal('--only');
 const limit = argVal('--limit') ? parseInt(argVal('--limit'), 10) : Infinity;
-// Defaults chosen for cost. gpt-image-1 at high/1536x1024 is $0.25 per image,
-// the most expensive combination OpenAI sells for that model, and every
-// successor now undercuts it (gpt-image-1.5 ~$0.20, gpt-image-2 ~$0.165).
-// gpt-image-1-mini supports the same /images/edits endpoint with reference
-// images, the same sizes, and the same three quality tiers, at $0.019 for
-// medium/1536x1024 — a ~92% cut with the pipeline unchanged. Matches the
-// quality tier sync-article-images.js has always used.
+// Defaults chosen for cost, subject to one hard constraint: the edits path
+// MUST keep `input_fidelity: high`. That parameter is the reason the real card
+// art survives the edit instead of being redrawn from scratch, which is the
+// entire point of compositing actual card PNGs rather than describing them.
 //
-// Both are overridable per run (--model, --quality) so a hero image that
-// genuinely needs the flagship can have it without changing the default for
-// the other ~99% of generations.
-const model = argVal('--model') || 'gpt-image-1-mini';
+// Not every model accepts it (see NO_INPUT_FIDELITY below), so the cheapest
+// model is not automatically the right one:
+//
+//   gpt-image-1     $0.25  medium→high tiers, input_fidelity OK  (previous default)
+//   gpt-image-1.5   ~$0.032 at medium/1536x1024, input_fidelity OK
+//   gpt-image-2     ~$0.041 at medium, always high fidelity, REJECTS the param
+//   gpt-image-1-mini $0.019 at medium, no input_fidelity at all
+//
+// gpt-image-1.5 at medium is the cheapest option that still takes explicit
+// high input fidelity: ~87% off the old per-image cost with the card-faithful
+// behaviour unchanged. mini is cheaper still but cannot hold the card art, so
+// it is not a safe default for this pipeline.
+//
+// Both overridable per run (--model, --quality) for a one-off flagship render.
+const model = argVal('--model') || 'gpt-image-1.5';
 const quality = argVal('--quality') || 'medium';
+
+// Models that reject `input_fidelity` outright. gpt-image-2 processes every
+// image input at high fidelity automatically and 400s if the parameter is sent
+// at all; gpt-image-1-mini does not support it in any form. Sending it blindly
+// is what broke the first switch to mini, so the support check lives here
+// rather than being implied by whichever model happens to be the default.
+const NO_INPUT_FIDELITY = new Set(['gpt-image-1-mini', 'gpt-image-2']);
+const supportsInputFidelity = !NO_INPUT_FIDELITY.has(model);
 
 const bucket = process.env.S3_IMAGES_BUCKET_NAME;
 const openaiKey = process.env.OPENAI_API_KEY;
@@ -178,7 +195,7 @@ async function callOpenAIEdit(prompt, cards) {
   form.append('prompt', prompt);
   form.append('size', '1536x1024');
   form.append('quality', quality);
-  form.append('input_fidelity', 'high');
+  if (supportsInputFidelity) form.append('input_fidelity', 'high');
   form.append('n', '1');
   for (const c of cards) {
     form.append('image[]', new Blob([c.buf], { type: 'image/png' }), c.filename);
@@ -299,7 +316,10 @@ async function main() {
   // Logged every run so the CI output records what a given batch of images
   // actually cost. An accidental `--quality high` is a ~5x bill and is
   // otherwise invisible after the fact.
-  log(`model: ${model} | quality: ${quality} | size: 1536x1024`);
+  log(
+    `model: ${model} | quality: ${quality} | size: 1536x1024 | ` +
+    `input_fidelity: ${supportsInputFidelity ? 'high' : 'not supported by this model'}`
+  );
 
   const results = { generated: [], stamped: [], skipped: 0, failed: [] };
   let generatedThisRun = 0;
