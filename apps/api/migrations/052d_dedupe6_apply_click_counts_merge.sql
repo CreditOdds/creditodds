@@ -1,0 +1,2 @@
+-- PK (card_id, click_date, click_source): sum like the view counts.
+INSERT INTO card_apply_click_counts (card_id, click_date, click_source, click_count) SELECT nid, click_date, click_source, click_count FROM (SELECT CASE card_id WHEN 15 THEN 311 WHEN 70 THEN 245 WHEN 71 THEN 251 WHEN 113 THEN 252 WHEN 306 THEN 18 WHEN 307 THEN 16 END AS nid, click_date, click_source, click_count FROM card_apply_click_counts WHERE card_id IN (15,70,71,113,306,307)) x ON DUPLICATE KEY UPDATE click_count = card_apply_click_counts.click_count + VALUES(click_count);
