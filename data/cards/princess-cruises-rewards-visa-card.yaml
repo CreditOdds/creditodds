@@ -1,10 +1,12 @@
-name: "Princess Cruises Rewards Visa"
+name: "Princess Rewards Visa"
+previous_names:
+  - "Princess Cruises Rewards Visa"
 bank: "Barclays"
 slug: "princess-cruises-rewards-visa-card"
 accepting_applications: true
 apply_link: https://cards.barclaycardus.com/credit-card/b2e0e09c-e93c-43be-8758-57d22bb39ec1
 our_take: >
-  The Princess Cruises Rewards Visa is a niche card designed for loyal
+  The Princess Rewards Visa is a niche card designed for loyal
   Princess Cruises passengers, offering 2 points per dollar on purchases made
   with the cruise line. With no annual fee and a 20,000-point signup bonus
   after spending $1,000 in the first 3 months, it's a low-cost way to earn
