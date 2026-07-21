@@ -65,6 +65,17 @@ const PAGES_DIR = path.join(WORK_DIR, 'pages');
 const FETCH_STATE_FILE = path.join(WORK_DIR, 'fetch-state.json');
 const EXTRACTIONS_FILE = path.join(WORK_DIR, 'extractions.json');
 
+// Max stripped page text handed to the extractor. This was 8000, which was too
+// small and silently blinded the check to every nav-heavy issuer: the terms sat
+// past the cutoff, so the extractor saw only chrome and returned nothing. The
+// 2026-07-21 run lost 12 cards that way, including ALL SIX Bank of America
+// cards, whose pages lead with ~11k chars of menu before the earn rates appear.
+//
+// 18000 matches MAX_CONTENT_CHARS in the sibling check-card-pages.js, which was
+// sized for exactly this problem. Keep the two in step: they scrape the same
+// pages, and a card the SUB checker can read but this one cannot is a bug.
+const MAX_CONTENT_CHARS = 18000;
+
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 90 * 1000;
@@ -185,7 +196,7 @@ function stripHtml(html) {
     .replace(/&[a-z#0-9]+;/gi, ' ')
     .replace(/\s+/g, ' ')
     .trim()
-    .slice(0, 8000); // benefits sections are wordy — give Haiku a bit more
+    .slice(0, MAX_CONTENT_CHARS);
 }
 
 // ─── Page fetching ──────────────────────────────────────────────────────────
