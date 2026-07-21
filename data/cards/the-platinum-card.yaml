@@ -185,6 +185,11 @@ benefits:
     frequency: "annual"
     category: "lounge"
     enrollment_required: false
+  - name: "Car Rental Privileges"
+    description: "Complimentary premium status with select Avis, Hertz, and National car rental programs"
+    frequency: "ongoing"
+    category: "car_rental"
+    enrollment_required: true
 tags:
   - travel
   - premium
