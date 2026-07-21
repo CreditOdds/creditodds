@@ -19,6 +19,7 @@ const {
   pageShowsSignupOffer,
   updateSkipState,
   staleCardsFrom,
+  isTransientNetworkError,
   SKIP_ALERT_THRESHOLD,
 } = require('./check-card-pages');
 
@@ -840,6 +841,60 @@ test('callers without a browserFirst map (legacy/tests) still work', () => {
     isPartialRun: false,
   });
   assert.equal(after.a.consecutive_skips, 0);
+});
+
+// ─── Transient-network classifier ────────────────────────────────────────────
+//
+// Decides which fetch-phase skips get a second attempt. The cost of a wrong
+// answer is asymmetric: a missed network error strands a card in the stale
+// alarm for days (2026-07-21, 87 cards), while a needlessly retried page
+// costs one fetch. But retrying a REAL failure is not free either — it blurs
+// the "this page is broken" signal the alarm exists to raise, so the false
+// side of the list matters just as much as the true side.
+
+console.log('\nisTransientNetworkError:');
+
+for (const reason of [
+  'page.goto: net::ERR_INTERNET_DISCONNECTED at https://cards.barclaycardus.com/',
+  'page.goto: net::ERR_NAME_NOT_RESOLVED at https://example.com/',
+  'page.goto: net::ERR_CONNECTION_RESET at https://example.com/',
+  'page.goto: net::ERR_CONNECTION_TIMED_OUT at https://example.com/',
+  'page.goto: net::ERR_NETWORK_CHANGED at https://example.com/',
+  'fetch failed',
+  'socket hang up',
+  'request to https://example.com failed, reason: ECONNREFUSED',
+  'getaddrinfo EAI_AGAIN example.com',
+  'page.goto: Timeout 30000ms exceeded.',
+  'Timed out after 60000ms: Chase Sapphire Preferred',
+]) {
+  test(`retries: ${reason.slice(0, 52)}`, () => {
+    assert.equal(isTransientNetworkError(reason), true);
+  });
+}
+
+for (const reason of [
+  'HTTP 404 from origin (browser fallback also failed: HTTP 404)',
+  'HTTP 403',
+  'HTTP 500 from origin (browser fallback also failed: unknown)',
+  'content too short (42 chars)',
+  'known block: pnc.com bot mitigation blocks automated fetches',
+  'known block: amazon.com serves an automation interstitial',
+  'no data extracted from page',
+  'no extraction returned for this card',
+  'extraction error: OpenAI 401',
+  'Playwright unavailable',
+  'script timeout (90 min) reached before this card was checked',
+  'could not fetch page',
+]) {
+  test(`does NOT retry: ${reason.slice(0, 48)}`, () => {
+    assert.equal(isTransientNetworkError(reason), false);
+  });
+}
+
+test('an empty or missing reason is not retried', () => {
+  assert.equal(isTransientNetworkError(''), false);
+  assert.equal(isTransientNetworkError(null), false);
+  assert.equal(isTransientNetworkError(undefined), false);
 });
 
 console.log('');
