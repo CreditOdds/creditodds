@@ -27,8 +27,24 @@
  * when the take actually changed, so byte-identical output never churns the
  * diff.
  *
+ * Run shape is selected by --phase:
+ *
+ *   --phase=all      (default) build prompts + write every take with the
+ *                    OpenAI API + apply. Needs OPENAI_API_KEY.
+ *   --phase=prepare  Build the prompts (CardWire + best-of + card YAML) and
+ *                    write one per card to WORK_DIR, plus the shared system
+ *                    prompt. No API key, no OpenAI calls.
+ *   --phase=apply    Read the written takes back from WORK_DIR/takes.json and
+ *                    run the identical length-guard / changed-check / YAML
+ *                    upsert the single pass uses. No API key.
+ *
+ * The split exists so the twice-monthly refresh can run from a local Claude
+ * Code session (see the `our-takes-refresh-local` scheduled task) with the copy
+ * written in-session instead of by a paid gpt-4o call per card. That is 182
+ * gpt-4o calls per run, twice a month, that no longer hit the API.
+ *
  * Env:
- *   OPENAI_API_KEY     (required)
+ *   OPENAI_API_KEY     (required for --phase=all only)
  *   OPENAI_TAKE_MODEL  (optional, default: gpt-4o)
  *   CARD_WIRE_URL      (optional, default: CloudFront /card-wire endpoint)
  *   WIRE_WINDOW_DAYS   (optional, default: 120)
@@ -40,6 +56,22 @@ const yaml = require('js-yaml');
 
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const BEST_FILE = path.join(__dirname, '..', 'data', 'best.json');
+
+const PHASE = (() => {
+  const arg = process.argv.find(a => a.startsWith('--phase='));
+  const v = (arg ? arg.slice('--phase='.length) : process.env.OUR_TAKE_PHASE || 'all').toLowerCase();
+  if (!['all', 'prepare', 'apply'].includes(v)) {
+    console.error(`Error: --phase must be 'all', 'prepare' or 'apply' (got '${v}')`);
+    process.exit(1);
+  }
+  return v;
+})();
+
+const WORK_DIR = path.join(__dirname, '..', '.our-takes-work');
+const PROMPTS_DIR = path.join(WORK_DIR, 'prompts');
+const PREPARE_STATE_FILE = path.join(WORK_DIR, 'prepare-state.json');
+const SYSTEM_PROMPT_FILE = path.join(WORK_DIR, 'system-prompt.txt');
+const TAKES_FILE = path.join(WORK_DIR, 'takes.json');
 
 const API_KEY = process.env.OPENAI_API_KEY;
 const MODEL = process.env.OPENAI_TAKE_MODEL || 'gpt-4o';
@@ -356,10 +388,14 @@ async function generateTake(prompt) {
 // ─── main ─────────────────────────────────────────────────────────────────
 
 async function main() {
-  if (!API_KEY) {
-    console.error('OPENAI_API_KEY is required.');
+  if (PHASE === 'all' && !API_KEY) {
+    console.error('OPENAI_API_KEY is required for --phase=all. Use --phase=prepare/--phase=apply to write takes locally.');
     process.exit(1);
   }
+
+  // apply reads only the YAML plus the takes the caller wrote, so it needs
+  // neither CardWire nor best.json — and must not fail if either is down.
+  if (PHASE === 'apply') return applyPhase();
 
   const [wireByName, featuredBySlug] = [await loadWireChanges(), loadFeaturedIn()];
 
@@ -393,6 +429,41 @@ async function main() {
   }
   if (LIMIT > 0) queue = queue.slice(0, LIMIT);
   const total = queue.length;
+
+  // PREPARE PHASE: write every prompt out and stop. The caller writes the copy.
+  if (PHASE === 'prepare') {
+    // Wipe rather than merge, so a stale prompt from a previous run can't be
+    // answered as though it described the card's current terms.
+    fs.rmSync(WORK_DIR, { recursive: true, force: true });
+    fs.mkdirSync(PROMPTS_DIR, { recursive: true });
+    fs.writeFileSync(SYSTEM_PROMPT_FILE, SYSTEM_PROMPT);
+
+    const prepared = [];
+    for (const card of queue) {
+      const wire = wireByName.get(normalizeName(card.data.name)) || [];
+      const featured = featuredBySlug.get(card.data.slug) || [];
+      fs.writeFileSync(
+        path.join(PROMPTS_DIR, `${card.data.slug}.txt`),
+        buildUserPrompt(card.data, wire, featured)
+      );
+      prepared.push({ slug: card.data.slug, name: card.data.name });
+    }
+
+    fs.writeFileSync(PREPARE_STATE_FILE, JSON.stringify({
+      prepared_at: new Date().toISOString(),
+      only: ONLY.length ? ONLY : null,
+      limit: LIMIT || null,
+      cards: prepared,
+    }, null, 2));
+
+    console.log(`\nWrote ${prepared.length} prompt(s) to ${path.relative(process.cwd(), PROMPTS_DIR)}`);
+    console.log(`House style / voice rules: ${path.relative(process.cwd(), SYSTEM_PROMPT_FILE)}`);
+    console.log('\nNext: write each take and save {"<slug>": "<take text>"} to');
+    console.log(`  ${path.relative(process.cwd(), TAKES_FILE)}`);
+    console.log('then run: node scripts/refresh-our-takes.js --phase=apply');
+    console.log('\n=== Prepare phase complete ===');
+    return;
+  }
 
   console.log(
     `\nRegenerating our_take for ${total}${LIMIT > 0 ? ` of ${cards.length}` : ''} cards with ${MODEL}${DRY_RUN ? ' (dry run, no writes)' : ''}...\n`
@@ -471,6 +542,79 @@ async function main() {
   // report but never hard-fail.
   if (!DRY_RUN && failed > cards.length / 2) {
     console.error('More than half the cards failed to generate; failing the run.');
+    process.exit(1);
+  }
+}
+
+// ─── apply phase ────────────────────────────────────────────────────────────
+// Reads back the takes the calling session wrote and runs them through the same
+// guards the single pass applies: MIN_TAKE_LENGTH, the normalized changed-check
+// so byte-identical copy never churns the diff, and upsertOurTake for the write.
+// A card with no take is skipped and counted, never written blank.
+function applyPhase() {
+  if (!fs.existsSync(PREPARE_STATE_FILE)) {
+    console.error(`Error: ${path.relative(process.cwd(), PREPARE_STATE_FILE)} not found — run --phase=prepare first.`);
+    process.exit(1);
+  }
+  if (!fs.existsSync(TAKES_FILE)) {
+    console.error(`Error: ${path.relative(process.cwd(), TAKES_FILE)} not found — write the takes first.`);
+    process.exit(1);
+  }
+
+  const state = JSON.parse(fs.readFileSync(PREPARE_STATE_FILE, 'utf8'));
+  const takes = JSON.parse(fs.readFileSync(TAKES_FILE, 'utf8'));
+  const prepared = state.cards || [];
+
+  let changed = 0;
+  let unchanged = 0;
+  let missing = 0;
+  let tooShort = 0;
+
+  for (const { slug, name } of prepared) {
+    const take = takes[slug];
+    if (take === undefined || take === null || `${take}`.trim() === '') {
+      console.warn(`  MISSING  ${name} — no take written, leaving the existing copy alone`);
+      missing++;
+      continue;
+    }
+    if (`${take}`.trim().length < MIN_TAKE_LENGTH) {
+      console.warn(`  SHORT    ${name} — take under ${MIN_TAKE_LENGTH} chars, skipping`);
+      tooShort++;
+      continue;
+    }
+
+    const filepath = path.join(CARDS_DIR, `${slug}.yaml`);
+    if (!fs.existsSync(filepath)) {
+      console.warn(`  MISSING  ${name} — ${slug}.yaml not found, skipping`);
+      missing++;
+      continue;
+    }
+
+    const raw = fs.readFileSync(filepath, 'utf8');
+    let existing = null;
+    try {
+      existing = (yaml.load(raw) || {}).our_take || null;
+    } catch { /* fall through: an unparseable file still gets its block replaced */ }
+
+    if (normalizeText(take) === normalizeText(existing)) {
+      unchanged++;
+      continue;
+    }
+
+    fs.writeFileSync(filepath, upsertOurTake(raw, `${take}`.trim()));
+    console.log(`  CHANGED  ${name}`);
+    changed++;
+  }
+
+  console.log(
+    `\nDone. ${changed} updated, ${unchanged} unchanged, ${tooShort} too short, ` +
+    `${missing} missing (${prepared.length} prepared).`
+  );
+
+  // Same guard as the single pass: a mostly-empty batch means something went
+  // wrong upstream, and half-refreshing the card set is worse than not refreshing.
+  if (missing + tooShort > prepared.length / 2) {
+    console.error('More than half the prepared cards had no usable take; failing the run.');
     process.exit(1);
   }
 }

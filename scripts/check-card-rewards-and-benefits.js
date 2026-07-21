@@ -17,7 +17,25 @@
  *        - "review"    → append to .card-rewards-benefits-review.md (human triage).
  *        - "skip"      → silent; matched the exclude list or removed-history.
  *
- * Run via .github/workflows/check-card-rewards-and-benefits.yml weekly.
+ * Run shape is selected by --phase, mirroring scripts/check-card-pages.js:
+ *
+ *   --phase=all     (default) fetch + extract via the OpenAI API + apply.
+ *                   Needs OPENAI_API_KEY. This is the old single-pass behaviour.
+ *   --phase=fetch   Fetch every apply page and write one self-contained
+ *                   extraction prompt per card to WORK_DIR. No API key, no
+ *                   network calls to OpenAI.
+ *   --phase=finish  Read the answers back from WORK_DIR/extractions.json and
+ *                   run the identical diff/policy/apply path the single pass
+ *                   uses. No API key.
+ *
+ * The split exists so the weekly sweep can run from a local Claude Code session
+ * (see the `card-rewards-benefits-local` scheduled task) where the extraction is
+ * done in-session instead of by a paid gpt-4o call per card. That is ~148 gpt-4o
+ * calls a week that no longer hit the API.
+ *
+ * Previously run via .github/workflows/check-card-rewards-and-benefits.yml,
+ * whose weekly cron is now disabled in favour of the local routine. The
+ * workflow remains dispatch-only as a manual escape hatch.
  */
 
 const fs = require('fs');
@@ -30,6 +48,22 @@ const CARDS_DIR = path.join(ROOT, 'data', 'cards');
 const POLICY_FILE = path.join(ROOT, 'data', 'benefit-policy.yaml');
 const REVIEW_SUMMARY = path.join(ROOT, '.card-rewards-benefits-review.md');
 const SUMMARY_FILE = path.join(ROOT, '.card-rewards-benefits-summary.md');
+
+const PHASE = (() => {
+  const arg = process.argv.find(a => a.startsWith('--phase='));
+  const v = (arg ? arg.slice('--phase='.length) : process.env.CARD_RB_PHASE || 'all').toLowerCase();
+  if (!['all', 'fetch', 'finish'].includes(v)) {
+    console.error(`Error: --phase must be 'all', 'fetch' or 'finish' (got '${v}')`);
+    process.exit(1);
+  }
+  return v;
+})();
+
+const WORK_DIR = path.join(ROOT, '.card-rewards-benefits-work');
+const PROMPTS_DIR = path.join(WORK_DIR, 'prompts');
+const PAGES_DIR = path.join(WORK_DIR, 'pages');
+const FETCH_STATE_FILE = path.join(WORK_DIR, 'fetch-state.json');
+const EXTRACTIONS_FILE = path.join(WORK_DIR, 'extractions.json');
 
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
@@ -247,10 +281,11 @@ function buildFewShotExamples(allCards, exampleSlugs) {
 
 // ─── OpenAI extraction ──────────────────────────────────────────────────────
 
-async function extractRewardsAndBenefits(card, applyLink, pageContent, examples) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error('OPENAI_API_KEY required');
-
+// Single source of truth for the extraction prompt. The API path and the
+// fetch phase both call this, so a prompt tweak can never apply to one and not
+// the other — the local routine must be answering exactly the question the
+// single pass would have asked.
+function buildExtractionPrompt(card, applyLink, pageContent, examples) {
   const examplesBlock = examples
     .slice(0, 3)
     .map(ex => `### ${ex.name}\n${JSON.stringify({ rewards: ex.rewards, benefits: ex.benefits, foreign_transaction_fee: ex.foreign_transaction_fee }, null, 2)}`)
@@ -502,6 +537,15 @@ EXAMPLES — what good extraction looks like for our team:
 ${examplesBlock}
 
 Now extract for ${card.data.name}.`;
+
+  return prompt;
+}
+
+async function extractRewardsAndBenefits(card, applyLink, pageContent, examples) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error('OPENAI_API_KEY required');
+
+  const prompt = buildExtractionPrompt(card, applyLink, pageContent, examples);
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -1440,6 +1484,23 @@ async function main() {
   const policy = loadPolicy();
   const examples = buildFewShotExamples(allCards, policy.exampleCards);
 
+  if (PHASE === 'finish') return finishPhase({ cards, policy });
+
+  if (PHASE === 'all' && !process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY is required for --phase=all. Use --phase=fetch/--phase=finish to extract locally.');
+    process.exit(1);
+  }
+
+  const fetchedSlugs = [];
+  if (PHASE === 'fetch') {
+    // Wipe rather than merge: a stale prompt from a previous run would be
+    // answered as if it were current, silently checking a card against page
+    // content that is a week old.
+    fs.rmSync(WORK_DIR, { recursive: true, force: true });
+    fs.mkdirSync(PROMPTS_DIR, { recursive: true });
+    fs.mkdirSync(PAGES_DIR, { recursive: true });
+  }
+
   // Reset review summary for this run, then immediately write the
   // rotating-period staleness section so it sits at the top.
   if (fs.existsSync(REVIEW_SUMMARY)) fs.unlinkSync(REVIEW_SUMMARY);
@@ -1492,6 +1553,22 @@ async function main() {
     }
     summary.fetched++;
 
+    // FETCH PHASE: write the prompt out and stop. The caller answers it.
+    if (PHASE === 'fetch') {
+      fs.writeFileSync(
+        path.join(PROMPTS_DIR, `${card.slug}.txt`),
+        buildExtractionPrompt(card, card.data.apply_link, pageResult.content, examples)
+      );
+      // The page text is kept because --phase=finish needs it: diffForeignTxn
+      // reads the raw page to confirm a "no foreign transaction fee" claim,
+      // and re-fetching at finish time could see a different page.
+      fs.writeFileSync(path.join(PAGES_DIR, `${card.slug}.txt`), pageResult.content);
+      fetchedSlugs.push(card.slug);
+      console.log('  Prompt written');
+      await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
+      continue;
+    }
+
     let extracted;
     try {
       extracted = await withTimeout(
@@ -1509,6 +1586,99 @@ async function main() {
       continue;
     }
 
+    applyExtraction({ card, extracted, pageContent: pageResult.content, policy, summary });
+
+    await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
+  }
+
+  await closeBrowser();
+
+  if (PHASE === 'fetch') {
+    fs.writeFileSync(FETCH_STATE_FILE, JSON.stringify({
+      fetched_at: new Date().toISOString(),
+      slug_filter: slugFilter || null,
+      fetched: fetchedSlugs,
+      fetch_failed: summary.fetchFailed,
+    }, null, 2));
+    console.log(`\nWrote ${fetchedSlugs.length} prompt(s) to ${path.relative(process.cwd(), PROMPTS_DIR)}`);
+    console.log(`${summary.fetchFailed} card(s) could not be fetched.`);
+    console.log('\nNext: answer each prompt and write {"<slug>": {...}} to');
+    console.log(`  ${path.relative(process.cwd(), EXTRACTIONS_FILE)}`);
+    console.log('then run: node scripts/check-card-rewards-and-benefits.js --phase=finish');
+    console.log('\n=== Fetch phase complete ===');
+    return;
+  }
+
+  writeSummary(summary);
+}
+
+// ─── Finish phase ────────────────────────────────────────────────────────────
+// Reads back the extractions the calling session produced and runs them through
+// exactly the same policy/diff/apply path the single pass uses. A card with no
+// extraction is counted as an extraction failure, never as "no changes" — an
+// unanswered prompt must not read as a clean bill of health.
+function finishPhase({ cards, policy }) {
+  if (!fs.existsSync(FETCH_STATE_FILE)) {
+    console.error(`Error: ${path.relative(process.cwd(), FETCH_STATE_FILE)} not found — run --phase=fetch first.`);
+    process.exit(1);
+  }
+  if (!fs.existsSync(EXTRACTIONS_FILE)) {
+    console.error(`Error: ${path.relative(process.cwd(), EXTRACTIONS_FILE)} not found — answer the prompts first.`);
+    process.exit(1);
+  }
+
+  const fetchState = JSON.parse(fs.readFileSync(FETCH_STATE_FILE, 'utf8'));
+  const extractions = JSON.parse(fs.readFileSync(EXTRACTIONS_FILE, 'utf8'));
+  const fetched = new Set(fetchState.fetched || []);
+
+  // The rotating-period section is regenerated here rather than carried over
+  // from the fetch phase: it is derived purely from YAML and the calendar, so
+  // recomputing keeps it correct even if finish runs on a later day.
+  const allCards = loadAllCards();
+  if (fs.existsSync(REVIEW_SUMMARY)) fs.unlinkSync(REVIEW_SUMMARY);
+  const staleRotations = findStaleRotatingPeriods(allCards);
+  writeRotatingPeriodSection(staleRotations);
+
+  const summary = {
+    fetched: fetched.size,
+    extractFailed: 0,
+    fetchFailed: fetchState.fetch_failed || 0,
+    cardsModified: 0,
+    autoChanges: 0,
+    reviewItems: 0,
+    staleRotatingPeriods: staleRotations.length,
+  };
+
+  for (const card of cards) {
+    if (!fetched.has(card.slug)) continue;
+
+    const extracted = extractions[card.slug];
+    if (!extracted) {
+      console.warn(`  ${card.data.name}: no extraction returned — skipping`);
+      summary.extractFailed++;
+      continue;
+    }
+
+    const pagePath = path.join(PAGES_DIR, `${card.slug}.txt`);
+    if (!fs.existsSync(pagePath)) {
+      console.warn(`  ${card.data.name}: page text missing from the fetch phase — skipping`);
+      summary.extractFailed++;
+      continue;
+    }
+    const pageContent = fs.readFileSync(pagePath, 'utf8');
+
+    console.log(`[finish] ${card.data.name}`);
+    applyExtraction({ card, extracted, pageContent, policy, summary });
+  }
+
+  writeSummary(summary);
+}
+
+// Everything that happens once a card's extraction is in hand: policy filter,
+// diff, YAML write, review-queue append. Shared verbatim by --phase=all and
+// --phase=finish so a locally-answered prompt lands exactly where an
+// API-answered one would.
+function applyExtraction({ card, extracted, pageContent, policy, summary }) {
     const removed = getRemovedBenefitsForCard(card.filepath);
     const currentNames = getCurrentBenefitNames(card);
     // Don't deny-list things that are CURRENTLY in the YAML (they can be
@@ -1527,7 +1697,7 @@ async function main() {
     const ftxnDiff = diffForeignTxn(
       card.data.foreign_transaction_fee,
       extracted.foreign_transaction_fee,
-      pageResult.content
+      pageContent
     );
 
     const wrote = applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff);
@@ -1553,13 +1723,11 @@ async function main() {
       rewardsDiff.added.length +
       rewardsDiff.removed.length +
       rewardsDiff.downgraded.length;
+}
 
-    await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
-  }
-
-  await closeBrowser();
-
-  // Top-level summary so the workflow can decide whether to PR / open issue
+// Top-level summary so the caller (workflow or local routine) can decide
+// whether to PR / open an issue.
+function writeSummary(summary) {
   fs.writeFileSync(SUMMARY_FILE, JSON.stringify(summary, null, 2));
   console.log('\n=== Summary ===');
   console.log(JSON.stringify(summary, null, 2));

@@ -58,3 +58,8 @@ coverage/
 # Firebase service account keys (never commit these!)
 *-firebase-adminsdk-*.json
 serviceAccountKey.json
+
+# Local-routine work dirs: fetched pages + generated prompts + the answers the
+# session writes back. Regenerated every run; never committed.
+.card-rewards-benefits-work/
+.our-takes-work/

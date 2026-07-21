@@ -5,9 +5,19 @@ name: Check Card Rewards and Benefits
 # foreign_transaction_fee. Splitting the two so a parsing failure on the
 # (newer, more complex) benefits flow can't take down the working SUB flow.
 
+# SCHEDULE DISABLED 2026-07-21. The weekly sweep now runs from a local Claude
+# Code session (`card-rewards-benefits-local` scheduled task, Sundays), which
+# answers the extraction prompts in-session instead of spending ~148 gpt-4o
+# calls a week on the API. The script grew --phase=fetch/--phase=finish for
+# exactly this; see its header.
+#
+# This workflow is kept as a manual escape hatch: dispatching it still runs the
+# full single pass, which needs OPENAI_API_KEY. Re-enable the cron below only if
+# the local routine is retired.
+#
+#  schedule:
+#    - cron: '0 9 * * 0'  # Sundays 9 AM UTC
 on:
-  schedule:
-    - cron: '0 9 * * 0'  # Sundays 9 AM UTC
   workflow_dispatch:
     inputs:
       card_slug:
