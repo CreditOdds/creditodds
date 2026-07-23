@@ -526,7 +526,7 @@ async function closeBrowser() {
 
 // ─── Extraction ───────────────────────────────────────────────────────────────
 
-function buildExtractionPrompt(cardName, bankName, applyLink, pageContent, currentSignupBonus) {
+function buildExtractionPrompt(cardName, bankName, applyLink, pageContent, currentSignupBonus, slug, previousNames) {
   const cur = currentSignupBonus || {};
   const currentContext = `Current YAML values (for unit context — DO NOT copy these, extract fresh from the page):
 - signup_bonus.value: ${cur.value ?? 'null'}
@@ -535,11 +535,27 @@ function buildExtractionPrompt(cardName, bankName, applyLink, pageContent, curre
 - signup_bonus.timeframe_months: ${cur.timeframe_months ?? 'null'}
 `;
 
+  // The prompt filename is the card's stable internal slug, which is frozen at
+  // creation and never renamed even when the card's public name changes (a
+  // rebrand relinks by numeric card_id, keeping the slug and URLs stable). So a
+  // slug like `chase-freedom-student` can front a card now named "Chase Freedom
+  // Rise". Spell this out so an extractor does not mistake the mismatch for a
+  // mislabeled file and skip or second-guess a correct page.
+  const prevList = Array.isArray(previousNames) ? previousNames.filter(Boolean) : [];
+  const prevNote = prevList.length
+    ? ` (previously ${prevList.map(n => `"${n}"`).join(', ')})`
+    : '';
+  const slugNote = slug
+    ? `File slug: ${slug}${prevNote}
+This file is named by a stable internal slug that may differ from the card's current name (for example after a rebrand). Extract the card named on the "Card:" line above and at the top of the page; a mismatch between the filename and that name is expected, not a labeling error, so do not skip the card over it.
+`
+    : '';
+
   const prompt = `You are extracting credit card terms from a bank's apply page for human review.
 
 Card: ${cardName} (${bankName})
 Source URL: ${applyLink}
-
+${slugNote}
 ${currentContext}
 Page content:
 ${pageContent}
@@ -1499,7 +1515,7 @@ async function main() {
 
     fs.writeFileSync(
       path.join(PROMPTS_DIR, `${card.slug}.txt`),
-      buildExtractionPrompt(name, bank, apply_link, pageContent, card.data.signup_bonus)
+      buildExtractionPrompt(name, bank, apply_link, pageContent, card.data.signup_bonus, card.slug, card.data.previous_names)
     );
     fs.writeFileSync(path.join(PAGES_DIR, `${card.slug}.txt`), pageContent);
 
