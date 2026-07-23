@@ -17,6 +17,12 @@
 // page to try again" — name/code don't match the AbortError gate below, so
 // that signature is matched unconditionally. The page itself is unaffected.
 //
+// Firebase Installations also rejects with "installations/app-offline" when
+// navigator.onLine is false during Analytics init. getAnalytics() never awaits
+// that internal registration promise, so a visitor who loses connectivity
+// mid-load produces an unhandled rejection even though the (already rendered)
+// page is fine. Only their device being offline triggers it — not actionable.
+//
 // Mobile Safari can also surface WebExtension content-script messaging failures
 // as page-level unhandled rejections even though the page never calls the
 // extension API. These are user-extension/WebKit noise, not app failures.
@@ -33,6 +39,7 @@ const BENIGN_CLIENT_SIGNATURES = [
 const BENIGN_ANY_ERROR_SIGNATURES = [
   'Invalid call to runtime.sendMessage(). Tab not found.',
   'Connection to Indexed Database server lost',
+  'installations/app-offline',
 ];
 
 // DOMException.ABORT_ERR — the numeric code carried by AbortErrors.

@@ -69,6 +69,29 @@ describe("isBenignClientError", () => {
     ).toBe(true);
   });
 
+  it("drops Firebase Installations app-offline noise", () => {
+    // FirebaseError shape: name "FirebaseError", code "installations/app-offline".
+    expect(
+      isBenignClientError({
+        name: "FirebaseError",
+        code: "installations/app-offline",
+        message:
+          "Installations: Could not process request. Application offline. (installations/app-offline).",
+      }),
+    ).toBe(true);
+  });
+
+  it("keeps other FirebaseErrors", () => {
+    expect(
+      isBenignClientError({
+        name: "FirebaseError",
+        code: "installations/request-failed",
+        message:
+          "Installations: Create Installation request failed with error (installations/request-failed).",
+      }),
+    ).toBe(false);
+  });
+
   it("keeps unrelated UnknownErrors", () => {
     expect(
       isBenignClientError(
