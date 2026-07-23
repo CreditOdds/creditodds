@@ -10893,6 +10893,38 @@
   font-size: 13px;
   margin: 10px 0 0;
 }
+/* Opt-in to persist step-3 edits back to the stored wallet. Only rendered
+   once the picker actually diverges from the loaded wallet. */
+.best-for-me-v2 .bcfm-save-wallet {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--paper-2);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--ink);
+}
+.best-for-me-v2 .bcfm-save-wallet:hover {
+  border-color: var(--ink);
+}
+.best-for-me-v2 .bcfm-save-wallet input {
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.best-for-me-v2 .bcfm-save-wallet-sub {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+}
 .best-for-me-v2 .bcfm-error {
   color: var(--warn);
   font-size: 14px;
