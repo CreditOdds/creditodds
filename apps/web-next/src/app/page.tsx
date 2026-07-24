@@ -107,13 +107,14 @@ function slimNews(news: NewsItem[], cardImageBySlug: Map<string, string | undefi
 }
 
 export default async function LandingPage() {
-  const [cards, news, articles, bestPages, trendingViews, editorialViews] = await Promise.all([
+  const [cards, news, articles, bestPages, trendingViews, editorialViews, allTimeEditorialViews] = await Promise.all([
     getAllCards(),
     getNews(),
     getArticles(),
     getBestPages(),
     getCardViewCounts('trending').catch(() => ({}) as Record<number, number>),
     getContentViewCounts(7).catch(() => ({ article: {}, news: {} }) as EditorialViewCounts),
+    getContentViewCounts(0).catch(() => ({ article: {}, news: {} }) as EditorialViewCounts),
   ]);
 
   const slimmedCards: LandingCard[] = cards.map(slimCard);
@@ -145,6 +146,7 @@ export default async function LandingPage() {
       bestPages={slimmedBest}
       trendingViews={trendingViews}
       editorialViews={editorialViews}
+      allTimeEditorialViews={allTimeEditorialViews}
     />
   );
 }
