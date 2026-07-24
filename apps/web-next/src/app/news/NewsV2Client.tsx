@@ -12,6 +12,9 @@ const NEWS_IMG_CDN = 'https://d3ay3etzd1512y.cloudfront.net/news_images';
 
 interface NewsV2ClientProps {
   items: NewsItem[];
+  /** All-time views keyed by news id. Rendered only above a floor, matching
+   * the detail pages. */
+  viewCounts: Record<string, number>;
 }
 
 type FilterKey = 'all' | NewsTag;
@@ -65,8 +68,9 @@ function readTimeFor(item: NewsItem): string {
   return `${Math.max(1, Math.round(words / 220))} min`;
 }
 
-export default function NewsV2Client({ items }: NewsV2ClientProps) {
+export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
   const [filter, setFilter] = useState<FilterKey>('all');
+  const viewsOf = (item: NewsItem) => viewCounts[item.id] ?? 0;
 
   const filtered = useMemo(() => {
     if (filter === 'all') return items;
@@ -161,6 +165,12 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
                   <span>{formatDate(featured.date)}</span>
                   <span>·</span>
                   <span>{readTimeFor(featured)} read</span>
+                  {viewsOf(featured) > 100 && (
+                    <>
+                      <span>·</span>
+                      <span>{viewsOf(featured).toLocaleString('en-US')} views</span>
+                    </>
+                  )}
                 </div>
                 <h2 className="feat-title">{featured.title}</h2>
                 <p className="feat-excerpt">{featured.summary}</p>
@@ -174,6 +184,9 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
                   <div className="ni-meta">
                     <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
                     <span>{formatDateShort(item.date)}</span>
+                    {viewsOf(item) > 100 && (
+                      <span>{viewsOf(item).toLocaleString('en-US')} views</span>
+                    )}
                   </div>
                   <h3 className="ni-title">{item.title}</h3>
                   <p className="ni-excerpt">{item.summary}</p>
@@ -189,6 +202,9 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
                 <div className="ni-meta">
                   <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
                   <span>{formatDateShort(item.date)}</span>
+                  {viewsOf(item) > 100 && (
+                    <span>{viewsOf(item).toLocaleString('en-US')} views</span>
+                  )}
                 </div>
                 <h3 className="ni-title">{item.title}</h3>
                 <p className="ni-excerpt">{item.summary}</p>
@@ -228,6 +244,7 @@ export default function NewsV2Client({ items }: NewsV2ClientProps) {
                 <div className="nc-body">
                   <div className="nc-meta">
                     {TAG_DISPLAY[primaryTag(item)]} · {formatDateShort(item.date)}
+                    {viewsOf(item) > 100 && <> · {viewsOf(item).toLocaleString('en-US')} views</>}
                   </div>
                   <h3 className="nc-title">{item.title}</h3>
                 </div>

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getNews } from "@/lib/news";
+import { getContentViewCounts } from "@/lib/api";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import NewsV2Client from "./NewsV2Client";
 
@@ -21,7 +22,12 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default async function NewsPage() {
-  const newsItems = await getNews();
+  const [newsItems, viewCounts] = await Promise.all([
+    getNews(),
+    // All-time views per item, shown only above a floor (same rule as the
+    // detail pages).
+    getContentViewCounts(0).catch(() => null),
+  ]);
 
   const collectionJsonLd = {
     "@context": "https://schema.org",
@@ -51,7 +57,7 @@ export default async function NewsPage() {
           { name: 'Card News', url: 'https://creditodds.com/news' },
         ]}
       />
-      <NewsV2Client items={newsItems} />
+      <NewsV2Client items={newsItems} viewCounts={viewCounts?.news ?? {}} />
     </>
   );
 }
