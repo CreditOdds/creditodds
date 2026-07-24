@@ -184,9 +184,9 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                   <div className="ni-meta">
                     <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
                     <span>{formatDateShort(item.date)}</span>
-                    {viewsOf(item) > 100 && (
-                      <span>{viewsOf(item).toLocaleString('en-US')} views</span>
-                    )}
+                    {/* ni-meta is inline (not a flex row), so the separator must be
+                        literal text; a bare span would render flush against the date. */}
+                    {viewsOf(item) > 100 && <> · {viewsOf(item).toLocaleString('en-US')} views</>}
                   </div>
                   <h3 className="ni-title">{item.title}</h3>
                   <p className="ni-excerpt">{item.summary}</p>
@@ -202,9 +202,7 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                 <div className="ni-meta">
                   <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
                   <span>{formatDateShort(item.date)}</span>
-                  {viewsOf(item) > 100 && (
-                    <span>{viewsOf(item).toLocaleString('en-US')} views</span>
-                  )}
+                  {viewsOf(item) > 100 && <> · {viewsOf(item).toLocaleString('en-US')} views</>}
                 </div>
                 <h3 className="ni-title">{item.title}</h3>
                 <p className="ni-excerpt">{item.summary}</p>
