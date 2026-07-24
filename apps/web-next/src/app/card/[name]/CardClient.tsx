@@ -1674,25 +1674,35 @@ export default function CardClient({
           {wireEntries.length > 0 && (
             <div className="cj-rail-block cj-wire-rail">
               <div className="cj-rail-label">Card wire</div>
-              {highestSub && (
-                <div
-                  className={`cj-wire-high${highestSub.isCurrent ? "" : " cj-wire-high-stale"}`}
-                >
-                  <span className="cj-wire-high-label">
-                    Highest bonus on record
-                  </span>
-                  <span className="cj-wire-high-val">{highestSub.label}</span>
-                  {highestSub.isCurrent ? (
-                    <span className="cj-wire-high-now">Live now</span>
-                  ) : (
-                    highestSub.asOf && (
-                      <span className="cj-wire-high-date">
-                        last offered {highestSub.asOf}
+              {highestSub &&
+                (() => {
+                  // A no-longer-accepting card can't have a "live" bonus, even
+                  // if its stored value still matches the record — grey it out.
+                  const liveNow =
+                    highestSub.isCurrent &&
+                    card.accepting_applications !== false;
+                  return (
+                    <div
+                      className={`cj-wire-high${liveNow ? "" : " cj-wire-high-stale"}`}
+                    >
+                      <span className="cj-wire-high-label">
+                        Highest bonus on record
                       </span>
-                    )
-                  )}
-                </div>
-              )}
+                      <span className="cj-wire-high-val">
+                        {highestSub.label}
+                      </span>
+                      {liveNow ? (
+                        <span className="cj-wire-high-now">Live now</span>
+                      ) : (
+                        highestSub.asOf && (
+                          <span className="cj-wire-high-date">
+                            last offered {highestSub.asOf}
+                          </span>
+                        )
+                      )}
+                    </div>
+                  );
+                })()}
               <ul className="cj-wire-rail-list">
                 {wireEntries.map((w) => {
                   const dir = wireDirection(w.field, w.old_value, w.new_value);
