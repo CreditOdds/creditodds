@@ -12,6 +12,7 @@ import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import ViewTracker from "@/components/ViewTracker";
+import { getContentViewCounts } from "@/lib/api";
 import { truncateTitle } from "@/lib/seo";
 import "../../landing.css";
 
@@ -79,6 +80,12 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
 
   const relatedArticles = await getRelatedArticles(article, 3);
+
+  // All-time views, shown only once past a floor so fresh posts don't
+  // advertise low numbers.
+  const viewCounts = await getContentViewCounts(0).catch(() => null);
+  const viewCount = viewCounts?.article[article.slug] ?? 0;
+
   const authorSlug = article.author_slug || generateAuthorSlug(article.author);
   const articleUrl = `https://creditodds.com/articles/${article.slug}`;
 
@@ -168,6 +175,12 @@ export default async function ArticlePage({ params }: Props) {
             )}
             <span>·</span>
             <span>{article.reading_time} min read</span>
+            {viewCount > 100 && (
+              <>
+                <span>·</span>
+                <span>{viewCount.toLocaleString('en-US')} views</span>
+              </>
+            )}
           </div>
 
           {article.estimated_value && (

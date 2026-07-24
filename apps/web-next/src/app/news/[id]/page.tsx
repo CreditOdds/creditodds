@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { getNews, getNewsItem, tagLabels } from "@/lib/news";
+import { getContentViewCounts } from "@/lib/api";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ReadingProgressBar } from "@/components/articles/ReadingProgressBar";
@@ -71,6 +72,11 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { id } = await params;
   const item = await getNewsItem(id);
   if (!item) notFound();
+
+  // All-time views, shown only once past a floor so fresh posts don't
+  // advertise low numbers.
+  const viewCounts = await getContentViewCounts(0).catch(() => null);
+  const viewCount = viewCounts?.news[item.id] ?? 0;
 
   const relatedCards: RelatedCardInfo[] = [];
   if (item.card_slugs && item.card_names) {
@@ -165,6 +171,12 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
               <>
                 <span>·</span>
                 <span>{item.bank}</span>
+              </>
+            )}
+            {viewCount > 100 && (
+              <>
+                <span>·</span>
+                <span>{viewCount.toLocaleString('en-US')} views</span>
               </>
             )}
           </div>
