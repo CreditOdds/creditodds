@@ -1,0 +1,62 @@
+name: "Samsung Galaxy Card"
+bank: "Barclays"
+slug: "samsung-galaxy-card"
+accepting_applications: true
+apply_link: https://www.samsung.com/us/samsung-card/
+category: "cashback"
+annual_fee: 0
+foreign_transaction_fee: false
+release_date: "2026-07-20"
+reward_type: "cashback"
+tags:
+  - cashback
+  - shopping
+  - rewards
+rewards:
+  - category: online_shopping
+    value: 5
+    unit: percent
+    note: "In-store or online purchases made directly from Samsung in the U.S."
+    merchant_specific: true
+    merchant_gate: [samsung]
+  - category: streaming
+    value: 2
+    unit: percent
+    note: "Streaming services like Netflix, Disney+ and Spotify"
+  - category: everything_else
+    value: 3
+    unit: percent
+    note: "3% requires paying through Samsung Wallet; purchases made with the physical card or outside Samsung Wallet earn 1%"
+signup_bonus:
+  value: 200
+  type: "cash"
+  spend_requirement: 2000
+  timeframe_months: 3
+  note: "Earn $200 bonus cash rewards after spending $2,000 on purchases within the first 90 days of account opening."
+apr:
+  regular:
+    min: 23.49
+    max: 32.24
+benefits:
+  - name: "Samsung VIP Advantage Discount"
+    value: 20
+    value_unit: "percent"
+    description: "20% off the $149.99 Samsung VIP Advantage annual membership (Samsung Care+, VIP Priority Care, exclusive discounts, early access) when you pay with the card, applied instantly at checkout. Membership purchases and renewals also earn 5% cash rewards."
+    frequency: "annual"
+    category: "shopping"
+    enrollment_required: false
+    merchants:
+      - samsung
+our_take: >
+  Samsung's first U.S. credit card is a clear answer to the Apple Card: issued
+  by Barclays on the Visa network, living in Samsung Wallet, with a recycled
+  steel physical card for everything else. The earning structure is strong for
+  the ecosystem it targets, with 5% back on purchases made directly from
+  Samsung, 3% on anything paid through Samsung Wallet, 2% on streaming
+  services, and 1% otherwise. That beats the Apple Card tier for tier, and the
+  $200 bonus after $2,000 in 90 days is unusually generous for a $0 annual fee
+  store-adjacent card. The catch is the same as Apple's: the everyday 3% rate
+  depends on paying by phone, so value drops sharply if you swipe the physical
+  card or don't carry a Galaxy device. For Samsung loyalists who upgrade
+  phones and appliances through Samsung.com, this is an easy win; for everyone
+  else a flat 2% card is simpler.
