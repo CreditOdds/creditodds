@@ -339,6 +339,43 @@ const NETWORK_RETRY_BACKOFFS_MS = (
     : [30 * 1000, 120 * 1000]
 ).filter(ms => Number.isFinite(ms) && ms >= 0);
 
+// A card's dedicated page redirecting UP to a listing/hub — e.g. Amex retiring
+// /us/credit-cards/card/green/ and 301-ing it to /us/credit-cards/ with a plain
+// HTTP 200 — is how an issuer signals a card that has been pulled or paused. The
+// hub renders a full, healthy page about OTHER cards, so the 4xx guard and the
+// content-length guard both miss it and the extractor just yields "no data" —
+// which is indistinguishable from a flaky fetch and only ever bumps the skip
+// counter. Detect the redirect explicitly so a pulled card surfaces as a
+// possible discontinuation on the FIRST run, not after the stale threshold.
+const PULLED_TO_HUB_MARKER = 'redirected to a listing/hub';
+
+function redirectedToAncestor(requestedUrl, finalUrl) {
+  let req, fin;
+  try {
+    req = new URL(requestedUrl);
+    fin = new URL(finalUrl);
+  } catch {
+    return false;
+  }
+  // A cross-host redirect (rebrand, acquisition, marketing domain) is a
+  // different signal with its own false-positive profile — out of scope here.
+  if (req.hostname !== fin.hostname) return false;
+  const norm = p => p.replace(/\/+$/, '').toLowerCase();
+  const reqPath = norm(req.pathname);
+  const finPath = norm(fin.pathname);
+  // No real move: trailing-slash or query-only normalization, or same path.
+  if (!reqPath || finPath === reqPath) return false;
+  // The final path is a strict ancestor of the requested one, at a path-segment
+  // boundary — i.e. the deep card page collapsed to a shallower hub. Deeper or
+  // sibling redirects (e.g. /green → /green/apply, or a rename to another card)
+  // are NOT this signal and pass through untouched.
+  return reqPath.startsWith(finPath + '/');
+}
+
+function pulledToHubReason(finalUrl) {
+  return `${PULLED_TO_HUB_MARKER} (${finalUrl}) — card may no longer be accepting applications; verify the live page and set accepting_applications: false if so`;
+}
+
 async function fetchPageContent(url) {
   // Status from the plain fetch, remembered so that if the browser fallback also
   // fails we report the origin's real complaint ("HTTP 400") rather than the
@@ -365,6 +402,14 @@ async function fetchPageContent(url) {
     simpleStatus = response.status;
 
     if (response.ok) {
+      // A 200 reached only by redirecting up to a hub is a pulled card, not
+      // content — bail before the length check waves the hub page through, and
+      // skip the browser fallback (it would just re-follow the same redirect).
+      if (response.redirected && redirectedToAncestor(url, response.url)) {
+        lastFetchError = pulledToHubReason(response.url);
+        console.warn(`  Simple fetch ${PULLED_TO_HUB_MARKER}: ${url} → ${response.url}`);
+        return null;
+      }
       const contentType = response.headers.get('content-type') || '';
       if (contentType.includes('text/html')) {
         const html = await response.text();
@@ -442,6 +487,16 @@ async function fetchWithBrowser(url) {
     if (status >= 400) {
       lastFetchError = `HTTP ${status}`;
       console.warn(`  Browser fetch returned HTTP ${status} — treating as fetch failure, not content`);
+      await context.close();
+      return null;
+    }
+
+    // Same pulled-card signal as the simple path: a 200 whose final URL has
+    // collapsed up to a listing/hub is a discontinuation, not content.
+    const finalUrl = response ? response.url() : url;
+    if (redirectedToAncestor(url, finalUrl)) {
+      lastFetchError = pulledToHubReason(finalUrl);
+      console.warn(`  Browser fetch ${PULLED_TO_HUB_MARKER}: ${url} → ${finalUrl}`);
       await context.close();
       return null;
     }
@@ -1941,6 +1996,23 @@ async function finalize({ allCards, cardsToCheck, skippedCards, allChanges, allS
   const verified = checkedSlugs.size - skippedCards.length;
   console.log(`Verified ${verified}/${checkedSlugs.size} card(s) against their live page this run.`);
 
+  // A card whose page collapsed to a hub is very likely pulled/paused, and that
+  // is worth a human's eyes THIS run — not after SKIP_ALERT_THRESHOLD runs of a
+  // counter that reads like a flaky fetch. Surface it prominently and distinctly,
+  // decoupled from the stale alarm, with the exact remediation.
+  const possiblyPulled = skippedCards.filter(
+    s => typeof s.reason === 'string' && s.reason.includes(PULLED_TO_HUB_MARKER)
+  );
+  if (possiblyPulled.length > 0) {
+    console.warn(
+      `\n🚫 ${possiblyPulled.length} card(s) may have been PULLED or PAUSED (page ${PULLED_TO_HUB_MARKER} this run):`
+    );
+    for (const s of possiblyPulled) {
+      console.warn(`  - ${s.name}: ${s.reason}\n      ${s.url}`);
+    }
+    console.warn('  → Verify the live page; if the card is gone, set accepting_applications: false so it drops out of the check.\n');
+  }
+
   const stale = staleCardsFrom(nextState);
   if (fs.existsSync(STALE_REPORT_FILE)) fs.unlinkSync(STALE_REPORT_FILE);
   if (stale.length > 0) {
@@ -1992,5 +2064,7 @@ module.exports = {
   updateSkipState,
   staleCardsFrom,
   isTransientNetworkError,
+  redirectedToAncestor,
+  PULLED_TO_HUB_MARKER,
   SKIP_ALERT_THRESHOLD,
 };

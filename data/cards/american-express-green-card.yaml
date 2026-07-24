@@ -2,7 +2,7 @@ name: "American Express Green"
 bank: "American Express"
 slug: "american-express-green-card"
 image: "amex_green_card.png"
-accepting_applications: true
+accepting_applications: false
 apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 foreign_transaction_fee: false
 our_take: >
