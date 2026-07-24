@@ -21,9 +21,11 @@ function TagBadge({ tag }: { tag: ArticleTag }) {
 
 interface ArticleCardProps {
   article: Article;
+  /** All-time views; rendered only above a floor, matching the detail pages. */
+  viewCount?: number;
 }
 
-export function ArticleCard({ article }: ArticleCardProps) {
+export function ArticleCard({ article, viewCount = 0 }: ArticleCardProps) {
   const imageUrl = article.image
     ? `https://d3ay3etzd1512y.cloudfront.net/article_images/${article.image}`
     : null;
@@ -82,7 +84,10 @@ export function ArticleCard({ article }: ArticleCardProps) {
             <span className="text-gray-300">|</span>
             <span>{formatDate(article.date)}</span>
           </div>
-          <span>{article.reading_time} min read</span>
+          <span>
+            {article.reading_time} min read
+            {viewCount > 100 && <> · {viewCount.toLocaleString('en-US')} views</>}
+          </span>
         </div>
       </div>
     </Link>

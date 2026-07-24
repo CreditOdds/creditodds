@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getArticles } from "@/lib/articles";
+import { getContentViewCounts } from "@/lib/api";
 import { ArticlesListClient } from "@/components/articles/ArticlesListClient";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
@@ -22,7 +23,12 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default async function ArticlesPage() {
-  const articles = await getArticles();
+  const [articles, viewCounts] = await Promise.all([
+    getArticles(),
+    // All-time views per article, shown only above a floor (same rule as the
+    // detail pages).
+    getContentViewCounts(0).catch(() => null),
+  ]);
 
   const collectionJsonLd = {
     "@context": "https://schema.org",
@@ -75,7 +81,7 @@ export default async function ArticlesPage() {
 
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 80 }}>
         {articles.length > 0 ? (
-          <ArticlesListClient articles={articles} />
+          <ArticlesListClient articles={articles} viewCounts={viewCounts?.article ?? {}} />
         ) : (
           <div
             style={{
