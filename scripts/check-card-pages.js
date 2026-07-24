@@ -116,9 +116,12 @@ const PER_CARD_TIMEOUT_MS = Number(process.env.CARD_PAGE_PER_CARD_TIMEOUT_MS || 
 // The 'fetch' phase gets a larger budget: it runs locally with no job cap, and
 // it browser-renders far more pages than the single pass does (see FETCH_PHASE
 // note in the card loop), which is slower but removes the need for a second
-// extraction round trip.
+// extraction round trip. At the measured ~45s/card pace, 90 min ran out of clock
+// around card ~121 of 147 and stranded the alphabetical tail (US Bank, Wells
+// Fargo, Wyndham) unchecked every run; 150 min covers the full catalog plus the
+// network-error retry round with headroom. Still overridable via env.
 const SCRIPT_TIMEOUT_MS = Number(
-  process.env.CARD_PAGE_SCRIPT_TIMEOUT_MS || (PHASE === 'fetch' ? 90 * 60 * 1000 : 30 * 60 * 1000)
+  process.env.CARD_PAGE_SCRIPT_TIMEOUT_MS || (PHASE === 'fetch' ? 150 * 60 * 1000 : 30 * 60 * 1000)
 );
 // Max stripped page text handed to the extractor. Sized so nav-heavy issuer
 // pages still include the card terms — e.g. business.bankofamerica.com leads
@@ -218,7 +221,13 @@ function filterCardsForCheck(allCards, slugFilter) {
     c => c.data.accepting_applications !== false && checkUrlFor(c)
   );
   if (slugFilter) {
-    cards = cards.filter(c => c.slug === slugFilter);
+    // CARD_SLUG accepts a single slug or a comma-separated list, so a run can be
+    // scoped to just the cards a previous run skipped (recovery pass) without
+    // re-fetching the whole catalog.
+    const wanted = new Set(
+      slugFilter.split(',').map(s => s.trim()).filter(Boolean)
+    );
+    cards = cards.filter(c => wanted.has(c.slug));
     if (cards.length === 0) {
       console.warn(`Warning: No active card with apply_link found for slug "${slugFilter}"`);
     }
