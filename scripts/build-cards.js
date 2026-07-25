@@ -150,6 +150,27 @@ function validateCard(card, schema, categoryIds, storeSlugs) {
       if (reward.choices !== undefined && (typeof reward.choices !== 'number' || reward.choices < 1 || !Number.isInteger(reward.choices))) {
         errors.push(`Invalid reward choices for ${reward.category}: must be a positive integer`);
       }
+      // Meta-rows stand in for a BUCKET of eligible categories. The rewards
+      // checker suppresses "new category" noise by reading that bucket list
+      // (see collectMetaCoveredCategories in check-card-rewards-and-benefits.js),
+      // so a meta-row without one silently disables the suppression and floods
+      // the weekly review queue with duplicates of what the row already covers.
+      // Four cards were in that state when issue #1743 was triaged.
+      const META_COVERED_FIELD = {
+        rotating: 'current_categories',
+        top_category: 'eligible_categories',
+        selected_categories: 'eligible_categories',
+      };
+      const coveredField = META_COVERED_FIELD[reward.category];
+      if (coveredField) {
+        const covered = reward[coveredField];
+        if (!Array.isArray(covered) || covered.length === 0) {
+          errors.push(
+            `${reward.category} row must list the categories it covers in \`${coveredField}\` ` +
+            `(the rewards checker uses it to suppress duplicate proposals)`
+          );
+        }
+      }
       // Cap fields. spend_cap is the dollar threshold; cap_period is the
       // window over which it resets; rate_after_cap is the rate earned on
       // spend above the cap (defaults to 1 if unspecified).

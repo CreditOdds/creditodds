@@ -10,9 +10,15 @@
  * Pipeline (per active card with apply_link):
  *   1. Fetch the apply page (simple fetch → Playwright fallback).
  *   2. Ask Claude Haiku to extract { rewards[], benefits[], foreign_transaction_fee }.
- *   3. Filter the proposal through `data/benefit-policy.yaml` and the card's
- *      git history (skip benefits previously removed from this card).
- *   4. Three-tier routing:
+ *   3. Gate on extraction trust: an extraction that returned nothing, missed
+ *      the card's base rate, or matched under half its existing categories
+ *      cannot support a "the issuer removed this" claim, so its removals and
+ *      value rewrites are dropped. See assessExtractionTrust.
+ *   4. Filter the proposal through `data/benefit-policy.yaml`, the card's git
+ *      history (skip benefits previously removed from this card), and
+ *      `data/review-declined.yaml` (skip anything a human already declined in
+ *      a past review issue).
+ *   5. Three-tier routing:
  *        - "auto-PR"   → write changes to the YAML; PR is opened by the workflow.
  *        - "review"    → append to .card-rewards-benefits-review.md (human triage).
  *        - "skip"      → silent; matched the exclude list or removed-history.
@@ -46,6 +52,7 @@ const yaml = require('js-yaml');
 const ROOT = path.join(__dirname, '..');
 const CARDS_DIR = path.join(ROOT, 'data', 'cards');
 const POLICY_FILE = path.join(ROOT, 'data', 'benefit-policy.yaml');
+const DECLINED_FILE = path.join(ROOT, 'data', 'review-declined.yaml');
 const REVIEW_SUMMARY = path.join(ROOT, '.card-rewards-benefits-review.md');
 const SUMMARY_FILE = path.join(ROOT, '.card-rewards-benefits-summary.md');
 
@@ -114,6 +121,30 @@ function loadAllCards() {
   return cards;
 }
 
+// Several cards legitimately share one apply page: the three Bilt cards, both
+// AAA Visa Signatures, and both Navy Federal Cash Rewards cards. The extractor
+// sees every card's earn table on that one page and has no reliable way to
+// attribute rows, so it proposes the sibling's rates as new (#1743: AAA Daily
+// Advantage got AAA Travel Advantage's `travel` 3%) and reports genuine rows
+// as missing. Build the map once so both the prompt and the diff can adapt.
+function buildSharedUrlMap(cards) {
+  const byUrl = new Map();
+  for (const c of cards) {
+    const url = c.data.apply_link;
+    if (!url) continue;
+    if (!byUrl.has(url)) byUrl.set(url, []);
+    byUrl.get(url).push(c);
+  }
+  const shared = new Map();
+  for (const [, group] of byUrl) {
+    if (group.length < 2) continue;
+    for (const c of group) {
+      shared.set(c.slug, group.filter(o => o.slug !== c.slug).map(o => o.data.name));
+    }
+  }
+  return shared;
+}
+
 function filterCardsForCheck(allCards, slugFilter) {
   let cards = allCards.filter(
     c => c.data.accepting_applications !== false && c.data.apply_link
@@ -174,6 +205,62 @@ function loadPolicy() {
   };
 }
 
+// ─── Declined-review memory ─────────────────────────────────────────────────
+//
+// `getRemovedBenefitsForCard` only remembers proposals that once landed in a
+// card's YAML and were later deleted. A proposal a human declined in the
+// review issue never touched the YAML, so it has no git history and recurs
+// every week forever. 27 of issue #1743's 51 distinct lines had already been
+// triaged away in #1636 / #1666 / #1731.
+//
+// data/review-declined.yaml closes that loop. See the file header for the
+// shape and for how to retire an entry.
+let _declined = null;
+function loadDeclined() {
+  if (_declined) return _declined;
+  const empty = {
+    rewardsAdded: new Set(),
+    rewardsRemoved: new Set(),
+    benefits: new Set(),
+    benefitsGlobal: new Set(),
+  };
+  try {
+    const raw = yaml.load(fs.readFileSync(DECLINED_FILE, 'utf8')) || {};
+    const key = (slug, v) => `${slug}::${String(v).toLowerCase()}`;
+    for (const e of raw.rewards_added || []) {
+      if (e?.slug && e?.category) empty.rewardsAdded.add(key(e.slug, e.category));
+    }
+    for (const e of raw.rewards_removed || []) {
+      if (e?.slug && e?.category) empty.rewardsRemoved.add(key(e.slug, e.category));
+    }
+    for (const e of raw.benefits || []) {
+      if (e?.slug && e?.name) empty.benefits.add(key(e.slug, e.name));
+    }
+    for (const n of raw.benefits_global || []) {
+      if (n) empty.benefitsGlobal.add(String(n).toLowerCase());
+    }
+  } catch (err) {
+    // A missing or malformed file must not silently disable the filter —
+    // say so, then carry on with an empty set.
+    if (err.code !== 'ENOENT') {
+      console.warn(`Warning: could not read ${path.basename(DECLINED_FILE)}: ${err.message}`);
+    }
+  }
+  _declined = empty;
+  return _declined;
+}
+
+function isDeclined(kind, slug, value) {
+  const d = loadDeclined();
+  const k = `${slug}::${String(value).toLowerCase()}`;
+  if (kind === 'reward_added') return d.rewardsAdded.has(k);
+  if (kind === 'reward_removed') return d.rewardsRemoved.has(k);
+  if (kind === 'benefit') {
+    return d.benefits.has(k) || d.benefitsGlobal.has(String(value).toLowerCase());
+  }
+  return false;
+}
+
 function classifyBenefit(name, policy, removedFromThisCard) {
   const lower = name.toLowerCase();
   if (removedFromThisCard.has(name)) return 'removed_history';
@@ -222,6 +309,29 @@ async function closeBrowser() {
   }
 }
 
+// Does this page text actually contain an earn table?
+//
+// The old floor was `stripped.length >= 200`, which any bot-block page,
+// cookie wall, or JS shell clears. That let unreadable pages through as if
+// they were readable, and an extraction against chrome-only text returns
+// nothing — which the diff then reported as "the issuer removed every
+// category." Capital One and Citi render their earn tables client-side;
+// Barclays returns 403 outright.
+//
+// Require several rate-shaped tokens ("5%", "3X", "2 points per $1") before
+// treating a fetch as usable. Three is deliberately low: a card with one
+// bonus category plus a base rate still clears it, while a nav-and-footer
+// shell does not.
+const MIN_RATE_TOKENS = 3;
+
+function hasRewardEvidence(text) {
+  if (!text || typeof text !== 'string') return false;
+  const matches = text.match(
+    /\d+(?:\.\d+)?\s*(?:%|[xX]\b|(?:points?|miles?|cash\s*back)\s+(?:per|back|on|for))/g
+  );
+  return Boolean(matches && matches.length >= MIN_RATE_TOKENS);
+}
+
 async function fetchPageContent(url) {
   // Simple fetch first
   try {
@@ -243,8 +353,14 @@ async function fetchPageContent(url) {
       if (ct.includes('text/html')) {
         const html = await response.text();
         const stripped = stripHtml(html);
-        if (stripped.length >= 200) return { content: stripped, usedBrowser: false };
+        // Only accept the cheap path when the text actually carries an earn
+        // table; otherwise fall through to the browser, which can render one.
+        if (stripped.length >= 200 && hasRewardEvidence(stripped)) {
+          return { content: stripped, usedBrowser: false };
+        }
       }
+    } else {
+      console.warn(`  Simple fetch returned HTTP ${response.status} — falling back to browser`);
     }
   } catch (err) {
     console.warn(`  Simple fetch failed: ${err.message} — falling back to browser`);
@@ -259,11 +375,33 @@ async function fetchPageContent(url) {
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     });
     const page = await context.newPage();
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    await page.waitForTimeout(3000);
+    const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    if (response && response.status() >= 400) {
+      console.warn(`  Browser fetch got HTTP ${response.status()} — treating as unfetchable`);
+      return null;
+    }
+    // Wait for the earn table to render rather than a flat 3s: issuer pages
+    // that hydrate their rewards client-side routinely take longer, and the
+    // ones that don't shouldn't pay the full wait.
+    try {
+      await page.waitForFunction(
+        () => /\d+(?:\.\d+)?\s*(?:%|[xX]\b)/.test(document.body?.innerText || ''),
+        { timeout: 8000 }
+      );
+    } catch {
+      // No rate text appeared; fall through and let the evidence check below
+      // make the call on whatever did render.
+    }
+    await page.waitForTimeout(1000);
     const html = await page.content();
     const stripped = stripHtml(html);
     if (stripped.length < 200) return null;
+    // A rendered page with no earn table is not usable input. Returning it
+    // anyway is what produced the all-rows-removed reports in #1743.
+    if (!hasRewardEvidence(stripped)) {
+      console.warn(`  Rendered page has no earn-rate text — treating as unfetchable`);
+      return null;
+    }
     return { content: stripped, usedBrowser: true };
   } catch (err) {
     console.warn(`  Browser fetch error: ${err.message}`);
@@ -296,7 +434,7 @@ function buildFewShotExamples(allCards, exampleSlugs) {
 // fetch phase both call this, so a prompt tweak can never apply to one and not
 // the other — the local routine must be answering exactly the question the
 // single pass would have asked.
-function buildExtractionPrompt(card, applyLink, pageContent, examples) {
+function buildExtractionPrompt(card, applyLink, pageContent, examples, sharedUrlWith = []) {
   const examplesBlock = examples
     .slice(0, 3)
     .map(ex => `### ${ex.name}\n${JSON.stringify({ rewards: ex.rewards, benefits: ex.benefits, foreign_transaction_fee: ex.foreign_transaction_fee }, null, 2)}`)
@@ -309,11 +447,21 @@ function buildExtractionPrompt(card, applyLink, pageContent, examples) {
     ? `\nCurrent benefits[] (DO NOT propose anything semantically equivalent):\n${JSON.stringify(card.data.benefits, null, 2)}\n`
     : '';
 
+  const sharedBlock = sharedUrlWith.length > 0
+    ? `
+⚠️ SHARED PAGE — this URL also describes ${sharedUrlWith.length} other card(s): ${sharedUrlWith.join(', ')}.
+Extract ONLY the rows that belong to ${card.data.name}. When the page states a
+rate without making clear which of these cards it applies to, OMIT it rather
+than guessing. Returning fewer rows is correct here; a rate copied from a
+sibling card is a false positive that reaches production.
+`
+    : '';
+
   const prompt = `You are extracting earn rates and benefits from a credit card's apply page.
 
 Card: ${card.data.name} (${card.data.bank})
 Source URL: ${applyLink}
-${subBlock}${existingBenefitsBlock}
+${sharedBlock}${subBlock}${existingBenefitsBlock}
 Page content:
 ${pageContent}
 
@@ -552,11 +700,11 @@ Now extract for ${card.data.name}.`;
   return prompt;
 }
 
-async function extractRewardsAndBenefits(card, applyLink, pageContent, examples) {
+async function extractRewardsAndBenefits(card, applyLink, pageContent, examples, sharedUrlWith = []) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY required');
 
-  const prompt = buildExtractionPrompt(card, applyLink, pageContent, examples);
+  const prompt = buildExtractionPrompt(card, applyLink, pageContent, examples, sharedUrlWith);
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -686,6 +834,62 @@ const PORTAL_ALIAS_GROUP = new Set([
   'flights_portal',
 ]);
 
+// Alias groups — sets of category ids that encode the same spend in
+// different slices. If the YAML uses one member and the extractor proposes
+// a sibling, that is a naming difference, not a change. Applied
+// symmetrically to both the added and removed sides of the diff.
+//
+// The portal family is the original case. The rest were all confirmed
+// false-positive generators in review issue #1743:
+//   entertainment ↔ entertainment_portal — Capital One Venture's
+//     `entertainment_portal` row re-proposed as bare `entertainment`.
+//   streaming ↔ tv_internet_streaming — PlayStation Visa's `streaming`
+//     row (which already covers "streaming, cable, and internet") flagged
+//     removed while `tv_internet_streaming` was proposed as new.
+//   gas ↔ ev_charging — issuers advertise "gas stations and EV charging"
+//     as one line, so the extractor emits a single `gas` row and every
+//     card that splits the two orphans its `ev_charging` row every week
+//     (AAA Daily Advantage, AAA Travel Advantage, Atmos Rewards Business).
+const CATEGORY_ALIAS_GROUPS = [
+  PORTAL_ALIAS_GROUP,
+  new Set(['entertainment', 'entertainment_portal']),
+  new Set(['streaming', 'tv_internet_streaming']),
+  new Set(['gas', 'ev_charging']),
+];
+
+// Broad → narrow containment. A card that splits a broad category into
+// narrower rows (Citi Strata Premier stores `airlines` 3x + `hotels` 3x)
+// gets the broad row proposed as "new" every run, because the apply page
+// says "3x on air travel and other hotel purchases". Suppress a proposed
+// broad row when the YAML already carries any of its narrow members, and
+// suppress a narrow YAML row from the removed list when the proposal
+// carries its broad parent.
+const BROADER_THAN = new Map([
+  ['travel', new Set([
+    'airlines', 'hotels', 'car_rentals', 'vacation_rentals', 'transit',
+    'travel_portal', 'hotels_portal', 'flights_portal',
+    'car_rentals_portal', 'hotels_car_portal',
+  ])],
+  ['transit', new Set(['ground_transportation'])],
+  ['online_shopping', new Set(['amazon'])],
+]);
+
+// All ids in the same alias group as `cat` (excluding itself).
+function aliasSiblings(cat) {
+  const out = new Set();
+  for (const group of CATEGORY_ALIAS_GROUPS) {
+    if (!group.has(cat)) continue;
+    for (const member of group) if (member !== cat) out.add(member);
+  }
+  return out;
+}
+
+// True when `broad` is a strictly broader encoding of `narrow`.
+function isBroaderThan(broad, narrow) {
+  const narrowSet = BROADER_THAN.get(broad);
+  return Boolean(narrowSet && narrowSet.has(narrow));
+}
+
 // Extract the set of category ids covered by a card's meta-rows
 // (rotating / top_category / selected_categories). Returns null when the
 // card has no meta-rows, so callers can short-circuit.
@@ -709,7 +913,65 @@ function collectMetaCoveredCategories(currentRewards) {
   return hasMeta ? covered : null;
 }
 
-function diffRewards(current, proposed) {
+// ─── Extraction trust floor ─────────────────────────────────────────────────
+//
+// The single largest source of false positives in the weekly queue: a failed
+// extraction is structurally indistinguishable from "the issuer removed these
+// categories." An empty `proposed` array walks straight through the removed
+// loop and reports every row the card has as missing from the page.
+//
+// Issue #1743 shipped three cards in exactly that state — Capital One Venture X
+// (4 of 4 rows flagged), VentureOne (2 of 2), and Hawaiian Airlines Business
+// (5 of 5, including `everything_else`). None had changed; the pages either
+// render their earn tables in JS or bot-block the scraper outright (Barclays
+// returns 403). That is 11 of the issue's 30 removals from three cards.
+//
+// A removal claim requires evidence the page's earn table was actually read.
+// We only trust the extraction enough to report removals when:
+//   1. it returned at least one reward, AND
+//   2. it found a base rate if the card has one (essentially every card does;
+//      an extractor that missed `everything_else` did not read the table), AND
+//   3. it matched at least half the categories already in the YAML, counting
+//      alias and meta equivalences.
+//
+// Additions are held to a lower bar and still surface: those need only that
+// the page said something, and a genuinely new category is exactly the thing
+// no amount of YAML-side evidence can confirm.
+function assessExtractionTrust(current, proposed) {
+  const cur = (current || []).filter(r => r && r.category);
+  const prop = (proposed || []).filter(r => r && r.category);
+  if (cur.length === 0) return { trusted: true, reason: null };
+  if (prop.length === 0) {
+    return { trusted: false, reason: 'extractor returned no rewards at all' };
+  }
+
+  const proposedCats = new Set(prop.map(r => r.category));
+  if (cur.some(r => r.category === 'everything_else') && !proposedCats.has('everything_else')) {
+    return { trusted: false, reason: 'extractor found no base rate (everything_else)' };
+  }
+
+  const matched = cur.filter(r => {
+    if (proposedCats.has(r.category)) return true;
+    // Meta-rows never appear on apply pages by name, so they can't be
+    // "matched" — don't let them drag the ratio down.
+    if (META_CATEGORIES.has(r.category)) return true;
+    for (const sib of aliasSiblings(r.category)) if (proposedCats.has(sib)) return true;
+    for (const p of proposedCats) if (isBroaderThan(p, r.category)) return true;
+    return false;
+  }).length;
+
+  if (matched / cur.length < 0.5) {
+    return {
+      trusted: false,
+      reason: `extractor matched only ${matched} of ${cur.length} existing categories`,
+    };
+  }
+  return { trusted: true, reason: null };
+}
+
+// `opts.suppressRemovals` is set by the caller for cards whose apply_link is
+// shared with another card — see SHARED-URL handling in main().
+function diffRewards(current, proposed, opts = {}) {
   // Returns { added, removed, changed } by category id.
   //
   // Reward-rate change is gated by FOUR guards. All four are silent
@@ -788,11 +1050,31 @@ function diffRewards(current, proposed) {
   // the LLM proposes a new `dining` row, suppress the "added" flag.
   const metaCoveredCategories = collectMetaCoveredCategories(current) || new Set();
 
-  // Suppression set B: when the YAML has any portal-family row and the
-  // LLM proposes a sibling portal row (or vice versa), the two are
-  // equivalent enough that we don't want to flag either side.
-  const yamlHasPortalRow = [...cur.keys()].some(c => PORTAL_ALIAS_GROUP.has(c));
-  const proposalHasPortalRow = [...prop.keys()].some(c => PORTAL_ALIAS_GROUP.has(c));
+  // Suppression set B: when the YAML has a row in the same alias group as
+  // a proposed row (or vice versa), the two are equivalent encodings of the
+  // same spend and neither side should be flagged.
+  const yamlHasAliasOf = cat => [...cur.keys()].some(c => aliasSiblings(cat).has(c));
+  const proposalHasAliasOf = cat => [...prop.keys()].some(c => aliasSiblings(cat).has(c));
+
+  // Suppression set C: broad/narrow splits. A proposed broad row is noise
+  // when the YAML already carries any of its narrow members; a narrow YAML
+  // row isn't "removed" when the proposal carries its broad parent.
+  const yamlHasNarrowerThan = broad => [...cur.keys()].some(c => isBroaderThan(broad, c));
+  const proposalHasBroaderThan = narrow => [...prop.keys()].some(c => isBroaderThan(c, narrow));
+
+  // Suppression set D: the card's own base rate restated under a category
+  // name. Amex Blue Business Plus earns 2x on everything, so its apply page's
+  // "2X on AmexTravel.com" line gets extracted as a new `travel_portal` 2x
+  // row every run. If a proposed rate equals the base rate in the same unit,
+  // it carries no information the base row doesn't already have.
+  const baseRow = cur.get('everything_else');
+  const isBaseRateRestated = p =>
+    Boolean(baseRow) && p.unit === baseRow.unit && p.value === baseRow.value;
+
+  // Meta-rows in the YAML mean the card models a bucket. A proposal that
+  // names a meta id itself (World of Hyatt Business: YAML `top_category`,
+  // proposal `selected_categories`) is the same bucket under another name.
+  const yamlHasMetaRow = [...cur.keys()].some(c => META_CATEGORIES.has(c));
 
   const added = [];
   const removed = [];
@@ -804,9 +1086,16 @@ function diffRewards(current, proposed) {
       // Suppress proposals already covered by a meta-row (rotating /
       // top_category / selected_categories).
       if (metaCoveredCategories.has(cat)) continue;
-      // Suppress portal-sibling proposals when YAML already has any
-      // portal-family row encoding the same earn mechanic.
-      if (PORTAL_ALIAS_GROUP.has(cat) && yamlHasPortalRow) continue;
+      // A proposal that names a meta id itself, when the YAML already
+      // models the same bucket under a different meta id.
+      if (META_CATEGORIES.has(cat) && yamlHasMetaRow) continue;
+      // Suppress alias-sibling proposals when YAML already has a row
+      // encoding the same earn mechanic under another slice.
+      if (yamlHasAliasOf(cat)) continue;
+      // Suppress a broad proposal when the YAML splits it into narrow rows.
+      if (yamlHasNarrowerThan(cat)) continue;
+      // Suppress the base rate restated under a category name.
+      if (isBaseRateRestated(p)) continue;
       added.push(p);
     } else if (c.unit !== p.unit) {
       // Unit mismatch — skip; almost always an LLM misread.
@@ -848,19 +1137,42 @@ function diffRewards(current, proposed) {
       changed.push({ from: c, to: p });
     }
   }
+  // Removals are only reported when the extraction is trustworthy enough to
+  // stand as evidence of absence, and never for cards whose apply page also
+  // describes a sibling card (the extractor can't be held to knowing which
+  // rows belong to which).
+  const trust = assessExtractionTrust(current, proposed);
+  const reportRemovals = trust.trusted && !opts.suppressRemovals;
+
   for (const [cat, c] of cur) {
+    if (!reportRemovals) break;
     if (prop.has(cat)) continue;
     // Meta-rows (rotating / top_category / selected_categories) never
     // appear on apply pages — the page lists the underlying eligible
     // categories. Don't flag the meta-row itself as "removed".
     if (META_CATEGORIES.has(cat)) continue;
-    // Portal-family rows: when the proposal includes any sibling portal
-    // category, treat as matched (the LLM picked a different slice of
-    // the same mechanic).
-    if (PORTAL_ALIAS_GROUP.has(cat) && proposalHasPortalRow) continue;
+    // Alias-family rows: when the proposal includes any sibling category,
+    // treat as matched (the LLM picked a different slice of the same
+    // mechanic).
+    if (proposalHasAliasOf(cat)) continue;
+    // A narrow YAML row isn't missing when the proposal carries its broad
+    // parent (page says "3x travel", YAML splits airlines + hotels).
+    if (proposalHasBroaderThan(cat)) continue;
     removed.push(c);
   }
-  return { added, removed, changed, downgraded };
+
+  // Neither a base-rate cut nor a value rewrite claimed by an untrusted
+  // extraction is a finding. `changed` auto-PRs, so an extraction we don't
+  // trust to say what's absent shouldn't get to silently rewrite what's
+  // present either.
+  return {
+    added,
+    removed,
+    changed: trust.trusted ? changed : [],
+    downgraded: trust.trusted ? downgraded : [],
+    trust,
+    removalsSuppressed: !reportRemovals,
+  };
 }
 
 // Tokenize a benefit name into meaningful words for fuzzy duplicate detection.
@@ -1387,15 +1699,27 @@ function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
 
 // ─── Review-queue formatting ────────────────────────────────────────────────
 
-function appendReviewEntries(cardName, applyLink, reviewItems, rewardsDiff, ftxnDiff) {
-  const downgraded = rewardsDiff.downgraded || [];
+function appendReviewEntries(card, reviewItems, rewardsDiff, ftxnDiff) {
+  const cardName = card.data.name;
+  const applyLink = card.data.apply_link;
+  const slug = card.slug;
+
+  // Everything the team has already looked at and declined stays out of the
+  // queue. See data/review-declined.yaml.
+  const added = rewardsDiff.added.filter(r => !isDeclined('reward_added', slug, r.category));
+  const removed = rewardsDiff.removed.filter(r => !isDeclined('reward_removed', slug, r.category));
+  const downgraded = (rewardsDiff.downgraded || []).filter(
+    d => !isDeclined('reward_removed', slug, d.to.category)
+  );
+  const benefits = reviewItems.filter(b => !isDeclined('benefit', slug, b.name));
+
   if (
-    reviewItems.length === 0 &&
-    rewardsDiff.added.length === 0 &&
-    rewardsDiff.removed.length === 0 &&
+    benefits.length === 0 &&
+    added.length === 0 &&
+    removed.length === 0 &&
     downgraded.length === 0
   ) {
-    return;
+    return 0;
   }
   const lines = [];
   lines.push(`\n## ${cardName}`);
@@ -1408,26 +1732,31 @@ function appendReviewEntries(cardName, applyLink, reviewItems, rewardsDiff, ftxn
       lines.push(`- \`${to.category}\`: ${from.value}${u} → ${to.value}${u} (the extractor frequently misreads flat base rates as 1 — confirm the cut is real)`);
     }
   }
-  if (rewardsDiff.added.length > 0) {
+  if (added.length > 0) {
     lines.push(`### New reward category proposed (needs human routing)`);
-    for (const r of rewardsDiff.added) {
+    for (const r of added) {
       lines.push(`- \`${r.category}\`: ${r.value}${r.unit === 'percent' ? '%' : 'x'}${r.note ? ` — ${r.note}` : ''}`);
     }
   }
-  if (rewardsDiff.removed.length > 0) {
+  if (removed.length > 0) {
     lines.push(`### Reward category present in YAML but not on apply page`);
-    for (const r of rewardsDiff.removed) {
+    for (const r of removed) {
       lines.push(`- \`${r.category}\`: ${r.value}${r.unit === 'percent' ? '%' : 'x'} (verify before removing)`);
     }
   }
-  if (reviewItems.length > 0) {
+  if (benefits.length > 0) {
     lines.push(`### Borderline benefits proposed (manual decision)`);
-    for (const b of reviewItems) {
+    for (const b of benefits) {
       lines.push(`- **${b.name}** — ${b.description}`);
     }
   }
+  lines.push(
+    `\n<sub>Declined an item? Add it to \`data/review-declined.yaml\` ` +
+    `(slug \`${slug}\`) so it stops coming back every week.</sub>`
+  );
 
   fs.appendFileSync(REVIEW_SUMMARY, lines.join('\n') + '\n');
+  return added.length + removed.length + downgraded.length + benefits.length;
 }
 
 // ─── Rotating-period staleness check ────────────────────────────────────────
@@ -1494,8 +1823,11 @@ async function main() {
   const cards = filterCardsForCheck(allCards, slugFilter);
   const policy = loadPolicy();
   const examples = buildFewShotExamples(allCards, policy.exampleCards);
+  // Keyed on every card, not just the filtered set, so a --slug run still
+  // knows its page is shared.
+  const sharedUrls = buildSharedUrlMap(allCards.filter(c => c.data.apply_link));
 
-  if (PHASE === 'finish') return finishPhase({ cards, policy });
+  if (PHASE === 'finish') return finishPhase({ cards, policy, sharedUrls });
 
   if (PHASE === 'all' && !process.env.OPENAI_API_KEY) {
     console.error('OPENAI_API_KEY is required for --phase=all. Use --phase=fetch/--phase=finish to extract locally.');
@@ -1534,6 +1866,10 @@ async function main() {
     cardsModified: 0,
     autoChanges: 0,
     reviewItems: 0,
+    // Cards whose page could be fetched but whose extraction wasn't complete
+    // enough to trust for removals. A rising count means the scrapers are
+    // degrading, and is worth acting on before the queue goes quiet.
+    untrustedExtractions: 0,
     staleRotatingPeriods: staleRotations.length,
   };
 
@@ -1568,7 +1904,10 @@ async function main() {
     if (PHASE === 'fetch') {
       fs.writeFileSync(
         path.join(PROMPTS_DIR, `${card.slug}.txt`),
-        buildExtractionPrompt(card, card.data.apply_link, pageResult.content, examples)
+        buildExtractionPrompt(
+          card, card.data.apply_link, pageResult.content, examples,
+          sharedUrls.get(card.slug) || []
+        )
       );
       // The page text is kept because --phase=finish needs it: diffForeignTxn
       // reads the raw page to confirm a "no foreign transaction fee" claim,
@@ -1583,7 +1922,10 @@ async function main() {
     let extracted;
     try {
       extracted = await withTimeout(
-        extractRewardsAndBenefits(card, card.data.apply_link, pageResult.content, examples),
+        extractRewardsAndBenefits(
+          card, card.data.apply_link, pageResult.content, examples,
+          sharedUrls.get(card.slug) || []
+        ),
         PER_CARD_TIMEOUT_MS,
         `extract ${card.data.name}`
       );
@@ -1597,7 +1939,10 @@ async function main() {
       continue;
     }
 
-    applyExtraction({ card, extracted, pageContent: pageResult.content, policy, summary });
+    applyExtraction({
+      card, extracted, pageContent: pageResult.content, policy, summary,
+      sharedUrlWith: sharedUrls.get(card.slug) || [],
+    });
 
     await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
   }
@@ -1628,7 +1973,7 @@ async function main() {
 // exactly the same policy/diff/apply path the single pass uses. A card with no
 // extraction is counted as an extraction failure, never as "no changes" — an
 // unanswered prompt must not read as a clean bill of health.
-function finishPhase({ cards, policy }) {
+function finishPhase({ cards, policy, sharedUrls }) {
   if (!fs.existsSync(FETCH_STATE_FILE)) {
     console.error(`Error: ${path.relative(process.cwd(), FETCH_STATE_FILE)} not found — run --phase=fetch first.`);
     process.exit(1);
@@ -1657,6 +2002,10 @@ function finishPhase({ cards, policy }) {
     cardsModified: 0,
     autoChanges: 0,
     reviewItems: 0,
+    // Cards whose page could be fetched but whose extraction wasn't complete
+    // enough to trust for removals. A rising count means the scrapers are
+    // degrading, and is worth acting on before the queue goes quiet.
+    untrustedExtractions: 0,
     staleRotatingPeriods: staleRotations.length,
   };
 
@@ -1679,7 +2028,10 @@ function finishPhase({ cards, policy }) {
     const pageContent = fs.readFileSync(pagePath, 'utf8');
 
     console.log(`[finish] ${card.data.name}`);
-    applyExtraction({ card, extracted, pageContent, policy, summary });
+    applyExtraction({
+      card, extracted, pageContent, policy, summary,
+      sharedUrlWith: sharedUrls.get(card.slug) || [],
+    });
   }
 
   writeSummary(summary);
@@ -1689,7 +2041,7 @@ function finishPhase({ cards, policy }) {
 // diff, YAML write, review-queue append. Shared verbatim by --phase=all and
 // --phase=finish so a locally-answered prompt lands exactly where an
 // API-answered one would.
-function applyExtraction({ card, extracted, pageContent, policy, summary }) {
+function applyExtraction({ card, extracted, pageContent, policy, summary, sharedUrlWith }) {
     const removed = getRemovedBenefitsForCard(card.filepath);
     const currentNames = getCurrentBenefitNames(card);
     // Don't deny-list things that are CURRENTLY in the YAML (they can be
@@ -1697,7 +2049,18 @@ function applyExtraction({ card, extracted, pageContent, policy, summary }) {
     for (const name of currentNames) removed.delete(name);
 
     const normalizedRewards = normalizeRewardsUnits(extracted.rewards);
-    const rewardsDiff = diffRewards(card.data.rewards, normalizedRewards);
+    const sharedUrl = Array.isArray(sharedUrlWith) && sharedUrlWith.length > 0;
+    const rewardsDiff = diffRewards(card.data.rewards, normalizedRewards, {
+      // When several cards share one apply page, absence of a row from the
+      // extraction says nothing — the extractor may simply have attributed
+      // it to the sibling card. (Confirmed in #1743: AAA Travel Advantage's
+      // `travel` 3% row was proposed as new for AAA Daily Advantage.)
+      suppressRemovals: sharedUrl,
+    });
+    if (!rewardsDiff.trust.trusted) {
+      console.warn(`  ⚠️  ${card.data.name}: untrusted extraction (${rewardsDiff.trust.reason}) — reward diff suppressed`);
+      summary.untrustedExtractions = (summary.untrustedExtractions || 0) + 1;
+    }
     const benefitsDiff = diffBenefits(
       card.data.benefits,
       extracted.benefits,
@@ -1728,12 +2091,7 @@ function applyExtraction({ card, extracted, pageContent, policy, summary }) {
       }
     }
 
-    appendReviewEntries(card.data.name, card.data.apply_link, benefitsDiff.review, rewardsDiff, ftxnDiff);
-    summary.reviewItems +=
-      benefitsDiff.review.length +
-      rewardsDiff.added.length +
-      rewardsDiff.removed.length +
-      rewardsDiff.downgraded.length;
+    summary.reviewItems += appendReviewEntries(card, benefitsDiff.review, rewardsDiff, ftxnDiff);
 }
 
 // Top-level summary so the caller (workflow or local routine) can decide
@@ -1764,6 +2122,15 @@ module.exports = {
   looksLikeSameByDescription,
   looksLikeSameBenefit,
   collectMetaCoveredCategories,
+  assessExtractionTrust,
+  hasRewardEvidence,
+  isDeclined,
+  loadDeclined,
+  buildSharedUrlMap,
+  aliasSiblings,
+  isBroaderThan,
   META_CATEGORIES,
   PORTAL_ALIAS_GROUP,
+  CATEGORY_ALIAS_GROUPS,
+  BROADER_THAN,
 };

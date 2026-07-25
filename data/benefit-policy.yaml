@@ -79,6 +79,40 @@ exclude:
   - "Limited Time Offers"
   - "Special Limited-Time Offers"
 
+  # Standard travel/purchase insurance coverage.
+  #
+  # These sat in `borderline` for months, which meant every apply page that
+  # mentions them regenerated the same manual-decision item every week. They
+  # were declined in four consecutive review issues (#1636, #1666, #1731,
+  # #1743) and made up the ENTIRE borderline bucket of #1743's queue (15 of
+  # 15 items). The reason they keep getting declined is structural: the
+  # benefit model is built on a concrete annual dollar value, and insurance
+  # coverage has an expected value of roughly zero in a typical year. A
+  # "$10,000 trip cancellation" line would be modeled as $10,000 of value.
+  #
+  # This only stops the checker from PROPOSING them. Cards that already
+  # carry these benefits keep them.
+  - "Trip Cancellation/Interruption Insurance"
+  - "Trip Cancellation"
+  - "Trip Interruption Insurance"
+  - "Trip Delay Reimbursement"
+  - "Trip Delay Insurance"
+  - "Auto Rental Coverage"
+  - "Auto Rental Collision Damage Waiver"
+  - "Primary Auto Rental Coverage"
+  - "Car Rental Loss & Damage Insurance"
+  - "Worldwide Car Rental Insurance"
+  - "Rental Car Insurance"
+  - "Car Rental Insurance"
+  - "Purchase Protection"
+  - "Lost Luggage Reimbursement"
+  - "Lost Baggage Reimbursement"
+  - "Lost Baggage"
+  - "Baggage Delay Insurance"
+  - "Baggage Insurance Plan"
+  - "Global Assist Hotline"
+  - "Premium Global Assist Hotline"
+
   # Generic business-card platform features (not card-differentiators)
   - "Free Employee Cards"
   - "Employee Cards"
@@ -197,32 +231,20 @@ exclude:
 # decide on a case-by-case basis whether they belong on a given card.
 # ────────────────────────────────────────────────────────────────────────────
 borderline:
-  - "Trip Cancellation/Interruption Insurance"
-  - "Trip Cancellation"
-  - "Trip Interruption Insurance"
-  - "Trip Delay Reimbursement"
-  - "Trip Delay Insurance"
-  - "Auto Rental Coverage"
-  - "Auto Rental Collision Damage Waiver"
-  - "Car Rental Loss & Damage Insurance"
-  - "Worldwide Car Rental Insurance"
-  - "Purchase Protection"
+  # NOTE — the standard travel/purchase insurance names were moved OUT of
+  # this list and into `exclude` above. They were declined in four
+  # consecutive review issues (#1636, #1666, #1731, #1743) and were the
+  # entire "borderline benefits" bucket in #1743's queue. Leaving an item
+  # borderline means re-litigating it every single week; if the team decides
+  # to start modeling insurance coverage, move them back here in one edit.
   - "Extended Warranty"
-  - "Lost Luggage Reimbursement"
-  - "Lost Baggage Reimbursement"
-  - "Lost Baggage"
-  - "Baggage Delay Insurance"
-  - "Baggage Insurance Plan"
   - "Travel Accident Insurance"
   - "Travel & Emergency Assistance"
-  - "Global Assist Hotline"
   - "Roadside Assistance"
   - "Return Protection"
   - "Emergency Evacuation"
   - "Emergency Medical"
   - "Price Protection"
-  - "Rental Car Insurance"
-  - "Car Rental Insurance"
 
 # ────────────────────────────────────────────────────────────────────────────
 # 3. Auto-PR — anything not matched above is eligible for an auto-PR.

@@ -28,7 +28,12 @@ rewards:
     value: 3
     unit: points_per_dollar
     choices: 1
-    note: "3x on one eligible self-select category of your choice"
+    eligible_categories:
+      - streaming
+      - gyms_fitness
+      - entertainment
+      - pet_supplies
+    note: "3x on one eligible self-select category of your choice: Select Streaming Services (the default), Fitness Clubs, Live Entertainment, Cosmetic Stores/Barber Shops/Hair Salons, or Pet Supply Stores. Changeable once per calendar quarter."
   - category: dining
     value: 2
     unit: points_per_dollar
