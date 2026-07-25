@@ -77,6 +77,13 @@ const nextConfig = {
         destination: '/news/wyndham-rewards-earner-premier',
         permanent: true,
       },
+      // budget-car-rental was a duplicate of the budget store page (same
+      // merchant, two slugs); merged into /best-card-for/budget.
+      {
+        source: '/best-card-for/budget-car-rental',
+        destination: '/best-card-for/budget',
+        permanent: true,
+      },
     ];
   },
 

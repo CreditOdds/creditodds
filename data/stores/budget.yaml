@@ -2,6 +2,8 @@ name: "Budget"
 slug: "budget"
 aliases:
   - "Budget Rent a Car"
+  - "Budget Car Rental"
+parent_company: "Avis Budget Group"
 categories:
   - car_rentals
   - travel

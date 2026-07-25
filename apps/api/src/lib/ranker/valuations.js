@@ -5,8 +5,12 @@
 // alias). Plain CommonJS so SAM bundles it without a build step.
 
 const valuations = [
-  { program: "Chase Ultimate Rewards", slug: "chase-ultimate-rewards", cpp: 1.25, match: ["chase sapphire", "freedom"], toolSlug: "chase-ultimate-rewards" },
-  { program: "Amex Membership Rewards", slug: "amex-membership-rewards", cpp: 1.2, match: ["american express", "amex", "gold card", "platinum card"], exclude: ["delta", "hilton", "skymiles"], toolSlug: "amex-membership-rewards" },
+  { program: "Chase Ultimate Rewards", slug: "chase-ultimate-rewards", cpp: 1.25, match: ["chase sapphire", "freedom", "ink business preferred"], toolSlug: "chase-ultimate-rewards" },
+  // exclude guards against co-brand cards whose name contains "American
+  // Express" but which earn the partner's currency, not MR (e.g. "Marriott
+  // Bonvoy Bevy American Express" earns Bonvoy points at ~0.7cpp, and
+  // "Navy Federal More Rewards American Express" earns NavFed points).
+  { program: "Amex Membership Rewards", slug: "amex-membership-rewards", cpp: 1.2, match: ["american express", "amex", "gold card", "platinum card"], exclude: ["delta", "hilton", "skymiles", "marriott", "bonvoy", "navy federal", "wells fargo"], toolSlug: "amex-membership-rewards" },
   { program: "Delta SkyMiles", slug: "delta-skymiles", cpp: 1.20, match: ["delta", "skymiles"], toolSlug: "delta-skymiles" },
   { program: "United MileagePlus", slug: "united-mileageplus", cpp: 1.21, match: ["united"], toolSlug: "united-miles" },
   { program: "Hilton Honors", slug: "hilton-honors", cpp: 0.5, match: ["hilton"], toolSlug: "hilton-honors-points" },

@@ -1,7 +1,5 @@
 name: "Nordstrom"
 slug: "nordstrom"
-aliases:
-  - "Nordstrom Rack"
 categories:
   - department_stores
   - online_shopping
