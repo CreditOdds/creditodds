@@ -20,7 +20,7 @@ signup_bonus:
   type: cash
   spend_requirement: 2500
   timeframe_months: 3
-  note: "Offer valid for accounts opened through 6/30/2026"
+  note: "Offer valid for applications through 1/3/2027"
 apr:
   balance_transfer_intro:
     rate: 1.99
