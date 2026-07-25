@@ -114,6 +114,18 @@ rewards:
   - category: dining
     value: 3
     unit: points_per_dollar
+  - category: transit
+    value: 5
+    unit: points_per_dollar
+    note: "On Lyft rides through September 30, 2027 (limited-time promo)"
+    expires: "2027-09-30"
+    merchant_gate: [lyft]
+  - category: sporting_goods
+    value: 10
+    unit: points_per_dollar
+    note: "Eligible Peloton equipment and accessory purchases over $150, on up to $5,000 in purchases, through December 31, 2027 (limited-time promo)"
+    expires: "2027-12-31"
+    merchant_specific: true
   - category: everything_else
     value: 1
     unit: points_per_dollar

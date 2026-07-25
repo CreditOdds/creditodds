@@ -9,6 +9,19 @@ card_referral_link: "https://www.referyourchasecard.com/20r"
 annual_fee: 0
 reward_type: "cashback"
 rewards:
+  - category: dining
+    value: 3
+    unit: percent
+    note: "Dining at restaurants, including takeout and eligible delivery, on up to $6,000 spent in the first 6 months from account opening; 1.5% thereafter"
+    spend_cap: 6000
+    cap_period: lifetime
+    rate_after_cap: 1.5
+  - category: transit
+    value: 2
+    unit: percent
+    note: "On qualifying Lyft rides through September 30, 2027 (limited-time promo; 0.5% on top of the 1.5% base rate)"
+    expires: "2027-09-30"
+    merchant_gate: [lyft]
   - category: everything_else
     value: 1.5
     unit: percent

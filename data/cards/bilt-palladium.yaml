@@ -76,6 +76,10 @@ rewards:
     unit: points_per_dollar
     note: "On Lyft rides (after linking your Lyft account)"
     merchant_gate: [lyft]
+  - category: rent
+    value: 1.25
+    unit: points_per_dollar
+    note: "Up to 1.25x on rent and mortgage payments with no transaction fee, when the housing-only rewards track is selected. The exact multiplier is set each billing cycle from your everyday spend relative to the housing payment; on the Bilt Cash track housing earns up to 1x instead."
   - category: everything_else
     value: 2
     unit: points_per_dollar
