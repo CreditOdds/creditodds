@@ -44,7 +44,7 @@ signup_bonus:
   type: points
   spend_requirement: 2000
   timeframe_months: 3
-  note: "Worth $200; offer valid for accounts opened through 6/30/2026"
+  note: "Worth $200; offer valid for applications through 1/3/2027"
 apr:
   regular:
     min: 14.15
