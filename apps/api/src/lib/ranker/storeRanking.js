@@ -236,11 +236,17 @@ function rankCards(store, cards, options) {
   const used = new Set();
   const picks = [];
 
-  // 1. Co-brand. Collected first, then sorted by effective rate so the
-  // strongest co-brand leads — co_brand_cards YAML order is typically
-  // ascending by annual fee (e.g. United Gateway → Club Infinite), and
-  // rendering that order verbatim put the weakest card at #1.
-  const coBrandPicks = [];
+  // Every source — co-brand, also_earns, category bonuses, flat-rate —
+  // competes in ONE pool sorted by effective rate. Co-brand cards get no
+  // rank pinning: a 2% co-brand must not sit above a 3% category or
+  // flat-rate card. They win only exact-rate ties (SOURCE_TIE_RANK), so a
+  // co-brand tied with a general card still leads. rotating_eligible
+  // candidates keep their -100 sort penalty, so situational "when it
+  // rotates in" picks land below everything current.
+  const candidates = [];
+
+  // 1. Co-brand candidates. Matched with includeMerchantSpecific=true so a
+  // brand-only reward (e.g. 5% on amazon) prices the co-brand correctly.
   for (const slug of store.co_brand_cards || []) {
     const card = cardsBySlug.get(slug);
     if (!card || used.has(slug)) continue;
@@ -254,29 +260,18 @@ function rankCards(store, cards, options) {
     const r = match?.reward || flatRateReward(card);
     const rate = r?.value ?? 0;
     const unit = r?.unit ?? "percent";
-    coBrandPicks.push({
+    candidates.push({
+      kind: "co_brand",
       card,
       rate,
       unit,
-      effectiveRate: effectiveCashbackRate(rate, unit, card.card_name),
-      reason: `Co-branded ${store.name} card`,
-      source: "co_brand",
-      channel: "both",
       note: r?.note,
+      effective: effectiveCashbackRate(rate, unit, card.card_name),
     });
     used.add(slug);
   }
-  coBrandPicks.sort((a, b) => b.effectiveRate - a.effectiveRate);
-  picks.push(...coBrandPicks);
 
-  // 2. Build the rate-ranked group: also_earns, category bonuses, and
-  // flat-rate cards all competing on effective rate. Flat-rate cards used to
-  // be appended after every category pick regardless of rate, which let a
-  // 2%-effective category bonus outrank a 3% flat-rate card — the ordering
-  // now honors the page's promise of "highest rate at this store" across
-  // sources. rotating_eligible candidates keep their -100 sort penalty, so
-  // situational "when it rotates in" picks still land below flat-rate cards.
-  const candidates = [];
+  // 2. also_earns + category bonuses + flat-rate cards.
 
   for (const entry of store.also_earns || []) {
     const card = cardsBySlug.get(entry.card);
@@ -318,10 +313,29 @@ function rankCards(store, cards, options) {
     }
   }
 
-  candidates.sort((a, b) => b.effective - a.effective);
+  // Ties break toward the more store-specific source: the branded card at
+  // its own store, then a curated also_earns rate, then a category bonus,
+  // then a generic flat rate.
+  const SOURCE_TIE_RANK = { co_brand: 0, also_earns: 1, category: 2, flat: 3 };
+  candidates.sort(
+    (a, b) =>
+      b.effective - a.effective ||
+      SOURCE_TIE_RANK[a.kind] - SOURCE_TIE_RANK[b.kind],
+  );
 
   for (const c of candidates) {
-    if (c.kind === "also_earns") {
+    if (c.kind === "co_brand") {
+      picks.push({
+        card: c.card,
+        rate: c.rate,
+        unit: c.unit,
+        effectiveRate: c.effective,
+        reason: `Co-branded ${store.name} card`,
+        source: "co_brand",
+        channel: "both",
+        note: c.note,
+      });
+    } else if (c.kind === "also_earns") {
       picks.push({
         card: c.card,
         rate: c.rate,

@@ -65,6 +65,30 @@ describe("co-brand ordering", () => {
     expect(picks.map((p) => p.card.slug)).toEqual(["infinite", "explorer", "gateway"]);
     expect(picks.every((p) => p.source === "co_brand")).toBe(true);
   });
+
+  test("a lower-% co-brand does not outrank higher-% general cards", () => {
+    const general = card("premium-travel", [
+      pct("airlines", 5),
+      pct("everything_else", 1),
+    ]);
+    const flat = card("flat-3", [pct("everything_else", 3)]);
+    const picks = rankCards(store, [...cards, general, flat]);
+    expect(picks.map((p) => p.card.slug)).toEqual([
+      "premium-travel", // 5% category
+      "infinite",       // 4% co-brand
+      "flat-3",         // 3% flat
+      "explorer",       // 2% co-brand
+      "gateway",        // 1% co-brand
+    ]);
+  });
+
+  test("at an exact rate tie the co-brand leads", () => {
+    const tied = card("tied-general", [pct("airlines", 4), pct("everything_else", 1)]);
+    const picks = rankCards(store, [...cards, tied]);
+    expect(picks[0].card.slug).toBe("infinite");
+    expect(picks[0].source).toBe("co_brand");
+    expect(picks[1].card.slug).toBe("tied-general");
+  });
 });
 
 describe("flat-rate cards compete on effective rate", () => {

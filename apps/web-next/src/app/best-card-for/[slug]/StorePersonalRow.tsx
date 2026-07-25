@@ -106,9 +106,9 @@ export default function StorePersonalRow({ store }: Props) {
 
   if (!picks) return null;
 
-  // Re-sort purely by effective rate (the backend's rankCards pins co-brand
-  // at #1, which we explicitly don't want here — co-brand gets shown via
-  // the divider slot if it doesn't earn its way into top 3).
+  // Re-sort purely by effective rate. rankCards already ranks every source
+  // by effective rate (co-brand included), so this is belt-and-suspenders —
+  // it also guards against a stale Lambda still serving pinned co-brands.
   const sorted = [...picks].sort((a, b) => b.effectiveRate - a.effectiveRate);
 
   const unconditional = sorted.filter((p) => !isConditional(p));
