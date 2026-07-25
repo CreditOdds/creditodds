@@ -1,0 +1,83 @@
+# Declined items from the weekly card-rewards-and-benefits review queue.
+#
+# WHY THIS FILE EXISTS
+#
+# The checker already refuses to re-add a benefit a human deleted from a card:
+# `getRemovedBenefitsForCard` walks the YAML's git history for removed
+# `name:` lines. But that only remembers proposals that once LANDED. A
+# proposal a human looked at in the review issue and declined never touched
+# the YAML, so it has no history to find and comes back every single week,
+# forever.
+#
+# Measured on issue #1743: 27 of its 51 distinct lines (53%) had already
+# appeared in #1636, #1666, or #1731 and been triaged away.
+#
+# HOW TO USE IT
+#
+# When you close a review issue, add whatever you decided against here. The
+# checker filters the review queue against this file, so a declined item goes
+# quiet permanently. Delete an entry to let it surface again (e.g. when an
+# issuer actually changes something and you want a fresh look).
+#
+# Matching is exact on slug + category (rewards) or slug + name (benefits),
+# except for `benefits_global`, which matches a benefit name on every card.
+
+# Reward categories proposed as NEW that we decided not to add.
+rewards_added:
+  - { slug: aaa-daily-advantage-visa-signature, category: travel,
+      why: "Travel Advantage's row bleeding over — both AAA cards share one apply URL" }
+  - { slug: blue-business-plus-credit-card-from-american-express, category: travel_portal,
+      why: "the card's 2x base rate restated; AmexTravel.com is not a separate bonus" }
+  - { slug: capital-one-venture-rewards, category: entertainment,
+      why: "alias of the existing entertainment_portal row" }
+  - { slug: citi-strata-premier, category: travel,
+      why: "YAML splits this into airlines 3x + hotels 3x" }
+  - { slug: citi-strata, category: streaming,
+      why: "covered by the selected_categories self-select row" }
+  - { slug: playstation-visa, category: tv_internet_streaming,
+      why: "the existing streaming row already covers cable and internet" }
+  - { slug: world-of-hyatt-business-credit-card, category: selected_categories,
+      why: "the same bucket as the existing top_category row" }
+
+# Reward categories flagged as present in YAML but not on the apply page.
+# Every entry below was verified still live on the issuer's page; the
+# detector could not read the earn table (JS-rendered or bot-blocked).
+rewards_removed:
+  - { slug: aaa-daily-advantage-visa-signature, category: ev_charging }
+  - { slug: aaa-travel-advantage-visa-signature, category: ev_charging }
+  - { slug: atmos-rewards-business, category: ev_charging }
+  - { slug: capital-one-quicksilver-secured, category: hotels_car_portal }
+  - { slug: capital-one-quicksilver, category: hotels_car_portal }
+  - { slug: capital-one-quicksilverone, category: hotels_car_portal }
+  - { slug: capital-one-savor-student, category: hotels_car_portal }
+  - { slug: capital-one-venture-rewards, category: entertainment_portal }
+  - { slug: capital-one-venture-x, category: hotels_car_portal }
+  - { slug: capital-one-venture-x, category: flights_portal }
+  - { slug: capital-one-venture-x, category: entertainment_portal }
+  - { slug: capital-one-venture-x, category: everything_else }
+  - { slug: capital-one-ventureone-rewards, category: hotels_car_portal }
+  - { slug: capital-one-ventureone-rewards, category: everything_else }
+  - { slug: citi-strata-premier, category: airlines }
+  - { slug: citi-strata-premier, category: hotels }
+  - { slug: citibusiness-aadvantage-platinum-select-maste, category: car_rentals }
+  - { slug: citibusiness-aadvantage-platinum-select-maste, category: phone }
+  - { slug: costco-anywhere-visa-business-card-by-citi, category: wholesale_clubs }
+  - { slug: costco-anywhere-visa-card-by-citi, category: wholesale_clubs }
+  - { slug: hawaiian-airlines-business-mastercard, category: airlines }
+  - { slug: hawaiian-airlines-business-mastercard, category: gas }
+  - { slug: hawaiian-airlines-business-mastercard, category: dining }
+  - { slug: hawaiian-airlines-business-mastercard, category: office_supplies }
+  - { slug: hawaiian-airlines-business-mastercard, category: everything_else }
+  - { slug: marriott-bonvoy-boundless-credit-card, category: hotels }
+  - { slug: marriott-bonvoy-boundless-credit-card, category: travel }
+  - { slug: marriott-bonvoy-brilliant-american-express, category: hotels }
+  - { slug: playstation-visa, category: streaming }
+  - { slug: robinhood-gold-card, category: travel_portal }
+
+# Benefit names declined on a specific card.
+benefits: []
+
+# Benefit names declined on EVERY card. Prefer benefit-policy.yaml's
+# `exclude` list for anything the team will never want; this is for names
+# that are merely not worth re-litigating each week.
+benefits_global: []

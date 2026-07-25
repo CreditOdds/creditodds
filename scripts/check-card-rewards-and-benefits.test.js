@@ -19,6 +19,11 @@ const {
   looksLikeSameByDescription,
   looksLikeSameBenefit,
   collectMetaCoveredCategories,
+  assessExtractionTrust,
+  hasRewardEvidence,
+  buildSharedUrlMap,
+  isDeclined,
+  loadDeclined,
 } = require('./check-card-rewards-and-benefits');
 
 const NOOP_POLICY = { exclude: [], borderline: [], exampleCards: [] };
@@ -464,6 +469,280 @@ test('diffBenefits: description-fuzzy duplicate is skipped when names diverge', 
     diff.skipped[0].tier === 'duplicate_description' || diff.skipped[0].tier === 'duplicate_fuzzy',
     `expected description/fuzzy dedup, got ${diff.skipped[0].tier}`
   );
+});
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Regressions from review issue #1743. Every case below is a real item that
+// reached the human queue on 2026-07-21 and should not have.
+// ─────────────────────────────────────────────────────────────────────────────
+
+console.log('\nExtraction trust floor (#1743):');
+
+test('empty extraction reports no removals (Hawaiian Airlines Business: 5 of 5 rows flagged)', () => {
+  const current = [
+    { category: 'airlines', value: 3, unit: 'points_per_dollar' },
+    { category: 'gas', value: 2, unit: 'points_per_dollar' },
+    { category: 'dining', value: 2, unit: 'points_per_dollar' },
+    { category: 'office_supplies', value: 2, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, []);
+  assert.equal(diff.removed.length, 0, 'an empty extraction is not evidence of absence');
+  assert.equal(diff.trust.trusted, false);
+});
+
+test('extraction missing the base rate is untrusted (Venture X: 4 of 4 rows flagged)', () => {
+  const current = [
+    { category: 'hotels_car_portal', value: 10, unit: 'points_per_dollar' },
+    { category: 'flights_portal', value: 5, unit: 'points_per_dollar' },
+    { category: 'entertainment_portal', value: 5, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 2, unit: 'points_per_dollar' },
+  ];
+  // Page shell rendered one stray rate and nothing else.
+  const proposed = [{ category: 'hotels_car_portal', value: 10, unit: 'points_per_dollar' }];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.trust.trusted, false, 'no everything_else means the table was not read');
+  assert.equal(diff.removed.length, 0);
+});
+
+test('a complete extraction still reports a genuine removal', () => {
+  const current = [
+    { category: 'dining', value: 3, unit: 'percent' },
+    { category: 'gas', value: 2, unit: 'percent' },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ];
+  const proposed = [
+    { category: 'dining', value: 3, unit: 'percent' },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.trust.trusted, true);
+  assert.equal(diff.removed.length, 1);
+  assert.equal(diff.removed[0].category, 'gas');
+});
+
+test('untrusted extraction also suppresses value rewrites and base-rate cuts', () => {
+  const current = [
+    { category: 'dining', value: 3, unit: 'percent' },
+    { category: 'gas', value: 2, unit: 'percent' },
+    { category: 'everything_else', value: 1.5, unit: 'percent' },
+  ];
+  const proposed = [{ category: 'dining', value: 1, unit: 'percent' }];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.changed.length, 0, 'must not auto-PR a value from an unread page');
+  assert.equal(diff.downgraded.length, 0);
+});
+
+console.log('\nAlias groups (#1743):');
+
+test('gas/ev_charging: page merges them, split YAML row is not flagged removed', () => {
+  // AAA Daily Advantage, AAA Travel Advantage, Atmos Rewards Business.
+  const current = [
+    { category: 'gas', value: 3, unit: 'percent' },
+    { category: 'ev_charging', value: 3, unit: 'percent' },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ];
+  const proposed = [
+    { category: 'gas', value: 3, unit: 'percent', note: 'Gas stations and EV charging' },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.removed.length, 0);
+  assert.equal(diff.added.length, 0);
+});
+
+test('streaming/tv_internet_streaming are the same slice (PlayStation Visa)', () => {
+  const current = [
+    { category: 'streaming', value: 3, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const proposed = [
+    { category: 'tv_internet_streaming', value: 3, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.added.length, 0);
+  assert.equal(diff.removed.length, 0);
+});
+
+test('entertainment_portal is not re-proposed as bare entertainment (C1 Venture)', () => {
+  const current = [
+    { category: 'hotels_car_portal', value: 5, unit: 'points_per_dollar' },
+    { category: 'entertainment_portal', value: 5, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 2, unit: 'points_per_dollar' },
+  ];
+  const proposed = [
+    { category: 'hotels_car_portal', value: 5, unit: 'points_per_dollar' },
+    { category: 'entertainment', value: 5, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 2, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.added.length, 0);
+  assert.equal(diff.removed.length, 0);
+});
+
+console.log('\nBroad/narrow containment (#1743):');
+
+test('broad `travel` proposal suppressed when YAML splits airlines + hotels (Citi Strata Premier)', () => {
+  const current = [
+    { category: 'airlines', value: 3, unit: 'points_per_dollar' },
+    { category: 'hotels', value: 3, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const proposed = [
+    { category: 'travel', value: 3, unit: 'points_per_dollar', note: 'Air travel and other hotel purchases' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.added.length, 0, 'travel is the parent of the rows already stored');
+  assert.equal(diff.removed.length, 0, 'airlines/hotels are covered by the broad proposal');
+});
+
+console.log('\nBase-rate restatement + meta-to-meta (#1743):');
+
+test('a proposal equal to everything_else is the base rate restated (Blue Business Plus)', () => {
+  const current = [
+    { category: 'everything_else', value: 2, unit: 'points_per_dollar', spend_cap: 50000 },
+  ];
+  const proposed = [
+    { category: 'everything_else', value: 2, unit: 'points_per_dollar', spend_cap: 50000 },
+    { category: 'travel_portal', value: 2, unit: 'points_per_dollar', note: 'AmexTravel.com purchases' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.added.length, 0);
+});
+
+test('a rate ABOVE the base rate still surfaces', () => {
+  const current = [{ category: 'everything_else', value: 2, unit: 'points_per_dollar' }];
+  const proposed = [
+    { category: 'everything_else', value: 2, unit: 'points_per_dollar' },
+    { category: 'dining', value: 4, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.added.length, 1);
+  assert.equal(diff.added[0].category, 'dining');
+});
+
+test('meta id proposed against a different meta id in YAML (World of Hyatt Business)', () => {
+  const current = [
+    { category: 'top_category', value: 2, unit: 'points_per_dollar', mode: 'auto_top_spend',
+      eligible_categories: ['dining', 'shipping', 'airlines'] },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const proposed = [
+    { category: 'selected_categories', value: 2, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const diff = diffRewards(current, proposed);
+  assert.equal(diff.added.length, 0);
+  assert.equal(diff.removed.length, 0);
+});
+
+console.log('\nShared apply pages (#1743):');
+
+test('buildSharedUrlMap pairs cards that share an apply_link', () => {
+  const cards = [
+    { slug: 'bilt-blue', data: { name: 'Bilt Blue', apply_link: 'https://x/apply' } },
+    { slug: 'bilt-obsidian', data: { name: 'Bilt Obsidian', apply_link: 'https://x/apply' } },
+    { slug: 'other', data: { name: 'Other', apply_link: 'https://y/apply' } },
+  ];
+  const shared = buildSharedUrlMap(cards);
+  assert.deepEqual(shared.get('bilt-blue'), ['Bilt Obsidian']);
+  assert.deepEqual(shared.get('bilt-obsidian'), ['Bilt Blue']);
+  assert.equal(shared.has('other'), false);
+});
+
+test('suppressRemovals drops removals but keeps additions (AAA pair)', () => {
+  const current = [
+    { category: 'gas', value: 5, unit: 'percent' },
+    { category: 'dining', value: 3, unit: 'percent' },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ];
+  const proposed = [
+    { category: 'gas', value: 5, unit: 'percent' },
+    { category: 'wholesale_clubs', value: 3, unit: 'percent' },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ];
+  const withRemovals = diffRewards(current, proposed);
+  assert.equal(withRemovals.removed.length, 1, 'sanity: dining is removed without the flag');
+
+  const diff = diffRewards(current, proposed, { suppressRemovals: true });
+  assert.equal(diff.removed.length, 0);
+  assert.equal(diff.added.length, 1, 'additions still surface for shared-page cards');
+});
+
+console.log('\nFetch evidence gate (#1743):');
+
+test('hasRewardEvidence rejects a nav-and-footer shell', () => {
+  assert.equal(
+    hasRewardEvidence('Credit Cards Personal Business Rewards Sign In Locations Contact Us Privacy'),
+    false
+  );
+});
+
+test('hasRewardEvidence rejects a bot-block interstitial', () => {
+  assert.equal(
+    hasRewardEvidence('Access Denied You do not have permission to access this page Reference 18.2f'),
+    false
+  );
+});
+
+test('hasRewardEvidence accepts a real earn table', () => {
+  assert.equal(
+    hasRewardEvidence('Earn 5% cash back on travel, 3% on dining and drugstores, and 1.5% on all other purchases'),
+    true
+  );
+});
+
+test('hasRewardEvidence accepts points-per-dollar phrasing', () => {
+  assert.equal(
+    hasRewardEvidence('Earn 10X points on hotels, 5X on flights, and 2X on everything else'),
+    true
+  );
+});
+
+console.log('\nassessExtractionTrust:');
+
+test('cards with no YAML rewards are always trusted (nothing to contradict)', () => {
+  assert.equal(assessExtractionTrust([], []).trusted, true);
+});
+
+test('matching under half the existing categories is untrusted', () => {
+  const current = [
+    { category: 'dining', value: 3, unit: 'percent' },
+    { category: 'gas', value: 3, unit: 'percent' },
+    { category: 'groceries', value: 3, unit: 'percent' },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ];
+  const proposed = [{ category: 'everything_else', value: 1, unit: 'percent' }];
+  const t = assessExtractionTrust(current, proposed);
+  assert.equal(t.trusted, false);
+  assert.match(t.reason, /matched only 1 of 4/);
+});
+
+console.log('\nDeclined-review memory (#1743):');
+
+test('review-declined.yaml parses and is non-empty', () => {
+  const d = loadDeclined();
+  assert.ok(d.rewardsAdded.size > 0, 'expected seeded rewards_added entries');
+  assert.ok(d.rewardsRemoved.size > 0, 'expected seeded rewards_removed entries');
+});
+
+test('a declined addition is filtered (AAA Daily Advantage travel)', () => {
+  assert.equal(isDeclined('reward_added', 'aaa-daily-advantage-visa-signature', 'travel'), true);
+});
+
+test('a declined removal is filtered (Venture X everything_else)', () => {
+  assert.equal(isDeclined('reward_removed', 'capital-one-venture-x', 'everything_else'), true);
+});
+
+test('the declined list is scoped per card, not global', () => {
+  assert.equal(isDeclined('reward_added', 'chase-sapphire-preferred', 'travel'), false);
+});
+
+test('added and removed lists do not leak into each other', () => {
+  assert.equal(isDeclined('reward_removed', 'aaa-daily-advantage-visa-signature', 'travel'), false);
 });
 
 console.log('\nDone.\n');

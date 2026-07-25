@@ -14,7 +14,14 @@ rewards:
     value: 3
     unit: percent
     choices: 1
-    note: "3% in choice category; cap is combined with groceries/wholesale-club row"
+    eligible_categories:
+      - gas
+      - online_shopping
+      - dining
+      - travel
+      - drugstores
+      - home_improvement
+    note: "3% in choice category (gas, online shopping, dining, travel, drugstores, home improvement); cap is combined with groceries/wholesale-club row"
     spend_cap: 2500
     cap_period: quarterly
     rate_after_cap: 1

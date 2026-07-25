@@ -49,7 +49,16 @@ rewards:
     value: 2
     unit: points_per_dollar
     mode: auto_top_spend
-    note: "Automatically in your top three spend categories each quarter"
+    eligible_categories:
+      - dining
+      - shipping
+      - airlines
+      - transit
+      - car_rentals
+      - gas
+      - tv_internet_streaming
+      - phone
+    note: "Automatically 2x total in your top three spend categories each calendar quarter, from dining, shipping, airline tickets bought directly with the airline, local transit and commuting, social media and search engine advertising, car rental agencies, gas stations, and internet/cable/phone services"
   - category: gyms_fitness
     value: 2
     unit: points_per_dollar
