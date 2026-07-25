@@ -53,6 +53,10 @@ rewards:
   - category: dining
     value: 5
     unit: points_per_dollar
+  - category: office_supplies
+    value: 5
+    unit: points_per_dollar
+    note: "Office supply stores"
   - category: everything_else
     value: 3
     unit: points_per_dollar
