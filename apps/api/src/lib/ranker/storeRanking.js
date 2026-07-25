@@ -236,7 +236,17 @@ function rankCards(store, cards, options) {
   const used = new Set();
   const picks = [];
 
-  // 1. Co-brand
+  // Every source — co-brand, also_earns, category bonuses, flat-rate —
+  // competes in ONE pool sorted by effective rate. Co-brand cards get no
+  // rank pinning: a 2% co-brand must not sit above a 3% category or
+  // flat-rate card. They win only exact-rate ties (SOURCE_TIE_RANK), so a
+  // co-brand tied with a general card still leads. rotating_eligible
+  // candidates keep their -100 sort penalty, so situational "when it
+  // rotates in" picks land below everything current.
+  const candidates = [];
+
+  // 1. Co-brand candidates. Matched with includeMerchantSpecific=true so a
+  // brand-only reward (e.g. 5% on amazon) prices the co-brand correctly.
   for (const slug of store.co_brand_cards || []) {
     const card = cardsBySlug.get(slug);
     if (!card || used.has(slug)) continue;
@@ -250,21 +260,18 @@ function rankCards(store, cards, options) {
     const r = match?.reward || flatRateReward(card);
     const rate = r?.value ?? 0;
     const unit = r?.unit ?? "percent";
-    picks.push({
+    candidates.push({
+      kind: "co_brand",
       card,
       rate,
       unit,
-      effectiveRate: effectiveCashbackRate(rate, unit, card.card_name),
-      reason: `Co-branded ${store.name} card`,
-      source: "co_brand",
-      channel: "both",
       note: r?.note,
+      effective: effectiveCashbackRate(rate, unit, card.card_name),
     });
     used.add(slug);
   }
 
-  // 2. Build the rate-ranked group: also_earns + category bonuses competing on effective rate.
-  const candidates = [];
+  // 2. also_earns + category bonuses + flat-rate cards.
 
   for (const entry of store.also_earns || []) {
     const card = cardsBySlug.get(entry.card);
@@ -290,17 +297,45 @@ function rankCards(store, cards, options) {
       false,
       opts.userSelections?.get(card.slug),
     );
-    if (!m) continue;
-    const eff = effectiveCashbackRate(m.reward.value, m.reward.unit, card.card_name);
-    if (eff <= flatRateFloor) continue;
-    const effective = m.mode === "rotating_eligible" ? eff - 100 : eff;
-    candidates.push({ kind: "category", card, match: m, effective });
+    const eff = m
+      ? effectiveCashbackRate(m.reward.value, m.reward.unit, card.card_name)
+      : 0;
+    if (m && eff > flatRateFloor) {
+      const effective = m.mode === "rotating_eligible" ? eff - 100 : eff;
+      candidates.push({ kind: "category", card, match: m, effective });
+      continue;
+    }
+    // No qualifying category match — the card can still compete on its
+    // flat everything_else rate.
+    const reward = flatRateReward(card);
+    if (reward && reward.unit === "percent" && reward.value >= flatRateFillFloor) {
+      candidates.push({ kind: "flat", card, reward, effective: reward.value });
+    }
   }
 
-  candidates.sort((a, b) => b.effective - a.effective);
+  // Ties break toward the more store-specific source: the branded card at
+  // its own store, then a curated also_earns rate, then a category bonus,
+  // then a generic flat rate.
+  const SOURCE_TIE_RANK = { co_brand: 0, also_earns: 1, category: 2, flat: 3 };
+  candidates.sort(
+    (a, b) =>
+      b.effective - a.effective ||
+      SOURCE_TIE_RANK[a.kind] - SOURCE_TIE_RANK[b.kind],
+  );
 
   for (const c of candidates) {
-    if (c.kind === "also_earns") {
+    if (c.kind === "co_brand") {
+      picks.push({
+        card: c.card,
+        rate: c.rate,
+        unit: c.unit,
+        effectiveRate: c.effective,
+        reason: `Co-branded ${store.name} card`,
+        source: "co_brand",
+        channel: "both",
+        note: c.note,
+      });
+    } else if (c.kind === "also_earns") {
       picks.push({
         card: c.card,
         rate: c.rate,
@@ -310,6 +345,16 @@ function rankCards(store, cards, options) {
         source: "also_earns",
         channel: "both",
         note: c.note,
+      });
+    } else if (c.kind === "flat") {
+      picks.push({
+        card: c.card,
+        rate: c.reward.value,
+        unit: c.reward.unit,
+        effectiveRate: c.reward.value,
+        reason: `${formatRate(c.reward.value, "percent")} flat-rate cashback`,
+        source: "flat_rate",
+        note: c.reward.note,
       });
     } else {
       const { reason, badge } = reasonAndBadgeForMatch(c.match);
@@ -327,31 +372,6 @@ function rankCards(store, cards, options) {
       });
     }
     used.add(c.card.slug);
-  }
-
-  // 3. Flat-rate fallback fill.
-  if (picks.length < maxPicks) {
-    const flatPicks = [];
-    for (const card of active) {
-      if (used.has(card.slug)) continue;
-      const reward = flatRateReward(card);
-      if (reward && reward.unit === "percent" && reward.value >= flatRateFillFloor) {
-        flatPicks.push({ card, reward });
-      }
-    }
-    flatPicks.sort((a, b) => b.reward.value - a.reward.value);
-    for (const { card, reward } of flatPicks.slice(0, maxPicks - picks.length)) {
-      picks.push({
-        card,
-        rate: reward.value,
-        unit: reward.unit,
-        effectiveRate: reward.value,
-        reason: `${formatRate(reward.value, "percent")} flat-rate cashback`,
-        source: "flat_rate",
-        note: reward.note,
-      });
-      used.add(card.slug);
-    }
   }
 
   return picks.slice(0, maxPicks);

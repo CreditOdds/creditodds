@@ -5,12 +5,12 @@ valuations:
   - program: "Chase Ultimate Rewards"
     slug: "chase-ultimate-rewards"
     cpp: 1.25
-    match: ["chase sapphire", "freedom"]
+    match: ["chase sapphire", "freedom", "ink business preferred"]
   - program: "Amex Membership Rewards"
     slug: "amex-membership-rewards"
     cpp: 1.2
     match: ["american express", "amex", "gold card", "platinum card"]
-    exclude: ["delta", "hilton", "skymiles"]
+    exclude: ["delta", "hilton", "skymiles", "marriott", "bonvoy", "navy federal", "wells fargo"]
   - program: "Delta SkyMiles"
     slug: "delta-skymiles"
     cpp: 1.1

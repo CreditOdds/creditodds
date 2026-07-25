@@ -27,10 +27,6 @@ rewards:
     spend_cap: 500
     cap_period: monthly
     rate_after_cap: 1
-  - category: "hotels_car_portal"
-    value: 4
-    unit: "points_per_dollar"
-    note: "Additional 4 ThankYou Points per $1 on hotels, car rentals, and attractions booked on Citi Travel portal (through June 30, 2026)"
   - category: "everything_else"
     value: 1
     unit: "percent"

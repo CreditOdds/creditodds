@@ -80,9 +80,11 @@ merchants:
   # Bluemercury — Top text link (BlueRewards promo)
   bluemercury:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43420.1000001003&trid=1552713.169800&foc=16&fot=9999&fos=6"
-  # Budget Car Rental — Top text link (SUV offer)
+  # Budget Car Rental — Top text link (35%-off offer; formerly under the
+  # duplicate budget-car-rental store slug, merged into budget)
   budget:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1011016332&trid=1552713.235827&foc=16&fot=9999&fos=6"
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1100135418&trid=1552713.235827&foc=16&fot=9999&fos=6"
+    offer: "up to 35% off"
   # Build-A-Bear Workshop — Top text link (Bluey Buddies)
   build-a-bear-workshop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9841.625281&trid=1552713.228001&foc=16&fot=9999&fos=6"
@@ -414,10 +416,6 @@ merchants:
   # Brooks Brothers
   brooks-brothers:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10113.589809&trid=1552713.245195&foc=16&fot=9999&fos=6"
-  # Budget Car Rental
-  budget-car-rental:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1100135418&trid=1552713.235827&foc=16&fot=9999&fos=6"
-    offer: "up to 35% off"
   # Budget Truck Rental
   budget-truck-rental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101100538.1011107121&trid=1552713.235867&foc=16&fot=9999&fos=6"

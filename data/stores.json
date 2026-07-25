@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-17T14:16:46.619Z",
-  "count": 957,
+  "generated_at": "2026-07-25T17:37:22.559Z",
+  "count": 956,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -459,7 +459,9 @@
         "Mileage Plan"
       ],
       "co_brand_cards": [
-        "atmos-rewards-ascent"
+        "atmos-rewards-ascent",
+        "atmos-rewards-summit",
+        "atmos-rewards-business"
       ],
       "categories": [
         "airlines",
@@ -2066,8 +2068,9 @@
     },
     {
       "name": "Budget",
-      "slug": "budget-car-rental",
+      "slug": "budget",
       "aliases": [
+        "Budget Rent a Car",
         "Budget Car Rental"
       ],
       "parent_company": "Avis Budget Group",
@@ -2076,28 +2079,11 @@
         "travel"
       ],
       "website": "https://www.budget.com",
-      "intro": "Budget is one of the largest car rental brands in the U.S., positioned as the value option\nwithin Avis Budget Group alongside Avis and Payless, with airport and neighborhood\nlocations across the country and internationally. Its Fastbreak loyalty program lets\nfrequent renters skip the counter. There's no Budget co-brand credit card, so a card\nthat earns bonus rewards on car rentals or the broader travel category is the strongest\nfit, and many travel cards also add supplemental rental car insurance as a card benefit\nworth checking before declining the rental company's own coverage.\n",
+      "intro": "Budget is the value-priced sister brand to Avis under Avis Budget Group. Rentals\ncode as car rentals on every card we track. Pricing is generally a tier below Avis\nfor the same fleet, and the Avis Preferred program covers Budget rentals too.\nGeneral travel cards (Sapphire Preferred, Venture, Venture X) are the standard\npairing — most users book direct rather than via a card's travel portal because\nBudget's coupon ecosystem (BCD codes, AAA, Costco) usually beats portal pricing.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1100135418&trid=1552713.235827&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "up to 35% off"
-      }
-    },
-    {
-      "name": "Budget",
-      "slug": "budget",
-      "aliases": [
-        "Budget Rent a Car"
-      ],
-      "categories": [
-        "car_rentals",
-        "travel"
-      ],
-      "website": "https://www.budget.com",
-      "intro": "Budget is the value-priced sister brand to Avis under Avis Budget Group. Rentals\ncode as car rentals on every card we track. Pricing is generally a tier below Avis\nfor the same fleet, and the Avis Preferred program covers Budget rentals too.\nGeneral travel cards (Sapphire Preferred, Venture, Venture X) are the standard\npairing — most users book direct rather than via a card's travel portal because\nBudget's coupon ecosystem (BCD codes, AAA, Costco) usually beats portal pricing.\n",
-      "affiliate": {
-        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1011016332&trid=1552713.235827&foc=16&fot=9999&fos=6",
-        "network": "flexoffers"
       }
     },
     {
@@ -3408,7 +3394,8 @@
         "delta-skymiles-blue-american-express-card",
         "delta-skymiles-gold-american-express-card",
         "delta-skymiles-platinum-american-express-card",
-        "delta-skymiles-reserve-american-express-card"
+        "delta-skymiles-reserve-american-express-card",
+        "delta-skymiles-gold-business-american-express-card"
       ],
       "intro": "Delta Air Lines runs one of the strongest U.S. domestic networks and the SkyMiles\nloyalty program. Delta tickets code as airfare across all major cards. Co-branded\nSkyMiles Amex cards add extra miles per dollar on Delta plus perks like a free\nchecked bag, Sky Club access (Reserve only), and Medallion-status boost spend.\nGeneral travel cards usually beat them on raw cash-equivalent value, but the\nReserve's lounge access and MQD-waiver path can swing the math for frequent flyers.\nOTA bookings still earn miles when your SkyMiles number is attached.\n"
     },
@@ -5524,6 +5511,7 @@
       "website": "https://www.hawaiianairlines.com",
       "co_brand_cards": [
         "hawaiian-airlines-world-elite-mastercard",
+        "hawaiian-airlines-business-mastercard",
         "atmos-rewards-ascent"
       ],
       "intro": "Hawaiian Airlines is the dominant carrier between the U.S. mainland and Hawaii, plus\ninter-island routes. Tickets code as airfare on every card we track. The co-branded\nHawaiian Airlines World Elite Mastercard offers a discount on round-trip companion\ntickets to Hawaii each year and bonus miles on the airline. With Alaska Airlines'\nacquisition closed, Hawaiian's loyalty program is integrating with Alaska's Mileage\nPlan, so long-term value will increasingly route through Alaska's award chart.\n"
@@ -8426,9 +8414,6 @@
     {
       "name": "Nordstrom",
       "slug": "nordstrom",
-      "aliases": [
-        "Nordstrom Rack"
-      ],
       "categories": [
         "department_stores",
         "online_shopping"

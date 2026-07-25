@@ -29,6 +29,8 @@ rewards:
   - category: airlines
     value: 3
     unit: points_per_dollar
+    note: "Alaska and Hawaiian Airlines purchases"
+    merchant_gate: [alaska-airlines, hawaiian-airlines]
   - category: dining
     value: 3
     unit: points_per_dollar
