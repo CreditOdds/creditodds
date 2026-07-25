@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getArticles, getUniqueAuthors, generateAuthorSlug } from "@/lib/articles";
+import { getContentViewCounts } from "@/lib/api";
 import { ArticleCard } from "@/components/articles/ArticleCard";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
@@ -42,7 +43,11 @@ export const revalidate = 300;
 
 export default async function AuthorPage({ params }: Props) {
   const { slug } = await params;
-  const allArticles = await getArticles();
+  const [allArticles, viewCountsRes] = await Promise.all([
+    getArticles(),
+    getContentViewCounts(0).catch(() => null),
+  ]);
+  const viewCounts = viewCountsRes?.article ?? {};
   const authors = getUniqueAuthors(allArticles);
   const author = authors.find(a => a.slug === slug);
   if (!author) notFound();
@@ -108,7 +113,11 @@ export default async function AuthorPage({ params }: Props) {
         {articles.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
+              <ArticleCard
+                key={article.id}
+                article={article}
+                viewCount={viewCounts[article.slug] ?? 0}
+              />
             ))}
           </div>
         ) : (

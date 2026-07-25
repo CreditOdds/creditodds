@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getArticlesByTag, tagLabels, tagDescriptions, ArticleTag } from "@/lib/articles";
+import { getContentViewCounts } from "@/lib/api";
 import { ArticleCard } from "@/components/articles/ArticleCard";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
@@ -47,7 +48,11 @@ export default async function CategoryPage({ params }: Props) {
   const { tag } = await params;
   if (!VALID_TAGS.includes(tag as ArticleTag)) notFound();
 
-  const articles = await getArticlesByTag(tag as ArticleTag);
+  const [articles, viewCountsRes] = await Promise.all([
+    getArticlesByTag(tag as ArticleTag),
+    getContentViewCounts(0).catch(() => null),
+  ]);
+  const viewCounts = viewCountsRes?.article ?? {};
   const tagLabel = stripEmoji(tagLabels[tag as ArticleTag]);
   const tagDescription = tagDescriptions[tag as ArticleTag];
 
@@ -102,7 +107,11 @@ export default async function CategoryPage({ params }: Props) {
         {articles.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
+              <ArticleCard
+                key={article.id}
+                article={article}
+                viewCount={viewCounts[article.slug] ?? 0}
+              />
             ))}
           </div>
         ) : (

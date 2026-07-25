@@ -11,9 +11,11 @@ const ARTICLES_PER_PAGE = 9;
 interface ArticlesListClientProps {
   articles: Article[];
   initialTag?: ArticleTag;
+  /** All-time views keyed by article slug. Shown only above a floor. */
+  viewCounts?: Record<string, number>;
 }
 
-export function ArticlesListClient({ articles, initialTag }: ArticlesListClientProps) {
+export function ArticlesListClient({ articles, initialTag, viewCounts = {} }: ArticlesListClientProps) {
   const [selectedTags, setSelectedTags] = useState<ArticleTag[]>(
     initialTag ? [initialTag] : []
   );
@@ -63,7 +65,11 @@ export function ArticlesListClient({ articles, initialTag }: ArticlesListClientP
         <>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {paginatedArticles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
+              <ArticleCard
+                key={article.id}
+                article={article}
+                viewCount={viewCounts[article.slug] ?? 0}
+              />
             ))}
           </div>
 

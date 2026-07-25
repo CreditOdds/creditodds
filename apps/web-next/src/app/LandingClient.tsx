@@ -67,6 +67,7 @@ interface LandingClientProps {
   bestPages: LandingBestPage[];
   trendingViews: Record<number, number>;
   editorialViews: EditorialViewCounts;
+  allTimeEditorialViews: EditorialViewCounts;
 }
 
 const TOOL_LINKS: { name: string; value: string; href: string; logo: string }[] = [
@@ -473,16 +474,20 @@ type EditorialItem = {
   image?: string;
   ts: number;
   views: number;
+  /** All-time views, shown only above a floor. Ranking still uses 7-day `views`. */
+  allTimeViews: number;
 };
 
 function NewsLane({
   news,
   articles,
   editorialViews,
+  allTimeEditorialViews,
 }: {
   news: LandingNewsItem[];
   articles: LandingArticle[];
   editorialViews: EditorialViewCounts;
+  allTimeEditorialViews: EditorialViewCounts;
 }) {
   const items = useMemo<EditorialItem[]>(() => {
     const toTs = (d: string) => {
@@ -498,6 +503,7 @@ function NewsLane({
       cardImages: a.cardImages,
       ts: toTs(a.date),
       views: editorialViews.article[a.slug] ?? 0,
+      allTimeViews: allTimeEditorialViews.article[a.slug] ?? 0,
     }));
     const fromNews: EditorialItem[] = news.map((n) => ({
       href: `/news/${n.id}`,
@@ -509,13 +515,14 @@ function NewsLane({
       image: n.newsImage ? `${NEWS_IMG_CDN}/${n.newsImage}` : undefined,
       ts: toTs(n.date),
       views: editorialViews.news[n.id] ?? 0,
+      allTimeViews: allTimeEditorialViews.news[n.id] ?? 0,
     }));
     // Rank by most-viewed this week; tiebreak (and cold-start fallback when
     // there's no view data yet) by newest first. lead = items[0], digest = rest.
     return [...fromArticles, ...fromNews]
       .sort((a, b) => b.views - a.views || b.ts - a.ts)
       .slice(0, 5);
-  }, [news, articles, editorialViews]);
+  }, [news, articles, editorialViews, allTimeEditorialViews]);
 
   if (items.length === 0) return null;
 
@@ -586,6 +593,9 @@ function NewsLane({
                 {lead.tag}
               </span>
               <span>{lead.date}</span>
+              {lead.allTimeViews > 100 && (
+                <span>{lead.allTimeViews.toLocaleString('en-US')} views</span>
+              )}
             </div>
             <h4>{lead.title}</h4>
             {lead.summary && <p className="dek">{lead.summary}</p>}
@@ -599,6 +609,9 @@ function NewsLane({
                   {it.tag}
                 </span>
                 <span>{it.date}</span>
+                {it.allTimeViews > 100 && (
+                  <span>{it.allTimeViews.toLocaleString('en-US')} views</span>
+                )}
               </div>
               <h5>{it.title}</h5>
             </Link>
@@ -792,6 +805,7 @@ export default function LandingClient({
   bestPages,
   trendingViews,
   editorialViews,
+  allTimeEditorialViews,
 }: LandingClientProps) {
   return (
     <div className="landing-v2 landing-v3">
@@ -800,7 +814,12 @@ export default function LandingClient({
         <div className="wrap">
           <PopularLane cards={initialCards} trendingViews={trendingViews} />
           <BestForLane bestPages={bestPages} />
-          <NewsLane news={news} articles={articles} editorialViews={editorialViews} />
+          <NewsLane
+            news={news}
+            articles={articles}
+            editorialViews={editorialViews}
+            allTimeEditorialViews={allTimeEditorialViews}
+          />
         </div>
       </section>
       <FooterBlocks cards={initialCards} />
