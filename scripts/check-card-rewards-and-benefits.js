@@ -1587,7 +1587,14 @@ function editRewardValue(text, categoryId, newValue) {
   for (let i = 0; i < Math.min(lines.length, 8); i++) {
     const valM = lines[i].match(/^(\s*)value:\s*[\d.]+(\s*)$/);
     if (valM) {
-      lines[i] = `${valM[1]}value: ${newValue}${valM[2]}`;
+      const newLine = `${valM[1]}value: ${newValue}${valM[2]}`;
+      // A rewrite to the identical line is not a change. diffRewards also
+      // reports `changed` for cap-field-only diffs (spend_cap, cap_period,
+      // rate_after_cap), which this function does not write — returning
+      // `true` there inflated cardsModified/autoChanges with edits that
+      // never reached the file.
+      if (lines[i] === newLine) return { text, changed: false };
+      lines[i] = newLine;
       const newAfter = lines.join('\n');
       return { text: text.slice(0, m.index + m[0].length) + newAfter, changed: true };
     }
@@ -1660,9 +1667,15 @@ function appendBenefits(text, newBenefits) {
   return { text: `${trimmed}\nbenefits:\n${blocks}\n`, changed: true };
 }
 
+// Returns { wrote, rewardEdits, benefitEdits, ftxnEdit } so the caller counts
+// what actually reached the file rather than what was proposed. `rewardEdits`
+// can be shorter than `rewardsDiff.changed` — see editRewardValue.
 function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
   let text = card.content;
   let modified = false;
+  const rewardEdits = [];
+  let benefitEdits = 0;
+  let ftxnEdit = false;
 
   // FTF — single-line edit or insert
   if (ftxnDiff && ftxnDiff.to !== undefined) {
@@ -1670,6 +1683,7 @@ function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
     if (r.changed) {
       text = r.text;
       modified = true;
+      ftxnEdit = true;
     }
   }
 
@@ -1680,6 +1694,7 @@ function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
     if (r.changed) {
       text = r.text;
       modified = true;
+      rewardEdits.push(to);
     }
   }
 
@@ -1689,12 +1704,13 @@ function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
     if (r.changed) {
       text = r.text;
       modified = true;
+      benefitEdits = benefitsDiff.auto.length;
     }
   }
 
-  if (!modified) return false;
+  if (!modified) return { wrote: false, rewardEdits: [], benefitEdits: 0, ftxnEdit: false };
   fs.writeFileSync(card.filepath, text);
-  return true;
+  return { wrote: true, rewardEdits, benefitEdits, ftxnEdit };
 }
 
 // ─── Review-queue formatting ────────────────────────────────────────────────
@@ -1870,6 +1886,10 @@ async function main() {
     // enough to trust for removals. A rising count means the scrapers are
     // degrading, and is worth acting on before the queue goes quiet.
     untrustedExtractions: 0,
+    // Reward diffs that passed the filters but that the writer cannot express
+    // in YAML today (cap-field-only changes). Non-zero means real signal is
+    // being dropped, not that nothing changed.
+    unwrittenRewardDiffs: 0,
     staleRotatingPeriods: staleRotations.length,
   };
 
@@ -2006,6 +2026,10 @@ function finishPhase({ cards, policy, sharedUrls }) {
     // enough to trust for removals. A rising count means the scrapers are
     // degrading, and is worth acting on before the queue goes quiet.
     untrustedExtractions: 0,
+    // Reward diffs that passed the filters but that the writer cannot express
+    // in YAML today (cap-field-only changes). Non-zero means real signal is
+    // being dropped, not that nothing changed.
+    unwrittenRewardDiffs: 0,
     staleRotatingPeriods: staleRotations.length,
   };
 
@@ -2074,15 +2098,29 @@ function applyExtraction({ card, extracted, pageContent, policy, summary, shared
       pageContent
     );
 
-    const wrote = applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff);
-    if (wrote) {
+    const applied = applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff);
+    if (applied.wrote) {
       summary.cardsModified++;
       summary.autoChanges +=
-        rewardsDiff.changed.length + benefitsDiff.auto.length + (ftxnDiff ? 1 : 0);
+        applied.rewardEdits.length + applied.benefitEdits + (applied.ftxnEdit ? 1 : 0);
       console.log(
-        `  [auto] ${rewardsDiff.changed.length} reward change(s), ${benefitsDiff.auto.length} new benefit(s), ` +
-        `FTF ${ftxnDiff ? `${ftxnDiff.from}→${ftxnDiff.to}` : 'unchanged'}`
+        `  [auto] ${applied.rewardEdits.length} reward change(s), ${applied.benefitEdits} new benefit(s), ` +
+        `FTF ${applied.ftxnEdit ? `${ftxnDiff.from}→${ftxnDiff.to}` : 'unchanged'}`
       );
+    }
+
+    // A `changed` entry the writer could not apply is a cap-field-only diff
+    // (spend_cap / cap_period / rate_after_cap). Nothing writes those today,
+    // so say so out loud instead of letting it vanish into the auto count.
+    const droppedRewardEdits = rewardsDiff.changed.length - applied.rewardEdits.length;
+    if (droppedRewardEdits > 0) {
+      const appliedSet = new Set(applied.rewardEdits);
+      const cats = rewardsDiff.changed
+        .filter(c => !appliedSet.has(c.to))
+        .map(c => c.to.category)
+        .join(', ');
+      console.log(`  [skip] ${droppedRewardEdits} reward diff(s) not written (cap fields only): ${cats}`);
+      summary.unwrittenRewardDiffs = (summary.unwrittenRewardDiffs || 0) + droppedRewardEdits;
     }
 
     if (rewardsDiff.downgraded.length > 0) {
@@ -2114,6 +2152,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  editRewardValue,
   diffRewards,
   diffBenefits,
   diffForeignTxn,
