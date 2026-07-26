@@ -58,4 +58,11 @@ benefits:
     description: "Up to 25% off car rentals with rental loss and damage insurance included"
     category: "travel"
     enrollment_required: false
+  - name: "Booking.com Hotel Discount"
+    value: 30
+    value_unit: "percent"
+    description: "Up to 30% off select hotel properties booked through Booking.com on the Amex Benefits platform"
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
 apply_link: https://www.navyfederal.org/loans-cards/credit-cards/more-rewards.html
