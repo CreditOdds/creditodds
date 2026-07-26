@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-26T17:28:35.980Z",
+  "updated_at": "2026-07-26T23:16:53.993Z",
   "cards": {
     "aaa-daily-advantage-visa-signature": {
       "consecutive_skips": 0,
@@ -21,9 +21,9 @@
       "browser_first": "2026-07-21T13:08:33.814Z"
     },
     "amazon-store-card": {
-      "consecutive_skips": 11,
+      "consecutive_skips": 12,
       "last_ok": "2026-07-17T12:21:25.490Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
+      "last_skip": "2026-07-26T23:16:53.993Z",
       "last_reason": "known block: amazon.com serves an automation interstitial (\"Continue shopping\") instead of card terms",
       "known_block": true
     },
@@ -324,11 +324,8 @@
       "browser_first": "2026-07-17T12:16:47.178Z"
     },
     "delta-skymiles-platinum-american-express-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "page.goto: Timeout 30000ms exceeded.",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-15T12:23:31.004Z"
     },
     "delta-skymiles-reserve-american-express-card": {
@@ -352,11 +349,8 @@
       "browser_first": "2026-07-19T18:50:14.867Z"
     },
     "discover-it-secured-credit-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: Discover it Secured",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-15T12:23:55.653Z"
     },
     "discover-it-student-chrome-card": {
@@ -377,11 +371,8 @@
       "last_ok": "2026-07-26T17:28:35.980Z"
     },
     "fidelity-rewards-visa-signature": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: Fidelity Rewards Visa Signature",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "gemini-credit": {
       "consecutive_skips": 0,
@@ -514,11 +505,8 @@
       "browser_first": "2026-07-19T18:55:10.283Z"
     },
     "playstation-visa": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: PlayStation Visa",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-19T18:55:16.557Z"
     },
     "pnc-cash-rewards": {
@@ -534,18 +522,12 @@
       "last_ok": "2026-07-26T17:28:35.980Z"
     },
     "pnc-spend-wise": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: PNC Spend Wise",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "princess-cruises-rewards-visa-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: Princess Rewards Visa",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-15T12:25:40.756Z"
     },
     "rakuten-american-express": {
@@ -554,11 +536,8 @@
       "browser_first": "2026-07-15T12:25:48.872Z"
     },
     "rei-co-op-mastercard": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "page.goto: Timeout 30000ms exceeded.",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-19T18:55:46.132Z"
     },
     "robinhood-gold-card": {
@@ -593,11 +572,8 @@
       "browser_first": "2026-07-19T18:56:26.992Z"
     },
     "the-platinum-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: The Platinum Card",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-19T18:56:40.987Z"
     },
     "united-club-infinite": {
@@ -609,11 +585,8 @@
       "last_ok": "2026-07-26T17:28:35.980Z"
     },
     "united-gateway": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: United Gateway",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "united-quest": {
       "consecutive_skips": 0,
@@ -654,19 +627,13 @@
       "browser_first": "2026-07-19T18:58:27.165Z"
     },
     "venmo-credit-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: Venmo Credit Card",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-19T18:58:32.266Z"
     },
     "wells-fargo-active-cash": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "page.goto: net::ERR_NETWORK_CHANGED at https://creditcards.wellsfargo.com/active-cash-credit-card",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-19T18:58:46.276Z"
     },
     "wells-fargo-autograph": {
@@ -690,62 +657,38 @@
       "browser_first": "2026-07-19T18:59:29.384Z"
     },
     "wells-fargo-reflect": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "Timed out after 60000ms: Wells Fargo Reflect",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-19T18:59:44.931Z"
     },
     "wells-fargo-signify-business-cash": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "script timeout (150 min) reached before this card was checked",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z",
       "browser_first": "2026-07-19T19:00:00.510Z"
     },
     "world-of-hyatt-business-credit-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "script timeout (150 min) reached before this card was checked",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "world-of-hyatt-credit-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "script timeout (150 min) reached before this card was checked",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "wyndham-rewards-earner-business-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "script timeout (150 min) reached before this card was checked",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "wyndham-rewards-earner-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "script timeout (150 min) reached before this card was checked",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "wyndham-rewards-earner-plus-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "script timeout (150 min) reached before this card was checked",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     },
     "wyndham-rewards-earner-premier-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-07-25T15:54:16.927Z",
-      "last_skip": "2026-07-26T17:28:35.980Z",
-      "last_reason": "script timeout (150 min) reached before this card was checked",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-26T23:16:53.993Z"
     }
   }
 }
