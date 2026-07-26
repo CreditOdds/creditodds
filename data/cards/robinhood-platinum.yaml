@@ -77,6 +77,12 @@ benefits:
     frequency: "semi_annual"
     category: "travel"
     enrollment_required: false
+  - name: "Eight Sleep Credit"
+    value: 1000
+    description: "Up to a $1,000 one-time credit toward the Eight Sleep Pod and Base, valid through 9/15."
+    frequency: "one_time"
+    category: "shopping"
+    enrollment_required: false
 tags:
   - premium
   - travel
