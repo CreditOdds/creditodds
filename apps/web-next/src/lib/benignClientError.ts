@@ -26,6 +26,19 @@
 // Mobile Safari can also surface WebExtension content-script messaging failures
 // as page-level unhandled rejections even though the page never calls the
 // extension API. These are user-extension/WebKit noise, not app failures.
+//
+// A separate shape entirely: an unhandled rejection whose reason is a bare DOM
+// Event (Sentry: "Event `Event` (type=error) captured as promise rejection",
+// CREDITODDS-JAVASCRIPT-NEXTJS-12). Audit of everything shipped on the page
+// (2026-07-26) found no promise that rejects with a raw event — our own code
+// doesn't, and Turbopack's chunk loader rejects with undefined, Next's router
+// wraps chunk failures in real Errors, posthog-js reports loader failures via
+// callbacks, and Firebase rejects DOMExceptions/FirebaseErrors/strings. So an
+// Event-as-rejection-reason can only come from foreign main-world code
+// (browser extensions, injected third-party scripts), and it is inherently
+// unactionable: a bare Event carries no stack, no message, and no URL.
+// ErrorEvent is deliberately NOT matched — it carries a real message/error
+// payload worth reporting.
 const BENIGN_CLIENT_SIGNATURES = [
   'The transaction was aborted',
   'database connection is closing',
@@ -45,7 +58,24 @@ const BENIGN_ANY_ERROR_SIGNATURES = [
 // DOMException.ABORT_ERR — the numeric code carried by AbortErrors.
 const ABORT_ERR_CODE = 20;
 
+// True when the rejection reason is a bare DOM Event (see block comment above).
+// Guarded lookups because this module is also exercised in Node-based tests,
+// where Event exists but ErrorEvent does not.
+function isBareEventRejection(error: unknown): boolean {
+  if (typeof Event === 'undefined' || !(error instanceof Event)) {
+    return false;
+  }
+  if (typeof ErrorEvent !== 'undefined' && error instanceof ErrorEvent) {
+    return false;
+  }
+  return true;
+}
+
 export function isBenignClientError(error: unknown): boolean {
+  if (isBareEventRejection(error)) {
+    return true;
+  }
+
   // Walk the cause chain in case Firebase wraps the original DOMException.
   let current: unknown = error;
   for (let depth = 0; current != null && depth < 5; depth++) {
