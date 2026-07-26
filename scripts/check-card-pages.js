@@ -268,6 +268,38 @@ function stripHtml(html) {
 //
 // (The Atmos cards previously listed here moved to scrapeable Bank of America
 // apply_links; the alaskaair.com SPA that rendered ~20 chars is no longer used.)
+//
+// Currently empty, and that is the healthy state — an entry here means a card is
+// permanently unverified, so each one needs a measurement behind it, not a
+// hunch. Note what a *host* block is and isn't: it must be a failure no fetch
+// mode can get past. A page that only defeats Playwright belongs in
+// BROWSER_BLOCKED_HOSTS below, which keeps the card checked.
+const KNOWN_BLOCKED_HOSTS = new Map();
+
+// Hosts that answer headless Chromium with a bot interstitial but serve a plain
+// HTTP fetch normally. These are NOT skips: the card is still checked, we just
+// never let Playwright near it. Enforced inside fetchWithBrowser() so every
+// caller is covered — the simple-fetch fallback, the fetch phase's
+// no-offer-language re-fetch, the needsBrowserRetry self-heal, and the iframe
+// self-heal alike.
+//
+// This distinction is load-bearing rather than cosmetic. The interstitial is 153
+// chars, comfortably over fetchWithBrowser's 100-char floor, so it does not read
+// as a failed fetch: it would REPLACE good simple-fetch content and set the
+// card's browser_first flag, which sends every later run straight to Playwright
+// and makes the damage permanent.
+const BROWSER_BLOCKED_HOSTS = new Map([
+  ['amazon.com', 'amazon.com answers headless Chromium with a "Continue shopping" interstitial; its plain fetch is fine'],
+]);
+
+function browserBlockedReason(url) {
+  try {
+    return BROWSER_BLOCKED_HOSTS.get(new URL(url).hostname.replace(/^www\./, '')) || null;
+  } catch {
+    return null;
+  }
+}
+
 function knownBlockedReason(url) {
   try {
     const u = new URL(url);
@@ -279,21 +311,29 @@ function knownBlockedReason(url) {
     // 10.5k-12.7k chars of real product page, verified per card before removal.
     // Re-add it if the check ever moves back into CI.
 
-    // amazon.com serves an automation interstitial ("Click the button below to
-    // continue shopping") instead of card terms. Re-verified from a residential
-    // IP on 2026-07-21 and it STILL does: the Amazon Store apply_link returned
-    // 154 chars of interstitial. It is inconsistent rather than fixed — one
-    // fetch returned 18k chars of product page, but with no offer language in
-    // it — so the entry stays.
+    // amazon.com was listed here until 2026-07-26, on the theory that the host
+    // serves an automation interstitial ("Click the button below to continue
+    // shopping") instead of card terms. That attribution was wrong: the
+    // interstitial is a *headless Chromium* response, not a host-level block.
+    // Measured against the Amazon Store apply_link on 2026-07-26, both modes
+    // back to back:
+    //   simple fetch (node fetch + UA header) -> HTTP 200, 64,002 chars of real
+    //     product page (gift card / upon approval / prequalify / APR / 5% back)
+    //   Playwright, this script's exact launch+context config -> HTTP 200,
+    //     153 chars: "Click the button below to continue shopping"
+    // The earlier "154 chars from a residential IP" re-verification was almost
+    // certainly measured through the browser path, which is why the conclusion
+    // landed on the host. amazon.com is now handled by browserBlockedReason()
+    // instead: fetch it, just never with Playwright.
     //
-    // This entry is also load-bearing for a card it does not name. Amazon Prime
-    // carries an amazon.com `special_apply_link`, and checkUrlFor() only skips a
-    // special_apply_link when knownBlockedReason() flags its host. Drop this
-    // entry and Prime silently stops being checked against its scrapeable Chase
-    // apply_link and starts being checked against a 153-char interstitial.
-    // Measured, not theorised. If you remove this, give Prime an explicit
-    // `page_check_url` pointing at the Chase page first.
-    if (host === 'amazon.com') return 'amazon.com serves an automation interstitial ("Continue shopping") instead of card terms';
+    // Amazon Prime used to depend on this entry — it carries an amazon.com
+    // `special_apply_link`, and checkUrlFor() only skips a special_apply_link
+    // when knownBlockedReason() flags its host, so removing the entry would have
+    // re-pointed Prime away from its scrapeable Chase page. Prime now carries an
+    // explicit `page_check_url` for the Chase page, which wins in checkUrlFor()
+    // outright. Any NEW card with an amazon.com special_apply_link needs the
+    // same explicit page_check_url — don't rely on a block entry to steer it.
+    return KNOWN_BLOCKED_HOSTS.get(host) || null;
   } catch { /* malformed URL — let the normal fetch path handle it */ }
   return null;
 }
@@ -462,6 +502,17 @@ async function getBrowser() {
 }
 
 async function fetchWithBrowser(url) {
+  // Refuse before launching: this host hands headless Chromium an interstitial
+  // that is long enough to pass for content. Returning null keeps the caller on
+  // whatever the simple fetch produced and, because usedBrowser stays false,
+  // leaves the card's browser_first flag unset.
+  const browserBlocked = browserBlockedReason(url);
+  if (browserBlocked) {
+    lastFetchError = `browser fetch not attempted: ${browserBlocked}`;
+    console.log(`  Skipping browser fetch: ${browserBlocked}`);
+    return null;
+  }
+
   const browser = await getBrowser();
   if (!browser) { lastFetchError = 'Playwright unavailable'; return null; }
 
@@ -1539,7 +1590,11 @@ async function main() {
   // page reading as "no changes" is exactly the false-verified case the browser
   // retry path exists to prevent.
   const fetchCardPage = async (apply_link, browserFirstValid) => {
-    if (browserFirstValid) {
+    // A browser_first flag on a browser-blocked host would send the card
+    // straight to a fetch that cannot succeed, turning a checkable card into a
+    // guaranteed skip. Stale flags outlive the entry that invalidates them, so
+    // honour the block over the flag.
+    if (browserFirstValid && !browserBlockedReason(apply_link)) {
       console.log('  Known browser-dependent page — skipping simple fetch');
       const content = await fetchWithBrowser(apply_link);
       return content ? { content, usedBrowser: true } : null;

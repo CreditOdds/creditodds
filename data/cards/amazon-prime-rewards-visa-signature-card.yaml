@@ -43,6 +43,11 @@ apr:
     max: 27.49
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
 special_apply_link: https://www.amazon.com/dp/BT00LN946S
+# Pins the daily page check to the Chase page. The amazon.com special_apply_link
+# gates its terms behind sign-in, so it is the worse of the two sources; this
+# card used to land on Chase only as a side effect of amazon.com sitting in the
+# checker's blocked-host list, which it no longer does.
+page_check_url: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
 foreign_transaction_fee: false
 our_take: >
   The Amazon Prime Rewards Visa Signature card shines for Amazon Prime members
