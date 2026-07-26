@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { isBenignClientError } from "./benignClientError";
 
 // Mimics a browser DOMException without depending on the DOM lib in tests.
@@ -127,5 +127,42 @@ describe("isBenignClientError", () => {
   it("handles null/undefined safely", () => {
     expect(isBenignClientError(null)).toBe(false);
     expect(isBenignClientError(undefined)).toBe(false);
+  });
+
+  // "Event `Event` (type=error) captured as promise rejection" — foreign
+  // main-world code (extensions) rejecting with a raw DOM Event. Node has a
+  // global Event, so these use the real constructor.
+  it("drops a bare DOM Event used as a rejection reason", () => {
+    expect(isBenignClientError(new Event("error"))).toBe(true);
+  });
+
+  it("drops bare DOM Events regardless of type", () => {
+    expect(isBenignClientError(new Event("unhandledrejection"))).toBe(true);
+  });
+
+  it("keeps ErrorEvents, which carry a real error payload", () => {
+    // Node has no ErrorEvent; stub one derived from the real Event so both
+    // instanceof checks in the implementation see it.
+    class FakeErrorEvent extends Event {
+      readonly message: string;
+      constructor(type: string, message: string) {
+        super(type);
+        this.message = message;
+      }
+    }
+    vi.stubGlobal("ErrorEvent", FakeErrorEvent);
+    try {
+      expect(
+        isBenignClientError(new FakeErrorEvent("error", "boom")),
+      ).toBe(false);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("keeps an Error whose message merely mentions an Event", () => {
+    expect(isBenignClientError(new Error("Event: something failed"))).toBe(
+      false,
+    );
   });
 });
