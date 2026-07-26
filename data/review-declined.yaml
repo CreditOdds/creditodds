@@ -19,6 +19,13 @@
 # quiet permanently. Delete an entry to let it surface again (e.g. when an
 # issuer actually changes something and you want a fresh look).
 #
+# `benefits` entries also suppress the AUTO path, not just the review queue.
+# An auto-tier benefit whose PR you close unmerged is otherwise invisible to
+# every other guard: nothing lands in the YAML, so there's no removed `name:`
+# line for getRemovedBenefitsForCard to find in git history, and the branch
+# name carries the run date so the idempotency check never matches. Without
+# an entry here it comes back as a fresh PR every week.
+#
 # Matching is exact on slug + category (rewards) or slug + name (benefits),
 # except for `benefits_global`, which matches a benefit name on every card.
 
@@ -75,7 +82,13 @@ rewards_removed:
   - { slug: robinhood-gold-card, category: travel_portal }
 
 # Benefit names declined on a specific card.
-benefits: []
+benefits:
+  - { slug: chase-ihg-one-rewards-premier-business, name: "Points Purchase Discount",
+      why: "a discount on BUYING points carries no wallet value — below the small-benefits threshold (PR #1775)" }
+  - { slug: navy-federal-more-rewards-american-express, name: "Booking.com Hotel Discount",
+      why: "an Amex network offers-platform promotion, not a card benefit; rotating 'up to 30% / select properties' copy (PR #1771)" }
+  - { slug: robinhood-platinum, name: "Eight Sleep Credit",
+      why: "dated promo ('valid through 9/15') and benefits have no `expires` field, so nothing would flag it once lapsed (PR #1772)" }
 
 # Benefit names declined on EVERY card. Prefer benefit-policy.yaml's
 # `exclude` list for anything the team will never want; this is for names
