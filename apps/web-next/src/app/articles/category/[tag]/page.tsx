@@ -6,6 +6,7 @@ import { getContentViewCounts } from "@/lib/api";
 import { ArticleCard } from "@/components/articles/ArticleCard";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { FollowXCallout } from "@/components/landing-v2/FollowXCallout";
 import "../../../landing.css";
 
 interface Props {
@@ -98,9 +99,12 @@ export default async function CategoryPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="page-hero wrap">
-        <h1 className="page-title">{tagLabel} <em>articles.</em></h1>
-        <p className="page-sub">{tagDescription}</p>
+      <section className="page-hero has-follow wrap">
+        <div>
+          <h1 className="page-title">{tagLabel} <em>articles.</em></h1>
+          <p className="page-sub">{tagDescription}</p>
+        </div>
+        <FollowXCallout sub="Don't miss an update" />
       </section>
 
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 64 }}>

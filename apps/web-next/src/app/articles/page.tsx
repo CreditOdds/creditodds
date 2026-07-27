@@ -4,6 +4,7 @@ import { getContentViewCounts } from "@/lib/api";
 import { ArticlesListClient } from "@/components/articles/ArticlesListClient";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { FollowXCallout } from "@/components/landing-v2/FollowXCallout";
 import "../landing.css";
 
 export const metadata: Metadata = {
@@ -69,14 +70,17 @@ export default async function ArticlesPage() {
         </div>
       </div>
 
-      <section className="page-hero wrap">
-        <h1 className="page-title">
-          Deeper reads, <em>same data discipline.</em>
-        </h1>
-        <p className="page-sub">
-          Long-form guides, teardowns, and strategies for getting the most out of your
-          credit cards — grounded in the community database, not affiliate marketing.
-        </p>
+      <section className="page-hero has-follow wrap">
+        <div>
+          <h1 className="page-title">
+            Deeper reads, <em>same data discipline.</em>
+          </h1>
+          <p className="page-sub">
+            Long-form guides, teardowns, and strategies for getting the most out of your
+            credit cards — grounded in the community database, not affiliate marketing.
+          </p>
+        </div>
+        <FollowXCallout sub="Don't miss an update" />
       </section>
 
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 80 }}>
