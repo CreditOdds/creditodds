@@ -97,7 +97,9 @@ export interface CardAPR {
 export interface CardBenefit {
   name: string;
   value: number;
-  value_unit?: 'usd' | 'points' | 'miles';
+  // 'percent' marks a RATE rather than an amount (a 20% inflight rebate), so
+  // formatBenefitValue reads `value` directly instead of amortizing it.
+  value_unit?: 'usd' | 'points' | 'miles' | 'percent';
   description: string;
   frequency: 'monthly' | 'quarterly' | 'semi_annual' | 'annual' | 'multi_year' | 'ongoing';
   // For frequency: 'multi_year' — number of years between recurrences. Defaults
