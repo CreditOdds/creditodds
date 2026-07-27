@@ -62,10 +62,10 @@ creditodds/
 ### Infrastructure
 - **Content data**: YAML/Markdown in `data/` → build scripts → JSON → S3 → CloudFront CDN
 - **Card images**: GitHub → S3 → CloudFront CDN
-- **User data**: AWS RDS MySQL (private VPC; not reachable from local machines)
+- **User data**: AWS RDS MySQL (shared us-east-1 VPC; local access only from an explicitly allowlisted IP)
 - **Authentication**: Firebase (Google, Email Link)
 - **CI/CD & automation**: GitHub Actions (OIDC to AWS, no long-lived keys)
-- **Networking**: `infra/network.yml` defines the VPC, private subnets, single NAT gateway with a static egress IP, and an S3 gateway endpoint
+- **Networking**: Lambdas attach to the shared us-east-1 default VPC (`vpc-0cc30471`, SG `sg-d83c41e6`) alongside the database; no dedicated VPC or NAT gateway. See the Networking section in `CLAUDE.md`
 
 ### Region split (deliberate)
 - **Lambdas / API stack**: us-east-1 (co-located with the database)

@@ -56,7 +56,7 @@ Parameters:
     Default: production
   VpcPrivateSubnetIds:
     Type: CommaDelimitedList
-    Description: NAT-routed private subnets the functions attach to. Defaults are the shared us-east-1 VPC (vpc-0cc30471) next to the database; the retired us-east-2 stack used the creditodds-network subnets.
+    Description: Subnets the functions attach to. Defaults are the shared us-east-1 default VPC (vpc-0cc30471) next to the database. The param name is legacy - these are not NAT-routed private subnets; the retired us-east-2 creditodds-network stack used those.
     Default: subnet-38dcb136,subnet-7a936d4b
   VpcLambdaSecurityGroupId:
     Type: String
@@ -91,11 +91,11 @@ Globals:
         SENTRY_DSN: !Ref SentryDsn
         SENTRY_TRACES_SAMPLE_RATE: !Ref SentryTracesSampleRate
         SENTRY_ENVIRONMENT: !Ref SentryEnvironment
-    # Every function runs in the creditodds-network VPC so outbound traffic
-    # (Aurora in us-east-1, Google Places, Firebase, Sentry) leaves via
-    # the NAT gateway's static EIP - the only address the database security
-    # group allowlists on 3306. SAM adds AWSLambdaVPCAccessExecutionRole to the
-    # generated roles automatically when VpcConfig is present.
+    # Every function runs in the shared us-east-1 default VPC, next to the
+    # Aurora cluster. Database access comes from the default SG's
+    # self-referencing rule, not from any allowlisted egress IP - there is no
+    # NAT gateway. SAM adds AWSLambdaVPCAccessExecutionRole to the generated
+    # roles automatically when VpcConfig is present.
     VpcConfig:
       SecurityGroupIds:
         - !Ref VpcLambdaSecurityGroupId
