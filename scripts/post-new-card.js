@@ -93,8 +93,13 @@ function isMerchantGated(reward) {
     || (Array.isArray(reward.merchant_gate) && reward.merchant_gate.length > 0);
 }
 
+// The schema's only units are `percent` and `points_per_dollar` — the bare
+// `points` this used to check is not a value any card carries, so every points
+// and miles card fed the model raw "5points_per_dollar on travel portal".
 function formatRate(reward) {
-  const unit = reward.unit === 'percent' ? '%' : (reward.unit === 'points' ? 'x' : (reward.unit || ''));
+  const unit = reward.unit === 'percent'
+    ? '%'
+    : (reward.unit === 'points_per_dollar' || reward.unit === 'points' ? 'x' : (reward.unit || ''));
   return `${reward.value}${unit}`;
 }
 

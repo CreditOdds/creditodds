@@ -110,6 +110,32 @@ test('long notes are truncated so one reward cannot swamp the prompt', () => {
   assert.ok(gated.endsWith('…'));
 });
 
+test('points_per_dollar renders as x, the only unit points cards actually use', () => {
+  // `points_per_dollar` is one of the schema's two units (the other is
+  // `percent`); a bare `points` is not a value any card carries. Rendering the
+  // raw unit fed the model "5points_per_dollar on travel portal".
+  const { ungated, gated } = summarizeRewards([
+    { category: 'travel_portal', value: 5, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+    { category: 'transit', value: 5, unit: 'points_per_dollar', merchant_gate: ['lyft'], note: 'On Lyft rides' },
+  ]);
+  assert.equal(ungated, '5x on travel portal, 1x on everything else');
+  assert.match(gated, /^5x in the transit category/);
+});
+
+test('no card in data/cards renders a raw unit string', () => {
+  for (const file of fs.readdirSync(CARDS_DIR).filter(f => f.endsWith('.yaml'))) {
+    const card = yaml.load(fs.readFileSync(path.join(CARDS_DIR, file), 'utf8'));
+    const { ungated, gated } = summarizeRewards(card.rewards);
+    for (const line of [ungated, gated]) {
+      assert.ok(
+        !/points_per_dollar/.test(line || ''),
+        `${file} leaked a raw unit into the prompt: ${line}`
+      );
+    }
+  }
+});
+
 test('empty or missing rewards yield no lines', () => {
   assert.deepEqual(summarizeRewards([]), { ungated: null, gated: null });
   assert.deepEqual(summarizeRewards(undefined), { ungated: null, gated: null });
