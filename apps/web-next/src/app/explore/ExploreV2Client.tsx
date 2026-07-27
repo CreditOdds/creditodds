@@ -288,6 +288,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
   const [feeBucket, setFeeBucket] = useState<FeeBucket>('all');
   const [selectedBanks, setSelectedBanks] = useState<Set<string>>(new Set());
   const [businessOnly, setBusinessOnly] = useState(false);
+  const [noForeignFeeOnly, setNoForeignFeeOnly] = useState(false);
 
   function handleColSort(col: SortKey) {
     const defaultDir: SortDir = col === 'fee' ? 'asc' : 'desc';
@@ -310,6 +311,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
     feeBucket !== 'all' ||
     selectedBanks.size > 0 ||
     businessOnly ||
+    noForeignFeeOnly ||
     includeArchived;
 
   function clearFilters() {
@@ -318,6 +320,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
     setFeeBucket('all');
     setSelectedBanks(new Set());
     setBusinessOnly(false);
+    setNoForeignFeeOnly(false);
     setIncludeArchived(false);
   }
 
@@ -339,6 +342,10 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       if (!includeArchived && !c.accepting_applications) return false;
       if (businessOnly && cardCategory(c) !== 'Business') return false;
       if (rewardType !== 'all' && c.reward_type !== rewardType) return false;
+      // Strict `=== false`: the field is optional, and a handful of cards omit
+      // it entirely. Those are unknown, not fee-free, so they stay out rather
+      // than being advertised as no-FTF on missing data.
+      if (noForeignFeeOnly && c.foreign_transaction_fee !== false) return false;
       if (!feeMatchesBucket(c.annual_fee, feeBucket)) return false;
       if (selectedBanks.size > 0 && !selectedBanks.has(c.bank)) return false;
       if (q && !cardMatchesSearch(c.card_name, c.bank, q)) return false;
@@ -385,7 +392,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       });
     }
     return sorted;
-  }, [cards, query, sort, sortDir, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly]);
+  }, [cards, query, sort, sortDir, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly, noForeignFeeOnly]);
 
   return (
     <div className="landing-v2 explore-v2">
@@ -536,6 +543,13 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                 onClick={() => setBusinessOnly((v) => !v)}
               >
                 Business only
+              </button>
+              <button
+                type="button"
+                className={'filter-chip ' + (noForeignFeeOnly ? 'active' : '')}
+                onClick={() => setNoForeignFeeOnly((v) => !v)}
+              >
+                No foreign fee
               </button>
               <button
                 type="button"
