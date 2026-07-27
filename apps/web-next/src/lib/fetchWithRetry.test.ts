@@ -63,6 +63,42 @@ describe("fetchWithRetry", () => {
     expect(await out.json()).toEqual({ ok: true });
   });
 
+  it("retries a 5xx whose body can never be cancelled or read", async () => {
+    // Under Next.js's patched fetch the response is one branch of a tee'd
+    // stream, and a branch's cancel() only settles once both branches are
+    // cancelled — which Next never does. Discarding the failed body must not be
+    // able to block the retry loop, or a real 5xx hangs the whole SSR render.
+    const neverSettles = () => new Promise<never>(() => {});
+    const stuck = {
+      status: 503,
+      statusText: "Service Unavailable",
+      headers: new Headers(),
+      body: { cancel: neverSettles },
+      arrayBuffer: neverSettles,
+    } as unknown as Response;
+    const good = new Response(JSON.stringify({ ok: true }), { status: 200 });
+    const fetchMock = vi.fn().mockResolvedValueOnce(stuck).mockResolvedValue(good);
+    vi.stubGlobal("fetch", fetchMock);
+
+    const out = await fetchWithRetry("https://x.test", undefined, { backoffMs: 0 });
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(await out.json()).toEqual({ ok: true });
+  }, 2000);
+
+  it("returns the 5xx to the caller once retries are exhausted", async () => {
+    // A fresh Response per call, as real fetch gives — the retried attempts
+    // discard their bodies, so a single shared Response would be unusable.
+    const fetchMock = vi.fn(async () => new Response("upstream boom", { status: 500 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const out = await fetchWithRetry("https://x.test", undefined, { retries: 2, backoffMs: 0 });
+
+    expect(out.status).toBe(500);
+    expect(await out.text()).toBe("upstream boom");
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
   it("does not retry a 4xx", async () => {
     const fetchMock = vi.fn().mockResolvedValue(res(404));
     vi.stubGlobal("fetch", fetchMock);

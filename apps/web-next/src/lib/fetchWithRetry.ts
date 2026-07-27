@@ -37,6 +37,24 @@ const backoffFor = (attempt: number, backoffMs: number) => {
 // Statuses that the Response constructor requires to have a null body.
 const NULL_BODY_STATUSES = new Set([204, 205, 304]);
 
+// Drain the body of a response we're about to throw away, so the underlying
+// socket goes back to the pool instead of waiting on the GC.
+//
+// Deliberately NOT awaited, and deliberately not `res.body.cancel()`. Under
+// Next.js's patched fetch the response handed to us is one branch of a tee'd
+// stream (Next reads the other branch into the fetch cache — see
+// next/dist/server/lib/clone-response.js). Per the ReadableStream tee contract,
+// a branch's cancel() promise only settles once BOTH branches are cancelled or
+// the source ends; Next never cancels its branch, so `await res.body.cancel()`
+// can hang forever. Verified 2026-07-27: a 500 from /card-wire during a
+// /card/[name] render never retried — the SSR request sat open until the client
+// disconnected 90s later, which is the exact opposite of what this wrapper is
+// for. Not awaiting means the retry loop can't be blocked by the discarded
+// response no matter how its body behaves.
+function discardBody(res: Response): void {
+  void res.arrayBuffer().catch(() => {});
+}
+
 export async function fetchWithRetry(
   input: string | URL,
   init?: RequestInit,
@@ -52,7 +70,7 @@ export async function fetchWithRetry(
 
       // Retry transient upstream failures (5xx), but never client errors (4xx).
       if (res.status >= 500 && attempt < retries) {
-        await res.body?.cancel();
+        discardBody(res);
         await delay(backoffFor(attempt, backoffMs));
         continue;
       }

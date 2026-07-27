@@ -166,11 +166,20 @@ export default async function CardPage({ params }: CardPageProps) {
     // Fetch all data in parallel — chain getCard → getCardRatings together
     // so ratings fetches concurrently with graphs/news/articles instead of after them all
     const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages] = await Promise.all([
-      getCard(slug).then(async (card) => ({
-        card,
-        ratings: await getCardRatings(card.card_name, card.db_card_id ?? card.card_id).catch(() => ({ count: 0, average: null })),
-        wire: await getCardWire(Number(card.card_id)).catch(() => [] as CardWireEntry[]),
-      })),
+      getCard(slug).then(async (card) => {
+        // card_id is the numeric DB id once a card has been synced to the
+        // database, but falls back to the slug for a brand-new card that hasn't
+        // synced yet. Skip card-wire in that case — there are no wire entries
+        // for an unsynced card, and asking for card_id=NaN 500s the API.
+        const wireId = Number(card.card_id);
+        return {
+          card,
+          ratings: await getCardRatings(card.card_name, card.db_card_id ?? card.card_id).catch(() => ({ count: 0, average: null })),
+          wire: Number.isInteger(wireId)
+            ? await getCardWire(wireId).catch(() => [] as CardWireEntry[])
+            : ([] as CardWireEntry[]),
+        };
+      }),
       getCardGraphs(slug).catch(() => [] as GraphData[]),
       getCardRecords(slug).catch(() => [] as CardRecord[]),
       getNews().catch(() => [] as NewsItem[]),
