@@ -595,6 +595,13 @@ export default function CardClient({
   };
   const formatWireValue = (val: string | null, field: string) => {
     if (val === null) return "N/A";
+    // Booleans arrive from the DB as "1"/"0"; render them as true/false so the
+    // rail reads as a value change rather than an unlabeled number.
+    if (field === "accepting_applications") {
+      if (val === "1" || val === "true") return "true";
+      if (val === "0" || val === "false") return "false";
+      return val;
+    }
     if (field === "annual_fee") return `$${Number(val).toLocaleString()}`;
     if (field === "signup_bonus_value") return Number(val).toLocaleString();
     if (field.startsWith("apr_")) return `${val}%`;
