@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-26T23:16:53.993Z",
+  "updated_at": "2026-07-27T02:02:04.539Z",
   "cards": {
     "aaa-daily-advantage-visa-signature": {
       "consecutive_skips": 0,
@@ -21,11 +21,8 @@
       "browser_first": "2026-07-21T13:08:33.814Z"
     },
     "amazon-store-card": {
-      "consecutive_skips": 12,
-      "last_ok": "2026-07-17T12:21:25.490Z",
-      "last_skip": "2026-07-26T23:16:53.993Z",
-      "last_reason": "known block: amazon.com serves an automation interstitial (\"Continue shopping\") instead of card terms",
-      "known_block": true
+      "consecutive_skips": 0,
+      "last_ok": "2026-07-27T02:02:04.539Z"
     },
     "american-airlines-aadvantage-mileu-mastercard": {
       "consecutive_skips": 0,
