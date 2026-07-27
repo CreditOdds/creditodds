@@ -398,7 +398,7 @@ export default function ProfileClient() {
   };
 
   const handleDeleteRecord = async (recordId: number) => {
-    if (!confirm("Delete this record?")) return;
+    if (!confirm("Delete this data point?")) return;
     setDeletingRecordId(recordId);
     try {
       const token = await getToken();
@@ -409,7 +409,7 @@ export default function ProfileClient() {
       setRecords(records.filter(r => r.record_id !== recordId));
     } catch (e) {
       console.error("Error deleting record:", e);
-      alert("Failed to delete record. Please try again.");
+      alert("Failed to delete data point. Please try again.");
     } finally { setDeletingRecordId(null); }
   };
 
@@ -540,7 +540,7 @@ export default function ProfileClient() {
                 </div>
               </div>
               <div className="cj-readoff-cell">
-                <div className="cj-readoff-k">Records</div>
+                <div className="cj-readoff-k">Data points</div>
                 <div className="cj-readoff-v">{records.length}</div>
                 <div className="cj-readoff-foot">
                   {(() => {
@@ -1214,7 +1214,7 @@ function CardsTab(props: CardsTabProps) {
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{walletDisplayNames.get(c.id) ?? c.card_name}</span>
                   <span className="cj-cw-marks">
                     {hasRecord && (
-                      <span className="cj-cw-mark" title="record submitted" aria-label="record submitted">
+                      <span className="cj-cw-mark" title="data point submitted" aria-label="data point submitted">
                         <DocumentTextIcon style={{ width: 11, height: 11 }} />
                       </span>
                     )}
@@ -1293,9 +1293,9 @@ function CardsTab(props: CardsTabProps) {
                       </button>
                     )}
                     <button type="button" className="cj-wd-cta" onClick={() => onSubmitRecord(c)}>
-                      {hasRecord ? '+ submit another record' : '+ submit a record'}
+                      {hasRecord ? '+ submit another data point' : '+ submit a data point'}
                     </button>
-                    {hasRecord && <span className="cj-wd-done">✓ record submitted</span>}
+                    {hasRecord && <span className="cj-wd-done">✓ data point submitted</span>}
                     {!hasReferral && (
                       <button type="button" className="cj-wd-cta" onClick={onAddReferral}>
                         + add referral link
@@ -1406,8 +1406,8 @@ function ApplicationsTab(props: ApplicationsTabProps) {
                     type="button"
                     onClick={() => onEditRecord(r.record_id)}
                     className="cj-tape-action-btn"
-                    aria-label="Edit record"
-                    title="Edit record"
+                    aria-label="Edit data point"
+                    title="Edit data point"
                   >
                     <PencilIcon className="cj-tape-action-icon" />
                   </button>
@@ -1416,8 +1416,8 @@ function ApplicationsTab(props: ApplicationsTabProps) {
                     onClick={() => onDeleteRecord(r.record_id)}
                     disabled={deletingRecordId === r.record_id}
                     className="cj-tape-action-btn cj-tape-action-btn-danger"
-                    aria-label="Delete record"
-                    title="Delete record"
+                    aria-label="Delete data point"
+                    title="Delete data point"
                   >
                     {deletingRecordId === r.record_id ? (
                       <span className="cj-tape-action-spinner">…</span>
@@ -1527,7 +1527,7 @@ function ReferralsTab(props: ReferralsTabProps) {
                     className="cj-inline-cta"
                     onClick={() => onReplace(cardIdStr)}
                     disabled={!eligible}
-                    title={eligible ? '' : 'You no longer hold this card in your wallet or records, so a new referral cannot be submitted.'}
+                    title={eligible ? '' : 'You no longer hold this card in your wallet or data points, so a new referral cannot be submitted.'}
                   >
                     {eligible ? 'add replacement' : 'card not held'}
                   </button>
@@ -1599,7 +1599,7 @@ function ReferralsTab(props: ReferralsTabProps) {
                   Submit your first referral →
                 </button>
               </>
-            : <><b>No eligible cards yet.</b> Add a card to your wallet or submit a record to add a referral link.</>}
+            : <><b>No eligible cards yet.</b> Add a card to your wallet or submit a data point to add a referral link.</>}
         </div>
       )}
 
