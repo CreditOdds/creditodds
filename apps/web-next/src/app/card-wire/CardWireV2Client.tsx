@@ -57,8 +57,8 @@ function formatValue(
   if (value === null || value === '') return '—';
   const num = parseFloat(value);
   if (field === 'accepting_applications') {
-    if (value === '1' || value === 'true') return 'Accepting';
-    if (value === '0' || value === 'false') return 'Not accepting';
+    if (value === '1' || value === 'true') return 'true';
+    if (value === '0' || value === 'false') return 'false';
     return value;
   }
   if (field === 'annual_fee') {
