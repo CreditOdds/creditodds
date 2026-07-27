@@ -18,6 +18,7 @@ apr:
     min: 14.99
     max: 25.99
 apply_link: https://www.bankofamerica.com/credit-cards/products/bankamericard-credit-card/
+foreign_transaction_fee: true
 our_take: >
   The BankAmericard stands out with its extended 21-month 0% intro APR on both
   purchases and balance transfers, recently increased from 18 months. This
