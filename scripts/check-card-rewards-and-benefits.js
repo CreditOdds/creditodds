@@ -1018,6 +1018,18 @@ function diffRewards(current, proposed, opts = {}) {
   //      different slices of the same issuer-travel-portal mechanic. If
   //      the YAML has one and the LLM proposes a sibling, treat as match
   //      rather than added/removed.
+  // A cap field counts as changed only when the PROPOSAL states it.
+  // spend_cap / cap_period / rate_after_cap are optional in the extraction
+  // prompt, so an apply page that doesn't restate a cap yields undefined.
+  // That is silence, not evidence the issuer removed the cap — comparing it
+  // straight (`c.spend_cap !== p.spend_cap`) turned every such silence into a
+  // phantom `changed` entry the writer then couldn't express, which is what
+  // inflated the 2026-07-26 run to 18 cards modified against 5 real edits.
+  // A genuine cap REMOVAL is indistinguishable from silence here, so it is
+  // deliberately not auto-applied.
+  const capFieldsDiffer = (c, p) =>
+    CAP_FIELDS.some(f => p[f] !== undefined && p[f] !== null && c[f] !== p[f]);
+
   const noteMentionsCap = (r) =>
     typeof r?.note === 'string' &&
     /(\bfirst\s+\$\d|\bup\s+to\s+\$\d|\bcap\b|then\s+\d+\s*(x|%)|combined\b|when you\s+(buy|pay))/i.test(r.note);
@@ -1128,12 +1140,7 @@ function diffRewards(current, proposed, opts = {}) {
       // instead of auto-PRing it. (Capped/composed everything_else downgrades
       // are already skipped silently by the guard above.)
       downgraded.push({ from: c, to: p });
-    } else if (
-      c.value !== p.value ||
-      c.spend_cap !== p.spend_cap ||
-      c.cap_period !== p.cap_period ||
-      c.rate_after_cap !== p.rate_after_cap
-    ) {
+    } else if (c.value !== p.value || capFieldsDiffer(c, p)) {
       changed.push({ from: c, to: p });
     }
   }
@@ -1573,6 +1580,98 @@ function renderBenefitBlock(b, indent = '  ') {
 // `- category: <id>` line (allowing optional quotes around the id), then
 // edit the immediately-following `value:` line. We do NOT touch `unit:`
 // because diffRewards already rejected unit-mismatch updates.
+// The cap fields, in the order the hand-written cards keep them: they trail
+// `note:` at the end of a reward row.
+const CAP_FIELDS = ['spend_cap', 'cap_period', 'rate_after_cap'];
+
+// Locate one reward row's line range.
+//
+// Only TOP-LEVEL rows count. A rotating row nests its eligible categories
+// under `current_categories:`, so `- category: "gas"` can appear twice in one
+// file at different depths — once as a real reward row and once inside the
+// rotating bucket. Matching the wrong one would write a cap onto a nested
+// descriptor. We take the indent of the first `- category:` under `rewards:`
+// as the canonical row indent and ignore anything deeper.
+function findRewardBlock(text, categoryId) {
+  const lines = text.split('\n');
+  const rewardsAt = lines.findIndex(l => /^rewards:\s*$/.test(l));
+  if (rewardsAt === -1) return null;
+
+  let rowIndent = null;
+  for (let i = rewardsAt + 1; i < lines.length; i++) {
+    if (/^\S/.test(lines[i])) break; // left the rewards block
+    const m = lines[i].match(/^(\s*)-\s*category:/);
+    if (m) { rowIndent = m[1].length; break; }
+  }
+  if (rowIndent === null) return null;
+
+  const escaped = categoryId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const catRe = new RegExp(String.raw`^ {${rowIndent}}-\s*category:\s*"?${escaped}"?\s*$`);
+
+  for (let i = rewardsAt + 1; i < lines.length; i++) {
+    if (/^\S/.test(lines[i])) break;
+    if (!catRe.test(lines[i])) continue;
+    // The row runs until the next line at or left of the row indent.
+    let end = i + 1;
+    while (end < lines.length) {
+      if (lines[end].trim() === '') { end++; continue; }
+      if (lines[end].match(/^\s*/)[0].length <= rowIndent) break;
+      end++;
+    }
+    return { lines, start: i, end, rowIndent, fieldIndent: rowIndent + 2 };
+  }
+  return null;
+}
+
+// Write the cap fields a proposal actually states onto a reward row: edit in
+// place when the field is already there, otherwise append in convention order.
+//
+// Fields the proposal leaves undefined are NOT touched, and never deleted.
+// `spend_cap` / `cap_period` / `rate_after_cap` are optional in the extraction
+// prompt, so a page that simply doesn't restate a cap yields undefined — which
+// is silence, not evidence the issuer dropped the cap. Treating it as a
+// deletion would strip real caps off ~45 reward rows.
+function editRewardCapFields(text, categoryId, to) {
+  const stated = CAP_FIELDS.filter(f => to[f] !== undefined && to[f] !== null);
+  if (stated.length === 0) return { text, changed: false, fields: [] };
+
+  const block = findRewardBlock(text, categoryId);
+  if (!block) return { text, changed: false, fields: [] };
+
+  const { lines, start, end, fieldIndent } = block;
+  const pad = ' '.repeat(fieldIndent);
+  const written = [];
+  let blockEnd = end;
+
+  for (const field of stated) {
+    // Only match the row's OWN fields, at exactly its field indent — never a
+    // nested descriptor's.
+    const re = new RegExp(String.raw`^ {${fieldIndent}}${field}:\s*(.*)$`);
+    const newLine = `${pad}${field}: ${to[field]}`;
+    let found = false;
+
+    for (let i = start + 1; i < blockEnd; i++) {
+      if (!re.test(lines[i])) continue;
+      found = true;
+      if (lines[i] !== newLine) {
+        lines[i] = newLine;
+        written.push(field);
+      }
+      break;
+    }
+
+    if (!found) {
+      // Append at the end of the row, which is where these live by convention.
+      lines.splice(blockEnd, 0, newLine);
+      blockEnd++;
+      written.push(field);
+    }
+  }
+
+  if (written.length === 0) return { text, changed: false, fields: [] };
+  return { text: lines.join('\n'), changed: true, fields: written };
+}
+
 function editRewardValue(text, categoryId, newValue) {
   // Match: `  - category: airlines` or `  - category: "airlines"` (with any leading indent).
   const catRe = new RegExp(
@@ -1687,12 +1786,25 @@ function applyChangesToYaml(card, rewardsDiff, benefitsDiff, ftxnDiff) {
     }
   }
 
-  // Rewards — overwrite the `value:` line for changed categories only.
-  // (Unit changes are rejected upstream by diffRewards.)
+  // Rewards — overwrite the `value:` line and any cap fields the proposal
+  // states, for changed categories only. (Unit changes are rejected upstream
+  // by diffRewards.)
   for (const { to } of rewardsDiff.changed) {
-    const r = editRewardValue(text, to.category, to.value);
-    if (r.changed) {
-      text = r.text;
+    let touched = false;
+
+    const v = editRewardValue(text, to.category, to.value);
+    if (v.changed) {
+      text = v.text;
+      touched = true;
+    }
+
+    const caps = editRewardCapFields(text, to.category, to);
+    if (caps.changed) {
+      text = caps.text;
+      touched = true;
+    }
+
+    if (touched) {
       modified = true;
       rewardEdits.push(to);
     }
@@ -2152,6 +2264,8 @@ if (require.main === module) {
 }
 
 module.exports = {
+  editRewardCapFields,
+  findRewardBlock,
   editRewardValue,
   diffRewards,
   diffBenefits,
