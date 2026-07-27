@@ -176,6 +176,10 @@ export function spendableValue(benefit: CardBenefit): number {
 }
 
 export function formatBenefitValue(benefit: CardBenefit): string {
+  // `percent` is a RATE, not an amount, so it must not be divided down by
+  // frequency the way a dollar total is — a 20% inflight rebate is 20% on
+  // every purchase, not 20/12 of anything. Read `value` directly.
+  if (benefit.value_unit === 'percent') return `${benefit.value.toLocaleString()}%`;
   const v = spendableValue(benefit).toLocaleString();
   if (benefit.value_unit === 'points') return `${v} points`;
   if (benefit.value_unit === 'miles') return `${v} miles`;

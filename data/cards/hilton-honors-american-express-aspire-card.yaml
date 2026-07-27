@@ -91,7 +91,8 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "American Express Venue Collection"
-    value: 250
+    value: 10
+    value_unit: "percent"
     description: "10% back on food and beverage concessions purchases at Amex Venue Collection stadiums and arenas, up to $250 per calendar year"
     frequency: "annual"
     category: "entertainment"
