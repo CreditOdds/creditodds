@@ -5,10 +5,12 @@ summary: "Intuit launched the Intuit Business Credit Card on July 22, 2026. The 
 tags:
   - "new-card"
 bank: "WebBank"
+card_slug: "intuit-business"
+card_name: "Intuit Business"
 source: "Intuit"
 source_url: "https://investors.intuit.com/news-events/press-releases/detail/1316/intuit-launches-business-credit-card-that-brings-spend-management-rewards-and-insights-together-in-quickbooks"
 body: |
-  Intuit launched the Intuit Business Credit Card on **July 22, 2026**, a no annual fee World Elite Business Mastercard aimed at small businesses that keep their books in QuickBooks. The card is issued by **WebBank** and is open for applications now.
+  Intuit launched the [Intuit Business](/card/intuit-business) credit card on **July 22, 2026**, a no annual fee World Elite Business Mastercard aimed at small businesses that keep their books in QuickBooks. The card is issued by **WebBank** and is open for applications now.
 
   Earning is flat and simple. The card pays **2% cash back** on everyday purchases with no stated cap, and **5% cash back** on Intuit products and services, which covers QuickBooks, TurboTax, and Mailchimp subscriptions. Transactional fees such as merchant services are excluded from the 5% rate. Intuit is also running a welcome offer of **$300 cash back after $3,000 in spend in the first three months**.
 
