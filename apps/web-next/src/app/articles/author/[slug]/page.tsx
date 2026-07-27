@@ -6,6 +6,7 @@ import { getContentViewCounts } from "@/lib/api";
 import { ArticleCard } from "@/components/articles/ArticleCard";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { FollowXCallout } from "@/components/landing-v2/FollowXCallout";
 import "../../../landing.css";
 
 interface Props {
@@ -99,14 +100,17 @@ export default async function AuthorPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="page-hero wrap">
-        <h1 className="page-title">
-          Everything by <em>{author.name}.</em>
-        </h1>
-        <p className="page-sub">
-          {author.count} article{author.count !== 1 ? 's' : ''} on credit card strategy,
-          data takes, and card teardowns.
-        </p>
+      <section className="page-hero has-follow wrap">
+        <div>
+          <h1 className="page-title">
+            Everything by <em>{author.name}.</em>
+          </h1>
+          <p className="page-sub">
+            {author.count} article{author.count !== 1 ? 's' : ''} on credit card strategy,
+            data takes, and card teardowns.
+          </p>
+        </div>
+        <FollowXCallout sub="Don't miss an update" />
       </section>
 
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 64 }}>

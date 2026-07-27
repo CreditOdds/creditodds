@@ -11,6 +11,7 @@ import { ShareButtons } from "@/components/articles/ShareButtons";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { FollowXCallout } from "@/components/landing-v2/FollowXCallout";
 import ViewTracker from "@/components/ViewTracker";
 import { getContentViewCounts } from "@/lib/api";
 import { truncateTitle } from "@/lib/seo";
@@ -241,6 +242,10 @@ export default async function ArticlePage({ params }: Props) {
                 )}
 
                 <RelatedArticles articles={relatedArticles} />
+
+                <div className="article-follow">
+                  <FollowXCallout sub="Don't miss an update" />
+                </div>
               </div>
             </div>
             <aside className="article-sidebar">
