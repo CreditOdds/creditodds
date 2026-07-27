@@ -59,6 +59,40 @@ test('absent scope fields are omitted rather than sent as undefined keys', () =>
   assert.equal('merchant_gate' in empty.rewards[0], false);
 });
 
+test('a spend cap reaches the panel with its window and post-cap rate', () => {
+  const ctx = getCardContext({
+    name: 'X',
+    rewards: [{ category: 'top_category', value: 5, unit: 'percent', spend_cap: 500, cap_period: 'monthly', rate_after_cap: 1 }],
+  });
+  assert.equal(ctx.rewards[0].spend_cap, 500);
+  assert.equal(ctx.rewards[0].cap_period, 'monthly');
+  assert.equal(ctx.rewards[0].rate_after_cap, 1);
+});
+
+test('cap_period and rate_after_cap are sent at their schema defaults, not omitted', () => {
+  // The schema defaults cap_period to annual and rate_after_cap to 1. Sending
+  // a bare spend_cap would leave the model guessing both.
+  const ctx = getCardContext({
+    name: 'X', rewards: [{ category: 'groceries', value: 6, unit: 'percent', spend_cap: 6000 }],
+  });
+  assert.equal(ctx.rewards[0].cap_period, 'annual');
+  assert.equal(ctx.rewards[0].rate_after_cap, 1);
+});
+
+test('a rate_after_cap of 0 survives instead of defaulting to 1', () => {
+  const ctx = getCardContext({
+    name: 'X', rewards: [{ category: 'gas', value: 5, unit: 'percent', spend_cap: 6000, rate_after_cap: 0 }],
+  });
+  assert.equal(ctx.rewards[0].rate_after_cap, 0);
+});
+
+test('an uncapped reward carries no cap keys', () => {
+  const ctx = getCardContext({ name: 'X', rewards: [{ category: 'dining', value: 4, unit: 'percent' }] });
+  for (const key of ['spend_cap', 'cap_period', 'rate_after_cap']) {
+    assert.equal(key in ctx.rewards[0], false, `${key} leaked onto an uncapped reward`);
+  }
+});
+
 test('the dead `description` field is gone', () => {
   const ctx = getCardContext({
     name: 'X', rewards: [{ category: 'dining', value: 4, unit: 'percent', description: 'should not be read' }],
@@ -73,6 +107,16 @@ test('both prompts explain what a gate means', () => {
   for (const [label, prompt] of [['voter', buildVoterPrompt(page, [])], ['writer', buildWriterPrompt(page, [])]]) {
     assert.match(prompt, /merchant_specific/, `${label} prompt does not mention merchant_specific`);
     assert.match(prompt, /merchant_gate/, `${label} prompt does not mention merchant_gate`);
+  }
+});
+
+test('both prompts explain what a cap means', () => {
+  // The fields are useless if the models are not told how to read them.
+  const page = { data: { title: 'Best X', description: 'd', cards: [], intro: '' } };
+  for (const [label, prompt] of [['voter', buildVoterPrompt(page, [])], ['writer', buildWriterPrompt(page, [])]]) {
+    assert.match(prompt, /spend_cap/, `${label} prompt does not mention spend_cap`);
+    assert.match(prompt, /cap_period/, `${label} prompt does not mention cap_period`);
+    assert.match(prompt, /rate_after_cap/, `${label} prompt does not mention rate_after_cap`);
   }
 });
 
@@ -102,6 +146,32 @@ if (!fs.existsSync(CARDS_FILE)) {
     // A gated rate with no note gives the panel a flag it cannot interpret.
     // If this ever fails, the card YAML needs a note, not a code change.
     assert.deepEqual(missing, [], `gated rewards with no scope note:\n${missing.join('\n')}`);
+  });
+
+  test('every capped reward reaches the panel with a window and a post-cap rate', () => {
+    const broken = [];
+    for (const card of cards) {
+      const ctx = getCardContext(card);
+      const source = card.rewards || [];
+      for (const [i, r] of (ctx.rewards || []).entries()) {
+        if (typeof source[i].spend_cap !== 'number') continue;
+        if (typeof r.spend_cap !== 'number'
+          || typeof r.cap_period !== 'string'
+          || typeof r.rate_after_cap !== 'number') {
+          broken.push(`${card.slug}: ${r.value} ${r.category}`);
+        }
+      }
+    }
+    assert.deepEqual(broken, [], `capped rewards missing cap context:\n${broken.join('\n')}`);
+  });
+
+  test('a known capped rate arrives capped', () => {
+    const bcp = cards.find(c => c.slug === 'blue-cash-preferred-card');
+    assert.ok(bcp, 'blue-cash-preferred-card missing from cards.json');
+    const groceries = getCardContext(bcp).rewards.find(r => r.category === 'groceries');
+    assert.equal(groceries.spend_cap, 6000);
+    assert.equal(groceries.cap_period, 'annual');
+    assert.equal(groceries.rate_after_cap, 1);
   });
 
   test('notes and gates actually survive for a known-gated card', () => {
