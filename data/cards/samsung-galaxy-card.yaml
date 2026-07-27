@@ -1,6 +1,7 @@
 name: "Samsung Galaxy Card"
 bank: "Barclays"
 slug: "samsung-galaxy-card"
+image: "samsung.png"
 accepting_applications: true
 apply_link: https://www.samsung.com/us/samsung-card/
 category: "cashback"
