@@ -11,6 +11,7 @@
 
 const assert = require('node:assert/strict');
 const {
+  editRewardValue,
   diffRewards,
   diffBenefits,
   diffForeignTxn,
@@ -743,6 +744,50 @@ test('the declined list is scoped per card, not global', () => {
 
 test('added and removed lists do not leak into each other', () => {
   assert.equal(isDeclined('reward_removed', 'aaa-daily-advantage-visa-signature', 'travel'), false);
+});
+
+// ─── editRewardValue ────────────────────────────────────────────────────────
+//
+// diffRewards reports `changed` for cap-field-only diffs (spend_cap,
+// cap_period, rate_after_cap), which this writer does not express. It must
+// report changed:false there, or those non-edits inflate cardsModified and
+// autoChanges with writes that never reach the file (2026-07-26 run:
+// 18 cards modified reported, 5 actually changed).
+console.log('\neditRewardValue:');
+
+const REWARD_YAML = [
+  'name: Test',
+  'rewards:',
+  '  - category: gas',
+  '    value: 5',
+  '    spend_cap: 6000',
+  '  - category: everything_else',
+  '    value: 1',
+  '',
+].join('\n');
+
+test('rewriting a value line to the same number is not a change', () => {
+  const r = editRewardValue(REWARD_YAML, 'gas', 5);
+  assert.equal(r.changed, false);
+  assert.equal(r.text, REWARD_YAML);
+});
+
+test('a real value change is applied and reported', () => {
+  const r = editRewardValue(REWARD_YAML, 'gas', 3);
+  assert.equal(r.changed, true);
+  assert.match(r.text, /- category: gas\n {4}value: 3\n/);
+});
+
+test('the base rate is subject to the same no-op check', () => {
+  const r = editRewardValue(REWARD_YAML, 'everything_else', 1);
+  assert.equal(r.changed, false);
+  assert.equal(r.text, REWARD_YAML);
+});
+
+test('a category absent from the YAML is not a change', () => {
+  const r = editRewardValue(REWARD_YAML, 'dining', 4);
+  assert.equal(r.changed, false);
+  assert.equal(r.text, REWARD_YAML);
 });
 
 console.log('\nDone.\n');
