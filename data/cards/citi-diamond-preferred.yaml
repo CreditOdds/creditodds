@@ -19,6 +19,7 @@ apr:
     max: 27.24
 apply_link: https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The Citi Diamond Preferred card stands out for its lengthy 21-month 0% intro
   APR on balance transfers, making it a top choice for those focused on paying

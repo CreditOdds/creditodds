@@ -5,6 +5,7 @@ image: "amex_blue_cash_everyday.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/blue-cash-everyday/
 foreign_transaction_fee: true
+network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
 our_take: >
   The Blue Cash Everyday card from American Express is a no-annual-fee option

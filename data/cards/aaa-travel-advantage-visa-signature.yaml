@@ -6,6 +6,7 @@ accepting_applications: true
 apply_link: https://northeast.aaa.com/financial/more-products/aaa-visa-credit-card.html
 annual_fee: 0
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "cashback"
 tags:
   - cashback

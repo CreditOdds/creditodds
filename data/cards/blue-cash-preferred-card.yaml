@@ -5,6 +5,7 @@ image: "amex_blue_cash_preferred.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/
 foreign_transaction_fee: true
+network: "amex"
 our_take: >
   The Blue Cash Preferred card from American Express is a standout for
   families and frequent shoppers, offering an impressive 6% cash back on up to

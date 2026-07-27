@@ -5,6 +5,7 @@ image: "amex_delta_skymiles_gold.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-gold-american-express-card/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Delta SkyMiles Gold American Express card stands out with its generous
   signup bonus of up to 90,000 miles, which requires $5,000 in spending within

@@ -13,6 +13,7 @@ apr:
     max: 28.99
 apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The Slate Edge is a simple no-annual-fee card built around one idea: a built-in incentive
   to lower your APR over time if you pay on time and spend a set amount each year. It no

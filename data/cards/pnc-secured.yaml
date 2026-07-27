@@ -12,6 +12,7 @@ apr:
     min: 25.49
     max: 25.49
 foreign_transaction_fee: true
+network: "visa"
 apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-secured-credit-card.html
 our_take: >
   The PNC Secured card is a straightforward option for those looking to build

@@ -38,6 +38,7 @@ apr:
     max: 26.74
 apply_link: https://www.citi.com/credit-cards/costco-anywhere-visa-business-card
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   Effectively free if you are already paying for a Costco membership (no separate
   annual fee), and the gas rate is the draw: 5% at Costco gas stations and 4% on

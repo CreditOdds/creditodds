@@ -6,6 +6,7 @@ category: "cashback"
 image: "navy-federal-cash-rewards-plus.png"
 annual_fee: 0
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "cashback"
 our_take: >
   The Navy Federal cashRewards Plus card stands out for its straightforward

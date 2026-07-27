@@ -93,6 +93,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/traveler
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The IHG Rewards Club Traveler card is a solid choice for frequent IHG hotel
   guests, offering up to 17x points per dollar spent at IHG properties with no

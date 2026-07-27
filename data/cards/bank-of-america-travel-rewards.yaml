@@ -6,6 +6,7 @@ accepting_applications: true
 category: "travel"
 annual_fee: 0
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "points"
 signup_bonus:
   value: 25000

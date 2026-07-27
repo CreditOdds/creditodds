@@ -6,6 +6,7 @@ image: "customized-cash-rewards.png"
 category: "cashback"
 annual_fee: 0
 foreign_transaction_fee: true
+network: "visa"
 reward_type: "cashback"
 tags:
   - cashback

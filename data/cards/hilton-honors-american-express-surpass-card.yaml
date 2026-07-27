@@ -5,6 +5,7 @@ image: "amex_hilton_honors_surpass.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/
 foreign_transaction_fee: false
+network: "amex"
 annual_fee: 150
 our_take: >
   The Hilton Honors American Express Surpass card stands out for frequent

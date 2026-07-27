@@ -72,6 +72,7 @@ tags:
   - rewards
 apply_link: https://creditcards.chase.com/travel-credit-cards/aircanada/aeroplan
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The Chase Aeroplan card is a strong contender for frequent Air Canada
   travelers, offering 3 points per dollar on Air Canada purchases, dining, and

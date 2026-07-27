@@ -96,6 +96,12 @@ function validateCard(card, schema, categoryIds, storeSlugs) {
     errors.push(`Invalid reward_type: ${card.reward_type}`);
   }
 
+  // Validate network enum. Absent is legal and means unknown — see the schema
+  // note. Only an explicitly wrong value is an error.
+  if (card.network !== undefined && !schema.properties.network.enum.includes(card.network)) {
+    errors.push(`Invalid network: ${card.network} (must be one of ${schema.properties.network.enum.join(', ')})`);
+  }
+
   // Validate rewards categories against categories.yaml
   if (card.rewards) {
     const validModes = ['quarterly_rotating', 'user_choice', 'auto_top_spend'];

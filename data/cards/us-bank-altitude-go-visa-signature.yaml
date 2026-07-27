@@ -47,6 +47,7 @@ apr:
     max: 27.49
 apply_link: https://www.usbank.com/credit-cards/altitude-go-visa-signature-credit-card.html
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The U.S. Bank Altitude Go Visa Signature card stands out with its impressive
   4 points per dollar on dining, up to $2,000 per quarter, making it a top

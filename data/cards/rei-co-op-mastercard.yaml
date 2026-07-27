@@ -5,6 +5,7 @@ image: "rei-coop.png"
 accepting_applications: true
 apply_link: https://www.capitalone.com/credit-cards/rei/
 foreign_transaction_fee: false
+network: "mastercard"
 annual_fee: 0
 reward_type: "cashback"
 tags:

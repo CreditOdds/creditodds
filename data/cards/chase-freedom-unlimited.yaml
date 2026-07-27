@@ -45,6 +45,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The Chase Freedom Unlimited is a versatile cash-back card with no annual
   fee, offering a solid 1.5% back on all purchases and higher rates in

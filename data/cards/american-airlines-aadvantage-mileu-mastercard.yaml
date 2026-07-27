@@ -30,6 +30,7 @@ apr:
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The American Airlines AAdvantage MileUp Mastercard is a solid choice for
   frequent flyers who want to earn miles without paying an annual fee. With 2

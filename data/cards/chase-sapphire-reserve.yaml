@@ -140,6 +140,7 @@ apr:
     max: 27.99
 apply_link: https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Chase Sapphire Reserve is a top-tier choice for luxury travelers,
   offering an array of premium benefits that can offset its hefty $795 annual

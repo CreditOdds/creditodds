@@ -5,6 +5,7 @@ image: "amex_marriott_bonvoy_brilliant.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Marriott Bonvoy Brilliant American Express card is a strong choice for
   frequent Marriott guests, offering 6 points per dollar at Marriott

@@ -99,6 +99,7 @@ tags:
   - rewards
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/priority
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Southwest Rapid Rewards Priority card is a strong choice for frequent
   Southwest flyers, offering 4 points per dollar on Southwest purchases and a

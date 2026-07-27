@@ -30,6 +30,7 @@ apr:
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/active-cash-credit-card
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The Wells Fargo Active Cash card stands out for its straightforward 2% cash
   back on every purchase, making it an excellent choice for those who prefer a

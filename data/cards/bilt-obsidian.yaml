@@ -5,6 +5,7 @@ image: "bilt_obsidian.png"
 accepting_applications: true
 apply_link: https://www.biltrewards.com/card/apply
 foreign_transaction_fee: false
+network: "mastercard"
 annual_fee: 95
 reward_type: "points"
 release_date: "2025-01-15"

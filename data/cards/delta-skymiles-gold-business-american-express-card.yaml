@@ -5,6 +5,7 @@ image: "amex_delta_skymiles_gold_business.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/en-us/business/credit-cards/delta-skymiles-gold
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Delta SkyMiles Gold Business American Express card stands out with a
   limited-time signup bonus of 90,000 miles after spending $6,000 in the first

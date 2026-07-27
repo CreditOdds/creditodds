@@ -88,6 +88,7 @@ tags:
   - premium
 apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-gold-card-amex/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   Built for businesses with lumpy, varied spend: 4x auto-applies to your top
   two categories each cycle (U.S. advertising, electronics and cloud, dining,

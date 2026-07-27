@@ -6,6 +6,7 @@ category: "travel"
 image: "navy-federal-flagship-rewards.png"
 annual_fee: 49
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Navy Federal Visa Signature Flagship Travel Rewards card is a strong
   contender for frequent travelers, offering 3 points per dollar on a wide

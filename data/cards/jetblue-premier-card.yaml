@@ -7,6 +7,7 @@ category: "travel"
 image: "jetblue-premier.png"
 annual_fee: 499
 foreign_transaction_fee: false
+network: "mastercard"
 reward_type: "points"
 tags:
   - travel

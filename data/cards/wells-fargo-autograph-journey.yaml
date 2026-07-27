@@ -61,6 +61,7 @@ apr:
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   A strong mid-tier travel card: 5x on hotels, 4x on airlines, and 3x on dining and other
   travel, plus a $50 annual statement credit and no foreign transaction fee for $95. The travel

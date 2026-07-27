@@ -13,6 +13,7 @@ apr:
     max: 25.99
 apply_link: https://www.citi.com/credit-cards/citi-secured-credit-card
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The Citi Secured Mastercard is a straightforward tool for building or
   rebuilding your credit, with no annual fee to worry about. As a secured

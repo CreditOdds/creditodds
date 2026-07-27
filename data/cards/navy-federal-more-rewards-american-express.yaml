@@ -6,6 +6,7 @@ category: "rewards"
 image: "navy-federal-more-rewards-american-express.png"
 annual_fee: 0
 foreign_transaction_fee: false
+network: "amex"
 reward_type: "points"
 our_take: >
   The Navy Federal More Rewards American Express card stands out for its

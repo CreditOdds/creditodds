@@ -84,6 +84,7 @@ apr:
     max: 29.49
 apply_link: https://www.citi.com/usc/lpaca/aa/aadvantage/exec/ps/index0.html
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The Citi AAdvantage Executive World Elite Mastercard is a strong contender
   for frequent American Airlines flyers, offering full Admirals Club lounge

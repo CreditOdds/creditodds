@@ -11,6 +11,7 @@ rewards:
     unit: "percent"
     note: "1.5% unlimited cash back on all eligible purchases"
 apply_link: https://www.americanexpress.com/us/credit-cards/card/cash-magnet/
+network: "amex"
 our_take: >
   The American Express Cash Magnet card offers a straightforward 1.5%
   unlimited cash back on all eligible purchases, making it a simple choice for

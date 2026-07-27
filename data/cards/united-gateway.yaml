@@ -38,6 +38,7 @@ tags:
   - travel
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-gateway
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The United Gateway card stands out with its $0 annual fee and a solid
   rewards structure, offering 2 miles per dollar on United purchases, gas, and

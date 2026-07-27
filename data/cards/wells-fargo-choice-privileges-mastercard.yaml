@@ -42,6 +42,7 @@ apr:
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The Wells Fargo Choice Privileges Mastercard is a strong contender for
   travelers who frequently stay at Choice Hotels, offering 5 points per dollar

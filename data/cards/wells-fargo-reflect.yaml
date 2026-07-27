@@ -19,6 +19,7 @@ apr:
     max: 28.24
 apply_link: https://creditcards.wellsfargo.com/reflect-visa-credit-card
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The Wells Fargo Reflect card offers a standout 21-month 0% intro APR on both
   purchases and balance transfers, making it a top choice for those looking to

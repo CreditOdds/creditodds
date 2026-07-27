@@ -6,6 +6,7 @@ image: "premium-rewards.png"
 category: "travel"
 annual_fee: 550
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "points"
 benefits:
   - name: "Lifestyle Credit"

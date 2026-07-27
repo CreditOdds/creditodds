@@ -9,6 +9,7 @@ tags:
   - rewards
 apply_link: https://www.usbank.com/credit-cards/offers/split-card-world-mastercard-credit-card.html
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The U.S. Bank Split card stands out with its unique 3-month interest-free
   payment plans for purchases of $100 or more, allowing for flexibility

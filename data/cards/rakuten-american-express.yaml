@@ -47,6 +47,7 @@ apr:
     min: 19.74
     max: 33.99
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   This card is built for Rakuten loyalists: 4% on Rakuten.com (up to $10,000 a year)
   and 5% on Rakuten Dining stack on top of the usual cash-back portal, with a $100

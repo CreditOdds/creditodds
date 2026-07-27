@@ -5,6 +5,7 @@ accepting_applications: false
 image: "citi-expedia-rewards-voyager.png"
 annual_fee: 0
 reward_type: "points"
+network: "mastercard"
 our_take: >
   The Expedia Rewards Voyager from Citi is no longer accepting applications,
   which limits its relevance for new card seekers. For existing cardholders,

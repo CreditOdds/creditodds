@@ -86,6 +86,7 @@ apr:
     max: 28.49
 apply_link: https://www.citi.com/credit-cards/citi-strata-elite-credit-card
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   Citi's run at the premium-travel tier, a $595 card stacked with credits (hotel,
   splurge, Blacklane), Priority Pass, and a strong 75,000-point bonus, and it ranks among

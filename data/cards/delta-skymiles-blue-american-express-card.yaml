@@ -5,6 +5,7 @@ image: "amex_delta_blue_skymiles.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-blue-american-express-card/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Delta SkyMiles Blue American Express card stands out as a no-annual-fee
   option for Delta flyers, offering 2 miles per dollar on Delta purchases and

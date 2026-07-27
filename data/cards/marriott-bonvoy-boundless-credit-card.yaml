@@ -86,6 +86,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/boundless
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Marriott Bonvoy Boundless card from Chase is a strong contender for
   frequent Marriott guests, offering 6 points per dollar at Marriott Bonvoy

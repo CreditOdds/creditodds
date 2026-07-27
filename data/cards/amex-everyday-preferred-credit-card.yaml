@@ -6,6 +6,7 @@ image: "everyday-preferred.png"
 annual_fee: 95
 reward_type: "points"
 apply_link: https://www.americanexpress.com/us/credit-cards/card/amex-everyday-preferred/
+network: "amex"
 our_take: >
   The Amex Everyday Preferred card is no longer accepting applications, which
   means it's off the table for new cardholders. For those who already have it,

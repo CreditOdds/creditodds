@@ -5,6 +5,7 @@ accepting_applications: true
 image: "iberia-plus.png"
 annual_fee: 95
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "miles"
 our_take: >
   The Iberia Visa Signature card is a compelling choice for frequent flyers of

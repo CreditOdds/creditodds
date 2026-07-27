@@ -17,6 +17,7 @@ category: "business"
 image: "barclays-wyndham-earner-business.png"
 annual_fee: 149
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "points"
 tags:
   - hotel

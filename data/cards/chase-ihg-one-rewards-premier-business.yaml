@@ -72,6 +72,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/business-credit-cards/IHG/business-premier
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The IHG One Rewards Premier Business card from Chase offers a compelling
   140,000-point signup bonus after spending $4,000 in the first three months,

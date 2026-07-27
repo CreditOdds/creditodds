@@ -151,6 +151,9 @@ export interface Card {
   annual_fee?: number;
   annual_fee_intro?: { value: number; months: number };
   foreign_transaction_fee?: boolean;
+  // Payment network. Undefined means unknown, not "runs on no network" — match
+  // on an explicit value rather than treating absence as a default.
+  network?: 'visa' | 'mastercard' | 'amex' | 'discover';
   apply_link?: string;
   special_apply_link?: string;
   card_referral_link?: string;

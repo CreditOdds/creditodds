@@ -132,6 +132,7 @@ tags:
   - premium
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-quest
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The United Quest card is a strong contender for frequent United Airlines
   travelers, offering 4 miles per dollar on United purchases and a $200 annual

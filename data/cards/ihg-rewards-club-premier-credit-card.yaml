@@ -110,6 +110,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/premier
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The IHG One Rewards Premier card shines for frequent IHG travelers with its
   standout benefit of up to 26x points per dollar at IHG hotels. It also

@@ -15,6 +15,7 @@ annual_fee_intro:
   value: 0
   months: 12
 foreign_transaction_fee: false
+network: "mastercard"
 reward_type: "miles"
 our_take: >
   The Citi AAdvantage Business World Elite Mastercard is a solid choice for

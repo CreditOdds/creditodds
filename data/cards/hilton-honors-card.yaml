@@ -5,6 +5,7 @@ image: "amex_hilton_honors.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Hilton Honors American Express Card shines with a generous 100,000-point
   signup bonus, recently increased from 80,000, plus a $100 statement credit

@@ -47,6 +47,7 @@ our_take: >
   seeking uncomplicated rewards and a strong introductory offer.
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
 foreign_transaction_fee: true
+network: "visa"
 benefits:
   - name: "Instacart+ Membership"
     description: "Complimentary three-month Instacart+ membership with a $20 Instacart credit each month"

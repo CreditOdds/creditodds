@@ -5,6 +5,7 @@ image: "wells_fargo_visa_signature.png"
 accepting_applications: false
 annual_fee: 0
 reward_type: "points"
+network: "visa"
 our_take: >
   The Wells Fargo Visa Signature card is no longer accepting applications,
   which limits its availability to new users. For those who already have it,

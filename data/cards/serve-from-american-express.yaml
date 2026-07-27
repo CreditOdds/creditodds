@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "serve-from-american-express"
 accepting_applications: false
 annual_fee: 0
+network: "amex"
 our_take: >
   The Serve card from American Express is no longer accepting applications,
   which limits its availability for new users. With no annual fee, it was a

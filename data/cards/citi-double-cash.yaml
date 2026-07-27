@@ -31,6 +31,7 @@ apr:
     max: 27.49
 apply_link: https://www.citi.com/credit-cards/citi-double-cash-credit-card
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The Citi Double Cash card stands out for its straightforward cash back
   structure, offering 2% on all purchases: 1% when you buy and an additional

@@ -35,6 +35,7 @@ apr:
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/cash-back/it-card.html
 foreign_transaction_fee: false
+network: "discover"
 our_take: >
   The Discover it Cash Back card stands out with its 5% cash back on quarterly
   rotating categories like gas, EV charging, transit, airlines, and

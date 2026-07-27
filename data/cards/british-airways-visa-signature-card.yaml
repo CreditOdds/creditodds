@@ -5,6 +5,7 @@ accepting_applications: true
 image: "british-airways.png"
 annual_fee: 95
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "miles"
 tags:
   - airline

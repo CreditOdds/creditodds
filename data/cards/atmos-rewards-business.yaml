@@ -12,6 +12,7 @@ annual_fee: 95
 check_ignore:
   - annual_fee
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Atmos Rewards Business card from Bank of America is a strong contender
   for businesses that frequently book flights with Alaska Airlines, offering 3

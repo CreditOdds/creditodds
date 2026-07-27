@@ -75,3 +75,4 @@ our_take: >
   spenders who can take full advantage of the rotating categories.
 apply_link: https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html
 foreign_transaction_fee: true
+network: "visa"

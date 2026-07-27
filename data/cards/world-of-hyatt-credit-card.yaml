@@ -73,6 +73,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/world-of-hyatt-credit-card
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The World of Hyatt Credit Card is a strong choice for Hyatt loyalists,
   offering up to 9x points at Hyatt properties when combined with World of

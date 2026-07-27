@@ -33,6 +33,7 @@ apr:
     max: 34.49
 apply_link: https://www.gemini.com/credit-card
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The hook here is that rewards pay out in crypto, with 4% on gas, EV charging, and transit
   (capped at $300 of combined spend per month), 3% dining, 2% groceries, and 1% on everything

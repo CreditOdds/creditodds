@@ -7,6 +7,7 @@ category: "travel"
 image: "barclays-wyndham-earner.png"
 annual_fee: 0
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The no-fee entry to Wyndham's lineup: 5x at Hotels by Wyndham, 3x on dining
   and groceries, automatic Gold status, and a 10% discount on award-night

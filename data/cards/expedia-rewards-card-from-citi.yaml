@@ -5,6 +5,7 @@ accepting_applications: false
 image: "citi-expedia-rewards.png"
 annual_fee: 0
 reward_type: "points"
+network: "mastercard"
 our_take: >
   The Expedia Rewards from Citi card is no longer accepting applications,
   which limits its appeal to current cardholders. With no annual fee, it was

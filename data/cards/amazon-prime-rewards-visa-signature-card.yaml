@@ -49,6 +49,7 @@ special_apply_link: https://www.amazon.com/dp/BT00LN946S
 # checker's blocked-host list, which it no longer does.
 page_check_url: https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Amazon Prime Rewards Visa Signature card shines for Amazon Prime members
   with a hefty 5% cash back on purchases at Amazon, Whole Foods Market,

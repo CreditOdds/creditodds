@@ -32,6 +32,7 @@ apr:
     max: 25.49
 apply_link: https://www.discover.com/credit-cards/student/it-card.html
 foreign_transaction_fee: false
+network: "discover"
 our_take: >
   The Discover it for Students card is a solid starter option with no annual
   fee and a unique Cashback Match feature that doubles your cash back at the
