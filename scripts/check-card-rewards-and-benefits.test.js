@@ -12,6 +12,7 @@
 const assert = require('node:assert/strict');
 const {
   editRewardValue,
+  editRewardCapFields,
   diffRewards,
   diffBenefits,
   diffForeignTxn,
@@ -788,6 +789,104 @@ test('a category absent from the YAML is not a change', () => {
   const r = editRewardValue(REWARD_YAML, 'dining', 4);
   assert.equal(r.changed, false);
   assert.equal(r.text, REWARD_YAML);
+});
+
+// ─── editRewardCapFields ────────────────────────────────────────────────────
+//
+// spend_cap / cap_period / rate_after_cap were diffed but never written. The
+// writer must express them without ever reading extractor silence as a cap
+// deletion, and without touching the nested rows a rotating bucket carries
+// under `current_categories:`.
+console.log('\neditRewardCapFields:');
+
+const CAPPED_YAML = [
+  'name: Test',
+  'rewards:',
+  '  - category: rotating',
+  '    value: 5',
+  '    unit: percent',
+  '    current_categories:',
+  '      - category: "gas"',
+  '        note: "Gas stations"',
+  '    spend_cap: 1500',
+  '    cap_period: quarterly',
+  '    rate_after_cap: 1',
+  '  - category: everything_else',
+  '    value: 1',
+  '',
+].join('\n');
+
+const UNCAPPED_YAML = [
+  'name: Test',
+  'rewards:',
+  '  - category: dining',
+  '    value: 3',
+  '    unit: percent',
+  '  - category: everything_else',
+  '    value: 1',
+  '',
+].join('\n');
+
+test('a stated cap change is written to the right row', () => {
+  const r = editRewardCapFields(CAPPED_YAML, 'rotating', { spend_cap: 2000 });
+  assert.equal(r.changed, true);
+  assert.deepEqual(r.fields, ['spend_cap']);
+  assert.match(r.text, /^ {4}spend_cap: 2000$/m);
+  assert.equal((r.text.match(/spend_cap:/g) || []).length, 1);
+});
+
+test('a proposal that states no cap fields writes nothing', () => {
+  const r = editRewardCapFields(CAPPED_YAML, 'rotating', { value: 5 });
+  assert.equal(r.changed, false);
+  assert.equal(r.text, CAPPED_YAML);
+});
+
+test('cap fields identical to the YAML are not a change', () => {
+  const r = editRewardCapFields(CAPPED_YAML, 'rotating', {
+    spend_cap: 1500, cap_period: 'quarterly', rate_after_cap: 1,
+  });
+  assert.equal(r.changed, false);
+  assert.equal(r.text, CAPPED_YAML);
+});
+
+test('a category that exists only as a nested rotating row is not writable', () => {
+  const r = editRewardCapFields(CAPPED_YAML, 'gas', { spend_cap: 999 });
+  assert.equal(r.changed, false);
+  assert.equal(r.text, CAPPED_YAML);
+});
+
+test('missing cap fields are appended in convention order after the row', () => {
+  const r = editRewardCapFields(UNCAPPED_YAML, 'dining', {
+    spend_cap: 6000, cap_period: 'annual', rate_after_cap: 1,
+  });
+  assert.equal(r.changed, true);
+  assert.deepEqual(r.fields, ['spend_cap', 'cap_period', 'rate_after_cap']);
+  assert.match(
+    r.text,
+    /- category: dining\n {4}value: 3\n {4}unit: percent\n {4}spend_cap: 6000\n {4}cap_period: annual\n {4}rate_after_cap: 1\n {2}- category: everything_else/
+  );
+});
+
+// The diff side of the same defect: an optional field the extractor didn't
+// mention must not read as a cap removal.
+console.log('\ncap-field diffing:');
+
+const CAPPED_ROW = [{
+  category: 'groceries', value: 6, unit: 'percent',
+  spend_cap: 6000, cap_period: 'annual', rate_after_cap: 1,
+}];
+
+test('extractor silence on cap fields is not a change', () => {
+  const d = diffRewards(CAPPED_ROW, [{ category: 'groceries', value: 6, unit: 'percent' }]);
+  assert.equal(d.changed.length, 0);
+});
+
+test('a stated cap change is a change', () => {
+  const d = diffRewards(CAPPED_ROW, [
+    { category: 'groceries', value: 6, unit: 'percent', spend_cap: 7000 },
+  ]);
+  assert.equal(d.changed.length, 1);
+  assert.equal(d.changed[0].to.spend_cap, 7000);
 });
 
 console.log('\nDone.\n');
