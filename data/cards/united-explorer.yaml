@@ -91,7 +91,7 @@ benefits:
     frequency: "per_purchase"
     category: "statement_credit"
     enrollment_required: false
-  - name: "10% Award Flight Discount"
+  - name: "Reduced Mileage Awards"
     value: 10
     value_unit: "percent"
     description: "Save 10% or more on the miles needed when booking award flights on United or United Express"

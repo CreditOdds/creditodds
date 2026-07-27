@@ -56,7 +56,8 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "American Express Venue Collection"
-    value: 250
+    value: 10
+    value_unit: "percent"
     description: "Enhanced experience at select stadiums and arenas with dedicated entrances and 10% back on qualifying concessions purchases up to $250 per calendar year."
     frequency: "annual"
     category: "entertainment"
