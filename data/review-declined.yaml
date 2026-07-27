@@ -37,12 +37,16 @@ rewards_added:
       why: "the card's 2x base rate restated; AmexTravel.com is not a separate bonus" }
   - { slug: capital-one-venture-rewards, category: entertainment,
       why: "alias of the existing entertainment_portal row" }
+  - { slug: citi-strata-elite, category: airlines,
+      why: "the existing flights_portal 6x row — cititravel.com only; a bare `airlines` row would claim 6x on direct airline purchases the card does not earn on" }
   - { slug: citi-strata-premier, category: travel,
       why: "YAML splits this into airlines 3x + hotels 3x" }
   - { slug: citi-strata, category: streaming,
       why: "covered by the selected_categories self-select row" }
   - { slug: playstation-visa, category: tv_internet_streaming,
       why: "the existing streaming row already covers cable and internet" }
+  - { slug: united-quest, category: hotels,
+      why: "the existing hotels_portal 5x row — Renowned Hotels via Chase Travel only; a bare `hotels` row would claim 5x on all hotel spend" }
   - { slug: world-of-hyatt-business-credit-card, category: selected_categories,
       why: "the same bucket as the existing top_category row" }
 
@@ -87,6 +91,8 @@ benefits:
       why: "a discount on BUYING points carries no wallet value — below the small-benefits threshold (PR #1775)" }
   - { slug: navy-federal-more-rewards-american-express, name: "Booking.com Hotel Discount",
       why: "an Amex network offers-platform promotion, not a card benefit; rotating 'up to 30% / select properties' copy (PR #1771)" }
+  - { slug: atmos-rewards-business, name: "Travel Accident Insurance",
+      why: "standard network insurance — same class declined in #1636, #1666, #1731, #1743 (issue #1774)" }
   - { slug: robinhood-platinum, name: "Eight Sleep Credit",
       why: "dated promo ('valid through 9/15') and benefits have no `expires` field, so nothing would flag it once lapsed (PR #1772)" }
 
