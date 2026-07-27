@@ -80,18 +80,73 @@ function formatFee(fee) {
   return n === 0 ? '$0' : `$${n.toLocaleString()}`;
 }
 
+// A reward carrying `merchant_specific: true` or a non-empty `merchant_gate`
+// does NOT apply to its whole spending category — the category is just the
+// bucket the rate lives in. Feeding "5% online_shopping" to the model for the
+// Intuit Business card produced "5% rewards on online shopping", when the 5%
+// only covers Intuit's own products and the card's real headline rate is a flat
+// 2%. So gated rates are quarantined into their own labeled section with the
+// scope text from the reward's `note`, and a rate with no `note` is dropped
+// outright (there is nothing truthful to say about its scope).
+function isMerchantGated(reward) {
+  return reward.merchant_specific === true
+    || (Array.isArray(reward.merchant_gate) && reward.merchant_gate.length > 0);
+}
+
+// The schema's only units are `percent` and `points_per_dollar` — the bare
+// `points` this used to check is not a value any card carries, so every points
+// and miles card fed the model raw "5points_per_dollar on travel portal".
+function formatRate(reward) {
+  const unit = reward.unit === 'percent'
+    ? '%'
+    : (reward.unit === 'points_per_dollar' || reward.unit === 'points' ? 'x' : (reward.unit || ''));
+  return `${reward.value}${unit}`;
+}
+
+function categoryLabel(category) {
+  return String(category).replace(/_/g, ' ');
+}
+
+const MAX_NOTE_CHARS = 140;
+
+function truncateNote(note) {
+  const clean = String(note).trim().replace(/\s+/g, ' ');
+  return clean.length > MAX_NOTE_CHARS ? `${clean.slice(0, MAX_NOTE_CHARS - 1)}…` : clean;
+}
+
+// Returns { ungated, gated } summary strings, either of which may be null.
+// `ungated` covers rates the copy may state plainly (including the flat
+// everything_else rate, which is often the card's true headline number and was
+// previously filtered out entirely).
 function summarizeRewards(rewards) {
-  if (!Array.isArray(rewards) || rewards.length === 0) return null;
-  const top = rewards
-    .filter(r => r && r.value && r.category && r.category !== 'everything_else')
-    .sort((a, b) => Number(b.value) - Number(a.value))
+  if (!Array.isArray(rewards) || rewards.length === 0) return { ungated: null, gated: null };
+
+  const valid = rewards.filter(r => r && r.value && r.category);
+  const byValueDesc = (a, b) => Number(b.value) - Number(a.value);
+  const isBonusCategory = r => r.category !== 'everything_else';
+
+  const ungatedParts = valid
+    .filter(r => isBonusCategory(r) && !isMerchantGated(r))
+    .sort(byValueDesc)
     .slice(0, 3)
-    .map(r => {
-      const unit = r.unit === 'percent' ? '%' : (r.unit === 'points' ? 'x' : (r.unit || ''));
-      const cat = String(r.category).replace(/_/g, ' ');
-      return `${r.value}${unit} ${cat}`;
-    });
-  return top.length > 0 ? top.join(', ') : null;
+    .map(r => `${formatRate(r)} on ${categoryLabel(r.category)}`);
+
+  const flat = valid.find(r => r.category === 'everything_else');
+  if (flat) {
+    ungatedParts.push(
+      `${formatRate(flat)} on ${ungatedParts.length > 0 ? 'everything else' : 'every purchase'}`
+    );
+  }
+
+  const gatedParts = valid
+    .filter(r => isBonusCategory(r) && isMerchantGated(r) && r.note)
+    .sort(byValueDesc)
+    .map(r => `${formatRate(r)} in the ${categoryLabel(r.category)} category, limited to: ${truncateNote(r.note)}`);
+
+  return {
+    ungated: ungatedParts.length > 0 ? ungatedParts.join(', ') : null,
+    gated: gatedParts.length > 0 ? gatedParts.join('; ') : null,
+  };
 }
 
 function summarizeSignupBonus(bonus) {
@@ -113,8 +168,14 @@ function buildCardSummary(card) {
   if (fee !== null) parts.push(`Annual fee: ${fee}`);
   const sub = summarizeSignupBonus(card.signup_bonus);
   if (sub) parts.push(`Sign-up bonus: ${sub}`);
-  const rewards = summarizeRewards(card.rewards);
-  if (rewards) parts.push(`Top rewards: ${rewards}`);
+  const { ungated, gated } = summarizeRewards(card.rewards);
+  if (ungated) parts.push(`Top rewards, each applying to the whole category named: ${ungated}`);
+  if (gated) {
+    parts.push(
+      'Merchant-limited rates, which apply ONLY at the merchants named and NOT to the '
+      + `whole category: ${gated}`
+    );
+  }
   return parts.join('. ');
 }
 
@@ -134,6 +195,9 @@ Rules:
 - Open with a plain statement that the card is now listed, e.g. "Now on CreditOdds: ..." or "The ${card.name} has been added to CreditOdds"
 - Max 200 characters (shorter is better)
 - State the most notable facts plainly (sign-up bonus, top reward rate, or annual fee) — facts only, no editorializing
+- Rates under "Top rewards" apply to the whole category and can be stated plainly, e.g. "3% on dining"
+- Rates under "Merchant-limited rates" apply ONLY at the merchants named after "limited to". Either name that limit in the tweet (e.g. "5% on Intuit products") or leave the rate out entirely and use a top reward instead. Never write a merchant-limited rate as if it covered its whole category
+- Never repeat the labels from the details above ("merchant-limited", "top rewards", "applies to the whole category") in the tweet. Name the merchants directly instead
 - No exclamation points, no all-caps words, no rhetorical questions
 - No filler words, no "excited to announce", no "stay tuned"
 - No hashtags
@@ -263,7 +327,16 @@ async function main() {
   console.log('=== Done ===');
 }
 
-main().catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(err => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  isMerchantGated,
+  summarizeRewards,
+  summarizeSignupBonus,
+  buildCardSummary,
+};
