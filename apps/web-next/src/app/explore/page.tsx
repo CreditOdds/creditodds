@@ -23,6 +23,7 @@ function slimForExplore(c: Card): Card {
     rejected_count: c.rejected_count,
     annual_fee: c.annual_fee,
     foreign_transaction_fee: c.foreign_transaction_fee,
+    network: c.network,
     reward_type: c.reward_type,
     category: c.category,
     tags: c.tags,

@@ -19,6 +19,16 @@ type SortDir = 'asc' | 'desc';
 type ViewMode = 'grid' | 'table';
 type RewardTypeFilter = 'all' | 'cashback' | 'points' | 'miles';
 type FeeBucket = 'all' | 'free' | 'low' | 'mid' | 'high';
+type NetworkFilter = 'all' | 'visa' | 'mastercard' | 'amex' | 'discover';
+
+const NETWORKS: [NetworkFilter, string][] = [
+  // "Any" rather than "All" so this doesn't collide with the Type row's chip
+  ['all', 'Any'],
+  ['visa', 'Visa'],
+  ['mastercard', 'Mastercard'],
+  ['amex', 'Amex'],
+  ['discover', 'Discover'],
+];
 
 const REWARD_TYPES: [RewardTypeFilter, string, string | null][] = [
   ['all', 'All', null],
@@ -286,6 +296,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
   const [view, setView] = useState<ViewMode>('table');
   const [rewardType, setRewardType] = useState<RewardTypeFilter>('all');
   const [feeBucket, setFeeBucket] = useState<FeeBucket>('all');
+  const [network, setNetwork] = useState<NetworkFilter>('all');
   const [selectedBanks, setSelectedBanks] = useState<Set<string>>(new Set());
   const [businessOnly, setBusinessOnly] = useState(false);
   const [noForeignFeeOnly, setNoForeignFeeOnly] = useState(false);
@@ -309,6 +320,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
     query.trim() !== '' ||
     rewardType !== 'all' ||
     feeBucket !== 'all' ||
+    network !== 'all' ||
     selectedBanks.size > 0 ||
     businessOnly ||
     noForeignFeeOnly ||
@@ -318,6 +330,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
     setQuery('');
     setRewardType('all');
     setFeeBucket('all');
+    setNetwork('all');
     setSelectedBanks(new Set());
     setBusinessOnly(false);
     setNoForeignFeeOnly(false);
@@ -346,6 +359,10 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       // it entirely. Those are unknown, not fee-free, so they stay out rather
       // than being advertised as no-FTF on missing data.
       if (noForeignFeeOnly && c.foreign_transaction_fee !== false) return false;
+      // Strict equality: an absent `network` means unknown, not "no network"
+      // (Capital One assigns it at approval; Amazon Store is closed-loop). Those
+      // cards stay out of every network filter rather than defaulting into one.
+      if (network !== 'all' && c.network !== network) return false;
       if (!feeMatchesBucket(c.annual_fee, feeBucket)) return false;
       if (selectedBanks.size > 0 && !selectedBanks.has(c.bank)) return false;
       if (q && !cardMatchesSearch(c.card_name, c.bank, q)) return false;
@@ -392,7 +409,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       });
     }
     return sorted;
-  }, [cards, query, sort, sortDir, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly, noForeignFeeOnly]);
+  }, [cards, query, sort, sortDir, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly, noForeignFeeOnly, network]);
 
   return (
     <div className="landing-v2 explore-v2">
@@ -494,6 +511,19 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                 onClick={() => setRewardType(k)}
               >
                 {emoji && <span aria-hidden="true">{emoji}</span>}
+                {l}
+              </button>
+            ))}
+          </div>
+          <div className="filter-chip-row">
+            <span className="filter-group-label">Network</span>
+            {NETWORKS.map(([k, l]) => (
+              <button
+                key={k}
+                type="button"
+                className={'filter-chip ' + (network === k ? 'active' : '')}
+                onClick={() => setNetwork(k)}
+              >
                 {l}
               </button>
             ))}
