@@ -70,6 +70,18 @@ benefits:
     frequency: "annual"
     category: "statement_credit"
     enrollment_required: true
+  - name: "The Hotel Collection Credit"
+    value: 100
+    description: "$100 credit toward eligible on-property charges plus a room upgrade when available on two-night minimum stays booked through AmexTravel.com."
+    frequency: "per_purchase"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 800
+    description: "Up to $800 per claim (two claims per 12 months, $50 deductible) to repair or replace a damaged or stolen cell phone when the prior month's wireless bill was paid with the card."
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
 tags:
   - business
   - rewards
