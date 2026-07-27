@@ -253,8 +253,8 @@
           },
           "value_unit": {
             "type": "string",
-            "enum": ["dollars", "percent", "points", "miles"],
-            "description": "Unit of `value` when it is not a flat dollar amount. Defaults to dollars."
+            "enum": ["usd", "percent", "points", "miles"],
+            "description": "Unit of `value` when it is not a flat dollar amount. OMIT for plain dollar amounts — that is the convention every consumer expects (isMonetaryBenefit treats an absent unit as dollars) and what check-card-rewards-and-benefits.js writes back, so an explicit \"usd\" would be stripped on the next regeneration and churn the review queue."
           },
           "value_per_cycle": {
             "type": "number",

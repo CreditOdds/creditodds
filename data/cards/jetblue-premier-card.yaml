@@ -56,7 +56,6 @@ our_take: >
 benefits:
   - name: "TrueBlue Travel Statement Credits"
     value: 300
-    value_unit: "dollars"
     description: "Up to $300 in statement credits on TrueBlue Travel purchases (hotels, car rentals, cruises and more) per calendar year"
     frequency: "annual"
     category: "statement_credit"
@@ -80,7 +79,6 @@ benefits:
     enrollment_required: false
   - name: "Companion Pass Statement Credits"
     value: 2000
-    value_unit: "dollars"
     description: "Up to $500 companion pass statement credit after $15,000 in eligible purchases in a calendar year, plus an additional up to $1,500 companion pass statement credit after $75,000 in eligible purchases in a calendar year"
     frequency: "annual"
     category: "travel"
@@ -97,7 +95,6 @@ benefits:
     enrollment_required: true
   - name: "Global Entry or TSA PreCheck Credit"
     value: 120
-    value_unit: "dollars"
     description: "Up to $120 application fee statement credit for Global Entry or TSA PreCheck every 4 years"
     frequency: "multi_year"
     frequency_years: 4
