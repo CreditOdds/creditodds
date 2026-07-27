@@ -230,11 +230,95 @@ function formatRate(reward) {
   return isPercent ? `${display}%` : `${display}x`;
 }
 
+// A reward carrying `merchant_specific: true` or a non-empty `merchant_gate`
+// applies only at the merchants it names, not across its whole spending
+// category — the category is just the bucket the rate lives in. Labeling the
+// Hilton Aspire's Hilton-only 14x as "14x HOTELS" overstates the card, the same
+// way the Intuit Business tweet claimed "5% on online shopping".
+//
+// Gated rates are still worth showing: on a co-brand card the gated rate IS the
+// headline. So the rate keeps its place and gets relabeled with the brand it is
+// gated to ("14x HILTON"). A gated rate we cannot name a brand for — a bare
+// `merchant_specific: true` with no `merchant_gate`, e.g. the Apple Card's 3% —
+// has no truthful short label, so it is dropped and the next-best rate shows.
+function isMerchantGated(reward) {
+  return reward.merchant_specific === true
+    || (Array.isArray(reward.merchant_gate) && reward.merchant_gate.length > 0);
+}
+
+function hasNamedMerchants(reward) {
+  return Array.isArray(reward.merchant_gate) && reward.merchant_gate.length > 0;
+}
+
+// Store display names, keyed by the slug used in `merchant_gate`. Every gate
+// slug is validated against data/stores/ by audit-store-rankings.js, so a
+// lookup miss means the store file was renamed; fall back to the slug itself
+// rather than dropping a real rate.
+const STORES_DIR = path.join(__dirname, '..', 'data', 'stores');
+
+let storeNameCache = null;
+
+function loadStoreNames() {
+  if (storeNameCache) return storeNameCache;
+  storeNameCache = {};
+  try {
+    for (const file of fs.readdirSync(STORES_DIR)) {
+      if (!/\.ya?ml$/.test(file)) continue;
+      const slug = file.replace(/\.ya?ml$/, '');
+      const store = yaml.load(fs.readFileSync(path.join(STORES_DIR, file), 'utf8'));
+      if (store && store.name) storeNameCache[slug] = String(store.name);
+    }
+  } catch (err) {
+    console.warn(`  Warning: could not read store names (${err.message}); falling back to slugs`);
+  }
+  return storeNameCache;
+}
+
+// Labels sit in a narrow right-aligned column at 10px mono, so they have to
+// stay short. Drop trailing words before truncating: "AMERICAN AIRLINES" reads
+// fine as "AMERICAN", where a hard cut would give "AMERICAN AIRLIN…".
+const MAX_LABEL_CHARS = 16;
+
+function fitLabel(label) {
+  if (label.length <= MAX_LABEL_CHARS) return label;
+  const words = label.split(' ');
+  while (words.length > 1) {
+    words.pop();
+    const shorter = words.join(' ');
+    if (shorter.length <= MAX_LABEL_CHARS) return shorter;
+  }
+  return `${label.slice(0, MAX_LABEL_CHARS - 1)}…`;
+}
+
+// One gate → the brand ("HILTON"). Several → "SELECT <CATEGORY>"
+// ("SELECT AIRLINES"), since two brand names never fit the column.
+function gatedLabel(reward, fallbackLabel) {
+  const gates = reward.merchant_gate || [];
+  if (gates.length === 1) {
+    const names = loadStoreNames();
+    return fitLabel((names[gates[0]] || gates[0].replace(/-/g, ' ')).toUpperCase());
+  }
+  const category = REWARD_LABELS[reward.category] || fallbackLabel || String(reward.category).toUpperCase();
+  return fitLabel(`SELECT ${category}`);
+}
+
+// Builds the stat block for a reward, naming the merchant limit when the rate
+// carries one. Returns null when the reward cannot be labeled truthfully, which
+// tells the caller to fall through to its next option.
+function rewardStat(reward, fallbackLabel) {
+  if (!reward) return null;
+  const label = isMerchantGated(reward)
+    ? gatedLabel(reward, fallbackLabel)
+    : (REWARD_LABELS[reward.category] || fallbackLabel || String(reward.category).toUpperCase());
+  return label ? { value: formatRate(reward), label } : null;
+}
+
 function findTopReward(rewards, preferredCategories) {
   if (!rewards || !rewards.length) return null;
-  const pool = preferredCategories
+  const pool = (preferredCategories
     ? rewards.filter(r => preferredCategories.includes(r.category))
-    : rewards.filter(r => r.category !== 'everything_else');
+    : rewards.filter(r => r.category !== 'everything_else')
+  ).filter(r => !isMerchantGated(r) || hasNamedMerchants(r));
   if (!pool.length) return null;
   return [...pool].sort((a, b) => Number(b.value) - Number(a.value))[0];
 }
@@ -268,20 +352,21 @@ function getCategoryStat(card, categorySlug) {
 
   switch (categorySlug) {
     case 'best-travel-cards': {
-      const r = findTopReward(rewards, TRAVEL_LIKE) || findTopReward(rewards);
-      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      const stat = rewardStat(findTopReward(rewards, TRAVEL_LIKE) || findTopReward(rewards));
+      if (stat) return stat;
       break;
     }
     case 'best-airline-cards': {
       const r = findTopReward(rewards, ['airlines', 'flights_portal'])
             || findTopReward(rewards, TRAVEL_LIKE)
             || findTopReward(rewards);
-      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || 'AIRLINES' };
+      const stat = rewardStat(r, 'AIRLINES');
+      if (stat) return stat;
       break;
     }
     case 'best-cash-back-cards': {
-      const r = findTopReward(rewards);
-      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      const stat = rewardStat(findTopReward(rewards));
+      if (stat) return stat;
       // Cards with only `everything_else` (e.g. flat 2%) — show that
       const fallback = (rewards || []).find(x => x.category === 'everything_else');
       if (fallback) return { value: formatRate(fallback), label: 'EVERY PURCHASE' };
@@ -291,7 +376,8 @@ function getCategoryStat(card, categorySlug) {
       const r = findTopReward(rewards, ['dining', 'groceries'])
             || findTopReward(rewards, ['top_category', 'selected_categories'])
             || findTopReward(rewards);
-      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      const stat = rewardStat(r);
+      if (stat) return stat;
       break;
     }
     case 'best-0-apr-cards': {
@@ -306,8 +392,8 @@ function getCategoryStat(card, categorySlug) {
       break;
     }
     case 'best-secured-cards': {
-      const r = findTopReward(rewards);
-      if (r) return { value: formatRate(r), label: REWARD_LABELS[r.category] || r.category.toUpperCase() };
+      const stat = rewardStat(findTopReward(rewards));
+      if (stat) return stat;
       const fallback = (rewards || []).find(x => x.category === 'everything_else');
       if (fallback) return { value: formatRate(fallback), label: 'EVERY PURCHASE' };
       return feeStat(card);
@@ -639,7 +725,19 @@ async function main() {
   console.log(`Queued successfully! Post ID: ${result.id}`);
 }
 
-main().catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(err => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  REWARD_LABELS,
+  isMerchantGated,
+  findTopReward,
+  rewardStat,
+  gatedLabel,
+  fitLabel,
+  getCategoryStat,
+};
