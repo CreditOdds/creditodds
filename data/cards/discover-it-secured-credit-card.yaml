@@ -28,6 +28,7 @@ apr:
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/secured-credit-card/
 foreign_transaction_fee: false
+network: "discover"
 our_take: >
   One of the best secured cards for building credit because it earns like a real
   rewards card: 5% on rotating quarterly categories (up to $1,500 in spend,

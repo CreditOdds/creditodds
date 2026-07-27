@@ -5,6 +5,7 @@ image: "citi-att-points-plus.png"
 accepting_applications: true
 apply_link: https://www.citi.com/credit-cards/citi-att-pointsplus-credit-card
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The AT&T Points Plus from Citi stands out with its robust rewards structure,
   offering 3 points per dollar on gas and EV charging, and 2 points per dollar

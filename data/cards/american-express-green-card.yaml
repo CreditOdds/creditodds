@@ -5,6 +5,7 @@ image: "amex_green_card.png"
 accepting_applications: false
 apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The American Express Green card stands out for frequent travelers and diners
   with its 3 points per dollar on travel, transit, and dining purchases,

@@ -34,6 +34,7 @@ apr:
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/cash-back/nhl-card.html
 foreign_transaction_fee: false
+network: "discover"
 our_take: >
   The NHL Discover it card stands out with its 5% cashback on quarterly
   rotating categories, which currently include gas, EV charging, transit,

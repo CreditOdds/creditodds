@@ -34,6 +34,7 @@ apr:
     min: 14.24
     max: 35.24
 foreign_transaction_fee: true
+network: "mastercard"
 apply_link: https://www.intuit.com/credit-card/
 benefits:
   - name: "QuickBooks Sync"

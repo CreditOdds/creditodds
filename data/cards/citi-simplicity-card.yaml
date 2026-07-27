@@ -19,6 +19,7 @@ apr:
     max: 28.24
 apply_link: https://www.citi.com/credit-cards/citi-simplicity-credit-card
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The Simplicity is a debt-payoff card: 18 months of 0% intro APR on both
   purchases and balance transfers (transfers must be completed within the first

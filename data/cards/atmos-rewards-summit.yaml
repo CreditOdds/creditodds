@@ -7,6 +7,7 @@ apply_link: https://www.bankofamerica.com/credit-cards/products/alaska-airlines-
 category: "travel"
 annual_fee: 395
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Atmos Rewards Summit card from Bank of America is designed for frequent
   travelers who can leverage its robust airline perks, including 3 points per

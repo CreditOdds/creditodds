@@ -24,6 +24,7 @@ apply_link: https://www.fidelity.com/spend-save/visa-signature-card
 # only on that landing page and is not advertised on the public apply page, so the bonus
 # was removed with it. Restore both together if Fidelity publishes a new offer page.
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Fidelity Rewards Visa Signature card offers a straightforward 2% cash
   back on all purchases when you deposit the rewards into an eligible Fidelity

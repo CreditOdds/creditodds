@@ -6,6 +6,7 @@ category: "secured"
 image: "navy-federal-cash-rewards-secured.png"
 annual_fee: 0
 foreign_transaction_fee: false
+network: "visa"
 reward_type: "cashback"
 tags:
   - secured

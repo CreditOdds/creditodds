@@ -50,6 +50,7 @@ apr:
     max: 27.99
 apply_link: https://www.usbank.com/credit-cards/cash-plus-visa-signature-credit-card.html
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The U.S. Bank Cash+ Visa Signature card shines with its customizable 5% cash
   back on two categories of your choice each quarter, up to $2,000 in combined

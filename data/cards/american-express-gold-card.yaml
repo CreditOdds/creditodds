@@ -5,6 +5,7 @@ image: "amex_gold_card.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/gold-card/
 foreign_transaction_fee: false
+network: "amex"
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref="
 our_take: >
   The American Express Gold card shines for foodies and travelers alike,

@@ -37,6 +37,7 @@ apr:
     max: 26.74
 apply_link: https://www.citi.com/credit-cards/costco-anywhere-visa-card
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Costco Anywhere Visa by Citi stands out for its strong cashback rates,
   especially if you're a frequent Costco shopper or driver. You'll earn 5%

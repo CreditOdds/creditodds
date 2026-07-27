@@ -60,6 +60,7 @@ apr:
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-platinum-select-world-elite-mastercard
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The Citi AAdvantage Platinum Select World Elite Mastercard shines for
   frequent American Airlines flyers, offering a generous 80,000-mile signup

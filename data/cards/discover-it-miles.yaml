@@ -24,6 +24,7 @@ apr:
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/travel/
 foreign_transaction_fee: false
+network: "discover"
 our_take: >
   The Discover it Miles card offers a straightforward rewards structure with
   1.5 miles per dollar on every purchase, making it a solid choice for those

@@ -5,6 +5,7 @@ accepting_applications: false
 image: "citi-prestige.png"
 annual_fee: 495
 reward_type: "points"
+network: "mastercard"
 our_take: >
   The Citi Prestige card is no longer accepting applications, which limits its
   appeal to current cardholders who already enjoy its benefits. With a high

@@ -22,6 +22,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The Disney Visa from Chase is an attractive option for Disney enthusiasts,
   especially with its recently increased signup bonus of $150. This bonus is

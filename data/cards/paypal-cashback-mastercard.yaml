@@ -24,6 +24,7 @@ apr:
     max: 33.24
 apply_link: https://www.paypal.com/us/digital-wallet/manage-money/paypal-cashback-mastercard
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The PayPal Cashback Mastercard stands out for its simple and effective
   rewards structure: 3% cash back on purchases made through PayPal checkout,

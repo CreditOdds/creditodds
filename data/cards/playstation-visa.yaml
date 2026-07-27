@@ -6,6 +6,7 @@ accepting_applications: true
 apply_link: https://www.playstation.com/en-us/playstation-credit-card/
 annual_fee: 0
 foreign_transaction_fee: true
+network: "visa"
 reward_type: "points"
 tags:
   - entertainment

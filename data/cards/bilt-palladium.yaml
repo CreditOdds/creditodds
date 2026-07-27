@@ -5,6 +5,7 @@ image: "bilt_palladium.png"
 accepting_applications: true
 apply_link: https://www.biltrewards.com/card/apply
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The Bilt Palladium card stands out with its unique ability to pay rent
   without transaction fees while earning points, a rare feature among premium

@@ -160,6 +160,7 @@ tags:
   - premium
 apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-credit-card-amex/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The most loaded business travel card there is: Centurion and Priority Pass
   lounge access, 5x on Amex Travel flights and prepaid hotels, a 200k-point

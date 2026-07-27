@@ -8,6 +8,7 @@ category: "rewards"
 annual_fee: 0
 reward_type: "points"
 release_date: "2022-06-01"
+network: "mastercard"
 our_take: >
   The Bilt Mastercard, issued by Wells Fargo, is no longer accepting
   applications, which limits its availability for new cardholders. With no

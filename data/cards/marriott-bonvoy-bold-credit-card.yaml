@@ -78,6 +78,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bold
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Marriott Bonvoy Bold card is a solid choice for travelers who frequent
   Marriott properties, offering 3 points per dollar spent at Marriott Bonvoy

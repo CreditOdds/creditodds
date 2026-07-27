@@ -101,6 +101,7 @@ apr:
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/venture-x/
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Capital One Venture X Rewards card stands out with a substantial
   75,000-mile signup bonus after spending $4,000 in the first three months,

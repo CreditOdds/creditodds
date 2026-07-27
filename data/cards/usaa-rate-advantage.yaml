@@ -16,6 +16,7 @@ apr:
     min: 10.40
     max: 24.40
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   A low-rate card for USAA members who carry a balance: a roughly 20-month 0% intro on transfers and,
   more notably, an ongoing regular APR that starts as low as 10.40%, well below most cards.

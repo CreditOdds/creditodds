@@ -30,6 +30,7 @@ tags:
   - cashback
 apply_link: https://www.americanexpress.com/en-us/business/credit-cards/blue-business-cash
 foreign_transaction_fee: true
+network: "amex"
 our_take: >
   The Blue Business Cash Card from American Express offers a straightforward
   2% cash back on all purchases up to $50,000 annually, then 1% thereafter,

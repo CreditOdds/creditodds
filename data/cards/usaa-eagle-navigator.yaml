@@ -6,6 +6,7 @@ accepting_applications: true
 category: "travel"
 annual_fee: 95
 foreign_transaction_fee: false
+network: "visa"
 tags:
   - travel
   - rewards

@@ -59,6 +59,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/flex
 foreign_transaction_fee: true
+network: "mastercard"
 our_take: >
   The Chase Freedom Flex stands out as the top pick for cash back enthusiasts,
   offering a robust 5% back on quarterly rotating categories like gas

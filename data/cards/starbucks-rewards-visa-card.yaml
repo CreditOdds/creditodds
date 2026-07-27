@@ -5,6 +5,7 @@ image: "chase-starbucks-rewards.png"
 accepting_applications: false
 annual_fee: 0
 reward_type: null
+network: "visa"
 our_take: >
   The Starbucks Rewards Visa from Chase is no longer accepting applications,
   so if you were considering it for your wallet, you'll need to look

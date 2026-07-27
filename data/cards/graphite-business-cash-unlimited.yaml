@@ -8,6 +8,7 @@ category: "business"
 annual_fee: 295
 apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/graphite-business-cash-unlimited-card/"
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Graphite Business Cash Unlimited card from American Express offers a
   straightforward 2% cash back on all eligible purchases, making it a reliable

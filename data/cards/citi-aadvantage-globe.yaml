@@ -93,6 +93,7 @@ apr:
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The Citi AAdvantage Globe card stands out for frequent American Airlines
   travelers with perks like a free first checked bag and preferred boarding.

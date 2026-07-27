@@ -58,6 +58,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/attune-credit-card
+network: "mastercard"
 our_take: >
   The Wells Fargo Attune card offers a robust 4% cash back on a diverse range
   of categories including gyms, entertainment, streaming services, and even

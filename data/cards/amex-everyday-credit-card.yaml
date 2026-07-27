@@ -6,6 +6,7 @@ accepting_applications: false
 annual_fee: 0
 reward_type: "points"
 apply_link: https://www.americanexpress.com/us/credit-cards/card/amex-everyday/
+network: "amex"
 our_take: >
   The Amex Everyday card is no longer accepting applications, so it won't be
   an option if you're looking to add a new card to your wallet. It previously

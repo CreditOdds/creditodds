@@ -91,6 +91,7 @@ benefits:
       - instacart
 apply_link: https://creditcards.chase.com/travel-credit-cards/southwest/plus
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Southwest Rapid Rewards Plus card is a solid choice for frequent
   Southwest flyers, with 2 points per dollar on Southwest purchases and a

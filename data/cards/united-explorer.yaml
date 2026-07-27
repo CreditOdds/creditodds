@@ -104,6 +104,7 @@ tags:
   - rewards
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-explorer
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The United Explorer card is a solid choice for frequent United Airlines
   travelers, offering 3 miles per dollar on eligible United purchases and a

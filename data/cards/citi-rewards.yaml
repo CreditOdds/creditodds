@@ -5,6 +5,7 @@ accepting_applications: false
 annual_fee: 0
 reward_type: "points"
 image: "citi-rewards-plus.png"
+network: "mastercard"
 our_take: >
   The Citi Rewards+ card is no longer accepting applications, which is a shame
   given its unique rewards structure. With no annual fee, it offered a

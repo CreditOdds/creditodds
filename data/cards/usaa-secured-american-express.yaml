@@ -13,6 +13,7 @@ apr:
     min: 26.40
     max: 26.40
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   This is a no-fee secured card for building or rebuilding credit. The 26.40%
   APR is in line with typical secured cards, so treat it as a credit-building

@@ -5,6 +5,7 @@ image: "cash_wise.png"
 accepting_applications: false
 annual_fee: 0
 reward_type: "cashback"
+network: "visa"
 our_take: >
   The Wells Fargo Cash Wise Visa is no longer accepting applications, which
   limits its appeal right out of the gate. For those who already have it, the

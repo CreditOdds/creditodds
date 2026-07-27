@@ -6,6 +6,7 @@ category: "travel"
 image: "us-bank-altitude-reserve.png"
 annual_fee: 400
 reward_type: "points"
+network: "visa"
 our_take: >
   The U.S. Bank Altitude Reserve Visa Infinite offers a compelling travel
   package with its standout $325 annual travel credit for purchases made via a

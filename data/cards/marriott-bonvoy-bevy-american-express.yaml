@@ -5,6 +5,7 @@ image: "marriott-bonvoy-bevy.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-bevy/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Marriott Bonvoy Bevy American Express card is a strong choice for
   frequent Marriott travelers, offering 6 points per dollar at participating

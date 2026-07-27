@@ -23,6 +23,7 @@ apr:
     min: 13.40
     max: 27.40
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The USAA Rewards card offers a straightforward rewards structure with no
   annual fee, making it a practical choice for those who frequently spend on

@@ -5,6 +5,7 @@ image: "amex_delta_skymiles_platinum.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-platinum-american-express-card/
 foreign_transaction_fee: false
+network: "amex"
 our_take: >
   The Delta SkyMiles Platinum American Express card is a strong contender for
   frequent Delta flyers, offering a generous signup bonus of up to 100,000

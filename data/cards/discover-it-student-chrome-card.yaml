@@ -30,6 +30,7 @@ apr:
     max: 25.49
 apply_link: https://www.discover.com/credit-cards/student/chrome-card.html
 foreign_transaction_fee: false
+network: "discover"
 our_take: >
   A starter card for students who want simple, capped rewards without tracking
   rotating categories: 2% at gas and restaurants on up to $1,000 combined per

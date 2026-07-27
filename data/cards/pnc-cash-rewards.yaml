@@ -49,6 +49,7 @@ apr:
     max: 28.49
 apply_link: https://www.pnc.com/en/personal-banking/banking/credit-cards/pnc-cash-rewards-visa-credit-card.html
 foreign_transaction_fee: true
+network: "visa"
 benefits:
   - name: "Cell Phone Protection"
     value: 0

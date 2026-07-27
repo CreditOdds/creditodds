@@ -5,6 +5,7 @@ accepting_applications: false
 image: "wells-fargo-hotels-com.png"
 annual_fee: 0
 reward_type: null
+network: "visa"
 our_take: >
   The Hotels.com Rewards Visa from Wells Fargo is no longer accepting
   applications, so it won't be an option for new cardholders looking to earn

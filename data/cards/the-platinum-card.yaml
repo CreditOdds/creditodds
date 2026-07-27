@@ -5,6 +5,7 @@ image: "amex_the_platinum_card.png"
 accepting_applications: true
 apply_link: https://www.americanexpress.com/us/credit-cards/card/platinum/
 foreign_transaction_fee: false
+network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
 our_take: >
   The Platinum Card from American Express stands out with a massive

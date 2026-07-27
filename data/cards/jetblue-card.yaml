@@ -4,6 +4,7 @@ slug: "jetblue-card"
 accepting_applications: true
 apply_link: https://cards.barclaycardus.com/banking/cards/jetblue-card/
 foreign_transaction_fee: false
+network: "mastercard"
 category: "travel"
 image: "barclays-jetblue.png"
 annual_fee: 0

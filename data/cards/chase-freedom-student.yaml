@@ -31,6 +31,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
 foreign_transaction_fee: true
+network: "visa"
 our_take: >
   The Chase Freedom Rise offers a straightforward 1.5% cash back on all
   purchases with no annual fee, making it a solid entry-level choice for those

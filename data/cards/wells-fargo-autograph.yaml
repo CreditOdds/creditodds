@@ -53,6 +53,7 @@ apr:
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/autograph-visa-credit-card
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Wells Fargo Autograph card stands out with its 3x points on dining,
   travel, gas, transit, and streaming, all with no annual fee, making it a

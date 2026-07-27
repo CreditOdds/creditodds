@@ -30,6 +30,7 @@ tags:
   - rewards
 apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-blue-business-plus-credit-card-amex/
 foreign_transaction_fee: true
+network: "amex"
 our_take: >
   The Blue Business Plus from American Express stands out for its
   straightforward rewards structure, offering 2 points per dollar on all

@@ -23,3 +23,4 @@ apr:
     min: 27.49
     max: 27.49
 foreign_transaction_fee: true
+network: "visa"

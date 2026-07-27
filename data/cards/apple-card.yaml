@@ -38,6 +38,7 @@ apr:
     max: 27.74
 apply_link: https://www.apple.com/apple-card/
 foreign_transaction_fee: false
+network: "mastercard"
 our_take: >
   The Apple Card stands out for its seamless integration with Apple Pay,
   offering 3% cash back on Apple purchases and select merchants like Nike and

@@ -89,6 +89,7 @@ apr:
     max: 27.74
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/inspire
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The Inspire is the top Disney card, with a $149 fee buying a $300 Disney eGift
   card up front, 10% back on Disney+/Hulu/ESPN+, and 3% on Disney purchases.

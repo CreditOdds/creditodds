@@ -108,6 +108,7 @@ tags:
   - premium
 apply_link: https://creditcards.chase.com/travel-credit-cards/united/club-infinite
 foreign_transaction_fee: false
+network: "visa"
 our_take: >
   The United Club Infinite card is a premium choice for frequent United
   flyers, offering a strong 5 miles per dollar on United purchases and a

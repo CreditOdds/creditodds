@@ -88,4 +88,5 @@ our_take: >
   for Disney-related expenses.
 apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/premier
 foreign_transaction_fee: true
+network: "visa"
 
