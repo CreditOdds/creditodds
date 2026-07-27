@@ -114,12 +114,24 @@ function getCardContext(card) {
     };
   }
   if (card.rewards) {
-    ctx.rewards = card.rewards.map(r => ({
-      category: r.category,
-      value: r.value,
-      unit: r.unit,
-      description: r.description,
-    }));
+    ctx.rewards = card.rewards.map(r => {
+      const out = { category: r.category, value: r.value, unit: r.unit };
+      // The scope of a rate lives in `note` ("Intuit products and services
+      // including QuickBooks...", "On Lyft rides through September 30, 2027").
+      // This used to read `r.description`, a field no card has ever set and
+      // that build-cards.js does not emit, so all 278 notes were silently
+      // dropped and every rate reached the panel stripped of its scope.
+      if (r.note) out.note = r.note;
+      // `merchant_specific` / `merchant_gate` mean the rate applies only at the
+      // merchants named in the note, not across its category — a card earning
+      // 5% "online_shopping" at one merchant is not a 5% online shopping card.
+      // Passed through so the guidelines can tell the panel to discount them.
+      if (r.merchant_specific === true) out.merchant_specific = true;
+      if (Array.isArray(r.merchant_gate) && r.merchant_gate.length > 0) {
+        out.merchant_gate = r.merchant_gate;
+      }
+      return out;
+    });
   }
   if (card.apr) ctx.apr = card.apr;
   if (card.intro_apr) ctx.intro_apr = card.intro_apr;
@@ -228,6 +240,7 @@ const SHARED_GUIDELINES = `RANKING GUIDELINES:
 - A high annual fee is justified only if the rewards and perks clearly offset it.
 - Category relevance matters: for a "Best Cash Back" page a card's cash back rates matter most; for "Best Travel" transfer partners, travel perks, and portal multipliers matter most.
 - Consider the full picture: a card with a slightly lower bonus but much better ongoing rewards may deserve a higher rank.
+- A reward marked "merchant_specific": true or carrying a "merchant_gate" list earns its rate ONLY at the merchants named in its "note", not across the category it is filed under. Weigh it as the narrow perk it is, and judge everyday earning on the ungated rates (including "everything_else"). A card whose only high rate is gated is not a high-earning card in that category.
 
 RULES:
 - Rank ALL provided cards. Do NOT add, remove, or invent cards.
@@ -275,6 +288,7 @@ YOUR TASK:
 RULES:
 - Keep the cards array in the EXACT order provided. Do NOT reorder, add, or remove cards.
 - ONLY use facts from card_data. Never invent or assume numbers.
+- A reward marked "merchant_specific": true or carrying a "merchant_gate" list applies ONLY at the merchants named in its "note". If you mention such a rate, name that limit (e.g. "5% on Intuit products", "5% on Lyft rides"). Never write it as if it covered the whole category it is filed under, and prefer an ungated rate when one makes the point.
 - If a signup_bonus value is a string like "4 Free Night Awards", use it as-is.
 - Match the existing concise, factual, comparative editorial tone. No hype words like "incredible", "amazing", or "unbeatable". Do not use em dashes.
 - Do not mention CreditOdds or link to anything.
@@ -728,7 +742,16 @@ async function main() {
   console.log('\n=== Complete ===');
 }
 
-main().catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(err => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  getCardContext,
+  buildCardsWithData,
+  buildVoterPrompt,
+  buildWriterPrompt,
+};
