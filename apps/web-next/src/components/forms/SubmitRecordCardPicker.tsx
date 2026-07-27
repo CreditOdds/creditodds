@@ -108,7 +108,7 @@ export default function SubmitRecordCardPicker({
 
                 <div className="p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                    Submit a record
+                    Submit a data point
                   </h3>
                   <p className="text-sm text-gray-500 mb-4">
                     Pick any card you applied for, approved or denied.

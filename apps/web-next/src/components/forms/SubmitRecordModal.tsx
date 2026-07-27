@@ -345,7 +345,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
 
         if (isEditMode && editRecord) {
           await updateRecord(editRecord.record_id, payload, token);
-          toast.success("Your record was updated.", { position: "top-right", autoClose: 4000 });
+          toast.success("Your data point was updated.", { position: "top-right", autoClose: 4000 });
           onSuccess?.();
           handleClose();
           return;
@@ -365,7 +365,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
 
         if (!response.ok) {
           const errorText = await response.text();
-          throw new Error(errorText || 'Failed to submit record');
+          throw new Error(errorText || 'Failed to submit data point');
         }
 
         // Auto-add card to wallet if not already there (silent — don't block on failure)
@@ -385,7 +385,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
           result: values.result,
           credit_score: values.credit_score,
         });
-        toast.success("Your record was submitted successfully!", {
+        toast.success("Your data point was submitted successfully!", {
           position: "top-right",
           autoClose: 5000,
         });
@@ -403,7 +403,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
         handleClose();
       } catch (error) {
         console.error("Error submitting record:", error);
-        toast.error(error instanceof Error ? error.message : (isEditMode ? "Failed to update record" : "Failed to submit record"));
+        toast.error(error instanceof Error ? error.message : (isEditMode ? "Failed to update data point" : "Failed to submit data point"));
       } finally {
         setSubmitting(false);
       }
@@ -432,7 +432,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
           <div className="cj-modal-card cj-modal-card-bounded">
             <div className="cj-modal-head">
               <span className="cj-status-dot" />
-              <span className="cj-modal-title">{isEditMode ? 'edit record' : 'submit record'}</span>
+              <span className="cj-modal-title">{isEditMode ? 'edit data point' : 'submit data point'}</span>
               <button type="button" className="cj-modal-close" onClick={handleModalClose} aria-label="Close">
                 <XMarkIcon style={{ width: 16, height: 16 }} />
               </button>
@@ -457,10 +457,10 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess, 
                       </div>
                     </div>
                     {isEditMode ? (
-                      <p style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 8 }}>Editing your existing record.</p>
+                      <p style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 8 }}>Editing your existing data point.</p>
                     ) : existingRecordCount > 0 ? (
                       <p style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 8 }}>
-                        You&apos;ve submitted {existingRecordCount} record{existingRecordCount === 1 ? '' : 's'} for this card. Add another if you reapplied or your situation changed.
+                        You&apos;ve submitted {existingRecordCount} data point{existingRecordCount === 1 ? '' : 's'} for this card. Add another if you reapplied or your situation changed.
                       </p>
                     ) : null}
                   </div>
