@@ -870,6 +870,15 @@ const BROADER_THAN = new Map([
     'travel_portal', 'hotels_portal', 'flights_portal',
     'car_rentals_portal', 'hotels_car_portal',
   ])],
+  // One rung finer than `travel` above. A card that earns a portal-only rate
+  // has its apply page describe it in plain words ("air travel booked on
+  // cititravel.com"), which the extractor renders as the bare category. With
+  // only the `travel` rung present, that bare row was never recognised as the
+  // portal row restated, so it reached the review queue every week, per card
+  // — Citi Strata Elite `airlines` 6x and United Quest `hotels` 5x in #1774.
+  ['hotels', new Set(['hotels_portal', 'hotels_car_portal'])],
+  ['airlines', new Set(['flights_portal'])],
+  ['car_rentals', new Set(['car_rentals_portal', 'hotels_car_portal'])],
   ['transit', new Set(['ground_transportation'])],
   ['online_shopping', new Set(['amazon'])],
 ]);

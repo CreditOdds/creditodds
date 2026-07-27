@@ -105,6 +105,20 @@ exclude:
   - "Rental Car Insurance"
   - "Car Rental Insurance"
   - "Purchase Protection"
+  # The rest of the same class. These were left behind when the block above
+  # was moved out of `borderline`, so they kept regenerating a weekly
+  # manual-decision item (Atmos Rewards Business "Travel Accident Insurance"
+  # in issue #1774) despite the same reasoning applying to all of them.
+  - "Travel Accident Insurance"
+  - "Travel & Emergency Assistance"
+  - "Travel and Emergency Assistance"
+  - "Extended Warranty"
+  - "Extended Warranty Protection"
+  - "Return Protection"
+  - "Price Protection"
+  - "Roadside Assistance"
+  - "Emergency Evacuation"
+  - "Emergency Medical"
   - "Lost Luggage Reimbursement"
   - "Lost Baggage Reimbursement"
   - "Lost Baggage"
@@ -230,21 +244,22 @@ exclude:
 # the team has gone both ways on. We log them in the summary so a human can
 # decide on a case-by-case basis whether they belong on a given card.
 # ────────────────────────────────────────────────────────────────────────────
-borderline:
-  # NOTE — the standard travel/purchase insurance names were moved OUT of
-  # this list and into `exclude` above. They were declined in four
-  # consecutive review issues (#1636, #1666, #1731, #1743) and were the
-  # entire "borderline benefits" bucket in #1743's queue. Leaving an item
-  # borderline means re-litigating it every single week; if the team decides
-  # to start modeling insurance coverage, move them back here in one edit.
-  - "Extended Warranty"
-  - "Travel Accident Insurance"
-  - "Travel & Emergency Assistance"
-  - "Roadside Assistance"
-  - "Return Protection"
-  - "Emergency Evacuation"
-  - "Emergency Medical"
-  - "Price Protection"
+borderline: []
+  # Deliberately empty.
+  #
+  # This list used to hold the standard travel/purchase insurance names, and
+  # its note claimed they had all been moved into `exclude` above. Eight had
+  # not been: Extended Warranty, Travel Accident Insurance, Travel & Emergency
+  # Assistance, Roadside Assistance, Return Protection, Emergency Evacuation,
+  # Emergency Medical, Price Protection. So the note read as done while the
+  # queue kept regenerating them — Atmos Rewards Business "Travel Accident
+  # Insurance" in issue #1774 was one. They are now all in `exclude`, and the
+  # migration this note described is actually finished.
+  #
+  # Leaving an item borderline means re-litigating it every single week, so
+  # add one only when the team genuinely wants a recurring manual decision.
+  # If the team decides to start modeling insurance coverage, move the names
+  # back here in one edit.
 
 # ────────────────────────────────────────────────────────────────────────────
 # 3. Auto-PR — anything not matched above is eligible for an auto-PR.
