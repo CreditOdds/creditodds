@@ -205,6 +205,22 @@ function validateCard(card, schema, categoryIds, storeSlugs) {
   // StubHub credit → [stubhub, viagogo]). Every slug must resolve to a real
   // store, or the credit would point at a 404 and never render.
   if (card.benefits) {
+    // Validate benefit value_unit. Nothing checked this before, which let three
+    // JetBlue Premier credits sit on `value_unit: "dollars"` — not a unit any
+    // consumer knows. isMonetaryBenefit only accepts an absent unit or "usd", so
+    // those credits were treated as non-monetary and amortizedAnnualValue
+    // returned 0 for each, understating the card's Total Annual Credits by
+    // $2,330 against a $499 annual fee.
+    const validUnits = schema.properties.benefits.items.properties.value_unit.enum;
+    for (const benefit of card.benefits) {
+      if (benefit.value_unit !== undefined && !validUnits.includes(benefit.value_unit)) {
+        errors.push(
+          `Invalid value_unit for benefit "${benefit.name}": ${benefit.value_unit} ` +
+          `(must be one of ${validUnits.join(', ')}, or omitted for plain dollar amounts)`
+        );
+      }
+    }
+
     for (const benefit of card.benefits) {
       if (benefit.merchants === undefined) continue;
       if (!Array.isArray(benefit.merchants)) {
