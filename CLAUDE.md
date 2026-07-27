@@ -15,17 +15,31 @@
 ## Networking & Database Access
 
 - All backend Lambdas (this repo's `CreditCardOddsAPI` stack and the separate
-  `CreditOddsSocialPostingService` stack) run inside the `creditodds-network`
-  VPC (us-east-2, defined in `infra/network.yml`). Outbound traffic leaves via
-  a single NAT gateway Elastic IP — **3.13.85.124** — which is the only
-  address the shared Aurora cluster's security group allowlists on TCP 3306.
+  `CreditOddsSocialPostingService` stack) attach to the **shared us-east-1
+  default VPC `vpc-0cc30471`** — subnets `subnet-38dcb136` / `subnet-7a936d4b`,
+  security group `sg-d83c41e6`. These are the defaults on the `VpcPrivateSubnetIds`
+  and `VpcLambdaSecurityGroupId` params in `apps/api/template.yml`.
+- **There is no dedicated VPC and no NAT gateway.** Database access works
+  because `sg-d83c41e6` is the VPC's default SG and carries a self-referencing
+  all-traffic rule, so Lambdas reach the cluster privately inside the VPC.
+  Nothing depends on a fixed egress IP. (The old `creditodds-network` stack in
+  us-east-2 and its NAT Elastic IP `3.13.85.124` were deleted and released on
+  2026-07-09 during the us-east-1 migration. `VpcPrivateSubnetIds` is a legacy
+  name from that era; the current subnets are default-VPC subnets, not private
+  NAT-routed ones.)
 - The database (`database-3` cluster, us-east-1) is shared with other apps.
   CreditOdds connects as the schema-scoped user `creditodds_app` (grants on
-  `creditodds.*` only). Never use the cluster `admin` user. The credential
-  lives in SSM Parameter Store (us-east-2): `/creditodds/db/{host,database,username,password}`.
-- Consequence: the DB is NOT reachable from a local machine or from any
-  compute outside the VPC. Anything that needs SQL access must run as a
-  Lambda in the VPC (e.g. `RunMigrationHandler` for migrations).
+  `creditodds.*` only). Never use the cluster `admin` user. The credential lives
+  in SSM Parameter Store **us-east-1**: `/creditodds/db/{host,database,username,password}`.
+  A stale duplicate set still sits in us-east-2 from before the migration; ignore it.
+- **Local SQL access is possible but fragile.** `database-3-instance-1` is
+  `PubliclyAccessible: true`, and `sg-d83c41e6` has a single TCP 3306 ingress
+  pinned to one `/32` (see the rule's description). That covers one machine on
+  one IP, so it stops working silently whenever that IP changes and it never
+  works from CI or any other host. For anything that must be reproducible,
+  including migrations, use the `RunMigrationHandler` Lambda path.
+  Check the current rule with:
+  `aws ec2 describe-security-groups --region us-east-1 --group-ids sg-d83c41e6`
 
 ## Deployment
 
