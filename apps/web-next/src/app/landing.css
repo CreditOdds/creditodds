@@ -2857,6 +2857,12 @@
   transition: background 0.12s;
 }
 .landing-v2 .x-follow:hover .x-follow-btn { background: var(--accent-deep); }
+@media (max-width: 640px) {
+  .landing-v2 .x-follow {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
 .landing-v2.wire-v2 .wire-snapshot .cj-readoff {
   margin-top: 4px;
 }
