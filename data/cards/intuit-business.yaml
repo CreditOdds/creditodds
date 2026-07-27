@@ -1,0 +1,64 @@
+name: "Intuit Business"
+bank: "WebBank"
+slug: "intuit-business"
+image: "Intuit.png"
+accepting_applications: true
+category: "business"
+release_date: "2026-07-22"
+annual_fee: 0
+reward_type: "cashback"
+tags:
+  - business
+  - cashback
+rewards:
+  # The 5% is limited to Intuit's own products and services, so it is flagged
+  # merchant_specific to keep it out of generic online-shopping matching (there
+  # is no QuickBooks/Intuit store page to gate it to).
+  - category: online_shopping
+    value: 5
+    unit: percent
+    note: "Intuit products and services including QuickBooks, TurboTax, and Mailchimp; excludes transactional fees such as merchant services"
+    merchant_specific: true
+  - category: everything_else
+    value: 2
+    unit: percent
+signup_bonus:
+  value: 300
+  type: "cash"
+  spend_requirement: 3000
+  timeframe_months: 3
+apr:
+  # WebBank quotes this as Prime + 7.49% to Prime + 28.49%, capped at 36%.
+  # Figures below use the 6.75% prime rate in effect July 2026.
+  regular:
+    min: 14.24
+    max: 35.24
+foreign_transaction_fee: true
+apply_link: https://www.intuit.com/credit-card/
+benefits:
+  - name: "QuickBooks Sync"
+    description: "Card transactions and captured receipts flow into QuickBooks automatically, so charges match to receipts without a separate bank feed or import"
+    value: 0
+    frequency: "ongoing"
+    category: "other"
+  - name: "Unlimited Employee Cards"
+    description: "Virtual and physical employee cards at no extra cost, each with its own spending limit, category controls, and real-time notifications"
+    value: 0
+    frequency: "ongoing"
+    category: "other"
+  - name: "Instant Virtual Card"
+    description: "Approved businesses get a virtual card immediately, usable online or in a mobile wallet before the physical card arrives"
+    value: 0
+    frequency: "one_time"
+    category: "other"
+our_take: >
+  Intuit's first business card is a clean no annual fee 2% earner with a 5% rate on
+  Intuit's own products, which is real money if you already pay for QuickBooks Online,
+  TurboTax, and Mailchimp every year. The flat 2% matches the best no fee business cash
+  back cards rather than beating them, so the reason to pick this one is the plumbing:
+  transactions and receipts land in QuickBooks automatically, employee cards are unlimited
+  and free, and approval can put a virtual card in your wallet the same day. The $300
+  bonus after $3,000 in three months is modest next to what Chase and Amex pay on their
+  business cards, and the 2.7% foreign transaction fee makes it a poor travel card.
+  Credit lines run $1,000 to $50,000, so a business with heavy monthly spend may find the
+  ceiling low. A QuickBooks subscription is not required to apply.
