@@ -10,8 +10,12 @@
 // if any assertion fails.
 
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const yamlLib = require('js-yaml');
 const {
   editRewardValue,
+  isBroaderThan,
   editRewardCapFields,
   diffRewards,
   diffBenefits,
@@ -887,6 +891,92 @@ test('a stated cap change is a change', () => {
   ]);
   assert.equal(d.changed.length, 1);
   assert.equal(d.changed[0].to.spend_cap, 7000);
+});
+
+// ─── Portal rows restated under a bare category name ────────────────────────
+//
+// An apply page describes a portal-only rate in plain words ("air travel
+// booked on cititravel.com"), so the extractor emits the bare category. Only
+// the `travel` rung existed, so `airlines` / `hotels` / `car_rentals` were
+// never recognised as the portal row restated and reached the review queue
+// every week, per card (issue #1774).
+console.log('\nbare-category portal rungs:');
+
+test('a bare category is broader than its portal slice', () => {
+  assert.equal(isBroaderThan('hotels', 'hotels_portal'), true);
+  assert.equal(isBroaderThan('hotels', 'hotels_car_portal'), true);
+  assert.equal(isBroaderThan('airlines', 'flights_portal'), true);
+  assert.equal(isBroaderThan('car_rentals', 'car_rentals_portal'), true);
+  assert.equal(isBroaderThan('car_rentals', 'hotels_car_portal'), true);
+});
+
+test('the relation stays one-way and does not cross travel types', () => {
+  assert.equal(isBroaderThan('hotels_portal', 'hotels'), false);
+  assert.equal(isBroaderThan('airlines', 'hotels_portal'), false);
+  assert.equal(isBroaderThan('hotels', 'airlines'), false);
+});
+
+test('a bare airlines proposal is suppressed when YAML has flights_portal', () => {
+  const current = [
+    { category: 'flights_portal', value: 6, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1.5, unit: 'points_per_dollar' },
+  ];
+  const d = diffRewards(current, [
+    ...current,
+    { category: 'airlines', value: 6, unit: 'points_per_dollar' },
+  ]);
+  assert.equal(d.added.length, 0);
+});
+
+test('a bare hotels proposal is suppressed when YAML has hotels_portal', () => {
+  const current = [
+    { category: 'hotels_portal', value: 5, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
+  ];
+  const d = diffRewards(current, [
+    ...current,
+    { category: 'hotels', value: 5, unit: 'points_per_dollar' },
+  ]);
+  assert.equal(d.added.length, 0);
+});
+
+test('an unrelated new category is still proposed', () => {
+  const current = [
+    { category: 'flights_portal', value: 6, unit: 'points_per_dollar' },
+    { category: 'everything_else', value: 1.5, unit: 'points_per_dollar' },
+  ];
+  const d = diffRewards(current, [
+    ...current,
+    { category: 'groceries', value: 3, unit: 'points_per_dollar' },
+  ]);
+  assert.equal(d.added.length, 1);
+  assert.equal(d.added[0].category, 'groceries');
+});
+
+// ─── benefit-policy insurance class ─────────────────────────────────────────
+//
+// The `borderline` block's note claimed these had been moved into `exclude`,
+// but eight were left behind, so they kept regenerating a weekly manual
+// decision (issue #1774). Guard the finished migration.
+console.log('\nbenefit-policy insurance class:');
+
+const POLICY_RAW = yamlLib.load(
+  fs.readFileSync(path.join(__dirname, '..', 'data', 'benefit-policy.yaml'), 'utf8')
+);
+
+test('every standard insurance name is excluded, not borderline', () => {
+  const exclude = (POLICY_RAW.exclude || []).map(s => String(s).toLowerCase());
+  for (const name of [
+    'Extended Warranty', 'Travel Accident Insurance', 'Travel & Emergency Assistance',
+    'Roadside Assistance', 'Return Protection', 'Emergency Evacuation',
+    'Emergency Medical', 'Price Protection',
+  ]) {
+    assert.ok(exclude.includes(name.toLowerCase()), `${name} should be in exclude`);
+  }
+});
+
+test('borderline is empty, so nothing is re-litigated weekly by default', () => {
+  assert.deepEqual(POLICY_RAW.borderline || [], []);
 });
 
 console.log('\nDone.\n');
