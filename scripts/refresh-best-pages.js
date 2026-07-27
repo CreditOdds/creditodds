@@ -130,6 +130,17 @@ function getCardContext(card) {
       if (Array.isArray(r.merchant_gate) && r.merchant_gate.length > 0) {
         out.merchant_gate = r.merchant_gate;
       }
+      // A capped rate is not the rate it advertises. Blue Cash Preferred's 6%
+      // groceries stops at $6,000 of spend a year and drops to 1% after, and
+      // Citi Custom Cash's 5% covers $500 a month. Without these the panel
+      // weighed both as if they ran uncapped. `cap_period` and `rate_after_cap`
+      // are sent explicitly at their schema defaults rather than omitted, so
+      // the model never has to guess the window or the post-cap rate.
+      if (typeof r.spend_cap === 'number') {
+        out.spend_cap = r.spend_cap;
+        out.cap_period = r.cap_period || 'annual';
+        out.rate_after_cap = typeof r.rate_after_cap === 'number' ? r.rate_after_cap : 1;
+      }
       return out;
     });
   }
@@ -241,6 +252,7 @@ const SHARED_GUIDELINES = `RANKING GUIDELINES:
 - Category relevance matters: for a "Best Cash Back" page a card's cash back rates matter most; for "Best Travel" transfer partners, travel perks, and portal multipliers matter most.
 - Consider the full picture: a card with a slightly lower bonus but much better ongoing rewards may deserve a higher rank.
 - A reward marked "merchant_specific": true or carrying a "merchant_gate" list earns its rate ONLY at the merchants named in its "note", not across the category it is filed under. Weigh it as the narrow perk it is, and judge everyday earning on the ungated rates (including "everything_else"). A card whose only high rate is gated is not a high-earning card in that category.
+- A reward carrying "spend_cap" earns its headline rate only on the first spend_cap dollars of spend per "cap_period"; everything above that earns "rate_after_cap". Judge it on what the cap is actually worth, not on the headline rate: 6% on the first $6,000 of yearly grocery spend is worth about $360 a year, so it can lose to a lower uncapped rate for anyone who spends past the cap. A tight cap on a card's headline rate makes it weaker than that rate suggests.
 
 RULES:
 - Rank ALL provided cards. Do NOT add, remove, or invent cards.
@@ -289,6 +301,7 @@ RULES:
 - Keep the cards array in the EXACT order provided. Do NOT reorder, add, or remove cards.
 - ONLY use facts from card_data. Never invent or assume numbers.
 - A reward marked "merchant_specific": true or carrying a "merchant_gate" list applies ONLY at the merchants named in its "note". If you mention such a rate, name that limit (e.g. "5% on Intuit products", "5% on Lyft rides"). Never write it as if it covered the whole category it is filed under, and prefer an ungated rate when one makes the point.
+- A reward carrying "spend_cap" earns its headline rate only on the first spend_cap dollars per "cap_period", then drops to "rate_after_cap". If you mention such a rate, state the cap and the window (e.g. "6% at U.S. supermarkets on up to $6,000 a year, then 1%", "5% on your top category on up to $500 a month"). Never present a capped rate as if it ran unlimited.
 - If a signup_bonus value is a string like "4 Free Night Awards", use it as-is.
 - Match the existing concise, factual, comparative editorial tone. No hype words like "incredible", "amazing", or "unbeatable". Do not use em dashes.
 - Do not mention CreditOdds or link to anything.
