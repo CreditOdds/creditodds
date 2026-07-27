@@ -12,6 +12,7 @@ apr:
   regular:
     min: 11.40
     max: 21.40
+foreign_transaction_fee: false
 our_take: >
   The USAA Secured Visa Platinum is a straightforward option for those looking
   to build or rebuild their credit without the burden of an annual fee. With a
