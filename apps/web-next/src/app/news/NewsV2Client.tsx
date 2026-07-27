@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { V2Footer } from '@/components/landing-v2/Chrome';
+import { FollowXCallout } from '@/components/landing-v2/FollowXCallout';
 import CardImage from '@/components/ui/CardImage';
 import type { NewsItem, NewsTag } from '@/lib/news';
 import '../landing.css';
@@ -97,14 +98,17 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
           <span><span className="cj-status-dot" />{items.length.toLocaleString()} stor{items.length === 1 ? 'y' : 'ies'} · live</span>
         </div>
       </div>
-      <section className="page-hero wrap">
-        <h1 className="page-title">
-          News without the <em>affiliate spin.</em>
-        </h1>
-        <p className="page-sub">
-          Card teardowns, issuer policy shifts, and data takes grounded in the records
-          database. No referral-link chasing.
-        </p>
+      <section className="page-hero has-follow wrap">
+        <div>
+          <h1 className="page-title">
+            News without the <em>affiliate spin.</em>
+          </h1>
+          <p className="page-sub">
+            Card teardowns, issuer policy shifts, and data takes grounded in the records
+            database. No referral-link chasing.
+          </p>
+        </div>
+        <FollowXCallout sub="Don't miss an update" />
       </section>
 
       <div className="wrap">

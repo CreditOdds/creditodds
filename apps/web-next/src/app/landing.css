@@ -1239,6 +1239,14 @@
   padding-block: 20px 24px;
   border-bottom: 1px solid var(--line);
 }
+/* Hero with an .x-follow callout beside the title (wraps below on mobile) */
+.landing-v2 .page-hero.has-follow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
 .landing-v2.check-v2 .page-hero {
   border-bottom: 0;
   padding-block: 20px 8px;
@@ -2794,8 +2802,9 @@
   gap: 16px 32px;
 }
 
-/* Follow @card_wire callout */
-.landing-v2.wire-v2 .wire-follow {
+/* Follow @creditodds callout — shared by the card-wire snapshot, the /news
+   hero, and news article footers (FollowXCallout component). */
+.landing-v2 .x-follow {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
@@ -2808,16 +2817,16 @@
   text-decoration: none;
   transition: border-color 0.12s, box-shadow 0.12s;
 }
-.landing-v2.wire-v2 .wire-follow:hover {
+.landing-v2 .x-follow:hover {
   border-color: var(--muted-2);
   box-shadow: var(--shadow);
 }
-.landing-v2.wire-v2 .wire-follow-copy {
+.landing-v2 .x-follow-copy {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
-.landing-v2.wire-v2 .wire-follow-handle {
+.landing-v2 .x-follow-handle {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -2825,17 +2834,17 @@
   font-weight: 600;
   color: var(--ink);
 }
-.landing-v2.wire-v2 .wire-follow-x {
+.landing-v2 .x-follow-logo {
   width: 13px;
   height: 13px;
   color: var(--ink);
   flex: 0 0 auto;
 }
-.landing-v2.wire-v2 .wire-follow-sub {
+.landing-v2 .x-follow-sub {
   font-size: 11.5px;
   color: var(--muted);
 }
-.landing-v2.wire-v2 .wire-follow-btn {
+.landing-v2 .x-follow-btn {
   display: inline-flex;
   align-items: center;
   padding: 7px 16px;
@@ -2847,7 +2856,7 @@
   white-space: nowrap;
   transition: background 0.12s;
 }
-.landing-v2.wire-v2 .wire-follow:hover .wire-follow-btn { background: var(--accent-deep); }
+.landing-v2 .x-follow:hover .x-follow-btn { background: var(--accent-deep); }
 .landing-v2.wire-v2 .wire-snapshot .cj-readoff {
   margin-top: 4px;
 }
@@ -6726,6 +6735,9 @@
   border-radius: 14px;
   padding: 32px clamp(20px, 3vw, 48px) 40px;
   box-shadow: var(--shadow-sm);
+}
+.landing-v2 .article-follow {
+  margin-top: 24px;
 }
 .landing-v2 .article-source {
   margin-top: 24px;

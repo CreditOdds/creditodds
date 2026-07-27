@@ -11,6 +11,7 @@ import { RelatedCards } from "@/components/articles/RelatedCards";
 import { RelatedCardInfo } from "@/lib/articles";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { FollowXCallout } from "@/components/landing-v2/FollowXCallout";
 import ViewTracker from "@/components/ViewTracker";
 import { truncateTitle } from "@/lib/seo";
 import "../../landing.css";
@@ -239,6 +240,10 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
               Source: <span>{item.source}</span>
             </div>
           )}
+
+          <div className="article-follow">
+            <FollowXCallout sub="Don't miss an update" />
+          </div>
         </article>
         <V2Footer />
       </div>
