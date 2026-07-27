@@ -466,7 +466,7 @@ export default function ProfileClient() {
     { key: 'cards', num: '01', label: 'Cards', count: walletCards.length ? `${walletCards.length} cards` : '' },
     { key: 'rewards', num: '02', label: 'Earn', count: '' },
     { key: 'benefits', num: '03', label: 'Benefits', count: '' },
-    { key: 'applications', num: '04', label: 'Applications', count: records.length ? `${records.length} records` : '' },
+    { key: 'applications', num: '04', label: 'Applications', count: records.length ? `${records.length} data point${records.length === 1 ? '' : 's'}` : '' },
     { key: 'referrals', num: '05', label: 'Referrals', count: expiredReferralsCount
         ? `${expiredReferralsCount} needs attention`
         : (activeReferralsCount ? `${activeReferralsCount} links` : '') },
@@ -546,7 +546,7 @@ export default function ProfileClient() {
                   {(() => {
                     const approved = records.filter(r => r.result).length;
                     const denied = records.length - approved;
-                    return records.length ? `${approved} approved · ${denied} denied` : 'submit a record';
+                    return records.length ? `${approved} approved · ${denied} denied` : 'submit a data point';
                   })()}
                 </div>
               </div>
@@ -568,7 +568,7 @@ export default function ProfileClient() {
                     className="cj-mob-wallet-btn outline"
                     onClick={() => setShowRecordCardPicker(true)}
                   >
-                    submit a record
+                    submit a data point
                   </button>
                 </div>
               </div>
@@ -812,7 +812,7 @@ export default function ProfileClient() {
               className="cj-apply-btn-outline"
               onClick={() => setShowRecordCardPicker(true)}
             >
-              submit a record
+              submit a data point
             </button>
           </div>
 
@@ -1430,15 +1430,15 @@ function ApplicationsTab(props: ApplicationsTabProps) {
             ))}
           </div>
           <div className="cj-verdict">
-            <b>{records.length} record{records.length === 1 ? '' : 's'}.</b> {approved} approved, {denied} denied.{' '}
-            <>Submit a new record for <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>any card</button>, approved or denied.</>
+            <b>{records.length} data point{records.length === 1 ? '' : 's'}.</b> {approved} approved, {denied} denied.{' '}
+            <>Submit a new data point for <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>any card</button>, approved or denied.</>
           </div>
         </>
       ) : (
         <div className="cj-verdict">
-          <b>No records yet.</b>{' '}
+          <b>No data points yet.</b>{' '}
           <button type="button" onClick={onPickCard} style={{ background: 'transparent', border: 0, padding: 0, color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>
-            Submit a record →
+            Submit a data point →
           </button>
         </div>
       )}
