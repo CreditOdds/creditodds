@@ -131,7 +131,7 @@ export default function SubmitRecordCardPicker({
                       {filtered.slice(0, 25).map((card) => {
                         const inWallet = walletCardNames?.has(card.card_name);
                         const hasRecord = recordedCardNames.has(card.card_name);
-                        const meta = [card.bank, inWallet && 'in your wallet', hasRecord && 'record submitted']
+                        const meta = [card.bank, inWallet && 'in your wallet', hasRecord && 'data point submitted']
                           .filter(Boolean)
                           .join(' · ');
                         return (
