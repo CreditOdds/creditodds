@@ -2204,6 +2204,17 @@ function applyExtraction({ card, extracted, pageContent, policy, summary, shared
       removed,
       card.data.signup_bonus
     );
+    // A benefit declined in review-declined.yaml must not come back through
+    // the AUTO path either. Until now isDeclined only filtered the review
+    // queue, so an auto-tier benefit whose PR a human closed unmerged
+    // recurred every week forever: closing without merging leaves no removed
+    // `name:` line in git history, so getRemovedBenefitsForCard can't see it,
+    // and the dated branch name differs each run so the idempotency check
+    // never fires. (2026-07-26: IHG points-purchase discount, Navy Federal
+    // Booking.com discount, Robinhood Eight Sleep credit.)
+    benefitsDiff.auto = benefitsDiff.auto.filter(
+      b => !isDeclined('benefit', card.slug, b.name)
+    );
     const ftxnDiff = diffForeignTxn(
       card.data.foreign_transaction_fee,
       extracted.foreign_transaction_fee,
