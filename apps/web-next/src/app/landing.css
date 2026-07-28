@@ -1448,6 +1448,300 @@
   }
 }
 
+/* ---------- Explore compact toolbar (single row: seg control + facet menus) ---------- */
+.landing-v2 .explore-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-top: 2px;
+}
+.landing-v2 .toolbar-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-right: 2px;
+}
+.landing-v2 .toolbar-vr {
+  width: 1px;
+  height: 22px;
+  background: var(--line-2);
+}
+.landing-v2 .toolbar-spacer {
+  flex: 1 1 auto;
+}
+.landing-v2 .toolbar-count {
+  font-size: 11.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.landing-v2 .toolbar-count b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.landing-v2 .toolbar-clear {
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line-2);
+}
+.landing-v2 .toolbar-clear:hover {
+  color: var(--ink);
+}
+.landing-v2 .seg-control {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.landing-v2 .seg-btn {
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.landing-v2 .seg-btn:hover:not(.on) {
+  color: var(--ink);
+}
+.landing-v2 .seg-btn.on {
+  background: var(--ink);
+  color: var(--paper);
+}
+.landing-v2 .facet {
+  position: relative;
+  display: inline-block;
+}
+.landing-v2 .facet-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 10px 0 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  background: var(--paper);
+  cursor: pointer;
+  font-family: inherit;
+}
+.landing-v2 .facet-btn:hover {
+  border-color: var(--muted-2);
+}
+.landing-v2 .facet-btn > svg {
+  color: var(--muted-2);
+  flex: none;
+}
+.landing-v2 .facet-k {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.landing-v2 .facet-v {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.landing-v2 .facet-btn.set {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.landing-v2 .facet-btn.set .facet-v {
+  color: var(--accent);
+}
+.landing-v2 .facet-pop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  min-width: 190px;
+  max-width: min(280px, calc(100vw - 32px));
+  background: var(--paper);
+  border: 1px solid var(--line-2);
+  border-radius: 11px;
+  box-shadow: 0 20px 44px -18px rgba(26, 19, 48, 0.3);
+  padding: 6px;
+}
+.landing-v2 .facet-pop.right {
+  left: auto;
+  right: 0;
+}
+.landing-v2 .facet-ph {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  padding: 6px 8px 4px;
+}
+.landing-v2 .facet-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink-2);
+  padding: 7px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.landing-v2 .facet-opt:hover {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+.landing-v2 .facet-ck {
+  flex: none;
+  color: var(--accent);
+  opacity: 0;
+}
+.landing-v2 .facet-opt.sel {
+  color: var(--ink);
+  font-weight: 500;
+}
+.landing-v2 .facet-opt.sel .facet-ck {
+  opacity: 1;
+}
+.landing-v2 .facet-opt-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.landing-v2 .facet-cnt {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--muted-2);
+}
+.landing-v2 .facet-scroll {
+  max-height: 280px;
+  overflow-y: auto;
+}
+.landing-v2 .facet-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.landing-v2 .facet-check:hover {
+  background: var(--paper-2);
+}
+.landing-v2 .facet-check input[type='checkbox'] {
+  cursor: pointer;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.landing-v2 .facet-clear {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 11.5px;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+.landing-v2 .facet-clear:hover {
+  background: var(--paper-2);
+}
+.landing-v2 .facet-switch {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink-2);
+  padding: 7px 8px;
+  border-radius: 7px;
+}
+.landing-v2 .facet-switch:hover {
+  background: var(--paper-2);
+}
+.landing-v2 .facet-switch .tr {
+  width: 30px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--line-2);
+  position: relative;
+  flex: none;
+  transition: background 0.15s;
+}
+.landing-v2 .facet-switch .tr::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 1px 2px rgba(26, 19, 48, 0.3);
+  transition: transform 0.15s;
+}
+.landing-v2 .facet-switch.on {
+  color: var(--ink);
+}
+.landing-v2 .facet-switch.on .tr {
+  background: var(--accent);
+}
+.landing-v2 .facet-switch.on .tr::after {
+  transform: translateX(12px);
+}
+@media (max-width: 640px) {
+  .landing-v2 .explore-toolbar {
+    gap: 6px;
+  }
+  .landing-v2 .explore-toolbar .toolbar-vr {
+    display: none;
+  }
+  .landing-v2 .seg-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .landing-v2 .facet-v {
+    max-width: 90px;
+  }
+}
+
 /* ---------- Filter bar + chips ---------- */
 .landing-v2 .filter-bar {
   display: flex;
