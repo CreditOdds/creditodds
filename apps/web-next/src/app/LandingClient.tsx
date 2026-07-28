@@ -286,7 +286,32 @@ function Hero({ cards }: { cards: LandingCard[] }) {
             {open && query.trim() && (
               <div className="search-results" role="listbox" id="hero-search-results">
                 {matches.length === 0 ? (
-                  <div className="opt-empty">No cards match &ldquo;{query}&rdquo;.</div>
+                  <div className="opt-empty">
+                    <p>No cards match &ldquo;{query}&rdquo;.</p>
+                    <p style={{ marginTop: 8 }}>
+                      Missing a card?{' '}
+                      <a
+                        href="https://github.com/CreditOdds/creditodds/issues/new?title=Add+card:+&labels=new+card"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="empty-cta-link"
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        Open an issue
+                      </a>{' '}
+                      or{' '}
+                      <a
+                        href="https://github.com/CreditOdds/creditodds/blob/main/CONTRIBUTING.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="empty-cta-link"
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        add it yourself
+                      </a>{' '}
+                      on GitHub.
+                    </p>
+                  </div>
                 ) : (
                   matches.map((c, idx) => (
                     <Link
