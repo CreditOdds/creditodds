@@ -42,6 +42,7 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
       url: `https://creditodds.com/news/${item.id}`,
       type: "article",
       publishedTime: item.date,
+      ...(item.updated ? { modifiedTime: item.updated } : {}),
       ...(item.news_image
         ? {
             images: [
@@ -66,6 +67,9 @@ function formatDate(dateString: string): string {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    // YYYY-MM-DD parses as UTC midnight; format in UTC or the shown day
+    // rolls back one on servers west of Greenwich.
+    timeZone: 'UTC',
   });
 }
 
@@ -104,7 +108,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     headline: item.title,
     description: item.summary,
     datePublished: item.date,
-    dateModified: item.date,
+    dateModified: item.updated ?? item.date,
     url,
     image: item.news_image
       ? `${NEWS_IMG_CDN}/${item.news_image}`
@@ -168,6 +172,14 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
             <time dateTime={item.date}>
               <b>{formatDate(item.date)}</b>
             </time>
+            {item.updated && (
+              <>
+                <span>·</span>
+                <time dateTime={item.updated}>
+                  Updated <b>{formatDate(item.updated)}</b>
+                </time>
+              </>
+            )}
             {item.bank && (
               <>
                 <span>·</span>

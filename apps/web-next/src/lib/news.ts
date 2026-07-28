@@ -15,6 +15,8 @@ export type NewsTag =
 export interface NewsItem {
   id: string;
   date: string;
+  /** Date of the last substantive update (YYYY-MM-DD); sorting still uses date. */
+  updated?: string;
   title: string;
   summary: string;
   tags: NewsTag[];

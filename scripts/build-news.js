@@ -69,6 +69,11 @@ function validateNewsItem(item, schema) {
     errors.push(`Invalid date format: ${item.date} (must be YYYY-MM-DD)`);
   }
 
+  // Validate updated format
+  if (item.updated && !/^\d{4}-\d{2}-\d{2}$/.test(item.updated)) {
+    errors.push(`Invalid updated format: ${item.updated} (must be YYYY-MM-DD)`);
+  }
+
   // Validate tags
   if (item.tags) {
     if (!Array.isArray(item.tags)) {
