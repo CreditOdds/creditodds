@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   formatBenefitValue,
+  creditAmountLabel,
   amortizedAnnualValue,
   isMonetaryBenefit,
   spendableValue,
@@ -63,5 +64,30 @@ describe('spendableValue', () => {
   it('splits a dollar total across its cycle', () => {
     expect(spendableValue({ name: 'x', value: 240, frequency: 'monthly' } as never)).toBe(20);
     expect(spendableValue({ name: 'x', value: 200, frequency: 'quarterly' } as never)).toBe(50);
+  });
+});
+
+// The store page (/best-card-for/<slug>) had its own copy of this formatter,
+// which unconditionally prefixed "$". Samsung's 20%-off VIP Advantage
+// membership rendered as "$20/yr" in production. It now lives here next to
+// formatBenefitValue so the two cannot drift apart again.
+describe('creditAmountLabel', () => {
+  it('renders a percent benefit as a rate with no dollar sign or cadence', () => {
+    expect(creditAmountLabel(20, 'annual', 'percent')).toBe('20%');
+  });
+
+  it('renders dollar credits with a per-year cadence', () => {
+    expect(creditAmountLabel(300, 'annual')).toBe('$300/yr');
+    expect(creditAmountLabel(120, 'monthly')).toBe('$120/yr');
+    expect(creditAmountLabel(100, 'multi_year')).toBe('$100');
+  });
+
+  it('renders points and miles in their own unit', () => {
+    expect(creditAmountLabel(5000, 'annual', 'points')).toBe('5,000 points/yr');
+    expect(creditAmountLabel(10000, 'annual', 'miles')).toBe('10,000 miles/yr');
+  });
+
+  it('returns nothing for a zero-value perk', () => {
+    expect(creditAmountLabel(0, 'annual')).toBe('');
   });
 });

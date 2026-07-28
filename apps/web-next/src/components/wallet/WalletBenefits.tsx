@@ -181,7 +181,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
           </div>
         </div>
         <div className="cj-readoff-cell">
-          <div className="cj-readoff-k">Statement credits</div>
+          <div className="cj-readoff-k">Credits &amp; rebates</div>
           <div className="cj-readoff-v">{allCredits.length}</div>
           <div className="cj-readoff-foot">
             {enrollCount > 0 ? `${enrollCount} require enrollment` : 'no enrollment needed'}
@@ -221,11 +221,11 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
         <>
           {allCredits.length > 0 && (
             <>
-              <div className="cj-table-label" style={{ marginTop: 16 }}>Statement credits</div>
+              <div className="cj-table-label" style={{ marginTop: 16 }}>Credits &amp; rebates</div>
               <div className="cj-tape cj-tape-credits">
                 <div className="cj-tape-head">
                   <div></div>
-                  <div>Credit</div>
+                  <div>Benefit</div>
                   <div className="cj-tape-res">Value</div>
                 </div>
                 {allCredits.map((b, i) => (

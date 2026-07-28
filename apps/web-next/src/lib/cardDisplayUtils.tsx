@@ -390,3 +390,28 @@ export function RewardTypeBadge({ type }: { type?: string }) {
     </span>
   );
 }
+
+// Cadence suffix for a credit amount. A benefit's `value` is always the annual
+// rollup (see CardBenefit in lib/api.ts — value_per_cycle holds the per-cycle
+// figure), so every recurring frequency renders "/yr"; a $10/month credit is
+// stored as value: 120 and shows "$120/yr", not "$120/mo".
+export const CREDIT_FREQUENCY_SUFFIX: Record<string, string> = {
+  annual: '/yr',
+  semi_annual: '/yr',
+  quarterly: '/yr',
+  monthly: '/yr',
+  multi_year: '',
+  ongoing: '',
+};
+
+export function creditAmountLabel(value: number, frequency: string, valueUnit?: string): string {
+  if (!value || value <= 0) return '';
+  // A `percent` benefit's value is a RATE, so it carries neither a dollar sign
+  // nor a per-year suffix — Samsung's 20%-off VIP membership rendered as
+  // "$20/yr" before this guard. Same class of bug as formatBenefitValue.
+  if (valueUnit === 'percent') return `${value.toLocaleString()}%`;
+  if (valueUnit === 'points' || valueUnit === 'miles') {
+    return `${value.toLocaleString()} ${valueUnit}${CREDIT_FREQUENCY_SUFFIX[frequency] ?? ''}`;
+  }
+  return `$${value.toLocaleString()}${CREDIT_FREQUENCY_SUFFIX[frequency] ?? ''}`;
+}
