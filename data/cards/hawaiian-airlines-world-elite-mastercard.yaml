@@ -57,7 +57,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Anniversary Companion Discount"
-    value: 100
+    value: 0
     description: "$100 companion discount for a roundtrip flight between Hawaii and North America each account anniversary"
     frequency: "annual"
     category: "travel"

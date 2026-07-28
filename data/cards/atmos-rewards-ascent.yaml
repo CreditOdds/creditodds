@@ -55,7 +55,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Alaska Lounge+ Membership Discount"
-    value: 100
+    value: 0
     description: "$100 off an annual Alaska Lounge+ membership purchased with the card"
     frequency: "annual"
     category: "lounge"
