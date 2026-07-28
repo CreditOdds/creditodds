@@ -78,7 +78,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "Companion Pass Statement Credits"
-    value: 2000
+    value: 0
     description: "Up to $500 companion pass statement credit after $15,000 in eligible purchases in a calendar year, plus an additional up to $1,500 companion pass statement credit after $75,000 in eligible purchases in a calendar year"
     frequency: "annual"
     category: "travel"
