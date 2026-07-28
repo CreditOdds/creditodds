@@ -42,7 +42,7 @@ benefits:
     category: "travel"
     enrollment_required: true
   - name: "Dell Technologies Credit"
-    value: 1150
+    value: 150
     description: "Up to $150 back on U.S. Dell purchases, plus another $1,000 after $5,000 in annual Dell spend"
     frequency: "annual"
     category: "shopping"
@@ -143,13 +143,13 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Amex Travel Flight Credits"
-    value: 1200
+    value: 0
     description: "Up to $1,200 in statement credits toward flights booked through Amex Travel in the next calendar year after spending $250,000 on the card in a calendar year"
     frequency: "annual"
     category: "travel"
     enrollment_required: false
   - name: "One AP Statement Credits"
-    value: 2400
+    value: 0
     description: "Up to $2,400 in One AP statement credits in the next calendar year after spending $250,000 on the card in a calendar year"
     frequency: "annual"
     category: "other"

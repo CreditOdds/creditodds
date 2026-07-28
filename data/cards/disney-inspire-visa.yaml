@@ -13,7 +13,7 @@ benefits:
     frequency: "annual"
     category: "entertainment"
   - name: "Disney Resorts & Cruise Line Bonus"
-    value: 200
+    value: 0
     description: "200 Disney Rewards Dollars after spending $2,000 each anniversary year at U.S. Disney Resorts and Disney Cruise Line"
     frequency: "annual"
     category: "travel"
