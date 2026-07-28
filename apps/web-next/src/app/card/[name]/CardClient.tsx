@@ -1206,12 +1206,12 @@ export default function CardClient({
               </div>
 
               <div>
-                <div className="cj-table-label">Statement credits</div>
+                <div className="cj-table-label">Credits &amp; rebates</div>
                 {creditBenefits.length > 0 ? (
                   <table className="cj-table">
                     <thead>
                       <tr>
-                        <th>Credit</th>
+                        <th>Benefit</th>
                         <th className="cj-tr">Value</th>
                       </tr>
                     </thead>
@@ -1234,7 +1234,7 @@ export default function CardClient({
                         <tr className="cj-row-total">
                           <td>
                             <span className="cj-row-total-label">
-                              Total annual value
+                              Total annual credits
                             </span>
                           </td>
                           <td className="cj-tr">
@@ -1248,7 +1248,7 @@ export default function CardClient({
                   </table>
                 ) : (
                   <div className="cj-cell-detail">
-                    No statement credits tracked.
+                    No credits or rebates tracked.
                   </div>
                 )}
               </div>

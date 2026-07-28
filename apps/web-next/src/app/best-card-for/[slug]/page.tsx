@@ -6,6 +6,7 @@ import { getAllStores, getStore, getStoresGeneratedAt } from "@/lib/stores";
 import { getAllCards } from "@/lib/api";
 import { rankCards, formatRate, labelForCategory } from "@/lib/storeRanking";
 import { getRelatedStores } from "@/lib/relatedStores";
+import { creditAmountLabel } from "@/lib/cardDisplayUtils";
 import { BreadcrumbSchema, FAQSchema, CollectionPageSchema } from "@/components/seo/JsonLd";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
@@ -76,24 +77,6 @@ const CATEGORY_TAG_LABELS: Record<string, string> = {
 function tagLabelForCategory(id: string): string {
   return CATEGORY_TAG_LABELS[id]
     || id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-}
-
-// Cadence suffix for a credit amount. A benefit's `value` is always the annual
-// rollup (see CardBenefit in lib/api.ts — value_per_cycle holds the per-cycle
-// figure), so every recurring frequency renders "/yr"; a $10/month credit is
-// stored as value: 120 and shows "$120/yr", not "$120/mo".
-const CREDIT_FREQUENCY_SUFFIX: Record<string, string> = {
-  annual: '/yr',
-  semi_annual: '/yr',
-  quarterly: '/yr',
-  monthly: '/yr',
-  multi_year: '',
-  ongoing: '',
-};
-
-function creditAmountLabel(value: number, frequency: string): string {
-  if (!value || value <= 0) return '';
-  return `$${value.toLocaleString()}${CREDIT_FREQUENCY_SUFFIX[frequency] ?? ''}`;
 }
 
 export default async function BestCardForStorePage({ params }: PageProps) {
@@ -230,14 +213,14 @@ export default async function BestCardForStorePage({ params }: PageProps) {
               </h2>
             </div>
             <p className="store-credits-sub">
-              These cards include a statement credit or complimentary membership you can use at{' '}
+              These cards include a statement credit, rebate, or complimentary membership you can use at{' '}
               {store.name}, on top of whatever you earn on the purchase. Weigh these alongside the
               ranked picks below.
             </p>
             {dollarCredits.length > 0 && (
               <ul className="store-credits-list">
                 {dollarCredits.map(({ card, benefit }) => {
-                  const amount = creditAmountLabel(benefit.value, benefit.frequency);
+                  const amount = creditAmountLabel(benefit.value, benefit.frequency, benefit.value_unit);
                   return (
                     <li key={`${card.slug}-${benefit.name}`} className="store-credit">
                       <Link

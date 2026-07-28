@@ -50,7 +50,7 @@ export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) 
                   Credits &amp; Perks
                 </p>
                 <p className="mt-2 text-sm sm:text-base text-gray-600">
-                  Annual statement credits and benefits included with the {cardName}.
+                  Annual credits, rebates and perks included with the {cardName}.
                 </p>
               </div>
               <div className="mt-4 sm:mt-0 flex-shrink-0 text-center sm:text-right">
