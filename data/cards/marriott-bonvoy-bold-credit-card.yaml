@@ -91,3 +91,8 @@ our_take: >
   that requires enrollment. Overall, this card is best suited for Marriott
   enthusiasts who want to earn rewards on hotel stays without the burden of an
   annual fee.
+signup_bonus:
+  value: 60000
+  type: "points"
+  spend_requirement: 1000
+  timeframe_months: 3

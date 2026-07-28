@@ -466,6 +466,110 @@ test('check_ignore suppresses an intro APR field', () => {
   assert.deepEqual(fieldsChanged(changes), ['apr.balance_transfer_intro.months']);
 });
 
+// ─── signup_bonus additions on a card that stores no block ──────────────────
+//
+// Before this path existed the diff required `current.signup_bonus`, so a card
+// that had never carried an offer could never gain one — Marriott Bonvoy Bold's
+// live 60,000-point offer was invisible on every run.
+
+const NO_BONUS = { data: { name: 'Marriott Bonvoy Bold', annual_fee: 0 } };
+
+// pageShowsSignupOffer(null) returns true, so tests that don't care about the
+// rendered-page gate can omit pageContent. This one exercises the gate directly.
+const BOLD_OFFER_PAGE =
+  'Earn 60,000 bonus points after you spend $1,000 on purchases in your first 3 months from account opening.';
+
+console.log('\nsignup_bonus additions (card stores no signup_bonus):');
+
+test('a new offer on a card with no signup_bonus block surfaces every subfield', () => {
+  const changes = detectChanges(
+    NO_BONUS,
+    {
+      signup_bonus: { value: 60000, type: 'points', spend_requirement: 1000, timeframe_months: 3 },
+    },
+    new Date(),
+    [],
+    BOLD_OFFER_PAGE
+  );
+  assert.deepEqual(fieldsChanged(changes), [
+    'signup_bonus.spend_requirement',
+    'signup_bonus.timeframe_months',
+    'signup_bonus.type',
+    'signup_bonus.value',
+  ]);
+  const value = changes.find(c => c.field === 'signup_bonus.value');
+  assert.equal(value.old_value, null);
+  assert.equal(value.new_value, 60000);
+});
+
+test('subfields the page did not state are left out rather than written as null', () => {
+  const changes = detectChanges(NO_BONUS, {
+    signup_bonus: { value: 100, type: 'cashback', spend_requirement: null, timeframe_months: null },
+  });
+  assert.deepEqual(fieldsChanged(changes), ['signup_bonus.type', 'signup_bonus.value']);
+  // "cashback" is the prompt's spelling; YAML stores "cash".
+  assert.equal(changes.find(c => c.field === 'signup_bonus.type').new_value, 'cash');
+});
+
+test('a page with no rendered offer body cannot manufacture a block', () => {
+  const changes = detectChanges(
+    NO_BONUS,
+    { signup_bonus: { value: 60000, type: 'points' } },
+    new Date(),
+    [],
+    'Earn 3X points at restaurants. Welcome Offer Loading...'
+  );
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('value 0 or null means "still no public offer", not an addition', () => {
+  for (const value of [0, null, undefined]) {
+    const changes = detectChanges(NO_BONUS, {
+      signup_bonus: { value, type: 'points', spend_requirement: 1000, timeframe_months: 3 },
+    });
+    assert.deepEqual(fieldsChanged(changes), [], `value ${value} should add nothing`);
+  }
+});
+
+test('an addition with no type is rejected — the unit is not inferable', () => {
+  const changes = detectChanges(NO_BONUS, {
+    signup_bonus: { value: 60000, type: null, spend_requirement: 1000 },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('an authorized-user bonus becomes the templated note', () => {
+  const changes = detectChanges(NO_BONUS, {
+    signup_bonus: { value: 60000, type: 'points', authorized_user_bonus: 10000 },
+  });
+  assert.equal(
+    changes.find(c => c.field === 'signup_bonus.note').new_value,
+    'Plus 10,000 bonus points for adding an authorized user'
+  );
+});
+
+test('a raw day count is converted to months on the way in', () => {
+  const changes = detectChanges(NO_BONUS, {
+    signup_bonus: { value: 60000, type: 'points', spend_requirement: 1000, timeframe_months: 90 },
+  });
+  assert.equal(changes.find(c => c.field === 'signup_bonus.timeframe_months').new_value, 3);
+});
+
+test('check_ignore: "signup_bonus" opts a card out of additions entirely', () => {
+  const ignored = { data: { ...NO_BONUS.data, check_ignore: ['signup_bonus'] } };
+  const changes = detectChanges(ignored, {
+    signup_bonus: { value: 60000, type: 'points', spend_requirement: 1000 },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a card that already stores a signup_bonus still takes the update path', () => {
+  const changes = detectChanges(WORLD_OF_HYATT, {
+    signup_bonus: { value: 60000, spend_requirement: 15000, timeframe_months: 6 },
+  });
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
 // ─── annual_fee: first-year-waiver misread + check_ignore ───────────────────
 
 // Citi AAdvantage pattern: ongoing $99, waived the first 12 months. The fee is

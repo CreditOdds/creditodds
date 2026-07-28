@@ -65,3 +65,7 @@ apr:
   regular:
     min: 26.74
     max: 34.74
+signup_bonus:
+  value: 100
+  type: "cash"
+  note: "Awarded as $100 of Bilt Cash to spend across the Bilt ecosystem."

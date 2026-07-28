@@ -957,6 +957,75 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
     }
   }
 
+  // signup_bonus ADDITION — the card stores no signup_bonus block at all and the
+  // live page advertises a welcome offer. Handled on its own path because every
+  // guard in the update block below compares against a stored value that does not
+  // exist here.
+  //
+  // Until now the diff required `current.signup_bonus`, so a card that had never
+  // carried an offer could never gain one: a genuinely new SUB stayed invisible on
+  // every run, not just one. Three cards were sitting in that blind spot when this
+  // was found (Marriott Bonvoy Bold's 60,000-point offer, Chase Freedom Student's
+  // $25 autopay credit, Bilt Blue's $100 Bilt Cash). Same false-negative class as
+  // the signup_bonus.type that went undiffed until #1711 — a check that cannot
+  // report a field is worse than one that reports it noisily, because the silence
+  // looks identical to "nothing changed".
+  //
+  // The APR block below keeps its equivalent gate deliberately: intro-APR wording
+  // is easy to misparse, so inventing an offer there is a live risk. A welcome
+  // offer is stated plainly on the page, and two conditions keep this honest:
+  //   - the page must actually render a welcome-offer BODY (pageShowsSignupOffer),
+  //     so a JS-gated page that returned placeholders cannot manufacture a block;
+  //   - the extracted value must be a positive number. Per the YAML convention a
+  //     card with no public offer omits signup_bonus entirely, and a gated offer is
+  //     value: 0 on a card that ALREADY stores the block (#1579) — neither of those
+  //     is an addition, so a null or 0 here means "still no offer".
+  //
+  // KNOWN BLIND SPOT: pageShowsSignupOffer keys on spend language ("after you spend
+  // $X") anchored to a new-account window, so a welcome offer with NO spend
+  // requirement is invisible to it — Chase Freedom Rise's "$25 for enrolling in
+  // automatic payments in the first 3 months" reads as no offer at all. Loosening
+  // the gate is not the fix: it is the same function the tier guards rely on, and
+  // the header-label alternatives it deliberately rejects (Amex ships "Welcome
+  // Offer" above a "Loading" body, #1590) would make it lie in the other direction.
+  // Spend-free welcome offers stay a manual catch. Freedom Rise's $25 is already
+  // stored as a one_time benefit, which is the other reasonable home for them.
+  if (extracted.signup_bonus && !current.signup_bonus) {
+    const sb = extracted.signup_bonus;
+    if (sb.timeframe_months != null) {
+      sb.timeframe_months = normalizeTimeframeMonths(sb.timeframe_months);
+    }
+    const type = normalizeBonusType(sb.type);
+
+    if (
+      typeof sb.value === 'number' &&
+      sb.value > 0 &&
+      type != null &&
+      pageShowsSignupOffer(pageContent) &&
+      !ignoreFields.has('signup_bonus')
+    ) {
+      // An authorized-user bonus becomes the templated note, matching the update
+      // path; otherwise fall back to the extractor's own bonus_note.
+      const note =
+        sb.authorized_user_bonus != null
+          ? `Plus ${sb.authorized_user_bonus.toLocaleString()} bonus ${type} for adding an authorized user`
+          : sb.bonus_note;
+
+      const additions = [
+        ['value', sb.value],
+        ['type', type],
+        ['spend_requirement', sb.spend_requirement],
+        ['timeframe_months', sb.timeframe_months],
+        ['note', note],
+      ];
+      for (const [key, value] of additions) {
+        const field = `signup_bonus.${key}`;
+        if (value === null || value === undefined || ignoreFields.has(field)) continue;
+        changes.push({ field, old_value: null, new_value: value });
+      }
+    }
+  }
+
   // signup_bonus subfields — only compare if the card already has a signup_bonus
   if (extracted.signup_bonus && current.signup_bonus) {
     const sb = extracted.signup_bonus;
