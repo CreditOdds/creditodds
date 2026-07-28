@@ -289,7 +289,7 @@ You are a meticulous data curator for CreditOdds. From the r/CreditCards candida
 - **result**: \`approved\` or \`denied\`.
 - **credit_score**: the score the poster cites for the application.
 - **credit_score_source**: 0 = FICO/unspecified (the default), 1 = Experian FICO, 2 = TransUnion FICO, 3 = Equifax FICO, 4 = VantageScore (also use 4 for Credit Karma scores — Credit Karma is VantageScore).
-- **listed_income**: annual income in whole dollars when stated ("$85k" → 85000). Convert monthly ("$7k/month" → 84000). Omit when unstated or ambiguous. Household vs personal: use what the poster says they put on the application; omit if unclear.
+- **listed_income**: annual income in whole dollars when stated ("$85k" → 85000). Convert monthly ("$7k/month" → 84000). Bounded-but-imprecise figures record the bound rather than being dropped: an open-ended floor takes the floor ("$250k+", "at least $250k", "250k or more" → 250000) and a range takes its lower bound ("$80-90k" → 80000). Both understate by a known direction, which is more useful than losing the field. Still omit when income is unquantified ("six figures", "good income", "comfortable") or when household vs personal is unclear — for that split, use what the poster says they put on the application.
 - **length_credit**: years of credit history, nearest whole year ("18 months" → 2). Omit when unstated.
 - **starting_credit_limit**: approvals only, whole dollars ("SL $10k" → 10000). Omit when unstated.
 - **total_open_cards**: open credit cards at time of application. Do NOT confuse with "cards opened in the last 24 months" (that is velocity, not open cards). Omit when unclear.
