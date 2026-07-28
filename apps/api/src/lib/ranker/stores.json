@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-25T17:37:22.559Z",
+  "generated_at": "2026-07-28T18:15:39.962Z",
   "count": 956,
   "stores": [
     {
@@ -5376,6 +5376,9 @@
         "groceries"
       ],
       "website": "https://www.heb.com",
+      "co_brand_cards": [
+        "heb-visa-signature"
+      ],
       "intro": "H-E-B is the dominant Texas supermarket chain, with about 425 stores under H-E-B,\nCentral Market, and Joe V's banners. The chain is privately held and well-regarded for\nstore-brand products and Texas-only specialty items. H-E-B codes as groceries on every\ncard we track and supports curbside pickup and delivery on most product lines.\n"
     },
     {
@@ -10287,6 +10290,9 @@
       ],
       "website": "https://www.samsclub.com",
       "parent_company": "Walmart, Inc.",
+      "co_brand_cards": [
+        "sams-club-mastercard"
+      ],
       "intro": "Sam's Club is Walmart's warehouse-club arm, with about 600 U.S. clubs and a steadily\ngrowing online and Scan & Go catalog. Member tiers (Club vs. Plus) affect free-shipping\nand curbside perks but not the rewards math at the register. Sam's accepts Visa,\nMastercard, Amex, and Discover, and Sam's Club gas pumps code as wholesale clubs rather\nthan gas stations — the same rule as Costco.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.38733.1007189514&trid=1552713.157929&foc=16&fot=9999&fos=6",
@@ -11490,9 +11496,13 @@
         "Target Corp"
       ],
       "categories": [
-        "online_shopping"
+        "online_shopping",
+        "target"
       ],
       "website": "https://www.target.com",
+      "co_brand_cards": [
+        "target-circle-card"
+      ],
       "also_earns": [
         {
           "card": "us-bank-shopper",
