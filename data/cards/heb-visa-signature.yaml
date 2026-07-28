@@ -1,0 +1,52 @@
+name: "H-E-B Visa Signature"
+bank: "First Electronic Bank"
+slug: "heb-visa-signature"
+image: "heb-visa-signature.png"
+accepting_applications: true
+annual_fee: 0
+apply_link: https://www.heb-credit.com/
+foreign_transaction_fee: false
+network: "visa"
+category: "cashback"
+reward_type: "cashback"
+tags:
+  - cashback
+  - shopping
+rewards:
+  - category: "groceries"
+    value: 5
+    unit: "percent"
+    note: "H-E-B and Central Market own-brand products in-store and on heb.com, plus Favor delivery orders; excludes pharmacy prescriptions, fuel, gift cards, and in-store restaurants"
+    merchant_specific: true
+    merchant_gate: [heb]
+  - category: "everything_else"
+    value: 1.5
+    unit: "percent"
+apr:
+  regular:
+    min: 17.24
+    max: 35.99
+benefits:
+  - name: "Visa Signature Benefits"
+    value: 0
+    description: "Visa Signature Concierge, Luxury Hotel Collection, rental car privileges, roadside dispatch, and travel and emergency assistance services"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Cash Back Never Expires"
+    value: 0
+    description: "Earned cash back does not expire for the life of the account"
+    frequency: "ongoing"
+    category: "other"
+our_take: >
+  The H-E-B Visa Signature, issued by First Electronic Bank and powered by
+  Imprint, is built for the Texas grocery faithful: 5% cash back on H-E-B and
+  Central Market own-brand products and on Favor delivery orders, with an
+  unlimited 1.5% on everything else. The own-brand catch matters, since
+  national brands in your H-E-B cart earn only the base rate, but H-E-B's
+  private labels are extensive and well-loved, so heavy shoppers can rack up
+  real money with no annual fee and no foreign transaction fees. There is
+  currently no welcome bonus, and the APR range stretches to a steep 35.99%
+  at the low end of approvals, so carry no balance. Note that the card is
+  only available to residents of Texas, Louisiana, Arkansas, Oklahoma, and
+  New Mexico. For anyone outside H-E-B country, a flat 2% card beats the
+  1.5% base rate.

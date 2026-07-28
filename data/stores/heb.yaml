@@ -6,6 +6,8 @@ aliases:
 categories:
   - groceries
 website: "https://www.heb.com"
+co_brand_cards:
+  - heb-visa-signature
 intro: |
   H-E-B is the dominant Texas supermarket chain, with about 425 stores under H-E-B,
   Central Market, and Joe V's banners. The chain is privately held and well-regarded for
