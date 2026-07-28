@@ -320,6 +320,7 @@ export function formatBonusValue(card: Card): string {
 export function formatBonusRequirement(card: Card): string {
   if (!card.signup_bonus) return '';
   const { spend_requirement, timeframe_months } = card.signup_bonus;
+  if (spend_requirement == null || timeframe_months == null) return '';
   return `after $${spend_requirement.toLocaleString()} in ${timeframe_months} month${timeframe_months !== 1 ? 's' : ''}`;
 }
 

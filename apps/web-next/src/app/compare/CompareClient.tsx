@@ -456,7 +456,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                   {/* Spend Requirement */}
                   <div className="flex justify-between px-4 py-2.5 text-sm">
                     <span className="text-gray-500 font-medium">Spend Requirement</span>
-                    {card.signup_bonus ? (
+                    {card.signup_bonus?.spend_requirement != null && card.signup_bonus.timeframe_months != null ? (
                       <span className="text-gray-900">${card.signup_bonus.spend_requirement.toLocaleString()} in {card.signup_bonus.timeframe_months} mo</span>
                     ) : (
                       <span className="text-gray-400">{'\u2014'}</span>
@@ -677,7 +677,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                 <td className="sticky left-0 z-10 bg-gray-50/50 px-4 py-3 text-sm font-medium text-gray-500">Spend Requirement</td>
                 {activeCards.map((card) => (
                   <td key={card.slug} className="px-4 py-3 text-center text-sm text-gray-900">
-                    {card.signup_bonus ? (
+                    {card.signup_bonus?.spend_requirement != null && card.signup_bonus.timeframe_months != null ? (
                       <span>
                         ${card.signup_bonus.spend_requirement.toLocaleString()} in {card.signup_bonus.timeframe_months} mo
                       </span>

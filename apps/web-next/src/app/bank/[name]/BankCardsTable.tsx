@@ -204,9 +204,11 @@ export default function BankCardsTable({ cards, trendingViews }: BankCardsTableP
                     return (
                       <div>
                         <div className="font-semibold text-gray-900">{valueStr}</div>
-                        <div className="text-xs text-gray-500">
-                          ${bonus.spend_requirement.toLocaleString()} in {bonus.timeframe_months}mo
-                        </div>
+                        {bonus.spend_requirement != null && bonus.timeframe_months != null && (
+                          <div className="text-xs text-gray-500">
+                            ${bonus.spend_requirement.toLocaleString()} in {bonus.timeframe_months}mo
+                          </div>
+                        )}
                       </div>
                     );
                   })()}
