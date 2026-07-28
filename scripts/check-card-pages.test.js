@@ -897,4 +897,134 @@ test('an empty or missing reason is not retried', () => {
   assert.equal(isTransientNetworkError(undefined), false);
 });
 
+// ─── signup_bonus ADDITIONS (card stores no block at all) ───────────────────
+//
+// Until this landed, detectChanges gated the whole signup_bonus diff on the
+// card ALREADY having a block, so a live welcome offer on a card without one
+// was invisible on every run forever — Marriott Bonvoy Bold's 60,000 points,
+// Freedom Rise's $25 autopay credit and Bilt Blue's $100 Bilt Cash all
+// extracted correctly on 2026-07-28 and were all dropped.
+
+console.log('\nsignup_bonus additions:');
+
+const NO_SUB_CARD = { data: { name: 'Marriott Bonvoy Bold', reward_type: 'points' } };
+// Real Chase Bold copy — carries both halves pageShowsSignupOffer requires.
+const BOLD_PAGE =
+  'NEW CARDMEMBER OFFER Earn 60,000 Bonus Points after spending $1,000 on ' +
+  'eligible purchases within 3 months of account opening.';
+
+test('a rendered offer on a card with no signup_bonus proposes the whole block', () => {
+  const changes = detectChanges(
+    NO_SUB_CARD,
+    { signup_bonus: { value: 60000, type: 'points', spend_requirement: 1000, timeframe_months: 3 } },
+    new Date(),
+    [],
+    BOLD_PAGE
+  );
+  assert.deepEqual(fieldsChanged(changes), [
+    'signup_bonus.spend_requirement',
+    'signup_bonus.timeframe_months',
+    'signup_bonus.type',
+    'signup_bonus.value',
+  ]);
+  assert.equal(changes.find(c => c.field === 'signup_bonus.value').new_value, 60000);
+  // Every addition reads as null → new, so the PR body renders it as an add.
+  assert.ok(changes.every(c => c.old_value === null));
+});
+
+test('spend_requirement 0 / timeframe 0 survive (on-approval bonuses like Bilt)', () => {
+  const changes = detectChanges(
+    { data: { name: 'Bilt Blue', reward_type: 'points' } },
+    { signup_bonus: { value: 100, type: 'cashback', spend_requirement: 0, timeframe_months: 0 } },
+    new Date(),
+    [],
+    BOLD_PAGE
+  );
+  const by = Object.fromEntries(changes.map(c => [c.field, c.new_value]));
+  assert.equal(by['signup_bonus.spend_requirement'], 0);
+  assert.equal(by['signup_bonus.timeframe_months'], 0);
+  // cashback normalizes to the YAML spelling used by the other 36 cash cards.
+  assert.equal(by['signup_bonus.type'], 'cash');
+});
+
+test('a page with no offer language proposes nothing', () => {
+  const changes = detectChanges(
+    NO_SUB_CARD,
+    { signup_bonus: { value: 60000, type: 'points', spend_requirement: 1000, timeframe_months: 3 } },
+    new Date(),
+    [],
+    'Earn 3X points at hotels participating in Marriott Bonvoy. $0 annual fee.'
+  );
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a null or zero extracted value cannot manufacture an empty block', () => {
+  for (const value of [null, 0]) {
+    const changes = detectChanges(
+      NO_SUB_CARD,
+      { signup_bonus: { value, type: 'points', spend_requirement: 1000, timeframe_months: 3 } },
+      new Date(),
+      [],
+      BOLD_PAGE
+    );
+    assert.deepEqual(fieldsChanged(changes), [], `value ${value} should propose nothing`);
+  }
+});
+
+test('type falls back to the card reward_type when the extractor omits it', () => {
+  const changes = detectChanges(
+    { data: { name: 'Chase Freedom Rise', reward_type: 'cashback' } },
+    { signup_bonus: { value: 25, spend_requirement: 0, timeframe_months: 3 } },
+    new Date(),
+    [],
+    BOLD_PAGE
+  );
+  assert.equal(changes.find(c => c.field === 'signup_bonus.type').new_value, 'cash');
+});
+
+test('bonus_note rides along on an addition (value always moves)', () => {
+  const changes = detectChanges(
+    NO_SUB_CARD,
+    {
+      signup_bonus: {
+        value: 60000, type: 'points', spend_requirement: 1000, timeframe_months: 3,
+        bonus_note: 'Limited-time offer',
+      },
+    },
+    new Date(),
+    [],
+    BOLD_PAGE
+  );
+  assert.equal(changes.find(c => c.field === 'signup_bonus.note').new_value, 'Limited-time offer');
+});
+
+test('check_ignore blocks an addition per-subfield and wholesale', () => {
+  const extracted = {
+    signup_bonus: { value: 60000, type: 'points', spend_requirement: 1000, timeframe_months: 3 },
+  };
+  const perField = detectChanges(
+    { data: { ...NO_SUB_CARD.data, check_ignore: ['signup_bonus.spend_requirement'] } },
+    extracted, new Date(), [], BOLD_PAGE
+  );
+  assert.ok(!fieldsChanged(perField).includes('signup_bonus.spend_requirement'));
+  assert.ok(fieldsChanged(perField).includes('signup_bonus.value'));
+
+  const wholesale = detectChanges(
+    { data: { ...NO_SUB_CARD.data, check_ignore: ['signup_bonus'] } },
+    extracted, new Date(), [], BOLD_PAGE
+  );
+  assert.deepEqual(fieldsChanged(wholesale), []);
+});
+
+test('a days-as-months timeframe is converted before it lands in YAML', () => {
+  const changes = detectChanges(
+    NO_SUB_CARD,
+    { signup_bonus: { value: 60000, type: 'points', spend_requirement: 1000, timeframe_months: 90 } },
+    new Date(),
+    [],
+    BOLD_PAGE
+  );
+  assert.equal(changes.find(c => c.field === 'signup_bonus.timeframe_months').new_value, 3);
+});
+
 console.log('');

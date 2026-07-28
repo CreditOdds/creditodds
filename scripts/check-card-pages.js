@@ -957,7 +957,9 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
     }
   }
 
-  // signup_bonus subfields — only compare if the card already has a signup_bonus
+  // signup_bonus subfields. Two paths: a DIFF when the card already stores a
+  // block (every guard below is a comparison against a known value), and an
+  // ADDITION when it doesn't — see the else-if at the end of this section.
   if (extracted.signup_bonus && current.signup_bonus) {
     const sb = extracted.signup_bonus;
     const cur = current.signup_bonus;
@@ -1226,6 +1228,73 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
       !ignoreFields.has('signup_bonus.note')
     ) {
       changes.push({ field: 'signup_bonus.note', old_value: cur.note, new_value: null });
+    }
+  } else if (extracted.signup_bonus && !current.signup_bonus) {
+    // ADDITION — the card stores no signup_bonus block at all and the page
+    // advertises a welcome offer. Before this branch existed the diff above was
+    // the only path, so a missing block meant the offer was invisible to the
+    // check FOREVER, not just for one run: Marriott Bonvoy Bold's 60,000-point
+    // offer, Freedom Rise's $25 autopay credit and Bilt Blue's $100 Bilt Cash
+    // were all extracted correctly on 2026-07-28 and all silently dropped. Same
+    // false-negative class as the signup_bonus.type gap fixed on #1711.
+    //
+    // The intro-APR block below keeps its own current.apr gate deliberately
+    // ("never invent an intro offer for a card without one") because APR wording
+    // is genuinely easy to misparse. A welcome offer isn't: it's stated plainly,
+    // and missing one is expensive — the SUB is the headline number on /compare,
+    // in wallet ranking and in every card_wire post.
+    //
+    // Guards, so an extractor null can't manufacture an empty block:
+    //   - the page must actually render an offer (pageShowsSignupOffer), the
+    //     same gate pageSaysFlat and the type diff use. On a JS-gated page the
+    //     extractor happily infers a plausible-sounding bonus from branding.
+    //   - a concrete positive value is required. value 0 is real data on an
+    //     EXISTING block (a publicly-gated offer, see #1579) but as an addition
+    //     it's indistinguishable from "this card has no bonus", which is exactly
+    //     what an absent block already means. Leave that one to a human.
+    // check_ignore is honored per subfield, plus a bare `signup_bonus` entry to
+    // opt a card out of additions wholesale.
+    const sb = extracted.signup_bonus;
+    if (sb.timeframe_months != null) {
+      sb.timeframe_months = normalizeTimeframeMonths(sb.timeframe_months);
+    }
+    const proposedType = normalizeBonusType(sb.type);
+
+    if (
+      pageShowsSignupOffer(pageContent) &&
+      sb.value != null &&
+      sb.value > 0 &&
+      !ignoreFields.has('signup_bonus')
+    ) {
+      const addField = (subfield, value) => {
+        // 0 is meaningful for spend_requirement/timeframe_months — an
+        // on-approval bonus with no minimum spend stores both as 0 (Bilt
+        // Obsidian, the Amazon instant gift cards). Only null/undefined skip.
+        if (value === null || value === undefined) return;
+        if (ignoreFields.has(`signup_bonus.${subfield}`)) return;
+        changes.push({ field: `signup_bonus.${subfield}`, old_value: null, new_value: value });
+      };
+
+      addField('value', sb.value);
+      // Fall back to the card's reward_type when the extractor doesn't name a
+      // unit. The unit is load-bearing downstream (card_wire refuses to diff
+      // across units, /compare reads cash as dollars), so a block that lands
+      // without one is worse than one that inherits the card's currency.
+      addField('type', proposedType ?? normalizeBonusType(current.reward_type));
+      addField('spend_requirement', sb.spend_requirement);
+      addField('timeframe_months', sb.timeframe_months);
+
+      if (sb.authorized_user_bonus != null) {
+        const bonusType = proposedType ?? normalizeBonusType(current.reward_type) ?? 'points';
+        addField(
+          'note',
+          `Plus ${sb.authorized_user_bonus.toLocaleString()} bonus ${bonusType} for adding an authorized user`
+        );
+      } else {
+        // The valueChanged gate the diff path uses to suppress boilerplate notes
+        // is satisfied by construction here — an addition always moves value.
+        addField('note', sb.bonus_note);
+      }
     }
   }
 

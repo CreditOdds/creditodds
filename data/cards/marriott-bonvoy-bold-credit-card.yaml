@@ -76,6 +76,11 @@ apr:
   regular:
     min: 19.24
     max: 27.74
+signup_bonus:
+  value: 60000
+  type: "points"
+  spend_requirement: 1000
+  timeframe_months: 3
 apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bold
 foreign_transaction_fee: false
 network: "visa"
