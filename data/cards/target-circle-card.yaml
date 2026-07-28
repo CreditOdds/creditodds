@@ -1,0 +1,57 @@
+name: "Target Circle Card"
+bank: "TD Bank"
+slug: "target-circle-card"
+image: "target-circle-card.png"
+accepting_applications: true
+annual_fee: 0
+apply_link: https://www.target.com/circlecard
+foreign_transaction_fee: false
+category: "cashback"
+reward_type: "cashback"
+tags:
+  - shopping
+  - cashback
+rewards:
+  - category: "target"
+    value: 5
+    unit: "percent"
+    note: "Instant 5% discount at Target stores and Target.com, including in-store Starbucks and Target subscriptions; excludes Target GiftCards, prescriptions, and some services. A Mastercard version issued to well-qualified applicants also earns 2% on gas and dining and 1% everywhere else outside Target."
+signup_bonus:
+  value: 50
+  type: "cash"
+  spend_requirement: 50
+  timeframe_months: 2
+  note: "$50 in Target Circle Rewards after spending $50 within 60 days of approval (recurring promotional offer)"
+apr:
+  regular:
+    min: 27.4
+    max: 27.4
+benefits:
+  - name: "Free 2-Day Shipping"
+    value: 0
+    description: "Free two-day shipping on hundreds of thousands of eligible items at Target.com"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Extended Returns"
+    value: 0
+    description: "An extra 30 days beyond the standard return window on Target purchases"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Target Circle 360 Discount"
+    value: 49
+    description: "50% off the $99 per year Target Circle 360 same-day delivery membership"
+    frequency: "annual"
+    category: "shopping"
+    enrollment_required: true
+our_take: >
+  The Target Circle Card, the renamed RedCard, keeps the pitch that made it
+  one of the most-held store cards in the country: an instant 5% discount on
+  nearly everything at Target and Target.com, taken at the register rather
+  than accrued as rewards. Free two-day shipping, an extra 30 days on
+  returns, and half off the Target Circle 360 membership sweeten the deal
+  for regulars. The base version is a closed-loop card that works only at
+  Target, though well-qualified applicants may be issued a Mastercard
+  version that earns 2% on gas and dining elsewhere. There is no annual fee,
+  so for anyone who shops Target weekly this is close to free money; just
+  avoid carrying a balance at the steep 27.4% APR, and look elsewhere if you
+  want one card for all your spending.

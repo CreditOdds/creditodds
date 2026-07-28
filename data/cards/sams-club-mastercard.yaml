@@ -1,0 +1,62 @@
+name: "Sam's Club Mastercard"
+bank: "Synchrony"
+slug: "sams-club-mastercard"
+image: "sams-club-mastercard.png"
+accepting_applications: true
+annual_fee: 0
+apply_link: https://www.samsclub.com/credit
+foreign_transaction_fee: false
+network: "mastercard"
+category: "cashback"
+reward_type: "cashback"
+tags:
+  - cashback
+  - shopping
+rewards:
+  - category: "gas"
+    value: 5
+    unit: "percent"
+    note: "Gas worldwide, including Sam's Club stations (first $6,000/year, then 1%)"
+    spend_cap: 6000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: "dining"
+    value: 3
+    unit: "percent"
+    note: "Dining and takeout"
+  - category: "wholesale_clubs"
+    value: 3
+    unit: "percent"
+    note: "Sam's Club purchases for Plus members (1% for Club-tier members); Plus membership separately adds 2% Sam's Cash on qualifying in-club purchases"
+    merchant_specific: true
+  - category: "everything_else"
+    value: 1
+    unit: "percent"
+    note: "Total card earnings capped at $5,000 Sam's Cash per calendar year"
+signup_bonus:
+  value: 30
+  type: "cash"
+  spend_requirement: 30
+  timeframe_months: 1
+  note: "$30 statement credit after $30 in Sam's Club purchases within the first 30 days; offer amount rotates periodically"
+apr:
+  regular:
+    min: 20.15
+    max: 28.15
+benefits:
+  - name: "Doubles as Membership Card"
+    value: 0
+    description: "The card functions as your Sam's Club membership card at the door and register"
+    frequency: "ongoing"
+    category: "shopping"
+our_take: >
+  The Sam's Club Mastercard is really a gas card wearing a warehouse club
+  badge: 5% back on the first $6,000 in fuel each year is among the best
+  pump rates anywhere, and 3% on dining is a solid add. At Sam's Club itself
+  the card earns 3% only for Plus members, who also get an extra 2% from the
+  membership itself, while basic Club members earn just 1%. Rewards accrue
+  as Sam's Cash, redeemable at Sam's Club or for cash at member services,
+  with total earnings capped at $5,000 per year. There is no annual fee
+  beyond the required Sam's Club membership, and unlike the store card it is
+  a full Mastercard usable anywhere. Costco loyalists have the Citi
+  equivalent; for Sam's shoppers who drive a lot, this one earns its keep.

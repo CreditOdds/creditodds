@@ -1,0 +1,131 @@
+name: "Delta SkyMiles Platinum Business American Express"
+bank: "American Express"
+slug: "delta-skymiles-platinum-business-american-express-card"
+image: "delta-skymiles-platinum-business-american-express-card.png"
+accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/delta-skymiles-platinum-business-american-express-card/
+foreign_transaction_fee: false
+network: "amex"
+category: "business"
+annual_fee: 350
+reward_type: "miles"
+tags:
+  - business
+  - travel
+  - airline
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Delta purchases"
+    merchant_gate: [delta-air-lines]
+  - category: hotels
+    value: 3
+    unit: points_per_dollar
+    note: "Purchases made directly with hotels"
+  - category: transit
+    value: 1.5
+    unit: points_per_dollar
+    note: "Transit, U.S. shipping providers, and single eligible purchases of $5,000 or more; combined $100,000/year cap, then 1x"
+    spend_cap: 100000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: shipping
+    value: 1.5
+    unit: points_per_dollar
+    note: "U.S. shipping providers; combined $100,000/year cap with transit and large purchases, then 1x"
+    spend_cap: 100000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 70000
+  type: "miles"
+  spend_requirement: 6000
+  timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
+benefits:
+  - name: "Companion Certificate"
+    value: 0
+    description: "Round-trip Delta Main Cabin companion certificate each year after card renewal, valid within the 48 contiguous states and to the Caribbean or Central America (taxes and fees from $22 to $250 apply)"
+    frequency: "annual"
+    category: "travel"
+  - name: "Delta Stays Credit"
+    value: 200
+    description: "Up to $200 back per year on prepaid hotels or vacation rentals booked through Delta Stays on delta.com"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Resy Dining Credit"
+    value: 120
+    description: "Up to $10 in statement credits each month on eligible Resy purchases"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "Rideshare Credit"
+    value: 120
+    description: "Up to $10 in statement credits each month on U.S. rideshare purchases with select providers"
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "Free Checked Bags"
+    value: 0
+    description: "First checked bag free on Delta flights worldwide and second checked bag free on domestic Delta flights, for the cardmember and up to 8 companions on the same reservation"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "MQD Headstart"
+    value: 0
+    description: "$2,500 Medallion Qualification Dollars each Medallion Qualification Year toward Delta elite status"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "MQD Boost"
+    value: 0
+    description: "Earn $1 Medallion Qualification Dollar for every $20 in eligible purchases on the card"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "TakeOff 15"
+    value: 0
+    description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Statement credit every 4 years for the $120 Global Entry application fee or up to $85 for TSA PreCheck"
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "security"
+  - name: "Priority Boarding"
+    value: 0
+    description: "Zone 5 priority boarding on Delta flights for the cardmember and up to 8 companions"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "In-Flight Purchase Rebate"
+    value: 20
+    value_unit: "percent"
+    description: "20% statement credit on eligible Delta in-flight food and beverage purchases"
+    frequency: "per_purchase"
+    category: "dining"
+  - name: "Cell Phone Protection"
+    value: 800
+    description: "Up to $800 per claim (2 approved claims per 12 months, $50 deductible) when the prior month's wireless bill was paid with the card"
+    frequency: "per_claim"
+    category: "insurance"
+our_take: >
+  The Delta SkyMiles Platinum Business American Express hits the sweet spot
+  for businesses that fly Delta regularly but do not need lounge access. The
+  annual Main Cabin companion certificate can single-handedly justify the
+  $350 fee, and the June 2026 refresh added a free second checked bag on
+  domestic flights on top of the existing first-bag benefit for up to nine
+  travelers. Earning is Delta-centric at 3 miles per dollar on Delta and
+  direct hotel purchases, with 1.5 miles on transit, U.S. shipping, and large
+  purchases of $5,000 or more. Up to $440 in annual Delta Stays, Resy, and
+  rideshare credits offsets most of the fee for those who use them, and the
+  $2,500 MQD headstart plus an MQD boost on every purchase make it a genuine
+  status-building tool. Skip it only if you never fly Delta or you want Sky
+  Club access, which requires the Reserve Business.

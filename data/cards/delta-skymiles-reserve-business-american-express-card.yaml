@@ -1,0 +1,126 @@
+name: "Delta SkyMiles Reserve Business American Express"
+bank: "American Express"
+slug: "delta-skymiles-reserve-business-american-express-card"
+image: "delta-skymiles-reserve-business-american-express-card.png"
+accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/delta-skymiles-reserve-business-american-express-card/
+foreign_transaction_fee: false
+network: "amex"
+category: "business"
+annual_fee: 650
+reward_type: "miles"
+tags:
+  - business
+  - travel
+  - airline
+  - premium
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Delta purchases"
+    merchant_gate: [delta-air-lines]
+  - category: transit
+    value: 1.5
+    unit: points_per_dollar
+    note: "Eligible transit, U.S. shipping, and U.S. office supply stores"
+  - category: shipping
+    value: 1.5
+    unit: points_per_dollar
+    note: "U.S. shipping providers"
+  - category: office_supplies
+    value: 1.5
+    unit: points_per_dollar
+    note: "U.S. office supply stores"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+    note: "All purchases earn 1.5x after $150,000 in eligible purchases in a calendar year"
+signup_bonus:
+  value: 80000
+  type: "miles"
+  spend_requirement: 12000
+  timeframe_months: 6
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
+benefits:
+  - name: "Companion Certificate"
+    value: 0
+    description: "Round-trip companion certificate each year after card renewal, valid in Delta First, Delta Premium Select, Delta Comfort+, or Main Cabin within the 48 contiguous states and to the Caribbean or Central America (taxes and fees from $22 to $250 apply)"
+    frequency: "annual"
+    category: "travel"
+  - name: "Delta Sky Club Access"
+    value: 0
+    description: "15 Delta Sky Club visits per Medallion Year; unlimited access after $75,000 in purchases in a calendar year"
+    frequency: "annual"
+    category: "lounge"
+  - name: "Centurion Lounge Access"
+    value: 0
+    description: "Complimentary access to American Express Centurion Lounges when flying Delta on a same-day ticket purchased with the card"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Delta Stays Credit"
+    value: 250
+    description: "Up to $250 back per year on prepaid hotels or vacation rentals booked through Delta Stays on delta.com"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Resy Dining Credit"
+    value: 240
+    description: "Up to $20 in statement credits each month on eligible Resy purchases"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+  - name: "Rideshare Credit"
+    value: 120
+    description: "Up to $10 in statement credits each month on U.S. rideshare purchases with select providers"
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "MQD Headstart"
+    value: 0
+    description: "$2,500 Medallion Qualification Dollars each Medallion Qualification Year toward Delta elite status"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "MQD Boost"
+    value: 0
+    description: "Earn $1 Medallion Qualification Dollar for every $10 in eligible purchases on the card"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: false
+  - name: "Free Checked Bags"
+    value: 0
+    description: "First checked bag free on Delta flights worldwide and second checked bag free on domestic Delta flights, for the cardmember and up to 8 companions on the same reservation"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "TakeOff 15"
+    value: 0
+    description: "15% off Delta award flights when booking through delta.com or the Fly Delta app"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Statement credit every 4 years for the $120 Global Entry application fee or up to $85 for TSA PreCheck"
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "security"
+  - name: "Priority Boarding and Upgrades"
+    value: 0
+    description: "Zone 5 priority boarding, and unaccompanied cardmembers are added to the complimentary upgrade list"
+    frequency: "ongoing"
+    category: "travel"
+our_take: >
+  The Delta SkyMiles Reserve Business American Express is Delta's flagship
+  business card, built around lounge access and elite status. It includes 15
+  Delta Sky Club visits per year with unlimited access unlocked at $75,000 in
+  annual spend, Centurion Lounge access when flying Delta, and the strongest
+  MQD accelerator of any Delta card at $1 per $10 spent on top of a $2,500
+  annual headstart. The annual companion certificate now covers Delta First
+  and Premium Select, which can be worth far more than the $650 fee on a
+  single trip. Up to $610 in Delta Stays, Resy, and rideshare credits helps
+  close the gap for those who use them. Earning outside Delta purchases is
+  thin at 1x to 1.5x, so this card is about perks and status rather than
+  everyday rewards; businesses that just want miles should choose the
+  Platinum Business version instead.

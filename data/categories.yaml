@@ -55,6 +55,8 @@ categories:
     label: Rakuten.com
   - id: rakuten_dining
     label: Rakuten Dining
+  - id: target
+    label: Target
   - id: office_supplies
     label: Office Supplies
   - id: phone

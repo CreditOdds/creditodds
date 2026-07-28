@@ -37,6 +37,7 @@ export const categoryLabels: Record<string, string> = {
   entertainment_portal: "Entertainment (via Portal)",
   amazon: "Amazon.com",
   rei: "REI",
+  target: "Target",
   playstation: "PlayStation",
   rakuten: "Rakuten.com",
   rakuten_dining: "Rakuten Dining",
