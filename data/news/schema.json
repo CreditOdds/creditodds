@@ -13,6 +13,11 @@
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
       "description": "Date in YYYY-MM-DD format"
     },
+    "updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Date of the last substantive update in YYYY-MM-DD format (optional). Shown as an 'Updated' date on the article and used for dateModified in structured data. Sorting still uses date."
+    },
     "title": {
       "type": "string",
       "minLength": 1,
