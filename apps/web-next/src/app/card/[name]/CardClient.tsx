@@ -497,7 +497,12 @@ export default function CardClient({
       cpp && typeof sb.value === "number"
         ? Math.round((sb.value * cpp) / 100)
         : null;
-    const sub = `After $${sb.spend_requirement.toLocaleString()} in ${sb.timeframe_months} mo${cashEquiv ? ` · ≈ $${cashEquiv.toLocaleString()}` : ""}`;
+    const subParts: string[] = [];
+    if (sb.spend_requirement != null && sb.timeframe_months != null) {
+      subParts.push(`After $${sb.spend_requirement.toLocaleString()} in ${sb.timeframe_months} mo`);
+    }
+    if (cashEquiv) subParts.push(`≈ $${cashEquiv.toLocaleString()}`);
+    const sub = subParts.join(" · ");
     return { value, sub };
   }, [card.card_name, card.signup_bonus]);
 

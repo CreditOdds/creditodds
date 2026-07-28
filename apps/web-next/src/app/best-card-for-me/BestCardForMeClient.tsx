@@ -1168,8 +1168,10 @@ function RecCardRow({ rec }: { rec: Recommendation }) {
         {rec.blurb && <p className="bcfm-rec-blurb">{rec.blurb}</p>}
         {c.signup_bonus && c.signup_bonus.value > 0 && (
           <p className="bcfm-rec-sub">
-            Bonus: {c.signup_bonus.value.toLocaleString()} {c.signup_bonus.type} after $
-            {c.signup_bonus.spend_requirement.toLocaleString()} in {c.signup_bonus.timeframe_months} mo
+            Bonus: {c.signup_bonus.value.toLocaleString()} {c.signup_bonus.type}
+            {c.signup_bonus.spend_requirement != null && c.signup_bonus.timeframe_months != null && (
+              <> after ${c.signup_bonus.spend_requirement.toLocaleString()} in {c.signup_bonus.timeframe_months} mo</>
+            )}
           </p>
         )}
         {rec.categories.length > 0 && (

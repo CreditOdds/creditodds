@@ -42,7 +42,7 @@ function buildMetaDescription(card: Card): string {
     const valStr = sb.type === 'cash'
       ? `$${sb.value.toLocaleString()}`
       : `${sb.value.toLocaleString()} ${sb.type.replace(/_/g, ' ')}`;
-    const reqStr = sb.spend_requirement
+    const reqStr = sb.spend_requirement && sb.timeframe_months
       ? ` after $${sb.spend_requirement.toLocaleString()} in ${sb.timeframe_months}mo`
       : '';
     facts.push(`a ${valStr} signup bonus${reqStr}`);

@@ -73,8 +73,9 @@ export interface Reward {
 export interface SignupBonus {
   value: number;
   type: string;
-  spend_requirement: number;
-  timeframe_months: number;
+  // Some offers (e.g. Bilt Blue's $100 Bilt Cash) have no spend requirement.
+  spend_requirement?: number;
+  timeframe_months?: number;
   note?: string;
 }
 
