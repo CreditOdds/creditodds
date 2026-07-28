@@ -1,0 +1,124 @@
+name: "United Club Business"
+bank: "Chase"
+slug: "united-club-business"
+image: "united-club-business.png"
+accepting_applications: true
+category: "business"
+annual_fee: 695
+apply_link: https://creditcards.chase.com/business-credit-cards/united/united-club-business
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "miles"
+tags:
+  - business
+  - travel
+  - airline
+  - premium
+rewards:
+  - category: airlines
+    value: 2
+    unit: points_per_dollar
+    note: "United purchases"
+    merchant_gate: [united-airlines]
+  - category: hotels_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Hotels prepaid through Renowned Hotels and Resorts for United Cardmembers"
+  - category: everything_else
+    value: 1.5
+    unit: points_per_dollar
+signup_bonus:
+  value: 100000
+  type: "miles"
+  spend_requirement: 5000
+  timeframe_months: 3
+  note: "Plus 2,000 Premier qualifying points on meeting the spend requirement, and 10,000 additional miles for adding an employee card in the first 3 months"
+apr:
+  regular:
+    min: 19.74
+    max: 28.24
+benefits:
+  - name: "United Club Membership"
+    value: 0
+    description: "United Club All Access membership for the primary cardmember (over $750 annual value); employee cardholders receive four United Club one-time passes each year"
+    frequency: "ongoing"
+    category: "lounge"
+  - name: "Free First and Second Checked Bags"
+    value: 0
+    description: "First and second checked bags free for the cardmember and one companion on the same reservation when the ticket is purchased with the card"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Premier Access"
+    value: 0
+    description: "Priority check-in, security screening where available, boarding, and baggage handling"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Renowned Hotels Credit"
+    value: 200
+    description: "Up to $200 per anniversary year on prepaid United Hotels (Renowned Hotels) stays"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Rideshare Credit"
+    value: 150
+    description: "$12 in monthly rideshare credits January through November and $18 in December each calendar year"
+    frequency: "annual"
+    category: "rideshare"
+    enrollment_required: true
+  - name: "Instacart Credit and Membership"
+    value: 240
+    description: "Up to $20 in monthly Instacart credits plus a complimentary Instacart+ membership, through December 31, 2027"
+    frequency: "annual"
+    category: "shopping"
+    enrollment_required: true
+    merchants:
+      - instacart
+  - name: "Avis / Budget Credit"
+    value: 100
+    description: "$50 per rental booked through cars.united.com, up to twice per anniversary year"
+    frequency: "annual"
+    category: "travel"
+  - name: "JSX Credit"
+    value: 200
+    description: "Up to $200 per anniversary year on JSX flight purchases"
+    frequency: "annual"
+    category: "travel"
+  - name: "FareLock Credit"
+    value: 50
+    description: "Up to $50 per anniversary year toward FareLock fare holds"
+    frequency: "annual"
+    category: "travel"
+  - name: "PQP Boost"
+    value: 0
+    description: "Automatic 1,500 Premier qualifying points each year, plus 1 PQP per $15 spent on the card (up to 28,000 PQP per calendar year)"
+    frequency: "annual"
+    category: "travel"
+  - name: "Better Together Anniversary Miles"
+    value: 0
+    description: "5,000 bonus miles each anniversary when you also hold a personal United card"
+    frequency: "annual"
+    category: "travel"
+  - name: "Global Economy Plus Upgrades"
+    value: 0
+    description: "Two global Economy Plus seat upgrades after $40,000 in purchases in a calendar year"
+    frequency: "annual"
+    category: "travel"
+  - name: "25% Back on Inflight Purchases"
+    value: 25
+    value_unit: "percent"
+    description: "25% back as a statement credit on United inflight food, beverage, and Wi-Fi purchases and United Club premium drinks"
+    frequency: "per_purchase"
+    category: "travel"
+our_take: >
+  The United Club Business card is the lounge card: its headline benefit is a
+  full United Club All Access membership, worth more than $750 a year on its
+  own, plus free first and second checked bags and Premier Access at the
+  airport. Earning is a simple 2 miles per dollar on United purchases and a
+  strong 1.5 miles on everything else, and card spend generates Premier
+  qualifying points at the fastest clip of any United business card, with an
+  automatic 1,500 PQP boost each year. Chase piles on over $900 in annual
+  partner credits across Renowned Hotels, rideshare, Instacart, Avis and
+  Budget, JSX, and FareLock, which can offset much of the $695 fee for
+  businesses that use them. If you would buy a United Club membership anyway,
+  this card effectively pays you to hold it; if lounge access is optional, the
+  standard United Business delivers most of the flying perks at a fraction of
+  the cost.

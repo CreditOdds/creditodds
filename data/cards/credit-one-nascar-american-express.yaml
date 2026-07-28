@@ -1,0 +1,50 @@
+name: "Credit One Bank NASCAR American Express"
+bank: "Credit One Bank"
+slug: "credit-one-nascar-american-express"
+image: "credit-one-nascar-american-express.png"
+accepting_applications: true
+annual_fee: 39
+apply_link: https://www.creditonebank.com/credit-cards/american-express-nascar
+foreign_transaction_fee: false
+network: "amex"
+category: "cashback"
+reward_type: "cashback"
+tags:
+  - cashback
+  - entertainment
+rewards:
+  - category: "everything_else"
+    value: 1
+    unit: "percent"
+apr:
+  regular:
+    min: 29.74
+    max: 29.74
+benefits:
+  - name: "NASCAR Card Designs"
+    value: 0
+    description: "NASCAR-branded card designs for racing fans"
+    frequency: "ongoing"
+    category: "entertainment"
+  - name: "Retail Protection"
+    value: 0
+    description: "Coverage for eligible items damaged or stolen within 90 days of purchase"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "American Express Offers"
+    value: 0
+    description: "Access to American Express Offers merchant deals"
+    frequency: "ongoing"
+    category: "shopping"
+our_take: >
+  The Credit One Bank NASCAR American Express is functionally the issuer's
+  Premier American Express wearing a firesuit: an unlimited 1% back on all
+  purchases, an annual fee of $0 to $39 depending on creditworthiness, and
+  Amex network extras like Retail Protection and American Express Offers.
+  The NASCAR branding is the actual product here, with racing card designs
+  for fans; past versions carried NASCAR.com discounts, so check current
+  terms if that matters to you. The rewards math is thin once any fee
+  applies, and the 29.74% APR rules out carrying a balance. Fans of the
+  sport with average credit get a serviceable card with the right logo on
+  it; everyone else should compare Credit One's own no-fee Omni card or a
+  mainstream starter card first.

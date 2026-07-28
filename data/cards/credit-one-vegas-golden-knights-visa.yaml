@@ -1,0 +1,57 @@
+name: "Credit One Bank Vegas Golden Knights Visa"
+bank: "Credit One Bank"
+slug: "credit-one-vegas-golden-knights-visa"
+image: "credit-one-vegas-golden-knights-visa.png"
+accepting_applications: true
+annual_fee: 39
+apply_link: https://www.creditonebank.com/credit-cards/vegas-golden-knights-visa
+foreign_transaction_fee: false
+network: "visa"
+category: "cashback"
+reward_type: "cashback"
+tags:
+  - cashback
+  - entertainment
+rewards:
+  - category: "gas"
+    value: 1
+    unit: "percent"
+  - category: "groceries"
+    value: 1
+    unit: "percent"
+    note: "Excludes warehouse clubs, discount supercenters like Walmart and Target, and drugstores"
+  - category: "phone"
+    value: 1
+    unit: "percent"
+    note: "Mobile phone service"
+  - category: "tv_internet_streaming"
+    value: 1
+    unit: "percent"
+    note: "Internet, cable, and satellite TV services"
+apr:
+  regular:
+    min: 29.74
+    max: 29.74
+benefits:
+  - name: "Vegas Golden Knights Card Designs"
+    value: 0
+    description: "Vegas Born card designs for Golden Knights fans"
+    frequency: "ongoing"
+    category: "entertainment"
+  - name: "Team Deals and Experiences"
+    value: 0
+    description: "Access to exclusive Vegas Golden Knights deals, discounts, and experiences"
+    frequency: "ongoing"
+    category: "entertainment"
+our_take: >
+  The Credit One Bank Vegas Golden Knights Visa is a fan card first and a
+  rewards card second. It earns 1% back on gas, groceries, mobile phone, and
+  TV services, nothing elsewhere, and its annual fee ranges from $0 to $99
+  depending on creditworthiness, with rebuilding-tier applicants paying the
+  most. What you are really buying is the Vegas Born card design and access
+  to team deals and experiences, which is a fair trade only for the
+  committed faithful. The card's one structural virtue is accessibility: it
+  accepts applicants across the credit spectrum, from rebuilding through
+  excellent. As with every Credit One product, the 29.74% APR means pay in
+  full or pay dearly. Non-fans, and even most fans, will get more from the
+  NHL Discover it, which donates its rewards logic to the whole league.

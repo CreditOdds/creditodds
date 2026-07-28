@@ -4,7 +4,10 @@ aliases:
   - "Target Corp"
 categories:
   - online_shopping
+  - target
 website: "https://www.target.com"
+co_brand_cards:
+  - target-circle-card
 also_earns:
   - card: us-bank-shopper
     rate: 6

@@ -1,0 +1,68 @@
+name: "Hilton Honors American Express Business"
+bank: "American Express"
+slug: "hilton-honors-american-express-business-card"
+image: "hilton-honors-american-express-business-card.png"
+accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/hilton-honors-business/
+foreign_transaction_fee: false
+network: "amex"
+category: "business"
+annual_fee: 195
+reward_type: "points"
+tags:
+  - business
+  - hotel
+  - travel
+rewards:
+  - category: hotels
+    value: 12
+    unit: points_per_dollar
+    note: "Purchases made directly with hotels and resorts in the Hilton portfolio"
+    merchant_specific: true
+    merchant_gate: [hilton]
+  - category: everything_else
+    value: 5
+    unit: points_per_dollar
+    note: "First $100,000 in purchases per calendar year, then 3x"
+    spend_cap: 100000
+    cap_period: annual
+    rate_after_cap: 3
+signup_bonus:
+  value: 130000
+  type: "points"
+  spend_requirement: 8000
+  timeframe_months: 6
+  note: "Limited-time offer through July 29, 2026, which also waives the annual fee for the first year"
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
+benefits:
+  - name: "Hilton Credit"
+    value: 240
+    description: "Up to $60 back each quarter on purchases made directly with a property in the Hilton portfolio"
+    frequency: "quarterly"
+    category: "hotel"
+  - name: "Gold Status"
+    value: 0
+    description: "Complimentary Hilton Honors Gold status with room upgrades when available, daily food and beverage credit or continental breakfast, and an 80% bonus on base points"
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: true
+  - name: "Diamond Status Through Spend"
+    value: 0
+    description: "Upgrade to Hilton Honors Diamond status after $40,000 in eligible purchases in a calendar year"
+    frequency: "ongoing"
+    category: "hotel"
+our_take: >
+  The Hilton Honors American Express Business is a straightforward earner for
+  businesses that sleep at Hilton properties: 12x points on Hilton purchases
+  and a strong 5x on everything else up to $100,000 a year, which makes it one
+  of the highest flat earn rates of any business card when measured in Hilton
+  points. Up to $240 in quarterly Hilton credits and complimentary Gold status
+  do the work of offsetting the $195 annual fee, and big spenders can unlock
+  Diamond status at $40,000 in a calendar year. The notable gap is that,
+  unlike the personal Surpass card, this card no longer offers a spend-based
+  Free Night Reward, so weigh that against the Surpass if you are choosing
+  between them. For a business with steady travel and supply spend that stays
+  loyal to Hilton, the points pile up fast.

@@ -1,0 +1,60 @@
+name: "Credit One Bank Platinum Visa for Rebuilding Credit"
+bank: "Credit One Bank"
+slug: "credit-one-platinum-visa-for-rebuilding-credit"
+image: "credit-one-platinum-visa-for-rebuilding-credit.png"
+accepting_applications: true
+annual_fee: 99
+annual_fee_intro:
+  value: 75
+  months: 12
+apply_link: https://www.creditonebank.com/credit-cards/platinum-visa-for-rebuilding-credit
+foreign_transaction_fee: false
+network: "visa"
+category: "other"
+reward_type: "cashback"
+tags:
+  - credit_builder
+  - cashback
+rewards:
+  - category: "gas"
+    value: 1
+    unit: "percent"
+  - category: "groceries"
+    value: 1
+    unit: "percent"
+    note: "Excludes warehouse clubs, discount supercenters like Walmart and Target, and drugstores"
+  - category: "phone"
+    value: 1
+    unit: "percent"
+    note: "Mobile phone service"
+  - category: "tv_internet_streaming"
+    value: 1
+    unit: "percent"
+    note: "Internet, cable, and satellite TV services"
+apr:
+  regular:
+    min: 29.74
+    max: 29.74
+benefits:
+  - name: "Credit Line Increase Reviews"
+    value: 0
+    description: "Regular account reviews for credit line increases"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Flexible Due Date"
+    value: 0
+    description: "Choose a new payment due date that fits your schedule"
+    frequency: "ongoing"
+    category: "other"
+our_take: >
+  The Credit One Bank Platinum Visa for Rebuilding Credit is one of the most
+  widely held subprime cards in the country, and its economics deserve a
+  clear-eyed look before applying. The $75 first-year fee is billed at
+  account opening and comes straight out of your credit line, so a $300
+  limit starts as roughly $225 of usable credit, and from year two the fee
+  rises to $99, charged at $8.25 per month. Rewards are a token 1% on gas,
+  groceries, phone, and TV services, and the 29.74% APR punishes any carried
+  balance. What you get in exchange is unsecured approval odds with damaged
+  credit and reporting to all three bureaus. If you can spare a deposit, a
+  no-fee secured card, including Credit One's own, builds credit at a
+  fraction of the cost.

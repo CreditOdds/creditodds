@@ -1,0 +1,85 @@
+name: "Capital One Venture X Business"
+bank: "Capital One"
+slug: "capital-one-venture-x-business"
+image: "capital-one-venture-x-business.png"
+accepting_applications: true
+category: "business"
+annual_fee: 395
+apply_link: https://www.capitalone.com/small-business/credit-cards/venture-x-business/
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "miles"
+tags:
+  - business
+  - travel
+  - premium
+  - rewards
+rewards:
+  - category: hotels_car_portal
+    value: 10
+    unit: points_per_dollar
+    note: "Hotels and rental cars booked through Capital One Business Travel"
+  - category: flights_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Flights and vacation rentals booked through Capital One Business Travel"
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+signup_bonus:
+  value: 150000
+  type: "miles"
+  spend_requirement: 30000
+  timeframe_months: 3
+  note: "Not available to existing or previous Capital One business cardholders"
+benefits:
+  - name: "Annual Travel Credit"
+    value: 300
+    description: "$300 credit each anniversary year, applied automatically for flights, hotels, and rental cars booked through Capital One Business Travel"
+    frequency: "annual"
+    category: "travel"
+  - name: "Anniversary Miles Bonus"
+    value: 0
+    description: "10,000 bonus miles on each account anniversary"
+    frequency: "annual"
+    category: "travel"
+  - name: "Airport Lounge Access"
+    value: 0
+    description: "Complimentary access for the primary cardholder to Capital One Lounges, Capital One Landings, and Priority Pass lounges (1,300+ worldwide); complimentary guest access unlocks after $75,000 in annual spend"
+    frequency: "ongoing"
+    category: "lounge"
+    enrollment_required: true
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 statement credit for Global Entry or TSA PreCheck application fee, once every 4 years"
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "security"
+  - name: "Hertz President's Circle Status"
+    value: 0
+    description: "Complimentary Hertz President's Circle elite status"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: true
+  - name: "Premier Collection Experience Credit"
+    value: 100
+    description: "$100 experience credit per booking at Premier Collection luxury hotels and vacation rentals, plus daily breakfast and room upgrades when available"
+    frequency: "per_stay"
+    category: "hotel"
+  - name: "Free Employee and Virtual Cards"
+    value: 0
+    description: "Unlimited employee and virtual cards at no additional cost, with spend controls; employee card purchases also earn 2x miles"
+    frequency: "ongoing"
+    category: "business"
+our_take: >
+  The Capital One Venture X Business takes the popular Venture X formula and
+  scales it for companies: a flat 2 miles per dollar on everything, 10x on
+  hotels and rental cars and 5x on flights booked through Capital One Business
+  Travel, and a massive 150,000-mile welcome offer for businesses that can put
+  $30,000 on the card in three months. The $300 annual travel credit and
+  10,000 anniversary miles effectively cancel out the $395 fee, making the
+  lounge access, Global Entry credit, and Hertz status close to free. Note
+  that this is a pay-in-full charge card with no preset spending limit, so
+  balances cannot be carried month to month, and complimentary guest lounge
+  access now requires $75,000 in annual spend. For a business with meaningful
+  travel volume, it is one of the strongest flat-earn travel cards available.

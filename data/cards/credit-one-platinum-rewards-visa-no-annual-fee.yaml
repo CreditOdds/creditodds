@@ -1,0 +1,52 @@
+name: "Credit One Bank Platinum Rewards Visa with No Annual Fee"
+bank: "Credit One Bank"
+slug: "credit-one-platinum-rewards-visa-no-annual-fee"
+image: "credit-one-platinum-rewards-visa-no-annual-fee.png"
+accepting_applications: true
+annual_fee: 0
+apply_link: https://www.creditonebank.com/credit-cards/platinum-no-fee
+foreign_transaction_fee: false
+network: "visa"
+category: "cashback"
+reward_type: "cashback"
+tags:
+  - cashback
+rewards:
+  - category: "gas"
+    value: 1
+    unit: "percent"
+  - category: "groceries"
+    value: 1
+    unit: "percent"
+    note: "Excludes warehouse clubs, discount supercenters like Walmart and Target, and drugstores"
+  - category: "phone"
+    value: 1
+    unit: "percent"
+    note: "Mobile phone service"
+  - category: "tv_internet_streaming"
+    value: 1
+    unit: "percent"
+    note: "Internet, cable, and satellite TV services"
+apr:
+  regular:
+    min: 29.74
+    max: 29.74
+benefits:
+  - name: "Flexible Due Date"
+    value: 0
+    description: "Choose a new payment due date that fits your schedule"
+    frequency: "ongoing"
+    category: "other"
+our_take: >
+  The Credit One Bank Platinum Rewards Visa with No Annual Fee is the
+  cheapest way into Credit One's unsecured lineup, and for that reason it is
+  the one to pick over the fee-charging Platinum variants if you qualify.
+  Rewards are limited to 1% back on gas, groceries, mobile phone, and
+  internet, cable, and satellite TV services, with nothing earned on other
+  purchases, and the usual exclusions apply at warehouse clubs, Walmart,
+  Target, and drugstores. Note that this card once earned 2% in these
+  categories and now earns 1%, so older reviews overstate it. With no annual
+  fee the card costs nothing to hold, but the 29.74% APR makes carrying a
+  balance expensive. It is a reasonable average-credit stepping stone;
+  mainstream no-fee cards from major issuers remain better once your score
+  allows.

@@ -1,0 +1,77 @@
+name: "Ink Business Premier"
+bank: "Chase"
+slug: "chase-ink-business-premier"
+image: "chase-ink-business-premier.png"
+accepting_applications: true
+category: "business"
+annual_fee: 195
+apply_link: https://creditcards.chase.com/business-credit-cards/ink/premier
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "cashback"
+tags:
+  - business
+  - cashback
+  - rewards
+rewards:
+  - category: travel_portal
+    value: 5
+    unit: percent
+    note: "Travel booked through Chase Travel"
+  - category: transit
+    value: 5
+    unit: percent
+    note: "On Lyft rides through September 30, 2027 (limited-time promo)"
+    expires: "2027-09-30"
+    merchant_gate: [lyft]
+  - category: everything_else
+    value: 2
+    unit: percent
+    note: "2.5% on purchases of $5,000 or more per transaction"
+signup_bonus:
+  value: 1000
+  type: "cash"
+  spend_requirement: 10000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 17.74
+    max: 28.49
+benefits:
+  - name: "Cell Phone Protection"
+    value: 1000
+    description: "Up to $1,000 per claim (3 claims per 12 months, $100 deductible) when the monthly phone bill is paid with the card"
+    frequency: "per_claim"
+    category: "insurance"
+  - name: "Purchase Protection"
+    value: 0
+    description: "Covers new purchases for 120 days against damage or theft, up to $10,000 per item"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Extended Warranty"
+    value: 0
+    description: "Extends eligible U.S. manufacturer warranties of three years or less by an additional year"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Auto Rental Collision Damage Waiver"
+    value: 0
+    description: "Primary coverage up to $60,000 when renting for business purposes"
+    frequency: "ongoing"
+    category: "insurance"
+  - name: "Employee Cards"
+    value: 0
+    description: "Employee cards at no additional cost"
+    frequency: "ongoing"
+    category: "business"
+our_take: >
+  The Ink Business Premier is built for businesses with big invoices: every
+  purchase earns 2% cash back, purchases of $5,000 or more earn 2.5%, and
+  travel booked through Chase Travel earns 5%. The $1,000 welcome bonus after
+  $10,000 in spend is one of the largest flat-cash bonuses on any business
+  card, and cell phone protection plus primary rental coverage add practical
+  value. The catch is flexibility: this is a pay-in-full card (balances can
+  only revolve through Chase's Flex for Business feature), and its rewards
+  cannot be pooled with other Ink or Sapphire cards or transferred to Chase's
+  travel partners, so points maximizers should look at the Ink Business
+  Preferred instead. For a high-spend business that just wants cash back, the
+  $195 annual fee pays for itself quickly.

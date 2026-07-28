@@ -6,6 +6,8 @@ categories:
   - wholesale_clubs
 website: "https://www.samsclub.com"
 parent_company: "Walmart, Inc."
+co_brand_cards:
+  - sams-club-mastercard
 intro: |
   Sam's Club is Walmart's warehouse-club arm, with about 600 U.S. clubs and a steadily
   growing online and Scan & Go catalog. Member tiers (Club vs. Plus) affect free-shipping

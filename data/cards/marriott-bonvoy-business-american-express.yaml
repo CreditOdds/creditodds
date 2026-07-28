@@ -1,0 +1,91 @@
+name: "Marriott Bonvoy Business American Express"
+bank: "American Express"
+slug: "marriott-bonvoy-business-american-express"
+image: "marriott-bonvoy-business-american-express.png"
+accepting_applications: true
+apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/marriott-bonvoy-business/
+foreign_transaction_fee: false
+network: "amex"
+category: "business"
+annual_fee: 125
+reward_type: "points"
+tags:
+  - business
+  - hotel
+  - travel
+rewards:
+  - category: hotels
+    value: 6
+    unit: points_per_dollar
+    note: "Hotels participating in Marriott Bonvoy"
+    merchant_specific: true
+    merchant_gate: [marriott]
+  - category: dining
+    value: 4
+    unit: points_per_dollar
+    note: "Restaurants worldwide"
+  - category: gas
+    value: 4
+    unit: points_per_dollar
+    note: "U.S. gas stations"
+  - category: phone
+    value: 4
+    unit: points_per_dollar
+    note: "Wireless telephone services purchased directly from U.S. providers"
+  - category: shipping
+    value: 4
+    unit: points_per_dollar
+    note: "U.S. shipping providers"
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+signup_bonus:
+  value: 125000
+  type: "points"
+  spend_requirement: 9000
+  timeframe_months: 6
+  note: "Earn 75,000 points after $6,000 in purchases, plus an additional 50,000 points after an additional $3,000 in purchases, within the first 6 months"
+apr:
+  regular:
+    min: 19.49
+    max: 28.49
+benefits:
+  - name: "Free Night Award"
+    value: 0
+    description: "One free night award each year after card renewal, valid for redemptions up to 35,000 points"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Second Free Night Award"
+    value: 0
+    description: "Earn an additional free night award (up to 35,000 points) after $60,000 in eligible purchases in a calendar year"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Gold Elite Status"
+    value: 0
+    description: "Complimentary Marriott Bonvoy Gold Elite status with room upgrades when available, 2 p.m. late checkout, and a 25% bonus on base points"
+    frequency: "ongoing"
+    category: "hotel"
+    enrollment_required: true
+  - name: "15 Elite Night Credits"
+    value: 0
+    description: "15 elite night credits each calendar year toward Marriott Bonvoy elite status"
+    frequency: "annual"
+    category: "hotel"
+  - name: "7% Room Rate Discount"
+    value: 7
+    value_unit: "percent"
+    description: "7% off eligible standard-rate bookings made directly with Marriott as a combined member and cardholder benefit"
+    frequency: "ongoing"
+    category: "hotel"
+our_take: >
+  The Marriott Bonvoy Business American Express is an easy card to justify for
+  any business that stays at Marriott properties even a few nights a year. The
+  annual free night award, worth up to 35,000 points, typically covers a room
+  that costs more than the $125 annual fee on its own, and a second free night
+  unlocks at $60,000 in annual spend. Earning is well matched to business
+  spending, with 6x points at Marriott hotels and 4x on dining, U.S. gas,
+  wireless service, and shipping. Complimentary Gold Elite status, 15 elite
+  night credits, and a 7% discount on standard-rate direct bookings deepen the
+  Marriott relationship further. The tiered welcome offer of up to 125,000
+  points is substantial, though it takes $9,000 in spend over six months to
+  collect it all.

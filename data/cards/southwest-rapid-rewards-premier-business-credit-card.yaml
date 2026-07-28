@@ -1,0 +1,105 @@
+name: "Southwest Rapid Rewards Premier Business"
+bank: "Chase"
+slug: "southwest-rapid-rewards-premier-business-credit-card"
+image: "southwest-rapid-rewards-premier-business-credit-card.png"
+accepting_applications: true
+category: "business"
+annual_fee: 149
+apply_link: https://creditcards.chase.com/business-credit-cards/southwest/premier-business
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "points"
+tags:
+  - business
+  - travel
+  - airline
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Southwest Airlines purchases"
+    merchant_gate: [southwest-airlines]
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+    note: "Gas stations and restaurants (combined $8,000/year cap with dining)"
+    spend_cap: 8000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+    note: "Gas stations and restaurants (combined $8,000/year cap with gas)"
+    spend_cap: 8000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: transit
+    value: 2
+    unit: points_per_dollar
+    note: "Local transit and commuting, including rideshare"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 60000
+  type: "points"
+  spend_requirement: 3000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 19.24
+    max: 27.74
+benefits:
+  - name: "Anniversary Points"
+    value: 0
+    description: "6,000 bonus points each cardmember anniversary"
+    frequency: "annual"
+    category: "travel"
+  - name: "Free First Checked Bag"
+    value: 0
+    description: "First checked bag free for the cardmember and up to eight additional passengers on the same reservation"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Seat Selection"
+    value: 0
+    description: "Complimentary Standard or Preferred seat selection within 48 hours of departure, when available"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Group 5 Boarding"
+    value: 0
+    description: "Group 5 boarding for the cardmember and up to eight passengers on the same reservation"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "25% Back on Inflight Purchases"
+    value: 25
+    value_unit: "percent"
+    description: "25% back as a statement credit on inflight drinks and Wi-Fi"
+    frequency: "per_purchase"
+    category: "travel"
+  - name: "Tier Qualifying Points"
+    value: 0
+    description: "2,000 tier qualifying points toward A-List status for every $5,000 spent on the card"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Companion Pass Boost"
+    value: 0
+    description: "10,000 Companion Pass qualifying points each calendar year (these do not count toward flight redemptions)"
+    frequency: "annual"
+    category: "travel"
+  - name: "Employee Cards"
+    value: 0
+    description: "Employee cards at no additional cost with individual spending limits"
+    frequency: "ongoing"
+    category: "business"
+our_take: >
+  The Southwest Rapid Rewards Premier Business card is the workhorse option
+  for businesses loyal to Southwest, earning 3 points per dollar on Southwest
+  purchases and 2 points on gas, restaurants, and local commuting. The 60,000
+  point welcome offer covers a lot of domestic flying, and the 10,000
+  Companion Pass qualifying points each year give a meaningful head start
+  toward Southwest's most valuable perk. With Southwest now charging for
+  checked bags and assigned seating, the free first checked bag for up to
+  nine travelers and complimentary seat selection near departure carry real
+  weight against the $149 annual fee, and 6,000 anniversary points cover
+  most of the rest. Heavy spenders chasing A-List status or unlimited 2x
+  categories should step up to the Performance Business instead.
