@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { V2Footer } from '@/components/landing-v2/Chrome';
@@ -22,7 +22,6 @@ type FeeBucket = 'all' | 'free' | 'low' | 'mid' | 'high';
 type NetworkFilter = 'all' | 'visa' | 'mastercard' | 'amex' | 'discover';
 
 const NETWORKS: [NetworkFilter, string][] = [
-  // "Any" rather than "All" so this doesn't collide with the Type row's chip
   ['all', 'Any'],
   ['visa', 'Visa'],
   ['mastercard', 'Mastercard'],
@@ -30,11 +29,11 @@ const NETWORKS: [NetworkFilter, string][] = [
   ['discover', 'Discover'],
 ];
 
-const REWARD_TYPES: [RewardTypeFilter, string, string | null][] = [
-  ['all', 'All', null],
-  ['cashback', 'Cashback', '💵'],
-  ['points', 'Points', '✨'],
-  ['miles', 'Miles', '✈️'],
+const REWARD_TYPES: [RewardTypeFilter, string][] = [
+  ['all', 'All'],
+  ['cashback', 'Cashback'],
+  ['points', 'Points'],
+  ['miles', 'Miles'],
 ];
 
 const FEE_BUCKETS: [FeeBucket, string][] = [
@@ -44,6 +43,30 @@ const FEE_BUCKETS: [FeeBucket, string][] = [
   ['mid', '$100–$250'],
   ['high', 'Over $250'],
 ];
+
+// The four presets in the Sort menu. Column-header sorts can produce
+// combinations outside this list (e.g. bonus desc); sortLabel covers those.
+const SORT_CHOICES: { key: SortKey; dir: SortDir; label: string }[] = [
+  { key: 'trending', dir: 'desc', label: 'Trending' },
+  { key: 'approval', dir: 'desc', label: 'Best odds' },
+  { key: 'records', dir: 'desc', label: 'Most records' },
+  { key: 'fee', dir: 'asc', label: 'Lowest fee' },
+];
+
+function sortLabel(sort: SortKey, dir: SortDir): string {
+  switch (sort) {
+    case 'trending':
+      return 'Trending';
+    case 'records':
+      return 'Most records';
+    case 'approval':
+      return dir === 'desc' ? 'Best odds' : 'Lowest odds';
+    case 'fee':
+      return dir === 'asc' ? 'Lowest fee' : 'Highest fee';
+    case 'bonus':
+      return dir === 'desc' ? 'Biggest bonus' : 'Smallest bonus';
+  }
+}
 
 function feeMatchesBucket(fee: number | undefined, bucket: FeeBucket): boolean {
   if (bucket === 'all') return true;
@@ -81,14 +104,18 @@ function SortChevron({ active, dir }: { active: boolean; dir: SortDir }) {
   );
 }
 
-function IssuerDropdown({
-  banks,
-  selected,
-  onChange,
+function Facet({
+  label,
+  value,
+  set,
+  alignRight,
+  children,
 }: {
-  banks: { name: string; count: number }[];
-  selected: Set<string>;
-  onChange: (next: Set<string>) => void;
+  label: string;
+  value: string;
+  set?: boolean;
+  alignRight?: boolean;
+  children: (close: () => void) => ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -111,64 +138,93 @@ function IssuerDropdown({
     };
   }, [open]);
 
-  const label = selected.size === 0 ? 'Issuer' : `Issuer (${selected.size})`;
-
-  function toggle(bank: string) {
-    const next = new Set(selected);
-    if (next.has(bank)) next.delete(bank);
-    else next.add(bank);
-    onChange(next);
-  }
-
   return (
-    <div className="issuer-dropdown" ref={ref}>
+    <div className="facet" ref={ref}>
       <button
         type="button"
-        className={'filter-chip ' + (selected.size > 0 ? 'active' : '')}
+        className={'facet-btn' + (set ? ' set' : '')}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        aria-haspopup="listbox"
+        aria-haspopup="true"
       >
-        {label}
+        <span className="facet-k">{label}</span>
+        <span className="facet-v">{value}</span>
         <svg
-          width="10"
-          height="10"
-          viewBox="0 0 24 24"
+          width="9"
+          height="6"
+          viewBox="0 0 10 6"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.5"
+          strokeWidth="1.6"
           aria-hidden="true"
         >
-          <polyline points="6 9 12 15 18 9" />
+          <path d="m1 1 4 4 4-4" />
         </svg>
       </button>
       {open && (
-        <div className="issuer-panel" role="listbox">
-          {selected.size > 0 && (
-            <button
-              type="button"
-              className="issuer-clear"
-              onClick={() => onChange(new Set())}
-            >
-              Clear all
-            </button>
-          )}
-          <div className="issuer-options">
-            {banks.map((b) => (
-              <label key={b.name} className="issuer-option">
-                <input
-                  type="checkbox"
-                  checked={selected.has(b.name)}
-                  onChange={() => toggle(b.name)}
-                />
-                <span className="issuer-name">{b.name}</span>
-                <span className="issuer-count">{b.count}</span>
-              </label>
-            ))}
-          </div>
+        <div className={'facet-pop' + (alignRight ? ' right' : '')}>
+          {children(() => setOpen(false))}
         </div>
       )}
     </div>
+  );
+}
+
+function FacetOption({
+  selected,
+  count,
+  onSelect,
+  children,
+}: {
+  selected: boolean;
+  count?: number;
+  onSelect: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      className={'facet-opt' + (selected ? ' sel' : '')}
+      onClick={onSelect}
+    >
+      <svg
+        className="facet-ck"
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        aria-hidden="true"
+      >
+        <path d="m4 12 6 6L20 6" />
+      </svg>
+      <span className="facet-opt-label">{children}</span>
+      {count != null && <span className="facet-cnt">{count}</span>}
+    </button>
+  );
+}
+
+function FacetSwitch({
+  on,
+  onToggle,
+  children,
+}: {
+  on: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      className={'facet-switch' + (on ? ' on' : '')}
+      onClick={onToggle}
+      role="switch"
+      aria-checked={on}
+    >
+      <span className="tr" aria-hidden="true" />
+      {children}
+    </button>
   );
 }
 
@@ -349,6 +405,54 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [cards, includeArchived]);
 
+  // Per-option counts for the Network / Annual fee menus. Like banksList,
+  // these are counted against the archived-filtered pool only, so an option's
+  // number doesn't shift as other facets are toggled.
+  const facetCounts = useMemo(() => {
+    const pool = cards.filter((c) => includeArchived || c.accepting_applications);
+    const network: Record<NetworkFilter, number> = {
+      all: pool.length,
+      visa: 0,
+      mastercard: 0,
+      amex: 0,
+      discover: 0,
+    };
+    const fee: Record<FeeBucket, number> = {
+      all: pool.length,
+      free: 0,
+      low: 0,
+      mid: 0,
+      high: 0,
+    };
+    for (const c of pool) {
+      const n = c.network as NetworkFilter | undefined;
+      if (n && n !== 'all' && n in network) network[n]++;
+      for (const bucket of ['free', 'low', 'mid', 'high'] as FeeBucket[]) {
+        if (feeMatchesBucket(c.annual_fee, bucket)) fee[bucket]++;
+      }
+    }
+    return { network, fee };
+  }, [cards, includeArchived]);
+
+  function toggleBank(bank: string) {
+    setSelectedBanks((prev) => {
+      const next = new Set(prev);
+      if (next.has(bank)) next.delete(bank);
+      else next.add(bank);
+      return next;
+    });
+  }
+
+  const issuerValue =
+    selectedBanks.size === 0
+      ? 'All'
+      : selectedBanks.size === 1
+      ? [...selectedBanks][0]
+      : `${selectedBanks.size} selected`;
+
+  const moreCount =
+    (businessOnly ? 1 : 0) + (noForeignFeeOnly ? 1 : 0) + (includeArchived ? 1 : 0);
+
   const filtered = useMemo(() => {
     const q = query.trim();
     const pool = cards.filter((c) => {
@@ -501,104 +605,142 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
               </button>
             </div>
           </div>
-          <div className="filter-chip-row">
-            <span className="filter-group-label">Type</span>
-            {REWARD_TYPES.map(([k, l, emoji]) => (
-              <button
-                key={k}
-                type="button"
-                className={'filter-chip ' + (rewardType === k ? 'active' : '')}
-                onClick={() => setRewardType(k)}
-              >
-                {emoji && <span aria-hidden="true">{emoji}</span>}
-                {l}
-              </button>
-            ))}
-          </div>
-          <div className="filter-chip-row">
-            <span className="filter-group-label">Network</span>
-            {NETWORKS.map(([k, l]) => (
-              <button
-                key={k}
-                type="button"
-                className={'filter-chip ' + (network === k ? 'active' : '')}
-                onClick={() => setNetwork(k)}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-          <div className="filter-chip-row">
-            <span className="filter-group-label">Fee</span>
-            {FEE_BUCKETS.map(([k, l]) => (
-              <button
-                key={k}
-                type="button"
-                className={'filter-chip ' + (feeBucket === k ? 'active' : '')}
-                onClick={() => setFeeBucket(k)}
-              >
-                {l}
-              </button>
-            ))}
-            <IssuerDropdown
-              banks={banksList}
-              selected={selectedBanks}
-              onChange={setSelectedBanks}
-            />
-          </div>
-          <div className="filter-bottom-row">
-            <div className="filter-chip-row">
-              <span className="filter-group-label">Sort</span>
-              {(
-                [
-                  ['trending', 'Trending'],
-                  ['records', 'Records'],
-                ] as [SortKey, string][]
-              ).map(([k, l]) => (
+          <div className="explore-toolbar">
+            <span className="toolbar-label">Type</span>
+            <div className="seg-control" role="group" aria-label="Reward type">
+              {REWARD_TYPES.map(([k, l]) => (
                 <button
                   key={k}
                   type="button"
-                  className={'filter-chip ' + (sort === k ? 'active' : '')}
-                  onClick={() => setSort(k)}
+                  className={'seg-btn' + (rewardType === k ? ' on' : '')}
+                  onClick={() => setRewardType(k)}
+                  aria-pressed={rewardType === k}
                 >
                   {l}
                 </button>
               ))}
             </div>
-            <div className="filter-chip-row">
-              <span className="filter-group-label">Show</span>
-              <button
-                type="button"
-                className={'filter-chip ' + (businessOnly ? 'active' : '')}
-                onClick={() => setBusinessOnly((v) => !v)}
-              >
-                Business only
+            <span className="toolbar-vr" aria-hidden="true" />
+            <Facet
+              label="Network"
+              value={NETWORKS.find(([k]) => k === network)?.[1] ?? 'Any'}
+              set={network !== 'all'}
+            >
+              {(close) =>
+                NETWORKS.map(([k, l]) => (
+                  <FacetOption
+                    key={k}
+                    selected={network === k}
+                    count={facetCounts.network[k]}
+                    onSelect={() => {
+                      setNetwork(k);
+                      close();
+                    }}
+                  >
+                    {k === 'all' ? 'Any network' : l}
+                  </FacetOption>
+                ))
+              }
+            </Facet>
+            <Facet
+              label="Annual fee"
+              value={FEE_BUCKETS.find(([k]) => k === feeBucket)?.[1] ?? 'Any'}
+              set={feeBucket !== 'all'}
+            >
+              {(close) =>
+                FEE_BUCKETS.map(([k, l]) => (
+                  <FacetOption
+                    key={k}
+                    selected={feeBucket === k}
+                    count={facetCounts.fee[k]}
+                    onSelect={() => {
+                      setFeeBucket(k);
+                      close();
+                    }}
+                  >
+                    {k === 'all' ? 'Any fee' : k === 'free' ? 'No annual fee' : l}
+                  </FacetOption>
+                ))
+              }
+            </Facet>
+            <Facet label="Issuer" value={issuerValue} set={selectedBanks.size > 0}>
+              {() => (
+                <>
+                  {selectedBanks.size > 0 && (
+                    <button
+                      type="button"
+                      className="facet-clear"
+                      onClick={() => setSelectedBanks(new Set())}
+                    >
+                      Clear all
+                    </button>
+                  )}
+                  <div className="facet-scroll">
+                    {banksList.map((b) => (
+                      <label key={b.name} className="facet-check">
+                        <input
+                          type="checkbox"
+                          checked={selectedBanks.has(b.name)}
+                          onChange={() => toggleBank(b.name)}
+                        />
+                        <span className="facet-opt-label">{b.name}</span>
+                        <span className="facet-cnt">{b.count}</span>
+                      </label>
+                    ))}
+                  </div>
+                </>
+              )}
+            </Facet>
+            <Facet label="More" value={String(moreCount)} set={moreCount > 0}>
+              {() => (
+                <>
+                  <div className="facet-ph">Show</div>
+                  <FacetSwitch on={businessOnly} onToggle={() => setBusinessOnly((v) => !v)}>
+                    Business cards only
+                  </FacetSwitch>
+                  <FacetSwitch
+                    on={noForeignFeeOnly}
+                    onToggle={() => setNoForeignFeeOnly((v) => !v)}
+                  >
+                    No foreign transaction fee
+                  </FacetSwitch>
+                  <FacetSwitch
+                    on={includeArchived}
+                    onToggle={() => setIncludeArchived((v) => !v)}
+                  >
+                    Include archived cards
+                  </FacetSwitch>
+                </>
+              )}
+            </Facet>
+            <span className="toolbar-spacer" />
+            {hasActiveFilters && (
+              <button type="button" className="toolbar-clear" onClick={clearFilters}>
+                Clear
               </button>
-              <button
-                type="button"
-                className={'filter-chip ' + (noForeignFeeOnly ? 'active' : '')}
-                onClick={() => setNoForeignFeeOnly((v) => !v)}
-              >
-                No foreign fee
-              </button>
-              <button
-                type="button"
-                className={'filter-chip ' + (includeArchived ? 'active' : '')}
-                onClick={() => setIncludeArchived((v) => !v)}
-              >
-                Archived
-              </button>
-            </div>
+            )}
+            <span className="toolbar-count">
+              <b>{filtered.length.toLocaleString()}</b> card{filtered.length === 1 ? '' : 's'}
+            </span>
+            <Facet label="Sort" value={sortLabel(sort, sortDir)} alignRight>
+              {(close) =>
+                SORT_CHOICES.map((s) => (
+                  <FacetOption
+                    key={s.label}
+                    selected={sort === s.key && sortDir === s.dir}
+                    onSelect={() => {
+                      setSort(s.key);
+                      setSortDir(s.dir);
+                      close();
+                    }}
+                  >
+                    {s.label}
+                  </FacetOption>
+                ))
+              }
+            </Facet>
           </div>
         </div>
-
-        {hasActiveFilters && (
-          <div className="filter-results-bar">
-            <button type="button" className="filter-clear-btn" onClick={clearFilters}>
-              Clear filters
-            </button>
-          </div>
-        )}
 
         {filtered.length === 0 ? (
           <div
