@@ -1434,10 +1434,18 @@
 }
 .landing-v2.explore-v2 .filter-bar {
   border-bottom: 0;
-  padding-block: 0 16px;
+  padding-block: 0 6px;
 }
 .landing-v2.explore-v2 .card-table {
   border-radius: 0;
+}
+/* The toolbar's floating menus mean nothing pushes the table down, so the
+   old chip-era breathing room above it just reads as dead space. */
+.landing-v2.explore-v2 .card-table-wrap {
+  padding-top: 8px;
+}
+.landing-v2.explore-v2 .card-grid {
+  padding-top: 12px;
 }
 @media (max-width: 640px) {
   .landing-v2.explore-v2 .explore-hero {
