@@ -107,7 +107,7 @@ User-submitted credit card application results.
 | `card_id` | INT (FK) | References `cards.card_id` |
 | `submitter_id` | VARCHAR | Firebase UID |
 | `credit_score` | INT | 300–850 |
-| `credit_score_source` | INT | 0=Equifax, 1=Experian, 2=TransUnion, 3=other, 4=unknown |
+| `credit_score_source` | INT | 0=FICO (bureau unspecified), 1=FICO: Experian, 2=FICO: TransUnion, 3=FICO: Equifax, 4=VantageScore |
 | `result` | BOOLEAN | 1=approved, 0=denied |
 | `listed_income` | INT (nullable) | Annual income |
 | `length_credit` | INT | Years of credit history |
