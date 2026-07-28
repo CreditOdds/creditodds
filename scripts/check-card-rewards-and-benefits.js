@@ -482,7 +482,7 @@ Return ONLY valid JSON in this exact shape — no markdown, no commentary:
   "benefits": [
     {
       "name": "<short benefit name>",
-      "value": <number or 0 if perk has no monetary value>,
+      "value": <what the cardholder receives in a year for free — 0 for a perk with no monetary value, AND 0 for anything gated behind a spend threshold or a discretionary purchase. See "BENEFITS — what goes in value" below>,
       "value_unit": "usd" | "points" | "miles" | "percent",
       "description": "<one short sentence>",
       "frequency": "monthly" | "quarterly" | "semi_annual" | "annual" | "multi_year" | "ongoing" | "per_purchase" | "per_flight" | "per_trip" | "per_visit" | "per_rental" | "per_claim" | "one_time",
@@ -502,7 +502,8 @@ A benefit is a FREE thing of QUANTIFIABLE MONETARY VALUE that you get from
 holding this specific card. Examples of real benefits:
   - "$300 annual travel credit"
   - "Free checked bag for cardholder + 8 companions"
-  - "Companion certificate after $30K spend"
+  - "Companion certificate after $30K spend" (a real benefit, but value: 0 —
+    see rule 2 below)
   - "10,000 anniversary points each year"
   - "Free unlimited Priority Pass lounge access"
   - "Anniversary free night award (up to 35,000 points)"
@@ -514,6 +515,45 @@ When in doubt, UNDER-report. We'd rather miss a real benefit than list a
 non-benefit. Only include items you can clearly describe with either a
 dollar amount, a point/mile amount, a free count (e.g. "free first checked
 bag"), an elite status tier, or a clearly free recurring service.
+
+# BENEFITS — what goes in \`value\` (CRITICAL)
+\`value\` is what a typical cardholder RECEIVES IN A YEAR having done nothing
+but hold the card. It is summed into a "Total annual credits" figure shown to
+users, so a number that requires extra spending to unlock is a lie about the
+card. Four rules, all confirmed from real mistakes:
+
+1. CAPPED PERCENTAGE REBATE → put the RATE in \`value\` with
+   \`value_unit: "percent"\`. NEVER the cap. The cap is a maximum you reach
+   only by spending; it is not money you are given.
+     "10% back on concessions, up to \$250 per calendar year"
+       → value: 10, value_unit: "percent"    NOT value: 250
+     "20% savings on inflight purchases"
+       → value: 20, value_unit: "percent"
+   Keep the cap in \`description\` so the reader still sees it.
+
+2. UNLOCKED BY A SPEND THRESHOLD → \`value: 0\`. If the copy says "after
+   spending \$X", "after \$X in eligible purchases", or "after \$X in annual
+   purchases", the cardholder is buying it, not receiving it.
+     "\$200 flight credit after spending \$10,000 in a calendar year" → value: 0
+     "up to \$500 after \$15,000, plus \$1,500 more after \$75,000" → value: 0
+     "\$2,400 in credits after spending \$250,000 on the card"      → value: 0
+   Still list the benefit — the terms belong in \`description\`. Only \`value\`
+   is 0.
+
+3. DISCOUNT ON A DISCRETIONARY PURCHASE → \`value: 0\`. Money off something
+   you must choose to buy first is not an annual credit.
+     "\$100 off an annual Alaska Lounge+ membership"        → value: 0
+     "\$100 companion discount on a roundtrip ticket"       → value: 0
+     "50% off a companion fare", "discounted membership"    → value: 0
+   A credit against a bill you already pay is NOT this case: "\$10/month off
+   your AT&T wireless bill" is automatic, so value: 120 is correct.
+
+4. PART UNCONDITIONAL, PART GATED → \`value\` is ONLY the unconditional part.
+     "Up to \$150 back on Dell purchases, plus another \$1,000 after \$5,000
+      in annual Dell spend" → value: 150    NOT 1150, NOT 0
+
+If you cannot tell whether a threshold applies, use 0. Understating a credit
+is recoverable; overstating one reaches production as a false claim.
 
 # DO NOT INCLUDE — these are CARD FEATURES, not benefits
 - "Paperless Statements", "eStatements", "Digital Statements" — features.
@@ -1430,6 +1470,18 @@ function looksLikeSameByDescription(benefit, currentBenefits) {
   return null;
 }
 
+// True when a proposal claims a DOLLAR value that the copy also says must be
+// unlocked by spending. Points/miles are excluded: an "annual spend bonus" of
+// 20,000 points is a real modeled award, not a credits-total inflation.
+const SPEND_GATE_RE =
+  /after\s+(?:you\s+)?spend(?:ing)?\s+\$[\d,]+|after\s+\$[\d,]+\s+(?:or more\s+)?in\s+[a-z ]*(?:purchases|spend)\b|after\s+\$[\d,]+\s+annual/i;
+
+function isSpendGatedDollarValue(benefit) {
+  const isUsd = !benefit.value_unit || benefit.value_unit === 'usd';
+  if (!isUsd || !(benefit.value > 0)) return false;
+  return SPEND_GATE_RE.test(String(benefit.description || ''));
+}
+
 function diffBenefits(current, proposed, policy, removedFromThisCard, signupBonus) {
   // Each proposed benefit is routed by classifyBenefit(); only "auto" routes
   // into the YAML. Existing benefits aren't touched (the human curated those).
@@ -1468,6 +1520,22 @@ function diffBenefits(current, proposed, policy, removedFromThisCard, signupBonu
     // standing rule: "benefits are free things with VALUE, not features."
     if (!hasMonetaryValue(b)) {
       skipped.push({ ...b, tier: 'no_monetary_value' });
+      continue;
+    }
+    // Spend-gated dollar value — route to a human instead of auto-PRing.
+    //
+    // `value` feeds a "Total annual credits" figure, so a dollar amount you
+    // only reach by spending is a false claim about the card. Six of these
+    // were live at once (Amex Business Platinum $2,400 behind $250K of spend,
+    // JetBlue Premier $2,000 behind $75K — PRs #1809/#1810).
+    //
+    // Deliberately NOT auto-zeroed. The same phrasing covers entries where a
+    // number is right: Amex Business Platinum's Dell credit is $150
+    // unconditional plus $1,000 gated, and the Hawaiian/Atmos annual spend
+    // bonuses are point awards the team models with real values. Only a human
+    // can tell those apart, so this routes rather than rewrites.
+    if (isSpendGatedDollarValue(b)) {
+      review.push({ ...b, tier: 'spend_gated_value' });
       continue;
     }
     const tier = classifyBenefit(b.name, policy, removedFromThisCard);
@@ -1881,9 +1949,22 @@ function appendReviewEntries(card, reviewItems, rewardsDiff, ftxnDiff) {
       lines.push(`- \`${r.category}\`: ${r.value}${r.unit === 'percent' ? '%' : 'x'} (verify before removing)`);
     }
   }
-  if (benefits.length > 0) {
+  const spendGated = benefits.filter(b => b.tier === 'spend_gated_value');
+  const borderline = benefits.filter(b => b.tier !== 'spend_gated_value');
+  if (spendGated.length > 0) {
+    lines.push(`### Spend-gated dollar value — decide the number before adding`);
+    lines.push(
+      `<sub>\`value\` is summed into a "Total annual credits" figure, so it must be what a ` +
+      `cardholder gets for free. Use 0 when the whole amount is behind a spend threshold, or ` +
+      `just the unconditional part when only some of it is.</sub>`
+    );
+    for (const b of spendGated) {
+      lines.push(`- **${b.name}** (proposed \`value: ${b.value}\`) — ${b.description}`);
+    }
+  }
+  if (borderline.length > 0) {
     lines.push(`### Borderline benefits proposed (manual decision)`);
-    for (const b of benefits) {
+    for (const b of borderline) {
       lines.push(`- **${b.name}** — ${b.description}`);
     }
   }
@@ -2284,6 +2365,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  isSpendGatedDollarValue,
   editRewardCapFields,
   findRewardBlock,
   editRewardValue,
