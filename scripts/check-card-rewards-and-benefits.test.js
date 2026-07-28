@@ -14,6 +14,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yamlLib = require('js-yaml');
 const {
+  isSpendGatedDollarValue,
   editRewardValue,
   isBroaderThan,
   editRewardCapFields,
@@ -977,6 +978,40 @@ test('every standard insurance name is excluded, not borderline', () => {
 
 test('borderline is empty, so nothing is re-litigated weekly by default', () => {
   assert.deepEqual(POLICY_RAW.borderline || [], []);
+});
+
+// ─── Spend-gated dollar values ──────────────────────────────────────────────
+//
+// `value` feeds a "Total annual credits" figure, so a dollar amount unlocked
+// by spending is a false claim. Six were live at once (Amex Business Platinum
+// $2,400 behind $250K, JetBlue Premier $2,000 behind $75K). These route to a
+// human rather than being auto-zeroed, because the same phrasing covers
+// entries where a number is correct.
+console.log('\nspend-gated dollar values:');
+
+const gated = (description, value = 500, value_unit) =>
+  isSpendGatedDollarValue({ name: 'x', value, value_unit, description });
+
+test('catches the real cases that reached production', () => {
+  assert.equal(gated('Up to $500 companion pass statement credit after $15,000 in eligible purchases in a calendar year'), true);
+  assert.equal(gated('Up to $2,400 in One AP statement credits in the next calendar year after spending $250,000 on the card in a calendar year'), true);
+  assert.equal(gated('$200 Delta Flight Credit after spending $10,000 in purchases in a calendar year'), true);
+  assert.equal(gated('200 Disney Rewards Dollars after spending $2,000 each anniversary year'), true);
+});
+
+test('ignores point and mile awards, which are modeled with real values', () => {
+  // Hawaiian's annual spend bonuses are legitimately valued in points.
+  assert.equal(gated('20,000 bonus miles after $50,000 in purchases', 20000, 'points'), false);
+  assert.equal(gated('100,000 miles after spending $24,000', 100000, 'miles'), false);
+});
+
+test('ignores an unconditional credit', () => {
+  assert.equal(gated('$300 annual travel credit, applied automatically'), false);
+  assert.equal(gated('$10/line monthly discount on AT&T wireless bill'), false);
+});
+
+test('ignores a zero-valued perk even when the copy is gated', () => {
+  assert.equal(gated('Companion certificate after $30,000 in purchases', 0), false);
 });
 
 console.log('\nDone.\n');
