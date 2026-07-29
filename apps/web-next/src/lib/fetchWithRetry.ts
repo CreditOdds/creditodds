@@ -37,6 +37,22 @@ const backoffFor = (attempt: number, backoffMs: number) => {
 // Statuses that the Response constructor requires to have a null body.
 const NULL_BODY_STATUSES = new Set([204, 205, 304]);
 
+// During an App Router render, Next patches globalThis.fetch with a per-render
+// memoization layer (next/dist/server/lib/dedupe-fetch.js) that caches the FIRST
+// settled result of a GET per URL+options — including 500s and rejections. Without
+// an opt-out, every retry below would receive a clone of attempt 1's failure with
+// no network request, making the whole retry loop dead code inside renders (seen
+// in production 2026-07-28: the upstream Lambda logged exactly one 500, zero
+// retries followed, and the SSR render of /explore failed). Passing any
+// AbortSignal is dedupe-fetch's designed opt-out, so retry attempts attach a
+// fresh, never-aborting signal — unless the caller already supplied one, which
+// opts out of memoization by itself. The Next DATA cache (`next: { revalidate }`)
+// is a separate layer that ignores `signal` both in its cache key
+// (incremental-cache generateCacheKey) and when storing a 200 (patch-fetch.js),
+// so a retried success still populates ISR caching as before.
+const dedupeBypassInit = (init?: RequestInit): RequestInit =>
+  init?.signal ? init : { ...init, signal: new AbortController().signal };
+
 // Drain the body of a response we're about to throw away, so the underlying
 // socket goes back to the pool instead of waiting on the GC.
 //
@@ -66,7 +82,7 @@ export async function fetchWithRetry(
   let lastError: unknown;
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const res = await fetch(input, init);
+      const res = await fetch(input, attempt === 0 ? init : dedupeBypassInit(init));
 
       // Retry transient upstream failures (5xx), but never client errors (4xx).
       if (res.status >= 500 && attempt < retries) {
