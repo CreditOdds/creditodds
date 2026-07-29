@@ -16,7 +16,9 @@ const {
   hasPlausibleScore,
   rankForExpansion,
   fetchOpReplies,
+  expandOpReplies,
   buildExtractPrompt,
+  CAPS,
 } = require('./check-reddit-datapoints.js');
 
 // Queue every case, then run them in order — several stub global.fetch, so they
@@ -118,6 +120,36 @@ test('rankForExpansion puts scoreless outcome posts first and skips megathread c
   const ranked = rankForExpansion(candidates);
   assert.deepEqual(ranked.map((c) => c.id), ['t3_b', 't3_c', 't3_a']);
   assert.ok(!ranked.some((c) => c.kind === 'comment'), 'megathread comments must not be expanded');
+});
+
+// Slow by design (~16s): expandOpReplies spaces requests 8s apart and that
+// spacing is not stubbable. Guards a failure mode seen live on 2026-07-29,
+// where 2 of 3 comment feeds returned 429 and each cost a 61s backoff.
+testAsync('expandOpReplies gives up after consecutive failures instead of grinding', async () => {
+  const original = global.fetch;
+  let calls = 0;
+  // 500 rather than 429: redditRss retries a 429 after 61s, which would make
+  // this test unrunnable. Either way the fetch throws and the loop counts it.
+  global.fetch = async () => {
+    calls++;
+    return { ok: false, status: 500, text: async () => '' };
+  };
+  const candidates = Array.from({ length: 6 }, (_, i) => ({
+    id: `t3_p${i}`,
+    kind: 'post',
+    title: 'Denied for the CSP',
+    text: 'No score in the body.',
+    url: `https://www.reddit.com/r/CreditCards/comments/p${i}/x/`,
+  }));
+  try {
+    const result = await expandOpReplies(candidates);
+    assert.equal(calls, CAPS.abortAfterFailures, `expected ${CAPS.abortAfterFailures} requests before bailing, made ${calls}`);
+    assert.equal(result.attempted, CAPS.abortAfterFailures);
+    assert.equal(result.expanded, 0);
+    assert.ok(!candidates.some((c) => c.opReplies), 'no candidate should have gained replies');
+  } finally {
+    global.fetch = original;
+  }
 });
 
 test('buildExtractPrompt renders OP replies and documents how to read them', () => {
