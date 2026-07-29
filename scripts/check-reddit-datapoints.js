@@ -12,8 +12,13 @@
  * Phases:
  *   --phase=fetch   Pull candidate posts from r/CreditCards (new posts with
  *                   approval/denial signals, plus the current approval/data-
- *                   point megathread's comments when one exists). Drop
- *                   anything already recorded in .github/reddit-datapoint-state.json,
+ *                   point megathread's comments when one exists). For the most
+ *                   promising posts, also pull that post's comment feed and
+ *                   attach the OP's own replies — posters routinely leave the
+ *                   score or the outcome in a reply rather than the body, and
+ *                   the session cannot fetch Reddit itself (WebFetch is blocked
+ *                   for reddit.com), so it has to arrive here. Drop anything
+ *                   already recorded in .github/reddit-datapoint-state.json,
  *                   then write one self-contained extraction prompt to
  *                   .reddit-dp-work/extract-prompt.md.
  *
@@ -62,6 +67,12 @@ const CAPS = {
   threadComments: 60,
   bodyChars: 2500,
   totalCandidates: 60,
+  // OP-reply expansion. Each expanded post costs one extra Reddit request at 8s
+  // spacing, so the cap is what bounds the fetch phase's runtime (and our rate
+  // of unauthenticated requests) more than anything else.
+  expandPosts: 8,
+  opCommentsPerPost: 5,
+  opCommentChars: 600,
 };
 
 // Mirrors REASON_DENIED_CODES in apps/api/src/handlers/user-records.js.
@@ -163,9 +174,10 @@ function unescapeEntities(text) {
 }
 
 /**
- * Parse a Reddit Atom feed into {id, title, link, content, updated}.
+ * Parse a Reddit Atom feed into {id, title, link, content, updated, author}.
  * Unlike the news parser this keeps the entry <id> (the t3_/t1_ fullname —
- * our dedupe key) and <updated> (the DP's default application month).
+ * our dedupe key), <updated> (the DP's default application month), and the
+ * <author> name (how OP replies are told apart from everyone else's).
  */
 function parseAtom(xml) {
   const entries = [];
@@ -178,13 +190,16 @@ function parseAtom(xml) {
     const title = unescapeEntities(e.match(/<title>([\s\S]*?)<\/title>/)?.[1] || '').trim();
     const link = e.match(/<link[^>]*href="([^"]+)"/)?.[1] || '';
     const updated = e.match(/<updated>([\s\S]*?)<\/updated>/)?.[1]?.slice(0, 10) || '';
+    const author = unescapeEntities(e.match(/<author>[\s\S]*?<name>([\s\S]*?)<\/name>/)?.[1] || '')
+      .trim()
+      .replace(/^\/u\//, '');
     const rawContent = e.match(/<content[^>]*>([\s\S]*?)<\/content>/)?.[1] || '';
     // Content is XML-escaped HTML: unescape to HTML, strip tags, unescape again.
     const content = unescapeEntities(unescapeEntities(rawContent).replace(/<[^>]+>/g, ' '))
       .replace(/\s+/g, ' ')
       .trim();
     if (id && (title || content)) {
-      entries.push({ id, title, link: unescapeEntities(link), content, updated });
+      entries.push({ id, title, link: unescapeEntities(link), content, updated, author });
     }
   }
   return entries;
@@ -253,6 +268,77 @@ async function fetchMegathreadComments(seenIds) {
   };
 }
 
+// ── OP reply expansion ───────────────────────────────────────────────────────
+
+// A post body that already quotes a plausible FICO number is less likely to
+// need its comments read. Deliberately loose: this only orders the expansion
+// queue, it never excludes a post outright.
+function hasPlausibleScore(text) {
+  const matches = (text || '').match(/\b\d{3}\b/g) || [];
+  return matches.some((n) => Number(n) >= 300 && Number(n) <= 850);
+}
+
+const STRONG_OUTCOME_RE = /(approved|denied|rejected|instant.{0,12}(approval|decision)|got (the card|approved|denied))/i;
+
+// Posts most worth an extra request first: an outcome the OP describes but no
+// score in the body is exactly the case where the score sits in a reply.
+function rankForExpansion(candidates) {
+  return candidates
+    .filter((c) => c.kind === 'post' && /\/comments\//.test(c.url))
+    .map((c) => {
+      const body = `${c.title} ${c.text}`;
+      const priority = (hasPlausibleScore(body) ? 0 : 2) + (STRONG_OUTCOME_RE.test(body) ? 1 : 0);
+      return { candidate: c, priority };
+    })
+    .sort((a, b) => b.priority - a.priority)
+    .map((r) => r.candidate);
+}
+
+/**
+ * Fetch a post's comment feed and return the OP's own replies.
+ *
+ * The permalink feed's first entry is the post itself, which is what makes this
+ * reliable: it names the author we then filter comments by, so we never have to
+ * trust an author parsed out of a different feed.
+ */
+async function fetchOpReplies(candidate) {
+  const feedUrl = `${candidate.url.replace(/\/$/, '')}/.rss?sort=new&limit=100`;
+  const entries = parseAtom(await redditRss(feedUrl));
+  if (entries.length === 0) return [];
+  const op = entries[0].author;
+  if (!op) return [];
+  return entries
+    .slice(1)
+    .filter((c) => c.author === op)
+    .filter((c) => c.content && c.content.length >= 20)
+    .filter((c) => !/^\[(deleted|removed)\]$/i.test(c.content.trim()))
+    .slice(0, CAPS.opCommentsPerPost)
+    .map((c) => truncate(c.content, CAPS.opCommentChars));
+}
+
+// Mutates candidates in place, adding `opReplies` where any were found. Never
+// throws: a post whose comment feed fails just goes to the model without its
+// replies, exactly as before this expansion existed.
+async function expandOpReplies(candidates) {
+  const queue = rankForExpansion(candidates).slice(0, CAPS.expandPosts);
+  let expanded = 0;
+  let failures = 0;
+  for (const candidate of queue) {
+    await sleep(8000);
+    try {
+      const replies = await fetchOpReplies(candidate);
+      if (replies.length > 0) {
+        candidate.opReplies = replies;
+        expanded++;
+      }
+    } catch (err) {
+      failures++;
+      console.warn(`  ! OP replies for ${candidate.id} failed: ${err.message.split('\n')[0]}`);
+    }
+  }
+  return { attempted: queue.length, expanded, failures };
+}
+
 // ── Extraction prompt ────────────────────────────────────────────────────────
 
 function buildCardListSection(cards) {
@@ -270,6 +356,9 @@ function buildExtractPrompt({ candidates, cards }) {
       const lines = [`[${i + 1}] (${c.kind}, posted ${c.posted}, id ${c.id}) ${c.title}`];
       lines.push(`    URL: ${c.url}`);
       if (c.text && c.text !== c.title) lines.push(`    Text: ${c.text}`);
+      for (const reply of c.opReplies || []) {
+        lines.push(`    OP reply: ${reply}`);
+      }
       return lines.join('\n');
     })
     .join('\n\n');
@@ -284,6 +373,11 @@ You are a meticulous data curator for CreditOdds. From the r/CreditCards candida
 3. **A specific credit score**: 300–850. "742", "about 750" (use 750) qualify; "mid 700s", "good credit" do not.
 4. **A card in the catalog below**: match against current names and the "previously:" aliases, but always output the CURRENT catalog name, exactly as written. If the card is not in the catalog, skip the data point and mention the card in your run report instead.
 5. **A recent application**: the application happened within roughly the last 6 months (default assumption: the post date). Skip stories about applications from years past.
+
+Any of these may come from the post body or from an \`OP reply\` line — see below.
+
+## OP reply lines
+Some candidates carry \`OP reply:\` lines. Those are later comments on that same post written by the post's own author, already filtered for you (comments by anyone else are never included). Read them as a continuation of the poster's first-person account: an outcome, score, income, or limit stated in a reply counts exactly as if it were in the body, and a reply may resolve a body that got truncated. Two cautions: a reply that answers a hypothetical ("if I applied I'd probably be around 700") is still not a stated outcome, and when a reply corrects the body, the reply wins. The absence of \`OP reply\` lines means nothing — most posts are never expanded.
 
 ## Field extraction rules
 - **result**: \`approved\` or \`denied\`.
@@ -535,6 +629,18 @@ async function phaseFetch() {
   sourceStatus.forEach((s) => console.log(s));
 
   const candidates = all.slice(0, CAPS.totalCandidates);
+
+  // Pull OP replies before the state is staged: replies are context hung off an
+  // existing candidate, never candidates of their own, so this changes nothing
+  // about dedupe.
+  if (candidates.some((c) => c.kind === 'post')) {
+    const { attempted, expanded, failures } = await expandOpReplies(candidates);
+    console.log(
+      `\nOP replies: expanded ${expanded}/${attempted} post(s)` +
+        (failures ? `, ${failures} feed(s) failed` : '')
+    );
+  }
+
   fs.writeFileSync(CANDIDATES_FILE, JSON.stringify(candidates, null, 1));
 
   // Stage the seen-state update: every candidate presented this run counts as
@@ -649,7 +755,18 @@ async function main() {
   process.exit(1);
 }
 
-main().catch((err) => {
-  console.error('Fatal:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    console.error('Fatal:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  parseAtom,
+  hasPlausibleScore,
+  rankForExpansion,
+  fetchOpReplies,
+  buildExtractPrompt,
+  validateDataPoint,
+};
