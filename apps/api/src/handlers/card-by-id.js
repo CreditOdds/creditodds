@@ -1,30 +1,10 @@
 // Fetch card details from CloudFront CDN and MySQL
-const https = require('https');
 const mysql = require("../db");
-
-const CARDS_URL = process.env.CARDS_JSON_URL || 'https://d2hxvzw7msbtvt.cloudfront.net/cards.json';
+const { fetchCardsFromCDN } = require("../lib/cards-cdn");
 
 const responseHeaders = {
   "Access-Control-Allow-Origin": "*",
 };
-
-// Fetch cards.json from CloudFront
-async function fetchCardsFromCDN() {
-  return new Promise((resolve, reject) => {
-    https.get(CARDS_URL, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try {
-          const json = JSON.parse(data);
-          resolve(json.cards);
-        } catch (err) {
-          reject(new Error('Failed to parse cards.json'));
-        }
-      });
-    }).on('error', reject);
-  });
-}
 
 // Look up card in database by name and get stats
 async function fetchCardFromDB(cardName) {

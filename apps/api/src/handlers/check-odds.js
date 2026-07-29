@@ -1,7 +1,5 @@
-const https = require('https');
 const mysql = require("../db");
-
-const CARDS_URL = process.env.CARDS_JSON_URL || 'https://d2hxvzw7msbtvt.cloudfront.net/cards.json';
+const { fetchCardsFromCDN } = require("../lib/cards-cdn");
 
 const responseHeaders = {
   // Authenticated, user-specific responses: never cache at browser or any
@@ -14,24 +12,6 @@ const responseHeaders = {
   "Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
   "X-Requested-With": "*",
 };
-
-// Fetch cards.json from CloudFront
-async function fetchCardsFromCDN() {
-  return new Promise((resolve, reject) => {
-    https.get(CARDS_URL, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try {
-          const json = JSON.parse(data);
-          resolve(json.cards);
-        } catch (err) {
-          reject(new Error('Failed to parse cards.json'));
-        }
-      });
-    }).on('error', reject);
-  });
-}
 
 // Read precomputed per-card stats from card_stats (totals + medians) plus card
 // metadata. card_stats is refreshed every 5 min by RefreshCardStatsFunction and

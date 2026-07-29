@@ -1,29 +1,5 @@
-const https = require("https");
 const mysql = require("../db");
-
-const CARDS_URL = process.env.CardsJsonUrl || "https://d2hxvzw7msbtvt.cloudfront.net/cards.json";
-
-// Fetch cards.json from CloudFront CDN
-async function fetchCardsFromCDN() {
-  return new Promise((resolve, reject) => {
-    // Add cache-busting query param to get fresh data after deploy
-    const url = `${CARDS_URL}?t=${Date.now()}`;
-    https
-      .get(url, (res) => {
-        let data = "";
-        res.on("data", (chunk) => (data += chunk));
-        res.on("end", () => {
-          try {
-            const json = JSON.parse(data);
-            resolve(json.cards || []);
-          } catch (err) {
-            reject(new Error("Failed to parse cards.json"));
-          }
-        });
-      })
-      .on("error", reject);
-  });
-}
+const { fetchCardsFromCDN } = require("../lib/cards-cdn");
 
 // Extract metric values from a CDN card for change detection
 function extractMetrics(cdnCard) {
@@ -286,8 +262,8 @@ exports.updateCardsGitHubHandler = async (event) => {
   console.log(`Syncing cards: ${triggerReason}`);
 
   try {
-    // Fetch cards from CDN
-    const cdnCards = await fetchCardsFromCDN();
+    // Fetch cards from CDN (cache-busted so a post-deploy sync sees fresh data)
+    const cdnCards = (await fetchCardsFromCDN({ cacheBust: true })) || [];
     console.log(`Fetched ${cdnCards.length} cards from CDN`);
 
     // Sync to database
