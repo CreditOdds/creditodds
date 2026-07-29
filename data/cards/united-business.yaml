@@ -41,7 +41,6 @@ signup_bonus:
   type: "miles"
   spend_requirement: 5000
   timeframe_months: 3
-  note: "Plus 2,000 Premier qualifying points on meeting the spend requirement, and 10,000 additional miles for adding an employee card in the first 3 months"
 apr:
   regular:
     min: 19.74
