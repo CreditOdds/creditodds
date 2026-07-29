@@ -73,6 +73,7 @@ const CAPS = {
   expandPosts: 8,
   opCommentsPerPost: 5,
   opCommentChars: 600,
+  abortAfterFailures: 2,
 };
 
 // Mirrors REASON_DENIED_CODES in apps/api/src/handlers/user-records.js.
@@ -319,24 +320,43 @@ async function fetchOpReplies(candidate) {
 // Mutates candidates in place, adding `opReplies` where any were found. Never
 // throws: a post whose comment feed fails just goes to the model without its
 // replies, exactly as before this expansion existed.
+//
+// Bails out after CAPS.abortAfterFailures consecutive failures. Every failure
+// here has already eaten a 61s backoff inside redditRss, so a genuinely
+// rate-limited run would otherwise spend ~9 minutes getting nothing while
+// making Reddit angrier. Replies are a bonus on top of the post body, so
+// giving up early costs far less than the alternative.
 async function expandOpReplies(candidates) {
   const queue = rankForExpansion(candidates).slice(0, CAPS.expandPosts);
   let expanded = 0;
   let failures = 0;
+  let consecutiveFailures = 0;
+  let attempted = 0;
   for (const candidate of queue) {
+    if (consecutiveFailures >= CAPS.abortAfterFailures) {
+      // Say what was dropped: a silent cap here reads as "no replies existed".
+      console.warn(
+        `  ! OP reply expansion aborted after ${consecutiveFailures} consecutive failures — ` +
+          `${queue.length - attempted} post(s) not expanded (likely Reddit rate limiting)`
+      );
+      break;
+    }
+    attempted++;
     await sleep(8000);
     try {
       const replies = await fetchOpReplies(candidate);
+      consecutiveFailures = 0;
       if (replies.length > 0) {
         candidate.opReplies = replies;
         expanded++;
       }
     } catch (err) {
       failures++;
+      consecutiveFailures++;
       console.warn(`  ! OP replies for ${candidate.id} failed: ${err.message.split('\n')[0]}`);
     }
   }
-  return { attempted: queue.length, expanded, failures };
+  return { attempted, expanded, failures };
 }
 
 // ── Extraction prompt ────────────────────────────────────────────────────────
@@ -767,6 +787,8 @@ module.exports = {
   hasPlausibleScore,
   rankForExpansion,
   fetchOpReplies,
+  expandOpReplies,
   buildExtractPrompt,
   validateDataPoint,
+  CAPS,
 };
