@@ -6,9 +6,12 @@
  * exists on S3 at `news_images/<id>.png`, then stamps the filename into the
  * item's `news_image` field (in data/news.json, in place).
  *
- * The image is a surreal-but-photoreal scene (beach, circus, stadium, …,
- * picked deterministically by the news id) in which the REAL card art for the
- * cards the story is about is composited in as the hero subject. We use
+ * The image is a surreal-but-photoreal scene in which the REAL card art for
+ * the cards the story is about is composited in as the hero subject. The
+ * scene is art-directed per story by gpt-4o-mini so the background ties to
+ * the subject (travel portal → airport terminal, hotel points → hotel lobby);
+ * if that call fails we fall back to a generic scene pool picked
+ * deterministically by the news id. We use
  * OpenAI's image EDITS endpoint with the actual card PNGs as reference
  * images (`input_fidelity: high`) so the cards stay recognizable rather than
  * being invented from scratch. News items with no associated card fall back to
@@ -97,10 +100,13 @@ function log(msg) {
   process.stdout.write(`[sync-news-images] ${msg}\n`);
 }
 
-// ── Scene pool ────────────────────────────────────────────────────────────
-// Setting-only phrases; the card subject clause is appended per item. Picked
-// deterministically by news id so each story gets a stable scene but the feed
-// stays varied. Add more entries to increase variety.
+// ── Scene selection ───────────────────────────────────────────────────────
+// The background should tie to the story when it has an obvious physical
+// setting (travel portal → airport terminal, hotel points → hotel lobby,
+// dining credit → restaurant). A cheap gpt-4o-mini call art-directs a
+// one-line setting from the headline/summary; if that call fails or returns
+// junk we fall back to this generic pool, picked deterministically by news id.
+// Setting-only phrases; the card subject clause is appended per item.
 const SCENES = [
   'a sunny tropical beach at golden hour, with golden sand, turquoise water, a distant boardwalk ferris wheel and seagulls',
   'the spotlit center ring of a vintage circus big-top, with a red-and-gold stage, confetti in the air and a blurred cheering crowd',
@@ -112,11 +118,86 @@ const SCENES = [
   'a rain-slicked neon city street at night, with shimmering reflections on wet pavement and a cinematic glow',
   'a lush botanical greenhouse at sunrise, with giant tropical leaves, orchids, dewdrops and soft golden light through glass',
   'a colorful carnival midway at dusk, with glowing game booths, a ferris wheel, string lights and a cotton-candy pastel sky',
+  'a bustling international airport terminal at dusk, with floor-to-ceiling windows, a jet taxiing outside and warm departure-hall glow',
+  'a grand luxury hotel lobby, with a sweeping marble staircase, a crystal chandelier and warm brass accents',
+  'an infinity pool at a cliffside resort at sunset, with turquoise water blending into the ocean horizon',
+  'a vintage train station grand hall in the morning, with sunbeams through arched windows and steam drifting over the platforms',
+  'a desert highway at golden hour, with heat shimmer, red mesas on the horizon and a classic convertible pulled onto the shoulder',
+  'a colorful farmers market on a sunny morning, with striped awnings, crates of ripe produce and flower bouquets',
+  'a warmly lit upscale restaurant at night, with candlelit tables, wine glasses catching the light and a soft city view',
+  'a cozy specialty coffee shop, with latte art on the bar, hanging plants, warm wood tones and soft window light',
+  'a marina at sunset, with gleaming white yachts, golden water reflections and string lights along the dock',
+  'a hot air balloon festival at dawn, with dozens of colorful balloons inflating over a misty green valley',
+  'a retro drive-in movie theater at night, with a glowing blank screen, classic cars and a starry purple sky',
+  'a sleek modern art museum gallery, with polished concrete floors, dramatic skylights and colorful abstract canvases',
+  'an alpine lake overlook in summer, with turquoise water, wildflowers in the foreground and snow-dusted peaks',
+  'a neon-lit night market street in the rain, with paper lanterns, steam rising from food stalls and glossy reflections',
 ];
 
 function pickScene(id) {
   const hash = crypto.createHash('md5').update(id).digest();
   return SCENES[hash[0] % SCENES.length];
+}
+
+// Ask gpt-4o-mini (the same model the other CI copy scripts use) to art-direct
+// a setting that matches the story. Card names / bank are context only — the
+// prompt forbids naming them in the scene so licensed marks stay out of the
+// background (the real card art is composited in separately).
+async function llmScene(item) {
+  if (!openaiKey) throw new Error('OPENAI_API_KEY not set — cannot pick scene');
+  const prompt = `You are art-directing the background for the hero photo of a credit-card news story.
+
+Headline: ${item.title}
+Summary: ${item.summary || '(none)'}
+Cards: ${(item.card_names || []).join(', ') || '(none)'}
+Bank: ${item.bank || '(none)'}
+
+Describe ONE photographic setting that visually matches the story's subject. Examples of the mapping: a travel-portal or airline story → an airport terminal or airplane cabin; hotel points or free-night awards → a grand hotel lobby or resort pool; dining rewards → an upscale restaurant; grocery rewards → a colorful supermarket produce aisle; gas or EV rewards → a retro gas station or charging stop at dusk; streaming credits → a cozy home theater. If the story has no obvious physical setting, invent an unexpected, visually striking one — vary the time of day, season, and mood; avoid defaulting to the same few places.
+
+Rules:
+- One sentence of 15-40 words describing the SETTING only, phrased like "a <place> at <time>, with <two or three vivid concrete details>"
+- Do NOT mention credit cards or money — the card subject is composited in separately
+- Do NOT name any real brand, bank, airline, hotel, or company, and no logos
+- No readable text, signs, numbers, or screens with words anywhere in the scene
+- No people as the focal subject (blurred background crowds are fine)
+
+Reply with JSON: {"scene": "..."}`;
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${openaiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      max_tokens: 200,
+      response_format: { type: 'json_object' },
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  });
+  if (!res.ok) throw new Error(`OpenAI HTTP ${res.status}: ${await res.text()}`);
+  const json = await res.json();
+  const parsed = JSON.parse(json.choices?.[0]?.message?.content || '{}');
+  let scene = String(parsed.scene || '').replace(/\s+/g, ' ').trim().replace(/\.+$/, '');
+  if (scene.length < 20 || scene.length > 400) {
+    throw new Error(`scene out of bounds (${scene.length} chars): ${scene.slice(0, 80)}`);
+  }
+  // Lowercase the leading article so the phrase reads mid-sentence ("set at a…").
+  scene = scene.charAt(0).toLowerCase() + scene.slice(1);
+  return scene;
+}
+
+async function pickSceneForItem(item) {
+  try {
+    const scene = await withRetry(() => llmScene(item), { label: `scene ${item.id}`, attempts: 3 });
+    log(`  scene (story-tied): ${scene}`);
+    return scene;
+  } catch (err) {
+    const fallback = pickScene(item.id);
+    log(`  scene fallback for ${item.id} (${(err.message || '').slice(0, 80)}): ${fallback.slice(0, 60)}…`);
+    return fallback;
+  }
 }
 
 // ── Prompt builders ───────────────────────────────────────────────────────
@@ -237,7 +318,7 @@ async function callOpenAIGenerate(prompt) {
 }
 
 async function generateNewsImage(item) {
-  const scene = pickScene(item.id);
+  const scene = await pickSceneForItem(item);
   const links = (item.card_image_links || []).slice(0, MAX_CARDS);
   const names = (item.card_names || []).slice(0, links.length);
 
