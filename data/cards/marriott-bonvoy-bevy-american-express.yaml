@@ -30,10 +30,16 @@ rewards:
     value: 4
     unit: points_per_dollar
     note: "Restaurants worldwide and U.S. supermarkets (up to $15,000/yr combined, then 2x)"
+    spend_cap: 15000
+    cap_period: annual
+    rate_after_cap: 2
   - category: groceries
     value: 4
     unit: points_per_dollar
     note: "U.S. supermarkets and restaurants (up to $15,000/yr combined, then 2x)"
+    spend_cap: 15000
+    cap_period: annual
+    rate_after_cap: 2
   - category: everything_else
     value: 2
     unit: points_per_dollar
