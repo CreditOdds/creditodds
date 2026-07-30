@@ -235,6 +235,9 @@ test('buildExtractPrompt renders OP replies and documents how to read them', () 
   });
   assert.match(prompt, /OP reply: Forgot to add: my FICO is 704 Experian\./);
   assert.match(prompt, /## OP reply lines/);
+  // Pre-qual results are not data points (Max, 2026-07-30). The rule has to
+  // survive future prompt edits, hence asserting on it here.
+  assert.match(prompt, /Pre-qualification is never an outcome, in either direction/);
   // The absence of replies must not render an empty label the model could
   // misread. Count only rendered candidate lines, not the instructions section.
   assert.equal((prompt.match(/^ {4}OP reply: /gm) || []).length, 1);
