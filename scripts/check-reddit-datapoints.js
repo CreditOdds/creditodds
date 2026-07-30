@@ -62,6 +62,18 @@ const THIS_MONTH = TODAY.slice(0, 7);
 // is generous while keeping the state file bounded.
 const STATE_RETENTION_DAYS = 180;
 
+// How far back a data point's application may be. Was 12 months, on the theory
+// that older applications are too stale to say anything about today's odds.
+// Widened to 6 years (Max, 2026-07-30) because historical backfills are worth
+// more than that theory: the daily routine only ever sees the last few days, so
+// a narrow window silently discarded every historical sweep.
+//
+// Worth knowing when reading the odds: refresh-card-stats.js aggregates every
+// record with admin_review = 1 AND active = 1 and applies NO date filter or
+// recency weighting, so a six-year-old row counts exactly as much as one from
+// last week in both the approval rate and the median score/income/history.
+const MAX_DATA_POINT_AGE_MONTHS = 72;
+
 const CAPS = {
   newPosts: 40,
   threadComments: 60,
@@ -433,7 +445,7 @@ You are a meticulous data curator for CreditOdds. From the r/CreditCards candida
 2. **First person**: their own application. Skip second-hand reports ("my wife got approved" is allowed ONLY when the poster gives that person's full details; "my friend says" is not), hypotheticals, jokes, and obvious sarcasm.
 3. **A specific credit score**: 300–850. "742", "about 750" (use 750) qualify; "mid 700s", "good credit" do not.
 4. **A card in the catalog below**: match against current names and the "previously:" aliases, but always output the CURRENT catalog name, exactly as written. If the card is not in the catalog, skip the data point and mention the card in your run report instead.
-5. **A recent application**: the application happened within roughly the last 6 months (default assumption: the post date). Skip stories about applications from years past.
+5. **A datable application**: you can place the application in a specific month. The default is the month the post was written, which is almost always right because people post about an application when it happens. Historical posts are in scope — anything within the last ${MAX_DATA_POINT_AGE_MONTHS / 12} years counts, so do NOT skip a data point merely for being old. Skip only when the application cannot be dated at all, or when the poster describes an application from before that window.
 
 Any of these may come from the post body or from an \`OP reply\` line — see below.
 
@@ -450,7 +462,7 @@ Some candidates carry \`OP reply:\` lines. Those are later comments on that same
 - **total_open_cards**: open credit cards at time of application. Do NOT confuse with "cards opened in the last 24 months" (that is velocity, not open cards). Omit when unclear.
 - **inquiries_3 / inquiries_12 / inquiries_24**: hard inquiries in the last 3/12/24 months. Only when the poster clearly counts inquiries — do not derive from card-opening history. Omit when unclear.
 - **bank_customer**: true/false ONLY when the post states a relationship with the issuing bank ("been with Chase 10 years" → true; "no prior relationship" → false). Omit when unstated — do not guess.
-- **date_applied**: "YYYY-MM". Default to the post month; shift when the post says otherwise ("applied last month"). Never in the future.
+- **date_applied**: "YYYY-MM". **Use the post's month**, unless the post states the application date explicitly ("applied 3/14", "applied last month", the open date in a card list) — an explicit date always wins over the post month. Never in the future. On a historical sweep the post month IS the application month for practically every data point, so do not agonise over it.
 - **reason_denied** (denials only): a SHORT paraphrase in your own words of the issuer-cited reason, max 100 chars, plain factual tone, no em dashes (this text renders on the public site). Omit when the poster does not give a reason.
 - **reason_denied_code** (denials only): one of ${REASON_DENIED_CODES.join(', ')}. Use \`not_specified\` when no reason is given at all; otherwise pick the closest code. Two pairs are easy to confuse:
   - \`length_of_credit_too_short\` is about TIME (a thin or young file). \`too_few_accounts\` is about COUNT ("too few established/open accounts") and applies even to someone with a 20-year history. Citi denials routinely cite the count, not the age.
@@ -559,7 +571,9 @@ function validateDataPoint(dp, { candidateById, cardByName, aliasToName, usedSou
     const monthsAgo =
       (Number(THIS_MONTH.slice(0, 4)) - Number(dateApplied.slice(0, 4))) * 12 +
       (Number(THIS_MONTH.slice(5)) - Number(dateApplied.slice(5)));
-    if (monthsAgo > 12) errors.push(`date_applied is ${monthsAgo} months old — too stale for odds data`);
+    if (monthsAgo > MAX_DATA_POINT_AGE_MONTHS) {
+      errors.push(`date_applied is ${monthsAgo} months old — beyond the ${MAX_DATA_POINT_AGE_MONTHS}-month window`);
+    }
   }
 
   if (dp.result === 'approved') {
