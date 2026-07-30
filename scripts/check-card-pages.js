@@ -851,6 +851,30 @@ function normalizeBonusType(type) {
   return BONUS_TYPE_ALIASES[t] ?? t;
 }
 
+// A bonus for adding an employee card or authorized user is a supplementary
+// component of the welcome offer, not a spend tier — you unlock it by adding a
+// person, not by spending more. It still reads as "10,000 additional miles",
+// which is exactly the phrasing the tier regex hunts for, so these clauses are
+// removed before any tier reasoning runs.
+//
+// Missing this deleted live data: United Business and United Club Business both
+// store "Plus 2,000 Premier qualifying points ..., and 10,000 additional miles
+// for adding an employee card in the first 3 months". Chase advertises no spend
+// tiers on either, so the extractor correctly reported offer_is_tiered:false,
+// the note matched the tier regex on its employee-card clause, and the
+// retirement branch proposed erasing both notes (#1830, closed 2026-07-30).
+// The offers were unchanged; merging would have understated each card by 10,000
+// miles and 2,000 PQP.
+//
+// Clause-scoped (stops at , ; .) so only the add-a-card phrase is dropped and a
+// genuine tier in the same note still counts. "additional" does not trip \badd\b.
+const ADD_CARD_BONUS_CLAUSE_RE =
+  /[^,;.]*\b(?:for|after|when|upon)\s+(?:you\s+)?add(?:ing)?\b[^,;.]*?\b(?:employee|authorized\s+user|\bAU\b|additional\s+card)[^,;.]*/gi;
+
+function stripAddCardBonusClauses(noteText) {
+  return (noteText || '').replace(ADD_CARD_BONUS_CLAUSE_RE, ' ');
+}
+
 // A tiered note carries the tier amounts it describes ("70,000 miles ... an
 // additional 20,000 miles"). Pull them out so the tier-collapse guard can
 // insist that a proposed downgrade actually LANDS on one of them. Only counts
@@ -1131,9 +1155,15 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
     // Ordering matters: a suppression that fires forever is invisible, so every
     // skip is recorded in `suppressions` and reported at the end of the run.
     const noteText = cur.note || '';
+    // Tier reasoning reads the note WITHOUT its add-an-employee-card / AU
+    // clauses: those are extra components, not spend tiers, and their "N
+    // additional miles" phrasing otherwise reads as a tier breakdown.
+    // noteOfferHasExpired keeps the full text — the "Offer ends" date can sit
+    // anywhere in the note, including inside a stripped clause.
+    const tierNoteText = stripAddCardBonusClauses(noteText);
     const tieredAdditionalMatch =
-      noteText.match(/(\d[\d,]*)\s+(?:additional|more)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
-      noteText.match(/(?:additional|more)\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
+      tierNoteText.match(/(\d[\d,]*)\s+(?:additional|more)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i) ||
+      tierNoteText.match(/(?:additional|more)\s+(\d[\d,]*)\s+(?:\w+\s+){0,4}(?:points|miles|nights|free\s+night)/i);
     // offer_is_tiered:false is only trustworthy when the page actually rendered
     // the welcome offer. On JS-gated pages the extractor echoes the stored value
     // and defaults offer_is_tiered:false; treating that as "flat" would disarm the
@@ -1148,7 +1178,9 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
       sb.value != null &&
       cur.value != null &&
       sb.value < cur.value &&
-      tierAmountsInNote(noteText).includes(sb.value);
+      // Same stripped text: an add-a-card amount must not count as a tier the
+      // proposed value is allowed to land on.
+      tierAmountsInNote(tierNoteText).includes(sb.value);
 
     const spendOvercount =
       noteDescribesTiered &&
