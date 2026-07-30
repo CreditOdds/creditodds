@@ -1,0 +1,13 @@
+source_id: "t3_1v098k7"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1v098k7/dp_denied_for_chase_sapphire_preferred/"
+posted: "2026-07-18"
+evidence: "Structured denial data point at 3/24 with a 710 Experian score, an 11 month oldest account, and $2.1k in a two month old Chase checking account."
+card_name: "Chase Sapphire Preferred"
+result: "denied"
+credit_score: 710
+credit_score_source: 1
+length_credit: 1
+bank_customer: true
+date_applied: "2026-07"
+reason_denied: "Not enough established credit history and insufficient balance in Chase deposit accounts"
+reason_denied_code: "length_of_credit_too_short"
