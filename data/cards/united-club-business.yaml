@@ -108,6 +108,13 @@ benefits:
     description: "25% back as a statement credit on United inflight food, beverage, and Wi-Fi purchases and United Club premium drinks"
     frequency: "per_purchase"
     category: "travel"
+  - name: "Award Booking Mileage Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more on the miles needed when booking United flights with miles; Premier members save even more"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
 our_take: >
   The United Club Business card is the lounge card: its headline benefit is a
   full United Club All Access membership, worth more than $750 a year on its
