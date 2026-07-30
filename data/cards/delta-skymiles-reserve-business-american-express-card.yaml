@@ -111,6 +111,11 @@ benefits:
     description: "Zone 5 priority boarding, and unaccompanied cardmembers are added to the complimentary upgrade list"
     frequency: "ongoing"
     category: "travel"
+  - name: "Cell Phone Protection"
+    description: "Reimbursement for a damaged or stolen cell phone up to $800 per claim, 2 claims per 12 months, with a $50 deductible, when the prior month's wireless bill was paid with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
 our_take: >
   The Delta SkyMiles Reserve Business American Express is Delta's flagship
   business card, built around lounge access and elite status. It includes 15
