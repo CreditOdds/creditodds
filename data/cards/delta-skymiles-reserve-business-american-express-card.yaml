@@ -3,7 +3,7 @@ bank: "American Express"
 slug: "delta-skymiles-reserve-business-american-express-card"
 image: "delta-skymiles-reserve-business-american-express-card.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/delta-skymiles-reserve-business-american-express-card/
+apply_link: https://www.americanexpress.com/en-us/business/credit-cards/delta-skymiles-reserve/
 foreign_transaction_fee: false
 network: "amex"
 category: "business"
