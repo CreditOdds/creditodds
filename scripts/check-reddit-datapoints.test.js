@@ -336,4 +336,25 @@ test('the finish phase rejects a duplicate row and names its twin', () => {
   assert.match(errors[0], /same application as t3_1unbuu8/);
 });
 
+// Score ranges were discarded entirely until 2026-07-30, while bounded INCOME
+// took its lower bound (#1825). That asymmetry predated the backfill, when
+// ranges were rare; in one 8-candidate pass it cost six data points, more than
+// the pass produced. Narrow ranges now take the lower bound too.
+test('the prompt accepts narrow score ranges and still rejects wide ones and floors', () => {
+  const prompt = buildExtractPrompt({
+    cards: [{ name: 'Chase Sapphire Preferred', bank: 'Chase', previous_names: [] }],
+    candidates: [],
+  });
+  // The threshold is stated, not hardcoded in prose, so the rule and the
+  // constant cannot drift apart.
+  assert.match(prompt, /spread is 20 points or fewer/);
+  assert.match(prompt, /record the LOWER bound/i);
+  assert.match(prompt, /"753-758" → 753/);
+  // The lines that must survive any future rewording: wide ranges and floors
+  // are still out, and a floor is explicitly distinguished from a range.
+  assert.match(prompt, /wider range does NOT qualify/);
+  assert.match(prompt, /A floor is not a range and does NOT qualify/);
+  assert.match(prompt, /"mid 700s", "good credit", "excellent credit"/);
+});
+
 run();
