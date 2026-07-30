@@ -425,7 +425,9 @@ function buildExtractPrompt({ candidates, cards }) {
 You are a meticulous data curator for CreditOdds. From the r/CreditCards candidates below, extract application data points: a poster reporting the outcome of THEIR OWN credit card application. These become public odds data, so precision beats recall — when a field is ambiguous, omit the field; when the whole data point is ambiguous, skip it. Extracting zero data points from a quiet day is a successful run.
 
 ## A data point MUST have all of
-1. **A stated outcome**: the poster was approved or denied. Pending applications, reconsideration-line limbo, pre-approval offers, and "what are my odds?" questions are NOT outcomes.
+1. **A stated outcome**: the poster submitted a real application and was approved or denied. Pending applications, reconsideration-line limbo, and "what are my odds?" questions are NOT outcomes.
+
+   **Pre-qualification is never an outcome, in either direction.** Not an offer received, not a "pre-approved" banner, and not a pre-qual tool turning someone down — even when that rejection quotes an issuer reason and full credit stats, which makes it look exactly like a real denial. Pre-qual is a soft-pull marketing check against different criteria than the real underwriting decision, so recording it would mix two different questions into one odds number. If the poster later actually applies and reports that result, THAT is the data point. Phrases to treat as pre-qual: "pre-approval tool", "pre-qualified", "prequal", "checked my odds", "got denied on the pre-approval page".
 2. **First person**: their own application. Skip second-hand reports ("my wife got approved" is allowed ONLY when the poster gives that person's full details; "my friend says" is not), hypotheticals, jokes, and obvious sarcasm.
 3. **A specific credit score**: 300–850. "742", "about 750" (use 750) qualify; "mid 700s", "good credit" do not.
 4. **A card in the catalog below**: match against current names and the "previously:" aliases, but always output the CURRENT catalog name, exactly as written. If the card is not in the catalog, skip the data point and mention the card in your run report instead.
