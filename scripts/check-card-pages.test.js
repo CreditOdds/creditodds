@@ -207,6 +207,110 @@ test('offer_is_tiered=false retires the stale tier breakdown (note → null)', (
   assert.equal(note.old_value, WORLD_OF_HYATT.data.signup_bonus.note);
 });
 
+// #1830 (closed 2026-07-30): a bonus for adding an employee card reads as
+// "10,000 additional miles", the same phrasing the tier regex hunts for. Chase
+// advertises no spend tiers on either United business card, so the extractor
+// correctly said offer_is_tiered:false and the retirement branch proposed
+// erasing two accurate notes. Merging would have understated both offers by
+// 10,000 miles and 2,000 PQP.
+const UNITED_BUSINESS = {
+  data: {
+    name: 'United Business',
+    signup_bonus: {
+      value: 100000,
+      type: 'miles',
+      spend_requirement: 5000,
+      timeframe_months: 3,
+      note:
+        'Plus 2,000 Premier qualifying points on meeting the spend requirement, and 10,000 additional miles for adding an employee card in the first 3 months',
+    },
+  },
+};
+const UNITED_LIVE_PAGE =
+  'Earn 100,000 bonus miles + 2,000 PQP after you spend $5,000 on purchases in the first 3 months your account is open. ' +
+  'Earn 10,000 bonus miles after you add an employee card in the first 3 months. welcome offer';
+
+test('an employee-card bonus is not a tier: the note survives a flat page', () => {
+  const changes = detectChanges(
+    UNITED_BUSINESS,
+    {
+      signup_bonus: {
+        value: 100000,
+        spend_requirement: 5000,
+        timeframe_months: 3,
+        type: 'miles',
+        bonus_note: null,
+        offer_is_tiered: false,
+      },
+    },
+    new Date('2026-07-29'),
+    [],
+    UNITED_LIVE_PAGE
+  );
+  assert.deepEqual(changes, [], `expected no changes, got ${JSON.stringify(changes)}`);
+});
+
+test('an authorized-user bonus is not a tier either', () => {
+  const card = {
+    data: {
+      name: 'Some Card',
+      signup_bonus: {
+        value: 60000,
+        type: 'points',
+        spend_requirement: 4000,
+        timeframe_months: 3,
+        note: 'Plus 15,000 additional points for adding an authorized user in the first 3 months',
+      },
+    },
+  };
+  const changes = detectChanges(
+    card,
+    {
+      signup_bonus: {
+        value: 60000,
+        spend_requirement: 4000,
+        timeframe_months: 3,
+        type: 'points',
+        bonus_note: null,
+        offer_is_tiered: false,
+      },
+    },
+    new Date('2026-07-29'),
+    [],
+    'Earn 60,000 bonus points after you spend $4,000 in the first 3 months. welcome offer bonus points'
+  );
+  const note = changes.find(c => c.field === 'signup_bonus.note');
+  assert.equal(note, undefined, 'an AU-bonus note must not be retired as a stale tier');
+});
+
+test('a real tier alongside an employee-card bonus still counts as tiered', () => {
+  const card = {
+    data: {
+      name: 'Hybrid Card',
+      signup_bonus: {
+        value: 135000,
+        type: 'points',
+        spend_requirement: 6000,
+        timeframe_months: 6,
+        note:
+          'Earn 85,000 points after $6,000 in purchases, plus an additional 50,000 points after an additional $3,000 in purchases, and 10,000 additional points for adding an employee card',
+      },
+    },
+  };
+  const suppressions = [];
+  detectChanges(
+    card,
+    {
+      signup_bonus: { value: 50000, spend_requirement: 6000, timeframe_months: 6, type: 'points', offer_is_tiered: null },
+    },
+    new Date('2026-07-29'),
+    suppressions,
+    'Earn 85,000 bonus points welcome offer'
+  );
+  assert.equal(suppressions.length, 1, 'stripping the employee-card clause must not disarm a genuine tier');
+  assert.equal(suppressions[0].guard, 'tier-collapse');
+});
+
 test("offer_is_tiered=false prefers the extractor's replacement note over deletion", () => {
   const changes = detectChanges(WORLD_OF_HYATT, {
     signup_bonus: {
