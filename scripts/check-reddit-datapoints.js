@@ -74,6 +74,16 @@ const STATE_RETENTION_DAYS = 180;
 // last week in both the approval rate and the median score/income/history.
 const MAX_DATA_POINT_AGE_MONTHS = 72;
 
+// Widest credit-score range we will accept, recording its lower bound. Posters
+// write "753-758" constantly and the old rule threw every one away: in a single
+// 8-candidate pass on 2026-07-30 that cost six data points, more than the pass
+// produced. A spread this narrow is smaller than the month-to-month drift in a
+// real score, and we already accept "about 750" as a point value.
+//
+// Deliberately narrow. At "736-770ish" or "580-600" the lower bound stops being
+// a bound and becomes a guess, so those still get skipped.
+const MAX_SCORE_RANGE_SPREAD = 20;
+
 const CAPS = {
   newPosts: 40,
   threadComments: 60,
@@ -494,7 +504,12 @@ You are a meticulous data curator for CreditOdds. From the r/CreditCards candida
 
    **Pre-qualification is never an outcome, in either direction.** Not an offer received, not a "pre-approved" banner, and not a pre-qual tool turning someone down — even when that rejection quotes an issuer reason and full credit stats, which makes it look exactly like a real denial. Pre-qual is a soft-pull marketing check against different criteria than the real underwriting decision, so recording it would mix two different questions into one odds number. If the poster later actually applies and reports that result, THAT is the data point. Phrases to treat as pre-qual: "pre-approval tool", "pre-qualified", "prequal", "checked my odds", "got denied on the pre-approval page".
 2. **First person**: their own application. Skip second-hand reports ("my wife got approved" is allowed ONLY when the poster gives that person's full details; "my friend says" is not), hypotheticals, jokes, and obvious sarcasm.
-3. **A specific credit score**: 300–850. "742", "about 750" (use 750) qualify; "mid 700s", "good credit" do not.
+3. **A usable credit score**: 300–850.
+   - A point value always qualifies: "742", "about 750" (use 750), "~765".
+   - **A range qualifies when its spread is ${MAX_SCORE_RANGE_SPREAD} points or fewer — record the LOWER bound.** "753-758" → 753. "760-770" → 760. This mirrors how bounded income is handled: a value that understates in a known direction beats losing the row, and a spread that narrow is smaller than the month-to-month drift in anyone's real score.
+   - A wider range does NOT qualify, because its lower bound is a guess rather than a bound: "736-770ish", "580-600", "700-730" → skip.
+   - Vague descriptions never qualify: "mid 700s", "good credit", "excellent credit".
+   - A floor is not a range and does NOT qualify: "770+", "740 or above" → skip. Unlike income, where a floor is a real lower bound on a quantity, a score floor is usually the poster rounding up and the true value is unknowable.
 4. **A card in the catalog below**: match against current names and the "previously:" aliases, but always output the CURRENT catalog name, exactly as written. If the card is not in the catalog, skip the data point and mention the card in your run report instead.
 5. **A datable application**: you can place the application in a specific month. The default is the month the post was written, which is almost always right because people post about an application when it happens. Historical posts are in scope — anything within the last ${MAX_DATA_POINT_AGE_MONTHS / 12} years counts, so do NOT skip a data point merely for being old. Skip only when the application cannot be dated at all, or when the poster describes an application from before that window.
 
