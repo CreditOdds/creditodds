@@ -10,4 +10,4 @@ listed_income: 125000
 total_open_cards: 4
 date_applied: "2026-07"
 reason_denied: "Citi cited too few established or open accounts"
-reason_denied_code: "other"
+reason_denied_code: "too_few_accounts"

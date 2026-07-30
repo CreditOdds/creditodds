@@ -13,4 +13,4 @@ inquiries_12: 2
 inquiries_24: 2
 date_applied: "2026-07"
 reason_denied: "Citi cited too few established lines of credit reported"
-reason_denied_code: "other"
+reason_denied_code: "too_few_accounts"
