@@ -1,0 +1,12 @@
+source_id: "t3_1q5a1bj"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1q5a1bj/denied_for_a_chase_business_cc_what_now/"
+posted: "2026-01-06"
+evidence: "Denied on 2025-12-31 and again on reconsideration at an 820 score while only 4/24 on personal cards. The rep told them Chase was already extending a lot of credit, which suggests a business-side velocity limit distinct from 5/24."
+card_name: "Ink Business Cash"
+result: "denied"
+credit_score: 820
+credit_score_source: 0
+total_open_cards: 4
+date_applied: "2025-12"
+reason_denied: "Chase cited two business cards opened recently"
+reason_denied_code: "too_many_recent_accounts"
