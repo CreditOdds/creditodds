@@ -19,6 +19,7 @@ const {
   expandOpReplies,
   buildExtractPrompt,
   validateDataPoint,
+  looksLikeSameApplication,
   CAPS,
 } = require('./check-reddit-datapoints.js');
 
@@ -273,6 +274,66 @@ test('date_applied is accepted back to 72 months and rejected beyond it', () => 
   assert.deepEqual(ageErrors(shift(71)), [], '71 months must be accepted');
   assert.deepEqual(ageErrors(shift(72)), [], '72 months is the boundary and must be accepted');
   assert.equal(ageErrors(shift(73)).length, 1, '73 months must be rejected');
+});
+
+// source_id dedupe catches the same POST twice. It cannot catch the same
+// APPLICATION written up in two posts, which is what actually happens: one Blue
+// Cash Everyday denial at 644 Experian appeared as both t3_1unbuu8 and
+// t3_1uei5qj on 2026-07-30. The import Lambda dedupes on submitter_id, derived
+// from source_id, so both would insert and count one person twice.
+test('looksLikeSameApplication catches the same application reported twice', () => {
+  const a = {
+    source_id: 't3_1unbuu8', card_name: 'Blue Cash Everyday', result: 'denied',
+    credit_score: 644, date_applied: '2026-06', total_open_cards: 2,
+  };
+  const retold = { ...a, source_id: 't3_1uei5qj' };
+  assert.equal(looksLikeSameApplication(retold, a), true, 'the retelling must be caught');
+
+  // Same story, month off by one — people misremember late June vs early July.
+  assert.equal(looksLikeSameApplication({ ...retold, date_applied: '2026-07' }, a), true);
+  assert.equal(looksLikeSameApplication({ ...retold, date_applied: '2026-09' }, a), false, 'two months apart is not the same application');
+});
+
+test('looksLikeSameApplication does not collapse two different people', () => {
+  const a = {
+    source_id: 't3_aaa', card_name: 'Chase Sapphire Preferred', result: 'approved',
+    credit_score: 750, date_applied: '2026-06', listed_income: 90000,
+  };
+  // Same popular card, same month, same score — but a different income, so a
+  // coincidence rather than a duplicate. This is the false positive that would
+  // silently discard real data if the check were keyed on card+score alone.
+  const other = { ...a, source_id: 't3_bbb', listed_income: 140000 };
+  assert.equal(looksLikeSameApplication(other, a), false);
+
+  // Differing on any distinguishing field is enough.
+  assert.equal(looksLikeSameApplication({ ...a, source_id: 't3_ccc', starting_credit_limit: 5000 },
+                                        { ...a, starting_credit_limit: 22000 }), false);
+
+  // And the obvious negatives.
+  assert.equal(looksLikeSameApplication({ ...a, card_name: 'Chase Freedom Unlimited' }, a), false);
+  assert.equal(looksLikeSameApplication({ ...a, result: 'denied' }, a), false);
+  assert.equal(looksLikeSameApplication({ ...a, credit_score: 751 }, a), false);
+});
+
+test('the finish phase rejects a duplicate row and names its twin', () => {
+  const existing = {
+    source_id: 't3_1unbuu8', card_name: 'Blue Cash Everyday', result: 'denied',
+    credit_score: 644, date_applied: '2026-06',
+  };
+  const dp = {
+    source_id: 't3_1uei5qj', permalink: 'u', card_name: 'Blue Cash Everyday',
+    result: 'denied', credit_score: 644, credit_score_source: 1, date_applied: '2026-06',
+  };
+  const { errors } = validateDataPoint(dp, {
+    candidateById: new Map([['t3_1uei5qj', { id: 't3_1uei5qj', url: 'u', posted: '2026-06-24' }]]),
+    cardByName: new Map([['Blue Cash Everyday', {}]]),
+    aliasToName: new Map(),
+    usedSourceIds: new Set(),
+    importedIds: new Set(),
+    priorRecords: [existing],
+  });
+  assert.equal(errors.length, 1, `expected exactly the duplicate error, got ${JSON.stringify(errors)}`);
+  assert.match(errors[0], /same application as t3_1unbuu8/);
 });
 
 run();

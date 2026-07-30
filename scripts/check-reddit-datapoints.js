@@ -149,19 +149,70 @@ function loadState() {
   }
 }
 
-// source_ids already sitting in data/reddit-datapoints/ (accepted + merged).
-function loadImportedSourceIds() {
-  if (!fs.existsSync(DATAPOINTS_DIR)) return new Set();
-  const ids = new Set();
+// Every data point already sitting in data/reddit-datapoints/ (accepted + merged).
+function loadImportedDataPoints() {
+  if (!fs.existsSync(DATAPOINTS_DIR)) return [];
+  const rows = [];
   for (const file of fs.readdirSync(DATAPOINTS_DIR).filter((f) => /\.ya?ml$/.test(f))) {
     try {
       const dp = yaml.load(fs.readFileSync(path.join(DATAPOINTS_DIR, file), 'utf8'));
-      if (dp && dp.source_id) ids.add(String(dp.source_id).replace(/#\d+$/, ''));
+      if (dp && dp.source_id) rows.push(dp);
     } catch {
       /* unparseable committed files are caught in review, not here */
     }
   }
-  return ids;
+  return rows;
+}
+
+// source_ids already sitting in data/reddit-datapoints/ (accepted + merged).
+function loadImportedSourceIds() {
+  return new Set(loadImportedDataPoints().map((dp) => String(dp.source_id).replace(/#\d+$/, '')));
+}
+
+// ── Cross-post duplicate detection ───────────────────────────────────────────
+//
+// source_id dedupe only catches the same POST twice. It cannot catch the same
+// APPLICATION written up in two different posts, which is common and gets more
+// common the harder we sweep: the same person posts "denied, what now?" and then
+// "here's my DP" ten days later, and a backfill querying by flair and then by
+// 199 card names hits both. Seen live on 2026-07-30 — one Blue Cash Everyday
+// denial at 644 Experian appeared as t3_1unbuu8 and t3_1uei5qj.
+//
+// Nothing downstream would catch it either: the import Lambda dedupes on
+// submitter_id, which is derived from source_id, so both rows insert and the
+// card's approval rate quietly counts one person twice.
+
+// Fields that would differ between two genuinely different people who happen to
+// share a card, outcome, score and month. Where BOTH rows carry one of these and
+// the values disagree, they are different applications.
+const DISTINGUISHING_FIELDS = ['listed_income', 'starting_credit_limit', 'total_open_cards', 'length_credit'];
+
+function monthsBetween(a, b) {
+  const [ay, am] = a.split('-').map(Number);
+  const [by, bm] = b.split('-').map(Number);
+  return Math.abs((ay - by) * 12 + (am - bm));
+}
+
+/**
+ * Does `dp` look like the same application as `other`, reported separately?
+ *
+ * Requires card, result and exact score to match, and the application month to
+ * be within one (people misremember whether they applied in late June or early
+ * July). Then: if any distinguishing field disagrees, they are different people
+ * and this is a coincidence, not a duplicate.
+ */
+function looksLikeSameApplication(dp, other) {
+  if (dp.card_name !== other.card_name) return false;
+  if (dp.result !== other.result) return false;
+  if (dp.credit_score !== other.credit_score) return false;
+  if (!dp.date_applied || !other.date_applied) return false;
+  if (monthsBetween(dp.date_applied, other.date_applied) > 1) return false;
+  for (const field of DISTINGUISHING_FIELDS) {
+    const a = dp[field];
+    const b = other[field];
+    if (a != null && b != null && a !== b) return false;
+  }
+  return true;
 }
 
 // ── Reddit fetching (same constraints as check-card-news.js: Atom only,
@@ -508,7 +559,7 @@ function isIntInRange(v, min, max) {
   return Number.isInteger(v) && v >= min && v <= max;
 }
 
-function validateDataPoint(dp, { candidateById, cardByName, aliasToName, usedSourceIds, importedIds }) {
+function validateDataPoint(dp, { candidateById, cardByName, aliasToName, usedSourceIds, importedIds, priorRecords = [] }) {
   const errors = [];
   const warnings = [];
 
@@ -602,6 +653,21 @@ function validateDataPoint(dp, { candidateById, cardByName, aliasToName, usedSou
   if (typeof dp.evidence === 'string' && dp.evidence.length > 300) {
     dp.evidence = `${dp.evidence.slice(0, 297)}…`;
     warnings.push('evidence truncated to 300 chars');
+  }
+
+  // Cross-post duplicate check, last because it needs the canonicalized
+  // card_name and the validated score/date above. Only meaningful on a row that
+  // is otherwise sound, so skip it when the row is already failing.
+  if (errors.length === 0) {
+    const twin = priorRecords.find((other) => looksLikeSameApplication(dp, other));
+    if (twin) {
+      errors.push(
+        `looks like the same application as ${twin.source_id} ` +
+          `(${dp.card_name}, ${dp.result}, score ${dp.credit_score}, ${dp.date_applied}) — ` +
+          `same application reported in two posts, or a genuine coincidence. Delete this file if it is a duplicate; ` +
+          `if the two are really different people, add a distinguishing field (${DISTINGUISHING_FIELDS.join('/')}) to tell them apart.`
+      );
+    }
   }
 
   return { errors, warnings };
@@ -763,8 +829,11 @@ function phaseFinish() {
   }
   const candidates = JSON.parse(fs.readFileSync(CANDIDATES_FILE, 'utf8'));
   const candidateById = new Map(candidates.map((c) => [c.id, c]));
-  const importedIds = loadImportedSourceIds();
+  const importedRecords = loadImportedDataPoints();
+  const importedIds = new Set(importedRecords.map((dp) => String(dp.source_id).replace(/#\d+$/, '')));
   const usedSourceIds = new Set();
+  // Grows as rows are accepted, so a batch is checked against itself too.
+  const priorRecords = [...importedRecords];
 
   const files = fs.readdirSync(PROPOSED_DIR).filter((f) => /\.ya?ml$/.test(f));
   if (files.length === 0) {
@@ -795,6 +864,7 @@ function phaseFinish() {
       aliasToName,
       usedSourceIds,
       importedIds,
+      priorRecords,
     });
     if (errors.length) {
       console.log(`✗ ${file}: ${errors.join('; ')}`);
@@ -805,6 +875,7 @@ function phaseFinish() {
     const filename = writeDataPointFile(dp);
     if (filename) {
       usedSourceIds.add(dp.source_id);
+      priorRecords.push(dp);
       written.push({ dp, filename });
     }
   }
@@ -843,6 +914,7 @@ if (require.main === module) {
 
 module.exports = {
   parseAtom,
+  looksLikeSameApplication,
   hasPlausibleScore,
   rankForExpansion,
   fetchOpReplies,
