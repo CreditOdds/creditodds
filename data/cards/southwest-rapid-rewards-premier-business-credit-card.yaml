@@ -91,6 +91,13 @@ benefits:
     description: "Employee cards at no additional cost with individual spending limits"
     frequency: "ongoing"
     category: "business"
+  - name: "15% Flight Discount"
+    value: 15
+    value_unit: "percent"
+    description: "One 15% promo code each cardmember anniversary year for Southwest flights (excludes Basic fare)."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 our_take: >
   The Southwest Rapid Rewards Premier Business card is the workhorse option
   for businesses loyal to Southwest, earning 3 points per dollar on Southwest
