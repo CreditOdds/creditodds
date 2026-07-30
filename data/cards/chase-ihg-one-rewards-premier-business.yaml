@@ -32,6 +32,18 @@ benefits:
     frequency: "multi_year"
     frequency_years: 4
     category: "travel"
+  - name: "Points Purchase Discount"
+    value: 20
+    value_unit: "percent"
+    description: "Save at least 20% when you purchase IHG One Rewards points with this card"
+    frequency: "per_purchase"
+    category: "rewards"
+    enrollment_required: false
+  - name: "DoorDash DashPass"
+    description: "One-year complimentary DashPass membership for DoorDash and Caviar with unlimited deliveries and $0 delivery fees on eligible orders, when activated by Dec 31, 2027"
+    frequency: "annual"
+    category: "dining"
+    enrollment_required: true
 tags:
   - hotel
   - travel
