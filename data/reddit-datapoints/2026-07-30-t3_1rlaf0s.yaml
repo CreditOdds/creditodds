@@ -1,0 +1,12 @@
+source_id: "t3_1rlaf0s"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1rlaf0s/citi_strata_elite_denial_what_to_say_to/"
+posted: "2026-03-05"
+evidence: "Denied at an 833 score on a $360k income with 3% utilisation, holding an existing Citi AAdvantage card. Five cards opened in the last twelve months but none in the last six. History length omitted because the poster gives average account age, not the oldest."
+card_name: "Citi Strata Elite"
+result: "denied"
+credit_score: 833
+credit_score_source: 0
+listed_income: 360000
+date_applied: "2026-03"
+reason_denied: "Citi cited too many recently opened accounts and short time since accounts were established"
+reason_denied_code: "too_many_recent_accounts"
