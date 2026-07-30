@@ -1505,6 +1505,9 @@ export async function getAdminStats(token: string): Promise<AdminStats> {
 }
 
 // Admin Records
+// The admin records endpoint returns every stored field on every row, filtered
+// or not, so these live on the base type rather than a Detail variant. They stay
+// optional because rows predating a column carry null.
 export interface AdminRecord {
   record_id: number;
   card_id: number;
@@ -1520,12 +1523,9 @@ export interface AdminRecord {
   submitter_id: string;
   submitter_email?: string;
   submitter_ip_address?: string;
-}
-
-export interface AdminRecordDetail extends AdminRecord {
   credit_score_source?: number;
   starting_credit_limit?: number | null;
-  bank_customer?: boolean;
+  bank_customer?: boolean | number;
   reason_denied?: string | null;
   reason_denied_code?: string | null;
   total_open_cards?: number | null;
@@ -1534,6 +1534,10 @@ export interface AdminRecordDetail extends AdminRecord {
   inquiries_24?: number | null;
   admin_review?: number;
 }
+
+// Retained as an alias: the endpoint no longer distinguishes summary from
+// detail, but existing call sites still name this type.
+export type AdminRecordDetail = AdminRecord;
 
 export interface AdminRecordsResponse {
   records: AdminRecord[];

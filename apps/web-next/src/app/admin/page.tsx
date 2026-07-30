@@ -293,7 +293,7 @@ export default function AdminPage() {
 
   const tabs = [
     { id: 'stats' as TabType, name: 'Overview', icon: ChartBarIcon },
-    { id: 'records' as TabType, name: 'Records', icon: DocumentTextIcon, count: recordsTotal },
+    { id: 'records' as TabType, name: 'Data Points', icon: DocumentTextIcon, count: recordsTotal },
     { id: 'referrals' as TabType, name: 'Referrals', icon: LinkIcon, count: referralsTotal, badge: stats?.pending_referrals },
     { id: 'activity' as TabType, name: 'Activity', icon: ClipboardDocumentListIcon },
     { id: 'user' as TabType, name: 'User Lookup', icon: UserIcon },
@@ -373,9 +373,9 @@ export default function AdminPage() {
                 <div>
                   <h2 className="av-section-h">
                     <DocumentTextIcon className="av-section-h-icon" />
-                    All records
+                    All data points
                   </h2>
-                  <p className="av-section-sub">{recordsTotal.toLocaleString()} total · click submit to add on behalf of a user</p>
+                  <p className="av-section-sub">{recordsTotal.toLocaleString()} total · every stored field is shown; scroll sideways for the full row</p>
                 </div>
                 <button
                   type="button"
@@ -1297,6 +1297,85 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
 }
 
 // ============ RECORDS TAB ============
+// REASON_DENIED_CODES in apps/api/src/handlers/user-records.js.
+const REASON_DENIED_OPTIONS: ReadonlyArray<{ code: string; label: string }> = [
+  { code: 'not_specified', label: "Issuer didn't say" },
+  { code: 'too_many_inquiries', label: 'Too many recent inquiries' },
+  { code: 'too_many_recent_accounts', label: 'Too many recently opened accounts' },
+  { code: 'length_of_credit_too_short', label: 'Credit history too short' },
+  { code: 'too_few_accounts', label: 'Too few established accounts' },
+  { code: 'credit_score_too_low', label: 'Credit score too low' },
+  { code: 'high_utilization', label: 'High utilization / too much revolving debt' },
+  { code: 'too_much_credit_with_issuer', label: 'Too much credit already with this issuer' },
+  { code: 'no_issuer_relationship', label: 'No existing relationship with the issuer' },
+  { code: 'income_too_low', label: 'Income too low' },
+  { code: 'recent_delinquency', label: 'Recent delinquency or late payment' },
+  { code: 'bankruptcy_or_public_record', label: 'Bankruptcy or public record' },
+  { code: 'other', label: 'Other' },
+];
+
+// credit_score_source is stored as an int. Same legend as the submit form and
+// the /records API: 0 FICO (unspecified bureau), 1 Experian, 2 TransUnion,
+// 3 Equifax, 4 VantageScore (which is what Credit Karma reports).
+const SCORE_SOURCE_SHORT: Record<number, string> = {
+  0: 'FICO',
+  1: 'EX',
+  2: 'TU',
+  3: 'EQ',
+  4: 'Vantage',
+};
+
+const DENIAL_CODE_LABEL = new Map(REASON_DENIED_OPTIONS.map((o) => [o.code, o.label]));
+
+// Empty cells read as an explicit blank rather than a gap, so a missing value
+// is distinguishable from a rendering bug. Matches the public records table.
+const BLANK = '—';
+
+function num(value: number | null | undefined): string {
+  return value == null ? BLANK : value.toLocaleString();
+}
+
+function money(value: number | null | undefined): string {
+  return value == null ? BLANK : `$${value.toLocaleString()}`;
+}
+
+// "2026-07-01T00:00:00.000Z" → "2026-07". date_applied is month precision, so
+// rendering it through toLocaleDateString would invent a day and, worse, shift
+// the month backwards in timezones behind UTC.
+function monthOnly(value: string | null | undefined): string {
+  if (!value) return BLANK;
+  const m = String(value).match(/^(\d{4})-(\d{2})/);
+  return m ? `${m[1]}-${m[2]}` : BLANK;
+}
+
+// Deliberately the same column set and widths the tab has always had. Showing
+// every field as its own column needs ~13 of them, which forces sideways
+// scrolling and makes the tab unreadable, so the remaining fields go into
+// labelled lines underneath: rows get taller, never wider.
+const DP_COLUMNS = 'minmax(220px, 1.6fr) 70px 110px 90px minmax(180px, 1.4fr) 90px 36px';
+
+// One labelled value on the detail lines. Kept flush and low-contrast so the
+// primary columns above still carry the row.
+function DpField({ label, value, mono }: { label: string; value: React.ReactNode; mono?: boolean }) {
+  return (
+    <span style={{ display: 'inline-flex', gap: 5, alignItems: 'baseline', whiteSpace: 'nowrap' }}>
+      <span style={{ color: 'var(--muted)', fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        {label}
+      </span>
+      <span className={mono ? 'av-mono' : undefined} style={{ color: 'var(--ink)' }}>{value}</span>
+    </span>
+  );
+}
+
+const DP_DETAIL_ROW: React.CSSProperties = {
+  gridColumn: '1 / -1',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '4px 14px',
+  alignItems: 'baseline',
+  fontSize: 11.5,
+};
+
 function RecordsTab({
   records,
   processingId,
@@ -1309,53 +1388,105 @@ function RecordsTab({
   return (
     <div className="av-tape">
       <div className="av-tape-scroll">
-        <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(220px, 1.6fr) 70px 110px 90px minmax(180px, 1.4fr) 90px 36px' }}>
+        <div className="av-tape-head" style={{ gridTemplateColumns: DP_COLUMNS }}>
           <span>Card</span>
           <span>Score</span>
           <span>Income</span>
           <span>Result</span>
           <span>Submitter</span>
-          <span>Date</span>
+          <span>Submitted</span>
           <span />
         </div>
         {records.length === 0 ? (
-          <div className="av-tape-empty">No records yet.</div>
-        ) : records.map((record) => (
-          <div key={record.record_id} className="av-tape-row" style={{ gridTemplateColumns: 'minmax(220px, 1.6fr) 70px 110px 90px minmax(180px, 1.4fr) 90px 36px' }}>
-            <div className="av-card-cell">
-              <div className="av-thumb">
-                <CardImage cardImageLink={record.card_image_link} alt={record.card_name} fill className="object-contain" sizes="48px" />
+          <div className="av-tape-empty">No data points yet.</div>
+        ) : records.map((record) => {
+          const denied = !record.result;
+          const codeLabel = record.reason_denied_code
+            ? DENIAL_CODE_LABEL.get(record.reason_denied_code) ?? record.reason_denied_code
+            : null;
+          return (
+            <div
+              key={record.record_id}
+              className="av-tape-row"
+              style={{ gridTemplateColumns: DP_COLUMNS, rowGap: 7, alignItems: 'start' }}
+            >
+              <div className="av-card-cell">
+                <div className="av-thumb">
+                  <CardImage cardImageLink={record.card_image_link} alt={record.card_name} fill className="object-contain" sizes="48px" />
+                </div>
+                <div className="av-card-meta">
+                  <div className="av-card-name">{record.card_name}</div>
+                  <div className="av-card-issuer">{record.bank}</div>
+                </div>
               </div>
-              <div className="av-card-meta">
-                <div className="av-card-name">{record.card_name}</div>
-                <div className="av-card-issuer">{record.bank}</div>
-              </div>
-            </div>
-            <span>{record.credit_score}</span>
-            <span>${record.listed_income?.toLocaleString()}</span>
-            <span>
-              <span className={'av-pill ' + (record.result ? 'av-pill-app' : 'av-pill-den')}>
-                {record.result ? 'Approved' : 'Denied'}
+              <span>
+                {record.credit_score}
+                {record.credit_score_source != null && (
+                  <span style={{ color: 'var(--muted)', fontSize: 10.5, marginLeft: 4 }}>
+                    {SCORE_SOURCE_SHORT[record.credit_score_source] ?? record.credit_score_source}
+                  </span>
+                )}
               </span>
-            </span>
-            <div>
-              <div className="av-mono" style={{ color: 'var(--ink)' }}>{record.submitter_id || 'Unknown'}</div>
-              {record.submitter_ip_address && <div className="av-mono">{record.submitter_ip_address}</div>}
+              <span>{money(record.listed_income)}</span>
+              <span>
+                <span className={'av-pill ' + (record.result ? 'av-pill-app' : 'av-pill-den')}>
+                  {record.result ? 'Approved' : 'Denied'}
+                </span>
+              </span>
+              <div style={{ minWidth: 0 }}>
+                <div className="av-mono" style={{ color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {record.submitter_id || 'Unknown'}
+                </div>
+                {record.submitter_ip_address && <div className="av-mono">{record.submitter_ip_address}</div>}
+              </div>
+              <span className="av-mono">{new Date(record.submit_datetime).toLocaleDateString()}</span>
+              <div className="av-row-actions">
+                <button
+                  type="button"
+                  onClick={() => onDelete(record.record_id)}
+                  disabled={processingId === record.record_id}
+                  className="av-row-action-btn av-action-danger"
+                  title="Delete"
+                >
+                  <TrashIcon />
+                </button>
+              </div>
+
+              {/* Everything the columns above don't carry. Always rendered, with
+                  explicit blanks, so a missing value is visibly missing rather
+                  than silently absent from the row. */}
+              <div style={DP_DETAIL_ROW}>
+                <DpField label="Applied" value={monthOnly(record.date_applied)} mono />
+                <DpField label="History" value={record.length_credit == null ? BLANK : `${record.length_credit}y`} />
+                {/* Approvals only: the importer refuses a starting limit on a denial. */}
+                <DpField label="Start limit" value={denied ? BLANK : money(record.starting_credit_limit)} />
+                <DpField label="Open cards" value={num(record.total_open_cards)} />
+                <DpField
+                  label="Inq 3/12/24"
+                  mono
+                  value={[record.inquiries_3, record.inquiries_12, record.inquiries_24]
+                    .map((v) => (v == null ? BLANK : v))
+                    .join('/')}
+                />
+                {/* bank_customer arrives as 0/1 from MySQL, not a boolean. */}
+                <DpField label="Bank cust" value={record.bank_customer ? 'Yes' : 'No'} />
+                <DpField label="Record" value={record.record_id} mono />
+                {record.admin_review ? <span className="av-pill av-pill-arch">Admin reviewed</span> : null}
+              </div>
+
+              {denied && (
+                <div style={DP_DETAIL_ROW}>
+                  <span className="av-pill av-pill-den" style={{ flex: '0 0 auto' }}>
+                    {codeLabel ?? 'No code'}
+                  </span>
+                  <span style={{ color: record.reason_denied ? 'var(--ink)' : 'var(--muted)' }}>
+                    {record.reason_denied || 'No issuer reason recorded'}
+                  </span>
+                </div>
+              )}
             </div>
-            <span className="av-mono">{new Date(record.submit_datetime).toLocaleDateString()}</span>
-            <div className="av-row-actions">
-              <button
-                type="button"
-                onClick={() => onDelete(record.record_id)}
-                disabled={processingId === record.record_id}
-                className="av-row-action-btn av-action-danger"
-                title="Delete"
-              >
-                <TrashIcon />
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -2301,22 +2432,6 @@ function EditRecordModal({
 
 // Keep in sync with REASON_DENIED_OPTIONS in
 // apps/web-next/src/components/forms/SubmitRecordModal.tsx and
-// REASON_DENIED_CODES in apps/api/src/handlers/user-records.js.
-const REASON_DENIED_OPTIONS: ReadonlyArray<{ code: string; label: string }> = [
-  { code: 'not_specified', label: "Issuer didn't say" },
-  { code: 'too_many_inquiries', label: 'Too many recent inquiries' },
-  { code: 'too_many_recent_accounts', label: 'Too many recently opened accounts' },
-  { code: 'length_of_credit_too_short', label: 'Credit history too short' },
-  { code: 'too_few_accounts', label: 'Too few established accounts' },
-  { code: 'credit_score_too_low', label: 'Credit score too low' },
-  { code: 'high_utilization', label: 'High utilization / too much revolving debt' },
-  { code: 'too_much_credit_with_issuer', label: 'Too much credit already with this issuer' },
-  { code: 'no_issuer_relationship', label: 'No existing relationship with the issuer' },
-  { code: 'income_too_low', label: 'Income too low' },
-  { code: 'recent_delinquency', label: 'Recent delinquency or late payment' },
-  { code: 'bankruptcy_or_public_record', label: 'Bankruptcy or public record' },
-  { code: 'other', label: 'Other' },
-];
 
 function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<string | null>; onSuccess: () => void }) {
   const { cards, error: cardCatalogError } = useCardCatalog({ activeOnly: true });
