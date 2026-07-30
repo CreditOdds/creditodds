@@ -30,7 +30,7 @@ rewards:
 signup_bonus:
   value: 130000
   type: "points"
-  spend_requirement: 8000
+  spend_requirement: 6000
   timeframe_months: 6
   note: "Limited-time offer through July 29, 2026, which also waives the annual fee for the first year"
 apr:
