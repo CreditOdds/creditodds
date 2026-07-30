@@ -220,6 +220,9 @@ const REWARD_LABELS = {
   foreign_transactions: 'FOREIGN',
   rent: 'RENT',
   everything_else: 'EVERYTHING',
+  // Payment-method-gated rate (Apple Pay / Samsung Wallet). The label names
+  // the condition so the stat never reads as an unconditional flat rate.
+  mobile_wallet: 'MOBILE WALLET',
 };
 
 function formatRate(reward) {

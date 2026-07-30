@@ -77,6 +77,13 @@ categories:
     label: Military Base
   - id: everything_else
     label: Everything Else
+  # Purchases paid through the card's own mobile wallet (Apple Pay on the
+  # Apple Card, Samsung Wallet on the Samsung Galaxy Card). A separate
+  # category, NOT everything_else: the rate is conditional on the payment
+  # method, so ranking code that ignores unknown categories falls back to
+  # the card's honest ungated everything_else rate.
+  - id: mobile_wallet
+    label: Mobile Wallet Purchases
   - id: department_stores
     label: Department Stores
   # U.S. Bank Cash+ 5% bucket categories — issuer-specific labels lifted

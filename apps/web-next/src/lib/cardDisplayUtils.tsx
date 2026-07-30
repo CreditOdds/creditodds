@@ -8,6 +8,7 @@ import {
   FilmIcon,
   ComputerDesktopIcon,
   CreditCardIcon,
+  DevicePhoneMobileIcon,
 } from "@heroicons/react/24/outline";
 import { Card, CardBenefit, Reward } from "@/lib/api";
 import { getValuation } from "@/lib/valuations";
@@ -42,6 +43,7 @@ export const categoryLabels: Record<string, string> = {
   rakuten: "Rakuten.com",
   rakuten_dining: "Rakuten Dining",
   everything_else: "Everything Else",
+  mobile_wallet: "Mobile Wallet Purchases",
   phone: "Phone Services",
   utilities: "Utilities",
   ev_charging: "EV Charging",
@@ -155,6 +157,8 @@ export function CategoryIcon({ category, className }: { category: string; classN
       return <SparklesIcon className={iconClass} />;
     case "everything_else":
       return <GlobeAltIcon className={iconClass} />;
+    case "mobile_wallet":
+      return <DevicePhoneMobileIcon className={iconClass} />;
     default:
       return <CreditCardIcon className={iconClass} />;
   }

@@ -60,6 +60,14 @@ function isPortalCategory(category) {
   return typeof category === "string" && category.endsWith("_portal");
 }
 
+// `mobile_wallet` rewards (a rate conditional on paying through the card's
+// own mobile wallet — Apple Card's 2%, Samsung Galaxy Card's 3%) are
+// deliberately absent from SPEND_CATEGORY_MAP and from the base rate here:
+// the quiz doesn't know whether the user pays by phone, so cards are judged
+// on their unconditional everything_else rate. A future "do you usually pay
+// with your phone?" question could credit mobile_wallet as an
+// everything-else booster, the way loyalty selections unlock co-brand
+// travel rates.
 function flatRateEff(card) {
   const r = (card.rewards || []).find((x) => x.category === "everything_else");
   if (!r) return 0;

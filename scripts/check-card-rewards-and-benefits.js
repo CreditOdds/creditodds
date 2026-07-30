@@ -662,6 +662,15 @@ one with overlapping coverage. Use the closest matching reward category
 from categories.yaml (rideshare → transit; streaming services → streaming;
 fitness equipment → fitness or shopping if no fitness).
 
+An earn rate conditional on paying through the card's own mobile wallet
+("2% Daily Cash when you use Apple Pay", "3% when paying with Samsung
+Wallet") belongs in the \`mobile_wallet\` category, NOT in
+\`everything_else\` — everything_else is reserved for the unconditional
+rate the physical card earns (usually 1% on these cards). Do NOT propose
+moving an existing \`mobile_wallet\` row into \`everything_else\` just
+because the page phrases it as "on every purchase": the wallet condition
+makes it a different row.
+
 # DO NOT INCLUDE — earn / redemption / finance mechanics
 - "rewards" describes per-CATEGORY EARN RATES on spend (e.g. "5% on dining"). Use category ids that already appear in the example cards below.
 - DO NOT include redemption mechanics (e.g. "Points Payback", "no blackout dates"), generic federal-law standards (e.g. "$0 Fraud Liability"), or network-tier perks (e.g. "Visa Signature Concierge", "Mastercard World Elite Benefits").
