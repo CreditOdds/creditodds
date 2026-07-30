@@ -21,6 +21,11 @@ const {
   CAPS,
 } = require('./check-reddit-datapoints.js');
 
+// Shrink the real waits (8s between requests, 61s on a 429) so the loop tests
+// run in milliseconds instead of minutes.
+CAPS.requestSpacingMs = 1;
+CAPS.rateLimitBackoffMs = 1;
+
 // Queue every case, then run them in order — several stub global.fetch, so they
 // must not overlap.
 let failures = 0;
@@ -122,9 +127,6 @@ test('rankForExpansion puts scoreless outcome posts first and skips megathread c
   assert.ok(!ranked.some((c) => c.kind === 'comment'), 'megathread comments must not be expanded');
 });
 
-// Slow by design (~16s): expandOpReplies spaces requests 8s apart and that
-// spacing is not stubbable. Guards a failure mode seen live on 2026-07-29,
-// where 2 of 3 comment feeds returned 429 and each cost a 61s backoff.
 testAsync('expandOpReplies gives up after consecutive failures instead of grinding', async () => {
   const original = global.fetch;
   let calls = 0;
@@ -147,6 +149,69 @@ testAsync('expandOpReplies gives up after consecutive failures instead of grindi
     assert.equal(result.attempted, CAPS.abortAfterFailures);
     assert.equal(result.expanded, 0);
     assert.ok(!candidates.some((c) => c.opReplies), 'no candidate should have gained replies');
+  } finally {
+    global.fetch = original;
+  }
+});
+
+// The 2026-07-30 run's actual failure mode: 7 of 8 comment feeds returned 429,
+// each backed off 61s and then SUCCEEDED. Every request delivered its data, so
+// the consecutive-failure counter stayed at zero and the run still burned about
+// 7 minutes. Throttling has to be counted separately from failure.
+testAsync('expandOpReplies gives up when 429 backoffs keep succeeding', async () => {
+  const original = global.fetch;
+  const seenUrls = new Map();
+  // First call per URL 429s, the retry succeeds — a backoff, never a failure.
+  global.fetch = async (url) => {
+    const n = (seenUrls.get(url) || 0) + 1;
+    seenUrls.set(url, n);
+    if (n === 1) return { ok: false, status: 429, text: async () => '' };
+    return { ok: true, status: 200, text: async () => COMMENT_FEED };
+  };
+  const candidates = Array.from({ length: 8 }, (_, i) => ({
+    id: `t3_q${i}`,
+    kind: 'post',
+    title: 'Denied for the CSP',
+    text: 'No score in the body.',
+    url: `https://www.reddit.com/r/CreditCards/comments/q${i}/x/`,
+  }));
+  try {
+    const result = await expandOpReplies(candidates);
+    assert.equal(result.failures, 0, 'these are backoffs, not failures — the old guard saw nothing wrong');
+    assert.equal(
+      result.attempted,
+      CAPS.abortAfterThrottled,
+      `expected to stop after ${CAPS.abortAfterThrottled} throttled posts, attempted ${result.attempted}`
+    );
+    // The requests that did go through still delivered, so their replies stick.
+    assert.equal(result.expanded, CAPS.abortAfterThrottled);
+    assert.equal(candidates.filter((c) => c.opReplies).length, CAPS.abortAfterThrottled);
+  } finally {
+    global.fetch = original;
+  }
+});
+
+testAsync('a clean request resets the throttle counter', async () => {
+  const original = global.fetch;
+  let call = 0;
+  // 429-then-success on the first post, clean on every later one: the counter
+  // must reset so one slow request does not eventually abort a healthy run.
+  global.fetch = async () => {
+    call++;
+    if (call === 1) return { ok: false, status: 429, text: async () => '' };
+    return { ok: true, status: 200, text: async () => COMMENT_FEED };
+  };
+  const candidates = Array.from({ length: 5 }, (_, i) => ({
+    id: `t3_r${i}`,
+    kind: 'post',
+    title: 'Denied for the CSP',
+    text: 'No score in the body.',
+    url: `https://www.reddit.com/r/CreditCards/comments/r${i}/x/`,
+  }));
+  try {
+    const result = await expandOpReplies(candidates);
+    assert.equal(result.attempted, 5, 'a single backoff must not end the run');
+    assert.equal(result.expanded, 5);
   } finally {
     global.fetch = original;
   }
