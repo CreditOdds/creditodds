@@ -74,6 +74,14 @@ const CAPS = {
   opCommentsPerPost: 5,
   opCommentChars: 600,
   abortAfterFailures: 2,
+  // Separate and slightly looser than the failure cap: a throttled request
+  // still returns its data, so it is worth absorbing a couple before quitting.
+  // Bounds backoff cost at roughly 3 minutes.
+  abortAfterThrottled: 3,
+  // Timings, named so the tests can shrink them — otherwise every case that
+  // exercises the retry or the request loop would sit through the real waits.
+  requestSpacingMs: 8000,
+  rateLimitBackoffMs: 61000,
 };
 
 // Mirrors REASON_DENIED_CODES in apps/api/src/handlers/user-records.js.
@@ -150,13 +158,20 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 
+// Count of 61s backoffs taken. A 429 that succeeds on retry is not a failure —
+// the caller gets its data and never knows — but it still costs a minute, so
+// throttling has to be observable to anything that loops over requests.
+let rateLimitBackoffs = 0;
+const getRateLimitBackoffs = () => rateLimitBackoffs;
+
 async function redditRss(url, { retried = false } = {}) {
   const res = await fetch(url, {
     headers: { 'User-Agent': BROWSER_UA, Accept: 'application/atom+xml,application/xml,text/xml,*/*' },
   });
   if (res.status === 429 && !retried) {
-    console.warn(`  Reddit 429 on ${url} — backing off 61s and retrying once`);
-    await sleep(61000);
+    console.warn(`  Reddit 429 on ${url} — backing off ${Math.round(CAPS.rateLimitBackoffMs / 1000)}s and retrying once`);
+    rateLimitBackoffs++;
+    await sleep(CAPS.rateLimitBackoffMs);
     return redditRss(url, { retried: true });
   }
   if (!res.ok) throw new Error(`Reddit RSS ${url} -> ${res.status}`);
@@ -237,7 +252,7 @@ async function fetchNewPosts(seenIds) {
 }
 
 async function fetchMegathreadComments(seenIds) {
-  await sleep(8000); // space Reddit requests; the new-posts fetcher runs first
+  await sleep(CAPS.requestSpacingMs); // space Reddit requests; the new-posts fetcher runs first
   const hot = parseAtom(await redditRss('https://www.reddit.com/r/CreditCards/hot/.rss?limit=10'));
   // Stickied megathreads surface at the top of /hot. Match the recurring
   // approval/DP thread shapes without pinning to one moderator's title format.
@@ -247,7 +262,7 @@ async function fetchMegathreadComments(seenIds) {
   if (!thread) {
     return { label: 'r/CreditCards megathread (none found in /hot)', candidates: [] };
   }
-  await sleep(8000);
+  await sleep(CAPS.requestSpacingMs);
   const threadUrl = thread.link.replace(/\/$/, '');
   const entries = parseAtom(await redditRss(`${threadUrl}/.rss?sort=new&limit=100`));
   // First entry is the post itself; the rest are comments.
@@ -321,28 +336,48 @@ async function fetchOpReplies(candidate) {
 // throws: a post whose comment feed fails just goes to the model without its
 // replies, exactly as before this expansion existed.
 //
-// Bails out after CAPS.abortAfterFailures consecutive failures. Every failure
-// here has already eaten a 61s backoff inside redditRss, so a genuinely
-// rate-limited run would otherwise spend ~9 minutes getting nothing while
-// making Reddit angrier. Replies are a bonus on top of the post body, so
-// giving up early costs far less than the alternative.
+// Bails out on sustained Reddit pushback, tracked as two separate signals
+// because they look nothing alike from in here:
+//
+//   failures  — the feed threw. Cheap to detect, and the candidate loses its
+//               replies. Cap is tight (2).
+//   throttled — the feed 429'd and only succeeded after a 61s backoff. The
+//               caller still gets its data, so this is invisible to a
+//               failure counter, but it is the expensive case: the 2026-07-30
+//               run took 7 backoffs across 8 posts, about 7 minutes of the
+//               fetch phase, without tripping a single failure. Cap is looser
+//               (3) since these requests do deliver.
+//
+// Replies are a bonus on top of the post body, so quitting early costs a
+// little recall and saves the run.
 async function expandOpReplies(candidates) {
   const queue = rankForExpansion(candidates).slice(0, CAPS.expandPosts);
   let expanded = 0;
   let failures = 0;
   let consecutiveFailures = 0;
+  let consecutiveThrottled = 0;
   let attempted = 0;
   for (const candidate of queue) {
+    // Say what was dropped either way: a silent cap here reads as "no replies
+    // existed", which is the same false negative shape as a missed data point.
+    const remaining = queue.length - attempted;
     if (consecutiveFailures >= CAPS.abortAfterFailures) {
-      // Say what was dropped: a silent cap here reads as "no replies existed".
       console.warn(
         `  ! OP reply expansion aborted after ${consecutiveFailures} consecutive failures — ` +
-          `${queue.length - attempted} post(s) not expanded (likely Reddit rate limiting)`
+          `${remaining} post(s) not expanded (likely Reddit rate limiting)`
+      );
+      break;
+    }
+    if (consecutiveThrottled >= CAPS.abortAfterThrottled) {
+      console.warn(
+        `  ! OP reply expansion aborted after ${consecutiveThrottled} consecutive 429 backoffs — ` +
+          `${remaining} post(s) not expanded (Reddit is throttling; replies still cost 61s each)`
       );
       break;
     }
     attempted++;
-    await sleep(8000);
+    await sleep(CAPS.requestSpacingMs);
+    const backoffsBefore = getRateLimitBackoffs();
     try {
       const replies = await fetchOpReplies(candidate);
       consecutiveFailures = 0;
@@ -355,8 +390,10 @@ async function expandOpReplies(candidates) {
       consecutiveFailures++;
       console.warn(`  ! OP replies for ${candidate.id} failed: ${err.message.split('\n')[0]}`);
     }
+    // Counted on both paths: a request can back off and then still fail.
+    consecutiveThrottled = getRateLimitBackoffs() > backoffsBefore ? consecutiveThrottled + 1 : 0;
   }
-  return { attempted, expanded, failures };
+  return { attempted, expanded, failures, throttled: getRateLimitBackoffs() };
 }
 
 // ── Extraction prompt ────────────────────────────────────────────────────────
@@ -654,10 +691,11 @@ async function phaseFetch() {
   // existing candidate, never candidates of their own, so this changes nothing
   // about dedupe.
   if (candidates.some((c) => c.kind === 'post')) {
-    const { attempted, expanded, failures } = await expandOpReplies(candidates);
+    const { attempted, expanded, failures, throttled } = await expandOpReplies(candidates);
     console.log(
       `\nOP replies: expanded ${expanded}/${attempted} post(s)` +
-        (failures ? `, ${failures} feed(s) failed` : '')
+        (failures ? `, ${failures} feed(s) failed` : '') +
+        (throttled ? `, ${throttled} × 61s 429 backoff` : '')
     );
   }
 
@@ -790,5 +828,6 @@ module.exports = {
   expandOpReplies,
   buildExtractPrompt,
   validateDataPoint,
+  getRateLimitBackoffs,
   CAPS,
 };
