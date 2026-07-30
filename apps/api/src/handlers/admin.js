@@ -161,12 +161,14 @@ exports.AdminRecordsHandler = async (event) => {
           queryParams.push(parseInt(cardIdFilter));
         }
 
-        // Return extra fields when filtering by card
-        const extraFields = cardIdFilter
-          ? `, r.credit_score_source, r.starting_credit_limit, r.bank_customer, r.reason_denied,
-             r.reason_denied_code, r.total_open_cards,
-             r.inquiries_3, r.inquiries_12, r.inquiries_24, r.admin_review`
-          : '';
+        // Every stored field, always. This used to be conditional on a card
+        // filter, which meant the admin Data Points tab could not show a
+        // record's full contents until you had drilled into one card — the
+        // unfiltered list simply never received them. Same row count either
+        // way, so the extra columns cost one wider result set, not more rows.
+        const extraFields = `, r.credit_score_source, r.starting_credit_limit, r.bank_customer,
+             r.reason_denied, r.reason_denied_code, r.total_open_cards,
+             r.inquiries_3, r.inquiries_12, r.inquiries_24, r.admin_review`;
 
         const results = await mysql.query(`
           SELECT
