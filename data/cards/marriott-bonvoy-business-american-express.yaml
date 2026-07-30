@@ -3,7 +3,7 @@ bank: "American Express"
 slug: "marriott-bonvoy-business-american-express"
 image: "marriott-bonvoy-business-american-express.png"
 accepting_applications: true
-apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/marriott-bonvoy-business/
+apply_link: https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/amex-marriott-bonvoy-business-credit-card/
 foreign_transaction_fee: false
 network: "amex"
 category: "business"
