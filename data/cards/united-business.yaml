@@ -122,6 +122,13 @@ benefits:
     description: "Employee cards at no additional cost"
     frequency: "ongoing"
     category: "business"
+  - name: "Award Booking Mileage Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more on the miles needed when booking United flights with miles; Premier members save even more"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
 our_take: >
   The United Business card earns 2 miles per dollar on United purchases, gas,
   dining, office supplies, and local transit, and its welcome offer of 100,000
