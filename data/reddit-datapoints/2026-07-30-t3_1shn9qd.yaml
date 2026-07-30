@@ -1,0 +1,12 @@
+source_id: "t3_1shn9qd"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1shn9qd/chase_ink_business_preferred_524_denial_not/"
+posted: "2026-04-10"
+evidence: "Instant denial on a reapplication at 5/24 with an 818 TransUnion score. Two reconsideration reps confirmed the recently-opened-accounts reason is 5/24 and is not recon-able, which is the useful part of this data point."
+card_name: "Ink Business Preferred"
+result: "denied"
+credit_score: 818
+credit_score_source: 2
+total_open_cards: 6
+date_applied: "2026-04"
+reason_denied: "Chase cited recently opened accounts, which two recon reps confirmed means 5/24"
+reason_denied_code: "too_many_recent_accounts"
