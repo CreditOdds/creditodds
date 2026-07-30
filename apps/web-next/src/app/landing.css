@@ -7895,6 +7895,37 @@
   background: rgba(210, 58, 98, 0.12);
   color: var(--warn);
 }
+.landing-v2 .cj-records-table thead th {
+  padding: 0;
+}
+.landing-v2 .cj-records-sort {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.landing-v2 .cj-records-sort:hover {
+  color: var(--ink);
+}
+.landing-v2 .cj-records-sort.is-active {
+  color: var(--accent);
+}
+.landing-v2 .cj-records-sort-arrow {
+  font-size: 8px;
+  opacity: 0.45;
+}
+.landing-v2 .cj-records-sort.is-active .cj-records-sort-arrow {
+  opacity: 1;
+}
 .landing-v2 .cj-chart-stage > .cj-chart-body {
   padding: 12px;
   min-width: 0;
