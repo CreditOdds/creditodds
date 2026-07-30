@@ -1,0 +1,12 @@
+source_id: "t3_1unbuu8"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1unbuu8/any_advice_or_way_forward_looking_for_options/"
+posted: "2026-07-04"
+evidence: "Poster quotes the Amex adverse action letter verbatim, which states their Experian FICO was 644 on 24 June 2026 and gives the score as the sole reason. Strongest provenance in this batch since the score comes from the denial letter itself."
+card_name: "Blue Cash Everyday"
+result: "denied"
+credit_score: 644
+credit_score_source: 1
+total_open_cards: 2
+date_applied: "2026-06"
+reason_denied: "Amex cited the applicant's FICO score"
+reason_denied_code: "credit_score_too_low"

@@ -1,0 +1,15 @@
+source_id: "t3_1ut9ecd"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1ut9ecd/prime_visa_declined_for_524/"
+posted: "2026-07-11"
+evidence: "Detailed denial data point. Chase pulled Experian and confirmed 5/24 was the only reason and that they would not reconsider. Poster notes 67% utilisation and a 7 month average age of open accounts as likely contributing factors."
+card_name: "Amazon Prime Rewards Visa Signature"
+result: "denied"
+credit_score: 708
+credit_score_source: 1
+length_credit: 1
+total_open_cards: 8
+inquiries_12: 5
+inquiries_24: 5
+date_applied: "2026-07"
+reason_denied: "Chase cited being over 5/24 as the sole reason"
+reason_denied_code: "too_many_recent_accounts"

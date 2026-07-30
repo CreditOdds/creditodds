@@ -1,0 +1,16 @@
+source_id: "t3_1uq7nlq"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1uq7nlq/denied_for_cse_seeking_data_points/"
+posted: "2026-07-07"
+evidence: "Second Citi Strata Elite denial for this poster, the first in December 2025. Recorded score is their FICO 9 of 730; they also cite a 742 VantageScore. Four open cards, all opened between February and June 2024, and one closed card with a 2022 late payment."
+card_name: "Citi Strata Elite"
+result: "denied"
+credit_score: 730
+credit_score_source: 0
+listed_income: 250000
+length_credit: 9
+total_open_cards: 4
+inquiries_12: 2
+inquiries_24: 2
+date_applied: "2026-07"
+reason_denied: "Citi cited too few established lines of credit reported"
+reason_denied_code: "too_few_accounts"
