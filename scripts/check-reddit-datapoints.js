@@ -89,9 +89,11 @@ const REASON_DENIED_CODES = [
   'too_many_inquiries',
   'too_many_recent_accounts',
   'length_of_credit_too_short',
+  'too_few_accounts',
   'credit_score_too_low',
   'high_utilization',
   'too_much_credit_with_issuer',
+  'no_issuer_relationship',
   'income_too_low',
   'recent_delinquency',
   'bankruptcy_or_public_record',
@@ -450,7 +452,10 @@ Some candidates carry \`OP reply:\` lines. Those are later comments on that same
 - **bank_customer**: true/false ONLY when the post states a relationship with the issuing bank ("been with Chase 10 years" → true; "no prior relationship" → false). Omit when unstated — do not guess.
 - **date_applied**: "YYYY-MM". Default to the post month; shift when the post says otherwise ("applied last month"). Never in the future.
 - **reason_denied** (denials only): a SHORT paraphrase in your own words of the issuer-cited reason, max 100 chars, plain factual tone, no em dashes (this text renders on the public site). Omit when the poster does not give a reason.
-- **reason_denied_code** (denials only): one of ${REASON_DENIED_CODES.join(', ')}. Use \`not_specified\` when no reason is given at all; otherwise pick the closest code.
+- **reason_denied_code** (denials only): one of ${REASON_DENIED_CODES.join(', ')}. Use \`not_specified\` when no reason is given at all; otherwise pick the closest code. Two pairs are easy to confuse:
+  - \`length_of_credit_too_short\` is about TIME (a thin or young file). \`too_few_accounts\` is about COUNT ("too few established/open accounts") and applies even to someone with a 20-year history. Citi denials routinely cite the count, not the age.
+  - \`too_much_credit_with_issuer\` means the issuer has already extended this person plenty. \`no_issuer_relationship\` is the opposite: the issuer cites having no existing account or deposit balance with them.
+  When the issuer lists several reasons, code the FIRST one it cites and let \`reason_denied\` carry the rest.
 - **evidence**: 1 sentence, YOUR OWN paraphrase of what the post reports (never a verbatim quote). This is review context for the human only — it is not imported.
 
 ## Output
