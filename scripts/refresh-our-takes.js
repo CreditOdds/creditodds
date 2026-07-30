@@ -125,6 +125,7 @@ Voice and rules:
 - If the recent-changes list shows a material move (an intro APR window or signup bonus that just dropped or rose, a fee change, or the card no longer accepting applications), work it in naturally, e.g. "recently trimmed from 24 to 21 months".
 - If the card tops a Best-of list, you may note that once and naturally, but never force it.
 - Do not invent benefits, credits, categories, or numbers that are not in the data.
+- A reward in the "mobile_wallet" category earns its rate only when the purchase is paid through the card's own mobile wallet (Apple Pay, Samsung Wallet). If you cite it, name that condition, and treat the "everything_else" rate as the card's true base rate. A reward marked merchant_specific or carrying a merchant_gate list applies only at the merchants its note names, never to its whole category.
 
 Return ONLY a JSON object of the exact shape {"our_take": "<the paragraph>"}.
 

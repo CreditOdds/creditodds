@@ -25,10 +25,14 @@ rewards:
     value: 2
     unit: percent
     note: "Streaming services like Netflix, Disney+ and Spotify"
-  - category: everything_else
+  - category: mobile_wallet
     value: 3
     unit: percent
-    note: "3% requires paying through Samsung Wallet; purchases made with the physical card or outside Samsung Wallet earn 1%"
+    note: "Any purchase paid through Samsung Wallet; purchases made with the physical card or outside Samsung Wallet earn 1%"
+  - category: everything_else
+    value: 1
+    unit: percent
+    note: "Purchases made with the physical card or outside Samsung Wallet"
 signup_bonus:
   value: 200
   type: "cash"

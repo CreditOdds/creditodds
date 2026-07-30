@@ -146,7 +146,7 @@ console.log('\nbuildCardSummary against real card YAML');
 test('intuit-business leads with the flat 2%, quarantines the Intuit-only 5%', () => {
   const summary = buildCardSummary(loadCard('intuit-business'));
   assert.match(summary, /whole category named: 2% on every purchase/);
-  assert.match(summary, /Merchant-limited rates[^.]*5% in the online shopping category, limited to: Intuit products/);
+  assert.match(summary, /Conditional rates[^.]*5% in the online shopping category, limited to: Intuit products/);
   // The exact wording that shipped wrong: 5% presented as a category-wide rate.
   assert.ok(
     !/whole category named:[^.]*online shopping/.test(summary),
@@ -156,7 +156,7 @@ test('intuit-business leads with the flat 2%, quarantines the Intuit-only 5%', (
 
 test('apple-card scopes the 3% to its merchant list', () => {
   const summary = buildCardSummary(loadCard('apple-card'));
-  assert.match(summary, /Merchant-limited rates[^.]*3% in the online shopping category, limited to: Apple purchases/);
+  assert.match(summary, /Conditional rates[^.]*3% in the online shopping category, limited to: Apple purchases/);
   assert.ok(
     !/whole category named:[^.]*online shopping/.test(summary),
     `Apple 3% still presented as a category rate:\n${summary}`
@@ -166,7 +166,7 @@ test('apple-card scopes the 3% to its merchant list', () => {
 test('chase-ink-business-unlimited scopes the Lyft 5% out of transit', () => {
   const summary = buildCardSummary(loadCard('chase-ink-business-unlimited'));
   assert.match(summary, /whole category named: 1\.5% on every purchase/);
-  assert.match(summary, /Merchant-limited rates[^.]*5% in the transit category, limited to: On Lyft rides/);
+  assert.match(summary, /Conditional rates[^.]*5% in the transit category, limited to: On Lyft rides/);
   assert.ok(
     !/whole category named:[^.]*transit/.test(summary),
     `Ink Lyft 5% still presented as a category rate:\n${summary}`

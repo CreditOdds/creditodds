@@ -14,22 +14,20 @@ rewards:
     # category matching so store pages don't surface this card for
     # arbitrary online retailers (e.g. bloomingdales.com).
     merchant_specific: true
-  - category: dining
+  # Apple's real structure is 3-2-1: 3% at Apple + select merchants, 2% on
+  # ANY purchase paid with Apple Pay, 1% with the physical card. The 2% used
+  # to be modeled as everything_else (plus per-category dining/transit/
+  # groceries duplicates), which fed rankers a base rate the card only earns
+  # when tapping. mobile_wallet carries the conditional 2%; everything_else
+  # is the honest ungated floor.
+  - category: mobile_wallet
     value: 2
     unit: percent
-    note: "Via Apple Pay"
-  - category: transit
-    value: 2
-    unit: percent
-    note: "Via Apple Pay"
-  - category: groceries
-    value: 2
-    unit: percent
-    note: "Via Apple Pay"
+    note: "2% Daily Cash on any purchase paid with Apple Pay; the physical titanium card earns 1%"
   - category: everything_else
-    value: 2
+    value: 1
     unit: percent
-    note: "2% Daily Cash requires paying with Apple Pay; the physical titanium card earns 1%"
+    note: "Purchases made with the physical titanium card"
 tags:
   - cashback
 apr:

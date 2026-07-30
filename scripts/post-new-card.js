@@ -93,6 +93,15 @@ function isMerchantGated(reward) {
     || (Array.isArray(reward.merchant_gate) && reward.merchant_gate.length > 0);
 }
 
+// `mobile_wallet` rates (Apple Card's 2% via Apple Pay, Samsung Galaxy Card's
+// 3% via Samsung Wallet) are conditional on the payment method the same way
+// merchant-gated rates are conditional on the merchant — stating one plainly
+// ("3% on everything") oversells the card. Quarantine them with the gated
+// rates so the copy carries the wallet condition from the note.
+function isWalletGated(reward) {
+  return reward.category === 'mobile_wallet';
+}
+
 // The schema's only units are `percent` and `points_per_dollar` — the bare
 // `points` this used to check is not a value any card carries, so every points
 // and miles card fed the model raw "5points_per_dollar on travel portal".
@@ -126,7 +135,7 @@ function summarizeRewards(rewards) {
   const isBonusCategory = r => r.category !== 'everything_else';
 
   const ungatedParts = valid
-    .filter(r => isBonusCategory(r) && !isMerchantGated(r))
+    .filter(r => isBonusCategory(r) && !isMerchantGated(r) && !isWalletGated(r))
     .sort(byValueDesc)
     .slice(0, 3)
     .map(r => `${formatRate(r)} on ${categoryLabel(r.category)}`);
@@ -139,7 +148,7 @@ function summarizeRewards(rewards) {
   }
 
   const gatedParts = valid
-    .filter(r => isBonusCategory(r) && isMerchantGated(r) && r.note)
+    .filter(r => isBonusCategory(r) && (isMerchantGated(r) || isWalletGated(r)) && r.note)
     .sort(byValueDesc)
     .map(r => `${formatRate(r)} in the ${categoryLabel(r.category)} category, limited to: ${truncateNote(r.note)}`);
 
@@ -172,8 +181,9 @@ function buildCardSummary(card) {
   if (ungated) parts.push(`Top rewards, each applying to the whole category named: ${ungated}`);
   if (gated) {
     parts.push(
-      'Merchant-limited rates, which apply ONLY at the merchants named and NOT to the '
-      + `whole category: ${gated}`
+      'Conditional rates, which apply ONLY under the condition named (a specific merchant '
+      + 'list, or paying through the card\'s mobile wallet) and NOT as a flat or '
+      + `category-wide rate: ${gated}`
     );
   }
   return parts.join('. ');

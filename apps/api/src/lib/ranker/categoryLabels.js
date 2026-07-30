@@ -31,6 +31,7 @@ const categoryLabels = {
   amazon: "Amazon.com",
   rei: "REI",
   everything_else: "Everything Else",
+  mobile_wallet: "Mobile Wallet Purchases",
   fast_food: "Fast Food",
   electronics_stores: "Electronics Stores",
   tv_internet_streaming: "TV, Internet & Streaming Services",
