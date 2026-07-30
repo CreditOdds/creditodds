@@ -18,6 +18,7 @@ const {
   fetchOpReplies,
   expandOpReplies,
   buildExtractPrompt,
+  validateDataPoint,
   CAPS,
 } = require('./check-reddit-datapoints.js');
 
@@ -241,6 +242,37 @@ test('buildExtractPrompt renders OP replies and documents how to read them', () 
   // The absence of replies must not render an empty label the model could
   // misread. Count only rendered candidate lines, not the instructions section.
   assert.equal((prompt.match(/^ {4}OP reply: /gm) || []).length, 1);
+});
+
+// The age window went 12 months -> 72 (Max, 2026-07-30): historical backfills
+// are the whole point of a multi-year sweep, and the old limit silently
+// rejected almost everything one would produce.
+test('date_applied is accepted back to 72 months and rejected beyond it', () => {
+  const ctx = () => ({
+    candidateById: new Map([['t3_abc', { id: 't3_abc', url: 'u', posted: '2020-06-01' }]]),
+    cardByName: new Map([['Chase Sapphire Preferred', {}]]),
+    aliasToName: new Map(),
+    usedSourceIds: new Set(),
+    importedIds: new Set(),
+  });
+  const dp = (date_applied) => ({
+    source_id: 't3_abc', permalink: 'u', card_name: 'Chase Sapphire Preferred',
+    result: 'approved', credit_score: 750, credit_score_source: 0, date_applied,
+  });
+  const ageErrors = (date) => validateDataPoint(dp(date), ctx()).errors.filter((e) => /months old/.test(e));
+
+  // THIS_MONTH is captured at module load, so derive the boundary rather than
+  // hardcoding dates that would rot the moment this file is read in a new month.
+  const now = new Date();
+  const shift = (months) => {
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - months, 1));
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+  };
+
+  assert.deepEqual(ageErrors(shift(0)), [], 'this month must be accepted');
+  assert.deepEqual(ageErrors(shift(71)), [], '71 months must be accepted');
+  assert.deepEqual(ageErrors(shift(72)), [], '72 months is the boundary and must be accepted');
+  assert.equal(ageErrors(shift(73)).length, 1, '73 months must be rejected');
 });
 
 run();
