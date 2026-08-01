@@ -7,17 +7,18 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  The American Express Green card stands out for frequent travelers and diners
-  with its 3 points per dollar on travel, transit, and dining purchases,
-  making it a strong choice for those who spend heavily in these categories.
-  The $150 annual fee is offset by valuable perks like the $209 annual CLEAR
-  Plus credit, which can enhance your airport experience, though enrollment is
-  required. A 40,000-point signup bonus after spending $3,000 in the first six
-  months sweetens the deal for new cardholders. However, if your spending
-  doesn't align with these categories, the 1 point per dollar on other
-  purchases may not justify the fee. With no foreign transaction fees, it's
-  also a good companion for international travel. Consider this card if you
-  can leverage the travel and dining rewards and benefits.
+  American Express stopped accepting new applications for the Green in late
+  July 2026, so this is now a card to evaluate only if you already hold it.
+  The math is straightforward: 3 points per dollar on travel, transit, and
+  dining against a $150 annual fee, with 1 point per dollar everywhere else
+  and no foreign transaction fees. The $219 annual CLEAR Plus credit alone can
+  cover the fee if you fly often enough to use it, and the 40,000-point bonus
+  after $3,000 in six months was reachable for anyone traveling regularly. The
+  catch is how narrow the rest of it is: outside those three categories the
+  card earns a flat 1x, and the Venue Collection perk, 10% back on stadium
+  concessions up to $250 a year, only matters if you attend events at
+  participating venues. Existing cardholders who don't use CLEAR should run
+  the numbers before paying the fee again.
 annual_fee: 150
 reward_type: "points"
 rewards:

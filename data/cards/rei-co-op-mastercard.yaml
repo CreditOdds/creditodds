@@ -20,16 +20,17 @@ rewards:
     value: 1.5
     unit: percent
 our_take: >
-  The REI Co-op Mastercard offers a compelling 5% cashback rate on purchases
-  at REI retail locations and REI.com, making it an excellent choice for
-  frequent REI shoppers. With no annual fee and no foreign transaction fees,
-  it is a cost-effective option for both domestic and international use. The
-  card also provides a $100 REI gift card as a signup bonus after your first
-  purchase outside of REI within the first 60 days, adding immediate value.
-  However, the 1.5% cashback on all other purchases is modest, so it may not
-  be the best fit if you're looking for higher everyday rewards. Consider it a
-  strong addition if you regularly shop at REI, but less so if you're seeking
-  a versatile cashback card for broader spending.
+  The pitch is simple: 5% back at REI retail stores and REI.com, with no
+  annual fee and no foreign transaction fee, which makes it a straightforward
+  pick if you buy gear at the co-op regularly. The 1.5% flat rate on
+  everything else is respectable for a store-branded card, so it isn't dead
+  weight between outdoor purchases, though plenty of general cash back cards
+  match or beat it. The welcome offer is a $100 REI gift card after your first
+  purchase outside REI within 60 days, which is one of the easier bonuses to
+  trigger since there's no spending threshold to clear. Just note that the
+  payoff comes back to you as REI value, so it only counts if you were going
+  to spend it there anyway. With a regular APR of 17.49% to 28.49%, carry a
+  balance and the 5% stops mattering quickly.
 signup_bonus:
   value: 100
   type: cash

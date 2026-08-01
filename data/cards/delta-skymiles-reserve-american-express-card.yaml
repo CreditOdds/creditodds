@@ -9,18 +9,22 @@ network: "amex"
 annual_fee: 650
 reward_type: "miles"
 our_take: >
-  The Delta SkyMiles Reserve American Express card stands out for frequent
-  Delta flyers with its complimentary Delta Sky Club access and a generous
-  125,000-mile signup bonus after meeting the $9,000 spend requirement in the
-  first 6 months. This offer, recently increased, makes it an attractive
-  choice for those looking to maximize their miles. However, the $650 annual
-  fee is steep, and the rewards rate is limited to 3 miles per dollar on Delta
-  purchases and 1 mile per dollar on everything else. The card's value is
-  bolstered by additional perks like the annual First Class companion
-  certificate and up to $240 in Resy dining credits, but you'll need to
-  leverage these benefits to justify the high cost. It's a premium card best
-  suited for dedicated Delta travelers who can take full advantage of its
-  travel-centric benefits.
+  Lounge access is what you are paying $650 for: 15 Delta Sky Club visits per
+  Medallion Year when flying Delta, unlimited visits once you spend $75,000 in
+  a calendar year, plus Centurion Lounge access when the Delta flight is
+  booked with the card. The companion certificate is the other pillar, issued
+  annually after renewal with no spend requirement and usable in Delta First,
+  Premium Select, Comfort, or Main on round-trips within the U.S. and to
+  Mexico, the Caribbean, or Central America. The welcome offer climbed to
+  125,000 miles in June and dropped back to 100,000 after $5,000 of spend in
+  six months in mid-July, and it is an up-to figure rather than a guarantee.
+  Be clear about the earning, though, because it is the card's real weakness:
+  3 miles per dollar on Delta purchases and a flat 1 mile on absolutely
+  everything else, so this is not a card for daily spend. Frequent Delta
+  flyers chasing Medallion status get the most from it, helped by the $2,500
+  MQD headstart and $1 in MQDs per $10 spent, while the $240 Resy, $200 Delta
+  Stays, and $120 rideshare credits only reduce the fee if you were already
+  spending in those places.
 benefits:
   - name: "Delta Sky Club Access"
     value: 0

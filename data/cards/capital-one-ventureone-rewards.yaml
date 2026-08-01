@@ -31,18 +31,17 @@ apr:
 apply_link: https://www.capitalone.com/credit-cards/ventureone/
 foreign_transaction_fee: false
 our_take: >
-  The Capital One VentureOne Rewards card is a solid choice for travelers who
-  want to earn miles without paying an annual fee. It offers 5 miles per
-  dollar on hotels and car rentals booked through Capital One Travel, and 1.25
-  miles per dollar on all other purchases, making it a versatile option for
-  everyday spending. The card also comes with a 20,000-mile signup bonus for
-  spending $500 in the first three months, which is a nice boost for new
-  cardholders. Additionally, it offers a 0% intro APR on purchases for 15
-  months, providing some breathing room for larger expenses. However, if
-  you're looking for premium travel perks or higher earn rates on specific
-  categories, you might need to look elsewhere. The card's travel-related
-  benefits like Price Drop Protection and Price Match Guarantee add some
-  value, but they're not game-changers.
+  VentureOne is the entry point to Capital One miles: 1.25x on every purchase
+  with no annual fee and no foreign transaction fee, which makes it a
+  low-commitment way to hold a miles balance and use it abroad. The 20,000
+  mile bonus needs only $500 of spend in the first three months, one of the
+  easier thresholds around, and there are 15 months of 0% intro APR on
+  purchases if you have something to finance. The tradeoff is the earn rate:
+  1.25x is well below the 2x on Capital One's fee-charging Venture cards, so
+  this is the version you carry when you don't want to pay $95 rather than the
+  one that maximizes miles. Only hotels and rental cars booked through Capital
+  One Travel break that pattern, at 5x. Note that the intro APR covers
+  purchases only, not balance transfers, so it isn't a debt-payoff card.
 benefits:
   - name: "Price Drop Protection"
     value: 0

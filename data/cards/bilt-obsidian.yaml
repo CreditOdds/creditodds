@@ -10,16 +10,22 @@ annual_fee: 95
 reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
-  The Bilt Obsidian card is a compelling option for renters who want to earn
-  rewards without paying transaction fees on rent payments. With a $95 annual
-  fee, it offers flexible earning potential: 3 points per dollar in your
-  choice of dining or groceries, up to 6x at select Bilt Dining restaurants,
-  and 4x on hotels booked through the Bilt Travel Portal. The card also
-  provides a $100 annual hotel credit split into two $50 credits, which can
-  help offset the annual fee if you utilize the Bilt Travel Portal. However,
-  the rewards cap on groceries and the limited network for the 6x dining rate
-  might restrict your earning potential. Overall, it's a solid pick for those
-  who can maximize its unique rent payment feature and travel benefits.
+  Obsidian is the paid tier of Bilt's rent-focused lineup: $95 a year buys 3x
+  on your choice of dining or groceries, 4x on hotels and 3x on flights booked
+  through Bilt Travel, 2x on other travel, 3x on Lyft rides after you link
+  your Lyft account, and up to 1.25 points per dollar on rent and mortgage
+  payments with no transaction fee. Two $50 statement credits a year for Bilt
+  Travel hotel bookings offset most of the fee, and the welcome offer is $200
+  in Bilt Cash deposited at approval with no minimum spend, which is rare. The
+  fine print matters more than usual here: the 3x category is capped at
+  $25,000 a year and drops to 1x after, the up to 6x dining rate applies only
+  at the limited network of participating Bilt Dining restaurants, the transit
+  rate covers Lyft and nothing else, and the rent multiplier is recalculated
+  each cycle from your everyday spend against your housing payment, so 1.25x
+  is a ceiling. Everything outside those buckets earns 1 point per dollar, a
+  thin base for a card carrying an annual fee. Note also that the intro APR is
+  10%, not 0%, for the first 12 billing cycles, with 26.74% to 34.74% after,
+  so treat this strictly as a spending card.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

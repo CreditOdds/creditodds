@@ -33,16 +33,18 @@ apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/rise
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  The Chase Freedom Rise offers a straightforward 1.5% cash back on all
-  purchases with no annual fee, making it a solid entry-level choice for those
-  looking to earn rewards on everyday spending. The real draw is the $25
-  statement credit for enrolling in automatic payments within the first three
-  months, which can be a nice bonus for setting up good financial habits.
-  However, the card's high regular APR of 25.24% means it's best suited for
-  those who plan to pay off their balance in full each month. The 6-month
-  complimentary DashPass membership adds some value for frequent DoorDash or
-  Caviar users, but it's a one-time perk. Overall, it's a decent starter card
-  for building credit and earning consistent cash back.
+  The Freedom Rise is built as a starter card: 1.5% cash back on everything,
+  no annual fee, and no categories to track. New accounts get 3% back on
+  dining, including takeout and eligible delivery, on up to $6,000 spent in
+  the first six months, after which that spending settles back to the standard
+  1.5%. There is no signup bonus, so the closest thing to one is the $25
+  statement credit for enrolling in automatic payments within your first three
+  months and staying enrolled for at least 90 days, which is a useful nudge if
+  you are building a payment history. Lyft rides earn 2% through September 30,
+  2027, a half percent over the base rate and only at Lyft, so treat it as a
+  small extra rather than a reason to choose the card. It is a fine first
+  card, but the flat 1.5% is where it settles, so expect to outgrow it once
+  your credit supports something with real bonus categories.
 benefits:
   - name: "DashPass Complimentary Membership"
     value: 0

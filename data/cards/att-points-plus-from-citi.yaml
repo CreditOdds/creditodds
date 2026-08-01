@@ -7,18 +7,18 @@ apply_link: https://www.citi.com/credit-cards/citi-att-pointsplus-credit-card
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The AT&T Points Plus from Citi stands out with its robust rewards structure,
-  offering 3 points per dollar on gas and EV charging, and 2 points per dollar
-  on groceries and AT&T-related expenses, all with no annual fee. The card
-  also provides valuable telecom benefits, including a $10 monthly discount on
-  AT&T wireless and internet bills when enrolled in AutoPay and paperless
-  billing. However, the signup bonus was recently reduced from $250 to a $200
-  statement credit after a $500 spend in the first three months, which is a
-  notable decrease. Despite this, the card's ongoing rewards and lack of
-  foreign transaction fees make it a versatile option for frequent AT&T users
-  and those looking to maximize points on everyday spending. Just remember
-  that to fully capitalize on the telecom discounts, you must enroll in
-  AutoPay and paperless billing.
+  The pitch here is the statement credits rather than the points: $10 a month
+  off an AT&T wireless line and another $10 a month off eligible AT&T
+  internet, both requiring AutoPay and paperless billing, worth up to $240 a
+  year combined on a card with no annual fee. On top of that, spending $1,000
+  or more in a billing cycle earns a $20 statement credit, up to another $240
+  a year, which is a real return for routine spend. Earning is modest by
+  comparison: 3 points per dollar on gas including EV charging, 2x on
+  groceries, 2x on AT&T products and bill payments, and 1x on everything else,
+  with no foreign transaction fees. Citi recently cut the welcome offer from
+  $250 to $200, payable after $1,000 in purchases in the first three months.
+  If you're not an AT&T customer, most of the value evaporates and there are
+  stronger everyday cards to carry instead.
 annual_fee: 0
 reward_type: "points"
 tags:

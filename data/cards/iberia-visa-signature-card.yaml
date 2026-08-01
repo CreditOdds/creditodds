@@ -8,17 +8,18 @@ foreign_transaction_fee: false
 network: "visa"
 reward_type: "miles"
 our_take: >
-  The Iberia Visa Signature card is a compelling choice for frequent flyers of
-  Iberia, British Airways, and Aer Lingus, offering 3 points per dollar on
-  flights with these airlines. The standout feature is the generous 75,000
-  miles signup bonus, earned after spending $5,000 in the first three months.
-  However, the $95 annual fee and the high spending requirement for the
-  companion voucher, which demands $30,000 in a calendar year, might be a
-  drawback for some. The card also offers a 10% discount on Iberia flights
-  booked through a special site and includes travel perks like baggage delay
-  insurance and lost luggage reimbursement. With no foreign transaction fees,
-  it's a solid travel companion, but its value diminishes if you don't
-  frequently fly with the associated airlines.
+  The pull here is the 75,000 mile signup bonus after $5,000 in three months,
+  paired with a $95 annual fee and no foreign transaction fees, which is a
+  reasonable trade if Iberia, British Airways, or Aer Lingus are already in
+  your travel rotation. Beyond the bonus the earn chart is narrow: 3x applies
+  only to flights on those three airlines, 2x to hotels booked directly, and
+  everything else sits at 1x, so this is not a card for everyday spending. The
+  companion voucher worth up to $1,000 reads like the headline perk, but it
+  takes $30,000 of purchases in a calendar year to unlock, which is a lot of
+  1x spending to push through. Baggage delay and lost luggage coverage, plus
+  10% off Iberia flights booked through the cardmember site, round things out.
+  Earn the bonus, put it toward transatlantic awards, and reassess each year
+  whether the $95 still earns its place.
 tags:
   - airline
   - travel

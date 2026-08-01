@@ -14,19 +14,18 @@ check_ignore:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Atmos Rewards Business card from Bank of America is a strong contender
-  for businesses that frequently book flights with Alaska Airlines, offering 3
-  points per dollar on airline purchases and a 70,000-point signup bonus after
-  spending $4,000 in the first 90 days. The card also comes with valuable
-  travel perks like a free checked bag, priority boarding, and an annual coach
-  companion fare on Alaska Airlines, enhancing its appeal for frequent flyers.
-  However, the $95 annual fee is a consideration, and the recent drop in the
-  signup bonus from 80,000 to 70,000 points might be a disappointment for
-  those looking for the maximum initial value. With no foreign transaction
-  fees and no personal credit reporting, it can be a smart choice for business
-  owners who travel internationally and want to manage their personal credit
-  utilization separately. Just keep in mind that outside of travel, the
-  rewards rate drops to 1 point per dollar on most other purchases.
+  The Atmos Rewards Business card covers the same Alaska and Hawaiian ground
+  as the personal version for $95 a year, earning 3 points per dollar on
+  Alaska and Hawaiian Airlines purchases, 2x on gas, EV charging, transit, and
+  shipping, and 1x elsewhere. The current bonus is 70,000 points plus a $99
+  Companion Fare after $4,000 in the first 90 days, trimmed back in early July
+  from the 80,000 that ran through May and June. The quieter draw is that card
+  activity doesn't report to personal credit bureaus, which keeps the account
+  off your personal utilization and out of 5/24-style counts. A recurring $99
+  Companion Fare after $6,000 of annual spend, a free checked bag, and
+  priority boarding on Alaska flights are what justify the fee year to year.
+  If your business doesn't fly Alaska or Hawaiian, the 3x rate never applies
+  and you're left with an ordinary 2x card.
 tags:
   - travel
   - airline

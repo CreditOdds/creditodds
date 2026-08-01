@@ -10,17 +10,17 @@ apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-c
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  The Graphite Business Cash Unlimited card from American Express offers a
-  straightforward 2% cash back on all eligible purchases, making it a reliable
-  choice for businesses with varied spending. For those who frequently travel,
-  the card sweetens the deal with 5% cash back on flights and prepaid hotels
-  booked through American Express Travel. However, the $295 annual fee is a
-  significant consideration, and the substantial $50,000 spend requirement to
-  earn the $1,500 signup bonus may not suit smaller businesses. There's also a
-  potential $2,400 statement credit for American Express One AP fees, but it
-  requires a hefty $250,000 in annual spending to unlock. This card is best
-  for businesses with high expenses that can leverage both the travel rewards
-  and the premium benefits.
+  Graphite Business Cash Unlimited pays a flat, unlimited 2% on eligible
+  purchases with no categories to track, plus 5% on flights and prepaid hotels
+  booked through American Express Travel, which is a clean setup for a
+  business that spends broadly. The problem is the $295 annual fee: at 2%, it
+  swallows the return on roughly your first $15,000 of spend, so a no-fee 2%
+  card stays ahead of it below that line. The welcome offer is sized for the
+  same audience, $1,500 back after $50,000 in purchases within six months. So
+  is the one real perk: up to $2,400 in statement credits toward American
+  Express One AP monthly fees, which requires $250,000 in eligible purchases
+  in a calendar year. This is a card for genuinely high-volume businesses, and
+  if your spend is modest the math simply doesn't get there.
 tags:
   - business
   - cashback

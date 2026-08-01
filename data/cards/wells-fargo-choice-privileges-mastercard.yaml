@@ -44,17 +44,19 @@ apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercar
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Wells Fargo Choice Privileges Mastercard is a strong contender for
-  travelers who frequently stay at Choice Hotels, offering 5 points per dollar
-  on stays at participating properties. With no annual fee and a generous
-  60,000-point signup bonus after spending $1,000 in the first three months,
-  it's a cost-effective option for budget-conscious travelers. You'll also
-  earn 3 points per dollar on gas, groceries, home improvement, and phone
-  expenses, which adds value for everyday purchases. The card includes
-  automatic Gold Elite Status and 10 elite qualifying nights annually,
-  enhancing your hotel experience. However, the regular APR ranges from 19.99%
-  to 28.74%, so carrying a balance could be costly. With no foreign
-  transaction fees, it's also a practical choice for international travel.
+  For a card with no annual fee, the Choice Privileges Mastercard asks very
+  little and hands back a reasonable amount, starting with 60,000 bonus points
+  after $1,000 of spend in three months. That offer is worth watching: Wells
+  Fargo cut it to 40,000 in April 2026 before restoring the full 60,000 in
+  May. The 5 points per dollar rate applies only at participating Choice
+  Hotels properties, but 3 points per dollar on gas, groceries, home
+  improvement and phone plans is unusually broad for a free hotel card, and
+  automatic Gold Elite status plus 10 elite qualifying nights a year come
+  along with it. There are no foreign transaction fees and up to $800 of cell
+  phone protection when you pay your monthly bill with the card. The honest
+  limit is the currency: Choice Privileges points only matter if you actually
+  stay at Choice properties, and 1 point per dollar on everything else is a
+  weak base rate.
 benefits:
   - name: "Automatic Gold Elite Status"
     value: 0

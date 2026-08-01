@@ -34,17 +34,18 @@ apply_link: https://www.discover.com/credit-cards/student/it-card.html
 foreign_transaction_fee: false
 network: "discover"
 our_take: >
-  The Discover it for Students card is a solid starter option with no annual
-  fee and a unique Cashback Match feature that doubles your cash back at the
-  end of the first year. It offers 5% cash back on rotating categories like
-  gas, transit, and drugstores, up to $1,500 in purchases per quarter, after
-  which it earns 1%. This can be a great way to maximize rewards if you keep
-  track of the categories and activate them each quarter. The card also offers
-  a 0% intro APR on purchases for the first 6 months, which can be helpful for
-  managing initial expenses. However, the regular APR ranges from 16.49% to
-  25.49%, so it's best to pay off balances in full to avoid high interest
-  charges. With no foreign transaction fees, it's also a good companion for
-  students studying abroad.
+  The Cashback Match is what makes this a genuinely strong first card:
+  Discover automatically matches everything you earn at the end of your first
+  year, with no cap and no fixed dollar amount, which effectively doubles
+  year-one rewards. Underneath it is the standard Discover structure, 5% back
+  on quarterly rotating categories on up to $1,500 in spend after activation,
+  covering gas, EV charging, transit, airlines, and drugstores in Q3 2026, and
+  1% on everything else. There is no annual fee and no foreign transaction
+  fee, which matters if you study abroad. The intro APR is thin at 0% for just
+  six months on purchases, and the ongoing rate of 16.49% to 25.49% is low for
+  a student card but still expensive if you carry a balance. Treat it as a
+  rewards and credit-building card rather than a way to finance anything,
+  activate the categories each quarter, and pay the statement in full.
 benefits:
   - name: "Cashback Match"
     value: 0

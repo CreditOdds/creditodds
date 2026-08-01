@@ -41,17 +41,16 @@ apr:
     min: 19.49
     max: 29.49
 our_take: >
-  The JetBlue Card by Barclays stands out with its 3 points per dollar on
-  JetBlue purchases, making it a solid choice for frequent flyers of the
-  airline. With no annual fee and no foreign transaction fees, it's a
-  cost-effective option for international travelers. The card also offers 2
-  points per dollar on dining and groceries, adding value for everyday
-  spending. A 10,000-point signup bonus for spending $1,000 in the first 3
-  months is a nice perk, though not the most competitive in the airline
-  category. The 12-month 0% intro APR on balance transfers can be useful, but
-  the regular APR is on the higher side, ranging from 19.74% to 29.74%. While
-  the 50% savings on inflight purchases sweetens the deal, the card's primary
-  appeal is to JetBlue loyalists looking to maximize their travel rewards.
+  This is the entry-level JetBlue card and it behaves like one: no annual fee,
+  3x points on JetBlue purchases, 2x at restaurants and grocery stores, and 1x
+  everywhere else. The bonus is a modest 10,000 points after $1,000 in three
+  months, and the lone ongoing perk is 50% off inflight food, drinks, and
+  Wi-Fi, so there is no free checked bag and no anniversary points to look
+  forward to. It does carry 12 months of 0% intro APR on balance transfers,
+  which gives it a secondary use if you are moving existing debt.
+  Realistically it fits occasional JetBlue flyers who want to collect a few
+  TrueBlue points without paying anything to keep the card open. If you check
+  a bag even twice a year, the $99 JetBlue Plus is the better arithmetic.
 benefits:
   - name: "50% Off Inflight Purchases"
     value: 50
