@@ -7,19 +7,22 @@ apply_link: https://www.biltrewards.com/card/apply
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Bilt Palladium card stands out with its unique ability to pay rent
-  without transaction fees while earning points, a rare feature among premium
-  cards. With a hefty $495 annual fee, it offers substantial benefits like a
-  $400 annual hotel credit through the Bilt Travel Portal, complimentary
-  Priority Pass lounge access, and a lucrative signup bonus of 50,000 points
-  plus $300 Bilt Cash after spending $4,000 in the first 90 days. The card
-  excels in dining with up to 5x points at participating Bilt Dining
-  restaurants and 4x points on Lyft rides, but the limited dining network and
-  specific booking channels for travel rewards may not suit everyone. The
-  annual Bilt Cash Award of $200 and the potential to earn Gold Status add
-  further value, though the card's rewards structure can be complex. Overall,
-  it's a strong choice for frequent travelers and renters who can leverage its
-  benefits to offset the high fee.
+  Bilt built the Palladium around something almost no other card does: you can
+  put rent or mortgage on it with no transaction fee and still earn up to
+  1.25x points, on top of a flat 2x on everyday spend. At $495 a year the math
+  leans on the credits, a $400 annual hotel credit paid as two $200 statement
+  credits for Bilt Travel bookings and $200 in annual Bilt Cash, plus Priority
+  Pass lounge access and no foreign transaction fees. The catch is how
+  conditional the best numbers are: the 1.25x on housing only applies on the
+  housing rewards track, since the Bilt Cash track drops housing to 1x, the 4x
+  transit rate covers Lyft rides only after you link your account, and the 4x
+  hotels and 3x flights require booking through Bilt Travel. The intro APR is
+  unusual and worth reading twice, a 10% fixed rate for the first 12 billing
+  cycles rather than 0%, before a regular 26.74% to 34.74%. It opens with
+  50,000 points plus $300 Bilt Cash after $4,000 in three months, and that
+  same $4,000 in 90 days earns Gold Status. It is worth the fee mainly if your
+  rent is large enough that fee-free housing points carry the $495 on their
+  own.
 annual_fee: 495
 reward_type: "points"
 release_date: "2025-01-15"

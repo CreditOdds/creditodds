@@ -9,17 +9,18 @@ foreign_transaction_fee: false
 network: "amex"
 reward_type: "points"
 our_take: >
-  The Navy Federal More Rewards American Express card stands out for its
-  strong 3 points per dollar earn rate across dining, groceries, gas, and
-  transit, all with no annual fee. This makes it a versatile choice for
-  everyday spending, especially if you frequently spend in these categories.
-  The card also offers a signup bonus of 20,000 points, worth $200, when you
-  spend $2,000 within the first three months. While it lacks a 0% intro APR
-  offer, the regular APR is fairly competitive, ranging from 14.15% to 18%.
-  Additional perks include no foreign transaction fees and no balance transfer
-  fees, plus up to 25% off car rentals with insurance included. Overall, it's
-  a solid rewards card for Navy Federal members who want to maximize points on
-  common expenses.
+  The More Rewards American Express packs an unusually wide 3x band into a
+  card with no annual fee: dining including food delivery, groceries, gas, and
+  transit all earn 3 points per dollar, which covers most of a typical
+  household budget. The welcome offer adds 20,000 points worth $200 after
+  $2,000 in spending in the first three months, though that offer is only good
+  for applications through 1/3/2027. Standard APRs run 14.15% to 18%, low
+  enough that carrying an occasional balance is less punishing than on most
+  rewards cards, and there are no foreign transaction fees and no balance
+  transfer fees. The tradeoff is that everything outside those four categories
+  earns a flat 1 point per dollar, so spending on travel, online shopping, or
+  bills gets no lift here. Rental car discounts of up to 25% with loss and
+  damage coverage are a real but minor extra.
 tags:
   - rewards
   - dining

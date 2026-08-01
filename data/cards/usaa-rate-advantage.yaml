@@ -18,8 +18,14 @@ apr:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  A low-rate card for USAA members who carry a balance: a roughly 20-month 0% intro on transfers and,
-  more notably, an ongoing regular APR that starts as low as 10.40%, well below most cards.
-  It earns no rewards and has no signup bonus, so the entire pitch is cheap borrowing. For a
-  pure 0% balance-transfer runway, the Wells Fargo Reflect and U.S. Bank Shield go longer at
-  21 months, but neither matches this card's low rate once the intro period ends.
+  The Rate Advantage is built around its interest rate rather than rewards:
+  the regular APR starts at 10.4% and tops out at 24.4%, a lower floor than
+  most general-purpose cards, and there's no annual fee and no foreign
+  transaction fee. If you know you'll occasionally carry a balance, that low
+  end is the entire argument for the card. There's also a 0% intro APR for 20
+  months on balance transfers that post by November 30, 2026, running through
+  the March 2028 billing cycle, but the 5% transfer fee is steep and should be
+  weighed against the interest you'd actually save. Be clear that this card
+  earns no cash back or points whatsoever, so it does nothing for you outside
+  of the borrowing math. Use it to hold or pay down debt cheaply, and put your
+  everyday spending elsewhere.

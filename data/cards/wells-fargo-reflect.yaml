@@ -21,15 +21,17 @@ apply_link: https://creditcards.wellsfargo.com/reflect-visa-credit-card
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  The Wells Fargo Reflect card offers a standout 21-month 0% intro APR on both
-  purchases and balance transfers, making it a top choice for those looking to
-  manage existing debt or finance a large purchase interest-free. With no
-  annual fee, it's a cost-effective option for those focused solely on paying
-  down balances. However, the card doesn't earn any rewards, so once the intro
-  period ends, it may not have much appeal for everyday use. The card does
-  offer up to $600 in cell phone protection, which can be a nice perk if you
-  pay your phone bill with it. Overall, it's a strategic choice for the intro
-  APR, but not a long-term keeper.
+  Twenty-one months of 0% intro APR on both purchases and qualifying balance
+  transfers, with no annual fee, is the whole pitch here, and it is strong
+  enough to put the Reflect at #3 on our Best 0% APR list. That window gives
+  you close to two years to clear existing debt or spread out a large purchase
+  before the regular 17.49% to 28.24% variable APR takes over. Be clear about
+  what you give up in exchange: the card earns no rewards at all, so nothing
+  keeps it in rotation once the intro period ends, and it charges foreign
+  transaction fees, which rules it out for travel. Cell phone protection of up
+  to $600 per claim, limited to two claims per 12 months with a $25
+  deductible, is the lone ongoing perk. Open it with a payoff schedule already
+  written down, and expect it to go quiet after the 21 months are up.
 benefits:
   - name: "Cellular Telephone Protection"
     value: 600

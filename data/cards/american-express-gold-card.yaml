@@ -8,15 +8,19 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref="
 our_take: >
-  The American Express Gold card shines for foodies and travelers alike,
-  offering 4 points per dollar on dining and groceries, and 5 points per
-  dollar on hotels booked through Amex Travel. Its recent signup bonus
-  increase to 100,000 points for spending $8,000 in six months makes it even
-  more enticing. However, the $325 annual fee is a significant consideration,
-  though partially offset by $120 in annual Uber Cash and $120 in dining
-  credits. With no foreign transaction fees, it's a solid choice for
-  international travelers. Just be ready to enroll in various credits to
-  maximize value and consider if the benefits align with your spending habits.
+  The Gold is our #1 pick for dining and groceries because the earn rates are
+  genuinely best in class: 4x at restaurants on up to $50,000 a year and 4x at
+  U.S. supermarkets on up to $25,000, plus 5x on hotels prepaid through Amex
+  Travel and 3x on flights. A 100,000-point bonus after $8,000 in six months
+  is one of the larger offers available and lands it at #5 on our signup bonus
+  list. The $325 annual fee is the honest sticking point, and Amex expects you
+  to cover it with credits rather than points: $120 in Uber Cash, $120 in
+  dining credits at Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, and
+  Five Guys, $84 at Dunkin', and $100 semiannually at Resy restaurants. Those
+  are doled out in $10 and $7 monthly slices at specific merchants and require
+  enrollment, so they only count if you actually spend there each month. If
+  you do not, judge the card on the 4x rates alone and decide whether your
+  grocery and restaurant spending clears $325 of value.
 annual_fee: 325
 benefits:
   - name: "Uber Cash"

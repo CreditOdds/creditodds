@@ -8,16 +8,18 @@ annual_fee: 400
 reward_type: "points"
 network: "visa"
 our_take: >
-  The U.S. Bank Altitude Reserve Visa Infinite offers a compelling travel
-  package with its standout $325 annual travel credit for purchases made via a
-  mobile wallet, which significantly offsets its $400 annual fee. For frequent
-  travelers, the unlimited Priority Pass lounge access and a $100 credit for
-  Global Entry or TSA PreCheck every five years add further value. However,
-  the card is not currently accepting applications, so it may not be an option
-  for new applicants. While the travel perks are strong, the lack of recent
-  changes or Best-of list placements suggests it may not be at the forefront
-  of the travel card market right now. If you already have it, the benefits
-  can still justify the cost, but new seekers will need to look elsewhere.
+  U.S. Bank has stopped accepting applications for the Altitude Reserve, so
+  this is now a card you evaluate for keeping rather than one you can go out
+  and get. For existing holders, the $400 annual fee rests almost entirely on
+  the $325 annual travel credit, and that credit only applies to travel
+  purchases made through a mobile wallet, which is a real condition and not a
+  formality. If you routinely pay with Apple Pay or a similar wallet, the
+  credit is straightforward to use and the effective cost drops to $75 before
+  you count anything else. On top of that sit unlimited Priority Pass Select
+  lounge access and a $100 Global Entry or TSA PreCheck credit every five
+  years, which is enough to justify the remainder for most people who travel
+  regularly. If mobile wallet payments aren't part of how you spend, the
+  credit goes unused and the fee is much harder to defend.
 benefits:
   - name: "Annual Travel Credit"
     value: 325

@@ -15,12 +15,14 @@ apply_link: https://creditcards.chase.com/credit-building-credit-cards/edge
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  The Slate Edge is a simple no-annual-fee card built around one idea: a built-in incentive
-  to lower your APR over time if you pay on time and spend a set amount each year. It no
-  longer carries the long 0% intro balance-transfer offer it was once known for, and it
-  earns no rewards, so it mainly suits people who sometimes carry a balance and want an
-  automatic path to a lower rate. If you need a true 0% intro window, cards like the Wells
-  Fargo Reflect are the better tool.
+  Slate Edge is a financing card first and last: no annual fee, and it lands
+  sixth on our Best 0% APR list on the strength of its intro financing window.
+  There is no rewards program attached, so nothing is earning on your spend,
+  and once the intro period ends the ongoing APR is a flat 28.99%. It also
+  charges foreign transaction fees, which rules it out for travel. The lone
+  extra is six months of complimentary DashPass for DoorDash and Caviar. Open
+  it with a payoff plan and a date, and don't expect a reason to keep spending
+  on it after that.
 benefits:
   - name: "Complimentary DashPass"
     value: 0

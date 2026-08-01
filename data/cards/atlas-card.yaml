@@ -6,13 +6,19 @@ image: "atlas.png"
 apply_link: https://atlascard.com/
 foreign_transaction_fee: false
 our_take: >
-  At a $3,000 annual fee, the Atlas is an ultra-premium lifestyle card aimed at
-  high spenders who will actually use the concierge, private-aviation credits, and
-  curated dining and wellness perks. Earning is simple but thin (5x on Atlas Travel
-  bookings, 1x everything else), so the math rests on the $6,000 in annual travel
-  and experience credits and the member access rather than raw points. For most
-  travelers a card like the Amex Platinum at a fraction of the fee covers the
-  practical perks.
+  Atlas tripled its annual fee from $1,000 to $3,000 in June 2026, which
+  resets who this card makes sense for. The credits can outrun that fee on
+  paper: $3,000 toward private charter flights booked through Atlas Travel,
+  $1,000 for semi-private aviation with BLADE, JSX, Aero, and Slate, $1,000
+  toward business class fares on bookings of $5,000 or more, $1,000 for
+  ticketed experiences, and a $200 Erewhon credit. Every one of those is
+  shaped around a specific kind of spending, so the value is real only if
+  private and semi-private aviation is already part of your travel pattern.
+  Earning is thin outside the ecosystem: the 5 points per dollar rate applies
+  only to bookings made through Atlas Travel, and everything else earns a flat
+  1 point per dollar, though at least there are no foreign transaction fees.
+  Additional credits unlock at $100,000, $250,000, and $1,000,000 in annual
+  spend, which tells you plainly who the card is built for.
 annual_fee: 3000
 category: "travel"
 reward_type: "points"
