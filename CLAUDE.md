@@ -27,6 +27,13 @@
   2026-07-09 during the us-east-1 migration. `VpcPrivateSubnetIds` is a legacy
   name from that era; the current subnets are default-VPC subnets, not private
   NAT-routed ones.)
+- **Outbound internet from the Lambdas works via a NAT *instance*** (not a
+  gateway): the Lambda subnets' route tables send `0.0.0.0/0` to EC2 instance
+  `i-0e8173934fd04cf85` in the shared VPC. This is what lets VPC-attached
+  Lambdas call Google (token verification, Places), GitHub, Brevo, etc. If
+  outbound calls from Lambdas ever start timing out, check that instance
+  before debugging application code — it is shared infrastructure this repo
+  does not manage.
 - The database (`database-3` cluster, us-east-1) is shared with other apps.
   CreditOdds connects as the schema-scoped user `creditodds_app` (grants on
   `creditodds.*` only). Never use the cluster `admin` user. The credential lives
@@ -124,6 +131,25 @@ current) but the **DB layer** (numeric `card_id`, `card_stats`, and CardWire
 `wire_changes` → social posts) silently stalled. When touching post-migration
 infra, check IAM policy Resource ARNs for stale `us-east-2` regions, not just
 workflow YAML.
+
+## Newsletter (Brevo)
+
+- Weekly newsletters are sent from **Brevo** (free tier: unlimited contacts,
+  300 emails/day). Campaigns are composed and sent in the Brevo UI; this repo
+  only manages the audience and subscription state.
+- **Audience sync**: `NewsletterSyncFunction` (daily, 06:15 UTC) mirrors
+  Firebase Auth users into the Brevo newsletter list — upserts everyone with
+  an email, prunes list members whose account no longer exists. Idempotent;
+  invoke it manually for a backfill. It never touches `emailBlacklisted`, so
+  unsubscribes always stick.
+- **Subscription state lives in Brevo only** (no DB column): the profile-page
+  toggle goes through `GET/PUT /newsletter-settings`, which reads/writes the
+  contact's `emailBlacklisted` flag — the same suppression the email
+  unsubscribe link uses.
+- **Stack params** (all `Default: ""`, integration no-ops until set):
+  `BrevoApiKey`, `BrevoNewsletterListId` (numeric list id), and
+  `FirebaseServiceAccountB64` (base64 service-account JSON — required for
+  `listUsers`/`deleteUser`; plain token verification never needed it).
 
 ## Database
 

@@ -38,6 +38,20 @@ Parameters:
     Description: Google Places API (New) key for the wallet "Best Card Here" feature
     NoEcho: true
     Default: ""
+  BrevoApiKey:
+    Type: String
+    Description: Brevo (v3) API key for newsletter contact sync and subscription management. Empty disables all Brevo integration (handlers no-op).
+    NoEcho: true
+    Default: ""
+  BrevoNewsletterListId:
+    Type: String
+    Description: Numeric id of the Brevo contact list that mirrors Firebase users (the weekly-newsletter audience).
+    Default: ""
+  FirebaseServiceAccountB64:
+    Type: String
+    Description: Base64-encoded Firebase service-account JSON. Needed for privileged Admin API calls (listUsers in newsletter-sync, deleteUser in delete-account); token verification works without it.
+    NoEcho: true
+    Default: ""
   IpHashPepper:
     Type: String
     Description: Server-side pepper used to hash visitor IPs into stable per-IP tokens for unique-click counting. Treat as a long-lived secret; rotating resets all uniqueness chains.
@@ -437,6 +451,9 @@ Resources:
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
           FIREBASE_PROJECT_ID: creditodds
+          FIREBASE_SERVICE_ACCOUNT_B64: !Ref FirebaseServiceAccountB64
+          BREVO_API_KEY: !Ref BrevoApiKey
+          BREVO_LIST_ID: !Ref BrevoNewsletterListId
       Events:
         DeleteAccount:
           Type: Api
@@ -449,6 +466,81 @@ Resources:
           Type: Api
           Properties:
             Path: /account
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  # ---- Newsletter (Brevo) ----
+  # Mirrors Firebase Auth users into the Brevo newsletter list once a day.
+  # Idempotent: the first configured run doubles as the initial backfill, and
+  # it can be invoked manually at any time (no HTTP route). Upserts never
+  # touch unsubscribe state; pruning removes deleted accounts from the list.
+  NewsletterSyncFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/newsletter-sync.NewsletterSyncHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 300
+      Description: Daily sync of Firebase users into the Brevo newsletter list
+      Environment:
+        Variables:
+          FIREBASE_PROJECT_ID: creditodds
+          FIREBASE_SERVICE_ACCOUNT_B64: !Ref FirebaseServiceAccountB64
+          BREVO_API_KEY: !Ref BrevoApiKey
+          BREVO_LIST_ID: !Ref BrevoNewsletterListId
+      Events:
+        DailySync:
+          Type: Schedule
+          Properties:
+            Schedule: cron(15 6 * * ? *)
+            Description: Sync Firebase users to the Brevo newsletter list
+            Enabled: true
+
+  # The authenticated user's newsletter subscription, backed directly by
+  # Brevo so the in-app toggle and email unsubscribe links share one source
+  # of truth (Brevo's suppression list).
+  NewsletterSettingsFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/newsletter-settings.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
+    Properties:
+      Handler: src/handlers/newsletter-settings.NewsletterSettingsHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 15
+      Description: "GET/PUT the authenticated user's newsletter subscription (Brevo-backed)"
+      Environment:
+        Variables:
+          BREVO_API_KEY: !Ref BrevoApiKey
+          BREVO_LIST_ID: !Ref BrevoNewsletterListId
+      Events:
+        GetNewsletterSettings:
+          Type: Api
+          Properties:
+            Path: /newsletter-settings
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        PutNewsletterSettings:
+          Type: Api
+          Properties:
+            Path: /newsletter-settings
+            Method: PUT
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        NewsletterSettingsOptions:
+          Type: Api
+          Properties:
+            Path: /newsletter-settings
             Method: OPTIONS
             RestApiId:
               Ref: CreditCardOddsAPI

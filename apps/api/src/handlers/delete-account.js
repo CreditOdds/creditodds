@@ -1,13 +1,11 @@
 // Delete account handler - removes user data but keeps records (data points)
 const mysql = require("../db");
-const admin = require('firebase-admin');
+const { initFirebase } = require('../lib/firebase-init');
+const brevo = require('../lib/brevo');
 
-// Initialize Firebase Admin SDK
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: process.env.FIREBASE_PROJECT_ID || 'creditodds',
-  });
-}
+// Shared init: uses FIREBASE_SERVICE_ACCOUNT_B64 when present, which is what
+// makes the privileged deleteUser() call below actually succeed.
+const admin = initFirebase();
 
 const responseHeaders = {
   // Authenticated, user-specific responses: never cache at browser or any
@@ -78,6 +76,18 @@ exports.DeleteAccountHandler = async (event) => {
       // Log but don't fail if Firebase deletion fails
       // The user's data is already cleaned up
       console.error("Firebase user deletion failed:", firebaseError.message);
+    }
+
+    // 5. Remove from the newsletter audience (best-effort; the daily
+    // newsletter-sync prune also catches this if the call fails here)
+    const email = event.requestContext?.authorizer?.email;
+    if (email && brevo.isConfigured()) {
+      try {
+        await brevo.deleteContact(email);
+        console.info(`Brevo contact removed for ${userId}`);
+      } catch (brevoError) {
+        console.error("Brevo contact deletion failed:", brevoError.message);
+      }
     }
 
     return {
