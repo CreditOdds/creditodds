@@ -1,41 +1,37 @@
 # ============================================================
-# Best 0% APR Credit Cards — Ranking Reasoning (2026-07-15)
+# Best 0% APR Credit Cards — Ranking Reasoning (2026-08-01)
 # Consensus of: GPT, Gemini, Claude (borda count)
 # ============================================================
 #
 # #1 us-bank-shield (Best Overall)  [GPT #2, Gemini #1, Claude #1]
-#   This card stands out for its lengthy 21-month 0% APR period, allowing
-#   ample time for cardholders to pay down balances. The travel rewards
-#   enhance its appeal, making it a top choice for those who travel
-#   frequently.
+#   This card stands out for its long 0% intro APR period and generous rewards
+#   on travel bookings, making it ideal for those looking to finance large
+#   purchases or consolidate debt while earning rewards.
 #
-# #2 bankamericard (Best Value)  [GPT #1, Gemini #2, Claude #2]
-#   With a competitive 0% APR period and no annual fee, the BankAmericard
-#   provides excellent value for users looking to manage their finances
-#   effectively. Its lower regular APR also makes it a solid choice for
-#   long-term use.
+# #2 bankamericard (Best No-Fee)  [GPT #1, Gemini #2, Claude #2]
+#   With a lengthy 0% intro APR period and no annual fee, this card is a solid
+#   choice for individuals seeking to manage their finances without incurring
+#   additional costs.
 #
 # #3 wells-fargo-reflect  [GPT #3, Gemini #3, Claude #3]
-#   This card's extended 0% APR period is beneficial for those needing time to
-#   pay off larger purchases or transfers. However, its higher potential
-#   regular APR may deter some users compared to other options.
+#   This card offers a competitive 0% intro APR period, making it suitable for
+#   those looking to pay down existing debt or finance new purchases without
+#   interest for an extended time.
 #
-# #4 citi-diamond-preferred  [GPT #4, Gemini #4, Claude #4]
-#   While it offers a solid balance transfer period, the shorter 0% APR on
-#   purchases may limit its appeal for those looking to finance larger
-#   expenses. Nonetheless, it remains a reliable choice for balance transfers.
+# #4 citi-simplicity-card  [GPT #4, Gemini #4, Claude #5]
+#   This card is designed for simplicity and ease of use, making it a
+#   practical choice for those who want to avoid interest charges while
+#   managing their expenses.
 #
-# #5 citi-simplicity-card  [GPT #5, Gemini #5, Claude #5]
-#   Similar to the Citi Diamond Preferred, this card is advantageous for
-#   balance transfers but has a shorter purchase APR period. Its lack of late
-#   fees and annual fee adds to its practicality for users seeking
-#   straightforward terms.
+# #5 citi-diamond-preferred  [GPT #5, Gemini #5, Claude #4]
+#   While it has a shorter 0% intro APR on purchases compared to others, its
+#   long balance transfer period makes it a good option for consolidating debt
+#   without incurring interest.
 #
 # #6 chase-slate-edge  [GPT #6, Gemini #6, Claude #6]
-#   While it provides a good balance transfer option, the absence of a
-#   purchase APR and higher regular rates may limit its overall
-#   attractiveness. It is best suited for those primarily focused on
-#   transferring existing balances.
+#   While it lacks an introductory offer, this card may appeal to those who
+#   prefer a straightforward option without annual fees, although it is less
+#   competitive compared to others in this list.
 #
 # ============================================================
 
@@ -44,15 +40,15 @@ slug: best-0-apr-cards
 title: Best 0% APR Credit Cards
 description: The best 0% intro APR credit cards for purchases and balance transfers, all with no annual fee.
 date: "2026-03-01"
-updated_at: "2026-07-23"
+updated_at: "2026-08-01"
 seo_title: Best 0% APR Credit Cards of 2026
 seo_description: Compare the best 0% intro APR credit cards of 2026. Up to 24 months of 0% APR on purchases and balance transfers.
 intro: |
-  0% intro APR credit cards provide a valuable opportunity to manage expenses or consolidate debt without incurring interest for an extended period. With options featuring no annual fees, these cards are ideal for those seeking financial flexibility and a clear path to repayment.
+  0% intro APR credit cards are an excellent choice for managing expenses or consolidating debt without accruing interest for an extended period. With no annual fees, these cards offer financial flexibility and a straightforward approach to repayment.
 
 panel:
   method: borda
-  generated_at: "2026-07-15"
+  generated_at: "2026-08-01"
   models:
     - key: openai
       label: GPT
@@ -67,38 +63,40 @@ panel:
 cards:
   - slug: us-bank-shield
     badge: Best Overall
-    highlight: The US Bank Shield offers a 0% intro APR on purchases and balance transfers for 21 months, with no annual fee and 4% back on travel purchases through the U.S. Bank travel portal.
+    highlight: The US Bank Shield offers a 0% intro APR on purchases and balance transfers for 21 months, with no annual fee and 4% back on prepaid travel bookings through the U.S. Bank Travel Rewards Center.
     consensus:
       score: 17
       ranks: { openai: 2, gemini: 1, claude: 1 }
 
   - slug: bankamericard
-    badge: Best Value
-    highlight: The BankAmericard features a 0% intro APR for 21 months on both purchases and balance transfers, with no annual fee and a regular APR ranging from 14.49% to 24.49%.
+    badge: Best No-Fee
+    highlight: The BankAmericard features a 0% intro APR for 21 months on both purchases and balance transfers, with no annual fee.
     consensus:
       score: 16
       ranks: { openai: 1, gemini: 2, claude: 2 }
 
   - slug: wells-fargo-reflect
-    highlight: The Wells Fargo Reflect offers a 0% intro APR for 21 months on purchases and balance transfers, with no annual fee and a regular APR between 17.49% and 28.24%.
+    highlight: The Wells Fargo Reflect provides a 0% intro APR for 21 months on purchases and balance transfers, with no annual fee.
     consensus:
       score: 12
       ranks: { openai: 3, gemini: 3, claude: 3 }
 
-  - slug: citi-diamond-preferred
-    highlight: The Citi Diamond Preferred provides a 0% intro APR for 12 months on purchases and 21 months on balance transfers, with no annual fee and a regular APR ranging from 16.49% to 27.24%.
-    consensus:
-      score: 9
-      ranks: { openai: 4, gemini: 4, claude: 4 }
-
   - slug: citi-simplicity-card
-    highlight: The Citi Simplicity card features a 0% intro APR for 12 months on purchases and 21 months on balance transfers, with no annual fee and a regular APR between 17.49% and 28.24%.
+    previous_rank: 5
+    highlight: The Citi Simplicity card features a 0% intro APR for 18 months on purchases and balance transfers, with no annual fee.
     consensus:
-      score: 6
-      ranks: { openai: 5, gemini: 5, claude: 5 }
+      score: 8
+      ranks: { openai: 4, gemini: 4, claude: 5 }
+
+  - slug: citi-diamond-preferred
+    previous_rank: 4
+    highlight: The Citi Diamond Preferred card offers a 0% intro APR for 12 months on purchases and 21 months on balance transfers, with no annual fee.
+    consensus:
+      score: 7
+      ranks: { openai: 5, gemini: 5, claude: 4 }
 
   - slug: chase-slate-edge
-    highlight: The Chase Slate Edge offers a 0% intro APR on balance transfers for 21 months, with no annual fee and a regular APR ranging from 22.49% to 31.24%.
+    highlight: The Chase Slate Edge does not offer an intro APR but has a regular APR of 28.99%, with no annual fee.
     consensus:
       score: 3
       ranks: { openai: 6, gemini: 6, claude: 6 }

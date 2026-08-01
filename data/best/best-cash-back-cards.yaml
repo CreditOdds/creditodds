@@ -1,79 +1,80 @@
 # ============================================================
-# Best Cash Back Credit Cards — Ranking Reasoning (2026-07-15)
+# Best Cash Back Credit Cards — Ranking Reasoning (2026-08-01)
 # Consensus of: GPT, Gemini, Claude (borda count)
 # ============================================================
 #
-# #1 chase-freedom-flex (Best Overall)  [GPT #1, Gemini #1, Claude #1]
-#   The Chase Freedom Flex stands out for its versatile earning potential and
-#   generous bonus categories. With no annual fee and a strong introductory
-#   offer, it provides excellent value for a wide range of spending.
+# #1 chase-freedom-flex (Best Overall)  [GPT #1, Gemini #2, Claude #1]
+#   The Chase Freedom Flex stands out for its combination of a substantial
+#   signup bonus and high cash back rates in popular categories. Its rotating
+#   categories keep the rewards dynamic, making it a versatile choice for
+#   maximizing cash back.
 #
-# #2 chase-freedom-unlimited (Best No-Fee)  [GPT #2, Gemini #2, Claude #3]
-#   The Chase Freedom Unlimited offers a straightforward rewards structure
-#   with no annual fee, making it an ideal choice for those looking for
-#   simplicity. Its solid cash back rates across various categories enhance
-#   its appeal.
+# #2 chase-freedom-unlimited  [GPT #2, Gemini #1, Claude #3]
+#   The Chase Freedom Unlimited offers a straightforward cash back structure
+#   with no rotating categories, making it ideal for those who prefer
+#   simplicity. Its strong earning potential on travel and everyday spending
+#   solidifies its position as a top contender.
 #
-# #3 discover-it-cash-back  [GPT #3, Gemini #8, Claude #2]
-#   The Discover it Cash Back card is notable for its rotating bonus
-#   categories and the potential for double cash back in the first year. This
-#   feature, combined with no annual fee, makes it a strong contender for cash
-#   back enthusiasts.
+# #3 citi-double-cash  [GPT #4, Gemini #4, Claude #4]
+#   The Citi Double Cash card excels with its flat cash back rate on all
+#   purchases, making it a great choice for those who want consistent rewards
+#   without worrying about categories. Its signup bonus adds extra value for
+#   new cardholders.
 #
-# #4 citi-double-cash  [GPT #4, Gemini #4, Claude #5]
-#   The Citi Double Cash card excels with its flat-rate cash back structure,
-#   rewarding users for every purchase. Its attractive signup bonus and no
-#   annual fee further solidify its position in the rankings.
+# #4 citi-custom-cash  [GPT #6, Gemini #5, Claude #2]
+#   The Citi Custom Cash card is unique in that it automatically adjusts to
+#   reward your highest spending category each month. This flexibility allows
+#   cardholders to maximize their rewards based on their spending habits.
 #
-# #5 wells-fargo-active-cash  [GPT #5, Gemini #3, Claude #6]
+# #5 wells-fargo-active-cash  [GPT #5, Gemini #3, Claude #8]
 #   The Wells Fargo Active Cash card offers a straightforward 2% cash back on
-#   all purchases, making it a solid choice for everyday spending. The
-#   generous signup bonus and lack of an annual fee enhance its overall value.
+#   all purchases, making it a solid option for everyday spending. Its
+#   generous signup bonus and lack of an annual fee contribute to its appeal.
 #
-# #6 citi-custom-cash  [GPT #8, Gemini #5, Claude #4]
-#   The Citi Custom Cash card is designed for flexibility, allowing users to
-#   maximize rewards based on their spending habits. Its unique structure and
-#   competitive bonus make it a valuable option for cash back earners.
+# #6 discover-it-cash-back  [GPT #3, Gemini #11, Claude #5]
+#   The Discover it Cash Back card is appealing for its rotating categories
+#   that provide high cash back rates. The lack of an annual fee and the
+#   potential for cash back matching in the first year enhance its overall
+#   value.
 #
-# #7 blue-cash-everyday-card  [GPT #9, Gemini #6, Claude #7]
-#   The Blue Cash Everyday card is particularly beneficial for those who spend
-#   heavily on groceries and gas. Its strong cash back rates in these
-#   categories, combined with a solid signup bonus, make it a practical
-#   choice.
+# #7 blue-cash-everyday-card  [GPT #7, Gemini #6, Claude #6]
+#   The Blue Cash Everyday card is particularly beneficial for families who
+#   spend heavily on groceries, offering a high cash back rate in that
+#   category. Its annual fee-free structure and solid signup bonus make it a
+#   practical choice.
 #
-# #8 capital-one-quicksilver  [GPT #6, Gemini #9, Claude #8]
-#   The Capital One Quicksilver card provides a straightforward cash back
-#   experience with a flat rate on all purchases. Its attractive signup bonus
-#   and absence of an annual fee contribute to its strong ranking.
+# #8 capital-one-quicksilver  [GPT #8, Gemini #8, Claude #7]
+#   The Capital One Quicksilver card is straightforward, offering a flat cash
+#   back rate on all purchases. Its simplicity and generous signup bonus make
+#   it a reliable option for those looking for uncomplicated rewards.
 #
-# #9 wells-fargo-attune  [GPT #7, Gemini #10, Claude #9]
-#   The Wells Fargo Attune card offers a unique rewards structure with high
-#   cash back rates in specific categories. This flexibility, along with a low
-#   spending requirement for the bonus, makes it appealing for targeted
-#   spenders.
+# #9 wells-fargo-autograph  [GPT #10, Gemini #7, Claude #12]
+#   The Wells Fargo Autograph card is versatile, offering a high points rate
+#   across multiple categories. Its points can be redeemed for cash back or
+#   other rewards, making it a flexible choice for diverse spending.
 #
-# #10 wells-fargo-autograph  [GPT #11, Gemini #7, Claude #11]
-#   The Wells Fargo Autograph card is designed for those who frequently spend
-#   in popular categories, offering a competitive points structure. Its signup
-#   bonus and no annual fee enhance its attractiveness.
+# #10 wells-fargo-attune  [GPT #9, Gemini #10, Claude #10]
+#   The Wells Fargo Attune card is tailored for those who frequently spend in
+#   specific categories like fitness and entertainment, offering a high cash
+#   back rate. Its unique focus on lifestyle spending makes it a standout for
+#   targeted rewards.
 #
-# #11 amazon-prime-rewards-visa-signature-card  [GPT #10, Gemini #11, Claude #10]
+# #11 amazon-prime-rewards-visa-signature-card  [GPT #11, Gemini #9, Claude #9]
 #   The Amazon Prime Rewards Visa Signature card is ideal for frequent Amazon
-#   shoppers, providing high cash back rates on Amazon purchases. The lack of
-#   an annual fee and a straightforward bonus structure make it a valuable
-#   option.
+#   shoppers, providing high cash back rates on Amazon purchases. Its no
+#   annual fee and immediate signup bonus enhance its attractiveness.
 #
-# #12 wells-fargo-signify-business-cash  [GPT #13, Gemini #12, Claude #12]
-#   The Wells Fargo Signify Business Cash card is tailored for business
-#   owners, offering a solid cash back rate on all purchases. Its substantial
-#   signup bonus and absence of an annual fee make it an appealing choice for
-#   small business expenses.
+# #12 capital-one-savorone  [GPT #12, Gemini #13, Claude #11]
+#   The Capital One SavorOne card is designed for those who enjoy dining and
+#   entertainment, offering elevated cash back rates in those categories.
+#   While it has an annual fee, the rewards can easily outweigh the cost for
+#   frequent spenders.
 #
-# #13 capital-one-savorone  [GPT #12, Gemini #13, Claude #13]
-#   The Capital One SavorOne card is designed for those who spend heavily on
-#   dining and entertainment, offering competitive cash back rates in these
-#   categories. However, the annual fee may deter some users, impacting its
-#   overall ranking.
+# #13 wells-fargo-signify-business-cash  [GPT #13, Gemini #12, Claude #13]
+#   The Wells Fargo Signify Business Cash card is a strong choice for business
+#   owners, offering a substantial signup bonus and a flat cash back rate. Its
+#   lack of an annual fee makes it an appealing option for managing business
+#   expenses.
 #
 # ============================================================
 
@@ -82,15 +83,15 @@ slug: best-cash-back-cards
 title: Best Cash Back Credit Cards
 description: The top cash back credit cards ranked by earning rates, bonus categories, and signup offers — all with no annual fee unless noted.
 date: "2026-03-01"
-updated_at: "2026-07-23"
+updated_at: "2026-08-01"
 seo_title: Best Cash Back Credit Cards of 2026
 seo_description: Compare the best cash back credit cards of 2026. Flat-rate 2% cards, 5% rotating categories, and the best signup bonuses.
 intro: |
-  Cash back credit cards provide a straightforward way to earn rewards with cash back on everyday purchases. Our rankings reflect the best options available, focusing on signup bonuses, ongoing earning rates, and overall value.
+  Cash back credit cards offer a simple way to earn rewards on everyday spending. Our rankings highlight the best options based on generous signup bonuses, competitive earning rates, and overall value, all while keeping annual fees to a minimum.
 
 panel:
   method: borda
-  generated_at: "2026-07-15"
+  generated_at: "2026-08-01"
   models:
     - key: openai
       label: GPT
@@ -105,86 +106,86 @@ panel:
 cards:
   - slug: chase-freedom-flex
     badge: Best Overall
-    highlight: Earn a $200 cash bonus after spending $500 in the first 3 months. Enjoy 5% cash back on rotating categories and travel, 3% on dining and drugstores, and 1% on all other purchases.
+    highlight: Earn a $200 cash bonus after spending $500 in the first 3 months. Enjoy 5% cash back on rotating categories like gas stations and EV charging, on up to $1,500 per quarter, plus 1% on all other purchases.
     consensus:
-      score: 39
-      ranks: { openai: 1, gemini: 1, claude: 1 }
+      score: 38
+      ranks: { openai: 1, gemini: 2, claude: 1 }
 
   - slug: chase-freedom-unlimited
-    badge: Best No-Fee
-    highlight: Receive a $200 cash bonus after spending $500 in the first 3 months. Earn 5% cash back on travel purchased through Chase, 3% on dining and drugstores, and 1.5% on all other purchases.
+    highlight: Receive a $200 cash bonus after spending $500 in the first 3 months. Earn 5% cash back on travel purchased through the Chase Travel portal and 1.5% on all other purchases.
     consensus:
-      score: 35
-      ranks: { openai: 2, gemini: 2, claude: 3 }
-
-  - slug: discover-it-cash-back
-    highlight: Get 5% cash back on rotating categories and 1% on all other purchases, with no annual fee. The card also features a unique cashback match for the first year.
-    consensus:
-      score: 29
-      ranks: { openai: 3, gemini: 8, claude: 2 }
+      score: 36
+      ranks: { openai: 2, gemini: 1, claude: 3 }
 
   - slug: citi-double-cash
-    previous_rank: 5
-    highlight: Earn a $200 cash bonus after spending $1,500 in the first 6 months. Enjoy 2% cash back on all purchases and 1% when you buy.
-    consensus:
-      score: 29
-      ranks: { openai: 4, gemini: 4, claude: 5 }
-
-  - slug: wells-fargo-active-cash
     previous_rank: 4
-    highlight: Receive a $200 cash bonus after spending $500 in the first 3 months. Earn 2% cash back on all purchases, with no annual fee.
+    highlight: Earn a $200 cash bonus after spending $1,500 in the first 6 months. Get 2% cash back on all purchases, 1% when you buy and 1% when you pay.
     consensus:
-      score: 28
-      ranks: { openai: 5, gemini: 3, claude: 6 }
+      score: 30
+      ranks: { openai: 4, gemini: 4, claude: 4 }
 
   - slug: citi-custom-cash
-    highlight: Get a $200 cash bonus after spending $1,500 in the first 6 months. Earn 5% cash back on your top spending category each billing cycle and 1% on all other purchases.
+    previous_rank: 6
+    highlight: Earn a $200 cash bonus after spending $1,500 in the first 6 months. Get 5% cash back on your top eligible spend category each billing cycle, on up to $500, plus 1% on everything else.
     consensus:
-      score: 25
-      ranks: { openai: 8, gemini: 5, claude: 4 }
+      score: 29
+      ranks: { openai: 6, gemini: 5, claude: 2 }
+
+  - slug: wells-fargo-active-cash
+    highlight: Receive a $200 cash bonus after spending $500 in the first 3 months. Earn 2% cash back on all purchases with no annual fee.
+    consensus:
+      score: 26
+      ranks: { openai: 5, gemini: 3, claude: 8 }
+
+  - slug: discover-it-cash-back
+    previous_rank: 3
+    highlight: Activate to earn 5% cash back on rotating categories each quarter, on up to $1,500 in purchases, plus 1% on all other purchases. No annual fee.
+    consensus:
+      score: 23
+      ranks: { openai: 3, gemini: 11, claude: 5 }
 
   - slug: blue-cash-everyday-card
-    highlight: Earn a $200 cash bonus after spending $2,000 in the first 6 months. Enjoy 3% cash back on groceries, gas, and online shopping, and 1% on all other purchases.
+    highlight: Earn a $200 cash bonus after spending $2,000 in the first 6 months. Get 3% cash back at U.S. supermarkets, on up to $6,000 per year, plus 1% on everything else.
     consensus:
-      score: 20
-      ranks: { openai: 9, gemini: 6, claude: 7 }
+      score: 23
+      ranks: { openai: 7, gemini: 6, claude: 6 }
 
   - slug: capital-one-quicksilver
-    previous_rank: 10
-    highlight: Receive a $200 cash bonus after spending $500 in the first 3 months. Earn 1.5% cash back on all purchases, with no annual fee.
+    highlight: Receive a $200 cash bonus after spending $500 in the first 3 months. Earn 1.5% cash back on all purchases with no annual fee.
     consensus:
       score: 19
-      ranks: { openai: 6, gemini: 9, claude: 8 }
-
-  - slug: wells-fargo-attune
-    previous_rank: 11
-    highlight: Get a $100 cash bonus after spending $500 in the first 3 months. Earn 4% cash back on select categories and 1% on everything else, with no annual fee.
-    consensus:
-      score: 16
-      ranks: { openai: 7, gemini: 10, claude: 9 }
+      ranks: { openai: 8, gemini: 8, claude: 7 }
 
   - slug: wells-fargo-autograph
-    previous_rank: 8
-    highlight: Earn 20,000 points after spending $1,000 in the first 3 months. Get 3 points per dollar on dining, travel, gas, transit, and streaming, and 1 point on all other purchases.
+    previous_rank: 10
+    highlight: Earn 20,000 points after spending $1,000 in the first 3 months. Get 3 points per dollar on dining, travel, gas, transit, streaming, and phone plans, plus 1 point on everything else.
     consensus:
       score: 13
-      ranks: { openai: 11, gemini: 7, claude: 11 }
+      ranks: { openai: 10, gemini: 7, claude: 12 }
+
+  - slug: wells-fargo-attune
+    previous_rank: 9
+    highlight: Receive a $100 cash bonus after spending $500 in the first 3 months. Earn 4% cash back on select categories like gyms and entertainment, plus 1% on everything else.
+    consensus:
+      score: 13
+      ranks: { openai: 9, gemini: 10, claude: 10 }
 
   - slug: amazon-prime-rewards-visa-signature-card
-    previous_rank: 9
-    highlight: Receive a $150 cash bonus with no spending requirement. Earn 5% cash back on Amazon purchases, 2% on dining, gas, and transit, and 1% on everything else.
+    highlight: Earn a $150 cash bonus with no spending requirement. Get 5% cash back on Amazon and Whole Foods purchases for Prime members, plus 1% on everything else.
     consensus:
-      score: 11
-      ranks: { openai: 10, gemini: 11, claude: 10 }
-
-  - slug: wells-fargo-signify-business-cash
-    highlight: Get a $500 cash bonus after spending $5,000 in the first 3 months. Earn 2% cash back on all purchases, with no annual fee.
-    consensus:
-      score: 5
-      ranks: { openai: 13, gemini: 12, claude: 12 }
+      score: 13
+      ranks: { openai: 11, gemini: 9, claude: 9 }
 
   - slug: capital-one-savorone
-    highlight: Earn 3% cash back on dining, entertainment, streaming, and groceries, with a $200 cash bonus after spending $500 in the first 3 months. Annual fee of $39.
+    previous_rank: 13
+    highlight: Earn 3% cash back on dining, entertainment, streaming, and groceries, plus 1% on everything else. Annual fee of $39.
+    consensus:
+      score: 6
+      ranks: { openai: 12, gemini: 13, claude: 11 }
+
+  - slug: wells-fargo-signify-business-cash
+    previous_rank: 12
+    highlight: Earn a $500 cash bonus after spending $5,000 in the first 3 months. Get 2% cash back on all purchases with no annual fee.
     consensus:
       score: 4
-      ranks: { openai: 12, gemini: 13, claude: 13 }
+      ranks: { openai: 13, gemini: 12, claude: 13 }

@@ -1,103 +1,95 @@
 # ============================================================
-# Best Credit Card Signup Bonuses — Ranking Reasoning (2026-07-15)
+# Best Credit Card Signup Bonuses — Ranking Reasoning (2026-08-01)
 # Consensus of: GPT, Gemini, Claude (borda count)
 # ============================================================
 #
 # #1 the-platinum-card (Best Overall)  [GPT #3, Gemini #1, Claude #1]
-#   The Platinum Card stands out for its substantial signup bonus and premium
-#   travel rewards. Its high point value and extensive benefits justify the
-#   annual fee, making it the top choice for frequent travelers.
+#   The Platinum Card stands out for its high signup bonus and premium travel
+#   rewards, making it ideal for frequent travelers. Its extensive benefits
+#   and high earning potential in travel categories justify its position as
+#   the top card.
 #
-# #2 ihg-rewards-club-premier-credit-card  [GPT #2, Gemini #6, Claude #2]
-#   The IHG One Rewards Premier offers a generous bonus with a low spending
-#   requirement, making it accessible for many users. Its high rewards rate on
-#   hotel stays enhances its value for travelers who frequently stay at IHG
-#   properties.
+# #2 ihg-rewards-club-premier-credit-card  [GPT #1, Gemini #6, Claude #2]
+#   The IHG One Rewards Premier card offers a substantial bonus and high
+#   earning rates at IHG properties, appealing to loyal hotel guests. Its low
+#   spending requirement for the bonus enhances its attractiveness.
 #
-# #3 ihg-rewards-premier-business  [GPT #1, Gemini #7, Claude #3]
+# #3 chase-sapphire-preferred  [GPT #5, Gemini #2, Claude #3]
+#   The Chase Sapphire Preferred card is well-regarded for its flexible
+#   rewards and strong travel benefits. Its competitive bonus and versatile
+#   earning potential make it a valuable option for travelers.
+#
+# #4 chase-sapphire-reserve  [GPT #4, Gemini #3, Claude #5]
+#   The Chase Sapphire Reserve card is designed for serious travelers,
+#   offering premium rewards and benefits. Its high earning potential in
+#   travel categories and substantial bonus make it a top-tier choice.
+#
+# #5 american-express-gold-card  [GPT #6, Gemini #5, Claude #4]
+#   The American Express Gold Card excels in dining and grocery rewards,
+#   appealing to food enthusiasts. Its substantial signup bonus and high
+#   earning rates in key categories justify its ranking.
+#
+# #6 ihg-rewards-premier-business  [GPT #2, Gemini #11, Claude #6]
 #   Similar to its consumer counterpart, the IHG One Rewards Premier Business
-#   card provides a strong signup bonus and excellent rewards for hotel
-#   spending. Its appeal lies in its business-oriented features while
-#   maintaining a competitive annual fee.
+#   card provides a generous bonus and excellent rewards for business
+#   expenses. Its focus on hotel spending makes it a strong choice for
+#   business travelers.
 #
-# #4 chase-sapphire-preferred  [GPT #5, Gemini #2, Claude #4]
-#   The Chase Sapphire Preferred is a solid choice for those who value travel
-#   rewards, offering a substantial bonus and versatile redemption options.
-#   Its reasonable annual fee and strong rewards structure make it a favorite
-#   among travelers.
+# #7 chase-ink-business-preferred  [GPT #12, Gemini #4, Claude #7]
+#   The Ink Business Preferred card is tailored for business owners, providing
+#   a strong signup bonus and versatile rewards. Its focus on business-related
+#   expenses enhances its value for entrepreneurs.
 #
-# #5 american-express-gold-card  [GPT #6, Gemini #3, Claude #5]
-#   The American Express Gold Card excels in dining rewards, making it ideal
-#   for food enthusiasts. While its annual fee is higher, the generous bonus
-#   and strong rewards on everyday spending categories provide significant
-#   value.
+# #8 delta-skymiles-platinum-american-express-card  [GPT #9, Gemini #7, Claude #8]
+#   The Delta SkyMiles Platinum card provides a solid bonus and rewards for
+#   Delta travelers. Its lower annual fee compared to the Reserve card makes
+#   it a more accessible option for frequent flyers.
 #
-# #6 chase-sapphire-reserve  [GPT #4, Gemini #4, Claude #6]
-#   The Chase Sapphire Reserve is a premium card that offers extensive travel
-#   benefits and a high rewards rate. Its substantial annual fee is offset by
-#   the value of its perks, making it a strong contender for frequent
+# #9 delta-skymiles-reserve-american-express-card  [GPT #8, Gemini #9, Claude #10]
+#   The Delta SkyMiles Reserve card is ideal for Delta loyalists, offering a
+#   substantial bonus and strong rewards on airline purchases. Its premium
+#   travel benefits enhance its appeal for frequent flyers.
+#
+# #10 capital-one-venture-x  [GPT #7, Gemini #10, Claude #11]
+#   The Capital One Venture X Rewards card offers a competitive bonus and high
+#   earning rates on travel purchases. Its premium benefits and flexibility
+#   make it a solid choice for frequent travelers.
+#
+# #11 delta-skymiles-gold-american-express-card  [GPT #17, Gemini #8, Claude #9]
+#   The Delta SkyMiles Gold card is a great entry-level option for Delta
+#   enthusiasts, offering a generous bonus and reasonable spending
+#   requirement. Its lower annual fee makes it appealing for occasional
 #   travelers.
 #
-# #7 chase-ink-business-preferred  [GPT #8, Gemini #5, Claude #8]
-#   The Ink Business Preferred card is tailored for business owners, offering
-#   a competitive signup bonus and high rewards on travel and transit. Its low
-#   annual fee enhances its appeal for small business expenses.
+# #12 world-of-hyatt-business-credit-card  [GPT #11, Gemini #12, Claude #12]
+#   The World of Hyatt Business card caters to Hyatt loyalists, offering a
+#   generous bonus and high earning rates at Hyatt properties. Its focus on
+#   hotel spending enhances its value for business travelers.
 #
-# #8 delta-skymiles-reserve-american-express-card  [GPT #9, Gemini #8, Claude #7]
-#   The Delta SkyMiles Reserve American Express Card is designed for frequent
-#   Delta flyers, providing a generous bonus and valuable airline rewards. Its
-#   annual fee is justified by the travel benefits and perks associated with
-#   Delta loyalty.
+# #13 united-quest  [GPT #10, Gemini #13, Claude #13]
+#   The United Quest card is designed for United Airlines customers, providing
+#   a solid bonus and strong rewards on airline purchases. Its competitive
+#   benefits make it a valuable choice for frequent United flyers.
 #
-# #9 capital-one-venture-x  [GPT #7, Gemini #11, Claude #9]
-#   The Capital One Venture X Rewards card offers a competitive bonus and high
-#   rewards rates on travel-related purchases. Its annual fee is reasonable
-#   given the extensive travel benefits and flexible redemption options.
+# #14 chase-freedom-flex  [GPT #13, Gemini #15, Claude #15]
+#   The Chase Freedom Flex card is an excellent no-fee option, providing a
+#   cash bonus and flexible rewards. Its rotating categories and strong dining
+#   rewards make it appealing for everyday spending.
 #
-# #10 delta-skymiles-platinum-american-express-card  [GPT #10, Gemini #9, Claude #10]
-#   The Delta SkyMiles Platinum American Express Card provides a solid bonus
-#   and valuable rewards for Delta travelers. Its annual fee is lower than the
-#   Reserve version, making it a good option for those who fly Delta
-#   occasionally.
-#
-# #11 delta-skymiles-gold-american-express-card  [GPT #11, Gemini #10, Claude #11]
-#   The Delta SkyMiles Gold American Express Card offers a competitive bonus
-#   with a low annual fee, making it accessible for casual travelers. Its
-#   rewards structure is beneficial for those who frequently dine out or shop
-#   for groceries.
-#
-# #12 united-quest  [GPT #12, Gemini #12, Claude #12]
-#   The United Quest card is a solid choice for United Airlines travelers,
-#   offering a decent signup bonus and strong rewards on airline purchases.
-#   Its annual fee is reasonable given the travel benefits it provides.
-#
-# #13 world-of-hyatt-business-credit-card  [GPT #13, Gemini #13, Claude #13]
-#   The World of Hyatt Business card is ideal for Hyatt loyalists, offering a
-#   competitive bonus and high rewards on hotel stays. Its annual fee is
-#   manageable for business owners who frequently stay at Hyatt properties.
-#
-# #14 chase-freedom-flex (Best No-Fee)  [GPT #14, Gemini #15, Claude #15]
-#   The Chase Freedom Flex is an excellent no-fee option that provides a solid
-#   cash bonus and high rewards on rotating categories. Its lack of an annual
-#   fee makes it an attractive choice for those looking to maximize rewards
-#   without additional costs.
-#
-# #15 wells-fargo-signify-business-cash (Best No-Fee)  [GPT #16, Gemini #14, Claude #14]
+# #15 wells-fargo-signify-business-cash  [GPT #15, Gemini #14, Claude #14]
 #   The Wells Fargo Signify Business Cash card offers a substantial cash bonus
-#   with no annual fee, making it appealing for small business owners. Its
-#   straightforward rewards structure allows for easy earning on all
-#   purchases.
+#   for business owners without an annual fee. Its straightforward rewards
+#   structure makes it a practical choice for small business expenses.
 #
-# #16 wells-fargo-active-cash (Best No-Fee)  [GPT #15, Gemini #16, Claude #16]
-#   The Wells Fargo Active Cash card is another strong no-fee option,
-#   providing a solid cash bonus and straightforward rewards. Its simplicity
-#   and lack of an annual fee make it a great choice for everyday spending.
+# #16 wells-fargo-active-cash (Best No-Fee)  [GPT #14, Gemini #16, Claude #16]
+#   The Wells Fargo Active Cash card stands out as a no-fee option with a
+#   solid cash bonus and flat rewards rate. Its simplicity and value make it
+#   an attractive choice for everyday spenders.
 #
-# #17 capital-one-savorone  [GPT #17, Gemini #17, Claude #17]
-#   The Capital One SavorOne Cash Rewards card is designed for those who
-#   frequently dine out and enjoy entertainment. While it has a low annual
-#   fee, its rewards structure is particularly beneficial for food and
-#   entertainment expenses.
+# #17 capital-one-savorone  [GPT #16, Gemini #17, Claude #17]
+#   The Capital One SavorOne card is designed for food and entertainment
+#   enthusiasts, offering a solid cash bonus and high rewards in relevant
+#   categories. Its low annual fee enhances its appeal for casual spenders.
 #
 # ============================================================
 
@@ -106,15 +98,15 @@ slug: best-signup-bonuses
 title: Best Credit Card Signup Bonuses
 description: The most valuable credit card signup bonuses available right now, ranked by bonus value and overall appeal.
 date: "2026-03-01"
-updated_at: "2026-07-23"
+updated_at: "2026-08-01"
 seo_title: Best Credit Card Signup Bonuses of 2026
 seo_description: Compare the best credit card signup bonuses of 2026. Ranked by value — from 175k points to $200 cash back.
 intro: |
-  The current landscape of credit card signup bonuses features a variety of enticing offers that cater to different spending habits and preferences. We've ranked these cards based on their bonus value, spending requirements, and long-term benefits to help you find the best options available.
+  Credit card signup bonuses continue to evolve, offering a range of enticing rewards tailored to various spending habits. Our rankings reflect the most valuable bonuses available, taking into account their overall appeal, spending requirements, and long-term benefits.
 
 panel:
   method: borda
-  generated_at: "2026-07-15"
+  generated_at: "2026-08-01"
   models:
     - key: openai
       label: GPT
@@ -129,114 +121,112 @@ panel:
 cards:
   - slug: the-platinum-card
     badge: Best Overall
-    highlight: Earn 175,000 points with a $12,000 spend requirement within 6 months and an annual fee of $895. Rewards include 5 points per dollar on airlines and hotels booked through the portal.
+    highlight: Earn 175,000 points after spending $12,000 in the first 6 months with an annual fee of $895. Enjoy 5 points per dollar on airlines and hotels booked through Amex Travel.
     consensus:
       score: 49
       ranks: { openai: 3, gemini: 1, claude: 1 }
 
   - slug: ihg-rewards-club-premier-credit-card
-    previous_rank: 3
-    highlight: Receive 140,000 points after spending $3,000 in the first 3 months with a $99 annual fee. Earn 26 points per dollar on IHG hotels.
+    highlight: Receive 140,000 points after spending $3,000 in the first 3 months with an annual fee of $99. Earn 10 points per dollar at IHG hotels.
     consensus:
-      score: 44
-      ranks: { openai: 2, gemini: 6, claude: 2 }
-
-  - slug: ihg-rewards-premier-business
-    previous_rank: 2
-    highlight: Get 140,000 points after a $4,000 spend in the first 3 months and a $99 annual fee. Earn 26 points per dollar on IHG hotels.
-    consensus:
-      score: 43
-      ranks: { openai: 1, gemini: 7, claude: 3 }
+      score: 45
+      ranks: { openai: 1, gemini: 6, claude: 2 }
 
   - slug: chase-sapphire-preferred
-    highlight: Earn 100,000 points after spending $5,000 in the first 3 months with a $95 annual fee. Rewards include 5 points per dollar on travel booked through the portal.
+    previous_rank: 4
+    highlight: Earn 100,000 points after spending $5,000 in the first 3 months with an annual fee of $95. Enjoy 5 points per dollar on travel purchases through Chase Travel.
     consensus:
-      score: 43
-      ranks: { openai: 5, gemini: 2, claude: 4 }
-
-  - slug: american-express-gold-card
-    previous_rank: 6
-    highlight: Receive 100,000 points after spending $8,000 in the first 6 months with a $325 annual fee. Earn 4 points per dollar on dining and groceries.
-    consensus:
-      score: 40
-      ranks: { openai: 6, gemini: 3, claude: 5 }
+      score: 44
+      ranks: { openai: 5, gemini: 2, claude: 3 }
 
   - slug: chase-sapphire-reserve
-    previous_rank: 5
-    highlight: Get 100,000 points after spending $6,000 in the first 3 months with a $795 annual fee. Earn 8 points per dollar on travel booked through the portal.
+    previous_rank: 6
+    highlight: Get 100,000 points after spending $6,000 in the first 3 months with an annual fee of $795. Earn 8 points per dollar on travel purchases through Chase Travel.
     consensus:
-      score: 40
-      ranks: { openai: 4, gemini: 4, claude: 6 }
+      score: 42
+      ranks: { openai: 4, gemini: 3, claude: 5 }
+
+  - slug: american-express-gold-card
+    highlight: Receive 100,000 points after spending $8,000 in the first 6 months with an annual fee of $325. Earn 4 points per dollar on dining and groceries.
+    consensus:
+      score: 39
+      ranks: { openai: 6, gemini: 5, claude: 4 }
+
+  - slug: ihg-rewards-premier-business
+    previous_rank: 3
+    highlight: Get 140,000 points after spending $4,000 in the first 3 months with an annual fee of $99. Earn 10 points per dollar at IHG hotels.
+    consensus:
+      score: 35
+      ranks: { openai: 2, gemini: 11, claude: 6 }
 
   - slug: chase-ink-business-preferred
-    previous_rank: 8
-    highlight: Earn 100,000 points after spending $8,000 in the first 3 months with a $95 annual fee. Rewards include 5 points per dollar on travel and transit.
+    highlight: Earn 100,000 points after spending $8,000 in the first 3 months with an annual fee of $95. Enjoy 3 points per dollar on travel and shipping.
     consensus:
-      score: 33
-      ranks: { openai: 8, gemini: 5, claude: 8 }
-
-  - slug: delta-skymiles-reserve-american-express-card
-    previous_rank: 10
-    highlight: Receive 125,000 miles after spending $9,000 in the first 6 months with a $650 annual fee. Earn 3 miles per dollar on Delta purchases.
-    consensus:
-      score: 30
-      ranks: { openai: 9, gemini: 8, claude: 7 }
-
-  - slug: capital-one-venture-x
-    previous_rank: 7
-    highlight: Get 75,000 miles after spending $4,000 in the first 3 months with a $395 annual fee. Earn 10 points per dollar on hotels and car rentals booked through the portal.
-    consensus:
-      score: 27
-      ranks: { openai: 7, gemini: 11, claude: 9 }
+      score: 31
+      ranks: { openai: 12, gemini: 4, claude: 7 }
 
   - slug: delta-skymiles-platinum-american-express-card
-    previous_rank: 9
-    highlight: Earn 100,000 miles after spending $6,000 in the first 6 months with a $350 annual fee. Earn 3 miles per dollar on Delta purchases.
+    previous_rank: 10
+    highlight: Earn 90,000 miles after spending $3,000 in the first 6 months with an annual fee of $350. Enjoy 3 miles per dollar on Delta purchases.
     consensus:
-      score: 25
-      ranks: { openai: 10, gemini: 9, claude: 10 }
+      score: 30
+      ranks: { openai: 9, gemini: 7, claude: 8 }
+
+  - slug: delta-skymiles-reserve-american-express-card
+    previous_rank: 8
+    highlight: Get 100,000 miles after spending $5,000 in the first 6 months with an annual fee of $650. Earn 3 miles per dollar on Delta purchases.
+    consensus:
+      score: 27
+      ranks: { openai: 8, gemini: 9, claude: 10 }
+
+  - slug: capital-one-venture-x
+    previous_rank: 9
+    highlight: Receive 75,000 miles after spending $4,000 in the first 3 months with an annual fee of $395. Earn 10 miles per dollar on hotels and car rentals booked through Capital One Travel.
+    consensus:
+      score: 26
+      ranks: { openai: 7, gemini: 10, claude: 11 }
 
   - slug: delta-skymiles-gold-american-express-card
-    highlight: Receive 90,000 miles after spending $5,000 in the first 6 months with a $150 annual fee. Earn 2 miles per dollar on dining and groceries.
+    highlight: Receive 80,000 miles after spending $2,000 in the first 6 months with an annual fee of $150. Earn 2 miles per dollar on Delta purchases.
     consensus:
-      score: 22
-      ranks: { openai: 11, gemini: 10, claude: 11 }
-
-  - slug: united-quest
-    highlight: Get 60,000 miles after spending $4,000 in the first 3 months with a $350 annual fee. Earn 4 miles per dollar on United purchases.
-    consensus:
-      score: 18
-      ranks: { openai: 12, gemini: 12, claude: 12 }
+      score: 20
+      ranks: { openai: 17, gemini: 8, claude: 9 }
 
   - slug: world-of-hyatt-business-credit-card
-    highlight: Earn 60,000 points after spending $5,000 in the first 3 months with a $199 annual fee. Earn 4 points per dollar on Hyatt purchases.
+    previous_rank: 13
+    highlight: Earn 70,000 points after spending $7,000 in the first 3 months with an annual fee of $199. Enjoy 4 points per dollar at Hyatt hotels.
     consensus:
-      score: 15
-      ranks: { openai: 13, gemini: 13, claude: 13 }
+      score: 19
+      ranks: { openai: 11, gemini: 12, claude: 12 }
+
+  - slug: united-quest
+    previous_rank: 12
+    highlight: Get 60,000 miles after spending $4,000 in the first 3 months with an annual fee of $350. Earn 4 miles per dollar on United purchases.
+    consensus:
+      score: 18
+      ranks: { openai: 10, gemini: 13, claude: 13 }
 
   - slug: chase-freedom-flex
-    badge: Best No-Fee
-    highlight: Receive a $200 cash bonus after spending $500 in the first 3 months with no annual fee. Earn 5% cash back on rotating categories.
+    highlight: Receive $200 after spending $500 in the first 3 months with no annual fee. Earn 5% on rotating categories and 3% on dining.
     consensus:
-      score: 10
-      ranks: { openai: 14, gemini: 15, claude: 15 }
+      score: 11
+      ranks: { openai: 13, gemini: 15, claude: 15 }
 
   - slug: wells-fargo-signify-business-cash
-    badge: Best No-Fee
-    highlight: Get a $500 cash bonus after spending $5,000 in the first 3 months with no annual fee. Earn 2% cash back on all purchases.
+    highlight: Earn $500 after spending $5,000 in the first 3 months with no annual fee. Enjoy 2% on all purchases.
     consensus:
-      score: 10
-      ranks: { openai: 16, gemini: 14, claude: 14 }
+      score: 11
+      ranks: { openai: 15, gemini: 14, claude: 14 }
 
   - slug: wells-fargo-active-cash
     badge: Best No-Fee
-    highlight: Earn a $200 cash bonus after spending $500 in the first 3 months with no annual fee. Earn 2% cash back on all purchases.
+    highlight: Get $200 after spending $500 in the first 3 months with no annual fee. Earn 2% on all purchases.
     consensus:
-      score: 7
-      ranks: { openai: 15, gemini: 16, claude: 16 }
+      score: 8
+      ranks: { openai: 14, gemini: 16, claude: 16 }
 
   - slug: capital-one-savorone
-    highlight: Receive 0% cash back on all purchases with a $39 annual fee. Earn 3% cash back on dining and entertainment.
+    highlight: Receive a one-time cash bonus of $200 after spending $500 in the first 3 months with an annual fee of $39. Earn 3% on dining and entertainment.
     consensus:
-      score: 3
-      ranks: { openai: 17, gemini: 17, claude: 17 }
+      score: 4
+      ranks: { openai: 16, gemini: 17, claude: 17 }
