@@ -302,13 +302,13 @@ function stripHtml(html) {
 // m.samsclub.com, apply.syf.com and documents.syf.com were all probed and serve
 // either the same shell or a targeted-offer stub, never the card's terms.
 //
-// So this card is verified by hand instead — see the monthly
-// `sams-club-manual-verify` scheduled task. Its stored values were checked
-// against the live page on 2026-08-02 (no annual fee, $30 statement credit after
-// $30 in club purchases in 30 days, purchase APR 20.15%/28.15%, no intro APR)
-// and all four matched. Drop this entry if the bot wall ever eases.
+// So this card has to be verified by hand, in an ordinary browser. Its stored
+// values were checked that way on 2026-08-02 (no annual fee, $30 statement
+// credit after $30 in club purchases in 30 days, purchase APR 20.15%/28.15%,
+// no intro APR) and all four matched. The welcome offer amount is the field that
+// rotates, so that is the one to watch. Drop this entry if the bot wall eases.
 const KNOWN_BLOCKED_HOSTS = new Map([
-  ['samsclub.com', 'samsclub.com serves a JS-only shell to every non-interactive client and answers direct GraphQL calls with a bot interstitial; only a headed browser renders the terms'],
+  ['samsclub.com', 'samsclub.com serves a JS-only shell to automated clients and answers direct GraphQL calls with a bot interstitial; headed mode does not help (navigator.webdriver is true either way)'],
 ]);
 
 // Hosts that answer headless Chromium with a bot interstitial but serve a plain
