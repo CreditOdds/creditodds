@@ -122,6 +122,13 @@ benefits:
     description: "Employee cards at no additional cost"
     frequency: "ongoing"
     category: "business"
+  - name: "Award Flight Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more on the miles needed when booking United award flights with miles; Premier members save even more"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
 our_take: >
   For a $150 annual fee, the United Business covers most of what a small
   business flying United needs: a free first checked bag for the cardmember
