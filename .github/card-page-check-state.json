@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-01T16:38:37.027Z",
+  "updated_at": "2026-08-02T03:31:24.097Z",
   "cards": {
     "aaa-daily-advantage-visa-signature": {
       "consecutive_skips": 0,
@@ -626,85 +626,52 @@
       "browser_first": "2026-07-29T13:07:30.674Z"
     },
     "the-business-platinum-card-from-american-express": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-credit-card-amex/",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:56:26.992Z"
     },
     "the-platinum-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.americanexpress.com/us/credit-cards/card/platinum/",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:56:40.987Z"
     },
     "united-business": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/business-credit-cards/united/united-business-card",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "united-club-business": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/business-credit-cards/united/united-club-business",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "united-club-infinite": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/travel-credit-cards/united/club-infinite",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "united-explorer": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/travel-credit-cards/united/united-explorer",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "united-gateway": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/travel-credit-cards/united/united-gateway",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "united-quest": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/travel-credit-cards/united/united-quest",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "us-bank-altitude-connect": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:57:00.788Z"
     },
     "us-bank-altitude-go-visa-signature": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.usbank.com/credit-cards/altitude-go-visa-signature-credit-card.html",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:57:14.531Z"
     },
     "us-bank-cash-plus-visa-signature": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.usbank.com/credit-cards/cash-plus-visa-signature-credit-card.html",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "us-bank-secured": {
       "consecutive_skips": 0,
@@ -717,126 +684,78 @@
       "browser_first": "2026-07-19T18:57:45.134Z"
     },
     "us-bank-smartly-visa-signature": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:58:13.386Z"
     },
     "us-bank-split": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.usbank.com/credit-cards/offers/split-card-world-mastercard-credit-card.html",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:58:27.165Z"
     },
     "venmo-credit-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://venmo.com/about/creditcard",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:58:32.266Z"
     },
     "wells-fargo-active-cash": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.wellsfargo.com/active-cash-credit-card",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:58:46.276Z"
     },
     "wells-fargo-autograph": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.wellsfargo.com/autograph-visa-credit-card",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:59:10.724Z"
     },
     "wells-fargo-autograph-journey": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:58:54.781Z"
     },
     "wells-fargo-choice-privileges-mastercard": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:59:19.064Z"
     },
     "wells-fargo-choice-privileges-select-mastercard": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.wellsfargo.com/choice-hotels-privileges-select-mastercard",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:59:29.384Z"
     },
     "wells-fargo-reflect": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.wellsfargo.com/reflect-visa-credit-card",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T18:59:44.931Z"
     },
     "wells-fargo-signify-business-cash": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.wellsfargo.com/business-credit-cards/signify-business-cash-credit-card/",
-      "known_block": false,
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z",
       "browser_first": "2026-07-19T19:00:00.510Z"
     },
     "world-of-hyatt-business-credit-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/business-credit-cards/world-of-hyatt/hyatt-business-card",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "world-of-hyatt-credit-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://creditcards.chase.com/travel-credit-cards/world-of-hyatt-credit-card",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "wyndham-rewards-earner-business-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-business-card/",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "wyndham-rewards-earner-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-card/",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "wyndham-rewards-earner-plus-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-plus-card/",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     },
     "wyndham-rewards-earner-premier-card": {
-      "consecutive_skips": 1,
-      "last_ok": "2026-08-01T01:15:36.805Z",
-      "last_skip": "2026-08-01T16:38:37.027Z",
-      "last_reason": "page.goto: net::ERR_INTERNET_DISCONNECTED at https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-premier-card/",
-      "known_block": false
+      "consecutive_skips": 0,
+      "last_ok": "2026-08-02T03:31:24.097Z"
     }
   }
 }
