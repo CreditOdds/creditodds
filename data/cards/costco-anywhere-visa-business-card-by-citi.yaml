@@ -14,6 +14,9 @@ rewards:
     value: 4
     unit: percent
     note: "4% on eligible gas and EV charging worldwide (first $7,000/year combined, then 1%); 5% at Costco gas stations."
+    spend_cap: 7000
+    cap_period: annual
+    rate_after_cap: 1
   - category: dining
     value: 3
     unit: percent
