@@ -108,6 +108,13 @@ benefits:
     description: "25% back as a statement credit on United inflight food, beverage, and Wi-Fi purchases and United Club premium drinks"
     frequency: "per_purchase"
     category: "travel"
+  - name: "Award Flight Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more on the miles needed when booking United award flights with miles; Premier members save even more"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
 our_take: >
   The United Club Business is a lounge membership with a credit card attached:
   United Club All Access for the primary cardmember, which Chase pegs at over
