@@ -175,6 +175,35 @@ function truncate(text, max) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
+ * Every source fetch goes through this. Bare `fetch()` has no default timeout,
+ * so a source that accepts the connection and then stalls parks the whole
+ * fetch phase forever: the per-source try/catch in the fetcher loop never runs
+ * because the promise never settles. That happened on 2026-08-02, when a run
+ * sat idle for 34 minutes at 0% CPU with no open sockets before it was killed.
+ *
+ * With a deadline on each request, a stalled source fails like any other and
+ * lands as a "✗ FAILED" line instead of hanging the run. Worst-case phase time
+ * is now bounded: roughly 4 Reddit calls (each up to the timeout plus one 61s
+ * backoff) plus 8 Google News queries, 3 Brave queries and 1 Doctor of Credit
+ * call at the timeout each, so about 9 minutes if every source stalls.
+ */
+const FETCH_TIMEOUT_MS = 20000;
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = FETCH_TIMEOUT_MS) {
+  try {
+    return await fetch(url, { ...options, signal: AbortSignal.timeout(timeoutMs) });
+  } catch (err) {
+    // AbortSignal.timeout rejects with TimeoutError; a caller-supplied signal
+    // or a genuine abort surfaces as AbortError. Relabel both so the failure
+    // line says what happened rather than "The operation was aborted".
+    if (err && (err.name === 'TimeoutError' || err.name === 'AbortError')) {
+      throw new Error(`timed out after ${Math.round(timeoutMs / 1000)}s`);
+    }
+    throw err;
+  }
+}
+
+/**
  * Reddit access, mid-2026: the logged-out JSON API is login-walled (403/302
  * to /login?reason=lor2) even with a browser UA, but the RSS/Atom feeds still
  * serve — under an aggressive per-IP rate limit. So: Atom feeds only, browser
@@ -184,7 +213,7 @@ const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 
 async function redditRss(url, { retried = false } = {}) {
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     headers: { 'User-Agent': BROWSER_UA, Accept: 'application/atom+xml,application/xml,text/xml,*/*' },
   });
   if (res.status === 429 && !retried) {
@@ -323,7 +352,7 @@ async function fetchCreditCardsSubreddit() {
 }
 
 async function fetchDoctorOfCredit() {
-  const res = await fetch('https://www.doctorofcredit.com/category/credit-cards/feed/', {
+  const res = await fetchWithTimeout('https://www.doctorofcredit.com/category/credit-cards/feed/', {
     headers: { 'User-Agent': 'CreditOdds-NewsBot/1.0' },
   });
   if (!res.ok) throw new Error(`Doctor of Credit feed -> ${res.status}`);
@@ -367,7 +396,7 @@ async function fetchGoogleNews() {
   for (const q of queries) {
     try {
       const params = new URLSearchParams({ q: `${q} when:7d`, hl: 'en-US', gl: 'US', ceid: 'US:en' });
-      const res = await fetch(`https://news.google.com/rss/search?${params}`, {
+      const res = await fetchWithTimeout(`https://news.google.com/rss/search?${params}`, {
         headers: { 'User-Agent': 'CreditOdds-NewsBot/1.0' },
       });
       if (!res.ok) throw new Error(`-> ${res.status}`);
@@ -403,7 +432,7 @@ async function fetchBrave() {
   for (const q of queries) {
     try {
       const params = new URLSearchParams({ q, count: String(CAPS.braveItemsPerQuery), freshness: 'pw', text_decorations: 'false' });
-      const res = await fetch(`https://api.search.brave.com/res/v1/web/search?${params}`, {
+      const res = await fetchWithTimeout(`https://api.search.brave.com/res/v1/web/search?${params}`, {
         headers: { Accept: 'application/json', 'X-Subscription-Token': apiKey },
       });
       if (!res.ok) throw new Error(`-> ${res.status}`);
