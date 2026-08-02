@@ -206,21 +206,92 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = FETCH_TIMEOUT_MS)
 /**
  * Reddit access, mid-2026: the logged-out JSON API is login-walled (403/302
  * to /login?reason=lor2) even with a browser UA, but the RSS/Atom feeds still
- * serve — under an aggressive per-IP rate limit. So: Atom feeds only, browser
- * UA, 8s between requests, and one 61s backoff-retry on 429.
+ * serve — under an aggressive per-IP rate limit. So: Atom feeds only, browser UA.
+ *
+ * The budget is roughly ONE request per 60s window per IP, and Reddit states it
+ * outright on every response:
+ *
+ *   x-ratelimit-remaining: 0.0     tokens left in the current window
+ *   x-ratelimit-reset: 56          seconds until the window refills
+ *
+ * The old approach ignored those headers: it slept a flat 8s between requests
+ * and, on the 429 that inevitably followed, backed off a hardcoded 61s and
+ * retried exactly once. That only worked by accident, because 61s happens to
+ * exceed the ~56s reset. It also burned a guaranteed-to-fail request every
+ * time, and a second consecutive 429 killed the source outright.
+ *
+ * Now the pacing is driven by the headers. Before each request we wait out the
+ * advertised reset if the budget is spent, so requests that would 429 are never
+ * sent; a 429 that arrives anyway is retried against its own reset value rather
+ * than a guess. When Reddit is being generous (remaining > 0) there is no sleep
+ * at all, which makes the common case faster than the old flat 8s.
  */
 const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 
-async function redditRss(url, { retried = false } = {}) {
+// Small cushion on top of the advertised reset: the value is whole seconds and
+// clock skew between us and Reddit can leave us a beat early.
+const REDDIT_RESET_BUFFER_MS = 3000;
+// A single sleep is capped so a bogus or hostile reset value cannot park the
+// run, in the same spirit as the per-request fetch timeout.
+const REDDIT_MAX_SLEEP_MS = 90000;
+const REDDIT_MAX_RETRIES = 2;
+// Total time this run may spend waiting on Reddit. Once spent, remaining Reddit
+// requests fail fast and the other four sources carry the run.
+const REDDIT_TOTAL_WAIT_BUDGET_MS = 5 * 60 * 1000;
+
+const redditLimit = { remaining: null, resetAt: 0, waitedMs: 0 };
+
+/** Record what the response says about our remaining budget. */
+function noteRedditLimit(res) {
+  const remaining = Number.parseFloat(res.headers.get('x-ratelimit-remaining'));
+  const reset = Number.parseFloat(res.headers.get('x-ratelimit-reset'));
+  if (Number.isFinite(remaining)) redditLimit.remaining = remaining;
+  if (Number.isFinite(reset)) redditLimit.resetAt = Date.now() + reset * 1000;
+}
+
+/** Milliseconds to wait before the budget refills, clamped and buffered. */
+function redditWaitMs() {
+  const raw = redditLimit.resetAt - Date.now() + REDDIT_RESET_BUFFER_MS;
+  return Math.max(0, Math.min(raw, REDDIT_MAX_SLEEP_MS));
+}
+
+async function redditSleep(ms, why) {
+  if (ms <= 0) return;
+  if (redditLimit.waitedMs + ms > REDDIT_TOTAL_WAIT_BUDGET_MS) {
+    throw new Error(
+      `Reddit rate-limit wait budget exhausted (${Math.round(redditLimit.waitedMs / 1000)}s spent)`
+    );
+  }
+  redditLimit.waitedMs += ms;
+  console.log(`  Reddit: ${why}, waiting ${Math.round(ms / 1000)}s`);
+  await sleep(ms);
+}
+
+/** Hold off if the previous response said the budget is spent. */
+async function awaitRedditBudget() {
+  if (redditLimit.remaining === null || redditLimit.remaining > 0) return;
+  await redditSleep(redditWaitMs(), 'budget spent');
+}
+
+async function redditRss(url, { attempt = 0 } = {}) {
+  await awaitRedditBudget();
+
   const res = await fetchWithTimeout(url, {
     headers: { 'User-Agent': BROWSER_UA, Accept: 'application/atom+xml,application/xml,text/xml,*/*' },
   });
-  if (res.status === 429 && !retried) {
-    console.warn(`  Reddit 429 on ${url} — backing off 61s and retrying once`);
-    await sleep(61000);
-    return redditRss(url, { retried: true });
+  noteRedditLimit(res);
+
+  if (res.status === 429) {
+    if (attempt >= REDDIT_MAX_RETRIES) {
+      throw new Error(`Reddit RSS ${url} -> 429 after ${attempt + 1} attempts`);
+    }
+    // Fall back to a full window if the 429 carried no usable reset header.
+    const waitMs = redditWaitMs() || REDDIT_MAX_SLEEP_MS / 1.5;
+    await redditSleep(waitMs, `429 on ${url}`);
+    return redditRss(url, { attempt: attempt + 1 });
   }
+
   if (!res.ok) throw new Error(`Reddit RSS ${url} -> ${res.status}`);
   return res.text();
 }
@@ -291,7 +362,7 @@ async function fetchChurningCandidates() {
   if (!threads.length) throw new Error('no "News and Updates Thread" in r/churning/new feed');
 
   const readThread = async (thread) => {
-    await sleep(8000);
+    // No manual spacing here: redditRss paces itself off the rate-limit headers.
     const threadUrl = thread.link.replace(/\/$/, '');
     const entries = parseAtom(await redditRss(`${threadUrl}/.rss?sort=top&limit=100`));
     // First entry is the post itself; the rest are comments. The Atom feed
@@ -328,7 +399,8 @@ async function fetchChurningCandidates() {
 }
 
 async function fetchCreditCardsSubreddit() {
-  await sleep(8000); // space Reddit requests; the churning fetcher runs first
+  // No manual spacing here either: the churning fetcher runs first and leaves
+  // the shared budget state behind, so redditRss already knows to hold off.
   const entries = parseAtom(await redditRss('https://www.reddit.com/r/CreditCards/top/.rss?t=day&limit=50'));
   const kept = entries
     .filter((p) => {
