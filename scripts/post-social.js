@@ -17,6 +17,7 @@ const path = require('path');
 const yaml = require('js-yaml');
 const { TwitterApi } = require('twitter-api-v2');
 const { appendBankHandles, resolveBanksFromCardNames } = require('./lib/bank-handles');
+const { TWEET_TEXT_LIMIT, enforceTweetLimit } = require('./lib/social-text');
 
 // Parse CLI args
 function parseArgs() {
@@ -83,19 +84,30 @@ async function generatePost(type, item) {
   const cardList = getCardNameList(item);
   const cardNames = cardList.length > 0 ? cardList.join(', ') : 'N/A';
 
-  const prompt = `Write a short tweet for CreditOdds about this credit card ${type}:
+  const prompt = `Write a tweet for CreditOdds about this credit card ${type}:
 Title: ${item.title}
 Summary: ${item.summary}
 Cards: ${cardNames}
 
+Voice: a factual trade-desk account. Informative and specific, never promotional
+and never meme-y. The reader should finish the post knowing the concrete facts.
+
 Rules:
-- Max 200 characters (shorter is better)
-- Lead with a hook like "BREAKING:" or "NEW:" or a bold statement when appropriate
-- Write like a human, not a corporate account — be direct, casual, punchy
+- Max ${TWEET_TEXT_LIMIT} characters total. Length is fine when every line carries a fact;
+  do not pad to fill it, and do not compress facts out to be short
+- Multiple lines are encouraged. Put each distinct fact (dates, cities, prices,
+  deadlines) on its own line so the post scans
+- Lead with "NEW:" or "BREAKING:" when the item is genuinely new, otherwise open
+  with the plain factual statement
+- State the concrete terms from the summary (exact amounts, spend requirements,
+  dates, deadlines). "$200 back on $1,000" beats "a great new offer"
+- Plain declarative sentences. No hype, no rhetorical questions, no second-person
+  hard sell, no "don't miss", no "act fast", no exclamation marks
 - No filler words, no "excited to announce", no "stay tuned"
 - 1 hashtag max, only if it adds value. Skip hashtags if the tweet is strong without one
 - Do NOT include any URL
-- Do NOT use emojis excessively — 0-1 emoji max`;
+- Do NOT use emojis, emoticons, or decorative symbols anywhere. Zero emoji
+- Do NOT use em dashes or en dashes. Use a period, comma, colon, or new line instead`;
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -118,14 +130,9 @@ Rules:
   }
 
   const data = await response.json();
-  let text = (data.choices[0]?.message?.content || '').trim();
-
-  // Safety: truncate if somehow over 260 chars
-  if (text.length > 260) {
-    text = text.substring(0, 257) + '...';
-  }
-
-  return text;
+  // Strips banned characters (emoji, em dashes) and caps at the real text
+  // budget, which leaves room for the t.co link appended in publishToTwitter.
+  return enforceTweetLimit(data.choices[0]?.message?.content || '');
 }
 
 /**
@@ -201,7 +208,7 @@ async function main() {
       postText = await generatePost(type, item);
       const banks = resolveBanksFromCardNames(getCardNameList(item));
       if (banks.length > 0) {
-        const withHandles = appendBankHandles(postText, banks, 260);
+        const withHandles = appendBankHandles(postText, banks, TWEET_TEXT_LIMIT);
         if (withHandles !== postText) {
           console.log(`  Appended bank handles: ${withHandles.slice(postText.length).trim()}`);
           postText = withHandles;

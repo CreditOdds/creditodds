@@ -19,6 +19,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { appendBankHandles } = require('./lib/bank-handles');
+const { TWEET_TEXT_LIMIT, enforceTweetLimit } = require('./lib/social-text');
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -234,9 +235,9 @@ Rules:
   }
 
   const data = await response.json();
-  let text = (data.choices[0]?.message?.content || '').trim();
-  if (text.length > 260) text = text.substring(0, 257) + '...';
-  return text;
+  // Strips banned characters (emoji, em dashes) and caps at the real text
+  // budget, which leaves room for the t.co link the queued post carries.
+  return enforceTweetLimit(data.choices[0]?.message?.content || '');
 }
 
 async function queuePost(textContent, twitterText, linkUrl, sourceId) {
@@ -311,7 +312,7 @@ async function main() {
       postText = await generatePost(card);
       console.log(`  Generated (${postText.length} chars): ${postText}`);
       const banks = card.bank ? [card.bank] : [];
-      const withHandles = appendBankHandles(postText, banks, 260);
+      const withHandles = appendBankHandles(postText, banks, TWEET_TEXT_LIMIT);
       if (withHandles !== postText) {
         twitterText = withHandles;
         console.log(`  Twitter variant (${twitterText.length} chars): ${twitterText}`);
