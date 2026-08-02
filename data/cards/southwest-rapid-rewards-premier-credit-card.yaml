@@ -15,10 +15,16 @@ rewards:
     value: 2
     unit: points_per_dollar
     note: "Grocery stores and restaurants (first $8,000/year)"
+    spend_cap: 8000
+    cap_period: annual
+    rate_after_cap: 1
   - category: dining
     value: 2
     unit: points_per_dollar
     note: "Grocery stores and restaurants (first $8,000/year)"
+    spend_cap: 8000
+    cap_period: annual
+    rate_after_cap: 1
   - category: everything_else
     value: 1
     unit: points_per_dollar
