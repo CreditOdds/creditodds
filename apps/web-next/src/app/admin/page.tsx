@@ -17,7 +17,6 @@ import {
   getCardApplyClicksBreakdown,
   getApplyOutcomesBreakdown,
   getStorePageEventStats,
-  AffiliateExperimentStat,
   StorePageEventStat,
   deleteAdminRecord,
   deleteAdminReferral,
@@ -1024,12 +1023,6 @@ function ApplyOutcomesTab() {
 // Visits are tracked on every store page; affiliate clicks only exist for
 // stores that have an affiliate CTA, so per-store CTR = clicks / visits.
 const STORE_TRAFFIC_RANGES = APPLY_CLICK_RANGES;
-const STORE_AFFILIATE_EXPERIMENT_VARIANTS = [
-  ['control', 'Control'],
-  ['checkout_plan', 'Checkout plan'],
-  ['reward_calculator', 'Reward calculator'],
-  ['sticky_bar', 'Sticky bar'],
-] as const;
 
 type StoreTrafficSortKey = 'visits' | 'clicks' | 'ctr';
 type StoreTrafficAffiliateFilter = 'all' | 'with' | 'without';
@@ -1044,7 +1037,6 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
   const [fetched, setFetched] = useState<{
     period: number;
     stats: StorePageEventStat[];
-    experiment: AffiliateExperimentStat[];
     error: string | null;
   } | null>(null);
   const [sortKey, setSortKey] = useState<StoreTrafficSortKey>('visits');
@@ -1053,7 +1045,6 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
   const settled = fetched !== null && fetched.period === periodDays ? fetched : null;
   const loading = settled === null;
   const stats = settled && !settled.error ? settled.stats : [];
-  const experiment = settled && !settled.error ? settled.experiment : [];
   const loadError = settled ? settled.error : null;
 
   useEffect(() => {
@@ -1068,7 +1059,6 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
         setFetched({
           period: periodDays,
           stats: data.stores,
-          experiment: data.affiliateExperiment,
           error: null,
         });
       })
@@ -1077,7 +1067,6 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
         setFetched({
           period: periodDays,
           stats: [],
-          experiment: [],
           error: 'Failed to load store traffic data',
         });
       });
@@ -1106,14 +1095,6 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
     { visits: 0, clicks: 0 }
   );
   const overallCtr = totals.visits > 0 ? totals.clicks / totals.visits : 0;
-  const experimentByVariant = new Map(experiment.map(row => [row.variant, row]));
-  const experimentRows = STORE_AFFILIATE_EXPERIMENT_VARIANTS.map(([variant, label]) => {
-    const row = experimentByVariant.get(variant);
-    const views = row?.views ?? 0;
-    const clicks = row?.clicks ?? 0;
-    return { variant, label, views, clicks, ctr: views > 0 ? clicks / views : 0 };
-  });
-  const controlCtr = experimentRows.find(row => row.variant === 'control')?.ctr ?? 0;
 
   const rangeLabel =
     STORE_TRAFFIC_RANGES.find((r) => r.days === periodDays)?.label ?? `${periodDays}d`;
@@ -1168,63 +1149,6 @@ function StoreTrafficTab({ getToken }: { getToken: () => Promise<string | null> 
       {loadError && (
         <div className="av-banner av-banner-err" style={{ marginTop: 14 }}>
           {loadError}
-        </div>
-      )}
-
-      <div className="av-section-head" style={{ marginTop: 24 }}>
-        <div>
-          <h3 className="av-section-h" style={{ fontSize: 14 }}>
-            Affiliate CTA experiment ({rangeLabel})
-          </h3>
-          <p className="av-section-sub">
-            One stable variant per visitor. CTR is attributed clicks / assigned page views.
-          </p>
-        </div>
-        <span className="av-section-meta">affiliate-cta-v1</span>
-      </div>
-
-      {loading ? (
-        <div className="av-tape av-tape-empty">Loading experiment…</div>
-      ) : experimentRows.every(row => row.views === 0) ? (
-        <div className="av-tape av-tape-empty">No experiment activity recorded in this window.</div>
-      ) : (
-        <div className="av-tape">
-          <div className="av-tape-scroll">
-            <div className="av-tape-head" style={{ gridTemplateColumns: 'minmax(180px, 1.5fr) 100px 100px 100px 100px' }}>
-              <span>Variant</span>
-              <span>Views</span>
-              <span>Clicks</span>
-              <span>CTR</span>
-              <span>vs control</span>
-            </div>
-            {experimentRows.map(row => {
-              const lift = controlCtr > 0 ? (row.ctr - controlCtr) / controlCtr : null;
-              return (
-                <div
-                  key={row.variant}
-                  className="av-tape-row"
-                  style={{ gridTemplateColumns: 'minmax(180px, 1.5fr) 100px 100px 100px 100px' }}
-                >
-                  <span style={{ fontWeight: 650 }}>{row.label}</span>
-                  <span>{row.views.toLocaleString()}</span>
-                  <span className="av-accent">{row.clicks.toLocaleString()}</span>
-                  <span className="av-mono">{row.views > 0 ? pct(row.ctr) : '—'}</span>
-                  <span
-                    className="av-mono"
-                    style={{
-                      color: lift === null || row.variant === 'control'
-                        ? 'var(--muted-2)'
-                        : lift >= 0 ? OUTCOME_GREEN : 'var(--warn)',
-                    }}
-                  >
-                    {row.variant === 'control' || lift === null
-                      ? '—'
-                      : `${lift >= 0 ? '+' : ''}${pct(lift)}`}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
         </div>
       )}
 

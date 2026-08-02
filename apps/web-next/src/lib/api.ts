@@ -902,13 +902,8 @@ export async function getContentViewCounts(periodDays = 7): Promise<EditorialVie
 // 'visit' or an 'affiliate_click' on the store's affiliate CTA. No auth,
 // fire-and-forget (keepalive so the click event survives navigation).
 export async function trackStoreEvent(
-  eventType: 'visit' | 'affiliate_click' | 'affiliate_impression',
+  eventType: 'visit' | 'affiliate_click',
   storeSlug: string,
-  experiment?: {
-    experimentId: string;
-    variant: string;
-    placement: string;
-  },
 ): Promise<void> {
   try {
     await fetch(`${API_BASE}/store-event`, {
@@ -918,11 +913,6 @@ export async function trackStoreEvent(
       body: JSON.stringify({
         event_type: eventType,
         store_slug: storeSlug,
-        ...(experiment && {
-          experiment_id: experiment.experimentId,
-          variant: experiment.variant,
-          placement: experiment.placement,
-        }),
       }),
     });
   } catch {
@@ -937,15 +927,8 @@ export interface StorePageEventStat {
   hasAffiliate: boolean;
 }
 
-export interface AffiliateExperimentStat {
-  variant: string;
-  views: number;
-  clicks: number;
-}
-
 export interface StorePageEventStatsResponse {
   stores: StorePageEventStat[];
-  affiliateExperiment: AffiliateExperimentStat[];
 }
 
 // Admin-only: per-store visit + affiliate-click counts for the
@@ -959,14 +942,9 @@ export async function getStorePageEventStats(
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store',
   });
-  if (!res.ok) return { stores: [], affiliateExperiment: [] };
+  if (!res.ok) return { stores: [] };
   const data = await res.json();
-  return {
-    stores: Array.isArray(data.stores) ? data.stores : [],
-    affiliateExperiment: Array.isArray(data.affiliateExperiment)
-      ? data.affiliateExperiment
-      : [],
-  };
+  return { stores: Array.isArray(data.stores) ? data.stores : [] };
 }
 
 // Track a multi-card comparison so we can rank "frequently compared" partners
