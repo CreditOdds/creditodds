@@ -13,6 +13,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { appendBankHandles, resolveBanksFromCardNames } = require('./lib/bank-handles');
+const { TWEET_TEXT_LIMIT, enforceTweetLimit } = require('./lib/social-text');
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -130,21 +131,31 @@ async function generatePost(type, item) {
           ? 'site page'
           : type;
 
-  const prompt = `Write a short tweet for CreditOdds about this ${label}:
+  const prompt = `Write a tweet for CreditOdds about this ${label}:
 Title: ${item.title}
 Summary: ${summary}
 Cards: ${cardNames}
 
+Voice: a factual trade-desk account. Informative and specific, never promotional
+and never meme-y. The reader should finish the post knowing the concrete facts.
+
 Rules:
-- Max 200 characters (shorter is better)
-- Lead with a hook like "BREAKING:" or "NEW:" or a bold statement when appropriate
-- State the concrete terms from the summary (exact amounts, spend requirements, deadlines) — "$200 back on $1,000" beats "a great new offer"
+- Max ${TWEET_TEXT_LIMIT} characters total. Length is fine when every line carries a fact;
+  do not pad to fill it, and do not compress facts out to be short
+- Multiple lines are encouraged. Put each distinct fact (dates, cities, prices,
+  deadlines) on its own line so the post scans
+- Lead with "NEW:" or "BREAKING:" when the item is genuinely new, otherwise open
+  with the plain factual statement
+- State the concrete terms from the summary (exact amounts, spend requirements,
+  dates, deadlines). "$200 back on $1,000" beats "a great new offer"
 - If the summary says where to act (an app tab, activation page), include it
-- Write like a human, not a corporate account — be direct, casual, punchy
+- Plain declarative sentences. No hype, no rhetorical questions, no second-person
+  hard sell, no "don't miss", no "act fast", no exclamation marks
 - No filler words, no "excited to announce", no "stay tuned"
 - 1 hashtag max, only if it adds value. Skip hashtags if the tweet is strong without one
 - Do NOT include any URL
-- Do NOT use emojis excessively — 0-1 emoji max`;
+- Do NOT use emojis, emoticons, or decorative symbols anywhere. Zero emoji
+- Do NOT use em dashes or en dashes. Use a period, comma, colon, or new line instead`;
 
   const response = await fetchWithRetry('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -165,9 +176,9 @@ Rules:
   }
 
   const data = await response.json();
-  let text = (data.choices[0]?.message?.content || '').trim();
-  if (text.length > 260) text = text.substring(0, 257) + '...';
-  return text;
+  // Strips banned characters (emoji, em dashes) and caps at the real text
+  // budget, which leaves room for the t.co link appended at post time.
+  return enforceTweetLimit(data.choices[0]?.message?.content || '');
 }
 
 // Fetch a remote image and return { base64, mimeType } suitable for the
@@ -269,7 +280,7 @@ async function main() {
       console.log(`  Generated post (${postText.length} chars): ${postText}`);
       const banks = resolveBanksFromCardNames(getCardNameList(item));
       if (banks.length > 0) {
-        const withHandles = appendBankHandles(postText, banks, 260);
+        const withHandles = appendBankHandles(postText, banks, TWEET_TEXT_LIMIT);
         if (withHandles !== postText) {
           twitterText = withHandles;
           console.log(`  Twitter variant (${twitterText.length} chars): ${twitterText}`);
