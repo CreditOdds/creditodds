@@ -277,24 +277,36 @@ function stripHtml(html) {
 //
 // samsclub.com added 2026-08-02, after Sam's Club Mastercard hit 6 consecutive
 // skips having never once been verified. The apply_link is NOT stale — it is the
-// right page, and a real (headed) browser renders the full offer. The site is a
+// right page, and an ordinary browser renders the full offer. The site is a
 // Next.js shell whose content arrives over a persisted-query GraphQL call, and
-// PerimeterX + Akamai gate every non-interactive client. Measured back to back
-// against https://www.samsclub.com/credit:
+// PerimeterX + Akamai gate the request. Measured against
+// https://www.samsclub.com/credit:
 //   simple fetch (node fetch + UA header)   -> HTTP 200, 75 chars
 //   Playwright, this script's exact config  -> HTTP 200, 107 chars
 //   curl + full desktop Chrome UA           -> HTTP 200, 326 chars (nav chrome only)
 //   the page's own SamsCreditLandingPage
 //     GraphQL endpoint, called directly     -> HTTP 200, "Let us know you're not
 //                                              a robot" interstitial
-//   headed Chrome                           -> full page, all terms present
-// No URL swap fixes this: /content/credit-cards, /credit/business, m.samsclub.com,
-// apply.syf.com and documents.syf.com were all probed and serve either the same
-// shell or a targeted-offer stub, never the card's terms. The card's stored
-// values were hand-verified against the live page on 2026-08-02 (no annual fee,
-// $30 statement credit after $30 in club purchases in 30 days, purchase APR
-// 20.15%/28.15%, no intro APR) and all four matched. Re-verify by hand when the
-// offer is expected to move; drop this entry if the bot wall ever eases.
+//   ordinary (non-automated) Chrome         -> full page, all terms present
+//
+// DON'T bother trying headed mode — it was measured on 2026-08-02 and does not
+// help. The gate is the automation surface, not headlessness: Playwright reports
+// navigator.webdriver === true in BOTH headed and headless mode, and all four of
+// {bundled Chromium, real Chrome channel} x {headed, headless}, including a
+// persistent user profile, returned the same ~1,000-char stub. Same IP and same
+// minute, a non-automated Chrome returned 6,292 chars with every offer marker.
+// It is also not transient rate-limiting: a single cold request after a 15-minute
+// quiet period still came back as the stub.
+//
+// No URL swap fixes this either: /content/credit-cards, /credit/business,
+// m.samsclub.com, apply.syf.com and documents.syf.com were all probed and serve
+// either the same shell or a targeted-offer stub, never the card's terms.
+//
+// So this card is verified by hand instead — see the monthly
+// `sams-club-manual-verify` scheduled task. Its stored values were checked
+// against the live page on 2026-08-02 (no annual fee, $30 statement credit after
+// $30 in club purchases in 30 days, purchase APR 20.15%/28.15%, no intro APR)
+// and all four matched. Drop this entry if the bot wall ever eases.
 const KNOWN_BLOCKED_HOSTS = new Map([
   ['samsclub.com', 'samsclub.com serves a JS-only shell to every non-interactive client and answers direct GraphQL calls with a bot interstitial; only a headed browser renders the terms'],
 ]);
