@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Fragment } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllStores, getStore, getStoresGeneratedAt } from "@/lib/stores";
@@ -12,7 +11,7 @@ import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { PencilSquareIcon, ExclamationTriangleIcon, CalendarDaysIcon, BanknotesIcon } from "@heroicons/react/24/outline";
 import StorePersonalRow from "./StorePersonalRow";
-import StoreAffiliateExperiment from "./StoreAffiliateCta";
+import StoreAffiliateCta from "./StoreAffiliateCta";
 import StoreVisitTracker from "./StoreVisitTracker";
 import "../../landing.css";
 
@@ -130,13 +129,11 @@ export default async function BestCardForStorePage({ params }: PageProps) {
   // broad secondary categories cannot pull unrelated stores into this list.
   const relatedStores = getRelatedStores(store, allStores);
   const topPick = picks[0];
-  const affiliateExperimentProps = store.affiliate ? {
+  const affiliateCtaProps = store.affiliate ? {
     storeName: store.name,
     storeSlug: store.slug,
     affiliate: store.affiliate,
     topPickName: topPick?.card.card_name,
-    topPickRateLabel: topPick ? formatRate(topPick.rate, topPick.unit) : undefined,
-    topPickRewardRate: topPick?.effectiveRate,
   } : null;
 
   return (
@@ -200,8 +197,8 @@ export default async function BestCardForStorePage({ params }: PageProps) {
       </section>
 
       <div className="wrap store-body">
-        {affiliateExperimentProps && (
-          <StoreAffiliateExperiment {...affiliateExperimentProps} placement="top" />
+        {affiliateCtaProps && (
+          <StoreAffiliateCta {...affiliateCtaProps} placement="top" />
         )}
 
         {merchantCredits.length > 0 && (
@@ -300,11 +297,7 @@ export default async function BestCardForStorePage({ params }: PageProps) {
           )}
           <ol className="store-picks">
             {picks.map((pick, i) => (
-              <Fragment key={pick.card.slug}>
-              <li
-                id={i === 0 ? 'store-top-pick' : undefined}
-                className="store-pick"
-              >
+              <li key={pick.card.slug} className="store-pick">
                 <div className="store-pick-rank">#{i + 1}</div>
                 <Link
                   href={`/card/${pick.card.slug}`}
@@ -379,17 +372,10 @@ export default async function BestCardForStorePage({ params }: PageProps) {
                   )}
                 </div>
               </li>
-              {i === 0 && affiliateExperimentProps && (
-                <StoreAffiliateExperiment
-                  {...affiliateExperimentProps}
-                  placement="after_first"
-                />
-              )}
-              </Fragment>
             ))}
           </ol>
-          {affiliateExperimentProps && (
-            <StoreAffiliateExperiment {...affiliateExperimentProps} placement="after_picks" />
+          {affiliateCtaProps && (
+            <StoreAffiliateCta {...affiliateCtaProps} placement="after_picks" />
           )}
           </>
         )}
