@@ -14,10 +14,16 @@ rewards:
     value: 4
     unit: percent
     note: "Gas, EV charging, and transit combined: 4% on the first $300 in spend per month, then 1%; the cap resets on the 1st of each month"
+    spend_cap: 300
+    cap_period: monthly
+    rate_after_cap: 1
   - category: transit
     value: 4
     unit: percent
     note: "Shares the $300/month cap with gas and EV charging, then 1%; the cap resets on the 1st of each month"
+    spend_cap: 300
+    cap_period: monthly
+    rate_after_cap: 1
   - category: dining
     value: 3
     unit: percent
