@@ -111,6 +111,11 @@ benefits:
     description: "Zone 5 priority boarding, and unaccompanied cardmembers are added to the complimentary upgrade list"
     frequency: "ongoing"
     category: "travel"
+  - name: "Cell Phone Protection"
+    description: "Reimburses repair or replacement of a damaged or stolen cell phone up to $800 per claim, 2 claims per 12-month period, with a $50 deductible, when the wireless bill is paid with the card"
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
 our_take: >
   This is the Delta card for a business that lives in airports: 15 Sky Club
   visits per Medallion Year with unlimited access after $75,000 in
