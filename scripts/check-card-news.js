@@ -752,24 +752,63 @@ async function phaseFetch() {
   fs.rmSync(WORK_DIR, { recursive: true, force: true });
   fs.mkdirSync(PROPOSED_DIR, { recursive: true });
 
+  // Two lanes, run concurrently.
+  //
+  // Both Reddit fetchers draw on the same ~1-request-per-60s per-IP budget, so
+  // they share a lane and stay sequential: firing them together would just make
+  // one of them eat a 429 and undo the header pacing. The other three sources
+  // are independent hosts, so they run alongside the Reddit lane and each other.
+  //
+  // That hides the non-Reddit work inside the Reddit waits. It does NOT shorten
+  // the Reddit lane itself, which is the long pole: 3-4 sequential Reddit reads
+  // against a one-per-minute ceiling is a hard ~3 minute floor.
+  const REDDIT_LANE = 'reddit';
   const fetchers = [
-    ['r/churning', fetchChurningCandidates],
-    ['r/CreditCards', fetchCreditCardsSubreddit],
+    ['r/churning', fetchChurningCandidates, REDDIT_LANE],
+    ['r/CreditCards', fetchCreditCardsSubreddit, REDDIT_LANE],
     ['Doctor of Credit', fetchDoctorOfCredit],
     ['Google News', fetchGoogleNews],
     ['Brave', fetchBrave],
   ];
 
-  const all = [];
-  const sourceStatus = [];
-  for (const [name, fn] of fetchers) {
+  // Results are stored by declaration index, never by completion order: the
+  // order candidates enter `all` decides which copy of a syndicated story wins
+  // dedup below, so it has to stay stable no matter who finishes first.
+  const results = new Array(fetchers.length);
+
+  const runFetcher = async (index) => {
+    const [name, fn] = fetchers[index];
     try {
       const { label, candidates } = await fn();
-      sourceStatus.push(`  ✓ ${label}: ${candidates.length} candidate(s)`);
-      all.push(...candidates);
+      results[index] = {
+        line: `  ✓ ${label}: ${candidates.length} candidate(s)`,
+        candidates,
+      };
     } catch (err) {
-      sourceStatus.push(`  ✗ ${name} FAILED: ${err.message.split('\n')[0]}`);
+      results[index] = {
+        line: `  ✗ ${name} FAILED: ${err.message.split('\n')[0]}`,
+        candidates: [],
+      };
     }
+  };
+
+  const redditLane = (async () => {
+    for (let i = 0; i < fetchers.length; i++) {
+      if (fetchers[i][2] === REDDIT_LANE) await runFetcher(i);
+    }
+  })();
+  const independent = fetchers
+    .map((f, i) => (f[2] === REDDIT_LANE ? null : runFetcher(i)))
+    .filter(Boolean);
+
+  // runFetcher swallows its own errors, so this never rejects.
+  await Promise.all([redditLane, ...independent]);
+
+  const all = [];
+  const sourceStatus = [];
+  for (const result of results) {
+    sourceStatus.push(result.line);
+    all.push(...result.candidates);
   }
   console.log('Sources:');
   sourceStatus.forEach((s) => console.log(s));
