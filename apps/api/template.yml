@@ -1646,24 +1646,6 @@ Resources:
   #           USERNAME: !Ref USERNAME
   #           PASSWORD: !Ref PASSWORD
 
-  # TEMPORARILY WIRED to apply 054_create_reddit_product_changes.sql.
-  # Remove in the immediate follow-up PR — the handler reads an arbitrary file
-  # path from its invoke payload, so it must not sit deployed.
-  RunMigrationFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/run-migration.RunMigrationHandler
-      Runtime: nodejs22.x
-      MemorySize: 256
-      Timeout: 300
-      Description: One-shot migration runner; invoke with {"migration":"<file>"}
-      Environment:
-        Variables:
-          ENDPOINT: !Ref ENDPOINT
-          DATABASE: !Ref DATABASE
-          USERNAME: !Ref USERNAME
-          PASSWORD: !Ref PASSWORD
-
   # Referral validity check: paired Lambdas invoked by the
   # `check-referrals.yml` GitHub Action. List returns the due batch;
   # Complete writes back per-referral results. Not exposed via API Gateway.
