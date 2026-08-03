@@ -20,6 +20,9 @@
  *
  *   node scripts/sweep-reddit-product-changes.js [--limit=N] [--spacing=MS]
  *                                                [--cards=name,name] [--reset]
+ *   node scripts/sweep-reddit-product-changes.js --phase=weekly   # recurring run
+ *   node scripts/sweep-reddit-product-changes.js --phase=extract
+ *   node scripts/sweep-reddit-product-changes.js --phase=finish
  */
 
 const fs = require('fs');
@@ -460,12 +463,21 @@ function phaseFinish() {
   console.log(`PR body: ${path.join(OUT_DIR, 'pr-body.md')}`);
 }
 
-// ── Daily mode ───────────────────────────────────────────────────────────────
+// ── Weekly mode ──────────────────────────────────────────────────────────────
 
 // The per-card sweep is a backfill tool: 199 partitioned queries, hours of
-// runtime, exhaustive history. A daily run wants the opposite shape — two
-// requests, only what is new since yesterday — so it reads /new plus one
-// recency-sorted search (which catches posts that fell off /new between runs).
+// runtime, exhaustive history. The recurring run wants the opposite shape — a
+// handful of requests covering only what is new since the last run.
+//
+// This runs WEEKLY, and that cadence drives the feed list. r/CreditCards is
+// busy enough that /new?limit=100 spans about 27 hours (measured 2026-08-03),
+// so on its own it would miss roughly six days out of every seven. The
+// week-scoped searches are therefore the primary source and /new is a cheap
+// top-up that catches the freshest posts before search indexes them.
+//
+// Several phrasings are queried because people describe the same event
+// differently ("PC'd", "downgraded", "converted"), and a single week's volume
+// per phrasing stays far under Reddit's ~250-result cap.
 //
 // Seen-state is committed to .github/ rather than kept in .reddit-pc-work/, so
 // rejecting a proposal is permanent: nothing re-proposes a post once it has
@@ -504,19 +516,27 @@ function saveDailyState(state) {
   fs.writeFileSync(DAILY_STATE_STAGED, `${JSON.stringify({ seen }, null, 1)}\n`);
 }
 
-async function phaseDaily() {
+// Phrasings people actually use for the same event. Queried separately rather
+// than OR'd into one query because Reddit's relevance ranking buries the weaker
+// terms when they share a query, and a week of any one phrasing is nowhere near
+// the result cap, so the extra requests cost nothing worth saving.
+const WEEKLY_QUERIES = ['product change', 'downgraded', 'upgraded', 'converted'];
+
+const weekSearchUrl = (q) =>
+  'https://www.reddit.com/r/CreditCards/search.rss?q=' +
+  encodeURIComponent(q) +
+  '&restrict_sr=1&sort=new&t=week&limit=100';
+
+async function phaseWeekly() {
   const today = new Date().toISOString().slice(0, 10);
   const dailyState = loadDailyState();
   const seen = new Set(Object.keys(dailyState.seen));
 
   const feeds = [
+    // Top-up only: this spans roughly a day, so it exists to catch posts too
+    // fresh to be indexed by search, not to cover the week.
     ['r/CreditCards new', 'https://www.reddit.com/r/CreditCards/new/.rss?limit=100'],
-    [
-      'product-change search',
-      'https://www.reddit.com/r/CreditCards/search.rss?q=' +
-        encodeURIComponent('product change') +
-        '&restrict_sr=1&sort=new&t=week&limit=100',
-    ],
+    ...WEEKLY_QUERIES.map((q) => [`search "${q}"`, weekSearchUrl(q)]),
   ];
 
   const found = new Map();
@@ -551,14 +571,16 @@ async function phaseDaily() {
   saveDailyState(dailyState);
   saveState(state);
 
-  console.log(`\nDaily scan: ${found.size} new candidate(s). Run --phase=extract next.`);
+  console.log(`\nWeekly scan: ${found.size} new candidate(s). Run --phase=extract next.`);
 }
 
 async function main() {
   const phase = argVal('phase', 'sweep');
 
-  if (phase === 'daily') {
-    await phaseDaily();
+  // 'daily' kept as an alias so an older scheduled task prompt does not break
+  // silently; both run the same weekly-shaped fetch.
+  if (phase === 'weekly' || phase === 'daily') {
+    await phaseWeekly();
     return;
   }
 

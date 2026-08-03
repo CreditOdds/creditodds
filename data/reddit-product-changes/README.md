@@ -16,15 +16,19 @@ re-proposes it, because the sweep's seen-state is committed separately.
 
 Two fetch modes feed the same extract/finish path.
 
-**Daily** (the scheduled routine) — two requests, only what is new:
+**Weekly** (the scheduled routine) — a handful of requests, only what is new:
 
 ```
-node scripts/sweep-reddit-product-changes.js --phase=daily
+node scripts/sweep-reddit-product-changes.js --phase=weekly
 node scripts/sweep-reddit-product-changes.js --phase=extract
 #   ... session reads .reddit-pc-work/extract-prompt.md and writes
 #       .reddit-pc-work/proposed/<source_id>.json ...
 node scripts/sweep-reddit-product-changes.js --phase=finish
 ```
+
+The weekly run leans on week-scoped searches across several phrasings rather
+than on `/new`: r/CreditCards is busy enough that `/new?limit=100` spans only
+about 27 hours, so on a weekly cadence it would miss six days in seven.
 
 **Backfill** (one-shot, hours) — one partitioned search per catalog card:
 
