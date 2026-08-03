@@ -51,6 +51,11 @@ jobs:
       - name: Upload card images to S3
         id: images
         run: |
+          # This step pipes `aws s3 sync` into tee to capture what it wrote. The
+          # workflow declares no shell, so GitHub runs `bash -e` WITHOUT pipefail
+          # and the pipeline would otherwise exit with tee's status, silently
+          # swallowing a failed upload.
+          set -o pipefail
           echo "changed=0" >> "$GITHUB_OUTPUT"
           : > /tmp/changed-images.txt
           if find data/cards/images -type f ! -name '.gitkeep' | grep -q .; then
@@ -88,8 +93,9 @@ jobs:
             aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} --paths "/card_images/*"
           else
             echo "Invalidating $CHANGED changed card image(s)"
-            xargs -a /tmp/changed-images.txt \
-              aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} --paths
+            xargs aws cloudfront create-invalidation \
+              --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} --paths \
+              < /tmp/changed-images.txt
           fi
 
       - name: Wait for CloudFront invalidation
