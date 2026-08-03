@@ -471,6 +471,9 @@ function phaseFinish() {
 // rejecting a proposal is permanent: nothing re-proposes a post once it has
 // been seen, whether it became a data point or not.
 const DAILY_STATE_PATH = path.join(ROOT, '.github', 'reddit-product-change-state.json');
+// Staging copy the publish script reads; see saveDailyState for why the
+// committed file is never written directly.
+const DAILY_STATE_STAGED = path.join(OUT_DIR, 'state-updated.json');
 const DAILY_STATE_RETENTION_DAYS = 180;
 
 function loadDailyState() {
@@ -482,6 +485,12 @@ function loadDailyState() {
   }
 }
 
+// Writes to a STAGING file, not to the committed state. The publish script
+// pushes it straight to main via the contents API, because "seen" means
+// "presented for extraction", not "accepted" — a post whose PR was closed
+// unmerged must not come back tomorrow. Routing it through the review PR would
+// lose exactly the rejections it needs to remember. Same rationale as
+// check-reddit-datapoints-publish.sh.
 function saveDailyState(state) {
   // Prune well past any plausible re-surfacing so the file cannot grow forever.
   const cutoff = new Date(Date.now() - DAILY_STATE_RETENTION_DAYS * 86400000)
@@ -491,8 +500,8 @@ function saveDailyState(state) {
   for (const [id, date] of Object.entries(state.seen)) {
     if (date >= cutoff) seen[id] = date;
   }
-  fs.mkdirSync(path.dirname(DAILY_STATE_PATH), { recursive: true });
-  fs.writeFileSync(DAILY_STATE_PATH, `${JSON.stringify({ seen }, null, 1)}\n`);
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  fs.writeFileSync(DAILY_STATE_STAGED, `${JSON.stringify({ seen }, null, 1)}\n`);
 }
 
 async function phaseDaily() {
