@@ -222,6 +222,29 @@
   color: var(--muted);
   margin-top: 2px;
 }
+/* Cards that stopped accepting applications: dimmed but still clickable. */
+.landing-v3 .search-results .opt.is-archived .opt-thumb {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+.landing-v3 .search-results .opt.is-archived .opt-name {
+  color: var(--muted);
+  font-weight: 500;
+}
+.landing-v3 .search-results .opt.is-archived:hover .opt-name,
+.landing-v3 .search-results .opt.is-archived.is-active .opt-name {
+  color: var(--ink);
+}
+.landing-v3 .search-results .opt-tag {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--muted);
+}
 .landing-v3 .search-results .opt-empty {
   padding: 18px 14px;
   font-size: 13px;

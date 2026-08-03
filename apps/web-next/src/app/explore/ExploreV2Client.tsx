@@ -348,7 +348,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
   }, []);
   const [sort, setSort] = useState<SortKey>('trending');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
-  const [includeArchived, setIncludeArchived] = useState(false);
   const [view, setView] = useState<ViewMode>('table');
   const [rewardType, setRewardType] = useState<RewardTypeFilter>('all');
   const [feeBucket, setFeeBucket] = useState<FeeBucket>('all');
@@ -367,10 +366,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
     }
   }
 
-  const totalCount = useMemo(
-    () => cards.filter((c) => includeArchived || c.accepting_applications).length,
-    [cards, includeArchived]
-  );
+  const totalCount = cards.length;
 
   const hasActiveFilters =
     query.trim() !== '' ||
@@ -379,8 +375,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
     network !== 'all' ||
     selectedBanks.size > 0 ||
     businessOnly ||
-    noForeignFeeOnly ||
-    includeArchived;
+    noForeignFeeOnly;
 
   function clearFilters() {
     setQuery('');
@@ -390,26 +385,24 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
     setSelectedBanks(new Set());
     setBusinessOnly(false);
     setNoForeignFeeOnly(false);
-    setIncludeArchived(false);
   }
 
   const banksList = useMemo(() => {
     const counts: Record<string, number> = {};
     for (const c of cards) {
-      if (!includeArchived && !c.accepting_applications) continue;
       if (!c.bank) continue;
       counts[c.bank] = (counts[c.bank] ?? 0) + 1;
     }
     return Object.entries(counts)
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [cards, includeArchived]);
+  }, [cards]);
 
-  // Per-option counts for the Network / Annual fee menus. Like banksList,
-  // these are counted against the archived-filtered pool only, so an option's
-  // number doesn't shift as other facets are toggled.
+  // Per-option counts for the Network / Annual fee menus. Counted against the
+  // whole catalog so an option's number doesn't shift as other facets are
+  // toggled.
   const facetCounts = useMemo(() => {
-    const pool = cards.filter((c) => includeArchived || c.accepting_applications);
+    const pool = cards;
     const network: Record<NetworkFilter, number> = {
       all: pool.length,
       visa: 0,
@@ -432,7 +425,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       }
     }
     return { network, fee };
-  }, [cards, includeArchived]);
+  }, [cards]);
 
   function toggleBank(bank: string) {
     setSelectedBanks((prev) => {
@@ -450,13 +443,11 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
       ? [...selectedBanks][0]
       : `${selectedBanks.size} selected`;
 
-  const moreCount =
-    (businessOnly ? 1 : 0) + (noForeignFeeOnly ? 1 : 0) + (includeArchived ? 1 : 0);
+  const moreCount = (businessOnly ? 1 : 0) + (noForeignFeeOnly ? 1 : 0);
 
   const filtered = useMemo(() => {
     const q = query.trim();
     const pool = cards.filter((c) => {
-      if (!includeArchived && !c.accepting_applications) return false;
       if (businessOnly && cardCategory(c) !== 'Business') return false;
       if (rewardType !== 'all' && c.reward_type !== rewardType) return false;
       // Strict `=== false`: the field is optional, and a handful of cards omit
@@ -512,8 +503,14 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
         return sortDir === 'desc' ? bv - av : av - bv;
       });
     }
+    // Cards that stopped accepting applications sink to the bottom of every
+    // sort. They stay listed — people search for pulled cards — just last.
+    // Array.prototype.sort is stable, so each group keeps the order above.
+    sorted.sort(
+      (a, b) => Number(!a.accepting_applications) - Number(!b.accepting_applications)
+    );
     return sorted;
-  }, [cards, query, sort, sortDir, includeArchived, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly, noForeignFeeOnly, network]);
+  }, [cards, query, sort, sortDir, trendingViews, rewardType, feeBucket, selectedBanks, businessOnly, noForeignFeeOnly, network]);
 
   return (
     <div className="landing-v2 explore-v2">
@@ -704,12 +701,6 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                   >
                     No foreign transaction fee
                   </FacetSwitch>
-                  <FacetSwitch
-                    on={includeArchived}
-                    onToggle={() => setIncludeArchived((v) => !v)}
-                  >
-                    Include archived cards
-                  </FacetSwitch>
                 </>
               )}
             </Facet>
@@ -783,7 +774,11 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
               const archived = !c.accepting_applications;
               const bonus = formatBonus(c);
               return (
-                <Link key={c.slug} href={`/card/${c.slug}`} className="cc">
+                <Link
+                  key={c.slug}
+                  href={`/card/${c.slug}`}
+                  className={'cc' + (archived ? ' is-archived' : '')}
+                >
                   <div className="cc-top">
                     <div className="cc-thumb">
                       <CardImage
@@ -880,7 +875,7 @@ export default function ExploreV2Client({ cards, trendingViews }: ExploreV2Clien
                   const bonus = formatBonus(c);
                   const feeLabel = `$${c.annual_fee ?? 0}`;
                   return (
-                    <tr key={c.slug}>
+                    <tr key={c.slug} className={archived ? 'is-archived' : undefined}>
                       <td>
                         <Link href={`/card/${c.slug}`} className="ct-card">
                           <div className="ct-thumb">
