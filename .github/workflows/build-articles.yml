@@ -45,6 +45,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # data/cards.json is generated and gitignored (#1599), so it does not
+      # exist in a fresh checkout. build:articles uses it to enrich
+      # related_cards into related_cards_info; without it the enrichment is
+      # silently empty and article pages lose their related-card module.
+      - name: Build cards.json
+        run: npm run build:cards
+
       - name: Build articles.json
         run: npm run build:articles
 

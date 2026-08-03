@@ -122,8 +122,10 @@ function buildArticles() {
 
   const schema = loadSchema();
   const cardsLookup = loadCardsLookup();
+  const cardsLookupEmpty = Object.keys(cardsLookup).length === 0;
   const articles = [];
   const errors = [];
+  let articlesWantingCards = 0;
 
   // Read all YAML files in the articles directory
   const files = fs.readdirSync(ARTICLES_DIR).filter(f => f.endsWith('.yaml') || f.endsWith('.yml'));
@@ -156,6 +158,7 @@ function buildArticles() {
 
       // Enrich related_cards with card info
       if (item.related_cards && item.related_cards.length > 0) {
+        articlesWantingCards++;
         item.related_cards_info = item.related_cards
           .filter(slug => cardsLookup[slug])
           .map(slug => ({
@@ -175,6 +178,20 @@ function buildArticles() {
   }
 
   console.log('\n---');
+
+  // cards.json is generated and gitignored, so a workflow that forgets to run
+  // build:cards first still produces a valid-looking articles.json with every
+  // related_cards_info silently empty. That regression shipped unnoticed from
+  // 2026-07-09 to 2026-08-03. Missing cards.json is only tolerable when no
+  // article actually references a card.
+  if (cardsLookupEmpty && articlesWantingCards > 0) {
+    console.error(
+      `\nBuild failed: ${articlesWantingCards} article(s) declare related_cards but ` +
+      `cards.json could not be loaded, so related_cards_info would be empty for all of them.\n` +
+      `Run \`npm run build:cards\` before \`npm run build:articles\`.`
+    );
+    process.exit(1);
+  }
 
   if (errors.length > 0) {
     console.error(`\nValidation failed with ${errors.length} error(s):`);
