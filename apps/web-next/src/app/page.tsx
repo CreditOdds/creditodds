@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { getAllCards, getCardViewCounts, getContentViewCounts, EditorialViewCounts, Card } from "@/lib/api";
-import { getNews, NewsItem } from "@/lib/news";
+import { getNews, getNewsCards, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import { getBestPages } from "@/lib/best";
 import LandingClient, {
@@ -89,19 +89,12 @@ function slimNews(news: NewsItem[], cardImageBySlug: Map<string, string | undefi
     .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
     .slice(0, 4)
     .map((n) => {
-      const slugs = n.card_slugs?.length ? n.card_slugs : n.card_slug ? [n.card_slug] : [];
-      const links = n.card_image_links?.length
-        ? n.card_image_links
-        : n.card_image_link
-          ? [n.card_image_link]
-          : [];
-      const names = n.card_names?.length ? n.card_names : n.card_name ? [n.card_name] : [];
-      const cardImages = slugs.length
-        ? slugs.slice(0, 3).map((slug, i) => ({
-            src: cardImageBySlug.get(slug) || links[i],
-            alt: cardNameBySlug.get(slug) || names[i] || '',
-          }))
-        : links.slice(0, 3).map((src, i) => ({ src, alt: names[i] || '' }));
+      const cardImages = getNewsCards(n)
+        .slice(0, 3)
+        .map((card) => ({
+          src: cardImageBySlug.get(card.slug) || card.image || undefined,
+          alt: cardNameBySlug.get(card.slug) || card.name,
+        }));
       return { id: n.id, title: n.title, date: n.date, summary: n.summary, cardImages, newsImage: n.news_image };
     });
 }

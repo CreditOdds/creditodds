@@ -11,7 +11,7 @@ import UserAvatar from "@/components/user/UserAvatar";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, getWalletEvents, deleteAccount, reorderWallet, WalletCard, WalletCardEvent, Card } from "@/lib/api";
 import "../landing.css";
-import { getNews, NewsItem, NewsTag, tagLabels } from "@/lib/news";
+import { getNews, getNewsCards, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import ProfileLoader from "./ProfileLoader";
 import { amortizedAnnualValue, categoryLabels } from "@/lib/cardDisplayUtils";
@@ -1873,10 +1873,12 @@ function MobileNewsView({ relevantNews, walletCardsCount }: { relevantNews: News
         </div>
       ) : (
         <div className="cj-mob-news-list">
-          {filtered.map((n) => (
+          {filtered.map((n) => {
+            const firstCard = getNewsCards(n)[0];
+            return (
             <Link key={n.id} href={`/news/${n.id}`} className="cj-mob-news-row">
               <span className="cj-mob-news-thumb">
-                <CardImage cardImageLink={n.card_image_link || n.card_image_links?.[0]} alt={n.card_names?.[0] || ''} fill sizes="48px" className="object-contain" />
+                <CardImage cardImageLink={firstCard?.image ?? undefined} alt={firstCard?.name || ''} fill sizes="48px" className="object-contain" />
               </span>
               <div>
                 <div className="cj-mob-news-meta">
@@ -1889,10 +1891,11 @@ function MobileNewsView({ relevantNews, walletCardsCount }: { relevantNews: News
                   )}
                 </div>
                 <div className="cj-mob-news-title">{n.title}</div>
-                {n.card_names?.[0] && <div className="cj-mob-news-card">{n.card_names[0]}</div>}
+                {firstCard && <div className="cj-mob-news-card">{firstCard.name}</div>}
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
       )}
     </section>

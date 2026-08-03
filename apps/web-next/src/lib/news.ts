@@ -27,6 +27,18 @@ export interface ReplacementCardInfo {
   reason?: string;
 }
 
+/**
+ * A card a news item is about, resolved at build time by scripts/build-news.js.
+ * Self-contained on purpose: the image travels with its own slug and name, so a
+ * card missing from cards.json blanks only itself instead of shifting every
+ * later image onto the wrong card.
+ */
+export interface NewsCardInfo {
+  slug: string;
+  name: string;
+  image: string | null;
+}
+
 export interface NewsItem {
   id: string;
   date: string;
@@ -41,7 +53,12 @@ export interface NewsItem {
   card_image_link?: string;
   card_slugs?: string[];
   card_names?: string[];
+  /**
+   * Resolved images only — NOT index-aligned with card_slugs/card_names, since
+   * unresolved cards are dropped. Legacy; read `cards_info` via getNewsCards().
+   */
   card_image_links?: string[];
+  cards_info?: NewsCardInfo[];
   replacement_cards_info?: ReplacementCardInfo[];
   source?: string;
   source_url?: string;
@@ -79,6 +96,46 @@ export const tagColors: Record<NewsTag, string> = {
   'rumor': 'bg-yellow-50 text-yellow-800 ring-1 ring-inset ring-yellow-600/20',
   'general': 'bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-600/20',
 };
+
+/**
+ * The cards a news item is about, as self-contained objects.
+ *
+ * Always use this instead of indexing card_slugs / card_names /
+ * card_image_links against each other. Falls back to those legacy arrays for a
+ * news.json published before build-news.js emitted cards_info — and only trusts
+ * the images there when the array lengths line up, because the old builder
+ * dropped unresolved entries and a short array means everything after the gap
+ * is shifted onto the wrong card.
+ */
+export function getNewsCards(item: NewsItem | null | undefined): NewsCardInfo[] {
+  if (!item) return [];
+  if (item.cards_info?.length) return item.cards_info;
+
+  const slugs = item.card_slugs?.length
+    ? item.card_slugs
+    : item.card_slug
+      ? [item.card_slug]
+      : [];
+  if (slugs.length === 0) return [];
+
+  const names = item.card_names?.length
+    ? item.card_names
+    : item.card_name
+      ? [item.card_name]
+      : [];
+  const images = item.card_image_links?.length
+    ? item.card_image_links
+    : item.card_image_link
+      ? [item.card_image_link]
+      : [];
+  const aligned = images.length === slugs.length;
+
+  return slugs.map((slug, i) => ({
+    slug,
+    name: names[i] || slug,
+    image: aligned ? images[i] ?? null : null,
+  }));
+}
 
 const NEWS_CDN_URL = 'https://d2hxvzw7msbtvt.cloudfront.net/news.json';
 

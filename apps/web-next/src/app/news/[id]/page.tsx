@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { getNews, getNewsItem, tagLabels } from "@/lib/news";
+import { getNews, getNewsCards, getNewsItem, tagLabels } from "@/lib/news";
 import { getContentViewCounts } from "@/lib/api";
 import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
@@ -84,23 +84,19 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const viewCounts = await getContentViewCounts(0).catch(() => null);
   const viewCount = viewCounts?.news[item.id] ?? 0;
 
-  const relatedCards: RelatedCardInfo[] = [];
-  if (item.card_slugs && item.card_names) {
-    for (let i = 0; i < item.card_slugs.length; i++) {
-      // Skip entries with no resolved image. An empty card_image_links array is
-      // truthy, so a stale/partial news.json (image lookup failed at build time)
-      // would otherwise render related cards with a blank gray placeholder rather
-      // than being omitted. Better to show nothing than broken art.
-      const image = item.card_image_links?.[i];
-      if (!image) continue;
-      relatedCards.push({
-        slug: item.card_slugs[i],
-        name: item.card_names[i],
-        image,
-        bank: item.bank || '',
-      });
-    }
-  }
+  const newsCards = getNewsCards(item);
+
+  // Skip entries with no resolved image (card missing from cards.json at build
+  // time), which would otherwise render as a blank gray placeholder. Better to
+  // show nothing than broken art.
+  const relatedCards: RelatedCardInfo[] = newsCards
+    .filter((card) => card.image)
+    .map((card) => ({
+      slug: card.slug,
+      name: card.name,
+      image: card.image as string,
+      bank: item.bank || '',
+    }));
 
   const url = `https://creditodds.com/news/${item.id}`;
   const jsonLd = {
@@ -195,20 +191,20 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
             )}
           </div>
 
-          {item.card_slugs && item.card_names && item.card_slugs.length > 0 && (
+          {newsCards.length > 0 && (
             <div className="article-card-chips">
-              {item.card_slugs.map((slug, i) => (
-                <Link key={slug} href={`/card/${slug}`} className="article-card-chip">
+              {newsCards.map((card) => (
+                <Link key={card.slug} href={`/card/${card.slug}`} className="article-card-chip">
                   <span className="thumb">
                     <CardImage
-                      cardImageLink={item.card_image_links?.[i]}
-                      alt={item.card_names![i]}
+                      cardImageLink={card.image ?? undefined}
+                      alt={card.name}
                       fill
                       sizes="28px"
                       style={{ objectFit: 'cover' }}
                     />
                   </span>
-                  {item.card_names![i]}
+                  {card.name}
                 </Link>
               ))}
             </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import CardImage from "@/components/ui/CardImage";
 import { BuildingLibraryIcon, CreditCardIcon } from "@heroicons/react/24/outline";
-import { NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
+import { getNewsCards, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ExpandableText } from "@/components/ui/ExpandableText";
 
 const PAGE_SIZE = 15;
@@ -31,21 +31,19 @@ function TagBadge({ tag }: { tag: NewsTag }) {
 }
 
 function CardStack({ item }: { item: NewsItem }) {
-  const slugs = item.card_slugs ?? [];
-  const names = item.card_names ?? [];
-  const images = item.card_image_links ?? [];
+  const cards = getNewsCards(item);
 
   // Single card — simple link with image + name
-  if (slugs.length <= 1) {
-    return slugs[0] && names[0] ? (
+  if (cards.length <= 1) {
+    return cards[0] ? (
       <Link
-        href={`/card/${slugs[0]}`}
+        href={`/card/${cards[0].slug}`}
         className="flex items-center text-sm text-indigo-600 hover:text-indigo-900 whitespace-nowrap"
       >
-        {images[0] ? (
+        {cards[0].image ? (
           <CardImage
-            cardImageLink={images[0]}
-            alt={names[0]}
+            cardImageLink={cards[0].image}
+            alt={cards[0].name}
             width={32}
             height={20}
             className="mr-1.5 rounded-sm object-contain"
@@ -54,7 +52,7 @@ function CardStack({ item }: { item: NewsItem }) {
         ) : (
           <CreditCardIcon className="h-4 w-4 mr-1" />
         )}
-        {names[0]}
+        {cards[0].name}
       </Link>
     ) : null;
   }
@@ -64,17 +62,17 @@ function CardStack({ item }: { item: NewsItem }) {
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center">
         <div className="flex -space-x-3">
-          {slugs.map((slug, i) => (
+          {cards.map((card, i) => (
             <Link
-              key={slug}
-              href={`/card/${slug}`}
+              key={card.slug}
+              href={`/card/${card.slug}`}
               className="relative group block rounded-sm hover:z-20 transition-transform hover:scale-110"
-              style={{ zIndex: slugs.length - i }}
+              style={{ zIndex: cards.length - i }}
             >
-              {images[i] ? (
+              {card.image ? (
                 <CardImage
-                  cardImageLink={images[i]}
-                  alt={names[i] || slug}
+                  cardImageLink={card.image}
+                  alt={card.name}
                   width={36}
                   height={23}
                   className="rounded-sm object-contain ring-1 ring-white"
@@ -87,13 +85,48 @@ function CardStack({ item }: { item: NewsItem }) {
               )}
               {/* Tooltip */}
               <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-30">
-                {names[i] || slug}
+                {card.name}
               </span>
             </Link>
           ))}
         </div>
-        <span className="ml-2 text-xs text-gray-500">{slugs.length} cards</span>
+        <span className="ml-2 text-xs text-gray-500">{cards.length} cards</span>
       </div>
+    </div>
+  );
+}
+
+// Mobile row thumbnail: a purely decorative stack, so cards whose art did not
+// resolve are left out rather than shown as an empty tile.
+function MobileCardStack({ item }: { item: NewsItem }) {
+  const withImages = getNewsCards(item).filter((card) => card.image);
+  if (withImages.length === 0) return null;
+
+  return (
+    <div className="flex-shrink-0 sm:hidden flex -space-x-2">
+      {withImages.slice(0, 3).map((card, i) => (
+        <Link
+          key={card.slug}
+          href={`/card/${card.slug}`}
+          style={{ zIndex: withImages.length - i }}
+        >
+          <CardImage
+            cardImageLink={card.image!}
+            alt={card.name}
+            width={36}
+            height={23}
+            className="rounded-sm object-contain ring-1 ring-white"
+            sizes="36px"
+          />
+        </Link>
+      ))}
+      {withImages.length > 3 && (
+        <span className="flex items-center justify-center w-9 h-[23px] bg-gray-100 rounded-sm ring-1 ring-white text-[10px] text-gray-500 font-medium"
+          style={{ zIndex: 0 }}
+        >
+          +{withImages.length - 3}
+        </span>
+      )}
     </div>
   );
 }
@@ -161,36 +194,7 @@ export default function NewsTable({ newsItems }: { newsItems: NewsItem[] }) {
                       ))}
                     </div>
                   </div>
-                  {item.card_image_link && (
-                    <div className="flex-shrink-0 sm:hidden flex -space-x-2">
-                      {(item.card_image_links && item.card_image_links.length > 1
-                        ? item.card_image_links.slice(0, 3)
-                        : [item.card_image_link]
-                      ).map((img, i) => (
-                        <Link
-                          key={item.card_slugs?.[i] ?? i}
-                          href={`/card/${item.card_slugs?.[i] ?? item.card_slug}`}
-                          style={{ zIndex: (item.card_image_links?.length ?? 1) - i }}
-                        >
-                          <CardImage
-                            cardImageLink={img}
-                            alt={item.card_names?.[i] ?? item.card_name ?? ''}
-                            width={36}
-                            height={23}
-                            className="rounded-sm object-contain ring-1 ring-white"
-                            sizes="36px"
-                          />
-                        </Link>
-                      ))}
-                      {(item.card_image_links?.length ?? 0) > 3 && (
-                        <span className="flex items-center justify-center w-9 h-[23px] bg-gray-100 rounded-sm ring-1 ring-white text-[10px] text-gray-500 font-medium"
-                          style={{ zIndex: 0 }}
-                        >
-                          +{item.card_image_links!.length - 3}
-                        </span>
-                      )}
-                    </div>
-                  )}
+                  <MobileCardStack item={item} />
                 </div>
               </td>
               <td className="px-6 py-4 hidden sm:table-cell">
