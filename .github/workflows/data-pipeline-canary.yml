@@ -1,0 +1,207 @@
+name: Data Pipeline Canary
+
+# Weekly health check for the data build pipeline.
+#
+# Most of the build-*.yml workflows only fire on pushes that touch their own
+# data directory, so a break in one can sit unnoticed for weeks. Two did
+# exactly that:
+#
+#   - build-best.yml broke on 2026-07-09 when data/cards.json became gitignored
+#     and was not found until 2026-08-03, because it only runs on data/best/**
+#     pushes and manual dispatch.
+#   - build-articles.yml broke the same way on the same day but stayed GREEN,
+#     silently emitting empty related_cards_info behind a passing check.
+#
+# This job runs every build script against a fresh checkout on a schedule, so
+# breakage surfaces within a week instead of within a month. It deliberately
+# does NOT dispatch the real workflows: those upload to S3, invalidate
+# CloudFront, trigger Amplify, and can queue social posts. Running the scripts
+# directly catches the same failures (lockfile drift, missing generated inputs,
+# schema errors) with no outward-facing side effects.
+
+on:
+  schedule:
+    - cron: '0 15 * * 1'  # Mondays at 15:00 UTC / 11:00 ET
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # Catches package.json / package-lock.json drift, which took every
+      # workflow down on 2026-08-03 when a workspace dependency was added
+      # without regenerating the root lockfile.
+      - name: npm ci
+        id: install
+        continue-on-error: true
+        run: npm ci
+
+      # Every step below needs node_modules, so they are pointless if the
+      # install failed. `continue-on-error` on each one means a single break
+      # does not mask the others: the report lists every failing pipeline.
+      - name: Workflow card-dependency check
+        id: workflow_deps
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/check-workflow-card-deps.js
+
+      - name: build:cards
+        id: cards
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: npm run build:cards
+
+      - name: build:articles
+        id: articles
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: npm run build:articles
+
+      - name: build:best
+        id: best
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: npm run build:best
+
+      - name: build:news
+        id: news
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: npm run build:news
+
+      - name: build:stores
+        id: stores
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: npm run build:stores
+
+      # Scheduled articles sit in data/articles/drafts/ for weeks before
+      # publish-scheduled-articles.yml promotes them. A draft with a schema
+      # error would not surface until its publish date, by which point the cron
+      # silently moves a file that then fails to build. Promote them all into a
+      # throwaway copy of the tree and confirm the result still builds.
+      - name: Scheduled drafts build cleanly when promoted
+        id: drafts
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: |
+          # `find -exec` rather than a glob: an unmatched glob behaves
+          # differently across shells, and the drafts directory is empty
+          # whenever the queue has drained.
+          DRAFTS=$(find data/articles/drafts -maxdepth 1 \( -name '*.yaml' -o -name '*.yml' \) | wc -l | tr -d ' ')
+          if [ "$DRAFTS" -eq 0 ]; then
+            echo "No scheduled drafts queued; nothing to validate."
+            exit 0
+          fi
+          echo "Promoting $DRAFTS queued draft(s) into a throwaway build..."
+          find data/articles/drafts -maxdepth 1 \( -name '*.yaml' -o -name '*.yml' \) \
+            -exec cp {} data/articles/ \;
+          npm run build:articles
+
+      - name: Build report
+        id: report
+        if: always()
+        run: |
+          # Renders one row per pipeline. `outcome` is success / failure /
+          # skipped, where skipped means npm ci failed and we never got to it.
+          emit() {
+            case "$2" in
+              success) ICON='✅' ;;
+              skipped) ICON='⏭️' ;;
+              *)       ICON='❌' ;;
+            esac
+            echo "| $1 | $ICON $2 |" >> .canary-report.md
+          }
+
+          echo "| Step | Result |" > .canary-report.md
+          echo "|---|---|" >> .canary-report.md
+          emit "\`npm ci\`"                    "${{ steps.install.outcome }}"
+          emit "workflow card-dependency check" "${{ steps.workflow_deps.outcome }}"
+          emit "\`build:cards\`"               "${{ steps.cards.outcome }}"
+          emit "\`build:articles\`"            "${{ steps.articles.outcome }}"
+          emit "\`build:best\`"                "${{ steps.best.outcome }}"
+          emit "\`build:news\`"                "${{ steps.news.outcome }}"
+          emit "\`build:stores\`"              "${{ steps.stores.outcome }}"
+          emit "scheduled drafts promote cleanly" "${{ steps.drafts.outcome }}"
+
+          FAILED=$(grep -c '❌' .canary-report.md || true)
+          echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          cat .canary-report.md >> $GITHUB_STEP_SUMMARY
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo "::error title=Data pipeline canary::${FAILED} pipeline step(s) failing"
+          fi
+
+      - name: Open or update the tracking issue
+        if: always() && steps.report.outputs.failed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create data-pipeline-canary \
+            --color B60205 \
+            --description "Weekly data build pipeline health check" 2>/dev/null || true
+
+          {
+            echo "The weekly canary found **${{ steps.report.outputs.failed }}** failing step(s) in the data build pipeline."
+            echo ""
+            cat .canary-report.md
+            echo ""
+            echo "A failure here means the corresponding \`build-*.yml\` workflow will also fail (or, as in the 2026-07 \`build-articles\` case, silently ship degraded data) the next time it runs."
+            echo ""
+            echo "[View the full run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+            echo ""
+            echo "---"
+            echo "_Auto-generated by [data-pipeline-canary.yml](../blob/main/.github/workflows/data-pipeline-canary.yml). Re-run with the **Run workflow** button on the Actions tab._"
+          } > .issue-body.md
+
+          EXISTING=$(gh issue list --label data-pipeline-canary --state open \
+            --limit 1 --json number --jq '.[0].number // empty')
+
+          TITLE="Data pipeline canary — ${{ steps.report.outputs.failed }} step(s) failing"
+
+          if [ -n "$EXISTING" ]; then
+            echo "Updating existing issue #${EXISTING}."
+            gh issue edit "$EXISTING" --title "$TITLE" --body-file .issue-body.md
+            gh issue comment "$EXISTING" \
+              --body "Still failing as of $(date -u +%Y-%m-%d): **${{ steps.report.outputs.failed }}** step(s)."
+          else
+            echo "Creating new issue."
+            gh issue create --title "$TITLE" \
+              --label data-pipeline-canary --body-file .issue-body.md
+          fi
+
+      - name: Close the tracking issue when everything passes
+        if: always() && steps.report.outputs.failed == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          EXISTING=$(gh issue list --label data-pipeline-canary --state open \
+            --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue close "$EXISTING" \
+              --comment "All data pipeline steps passing as of $(date -u +%Y-%m-%d). Closing."
+          fi
+
+      # continue-on-error kept the job green so every step could report. Fail it
+      # here so the run shows red in the Actions tab and the scheduled-workflow
+      # failure notification fires.
+      - name: Fail the run if any step failed
+        if: always() && steps.report.outputs.failed != '0'
+        run: |
+          echo "${{ steps.report.outputs.failed }} pipeline step(s) failed. See the job summary."
+          exit 1
