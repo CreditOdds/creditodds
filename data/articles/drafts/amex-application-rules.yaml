@@ -1,0 +1,202 @@
+id: "amex-application-rules"
+slug: "amex-application-rules"
+title: "Amex Application Rules: 1/5, 2/90, and the 5-Card and 10-Charge-Card Limits"
+date: "2026-08-13"
+author: "CreditOdds"
+summary: "Every American Express application rule beyond once-per-lifetime: the 1/5 and 2/90 velocity caps, the 5-credit-card and 10-charge-card holding limits, and the pop-up."
+tags:
+  - guide
+  - strategy
+related_cards:
+  - the-platinum-card
+  - american-express-gold-card
+  - american-express-green-card
+  - blue-business-plus-credit-card-from-american-express
+  - delta-skymiles-gold-american-express-card
+seo_title: "Amex Application Rules 2026: 1/5, 2/90, Card Limits | CreditOdds"
+seo_description: "Amex's velocity rules and holding limits explained: 1 card per 5 days, 2 per 90 days, 5 credit cards max, 10 charge cards max, and how the pop-up works."
+social_title: "Every Amex Application Rule"
+content: |
+  Most people learn one Amex rule and stop: [once per lifetime](/articles/amex-once-per-lifetime-rule), the policy that limits you to a single welcome bonus per card, ever. It is the most famous Amex rule and the most consequential one.
+
+  It is also not the rule that will actually block your next application. That job belongs to a separate set of constraints Amex has never published: two velocity caps and two holding limits. They determine whether you get approved at all, independent of whether you would have gotten a bonus.
+
+  Here is the full set as of August 2026.
+
+  ## The Rules at a Glance
+
+  | Rule | Limit | Applies to |
+  |---|---|---|
+  | **1/5** | 1 approval per 5 days | All Amex cards |
+  | **2/90** | 2 credit card approvals per 90 days | Amex credit cards only |
+  | **5-card limit** | 5 open Amex credit cards | Personal and business credit cards |
+  | **10-charge-card limit** | 10 open Amex charge cards | Charge cards only |
+  | **Once per lifetime** | 1 welcome bonus per card | Bonus eligibility, not approval |
+
+  The critical structural fact: **Amex treats credit cards and charge cards as separate populations.** Almost every confusing Amex outcome traces back to that split.
+
+  ## Credit Cards vs Charge Cards
+
+  Before the rules make sense, you need to know which bucket each product sits in.
+
+  **Charge cards** (no preset spending limit, balance due in full each month):
+
+  - The Platinum Card
+  - American Express Gold
+  - American Express Green
+  - The Business Platinum Card
+  - Business Gold
+
+  **Credit cards** (revolving, with a stated credit limit):
+
+  - Blue Cash Everyday and Blue Cash Preferred
+  - Blue Business Plus and Blue Business Cash
+  - Every Delta co-brand (Blue, Gold, Platinum, Reserve, and business versions)
+  - Every Hilton and Marriott Amex co-brand
+  - Amex EveryDay and EveryDay Preferred
+
+  Note that the co-brands are credit cards, not charge cards. This surprises people, because the Delta Reserve and Hilton Aspire feel premium. For rule purposes they sit in the credit card bucket, which is the tighter one.
+
+  ## Rule 1: The 1/5 Rule
+
+  Amex approves at most one card every five days.
+
+  This is the least restrictive rule on the list and the easiest to work with. It applies across the whole Amex lineup, credit and charge. If you are approved on the 1st, apply again on the 6th.
+
+  Some people report success at four days. Nobody reports success at two. Five days is the safe number, and there is rarely a reason to cut it closer.
+
+  ## Rule 2: The 2/90 Rule
+
+  Amex approves at most two **credit cards** in any rolling 90-day window.
+
+  This is the rule that constrains real strategies, and the charge card carve-out is what makes it interesting.
+
+  - **Counts toward 2/90**: Blue Cash, Blue Business, all Delta cards, all Hilton cards, all Marriott Amex cards
+  - **Does not count toward 2/90**: Platinum, Gold, Green, Business Platinum, Business Gold
+
+  So a 90-day window can hold two credit cards plus multiple charge cards. A realistic aggressive quarter looks like:
+
+  - **Day 0**: Delta SkyMiles Gold (credit card 1 of 2)
+  - **Day 6**: Amex Platinum (charge card, does not count)
+  - **Day 12**: Hilton Honors Surpass (credit card 2 of 2)
+  - **Day 18**: Amex Gold (charge card, does not count)
+  - **Day 91**: Credit card window resets
+
+  That is four Amex approvals in 18 days, entirely within the rules. It is also a good way to attract a financial review, which we get to below.
+
+  ## Rule 3: The 5-Credit-Card Limit
+
+  You can hold a maximum of five Amex credit cards at one time. Personal and business credit cards share the same pool.
+
+  When you are at five and apply for a sixth, the application is denied. The fix is straightforward: close or product change one of the five, wait for it to drop off your account, then apply.
+
+  A few practical notes:
+
+  - Closed cards free the slot fairly quickly, usually within a few days of the closure processing
+  - Product changing a credit card into a charge card moves it between pools, freeing a credit card slot
+  - Authorized user cards on someone else's account do not consume your slots
+
+  ## Rule 4: The 10-Charge-Card Limit
+
+  You can hold a maximum of ten Amex charge cards at one time. In practice almost nobody hits this, because there are not ten distinct charge cards most people would want. It matters mainly for people running several business entities with multiple Business Platinum and Business Gold accounts.
+
+  ## Rule 5: The Pop-Up
+
+  Separate from all of the above, Amex may show a message during the application saying you are not eligible for the welcome offer on that card. You can still submit and be approved. You simply will not get the bonus.
+
+  The pop-up is Amex enforcing once-per-lifetime and its family logic in real time. Triggers include:
+
+  - Having previously received the bonus on that exact card
+  - Having received a bonus on a card in the same family recently (the Platinum, Gold, and Green cards share family logic)
+  - Recent Delta card bonuses affecting other Delta card eligibility
+  - Sustained high application velocity, which can trigger it even on cards you have never held
+
+  **If you see the pop-up, close the application.** There is no reconsideration path for a pop-up. Submitting anyway buys you a hard inquiry and an account with no bonus.
+
+  You can check eligibility without applying by logging into your Amex account and browsing offers there. Amex will generally suppress or flag offers you are not eligible for, though this is not perfectly reliable.
+
+  ## Financial Review
+
+  The rule nobody plans for. Amex can freeze every account you hold and demand tax returns, bank statements, and a signed IRS Form 4506-C before unfreezing.
+
+  Common triggers:
+
+  - Rapid application velocity, especially several approvals in a short window
+  - Spending far in excess of your stated income
+  - Large or unusual payments, especially from accounts not in your name
+  - Stated income that does not match what Amex can verify
+
+  Financial review is not a rule you break. It is a risk you manage by keeping your stated income accurate (see [what income to put on a credit card application](/articles/credit-card-income-what-to-put)) and by not running a pace that looks abnormal.
+
+  If you are placed under review, cooperating is almost always better than closing accounts. Refusing typically ends with all Amex accounts closed and points forfeited.
+
+  ## What Amex Does Not Have
+
+  - **No 5/24 equivalent.** Amex does not auto-decline based on accounts opened at other issuers. Being at 9/24 does not lock you out.
+  - **No hard inquiry rule that blocks approvals outright.** Amex is relatively inquiry-tolerant compared to Citi or Barclays.
+  - **No published limit on total Amex relationship credit.** Amex does cap total exposure, but it manages it by lowering limits rather than by refusing new accounts.
+
+  Amex is unusually friendly on the front end and unusually harsh on the back end. Approvals are easy. Shutdowns and financial reviews are the real risk.
+
+  ## Amex and Your Credit Report
+
+  Amex charge cards report to your personal credit report, which means:
+
+  - They count toward [Chase 5/24](/articles/chase-5-24-rule-explained)
+  - They affect your average age of accounts
+  - Because they have no preset spending limit, most scoring models exclude them from utilization calculations, which is a small structural benefit
+
+  Amex business cards do not report to personal credit as long as they are in good standing, so they do not add to 5/24.
+
+  Amex pulls Experian in most cases, with occasional Equifax. See [credit freezes and applications](/articles/credit-freeze-and-applications) if you keep your reports locked.
+
+  ## Planning an Amex Year
+
+  A sane pace, not a maximum one:
+
+  - **Two Amex approvals per quarter**, mixing one credit card and one charge card
+  - **No more than four or five Amex approvals per year total**
+  - **Organic spend on everything you open.** The fastest route to a financial review is five cards with no activity on four of them.
+  - **Check the pop-up before every application**, and abandon rather than push through
+
+  Amex's velocity rules technically permit far more than this. The rules are not the binding constraint. Amex's risk system is.
+
+  ## FAQ
+
+  ### Does the 2/90 rule count business cards?
+  Yes, if they are credit cards. Blue Business Plus and Blue Business Cash count. Business Platinum and Business Gold are charge cards and do not.
+
+  ### If I close an Amex card, does it free a slot immediately?
+  Usually within a few days once the closure fully processes. If you are timing an application around it, wait a week.
+
+  ### Does the once-per-lifetime rule ever expire?
+  Officially it is permanent. In practice, people report new bonus eligibility after roughly 7 years on some products, and the pop-up is the only reliable test. See our [once-per-lifetime article](/articles/amex-once-per-lifetime-rule).
+
+  ### Do Amex cards count toward Chase 5/24?
+  Personal Amex cards and charge cards do. Amex business cards do not.
+
+  ### Can I have both a personal and business version of the same card?
+  Yes. The personal Platinum and Business Platinum are separate products with separate bonus eligibility.
+
+  ### Does an upgrade or product change count toward 2/90?
+  No. A product change is not a new approval, so it does not consume a velocity slot. It also does not generate a hard inquiry. See our [product change guide](/articles/product-change-guide).
+
+  ### Will Amex give me a credit limit increase without a hard pull?
+  Usually yes. Amex is the most generous major issuer on soft-pull limit increases, and the 3x CLI request is one of the most reliable moves in the hobby. See [credit limit increases](/articles/credit-limit-increases).
+
+  ### What triggers the pop-up on a card I have never held?
+  Most often family logic (the Platinum, Gold, and Green share it) or high recent velocity. Occasionally it appears with no clear cause and disappears weeks later.
+
+  ### Does Amex do a hard pull for every application?
+  Yes for new accounts. No for product changes, and usually no for limit increases.
+
+  ### How many total Amex cards can I hold?
+  Up to 5 credit cards plus up to 10 charge cards, so 15 in theory. Almost nobody gets close, and running more than 5 or 6 total invites a risk review.
+
+  ## The Bottom Line
+
+  Amex's approval rules are more permissive than any other major issuer's. The constraints that actually matter are different from the ones people worry about.
+
+  1. **Learn the credit card versus charge card split.** It explains 2/90, the holding limits, and most confusing Amex outcomes.
+  2. **Never push through the pop-up.** It costs you an inquiry and gets you nothing.
+  3. **Manage risk, not rules.** Amex will approve you faster than is good for you. Financial review and shutdown, not velocity denials, are what end most Amex relationships.
