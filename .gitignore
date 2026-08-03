@@ -51,7 +51,9 @@ coverage/
 .card-page-check-stale.md
 .card-news-work/
 .reddit-dp-work/
+.reddit-pc-work/
 .datapoints-payload.json
+.product-changes-payload.json
 # NB: .github/card-page-check-state.json is deliberately NOT ignored — the
 # consecutive-skip counters only work if they persist across runs.
 # Same for .github/reddit-datapoint-state.json (seen-candidate tracking).

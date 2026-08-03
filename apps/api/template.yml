@@ -504,6 +504,34 @@ Resources:
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
 
+  ImportRedditProductChangesFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/import-reddit-product-changes.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
+    Properties:
+      # Stable name so sync-product-changes.yml can target it with
+      # `aws lambda invoke --function-name creditodds-import-reddit-product-changes`.
+      FunctionName: creditodds-import-reddit-product-changes
+      Handler: src/handlers/import-reddit-product-changes.ImportRedditProductChangesHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 100
+      # Invoke-only, same contract as ImportRedditRecordsFunction: triggered by
+      # CI (OIDC role) after a data/reddit-product-changes/ merge. No API event.
+      Description: Imports human-approved Reddit product changes into reddit_product_changes (direct-invoke from CI)
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+
   UserWalletFunction:
     Type: AWS::Serverless::Function
     Metadata:

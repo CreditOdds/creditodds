@@ -260,6 +260,8 @@ export default async function CardPage({ params }: CardPageProps) {
       outbound: productChanges.outbound.map(toFlowNode),
       inboundTotal: productChanges.inbound_total,
       outboundTotal: productChanges.outbound_total,
+      walletTotal: productChanges.wallet_total,
+      redditTotal: productChanges.reddit_total,
     };
 
     // Top-3 placements across the /best/* pages — surfaced as social-proof
