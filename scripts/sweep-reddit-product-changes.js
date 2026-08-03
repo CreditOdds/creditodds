@@ -226,7 +226,253 @@ function saveState(state) {
   fs.writeFileSync(STATE_PATH, JSON.stringify(state, null, 1));
 }
 
+// ── Extract phase ────────────────────────────────────────────────────────────
+
+// A product change is an issuer converting an existing account to a different
+// product. It is ALWAYS within one issuer — that is what makes it a change
+// rather than a new application — so the issuer match is a hard validity check
+// downstream, not a style preference.
+function buildExtractPrompt(candidates, catalog) {
+  const byBank = new Map();
+  for (const c of catalog) {
+    if (!byBank.has(c.bank)) byBank.set(c.bank, []);
+    byBank.get(c.bank).push(c.name);
+  }
+  const cardList = [...byBank.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([bank, names]) => `- **${bank}**: ${names.sort().join(' · ')}`)
+    .join('\n');
+
+  const posts = candidates
+    .map(
+      (c, i) =>
+        `### ${i + 1}. ${c.id}\n` +
+        `- posted: ${c.posted}\n` +
+        `- matched card(s): ${c.matchedCards.join(', ')}\n` +
+        `- url: ${c.url}\n` +
+        `- title: ${c.title}\n` +
+        `- body: ${c.text || '(no body text)'}\n`,
+    )
+    .join('\n');
+
+  return `# Extract product changes from r/CreditCards posts
+
+Read each post below and emit one JSON file per **product change that actually
+happened**, into \`.reddit-pc-work/proposed/<source_id>.json\`.
+
+## What counts
+
+A product change is an issuer converting an existing account to a different
+card, keeping the account (and its age) alive. Record one only when the poster
+describes a change **that already happened**, to their **own** account.
+
+Record:
+- "PC'd my Freedom Flex to Freedom Unlimited last month" → yes
+- "Citi converted my AA Plat to Mile Up without asking" → yes, reason: forced
+- "Just downgraded my CSR to CSP to avoid the AF" → yes, reason: voluntary
+- A post describing several hops ("Plat → Mile Up → Custom Cash") → one entry
+  PER HOP, with source_id suffixed \`#1\`, \`#2\`, ...
+
+Do NOT record:
+- Anything hypothetical or still a question: "thinking about PCing", "should I
+  PC?", "can I PC this?", "what would you PC it to?"
+- Advice or recommendations aimed at someone else
+- An upgrade/downgrade OFFER that was not taken
+- A new application, an authorized-user add, or a closure
+- Anything where the direction (from which card, to which card) is ambiguous
+- Anything where either card is not in the catalog below
+
+## Hard rules
+
+1. **Both cards must be in the catalog, spelled exactly as listed.**
+2. **Both cards must be from the same issuer.** A product change never crosses
+   issuers. If your reading has it crossing, the reading is wrong — drop it.
+3. \`source_id\` must be one of the ids listed below (optionally with a \`#N\`
+   suffix for multi-hop posts). Do not invent posts.
+4. \`change_month\` is \`YYYY-MM\`. Use the month the poster states; if they only
+   say something like "last month", compute it from the post date; otherwise
+   use the post month. Never a future month.
+5. \`reason\` is \`forced\` (issuer initiated it), \`voluntary\` (the cardholder
+   asked), or omitted when unstated. Do not guess — the forced-vs-voluntary
+   split is one of the more interesting things this data shows, and inventing
+   it would wreck that.
+6. \`evidence\` is a **paraphrase**, not a quote, under 500 chars.
+7. When in doubt, omit. A missing product change costs nothing; a wrong edge
+   shows up as a misleading arrow on a live card page.
+
+## Shape
+
+\`\`\`json
+{
+  "source_id": "t3_abc123",
+  "permalink": "https://www.reddit.com/r/CreditCards/comments/...",
+  "posted": "2026-03-14",
+  "from_card": "Chase Freedom Flex",
+  "to_card": "Chase Freedom Unlimited",
+  "change_month": "2026-02",
+  "reason": "voluntary",
+  "evidence": "Poster says they moved their Flex to Unlimited in February to stop juggling rotating categories."
+}
+\`\`\`
+
+## Catalog
+
+${cardList}
+
+## Posts (${candidates.length})
+
+${posts}
+`;
+}
+
+// ── Finish phase ─────────────────────────────────────────────────────────────
+
+function validateChange(pc, { candidateIds, cardByName, bankByName, usedIds }) {
+  const errors = [];
+  const id = typeof pc.source_id === 'string' ? pc.source_id : '';
+  if (!/^t[13]_[a-z0-9]+(#\d+)?$/.test(id)) {
+    return [`source_id "${id}" is malformed`];
+  }
+  // The model may only annotate posts this run actually fetched.
+  if (!candidateIds.has(id.split('#')[0])) {
+    errors.push(`source_id ${id} was not among this run's candidates`);
+  }
+  if (usedIds.has(id)) errors.push(`duplicate source_id ${id}`);
+
+  const from = cardByName.get(pc.from_card);
+  const to = cardByName.get(pc.to_card);
+  if (!from) errors.push(`from_card "${pc.from_card}" is not in the catalog`);
+  if (!to) errors.push(`to_card "${pc.to_card}" is not in the catalog`);
+  if (from && to) {
+    if (pc.from_card === pc.to_card) errors.push('from_card and to_card are the same');
+    // The strongest structural check available: a product change is always
+    // within one issuer, so a cross-issuer pair means the post was misread.
+    const fromBank = bankByName.get(pc.from_card);
+    const toBank = bankByName.get(pc.to_card);
+    if (fromBank && toBank && fromBank !== toBank) {
+      errors.push(`cross-issuer change ${fromBank} -> ${toBank}; product changes never cross issuers`);
+    }
+  }
+
+  if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(pc.change_month || '')) {
+    errors.push(`change_month "${pc.change_month}" must be YYYY-MM`);
+  } else {
+    const nowMonth = new Date().toISOString().slice(0, 7);
+    if (pc.change_month > nowMonth) errors.push('change_month is in the future');
+    if (pc.change_month < SINCE.slice(0, 7)) {
+      errors.push(`change_month ${pc.change_month} is before the backfill window (${SINCE.slice(0, 7)})`);
+    }
+  }
+
+  if (pc.reason != null && !['voluntary', 'forced'].includes(pc.reason)) {
+    errors.push(`reason "${pc.reason}" must be voluntary, forced, or omitted`);
+  }
+  if (pc.evidence != null && String(pc.evidence).length > 500) {
+    errors.push('evidence exceeds 500 chars');
+  }
+  return errors;
+}
+
+function phaseFinish() {
+  const yaml = require(path.join(ROOT, 'node_modules', 'js-yaml'));
+  const proposedDir = path.join(OUT_DIR, 'proposed');
+  const outDir = path.join(ROOT, 'data', 'reddit-product-changes');
+
+  const state = loadState();
+  const candidateIds = new Set(Object.keys(state.candidates));
+  const catalog = loadCardCatalog();
+  const cardByName = new Map(catalog.map((c) => [c.name, c]));
+  const bankByName = new Map(catalog.map((c) => [c.name, c.bank]));
+
+  const files = fs.existsSync(proposedDir)
+    ? fs.readdirSync(proposedDir).filter((f) => f.endsWith('.json')).sort()
+    : [];
+  if (!files.length) {
+    console.log('No proposed changes in .reddit-pc-work/proposed/ — nothing to write.');
+    return;
+  }
+
+  fs.mkdirSync(outDir, { recursive: true });
+  const usedIds = new Set();
+  const written = [];
+  const rejected = [];
+
+  for (const file of files) {
+    let pc;
+    try {
+      pc = JSON.parse(fs.readFileSync(path.join(proposedDir, file), 'utf8'));
+    } catch (err) {
+      rejected.push({ file, errors: [`unparseable JSON: ${err.message}`] });
+      continue;
+    }
+    const errors = validateChange(pc, { candidateIds, cardByName, bankByName, usedIds });
+    if (errors.length) {
+      rejected.push({ file, errors });
+      continue;
+    }
+    usedIds.add(pc.source_id);
+
+    const safeId = pc.source_id.replace('#', '-');
+    const target = path.join(outDir, `${pc.change_month}-${safeId}.yaml`);
+    const doc = {
+      source_id: pc.source_id,
+      permalink: pc.permalink || null,
+      posted: pc.posted || null,
+      evidence: pc.evidence || null,
+      from_card: pc.from_card,
+      to_card: pc.to_card,
+      change_month: pc.change_month,
+      ...(pc.reason ? { reason: pc.reason } : {}),
+    };
+    fs.writeFileSync(target, yaml.dump(doc, { lineWidth: 100, quotingType: '"' }));
+    written.push({ ...doc, file: path.basename(target) });
+  }
+
+  const rows = written
+    .map((w) => `| ${w.from_card} | ${w.to_card} | ${w.change_month} | ${w.reason || '—'} | [src](${w.permalink}) |`)
+    .join('\n');
+  const prBody =
+    `Product changes extracted from r/CreditCards.\n\n` +
+    `| From | To | Month | Reason | Source |\n|---|---|---|---|---|\n${rows}\n\n` +
+    (rejected.length
+      ? `### Rejected (${rejected.length})\n\n` +
+        rejected.map((r) => `- \`${r.file}\`: ${r.errors.join('; ')}`).join('\n') +
+        '\n'
+      : '');
+  fs.writeFileSync(path.join(OUT_DIR, 'pr-body.md'), prBody);
+
+  console.log(`Wrote ${written.length} product change(s) to data/reddit-product-changes/`);
+  if (rejected.length) {
+    console.log(`Rejected ${rejected.length}:`);
+    for (const r of rejected) console.log(`  ${r.file}: ${r.errors.join('; ')}`);
+  }
+  console.log(`PR body: ${path.join(OUT_DIR, 'pr-body.md')}`);
+}
+
 async function main() {
+  const phase = argVal('phase', 'sweep');
+
+  if (phase === 'extract') {
+    const state = loadState();
+    const candidates = Object.values(state.candidates).sort((a, b) =>
+      (b.posted || '').localeCompare(a.posted || ''),
+    );
+    if (!candidates.length) {
+      console.log('No candidates yet — run the sweep phase first.');
+      return;
+    }
+    fs.mkdirSync(path.join(OUT_DIR, 'proposed'), { recursive: true });
+    const promptPath = path.join(OUT_DIR, 'extract-prompt.md');
+    fs.writeFileSync(promptPath, buildExtractPrompt(candidates, loadCardCatalog()));
+    console.log(`Wrote ${promptPath} (${candidates.length} candidates)`);
+    return;
+  }
+
+  if (phase === 'finish') {
+    phaseFinish();
+    return;
+  }
+
   const catalog = loadCardCatalog();
   const only = argVal('cards', null);
   let cards = catalog;

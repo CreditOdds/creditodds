@@ -1,0 +1,69 @@
+name: Sync Reddit Product Changes
+
+# Imports human-approved Reddit product-change reports into
+# reddit_product_changes whenever a merge touches data/reddit-product-changes/
+# (i.e. an auto-product-changes-* review PR was accepted). The full directory is
+# sent every run; the Lambda skips source_ids it already holds, so re-runs are
+# safe. Mirrors sync-datapoints.yml.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/reddit-product-changes/**'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build import payload
+        run: node scripts/build-product-changes-payload.js
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
+          aws-region: us-east-1
+
+      - name: Import product changes to database
+        run: |
+          aws lambda invoke \
+            --region us-east-1 \
+            --function-name creditodds-import-reddit-product-changes \
+            --payload file://.product-changes-payload.json \
+            --cli-binary-format raw-in-base64-out \
+            response.json
+          echo "Lambda response envelope:"
+          cat response.json
+          # The handler returns an API-Gateway-style envelope {statusCode, body}
+          # where body is a JSON string, so parse both layers.
+          node -e "
+            const fs = require('fs');
+            const r = JSON.parse(fs.readFileSync('response.json', 'utf8'));
+            if (r.statusCode !== 200) { console.error('Import failed with status', r.statusCode); process.exit(1); }
+            const b = JSON.parse(r.body || '{}');
+            console.log('Imported:', b.imported, 'Skipped (already imported):', b.skipped);
+            if ((b.errors || []).length > 0) {
+              console.error('Per-record errors:', JSON.stringify(b.errors, null, 2));
+              process.exit(1);
+            }
+          "
