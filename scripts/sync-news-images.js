@@ -319,14 +319,15 @@ async function callOpenAIGenerate(prompt) {
 
 async function generateNewsImage(item) {
   const scene = await pickSceneForItem(item);
-  const links = (item.card_image_links || []).slice(0, MAX_CARDS);
-  const names = (item.card_names || []).slice(0, links.length);
+  // cards_info keeps each image next to its own name; card_image_links is
+  // images-only and does not line up with card_names.
+  const refs = (item.cards_info || []).filter((c) => c.image).slice(0, MAX_CARDS);
 
   // Fetch the real card art; drop any that 404.
   const cards = [];
-  for (let i = 0; i < links.length; i++) {
-    const buf = await fetchCardBuffer(links[i]);
-    if (buf) cards.push({ buf, filename: links[i], name: names[i] || `card ${i + 1}` });
+  for (let i = 0; i < refs.length; i++) {
+    const buf = await fetchCardBuffer(refs[i].image);
+    if (buf) cards.push({ buf, filename: refs[i].image, name: refs[i].name || `card ${i + 1}` });
   }
 
   let buf;
@@ -434,7 +435,7 @@ async function main() {
       break;
     }
 
-    log(`generating for ${item.id}${force ? ' (forced)' : ''} — ${(item.card_image_links || []).slice(0, MAX_CARDS).length} card ref(s)`);
+    log(`generating for ${item.id}${force ? ' (forced)' : ''} — ${(item.cards_info || []).filter((c) => c.image).slice(0, MAX_CARDS).length} card ref(s)`);
     if (dryRun) {
       item.news_image = expected;
       generatedThisRun++;

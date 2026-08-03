@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import { FollowXCallout } from '@/components/landing-v2/FollowXCallout';
 import CardImage from '@/components/ui/CardImage';
-import type { NewsItem, NewsTag } from '@/lib/news';
+import { getNewsCards, type NewsItem, type NewsTag } from '@/lib/news';
 import '../landing.css';
 
 const NEWS_IMG_CDN = 'https://d3ay3etzd1512y.cloudfront.net/news_images';
@@ -78,7 +78,9 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
     return items.filter((i) => (i.tags ?? []).includes(filter));
   }, [filter, items]);
 
-  const imaged = filtered.filter((i) => Boolean(i.news_image || i.card_image_link));
+  // Same source the covers below render from, so an item never gets promoted
+  // into a featured slot it has no art for.
+  const imaged = filtered.filter((i) => Boolean(i.news_image || getNewsCards(i)[0]?.image));
   const featured = imaged[0];
   const secondary = imaged.slice(1, 4);
   const usedIds = new Set(
@@ -153,8 +155,8 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                     <div className="cover-pattern" />
                     <div className="cover-card">
                       <CardImage
-                        cardImageLink={featured.card_image_link}
-                        alt={featured.card_names?.[0] || featured.title}
+                        cardImageLink={getNewsCards(featured)[0]?.image ?? undefined}
+                        alt={getNewsCards(featured)[0]?.name || featured.title}
                         fill
                         sizes="240px"
                         style={{ objectFit: 'cover' }}
@@ -233,8 +235,8 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                       <div className="nc-pattern" />
                       <div className="nc-card-thumb">
                         <CardImage
-                          cardImageLink={item.card_image_link}
-                          alt={item.card_names?.[0] || item.title}
+                          cardImageLink={getNewsCards(item)[0]?.image ?? undefined}
+                          alt={getNewsCards(item)[0]?.name || item.title}
                           fill
                           sizes="160px"
                           style={{ objectFit: 'cover' }}

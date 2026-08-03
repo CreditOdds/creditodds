@@ -6,6 +6,10 @@ on:
       - main
     paths:
       - 'data/news/**'
+      # news.json is only republished by this workflow, so a change to the
+      # builder itself has to trigger it too — otherwise the new output shape
+      # does not reach the CDN until the next news item happens to be added.
+      - 'scripts/build-news.js'
   workflow_dispatch:
     inputs:
       test_post_file:
@@ -38,8 +42,8 @@ jobs:
 
       # cards.json is gitignored, so it is absent from a fresh checkout. build-news.js
       # looks up each related card's image filename in data/cards.json; without it every
-      # card_image_links entry resolves to null and gets filtered to [], leaving related
-      # cards with no art on the live site. Build cards first so the lookup succeeds.
+      # cards_info entry resolves to a null image, leaving related cards with no art on
+      # the live site. Build cards first so the lookup succeeds.
       - name: Build cards.json
         run: npm run build:cards
 

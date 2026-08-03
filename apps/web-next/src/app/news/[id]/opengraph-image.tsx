@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { getNewsItem } from '@/lib/news';
+import { getNewsCards, getNewsItem } from '@/lib/news';
 import {
   loadInterFonts,
   OG_CACHE_HEADERS,
@@ -86,11 +86,12 @@ export default async function OGImage({ params }: { params: Promise<{ id: string
   const tone = TONE[toneForTag(firstTag)];
 
   // Single card referenced — show card image (split layout); otherwise type-only
-  const hasSingleCard = item?.card_slugs?.length === 1 && item?.card_image_links?.[0];
-  const cardImageDataUrl = hasSingleCard
-    ? await fetchCardImageAsDataUrl(`https://d3ay3etzd1512y.cloudfront.net/card_images/${item!.card_image_links![0]}`)
+  const newsCards = getNewsCards(item);
+  const singleCard = newsCards.length === 1 && newsCards[0].image ? newsCards[0] : null;
+  const cardImageDataUrl = singleCard
+    ? await fetchCardImageAsDataUrl(`https://d3ay3etzd1512y.cloudfront.net/card_images/${singleCard.image}`)
     : null;
-  const cardName = hasSingleCard ? item!.card_names?.[0] : null;
+  const cardName = singleCard ? singleCard.name : null;
 
   // Title sizing: split layout has narrower column (~14ch), type-only goes wide.
   // Bigger type when title is short, smaller when long, matching design's text-balance behavior.

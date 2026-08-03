@@ -181,11 +181,11 @@ function buildNews() {
   const resolutionErrors = [];
 
   // Fail loud if cards.json didn't load. Without it, every related-card image
-  // lookup below resolves to null and gets filtered to [], silently shipping a
-  // news.json where related cards render the gray placeholder instead of card
-  // art. That is a systemic build error, not a per-item content issue, so stop
-  // rather than deploy broken data. (data/cards.json is gitignored — CI must run
-  // `npm run build:cards` before this script.)
+  // lookup below resolves to null, silently shipping a news.json where related
+  // cards render the gray placeholder instead of card art. That is a systemic
+  // build error, not a per-item content issue, so stop rather than deploy broken
+  // data. (data/cards.json is gitignored — CI must run `npm run build:cards`
+  // before this script.)
   if (Object.keys(cardsLookup).length === 0) {
     console.error(
       'ERROR: cards lookup is empty — data/cards.json is missing or unreadable.\n' +
@@ -230,18 +230,38 @@ function buildNews() {
         }
       }
 
-      // Build card_image_links array and set singular for backward compat
+      // Resolve every referenced card into a self-contained object, the same
+      // shape replacement_cards_info uses below. Parallel arrays were the bug
+      // here: card_image_links dropped unresolved entries, so a multi-card item
+      // whose first slug was missing from cards.json shifted every later image
+      // up a slot and rendered one card's art under another card's name. An
+      // image that travels with its own slug and name can only ever blank
+      // itself.
       if (item.card_slugs) {
-        item.card_image_links = item.card_slugs.map(slug => {
+        item.cards_info = item.card_slugs.map((slug, i) => {
           const card = cardsLookup[slug];
           if (!card) {
             console.warn(`  WARN: card_slug "${slug}" not found in cards.json — related-card image will be blank`);
-            return null;
           }
-          return card.image;
-        }).filter(Boolean);
-        if (item.card_image_links.length > 0) {
-          item.card_image_link = item.card_image_links[0];
+          return {
+            slug,
+            name: (item.card_names && item.card_names[i])
+              || (card && (card.card_name || card.name))
+              || slug,
+            image: (card && card.image) || null,
+          };
+        });
+
+        // Legacy fields. card_image_links holds resolved images only and is NOT
+        // index-aligned with card_slugs/card_names — read cards_info instead.
+        // Kept so a news.json published before cards_info existed still renders
+        // in a frontend build that lands ahead of the next news rebuild.
+        item.card_image_links = item.cards_info.map(c => c.image).filter(Boolean);
+        // Singular partner of card_slug/card_name, which are card_slugs[0] /
+        // card_names[0] — so it is the first card's image or nothing, never the
+        // first image that happened to resolve.
+        if (item.cards_info[0] && item.cards_info[0].image) {
+          item.card_image_link = item.cards_info[0].image;
         }
       }
 
