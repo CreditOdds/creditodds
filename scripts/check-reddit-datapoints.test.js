@@ -18,9 +18,17 @@ const {
   fetchOpReplies,
   expandOpReplies,
   buildExtractPrompt,
+  buildPrBody,
   validateDataPoint,
   looksLikeSameApplication,
+  createReplyBudget,
+  revisitPending,
+  pendingExpiry,
+  rankPending,
+  validatePendingEntry,
+  buildFollowups,
   CAPS,
+  PENDING_MAX_ATTEMPTS,
 } = require('./check-reddit-datapoints.js');
 
 // Shrink the real waits (8s between requests, 61s on a 429) so the loop tests
@@ -355,6 +363,250 @@ test('the prompt accepts narrow score ranges and still rejects wide ones and flo
   assert.match(prompt, /wider range does NOT qualify/);
   assert.match(prompt, /A floor is not a range and does NOT qualify/);
   assert.match(prompt, /"mid 700s", "good credit", "excellent credit"/);
+});
+
+// ── Pending bucket (incomplete-revisit) ──────────────────────────────────────
+//
+// The bucket exists because precision-over-recall throws away recoverable rows:
+// a real first-person denial with no score is unpublishable today but often
+// answered in a comment tomorrow, by which point `seen` has retired the post.
+// These tests guard the two ways that goes wrong — chasing a post forever, and
+// letting a half-understood post in as if it were a near-miss.
+
+test('pendingExpiry retires an entry on attempts or age, and says why', () => {
+  const fresh = { firstSeen: '2026-08-01', attempts: 1, url: 'u' };
+  assert.equal(pendingExpiry(fresh, '2026-08-03'), null);
+
+  const tried = { firstSeen: '2026-08-01', attempts: PENDING_MAX_ATTEMPTS, url: 'u' };
+  assert.match(pendingExpiry(tried, '2026-08-03'), /no answer after 3 revisit/);
+
+  // Age bites even when attempts are low — a run that skips a day (or gets
+  // throttled out of its revisits) must not keep a stale post alive forever.
+  const old = { firstSeen: '2026-07-01', attempts: 1, url: 'u' };
+  assert.match(pendingExpiry(old, '2026-08-03'), /past the 7-day window/);
+
+  // Exactly at the boundary is still in.
+  assert.equal(pendingExpiry({ firstSeen: '2026-07-27', attempts: 0 }, '2026-08-03'), null);
+  assert.match(pendingExpiry(null, '2026-08-03'), /malformed/);
+});
+
+test('rankPending chases the least-tried and oldest first', () => {
+  const ranked = rankPending({
+    t3_new: { firstSeen: '2026-08-03', attempts: 0 },
+    t3_tried: { firstSeen: '2026-08-01', attempts: 2 },
+    t3_old: { firstSeen: '2026-07-30', attempts: 0 },
+  });
+  assert.deepEqual(ranked.map((r) => r.id), ['t3_old', 't3_new', 't3_tried']);
+});
+
+testAsync('revisitPending re-reads the post and counts the attempt', async () => {
+  const original = global.fetch;
+  global.fetch = async () => ({ ok: true, status: 200, text: async () => COMMENT_FEED });
+  const pending = {
+    t3_abc123: {
+      url: 'https://www.reddit.com/r/CreditCards/comments/abc123/x/',
+      card_name: 'Chase Sapphire Preferred',
+      result: 'denied',
+      missing: ['credit_score'],
+      note: 'Denial with no score given.',
+      firstSeen: '2026-08-01',
+      attempts: 1,
+    },
+  };
+  try {
+    const { candidates } = await revisitPending(pending, createReplyBudget());
+    assert.equal(candidates.length, 1);
+    const c = candidates[0];
+    assert.equal(c.revisit, true);
+    assert.deepEqual(c.missing, ['credit_score']);
+    assert.equal(c.known.card_name, 'Chase Sapphire Preferred');
+    // The body comes back fresh rather than from state, so an edited post is
+    // re-read as it stands today.
+    assert.match(c.text, /I applied and got denied/);
+    // The score that was missing yesterday is in an OP reply today — the whole
+    // point of the bucket.
+    assert.ok(c.opReplies.some((r) => /704 Experian/.test(r)));
+    assert.ok(!c.opReplies.some((r) => /810/.test(r)), 'a stranger\'s score leaked into a revisit');
+    assert.equal(pending.t3_abc123.attempts, 2, 'a successful re-read must count as an attempt');
+    assert.equal(pending.t3_abc123.lastChecked, new Date().toISOString().slice(0, 10));
+  } finally {
+    global.fetch = original;
+  }
+});
+
+// A network failure is not the poster declining to answer. Counting it would
+// burn the entry's three looks on an outage and drop a recoverable row.
+testAsync('a failed revisit does not consume the entry\'s attempts', async () => {
+  const original = global.fetch;
+  global.fetch = async () => ({ ok: false, status: 500, text: async () => '' });
+  const pending = {
+    t3_abc123: { url: 'https://www.reddit.com/r/CreditCards/comments/abc123/x/', card_name: 'Citi Custom Cash', result: 'denied', missing: ['credit_score'], firstSeen: '2026-08-01', attempts: 1 },
+  };
+  try {
+    const { candidates } = await revisitPending(pending, createReplyBudget());
+    assert.equal(candidates.length, 0);
+    assert.equal(pending.t3_abc123.attempts, 1, 'a 500 must not count against the entry');
+  } finally {
+    global.fetch = original;
+  }
+});
+
+// The shared budget is the whole reason revisits and expansion were merged into
+// one counter: two independent loops would double our request rate against a
+// feed that 429s us most days.
+testAsync('revisits and OP expansion share one request budget', async () => {
+  const original = global.fetch;
+  let calls = 0;
+  global.fetch = async () => {
+    calls++;
+    return { ok: true, status: 200, text: async () => COMMENT_FEED };
+  };
+  const budget = createReplyBudget(3);
+  const pending = {
+    t3_p1: { url: 'https://www.reddit.com/r/CreditCards/comments/p1/x/', card_name: 'Citi Custom Cash', result: 'denied', missing: ['credit_score'], firstSeen: '2026-08-02', attempts: 0 },
+    t3_p2: { url: 'https://www.reddit.com/r/CreditCards/comments/p2/x/', card_name: 'Citi Double Cash', result: 'denied', missing: ['credit_score'], firstSeen: '2026-08-02', attempts: 0 },
+  };
+  const fresh = Array.from({ length: 5 }, (_, i) => ({
+    id: `t3_f${i}`, kind: 'post', title: 'Denied for the CSP', text: 'No score in the body.',
+    url: `https://www.reddit.com/r/CreditCards/comments/f${i}/x/`,
+  }));
+  try {
+    await revisitPending(pending, budget);
+    assert.equal(calls, 2, 'both revisits should run first');
+    const result = await expandOpReplies(fresh, budget);
+    assert.equal(calls, 3, `budget of 3 must cap total requests, made ${calls}`);
+    assert.equal(result.attempted, 1, 'expansion gets only the leftover request');
+  } finally {
+    global.fetch = original;
+  }
+});
+
+const PENDING_CTX = {
+  candidateById: new Map([
+    ['t3_ok', { id: 't3_ok', kind: 'post', url: 'https://reddit.com/x', title: 'Denied', posted: '2026-08-03' }],
+    ['t1_mega', { id: 't1_mega', kind: 'comment', url: 'https://reddit.com/mega', title: 'c', posted: '2026-08-03' }],
+  ]),
+  cardByName: new Map([['Chase Sapphire Preferred', {}]]),
+  aliasToName: new Map([['Chase Freedom Student', 'Chase Freedom Rise']]),
+};
+
+test('validatePendingEntry accepts a genuine near-miss', () => {
+  const { errors, entry } = validatePendingEntry(
+    { source_id: 't3_ok', missing: ['credit_score'], card_name: 'Chase Sapphire Preferred', result: 'denied', note: 'No score given.' },
+    PENDING_CTX
+  );
+  assert.deepEqual(errors, []);
+  assert.equal(entry.url, 'https://reddit.com/x');
+  assert.deepEqual(entry.missing, ['credit_score']);
+});
+
+test('validatePendingEntry keeps junk out of the bucket', () => {
+  const bad = (raw) => validatePendingEntry(raw, PENDING_CTX).errors;
+
+  // Three missing fields is a post we did not understand, not a near-miss —
+  // and it would still be unpublishable if one of them arrived.
+  assert.match(
+    bad({ source_id: 't3_ok', missing: ['credit_score', 'card_name', 'date_applied'], result: 'denied' }).join(),
+    /that is a skip, not a near-miss/
+  );
+  // A megathread comment has no feed of its own, so it could never be revisited
+  // and would burn a request every run until it aged out.
+  assert.match(bad({ source_id: 't1_mega', missing: ['credit_score'], card_name: 'Chase Sapphire Preferred', result: 'denied' }).join(), /only posts can be revisited/);
+  assert.match(bad({ source_id: 't3_ok', missing: [], card_name: 'Chase Sapphire Preferred', result: 'denied' }).join(), /at least one field/);
+  assert.match(bad({ source_id: 't3_ok', missing: ['vibes'], card_name: 'Chase Sapphire Preferred', result: 'denied' }).join(), /unknown missing field/);
+  assert.match(bad({ source_id: 't3_nope', missing: ['credit_score'], card_name: 'Chase Sapphire Preferred', result: 'denied' }).join(), /not one of this run's candidates/);
+  assert.match(bad({ source_id: 't3_ok', missing: ['credit_score'], card_name: 'Fake Card', result: 'denied' }).join(), /not in the catalog/);
+  // A field is only optional when it is the thing being chased.
+  assert.match(bad({ source_id: 't3_ok', missing: ['credit_score'], card_name: 'Chase Sapphire Preferred' }).join(), /result is required/);
+  assert.match(bad({ source_id: 't3_ok', missing: ['credit_score'], result: 'denied' }).join(), /card_name is required/);
+  assert.deepEqual(bad({ source_id: 't3_ok', missing: ['card_name'], result: 'denied' }), []);
+});
+
+test('validatePendingEntry canonicalizes a previous card name', () => {
+  const { errors, entry } = validatePendingEntry(
+    { source_id: 't3_ok', missing: ['credit_score'], card_name: 'Chase Freedom Student', result: 'approved' },
+    { ...PENDING_CTX, cardByName: new Map([['Chase Freedom Rise', {}]]) }
+  );
+  assert.deepEqual(errors, []);
+  assert.equal(entry.card_name, 'Chase Freedom Rise');
+});
+
+test('the prompt tells the session when to declare a near-miss and when not to', () => {
+  const prompt = buildExtractPrompt({
+    cards: [{ name: 'Chase Sapphire Preferred', bank: 'Chase', previous_names: [] }],
+    candidates: [],
+  });
+  assert.match(prompt, /\.reddit-dp-work\/pending\/<n>\.yaml/);
+  assert.match(prompt, /at most two/);
+  // The bucket must not become a dumping ground for the posts we already skip.
+  assert.match(prompt, /never a pre-qual and never a hypothetical/);
+  assert.match(prompt, /recommendation-template post, or a pre-qual rejection is NOT pending/);
+});
+
+test('a revisit is rendered with what is known and what is still missing', () => {
+  const prompt = buildExtractPrompt({
+    cards: [{ name: 'Citi Custom Cash', bank: 'Citi', previous_names: [] }],
+    candidates: [
+      {
+        id: 't3_rev', kind: 'post', revisit: true, posted: '2026-08-01',
+        title: 'Denied for Custom Cash', text: 'No idea why.',
+        url: 'https://reddit.com/x', missing: ['credit_score'],
+        known: { card_name: 'Citi Custom Cash', result: 'denied' },
+        note: 'Denial with no score.', firstSeen: '2026-08-01', attempts: 2,
+        opReplies: ['It was 690 TransUnion.'],
+      },
+      { id: 't3_new', kind: 'post', posted: '2026-08-03', title: 'New post', text: 'Approved!', url: 'https://reddit.com/y' },
+    ],
+  });
+  assert.match(prompt, /## Revisits \(1\)/);
+  assert.match(prompt, /REVISIT \(look 2 of 3/);
+  assert.match(prompt, /Already established: Citi Custom Cash, denied/);
+  assert.match(prompt, /Still missing: credit_score/);
+  assert.match(prompt, /OP reply: It was 690 TransUnion\./);
+  // Revisits are labelled separately so the two lists cannot be confused.
+  assert.match(prompt, /## New candidates \(1\)/);
+  assert.match(prompt, /\[R1\]/);
+  // And the session is told that silence drops an entry, since that is the only
+  // way one ever leaves the bucket early.
+  assert.match(prompt, /An entry not re-declared in `pending\/` is dropped/);
+});
+
+test('followups name the post, the gap, and what to ask', () => {
+  const md = buildFollowups({
+    t3_x: {
+      url: 'https://www.reddit.com/r/CreditCards/comments/x/',
+      title: 'Denied for BofA Premium Rewards Elite',
+      card_name: 'Bank of America Premium Rewards Elite',
+      result: 'denied',
+      missing: ['credit_score'],
+      note: 'Denial cited no banking relationship. No score given.',
+      firstSeen: '2026-08-03',
+      attempts: 1,
+    },
+  });
+  assert.match(md, /https:\/\/www\.reddit\.com\/r\/CreditCards\/comments\/x\//);
+  assert.match(md, /Bank of America Premium Rewards Elite · denied/);
+  assert.match(md, /What was your score at the time, and which bureau\?/);
+  assert.match(md, /2 left before it ages out/);
+  assert.equal(buildFollowups({}).includes('Nothing pending'), true);
+});
+
+test('the PR body carries the ask-list and says merging does not touch it', () => {
+  const body = buildPrBody(
+    [{ dp: { source_id: 't3_a', permalink: 'https://reddit.com/a', card_name: 'Apple Card', result: 'approved', credit_score: 750, date_applied: '2026-08' }, filename: 'f.yaml' }],
+    {
+      t3_x: {
+        url: 'https://reddit.com/x', title: 'Denied for Premium Rewards Elite',
+        card_name: 'Bank of America Premium Rewards Elite', result: 'denied',
+        missing: ['credit_score'], firstSeen: '2026-08-03', attempts: 1,
+      },
+    }
+  );
+  assert.match(body, /### Needs one more field \(1\)/);
+  assert.match(body, /merging does not change them/);
+  assert.match(body, /What was your score at the time/);
+  // No pending bucket means no section at all, rather than an empty table.
+  assert.ok(!buildPrBody([{ dp: { source_id: 't3_a', permalink: 'u', card_name: 'Apple Card', result: 'approved', credit_score: 750, date_applied: '2026-08' }, filename: 'f.yaml' }], {}).includes('Needs one more field'));
 });
 
 run();

@@ -22,8 +22,12 @@
  *                   then write one self-contained extraction prompt to
  *                   .reddit-dp-work/extract-prompt.md.
  *
+ *                   Also re-presents the pending bucket (below): posts that
+ *                   carried a real outcome but were missing one required field.
+ *
  *   (session)       Reads the extraction prompt, writes one YAML per data
- *                   point to .reddit-dp-work/proposed/<n>.yaml.
+ *                   point to .reddit-dp-work/proposed/<n>.yaml, and one YAML
+ *                   per near-miss to .reddit-dp-work/pending/<n>.yaml.
  *
  *   --phase=finish  Validate every proposed data point (field ranges mirror
  *                   the /records POST schema in apps/api, card_name must match
@@ -32,6 +36,16 @@
  *                   write the PR review table to .reddit-dp-work/pr-body.md,
  *                   and stage the updated seen-state at
  *                   .reddit-dp-work/state-updated.json.
+ *
+ * The pending bucket ("incomplete revisit"): precision-over-recall means a post
+ * reporting a real, first-person, catalog-card outcome still gets dropped when
+ * one required field is missing — most often the credit score. Those are the
+ * most recoverable misses we have, because the number frequently shows up in a
+ * reply hours after we read the post, by which time the seen-state has already
+ * retired it. So instead of dropping them the session declares them pending,
+ * and the next few fetch runs re-read the post's comment feed to see whether the
+ * OP filled the gap in. Unresolved entries also land in
+ * .reddit-dp-work/followups.md, which is the list to go ask about by hand.
  *
  * Publishing (branch + PR + state push) is scripts/check-reddit-datapoints-publish.sh.
  * Merging the PR triggers .github/workflows/sync-datapoints.yml, which imports
@@ -46,10 +60,12 @@ const yaml = require('js-yaml');
 const REPO_ROOT = path.join(__dirname, '..');
 const WORK_DIR = path.join(REPO_ROOT, '.reddit-dp-work');
 const PROPOSED_DIR = path.join(WORK_DIR, 'proposed');
+const PENDING_DIR = path.join(WORK_DIR, 'pending');
 const PROMPT_FILE = path.join(WORK_DIR, 'extract-prompt.md');
 const CANDIDATES_FILE = path.join(WORK_DIR, 'candidates.json');
 const STATE_UPDATED_FILE = path.join(WORK_DIR, 'state-updated.json');
 const PR_BODY_FILE = path.join(WORK_DIR, 'pr-body.md');
+const FOLLOWUPS_FILE = path.join(WORK_DIR, 'followups.md');
 const DATAPOINTS_DIR = path.join(REPO_ROOT, 'data', 'reddit-datapoints');
 const CARDS_DIR = path.join(REPO_ROOT, 'data', 'cards');
 const STATE_FILE = path.join(REPO_ROOT, '.github', 'reddit-datapoint-state.json');
@@ -84,6 +100,19 @@ const MAX_DATA_POINT_AGE_MONTHS = 72;
 // a bound and becomes a guess, so those still get skipped.
 const MAX_SCORE_RANGE_SPREAD = 20;
 
+// How long a pending near-miss keeps costing us requests before we give up on
+// it. Both bounds are deliberately short: a Reddit post stops accumulating
+// comments within a couple of days, so a score that has not appeared by the
+// third look is not going to appear on the tenth, and every revisit is one more
+// unauthenticated request against a feed that already throttles us daily.
+const PENDING_MAX_DAYS = 7;
+const PENDING_MAX_ATTEMPTS = 3;
+
+// Fields a pending entry may claim to be missing. Anything the extraction rules
+// treat as required to publish a row, plus card_name for the case where the
+// outcome is unambiguous but which card it was is not.
+const PENDING_MISSING_FIELDS = ['credit_score', 'card_name', 'date_applied', 'result'];
+
 const CAPS = {
   newPosts: 40,
   threadComments: 60,
@@ -93,6 +122,14 @@ const CAPS = {
   // spacing, so the cap is what bounds the fetch phase's runtime (and our rate
   // of unauthenticated requests) more than anything else.
   expandPosts: 8,
+  // Total comment-feed requests per run, shared between pending revisits and
+  // fresh OP expansion. Revisits draw from it first (they target a known
+  // outcome missing one field, so they are the higher-value request), and
+  // whatever is left goes to speculative expansion of today's posts. Without a
+  // shared ceiling the two loops would each spend `expandPosts` and double our
+  // request rate against a feed that already 429s most days.
+  replyRequests: 8,
+  revisitPosts: 4,
   opCommentsPerPost: 5,
   opCommentChars: 600,
   abortAfterFailures: 2,
@@ -150,13 +187,48 @@ function loadCardCatalog() {
 }
 
 function loadState() {
+  const empty = { seen: {}, pending: {} };
   try {
-    if (!fs.existsSync(STATE_FILE)) return { seen: {} };
+    if (!fs.existsSync(STATE_FILE)) return empty;
     const parsed = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
-    return parsed && typeof parsed.seen === 'object' ? parsed : { seen: {} };
+    if (!parsed || typeof parsed.seen !== 'object') return empty;
+    // `pending` postdates `seen`; a state file written before it existed is
+    // valid and just has an empty bucket.
+    return { seen: parsed.seen, pending: parsed.pending && typeof parsed.pending === 'object' ? parsed.pending : {} };
   } catch {
-    return { seen: {} };
+    return empty;
   }
+}
+
+// ── Pending near-misses ──────────────────────────────────────────────────────
+
+function daysBetween(fromDate, toDate) {
+  return Math.round((Date.parse(`${toDate}T00:00:00Z`) - Date.parse(`${fromDate}T00:00:00Z`)) / 86400000);
+}
+
+// Why an entry is done being chased, or null while it is still worth a look.
+// Returns the reason so the fetch phase can say what it gave up on rather than
+// dropping it silently, which reads exactly like "there was nothing there".
+function pendingExpiry(entry, today = TODAY) {
+  if (!entry || typeof entry !== 'object') return 'malformed entry';
+  if ((entry.attempts || 0) >= PENDING_MAX_ATTEMPTS) {
+    return `no answer after ${entry.attempts} revisit(s)`;
+  }
+  const age = entry.firstSeen ? daysBetween(entry.firstSeen, today) : 0;
+  if (age > PENDING_MAX_DAYS) return `${age} days old, past the ${PENDING_MAX_DAYS}-day window`;
+  return null;
+}
+
+// Oldest and least-tried first: an entry on its last attempt is the one about to
+// age out, and a post loses its chance of new comments as it ages.
+function rankPending(pending) {
+  return Object.entries(pending)
+    .map(([id, entry]) => ({ id, entry }))
+    .sort(
+      (a, b) =>
+        (a.entry.attempts || 0) - (b.entry.attempts || 0) ||
+        String(a.entry.firstSeen || '').localeCompare(String(b.entry.firstSeen || ''))
+    );
 }
 
 // Every data point already sitting in data/reddit-datapoints/ (accepted + merged).
@@ -386,89 +458,168 @@ function rankForExpansion(candidates) {
 }
 
 /**
- * Fetch a post's comment feed and return the OP's own replies.
+ * Fetch a post's comment feed and return the post itself plus the OP's own
+ * replies.
  *
- * The permalink feed's first entry is the post itself, which is what makes this
+ * The permalink feed's first entry is the post, which is what makes this
  * reliable: it names the author we then filter comments by, so we never have to
- * trust an author parsed out of a different feed.
+ * trust an author parsed out of a different feed. A revisit needs that first
+ * entry for its body too — pending state stores only ids and a one-line note, so
+ * the post text comes back fresh (and current, if it was edited) on each look.
  */
-async function fetchOpReplies(candidate) {
-  const feedUrl = `${candidate.url.replace(/\/$/, '')}/.rss?sort=new&limit=100`;
+async function fetchPostSnapshot(url) {
+  const feedUrl = `${url.replace(/\/$/, '')}/.rss?sort=new&limit=100`;
   const entries = parseAtom(await redditRss(feedUrl));
-  if (entries.length === 0) return [];
-  const op = entries[0].author;
-  if (!op) return [];
-  return entries
-    .slice(1)
-    .filter((c) => c.author === op)
-    .filter((c) => c.content && c.content.length >= 20)
-    .filter((c) => !/^\[(deleted|removed)\]$/i.test(c.content.trim()))
-    .slice(0, CAPS.opCommentsPerPost)
-    .map((c) => truncate(c.content, CAPS.opCommentChars));
+  if (entries.length === 0) return { title: '', body: '', replies: [] };
+  const post = entries[0];
+  const op = post.author;
+  const replies = !op
+    ? []
+    : entries
+        .slice(1)
+        .filter((c) => c.author === op)
+        .filter((c) => c.content && c.content.length >= 20)
+        .filter((c) => !/^\[(deleted|removed)\]$/i.test(c.content.trim()))
+        .slice(0, CAPS.opCommentsPerPost)
+        .map((c) => truncate(c.content, CAPS.opCommentChars));
+  return { title: post.title || '', body: post.content || '', replies };
 }
 
-// Mutates candidates in place, adding `opReplies` where any were found. Never
-// throws: a post whose comment feed fails just goes to the model without its
-// replies, exactly as before this expansion existed.
-//
-// Bails out on sustained Reddit pushback, tracked as two separate signals
-// because they look nothing alike from in here:
-//
-//   failures  — the feed threw. Cheap to detect, and the candidate loses its
-//               replies. Cap is tight (2).
-//   throttled — the feed 429'd and only succeeded after a 61s backoff. The
-//               caller still gets its data, so this is invisible to a
-//               failure counter, but it is the expensive case: the 2026-07-30
-//               run took 7 backoffs across 8 posts, about 7 minutes of the
-//               fetch phase, without tripping a single failure. Cap is looser
-//               (3) since these requests do deliver.
-//
-// Replies are a bonus on top of the post body, so quitting early costs a
-// little recall and saves the run.
-async function expandOpReplies(candidates) {
-  const queue = rankForExpansion(candidates).slice(0, CAPS.expandPosts);
-  let expanded = 0;
-  let failures = 0;
-  let consecutiveFailures = 0;
-  let consecutiveThrottled = 0;
+async function fetchOpReplies(candidate) {
+  const { replies } = await fetchPostSnapshot(candidate.url);
+  return replies;
+}
+
+/**
+ * Shared comment-feed request budget for one run.
+ *
+ * Bails out on sustained Reddit pushback, tracked as two separate signals
+ * because they look nothing alike from in here:
+ *
+ *   failures  — the feed threw. Cheap to detect, and the candidate loses its
+ *               replies. Cap is tight (2).
+ *   throttled — the feed 429'd and only succeeded after a 61s backoff. The
+ *               caller still gets its data, so this is invisible to a
+ *               failure counter, but it is the expensive case: the 2026-07-30
+ *               run took 7 backoffs across 8 posts, about 7 minutes of the
+ *               fetch phase, without tripping a single failure. Cap is looser
+ *               (3) since these requests do deliver.
+ *
+ * The counters live on the budget rather than inside one loop because revisits
+ * and fresh expansion both spend from it. A run that gets throttled out of its
+ * revisits has no business then trying eight speculative expansions.
+ */
+function createReplyBudget(remaining = CAPS.replyRequests) {
+  return { remaining, consecutiveFailures: 0, consecutiveThrottled: 0, failures: 0, stopped: null };
+}
+
+function budgetStopReason(budget) {
+  if (budget.remaining <= 0) return 'request budget spent';
+  if (budget.consecutiveFailures >= CAPS.abortAfterFailures) {
+    return `${budget.consecutiveFailures} consecutive failures (likely Reddit rate limiting)`;
+  }
+  if (budget.consecutiveThrottled >= CAPS.abortAfterThrottled) {
+    return `${budget.consecutiveThrottled} consecutive 429 backoffs (Reddit is throttling; each costs 61s)`;
+  }
+  return null;
+}
+
+/**
+ * Run `queue` through the comment-feed fetcher against a shared budget, handing
+ * each successful snapshot to `onSnapshot`. Never throws: a post whose feed
+ * fails just goes to the model without its replies.
+ */
+async function fetchSnapshots(queue, budget, onSnapshot, { label }) {
   let attempted = 0;
-  for (const candidate of queue) {
-    // Say what was dropped either way: a silent cap here reads as "no replies
-    // existed", which is the same false negative shape as a missed data point.
-    const remaining = queue.length - attempted;
-    if (consecutiveFailures >= CAPS.abortAfterFailures) {
-      console.warn(
-        `  ! OP reply expansion aborted after ${consecutiveFailures} consecutive failures — ` +
-          `${remaining} post(s) not expanded (likely Reddit rate limiting)`
-      );
-      break;
-    }
-    if (consecutiveThrottled >= CAPS.abortAfterThrottled) {
-      console.warn(
-        `  ! OP reply expansion aborted after ${consecutiveThrottled} consecutive 429 backoffs — ` +
-          `${remaining} post(s) not expanded (Reddit is throttling; replies still cost 61s each)`
-      );
+  let got = 0;
+  for (const item of queue) {
+    const stop = budgetStopReason(budget);
+    if (stop) {
+      // Say what was dropped either way: a silent cap here reads as "no replies
+      // existed", which is the same false negative shape as a missed data point.
+      const skipped = queue.length - attempted;
+      budget.stopped = stop;
+      console.warn(`  ! ${label} stopped after ${stop} — ${skipped} post(s) not fetched`);
       break;
     }
     attempted++;
+    budget.remaining--;
     await sleep(CAPS.requestSpacingMs);
     const backoffsBefore = getRateLimitBackoffs();
     try {
-      const replies = await fetchOpReplies(candidate);
-      consecutiveFailures = 0;
-      if (replies.length > 0) {
-        candidate.opReplies = replies;
-        expanded++;
-      }
+      const snapshot = await fetchPostSnapshot(item.url);
+      budget.consecutiveFailures = 0;
+      if (onSnapshot(item, snapshot)) got++;
     } catch (err) {
-      failures++;
-      consecutiveFailures++;
-      console.warn(`  ! OP replies for ${candidate.id} failed: ${err.message.split('\n')[0]}`);
+      budget.failures++;
+      budget.consecutiveFailures++;
+      console.warn(`  ! ${label} for ${item.id} failed: ${err.message.split('\n')[0]}`);
     }
     // Counted on both paths: a request can back off and then still fail.
-    consecutiveThrottled = getRateLimitBackoffs() > backoffsBefore ? consecutiveThrottled + 1 : 0;
+    budget.consecutiveThrottled =
+      getRateLimitBackoffs() > backoffsBefore ? budget.consecutiveThrottled + 1 : 0;
   }
-  return { attempted, expanded, failures, throttled: getRateLimitBackoffs() };
+  return { attempted, got };
+}
+
+// Mutates candidates in place, adding `opReplies` where any were found.
+// Replies are a bonus on top of the post body, so quitting early costs a
+// little recall and saves the run.
+async function expandOpReplies(candidates, budget = createReplyBudget()) {
+  const queue = rankForExpansion(candidates).slice(0, Math.min(CAPS.expandPosts, budget.remaining));
+  const { attempted, got } = await fetchSnapshots(
+    queue,
+    budget,
+    (candidate, { replies }) => {
+      if (replies.length === 0) return false;
+      candidate.opReplies = replies;
+      return true;
+    },
+    { label: 'OP reply expansion' }
+  );
+  return { attempted, expanded: got, failures: budget.failures, throttled: getRateLimitBackoffs() };
+}
+
+/**
+ * Re-read the pending near-misses and hand them back as candidates.
+ *
+ * Deliberately re-presents the post even when no new replies showed up: the
+ * point of the bucket is that a human (or a later, better-informed pass) gets
+ * another look at a post we know carried a real outcome, and the request has
+ * already been spent by the time we know whether it was fruitful.
+ */
+async function revisitPending(pending, budget) {
+  const queue = rankPending(pending)
+    .slice(0, Math.min(CAPS.revisitPosts, budget.remaining))
+    .map(({ id, entry }) => ({ id, url: entry.url, entry }));
+
+  const candidates = [];
+  const { attempted } = await fetchSnapshots(
+    queue,
+    budget,
+    ({ id, url, entry }, snapshot) => {
+      entry.attempts = (entry.attempts || 0) + 1;
+      entry.lastChecked = TODAY;
+      candidates.push({
+        id,
+        kind: 'post',
+        revisit: true,
+        missing: entry.missing || [],
+        known: { card_name: entry.card_name, result: entry.result },
+        note: entry.note || '',
+        firstSeen: entry.firstSeen || TODAY,
+        attempts: entry.attempts,
+        title: truncate(snapshot.title || entry.title || '', 200),
+        text: truncate(snapshot.body || '', CAPS.bodyChars),
+        url,
+        posted: entry.posted || entry.firstSeen || TODAY,
+        opReplies: snapshot.replies,
+      });
+      return snapshot.replies.length > 0;
+    },
+    { label: 'Pending revisit' }
+  );
+  return { attempted, candidates };
 }
 
 // ── Extraction prompt ────────────────────────────────────────────────────────
@@ -482,18 +633,45 @@ function buildCardListSection(cards) {
     .join('\n');
 }
 
+function renderCandidate(c, label) {
+  const lines = [`[${label}] (${c.kind}, posted ${c.posted}, id ${c.id}) ${c.title}`];
+  lines.push(`    URL: ${c.url}`);
+  if (c.revisit) {
+    const known = [c.known?.card_name, c.known?.result].filter(Boolean).join(', ');
+    lines.push(`    REVISIT (look ${c.attempts} of ${PENDING_MAX_ATTEMPTS}, first seen ${c.firstSeen})`);
+    if (known) lines.push(`    Already established: ${known}`);
+    lines.push(`    Still missing: ${(c.missing || []).join(', ') || 'unknown'}`);
+    if (c.note) lines.push(`    Earlier note: ${c.note}`);
+  }
+  if (c.text && c.text !== c.title) lines.push(`    Text: ${c.text}`);
+  for (const reply of c.opReplies || []) {
+    lines.push(`    OP reply: ${reply}`);
+  }
+  return lines.join('\n');
+}
+
+function buildRevisitSection(revisits) {
+  if (revisits.length === 0) return '';
+  return `## Revisits (${revisits.length})
+
+These posts were read on an earlier run. Each one carried a real, first-person outcome on a catalog card, and was held back only because a required field was missing. They are listed again because posters often answer in a comment hours later, so the body and the OP replies below are **freshly re-fetched as of today**.
+
+Read each one the same way as any other candidate, with one difference: you already know what was established, and you are looking for the field named in "Still missing".
+
+- If the missing field is now there, write a normal data point to \`proposed/\`. Use the current post text and replies, not your memory of it.
+- If it is still missing, write the entry to \`pending/\` again so the next run keeps chasing it (and keep the same \`missing\` list unless what is missing has genuinely changed).
+- If the post now shows the outcome was never real (it was a pre-qual, a hypothetical, or the poster corrected themselves), write neither file. It drops out of the bucket and stops costing requests.
+
+An entry not re-declared in \`pending/\` is dropped, so silence means "give up on this one".
+
+${revisits.map((c, i) => renderCandidate(c, `R${i + 1}`)).join('\n\n')}
+`;
+}
+
 function buildExtractPrompt({ candidates, cards }) {
-  const numbered = candidates
-    .map((c, i) => {
-      const lines = [`[${i + 1}] (${c.kind}, posted ${c.posted}, id ${c.id}) ${c.title}`];
-      lines.push(`    URL: ${c.url}`);
-      if (c.text && c.text !== c.title) lines.push(`    Text: ${c.text}`);
-      for (const reply of c.opReplies || []) {
-        lines.push(`    OP reply: ${reply}`);
-      }
-      return lines.join('\n');
-    })
-    .join('\n\n');
+  const revisits = candidates.filter((c) => c.revisit);
+  const fresh = candidates.filter((c) => !c.revisit);
+  const numbered = fresh.map((c, i) => renderCandidate(c, i + 1)).join('\n\n');
 
   return `# Reddit Data Point Extraction — ${TODAY}
 
@@ -557,18 +735,130 @@ evidence: "Poster reports approval with a 742 score, $85k income, and a $10k sta
 
 Omit unknown optional fields entirely (no nulls). One candidate reporting several applications ("approved for CSP, denied for Amex Gold") produces several files with #2/#3 suffixes on the same source_id. Hard cap: 25 data points per run — keep the clearest ones if a megathread overflows.
 
+## Near-misses: the pending bucket
+
+A post can clear every bar above except one and still be unpublishable — most often a real, first-person, catalog-card denial with no credit score anywhere in it. Do not just drop those. Write them to \`.reddit-dp-work/pending/<n>.yaml\` so later runs re-read the post (posters answer in comments hours later) and so the missing field can be asked about by hand:
+
+\`\`\`yaml
+source_id: "t3_1abcde"
+missing: ["credit_score"]        # one or more of: ${PENDING_MISSING_FIELDS.join(', ')}
+card_name: "Bank of America Premium Rewards Elite"   # omit if the card is what is missing
+result: "denied"                                     # omit if the result is what is missing
+note: "Denial cited no existing banking relationship. Poster never gave a score."
+\`\`\`
+
+Declare an entry pending ONLY when **all** of these hold:
+- The poster states a real, first-person application outcome (the same bar as rule 1 above, so never a pre-qual and never a hypothetical).
+- Everything else needed is present, and **at most two** of ${PENDING_MISSING_FIELDS.join(' / ')} are missing.
+- The gap is something the poster could plausibly answer. "They never said their score" is pending. "They were vague about whether they actually applied" is a skip.
+
+A "what are my odds?" post, a recommendation-template post, or a pre-qual rejection is NOT pending. It is a skip, same as before. The bucket is expensive (one Reddit request per entry per run, against a feed that throttles us) and it is only worth spending on a row we would publish the moment one number arrives.
+
+\`note\` is your own paraphrase and gets read by a human deciding whether to go ask the poster, so say what is established and what is missing in one line.
+
 ## Card catalog (output card_name exactly as listed)
 ${buildCardListSection(cards)}
-
-## Candidates (${candidates.length})
+${buildRevisitSection(revisits)}
+## New candidates (${fresh.length})
 
 ${numbered}
 
-If nothing qualifies, create no files — that is a successful run. Either way, end your run report with data-point counts and any catalog-missing cards you saw.
+If nothing qualifies, create no files — that is a successful run. Either way, end your run report with data-point counts, pending entries opened or resolved, and any catalog-missing cards you saw.
+`;
+}
+
+// ── Follow-up report ─────────────────────────────────────────────────────────
+
+// What to ask the poster, by field. These are suggestions for a human to send
+// in their own words, not something the routine posts: commenting from a real
+// account is a separate decision with its own consequences on r/CreditCards.
+const FOLLOWUP_QUESTIONS = {
+  credit_score: 'What was your score at the time, and which bureau?',
+  card_name: 'Which card exactly was it?',
+  date_applied: 'Roughly when did you apply?',
+  result: 'How did it end up, approved or denied?',
+};
+
+function buildFollowups(pending) {
+  const entries = rankPending(pending);
+  if (entries.length === 0) {
+    return `# Reddit data-point follow-ups — ${TODAY}\n\nNothing pending. Every outcome found so far either published or was dropped.\n`;
+  }
+  const blocks = entries.map(({ id, entry }) => {
+    const missing = entry.missing || [];
+    const known = [entry.card_name, entry.result].filter(Boolean).join(' · ') || 'outcome recorded';
+    const questions = missing.map((f) => FOLLOWUP_QUESTIONS[f]).filter(Boolean);
+    const looksLeft = Math.max(0, PENDING_MAX_ATTEMPTS - (entry.attempts || 0));
+    return [
+      `### ${known}`,
+      `- **Post:** ${entry.url}`,
+      `- **Missing:** ${missing.join(', ') || 'unknown'}`,
+      entry.note ? `- **What we have:** ${entry.note}` : null,
+      `- **Suggested ask:** ${questions.join(' ') || 'Ask for the missing field above.'}`,
+      `- First seen ${entry.firstSeen}, ${entry.attempts || 0} revisit(s) so far, ${looksLeft} left before it ages out.`,
+      `- \`${id}\``,
+    ]
+      .filter(Boolean)
+      .join('\n');
+  });
+
+  return `# Reddit data-point follow-ups — ${TODAY}
+
+${entries.length} post(s) reported a real application outcome we could not publish, each missing one required field. Later runs re-read them automatically for ${PENDING_MAX_DAYS} days or ${PENDING_MAX_ATTEMPTS} looks, whichever comes first. If you want to ask the poster directly, these are the ones worth asking, with what is missing from each.
+
+${blocks.join('\n\n')}
 `;
 }
 
 // ── Validation (finish phase) ────────────────────────────────────────────────
+
+// Pending entries are cheap to get wrong and expensive to keep: a malformed one
+// would burn a Reddit request every run until it aged out. Validated separately
+// from data points because almost every field a data point requires is, by
+// definition, the thing a pending entry does not have.
+function validatePendingEntry(entry, { candidateById, cardByName, aliasToName }) {
+  const errors = [];
+  const sourceId = String(entry.source_id || '').replace(/#\d+$/, '');
+  if (!/^t[13]_[a-z0-9]+$/.test(sourceId)) return { errors: ['invalid source_id'] };
+  const candidate = candidateById.get(sourceId);
+  if (!candidate) errors.push(`source_id ${sourceId} is not one of this run's candidates`);
+  // Megathread comments have no permalink of their own to re-fetch, so they can
+  // never be revisited. Catching it here keeps a dead id out of the state file.
+  if (candidate && candidate.kind !== 'post') errors.push('only posts can be revisited (comment has no feed of its own)');
+
+  const missing = Array.isArray(entry.missing) ? entry.missing.filter((f) => typeof f === 'string') : [];
+  if (missing.length === 0) errors.push('missing[] must name at least one field');
+  const unknown = missing.filter((f) => !PENDING_MISSING_FIELDS.includes(f));
+  if (unknown.length) errors.push(`unknown missing field(s): ${unknown.join(', ')} (allowed: ${PENDING_MISSING_FIELDS.join(', ')})`);
+  // Three-plus missing fields is not a near-miss, it is a post we did not
+  // understand — and it would still be unpublishable if one of them arrived.
+  if (missing.length > 2) errors.push(`${missing.length} missing fields — that is a skip, not a near-miss`);
+
+  let cardName = typeof entry.card_name === 'string' ? entry.card_name.trim() : '';
+  if (cardName && !cardByName.has(cardName) && aliasToName.has(cardName)) cardName = aliasToName.get(cardName);
+  if (cardName && !cardByName.has(cardName)) errors.push(`card_name "${cardName}" not in the catalog`);
+  if (!cardName && !missing.includes('card_name')) errors.push('card_name is required unless it is what is missing');
+  if (entry.result != null && entry.result !== 'approved' && entry.result !== 'denied') {
+    errors.push('result must be "approved", "denied", or omitted when it is what is missing');
+  }
+  if (!entry.result && !missing.includes('result')) errors.push('result is required unless it is what is missing');
+
+  return {
+    errors,
+    entry:
+      errors.length > 0
+        ? null
+        : {
+            url: candidate.url,
+            title: truncate(candidate.title || '', 200),
+            posted: candidate.posted,
+            card_name: cardName || undefined,
+            result: entry.result || undefined,
+            missing,
+            note: truncate(String(entry.note || ''), 300),
+          },
+  };
+}
 
 function isIntInRange(v, min, max) {
   return Number.isInteger(v) && v >= min && v <= max;
@@ -714,7 +1004,33 @@ function writeDataPointFile(dp) {
   return filename;
 }
 
-function buildPrBody(written) {
+// Near-misses ride along in the PR body because that is where the review
+// already happens. They are not files in the PR and merging does nothing to
+// them: this is a list of posts to go ask about, and the routine keeps
+// re-reading them on its own either way.
+function buildPendingSection(pending) {
+  const entries = rankPending(pending || {});
+  if (entries.length === 0) return '';
+  const rows = entries
+    .map(({ entry }) => {
+      const known = [entry.card_name, entry.result].filter(Boolean).join(' · ') || '—';
+      const asks = (entry.missing || []).map((f) => FOLLOWUP_QUESTIONS[f]).filter(Boolean).join(' ');
+      return `| [${truncate(entry.title || 'post', 60)}](${entry.url}) | ${known} | ${(entry.missing || []).join(', ')} | ${asks || '—'} |`;
+    })
+    .join('\n');
+
+  return `
+### Needs one more field (${entries.length})
+
+Real first-person outcomes we could not publish. Later runs re-read each post for ${PENDING_MAX_DAYS} days or ${PENDING_MAX_ATTEMPTS} looks in case the poster answers in a comment. Nothing here is a file in this PR, and merging does not change them — this is the list to ask about by hand if you want to.
+
+| Post | Established | Missing | Suggested ask |
+|---|---|---|---|
+${rows}
+`;
+}
+
+function buildPrBody(written, pending) {
   const fmt = (v, prefix = '') => (v == null ? '—' : `${prefix}${typeof v === 'number' ? v.toLocaleString('en-US') : v}`);
   const rows = written
     .map(({ dp, filename }) =>
@@ -746,10 +1062,84 @@ ${rows}
 2. **Reject a row** by deleting its file from this PR (GitHub → Files changed → ⋯ → Delete file). Rejected sources are never re-proposed — the seen-state was already recorded.
 3. **Reject everything** by closing the PR.
 4. **Accept the rest by merging.**
-
+${buildPendingSection(pending)}
 ### What merging does
 \`sync-datapoints.yml\` invokes the \`creditodds-import-reddit-records\` Lambda, which inserts the accepted rows into the \`records\` table (submitter_id \`reddit:<source_id>\`, so imports are distinguishable and idempotent). Card stats refresh within ~5 minutes; CloudFront/ISR caching means public pages update within ~10.
 `;
+}
+
+// ── Pending reconciliation (finish phase) ────────────────────────────────────
+
+// The staged state is the fetch phase's output, so finish has to read it back,
+// fold in what the session decided, and rewrite it. Anything the session did NOT
+// re-declare falls out of the bucket: silence means "stop chasing this".
+function reconcilePending(validationCtx) {
+  const staged = fs.existsSync(STATE_UPDATED_FILE)
+    ? JSON.parse(fs.readFileSync(STATE_UPDATED_FILE, 'utf8'))
+    : { seen: {}, pending: {} };
+  const carried = staged.pending && typeof staged.pending === 'object' ? staged.pending : {};
+
+  const declared = {};
+  const rejected = [];
+  const files = fs.existsSync(PENDING_DIR) ? fs.readdirSync(PENDING_DIR).filter((f) => /\.ya?ml$/.test(f)) : [];
+  for (const file of files) {
+    let raw;
+    try {
+      raw = yaml.load(fs.readFileSync(path.join(PENDING_DIR, file), 'utf8'));
+    } catch (err) {
+      rejected.push(`${file}: unparseable YAML (${err.message.split('\n')[0]})`);
+      continue;
+    }
+    if (!raw || typeof raw !== 'object') {
+      rejected.push(`${file}: empty or not a mapping`);
+      continue;
+    }
+    const { errors, entry } = validatePendingEntry(raw, validationCtx);
+    if (errors.length) {
+      rejected.push(`${file}: ${errors.join('; ')}`);
+      continue;
+    }
+    const id = String(raw.source_id).replace(/#\d+$/, '');
+    const prior = carried[id];
+    declared[id] = {
+      ...entry,
+      // A re-declared entry keeps its history; a brand-new one starts its clock
+      // today with the look it just got already counted.
+      firstSeen: prior?.firstSeen || TODAY,
+      attempts: prior?.attempts ?? 1,
+      lastChecked: TODAY,
+    };
+  }
+
+  return { staged, pending: declared, rejected, carriedCount: Object.keys(carried).length };
+}
+
+function resolvePendingFor(result, publishedIds) {
+  for (const id of publishedIds) {
+    if (result.pending[id]) {
+      result.resolved = (result.resolved || 0) + 1;
+      delete result.pending[id];
+    }
+  }
+}
+
+// Rewrites the staged state and the follow-up list, then says what changed.
+function reportPending(result) {
+  const { staged, pending, rejected, resolved = 0 } = result;
+  fs.writeFileSync(STATE_UPDATED_FILE, `${JSON.stringify({ seen: staged.seen || {}, pending }, null, 2)}\n`);
+  fs.writeFileSync(FOLLOWUPS_FILE, buildFollowups(pending));
+
+  rejected.forEach((r) => console.log(`✗ pending/${r}`));
+
+  const count = Object.keys(pending).length;
+  if (resolved > 0) console.log(`\nPending resolved: ${resolved} entr(ies) published after a revisit.`);
+  if (count > 0 || rejected.length > 0) {
+    console.log(
+      `Pending: ${count} entr(ies) awaiting a field` +
+        (rejected.length ? `, ${rejected.length} rejected` : '') +
+        `. Ask-list: ${path.relative(REPO_ROOT, FOLLOWUPS_FILE)}`
+    );
+  }
 }
 
 // ── Phases ───────────────────────────────────────────────────────────────────
@@ -765,6 +1155,27 @@ async function phaseFetch() {
 
   fs.rmSync(WORK_DIR, { recursive: true, force: true });
   fs.mkdirSync(PROPOSED_DIR, { recursive: true });
+  fs.mkdirSync(PENDING_DIR, { recursive: true });
+
+  // Age out pending entries before spending anything on them. Reported rather
+  // than dropped quietly: "we chased this three times and never got the score"
+  // is the signal that it is worth asking by hand, and it is the only moment
+  // the entry is ever mentioned again.
+  const pending = {};
+  const expired = [];
+  for (const [id, entry] of Object.entries(state.pending)) {
+    const reason = pendingExpiry(entry);
+    if (reason) expired.push({ id, entry, reason });
+    else pending[id] = { ...entry };
+  }
+  if (expired.length > 0) {
+    console.log(`\nPending expired (${expired.length}):`);
+    for (const { entry, reason } of expired) {
+      const known = [entry.card_name, entry.result].filter(Boolean).join(' ') || 'outcome';
+      console.log(`  - ${known}, missing ${(entry.missing || []).join('/')} — ${reason}`);
+      console.log(`    ${entry.url}`);
+    }
+  }
 
   const fetchers = [
     ['r/CreditCards new', () => fetchNewPosts(seenIds)],
@@ -787,13 +1198,29 @@ async function phaseFetch() {
   console.log('Sources:');
   sourceStatus.forEach((s) => console.log(s));
 
-  const candidates = all.slice(0, CAPS.totalCandidates);
+  const fresh = all.slice(0, CAPS.totalCandidates);
+
+  // One shared request budget for everything that reads a comment feed.
+  // Revisits draw first: each targets a known outcome missing one named field,
+  // where expansion of a fresh post is a guess that it has replies worth having.
+  const budget = createReplyBudget();
+
+  const revisited = Object.keys(pending).length > 0 ? await revisitPending(pending, budget) : { attempted: 0, candidates: [] };
+  if (revisited.attempted > 0) {
+    console.log(`\nPending revisits: re-read ${revisited.candidates.length}/${revisited.attempted} post(s)`);
+  }
+
+  // Revisits come from `pending`, never from the feeds (their ids are already in
+  // `seen`), so they cannot collide with a fresh candidate. Belt and braces
+  // anyway: a duplicate id would break the finish phase's candidate lookup.
+  const seenInBatch = new Set(revisited.candidates.map((c) => c.id));
+  const candidates = [...revisited.candidates, ...fresh.filter((c) => !seenInBatch.has(c.id))];
 
   // Pull OP replies before the state is staged: replies are context hung off an
   // existing candidate, never candidates of their own, so this changes nothing
   // about dedupe.
-  if (candidates.some((c) => c.kind === 'post')) {
-    const { attempted, expanded, failures, throttled } = await expandOpReplies(candidates);
+  if (fresh.some((c) => c.kind === 'post')) {
+    const { attempted, expanded, failures, throttled } = await expandOpReplies(fresh, budget);
     console.log(
       `\nOP replies: expanded ${expanded}/${attempted} post(s)` +
         (failures ? `, ${failures} feed(s) failed` : '') +
@@ -812,14 +1239,19 @@ async function phaseFetch() {
     if (date >= cutoff) seen[id] = date;
   }
   for (const c of candidates) seen[c.id] = TODAY;
-  fs.writeFileSync(STATE_UPDATED_FILE, `${JSON.stringify({ seen }, null, 2)}\n`);
+  // Pending is staged as-is (attempt counters already bumped by the revisit).
+  // The finish phase is what resolves and re-declares entries, because only it
+  // knows which ones produced a data point.
+  fs.writeFileSync(STATE_UPDATED_FILE, `${JSON.stringify({ seen, pending }, null, 2)}\n`);
+  fs.writeFileSync(FOLLOWUPS_FILE, buildFollowups(pending));
 
   const prompt = buildExtractPrompt({ candidates, cards });
   fs.writeFileSync(PROMPT_FILE, prompt);
 
-  console.log(`\nCandidates (unseen): ${candidates.length}`);
+  console.log(`\nCandidates: ${candidates.length} (${revisited.candidates.length} revisit, ${candidates.length - revisited.candidates.length} new)`);
   console.log(`Extraction prompt: ${path.relative(REPO_ROOT, PROMPT_FILE)} (${(prompt.length / 1024).toFixed(0)} KB)`);
   console.log(`Write proposed data points to: ${path.relative(REPO_ROOT, PROPOSED_DIR)}/<n>.yaml`);
+  console.log(`Write unpublishable near-misses to: ${path.relative(REPO_ROOT, PENDING_DIR)}/<n>.yaml`);
 
   if (failures === fetchers.length) {
     console.log('\nWARNING: every source failed — network problem or Reddit blocking, not a quiet day.');
@@ -851,8 +1283,10 @@ function phaseFinish() {
   const priorRecords = [...importedRecords];
 
   const files = fs.readdirSync(PROPOSED_DIR).filter((f) => /\.ya?ml$/.test(f));
+  const pendingResult = reconcilePending({ candidateById, cardByName, aliasToName });
   if (files.length === 0) {
     console.log('No proposed data points — nothing to publish. (Quiet days end here; that is success.)');
+    reportPending(pendingResult);
     return;
   }
 
@@ -895,8 +1329,12 @@ function phaseFinish() {
     }
   }
 
+  // A published row retires its pending entry — that is the bucket working.
+  resolvePendingFor(pendingResult, written.map(({ dp }) => String(dp.source_id).replace(/#\d+$/, '')));
+  reportPending(pendingResult);
+
   if (written.length > 0) {
-    fs.writeFileSync(PR_BODY_FILE, buildPrBody(written));
+    fs.writeFileSync(PR_BODY_FILE, buildPrBody(written, pendingResult.pending));
     console.log(`\nPR body: ${path.relative(REPO_ROOT, PR_BODY_FILE)}`);
   }
   console.log(`${written.length} data point(s) written to data/reddit-datapoints/, ${failed} rejected.`);
@@ -933,9 +1371,19 @@ module.exports = {
   hasPlausibleScore,
   rankForExpansion,
   fetchOpReplies,
+  fetchPostSnapshot,
   expandOpReplies,
+  createReplyBudget,
+  revisitPending,
+  pendingExpiry,
+  rankPending,
+  validatePendingEntry,
+  buildFollowups,
   buildExtractPrompt,
+  buildPrBody,
   validateDataPoint,
   getRateLimitBackoffs,
   CAPS,
+  PENDING_MAX_DAYS,
+  PENDING_MAX_ATTEMPTS,
 };
