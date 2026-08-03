@@ -15,7 +15,10 @@ import CardImage from "@/components/ui/CardImage";
 const ROW_H = 62;
 const ROW_GAP = 10;
 const PITCH = ROW_H + ROW_GAP;
-const GUTTER_W = 96;
+// Gutter width. Kept deliberately tight: .cj-layout caps at 1280px, so the
+// main column never exceeds 700px of content, and every px here is a px the
+// node names do not get. Must match the grid columns in landing.css.
+const GUTTER_W = 72;
 // Floor for the diagram height so a single edge on each side still leaves the
 // centre card room to breathe.
 const MIN_H = 172;
@@ -96,8 +99,8 @@ function NodeCard({ node }: { node: ProductChangeNode }) {
         <CardImage
           cardImageLink={node.cardImageLink}
           alt={node.cardName}
-          width={56}
-          height={35}
+          width={44}
+          height={28}
           style={{ width: "100%", height: "auto", objectFit: "contain" }}
         />
       </span>

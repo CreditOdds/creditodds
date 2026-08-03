@@ -8723,7 +8723,7 @@
 }
 .landing-v2 .pcf-diagram {
   display: grid;
-  grid-template-columns: 1fr 96px minmax(140px, 172px) 96px 1fr;
+  grid-template-columns: 1fr 72px minmax(132px, 150px) 72px 1fr;
   grid-template-rows: auto var(--pcf-h);
   align-items: start;
   column-gap: 0;
@@ -8760,11 +8760,11 @@
 /* Node row. The 62px height is load-bearing for the connector math. */
 .landing-v2 .pcf-node {
   display: grid;
-  grid-template-columns: 56px 1fr;
+  grid-template-columns: 44px 1fr;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   height: 62px;
-  padding: 0 12px;
+  padding: 0 10px;
   border: 1px solid var(--line-2);
   border-radius: var(--radius);
   background: var(--paper);
@@ -8772,7 +8772,7 @@
   color: inherit;
   overflow: hidden;
 }
-.landing-v2 .pcf-col-out .pcf-node { grid-template-columns: 1fr 56px; }
+.landing-v2 .pcf-col-out .pcf-node { grid-template-columns: 1fr 44px; }
 .landing-v2 .pcf-col-out .pcf-node .pcf-node-img { order: 2; }
 .landing-v2 .pcf-col-out .pcf-node .pcf-node-text { order: 1; text-align: right; }
 
@@ -8785,7 +8785,7 @@
 }
 .landing-v2 .pcf-node-img {
   display: block;
-  width: 56px;
+  width: 44px;
   line-height: 0;
 }
 .landing-v2 .pcf-node-text {
@@ -8798,7 +8798,10 @@
   font-size: 12.5px;
   font-weight: 500;
   line-height: 1.25;
-  /* Two lines then clamp: card names run long and the row height is fixed. */
+  /* Two lines then clamp: card names run long and the row height is fixed.
+     overflow-wrap so a long single word ("AAdvantage", "Mastercard") breaks
+     instead of overflowing the box and being cut mid-word with no ellipsis. */
+  overflow-wrap: anywhere;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -8879,7 +8882,31 @@
   border-radius: 1px;
 }
 
-@media (max-width: 820px) {
+/* The diagram switches on the width of its CONTAINER, not the viewport.
+   A viewport query gets this wrong on the card page, because the layout is not
+   a smooth squeeze: at 1024px the 200px table of contents and 300px right rail
+   both appear at once and the main column drops from ~836px to ~444px. That
+   left each node column with 56px of the ~150px it needs, so names clipped
+   between 1024px and 1280px while working fine at 900px. Measuring the
+   container instead makes the switch correct at any viewport, and keeps it
+   correct if either sidebar is ever resized.
+
+   640px is the threshold: the grid's fixed parts take 332px (96px gutter +
+   140px minimum centre card + 96px gutter), and the two node columns need
+   about 150px each for the text, so ~632px is the floor. Note the query
+   measures the CONTENT box, so 700px would have matched exactly at a 1280px
+   viewport and hidden the diagram at the very width where it starts to fit.
+
+   Scoped to .card-journal rather than every .cj-main: container-type applies
+   layout containment, which makes the element a containing block for
+   absolutely-positioned descendants, and .cj-main is shared with the profile
+   page. No reason to change containment there for a card-page diagram. */
+.landing-v2.card-journal .cj-main {
+  container-type: inline-size;
+  container-name: cj-main;
+}
+
+@container cj-main (max-width: 640px) {
   .landing-v2 .pcf-diagram { display: none; }
   .landing-v2 .pcf-stacked {
     display: flex;
@@ -8888,6 +8915,21 @@
     gap: 14px;
   }
   .landing-v2 .pcf-stack-center { align-self: center; min-width: 180px; }
+}
+
+/* Fallback for browsers without container queries: the old viewport rule, so
+   narrow screens still get the stacked layout rather than a broken grid. */
+@supports not (container-type: inline-size) {
+  @media (max-width: 820px) {
+    .landing-v2 .pcf-diagram { display: none; }
+    .landing-v2 .pcf-stacked {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+    }
+    .landing-v2 .pcf-stack-center { align-self: center; min-width: 180px; }
+  }
 }
 
 /* ---------- Store / "Best card for [merchant]" page (.store-v2) ---------- */
