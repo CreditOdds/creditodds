@@ -56,6 +56,28 @@ function strokeFor(share: number): number {
   return STROKE_MIN + (clamped / 100) * (STROKE_MAX - STROKE_MIN);
 }
 
+// Arrowhead dimensions for a given share, derived from that flow's stroke.
+//
+// The head has to stay WIDER than the line it terminates or it stops reading as
+// an arrow — a fixed-size head on a 13px flow looked like the line had simply
+// been cut off. Width tracks the stroke at ~2.2x (the usual arrow proportion)
+// and is clamped at both ends: the floor keeps a hairline flow's head visible,
+// the ceiling keeps the heaviest head from eating the gutter.
+const ARROW_WIDTH_RATIO = 2.2;
+const ARROW_WIDTH_MIN = 9;
+const ARROW_WIDTH_MAX = 26;
+// Slightly shorter than it is wide, which reads as an arrow rather than a spike.
+const ARROW_LENGTH_RATIO = 0.85;
+
+function arrowFor(share: number): { headL: number; headW: number } {
+  const stroke = strokeFor(share);
+  const headW = Math.max(
+    ARROW_WIDTH_MIN,
+    Math.min(ARROW_WIDTH_MAX, stroke * ARROW_WIDTH_RATIO),
+  );
+  return { headL: headW * ARROW_LENGTH_RATIO, headW };
+}
+
 function columnHeight(count: number): number {
   return count > 0 ? count * PITCH - ROW_GAP : 0;
 }
@@ -128,27 +150,47 @@ function Connectors({
       focusable="false"
     >
       <defs>
-        {/* userSpaceOnUse (not strokeWidth) so a 13px-thick flow and a 2.5px
-            one get the same size arrowhead. Scaling with the stroke would make
-            the heaviest edge's head wider than the gutter. */}
-        <marker
-          id={`pcf-arrow-${direction}`}
-          markerUnits="userSpaceOnUse"
-          markerWidth="11"
-          markerHeight="11"
-          refX="9"
-          refY="5.5"
-          orient="auto"
-        >
-          <path d="M0,0 L11,5.5 L0,11 z" fill="var(--accent)" />
-        </marker>
+        {/* One marker per connector, sized from that connector's stroke.
+            A single shared marker cannot work here: markerUnits="strokeWidth"
+            scales linearly and would put a ~50px head on the heaviest flow,
+            while a fixed userSpaceOnUse head ends up NARROWER than a 13px line
+            and reads as a stub rather than an arrow. Sizing each head from its
+            own stroke keeps the classic arrow proportion at every weight. */}
+        {nodes.map((node) => {
+          const { headL, headW } = arrowFor(node.share);
+          return (
+            <marker
+              key={node.cardId}
+              id={`pcf-arrow-${direction}-${node.cardId}`}
+              markerUnits="userSpaceOnUse"
+              markerWidth={headL}
+              markerHeight={headW}
+              // refX 0 puts the head's BASE on the path's end vertex, so the
+              // head extends forward from there. The path is shortened by headL
+              // to compensate, which also stops the stroke before the triangle
+              // narrows — otherwise a thick line pokes out through the head's
+              // sides near the tip, since the triangle is thinner than the line
+              // over its front half.
+              refX={0}
+              refY={headW / 2}
+              orient="auto"
+            >
+              <path d={`M0,0 L${headL},${headW / 2} L0,${headW} z`} fill="var(--accent)" />
+            </marker>
+          );
+        })}
       </defs>
       {nodes.map((node, i) => {
         const y = rowCenterY(i, nodes.length, height);
+        const { headL } = arrowFor(node.share);
+        // The line stops where the head starts (less a 1px overlap that hides
+        // the seam), so the arrow tip still lands at GUTTER_W - INSET. The
+        // curve is flat at both ends, so subtracting along x is exact here.
+        const endX = GUTTER_W - INSET - headL + 1;
         const [x1, y1, x2, y2] =
           direction === "in"
-            ? [0, y, GUTTER_W - INSET, centerY]
-            : [INSET, centerY, GUTTER_W - INSET, y];
+            ? [0, y, endX, centerY]
+            : [INSET, centerY, endX, y];
         // Horizontal control points give an S-curve that leaves and arrives
         // flat, so connectors read as flows rather than straight-line joins.
         const cx = (x1 + x2) / 2;
@@ -161,8 +203,10 @@ function Connectors({
             strokeWidth={strokeFor(node.share)}
             strokeLinecap="butt"
             // Heavier flows read as more solid; the lightest still stay legible.
+            // Applied to the whole element, so the marker inherits it and the
+            // head never floats at a different weight from its line.
             opacity={0.42 + (Math.max(0, Math.min(100, node.share)) / 100) * 0.48}
-            markerEnd={`url(#pcf-arrow-${direction})`}
+            markerEnd={`url(#pcf-arrow-${direction}-${node.cardId})`}
           />
         );
       })}
@@ -219,15 +263,15 @@ export default function ProductChangeFlow({
   );
 
   const total = inboundTotal + outboundTotal;
-  // Name only the sources actually present. Claiming both when the data is
-  // entirely one of them is the specific way this line could mislead, and the
-  // mix will stay lopsided for a long time.
+  // Deliberately does not name the outside source. It also must not claim every
+  // report was logged by a member, because most were not — "cardholder reports"
+  // is the phrasing that stays true whatever the mix is. The per-edge and
+  // page-level provenance counts still come back from the API, so the split is
+  // available if this ever needs to be shown again.
   const sourcePhrase =
-    walletTotal > 0 && redditTotal > 0
-      ? ` from CreditOdds member wallets (${walletTotal}) and r/CreditCards (${redditTotal})`
-      : redditTotal > 0
-        ? " sourced from posts on r/CreditCards"
-        : " logged by CreditOdds members in their wallets";
+    walletTotal > 0 && redditTotal === 0
+      ? " logged by CreditOdds members in their wallets"
+      : "";
 
   return (
     <div className="pcf">
@@ -305,7 +349,8 @@ export default function ProductChangeFlow({
       </div>
 
       <p className="pcf-note">
-        Based on {total} {total === 1 ? "report" : "reports"}
+        Based on {total} reported product{" "}
+        {total === 1 ? "change" : "changes"}
         {sourcePhrase}. Percentages are shares of each direction, not of all
         cardholders, and a small sample can swing a long way.
       </p>

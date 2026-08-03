@@ -8713,9 +8713,10 @@
    derives the SVG connector y-coordinates from those exact numbers. Changing
    either height here means changing ROW_H / ROW_GAP in that file too.
    `.pcf-stacked` is the narrow one and carries no such constraint. */
+/* No max-width: the lede spans the section like the diagram beneath it. A
+   620px measure left an odd ragged column against the full-width flow chart. */
 .landing-v2 .pcf-lede {
   margin: 0 0 24px;
-  max-width: 620px;
   font-size: 14px;
   line-height: 1.6;
   color: var(--muted);
