@@ -1,0 +1,171 @@
+id: "credit-freeze-and-applications"
+slug: "credit-freeze-and-applications"
+title: "Credit Freezes and Card Applications: Which Bureau to Thaw for Every Major Issuer"
+date: "2026-09-24"
+author: "CreditOdds"
+summary: "A frozen report is the most common cause of a denial that makes no sense. Which bureau each issuer pulls, how to thaw only what you need, and the timing that avoids delays."
+tags:
+  - guide
+  - strategy
+related_cards:
+  - chase-sapphire-preferred
+  - the-platinum-card
+  - citi-strata-premier
+  - capital-one-venture-rewards
+  - us-bank-cash-plus-visa-signature
+seo_title: "Which Bureau Does Each Card Issuer Pull? 2026 | CreditOdds"
+seo_description: "Which credit bureau Chase, Amex, Citi, Capital One, Barclays, and others pull, and how to thaw the right one before applying without unfreezing everything."
+social_title: "Which Bureau Does Each Issuer Pull?"
+content: |
+  Everyone should keep their credit reports frozen. It is free, it is the single most effective protection against new-account identity fraud, and freezing has no effect on your credit score.
+
+  It does have one cost: if you forget to thaw before applying for a card, the application fails. Sometimes it is a clean "unable to verify" denial. Sometimes it sits in pending for a week. Sometimes it is a hard decline that burns the offer.
+
+  The fix is knowing which of the three bureaus each issuer actually pulls, so you can thaw one instead of all three.
+
+  ## The Issuer Table
+
+  Bureau selection varies by state, by product, and sometimes by applicant. This table reflects the most common pull for each issuer. Treat it as the first place to look, not a guarantee.
+
+  | Issuer | Most common | Also seen |
+  |---|---|---|
+  | **Chase** | Experian | Equifax, TransUnion |
+  | **American Express** | Experian | Equifax |
+  | **Citi** | Equifax | Experian |
+  | **Capital One** | All three | Triple pull is standard |
+  | **Bank of America** | Experian | TransUnion, Equifax |
+  | **Wells Fargo** | Experian | TransUnion, Equifax |
+  | **U.S. Bank** | TransUnion | Experian, Equifax |
+  | **Barclays** | TransUnion | Experian |
+  | **Discover** | TransUnion | Experian, Equifax |
+  | **Synchrony** | TransUnion | Rarely others |
+  | **Comenity (Bread)** | Experian | Equifax |
+  | **Navy Federal** | Equifax | TransUnion |
+  | **Goldman Sachs (Apple Card)** | TransUnion | Experian |
+
+  ### The one that is different: Capital One
+
+  Capital One pulls all three bureaus on nearly every application. There is no thawing strategy for Capital One. If you are applying there, unfreeze everything.
+
+  This is worth planning around. If you are doing several applications in a window and one of them is Capital One, do the Capital One application while all three are thawed and handle the others around it.
+
+  ## How Freezes Actually Work
+
+  A security freeze blocks new lenders from pulling your report. Existing creditors can still see your accounts, and your score is unaffected.
+
+  Freezing and thawing are free by federal law at all three bureaus, and each maintains a self-service portal:
+
+  - **Experian**: experian.com/freeze
+  - **Equifax**: equifax.com/personal/credit-report-services/credit-freeze
+  - **TransUnion**: transunion.com/credit-freeze
+
+  Thaws take effect within minutes online. You do not need to wait a day.
+
+  ### Temporary thaw versus permanent lift
+
+  Every bureau offers both:
+
+  - **Temporary thaw**: lift for a set window, commonly 1 to 7 days, and it refreezes automatically
+  - **Permanent lift**: stays open until you refreeze manually
+
+  Use temporary thaws. The whole point of a freeze is that it is on by default, and a permanent lift you forget to reverse is the same as not having a freeze.
+
+  ## The Timing Sequence
+
+  1. **Check the table above** for the issuer you are applying to
+  2. **Thaw that bureau for a short window**, 1 to 3 days is plenty
+  3. **Apply**
+  4. **If the application pends**, leave the thaw in place until it resolves, since the issuer may pull again during review
+  5. **Let it refreeze automatically**
+
+  If you get an instant "unable to verify your identity" response, the most likely cause is that you thawed the wrong bureau. Thaw a second one and call reconsideration rather than reapplying, which would cost you another inquiry.
+
+  ## The Other Freezes Nobody Mentions
+
+  Three credit bureaus is the well-known part. There are additional consumer reporting agencies that matter for specific applications, and they are the reason some applications fail even with all three thawed.
+
+  ### ChexSystems
+
+  Used for **deposit account** applications, not credit cards. If you are opening a checking account to build a relationship before applying at [U.S. Bank](/articles/us-bank-application-rules) or [Wells Fargo](/articles/wells-fargo-application-rules), a ChexSystems freeze will block it. Freeze and thaw at chexsystems.com.
+
+  ### NCTUE
+
+  The National Consumer Telecom and Utilities Exchange. Used by some issuers and by telecom providers. Comenity has been reported to check it.
+
+  ### Innovis
+
+  A fourth credit bureau, rarely used for card applications but occasionally checked.
+
+  For most card applications you will never encounter these. If you have all three main bureaus thawed and an application still fails identity verification, one of these is a likely culprit.
+
+  ## Why You Should Freeze Anyway
+
+  Given the friction, it is fair to ask whether it is worth it. It is, and the reasoning is simple:
+
+  - **A freeze stops new-account fraud at the source.** Someone with your Social Security number cannot open a card in your name if lenders cannot pull your report.
+  - **It costs nothing and does not affect your score.**
+  - **The inconvenience is about 90 seconds per application**, which is trivial next to the months it takes to clean up a fraudulent account.
+
+  Freezes are strictly better than fraud alerts for this purpose. A fraud alert asks lenders to take extra verification steps. A freeze prevents the pull entirely.
+
+  ## Freezes and Pre-Qualification
+
+  Pre-qualification tools use soft pulls, and soft pulls are generally not blocked by a freeze. In practice, results vary: some issuers' pre-qualification tools return nothing when your reports are frozen.
+
+  If a pre-qualification tool shows you no offers and you have frozen reports, thaw and check again before concluding you do not qualify. See [pre-approval vs pre-qualification](/articles/pre-approval-vs-pre-qualification).
+
+  ## Freezes and Existing Accounts
+
+  A freeze does not affect:
+
+  - Your existing cards, which keep working normally
+  - Automatic credit limit increases, which are soft pulls by your existing creditor
+  - Account review pulls by issuers you already have a relationship with
+  - Your credit score
+
+  It does affect:
+
+  - Requested credit limit increases that use a hard pull, which will fail. See [credit limit increases](/articles/credit-limit-increases).
+  - New account applications of any kind, including auto loans, mortgages, and rentals
+
+  ## FAQ
+
+  ### Does freezing my credit hurt my score?
+  No. A freeze is not visible to scoring models and has no effect whatsoever.
+
+  ### Which bureau does Chase pull?
+  Experian most often, though Equifax and TransUnion both appear regionally. Thaw Experian first.
+
+  ### Do I need to thaw for Capital One?
+  Yes, all three. Capital One pulls every bureau on nearly every application, with no practical way to narrow it.
+
+  ### How long does thawing take?
+  Minutes when done online. There is no need to thaw a day in advance.
+
+  ### Will a frozen report cause a denial or just a delay?
+  Either. Some issuers return an immediate "unable to verify" decline. Others hold the application pending. Both are avoidable.
+
+  ### If I am denied because of a freeze, can I fix it on the phone?
+  Usually yes. Thaw the correct bureau, then call reconsideration and ask them to re-pull. This avoids a second inquiry. See [reconsideration](/articles/credit-card-denied-reconsideration).
+
+  ### Does a hard pull still show up if the report was frozen and then thawed?
+  Yes. Thawing does not hide anything. The inquiry reports normally.
+
+  ### Should I freeze my kids' credit?
+  Yes. Minor credit fraud goes undetected for years because nobody checks. All three bureaus support minor freezes.
+
+  ### Are credit locks the same as freezes?
+  Functionally similar, legally different. Freezes are mandated and free by law. Locks are products offered by the bureaus, sometimes bundled with paid subscriptions. Use freezes.
+
+  ### Do I need to refreeze after each application?
+  If you used a temporary thaw, it refreezes on its own. If you used a permanent lift, you have to refreeze manually, which is the argument for always using temporary thaws.
+
+  ## The Bottom Line
+
+  A freeze is the highest-value free thing you can do for your credit, and the only cost is remembering to thaw.
+
+  1. **Thaw one bureau, not three.** The table above gets you to the right one most of the time.
+  2. **Use temporary thaws with short windows.** A permanent lift you forget about defeats the purpose entirely.
+  3. **Capital One is the exception.** All three, every time.
+
+  If an application ever fails for reasons that make no sense given your credit profile, check your freeze status before you check anything else. It is the most common cause of a denial that has nothing to do with your creditworthiness.

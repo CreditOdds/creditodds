@@ -1,0 +1,188 @@
+id: "azeo-explained"
+slug: "azeo-explained"
+title: "AZEO Explained: The All Zero Except One Trick, and When It Is Actually Worth Doing"
+date: "2026-09-17"
+author: "CreditOdds"
+summary: "AZEO means letting one card report a small balance and every other card report zero. How it works, how much it moves your score, and the timing that makes or breaks it."
+tags:
+  - strategy
+  - guide
+estimated_value: "10 to 30 FICO points"
+related_cards:
+  - chase-freedom-unlimited
+  - citi-double-cash
+  - wells-fargo-active-cash
+  - capital-one-quicksilver
+  - discover-it-cash-back
+seo_title: "AZEO Explained: All Zero Except One Credit Trick | CreditOdds"
+seo_description: "How the AZEO method works, why reporting one small balance beats reporting zero, the statement-date timing it depends on, and when it is worth the effort."
+social_title: "AZEO: All Zero Except One"
+content: |
+  There is a quirk in how FICO scores credit card balances that almost nobody outside the credit optimization community knows about: **reporting zero balances on every single card scores slightly worse than reporting a small balance on exactly one card.**
+
+  That quirk is the entire basis of AZEO, which stands for All Zero Except One. It is one of the few score optimization techniques that is both real and free, and it is worth 10 to 30 points for most people in the month you apply it.
+
+  It is also widely misapplied. Most people who try AZEO get the timing wrong and see nothing happen.
+
+  ## What AZEO Is
+
+  Let your statements close like this:
+
+  - **One credit card** reports a small balance, ideally 1% to 9% of that card's limit
+  - **Every other credit card** reports a $0 balance
+  - **Installment loans** are unaffected and can report normally
+
+  That is the whole method. The difficulty is entirely in the timing.
+
+  ## Why It Works
+
+  FICO's utilization calculation looks at two things: your aggregate utilization across all revolving accounts, and how many of your accounts carry a balance.
+
+  Reporting all zeros produces a strange result. Your aggregate utilization is 0%, which sounds ideal, but FICO's models penalize a total absence of revolving activity slightly. The scoring logic effectively wants evidence that you are using credit and managing it, not that you have stopped using it.
+
+  So the optimum is not zero. It is a small nonzero number on a single account, which produces:
+
+  - Very low aggregate utilization
+  - Only one account reporting a balance, which is the lowest nonzero count
+  - Demonstrated active use of revolving credit
+
+  The gap between "all zeros" and "AZEO" is usually small, on the order of a few points. The gap between "several cards reporting balances" and AZEO is much larger, and that is where most of the 10 to 30 points comes from.
+
+  ## The Timing, Which Is the Whole Game
+
+  Here is where most attempts fail.
+
+  **Credit card issuers report your statement balance to the bureaus, not your current balance.** They report it on or shortly after your statement closing date. If your statement closes on the 18th and you pay it off on the 25th, the balance that closed on the 18th is what your credit report shows for the next month.
+
+  This is the single most misunderstood mechanic in consumer credit, and we cover it fully in [statement balance vs current balance](/articles/statement-balance-vs-current-balance).
+
+  For AZEO, the consequence is:
+
+  **Paying off your cards after the statement closes does nothing for this month's score. You have to pay before the statement closes.**
+
+  ### The actual procedure
+
+  1. **Find every card's statement closing date.** It is on your statement and in your online account. It is not your due date, and for most cards it is roughly three weeks earlier.
+  2. **Pick your "one" card.** Ideally an older account with a high limit, so a small balance produces a small percentage.
+  3. **On every other card**, pay the balance to $0 two to three days before that card's statement closes, then stop using it until the statement closes.
+  4. **On your chosen card**, let a small balance sit through the statement close. Somewhere between 1% and 9% of the limit. If the limit is $10,000, aim for $100 to $500.
+  5. **Pay that card's statement balance in full** by the due date, as normal. You are optimizing what gets reported, not carrying debt.
+
+  Step 3 is where people trip. Paying to zero and then buying coffee the next day puts a balance back on before the statement closes, and the card reports that balance instead.
+
+  ### Timing the whole thing to an application
+
+  Statement dates are staggered across your cards, so a full AZEO cycle takes about 30 to 45 days from start to finish. Then the bureaus need a few days to reflect it.
+
+  Plan on **45 to 60 days from starting AZEO to applying.** Starting a week before your application does nothing.
+
+  ## How Much It Is Actually Worth
+
+  Honest numbers, because this technique gets oversold:
+
+  | Starting situation | Typical gain from AZEO |
+  |---|---|
+  | 4 cards reporting balances, 25% aggregate utilization | 20 to 40 points |
+  | 3 cards reporting small balances, 8% utilization | 10 to 20 points |
+  | All cards reporting $0 | 2 to 8 points |
+  | Already at AZEO | 0 |
+
+  The technique is most valuable for people who normally carry reported balances across several cards. If you already pay everything before statements close, AZEO gets you very little and is probably not worth the effort.
+
+  ## When AZEO Is Worth Doing
+
+  AZEO is a snapshot optimization. It moves your score for the month it is in effect and reverts as soon as you go back to normal spending. That makes it worth doing before a specific event and pointless as a lifestyle.
+
+  **Worth it before:**
+
+  - A mortgage application, where a 20-point move can change your rate tier
+  - An auto loan
+  - A credit card application at a score-sensitive issuer
+  - Any application where you are near a score threshold like 720 or 760
+
+  **Not worth it for:**
+
+  - Your general ongoing score, which nobody is looking at
+  - Situations where your denial risk is about [velocity or account count](/articles/velocity-rules-by-issuer) rather than score
+  - Anyone who already pays before statement close every month
+
+  ## What AZEO Does Not Fix
+
+  Worth being direct about this, because people try AZEO as a cure-all.
+
+  Utilization is roughly 30% of your FICO score and it is the fastest-moving component. But it is not the only one, and AZEO does nothing for:
+
+  - **Late payments.** These dominate your score and AZEO cannot touch them.
+  - **Average age of accounts.** Fixed by time only.
+  - **Hard inquiries.** See [hard inquiries explained](/articles/hard-inquiries-explained).
+  - **Issuer rules.** Chase 5/24 does not care about your score. A 850 at 6/24 is still denied.
+
+  If your problem is that you are over 5/24, AZEO is a distraction. Read [the 5/24 article](/articles/chase-5-24-rule-explained) instead.
+
+  ## Common Mistakes
+
+  ### Paying off cards on the due date
+  Too late. The statement already closed and already reported. Pay before the statement closing date.
+
+  ### Reporting zero on every card, including the "one"
+  This is the specific case AZEO exists to avoid. You need exactly one card with a balance.
+
+  ### Picking a low-limit card as the "one"
+  A $200 balance on a $500 store card is 40% utilization on that account, which is worse than what you were trying to fix. Use a high-limit card.
+
+  ### Forgetting charge cards
+  Amex charge cards have no preset limit and are generally excluded from utilization calculations, so they do not work as your "one" card. Use a revolving card.
+
+  ### Doing it a week before applying
+  Statement cycles take a month. Start 45 to 60 days out.
+
+  ### Using it every month
+  There is no cumulative benefit. Utilization has no memory in FICO scoring. Last month's utilization does not affect this month's score.
+
+  ## Checking That It Worked
+
+  Do not trust your bank's free score widget, which may use a VantageScore model that behaves differently. See [FICO vs VantageScore](/articles/fico-vs-vantagescore).
+
+  Instead, check the underlying data. Pull your reports from annualcreditreport.com and confirm the reported balance on each account. What you want to see is one account with a small balance and the rest at zero. If the data is right, the score follows.
+
+  ## FAQ
+
+  ### Does AZEO work on VantageScore too?
+  Partially. VantageScore also rewards low utilization but weights the "number of accounts with balances" factor differently. The gain is usually smaller. Lenders mostly use FICO anyway.
+
+  ### What percentage should the one card report?
+  Anywhere from 1% to 9% of that card's limit. There is no meaningful difference within that range. Do not aim for exactly 1%, which is not worth the precision.
+
+  ### Do I have to carry the balance and pay interest?
+  No. You let the balance report at statement close, then pay the statement in full by the due date. You pay zero interest. This is the most common misunderstanding about AZEO and it is the [carry-a-balance myth](/articles/credit-utilization-explained) in a different costume.
+
+  ### Does it matter which card I choose?
+  Pick a high-limit, well-established revolving account. Avoid low-limit store cards and Amex charge cards.
+
+  ### How long does the effect last?
+  Until the next statement closes. Utilization is a snapshot with no memory, so the benefit disappears as soon as your normal spending reports again.
+
+  ### Should I do AZEO before every credit card application?
+  Only if you are near a score threshold and the issuer is score-sensitive. If your constraint is 5/24 or velocity, it will not help.
+
+  ### Does paying twice a month accomplish the same thing?
+  It can, if the second payment lands before the statement closes. The mechanism is the same: control what balance is sitting there on the closing date.
+
+  ### What about authorized user cards?
+  AU accounts appear on your report and their balances count toward your utilization. If you are an AU on a card carrying a balance, that works against you. See [authorized user strategy](/articles/authorized-user-strategy).
+
+  ### Will the issuer notice or care?
+  No. Issuers do not track whether you are optimizing your statement balances, and there is nothing improper about paying early.
+
+  ### Is 0% utilization really worse than 3%?
+  Slightly, in FICO models. The difference is a handful of points, not a large one. It is real, but it is the smallest part of AZEO's value.
+
+  ## The Bottom Line
+
+  AZEO is a legitimate technique with an honest ceiling. It is not a credit repair method and it will not save an application that is failing for structural reasons.
+
+  1. **The timing is the technique.** Pay before statement close, not before the due date. Everything else is detail.
+  2. **Give it 45 to 60 days.** Statement cycles are staggered, and a rushed AZEO reports nothing different.
+  3. **Use it before something specific.** A mortgage, an auto loan, a borderline application. There is no value in maintaining it permanently.
+
+  If you currently let three or four cards report balances every month, this is one of the largest free score gains available to you. If you already pay before statements close, you are mostly there already.

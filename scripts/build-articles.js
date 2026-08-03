@@ -187,6 +187,31 @@ function buildArticles() {
     process.exit(1);
   }
 
+  // Unlink cross-references to articles that haven't published yet.
+  //
+  // Scheduled articles (data/articles/drafts/) are written as a batch that
+  // cross-links freely, but they publish one at a time over weeks. Until a
+  // target lands in data/articles/, a link to it would 404. Rather than hand-
+  // editing links on each publish, strip any /articles/<slug> link whose slug
+  // isn't in this build, leaving the anchor text in place. Each weekly publish
+  // rebuilds, so inbound links to the new article re-activate on their own.
+  const publishedSlugs = new Set(articles.map(a => a.slug));
+  let unlinked = 0;
+  for (const article of articles) {
+    article.content = article.content.replace(
+      /\[([^\]]+)\]\(\/articles\/([a-z0-9-]+)\)/g,
+      (match, text, slug) => {
+        if (publishedSlugs.has(slug)) return match;
+        unlinked++;
+        console.log(`  Unlinked (not yet published): /articles/${slug} in ${article.slug}`);
+        return text;
+      }
+    );
+  }
+  if (unlinked > 0) {
+    console.log(`\nUnlinked ${unlinked} cross-reference(s) to unpublished articles`);
+  }
+
   // Sort articles by date (newest first)
   articles.sort((a, b) => new Date(b.date) - new Date(a.date));
 

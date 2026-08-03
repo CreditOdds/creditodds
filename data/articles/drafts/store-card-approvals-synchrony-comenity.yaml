@@ -1,0 +1,165 @@
+id: "store-card-approvals-synchrony-comenity"
+slug: "store-card-approvals-synchrony-comenity"
+title: "Store Card Approvals: How Synchrony and Comenity Actually Decide, and Which Bureau They Pull"
+date: "2026-09-10"
+author: "CreditOdds"
+summary: "Nearly every store card comes from Synchrony or Comenity. Which bureau each pulls, why approvals feel random, how store cards hit 5/24, and when they are worth an inquiry."
+tags:
+  - guide
+  - beginner
+related_cards:
+  - amazon-store-card
+  - sams-club-mastercard
+  - venmo-credit-card
+  - paypal-cashback-mastercard
+  - playstation-visa
+seo_title: "Synchrony and Comenity Store Card Approvals 2026 | CreditOdds"
+seo_description: "Synchrony pulls TransUnion, Comenity pulls Experian. How store card approvals really work, what limits to expect, and how they affect Chase 5/24."
+social_title: "How Store Card Approvals Work"
+content: |
+  When a cashier asks if you want to save 20% today, the card behind that offer is almost certainly issued by one of two banks. Synchrony and Comenity issue the overwhelming majority of retail credit cards in the United States, several hundred programs between them.
+
+  This is useful, because it means you do not need to research a hundred different store cards. You need to know how two banks make decisions.
+
+  ## The Single Most Useful Fact
+
+  | Issuer | Bureau pulled |
+  |---|---|
+  | **Synchrony** | TransUnion, nearly exclusively |
+  | **Comenity** | Experian primarily, Equifax sometimes |
+
+  Synchrony's reliance on TransUnion is close to absolute. Other bureau pulls exist but are rare enough to plan around. Comenity is less consistent, with Experian most common and Equifax appearing regularly enough that you should not assume.
+
+  Two consequences:
+
+  1. **If you freeze your reports**, thaw TransUnion for Synchrony and Experian for Comenity. A frozen report is the most common cause of a store card denial that "makes no sense." See [credit freezes and applications](/articles/credit-freeze-and-applications).
+  2. **If one bureau is weaker than the others**, you can steer. Someone with a clean TransUnion and a messy Experian will do noticeably better at Synchrony.
+
+  ## Who Issues What
+
+  Not exhaustive, but enough to recognize the pattern:
+
+  - **Synchrony**: Amazon Store Card, Sam's Club, PayPal, Venmo, Lowe's, TJX, Care Credit, Old Navy and the Gap brands, JCPenney, Belk, Ashley, Discount Tire
+  - **Comenity (Bread Financial)**: Victoria's Secret, Ulta, Torrid, Big Lots, AAA co-brands, PlayStation Visa, Wayfair, IKEA, Zales
+
+  Programs move between issuers periodically. If it matters for a freeze, check the card's terms page, which names the issuing bank.
+
+  ## Why Approvals Feel Random
+
+  Store card underwriting is genuinely different from major-issuer underwriting, and understanding why explains most of the confusion.
+
+  ### They approve much lower scores
+
+  Both banks approve in the low 600s routinely, and sometimes below. Retail partners want cardholders, and the economics work differently: high APRs and deferred interest subsidize higher default rates. A profile that Chase would decline instantly gets approved at Synchrony.
+
+  ### They start you small
+
+  Initial limits of $300 to $1,500 are typical, even for strong profiles. This is not a judgment on your credit. It is the product design. Limits grow, often quickly and often automatically.
+
+  ### They care about the relationship with that retailer
+
+  Both issuers weight your history with the specific merchant. Existing customers, especially ones with a loyalty account tied to the same identity, are approved at higher rates.
+
+  ### Store-only versus network versions
+
+  Many programs have two tiers: a closed-loop card usable only at that retailer, and a Visa or Mastercard version usable anywhere. The closed-loop version has looser underwriting. If you are declined for the network version, you are often auto-approved for the store-only one, sometimes in the same application flow.
+
+  ## The 5/24 Problem
+
+  This is the part that costs people real money.
+
+  **Store cards count toward [Chase 5/24](/articles/chase-5-24-rule-explained).** A $600 limit card you opened for a one-time 20% discount consumes one of five slots for two full years, and those slots are worth tens of thousands of points if you were planning Chase applications.
+
+  The math is worth stating plainly. A 20% discount on a $200 purchase saves $40. A Chase Sapphire Preferred bonus is worth several hundred dollars. If opening the store card pushes you to 5/24 and blocks that application, the discount cost you an order of magnitude more than it saved.
+
+  Store cards also count toward [Barclays' 6/24 threshold](/articles/barclays-application-rules) and factor into every issuer's velocity assessment.
+
+  ## The Deferred Interest Trap
+
+  Most store cards offer "no interest if paid in full within 12 months" promotions. This is not the same as 0% APR, and the difference is expensive. If any balance remains at the end of the promotional period, you are charged all the interest that accrued from the original purchase date, at rates typically approaching 30%.
+
+  We cover the mechanics in detail in [deferred interest store cards](/articles/deferred-interest-store-cards). If you are opening a store card for a financed purchase, read that first.
+
+  ## Credit Limit Increases
+
+  This is where store cards are genuinely good.
+
+  - **Synchrony** offers soft-pull increase requests through their online portal on most cards. They also grant automatic increases frequently, often every six months, and they can be large.
+  - **Comenity** offers soft-pull requests on many programs through their account portal, with similar automatic increase behavior.
+
+  For someone rebuilding credit, this is meaningful. A card that starts at $500 and reaches $5,000 in two years without a single hard inquiry does real work on your [utilization](/articles/credit-utilization-explained).
+
+  See [credit limit increases](/articles/credit-limit-increases) for the general playbook.
+
+  ## Inactivity Closures
+
+  Both issuers close inactive accounts more aggressively than major banks. Six to twelve months of no activity can trigger closure, sometimes without notice.
+
+  If you are keeping a store card open for account age or utilization, put a small recurring charge on it. A single transaction every few months is enough.
+
+  Note that a closed account still counts toward 5/24 for the full 24 months from opening. Closing it does not recover the slot.
+
+  ## When a Store Card Is Actually Worth It
+
+  There are real cases:
+
+  - **You are building or rebuilding credit.** Approval odds are high, the soft-pull limit increases are generous, and the 5/24 cost is irrelevant because you are not applying for Chase cards yet. See [best first credit card with no credit history](/articles/best-first-credit-card-no-history).
+  - **You genuinely shop there constantly.** A 5% back card at a store where you spend $3,000 a year returns $150 annually, which beats most general-purpose cards on that spend.
+  - **The signup discount is large and the purchase is large.** 20% off a $2,000 furniture purchase is $400, which changes the calculus entirely.
+
+  And the cases where it is not:
+
+  - You are under 5/24 and planning Chase applications
+  - You are opening it for a discount under $100
+  - You are financing a purchase you cannot pay off within the promotional window
+
+  ## Pre-Qualification
+
+  Both issuers offer pre-qualification, and unlike some major-issuer tools, these are reasonably predictive because the underwriting is more mechanical.
+
+  - Synchrony runs pre-qualification for many programs on the retailer's site
+  - Comenity offers it on their own portal for a subset of programs
+
+  Both are soft pulls. If you are unsure, use them. See [pre-approval vs pre-qualification](/articles/pre-approval-vs-pre-qualification).
+
+  ## FAQ
+
+  ### Which bureau does Synchrony pull?
+  TransUnion, in nearly all cases. Other bureaus appear rarely.
+
+  ### Which bureau does Comenity pull?
+  Experian most often, Equifax with some regularity. Less predictable than Synchrony.
+
+  ### Do store cards count toward Chase 5/24?
+  Yes. This is the most commonly overlooked cost of opening one.
+
+  ### Do store cards help or hurt my credit score?
+  Both. They add an account and a credit limit, which helps utilization over time. They also add a hard inquiry and lower your average account age in the short term. Net positive after about a year if you keep it open and unused.
+
+  ### Why was I approved for the store card but not the Visa version?
+  The closed-loop card has looser underwriting. Many applications automatically fall back to it when the network version is declined.
+
+  ### Can I get a store card with a 600 credit score?
+  Frequently, yes. Both issuers approve in the low 600s and sometimes below, which is why store cards are a common rebuilding tool.
+
+  ### How do I raise a low store card limit?
+  Use the issuer's online soft-pull increase request after six months of on-time payments. Both Synchrony and Comenity offer this on most programs.
+
+  ### Will they close my card if I stop using it?
+  Likely, after six to twelve months of inactivity. A small recurring charge prevents it.
+
+  ### Is "no interest for 12 months" the same as 0% APR?
+  No, and the difference matters. Store cards typically use deferred interest, which charges you all the back interest if any balance remains at the end. See [deferred interest store cards](/articles/deferred-interest-store-cards).
+
+  ### Should I close old store cards?
+  Usually not, if there is no annual fee. Closing costs you the credit limit and eventually the account age. See [how to close a credit card without tanking your score](/articles/closing-credit-cards-safely).
+
+  ## The Bottom Line
+
+  Store cards are not bad products. They are products with a cost that is invisible at the register.
+
+  1. **Know which bureau you are dealing with.** Synchrony is TransUnion, Comenity is Experian. That one fact resolves most unexplained denials.
+  2. **Price the 5/24 slot before you accept the discount.** If you are building toward Chase applications, a $40 savings can cost you a $900 bonus.
+  3. **If you do open one, use the soft-pull limit increases.** They are the best feature of these cards and almost nobody uses them.
+
+  For someone with a thin or damaged file, a store card is one of the easiest approvals available and one of the fastest ways to build a real credit limit. For someone optimizing rewards, it is usually the most expensive $40 they will ever save.
