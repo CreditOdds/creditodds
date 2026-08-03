@@ -40,6 +40,7 @@ const { execSync } = require('child_process');
 const os = require('os');
 const crypto = require('crypto');
 const sharp = require('sharp');
+const { compressPngInPlace, EDITORIAL_MAX_WIDTH } = require('./lib/compress-image');
 
 const ARTICLES_JSON = path.join(__dirname, '..', 'data', 'articles.json');
 const S3_PREFIX = 'article_images';
@@ -76,14 +77,20 @@ function s3HasObject(key) {
   }
 }
 
-function uploadToS3(key, localPath) {
+async function uploadToS3(key, localPath) {
   if (dryRun) {
     log(`(dry-run) would upload ${localPath} → s3://${bucket}/${key}`);
     return;
   }
+  const { before, after, changed } = await compressPngInPlace(localPath, {
+    maxWidth: EDITORIAL_MAX_WIDTH,
+  });
+  if (changed) {
+    log(`compressed ${key}: ${(before / 1024).toFixed(0)}k → ${(after / 1024).toFixed(0)}k`);
+  }
   execSync(
     `aws s3 cp "${localPath}" "s3://${bucket}/${key}" ` +
-      `--content-type image/png --cache-control "max-age=86400"`,
+      `--content-type image/png --cache-control "public, max-age=2592000"`,
     { stdio: 'inherit' }
   );
 }
@@ -414,7 +421,7 @@ async function syncVariant(variantName, articles, results) {
     log(`generating ${variantName} for ${slug}${force ? ' (forced)' : ''}`);
     try {
       const localPath = await variant.generate(article);
-      if (localPath) uploadToS3(key, localPath);
+      if (localPath) await uploadToS3(key, localPath);
       article[variant.field] = expected;
       results.generated.push(key);
     } catch (err) {

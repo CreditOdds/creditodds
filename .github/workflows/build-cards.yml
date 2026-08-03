@@ -49,10 +49,22 @@ jobs:
         run: aws s3 cp data/cards.json s3://${{ secrets.S3_BUCKET_NAME }}/cards.json --content-type application/json --cache-control "max-age=300"
 
       - name: Upload card images to S3
+        id: images
         run: |
+          echo "changed=0" >> "$GITHUB_OUTPUT"
+          : > /tmp/changed-images.txt
           if find data/cards/images -type f ! -name '.gitkeep' | grep -q .; then
             echo "Uploading card images to S3..."
-            aws s3 sync data/cards/images/ s3://${{ secrets.S3_IMAGES_BUCKET_NAME }}/card_images/ --exclude ".gitkeep" --cache-control "max-age=86400"
+            aws s3 sync data/cards/images/ s3://${{ secrets.S3_IMAGES_BUCKET_NAME }}/card_images/ \
+              --exclude ".gitkeep" \
+              --cache-control "public, max-age=2592000" \
+              | tee /tmp/s3-sync.log
+            # Record only the keys sync actually wrote, so the invalidation below
+            # can name them. Card art is immutable in practice, so a run that
+            # changes nothing should evict nothing.
+            sed -n 's|.* to s3://[^/]*/\(card_images/.*\)$|/\1|p' /tmp/s3-sync.log \
+              | sort -u > /tmp/changed-images.txt
+            echo "changed=$(wc -l < /tmp/changed-images.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
             echo "Images uploaded successfully"
           else
             echo "No images to upload"
@@ -61,8 +73,23 @@ jobs:
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/cards.json"
-          if find data/cards/images -type f ! -name '.gitkeep' | grep -q .; then
+          # This step used to invalidate "/card_images/*" on every run. Combined
+          # with the 1-day TTL it meant card art went cold at every edge several
+          # times a day, which was the main reason images loaded slowly. Only
+          # evict what this run actually replaced.
+          CHANGED="${{ steps.images.outputs.changed }}"
+          CHANGED="${CHANGED:-0}"
+          if [ "$CHANGED" -eq 0 ]; then
+            echo "No card images changed - skipping image invalidation"
+          elif [ "$CHANGED" -gt 100 ]; then
+            # Invalidation paths are billed individually past the monthly free
+            # tier; beyond ~100 the wildcard is the cheaper way to say the same.
+            echo "$CHANGED card images changed - invalidating the whole prefix"
             aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} --paths "/card_images/*"
+          else
+            echo "Invalidating $CHANGED changed card image(s)"
+            xargs -a /tmp/changed-images.txt \
+              aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} --paths
           fi
 
       - name: Wait for CloudFront invalidation
