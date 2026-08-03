@@ -196,6 +196,9 @@ function formatNewsDate(dateStr: string): string {
   }
 }
 
+const MAX_SEARCH_RESULTS = 6;
+const MIN_ARCHIVED_RESULTS = 2;
+
 function Hero({ cards }: { cards: LandingCard[] }) {
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -206,13 +209,23 @@ function Hero({ cards }: { cards: LandingCard[] }) {
   const matches = useMemo(() => {
     const q = query.trim();
     if (!q) return [];
-    return cards
-      .filter((c) => c.accepting_applications)
+    const ranked = cards
       .filter((c) => cardMatchesSearch(c.card_name, c.bank, q))
       .map((c) => ({ c, s: searchRelevance(c, q) }))
       .sort((a, b) => b.s - a.s || a.c.card_name.localeCompare(b.c.card_name))
-      .slice(0, 6)
       .map(({ c }) => c);
+    const live = ranked.filter((c) => c.accepting_applications);
+    const archived = ranked.filter((c) => !c.accepting_applications);
+    // Archived cards always sit below the live ones, but they keep a couple of
+    // reserved slots so a pulled card (Citi Custom Cash, say) never gets pushed
+    // off the list entirely by cards that merely share a word with the query.
+    // When there are few live matches, archived cards fill the remaining space.
+    const archivedSlots = Math.min(
+      archived.length,
+      Math.max(MIN_ARCHIVED_RESULTS, MAX_SEARCH_RESULTS - live.length)
+    );
+    const liveShown = live.slice(0, MAX_SEARCH_RESULTS - archivedSlots);
+    return [...liveShown, ...archived.slice(0, MAX_SEARCH_RESULTS - liveShown.length)];
   }, [query, cards]);
 
   function go(slug: string) {
@@ -320,7 +333,9 @@ function Hero({ cards }: { cards: LandingCard[] }) {
                       href={`/card/${c.slug}`}
                       role="option"
                       aria-selected={idx === active}
-                      className={`opt${idx === active ? ' is-active' : ''}`}
+                      className={`opt${idx === active ? ' is-active' : ''}${
+                        c.accepting_applications ? '' : ' is-archived'
+                      }`}
                       onMouseEnter={() => setActive(idx)}
                       onMouseDown={(e) => e.preventDefault()}
                     >
@@ -329,7 +344,12 @@ function Hero({ cards }: { cards: LandingCard[] }) {
                       </div>
                       <div>
                         <div className="opt-name">{c.card_name}</div>
-                        <div className="opt-iss">{c.bank}</div>
+                        <div className="opt-iss">
+                          {c.bank}
+                          {!c.accepting_applications && (
+                            <span className="opt-tag">Not accepting applications</span>
+                          )}
+                        </div>
                       </div>
                     </Link>
                   ))
