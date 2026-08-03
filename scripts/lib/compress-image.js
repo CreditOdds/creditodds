@@ -24,12 +24,17 @@ const EDITORIAL_MAX_WIDTH = 1600;
 /**
  * @param {string} filePath  PNG to rewrite in place.
  * @param {{maxWidth?: number, quality?: number}} [opts]
- * @returns {Promise<{before: number, after: number, changed: boolean}>} byte sizes
+ * @returns {Promise<{before: number, after: number, changed: boolean, converted: boolean}>}
  */
 async function compressPngInPlace(filePath, opts = {}) {
   const { maxWidth = EDITORIAL_MAX_WIDTH, quality = 90 } = opts;
   const before = fs.statSync(filePath).size;
   const meta = await sharp(filePath).metadata();
+
+  // Every caller here writes .png and uploads under Content-Type image/png, so
+  // a file whose bytes are not actually PNG is served under a type it does not
+  // match. Browsers sniff past it, but nothing else is obliged to.
+  const converted = meta.format !== 'png';
 
   const buf = await sharp(filePath)
     .resize({
@@ -41,11 +46,17 @@ async function compressPngInPlace(filePath, opts = {}) {
 
   // Re-encoding is not guaranteed to win: an already-tuned small PNG can come
   // back bigger. Keep whichever is smaller so this is always safe to run.
-  if (buf.length >= before) {
-    return { before, after: before, changed: false };
+  //
+  // Except when the source was not PNG. PNG cannot beat WebP or AVIF on the
+  // same image, so the re-encode always loses and this guard would keep the
+  // mismatched bytes forever, which is how a WebP and an AVIF both sat in
+  // data/cards/images/ under .png names through a full compression pass.
+  // Correctness outweighs the bytes, so a mismatch always rewrites.
+  if (buf.length >= before && !converted) {
+    return { before, after: before, changed: false, converted: false };
   }
   fs.writeFileSync(filePath, buf);
-  return { before, after: buf.length, changed: true };
+  return { before, after: buf.length, changed: true, converted };
 }
 
 module.exports = {

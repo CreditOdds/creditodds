@@ -53,7 +53,10 @@ async function main() {
       totalAfter += res.after;
       if (res.changed) {
         changedCount++;
-        process.stdout.write(`  ${file}: ${kb(res.before)} → ${kb(res.after)}\n`);
+        // A conversion normally grows the file, so say why rather than let it
+        // read as a compression pass that went backwards.
+        const note = res.converted ? ' (was not PNG, re-encoded)' : '';
+        process.stdout.write(`  ${file}: ${kb(res.before)} → ${kb(res.after)}${note}\n`);
       }
     } catch (err) {
       // A single unreadable file should not abandon the rest of the batch.
