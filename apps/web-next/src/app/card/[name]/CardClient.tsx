@@ -37,6 +37,7 @@ import { resolveApplyLink, withApplySource } from "@/lib/applyLink";
 import posthog from "posthog-js";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import CardRecordsTable from "./CardRecordsTable";
+import ProductChangeFlow, { ProductChangeNode } from "./ProductChangeFlow";
 import "../../landing.css";
 
 const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
@@ -227,6 +228,12 @@ interface CardClientProps {
   wire?: CardWireEntry[];
   frequentlyComparedCards?: Card[];
   bestRankings?: Array<{ rank: number; title: string; slug: string }>;
+  productChanges?: {
+    inbound: ProductChangeNode[];
+    outbound: ProductChangeNode[];
+    inboundTotal: number;
+    outboundTotal: number;
+  };
 }
 
 // Isolated so useSearchParams doesn't bail the whole CardClient out of static
@@ -286,6 +293,7 @@ export default function CardClient({
   wire = [],
   frequentlyComparedCards = [],
   bestRankings = [],
+  productChanges,
 }: CardClientProps) {
   // ---------- State + chrome ----------
   const [showModal, setShowModal] = useState(false);
@@ -526,6 +534,33 @@ export default function CardClient({
         .slice(0, 12),
     [news],
   );
+
+  // A card with no logged product changes has nothing to draw, so the whole
+  // section stays out of the page rather than rendering an empty diagram.
+  const hasProductChanges =
+    (productChanges?.inbound.length ?? 0) + (productChanges?.outbound.length ?? 0) > 0;
+
+  const hasDetails =
+    Boolean(card.apr) || typeof card.foreign_transaction_fee === "boolean";
+
+  // Section numbers are derived from what actually renders, not hardcoded.
+  // Four of the seven sections are conditional, so fixed numbers would leave a
+  // visible gap ("04 · approval odds" followed by "06 · news") on any card
+  // missing one — which, for product changes, is most of them today.
+  const sectionNumbers = useMemo(() => {
+    const visible = [
+      "overview",
+      "earn",
+      ...(hasDetails ? ["details"] : []),
+      "odds",
+      ...(hasProductChanges ? ["changes"] : []),
+      ...(news.length > 0 ? ["wire"] : []),
+      ...(articles.length > 0 ? ["reading"] : []),
+    ];
+    return Object.fromEntries(
+      visible.map((id, i) => [id, String(i + 1).padStart(2, "0")]),
+    ) as Record<string, string>;
+  }, [hasDetails, hasProductChanges, news.length, articles.length]);
 
   // Wire entries for the right-rail block, newest first.
   const wireEntries = useMemo(
@@ -873,36 +908,41 @@ export default function CardClient({
         <aside className="cj-toc">
           <div className="cj-toc-heading">Contents</div>
           <a href="#overview" className="cj-toc-link">
-            <span className="cj-toc-num">01</span>Overview
+            <span className="cj-toc-num">{sectionNumbers.overview}</span>Overview
           </a>
           <a href="#earn" className="cj-toc-link">
-            <span className="cj-toc-num">02</span>Earn &amp; credits
+            <span className="cj-toc-num">{sectionNumbers.earn}</span>Earn &amp; credits
           </a>
-          {(card.apr || typeof card.foreign_transaction_fee === "boolean") && (
+          {hasDetails && (
             <a href="#details" className="cj-toc-link">
-              <span className="cj-toc-num">03</span>Card details
+              <span className="cj-toc-num">{sectionNumbers.details}</span>Card details
             </a>
           )}
           <a href="#odds" className="cj-toc-link">
-            <span className="cj-toc-num">04</span>Approval odds
+            <span className="cj-toc-num">{sectionNumbers.odds}</span>Approval odds
           </a>
+          {hasProductChanges && (
+            <a href="#changes" className="cj-toc-link">
+              <span className="cj-toc-num">{sectionNumbers.changes}</span>Product changes
+            </a>
+          )}
           {newsEntries.length > 0 && (
             <a href="#wire" className="cj-toc-link">
-              <span className="cj-toc-num">05</span>News
+              <span className="cj-toc-num">{sectionNumbers.wire}</span>News
             </a>
           )}
           {articles.length > 0 && (
             <a href="#reading" className="cj-toc-link">
-              <span className="cj-toc-num">06</span>Reading
+              <span className="cj-toc-num">{sectionNumbers.reading}</span>Reading
             </a>
           )}
         </aside>
 
         {/* Main */}
         <main className="cj-main">
-          {/* 01 Overview */}
+          {/* Overview */}
           <section id="overview" className="cj-section">
-            <div className="cj-section-num">01 · overview</div>
+            <div className="cj-section-num">{sectionNumbers.overview} · overview</div>
             <div className="cj-overview-grid">
               <div>
                 <h1 className="cj-section-h1">
@@ -1070,9 +1110,9 @@ export default function CardClient({
           {/* Mobile-only welcome offer / apply box, shown above section 02 */}
           <div className="cj-apply-mobile">{applyBlock}</div>
 
-          {/* 02 Earn & credits */}
+          {/* Earn & credits */}
           <section id="earn" className="cj-section">
-            <div className="cj-section-num">02 · earn &amp; credits</div>
+            <div className="cj-section-num">{sectionNumbers.earn} · earn &amp; credits</div>
             <h2 className="cj-section-h2">
               Earn rates <em className="cj-section-accent">&amp; credits</em>
             </h2>
@@ -1260,11 +1300,11 @@ export default function CardClient({
             </div>
           </section>
 
-          {/* 03 Card details */}
+          {/* Card details */}
           {(card.apr ||
             typeof card.foreign_transaction_fee === "boolean") && (
             <section id="details" className="cj-section">
-              <div className="cj-section-num">03 · card details</div>
+              <div className="cj-section-num">{sectionNumbers.details} · card details</div>
               <h2 className="cj-section-h2">
                 Card <em className="cj-section-accent">details</em>
               </h2>
@@ -1326,9 +1366,9 @@ export default function CardClient({
             </section>
           )}
 
-          {/* 04 Approval odds */}
+          {/* Approval odds */}
           <section id="odds" className="cj-section">
-            <div className="cj-section-num">04 · approval odds</div>
+            <div className="cj-section-num">{sectionNumbers.odds} · approval odds</div>
             <div className="cj-odds-header">
               <h2 className="cj-section-h2">
                 Approval <em className="cj-section-accent">odds</em>
@@ -1588,10 +1628,34 @@ export default function CardClient({
             )}
           </section>
 
-          {/* 04 News */}
+          {/* Product changes — only renders once at least one member has
+              logged a change in or out of this card. */}
+          {hasProductChanges && productChanges && (
+            <section id="changes" className="cj-section">
+              <div className="cj-section-num">{sectionNumbers.changes} · product changes</div>
+              <h2 className="cj-section-h2">
+                Product <em className="cj-section-accent">changes</em>
+              </h2>
+              <p className="pcf-lede">
+                Where cardholders came from before landing on this card, and
+                what they moved it to afterwards. Thicker flows carry a larger
+                share of the changes in that direction.
+              </p>
+              <ProductChangeFlow
+                cardName={card.card_name}
+                cardImageLink={card.card_image_link}
+                inbound={productChanges.inbound}
+                outbound={productChanges.outbound}
+                inboundTotal={productChanges.inboundTotal}
+                outboundTotal={productChanges.outboundTotal}
+              />
+            </section>
+          )}
+
+          {/* News */}
           {newsEntries.length > 0 && (
             <section id="wire" className="cj-section">
-              <div className="cj-section-num">05 · news</div>
+              <div className="cj-section-num">{sectionNumbers.wire} · news</div>
               <h2 className="cj-section-h2">
                 In the <em className="cj-section-accent">news</em>
               </h2>
@@ -1635,10 +1699,10 @@ export default function CardClient({
             </section>
           )}
 
-          {/* 05 Reading */}
+          {/* Reading */}
           {articles.length > 0 && (
             <section id="reading" className="cj-section">
-              <div className="cj-section-num">06 · reading</div>
+              <div className="cj-section-num">{sectionNumbers.reading} · reading</div>
               <h2 className="cj-section-h2">
                 Further <em className="cj-section-accent">reading</em>
               </h2>

@@ -8593,6 +8593,189 @@
   border-bottom: 1px solid var(--warn);
 }
 
+/* ---------- Product-change flow (section 05 on the card page) ----------
+   Two layouts of the same data. `.pcf-diagram` is the wide one: five grid
+   columns (sources | connectors | this card | connectors | destinations) whose
+   node rows are a fixed 62px tall with a 10px gap, because ProductChangeFlow.tsx
+   derives the SVG connector y-coordinates from those exact numbers. Changing
+   either height here means changing ROW_H / ROW_GAP in that file too.
+   `.pcf-stacked` is the narrow one and carries no such constraint. */
+.landing-v2 .pcf-lede {
+  margin: 0 0 24px;
+  max-width: 620px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.landing-v2 .pcf-diagram {
+  display: grid;
+  grid-template-columns: 1fr 96px minmax(140px, 172px) 96px 1fr;
+  grid-template-rows: auto var(--pcf-h);
+  align-items: start;
+  column-gap: 0;
+  row-gap: 8px;
+}
+.landing-v2 .pcf-col-label {
+  font-family: var(--font-inter-tight), sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.landing-v2 .pcf-label-out { text-align: right; }
+
+.landing-v2 .pcf-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  height: var(--pcf-h);
+}
+.landing-v2 .pcf-col-in { align-items: stretch; padding-right: 12px; }
+.landing-v2 .pcf-col-out { align-items: stretch; padding-left: 12px; }
+
+.landing-v2 .pcf-gutter {
+  height: var(--pcf-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing-v2 .pcf-connectors { display: block; overflow: visible; }
+
+/* Node row. The 62px height is load-bearing for the connector math. */
+.landing-v2 .pcf-node {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: center;
+  gap: 10px;
+  height: 62px;
+  padding: 0 12px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--paper);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+.landing-v2 .pcf-col-out .pcf-node { grid-template-columns: 1fr 56px; }
+.landing-v2 .pcf-col-out .pcf-node .pcf-node-img { order: 2; }
+.landing-v2 .pcf-col-out .pcf-node .pcf-node-text { order: 1; text-align: right; }
+
+.landing-v2 a.pcf-node-link {
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.landing-v2 a.pcf-node-link:hover {
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--line-2));
+  background: color-mix(in oklab, var(--accent) 5%, var(--paper));
+}
+.landing-v2 .pcf-node-img {
+  display: block;
+  width: 56px;
+  line-height: 0;
+}
+.landing-v2 .pcf-node-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.landing-v2 .pcf-node-name {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.25;
+  /* Two lines then clamp: card names run long and the row height is fixed. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.landing-v2 .pcf-node-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.landing-v2 .pcf-col-out .pcf-node-meta { justify-content: flex-end; }
+.landing-v2 .pcf-node-forced {
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--warn-2);
+  color: var(--warn);
+  font-size: 9.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Centre node — the card the page is about. Deliberately heavier than the
+   satellites so the direction of flow reads at a glance. */
+.landing-v2 .pcf-center,
+.landing-v2 .pcf-stack-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 14px;
+  border: 1px solid color-mix(in oklab, var(--accent) 32%, var(--line-2));
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--accent) 6%, var(--paper));
+  box-shadow: var(--shadow-sm);
+}
+.landing-v2 .pcf-center { align-self: center; }
+.landing-v2 .pcf-center-img { display: block; width: 96px; line-height: 0; }
+.landing-v2 .pcf-center-name {
+  font-family: var(--font-inter-tight), sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.landing-v2 .pcf-note {
+  margin: 16px 0 0;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Narrow layout is off by default; the media query swaps the two. */
+.landing-v2 .pcf-stacked { display: none; }
+.landing-v2 .pcf-stack-side { display: flex; flex-direction: column; gap: 10px; }
+.landing-v2 .pcf-stack-label {
+  font-family: var(--font-inter-tight), sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.landing-v2 .pcf-stack-row { display: flex; flex-direction: column; }
+/* Connector stand-in. Width and height both come from the share (inline), so
+   only the paint lives here. Indented to sit under the node's card art. */
+.landing-v2 .pcf-stack-bar {
+  display: block;
+  margin-left: 20px;
+  background: var(--accent);
+  opacity: 0.6;
+  border-radius: 1px;
+}
+
+@media (max-width: 820px) {
+  .landing-v2 .pcf-diagram { display: none; }
+  .landing-v2 .pcf-stacked {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .landing-v2 .pcf-stack-center { align-self: center; min-width: 180px; }
+}
+
 /* ---------- Store / "Best card for [merchant]" page (.store-v2) ---------- */
 .landing-v2.store-v2 .store-body {
   padding-top: 24px;
