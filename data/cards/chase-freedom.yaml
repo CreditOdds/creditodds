@@ -1,0 +1,53 @@
+name: "Chase Freedom"
+bank: "Chase"
+slug: "chase-freedom"
+accepting_applications: false
+annual_fee: 0
+tags:
+  - cashback
+  - rewards
+reward_type: "cashback"
+rewards:
+  # Shares the quarterly calendar with the Freedom Flex: Chase announces the
+  # categories for "Freedom and Freedom Flex cardmembers" together, so this
+  # block must be kept in step with chase-freedom-flex.yaml each quarter.
+  - category: "rotating"
+    value: 5
+    unit: "percent"
+    mode: "quarterly_rotating"
+    current_categories:
+      - category: "gas"
+        note: "Gas stations (Q3 2026 rotation)"
+      - category: "ev_charging"
+        note: "EV charging (Q3 2026 rotation)"
+      - category: "transit"
+        note: "Public transit (Q3 2026 rotation)"
+      - category: "entertainment"
+        note: "Select live entertainment (Q3 2026 rotation)"
+    current_period: "Q3 2026"
+    note: "Q3 2026: gas stations and EV charging, public transit, select live entertainment, and donations to United Way"
+    spend_cap: 1500
+    cap_period: quarterly
+    rate_after_cap: 1
+  # Deliberately NO travel_portal entry. The permanent 5% on Chase Travel is a
+  # Freedom Flex benefit; this card only earns it when Chase Travel happens to
+  # be in the quarterly rotation, as it was in Q2 2026. The same goes for the
+  # Flex's 3% dining and drugstores and its cell phone protection, none of
+  # which this card carries.
+  - category: "everything_else"
+    value: 1
+    unit: "percent"
+foreign_transaction_fee: true
+network: "visa"
+our_take: >
+  The original Chase Freedom closed to new applications in 2020, when the
+  Freedom Flex replaced it, but plenty of people still hold one and it remains
+  a common product-change target. The reason is the network: it is a Visa,
+  where the Flex is a Mastercard, so cardholders who want a Visa in the Chase
+  lineup often downgrade into this card rather than the Flex. It earns the same
+  5% on the rotating quarterly categories, on up to $1,500 in spend once you
+  activate, and 1% on everything else. What it does not have is the rest of the
+  Flex's sheet: no permanent 5% on Chase Travel, no 3% on dining or drugstores,
+  and no cell phone protection. If you already hold one it is worth keeping for
+  the rotating categories and the account age, but there is no way to get one
+  today except by converting another Chase card.
