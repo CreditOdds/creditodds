@@ -91,6 +91,13 @@ benefits:
     description: "Employee cards at no additional cost with individual spending limits"
     frequency: "ongoing"
     category: "business"
+  - name: "15% Flight Discount"
+    value: 15
+    value_unit: "percent"
+    description: "One 15% promo code each cardmember anniversary year for Southwest flights (excludes Basic fare)."
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 our_take: >
   The Premier Business is the sensible middle of Chase's Southwest business
   cards: $149 a year buys 6,000 anniversary points, a free first checked bag
