@@ -32,6 +32,13 @@ benefits:
     description: "Priority Pass Select memberships for the primary cardholder and up to three authorized users"
     frequency: "ongoing"
     category: "lounge"
+  - name: "Airfare Points Savings"
+    value: 20
+    value_unit: "percent"
+    description: "Save 20% on domestic or international airfare in any class when you pay with points through BofA Travel or the Concierge."
+    frequency: "per_purchase"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - rewards
