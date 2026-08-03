@@ -1199,6 +1199,70 @@ export async function getCardWire(cardId: number): Promise<CardWireEntry[]> {
   return data.changes || [];
 }
 
+// One card-to-card product-change flow, aggregated across every wallet that
+// logged the move. `share` is this edge's percentage of its direction's total.
+export interface ProductChangeEdge {
+  card_id: number;
+  card_name: string;
+  bank: string;
+  card_image_link: string | null;
+  count: number;
+  users: number;
+  // How many of the moves the cardholder did not choose (issuer-initiated).
+  forced: number;
+  share: number;
+  last_change_date: string | null;
+}
+
+export interface CardProductChanges {
+  card_id: number;
+  // Cards people product-changed INTO this card.
+  inbound: ProductChangeEdge[];
+  // Cards people product-changed this card INTO.
+  outbound: ProductChangeEdge[];
+  inbound_total: number;
+  outbound_total: number;
+  // Distinct partner cards before the top-N slice — greater than the array
+  // length when the tail was truncated.
+  inbound_edge_count: number;
+  outbound_edge_count: number;
+}
+
+export const EMPTY_PRODUCT_CHANGES: CardProductChanges = {
+  card_id: 0,
+  inbound: [],
+  outbound: [],
+  inbound_total: 0,
+  outbound_total: 0,
+  inbound_edge_count: 0,
+  outbound_edge_count: 0,
+};
+
+// Pull the product-change graph around one card. Takes the numeric DB card id
+// (wallet_card_events stores ids, not slugs). Never throws: an empty graph and
+// a failed request render the same way, which is "no section".
+export async function getCardProductChanges(
+  cardId: number,
+  limit = 6,
+): Promise<CardProductChanges> {
+  try {
+    const res = await fetchWithRetry(
+      `${API_BASE}/card-product-changes?card_id=${cardId}&limit=${limit}`,
+      { next: { revalidate: 300 } },
+    );
+    if (!res.ok) return EMPTY_PRODUCT_CHANGES;
+    const data = await res.json();
+    return {
+      ...EMPTY_PRODUCT_CHANGES,
+      ...data,
+      inbound: Array.isArray(data.inbound) ? data.inbound : [],
+      outbound: Array.isArray(data.outbound) ? data.outbound : [],
+    };
+  } catch {
+    return EMPTY_PRODUCT_CHANGES;
+  }
+}
+
 export async function getAllCardWire(limit = 100): Promise<CardWireEntry[]> {
   const res = await fetchWithRetry(`${API_BASE}/card-wire?limit=${limit}`, {
     next: { revalidate: 300 },
