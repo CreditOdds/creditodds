@@ -441,6 +441,17 @@ function phaseFinish() {
       : '');
   fs.writeFileSync(path.join(OUT_DIR, 'pr-body.md'), prBody);
 
+  // Candidates are consumed once they have been through extraction, so the next
+  // run's prompt covers only new posts. Dropping the ones that yielded nothing
+  // is deliberate: they were read and judged, and the committed daily seen-state
+  // is what actually prevents re-fetching them. `state.done` is kept so the
+  // backfill never re-sweeps a card. Pass --keep-candidates to re-run extraction
+  // over the same set (e.g. after fixing a rule and wanting a second pass).
+  if (!args.includes('--keep-candidates')) {
+    state.candidates = {};
+    saveState(state);
+  }
+
   console.log(`Wrote ${written.length} product change(s) to data/reddit-product-changes/`);
   if (rejected.length) {
     console.log(`Rejected ${rejected.length}:`);
@@ -449,8 +460,98 @@ function phaseFinish() {
   console.log(`PR body: ${path.join(OUT_DIR, 'pr-body.md')}`);
 }
 
+// ── Daily mode ───────────────────────────────────────────────────────────────
+
+// The per-card sweep is a backfill tool: 199 partitioned queries, hours of
+// runtime, exhaustive history. A daily run wants the opposite shape — two
+// requests, only what is new since yesterday — so it reads /new plus one
+// recency-sorted search (which catches posts that fell off /new between runs).
+//
+// Seen-state is committed to .github/ rather than kept in .reddit-pc-work/, so
+// rejecting a proposal is permanent: nothing re-proposes a post once it has
+// been seen, whether it became a data point or not.
+const DAILY_STATE_PATH = path.join(ROOT, '.github', 'reddit-product-change-state.json');
+const DAILY_STATE_RETENTION_DAYS = 180;
+
+function loadDailyState() {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(DAILY_STATE_PATH, 'utf8'));
+    return { seen: parsed.seen && typeof parsed.seen === 'object' ? parsed.seen : {} };
+  } catch {
+    return { seen: {} };
+  }
+}
+
+function saveDailyState(state) {
+  // Prune well past any plausible re-surfacing so the file cannot grow forever.
+  const cutoff = new Date(Date.now() - DAILY_STATE_RETENTION_DAYS * 86400000)
+    .toISOString()
+    .slice(0, 10);
+  const seen = {};
+  for (const [id, date] of Object.entries(state.seen)) {
+    if (date >= cutoff) seen[id] = date;
+  }
+  fs.mkdirSync(path.dirname(DAILY_STATE_PATH), { recursive: true });
+  fs.writeFileSync(DAILY_STATE_PATH, `${JSON.stringify({ seen }, null, 1)}\n`);
+}
+
+async function phaseDaily() {
+  const today = new Date().toISOString().slice(0, 10);
+  const dailyState = loadDailyState();
+  const seen = new Set(Object.keys(dailyState.seen));
+
+  const feeds = [
+    ['r/CreditCards new', 'https://www.reddit.com/r/CreditCards/new/.rss?limit=100'],
+    [
+      'product-change search',
+      'https://www.reddit.com/r/CreditCards/search.rss?q=' +
+        encodeURIComponent('product change') +
+        '&restrict_sr=1&sort=new&t=week&limit=100',
+    ],
+  ];
+
+  const found = new Map();
+  for (const [label, url] of feeds) {
+    try {
+      const entries = parseAtom(await redditRss(url));
+      const kept = entries
+        .filter((e) => !seen.has(e.id))
+        .filter((e) => PC_SIGNAL_RE.test(`${e.title} ${e.content}`));
+      for (const e of kept) if (!found.has(e.id)) found.set(e.id, e);
+      console.log(`  ${label}: ${entries.length} entries, ${kept.length} new with PC signal`);
+    } catch (err) {
+      console.warn(`  ${label}: FAILED ${err.message}`);
+    }
+    await sleep(CAPS.requestSpacingMs);
+  }
+
+  // Everything fetched is marked seen, including posts that never become a data
+  // point. Re-reading a post that already failed extraction just burns requests.
+  const state = loadState();
+  for (const e of found.values()) {
+    dailyState.seen[e.id] = today;
+    state.candidates[e.id] = {
+      id: e.id,
+      title: e.title,
+      text: e.content.length > 2500 ? `${e.content.slice(0, 2500)}…` : e.content,
+      url: e.link,
+      posted: e.updated || today,
+      matchedCards: [],
+    };
+  }
+  saveDailyState(dailyState);
+  saveState(state);
+
+  console.log(`\nDaily scan: ${found.size} new candidate(s). Run --phase=extract next.`);
+}
+
 async function main() {
   const phase = argVal('phase', 'sweep');
+
+  if (phase === 'daily') {
+    await phaseDaily();
+    return;
+  }
 
   if (phase === 'extract') {
     const state = loadState();

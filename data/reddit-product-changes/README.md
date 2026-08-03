@@ -14,13 +14,37 @@ re-proposes it, because the sweep's seen-state is committed separately.
 
 ## Pipeline
 
+Two fetch modes feed the same extract/finish path.
+
+**Daily** (the scheduled routine) — two requests, only what is new:
+
 ```
-node scripts/sweep-reddit-product-changes.js               # collect candidates
-node scripts/sweep-reddit-product-changes.js --phase=extract  # write the prompt
+node scripts/sweep-reddit-product-changes.js --phase=daily
+node scripts/sweep-reddit-product-changes.js --phase=extract
 #   ... session reads .reddit-pc-work/extract-prompt.md and writes
 #       .reddit-pc-work/proposed/<source_id>.json ...
-node scripts/sweep-reddit-product-changes.js --phase=finish   # validate -> YAML
+node scripts/sweep-reddit-product-changes.js --phase=finish
 ```
+
+**Backfill** (one-shot, hours) — one partitioned search per catalog card:
+
+```
+node scripts/sweep-reddit-product-changes.js --spacing=22000
+```
+
+Reddit caps any single query at ~250 results regardless of date range, and the
+`cloudsearch timestamp:a..b` syntax that allowed time slicing is gone, so a
+broad `product change` query only reaches ~5 months back. Partitioning by card
+gets past that — one card's mentions rarely saturate the cap — at the cost of
+one query per card. It checkpoints per card and resumes, because Reddit
+throttles hard enough to make a full pass a multi-hour job. Coverage is
+inverted from what you'd want: obscure cards get near-complete history, while
+the biggest Chase/Amex cards saturate the cap and have the *worst* historical
+coverage.
+
+`--phase=finish` consumes the candidate list so the next prompt only covers new
+posts. Pass `--keep-candidates` to re-run extraction over the same set after
+changing a rule.
 
 ## Why these rows are not in `wallet_card_events`
 
