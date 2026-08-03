@@ -1,6 +1,7 @@
 name: "Chase Freedom"
 bank: "Chase"
 slug: "chase-freedom"
+image: "chase-freedom.png"
 accepting_applications: false
 annual_fee: 0
 tags:
