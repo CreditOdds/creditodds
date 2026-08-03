@@ -269,12 +269,47 @@ function stripHtml(html) {
 // (The Atmos cards previously listed here moved to scrapeable Bank of America
 // apply_links; the alaskaair.com SPA that rendered ~20 chars is no longer used.)
 //
-// Currently empty, and that is the healthy state — an entry here means a card is
-// permanently unverified, so each one needs a measurement behind it, not a
-// hunch. Note what a *host* block is and isn't: it must be a failure no fetch
-// mode can get past. A page that only defeats Playwright belongs in
-// BROWSER_BLOCKED_HOSTS below, which keeps the card checked.
-const KNOWN_BLOCKED_HOSTS = new Map();
+// Near-empty is the healthy state — an entry here means a card is permanently
+// unverified, so each one needs a measurement behind it, not a hunch. Note what
+// a *host* block is and isn't: it must be a failure no fetch mode can get past.
+// A page that only defeats Playwright belongs in BROWSER_BLOCKED_HOSTS below,
+// which keeps the card checked.
+//
+// samsclub.com added 2026-08-02, after Sam's Club Mastercard hit 6 consecutive
+// skips having never once been verified. The apply_link is NOT stale — it is the
+// right page, and an ordinary browser renders the full offer. The site is a
+// Next.js shell whose content arrives over a persisted-query GraphQL call, and
+// PerimeterX + Akamai gate the request. Measured against
+// https://www.samsclub.com/credit:
+//   simple fetch (node fetch + UA header)   -> HTTP 200, 75 chars
+//   Playwright, this script's exact config  -> HTTP 200, 107 chars
+//   curl + full desktop Chrome UA           -> HTTP 200, 326 chars (nav chrome only)
+//   the page's own SamsCreditLandingPage
+//     GraphQL endpoint, called directly     -> HTTP 200, "Let us know you're not
+//                                              a robot" interstitial
+//   ordinary (non-automated) Chrome         -> full page, all terms present
+//
+// DON'T bother trying headed mode — it was measured on 2026-08-02 and does not
+// help. The gate is the automation surface, not headlessness: Playwright reports
+// navigator.webdriver === true in BOTH headed and headless mode, and all four of
+// {bundled Chromium, real Chrome channel} x {headed, headless}, including a
+// persistent user profile, returned the same ~1,000-char stub. Same IP and same
+// minute, a non-automated Chrome returned 6,292 chars with every offer marker.
+// It is also not transient rate-limiting: a single cold request after a 15-minute
+// quiet period still came back as the stub.
+//
+// No URL swap fixes this either: /content/credit-cards, /credit/business,
+// m.samsclub.com, apply.syf.com and documents.syf.com were all probed and serve
+// either the same shell or a targeted-offer stub, never the card's terms.
+//
+// So this card has to be verified by hand, in an ordinary browser. Its stored
+// values were checked that way on 2026-08-02 (no annual fee, $30 statement
+// credit after $30 in club purchases in 30 days, purchase APR 20.15%/28.15%,
+// no intro APR) and all four matched. The welcome offer amount is the field that
+// rotates, so that is the one to watch. Drop this entry if the bot wall eases.
+const KNOWN_BLOCKED_HOSTS = new Map([
+  ['samsclub.com', 'samsclub.com serves a JS-only shell to automated clients and answers direct GraphQL calls with a bot interstitial; headed mode does not help (navigator.webdriver is true either way)'],
+]);
 
 // Hosts that answer headless Chromium with a bot interstitial but serve a plain
 // HTTP fetch normally. These are NOT skips: the card is still checked, we just
