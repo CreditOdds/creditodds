@@ -122,6 +122,50 @@ function validateNewsItem(item, schema) {
     }
   }
 
+  // Validate replacement_cards. Resolution against cards.json happens later in
+  // buildNews(), where the lookup is in scope — here we only check shape.
+  if (item.replacement_cards !== undefined) {
+    if (!Array.isArray(item.replacement_cards)) {
+      errors.push('replacement_cards must be an array');
+    } else if (item.replacement_cards.length > 4) {
+      errors.push('replacement_cards accepts at most 4 entries');
+    } else {
+      const seen = new Set();
+      for (const entry of item.replacement_cards) {
+        if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
+          errors.push('Each replacement_cards entry must be an object with a slug');
+          continue;
+        }
+        const extra = Object.keys(entry).filter(k => k !== 'slug' && k !== 'reason');
+        if (extra.length > 0) {
+          errors.push(`Unknown replacement_cards field(s): ${extra.join(', ')}`);
+        }
+        if (typeof entry.slug !== 'string' || !/^[a-z0-9-]+$/.test(entry.slug)) {
+          errors.push(`Invalid replacement_cards slug: ${entry.slug} (must be lowercase with hyphens only)`);
+          continue;
+        }
+        if (seen.has(entry.slug)) {
+          errors.push(`Duplicate replacement_cards slug: ${entry.slug}`);
+        }
+        seen.add(entry.slug);
+        if (entry.reason !== undefined) {
+          if (typeof entry.reason !== 'string') {
+            errors.push(`replacement_cards reason for ${entry.slug} must be a string`);
+          } else if (entry.reason.length > 160) {
+            errors.push(`replacement_cards reason for ${entry.slug} is ${entry.reason.length} chars (max 160)`);
+          }
+        }
+        // Pointing readers at the very card the article says is gone is the one
+        // mistake this module exists to prevent.
+        if (item.card_slugs && item.card_slugs.includes(entry.slug)) {
+          errors.push(`replacement_cards slug ${entry.slug} is also in card_slugs — a card cannot replace itself`);
+        } else if (item.card_slug === entry.slug) {
+          errors.push(`replacement_cards slug ${entry.slug} is also card_slug — a card cannot replace itself`);
+        }
+      }
+    }
+  }
+
   return errors;
 }
 
@@ -132,6 +176,9 @@ function buildNews() {
   const cardsLookup = loadCardsLookup();
   const newsItems = [];
   const errors = [];
+  // Replacement-card failures found while resolving against cards.json, which
+  // only becomes possible after per-item validation has run.
+  const resolutionErrors = [];
 
   // Fail loud if cards.json didn't load. Without it, every related-card image
   // lookup below resolves to null and gets filtered to [], silently shipping a
@@ -198,6 +245,40 @@ function buildNews() {
         }
       }
 
+      // Resolve replacement cards into self-contained objects so the frontend
+      // never has to index parallel arrays. Failures are fatal rather than
+      // warnings: this module's whole job is to hand a reader a card they can
+      // still apply for, and a bad slug either 404s or points at another dead
+      // card — worse than rendering nothing at all.
+      if (item.replacement_cards) {
+        const resolved = [];
+        for (const entry of item.replacement_cards) {
+          const card = cardsLookup[entry.slug];
+          if (!card) {
+            resolutionErrors.push(
+              `${file}: replacement_cards slug "${entry.slug}" not found in cards.json`
+            );
+            continue;
+          }
+          if (card.accepting_applications === false) {
+            resolutionErrors.push(
+              `${file}: replacement_cards slug "${entry.slug}" (${card.name}) is not accepting ` +
+              'applications — it cannot be offered as a replacement'
+            );
+            continue;
+          }
+          resolved.push({
+            slug: entry.slug,
+            name: card.card_name || card.name,
+            image: card.image || null,
+            bank: card.bank || '',
+            annual_fee: typeof card.annual_fee === 'number' ? card.annual_fee : null,
+            ...(entry.reason ? { reason: entry.reason } : {}),
+          });
+        }
+        item.replacement_cards_info = resolved;
+      }
+
       newsItems.push(item);
       console.log(`  OK: ${item.title}`);
     } catch (err) {
@@ -216,6 +297,18 @@ function buildNews() {
         console.error(`    - ${err}`);
       }
     }
+    process.exit(1);
+  }
+
+  if (resolutionErrors.length > 0) {
+    console.error(`\nReplacement-card resolution failed with ${resolutionErrors.length} error(s):`);
+    for (const err of resolutionErrors) {
+      console.error(`  - ${err}`);
+    }
+    console.error(
+      '\nFix the slug, or drop the entry. A replacement card must exist in cards.json\n' +
+      'and still be accepting applications.'
+    );
     process.exit(1);
   }
 

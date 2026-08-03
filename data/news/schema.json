@@ -77,6 +77,28 @@
       },
       "description": "Related card display names for multiple cards (optional)"
     },
+    "replacement_cards": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["slug"],
+        "additionalProperties": false,
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Slug of a card readers can still apply for"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 160,
+            "description": "One short line on why this card stands in for the one that went away"
+          }
+        }
+      },
+      "description": "Cards to suggest when the article's subject card is gone (pulled, discontinued, converted, or shut down). Renders the 'What to get instead' module on the article. Every slug must exist in cards.json AND have accepting_applications: true — the build fails otherwise, since the whole point is to send readers somewhere they can actually apply. Distinct from card_slugs, which names the card the story is about."
+    },
     "source": {
       "type": "string",
       "description": "Source name (optional)"

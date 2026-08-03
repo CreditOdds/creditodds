@@ -8,6 +8,13 @@ tags:
 bank: "U.S. Bank"
 card_slug: "us-bank-shopper"
 card_name: "US Bank Shopper Cash Rewards"
+replacement_cards:
+  - slug: "blue-cash-everyday-card"
+    reason: "3% on U.S. online retail up to $6,000 a year, covering the Shopper's core use with no annual fee."
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "Keeps the rewards with U.S. Bank: two 5% categories of your choosing each quarter, no annual fee."
+  - slug: "wells-fargo-active-cash"
+    reason: "Flat 2% on everything with no annual fee, and nothing to pick or track each quarter."
 source: "U.S. Bank"
 source_url: "https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html"
 body: |
