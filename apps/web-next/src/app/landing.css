@@ -2141,6 +2141,20 @@
   background: var(--warn-2);
   color: var(--warn);
 }
+/* Cards that stopped accepting applications sort to the bottom of Explore and
+   read as inactive — dimmed, but still a normal link. */
+.landing-v2 .cc.is-archived {
+  opacity: 0.62;
+}
+.landing-v2 .cc.is-archived:hover {
+  opacity: 1;
+}
+.landing-v2 .cc.is-archived .cc-thumb {
+  filter: grayscale(1);
+}
+.landing-v2 .cc.is-archived:hover .cc-thumb {
+  filter: none;
+}
 
 /* ---------- Search row (search + view toggle inline) ---------- */
 .landing-v2 .search-row {
@@ -2224,6 +2238,18 @@
 }
 .landing-v2 .card-table tbody tr:hover {
   background: color-mix(in oklab, var(--accent) 4%, transparent);
+}
+.landing-v2 .card-table tbody tr.is-archived {
+  opacity: 0.6;
+}
+.landing-v2 .card-table tbody tr.is-archived:hover {
+  opacity: 1;
+}
+.landing-v2 .card-table tbody tr.is-archived .ct-thumb {
+  filter: grayscale(1);
+}
+.landing-v2 .card-table tbody tr.is-archived:hover .ct-thumb {
+  filter: none;
 }
 .landing-v2 .card-table td.num {
   text-align: right;
