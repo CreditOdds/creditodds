@@ -44,6 +44,11 @@ interface ProductChangeFlowProps {
   outbound: ProductChangeNode[];
   inboundTotal: number;
   outboundTotal: number;
+  // Provenance split of the same reports counted in the totals above. Both
+  // sources are weighted equally, so these exist to describe the mix, not to
+  // change the arithmetic.
+  walletTotal: number;
+  redditTotal: number;
 }
 
 function strokeFor(share: number): number {
@@ -204,12 +209,25 @@ export default function ProductChangeFlow({
   outbound,
   inboundTotal,
   outboundTotal,
+  walletTotal,
+  redditTotal,
 }: ProductChangeFlowProps) {
   const height = Math.max(
     columnHeight(inbound.length),
     columnHeight(outbound.length),
     MIN_H,
   );
+
+  const total = inboundTotal + outboundTotal;
+  // Name only the sources actually present. Claiming both when the data is
+  // entirely one of them is the specific way this line could mislead, and the
+  // mix will stay lopsided for a long time.
+  const sourcePhrase =
+    walletTotal > 0 && redditTotal > 0
+      ? ` from CreditOdds member wallets (${walletTotal}) and r/CreditCards (${redditTotal})`
+      : redditTotal > 0
+        ? " sourced from posts on r/CreditCards"
+        : " logged by CreditOdds members in their wallets";
 
   return (
     <div className="pcf">
@@ -287,11 +305,9 @@ export default function ProductChangeFlow({
       </div>
 
       <p className="pcf-note">
-        Based on {inboundTotal + outboundTotal}{" "}
-        {inboundTotal + outboundTotal === 1 ? "product change" : "product changes"}{" "}
-        logged by CreditOdds members in their wallets. Percentages are shares of
-        each direction, not of all cardholders, and a small sample can swing a
-        long way.
+        Based on {total} {total === 1 ? "report" : "reports"}
+        {sourcePhrase}. Percentages are shares of each direction, not of all
+        cardholders, and a small sample can swing a long way.
       </p>
     </div>
   );

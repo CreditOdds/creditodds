@@ -1207,7 +1207,11 @@ export interface ProductChangeEdge {
   bank: string;
   card_image_link: string | null;
   count: number;
-  users: number;
+  // Provenance split behind `count`. Member wallet entries and r/CreditCards
+  // reports are weighted equally; the split is kept so the page can say where
+  // its numbers came from.
+  wallet_count: number;
+  reddit_count: number;
   // How many of the moves the cardholder did not choose (issuer-initiated).
   forced: number;
   share: number;
@@ -1222,6 +1226,9 @@ export interface CardProductChanges {
   outbound: ProductChangeEdge[];
   inbound_total: number;
   outbound_total: number;
+  // Page-level provenance totals across both directions.
+  wallet_total: number;
+  reddit_total: number;
   // Distinct partner cards before the top-N slice — greater than the array
   // length when the tail was truncated.
   inbound_edge_count: number;
@@ -1234,6 +1241,8 @@ export const EMPTY_PRODUCT_CHANGES: CardProductChanges = {
   outbound: [],
   inbound_total: 0,
   outbound_total: 0,
+  wallet_total: 0,
+  reddit_total: 0,
   inbound_edge_count: 0,
   outbound_edge_count: 0,
 };

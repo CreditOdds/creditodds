@@ -233,6 +233,8 @@ interface CardClientProps {
     outbound: ProductChangeNode[];
     inboundTotal: number;
     outboundTotal: number;
+    walletTotal: number;
+    redditTotal: number;
   };
 }
 
@@ -1648,6 +1650,8 @@ export default function CardClient({
                 outbound={productChanges.outbound}
                 inboundTotal={productChanges.inboundTotal}
                 outboundTotal={productChanges.outboundTotal}
+                walletTotal={productChanges.walletTotal}
+                redditTotal={productChanges.redditTotal}
               />
             </section>
           )}
