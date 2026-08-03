@@ -24,6 +24,49 @@ function sanitizeUrl(rawUrl: string): string | null {
   return /^(https?:\/\/|\/|#|mailto:)/i.test(url) ? url : null;
 }
 
+// Widths the image optimizer will accept (its default deviceSizes). Article
+// body images render at most ~768 CSS px, so this spans 1x to 2x without
+// generating variants nothing asks for.
+const BODY_IMAGE_WIDTHS = [640, 828, 1080, 1200, 1920];
+
+// Hosts allowlisted in next.config.mjs `images.remotePatterns`. The optimizer
+// 400s on anything else, so other URLs are left pointing at their origin.
+const OPTIMIZABLE_HOSTS = new Set([
+  'd3ay3etzd1512y.cloudfront.net',
+  'credit-card-data-site.s3.us-east-2.amazonaws.com',
+]);
+
+function canOptimize(url: string): boolean {
+  // Protocol-relative URLs pass sanitizeUrl but are not local paths, so they
+  // would reach the optimizer as a bogus relative fetch. Exclude them.
+  if (url.startsWith('//')) return false;
+  // The optimizer 400s on SVG unless dangerouslyAllowSVG is set, and vectors
+  // gain nothing from it anyway. Serve them straight from the origin.
+  if (/\.svg($|[?#])/i.test(url)) return false;
+  if (url.startsWith('/')) return true;
+  try {
+    return OPTIMIZABLE_HOSTS.has(new URL(url).hostname);
+  } catch {
+    return false;
+  }
+}
+
+// Body images used to point straight at the CDN, so a reader downloaded the
+// full multi-megabyte source PNG. Route them through /_next/image — the same
+// optimizer next/image uses everywhere else — for a resized AVIF/WebP.
+function optimizedImageAttrs(url: string): string {
+  // escapeHtml() has already turned any "&" into "&amp;"; undo that before
+  // percent-encoding, then use "&amp;" for the separators we add ourselves.
+  const raw = url.replace(/&amp;/g, '&');
+  const variant = (w: number) =>
+    `/_next/image?url=${encodeURIComponent(raw)}&amp;w=${w}&amp;q=75`;
+  const srcSet = BODY_IMAGE_WIDTHS.map((w) => `${variant(w)} ${w}w`).join(', ');
+  return (
+    `src="${variant(1200)}" srcset="${srcSet}" ` +
+    `sizes="(max-width: 768px) 100vw, 768px"`
+  );
+}
+
 // Enhanced markdown to HTML converter for article content
 function markdownToHtml(markdown: string): string {
   // Escape first: everything below layers its own trusted tags on top of inert text.
@@ -44,7 +87,9 @@ function markdownToHtml(markdown: string): string {
   // Images (drop any image whose URL fails the scheme allowlist)
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, (_m, alt, url) => {
     const safe = sanitizeUrl(url);
-    return safe ? `<img src="${safe}" alt="${alt}" class="rounded-lg my-6 max-w-full h-auto" loading="lazy" />` : '';
+    if (!safe) return '';
+    const attrs = canOptimize(safe) ? optimizedImageAttrs(safe) : `src="${safe}"`;
+    return `<img ${attrs} alt="${alt}" class="rounded-lg my-6 max-w-full h-auto" loading="lazy" decoding="async" />`;
   });
 
   // Headers with IDs for TOC linking

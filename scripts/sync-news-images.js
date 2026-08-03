@@ -45,6 +45,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const os = require('os');
 const crypto = require('crypto');
+const { compressPngInPlace, EDITORIAL_MAX_WIDTH } = require('./lib/compress-image');
 
 const NEWS_JSON = path.join(__dirname, '..', 'data', 'news.json');
 const S3_PREFIX = 'news_images';
@@ -373,14 +374,20 @@ function s3HasObject(key) {
   }
 }
 
-function uploadToS3(key, localPath) {
+async function uploadToS3(key, localPath) {
   if (dryRun) {
     log(`(dry-run) would upload ${localPath} → s3://${bucket}/${key}`);
     return;
   }
+  const { before, after, changed } = await compressPngInPlace(localPath, {
+    maxWidth: EDITORIAL_MAX_WIDTH,
+  });
+  if (changed) {
+    log(`compressed ${key}: ${(before / 1024).toFixed(0)}k → ${(after / 1024).toFixed(0)}k`);
+  }
   execSync(
     `aws s3 cp "${localPath}" "s3://${bucket}/${key}" ` +
-      `--content-type image/png --cache-control "max-age=86400"`,
+      `--content-type image/png --cache-control "public, max-age=2592000"`,
     { stdio: 'inherit' }
   );
 }
@@ -444,7 +451,7 @@ async function main() {
     }
     try {
       const localPath = await generateNewsImage(item);
-      uploadToS3(key, localPath);
+      await uploadToS3(key, localPath);
       item.news_image = expected;
       generatedThisRun++;
       results.generated.push(item.id);

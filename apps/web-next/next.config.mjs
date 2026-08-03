@@ -102,6 +102,13 @@ const nextConfig = {
     ],
     // Optimize image formats
     formats: ['image/avif', 'image/webp'],
+    // How long an optimized variant stays cached. The effective TTL is
+    // max(minimumCacheTTL, upstream max-age), and S3 served card art with
+    // max-age=86400, so every variant (card x width x format) expired daily —
+    // meaning most real visitors paid the full cold transform of a multi-MB
+    // PNG. 30 days instead. Art that changes at a stable filename is picked up
+    // by the targeted CloudFront invalidation in build-cards.yml.
+    minimumCacheTTL: 2592000,
   },
 
   // Enable compression
