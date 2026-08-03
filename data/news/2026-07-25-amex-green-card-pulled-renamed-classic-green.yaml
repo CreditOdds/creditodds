@@ -7,6 +7,13 @@ tags:
 bank: "American Express"
 card_slug: "american-express-green-card"
 card_name: "American Express Green"
+replacement_cards:
+  - slug: "wells-fargo-autograph"
+    reason: "Matches the Green's 3x on travel, transit, and dining, adds streaming and phone, and charges no annual fee."
+  - slug: "chase-sapphire-preferred"
+    reason: "3x dining and 5x on travel booked through Chase, with transferable points, for $95 instead of $150."
+  - slug: "american-express-gold-card"
+    reason: "The step up inside Amex: 4x at restaurants and 4x at U.S. supermarkets, if the spend clears the higher fee."
 source: "Doctor of Credit"
 source_url: "https://www.doctorofcredit.com/american-express-removes-green-card-from-website/"
 body: |

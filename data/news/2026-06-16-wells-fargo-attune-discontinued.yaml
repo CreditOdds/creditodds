@@ -7,6 +7,13 @@ tags:
 bank: "Wells Fargo"
 card_slug: "wells-fargo-attune"
 card_name: "Wells Fargo Attune"
+replacement_cards:
+  - slug: "wells-fargo-autograph"
+    reason: "Wells Fargo's remaining no-fee category card: 3x on dining, travel, gas, transit, streaming, and phone plans."
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "Pick two 5% categories each quarter on the first $2,000 of spending, with no annual fee."
+  - slug: "wells-fargo-active-cash"
+    reason: "Flat 2% on everything, no annual fee, if you would rather not track categories at all."
 source: "NerdWallet"
 source_url: "https://www.nerdwallet.com/credit-cards/reviews/wells-fargo-attune"
 date: "2026-06-16"

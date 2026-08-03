@@ -12,6 +12,21 @@ export type NewsTag =
   | 'rumor'
   | 'general';
 
+/**
+ * A card readers can still apply for, offered on an article about a card that
+ * went away. Resolved at build time by scripts/build-news.js, which guarantees
+ * the slug exists in cards.json and is still accepting applications.
+ */
+export interface ReplacementCardInfo {
+  slug: string;
+  name: string;
+  image: string | null;
+  bank: string;
+  annual_fee: number | null;
+  /** One editorial line on why this card stands in for the one that went away. */
+  reason?: string;
+}
+
 export interface NewsItem {
   id: string;
   date: string;
@@ -27,6 +42,7 @@ export interface NewsItem {
   card_slugs?: string[];
   card_names?: string[];
   card_image_links?: string[];
+  replacement_cards_info?: ReplacementCardInfo[];
   source?: string;
   source_url?: string;
   body?: string;

@@ -8,6 +8,7 @@ import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ReadingProgressBar } from "@/components/articles/ReadingProgressBar";
 import { RelatedCards } from "@/components/articles/RelatedCards";
+import { ReplacementCards } from "@/components/news/ReplacementCards";
 import { RelatedCardInfo } from "@/lib/articles";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
@@ -243,6 +244,14 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                 {item.summary}
               </p>
             )}
+
+            {/* Sits above Related Cards on purpose: on a story about a card
+                that is gone, "what can I get instead" is the reader's actual
+                next question, and Related Cards points at the dead card. */}
+            <ReplacementCards
+              cards={item.replacement_cards_info ?? []}
+              articleId={item.id}
+            />
 
             {relatedCards.length > 0 && <RelatedCards cards={relatedCards} />}
           </div>

@@ -7044,6 +7044,93 @@
   padding: 32px clamp(20px, 3vw, 48px) 40px;
   box-shadow: var(--shadow-sm);
 }
+/* "What to get instead" — shown on articles about a card that is gone. Lives
+   inside .article-body, so it sits on --card and needs --paper-2 to separate
+   itself from the prose above it. */
+.landing-v2 .replacement-cards {
+  margin-top: 36px;
+  padding: 22px clamp(16px, 2.4vw, 26px) 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper-2);
+}
+.landing-v2 .replacement-cards-title {
+  font-family: var(--font-inter-tight), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0;
+}
+.landing-v2 .replacement-cards-intro {
+  margin: 6px 0 18px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.landing-v2 .replacement-cards-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.landing-v2 .replacement-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.landing-v2 .replacement-card:hover {
+  border-color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+/* Fixed box so rows line up regardless of card art aspect ratio. */
+.landing-v2 .replacement-card-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 72px;
+  height: 46px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+}
+.landing-v2 .replacement-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.landing-v2 .replacement-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.landing-v2 .replacement-card-meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+.landing-v2 .replacement-card-reason {
+  margin-top: 2px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+@media (max-width: 520px) {
+  .landing-v2 .replacement-card-thumb {
+    width: 58px;
+    height: 37px;
+  }
+}
+
 .landing-v2 .article-follow {
   margin-top: 24px;
 }
