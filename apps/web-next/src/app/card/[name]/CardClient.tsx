@@ -865,27 +865,11 @@ export default function CardClient({
         </div>
       </div>
 
-      {/* Discontinued banner — card has been pulled entirely. */}
-      {card.active === false && (
-        <div
-          style={{
-            padding: "10px 24px",
-            background: "var(--ink)",
-            color: "#fff",
-            fontSize: 13,
-            fontWeight: 500,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <ExclamationTriangleIcon style={{ height: 16, width: 16 }} />
-          This card has been discontinued and is no longer offered.
-        </div>
-      )}
-
-      {/* Closed banner — card exists but isn't taking new applicants. */}
-      {card.active !== false && card.accepting_applications === false && (
+      {/* Pulled-card banner — discontinued outright, or still around but
+          closed to new applicants. Both use the same warn styling: the
+          discontinued one used to be ink-on-white, which blended into the
+          ink-colored breadcrumb bar directly above it. */}
+      {(card.active === false || card.accepting_applications === false) && (
         <div
           style={{
             padding: "10px 24px",
@@ -899,7 +883,9 @@ export default function CardClient({
           }}
         >
           <ExclamationTriangleIcon style={{ height: 16, width: 16 }} />
-          This card is no longer accepting applications.
+          {card.active === false
+            ? "This card has been discontinued and is no longer offered."
+            : "This card is no longer accepting applications."}
         </div>
       )}
 
