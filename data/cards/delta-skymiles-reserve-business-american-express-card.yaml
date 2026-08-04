@@ -37,7 +37,7 @@ rewards:
     unit: points_per_dollar
     note: "All purchases earn 1.5x after $150,000 in eligible purchases in a calendar year"
 signup_bonus:
-  value: 125000
+  value: 100000
   type: "miles"
   spend_requirement: 12000
   timeframe_months: 6
