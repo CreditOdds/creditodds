@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { useUserSettings } from "@/user-settings/UserSettingsProvider";
 import UserAvatar from "@/components/user/UserAvatar";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, getWalletEvents, deleteAccount, reorderWallet, WalletCard, WalletCardEvent, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, getWalletEvents, deleteAccount, reorderWallet, getNewsletterSettings, updateNewsletterSettings, NewsletterSettings, WalletCard, WalletCardEvent, Card } from "@/lib/api";
 import "../landing.css";
 import { getNews, getNewsCards, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -1643,11 +1643,49 @@ interface SettingsTabProps {
 
 function SettingsTab(props: SettingsTabProps) {
   const { email, handle, confirmingDelete, setConfirmingDelete, deleteConfirmText, setDeleteConfirmText, deletingAccount, onDeleteAccount, onLogout } = props;
-  const { authState } = useAuth();
+  const { authState, getToken } = useAuth();
   const { settings, setAvatarSeed } = useUserSettings();
   const [pendingSeed, setPendingSeed] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+
+  // Newsletter subscription, backed by Brevo via /newsletter-settings. The
+  // row stays hidden until the status loads (and permanently when the
+  // backend reports the integration as unavailable or the fetch fails).
+  const [newsletter, setNewsletter] = useState<NewsletterSettings | null>(null);
+  const [newsletterSaving, setNewsletterSaving] = useState(false);
+  const [newsletterError, setNewsletterError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const token = await getToken();
+        if (!token) return;
+        const status = await getNewsletterSettings(token);
+        if (!cancelled) setNewsletter(status);
+      } catch {
+        // Leave the row hidden when the status can't be loaded.
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [getToken]);
+
+  const handleNewsletterToggle = async () => {
+    if (!newsletter?.available || newsletterSaving) return;
+    setNewsletterSaving(true);
+    setNewsletterError(null);
+    try {
+      const token = await getToken();
+      if (!token) throw new Error('Not authenticated');
+      const status = await updateNewsletterSettings(!newsletter.subscribed, token);
+      setNewsletter(status);
+    } catch {
+      setNewsletterError('Could not update, try again');
+    } finally {
+      setNewsletterSaving(false);
+    }
+  };
 
   // Same flicker guard as the Navbar: hold until /user-settings resolves so
   // we don't render the UID-seeded fallback before the saved seed lands.
@@ -1760,6 +1798,28 @@ function SettingsTab(props: SettingsTabProps) {
             <span style={{ fontSize: 11, color: 'var(--muted-2)' }}>{/* read-only */}</span>
           </div>
         ))}
+        {newsletter?.available && (
+          <div className="cj-settings-list">
+            <div className="cj-settings-k">Newsletter</div>
+            <div className="cj-settings-v">
+              {newsletter.subscribed ? 'weekly card news in your inbox' : 'not subscribed'}
+            </div>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              {newsletterError && (
+                <span style={{ fontSize: 11.5, color: 'var(--warn)' }}>{newsletterError}</span>
+              )}
+              <button
+                type="button"
+                className="cj-settings-edit"
+                onClick={handleNewsletterToggle}
+                disabled={newsletterSaving}
+                style={{ opacity: newsletterSaving ? 0.5 : 1, cursor: newsletterSaving ? 'wait' : 'pointer' }}
+              >
+                {newsletterSaving ? 'saving…' : newsletter.subscribed ? 'unsubscribe →' : 'subscribe →'}
+              </button>
+            </div>
+          </div>
+        )}
         <div className="cj-settings-list">
           <div className="cj-settings-k">Sign out</div>
           <div className="cj-settings-v">end this session</div>
