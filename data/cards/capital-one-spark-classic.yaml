@@ -2,6 +2,7 @@ name: "Capital One Spark Classic"
 bank: "Capital One"
 slug: "capital-one-spark-classic"
 accepting_applications: true
+image: "capital-one-spark-classic.png"
 category: "business"
 annual_fee: 0
 foreign_transaction_fee: false

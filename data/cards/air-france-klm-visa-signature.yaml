@@ -4,6 +4,7 @@ previous_names:
 bank: "Bank of America"
 slug: "air-france-klm-visa-signature"
 accepting_applications: true
+image: "air-france-klm-visa-signature.png"
 category: "travel"
 annual_fee: 89
 foreign_transaction_fee: false

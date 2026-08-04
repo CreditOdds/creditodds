@@ -2,6 +2,7 @@ name: "Capital One Spark Cash Plus"
 bank: "Capital One"
 slug: "capital-one-spark-cash-plus"
 accepting_applications: true
+image: "capital-one-spark-cash-plus.png"
 category: "business"
 annual_fee: 150
 foreign_transaction_fee: false
