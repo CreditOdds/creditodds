@@ -1,0 +1,12 @@
+source_id: "t3_1vf2a15"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1vf2a15/bilt_palladium_denial_deciding_next_best_action/"
+posted: "2026-08-04"
+evidence: "Poster reports an instant denial about three weeks ago with a 736 FICO and income over $150k, with the issuer listing recent account velocity first."
+card_name: "Bilt Palladium"
+result: "denied"
+credit_score: 736
+credit_score_source: 0
+listed_income: 150000
+date_applied: "2026-07"
+reason_denied: "Issuer cited too many recently opened accounts, high balances versus limits, and inquiries."
+reason_denied_code: "too_many_recent_accounts"
