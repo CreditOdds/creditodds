@@ -165,4 +165,48 @@ describe("isBenignClientError", () => {
       false,
     );
   });
+
+  // CefSharp embedded-Chromium crawlers (Outlook SafeLinks) reject with a bare
+  // string; the id and method name vary per hit.
+  it("drops the CefSharp bridge string rejection", () => {
+    expect(
+      isBenignClientError(
+        "Object Not Found Matching Id:2, MethodName:update, ParamCount:4",
+      ),
+    ).toBe(true);
+  });
+
+  it("drops CefSharp bridge noise wrapped in an Error", () => {
+    expect(
+      isBenignClientError(
+        new Error("Object Not Found Matching Id:7, MethodName:getData, ParamCount:1"),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps other bare-string rejections", () => {
+    expect(isBenignClientError("something actually broke")).toBe(false);
+  });
+
+  // An injected script stringifying a React-owned DOM node inside a patched
+  // appendChild. Both halves of the message are required.
+  it("drops circular-structure errors that walk a React fiber", () => {
+    expect(
+      isBenignClientError(
+        new TypeError(
+          "Converting circular structure to JSON\n    --> starting at object with constructor 'HTMLAnchorElement'\n    |     property '__reactFiber$n203s0946xd' -> object with constructor 'rg'\n    --- property 'stateNode' closes the circle",
+        ),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps circular-structure errors from our own data", () => {
+    expect(
+      isBenignClientError(
+        new TypeError(
+          "Converting circular structure to JSON\n    --> starting at object with constructor 'Object'\n    --- property 'self' closes the circle",
+        ),
+      ),
+    ).toBe(false);
+  });
 });

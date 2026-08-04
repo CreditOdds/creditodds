@@ -39,6 +39,27 @@
 // unactionable: a bare Event carries no stack, no message, and no URL.
 // ErrorEvent is deliberately NOT matched — it carries a real message/error
 // payload worth reporting.
+//
+// Two more shapes come from code that isn't ours at all:
+//
+// 1. "Object Not Found Matching Id:N, MethodName:update, ParamCount:4"
+//    (CREDITODDS-JAVASCRIPT-NEXTJS-16), rejected as a bare STRING rather than
+//    an Error. That wording is the CefSharp .NET/Chromium host bridge failing
+//    to resolve a JS object it registered — it is emitted by embedded-Chromium
+//    crawlers, chiefly Microsoft Outlook's SafeLinks scanner following a link
+//    from an email. No browser or library we ship produces it, the id and
+//    method name vary per hit, and there is no stack. Bot traffic, not users.
+//
+// 2. "Converting circular structure to JSON ... property '__reactFiber$...'"
+//    (CREDITODDS-JAVASCRIPT-NEXTJS-17): an injected script has monkey-patched
+//    Node.prototype.appendChild and JSON.stringify's the node React hands it
+//    during commit. React attaches its fiber to every DOM node it owns
+//    (`__reactFiber$<random>`), and a fiber points back at its stateNode, so
+//    stringifying any mounted node always cycles. The throw happens inside the
+//    extension's wrapper — every frame above our chunk is `<anonymous>` — so
+//    there is nothing to fix on our side. Both substrings are required: a
+//    genuine circular-structure bug in our own code would not be walking a
+//    React fiber.
 const BENIGN_CLIENT_SIGNATURES = [
   'The transaction was aborted',
   'database connection is closing',
@@ -53,6 +74,13 @@ const BENIGN_ANY_ERROR_SIGNATURES = [
   'Invalid call to runtime.sendMessage(). Tab not found.',
   'Connection to Indexed Database server lost',
   'installations/app-offline',
+  'Object Not Found Matching Id:',
+];
+
+// Every substring here must be present for the error to count as benign. Used
+// for shapes whose message alone is too generic to drop outright.
+const BENIGN_COMPOUND_SIGNATURES = [
+  ['Converting circular structure to JSON', '__reactFiber$'],
 ];
 
 // DOMException.ABORT_ERR — the numeric code carried by AbortErrors.
@@ -86,10 +114,25 @@ export function isBenignClientError(error: unknown): boolean {
       cause?: unknown;
     };
     const name = typeof e.name === 'string' ? e.name : '';
-    const message = typeof e.message === 'string' ? e.message : '';
+    // A promise can reject with a bare string (no Error wrapper), in which case
+    // the value itself is the only message we get.
+    const message =
+      typeof current === 'string'
+        ? current
+        : typeof e.message === 'string'
+          ? e.message
+          : '';
     const isAbort = name === 'AbortError' || e.code === ABORT_ERR_CODE;
 
     if (BENIGN_ANY_ERROR_SIGNATURES.some((sig) => message.includes(sig))) {
+      return true;
+    }
+
+    if (
+      BENIGN_COMPOUND_SIGNATURES.some((sigs) =>
+        sigs.every((sig) => message.includes(sig)),
+      )
+    ) {
       return true;
     }
 
