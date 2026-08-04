@@ -543,6 +543,60 @@
     "t3_1vdq0y5": "2026-08-03",
     "t3_1vdoco0": "2026-08-03",
     "t3_1vdm9o3": "2026-08-03",
-    "t3_1vdly9j": "2026-08-03"
+    "t3_1vdly9j": "2026-08-03",
+    "t3_1vf34af": "2026-08-04",
+    "t3_1vf2a15": "2026-08-04",
+    "t3_1vf195h": "2026-08-04",
+    "t3_1vezv3l": "2026-08-04",
+    "t3_1vew1hr": "2026-08-04",
+    "t3_1veuc7v": "2026-08-04",
+    "t3_1vetc5m": "2026-08-04",
+    "t3_1vesunj": "2026-08-04",
+    "t3_1vescdl": "2026-08-04",
+    "t3_1vesbqh": "2026-08-04",
+    "t3_1vepvhl": "2026-08-04",
+    "t3_1vepkyz": "2026-08-04",
+    "t3_1veoaac": "2026-08-04",
+    "t3_1ven88y": "2026-08-04",
+    "t3_1vemcpa": "2026-08-04",
+    "t3_1vekrm7": "2026-08-04",
+    "t3_1vejvd1": "2026-08-04",
+    "t3_1vejpra": "2026-08-04",
+    "t3_1vej4xt": "2026-08-04",
+    "t3_1veilgf": "2026-08-04",
+    "t3_1veiha7": "2026-08-04",
+    "t3_1vegb8r": "2026-08-04",
+    "t3_1veg83a": "2026-08-04",
+    "t3_1vefnqc": "2026-08-04"
+  },
+  "pending": {
+    "t3_1vew1hr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vew1hr/bilt_palladium_reporting_question/",
+      "title": "Bilt Palladium reporting question",
+      "posted": "2026-08-04",
+      "card_name": "Bilt Palladium",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster states a recent first-person Bilt Palladium approval and is asking which bureau Bilt pulls. Never gave any credit score.",
+      "firstSeen": "2026-08-04",
+      "attempts": 1,
+      "lastChecked": "2026-08-04"
+    },
+    "t3_1vetc5m": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vetc5m/high_income_earners_what_is_your_total_revolving/",
+      "title": "High Income Earners - What is your total revolving credit lines?",
+      "posted": "2026-08-03",
+      "card_name": "Capital One Venture X Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster reports a recent Venture X approval with $200k income and 15 open cards, but gives only low 800s for the score, which is too vague to use.",
+      "firstSeen": "2026-08-04",
+      "attempts": 1,
+      "lastChecked": "2026-08-04"
+    }
   }
 }
