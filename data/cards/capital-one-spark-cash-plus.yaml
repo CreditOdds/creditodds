@@ -1,0 +1,68 @@
+name: "Capital One Spark Cash Plus"
+bank: "Capital One"
+slug: "capital-one-spark-cash-plus"
+accepting_applications: true
+category: "business"
+annual_fee: 150
+foreign_transaction_fee: false
+reward_type: "cashback"
+tags:
+  - business
+  - cashback
+  - rewards
+rewards:
+  - category: hotels_car_portal
+    value: 5
+    unit: percent
+    note: "Hotels, vacation rentals, and rental cars booked through Capital One Business Travel"
+  - category: everything_else
+    value: 2
+    unit: percent
+signup_bonus:
+  value: 2000
+  type: "cash"
+  spend_requirement: 30000
+  timeframe_months: 3
+  note: "Also earns a $500 credit for Capital One Business Travel bookings on the same $30,000 spend, plus an additional $2,000 for every $500,000 spent in the first year"
+benefits:
+  - name: "Annual Fee Refund"
+    value: 150
+    description: "The $150 annual fee is refunded every year you spend at least $150,000 on the card"
+    frequency: "annual"
+    category: "other"
+  - name: "No Preset Spending Limit"
+    value: 0
+    description: "Purchasing power adjusts with spending patterns, payment history, and credit profile rather than sitting at a fixed credit line. The balance is due in full each month."
+    frequency: "ongoing"
+    category: "other"
+  - name: "Free Employee Cards"
+    value: 0
+    description: "Add employee cards at no additional cost with customizable spending limits; employee purchases earn cash back on the primary account"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Capital One Business Travel"
+    value: 0
+    description: "Complimentary access to Capital One Business Travel for booking and managing business trips"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Virtual Card Numbers"
+    value: 0
+    description: "Generate virtual card numbers for safer online payments"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Extended Warranty"
+    value: 0
+    description: "Extended warranty protection on eligible purchases at no additional cost"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Roadside Assistance"
+    value: 0
+    description: "24-hour roadside assistance for eligible service calls"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Year-End Spending Summaries"
+    value: 0
+    description: "Itemized year-end summaries and purchase records exportable to Quicken, QuickBooks, and Excel"
+    frequency: "annual"
+    category: "other"
+apply_link: https://www.capitalone.com/small-business/credit-cards/spark-cash-plus/

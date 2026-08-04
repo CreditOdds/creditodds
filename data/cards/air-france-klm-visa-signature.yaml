@@ -1,0 +1,65 @@
+name: "Air France KLM Visa Signature"
+previous_names:
+  - "Air France KLM World Elite Mastercard"
+bank: "Bank of America"
+slug: "air-france-klm-visa-signature"
+accepting_applications: true
+category: "travel"
+annual_fee: 89
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "miles"
+tags:
+  - travel
+  - airline
+  - rewards
+rewards:
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+    note: "Air France, KLM, and other SkyTeam member airline purchases"
+    merchant_gate: [air-france-klm]
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1.5
+    unit: points_per_dollar
+signup_bonus:
+  value: 50000
+  type: "miles"
+  spend_requirement: 2000
+  timeframe_months: 3
+  note: "Plus 100 Experience Points (XP) toward Flying Blue elite status"
+apr:
+  regular:
+    min: 19.49
+    max: 27.49
+benefits:
+  - name: "Anniversary Miles"
+    value: 0
+    description: "5,000 Flying Blue miles each account anniversary after spending $50 or more on purchases during the anniversary year"
+    frequency: "annual"
+    category: "travel"
+  - name: "Annual Experience Points"
+    value: 0
+    description: "20 XP toward Flying Blue elite status each anniversary, rising to 100 XP total with $15,000 in annual spend and 160 XP total with $25,000"
+    frequency: "annual"
+    category: "travel"
+  - name: "Miles Do Not Expire"
+    value: 0
+    description: "Flying Blue miles stay active while the card account is open"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Visa Signature Protections"
+    value: 0
+    description: "Visa Signature benefit package covering auto rental collision damage, trip delay, baggage delay, and cell phone protection"
+    frequency: "ongoing"
+    category: "insurance"
+    enrollment_required: false
+  - name: "$0 Liability Guarantee"
+    value: 0
+    description: "No liability for fraudulent transactions reported promptly"
+    frequency: "ongoing"
+    category: "other"
+apply_link: https://www.bankofamerica.com/credit-cards/products/air-france-credit-card/

@@ -1,0 +1,67 @@
+name: "Capital One VentureOne Business"
+bank: "Capital One"
+slug: "capital-one-ventureone-business"
+accepting_applications: true
+category: "business"
+annual_fee: 0
+foreign_transaction_fee: false
+reward_type: "miles"
+tags:
+  - business
+  - travel
+  - rewards
+rewards:
+  - category: hotels_car_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Hotels, vacation rentals, and rental cars booked through Capital One Business Travel"
+  - category: everything_else
+    value: 1.5
+    unit: points_per_dollar
+signup_bonus:
+  value: 50000
+  type: "miles"
+  spend_requirement: 4500
+  timeframe_months: 3
+apr:
+  regular:
+    min: 16.74
+    max: 22.74
+benefits:
+  - name: "Hertz Five Star Status"
+    value: 0
+    description: "Complimentary Hertz Five Star status with faster counter service and free upgrades when available"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: true
+  - name: "Auto Rental Collision Damage Waiver"
+    value: 0
+    description: "Secondary collision and theft coverage on eligible business rentals paid with the card"
+    frequency: "per_rental"
+    category: "insurance"
+  - name: "Free Employee Cards"
+    value: 0
+    description: "Add employee cards at no additional cost with customizable spending limits; employee purchases earn miles on the primary account"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Capital One Business Travel"
+    value: 0
+    description: "Complimentary access to Capital One Business Travel for booking and managing business trips"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Transfer Partners"
+    value: 0
+    description: "Transfer miles to more than 15 airline and hotel loyalty programs, or redeem for travel purchases as a statement credit"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Extended Warranty"
+    value: 0
+    description: "Extended warranty protection on eligible purchases at no additional cost"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Roadside Assistance"
+    value: 0
+    description: "24-hour roadside assistance for eligible service calls"
+    frequency: "ongoing"
+    category: "travel"
+apply_link: https://www.capitalone.com/small-business/credit-cards/ventureone-business/

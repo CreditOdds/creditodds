@@ -1,0 +1,58 @@
+name: "Capital One Spark Classic"
+bank: "Capital One"
+slug: "capital-one-spark-classic"
+accepting_applications: true
+category: "business"
+annual_fee: 0
+foreign_transaction_fee: false
+reward_type: "cashback"
+tags:
+  - business
+  - cashback
+  - credit_builder
+rewards:
+  - category: everything_else
+    value: 1
+    unit: percent
+    note: "Unlimited 1% cash back with no minimum to redeem and no expiration while the account is open"
+apr:
+  regular:
+    min: 28.99
+    max: 28.99
+benefits:
+  - name: "Free Employee Cards"
+    value: 0
+    description: "Add employee cards at no additional cost with customizable spending limits; employee purchases earn cash back on the primary account"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Virtual Card Numbers"
+    value: 0
+    description: "Generate virtual card numbers for safer online payments"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Choose Your Due Date"
+    value: 0
+    description: "Pick the monthly payment due date that fits the business cash flow"
+    frequency: "ongoing"
+    category: "other"
+  - name: "Capital One Business Travel"
+    value: 0
+    description: "Complimentary access to Capital One Business Travel for booking and managing business trips"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Extended Warranty"
+    value: 0
+    description: "Extended warranty protection on eligible purchases at no additional cost"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Roadside Assistance"
+    value: 0
+    description: "24-hour roadside assistance for eligible service calls"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Year-End Spending Summaries"
+    value: 0
+    description: "Itemized year-end summaries and purchase records exportable to Quicken, QuickBooks, and Excel"
+    frequency: "annual"
+    category: "other"
+apply_link: https://www.capitalone.com/small-business/credit-cards/spark-classic/
