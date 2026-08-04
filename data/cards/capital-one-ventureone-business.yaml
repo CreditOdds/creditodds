@@ -2,6 +2,7 @@ name: "Capital One VentureOne Business"
 bank: "Capital One"
 slug: "capital-one-ventureone-business"
 accepting_applications: true
+image: "capital-one-ventureone-business.png"
 category: "business"
 annual_fee: 0
 foreign_transaction_fee: false

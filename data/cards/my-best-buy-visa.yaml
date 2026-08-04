@@ -2,6 +2,7 @@ name: "My Best Buy Visa"
 bank: "Citi"
 slug: "my-best-buy-visa"
 accepting_applications: true
+image: "my-best-buy-visa.png"
 category: "cashback"
 annual_fee: 0
 foreign_transaction_fee: false
