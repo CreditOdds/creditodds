@@ -1,6 +1,7 @@
 name: "Free Spirit Travel Mastercard"
 bank: "Bank of America"
 slug: "free-spirit-travel-mastercard"
+image: "free-spirit-travel.png"
 accepting_applications: false
 category: "travel"
 annual_fee: 0

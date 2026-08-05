@@ -1,6 +1,7 @@
 name: "Kroger Rewards World Elite Mastercard"
 bank: "U.S. Bank"
 slug: "kroger-rewards-world-elite-mastercard"
+image: "kroger-rewards-world-elite.png"
 accepting_applications: false
 # One product, issued per Kroger Family of Companies banner. These are not
 # former names, they were concurrent brandings of this same card, which is why
