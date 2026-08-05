@@ -1,0 +1,58 @@
+name: "Kroger Rewards World Elite Mastercard"
+bank: "U.S. Bank"
+slug: "kroger-rewards-world-elite-mastercard"
+accepting_applications: false
+category: "cashback"
+annual_fee: 0
+reward_type: "cashback"
+network: "mastercard"
+foreign_transaction_fee: false
+tags:
+  - cashback
+  - rewards
+rewards:
+  # The 5% is on mobile wallet spend generally, not just Kroger Pay inside a
+  # store, which is what made this card worth holding for anyone who tapped to
+  # pay everywhere. Kroger Pay counts toward the same $3,000 calendar-year cap.
+  - category: mobile_wallet
+    value: 5
+    unit: percent
+    note: "Mobile wallet and Kroger Pay purchases; $3,000 calendar-year cap, then 1%"
+    spend_cap: 3000
+    cap_period: annual
+    rate_after_cap: 1
+  # Kroger Family of Companies stores only, so this must not match generic
+  # grocery-store queries: the card paid 1% at a supermarket it did not own.
+  - category: groceries
+    value: 2
+    unit: percent
+    merchant_specific: true
+    note: "Purchases inside Kroger Family of Companies stores only (Kroger, Harris Teeter, Ralphs, Fred Meyer, King Soopers, QFC, Smith's, Fry's, Dillons, Pick 'n Save, Mariano's and the other banners); excludes fuel centers"
+  - category: everything_else
+    value: 1
+    unit: percent
+benefits:
+  - name: "Kroger fuel discount"
+    description: "An extra 5 cents per gallon off at Kroger Family of Companies Fuel Centers on top of earned fuel points, rising to 25 cents per gallon after $6,000 in calendar-year spend when redeeming at least 100 fuel points."
+    category: "shopping"
+  - name: "Boost Essential membership"
+    description: "Complimentary Kroger Boost Essential membership, which includes free grocery delivery on qualifying orders and doubled fuel points."
+    category: "shopping"
+our_take: >
+  The Kroger card was one of the better mobile wallet plays available, and its
+  ending is the reason people are still talking about it. U.S. Bank issued it
+  across the Kroger Family of Companies, so the same product appeared as a
+  Harris Teeter, Ralphs, Fred Meyer, King Soopers, QFC, Smith's, Fry's,
+  Dillons, Pick 'n Save or Mariano's card depending on which banner you shopped
+  at. All of them earned 5% back on mobile wallet purchases up to $3,000 a
+  calendar year, which was a rare uncapped-by-category rate for anyone who
+  tapped to pay, plus 2% inside Kroger-owned stores and 1% everywhere else.
+  U.S. Bank stopped taking applications in April 2026 and confirmed that
+  July that the partnership was ending. Existing accounts are being converted
+  to the Smartly Visa Signature between August and October 2026, with balances,
+  APRs, credit limits and rewards carrying over, so nobody has to reapply. What
+  does not survive is the part that made the card worth holding: the 5% mobile
+  wallet rate becomes a flat 2%, and the fuel discount stops the moment the new
+  card is activated. Converted cardholders get an extra 1% at groceries and gas
+  for 12 months as a consolation, which softens the first year and nothing
+  after that.
