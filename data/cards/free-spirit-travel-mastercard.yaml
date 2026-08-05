@@ -1,0 +1,50 @@
+name: "Free Spirit Travel Mastercard"
+bank: "Bank of America"
+slug: "free-spirit-travel-mastercard"
+accepting_applications: false
+category: "travel"
+annual_fee: 0
+reward_type: "points"
+network: "mastercard"
+foreign_transaction_fee: false
+tags:
+  - travel
+  - rewards
+rewards:
+  - category: airlines
+    value: 2
+    unit: points_per_dollar
+    merchant_specific: true
+    note: "Eligible Spirit Airlines purchases only"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+benefits:
+  - name: "Anniversary bonus points"
+    description: "5,000 bonus points at each account anniversary after spending at least $10,000 in the prior anniversary year."
+    value: 5000
+    value_unit: points
+    category: "travel"
+  - name: "Inflight rebate"
+    description: "A 25% rebate on Spirit inflight food and beverage purchases paid for with the card."
+    value: 25
+    value_unit: percent
+    category: "travel"
+  - name: "Priority boarding"
+    description: "Zone 2 shortcut boarding on Spirit flights."
+    category: "travel"
+our_take: >
+  The no-fee Spirit card was the lighter version of the co-brand, and it asked
+  very little of you: no annual fee, no foreign transaction fees, 2x on Spirit
+  purchases and 1x on everything else. It kept the inflight rebate and shortcut
+  boarding, and paid 5,000 bonus points at your anniversary if you had put
+  $10,000 through it, which was a lot of spend for a small reward on a 1x
+  catch-all. It only ever made sense as a way to hold a Spirit relationship
+  without paying for it, and the Travel More tier was the better card for
+  anyone actually flying Spirit often. All of that is academic now. Spirit
+  ceased operations on May 2, 2026, Free Spirit points can no longer be
+  redeemed for flights or moved to another program, and Bank of America is
+  converting these accounts to the Customized Cash Rewards Mastercard with the
+  account number, APR and credit line unchanged. The conversion is a genuine
+  upgrade in earning terms, since a 1x airline card becomes a 3% category card,
+  and it is not something you can opt into by applying.

@@ -152,16 +152,53 @@ function loadCardCatalog() {
     try {
       const doc = yaml.load(fs.readFileSync(path.join(CARDS_DIR, file), 'utf8'));
       if (!doc || !doc.name) continue;
+      // Both fields are extraction aliases even though they mean different
+      // things on the card page: a rebrand's old name and a co-brand's sibling
+      // banner name are equally likely to be what the poster actually typed.
+      const aliases = [
+        ...(Array.isArray(doc.previous_names) ? doc.previous_names : []),
+        ...(Array.isArray(doc.also_known_as) ? doc.also_known_as : []),
+      ].filter((a) => typeof a === 'string' && a.trim());
       cards.push({
         name: doc.name,
         bank: doc.bank || '',
-        previousNames: Array.isArray(doc.previous_names) ? doc.previous_names : [],
+        aliases,
       });
     } catch {
       // A malformed card file should not abort a multi-hour sweep.
     }
   }
   return cards;
+}
+
+// Maps every name the extractor might legitimately emit onto the one canonical
+// card name, so a sibling-branded post ("my Harris Teeter card") lands on the
+// same edge as the canonical one instead of being rejected as uncatalogued.
+//
+// Canonical names always win: an alias is only registered when nothing real
+// already holds that name, which stops a careless alias on one card from
+// hijacking another card's identity. Collisions are reported rather than
+// silently resolved, because two cards claiming one alias means the data is
+// wrong and picking a winner would hide that.
+function buildNameResolver(catalog) {
+  const byLower = new Map();
+  const collisions = [];
+  for (const c of catalog) byLower.set(c.name.toLowerCase(), c.name);
+  for (const c of catalog) {
+    for (const alias of c.aliases) {
+      const key = alias.toLowerCase();
+      const held = byLower.get(key);
+      if (held === undefined) {
+        byLower.set(key, c.name);
+      } else if (held !== c.name) {
+        collisions.push(`"${alias}" claimed by both "${held}" and "${c.name}"`);
+      }
+    }
+  }
+  return {
+    canonical: (name) => byLower.get(String(name || '').trim().toLowerCase()) || name,
+    collisions,
+  };
 }
 
 // Reddit search chokes on very long quoted phrases and on punctuation, so the
@@ -239,11 +276,22 @@ function buildExtractPrompt(candidates, catalog) {
   const byBank = new Map();
   for (const c of catalog) {
     if (!byBank.has(c.bank)) byBank.set(c.bank, []);
-    byBank.get(c.bank).push(c.name);
+    // A card with aliases is listed as "Canonical [= alias, alias]". The
+    // canonical name still leads, because that is what must be emitted.
+    byBank.get(c.bank).push({
+      sort: c.name,
+      label: c.aliases.length ? `${c.name} [= ${c.aliases.join(', ')}]` : c.name,
+    });
   }
   const cardList = [...byBank.entries()]
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([bank, names]) => `- **${bank}**: ${names.sort().join(' · ')}`)
+    .map(
+      ([bank, entries]) =>
+        `- **${bank}**: ${entries
+          .sort((a, b) => a.sort.localeCompare(b.sort))
+          .map((e) => e.label)
+          .join(' · ')}`,
+    )
     .join('\n');
 
   const posts = candidates
@@ -287,9 +335,15 @@ Do NOT record:
 
 ## Hard rules
 
-1. **Both cards must be in the catalog, spelled exactly as listed.**
+1. **Both cards must be in the catalog, spelled exactly as listed.** A catalog
+   entry written \`Canonical [= other, other]\` is one product that shipped
+   under several names, usually a co-brand rebranded per store banner. A post
+   naming any of them counts, but **always emit the canonical name** (the part
+   before the \`[\`), never the alias.
 2. **Both cards must be from the same issuer.** A product change never crosses
    issuers. If your reading has it crossing, the reading is wrong — drop it.
+   Aliases do not change this: a sibling brand has the same issuer as its
+   canonical card, so "Harris Teeter card to Smartly" is a U.S. Bank change.
 3. \`source_id\` must be one of the ids listed below (optionally with a \`#N\`
    suffix for multi-hop posts). Do not invent posts.
 4. \`change_month\` is \`YYYY-MM\`. Use the month the poster states; if they only
@@ -386,6 +440,11 @@ function phaseFinish() {
   const catalog = loadCardCatalog();
   const cardByName = new Map(catalog.map((c) => [c.name, c]));
   const bankByName = new Map(catalog.map((c) => [c.name, c.bank]));
+  const resolver = buildNameResolver(catalog);
+  if (resolver.collisions.length) {
+    console.warn(`Alias collisions in data/cards (aliases ignored for these):`);
+    for (const c of resolver.collisions) console.warn(`  - ${c}`);
+  }
 
   const files = fs.existsSync(proposedDir)
     ? fs.readdirSync(proposedDir).filter((f) => f.endsWith('.json')).sort()
@@ -408,6 +467,12 @@ function phaseFinish() {
       rejected.push({ file, errors: [`unparseable JSON: ${err.message}`] });
       continue;
     }
+    // Fold aliases onto canonical names before validating, so the rest of the
+    // pipeline — the catalog check, the same-issuer check, the written YAML,
+    // and the row the Lambda imports — only ever sees one name per product.
+    pc.from_card = resolver.canonical(pc.from_card);
+    pc.to_card = resolver.canonical(pc.to_card);
+
     const errors = validateChange(pc, { candidateIds, cardByName, bankByName, usedIds });
     if (errors.length) {
       rejected.push({ file, errors });
@@ -688,7 +753,16 @@ async function main() {
   console.log(`State: ${STATE_PATH}`);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  buildNameResolver,
+  buildExtractPrompt,
+  loadCardCatalog,
+  validateChange,
+};
