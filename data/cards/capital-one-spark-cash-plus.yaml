@@ -20,11 +20,11 @@ rewards:
     value: 2
     unit: percent
 signup_bonus:
-  value: 2000
+  value: 4000
   type: "cash"
-  spend_requirement: 30000
-  timeframe_months: 3
-  note: "Also earns a $500 credit for Capital One Business Travel bookings on the same $30,000 spend, plus an additional $2,000 for every $500,000 spent in the first year"
+  spend_requirement: 500000
+  timeframe_months: 12
+  note: "Earn a $2,000 cash bonus when you spend $30,000 in the first 3 months, plus an additional $2,000 cash bonus for every $500,000 spent in the first year (earnable multiple times). The two spend bonuses may be earned independently. For a limited time, also earn a one-time $500 Capital One Business Travel credit when you spend $30,000 in the first 3 months."
 benefits:
   - name: "Annual Fee Refund"
     value: 150
