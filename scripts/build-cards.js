@@ -348,6 +348,7 @@ function buildCards() {
       card.card_id = card.slug;
       card.card_name = card.name; // Alias for compatibility
       delete card.check_ignore;
+      delete card.also_known_as;
 
       cards.push(card);
       cardsWithFiles.push({ file, card });

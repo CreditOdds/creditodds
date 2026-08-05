@@ -12,6 +12,11 @@
       "items": { "type": "string" },
       "description": "Prior names this card was known by, e.g. before a rebrand. Rendered on the card detail page."
     },
+    "also_known_as": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Other names this SAME product was issued under at the same time, e.g. the per-banner brandings of a co-brand (Kroger's card also shipped as the Harris Teeter and Ralphs card). Unlike `previous_names` these are concurrent siblings, not a rebrand history, so they are NOT rendered as former names. Reserve it for names NOT derivable from the canonical one: an extractor can match a dropped tier word (\"Travel More Mastercard\" -> \"Travel More World Elite Mastercard\") on its own, but nothing in \"Kroger\" tells it that the Harris Teeter card is the same product. Build-time only, stripped from cards.json; today the only consumer is sweep-reddit-product-changes.js, which shows them to the extractor so a post naming a sibling brand still resolves to this card."
+    },
     "our_take": {
       "type": "string",
       "description": "Editorial paragraph rendered in the 'Our take' block on the card detail page. Optional; when omitted the block is hidden (only the Featured-in chips render, if the card is top-3 on a /best/ list)."

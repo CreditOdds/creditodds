@@ -2,6 +2,29 @@ name: "Kroger Rewards World Elite Mastercard"
 bank: "U.S. Bank"
 slug: "kroger-rewards-world-elite-mastercard"
 accepting_applications: false
+# One product, issued per Kroger Family of Companies banner. These are not
+# former names, they were concurrent brandings of this same card, which is why
+# they live here and not in previous_names. Reddit posters name the banner they
+# shop at, so without these every "my Harris Teeter card" report is dropped.
+also_known_as:
+  - "Harris Teeter Rewards World Elite Mastercard"
+  - "Ralphs Rewards World Elite Mastercard"
+  - "Fred Meyer Rewards World Elite Mastercard"
+  - "King Soopers Rewards World Elite Mastercard"
+  - "QFC Rewards World Elite Mastercard"
+  - "Smith's Rewards World Elite Mastercard"
+  - "Fry's Rewards World Elite Mastercard"
+  - "Dillons Rewards World Elite Mastercard"
+  - "Pick 'n Save Rewards World Elite Mastercard"
+  - "Mariano's Rewards World Elite Mastercard"
+  - "City Market Rewards World Elite Mastercard"
+  - "Metro Market Rewards World Elite Mastercard"
+  - "Baker's Rewards World Elite Mastercard"
+  - "Gerbes Rewards World Elite Mastercard"
+  - "Jay C Rewards World Elite Mastercard"
+  - "Pay Less Rewards World Elite Mastercard"
+  - "Owen's Rewards World Elite Mastercard"
+  - "Kroger Family of Companies Rewards World Elite Mastercard"
 category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
