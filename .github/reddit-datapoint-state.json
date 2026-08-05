@@ -548,9 +548,9 @@
     "t3_1vf2a15": "2026-08-04",
     "t3_1vf195h": "2026-08-04",
     "t3_1vezv3l": "2026-08-04",
-    "t3_1vew1hr": "2026-08-04",
+    "t3_1vew1hr": "2026-08-05",
     "t3_1veuc7v": "2026-08-04",
-    "t3_1vetc5m": "2026-08-04",
+    "t3_1vetc5m": "2026-08-05",
     "t3_1vesunj": "2026-08-04",
     "t3_1vescdl": "2026-08-04",
     "t3_1vesbqh": "2026-08-04",
@@ -567,23 +567,24 @@
     "t3_1veiha7": "2026-08-04",
     "t3_1vegb8r": "2026-08-04",
     "t3_1veg83a": "2026-08-04",
-    "t3_1vefnqc": "2026-08-04"
+    "t3_1vefnqc": "2026-08-04",
+    "t3_1vg2pf8": "2026-08-05",
+    "t3_1vfz3n9": "2026-08-05",
+    "t3_1vfxn4i": "2026-08-05",
+    "t3_1vfx27n": "2026-08-05",
+    "t3_1vft5e2": "2026-08-05",
+    "t3_1vfrml2": "2026-08-05",
+    "t3_1vfr5ea": "2026-08-05",
+    "t3_1vfpup6": "2026-08-05",
+    "t3_1vfmagn": "2026-08-05",
+    "t3_1vfjeba": "2026-08-05",
+    "t3_1vfj0mo": "2026-08-05",
+    "t3_1vfiqjx": "2026-08-05",
+    "t3_1vfgkp4": "2026-08-05",
+    "t3_1vffwot": "2026-08-05",
+    "t3_1vf9i3c": "2026-08-05"
   },
   "pending": {
-    "t3_1vew1hr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vew1hr/bilt_palladium_reporting_question/",
-      "title": "Bilt Palladium reporting question",
-      "posted": "2026-08-04",
-      "card_name": "Bilt Palladium",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster states a recent first-person Bilt Palladium approval and is asking which bureau Bilt pulls. Never gave any credit score.",
-      "firstSeen": "2026-08-04",
-      "attempts": 1,
-      "lastChecked": "2026-08-04"
-    },
     "t3_1vetc5m": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vetc5m/high_income_earners_what_is_your_total_revolving/",
       "title": "High Income Earners - What is your total revolving credit lines?",
@@ -593,10 +594,51 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster reports a recent Venture X approval with $200k income and 15 open cards, but gives only low 800s for the score, which is too vague to use.",
+      "note": "Poster reports a recent Venture X approval with $200k income and 15 open cards. Score is still only given as low 800s, which is too vague to use. Re-read today, no score in the body or OP replies.",
       "firstSeen": "2026-08-04",
+      "attempts": 2,
+      "lastChecked": "2026-08-05"
+    },
+    "t3_1vfxn4i": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vfxn4i/needing_help_with_credit_card_dilemma/",
+      "title": "Needing help with credit card dilemma",
+      "posted": "2026-08-05",
+      "result": "approved",
+      "missing": [
+        "credit_score",
+        "card_name"
+      ],
+      "note": "Poster reports being approved for a Discover it with a $3,000 starting limit, up from a prior $600 ceiling. Never gives a score, and never says which Discover it variant it is.",
+      "firstSeen": "2026-08-05",
       "attempts": 1,
-      "lastChecked": "2026-08-04"
+      "lastChecked": "2026-08-05"
+    },
+    "t3_1vfx27n": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vfx27n/could_hard_inquiries_be_why_chase_keeps_denying/",
+      "title": "Could hard inquiries be why Chase keeps denying me despite an 800 credit score?",
+      "posted": "2026-08-05",
+      "result": "denied",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Poster reports repeated Chase denials on a Marriott card with a score around 800, $144k total limits and three listed inquiries. Never says which Marriott card, and the timing of the applications is loose.",
+      "firstSeen": "2026-08-05",
+      "attempts": 1,
+      "lastChecked": "2026-08-05"
+    },
+    "t3_1vfjeba": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vfjeba/how_can_i_ensure_i_get_higher_credit_limits_in/",
+      "title": "How can I ensure I get higher credit limits in the future?",
+      "posted": "2026-08-04",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster reports a July 2026 Sapphire Preferred approval with a $35,000 starting limit, plus a Robinhood Gold approval at $2,000 and two Chase Ink approvals at $3,000 each. No credit score anywhere, so all four are blocked on the same missing number.",
+      "firstSeen": "2026-08-05",
+      "attempts": 1,
+      "lastChecked": "2026-08-05"
     }
   }
 }
