@@ -2040,3 +2040,77 @@ merchants:
   # Yves Rocher
   yves-rocher:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27010&trid=1552713.249667&foc=17&fot=9999&fos=6&url="
+
+  # --- Added 2026-08-05 (CJ Affiliate approvals, Tier A+B new store pages) ---
+  # network: cj on each entry; CJ CLICK URLs are complete, used as-is.
+  # Shipped as a separate change: CJ account onboarding was incomplete at add
+  # time, so click attribution should be spot-checked once onboarding clears.
+  # Acronis International GmbH
+  acronis:
+    url: "https://www.anrdoezrs.net/click-101737824-17049709"
+    network: cj
+  # FlexJobs
+  flexjobs:
+    url: "https://www.tkqlhce.com/click-101737824-13413287"
+    network: cj
+  # HealthLabs.com
+  healthlabs:
+    url: "https://www.jdoqocy.com/click-101737824-13703022"
+    network: cj
+  # Jeulia Jewelry
+  jeulia:
+    url: "https://www.anrdoezrs.net/click-101737824-12507037"
+    network: cj
+    offer: "free standard shipping over $99"
+  # LawDepot
+  lawdepot:
+    url: "https://www.tkqlhce.com/click-101737824-16944777"
+    network: cj
+  # Momcozy
+  momcozy:
+    url: "https://www.dpbolvw.net/click-101737824-17049857"
+    network: cj
+  # PartsGeek.com
+  partsgeek:
+    url: "https://www.kqzyfj.com/click-101737824-10585298"
+    network: cj
+  # PuroAir
+  puroair:
+    url: "https://www.tkqlhce.com/click-101737824-17235046"
+    network: cj
+  # Revive Superfoods
+  revive-superfoods:
+    url: "https://www.jdoqocy.com/click-101737824-17247786"
+    network: cj
+  # Soundcore
+  soundcore:
+    url: "https://www.anrdoezrs.net/click-101737824-17024103"
+    network: cj
+  # SteelSeries
+  steelseries:
+    url: "https://www.tkqlhce.com/click-101737824-17028016"
+    network: cj
+  # Tablo
+  tablo:
+    url: "https://www.dpbolvw.net/click-101737824-14497398"
+    network: cj
+  # TicketNetwork
+  ticketnetwork:
+    url: "https://www.jdoqocy.com/click-101737824-15520254"
+    network: cj
+  # Timex
+  timex:
+    url: "https://www.dpbolvw.net/click-101737824-17010514"
+    network: cj
+  # Wondershare
+  wondershare:
+    url: "https://www.tkqlhce.com/click-101737824-10890849"
+    network: cj
+  # Yarnspirations
+  yarnspirations:
+    url: "https://www.tkqlhce.com/click-101737824-13781226"
+    network: cj
+  # ZINIO US
+  zinio:
+    url: "https://www.dpbolvw.net/click-101737824-17177799"
+    network: cj
