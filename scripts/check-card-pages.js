@@ -216,6 +216,34 @@ function checkUrlFor(card) {
   return apply_link || special_apply_link;
 }
 
+// Hosts that serve SESSION-VARYING welcome offers: the same URL returns a
+// different bonus depending on session/cookies/IP, so an automated fetch can
+// legitimately render a SMALLER offer than a person sees in a clean browser.
+// This is not a parsing problem — there is no strikethrough to catch and the
+// fetched HTML contains only the lower number.
+//
+// Verified 2026-08-05 on Delta SkyMiles Reserve Business: the run's headless
+// fetch rendered a flat "Earn 80,000 Bonus Miles after you spend $12,000 ... in
+// your first 6 months" and the extractor correctly reported 80,000, while an
+// incognito browser on the same URL showed "<s>80,000</s> 125,000 Bonus Miles"
+// under a "Special Welcome Offer" header. The check proposed 125,000 → 80,000
+// and, because the stored entry had no note, no tier guard applied and the
+// downgrade was written straight into the YAML.
+//
+// Only DECREASES are suspect. A targeted-down session cannot invent a number
+// higher than the public offer, so increases still flow through normally.
+const SESSION_TARGETED_OFFER_HOSTS = ['americanexpress.com'];
+
+function isSessionTargetedOfferHost(url) {
+  if (!url) return false;
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return SESSION_TARGETED_OFFER_HOSTS.some(h => host === h || host.endsWith(`.${h}`));
+  } catch {
+    return false;
+  }
+}
+
 function filterCardsForCheck(allCards, slugFilter) {
   let cards = allCards.filter(
     c => c.data.accepting_applications !== false && checkUrlFor(c)
@@ -1223,9 +1251,37 @@ function detectChanges(card, extracted, now = new Date(), suppressions = [], pag
       cur.spend_requirement != null &&
       sb.spend_requirement > cur.spend_requirement;
 
-    const skipAsTieredBonus = tierCollapse || spendOvercount;
+    // A bonus DECREASE on a session-targeted host is unfalsifiable from the
+    // fetched text alone: the page really did say the smaller number to this
+    // client. Hold the stored value and make a human confirm in a clean browser
+    // rather than writing a possibly-targeted downgrade into production.
+    //
+    // Unlike the tier guards this one cannot self-disarm — the evidence it would
+    // need is not in the page. That is a deliberate trade: the suppression is
+    // reported at the end of every run, so a genuine Amex reduction shows up as
+    // a standing line item to apply by hand, whereas a silent downgrade reaches
+    // the live site and only gets caught if somebody happens to look.
+    const offerVariantDowngrade =
+      isSessionTargetedOfferHost(checkUrlFor(card)) &&
+      sb.value != null &&
+      cur.value != null &&
+      sb.value < cur.value;
 
-    if (skipAsTieredBonus) {
+    const skipAsTieredBonus = tierCollapse || spendOvercount || offerVariantDowngrade;
+
+    if (offerVariantDowngrade) {
+      const reason =
+        `proposed value ${cur.value} → ${sb.value} is a DECREASE on a host that serves ` +
+        `session-targeted offers — the fetch may have been shown a smaller variant than ` +
+        `the public one. Verify in a clean/incognito browser and apply by hand if real.`;
+      console.log(`  Ignoring signup_bonus changes: ${reason}`);
+      suppressions.push({
+        card_name: current.name,
+        guard: 'offer-variant-downgrade',
+        reason,
+        url: checkUrlFor(card),
+      });
+    } else if (skipAsTieredBonus) {
       const reason = tierCollapse
         ? `proposed value ${cur.value} → ${sb.value} looks like a base-tier-only misparse`
         : `proposed spend_requirement ${cur.spend_requirement} → ${sb.spend_requirement} looks like an overlapping-window double-count`;
