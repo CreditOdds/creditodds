@@ -1105,4 +1105,83 @@ test('an empty or missing reason is not retried', () => {
   assert.equal(isTransientNetworkError(undefined), false);
 });
 
+// ─── Session-targeted offer downgrades ──────────────────────────────────────
+//
+// Delta SkyMiles Reserve Business, 2026-08-05: the run's headless fetch was
+// served a flat 80,000 while an incognito browser showed 125,000. The stored
+// entry had no note, so no tier guard applied and the downgrade was written
+// into the YAML (caught in review on PR #1956). Only DECREASES on these hosts
+// are held — a targeted-down session cannot invent a higher number.
+
+const AMEX_URL =
+  'https://www.americanexpress.com/en-us/business/credit-cards/delta-skymiles-reserve/';
+
+function amexCard(value, url = AMEX_URL) {
+  return {
+    name: 'Delta SkyMiles Reserve Business American Express',
+    data: {
+      name: 'Delta SkyMiles Reserve Business American Express',
+      apply_link: url,
+      signup_bonus: { value, type: 'miles', spend_requirement: 12000, timeframe_months: 6 },
+    },
+  };
+}
+
+const amexExtract = value => ({
+  signup_bonus: { value, spend_requirement: 12000, timeframe_months: 6, offer_is_tiered: null },
+});
+
+const RENDERED_OFFER =
+  'Earn Bonus Miles after you spend $12,000 in purchases in your first 6 months of Card Membership.';
+
+console.log('\nSession-targeted offer downgrade suppression:');
+
+test('Amex value downgrade 125000 → 80000 is suppressed and recorded', () => {
+  const suppressions = [];
+  const changes = detectChanges(
+    amexCard(125000), amexExtract(80000), new Date(), suppressions, RENDERED_OFFER
+  );
+  assert.deepEqual(fieldsChanged(changes), []);
+  assert.equal(suppressions.length, 1);
+  assert.equal(suppressions[0].guard, 'offer-variant-downgrade');
+});
+
+test('an Amex value INCREASE still flows through', () => {
+  const changes = detectChanges(
+    amexCard(80000), amexExtract(125000), new Date(), [], RENDERED_OFFER
+  );
+  assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
+});
+
+test('the host match covers subdomains', () => {
+  const changes = detectChanges(
+    amexCard(125000, 'https://cards.americanexpress.com/x'), amexExtract(80000),
+    new Date(), [], RENDERED_OFFER
+  );
+  assert.deepEqual(fieldsChanged(changes), []);
+});
+
+test('a lookalike host is NOT treated as Amex', () => {
+  const changes = detectChanges(
+    amexCard(125000, 'https://www.notamericanexpress.com/x'), amexExtract(80000),
+    new Date(), [], RENDERED_OFFER
+  );
+  assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
+});
+
+test('a downgrade on an unlisted host is unaffected', () => {
+  const changes = detectChanges(
+    amexCard(125000, 'https://creditcards.chase.com/x'), amexExtract(80000),
+    new Date(), [], RENDERED_OFFER
+  );
+  assert.deepEqual(fieldsChanged(changes), ['signup_bonus.value']);
+});
+
+test('a card with no URL at all does not crash the guard', () => {
+  const card = { name: 'No URL', data: { name: 'No URL', signup_bonus: { value: 125000 } } };
+  assert.doesNotThrow(() =>
+    detectChanges(card, amexExtract(80000), new Date(), [], RENDERED_OFFER)
+  );
+});
+
 console.log('');
