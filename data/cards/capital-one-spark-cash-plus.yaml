@@ -24,8 +24,13 @@ signup_bonus:
   type: "cash"
   spend_requirement: 30000
   timeframe_months: 3
-  note: "Also earns a $500 credit for Capital One Business Travel bookings on the same $30,000 spend, plus an additional $2,000 for every $500,000 spent in the first year"
+  note: "For a limited time, also earns a one-time $500 Capital One Business Travel credit on the same $30,000 spend in the first 3 months"
 benefits:
+  - name: "Volume Spend Bonus"
+    value: 2000
+    description: "$2,000 cash bonus for every $500,000 spent in the first year, earnable multiple times"
+    frequency: "annual"
+    category: "other"
   - name: "Annual Fee Refund"
     value: 150
     description: "The $150 annual fee is refunded every year you spend at least $150,000 on the card"
