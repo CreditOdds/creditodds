@@ -1811,3 +1811,232 @@ merchants:
   shipstation:
     url: "https://www.anrdoezrs.net/click-101737824-13896119"
     network: cj
+
+  # --- Added 2026-08-05 (FlexOffers approvals, Tier A+B new store pages) ---
+  # Deep links (foc=17) taken verbatim from the approved-programs sheet, with
+  # only the scheme upgraded http->https. `&url=` ships empty as provided —
+  # verified 2026-08-05 that the empty form still redirects to the merchant
+  # with the clickid attached. Every merchant except qatar-airways ships with
+  # a new data/stores/<slug>.yaml page in the same change.
+  # 100% PURE
+  100-pure:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37229&trid=1552713.230391&foc=17&fot=9999&fos=6&url="
+    offer: "20% off your first order"
+  # Aerosoles
+  aerosoles:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9946&trid=1552713.175791&foc=17&fot=9999&fos=6&url="
+    offer: "free shipping"
+  # Alibaba US
+  alibaba:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156100.274315&trid=1552713.207736&foc=17&fot=9999&fos=6&url="
+    offer: "$20 off"
+  # ANINE BING
+  anine-bing:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.46089&trid=1552713.203133&foc=17&fot=9999&fos=6&url="
+  # Bartesian
+  bartesian:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15632&trid=1552713.227565&foc=17&fot=9999&fos=6&url="
+    offer: "free shipping over $50"
+  # Betsey Johnson
+  betsey-johnson:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.37850&trid=1552713.159569&foc=17&fot=9999&fos=6&url="
+  # Biotherm USA
+  biotherm:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.53197&trid=1552713.180575&foc=17&fot=9999&fos=6&url="
+  # Blendtec
+  blendtec:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156099.12057&trid=1552713.159184&foc=17&fot=9999&fos=6&url="
+  # Blinkist (offer withheld pending verification)
+  blinkist:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10732&trid=1552713.212952&foc=17&fot=9999&fos=6&url="
+  # Bobbie
+  bobbie:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33836&trid=1552713.249750&foc=17&fot=9999&fos=6&url="
+  # Bowers & Wilkins Global
+  bowers-and-wilkins:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110005992&trid=1552713.228055&foc=17&fot=9999&fos=6&url="
+    offer: "free shipping"
+  # Brinks Home
+  brinks-home:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41354&trid=1552713.247347&foc=17&fot=9999&fos=6&url="
+  # Bruno Magli
+  bruno-magli:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18734&trid=1552713.216081&foc=17&fot=9999&fos=6&url="
+    offer: "free shipping on orders $200"
+  # Chubbies
+  chubbies:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16759&trid=1552713.249484&foc=17&fot=9999&fos=6&url="
+  # CLEAR+
+  clear:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23636&trid=1552713.245749&foc=17&fot=9999&fos=6&url="
+  # Codecademy (offer withheld pending verification)
+  codecademy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9595&trid=1552713.209296&foc=17&fot=9999&fos=6&url="
+  # Cub Cadet (offer withheld pending verification)
+  cub-cadet:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9498&trid=1552713.212603&foc=17&fot=9999&fos=6&url="
+  # Dansko
+  dansko:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9278&trid=1552713.202021&foc=17&fot=9999&fos=6&url="
+  # Denon Global
+  denon:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110005993&trid=1552713.228060&foc=17&fot=9999&fos=6&url="
+    offer: "free shipping"
+  # Earthlink
+  earthlink:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11979&trid=1552713.247913&foc=17&fot=9999&fos=6&url="
+  # edX
+  edx:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17728&trid=1552713.180112&foc=17&fot=9999&fos=6&url="
+  # Elvie US
+  elvie:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.44020&trid=1552713.228006&foc=17&fot=9999&fos=6&url="
+  # Europcar (US & Canada)
+  europcar:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.5861&trid=1552713.189661&foc=17&fot=9999&fos=6&url="
+  # European Wax Center
+  european-wax-center:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.30094&trid=1552713.245382&foc=17&fot=9999&fos=6&url="
+  # Firstleaf Wine Club
+  firstleaf:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.38398&trid=1552713.249831&foc=17&fot=9999&fos=6&url="
+  # Flamingo
+  flamingo:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9412&trid=1552713.248795&foc=17&fot=9999&fos=6&url="
+  # FragranceNet.com
+  fragrancenet:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.216&trid=1552713.455&foc=17&fot=9999&fos=6&url="
+  # Franco Sarto
+  franco-sarto:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.41588&trid=1552713.178979&foc=17&fot=9999&fos=6&url="
+  # French Connection (US)
+  french-connection:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.35448&trid=1552713.158807&foc=17&fot=9999&fos=6&url="
+  # The Gillette Company
+  gillette:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23585&trid=1552713.196927&foc=17&fot=9999&fos=6&url="
+  # Grailed
+  grailed:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13931&trid=1552713.227549&foc=17&fot=9999&fos=6&url="
+  # H&R Block
+  h-and-r-block:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5683&trid=1552713.156923&foc=17&fot=9999&fos=6&url="
+  # Horizon Fitness (offer withheld pending verification)
+  horizon-fitness:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12130&trid=1552713.196086&foc=17&fot=9999&fos=6&url="
+  # Hudson Jeans
+  hudson-jeans:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10023&trid=1552713.178072&foc=17&fot=9999&fos=6&url="
+    offer: "free shipping over $200"
+  # Hunter Fan Company
+  hunter-fan:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.46207&trid=1552713.225483&foc=17&fot=9999&fos=6&url="
+  # Insta360
+  insta360:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.46233&trid=1552713.248756&foc=17&fot=9999&fos=6&url="
+  # Intimissimi
+  intimissimi:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.41274&trid=1552713.189853&foc=17&fot=9999&fos=6&url="
+  # Klook US
+  klook:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110006163&trid=1552713.230405&foc=17&fot=9999&fos=6&url="
+  # Kampgrounds of America
+  koa:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.50482&trid=1552713.235147&foc=17&fot=9999&fos=6&url="
+  # Life Fitness (offer withheld pending verification)
+  life-fitness:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17731&trid=1552713.189439&foc=17&fot=9999&fos=6&url="
+  # Maidenform
+  maidenform:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43954&trid=1552713.205421&foc=17&fot=9999&fos=6&url="
+  # Make Up For Ever
+  make-up-for-ever:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54284&trid=1552713.209548&foc=17&fot=9999&fos=6&url="
+  # Mrs. Fields
+  mrs-fields:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.7935&trid=1552713.158847&foc=17&fot=9999&fos=6&url="
+  # Nalgene
+  nalgene:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12848&trid=1552713.226006&foc=17&fot=9999&fos=6&url="
+  # Naturalizer
+  naturalizer:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.38505&trid=1552713.158953&foc=17&fot=9999&fos=6&url="
+  # Ole Henriksen
+  ole-henriksen:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.38834&trid=1552713.159748&foc=17&fot=9999&fos=6&url="
+  # PGA TOUR Superstore
+  pga-tour-superstore:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16839&trid=1552713.228946&foc=17&fot=9999&fos=6&url="
+  # Philosophy
+  philosophy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.50295&trid=1552713.169070&foc=17&fot=9999&fos=6&url="
+  # Physicians Formula
+  physicians-formula:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43735&trid=1552713.247447&foc=17&fot=9999&fos=6&url="
+  # Pit Boss Grills
+  pit-boss-grills:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10421&trid=1552713.213540&foc=17&fot=9999&fos=6&url="
+  # Pixi Beauty
+  pixi-beauty:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8883&trid=1552713.198431&foc=17&fot=9999&fos=6&url="
+  # PopSockets
+  popsockets:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43682&trid=1552713.200566&foc=17&fot=9999&fos=6&url="
+  # Qatar Airways
+  qatar-airways:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25312&trid=1552713.249626&foc=17&fot=9999&fos=6&url="
+  # Radioshack USA LLC (offer withheld pending verification)
+  radioshack:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.32498&trid=1552713.248461&foc=17&fot=9999&fos=6&url="
+  # Roc Skincare
+  roc-skincare:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.46883&trid=1552713.225417&foc=17&fot=9999&fos=6&url="
+  # Sennheiser
+  sennheiser:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.42592&trid=1552713.193918&foc=17&fot=9999&fos=6&url="
+  # SpiritHalloween.com
+  spirit-halloween:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8099&trid=1552713.161081&foc=17&fot=9999&fos=6&url="
+    offer: "free shipping over $60"
+  # Stadium Goods
+  stadium-goods:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101104598&trid=1552713.195570&foc=17&fot=9999&fos=6&url="
+  # Superdry (US)
+  superdry:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.44521&trid=1552713.209552&foc=17&fot=9999&fos=6&url="
+  # The Parking Spot
+  the-parking-spot:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10415&trid=1552713.211617&foc=17&fot=9999&fos=6&url="
+  # Theory
+  theory:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.36186&trid=1552713.202068&foc=17&fot=9999&fos=6&url="
+  # Troy Bilt (offer withheld pending verification)
+  troy-bilt:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9368&trid=1552713.203841&foc=17&fot=9999&fos=6&url="
+  # VEGAS.com (offer withheld pending verification)
+  vegas-com:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4221&trid=1552713.159075&foc=17&fot=9999&fos=6&url="
+  # VersedSkin.com (offer withheld pending verification)
+  versed:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9474&trid=1552713.211622&foc=17&fot=9999&fos=6&url="
+  # Victrola
+  victrola:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18889&trid=1552713.207542&foc=17&fot=9999&fos=6&url="
+  # Vivint (US)
+  vivint:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.21822&trid=1552713.225643&foc=17&fot=9999&fos=6&url="
+  # Wet n Wild
+  wet-n-wild:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.43590&trid=1552713.201598&foc=17&fot=9999&fos=6&url="
+  # Willow Pump
+  willow-pump:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27293&trid=1552713.216035&foc=17&fot=9999&fos=6&url="
+  # Wyze Labs Inc.
+  wyze:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27209&trid=1552713.249672&foc=17&fot=9999&fos=6&url="
+  # Yale Home
+  yale-home:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37641&trid=1552713.247667&foc=17&fot=9999&fos=6&url="
+  # Yves Rocher
+  yves-rocher:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27010&trid=1552713.249667&foc=17&fot=9999&fos=6&url="
