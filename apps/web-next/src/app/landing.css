@@ -3081,22 +3081,27 @@
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'ss01', 'cv11';
 }
+/* Top padding mirrors .page-hero on /news (4px mobile / 20px above 760px)
+   so the title sits at the same height on both pages. */
 .landing-v2.wire-v2 .wire-main {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 18px 48px;
+  padding: 4px 18px 48px;
   min-width: 0;
 }
+@media (min-width: 761px) {
+  .landing-v2.wire-v2 .wire-main { padding-top: 20px; }
+}
 @media (min-width: 768px) {
-  .landing-v2.wire-v2 .wire-main { padding: 28px 24px 64px; }
+  .landing-v2.wire-v2 .wire-main { padding: 20px 24px 64px; }
 }
 @media (min-width: 1024px) {
-  .landing-v2.wire-v2 .wire-main { padding: 32px 32px 80px; }
+  .landing-v2.wire-v2 .wire-main { padding: 20px 32px 80px; }
 }
 
 /* Snapshot — title + sub */
 .landing-v2.wire-v2 .wire-snapshot {
-  padding: 6px 0 16px;
+  padding: 0 0 16px;
 }
 /* Title + sub use the shared .page-title / .page-sub styles so the hero
    matches /news exactly. */
