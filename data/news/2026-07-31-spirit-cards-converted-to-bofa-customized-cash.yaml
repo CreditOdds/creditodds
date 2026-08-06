@@ -8,6 +8,13 @@ tags:
 bank: "Bank of America"
 card_slug: "bank-of-america-customized-cash-rewards"
 card_name: "Bank of America Customized Cash Rewards"
+replacement_cards:
+  - slug: "capital-one-venture-rewards"
+    reason: "2x miles on everything and no foreign transaction fee, redeemable against any airline rather than one carrier."
+  - slug: "wells-fargo-autograph"
+    reason: "3x on travel, dining, gas, and transit with no annual fee and no foreign transaction fee."
+  - slug: "bank-of-america-travel-rewards"
+    reason: "Stays with Bank of America: 1.5x on every purchase, no annual fee, no foreign transaction fee."
 source: "Doctor of Credit"
 source_url: "https://www.doctorofcredit.com/bank-of-america-converting-spirit-airlines-cards-to-customized-cash-rewards-250-bonus-2-extra-cash-back-on-all-purchases-for-some/"
 body: |

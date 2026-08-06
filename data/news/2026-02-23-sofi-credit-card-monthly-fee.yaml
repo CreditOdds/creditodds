@@ -6,6 +6,13 @@ tags:
   - "fee-change"
 bank: "SoFi"
 card_name: "SoFi Unlimited 2% Credit Card"
+replacement_cards:
+  - slug: "wells-fargo-active-cash"
+    reason: "Flat 2% on everything with no annual fee and no monthly charge to work around."
+  - slug: "citi-double-cash"
+    reason: "2% on everything, 1% when you buy and 1% when you pay, with no annual fee."
+  - slug: "fidelity-rewards-visa-signature"
+    reason: "2% back with no annual fee when rewards are deposited into an eligible Fidelity account."
 source: "Doctor of Credit"
 source_url: "https://www.doctorofcredit.com/sofi-adding-10-monthly-fee-for-some-credit-cardholders/"
 body: |

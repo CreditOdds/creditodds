@@ -7,6 +7,13 @@ tags:
 bank: "Citi"
 card_slug: "citi-custom-cash"
 card_name: "Citi Custom Cash"
+replacement_cards:
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "The closest structure left: pick two 5% categories each quarter on the first $2,000, no annual fee."
+  - slug: "chase-freedom-flex"
+    reason: "5% on rotating quarterly categories up to $1,500, plus 3% on dining and drugstores, no annual fee."
+  - slug: "citi-double-cash"
+    reason: "Citi's own suggestion for new cash back applicants: 2% on everything, no annual fee."
 source: "Citi"
 source_url: "https://www.citi.com/credit-cards/citi-custom-cash-credit-card"
 date: "2026-05-28"

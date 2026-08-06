@@ -4,6 +4,13 @@ summary: "American Express has discontinued the Business Plum Card and is no lon
 tags:
   - "discontinued"
 bank: "American Express"
+replacement_cards:
+  - slug: "blue-business-plus-credit-card-from-american-express"
+    reason: "The no-fee Amex business default: 2x Membership Rewards on the first $50,000 of spending each year, then 1x."
+  - slug: "blue-business-cash-card-from-american-express"
+    reason: "The same structure paid in cash back: 2% on the first $50,000 a year, no annual fee."
+  - slug: "chase-ink-business-unlimited"
+    reason: "Flat 1.5% on every business purchase, no annual fee, and no categories to manage."
 source: "r/churning"
 source_url: "https://www.reddit.com/r/churning/comments/1shh8qz/news_and_updates_thread_april_10_2026/ofi3piu/"
 date: "2026-04-13"
