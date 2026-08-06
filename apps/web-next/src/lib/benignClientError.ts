@@ -60,6 +60,9 @@
 //    there is nothing to fix on our side. Both substrings are required: a
 //    genuine circular-structure bug in our own code would not be walking a
 //    React fiber.
+//
+// Finally, hasOnlyForeignFrames (below) drops exceptions by stack shape rather
+// than message: every frame lacks a resolvable script URL. See its comment.
 const BENIGN_CLIENT_SIGNATURES = [
   'The transaction was aborted',
   'database connection is closing',
@@ -149,4 +152,73 @@ export function isBenignClientError(error: unknown): boolean {
     current = e.cause;
   }
   return false;
+}
+
+// Drops exceptions where no stack frame carries a resolvable script URL —
+// code that reached the page without ever loading a script we ship or could
+// even name (injected webview scripts, translated-page rewriters, extension
+// eval blobs). First instance: CREDITODDS-JAVASCRIPT-NEXTJS-18, a
+// "RangeError: Maximum call stack size exceeded" from the Google iOS app with
+// in-page translation active (clicked element was `a > font > font` — the
+// translator's text-node wrappers), whose entire stack was one frame with no
+// filename ("Line 189" of undefined). Nothing in the apply-click path
+// recurses, and without a single named frame there is nothing to symbolicate
+// or fix.
+//
+// Deliberately NOT matched on the message: "Maximum call stack size exceeded"
+// is exactly what a genuine infinite recursion in our own code would say, and
+// such a bug would carry frames pointing at our chunks, so it passes this
+// filter untouched. At least one frame is required — frame-less events
+// ("Script error." and friends) are a different shape and stay reportable.
+
+// Filenames browsers substitute when a frame has no real script URL.
+const FOREIGN_FRAME_FILENAMES = new Set([
+  '',
+  '<anonymous>',
+  'native',
+  '[native code]',
+  'undefined',
+]);
+
+interface FrameLike {
+  filename?: unknown;
+  abs_path?: unknown;
+}
+
+interface SentryEventLike {
+  exception?: {
+    values?: Array<{ stacktrace?: { frames?: unknown[] } | null } | null>;
+  } | null;
+}
+
+function isForeignFrame(frame: FrameLike): boolean {
+  for (const value of [frame.filename, frame.abs_path]) {
+    if (typeof value === 'string' && !FOREIGN_FRAME_FILENAMES.has(value)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function hasOnlyForeignFrames(
+  event: SentryEventLike | null | undefined,
+): boolean {
+  const values = event?.exception?.values;
+  if (!Array.isArray(values)) return false;
+  let frameCount = 0;
+  for (const value of values) {
+    const frames = value?.stacktrace?.frames;
+    if (!Array.isArray(frames)) continue;
+    for (const frame of frames) {
+      frameCount++;
+      if (
+        frame != null &&
+        typeof frame === 'object' &&
+        !isForeignFrame(frame as FrameLike)
+      ) {
+        return false;
+      }
+    }
+  }
+  return frameCount > 0;
 }
