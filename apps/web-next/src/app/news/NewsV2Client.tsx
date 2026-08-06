@@ -114,6 +114,14 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
       </section>
 
       <div className="wrap">
+        <Link href="/card-wire" className="news-wire-cta">
+          <span className="news-wire-cta-dot" aria-hidden="true" />
+          <span className="news-wire-cta-copy">
+            <strong>Don&apos;t miss a sign-up bonus or card change.</strong> The
+            Card Wire logs every fee, bonus, and application shift we track.
+          </span>
+          <span className="news-wire-cta-link">View the wire &rarr;</span>
+        </Link>
         <div className="filter-bar" style={{ paddingTop: 20 }}>
           <div className="filter-chip-row">
             {TAG_FILTERS.map((t) => (
