@@ -59,13 +59,6 @@ benefits:
     frequency: "annual"
     category: "hotel"
     enrollment_required: false
-  - name: "American Express Venue Collection"
-    value: 10
-    value_unit: "percent"
-    description: "Enhanced experience at select stadiums and arenas with dedicated entrances and 10% back on qualifying concessions purchases up to $250 per calendar year."
-    frequency: "annual"
-    category: "entertainment"
-    enrollment_required: true
   - name: "Rideshare Statement Credit"
     value: 120
     description: "Earn up to $10 in statement credits each month on U.S. rideshare purchases with select providers"

@@ -47,6 +47,12 @@ rewards_added:
       why: "the existing streaming row already covers cable and internet" }
   - { slug: united-quest, category: hotels,
       why: "the existing hotels_portal 5x row — Renowned Hotels via Chase Travel only; a bare `hotels` row would claim 5x on all hotel spend" }
+  - { slug: heb-visa-signature, category: dining,
+      why: "the 5% is Favor delivery only, already covered by the groceries row's note; all other dining earns the 1.5% base rate (issue #1914)" }
+  - { slug: southwest-rapid-rewards-performance-business-credit-card, category: phone,
+      why: "internet/cable/phone + advertising 2x expired 2025-12-31; Chase still quotes the dated text on the page. Delete this entry if Chase renews with a new date" }
+  - { slug: southwest-rapid-rewards-premier-business-credit-card, category: transit,
+      why: "local transit 2x expired 2025-12-31; Chase still quotes the dated text on the page. Delete this entry if Chase renews with a new date" }
   - { slug: world-of-hyatt-business-credit-card, category: selected_categories,
       why: "the same bucket as the existing top_category row" }
 
@@ -55,6 +61,10 @@ rewards_added:
 # detector could not read the earn table (JS-rendered or bot-blocked).
 rewards_removed:
   - { slug: aaa-daily-advantage-visa-signature, category: ev_charging }
+  - { slug: robinhood-platinum, category: hotels_portal }
+  - { slug: robinhood-platinum, category: car_rentals_portal }
+  - { slug: southwest-rapid-rewards-performance-business-credit-card, category: hotels }
+  - { slug: united-explorer, category: hotels }
   - { slug: aaa-travel-advantage-visa-signature, category: ev_charging }
   - { slug: atmos-rewards-business, category: ev_charging }
   - { slug: capital-one-quicksilver-secured, category: hotels_car_portal }
@@ -99,4 +109,8 @@ benefits:
 # Benefit names declined on EVERY card. Prefer benefit-policy.yaml's
 # `exclude` list for anything the team will never want; this is for names
 # that are merely not worth re-litigating each week.
-benefits_global: []
+benefits_global:
+  - { name: "American Express Venue Collection",
+      why: "10% back on stadium concessions capped at $250/yr is at most $25 of value, below the small-benefits bar; removed from all 7 carrying cards (issue #1916)" }
+  - { name: "Amex Venue Collection",
+      why: "name variant of the same perk (was on Delta SkyMiles Blue)" }
