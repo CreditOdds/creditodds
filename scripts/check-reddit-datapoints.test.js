@@ -26,9 +26,11 @@ const {
   pendingExpiry,
   rankPending,
   validatePendingEntry,
+  mergePending,
   buildFollowups,
   CAPS,
   PENDING_MAX_ATTEMPTS,
+  PENDING_MAX_DAYS,
 } = require('./check-reddit-datapoints.js');
 
 // Shrink the real waits (8s between requests, 61s on a 429) so the loop tests
@@ -520,6 +522,70 @@ test('validatePendingEntry keeps junk out of the bucket', () => {
   assert.match(bad({ source_id: 't3_ok', missing: ['credit_score'], card_name: 'Chase Sapphire Preferred' }).join(), /result is required/);
   assert.match(bad({ source_id: 't3_ok', missing: ['credit_score'], result: 'denied' }).join(), /card_name is required/);
   assert.deepEqual(bad({ source_id: 't3_ok', missing: ['card_name'], result: 'denied' }), []);
+});
+
+// The revisit queue is capped and shares a budget with OP expansion, so on a
+// throttled run some pending entries never make it into the prompt. Before this
+// split, finish read their absence from pending/ as the session giving up on
+// them — three real entries were lost that way on 2026-08-06, two to 429s and
+// one to the request budget, each with attempts and days still left.
+test('an entry the session never saw is carried forward, not dropped', () => {
+  const carriedEntry = {
+    url: 'https://www.reddit.com/r/CreditCards/comments/never/x/',
+    title: 'Denied for Custom Cash',
+    card_name: 'Citi Custom Cash',
+    result: 'denied',
+    missing: ['credit_score'],
+    note: 'Denial with no score given.',
+    firstSeen: '2026-08-04',
+    attempts: 1,
+    lastChecked: '2026-08-05',
+  };
+  const { pending, carriedForward } = mergePending({
+    carried: { t3_unfetched: carriedEntry },
+    declared: {},
+    // Only the entries this run actually presented — t3_unfetched is not one.
+    candidateById: new Map([['t3_ok', { id: 't3_ok', kind: 'post' }]]),
+  });
+  assert.deepEqual(Object.keys(pending), ['t3_unfetched']);
+  // Untouched: a look it never got must not be charged to it, or Reddit
+  // throttling would quietly eat the entry's whole window.
+  assert.deepEqual(pending.t3_unfetched, carriedEntry);
+  assert.deepEqual(carriedForward.map((c) => c.id), ['t3_unfetched']);
+});
+
+test('an entry the session saw and did not re-declare is still dropped', () => {
+  const { pending, carriedForward } = mergePending({
+    carried: {
+      t3_shown: { url: 'https://reddit.com/x', missing: ['credit_score'], firstSeen: '2026-08-04', attempts: 2 },
+    },
+    declared: {},
+    candidateById: new Map([['t3_shown', { id: 't3_shown', kind: 'post' }]]),
+  });
+  assert.deepEqual(pending, {}, 'silence on a presented entry means give up on it');
+  assert.deepEqual(carriedForward, []);
+});
+
+test('a re-declared entry wins over the carried copy', () => {
+  const { pending, carriedForward } = mergePending({
+    carried: { t3_shown: { url: 'https://reddit.com/x', missing: ['credit_score'], firstSeen: '2026-08-04', attempts: 1 } },
+    declared: { t3_shown: { url: 'https://reddit.com/x', missing: ['credit_score'], firstSeen: '2026-08-04', attempts: 2, note: 'still no score' } },
+    candidateById: new Map([['t3_shown', { id: 't3_shown', kind: 'post' }]]),
+  });
+  assert.equal(pending.t3_shown.attempts, 2);
+  assert.equal(pending.t3_shown.note, 'still no score');
+  assert.deepEqual(carriedForward, [], 'a re-declared entry was presented, so it is not a carry');
+});
+
+// Carrying forward must not become immortality: the entry keeps its original
+// firstSeen, so the age half of pendingExpiry retires it on schedule even if
+// every single run gets throttled out of revisiting it.
+test('carried entries still age out of the bucket', () => {
+  const stale = { url: 'https://reddit.com/x', missing: ['credit_score'], firstSeen: '2026-07-28', attempts: 1 };
+  const { pending } = mergePending({ carried: { t3_stale: stale }, declared: {}, candidateById: new Map() });
+  assert.equal(pending.t3_stale.firstSeen, '2026-07-28', 'the clock must not restart on a carry');
+  assert.match(pendingExpiry(pending.t3_stale, '2026-08-05'), new RegExp(`past the ${PENDING_MAX_DAYS}-day window`));
+  assert.equal(pendingExpiry(pending.t3_stale, '2026-08-04'), null, 'and not before the window is up');
 });
 
 test('validatePendingEntry canonicalizes a previous card name', () => {
