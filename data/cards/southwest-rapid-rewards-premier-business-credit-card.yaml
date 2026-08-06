@@ -33,10 +33,6 @@ rewards:
     spend_cap: 8000
     cap_period: annual
     rate_after_cap: 1
-  - category: transit
-    value: 2
-    unit: points_per_dollar
-    note: "Local transit and commuting, including rideshare"
   - category: everything_else
     value: 1
     unit: points_per_dollar
@@ -104,8 +100,8 @@ our_take: >
   for the cardmember and up to eight passengers on the same reservation, Group
   5 boarding, complimentary Standard or Preferred seat selection within 48
   hours of departure, and free employee cards with individual spending limits.
-  It earns 3 points per dollar on Southwest purchases, 2x on transit, and 2x
-  on gas and restaurants up to a combined $8,000 a year before dropping to 1x,
+  It earns 3 points per dollar on Southwest purchases and 2x on gas and
+  restaurants up to a combined $8,000 a year before dropping to 1x,
   with 1x on everything else, so the spending categories are useful but
   capped. The welcome offer is 60,000 points after $3,000 in the first three
   months. For status chasers it delivers 2,000 tier qualifying points toward
