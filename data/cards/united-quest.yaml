@@ -119,11 +119,11 @@ benefits:
     frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
-  - name: "Award Flight Discount"
+  - name: "Award Booking Discount"
     value: 10
     value_unit: "percent"
     description: "At least 10% fewer miles when booking award flights on United or United Express (15% for cardmembers with MileagePlus Premier status)"
-    frequency: "per_purchase"
+    frequency: "per_trip"
     category: "travel"
     enrollment_required: false
 tags:
