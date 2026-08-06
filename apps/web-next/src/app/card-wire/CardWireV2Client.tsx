@@ -234,10 +234,10 @@ export default function CardWireV2Client({ entries, slugMap, bonusTypeMap, bankM
         {/* Snapshot — title + sub, with follow callout on the right */}
         <div className="cj-snapshot wire-snapshot has-follow">
           <div className="wire-snapshot-text">
-            <h1 className="cj-snapshot-h1">
+            <h1 className="page-title">
               The wire. <em>Every change.</em>
             </h1>
-            <p className="wire-snapshot-sub">
+            <p className="page-sub">
               A chronological feed of every credit-card change we track — annual
               fees, sign-up bonuses, and application status.
             </p>
