@@ -129,12 +129,14 @@ function travelGateSlug(card) {
 // and flexible (one of several eligible buckets). Each carries its cap and the
 // card name (so the analysis table can attribute the rate to a card).
 //
-// Travel is special: a co-brand card's elevated rate is tied to ONE airline or
-// hotel (merchant_specific, e.g. Choice Privileges' 10x at Choice Hotels, or
-// merchant_gate, e.g. United Gateway's 2x at United). We assume the user's
-// travel dollars go to the brand(s) they're loyal to, so those brand-specific
-// rates only count when the card matches a selected loyalty. Generic travel
-// rates (earn on all travel) always count.
+// Brand-locked rates (merchant_specific, or merchant_gate to one store) never
+// count as generic category spend. Travel is the one exception: we assume the
+// user's travel dollars go to the brand(s) they're loyal to, so a co-brand
+// rate (Choice Privileges' 10x hotels, United Gateway's 2x airlines) counts
+// when the card matches a selected loyalty. Outside travel the quiz has no
+// loyalty signal, so a merchant-limited rate (Intuit Business' 5% on Intuit
+// products, H-E-B's 5% groceries) is never credited — only the card's open
+// rates are. Generic travel rates (earn on all travel) always count.
 function cardOffers(card, allegiances) {
   const baseEff = flatRateEff(card);
   const direct = [];
@@ -144,7 +146,7 @@ function cardOffers(card, allegiances) {
   for (const bucket of SPEND_BUCKETS) {
     if (bucket === "everything_else") continue;
     const isTravel = TRAVEL_BUCKETS.has(bucket);
-    const includeMerchantSpecific = isTravel ? loyaltyMatch : true;
+    const includeMerchantSpecific = isTravel ? loyaltyMatch : false;
     const storeSlug = isTravel ? gateSlug : null;
     const m = findCategoryMatch(
       card,

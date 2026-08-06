@@ -474,6 +474,32 @@ describe('rankNextCards — brand loyalty on travel', () => {
     expect(recommendations[0]?.card.slug).toBe('gt');
     expect(recommendations[0]?.rewardsValue).toBeCloseTo(180); // $6k × 3%
   });
+
+  it('never credits a merchant-specific rate outside travel (Intuit-style 5% online shopping)', () => {
+    // Intuit Business: 5% only on Intuit's own products (merchant_specific),
+    // 2% everything else. Against generic online-shopping spend it must earn
+    // its 2% base, not the 5%.
+    const intuit = card({
+      slug: 'intuit',
+      card_name: 'Intuit Business',
+      reward_type: 'cashback',
+      rewards: [
+        { category: 'online_shopping', value: 5, unit: 'percent', merchant_specific: true },
+        { category: 'everything_else', value: 2, unit: 'percent' },
+      ] as Reward[],
+    });
+    const { recommendations } = rankNextCards({
+      spend: { online_shopping: 6000 },
+      walletSlugs: [],
+      prefs: { rewardType: null },
+      cards: [intuit],
+    });
+    const rec = recommendations.find((r) => r.card.slug === 'intuit');
+    // $6k × 2% base = $120; the merchant-locked 5% would have been $300.
+    expect(rec?.rewardsValue).toBeCloseTo(120);
+    const shopping = rec?.categories.find((c) => c.category === 'online_shopping');
+    expect(shopping?.newRate).toBe(2);
+  });
 });
 
 describe('rankNextCards — cash vs points soft preference', () => {
