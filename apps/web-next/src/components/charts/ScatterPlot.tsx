@@ -9,10 +9,26 @@ import { useMemo, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
+/** A bare [x, y] pair, or an object form carrying an optional tooltip note
+ *  (e.g. the denial reason on rejected data points). */
+export type ScatterPoint = [number, number] | { x: number; y: number; note?: string };
+
 interface SeriesData {
   name: string;
   color: string;
-  data: [number, number][];
+  data: ScatterPoint[];
+}
+
+function toPair(p: ScatterPoint): [number, number] {
+  return Array.isArray(p) ? p : [p.x, p.y];
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 interface ScatterPlotProps {
@@ -24,6 +40,34 @@ interface ScatterPlotProps {
   xSuffix?: string;
   yPrefix?: string;
   ySuffix?: string;
+  /** Fit a least-squares line to the first series and draw it dashed. */
+  trendline?: boolean;
+}
+
+function fitTrendline(points: [number, number][]): [number, number][] | null {
+  if (points.length < 2) return null;
+  const n = points.length;
+  let sumX = 0,
+    sumY = 0,
+    sumXY = 0,
+    sumX2 = 0;
+  for (const [x, y] of points) {
+    sumX += x;
+    sumY += y;
+    sumXY += x * y;
+    sumX2 += x * x;
+  }
+  const denom = n * sumX2 - sumX * sumX;
+  if (denom === 0) return null;
+  const slope = (n * sumXY - sumX * sumY) / denom;
+  const intercept = (sumY - slope * sumX) / n;
+  const xs = points.map(([x]) => x);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  return [
+    [minX, slope * minX + intercept],
+    [maxX, slope * maxX + intercept],
+  ];
 }
 
 // v2 editorial palette tokens. Highcharts can't read CSS custom props, so the
@@ -47,6 +91,7 @@ export default function ScatterPlot({
   xSuffix = "",
   yPrefix = "",
   ySuffix = "",
+  trendline = false,
 }: ScatterPlotProps) {
   useEffect(() => {
     Highcharts.setOptions({ lang: { thousandsSep: "," } });
@@ -164,7 +209,18 @@ export default function ScatterPlot({
         },
         headerFormat:
           `<div style="font-weight:600;letter-spacing:0.04em;text-transform:uppercase;font-size:10.5px;opacity:0.7;margin-bottom:2px">{series.name}</div>`,
-        pointFormat: `<div>${xPrefix}{point.x:,.0f}${xSuffix} · ${yPrefix}{point.y:,.0f}${ySuffix}</div>`,
+        pointFormatter: function (this: { x: number; y: number; note?: string }) {
+          const base =
+            `<div>${xPrefix}${Highcharts.numberFormat(this.x, 0, ".", ",")}${xSuffix}` +
+            ` · ${yPrefix}${Highcharts.numberFormat(this.y, 0, ".", ",")}${ySuffix}</div>`;
+          if (!this.note) return base;
+          return (
+            base +
+            `<div style="margin-top:3px;max-width:220px;white-space:normal;opacity:0.75;font-size:11px">` +
+            escapeHtml(this.note) +
+            `</div>`
+          );
+        },
       },
       plotOptions: {
         scatter: {
@@ -187,9 +243,29 @@ export default function ScatterPlot({
           },
         },
       },
-      series: series,
+      series: (() => {
+        if (!trendline) return series;
+        const fit = fitTrendline((series[0]?.data ?? []).map(toPair));
+        if (!fit) return series;
+        return [
+          ...series,
+          {
+            type: "line",
+            name: "Trend",
+            color: series[0].color,
+            dashStyle: "Dash",
+            lineWidth: 1.5,
+            opacity: 0.6,
+            data: fit,
+            marker: { enabled: false },
+            enableMouseTracking: false,
+            showInLegend: false,
+            states: { hover: { enabled: false } },
+          },
+        ];
+      })(),
     }),
-    [title, xAxis, yAxis, series, xPrefix, xSuffix, yPrefix, ySuffix],
+    [title, xAxis, yAxis, series, xPrefix, xSuffix, yPrefix, ySuffix, trendline],
   );
 
   return (

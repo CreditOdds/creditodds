@@ -411,6 +411,22 @@ export default function CardClient({
     (s) => Array.isArray(s) && s.length > 0,
   );
 
+  // The graphs endpoint returns bare [x, y] pairs; match rejected points back
+  // to the raw records by coordinates to surface reason_denied in the tooltip.
+  const withDenialReasons = (
+    data: [number, number][],
+    x: (r: CardRecord) => number | null,
+    y: (r: CardRecord) => number | null,
+  ) =>
+    data.map(([px, py]) => {
+      const match = records.find(
+        (r) => r.result === 0 && r.reason_denied && x(r) === px && y(r) === py,
+      );
+      return match
+        ? { x: px, y: py, note: match.reason_denied as string }
+        : ([px, py] as [number, number]);
+    });
+
   const sortedRewards = useMemo<Reward[]>(
     () => (card.rewards ? [...card.rewards].sort((a, b) => b.value - a.value) : []),
     [card.rewards],
@@ -1448,7 +1464,15 @@ export default function CardClient({
                           yPrefix="$"
                           series={[
                             { name: "Accepted", color: "#6d3fe8", data: chartOne[0] || [] },
-                            { name: "Rejected", color: "#d23a62", data: chartOne[1] || [] },
+                            {
+                              name: "Rejected",
+                              color: "#d23a62",
+                              data: withDenialReasons(
+                                chartOne[1] || [],
+                                (r) => r.credit_score,
+                                (r) => r.listed_income,
+                              ),
+                            },
                           ]}
                         />
                       ),
@@ -1466,7 +1490,15 @@ export default function CardClient({
                           xSuffix=" yr"
                           series={[
                             { name: "Accepted", color: "#6d3fe8", data: chartTwo[0] || [] },
-                            { name: "Rejected", color: "#d23a62", data: chartTwo[1] || [] },
+                            {
+                              name: "Rejected",
+                              color: "#d23a62",
+                              data: withDenialReasons(
+                                chartTwo[1] || [],
+                                (r) => r.length_credit,
+                                (r) => r.credit_score,
+                              ),
+                            },
                           ]}
                         />
                       ),
@@ -1483,6 +1515,7 @@ export default function CardClient({
                           yAxis="Starting Credit Limit (USD)"
                           xPrefix="$"
                           yPrefix="$"
+                          trendline
                           series={[
                             { name: "Accepted", color: "#6d3fe8", data: chartThree[0] || [] },
                           ]}
