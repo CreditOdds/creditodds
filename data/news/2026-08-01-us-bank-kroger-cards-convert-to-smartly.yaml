@@ -8,6 +8,13 @@ tags:
 bank: "U.S. Bank"
 card_slug: "us-bank-smartly-visa-signature"
 card_name: "Smartly Visa Signature"
+replacement_cards:
+  - slug: "blue-cash-preferred-card"
+    reason: "6% back at U.S. supermarkets on the first $6,000 a year, plus 3% on gas."
+  - slug: "blue-cash-everyday-card"
+    reason: "3% at U.S. supermarkets and 3% on gas with no annual fee, for lighter grocery baskets."
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "Keeps the rewards with U.S. Bank: two 5% categories of your choosing each quarter, no annual fee."
 source: "U.S. Bank"
 source_url: "https://www.usbank.com/about-us-bank/news-and-stories/article-library/us-bank-announces-transition-of-kroger-co-brand-card-program.html"
 body: |
