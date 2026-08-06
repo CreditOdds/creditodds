@@ -52,11 +52,18 @@ benefits:
     description: "Priority boarding on United flights"
     frequency: "ongoing"
     category: "travel"
-  - name: "Award Flight Discount"
+  - name: "Spending Award Flight Discount"
     value: 0
     description: "Earn a 10,000-mile award flight discount after $20,000 in annual purchases"
     frequency: "annual"
     category: "travel"
+  - name: "Award Booking Discount"
+    value: 10
+    value_unit: "percent"
+    description: "Save 10% or more on the miles needed when booking United award flights with miles; Premier members save even more"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
   - name: "United Hotels Credit"
     value: 100
     description: "Up to $100 each anniversary year on prepaid hotel stays booked directly through United Hotels"
