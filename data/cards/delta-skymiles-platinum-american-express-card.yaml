@@ -82,13 +82,6 @@ benefits:
     frequency: "per_purchase"
     category: "dining"
     enrollment_required: false
-  - name: "American Express Venue Collection"
-    value: 10
-    value_unit: "percent"
-    description: "On-site benefits such as dedicated entrances at select stadiums and arenas, plus 10% back on qualifying concessions purchases up to $250 per calendar year."
-    frequency: "annual"
-    category: "entertainment"
-    enrollment_required: true
   - name: "Cell Phone Protection"
     value: 800
     description: "Up to $800 per claim to repair or replace a damaged or stolen cell phone, limit 2 approved claims per 12 months with a $50 deductible, when the prior month's wireless bill was paid with the card."

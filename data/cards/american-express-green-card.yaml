@@ -15,9 +15,7 @@ our_take: >
   cover the fee if you fly often enough to use it, and the 40,000-point bonus
   after $3,000 in six months was reachable for anyone traveling regularly. The
   catch is how narrow the rest of it is: outside those three categories the
-  card earns a flat 1x, and the Venue Collection perk, 10% back on stadium
-  concessions up to $250 a year, only matters if you attend events at
-  participating venues. Existing cardholders who don't use CLEAR should run
+  card earns a flat 1x. Existing cardholders who don't use CLEAR should run
   the numbers before paying the fee again.
 annual_fee: 150
 reward_type: "points"
@@ -49,13 +47,6 @@ benefits:
     description: "Up to $219 in statement credits per calendar year for CLEAR Plus airport security membership"
     frequency: "annual"
     category: "security"
-    enrollment_required: true
-  - name: "American Express Venue Collection"
-    value: 10
-    value_unit: "percent"
-    description: "10% back on qualifying concessions purchases at select stadiums and arenas up to $250 per calendar year, plus access to dedicated entrances or fast lanes."
-    frequency: "annual"
-    category: "entertainment"
     enrollment_required: true
 tags:
   - travel

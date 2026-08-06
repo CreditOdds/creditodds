@@ -16,7 +16,28 @@ rewards:
   - category: travel
     value: 3
     unit: points_per_dollar
-    note: "Travel, shipping, internet/cable/phone, advertising on search engines and social media (combined)"
+    note: "Travel, shipping, internet/cable/phone, advertising on search engines and social media (combined $150,000/yr cap)"
+    spend_cap: 150000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: shipping
+    value: 3
+    unit: points_per_dollar
+    note: "Shipping purchases (combined $150,000/yr cap with travel, internet/cable/phone, and advertising)"
+    spend_cap: 150000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: utilities
+    value: 3
+    unit: points_per_dollar
+    note: "Internet and cable services (combined $150,000/yr cap with travel, shipping, phone, and advertising)"
+    spend_cap: 150000
+    cap_period: annual
+    rate_after_cap: 1
+  - category: phone
+    value: 3
+    unit: points_per_dollar
+    note: "Phone services (combined $150,000/yr cap with travel, shipping, internet/cable, and advertising)"
     spend_cap: 150000
     cap_period: annual
     rate_after_cap: 1

@@ -108,7 +108,7 @@ benefits:
     description: "25% back as a statement credit on United inflight food, beverage, and Wi-Fi purchases and United Club premium drinks"
     frequency: "per_purchase"
     category: "travel"
-  - name: "Award Flight Discount"
+  - name: "Award Booking Discount"
     value: 10
     value_unit: "percent"
     description: "Save 10% or more on the miles needed when booking United award flights with miles; Premier members save even more"
