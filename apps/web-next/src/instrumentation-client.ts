@@ -10,7 +10,10 @@
 // the PostHog wizard's separate root-level file was merged in here.
 import * as Sentry from '@sentry/nextjs';
 import posthog from 'posthog-js';
-import { isBenignClientError } from '@/lib/benignClientError';
+import {
+  hasOnlyForeignFrames,
+  isBenignClientError,
+} from '@/lib/benignClientError';
 
 posthog.init('phc_oPFKvUCGmpZdRPug7TvYDRRSZpJ9oUmLZphkjrSV3fCd', {
   // Managed first-party reverse proxy configured in Route 53.
@@ -34,9 +37,14 @@ Sentry.init({
   // Drop benign teardown noise — chiefly Firebase Analytics' IndexedDB
   // AbortErrors when the user navigates/reloads mid-transaction. The page
   // loads fine; these aren't actionable (mirrors the server-side
-  // self-healing-network filter in sentry.server.config.ts).
+  // self-healing-network filter in sentry.server.config.ts). Also drop
+  // exceptions whose stack never touches a named script — foreign injected
+  // code (see hasOnlyForeignFrames in benignClientError.ts).
   beforeSend(event, hint) {
     if (isBenignClientError(hint?.originalException)) {
+      return null;
+    }
+    if (hasOnlyForeignFrames(event)) {
       return null;
     }
     return event;

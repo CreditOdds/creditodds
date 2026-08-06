@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { isBenignClientError } from "./benignClientError";
+import { hasOnlyForeignFrames, isBenignClientError } from "./benignClientError";
 
 // Mimics a browser DOMException without depending on the DOM lib in tests.
 const domException = (message: string, name = "AbortError", code = 20) =>
@@ -207,6 +207,103 @@ describe("isBenignClientError", () => {
           "Converting circular structure to JSON\n    --> starting at object with constructor 'Object'\n    --- property 'self' closes the circle",
         ),
       ),
+    ).toBe(false);
+  });
+});
+
+// Builds a minimal Sentry error event carrying the given stack frames.
+const eventWithFrames = (
+  frames: Array<Record<string, unknown>>,
+): Parameters<typeof hasOnlyForeignFrames>[0] => ({
+  exception: { values: [{ stacktrace: { frames } }] },
+});
+
+describe("hasOnlyForeignFrames", () => {
+  // CREDITODDS-JAVASCRIPT-NEXTJS-18: stack overflow from the Google iOS
+  // app's in-page translator — one frame, no filename at all.
+  it("drops an exception whose only frame has no filename", () => {
+    expect(
+      hasOnlyForeignFrames(
+        eventWithFrames([{ function: "?", lineno: 189, in_app: true }]),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops frames whose filenames are anonymous/native placeholders", () => {
+    expect(
+      hasOnlyForeignFrames(
+        eventWithFrames([
+          { filename: "<anonymous>", function: "e" },
+          { filename: "[native code]", function: "forEach" },
+          { filename: "native", function: "map" },
+          { filename: "", function: "?" },
+        ]),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps an exception once any frame names a real script", () => {
+    expect(
+      hasOnlyForeignFrames(
+        eventWithFrames([
+          { filename: "<anonymous>", function: "wrapper" },
+          {
+            filename: "https://creditodds.com/_next/static/chunks/abc123.js",
+            function: "handleCardApplyClick",
+          },
+        ]),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps a frame resolvable via abs_path alone", () => {
+    expect(
+      hasOnlyForeignFrames(
+        eventWithFrames([
+          {
+            filename: "<anonymous>",
+            abs_path: "https://creditodds.com/_next/static/chunks/abc123.js",
+          },
+        ]),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps frame-less events (e.g. bare 'Script error.')", () => {
+    expect(hasOnlyForeignFrames(eventWithFrames([]))).toBe(false);
+    expect(hasOnlyForeignFrames({ exception: { values: [{}] } })).toBe(false);
+    expect(hasOnlyForeignFrames({ exception: { values: [] } })).toBe(false);
+  });
+
+  it("handles missing/malformed event shapes safely", () => {
+    expect(hasOnlyForeignFrames(null)).toBe(false);
+    expect(hasOnlyForeignFrames(undefined)).toBe(false);
+    expect(hasOnlyForeignFrames({})).toBe(false);
+    expect(hasOnlyForeignFrames({ exception: null })).toBe(false);
+    expect(
+      hasOnlyForeignFrames({ exception: { values: [null, { stacktrace: null }] } }),
+    ).toBe(false);
+  });
+
+  it("checks frames across all exception values in a chain", () => {
+    expect(
+      hasOnlyForeignFrames({
+        exception: {
+          values: [
+            { stacktrace: { frames: [{ filename: "<anonymous>" }] } },
+            {
+              stacktrace: {
+                frames: [
+                  {
+                    filename:
+                      "https://creditodds.com/_next/static/chunks/abc123.js",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      }),
     ).toBe(false);
   });
 });
