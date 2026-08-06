@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-05T22:58:18.270Z",
-  "count": 1026,
+  "generated_at": "2026-08-06T02:56:12.376Z",
+  "count": 1043,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -251,6 +251,22 @@
       ],
       "website": "https://www.acmemarkets.com",
       "intro": "Acme Markets is the Mid-Atlantic banner of Albertsons Companies, with around 160\nstores across Pennsylvania, New Jersey, Delaware, Maryland, and New York. The chain\ncodes as a U.S. supermarket for credit cards, so a grocery rewards card (Amex Gold,\nBlue Cash Preferred, Citi Custom Cash) earns its posted multiplier at checkout. Acme\nparticipates in the Albertsons for U loyalty program and stocks a wide gift-card rack\nat the service desk, which is occasionally useful for extending a grocery multiplier\ninto adjacent spending categories.\n"
+    },
+    {
+      "name": "Acronis",
+      "slug": "acronis",
+      "aliases": [
+        "Acronis True Image"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.acronis.com",
+      "intro": "Acronis is a cybersecurity and backup-software company best known for Acronis True Image, the disk-imaging and cloud-backup suite that consumers and small businesses use to protect PCs, Macs, and phones. Purchases are one-time licenses or annual subscriptions sold directly from acronis.com, and they code as an online software purchase on every major network.\n\nSoftware subscriptions rarely hit a bonus category, so a flat-rate card like the Citi Double Cash or Wells Fargo Active Cash at 2 percent is the dependable play. Bank of America Customized Cash holders who select the online shopping category can push an Acronis renewal to 3 percent.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-17049709",
+        "network": "cj"
+      }
     },
     {
       "name": "Adam & Eve",
@@ -5007,6 +5023,19 @@
       }
     },
     {
+      "name": "FlexJobs",
+      "slug": "flexjobs",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.flexjobs.com",
+      "intro": "FlexJobs is a subscription job board that hand-screens remote, hybrid, and flexible listings, charging a weekly, monthly, or annual membership fee instead of showing ads. The charge is a straightforward online subscription, similar to how Care.com memberships code on most card networks.\n\nA small recurring subscription is a good fit for a card that rewards online spending broadly: Bank of America Customized Cash with online shopping selected earns 3 percent, and rotating-category cards like Chase Freedom Flex occasionally cover PayPal or online retail quarters that a FlexJobs renewal can ride along with.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-13413287",
+        "network": "cj"
+      }
+    },
+    {
       "name": "FlixBus",
       "slug": "flixbus",
       "categories": [
@@ -6014,6 +6043,22 @@
       "intro": "Hawaiian Airlines is the dominant carrier between the U.S. mainland and Hawaii, plus\ninter-island routes. Tickets code as airfare on every card we track. The co-branded\nHawaiian Airlines World Elite Mastercard offers a discount on round-trip companion\ntickets to Hawaii each year and bonus miles on the airline. With Alaska Airlines'\nacquisition closed, Hawaiian's loyalty program is integrating with Alaska's Mileage\nPlan, so long-term value will increasingly route through Alaska's award chart.\n"
     },
     {
+      "name": "HealthLabs",
+      "slug": "healthlabs",
+      "aliases": [
+        "HealthLabs.com"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.healthlabs.com",
+      "intro": "HealthLabs sells direct-to-consumer lab testing — order a panel online, visit a local partner lab for the draw, and get results without a doctor's visit, the same model as Personalabs. The order is paid upfront on healthlabs.com and codes as an online health-services purchase, not a medical provider visit.\n\nLab panels are also commonly HSA/FSA-eligible, which beats any rewards rate — check that first. Paying by credit card, expect no medical category match; a flat 2 percent card or a Bank of America Customized Cash set to online shopping at 3 percent are the practical options.\n",
+      "affiliate": {
+        "url": "https://www.jdoqocy.com/click-101737824-13703022",
+        "network": "cj"
+      }
+    },
+    {
       "name": "HelloFresh",
       "slug": "hellofresh",
       "aliases": [
@@ -6925,6 +6970,23 @@
       "intro": "JetBlue runs an East Coast and Caribbean network with TrueBlue as its loyalty program.\nTrueBlue points are revenue-based — about 1.3 cents each — so they're easy to value\nbut rarely produce outsized award redemptions. JetBlue tickets code as airfare on\nevery card we track. The co-branded Plus and Premier cards bundle a 5,000-point\nanniversary bonus, free checked bag, and Mosaic-status accelerators that can swing\nthe math for regulars; the Premier adds a Mint upgrade benefit on transcons.\n"
     },
     {
+      "name": "Jeulia",
+      "slug": "jeulia",
+      "aliases": [
+        "Jeulia Jewelry"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.jeulia.com",
+      "intro": "Jeulia is an online jewelry brand specializing in artisan-designed rings, bridal sets, and statement pieces, most built around lab-created stones at direct-to-consumer prices. Like the other online jewelers on CreditOdds such as Vy Jewelry, Jeulia sells exclusively through its own site, so purchases code as generic online retail.\n\nThat makes selectable-category cards the way to go: Bank of America Customized Cash set to online shopping pays 3 percent, and a U.S. Bank Cash+ pairing can do even better in quarters where an eligible category applies. Flat 2 percent cards are the fallback for a one-off ring purchase.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-12507037",
+        "network": "cj",
+        "offer": "free standard shipping over $99"
+      }
+    },
+    {
       "name": "Jewel-Osco",
       "slug": "jewel-osco",
       "categories": [
@@ -7530,6 +7592,19 @@
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.23314.4611686018427606349&trid=1552713.232384&foc=16&fot=9999&fos=6",
         "network": "flexoffers"
+      }
+    },
+    {
+      "name": "LawDepot",
+      "slug": "lawdepot",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.lawdepot.com",
+      "intro": "LawDepot is an online legal-document service offering customizable templates for wills, leases, bills of sale, and business formation paperwork, sold as one-off documents or a monthly subscription. It occupies the same do-it-yourself legal niche as LegalZoom, and its charges code as an online service purchase rather than professional services.\n\nSince legal-document sites never land in a card's bonus category on their own, lean on a flat-rate earner like the Citi Double Cash, or route the subscription through a Bank of America Customized Cash with the online shopping category selected for 3 percent.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-16944777",
+        "network": "cj"
       }
     },
     {
@@ -8727,6 +8802,19 @@
       }
     },
     {
+      "name": "Momcozy",
+      "slug": "momcozy",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://momcozy.com",
+      "intro": "Momcozy makes wearable breast pumps, pumping bras, and maternity essentials, and has grown into one of the most recognizable direct-to-consumer baby-gear brands in the US. Orders placed on momcozy.com code as online retail, and bigger-ticket items like the hands-free pump lines are exactly the kind of purchase worth planning around.\n\nWearable-pump orders are also frequently HSA/FSA-eligible, so check that route first. When you do pay by card, Bank of America Customized Cash set to online shopping earns 3 percent, and a Chase Freedom Flex online-retail quarter can push a stock-up order to 5 percent.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-17049857",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Moroccanoil",
       "slug": "moroccanoil",
       "aliases": [
@@ -9643,6 +9731,23 @@
       }
     },
     {
+      "name": "PartsGeek",
+      "slug": "partsgeek",
+      "aliases": [
+        "PartsGeek.com",
+        "Parts Geek"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.partsgeek.com",
+      "intro": "PartsGeek is a high-volume online auto-parts warehouse selling OEM and aftermarket parts for most makes and models, competing with RockAuto on price and catalog depth. Unlike a trip to AutoZone or Advance Auto Parts, PartsGeek orders are online-only shipments, so they code as internet retail rather than an automotive-store purchase.\n\nThat distinction matters for rewards: auto-parts store bonuses will not trigger here, but online shopping categories will. Bank of America Customized Cash with online shopping selected earns 3 percent, and flat 2 percent cards cover the rest of the garage bill.\n",
+      "affiliate": {
+        "url": "https://www.kqzyfj.com/click-101737824-10585298",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Patagonia",
       "slug": "patagonia",
       "categories": [
@@ -10314,6 +10419,20 @@
       }
     },
     {
+      "name": "PuroAir",
+      "slug": "puroair",
+      "categories": [
+        "online_shopping",
+        "electronics_stores"
+      ],
+      "website": "https://puroair.com",
+      "intro": "PuroAir is a direct-to-consumer air-purifier brand whose HEPA units for homes, nurseries, and pet households have become a fixture of online allergy-season shopping. Purchases ship from puroair.com and code as online retail, with some processors classifying the brand under electronics or appliances.\n\nAn air purifier is a mid-ticket one-time buy, so category flexibility pays: U.S. Bank Cash+ with electronics stores selected can reach 5 percent if the charge classifies that way, while Bank of America Customized Cash set to online shopping is the safer 3 percent bet.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-17235046",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Purple Carrot",
       "slug": "purple-carrot",
       "categories": [
@@ -10744,6 +10863,19 @@
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.67144.4611686018427603056&trid=1552713.232346&foc=16&fot=9999&fos=6",
         "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Revive Superfoods",
+      "slug": "revive-superfoods",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://revivesuperfoods.com",
+      "intro": "Revive Superfoods delivers frozen smoothie cups, oat bowls, and ready-to-blend meals on a flexible subscription, playing in the same prepared-food-delivery lane as Daily Harvest. Deliveries are billed per box from the website, and like most meal subscriptions the charges code as an online purchase rather than groceries on the major networks.\n\nThat rules out grocery multipliers, so aim for online categories instead: Bank of America Customized Cash set to online shopping earns 3 percent on every box, and a flat 2 percent card is the steady fallback for subscribers who want zero upkeep.\n",
+      "affiliate": {
+        "url": "https://www.jdoqocy.com/click-101737824-17247786",
+        "network": "cj"
       }
     },
     {
@@ -11854,6 +11986,23 @@
       "intro": "Sony sells electronics, PlayStation gear, cameras and audio products across its various online storefronts. Direct purchases generally code as online shopping or general retail, so a card with an online or everyday-spending bonus is the better fit, and a shopping portal can sometimes add a small rebate on top.\n"
     },
     {
+      "name": "Soundcore",
+      "slug": "soundcore",
+      "aliases": [
+        "Soundcore by Anker"
+      ],
+      "categories": [
+        "online_shopping",
+        "electronics_stores"
+      ],
+      "website": "https://www.soundcore.com",
+      "intro": "Soundcore is Anker's audio brand, covering budget-friendly earbuds, headphones, and Bluetooth speakers along with the sleep-focused Sleep line. Buying from soundcore.com rather than Amazon keeps you eligible for the brand's own bundles and open-box deals, and the charge codes as online electronics retail.\n\nU.S. Bank Cash+ cardholders who select electronics stores can earn 5 percent when the charge classifies as an electronics merchant, while Bank of America Customized Cash set to online shopping is a reliable 3 percent. Anker's main store is listed separately on CreditOdds if you are cross-shopping chargers.\n",
+      "affiliate": {
+        "url": "https://www.anrdoezrs.net/click-101737824-17024103",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Southwest Airlines",
       "slug": "southwest-airlines",
       "aliases": [
@@ -12089,6 +12238,20 @@
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.15382.1258916&trid=1552713.233382&foc=16&fot=9999&fos=6",
         "network": "flexoffers"
+      }
+    },
+    {
+      "name": "SteelSeries",
+      "slug": "steelseries",
+      "categories": [
+        "online_shopping",
+        "electronics_stores"
+      ],
+      "website": "https://steelseries.com",
+      "intro": "SteelSeries builds gaming peripherals — the Arctis headset line, Apex keyboards, Rival and Aerox mice, and QcK mousepads — sold direct from steelseries.com alongside retail channels. Direct orders code as online electronics retail and are where the brand runs its own refurb and bundle pricing.\n\nPeripheral refreshes are classic electronics-category spend: U.S. Bank Cash+ with electronics stores selected can hit 5 percent when the merchant classifies that way, Bank of America Customized Cash set to online shopping earns 3 percent, and PayPal-heavy checkout flows occasionally line up with a Chase Freedom Flex quarter.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-17028016",
+        "network": "cj"
       }
     },
     {
@@ -12342,6 +12505,23 @@
       ],
       "website": "https://www.t-mobile.com",
       "intro": "T-Mobile is one of the big three US carriers, offering wireless plans plus home internet. Wireless bills earn extra only on cards with a phone or wireless bonus, otherwise they code at the flat rate, and a handful of cards throw in cell-phone protection when the bill is paid with that card.\n"
+    },
+    {
+      "name": "Tablo",
+      "slug": "tablo",
+      "aliases": [
+        "Tablo TV"
+      ],
+      "categories": [
+        "online_shopping",
+        "electronics_stores"
+      ],
+      "website": "https://www.tablotv.com",
+      "intro": "Tablo makes over-the-air DVR hardware that pairs an antenna with an app, letting cord-cutters record broadcast TV and stream it around the house with no monthly subscription on its current 4th-gen units. The device is a one-time hardware purchase from tablotv.com, coding as online electronics retail.\n\nSince it is a single mid-ticket buy, use whatever electronics or online category you have live: U.S. Bank Cash+ set to electronics stores can earn 5 percent where the charge classifies as electronics, and Bank of America Customized Cash set to online shopping earns a dependable 3 percent.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-14497398",
+        "network": "cj"
+      }
     },
     {
       "name": "Taco Bell",
@@ -12874,6 +13054,19 @@
       "intro": "Ticketmaster is the dominant US ticketing platform, selling primary admission to concerts, sports, and theater for venues nationwide. Charges here usually code as entertainment or ticketing rather than dining or travel, so a card with an entertainment bonus earns the most. Many premium cards also unlock presale access or reserved seats, which can matter more than the points themselves.\n"
     },
     {
+      "name": "TicketNetwork",
+      "slug": "ticketnetwork",
+      "categories": [
+        "entertainment"
+      ],
+      "website": "https://www.ticketnetwork.com",
+      "intro": "TicketNetwork is a resale ticket marketplace for concerts, sports, and theater, aggregating inventory from independent brokers much like StubHub, Vivid Seats, and SeatGeek. Purchases generally code as ticketing or entertainment merchants, though resale marketplaces are not guaranteed to hit every issuer's entertainment definition.\n\nCapital One Savor's entertainment category is the headline play for ticket sites, and U.S. Bank Cash+ offers a movie-and-entertainment-adjacent selection worth checking. Failing a category match, big resale orders are exactly what a flat 2 percent card is for.\n",
+      "affiliate": {
+        "url": "https://www.jdoqocy.com/click-101737824-15520254",
+        "network": "cj"
+      }
+    },
+    {
       "name": "Tiffany & Co.",
       "slug": "tiffany-and-co",
       "categories": [
@@ -12906,6 +13099,19 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.25164.2107591&trid=1552713.239487&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "20% off on your birthday"
+      }
+    },
+    {
+      "name": "Timex",
+      "slug": "timex",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.timex.com",
+      "intro": "Timex has been making accessibly priced watches since 1854, from the Weekender and Expedition field watches to the Q Timex reissues and Ironman sport line. Ordering direct from timex.com codes as online retail, and the brand's frequent sitewide promotions make direct orders competitive with department-store pricing.\n\nA watch order lands cleanly in online shopping categories: Bank of America Customized Cash set to online shopping earns 3 percent, Chase Freedom Flex sometimes covers online retail in a rotating quarter, and flat 2 percent cards handle gift-season purchases with no planning.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-17010514",
+        "network": "cj"
       }
     },
     {
@@ -14198,6 +14404,22 @@
       }
     },
     {
+      "name": "Wondershare",
+      "slug": "wondershare",
+      "aliases": [
+        "Filmora"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.wondershare.com",
+      "intro": "Wondershare develops consumer creative and utility software, headlined by the Filmora video editor along with PDFelement, Dr.Fone, and Recoverit. Licenses are sold as annual plans or perpetual keys straight from wondershare.com and code as an online software purchase.\n\nSoftware rarely triggers bonus categories, so treat it like any other online subscription: a Bank of America Customized Cash set to online shopping earns 3 percent on a Filmora renewal, and flat 2 percent cards like the Wells Fargo Active Cash are the zero-thought default.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-10890849",
+        "network": "cj"
+      }
+    },
+    {
       "name": "World Market",
       "slug": "world-market",
       "aliases": [
@@ -14333,6 +14555,19 @@
       "intro": "Yard House is an upscale-casual chain built around a huge tap list of draft beer and an American menu, also part of the Darden portfolio. Tabs here code as dining or restaurants, so a card carrying a restaurant bonus will out-earn a flat-rate card on both food and those long lists of drafts.\n"
     },
     {
+      "name": "Yarnspirations",
+      "slug": "yarnspirations",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.yarnspirations.com",
+      "intro": "Yarnspirations is the official online home of the big craft-yarn brands — Caron, Bernat, Red Heart, Patons, and Lily Sugar'n Cream — plus thousands of free knitting and crochet patterns. Unlike a Michaels or JOANN run, Yarnspirations orders ship direct and code as online retail rather than a craft-store purchase.\n\nStock-up orders during clearance events are where the money goes, so route them through an online category: Bank of America Customized Cash set to online shopping earns 3 percent, and a Chase Freedom Flex online-retail quarter can lift a big cart to 5 percent.\n",
+      "affiliate": {
+        "url": "https://www.tkqlhce.com/click-101737824-13781226",
+        "network": "cj"
+      }
+    },
+    {
       "name": "YouTube TV",
       "slug": "youtube-tv",
       "categories": [
@@ -14409,6 +14644,22 @@
       "intro": "zChocolat is a luxury chocolate brand offering French assortments in mahogany gift boxes\nwith worldwide delivery at zchocolat.com. There is no zChocolat co-brand credit card, so\npurchases earn the most on a card with a strong online shopping multiplier or a dependable\nflat-rate cashback card.\n",
       "affiliate": {
         "url": "https://www.kqzyfj.com/click-101737824-10020803",
+        "network": "cj"
+      }
+    },
+    {
+      "name": "Zinio",
+      "slug": "zinio",
+      "aliases": [
+        "ZINIO"
+      ],
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.zinio.com",
+      "intro": "Zinio is the largest digital newsstand, selling single issues and annual subscriptions to thousands of magazines readable across its apps, in the same digital-reading niche as Magzter. Subscriptions bill through zinio.com and code as an online digital purchase — notably not as a streaming service, so streaming-bundle credits will not apply.\n\nMagazine subscriptions are small recurring charges, ideal for a set-and-forget card: a flat 2 percent earner covers renewals without thought, while Bank of America Customized Cash set to online shopping stretches them to 3 percent.\n",
+      "affiliate": {
+        "url": "https://www.dpbolvw.net/click-101737824-17177799",
         "network": "cj"
       }
     }
