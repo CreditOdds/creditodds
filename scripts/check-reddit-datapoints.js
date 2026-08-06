@@ -1070,9 +1070,46 @@ ${buildPendingSection(pending)}
 
 // ── Pending reconciliation (finish phase) ────────────────────────────────────
 
+/**
+ * Fold the session's re-declarations back into the carried bucket.
+ *
+ * Silence drops an entry — but only when the session was actually SHOWN it.
+ * The revisit queue is capped (CAPS.revisitPosts) and draws from a request
+ * budget that Reddit's 429s regularly exhaust, so on a throttled run some
+ * pending entries never reach the prompt at all, and an entry that was never
+ * presented cannot be re-declared: validatePendingEntry rejects any source_id
+ * outside this run's candidates. Dropping those would make rate limiting look
+ * like a judgment call, and silently — their attempts counter was never even
+ * incremented, so they never spent a look. Seen live on 2026-08-06: three
+ * entries (two 429s, one cut by the request budget) fell out of the state file
+ * with attempts and days still left in their windows.
+ *
+ * So the split is by whether the entry was presented, not by whether it came
+ * back:
+ *   presented + re-declared  → keeps its history, attempts already bumped
+ *   presented + silent       → dropped, which is the session saying "give up"
+ *   never presented          → carried forward untouched
+ *
+ * Carrying forward is not a reprieve: firstSeen and attempts ride along
+ * unchanged, so pendingExpiry() ages the entry out on a later fetch phase
+ * exactly as it would have.
+ */
+function mergePending({ carried, declared, candidateById }) {
+  const pending = { ...declared };
+  const carriedForward = [];
+  for (const [id, entry] of Object.entries(carried)) {
+    if (pending[id] || candidateById.has(id)) continue;
+    // firstSeen is what bounds an entry's life, and a carried entry is never
+    // re-stamped, so a hand-edited state file missing it would otherwise live
+    // forever. Fill the hole once; every other field rides along as-is.
+    pending[id] = entry.firstSeen ? entry : { ...entry, firstSeen: TODAY };
+    carriedForward.push({ id, entry: pending[id] });
+  }
+  return { pending, carriedForward };
+}
+
 // The staged state is the fetch phase's output, so finish has to read it back,
-// fold in what the session decided, and rewrite it. Anything the session did NOT
-// re-declare falls out of the bucket: silence means "stop chasing this".
+// fold in what the session decided, and rewrite it.
 function reconcilePending(validationCtx) {
   const staged = fs.existsSync(STATE_UPDATED_FILE)
     ? JSON.parse(fs.readFileSync(STATE_UPDATED_FILE, 'utf8'))
@@ -1111,7 +1148,12 @@ function reconcilePending(validationCtx) {
     };
   }
 
-  return { staged, pending: declared, rejected, carriedCount: Object.keys(carried).length };
+  const { pending, carriedForward } = mergePending({
+    carried,
+    declared,
+    candidateById: validationCtx.candidateById,
+  });
+  return { staged, pending, rejected, carriedForward, carriedCount: Object.keys(carried).length };
 }
 
 function resolvePendingFor(result, publishedIds) {
@@ -1125,11 +1167,31 @@ function resolvePendingFor(result, publishedIds) {
 
 // Rewrites the staged state and the follow-up list, then says what changed.
 function reportPending(result) {
-  const { staged, pending, rejected, resolved = 0 } = result;
+  const { staged, pending, rejected, resolved = 0, carriedForward = [] } = result;
   fs.writeFileSync(STATE_UPDATED_FILE, `${JSON.stringify({ seen: staged.seen || {}, pending }, null, 2)}\n`);
   fs.writeFileSync(FOLLOWUPS_FILE, buildFollowups(pending));
 
   rejected.forEach((r) => console.log(`✗ pending/${r}`));
+
+  // Say which entries the session never got to see. Left unsaid, a carried
+  // entry is indistinguishable from one the session read and kept — and the
+  // reason it was carried (the revisit cap, or Reddit throttling us out of the
+  // request) is the thing worth knowing about the run.
+  if (carriedForward.length > 0) {
+    console.log(
+      `\nPending carried forward (${carriedForward.length}): never re-presented this run ` +
+        `(revisit cap or Reddit throttling), so no look was spent and nothing was dropped.`
+    );
+    for (const { entry } of carriedForward) {
+      const known = [entry.card_name, entry.result].filter(Boolean).join(' ') || 'outcome';
+      const looksLeft = Math.max(0, PENDING_MAX_ATTEMPTS - (entry.attempts || 0));
+      console.log(
+        `  - ${known}, missing ${(entry.missing || []).join('/')} — ` +
+          `still ${looksLeft} look(s) left, first seen ${entry.firstSeen}`
+      );
+      console.log(`    ${entry.url}`);
+    }
+  }
 
   const count = Object.keys(pending).length;
   if (resolved > 0) console.log(`\nPending resolved: ${resolved} entr(ies) published after a revisit.`);
@@ -1378,6 +1440,7 @@ module.exports = {
   pendingExpiry,
   rankPending,
   validatePendingEntry,
+  mergePending,
   buildFollowups,
   buildExtractPrompt,
   buildPrBody,
