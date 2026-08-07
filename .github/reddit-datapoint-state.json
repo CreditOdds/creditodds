@@ -570,7 +570,7 @@
     "t3_1vefnqc": "2026-08-04",
     "t3_1vg2pf8": "2026-08-05",
     "t3_1vfz3n9": "2026-08-05",
-    "t3_1vfxn4i": "2026-08-06",
+    "t3_1vfxn4i": "2026-08-07",
     "t3_1vfx27n": "2026-08-05",
     "t3_1vft5e2": "2026-08-05",
     "t3_1vfrml2": "2026-08-05",
@@ -583,20 +583,20 @@
     "t3_1vfgkp4": "2026-08-05",
     "t3_1vffwot": "2026-08-05",
     "t3_1vf9i3c": "2026-08-05",
-    "t3_1vh3gk7": "2026-08-06",
+    "t3_1vh3gk7": "2026-08-07",
     "t3_1vgvvbe": "2026-08-06",
     "t3_1vgsih9": "2026-08-06",
     "t3_1vgo9qw": "2026-08-06",
     "t3_1vgnjjk": "2026-08-06",
     "t3_1vgjf5f": "2026-08-06",
     "t3_1vgfbyi": "2026-08-06",
-    "t3_1vgeifs": "2026-08-06",
+    "t3_1vgeifs": "2026-08-07",
     "t3_1vged7t": "2026-08-06",
     "t3_1vgdq70": "2026-08-06",
     "t3_1vgdf8e": "2026-08-06",
     "t3_1vgcine": "2026-08-06",
     "t3_1vgbbld": "2026-08-06",
-    "t3_1vgae12": "2026-08-06",
+    "t3_1vgae12": "2026-08-07",
     "t3_1vg8s0a": "2026-08-06",
     "t3_1vg77qk": "2026-08-06"
   },
@@ -610,10 +610,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for both the Chase Sapphire Reserve ($10,300 limit) and the Amazon Prime Rewards Visa Signature ($20,000) on $365k income. Lists EX 642, EQ 679, TU 655, and says his Experian file was frozen when he applied, so which bureau Chase actually pulled is unclear.",
+      "note": "Approved for the Chase Sapphire Reserve ($10,300 limit) and the Amazon Prime Rewards Visa Signature ($20,000) on $365k income. Lists EX 642, EQ 679, TU 655, and says Experian was frozen at application, so which bureau Chase pulled is still unclear. Look 2 replies added only income context.",
       "firstSeen": "2026-08-06",
-      "attempts": 1,
-      "lastChecked": "2026-08-06"
+      "attempts": 2,
+      "lastChecked": "2026-08-07"
     },
     "t3_1vgeifs": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vgeifs/citi_aadvantage_executive_world_legend_mastercard/",
@@ -624,10 +624,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Reports an approval last week on the Citi AAdvantage Executive World Elite Mastercard, noting the card arrived stamped World Legend. No score, income, or limit given anywhere in the post.",
+      "note": "Approval last week on the Citi AAdvantage Executive World Elite Mastercard, card arrived stamped World Legend. No score, income, or limit anywhere. The one OP reply on look 2 is about card perks, not stats.",
       "firstSeen": "2026-08-06",
-      "attempts": 1,
-      "lastChecked": "2026-08-06"
+      "attempts": 2,
+      "lastChecked": "2026-08-07"
     },
     "t3_1vgae12": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vgae12/denied_for_a_student_credit_card_because_of_thin/",
@@ -637,24 +637,10 @@
       "missing": [
         "card_name"
       ],
-      "note": "Nineteen year old reports a denial on a student card with a 670 Equifax score. Issuer cited limited credit history, too many inquiries, and not enough revolving credit history. Never says which student card it was.",
+      "note": "Nineteen year old denied on an unnamed student card with a 670 Equifax score, issuer citing limited credit history, too many inquiries, and not enough revolving credit. The look 2 reply mentions Discover and Capital One, but reads as the free score tools used, and even read as issuers it names two r…",
       "firstSeen": "2026-08-06",
-      "attempts": 1,
-      "lastChecked": "2026-08-06"
-    },
-    "t3_1vfxn4i": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vfxn4i/needing_help_with_credit_card_dilemma/",
-      "title": "Needing help with credit card dilemma",
-      "posted": "2026-08-05",
-      "result": "approved",
-      "missing": [
-        "credit_score",
-        "card_name"
-      ],
-      "note": "Approved for a Discover it with a $3,000 starting limit, up from a prior $600 ceiling. Look 2 turned up no score and still no variant. The only OP reply names his two Capital One cards, Savor and Quicksilver.",
-      "firstSeen": "2026-08-05",
       "attempts": 2,
-      "lastChecked": "2026-08-06"
+      "lastChecked": "2026-08-07"
     }
   }
 }
