@@ -1,0 +1,51 @@
+name: "TD Double Up"
+bank: "TD Bank"
+slug: "td-double-up"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0
+release_date: "2021-03-22"
+tags:
+  - cashback
+  - rewards
+reward_type: "cashback"
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+    note: "Earns 2 points per dollar; 1 point is worth 1 cent, with a 2,500 point minimum to redeem as a statement credit or a deposit to a TD checking or savings account"
+signup_bonus:
+  value: 200
+  type: "cash"
+  spend_requirement: 1500
+  timeframe_months: 3
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 18.49
+    max: 28.49
+apply_link: https://www.td.com/us/en/personal-banking/credit-cards/double-up
+foreign_transaction_fee: true
+network: "visa"
+our_take: >
+  The Double Up is TD's flat rate cash back card: an unlimited 2% on every
+  eligible purchase, no annual fee, no categories to track and no caps. TD
+  originally paid this as 1% at purchase plus a second 1% only when you moved
+  rewards into a TD deposit account, so a lot of published reviews still
+  describe it that way, but the card's current terms drop that condition and
+  pay the full 2% up front. You can take rewards as a statement credit or as a
+  deposit to TD checking or savings once you hit 2,500 points, which is $25.
+  The intro APR terms are the other reason to look at it: 0% on purchases for
+  12 billing cycles and 0% on balance transfers for 15, with a 3% transfer fee
+  during the first 90 days. Two things hold it back. It charges a 3% foreign
+  transaction fee, so it is a poor travel companion, and TD only issues it
+  along its retail footprint, roughly Maine down to Florida plus the Carolinas
+  and Metro D.C., so most of the country cannot apply. If you already bank with
+  TD and want one card that handles everything domestically, it is a reasonable
+  pick, though a nationally available 2% card gets you the same rate without
+  the geographic catch.
