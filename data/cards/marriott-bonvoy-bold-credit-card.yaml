@@ -94,7 +94,7 @@ our_take: >
   with the one-year DashPass membership and the baggage and trip delay
   coverage as extras rather than reasons to apply.
 signup_bonus:
-  value: 60000
+  value: 45000
   type: "points"
   spend_requirement: 1000
   timeframe_months: 3
