@@ -52,6 +52,26 @@ benefits:
     value: 0
     frequency: "one_time"
     category: "other"
+  - name: "Google Workspace Discount"
+    description: "30% off the first year of Google Workspace Business Standard"
+    frequency: "one_time"
+    category: "other"
+    enrollment_required: false
+  - name: "LinkedIn Hiring Pro Credits"
+    description: "Up to $400 in annual value through LinkedIn Hiring Pro credits"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
+  - name: "Adobe Creative Cloud Pro Discount"
+    description: "25% off Adobe Creative Cloud Pro"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
+  - name: "ERGO NEXT Insurance Discount"
+    description: "10% off an ERGO NEXT Insurance business policy"
+    frequency: "per_purchase"
+    category: "other"
+    enrollment_required: false
 our_take: >
   A flat 2% back on all business spending with no annual fee is the real story
   here, along with a $300 bonus after $3,000 in the first three months. The 5%
