@@ -47,6 +47,11 @@ if [ -n "$(git status --porcelain "$STATE_FILE")" ]; then
     -f content="$(base64 < "$STATE_FILE" | tr -d '\n')")
   [ -n "$SHA" ] && ARGS+=(-f sha="$SHA")
   gh api "${ARGS[@]}" --jq '.commit.sha' | sed 's/^/Committed state as /'
+  # The push landed on main only, so the local copy is now behind — revert it so
+  # the checkout below sees nothing but the card edits. This is safe *because*
+  # check-card-pages.js reads the counters from origin/main, not from this file
+  # (see loadSkipState). Before that, a second run in the same working tree read
+  # the reverted copy and PUT an update that erased the first run's entries.
   git checkout -- "$STATE_FILE"
 fi
 

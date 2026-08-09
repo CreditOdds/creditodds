@@ -12,12 +12,18 @@
 // Run: `node scripts/check-card-pages.test.js`. Exits non-zero on any failure.
 
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const {
   detectChanges,
   needsBrowserRetry,
   normalizeBonusType,
   pageShowsSignupOffer,
   updateSkipState,
+  resolveSkipState,
+  readSkipStateFromMain,
   staleCardsFrom,
   isTransientNetworkError,
   SKIP_ALERT_THRESHOLD,
@@ -1182,6 +1188,140 @@ test('a card with no URL at all does not crash the guard', () => {
   assert.doesNotThrow(() =>
     detectChanges(card, amexExtract(80000), new Date(), [], RENDERED_OFFER)
   );
+});
+
+// ─── Skip-state source: the pushed copy on main, not the reverted local file ──
+//
+// Both publish paths commit .github/card-page-check-state.json to main through
+// the contents API and then revert the local copy, so the local file is a run's
+// output and never its input. Reading it back made a second run in the same
+// working tree start from pre-first-run state and erase the first run's entries
+// (observed 2026-08-09 — 122 verified cards' last_ok lost to a 44-card recovery
+// run). These tests pin both halves: the source preference, and the full
+// two-sequential-runs cycle against a real git remote.
+
+console.log('\nSkip-state source preference:');
+
+const STATE_V0 = JSON.stringify({
+  updated_at: '2026-08-06T07:00:00.000Z',
+  cards: { 'card-a': { consecutive_skips: 0, last_ok: '2026-08-06T07:00:00.000Z' } },
+});
+const STATE_V1 = JSON.stringify({
+  updated_at: '2026-08-09T07:00:00.000Z',
+  cards: { 'card-a': { consecutive_skips: 0, last_ok: '2026-08-09T07:00:00.000Z' } },
+});
+
+test('the copy on main wins over a stale local file', () => {
+  assert.equal(resolveSkipState(STATE_V1, STATE_V0)['card-a'].last_ok, '2026-08-09T07:00:00.000Z');
+});
+
+test('an unreadable main copy falls back to the local file', () => {
+  assert.equal(resolveSkipState(null, STATE_V0)['card-a'].last_ok, '2026-08-06T07:00:00.000Z');
+});
+
+test('a corrupt main copy falls back to the local file', () => {
+  assert.equal(resolveSkipState('{not json', STATE_V0)['card-a'].last_ok, '2026-08-06T07:00:00.000Z');
+});
+
+test('a main copy missing the cards key falls back to the local file', () => {
+  assert.equal(resolveSkipState('{"updated_at":"x"}', STATE_V0)['card-a'].last_ok, '2026-08-06T07:00:00.000Z');
+});
+
+test('neither copy readable is not fatal — every card starts at zero', () => {
+  assert.deepEqual(resolveSkipState(null, null), {});
+});
+
+console.log('\nTwo sequential runs from one working tree:');
+
+const git = (cwd, args) =>
+  execFileSync('git', ['-c', 'user.email=t@t', '-c', 'user.name=t', ...args], {
+    cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+  });
+
+// Stand up origin + a clone, mirroring the real layout: the state file is
+// committed on main, and the checkout the run happens in tracks it.
+function makeRepo() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'card-page-state-'));
+  const origin = path.join(root, 'origin.git');
+  const work = path.join(root, 'work');
+  execFileSync('git', ['init', '-q', '--bare', '-b', 'main', origin]);
+  git(root, ['clone', '-q', origin, work]);
+  fs.mkdirSync(path.join(work, '.github'), { recursive: true });
+  return { root, origin, work };
+}
+
+// What both publish paths do: PUT the file to main through the contents API
+// (never into the local branch), then `git checkout --` the local copy back to
+// HEAD so the uncommitted data/cards/ edits survive for the PR step.
+function publishToMain({ origin, work }, statePath, content) {
+  const pusher = fs.mkdtempSync(path.join(os.tmpdir(), 'card-page-push-'));
+  git(pusher, ['clone', '-q', origin, 'c']);
+  const clone = path.join(pusher, 'c');
+  fs.mkdirSync(path.join(clone, '.github'), { recursive: true });
+  fs.writeFileSync(path.join(clone, statePath), content);
+  git(clone, ['add', statePath]);
+  git(clone, ['commit', '-q', '-m', 'chore: update card-page skip-tracking state [skip ci]']);
+  git(clone, ['push', '-q', 'origin', 'main']);
+  fs.rmSync(pusher, { recursive: true, force: true });
+  git(work, ['checkout', '--', statePath]);
+}
+
+test("run 2 preserves run 1's last_ok for cards it never looked at", () => {
+  const STATE_PATH = '.github/card-page-check-state.json';
+  const repo = makeRepo();
+  const localFile = path.join(repo.work, STATE_PATH);
+  try {
+    // Baseline on main: 123 cards last verified three days ago.
+    const allSlugs = Array.from({ length: 123 }, (_, i) => `card-${String(i).padStart(3, '0')}`);
+    const baseline = {};
+    for (const slug of allSlugs) baseline[slug] = { consecutive_skips: 0, last_ok: '2026-08-06T07:00:00.000Z' };
+    fs.writeFileSync(localFile, JSON.stringify({ updated_at: '2026-08-06T07:00:00.000Z', cards: baseline }, null, 2) + '\n');
+    git(repo.work, ['add', STATE_PATH]);
+    git(repo.work, ['commit', '-q', '-m', 'baseline state']);
+    git(repo.work, ['push', '-q', '-u', 'origin', 'main']);
+
+    // Run 1 — full run, verifies all 123 (the last 44 skip, as on 2026-08-09).
+    const RUN_1_AT = '2026-08-09T07:30:00.000Z';
+    const skipped1 = allSlugs.slice(-44).map(slug => ({ slug, reason: 'fetch failed' }));
+    const state1 = updateSkipState(
+      resolveSkipState(readSkipStateFromMain(repo.work), fs.readFileSync(localFile, 'utf8')),
+      { checkedSlugs: new Set(allSlugs), skippedCards: skipped1, checkedAt: RUN_1_AT, isPartialRun: false }
+    );
+    fs.writeFileSync(localFile, JSON.stringify({ updated_at: RUN_1_AT, cards: state1 }, null, 2) + '\n');
+    publishToMain(repo, STATE_PATH, fs.readFileSync(localFile, 'utf8'));
+
+    // The local file is now back to the pre-run baseline — this is the trap.
+    assert.equal(
+      JSON.parse(fs.readFileSync(localFile, 'utf8')).cards['card-000'].last_ok,
+      '2026-08-06T07:00:00.000Z'
+    );
+
+    // Run 2 — CARD_SLUG-scoped recovery over the 44 that skipped.
+    const RUN_2_AT = '2026-08-09T09:00:00.000Z';
+    const recovered = allSlugs.slice(-44);
+    const state2 = updateSkipState(
+      resolveSkipState(readSkipStateFromMain(repo.work), fs.readFileSync(localFile, 'utf8')),
+      { checkedSlugs: new Set(recovered), skippedCards: [], checkedAt: RUN_2_AT, isPartialRun: true }
+    );
+    fs.writeFileSync(localFile, JSON.stringify({ updated_at: RUN_2_AT, cards: state2 }, null, 2) + '\n');
+    publishToMain(repo, STATE_PATH, fs.readFileSync(localFile, 'utf8'));
+
+    const onMain = JSON.parse(execFileSync('git', ['show', `main:${STATE_PATH}`], {
+      cwd: repo.origin, encoding: 'utf8',
+    })).cards;
+
+    // Every card carries a 2026-08-09 timestamp: run 1's for the 79 it verified,
+    // run 2's for the 44 it recovered. None is left back at the baseline.
+    assert.equal(Object.keys(onMain).length, 123);
+    const stillBaseline = allSlugs.filter(s => onMain[s].last_ok === '2026-08-06T07:00:00.000Z');
+    assert.deepEqual(stillBaseline, []);
+    for (const slug of allSlugs.slice(0, 79)) assert.equal(onMain[slug].last_ok, RUN_1_AT);
+    for (const slug of recovered) assert.equal(onMain[slug].last_ok, RUN_2_AT);
+    // And the recovery cleared the skip counters run 1 raised.
+    for (const slug of recovered) assert.equal(onMain[slug].consecutive_skips, 0);
+  } finally {
+    fs.rmSync(repo.root, { recursive: true, force: true });
+  }
 });
 
 console.log('');
