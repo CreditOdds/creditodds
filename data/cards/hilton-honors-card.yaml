@@ -66,6 +66,13 @@ benefits:
     description: "Upgrade to Hilton Honors Gold status after $20,000 in eligible purchases in a calendar year, valid for that year and the next"
     frequency: "ongoing"
     category: "hotel"
+  - name: "Venue Collection Concessions Rebate"
+    value: 10
+    value_unit: "percent"
+    description: "10% back on qualifying concessions purchases at select stadiums and arenas, up to $250 per calendar year, when the card is enrolled"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: true
 tags:
   - hotel
   - travel
