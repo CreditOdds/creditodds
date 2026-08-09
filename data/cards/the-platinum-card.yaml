@@ -29,6 +29,9 @@ rewards:
     value: 5
     unit: points_per_dollar
     note: "Booked directly with airlines or through Amex Travel, up to $500,000 per calendar year"
+    spend_cap: 500000
+    cap_period: annual
+    rate_after_cap: 1
   - category: hotels_portal
     value: 5
     unit: points_per_dollar
