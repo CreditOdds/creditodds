@@ -94,6 +94,11 @@ benefits:
     frequency: "annual"
     category: "fitness"
     enrollment_required: true
+  - name: "Primary Rental Car Coverage"
+    description: "Primary auto rental collision damage waiver with reimbursement up to $75,000 for theft and collision damage in the U.S. and abroad."
+    frequency: "ongoing"
+    category: "car_rental"
+    enrollment_required: false
 tags:
   - travel
   - premium
