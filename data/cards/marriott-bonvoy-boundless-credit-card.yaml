@@ -75,11 +75,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 125000
-  type: "points"
+  value: 4
+  type: "free_nights"
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Earn 125,000 Bonus Points + 1 Free Night Award after spending $3,000 on eligible purchases within 3 months of account opening. Free Night Award valid for one-night stay at properties with a redemption level up to 50,000 points per night."
+  note: "Earn 4 Free Night Awards after spending $3,000 on eligible purchases within 3 months of account opening. Each Free Night Award is valid for a one-night stay at properties with a redemption level up to 50,000 points per night."
 apr:
   regular:
     min: 19.24
@@ -88,9 +88,9 @@ apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bo
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  Chase recently pushed the Boundless signup bonus up to 125,000 points plus a
-  Free Night Award after $3,000 in three months, which is a large opening for
-  a $95 card. The ongoing case rests on the annual Free Night Award worth up
+  Chase's current Boundless offer is 4 Free Night Awards, each good for a stay
+  worth up to 50,000 points, after $3,000 in three months, which is a large
+  opening for a $95 card. The ongoing case rests on the annual Free Night Award worth up
   to 35,000 points, since one decent redemption can cover the fee on its own,
   and you also get 15 elite night credits, automatic Silver Elite, and up to
   $100 a year in airline statement credits ($50 each half after $250 in
