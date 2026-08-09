@@ -40,8 +40,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const yaml = require('js-yaml');
 
+const REPO_ROOT = path.join(__dirname, '..');
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const SUMMARY_FILE = path.join(__dirname, '..', '.card-page-check-summary.md');
 // Consecutive-skip counters, committed to main by the workflow so the count
@@ -49,6 +51,8 @@ const SUMMARY_FILE = path.join(__dirname, '..', '.card-page-check-summary.md');
 // workflow either filters on data/** or (deploy-frontend) ignores it — dropping
 // this file anywhere under data/ would fire an Amplify build every night.
 const STATE_FILE = path.join(__dirname, '..', '.github', 'card-page-check-state.json');
+// Same file, repo-relative — the form `git show origin/main:<path>` needs.
+const STATE_FILE_REPO_PATH = '.github/card-page-check-state.json';
 // Written only when a card has been skipped too many runs in a row; the workflow
 // keys its Slack ping / GitHub issue / red build off this file's existence.
 const STALE_REPORT_FILE = path.join(__dirname, '..', '.card-page-check-stale.md');
@@ -1605,15 +1609,72 @@ function logFetchedText(name, url, usedBrowser, pageContent, extracted) {
 
 // ─── Consecutive-skip state ──────────────────────────────────────────────────
 
-function loadSkipState() {
+function parseSkipState(raw) {
+  if (typeof raw !== 'string') return null;
   try {
-    const parsed = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
-    return parsed && typeof parsed.cards === 'object' && parsed.cards ? parsed.cards : {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed.cards === 'object' && parsed.cards ? parsed.cards : null;
   } catch {
-    // Missing or corrupt state is not fatal — every card just starts at zero. The
-    // alarm re-arms after SKIP_ALERT_THRESHOLD runs rather than never firing.
-    return {};
+    return null;
   }
+}
+
+/**
+ * Pick which copy of the counters to fold this run into.
+ *
+ * The copy on main wins whenever it is readable. Both publish paths (the
+ * workflow's "Persist skip-tracking state" step and
+ * scripts/check-card-pages-publish.sh) commit this file straight to main through
+ * the contents API and never into the local branch, and the local script then
+ * `git checkout --`s its copy back to HEAD so the uncommitted data/cards/ edits
+ * survive for the PR step. So the local file is a run's *output*, reverted the
+ * moment it is pushed — reading it back as a run's *input* means a second run in
+ * the same working tree starts from pre-first-run state and PUTs an update that
+ * erases everything the first run recorded.
+ *
+ * Observed 2026-08-09: a full run verified 122 cards, then a CARD_SLUG-scoped
+ * recovery run over 44 of them pushed state again; main ended up with 43 cards
+ * at that day's last_ok and 123 still three days stale. Only last_ok was lost
+ * (consecutive_skips stayed 0 either way, so nothing was falsely flagged), but
+ * the file misreports verification recency, and chaining runs in CI would make
+ * it routine.
+ *
+ * Missing or corrupt state on both sides is not fatal — every card just starts
+ * at zero and the alarm re-arms after SKIP_ALERT_THRESHOLD runs.
+ */
+function resolveSkipState(mainRaw, localRaw) {
+  return parseSkipState(mainRaw) || parseSkipState(localRaw) || {};
+}
+
+// The pushed copy, read straight out of the remote-tracking ref. Returns null on
+// any failure — no network, no origin, file not on main yet (first ever run) —
+// which falls the caller back to the local file.
+function readSkipStateFromMain(cwd = REPO_ROOT) {
+  const run = (args) => execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+  try {
+    run(['fetch', '-q', 'origin', 'main']);
+    return run(['show', `origin/main:${STATE_FILE_REPO_PATH}`]);
+  } catch {
+    return null;
+  }
+}
+
+function readSkipStateLocal() {
+  try {
+    return fs.readFileSync(STATE_FILE, 'utf8');
+  } catch {
+    return null;
+  }
+}
+
+function loadSkipState() {
+  const mainRaw = readSkipStateFromMain();
+  if (parseSkipState(mainRaw)) {
+    console.log(`Skip-tracking state read from origin/main:${STATE_FILE_REPO_PATH}`);
+  } else {
+    console.log(`Skip-tracking state read from the local ${STATE_FILE_REPO_PATH} (main copy unavailable)`);
+  }
+  return resolveSkipState(mainRaw, readSkipStateLocal());
 }
 
 function writeSkipState(cards, checkedAt) {
@@ -2309,6 +2370,8 @@ module.exports = {
   normalizeBonusType,
   pageShowsSignupOffer,
   updateSkipState,
+  resolveSkipState,
+  readSkipStateFromMain,
   staleCardsFrom,
   isTransientNetworkError,
   redirectedToAncestor,
