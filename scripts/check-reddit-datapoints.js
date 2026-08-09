@@ -62,6 +62,7 @@ const WORK_DIR = path.join(REPO_ROOT, '.reddit-dp-work');
 const PROPOSED_DIR = path.join(WORK_DIR, 'proposed');
 const PENDING_DIR = path.join(WORK_DIR, 'pending');
 const PROMPT_FILE = path.join(WORK_DIR, 'extract-prompt.md');
+const SKIPPED_FILE = path.join(WORK_DIR, 'skipped.yaml');
 const CANDIDATES_FILE = path.join(WORK_DIR, 'candidates.json');
 const STATE_UPDATED_FILE = path.join(WORK_DIR, 'state-updated.json');
 const PR_BODY_FILE = path.join(WORK_DIR, 'pr-body.md');
@@ -113,11 +114,74 @@ const PENDING_MAX_ATTEMPTS = 3;
 // outcome is unambiguous but which card it was is not.
 const PENDING_MISSING_FIELDS = ['credit_score', 'card_name', 'date_applied', 'result'];
 
+// Why a candidate produced no data point.
+//
+// Until this existed the run reported "15 candidates, 1 data point" and nothing
+// about the other 14: they were presented, judged, marked seen, and forgotten,
+// with no way to tell a correctly-strict extractor from a broken one. That
+// mattered because both look identical from outside, and the loss is permanent
+// (seen-state retires every candidate presented, published or not).
+//
+// A fixed vocabulary rather than free text, because the point is to aggregate
+// across runs. "We dropped 14" is noise; "11 were odds questions, 3 had no
+// score" is a decision about where the next fix goes. `other` exists so an
+// unforeseen case is not forced into a wrong bucket, and it demands a note.
+const SKIP_REASONS = {
+  no_outcome: 'No stated approval or denial (odds question, recommendation request, chatter)',
+  pre_qual: 'Pre-qualification or pre-approval result, which is never an outcome',
+  not_first_person: "Someone else's application, or second-hand with no details",
+  no_score: 'Real outcome but no credit score anywhere, and below the pending bar',
+  score_too_vague: 'Score only as a wide range, a floor, or a description ("mid 700s")',
+  card_not_in_catalog: 'Real outcome and score, but the card is not in data/cards/',
+  card_unclear: 'Real outcome but which card was applied for cannot be pinned down',
+  not_datable: 'Application cannot be placed in a specific month',
+  too_old: `Application predates the ${MAX_DATA_POINT_AGE_MONTHS / 12}-year window`,
+  duplicate: 'Same application already recorded',
+  other: 'Anything else (a note is required)',
+};
+
+// Reasons that carry an extra required field, because the reason is only
+// actionable with it. A catalog gap is worth nothing without the card's name —
+// that list is the whole reason Max asked for this.
+const SKIP_REQUIRES_CARD = ['card_not_in_catalog'];
+const SKIP_REQUIRES_NOTE = ['other'];
+
+// How many past runs to keep in the state file. Enough to see a month-plus
+// trend in yield and skip mix without the committed file growing without bound.
+const RUN_LOG_LIMIT = 60;
+
+/**
+ * How many pages of /new to walk, and why this exists.
+ *
+ * The routine reads `/new` once a day and used to stop at the first 100 posts.
+ * r/CreditCards posts well past 100 a day, so a single page could not cover a
+ * day of the sub no matter how good the extractor was: everything below the
+ * newest 100 was never fetched, never a candidate, and never counted as a miss.
+ * That was a hard ceiling on recall sitting above every other tuning knob —
+ * roughly 9 to 22 candidates surfaced per day out of a whole day's posting.
+ *
+ * Reddit's listing endpoints take an `after` cursor, and .rss honours it like
+ * any other listing renderer, so one run can walk several pages back instead of
+ * sampling the top. Four pages covers ~400 posts, comfortably more than a day.
+ * The cost is 3 extra requests at CAPS.requestSpacingMs apart, which is far
+ * cheaper than the comment expansion the same run already does.
+ *
+ * Paging stops early (see fetchNewPosts) once a page yields nothing we have not
+ * already seen, so on a normal day the seen-state cuts this short by itself and
+ * only a backlog actually pays for all four pages.
+ */
+const NEW_FEED_PAGES = 4;
+
 const CAPS = {
-  newPosts: 40,
+  // Raised from 40/60 when /new started paging (NEW_FEED_PAGES). One page could
+  // never produce more than a handful of signal-matching posts, so the old caps
+  // were slack that never bound; against four pages they would silently become
+  // the new ceiling, which is the exact failure this change exists to remove.
+  // Both are reported when they truncate — see phaseFetch.
+  newPosts: 60,
   threadComments: 60,
   bodyChars: 2500,
-  totalCandidates: 60,
+  totalCandidates: 80,
   // OP-reply expansion. Each expanded post costs one extra Reddit request at 8s
   // spacing, so the cap is what bounds the fetch phase's runtime (and our rate
   // of unauthenticated requests) more than anything else.
@@ -187,14 +251,18 @@ function loadCardCatalog() {
 }
 
 function loadState() {
-  const empty = { seen: {}, pending: {} };
+  const empty = { seen: {}, pending: {}, runs: [] };
   try {
     if (!fs.existsSync(STATE_FILE)) return empty;
     const parsed = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
     if (!parsed || typeof parsed.seen !== 'object') return empty;
-    // `pending` postdates `seen`; a state file written before it existed is
-    // valid and just has an empty bucket.
-    return { seen: parsed.seen, pending: parsed.pending && typeof parsed.pending === 'object' ? parsed.pending : {} };
+    // `pending` and `runs` both postdate `seen`; a state file written before
+    // either existed is valid and just has an empty bucket.
+    return {
+      seen: parsed.seen,
+      pending: parsed.pending && typeof parsed.pending === 'object' ? parsed.pending : {},
+      runs: Array.isArray(parsed.runs) ? parsed.runs : [],
+    };
   } catch {
     return empty;
   }
@@ -379,14 +447,63 @@ function truncate(text, max) {
 // anything without a stated result anyway.
 const DP_SIGNAL_RE = /(approv|deni(ed|al)|data ?point|\bdp\b|instant.{0,12}(approval|decision)|got (the card|approved|denied)|rejected)/i;
 
+/**
+ * Walk /new back through NEW_FEED_PAGES pages, newest first.
+ *
+ * Three properties worth keeping if this is ever edited:
+ *
+ * 1. Only page 1 is allowed to fail the source. A 429 on page 3 returns the two
+ *    pages we already have rather than throwing away a successful crawl —
+ *    partial coverage beats none, and the run's source count still reports it.
+ * 2. Paging stops as soon as a page contains nothing unseen. That is the signal
+ *    we have reached where yesterday's run finished, and everything below is
+ *    already in the seen-state.
+ * 3. Dedupe is by post id across pages, because a post submitted while we page
+ *    shifts the window and can repeat on the next page.
+ */
 async function fetchNewPosts(seenIds) {
-  const entries = parseAtom(await redditRss('https://www.reddit.com/r/CreditCards/new/.rss?limit=100'));
-  const kept = entries
-    .filter((p) => !seenIds.has(p.id))
-    .filter((p) => DP_SIGNAL_RE.test(`${p.title} ${p.content}`))
-    .slice(0, CAPS.newPosts);
+  const collected = [];
+  const idsThisCrawl = new Set();
+  let after = null;
+  let pages = 0;
+
+  for (let page = 0; page < NEW_FEED_PAGES; page++) {
+    const url =
+      `https://www.reddit.com/r/CreditCards/new/.rss?limit=100${after ? `&after=${encodeURIComponent(after)}` : ''}`;
+    let entries;
+    try {
+      if (page > 0) await sleep(CAPS.requestSpacingMs);
+      entries = parseAtom(await redditRss(url));
+    } catch (err) {
+      if (page === 0) throw err;
+      console.warn(`  /new page ${page + 1} failed (${err.message.split('\n')[0]}) — keeping ${pages} page(s)`);
+      break;
+    }
+    if (entries.length === 0) break;
+    pages++;
+
+    const unseen = entries.filter((p) => !seenIds.has(p.id) && !idsThisCrawl.has(p.id));
+    unseen.forEach((p) => idsThisCrawl.add(p.id));
+    collected.push(...unseen);
+
+    // Caught up with the previous crawl: everything on this page is already
+    // recorded, so pages below it are older still.
+    if (unseen.length === 0) break;
+
+    after = entries[entries.length - 1].id;
+    if (!after) break;
+  }
+
+  const matched = collected.filter((p) => DP_SIGNAL_RE.test(`${p.title} ${p.content}`));
+  const kept = matched.slice(0, CAPS.newPosts);
+  if (matched.length > kept.length) {
+    console.warn(
+      `  /new: ${matched.length} signal-matching post(s) found, keeping ${kept.length} (CAPS.newPosts). ` +
+        `${matched.length - kept.length} dropped unread and marked unseen — they will resurface tomorrow.`
+    );
+  }
   return {
-    label: 'r/CreditCards new posts',
+    label: `r/CreditCards new posts (${pages} page(s), ${collected.length} unseen)`,
     candidates: kept.map((p) => ({
       id: p.id,
       kind: 'post',
@@ -756,6 +873,36 @@ A "what are my odds?" post, a recommendation-template post, or a pre-qual reject
 
 \`note\` is your own paraphrase and gets read by a human deciding whether to go ask the poster, so say what is established and what is missing in one line.
 
+## Accounting: every candidate needs a disposition
+
+Skipping is the right call most of the time, and none of the bars above are relaxed by this section. But a skip has to be **recorded**, not just performed. Every candidate you were shown must end up in exactly one of three places:
+
+1. \`proposed/\` — it publishes,
+2. \`pending/\` — a real outcome missing one field, worth chasing,
+3. \`.reddit-dp-work/skipped.yaml\` — everything else, with a reason.
+
+Write \`skipped.yaml\` as one list, covering every candidate not in the other two buckets:
+
+\`\`\`yaml
+- source_id: "t3_1abcde"
+  reason: no_outcome
+- source_id: "t3_1fghij"
+  reason: card_not_in_catalog
+  card: "Sofi Everyday Cash Rewards"      # required for this reason: the card as the poster named it
+  note: "Approved, 715 TransUnion, but the card is not in our catalog."
+- source_id: "t3_1klmno"
+  reason: other
+  note: "Post was deleted between the fetch and now."   # required for \`other\`
+\`\`\`
+
+Valid reasons, and nothing else:
+
+${Object.entries(SKIP_REASONS).map(([k, v]) => `- \`${k}\` — ${v}`).join('\n')}
+
+Pick the reason for the **first** bar the candidate fails, reading the numbered rules top to bottom: a "what are my odds?" post with no score is \`no_outcome\`, not \`no_score\`. \`note\` is optional everywhere except \`other\`, but one short clause is worth writing whenever the reason alone would puzzle someone reading it back later.
+
+Why this matters: the seen-state retires every candidate presented, whether or not it produced anything, so a candidate you drop is gone permanently. The finish phase reports any candidate you left unaccounted for, and that warning goes in the PR — so silence is not neutral, it reads as a possible lost data point. If a candidate is genuinely off-topic noise, \`no_outcome\` covers it in one line; use it freely.
+
 ## Card catalog (output card_name exactly as listed)
 ${buildCardListSection(cards)}
 ${buildRevisitSection(revisits)}
@@ -763,7 +910,7 @@ ${buildRevisitSection(revisits)}
 
 ${numbered}
 
-If nothing qualifies, create no files — that is a successful run. Either way, end your run report with data-point counts, pending entries opened or resolved, and any catalog-missing cards you saw.
+If nothing qualifies, \`proposed/\` and \`pending/\` stay empty and every candidate goes in \`skipped.yaml\` with its reason — that is a successful run, fully accounted for. Either way, end your run report with data-point counts, pending entries opened or resolved, the skip breakdown, and any catalog-missing cards you saw.
 `;
 }
 
@@ -1030,7 +1177,38 @@ ${rows}
 `;
 }
 
-function buildPrBody(written, pending) {
+// What the run did with everything it read but did not publish. Sits in the PR
+// because the reviewer's standing question is "is this all there was?", and a
+// PR showing one row out of twenty candidates cannot answer it on its own.
+function buildDispositionSection(d) {
+  if (!d) return '';
+  const rows = Object.entries(d.byReason).sort((a, b) => b[1] - a[1]);
+  if (rows.length === 0 && d.unaccounted.length === 0) return '';
+
+  const lines = ['### Candidates that produced nothing', ''];
+  if (rows.length > 0) {
+    lines.push('| Reason | Count | Meaning |', '|---|---|---|');
+    rows.forEach(([reason, n]) => lines.push(`| \`${reason}\` | ${n} | ${SKIP_REASONS[reason]} |`));
+    lines.push('');
+  }
+  if (d.catalogGaps.length > 0) {
+    lines.push(
+      `**Cards in real data points but missing from the catalog:** ${d.catalogGaps.map((c) => `\`${c}\``).join(', ')}. ` +
+        'Adding one turns every future post about it into publishable odds data.',
+      ''
+    );
+  }
+  if (d.unaccounted.length > 0) {
+    lines.push(
+      `⚠️ **${d.unaccounted.length} candidate(s) were never accounted for** — read but neither published, ` +
+        'pended, nor given a skip reason. They are already marked seen and will not be re-presented.',
+      ''
+    );
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+function buildPrBody(written, pending, dispositions) {
   const fmt = (v, prefix = '') => (v == null ? '—' : `${prefix}${typeof v === 'number' ? v.toLocaleString('en-US') : v}`);
   const rows = written
     .map(({ dp, filename }) =>
@@ -1062,7 +1240,7 @@ ${rows}
 2. **Reject a row** by deleting its file from this PR (GitHub → Files changed → ⋯ → Delete file). Rejected sources are never re-proposed — the seen-state was already recorded.
 3. **Reject everything** by closing the PR.
 4. **Accept the rest by merging.**
-${buildPendingSection(pending)}
+${buildPendingSection(pending)}${buildDispositionSection(dispositions)}
 ### What merging does
 \`sync-datapoints.yml\` invokes the \`creditodds-import-reddit-records\` Lambda, which inserts the accepted rows into the \`records\` table (submitter_id \`reddit:<source_id>\`, so imports are distinguishable and idempotent). Card stats refresh within ~5 minutes; CloudFront/ISR caching means public pages update within ~10.
 `;
@@ -1166,9 +1344,14 @@ function resolvePendingFor(result, publishedIds) {
 }
 
 // Rewrites the staged state and the follow-up list, then says what changed.
-function reportPending(result) {
+// `runs` is the completed run log; the staging-only `run` key is dropped here,
+// so what lands in the committed state file stays {seen, pending, runs}.
+function reportPending(result, runs) {
   const { staged, pending, rejected, resolved = 0, carriedForward = [] } = result;
-  fs.writeFileSync(STATE_UPDATED_FILE, `${JSON.stringify({ seen: staged.seen || {}, pending }, null, 2)}\n`);
+  fs.writeFileSync(
+    STATE_UPDATED_FILE,
+    `${JSON.stringify({ seen: staged.seen || {}, pending, runs: runs || staged.runs || [] }, null, 2)}\n`
+  );
   fs.writeFileSync(FOLLOWUPS_FILE, buildFollowups(pending));
 
   rejected.forEach((r) => console.log(`✗ pending/${r}`));
@@ -1202,6 +1385,142 @@ function reportPending(result) {
         `. Ask-list: ${path.relative(REPO_ROOT, FOLLOWUPS_FILE)}`
     );
   }
+}
+
+// ── Dispositions: why each candidate produced nothing ────────────────────────
+
+/**
+ * Read .reddit-dp-work/skipped.yaml — the session's account of every candidate
+ * it read and rejected.
+ *
+ * Validated as strictly as a proposed data point, for the same reason: a skip
+ * log nobody can trust is worse than none, because it invites acting on a
+ * breakdown that is really just what the extractor felt like typing. An
+ * unknown reason, a skip for a post that was never a candidate, or a
+ * `card_not_in_catalog` with no card name is a rejected entry, and a rejected
+ * entry leaves its candidate unaccounted for — which the reconciler then
+ * reports rather than letting it pass as explained.
+ */
+function loadSkipped(candidateById) {
+  if (!fs.existsSync(SKIPPED_FILE)) return { entries: [], rejected: [] };
+
+  let raw;
+  try {
+    raw = yaml.load(fs.readFileSync(SKIPPED_FILE, 'utf8'));
+  } catch (err) {
+    return { entries: [], rejected: [`skipped.yaml: unparseable YAML (${err.message.split('\n')[0]})`] };
+  }
+  if (raw == null) return { entries: [], rejected: [] };
+  if (!Array.isArray(raw)) return { entries: [], rejected: ['skipped.yaml: expected a list of entries'] };
+
+  const entries = [];
+  const rejected = [];
+  const seenHere = new Set();
+  raw.forEach((item, i) => {
+    const where = `skipped.yaml[${i}]`;
+    if (!item || typeof item !== 'object') return rejected.push(`${where}: not a mapping`);
+
+    const id = item.source_id ? String(item.source_id).replace(/#\d+$/, '') : '';
+    if (!id) return rejected.push(`${where}: missing source_id`);
+    if (!candidateById.has(id)) return rejected.push(`${where}: ${id} was not a candidate this run`);
+    if (seenHere.has(id)) return rejected.push(`${where}: ${id} listed twice`);
+
+    const reason = item.reason ? String(item.reason) : '';
+    if (!reason) return rejected.push(`${where}: missing reason`);
+    if (!SKIP_REASONS[reason]) {
+      return rejected.push(`${where}: unknown reason "${reason}" (expected one of ${Object.keys(SKIP_REASONS).join(', ')})`);
+    }
+    const note = item.note ? String(item.note).trim() : '';
+    const card = item.card ? String(item.card).trim() : '';
+    if (SKIP_REQUIRES_NOTE.includes(reason) && !note) {
+      return rejected.push(`${where}: reason "${reason}" requires a note`);
+    }
+    if (SKIP_REQUIRES_CARD.includes(reason) && !card) {
+      return rejected.push(`${where}: reason "${reason}" requires the card name in \`card\``);
+    }
+
+    seenHere.add(id);
+    entries.push({ id, reason, note, card });
+  });
+  return { entries, rejected };
+}
+
+/**
+ * Every candidate presented this run must end up in exactly one bucket:
+ * published, pending, or skipped-with-a-reason. Anything left over is
+ * `unaccounted` — the session read it and said nothing.
+ *
+ * Unaccounted is deliberately loud. It is indistinguishable, in the state file,
+ * from a candidate that was carefully judged and rejected, and it is exactly
+ * the hole this whole change exists to close: an extractor that quietly skips
+ * half its input looks identical to a quiet day on Reddit.
+ */
+function reconcileDispositions({ candidates, publishedIds, pendingIds, skipped }) {
+  const accounted = new Set([...publishedIds, ...pendingIds, ...skipped.entries.map((e) => e.id)]);
+  const unaccounted = candidates.filter((c) => !accounted.has(c.id));
+
+  const byReason = {};
+  for (const e of skipped.entries) byReason[e.reason] = (byReason[e.reason] || 0) + 1;
+
+  // Catalog gaps are the one skip reason with a standing action attached, so
+  // they come back as a list rather than a count.
+  const catalogGaps = [...new Set(skipped.entries.filter((e) => e.card).map((e) => e.card))].sort();
+
+  return { byReason, catalogGaps, unaccounted, rejected: skipped.rejected };
+}
+
+function reportDispositions(d, { candidates, published, pending }) {
+  d.rejected.forEach((r) => console.log(`✗ ${r}`));
+
+  const skippedCount = Object.values(d.byReason).reduce((a, b) => a + b, 0);
+  console.log(
+    `\nDispositions: ${candidates} candidate(s) — ${published} published, ${pending} pending, ` +
+      `${skippedCount} skipped, ${d.unaccounted.length} unaccounted.`
+  );
+  for (const [reason, n] of Object.entries(d.byReason).sort((a, b) => b[1] - a[1])) {
+    console.log(`  ${String(n).padStart(3)} × ${reason} — ${SKIP_REASONS[reason]}`);
+  }
+  if (d.catalogGaps.length > 0) {
+    console.log(`\nCards seen in real data points but missing from the catalog (${d.catalogGaps.length}):`);
+    d.catalogGaps.forEach((c) => console.log(`  - ${c}`));
+  }
+  if (d.unaccounted.length > 0) {
+    console.log(
+      `\nWARNING: ${d.unaccounted.length} candidate(s) were presented and never accounted for. ` +
+        `They are marked seen and will not come back, so a real data point may have been lost here:`
+    );
+    d.unaccounted.forEach((c) => console.log(`  - ${c.id} ${c.url}`));
+  }
+}
+
+// One compact row per run, appended to the state file so the skip mix can be
+// read as a trend instead of one run at a time. Source failures ride along
+// because a partial fetch is the difference between "quiet day" and "Reddit
+// throttled us out of half the feed", and that distinction is invisible in the
+// candidate count alone.
+function buildRunEntry({ staged, d, published, pending }) {
+  const fetched = staged.run || {};
+  return {
+    id: fetched.id || `${TODAY}-unknown`,
+    date: TODAY,
+    candidates: fetched.candidates ?? 0,
+    revisits: fetched.revisits ?? 0,
+    sourcesOk: fetched.sourcesOk ?? 0,
+    sourcesFailed: fetched.sourcesFailed ?? 0,
+    published,
+    pending,
+    unaccounted: d.unaccounted.length,
+    skipped: d.byReason,
+  };
+}
+
+// Keyed on the fetch phase's run id, not the date: several runs a day are now
+// normal (one deep, several light), so they must each get a row. Re-running
+// --phase=finish against the same staged fetch reuses that id and replaces its
+// own row rather than stacking a second, partial one on top.
+function appendRun(runs, entry) {
+  const kept = (Array.isArray(runs) ? runs : []).filter((r) => r && (r.id ? r.id !== entry.id : r.date !== entry.date));
+  return [...kept, entry].slice(-RUN_LOG_LIMIT);
 }
 
 // ── Phases ───────────────────────────────────────────────────────────────────
@@ -1261,6 +1580,15 @@ async function phaseFetch() {
   sourceStatus.forEach((s) => console.log(s));
 
   const fresh = all.slice(0, CAPS.totalCandidates);
+  if (all.length > fresh.length) {
+    // Not marked seen (only presented candidates are), so these come back on
+    // the next run rather than being lost — but a cap that bites every day is a
+    // cap that needs raising, and that is invisible unless it says so.
+    console.log(
+      `\nNOTE: ${all.length} candidates found, presenting ${fresh.length} (CAPS.totalCandidates). ` +
+        `The other ${all.length - fresh.length} were not marked seen and will be offered again next run.`
+    );
+  }
 
   // One shared request budget for everything that reads a comment feed.
   // Revisits draw first: each targets a known outcome missing one named field,
@@ -1304,7 +1632,20 @@ async function phaseFetch() {
   // Pending is staged as-is (attempt counters already bumped by the revisit).
   // The finish phase is what resolves and re-declares entries, because only it
   // knows which ones produced a data point.
-  fs.writeFileSync(STATE_UPDATED_FILE, `${JSON.stringify({ seen, pending }, null, 2)}\n`);
+  //
+  // `run` carries this phase's half of the run-log row (what we fetched, and
+  // how much of the feed we actually got). Finish folds in the extraction half
+  // and appends the finished row to `runs`; it is staging state, not committed
+  // state, so it never reaches .github/reddit-datapoint-state.json under this
+  // key.
+  const run = {
+    id: new Date().toISOString(),
+    candidates: candidates.length,
+    revisits: revisited.candidates.length,
+    sourcesOk: fetchers.length - failures,
+    sourcesFailed: failures,
+  };
+  fs.writeFileSync(STATE_UPDATED_FILE, `${JSON.stringify({ seen, pending, runs: state.runs, run }, null, 2)}\n`);
   fs.writeFileSync(FOLLOWUPS_FILE, buildFollowups(pending));
 
   const prompt = buildExtractPrompt({ candidates, cards });
@@ -1346,9 +1687,34 @@ function phaseFinish() {
 
   const files = fs.readdirSync(PROPOSED_DIR).filter((f) => /\.ya?ml$/.test(f));
   const pendingResult = reconcilePending({ candidateById, cardByName, aliasToName });
+  const skipped = loadSkipped(candidateById);
+
+  // Accounting runs on the zero-proposed path too, and that is the case it
+  // exists for: "15 candidates, 0 data points" is precisely the run where the
+  // reason for each drop is the only output worth having.
+  const finishAccounting = (written) => {
+    const publishedIds = written.map(({ dp }) => String(dp.source_id).replace(/#\d+$/, ''));
+    resolvePendingFor(pendingResult, publishedIds);
+    const pendingIds = Object.keys(pendingResult.pending);
+    const dispositions = reconcileDispositions({ candidates, publishedIds, pendingIds, skipped });
+    const runEntry = buildRunEntry({
+      staged: pendingResult.staged,
+      d: dispositions,
+      published: written.length,
+      pending: pendingIds.length,
+    });
+    reportPending(pendingResult, appendRun(pendingResult.staged.runs, runEntry));
+    reportDispositions(dispositions, {
+      candidates: candidates.length,
+      published: written.length,
+      pending: pendingIds.length,
+    });
+    return dispositions;
+  };
+
   if (files.length === 0) {
     console.log('No proposed data points — nothing to publish. (Quiet days end here; that is success.)');
-    reportPending(pendingResult);
+    finishAccounting([]);
     return;
   }
 
@@ -1392,11 +1758,10 @@ function phaseFinish() {
   }
 
   // A published row retires its pending entry — that is the bucket working.
-  resolvePendingFor(pendingResult, written.map(({ dp }) => String(dp.source_id).replace(/#\d+$/, '')));
-  reportPending(pendingResult);
+  const dispositions = finishAccounting(written);
 
   if (written.length > 0) {
-    fs.writeFileSync(PR_BODY_FILE, buildPrBody(written, pendingResult.pending));
+    fs.writeFileSync(PR_BODY_FILE, buildPrBody(written, pendingResult.pending, dispositions));
     console.log(`\nPR body: ${path.relative(REPO_ROOT, PR_BODY_FILE)}`);
   }
   console.log(`${written.length} data point(s) written to data/reddit-datapoints/, ${failed} rejected.`);
@@ -1411,7 +1776,6 @@ function phaseFinish() {
 async function main() {
   const phaseArg = process.argv.find((a) => a.startsWith('--phase='));
   const phase = phaseArg ? phaseArg.split('=')[1] : null;
-
   if (phase === 'fetch') return phaseFetch();
   if (phase === 'finish') return phaseFinish();
 
@@ -1446,6 +1810,15 @@ module.exports = {
   buildPrBody,
   validateDataPoint,
   getRateLimitBackoffs,
+  loadSkipped,
+  reconcileDispositions,
+  buildDispositionSection,
+  appendRun,
+  buildRunEntry,
+  fetchNewPosts,
+  SKIP_REASONS,
+  RUN_LOG_LIMIT,
+  NEW_FEED_PAGES,
   CAPS,
   PENDING_MAX_DAYS,
   PENDING_MAX_ATTEMPTS,

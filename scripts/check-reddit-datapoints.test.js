@@ -28,6 +28,14 @@ const {
   validatePendingEntry,
   mergePending,
   buildFollowups,
+  fetchNewPosts,
+  loadSkipped,
+  reconcileDispositions,
+  buildDispositionSection,
+  appendRun,
+  SKIP_REASONS,
+  RUN_LOG_LIMIT,
+  NEW_FEED_PAGES,
   CAPS,
   PENDING_MAX_ATTEMPTS,
   PENDING_MAX_DAYS,
@@ -673,6 +681,301 @@ test('the PR body carries the ask-list and says merging does not touch it', () =
   assert.match(body, /What was your score at the time/);
   // No pending bucket means no section at all, rather than an empty table.
   assert.ok(!buildPrBody([{ dp: { source_id: 't3_a', permalink: 'u', card_name: 'Apple Card', result: 'approved', credit_score: 750, date_applied: '2026-08' }, filename: 'f.yaml' }], {}).includes('Needs one more field'));
+});
+
+// ── Drop-reason accounting ───────────────────────────────────────────────────
+//
+// The gap these close: before the skip log, a run reported "15 candidates, 1
+// data point" and nothing about the other 14. Since the seen-state retires
+// every candidate presented, a correctly-strict extractor and one silently
+// dropping good posts produced identical output. So the log has to be both
+// mandatory (unaccounted candidates are reported) and trustworthy (a
+// malformed entry must not count as an explanation).
+
+const fs = require('node:fs');
+const path = require('node:path');
+const SKIPPED_PATH = path.join(__dirname, '..', '.reddit-dp-work', 'skipped.yaml');
+
+function withSkippedFile(body, fn) {
+  fs.mkdirSync(path.dirname(SKIPPED_PATH), { recursive: true });
+  if (body === null) fs.rmSync(SKIPPED_PATH, { force: true });
+  else fs.writeFileSync(SKIPPED_PATH, body);
+  try {
+    return fn();
+  } finally {
+    fs.rmSync(SKIPPED_PATH, { force: true });
+  }
+}
+
+const candidatesOf = (...ids) => ids.map((id) => ({ id, url: `https://reddit.com/${id}` }));
+const byId = (...ids) => new Map(candidatesOf(...ids).map((c) => [c.id, c]));
+
+test('a well-formed skip log is accepted and counted by reason', () => {
+  const { entries, rejected } = withSkippedFile(
+    `- source_id: "t3_a"\n  reason: no_outcome\n- source_id: "t3_b"\n  reason: pre_qual\n- source_id: "t3_c"\n  reason: no_outcome\n`,
+    () => loadSkipped(byId('t3_a', 't3_b', 't3_c'))
+  );
+  assert.deepEqual(rejected, []);
+  const d = reconcileDispositions({
+    candidates: candidatesOf('t3_a', 't3_b', 't3_c'),
+    publishedIds: [],
+    pendingIds: [],
+    skipped: { entries, rejected },
+  });
+  assert.deepEqual(d.byReason, { no_outcome: 2, pre_qual: 1 });
+  assert.equal(d.unaccounted.length, 0);
+});
+
+test('a skip log cannot explain away a post that was never a candidate', () => {
+  const { entries, rejected } = withSkippedFile(
+    `- source_id: "t3_a"\n  reason: no_outcome\n- source_id: "t3_ghost"\n  reason: no_outcome\n`,
+    () => loadSkipped(byId('t3_a'))
+  );
+  assert.equal(entries.length, 1);
+  assert.match(rejected.join(' '), /t3_ghost was not a candidate/);
+});
+
+test('an unknown skip reason is rejected rather than silently bucketed', () => {
+  const { entries, rejected } = withSkippedFile(
+    `- source_id: "t3_a"\n  reason: vibes\n`,
+    () => loadSkipped(byId('t3_a'))
+  );
+  assert.equal(entries.length, 0);
+  assert.match(rejected.join(' '), /unknown reason "vibes"/);
+  // And because the entry was rejected, its candidate stays unaccounted for
+  // instead of passing as explained.
+  const d = reconcileDispositions({
+    candidates: candidatesOf('t3_a'),
+    publishedIds: [],
+    pendingIds: [],
+    skipped: { entries, rejected },
+  });
+  assert.equal(d.unaccounted.length, 1);
+});
+
+test('reasons that are useless without a field demand that field', () => {
+  const { entries, rejected } = withSkippedFile(
+    `- source_id: "t3_a"\n  reason: card_not_in_catalog\n- source_id: "t3_b"\n  reason: other\n`,
+    () => loadSkipped(byId('t3_a', 't3_b'))
+  );
+  assert.equal(entries.length, 0);
+  assert.match(rejected.join(' '), /card_not_in_catalog" requires the card name/);
+  assert.match(rejected.join(' '), /other" requires a note/);
+});
+
+test('catalog gaps come back as a deduped list to act on', () => {
+  const { entries } = withSkippedFile(
+    `- source_id: "t3_a"\n  reason: card_not_in_catalog\n  card: "Sofi Everyday Cash Rewards"\n` +
+      `- source_id: "t3_b"\n  reason: card_not_in_catalog\n  card: "Sofi Everyday Cash Rewards"\n` +
+      `- source_id: "t3_c"\n  reason: card_not_in_catalog\n  card: "Aven Home Card"\n`,
+    () => loadSkipped(byId('t3_a', 't3_b', 't3_c'))
+  );
+  const d = reconcileDispositions({
+    candidates: candidatesOf('t3_a', 't3_b', 't3_c'),
+    publishedIds: [],
+    pendingIds: [],
+    skipped: { entries, rejected: [] },
+  });
+  assert.deepEqual(d.catalogGaps, ['Aven Home Card', 'Sofi Everyday Cash Rewards']);
+});
+
+test('a candidate the session said nothing about is reported, not assumed judged', () => {
+  const { entries, rejected } = withSkippedFile(
+    `- source_id: "t3_a"\n  reason: no_outcome\n`,
+    () => loadSkipped(byId('t3_a', 't3_b', 't3_c', 't3_d'))
+  );
+  const d = reconcileDispositions({
+    candidates: candidatesOf('t3_a', 't3_b', 't3_c', 't3_d'),
+    publishedIds: ['t3_b'],
+    pendingIds: ['t3_c'],
+    skipped: { entries, rejected },
+  });
+  // published + pending + skipped account for three; t3_d is the hole.
+  assert.deepEqual(d.unaccounted.map((c) => c.id), ['t3_d']);
+  assert.match(buildDispositionSection(d), /never accounted for/);
+});
+
+test('a missing skip log is an empty log, not a crash', () => {
+  const { entries, rejected } = withSkippedFile(null, () => loadSkipped(byId('t3_a')));
+  assert.deepEqual(entries, []);
+  assert.deepEqual(rejected, []);
+});
+
+test('unparseable or wrongly-shaped skip logs are rejected whole', () => {
+  assert.match(
+    withSkippedFile('- source_id: "t3_a"\n  reason: [unclosed\n', () => loadSkipped(byId('t3_a'))).rejected.join(' '),
+    /unparseable YAML/
+  );
+  assert.match(
+    withSkippedFile('source_id: t3_a\nreason: no_outcome\n', () => loadSkipped(byId('t3_a'))).rejected.join(' '),
+    /expected a list/
+  );
+});
+
+test('the PR body shows the skip breakdown and the catalog gaps', () => {
+  const d = {
+    byReason: { no_outcome: 9, no_score: 3, card_not_in_catalog: 1 },
+    catalogGaps: ['Aven Home Card'],
+    unaccounted: [],
+    rejected: [],
+  };
+  const section = buildDispositionSection(d);
+  assert.match(section, /### Candidates that produced nothing/);
+  assert.match(section, /\| `no_outcome` \| 9 \|/);
+  assert.match(section, /Aven Home Card/);
+  // Ordered most-common first, so the biggest loss bucket reads at a glance.
+  assert.ok(section.indexOf('no_outcome') < section.indexOf('no_score'));
+  // A fully-published run adds no section at all.
+  assert.equal(buildDispositionSection({ byReason: {}, catalogGaps: [], unaccounted: [], rejected: [] }), '');
+});
+
+test('the prompt makes the skip log mandatory and names every valid reason', () => {
+  const prompt = buildExtractPrompt({
+    candidates: [{ id: 't3_a', kind: 'post', title: 'Approved', text: 'x', url: 'https://reddit.com/a', posted: '2026-08-09' }],
+    cards: [{ name: 'Apple Card', bank: 'Goldman Sachs', previous_names: [] }],
+  });
+  assert.match(prompt, /every candidate needs a disposition/i);
+  assert.match(prompt, /skipped\.yaml/);
+  for (const reason of Object.keys(SKIP_REASONS)) {
+    assert.match(prompt, new RegExp(`\`${reason}\``), `prompt is missing the ${reason} reason`);
+  }
+  // The first-failing-bar rule is what keeps the counts comparable run to run.
+  assert.match(prompt, /first.{0,20}bar the candidate fails/i);
+});
+
+test('the run log trends across runs, replaces same-day reruns, and stays bounded', () => {
+  const one = appendRun([], { date: '2026-08-01', published: 1 });
+  assert.equal(one.length, 1);
+  // Re-running finish on the same day must not stack a second row.
+  const rerun = appendRun(one, { date: '2026-08-01', published: 3 });
+  assert.deepEqual(rerun, [{ date: '2026-08-01', published: 3 }]);
+  const two = appendRun(rerun, { date: '2026-08-02', published: 0 });
+  assert.deepEqual(two.map((r) => r.date), ['2026-08-01', '2026-08-02']);
+  // Bounded: the state file is committed on every run, so it cannot grow forever.
+  let long = [];
+  for (let i = 0; i < RUN_LOG_LIMIT + 20; i++) long = appendRun(long, { date: `day-${i}`, published: 0 });
+  assert.equal(long.length, RUN_LOG_LIMIT);
+  assert.equal(long[long.length - 1].date, `day-${RUN_LOG_LIMIT + 19}`);
+});
+
+// ── /new pagination (coverage) ───────────────────────────────────────────────
+//
+// One page of /new?limit=100 could not cover a day of r/CreditCards, so posts
+// below the newest 100 were never fetched — invisible to the extractor and
+// uncounted as misses. Paging back with `after` is what lifts that ceiling
+// while the routine still runs once a day.
+
+// A /new-style feed page. Every post carries an approval signal so DP_SIGNAL_RE
+// keeps them all and the tests measure paging, not the keyword filter.
+function newFeedPage(ids) {
+  const entries = ids
+    .map(
+      (id) =>
+        `<entry><author><name>/u/poster_${id}</name></author>` +
+        `<id>${id}</id>` +
+        `<link href="https://www.reddit.com/r/CreditCards/comments/${id}/x/"/>` +
+        `<updated>2026-08-09T12:00:00+00:00</updated>` +
+        `<title>Approved for something</title>` +
+        `<content type="html">&lt;div&gt;I applied and got approved.&lt;/div&gt;</content></entry>`
+    )
+    .join('');
+  return `<?xml version="1.0"?><feed>${entries}</feed>`;
+}
+
+// Serves one page per call and records the `after` cursor each request used.
+function pagedFetch(pages) {
+  const cursors = [];
+  let call = 0;
+  global.fetch = async (url) => {
+    cursors.push(new URL(url).searchParams.get('after'));
+    const page = pages[call++];
+    if (page instanceof Error) throw page;
+    return { ok: true, status: 200, text: async () => newFeedPage(page) };
+  };
+  return cursors;
+}
+
+testAsync('the crawl walks several pages back with an after cursor', async () => {
+  const original = global.fetch;
+  const cursors = pagedFetch([
+    ['t3_a1', 't3_a2'],
+    ['t3_b1', 't3_b2'],
+    ['t3_c1', 't3_c2'],
+    ['t3_d1', 't3_d2'],
+  ]);
+  try {
+    const { candidates, label } = await fetchNewPosts(new Set());
+    assert.equal(candidates.length, 8, 'every page of unseen posts should reach the session');
+    // Page 1 has no cursor; each later page resumes after the previous page's
+    // last post, which is what actually moves the window back.
+    assert.deepEqual(cursors, [null, 't3_a2', 't3_b2', 't3_c2']);
+    assert.match(label, /4 page\(s\), 8 unseen/);
+  } finally {
+    global.fetch = original;
+  }
+});
+
+testAsync('paging stops at the page cap even when posts keep coming', async () => {
+  const original = global.fetch;
+  const pages = Array.from({ length: NEW_FEED_PAGES + 3 }, (_, i) => [`t3_p${i}a`, `t3_p${i}b`]);
+  const cursors = pagedFetch(pages);
+  try {
+    await fetchNewPosts(new Set());
+    assert.equal(cursors.length, NEW_FEED_PAGES, `crawl must stop at ${NEW_FEED_PAGES} pages`);
+  } finally {
+    global.fetch = original;
+  }
+});
+
+testAsync('paging stops as soon as a page holds nothing new', async () => {
+  const original = global.fetch;
+  // Page 2 is entirely posts we already recorded: that is where yesterday's
+  // crawl finished, so there is nothing older worth paying for.
+  const cursors = pagedFetch([['t3_new1'], ['t3_old1'], ['t3_never']]);
+  try {
+    const { candidates } = await fetchNewPosts(new Set(['t3_old1']));
+    assert.deepEqual(candidates.map((c) => c.id), ['t3_new1']);
+    assert.equal(cursors.length, 2, 'must not page past the point where the feed is all seen');
+  } finally {
+    global.fetch = original;
+  }
+});
+
+testAsync('a mid-crawl failure keeps the pages already fetched', async () => {
+  const original = global.fetch;
+  pagedFetch([['t3_a1'], ['t3_b1'], new Error('Reddit RSS -> 429')]);
+  try {
+    const { candidates } = await fetchNewPosts(new Set());
+    // Partial coverage beats throwing away two good pages over a late 429.
+    assert.deepEqual(candidates.map((c) => c.id), ['t3_a1', 't3_b1']);
+  } finally {
+    global.fetch = original;
+  }
+});
+
+testAsync('a first-page failure still fails the source', async () => {
+  const original = global.fetch;
+  pagedFetch([new Error('Reddit RSS -> 429')]);
+  try {
+    // Nothing was fetched, so this is a source failure, not a quiet day — the
+    // run's exit-2 check depends on it throwing.
+    await assert.rejects(() => fetchNewPosts(new Set()), /429/);
+  } finally {
+    global.fetch = original;
+  }
+});
+
+testAsync('a post repeated across pages is only presented once', async () => {
+  const original = global.fetch;
+  // A new submission during the crawl shifts the window, so the last post of
+  // page 1 can reappear at the top of page 2.
+  pagedFetch([['t3_a1', 't3_a2'], ['t3_a2', 't3_b1'], []]);
+  try {
+    const { candidates } = await fetchNewPosts(new Set());
+    assert.deepEqual(candidates.map((c) => c.id), ['t3_a1', 't3_a2', 't3_b1']);
+  } finally {
+    global.fetch = original;
+  }
 });
 
 run();
