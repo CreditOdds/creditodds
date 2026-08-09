@@ -20,11 +20,11 @@ rewards:
     value: 2
     unit: percent
 signup_bonus:
-  value: 4000
+  value: 2000
   type: "cash"
-  spend_requirement: 530000
-  timeframe_months: 12
-  note: "Earn a $2,000 cash bonus after spending $30,000 in the first 3 months, plus an additional $2,000 cash bonus for every $500,000 spent in the first year (earnable multiple times, and the two bonuses may be earned independently). Limited-time offer also includes a one-time $500 Capital One Business Travel credit after spending $30,000 in the first 3 months."
+  spend_requirement: 30000
+  timeframe_months: 3
+  note: "For a limited time, also earns a one-time $500 Capital One Business Travel credit on the same $30,000 spend in the first 3 months"
 benefits:
   - name: "Volume Spend Bonus"
     value: 2000
