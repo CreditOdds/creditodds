@@ -88,6 +88,13 @@ benefits:
     frequency: "per_claim"
     category: "telecom"
     enrollment_required: false
+  - name: "Venue Collection Concessions Credit"
+    value: 10
+    value_unit: "percent"
+    description: "10% back on qualifying concessions purchases at select stadiums and arenas, up to $250 per calendar year."
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: true
 tags:
   - airline
   - travel
