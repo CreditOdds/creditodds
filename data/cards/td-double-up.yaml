@@ -1,6 +1,7 @@
 name: "TD Double Up"
 bank: "TD Bank"
 slug: "td-double-up"
+image: "td-double-up.png"
 accepting_applications: true
 category: "cashback"
 annual_fee: 0
