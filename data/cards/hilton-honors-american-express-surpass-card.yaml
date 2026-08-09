@@ -79,6 +79,13 @@ benefits:
     description: "Upgrade to Hilton Honors Diamond status through the end of the next calendar year after $40,000 in annual purchases"
     frequency: "ongoing"
     category: "hotel"
+  - name: "Venue Collection Concessions Rebate"
+    value: 10
+    value_unit: "percent"
+    description: "10% back on qualifying concessions purchases at select stadiums and arenas, up to $250 per calendar year, when the card is enrolled"
+    frequency: "per_purchase"
+    category: "entertainment"
+    enrollment_required: true
 tags:
   - hotel
   - travel
