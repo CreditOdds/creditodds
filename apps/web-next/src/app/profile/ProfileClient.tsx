@@ -112,6 +112,45 @@ function getUnreplacedAutoArchivedReferrals<
   );
 }
 
+// A card can accumulate several expired links over time (a replacement link
+// can itself expire later), but the user can only act once per card, so the
+// banner and the "needs attention" badge count cards, not links. The most
+// recently flagged referral represents the card; impressions/clicks are
+// summed across all of that card's expired links.
+interface ExpiredReferralGroup {
+  latest: Referral;
+  linkCount: number;
+  impressions: number;
+  clicks: number;
+}
+
+function autoArchivedFlaggedAt(r: Referral): string {
+  return r.last_validated_at ?? r.archived_at ?? '';
+}
+
+function groupUnreplacedAutoArchivedByCard(referrals: Referral[]): ExpiredReferralGroup[] {
+  const groups = new Map<string, ExpiredReferralGroup>();
+  for (const r of getUnreplacedAutoArchivedReferrals(referrals)) {
+    const group = groups.get(String(r.card_id));
+    if (!group) {
+      groups.set(String(r.card_id), {
+        latest: r,
+        linkCount: 1,
+        impressions: r.impressions ?? 0,
+        clicks: r.clicks ?? 0,
+      });
+      continue;
+    }
+    group.linkCount += 1;
+    group.impressions += r.impressions ?? 0;
+    group.clicks += r.clicks ?? 0;
+    if (autoArchivedFlaggedAt(r) > autoArchivedFlaggedAt(group.latest)) {
+      group.latest = r;
+    }
+  }
+  return Array.from(groups.values());
+}
+
 type TabKey = 'cards' | 'rewards' | 'benefits' | 'applications' | 'referrals' | 'settings' | 'news' | 'more';
 
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -458,8 +497,9 @@ export default function ProfileClient() {
   const activeReferralsCount = referrals.filter(r => !r.archived_at).length;
   // Referrals that the referral validator auto-archived. We want the
   // referrals tab to surface a "needs attention" cue in its label so
-  // users notice without having to click in.
-  const expiredReferralsCount = getUnreplacedAutoArchivedReferrals(referrals).length;
+  // users notice without having to click in. Counted per card so the badge
+  // matches the number of rows in the expired-links banner.
+  const expiredReferralsCount = groupUnreplacedAutoArchivedByCard(referrals).length;
   const visibleWalletCards = activeWalletCards;
 
   const tabs: { key: TabKey; num: string; label: string; count: string }[] = [
@@ -1465,7 +1505,7 @@ function ReferralsTab(props: ReferralsTabProps) {
   // Split archived referrals: auto = expired/unreachable detection by the
   // referral validator (need a replacement), manual = admin or user
   // archived (already shown as the existing yellow notice).
-  const autoArchived = getUnreplacedAutoArchivedReferrals(referrals);
+  const autoArchived = groupUnreplacedAutoArchivedByCard(referrals);
   const walletArchived = referrals.filter(isWalletArchivedReferral);
   const adminArchived = referrals.filter(r => r.archived_at && r.archived_reason && !isAutoArchivedReferral(r) && !isWalletArchivedReferral(r));
   const removedCount = walletArchived.length + adminArchived.length;
@@ -1507,7 +1547,8 @@ function ReferralsTab(props: ReferralsTabProps) {
             Our link check stopped serving {autoArchived.length === 1 ? 'this one' : 'these'} on card pages. Add a replacement to start collecting clicks again. The old stats below stay yours.
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {autoArchived.map((r) => {
+            {autoArchived.map((g) => {
+              const r = g.latest;
               const cardIdStr = String(r.card_id);
               const eligible = eligibleCardIds.has(cardIdStr);
               const validatedDate = r.last_validated_at ? r.last_validated_at.slice(0, 10) : null;
@@ -1519,7 +1560,7 @@ function ReferralsTab(props: ReferralsTabProps) {
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div style={{ fontSize: 13, fontWeight: 500, color: '#2a2a2a' }}>{r.card_name}</div>
                     <div style={{ fontSize: 11, color: '#7a6035' }}>
-                      flagged {validatedDate || 'recently'} · {(r.impressions ?? 0).toLocaleString()} impr · {r.clicks ?? 0} click{(r.clicks ?? 0) === 1 ? '' : 's'} on the old link
+                      flagged {validatedDate || 'recently'} · {g.impressions.toLocaleString()} impr · {g.clicks} click{g.clicks === 1 ? '' : 's'} {g.linkCount === 1 ? 'on the old link' : `across ${g.linkCount} expired links`}
                     </div>
                   </div>
                   <button
