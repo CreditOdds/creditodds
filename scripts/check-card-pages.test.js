@@ -23,6 +23,8 @@ const {
   pageShowsSignupOffer,
   updateSkipState,
   resolveKnownBlock,
+  createTimeBudget,
+  orderCardsByStaleness,
   resolveSkipState,
   readSkipStateFromMain,
   staleCardsFrom,
@@ -1372,3 +1374,85 @@ test("run 2 preserves run 1's last_ok for cards it never looked at", () => {
 });
 
 console.log('');
+
+// ─── Fetch budget and card ordering ──────────────────────────────────────────
+//
+// Together these are why a truncated run used to drop the same cards forever:
+// the budget was spent while the laptop slept, and the cut always fell in the
+// same place. See createTimeBudget / orderCardsByStaleness.
+
+console.log('\nTime budget ignores suspend gaps:');
+
+const MIN = 60 * 1000;
+
+test('ordinary elapsed time is charged against the budget', () => {
+  const b = createTimeBudget(10 * MIN, 0);
+  assert.equal(b.expired(5 * MIN), false);
+  assert.equal(b.expired(9 * MIN), false);
+  assert.equal(b.expired(11 * MIN), true, 'real work must still exhaust the budget');
+});
+
+test('a suspend-sized gap is not charged', () => {
+  // The 2026-08-10 shape: a 15-minute system sleep inside a 10-minute budget.
+  const b = createTimeBudget(10 * MIN, 0);
+  assert.equal(b.expired(1 * MIN), false);
+  assert.equal(b.expired(16 * MIN), false, '15 minutes asleep must not spend the budget');
+  // The 9 minutes unspent before the sleep are still there afterwards...
+  assert.equal(b.remainingMs(16 * MIN), 9 * MIN, 'unspent budget survives the sleep');
+  // ...and are still finite. Ticking at a realistic cadence (the loop checks
+  // once per card, and a card is capped at ~1 minute), the run ends on the
+  // first tick past the suspend-adjusted deadline of t=25m.
+  let now = 16 * MIN;
+  while (!b.expired(now) && now < 60 * MIN) now += MIN;
+  assert.equal(now, 26 * MIN, 'the budget still ends, 9 working minutes later');
+});
+
+test('a slow-but-plausible gap stays charged', () => {
+  // Just under the threshold: a genuinely slow card must not buy free time.
+  const b = createTimeBudget(10 * MIN, 0);
+  assert.equal(b.expired(4 * MIN), false);
+  assert.equal(b.expired(8 * MIN), false);
+  assert.equal(b.expired(12 * MIN), true);
+});
+
+test('remainingMs also accounts for suspend', () => {
+  const b = createTimeBudget(10 * MIN, 0);
+  assert.equal(b.remainingMs(20 * MIN), 10 * MIN, 'a 20-minute sleep leaves the budget intact');
+});
+
+console.log('\nCards are ordered oldest-verification-first:');
+
+const card = slug => ({ slug, data: { name: slug } });
+
+test('never-verified cards lead, then oldest last_ok', () => {
+  const cards = [card('fresh'), card('never'), card('stale')];
+  const state = {
+    fresh: { last_ok: '2026-08-09T00:00:00Z' },
+    stale: { last_ok: '2026-08-01T00:00:00Z' },
+  };
+  assert.deepEqual(orderCardsByStaleness(cards, state).map(c => c.slug), ['never', 'stale', 'fresh']);
+});
+
+test('the cut rotates: what a truncated run drops leads the next one', () => {
+  // Run 1 checks the first two of three and runs out of budget.
+  const cards = [card('a'), card('b'), card('c')];
+  const afterRun1 = {
+    a: { last_ok: '2026-08-10T00:00:00Z' },
+    b: { last_ok: '2026-08-10T00:00:00Z' },
+    // c never reached — no last_ok
+  };
+  const order = orderCardsByStaleness(cards, afterRun1).map(x => x.slug);
+  assert.equal(order[0], 'c', 'the starved card must lead the next run');
+});
+
+test('ordering is stable and total with no state at all', () => {
+  const cards = [card('c'), card('a'), card('b')];
+  assert.deepEqual(orderCardsByStaleness(cards, {}).map(x => x.slug), ['a', 'b', 'c']);
+  assert.deepEqual(orderCardsByStaleness(cards).map(x => x.slug), ['a', 'b', 'c']);
+});
+
+test('ordering does not mutate its input', () => {
+  const cards = [card('c'), card('a')];
+  orderCardsByStaleness(cards, {});
+  assert.deepEqual(cards.map(x => x.slug), ['c', 'a']);
+});
