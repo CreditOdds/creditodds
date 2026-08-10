@@ -773,6 +773,15 @@ Rules:
     - timeframe_months = the **longest** window across all tiers (typically the same window throughout, e.g. 6)
     - bonus_note = describes the tier structure in the issuer's own words, and includes the offer end date when present on the page (see BONUS NOTE rule below)
   NEVER return just the first/base tier in value — always return the maximum attainable bonus. Floor-as-value is the OLD convention and is being phased out.
+  HEADLINE-MAX APPLIES ONLY TO BOUNDED LADDERS — a fixed number of steps with a maximum the issuer actually prints ("up to 90,000 miles"). See REPEATABLE BONUSES below when a step repeats.
+- REPEATABLE / UNCAPPED BONUSES: Some offers pay a base bonus and then repeat a reward every time an additional spend threshold is met (e.g. Capital One Spark Cash Plus: "$2,000 when you spend $30,000 in the first 3 months, plus $2,000 for every $500,000 spent during the first year"). Phrases that signal this: "for every $X spent", "each additional $X", "earnable multiple times", "repeatable", "no limit to how many times".
+  These are NOT tiered ladders and headline-max does NOT apply — there is no maximum, so any total you compute is an arbitrary guess about how many repeats to assume. Do not multiply out one repeat, two repeats, or any other number.
+    - value = the BASE one-time bonus only (2000, not 4000)
+    - spend_requirement = the spend for the BASE bonus only (30000, not 530000)
+    - timeframe_months = the window for the BASE bonus only (3, not 12)
+    - offer_is_tiered = false (a repeating earn is not an earn tier)
+    - bonus_note = do NOT describe the repeating component here. It is an ongoing volume/spend benefit, not welcome-offer structure, and it belongs in the card's benefits array — which the maintainers curate by hand. Leave any existing bonus_note text about the base offer as-is.
+  Sanity check: a welcome-offer spend_requirement above ~$50,000 almost always means a repeating threshold was folded into the total. Re-read the page and return the base tier only.
 - OFFER IS TIERED: signup_bonus.offer_is_tiered describes the welcome offer AS ADVERTISED ON THE PAGE RIGHT NOW. Judge it from the page alone — ignore anything you know or infer about the card's past offers.
     - true = the live welcome offer has two or more earn steps ("earn X after $A, plus an additional Y after $B").
     - false = the live welcome offer is a single flat bonus with one spend requirement ("earn 100,000 miles when you spend $10,000 in the first 3 months"). A lone authorized-user bonus alongside a flat offer is still false — an AU bonus is not an earn tier.
