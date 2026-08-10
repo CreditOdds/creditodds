@@ -87,6 +87,25 @@ function loadAffiliates() {
       errors.push(`affiliates.yaml: ${slug} offer must be a phrase, not a sentence (drop the trailing period): "${entry.offer}"`);
       continue;
     }
+    if (entry.link_id !== undefined && typeof entry.link_id !== 'string') {
+      errors.push(`affiliates.yaml: ${slug} link_id must be a string (quote it)`);
+      continue;
+    }
+    if (entry.expires !== undefined) {
+      // js-yaml parses an unquoted ISO date into a Date; accept both forms.
+      const expires = entry.expires instanceof Date
+        ? entry.expires.toISOString().slice(0, 10)
+        : entry.expires;
+      if (typeof expires !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(expires)) {
+        errors.push(`affiliates.yaml: ${slug} expires must be an ISO date "YYYY-MM-DD"`);
+        continue;
+      }
+      const today = new Date().toISOString().slice(0, 10);
+      if (expires < today) {
+        errors.push(`affiliates.yaml: ${slug} link expired ${expires} — re-point at a permanent deeplink (drop offer + expires) or remove the entry`);
+        continue;
+      }
+    }
 
     result.set(slug, {
       url: entry.url,

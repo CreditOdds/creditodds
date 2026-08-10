@@ -19,6 +19,21 @@
 #            collabs, no product drops. A page still advertising a "Labor Day
 #            Sale" in November is worse than one with no offer at all.
 #   cta      (optional) overrides the button label entirely; beats `offer`.
+#   link_id  (optional) the network's identity for this exact link: the full
+#            FlexOffers foid (e.g. "156074.37229.3059945" for offer links,
+#            "156074.37229" for foc=17 deeplinks) or the trailing number of a
+#            CJ click URL. Not validated at build time; it exists so an audit
+#            can diff this file against a network link export without parsing
+#            URLs. Backfill whenever the id is known.
+#   expires  (optional) ISO date ("YYYY-MM-DD", quoted) on which the link's
+#            promotion hard-ends. Omit for evergreen links. Once the date is
+#            past the build FAILS naming the slug: a dead promo must cost us
+#            a build, not sit invisibly on a live page. To clear the failure,
+#            re-point the entry at a permanent deeplink (dropping `offer` and
+#            `expires`) or remove the entry.
+#
+# link_id and expires are audit metadata: they stay in this file and are NOT
+# emitted into stores.json.
 #
 # IMPORTANT: these are affiliate tracking links. Any offer belongs to the
 # MERCHANT. CreditOdds provides no discount and the user's price is unchanged,
@@ -40,15 +55,19 @@ merchants:
   # Aliexpress (Worldwide)
   aliexpress:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.6378&trid=1552713.188226&foc=17&fot=9999&fos=6&url="
+    link_id: "156178.6378"
   # Anthropologie (US)
   anthropologie:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39789&trid=1552713.226041&foc=17&fot=9999&fos=6&url="
+    link_id: "1.39789"
   # Ashley Homestore
   ashley-furniture:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40094&trid=1552713.171284&foc=17&fot=9999&fos=6&url="
+    link_id: "1.40094"
   # ASUS (US & Canada)
   asus:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.31828&trid=1552713.237737&foc=17&fot=9999&fos=6&url="
+    link_id: "156178.31828"
   # At Home — Shop At Home homepage
   at-home:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.47781.1000000003&trid=1552713.226370&foc=16&fot=9999&fos=6"
@@ -68,12 +87,15 @@ merchants:
   # Bloomingdale's
   bloomingdales:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.13867&trid=1552713.619&foc=17&fot=9999&fos=6&url="
+    link_id: "1.13867"
   # Blue Bottle Coffee
   blue-bottle-coffee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8124&trid=1552713.230054&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.8124"
   # Bluemercury
   bluemercury:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43420&trid=1552713.169800&foc=17&fot=9999&fos=6&url="
+    link_id: "1.43420"
   # Budget Car Rental — Top text link (35%-off offer; formerly under the
   # duplicate budget-car-rental store slug, merged into budget)
   budget:
@@ -92,9 +114,11 @@ merchants:
   # CB2
   cb2:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20480&trid=1552713.226049&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.20480"
   # Celebrity Cruises
   celebrity-cruises:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.50028&trid=1552713.230239&foc=17&fot=9999&fos=6&url="
+    link_id: "1.50028"
   # Clarks — Top text link (Sign up 15% off)
   clarks:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.124082.3714472&trid=1552713.159764&foc=16&fot=9999&fos=6"
@@ -126,6 +150,7 @@ merchants:
   # Finish Line
   finish-line:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.37731&trid=1552713.158794&foc=17&fot=9999&fos=6&url="
+    link_id: "1.37731"
   # GlassesUSA.com — Top text link (homepage/influencer promo)
   glassesusa:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.1546.2329237&trid=1552713.215491&foc=16&fot=9999&fos=6"
@@ -150,9 +175,11 @@ merchants:
   # LEGO
   lego-store:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.13923&trid=1552713.159468&foc=17&fot=9999&fos=6&url="
+    link_id: "1.13923"
   # Levi's
   levis:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53220&trid=1552713.170038&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53220"
   # LL Flooring (formerly Lumber Liquidators) — Top text link (Closing Sales)
   ll-flooring:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11231.2158448&trid=1552713.244085&foc=16&fot=9999&fos=6"
@@ -169,6 +196,7 @@ merchants:
   # NAPA (Auto)
   napa-auto-parts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.50383&trid=1552713.232615&foc=17&fot=9999&fos=6&url="
+    link_id: "1.50383"
   # National Car Rental — Top text link (Last Minute Specials)
   national-car-rental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4723.333534&trid=1552713.192325&foc=16&fot=9999&fos=6"
@@ -189,9 +217,11 @@ merchants:
   # Sam's Club
   sams-club:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38733&trid=1552713.157929&foc=17&fot=9999&fos=6&url="
+    link_id: "1.38733"
   # Scheels
   scheels:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53843&trid=1552713.228963&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53843"
   # SeatGeek — Top text link (Code: GATHERXP10)
   seatgeek:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20501.3036868&trid=1552713.177170&foc=16&fot=9999&fos=6"
@@ -201,6 +231,7 @@ merchants:
   # Shutterfly, Inc. (US)
   shutterfly:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.54144&trid=1552713.249967&foc=17&fot=9999&fos=6&url="
+    link_id: "1.54144"
   # Singapore Airlines — Enjoy more freedom when you book with Singapore Airlines
   singapore-airlines:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43929.4611686018427605410&trid=1552713.237830&foc=16&fot=9999&fos=6"
@@ -225,6 +256,7 @@ merchants:
   # UNIQLO USA
   uniqlo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40462&trid=1552713.189444&foc=17&fot=9999&fos=6&url="
+    link_id: "1.40462"
   # Vans — Homepage
   vans:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.48802.3801899&trid=1552713.166134&foc=16&fot=9999&fos=6"
@@ -237,6 +269,7 @@ merchants:
   # Wine.com
   winecom:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.2025&trid=1552713.323&foc=17&fot=9999&fos=6&url="
+    link_id: "1.2025"
   # Zappos.com — Top text link (Win the Day)
   zappos:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.54033.1000000004&trid=1552713.179549&foc=16&fot=9999&fos=6"
@@ -262,6 +295,7 @@ merchants:
   # 5.11 Tactical
   511-tactical:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14180&trid=1552713.160494&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.14180"
   # 7 For All Mankind
   7-for-all-mankind:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36145.1010001182&trid=1552713.190539&foc=16&fot=9999&fos=6"
@@ -269,6 +303,7 @@ merchants:
   # Adam & Eve
   adam-and-eve:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.6898&trid=1552713.163415&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.6898"
   # Aesop US
   aesop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9664.622458&trid=1552713.234849&foc=16&fot=9999&fos=6"
@@ -283,6 +318,7 @@ merchants:
   # Alice + Olivia
   alice-plus-olivia:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46320&trid=1552713.171105&foc=17&fot=9999&fos=6&url="
+    link_id: "1.46320"
   # Alo Yoga
   alo-yoga:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9050.342887&trid=1552713.199850&foc=16&fot=9999&fos=6"
@@ -346,6 +382,7 @@ merchants:
   # Away
   away:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8621&trid=1552713.233568&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.8621"
   # Babylist
   babylist:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13580.1458037&trid=1552713.237794&foc=16&fot=9999&fos=6"
@@ -353,9 +390,11 @@ merchants:
   # Banana Republic Factory
   banana-republic-factory:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10152&trid=1552713.196751&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.10152"
   # Barefoot Dreams, Inc.
   barefoot-dreams:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20795&trid=1552713.237568&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.20795"
   # Beautyrest
   beautyrest:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10598.1938255&trid=1552713.248817&foc=16&fot=9999&fos=6"
@@ -378,6 +417,7 @@ merchants:
   # Bonobos eCommerce Performance
   bonobos:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11113&trid=1552713.248479&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.11113"
   # Bowflex
   bowflex:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25788.2161948&trid=1552713.159315&foc=16&fot=9999&fos=6"
@@ -404,9 +444,11 @@ merchants:
   # Bumble and Bumble US
   bumble-and-bumble:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38785&trid=1552713.179164&foc=17&fot=9999&fos=6&url="
+    link_id: "1.38785"
   # Bushnell
   bushnell:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.20977&trid=1552713.237984&foc=17&fot=9999&fos=6&url="
+    link_id: "156099.20977"
   # Caesars Rewards: Hotels (Global)
   caesars-rewards:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.6145.3660150&trid=1552713.194743&foc=16&fot=9999&fos=6"
@@ -435,6 +477,7 @@ merchants:
   # CHARLES & KEITH (US)
   charles-and-keith:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13805&trid=1552713.194849&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.13805"
   # CheapOair.ca
   cheapoair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156105.37732.1000000463&trid=1552713.158377&foc=16&fot=9999&fos=6"
@@ -491,6 +534,7 @@ merchants:
   # Dermstore
   dermstore:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53945&trid=1552713.209693&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53945"
   # DEWALT
   dewalt:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.27569.1152773&trid=1552713.237589&foc=16&fot=9999&fos=6"
@@ -509,6 +553,7 @@ merchants:
   # Diesel US
   diesel:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.49384&trid=1552713.232396&foc=17&fot=9999&fos=6&url="
+    link_id: "1.49384"
   # DIFF Eyewear
   diff-eyewear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9933.288188&trid=1552713.211526&foc=16&fot=9999&fos=6"
@@ -516,6 +561,7 @@ merchants:
   # Dinnerly (US)
   dinnerly:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.10033&trid=1552713.195361&foc=17&fot=9999&fos=6&url="
+    link_id: "156178.10033"
   # DJI
   dji:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.7327.4611686018427603991&trid=1552713.217744&foc=16&fot=9999&fos=6"
@@ -526,6 +572,7 @@ merchants:
   # Dorothy Perkins UK
   dorothy-perkins:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.1134&trid=1552713.232050&foc=17&fot=9999&fos=6&url="
+    link_id: "156178.1134"
   # Drunk Elephant
   drunk-elephant:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10029.623157&trid=1552713.232403&foc=16&fot=9999&fos=6"
@@ -533,6 +580,7 @@ merchants:
   # Eagle Creek
   eagle-creek:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.31713&trid=1552713.239618&foc=17&fot=9999&fos=6&url="
+    link_id: "156099.31713"
   # Eastern Mountain Sports
   eastern-mountain-sports:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53845.1000000002&trid=1552713.159802&foc=16&fot=9999&fos=6"
@@ -563,12 +611,14 @@ merchants:
   # Farberware
   farberware:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11993&trid=1552713.239550&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.11993"
   # Fender Musical Instruments Corp.
   fender:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33985.2956212&trid=1552713.242190&foc=16&fot=9999&fos=6"
   # Fenty Beauty (Global)
   fenty-beauty:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42834&trid=1552713.214878&foc=17&fot=9999&fos=6&url="
+    link_id: "1.42834"
   # FitFlop
   fitflop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.41223.1000001291&trid=1552713.179233&foc=16&fot=9999&fos=6"
@@ -603,6 +653,7 @@ merchants:
   # ghd (US)
   ghd:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.8033&trid=1552713.178100&foc=17&fot=9999&fos=6&url="
+    link_id: "156178.8033"
   # Gilt & Gilt City
   gilt-and-gilt-city:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1000009372.1100147967&trid=1552713.158309&foc=16&fot=9999&fos=6"
@@ -613,9 +664,11 @@ merchants:
   # GNC
   gnc:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53638&trid=1552713.162841&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53638"
   # Godiva
   godiva:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106374&trid=1552713.159640&foc=17&fot=9999&fos=6&url="
+    link_id: "156085.101106374"
   # Going
   going:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10802.731100&trid=1552713.237685&foc=16&fot=9999&fos=6"
@@ -638,6 +691,7 @@ merchants:
   # Guess
   guess:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9298&trid=1552713.158989&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.9298"
   # Gymboree
   gymboree:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10756.2013600&trid=1552713.214444&foc=16&fot=9999&fos=6"
@@ -666,6 +720,7 @@ merchants:
   # Hill's Pet Nutrition US
   hills-pet-nutrition:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53370&trid=1552713.243039&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53370"
   # HOKA DE
   hoka:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.17204.3988217&trid=1552713.231962&foc=16&fot=9999&fos=6"
@@ -708,6 +763,7 @@ merchants:
   # J. Jill
   j-jill:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.54107&trid=1552713.201947&foc=17&fot=9999&fos=6&url="
+    link_id: "1.54107"
   # JD Sports
   jd-sports:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43953.1000000043&trid=1552713.206768&foc=16&fot=9999&fos=6"
@@ -722,6 +778,7 @@ merchants:
   # Jos. A. Bank
   jos-a-bank:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38377&trid=1552713.196&foc=17&fot=9999&fos=6&url="
+    link_id: "1.38377"
   # K-Swiss
   k-swiss:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9956.311096&trid=1552713.227940&foc=16&fot=9999&fos=6"
@@ -740,6 +797,7 @@ merchants:
   # Kendra Scott
   kendra-scott:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.50471&trid=1552713.199434&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.50471"
   # Keurig
   keurig:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39219.1000002801&trid=1552713.170716&foc=16&fot=9999&fos=6"
@@ -747,6 +805,7 @@ merchants:
   # Kohler
   kohler:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.44732&trid=1552713.215079&foc=17&fot=9999&fos=6&url="
+    link_id: "1.44732"
   # Kylie Cosmetics US
   kylie-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46759.1000000061&trid=1552713.224336&foc=16&fot=9999&fos=6"
@@ -764,12 +823,14 @@ merchants:
   # Lee Jeans
   lee-jeans:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11766&trid=1552713.237878&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.11766"
   # LegalZoom.com
   legalzoom:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26746.2115304&trid=1552713.240854&foc=16&fot=9999&fos=6"
   # Levoit
   levoit:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41708&trid=1552713.235505&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.41708"
   # Life is Good
   life-is-good:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14635.1948131&trid=1552713.158389&foc=16&fot=9999&fos=6"
@@ -802,6 +863,7 @@ merchants:
   # Madison Reed
   madison-reed:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13741&trid=1552713.200433&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.13741"
   # Manscaped UK
   manscaped:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156139.48084.1000000017&trid=1552713.249081&foc=16&fot=9999&fos=6"
@@ -809,6 +871,7 @@ merchants:
   # Marc Jacobs
   marc-jacobs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8338&trid=1552713.205419&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.8338"
   # Mario Badescu
   mario-badescu:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.122442.4611686018427605569&trid=1552713.233679&foc=16&fot=9999&fos=6"
@@ -827,9 +890,11 @@ merchants:
   # MeUndies
   meundies:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26749&trid=1552713.197539&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.26749"
   # Milani Cosmetics
   milani-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.50546&trid=1552713.232500&foc=17&fot=9999&fos=6&url="
+    link_id: "1.50546"
   # Milk Bar
   milk-bar:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9484.411983&trid=1552713.211101&foc=16&fot=9999&fos=6"
@@ -857,6 +922,7 @@ merchants:
   # Moroccanoil
   moroccanoil:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43410&trid=1552713.211705&foc=17&fot=9999&fos=6&url="
+    link_id: "1.43410"
   # Movado
   movado:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46238.1000000020&trid=1552713.226379&foc=16&fot=9999&fos=6"
@@ -896,6 +962,7 @@ merchants:
   # Nutribullet
   nutribullet:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9496&trid=1552713.211957&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.9496"
   # Off-White
   off-white:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106474.4611686018427604358&trid=1552713.241259&foc=16&fot=9999&fos=6"
@@ -921,6 +988,7 @@ merchants:
   # Outdoor Voices
   outdoor-voices:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25944&trid=1552713.207781&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.25944"
   # Owlet
   owlet:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.93077.3306615&trid=1552713.224412&foc=16&fot=9999&fos=6"
@@ -942,12 +1010,15 @@ merchants:
   # PerriconeMD US
   perricone-md:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.21122&trid=1552713.178759&foc=17&fot=9999&fos=6&url="
+    link_id: "156178.21122"
   # Personalization Mall
   personalization-mall:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.29824&trid=1552713.243972&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.29824"
   # Peter Thomas Roth Labs
   peter-thomas-roth:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36862&trid=1552713.192437&foc=17&fot=9999&fos=6&url="
+    link_id: "1.36862"
   # Philips Hue US
   philips-hue:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156394.354192.25561930&trid=1552713.204271&foc=16&fot=9999&fos=6"
@@ -961,6 +1032,7 @@ merchants:
   # Princess Cruise Lines, Ltd.
   princess-cruises:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40030&trid=1552713.172492&foc=17&fot=9999&fos=6&url="
+    link_id: "1.40030"
   # Prose
   prose:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11046.1964687&trid=1552713.202760&foc=16&fot=9999&fos=6"
@@ -990,9 +1062,11 @@ merchants:
   # RC Willey
   rc-willey:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39945&trid=1552713.195269&foc=17&fot=9999&fos=6&url="
+    link_id: "1.39945"
   # Rebecca Minkoff US
   rebecca-minkoff:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9950&trid=1552713.162599&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.9950"
   # Rent the Runway
   rent-the-runway:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9690.590512&trid=1552713.225416&foc=16&fot=9999&fos=6"
@@ -1018,15 +1092,18 @@ merchants:
   # Rosetta Stone
   rosetta-stone:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18979&trid=1552713.172635&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.18979"
   # RTIC Outdoors
   rtic-outdoors:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25922.4611686018427603539&trid=1552713.228765&foc=16&fot=9999&fos=6"
   # Rue La La
   rue-la-la:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1000005478&trid=1552713.161427&foc=17&fot=9999&fos=6&url="
+    link_id: "156085.1000005478"
   # Rugs USA
   rugs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9280&trid=1552713.203964&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.9280"
   # Samsung
   samsung:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.47773.1000000009&trid=1552713.159074&foc=16&fot=9999&fos=6"
@@ -1053,9 +1130,11 @@ merchants:
   # SharkNinja
   sharkninja:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8359&trid=1552713.225856&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.8359"
   # Shiseido
   shiseido:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10171&trid=1552713.191860&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.10171"
   # SHOKZ US
   shokz:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.32610.3923568&trid=1552713.241227&foc=16&fot=9999&fos=6"
@@ -1069,6 +1148,7 @@ merchants:
   # Sleep Number
   sleep-number:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12365&trid=1552713.225614&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.12365"
   # Smartwool
   smartwool:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25166.2184624&trid=1552713.245347&foc=16&fot=9999&fos=6"
@@ -1101,6 +1181,7 @@ merchants:
   # Stride Rite
   stride-rite:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37376&trid=1552713.159288&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.37376"
   # Talkspace
   talkspace:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14729.2226977&trid=1552713.196110&foc=16&fot=9999&fos=6"
@@ -1117,6 +1198,7 @@ merchants:
   # The Bouqs
   the-bouqs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.39813&trid=1552713.161010&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.39813"
   # The Knot
   the-knot:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12032.1985622&trid=1552713.222266&foc=16&fot=9999&fos=6"
@@ -1124,6 +1206,7 @@ merchants:
   # The Men's Wearhouse
   the-mens-wearhouse:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.41420&trid=1552713.178339&foc=17&fot=9999&fos=6&url="
+    link_id: "1.41420"
   # Therabody
   therabody:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10041.3230206&trid=1552713.243987&foc=16&fot=9999&fos=6"
@@ -1138,6 +1221,7 @@ merchants:
   # Tommy Bahama
   tommy-bahama:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106073&trid=1552713.196026&foc=17&fot=9999&fos=6&url="
+    link_id: "156085.101106073"
   # Trade Coffee
   trade-coffee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9472.2913607&trid=1552713.230744&foc=16&fot=9999&fos=6"
@@ -1220,6 +1304,7 @@ merchants:
   # Wrangler
   wrangler:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25202&trid=1552713.193401&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.25202"
 
   # --- Added 2026-07-10 from FlexOffers approved-advertiser list ---
   # Deep links (foc=17) with the merchant homepage appended to `&url=`. No
@@ -1231,63 +1316,83 @@ merchants:
   # Ace Hardware
   ace-hardware:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9988&trid=1552713.161558&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.9988"
   # Best Buy
   best-buy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10014&trid=1552713.712&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.10014"
   # Costco Membership
   costco:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106609&trid=1552713.248906&foc=17&fot=9999&fos=6&url="
+    link_id: "156085.110106609"
   # Dollar Rent-a-Car
   dollar-rent-a-car:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.35267&trid=1552713.158829&foc=17&fot=9999&fos=6&url="
+    link_id: "1.35267"
   # Famous Footwear
   famous-footwear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38507&trid=1552713.280&foc=17&fot=9999&fos=6&url="
+    link_id: "1.38507"
   # Food Lion
   food-lion:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10965&trid=1552713.226393&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.10965"
   # Giant Food
   giant-food:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10968&trid=1552713.215429&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.10968"
   # Jo Malone London (new store page added in this batch)
   jo-malone:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39512&trid=1552713.203102&foc=17&fot=9999&fos=6&url="
+    link_id: "1.39512"
   # Kohl's
   kohls:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5349&trid=1552713.157993&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.5349"
   # Lenovo USA
   lenovo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.3808&trid=1552713.157497&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.3808"
   # MAC Cosmetics
   mac-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.41340&trid=1552713.201336&foc=17&fot=9999&fos=6&url="
+    link_id: "1.41340"
   # Melissa and Doug
   melissa-and-doug:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.41493&trid=1552713.159291&foc=17&fot=9999&fos=6&url="
+    link_id: "1.41493"
   # PacSun
   pacsun:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.28645&trid=1552713.159888&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.28645"
   # PETCO
   petco:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10290&trid=1552713.189505&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.10290"
   # Rover
   rover:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46193&trid=1552713.209001&foc=17&fot=9999&fos=6&url="
+    link_id: "1.46193"
   # Steve Madden
   steve-madden:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.37487&trid=1552713.163728&foc=17&fot=9999&fos=6&url="
+    link_id: "1.37487"
   # Tempur-Pedic (new store page added in this batch)
   tempur-pedic:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13723&trid=1552713.199665&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.13723"
   # The Coffee Bean & Tea Leaf
   the-coffee-bean-and-tea-leaf:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8262&trid=1552713.186151&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.8262"
   # The Container Store
   the-container-store:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24840&trid=1552713.189823&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.24840"
   # Thrifty Rent-A-Car
   thrifty:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.3088&trid=1552713.158782&foc=17&fot=9999&fos=6&url="
+    link_id: "1.3088"
 
   # --- Added 2026-07-11 (Tier A new store pages, FlexOffers approvals) ---
   # Deep links (foc=17) with the merchant homepage appended to `&url=`. Each ships
@@ -1295,36 +1400,47 @@ merchants:
   # Batteries Plus
   batteries-plus:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.45126&trid=1552713.212470&foc=17&fot=9999&fos=6&url="
+    link_id: "1.45126"
   # Bissell
   bissell:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8952&trid=1552713.198815&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.8952"
   # BLACK+DECKER
   black-and-decker:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10047&trid=1552713.234710&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.10047"
   # Bulova
   bulova:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16604&trid=1552713.212036&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.16604"
   # Decathlon
   decathlon:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25038&trid=1552713.232439&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.25038"
   # Dyson
   dyson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36310&trid=1552713.189851&foc=17&fot=9999&fos=6&url="
+    link_id: "1.36310"
   # Jackery
   jackery:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18694&trid=1552713.230818&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.18694"
   # Logitech
   logitech:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8585&trid=1552713.157431&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.8585"
   # Samsonite
   samsonite:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11771&trid=1552713.158800&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.11771"
   # Sealy
   sealy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13726&trid=1552713.228816&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.13726"
   # UGG
   ugg:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43728&trid=1552713.158350&foc=17&fot=9999&fos=6&url="
+    link_id: "1.43728"
 
   # --- Added 2026-07-11 (Tier B new store pages, FlexOffers approvals) ---
   # Deep links (foc=17) with the merchant homepage appended to `&url=`. Each ships
@@ -1332,57 +1448,75 @@ merchants:
   # Allen Edmonds
   allen-edmonds:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.48019&trid=1552713.159887&foc=17&fot=9999&fos=6&url="
+    link_id: "1.48019"
   # Bellroy
   bellroy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43345&trid=1552713.200708&foc=17&fot=9999&fos=6&url="
+    link_id: "1.43345"
   # Bobbi Brown
   bobbi-brown:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.35154&trid=1552713.185515&foc=17&fot=9999&fos=6&url="
+    link_id: "1.35154"
   # Charlotte Tilbury
   charlotte-tilbury:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100564&trid=1552713.191863&foc=17&fot=9999&fos=6&url="
+    link_id: "156085.110100564"
   # DC Shoes
   dc-shoes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53685&trid=1552713.158793&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53685"
   # Fox Rent A Car
   fox-rent-a-car:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43381&trid=1552713.206854&foc=17&fot=9999&fos=6&url="
+    link_id: "1.43381"
   # JanSport
   jansport:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42224&trid=1552713.190203&foc=17&fot=9999&fos=6&url="
+    link_id: "1.42224"
   # Laneige
   laneige:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41770&trid=1552713.248464&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.41770"
   # Little Tikes
   little-tikes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53444&trid=1552713.245527&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53444"
   # Lodge Cast Iron
   lodge-cast-iron:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23521&trid=1552713.245339&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.23521"
   # Molton Brown
   molton-brown:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36974&trid=1552713.160370&foc=17&fot=9999&fos=6&url="
+    link_id: "1.36974"
   # Quiksilver
   quiksilver:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.53003&trid=1552713.158828&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.53003"
   # Roxy
   roxy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53683&trid=1552713.158792&foc=17&fot=9999&fos=6&url="
+    link_id: "1.53683"
   # Sam Edelman
   sam-edelman:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.7334&trid=1552713.182964&foc=17&fot=9999&fos=6&url="
+    link_id: "156052.7334"
   # Skullcandy
   skullcandy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31426&trid=1552713.214403&foc=17&fot=9999&fos=6&url="
+    link_id: "156074.31426"
   # Teva
   teva:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43730&trid=1552713.206852&foc=17&fot=9999&fos=6&url="
+    link_id: "1.43730"
   # Tumi
   tumi:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42396&trid=1552713.192534&foc=17&fot=9999&fos=6&url="
+    link_id: "1.42396"
   # Waterford
   waterford:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.58339&trid=1552713.170660&foc=17&fot=9999&fos=6&url="
+    link_id: "156178.58339"
 
   # --- Added 2026-07-11 (CJ Affiliate approvals) ---
   # First non-FlexOffers links: `network: cj` overrides the top-level default.
