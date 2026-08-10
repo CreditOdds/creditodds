@@ -21,11 +21,13 @@ creditodds/
 │   ├── cards/               # Credit card definitions (one YAML per card)
 │   │   └── images/          # Card images for PR submissions
 │   ├── news/                # News articles
+│   ├── reddit-datapoints/   # Reddit-sourced data points (imported via sync-datapoints)
+│   ├── reddit-product-changes/ # Reddit-sourced product changes (imported via sync-product-changes)
 │   ├── social-pages/        # Social page metadata
 │   ├── stores/              # Store / merchant data for best-card-for pages
-│   └── valuations/          # Points & miles valuation history
+│   ├── valuations/          # Points & miles valuation history
+│   └── affiliates.yaml      # Affiliate/promo link registry (link_id + expires audit fields)
 ├── docs/                    # Project documentation (e.g. adding-cards.md)
-├── infra/                   # Standalone CloudFormation (VPC / networking)
 ├── scripts/                 # Build, content-automation, QA, and social scripts
 └── .github/
     └── workflows/           # GitHub Actions for CI/CD and automation
@@ -46,12 +48,12 @@ creditodds/
 - Deployed on AWS Amplify
 
 ### Backend (`apps/api`)
-- AWS SAM stack (`CreditCardOddsAPI`) with ~39 Lambda functions (Node.js 22, esbuild-bundled)
+- AWS SAM stack (`CreditCardOddsAPI`) with 46 Lambda functions (Node.js 22, mostly esbuild-bundled)
 - AWS API Gateway with a Firebase token authorizer as the default; public read/analytics routes explicitly opt out
-- All functions run inside a private VPC; outbound traffic exits through a single NAT gateway whose Elastic IP is allowlisted by the database security group
+- All functions attach to the shared us-east-1 default VPC; the database is reached via the security group's self-referencing rule, and outbound internet egress goes through a shared NAT instance (no NAT gateway, no fixed egress IP)
 - MySQL (AWS RDS) via a shared `serverless-mysql` connection module (`src/db.js`)
 - Sentry Lambda layer attached to every function
-- One scheduled function: card stats refresh every 5 minutes (EventBridge)
+- Two scheduled functions (EventBridge): card stats refresh every 5 minutes, and a daily Brevo newsletter audience sync (06:15 UTC)
 - Wallet "best card" ranking engine in `apps/api/src/lib/ranker/` (shared with the frontend via the `@ranker` alias)
 - Sequential single-statement SQL migrations in `apps/api/migrations/`
 
@@ -96,7 +98,6 @@ Create a `.env.local` file in `apps/web-next/`:
 
 ```bash
 NEXT_PUBLIC_API_BASE_URL=https://your-api-gateway-url.amazonaws.com/Prod
-NEXT_PUBLIC_CDN_URL=https://your-cloudfront-url.cloudfront.net
 
 # Firebase Auth
 NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
@@ -104,6 +105,11 @@ NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
 NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
 ```
+
+Optional (features degrade gracefully when unset): `NEXT_PUBLIC_SENTRY_DSN`,
+`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, `NEXT_PUBLIC_POSTHOG_HOST`, and the
+remaining Firebase keys (`NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`,
+`NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`).
 
 In development the app reads `data/cards.json` and `data/news.json` from the local checkout instead of the CDN, so run the build scripts below at least once.
 
@@ -132,7 +138,8 @@ npm run build:cards
 | `npm run build:news` | Build news.json from Markdown/YAML files |
 | `npm run build:articles` | Build articles.json from Markdown/YAML files |
 | `npm run build:best` | Build best.json from Markdown/YAML files |
-| `npm run build:stores` | Build stores.json from YAML files (also mirrored into the API bundle) |
+| `npm run build:stores` | Build stores.json from YAML files (also mirrored into the API bundle), then validate store rankings |
+| `npm run audit:store-rankings` | Audit best-card-for store rankings |
 | `npm run sync:news-images` | Generate/sync news hero images |
 | `npm run lint` | Run ESLint across all workspaces |
 
@@ -149,14 +156,15 @@ npm run build:cards
 - **Card News**: Curated news and updates about credit cards
 - **Articles**: Long-form guides and analysis
 - **Best Cards**: Ranked lists by category (multi-model consensus ranking)
-- **Best Card For**: Best card to use at ~900 specific stores/merchants, including statement credits
+- **Best Card For**: Best card to use at ~1,100 specific stores/merchants, including statement credits and affiliate promo links
 - **Best Card For Me**: Personalized next-card quiz ranked by marginal wallet value
 - **Check Odds**: Estimate your approval odds for a specific card
 - **Compare**: Side-by-side credit card comparisons
-- **Card Ratings**: User-submitted 1-5 star ratings on cards
+- **Card Ratings**: 1-5 star ratings on cards, including anonymous ratings (deduped by hashed IP)
 - **User Submissions**: Submit your credit card application results
 - **Wallet**: Track cards you own, with best-card picks for stores and nearby places
 - **Referral Links**: Share and earn from referral links (with automated daily validity checks)
+- **Newsletter**: Weekly email newsletter via Brevo, with a daily audience sync and a profile-page subscription toggle
 - **Rewards Tools**: 13 points/miles-to-USD converters (Chase UR, Amex MR, Capital One, airline & hotel programs)
 
 ## Contributing
@@ -214,12 +222,17 @@ all human-in-the-loop (content changes land as PRs or issues for review):
 |----------|-----------|
 | Deploys | `deploy-api`, `deploy-frontend` |
 | Data builds | `build-cards`, `build-news`, `build-articles`, `build-best` |
-| Content automation | `publish-scheduled-articles` (daily), `refresh-best-pages` (twice monthly LLM re-rank → PR), `bump-best-updated-at`, `reject-news` |
-| Data quality | `check-card-pages` (daily scrape/verify → PR), `check-card-rewards-and-benefits` (weekly → PR), `check-apply-links` (daily → issue), `check-referrals` (daily validation) |
-| Social | `queue-social`, `post-best-rankings`, `post-card-wire-manual`, `reconcile-card-wire` (every 30 min), `weekly-sub-changes`, `weekly-top-cards` |
+| Data imports | `sync-datapoints`, `sync-product-changes` (push-triggered Lambda imports of reviewed Reddit data) |
+| Content automation | `publish-scheduled-articles` (daily), `refresh-best-pages` (twice monthly LLM re-rank → PR), `refresh-our-takes` (manual LLM our_take regen → PR), `bump-best-updated-at`, `reject-news` |
+| Data quality | `check-card-pages` (manual dispatch → PR), `check-card-rewards-and-benefits` (manual dispatch → PR), `check-apply-links` (daily → issue), `check-referrals` (daily validation) |
+| Monitoring | `data-pipeline-canary` (weekly pipeline health check) |
+| Social | `queue-social`, `post-best-rankings`, `post-card-wire-manual`, `reconcile-card-wire` (every 6 hours), `weekly-sub-changes`, `weekly-top-cards` |
 
 AWS access from workflows uses GitHub OIDC roles (no stored AWS keys).
-LLM-powered scripts use OpenAI (plus xAI Grok for X/Twitter search in news discovery).
+LLM-powered scripts use OpenAI. Several recurring jobs (nightly card-page
+checks, card-news discovery, Reddit data-point collection, the weekly SUB
+roundup) run as local scheduled agent tasks rather than GitHub Actions — the
+`check-*` workflows above are their manual-dispatch counterparts.
 
 ## Monitoring
 
@@ -241,9 +254,9 @@ LLM-powered scripts use OpenAI (plus xAI Grok for X/Twitter search in news disco
 │  Next.js App    │────▶│  API Gateway +    │◀───────────────┘
 │  (AWS Amplify)  │     │  Lambda (SAM,     │
 │  + iOS app      │     │  Firebase auth,   │
-└────────┬────────┘     │  private VPC)     │
+└────────┬────────┘     │  shared VPC)      │
          │              └────────┬─────────┘
-         │                       │ NAT (static EIP)
+         │                       │ same VPC (SG self-ref rule)
          │              ┌────────▼─────────┐
          └─────────────▶│   MySQL (RDS)    │
           (API calls)   │  (user records,  │
