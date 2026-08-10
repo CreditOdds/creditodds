@@ -30,13 +30,6 @@ async function listAllFirebaseUsers(admin) {
   return users;
 }
 
-function splitName(displayName) {
-  const name = (displayName || '').trim();
-  if (!name) return { FIRSTNAME: '', LASTNAME: '' };
-  const parts = name.split(/\s+/);
-  return { FIRSTNAME: parts[0], LASTNAME: parts.slice(1).join(' ') };
-}
-
 exports.NewsletterSyncHandler = async () => {
   if (!brevo.isConfigured()) {
     console.info('newsletter-sync: BREVO_API_KEY / BREVO_LIST_ID not set, skipping');
@@ -64,7 +57,7 @@ exports.NewsletterSyncHandler = async () => {
     const results = await Promise.allSettled(
       batch.map((u) =>
         brevo.upsertContact(u.email, {
-          attributes: splitName(u.displayName),
+          attributes: brevo.nameAttributes(u.displayName),
           listIds: [listId],
         })
       )

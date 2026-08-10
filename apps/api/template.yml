@@ -547,6 +547,48 @@ Resources:
             Auth:
               Authorizer: NONE
 
+  # Idempotent upsert of the signed-in user into the Brevo newsletter list,
+  # called by the frontend on login so brand-new signups enter the list (and
+  # trigger the welcome-email automation) within seconds instead of waiting
+  # for the nightly NewsletterSyncFunction pass.
+  NewsletterRegisterFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - src/handlers/newsletter-register.js
+        Target: node22
+        Sourcemap: false
+        Minify: false
+    Properties:
+      Handler: src/handlers/newsletter-register.NewsletterRegisterHandler
+      Runtime: nodejs22.x
+      MemorySize: 256
+      Timeout: 15
+      Description: "POST the authenticated user into the Brevo newsletter list (welcome-email entry point)"
+      Environment:
+        Variables:
+          BREVO_API_KEY: !Ref BrevoApiKey
+          BREVO_LIST_ID: !Ref BrevoNewsletterListId
+      Events:
+        PostNewsletterRegister:
+          Type: Api
+          Properties:
+            Path: /newsletter-register
+            Method: POST
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        NewsletterRegisterOptions:
+          Type: Api
+          Properties:
+            Path: /newsletter-register
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
   updateCardsGitHub:
     Type: AWS::Serverless::Function
     Properties:

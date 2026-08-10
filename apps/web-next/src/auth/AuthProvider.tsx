@@ -13,6 +13,12 @@ import {
 } from "firebase/auth";
 import { getFirebaseAuth } from "./firebase";
 import posthog from "posthog-js";
+import { registerNewsletterContact } from "@/lib/api";
+
+// Uids already reported to /newsletter-register this page load. The endpoint
+// is idempotent, so this only exists to avoid re-posting on every auth-state
+// emission; a fresh page load posting again is fine and intended.
+const newsletterRegisteredUids = new Set<string>();
 
 // Key for storing email in localStorage for email link sign-in
 const EMAIL_FOR_SIGN_IN_KEY = 'emailForSignIn';
@@ -97,6 +103,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email: user.email,
           name: user.displayName,
         });
+        // Mirror the user into the Brevo newsletter audience so brand-new
+        // signups trigger the welcome email now, not after the nightly sync.
+        if (!newsletterRegisteredUids.has(user.uid)) {
+          newsletterRegisteredUids.add(user.uid);
+          user
+            .getIdToken()
+            .then((token) => registerNewsletterContact(token))
+            .catch(() => {
+              // Non-critical; the nightly newsletter sync is the backstop.
+            });
+        }
       }
     });
 
