@@ -43,24 +43,19 @@ export default function CheckOddsClient() {
   const searchParams = useSearchParams();
   const { authState, getToken } = useAuth();
 
-  // Restore cached results on mount
-  const cached = typeof window !== 'undefined' ? loadResultsFromCache() : null;
-
-  // Form state — URL params take priority, then cached search, then empty
-  const [creditScore, setCreditScore] = useState(
-    searchParams.get('cs') || (cached ? String(cached.search.credit_score) : '')
-  );
+  // Form state — URL params take priority, then (after mount) cached search.
+  // Initial state must be derived from the URL alone: this component is
+  // server-rendered, and sessionStorage only exists in the browser, so
+  // seeding state from it here would make the client's first render disagree
+  // with the server HTML and blow up hydration (React error #418).
+  const [creditScore, setCreditScore] = useState(searchParams.get('cs') || '');
   const [income, setIncome] = useState(
-    searchParams.get('income')
-      ? formatIncome(searchParams.get('income')!)
-      : cached ? formatIncome(String(cached.search.income)) : ''
+    searchParams.get('income') ? formatIncome(searchParams.get('income')!) : ''
   );
-  const [lengthCredit, setLengthCredit] = useState(
-    searchParams.get('cl') || (cached ? String(cached.search.length_credit) : '')
-  );
+  const [lengthCredit, setLengthCredit] = useState(searchParams.get('cl') || '');
 
-  // Results state — restore from cache
-  const [results, setResults] = useState<CheckOddsResponse | null>(cached);
+  // Results state — restored from cache after mount, see below
+  const [results, setResults] = useState<CheckOddsResponse | null>(null);
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -128,13 +123,32 @@ export default function CheckOddsClient() {
     }
   }, [creditScore, income, lengthCredit, authState.isAuthenticated, getToken, router]);
 
+  // Restore the last search and its results from sessionStorage. Runs after
+  // mount so the hydrated markup still matches what the server sent; the URL
+  // keeps priority over the cache for any field it supplies.
+  const restoredFromCache = useRef(false);
+  useEffect(() => {
+    if (restoredFromCache.current) return;
+    const cached = loadResultsFromCache();
+    if (!cached) return;
+    restoredFromCache.current = true;
+    if (!searchParams.get('cs')) setCreditScore(String(cached.search.credit_score));
+    if (!searchParams.get('income')) setIncome(formatIncome(String(cached.search.income)));
+    if (!searchParams.get('cl')) setLengthCredit(String(cached.search.length_credit));
+    setResults(cached);
+  }, [searchParams]);
+
   // Auto-submit if URL has params and user is authenticated
   useEffect(() => {
     const cs = searchParams.get('cs');
     const inc = searchParams.get('income');
     const cl = searchParams.get('cl');
 
-    if (cs && inc && cl && authState.isAuthenticated && !authState.isLoading && !results) {
+    // `restoredFromCache` stands in for `results` on the first pass: the
+    // restore effect above runs first but its setState isn't visible here
+    // until the next render, and re-running the search would discard it.
+    if (cs && inc && cl && authState.isAuthenticated && !authState.isLoading
+        && !results && !restoredFromCache.current) {
       setCreditScore(cs);
       setIncome(formatIncome(inc));
       setLengthCredit(cl);
@@ -147,14 +161,13 @@ export default function CheckOddsClient() {
     if (!results) return [];
 
     const filtered = results.cards.filter(card =>
-      cardMatchesSearch(card.card_name, card.bank, search)
+      card.has_enough_data && cardMatchesSearch(card.card_name, card.bank, search)
     );
 
     switch (sortBy) {
       case 'match':
         filtered.sort((a, b) => {
           if (b.match_score !== a.match_score) return b.match_score - a.match_score;
-          if (b.has_enough_data !== a.has_enough_data) return b.has_enough_data ? 1 : -1;
           return (b.total_records || 0) - (a.total_records || 0);
         });
         break;
@@ -321,7 +334,7 @@ export default function CheckOddsClient() {
           </div>
 
           <p className="mt-3 text-sm text-gray-500">
-            Showing {filteredCards.length} of {results.cards.length} cards
+            Showing {filteredCards.length} of {results.cards.length - matchCounts.noData} cards
           </p>
 
           {/* Results Table */}
@@ -377,17 +390,11 @@ export default function CheckOddsClient() {
                                   <div className="text-xs text-gray-500">{card.bank}</div>
                                   {/* Mobile inline indicators */}
                                   <div className="sm:hidden mt-0.5">
-                                    {card.has_enough_data ? (
-                                      <div className="flex items-center gap-2 text-[11px]">
-                                        <MobileIndicator label="Score" isAbove={card.above_credit_score!} median={card.median_credit_score!} />
-                                        <MobileIndicator label="Income" isAbove={card.above_income!} median={card.median_income!} isCurrency />
-                                        <MobileIndicator label="History" isAbove={card.above_length_credit!} median={card.median_length_credit!} suffix="yr" />
-                                      </div>
-                                    ) : (
-                                      <span className="text-[11px] text-gray-400 italic">
-                                        Still collecting ({card.approved_data_points}/5)
-                                      </span>
-                                    )}
+                                    <div className="flex items-center gap-2 text-[11px]">
+                                      <MobileIndicator label="Score" isAbove={card.above_credit_score!} median={card.median_credit_score!} />
+                                      <MobileIndicator label="Income" isAbove={card.above_income!} median={card.median_income!} isCurrency />
+                                      <MobileIndicator label="History" isAbove={card.above_length_credit!} median={card.median_length_credit!} suffix="yr" />
+                                    </div>
                                     {ruleByBank[card.bank] && (
                                       <div className="mt-0.5">
                                         {hasWalletDates ? (
@@ -401,46 +408,33 @@ export default function CheckOddsClient() {
                                 </div>
                               </Link>
                             </td>
-                            {card.has_enough_data ? (
-                              <>
-                                {/* Desktop columns */}
-                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
-                                  <MedianIndicator
-                                    value={results.search.credit_score}
-                                    median={card.median_credit_score!}
-                                    isAbove={card.above_credit_score!}
-                                  />
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
-                                  <MedianIndicator
-                                    value={results.search.income}
-                                    median={card.median_income!}
-                                    isAbove={card.above_income!}
-                                    isCurrency
-                                  />
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
-                                  <MedianIndicator
-                                    value={results.search.length_credit}
-                                    median={card.median_length_credit!}
-                                    isAbove={card.above_length_credit!}
-                                    suffix=" yr"
-                                  />
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
-                                  <BankRuleCell rule={ruleByBank[card.bank]} hasWalletDates={hasWalletDates} />
-                                </td>
-                              </>
-                            ) : (
-                              <>
-                                <td colSpan={3} className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-400 italic hidden sm:table-cell">
-                                  Still collecting results ({card.approved_data_points}/5 approved)
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
-                                  <BankRuleCell rule={ruleByBank[card.bank]} hasWalletDates={hasWalletDates} />
-                                </td>
-                              </>
-                            )}
+                            {/* Desktop columns */}
+                            <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
+                              <MedianIndicator
+                                value={results.search.credit_score}
+                                median={card.median_credit_score!}
+                                isAbove={card.above_credit_score!}
+                              />
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
+                              <MedianIndicator
+                                value={results.search.income}
+                                median={card.median_income!}
+                                isAbove={card.above_income!}
+                                isCurrency
+                              />
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
+                              <MedianIndicator
+                                value={results.search.length_credit}
+                                median={card.median_length_credit!}
+                                isAbove={card.above_length_credit!}
+                                suffix=" yr"
+                              />
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
+                              <BankRuleCell rule={ruleByBank[card.bank]} hasWalletDates={hasWalletDates} />
+                            </td>
                           </tr>
                         ))
                       )}
@@ -450,6 +444,16 @@ export default function CheckOddsClient() {
               </div>
             </div>
           </div>
+
+          {matchCounts.noData > 0 && (
+            <p className="mt-4 text-sm text-gray-500 text-center">
+              We&rsquo;re still collecting approval results on {matchCounts.noData} more{' '}
+              {matchCounts.noData === 1 ? 'card' : 'cards'}.{' '}
+              <Link href="/explore" className="font-medium text-indigo-600 hover:text-indigo-900">
+                Explore all cards
+              </Link>
+            </p>
+          )}
         </>
       )}
     </>
