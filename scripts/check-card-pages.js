@@ -405,6 +405,26 @@ function knownBlockedReason(url) {
   return null;
 }
 
+// known_block is what keeps a permanent, deliberate skip out of the stale alarm,
+// so a skip that records it as false re-arms the alarm for a card that is
+// working exactly as designed. Only a caller that has actually formed a view of
+// the host should assert it; every other skip path derives it from the URL.
+//
+// This defaulting is centralized here rather than left to each call site because
+// the failure is silent: the counter keeps climbing either way, and the alarm
+// fires runs later with a reason string that points at whatever skipped last.
+// Sam's Club Mastercard filed a stale issue at 12 consecutive skips this way —
+// samsclub.com had been in KNOWN_BLOCKED_HOSTS since 2026-08-02, but the
+// script-timeout path recorded knownBlock:false for every card it never reached,
+// and a run that times out before the S's is now routine.
+//
+// Derived from the URL rather than carried over from prior state so that
+// dropping a host from KNOWN_BLOCKED_HOSTS still clears the flag on the next run.
+function resolveKnownBlock(url, opts = {}) {
+  if (opts.knownBlock !== undefined) return Boolean(opts.knownBlock);
+  return Boolean(knownBlockedReason(url));
+}
+
 // Transport-level failures that say nothing about the page itself: the request
 // never reached the origin, so the card is unchecked for a reason that may be
 // gone seconds later. These are the only skips the retry pass reopens.
@@ -1826,7 +1846,7 @@ async function main() {
       name: card.data.name,
       url: checkUrlFor(card),
       reason,
-      knownBlock: Boolean(opts.knownBlock),
+      knownBlock: resolveKnownBlock(checkUrlFor(card), opts),
     });
 
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
@@ -1919,6 +1939,9 @@ async function main() {
       const mins = SCRIPT_TIMEOUT_MS / 60000;
       console.warn(`\nScript timeout reached (${mins} min) — stopping early; ${unreached.length} card(s) never checked.`);
       for (const c of unreached) {
+        // knownBlock is deliberately not passed: running out of clock is not a
+        // verdict on the host, so recordSkip derives it from the URL. See
+        // resolveKnownBlock.
         recordSkip(c, `script timeout (${mins} min) reached before this card was checked`);
       }
       break;
@@ -2379,6 +2402,7 @@ module.exports = {
   normalizeBonusType,
   pageShowsSignupOffer,
   updateSkipState,
+  resolveKnownBlock,
   resolveSkipState,
   readSkipStateFromMain,
   staleCardsFrom,

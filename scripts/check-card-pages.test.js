@@ -22,6 +22,7 @@ const {
   normalizeBonusType,
   pageShowsSignupOffer,
   updateSkipState,
+  resolveKnownBlock,
   resolveSkipState,
   readSkipStateFromMain,
   staleCardsFrom,
@@ -971,6 +972,52 @@ test('known bot-blocks never alarm, however long they persist', () => {
   const after = fold({ pnc: { consecutive_skips: 99 } }, ['pnc'], [skip('pnc', 'known block: akamai', true)]);
   assert.equal(after.pnc.consecutive_skips, 100);
   assert.deepEqual(staleCardsFrom(after), []);
+});
+
+// ─── known_block defaulting ──────────────────────────────────────────────────
+
+test('a skip that states no opinion on the host derives known_block from the URL', () => {
+  // This is the actual regression. The script-timeout path records every
+  // unreached card without a knownBlock opt, because running out of clock says
+  // nothing about the host. If that defaults to false it clears the flag that
+  // keeps a deliberate skip out of the stale alarm, and the card alarms on a
+  // counter it has been climbing since it was first blocked.
+  assert.equal(
+    resolveKnownBlock('https://www.samsclub.com/credit'),
+    true,
+    'a blocked host must stay blocked when the caller states nothing'
+  );
+  assert.equal(resolveKnownBlock('https://creditcards.chase.com/anything'), false);
+});
+
+test('an explicit knownBlock opt always wins over the URL', () => {
+  // A caller that has actually formed a view of the host — the known-block skip
+  // path asserting true, the no-extraction path asserting false — must not have
+  // it silently overridden by the default.
+  assert.equal(resolveKnownBlock('https://creditcards.chase.com/x', { knownBlock: true }), true);
+  assert.equal(resolveKnownBlock('https://www.samsclub.com/credit', { knownBlock: false }), false);
+});
+
+test('a timeout skip on a known-blocked card must not re-arm the alarm', () => {
+  // A run that hits the script deadline records every unreached card as a
+  // timeout skip. That skip is not a verdict on the host, so it must carry the
+  // known-block status forward — otherwise a permanent, deliberate skip flips
+  // known_block to false and alarms on the counter it has been climbing all
+  // along. Sam's Club Mastercard filed a stale issue at 12 skips this way,
+  // despite samsclub.com being in KNOWN_BLOCKED_HOSTS the whole time.
+  const timeoutSkip = skip('sams', 'script timeout (150 min) reached before this card was checked', true);
+  const after = fold({ sams: { consecutive_skips: 11, known_block: true } }, ['sams'], [timeoutSkip]);
+  assert.equal(after.sams.consecutive_skips, 12);
+  assert.equal(after.sams.known_block, true, 'timeout must not clear the known-block flag');
+  assert.deepEqual(staleCardsFrom(after), [], 'a known-blocked card must never alarm');
+});
+
+test('a timeout skip on an ordinary card still alarms normally', () => {
+  // The converse guard: carrying known-block through must not blanket-suppress
+  // real staleness on cards that simply never got reached.
+  const timeoutSkip = skip('ordinary', 'script timeout (150 min) reached before this card was checked', false);
+  const after = fold({ ordinary: { consecutive_skips: SKIP_ALERT_THRESHOLD - 1 } }, ['ordinary'], [timeoutSkip]);
+  assert.deepEqual(staleCardsFrom(after).map(c => c.slug), ['ordinary']);
 });
 
 test('a full run prunes cards that no longer exist', () => {
