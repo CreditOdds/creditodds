@@ -2238,3 +2238,50 @@ merchants:
   # Zinus
   zinus:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31148&trid=1552713.185357&foc=17&fot=9999&fos=6&url="
+
+  # --- Added 2026-08-10 (CJ Affiliate approvals, Tier A+B new store pages) ---
+  # network: cj on each entry; CJ CLICK URLs are complete, used as-is.
+  # Shipped as a separate commit: CJ account onboarding is still incomplete
+  # (superuser checklist), so click attribution on these links should be
+  # spot-checked once onboarding clears.
+  # Best Wig Outlet
+  best-wig-outlet:
+    url: "https://www.dpbolvw.net/click-101737824-16999770"
+    network: cj
+  # DailySteals
+  dailysteals:
+    url: "https://www.kqzyfj.com/click-101737824-15591361"
+    network: cj
+  # EconomyBookings.com
+  economybookings:
+    url: "https://www.anrdoezrs.net/click-101737824-15586459"
+    network: cj
+  # Free Country
+  free-country:
+    url: "https://www.tkqlhce.com/click-101737824-14466028"
+    network: cj
+  # MelodySusie
+  melodysusie:
+    url: "https://www.dpbolvw.net/click-101737824-14391000"
+    network: cj
+  # STDCheck.com
+  stdcheck:
+    url: "https://www.jdoqocy.com/click-101737824-12558194"
+    network: cj
+  # Sullen Clothing
+  sullen-clothing:
+    url: "https://www.anrdoezrs.net/click-101737824-15543081"
+    network: cj
+  # Tanga.com
+  tanga:
+    url: "https://www.tkqlhce.com/click-101737824-11115853"
+    network: cj
+  # The Luxury Closet
+  the-luxury-closet:
+    url: "https://www.dpbolvw.net/click-101737824-13979503"
+    network: cj
+    offer: "up to 90% off pre-loved bags"
+  # TWOPAGES
+  twopages:
+    url: "https://www.kqzyfj.com/click-101737824-17306559"
+    network: cj
