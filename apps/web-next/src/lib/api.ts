@@ -1335,6 +1335,46 @@ export async function getLeaderboard(limit = 25): Promise<LeaderboardResponse> {
   return res.json();
 }
 
+// Newsletter subscription (Brevo-backed). available=false means the backend
+// has no Brevo credentials configured; the settings row hides itself then.
+export interface NewsletterSettings {
+  available: boolean;
+  subscribed: boolean;
+}
+
+export async function getNewsletterSettings(token: string): Promise<NewsletterSettings> {
+  const res = await fetch(`${API_BASE}/newsletter-settings`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to load newsletter settings: ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function updateNewsletterSettings(
+  subscribed: boolean,
+  token: string
+): Promise<NewsletterSettings> {
+  const res = await fetch(`${API_BASE}/newsletter-settings`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ subscribed }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to update newsletter settings: ${errorText}`);
+  }
+  return res.json();
+}
+
 // Delete user account (removes referrals and wallet, keeps records anonymized)
 export async function deleteAccount(token: string): Promise<{ message: string }> {
   const res = await fetch(`${API_BASE}/account`, {
