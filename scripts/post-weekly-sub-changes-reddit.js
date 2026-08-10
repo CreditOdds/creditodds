@@ -29,9 +29,14 @@ const {
   formatBonus,
   fetchRecentSubChanges,
   collapsePerCard,
+  attachCardSlugs,
+  buildCardLink,
   buildCardWireLink,
   queueSocialPost,
 } = require('./lib/weekly-sub-changes');
+
+const UTM_SOURCE = 'reddit';
+const CAMPAIGN = 'weekly-sub-changes-reddit';
 
 /**
  * With no card-name column label next to it, a bare "75,000" is ambiguous, so
@@ -46,14 +51,22 @@ function formatBonusWithUnit(value, unit) {
 }
 
 /**
- * Deliberately markdown-free: Reddit's submit page opens in the rich-text
- * editor, which takes the pre-filled text literally — `**` and `|` table
- * syntax would post as visible asterisks and pipes. Plain lines read
- * correctly in both the rich-text and markdown editors.
+ * Card names link to their card page. Markdown links only render if the
+ * composer is in Markdown mode — Reddit's rich-text editor takes pre-filled
+ * text literally and would show the brackets — so the run prints that
+ * reminder alongside the submit URL.
+ *
+ * Everything else stays markdown-free (no `**`, no `|` tables) so the body
+ * degrades to readable plain text if it ever goes out rich-text.
  */
 function renderLines(changes) {
   return changes
-    .map(c => `${c.cardName}: ${formatBonusWithUnit(c.oldValue, c.unit)} → ${formatBonusWithUnit(c.newValue, c.unit)}`)
+    .map(c => {
+      const name = c.slug
+        ? `[${c.cardName}](${buildCardLink(c.slug, UTM_SOURCE, CAMPAIGN)})`
+        : c.cardName;
+      return `${name}: ${formatBonusWithUnit(c.oldValue, c.unit)} → ${formatBonusWithUnit(c.newValue, c.unit)}`;
+    })
     .join('\n');
 }
 
@@ -68,7 +81,7 @@ function formatShortDate(date) {
 function buildPostText(increases, decreases) {
   const now = new Date();
   const windowStart = new Date(now.getTime() - WINDOW_DAYS * 24 * 60 * 60 * 1000);
-  const title = `Weekly Sign Up Bonus Changes (${formatShortDate(windowStart)} to ${formatShortDate(now)})`;
+  const title = `Weekly Credit Card Sign Up Bonus Changes (${formatShortDate(windowStart)} to ${formatShortDate(now)})`;
 
   const sections = [];
   if (increases.length > 0) {
@@ -98,6 +111,8 @@ async function main() {
     return;
   }
 
+  await attachCardSlugs(collapsed);
+
   const byWeight = (a, b) => b.weight - a.weight;
   const increases = collapsed.filter(c => c.newNum > c.oldNum).sort(byWeight);
   const decreases = collapsed.filter(c => c.newNum < c.oldNum).sort(byWeight);
@@ -106,7 +121,7 @@ async function main() {
   const text = buildPostText(increases, decreases);
   // utm_source gets rewritten to the platform name at publish time anyway;
   // set it to reddit so a dry-run prints the real link.
-  const linkUrl = buildCardWireLink('reddit', 'weekly-sub-changes-reddit');
+  const linkUrl = buildCardWireLink(UTM_SOURCE, CAMPAIGN);
   const dateStamp = new Date().toISOString().slice(0, 10);
 
   console.log(`\nPost text:\n\n${text}`);
@@ -134,6 +149,7 @@ async function main() {
   const redditResult = (result.results || []).find(r => r.platform === 'reddit');
   if (redditResult?.postUrl) {
     console.log(`\nPre-filled Reddit submit URL (also in the service UI under History):\n${redditResult.postUrl}`);
+    console.log('\nSwitch the composer to Markdown mode before submitting, otherwise the card links post as raw [text](url).');
   }
   if (result.status !== 'posted' && !result.deduped) {
     throw new Error(`Expected status 'posted', got '${result.status}' (${JSON.stringify(result.results)})`);
