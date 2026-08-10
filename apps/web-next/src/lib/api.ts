@@ -1398,6 +1398,21 @@ export async function updateNewsletterSettings(
   return res.json();
 }
 
+// Idempotent upsert of the signed-in user into the Brevo newsletter audience,
+// fired on login so new signups get the welcome email within minutes instead
+// of after the nightly sync. Fire-and-forget: never touches unsubscribe state
+// server-side, and a failure just means the nightly sync picks the user up.
+export async function registerNewsletterContact(token: string): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/newsletter-register`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch {
+    // Non-critical; the nightly newsletter sync is the backstop.
+  }
+}
+
 // Delete user account (removes referrals and wallet, keeps records anonymized)
 export async function deleteAccount(token: string): Promise<{ message: string }> {
   const res = await fetch(`${API_BASE}/account`, {

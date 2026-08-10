@@ -42,6 +42,16 @@ async function request(method, path, body) {
   return text ? JSON.parse(text) : null;
 }
 
+// Brevo contact attributes from a Firebase displayName: first word becomes
+// FIRSTNAME, the rest LASTNAME. Empty/missing names produce empty attributes
+// so a later real name can still fill them in via upsert.
+function nameAttributes(displayName) {
+  const name = (displayName || '').trim();
+  if (!name) return { FIRSTNAME: '', LASTNAME: '' };
+  const parts = name.split(/\s+/);
+  return { FIRSTNAME: parts[0], LASTNAME: parts.slice(1).join(' ') };
+}
+
 // Create-or-update a contact and link it to the given lists. Does NOT touch
 // emailBlacklisted, so contacts who unsubscribed via a campaign link stay
 // unsubscribed even though they remain list members.
@@ -113,6 +123,7 @@ async function removeFromList(id, emails) {
 module.exports = {
   isConfigured,
   listId,
+  nameAttributes,
   upsertContact,
   getContact,
   updateContact,
