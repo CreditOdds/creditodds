@@ -132,6 +132,24 @@ export interface CardBenefit {
   merchants?: string[];
 }
 
+/**
+ * A card a reader can still apply for, offered in place of one that went away.
+ * Resolved at build time — by scripts/build-news.js for the news surface and
+ * scripts/build-cards.js for the card-page surface. Both guarantee the slug
+ * exists and is still accepting applications, so the frontend never has to
+ * re-check. Self-contained on purpose: the image travels with its own slug and
+ * name, so a card missing from the source data blanks only itself.
+ */
+export interface ReplacementCardInfo {
+  slug: string;
+  name: string;
+  image: string | null;
+  bank: string;
+  annual_fee: number | null;
+  /** One editorial line on why this card stands in for the one that went away. */
+  reason?: string;
+}
+
 export interface Card {
   card_id: string | number;
   db_card_id?: number;
@@ -168,6 +186,11 @@ export interface Card {
   apr?: CardAPR;
   benefits?: CardBenefit[];
   our_take?: string;
+  /**
+   * Populated by build-cards.js only on cards with accepting_applications:
+   * false. Drives the "What to get instead" rail under the pulled-card banner.
+   */
+  replacement_cards_info?: ReplacementCardInfo[];
 }
 
 // GraphData is an array of series data

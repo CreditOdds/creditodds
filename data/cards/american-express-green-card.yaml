@@ -3,6 +3,14 @@ bank: "American Express"
 slug: "american-express-green-card"
 image: "amex_green_card.png"
 accepting_applications: false
+# Reused verbatim from data/news/2026-07-25-amex-green-card-pulled-renamed-classic-green.yaml
+replacement_cards:
+  - slug: "wells-fargo-autograph"
+    reason: "Matches the Green's 3x on travel, transit, and dining, adds streaming and phone, and charges no annual fee."
+  - slug: "chase-sapphire-preferred"
+    reason: "3x dining and 5x on travel booked through Chase, with transferable points, for $95 instead of $150."
+  - slug: "american-express-gold-card"
+    reason: "The step up inside Amex: 4x at restaurants and 4x at U.S. supermarkets, if the spend clears the higher fee."
 apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 foreign_transaction_fee: false
 network: "amex"

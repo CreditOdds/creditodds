@@ -3,6 +3,14 @@ bank: "U.S. Bank"
 slug: "us-bank-shopper"
 image: "us-bank-shopper.png"
 accepting_applications: false
+# Reused verbatim from data/news/2026-07-21-us-bank-shopper-cash-rewards-discontinued.yaml
+replacement_cards:
+  - slug: "blue-cash-everyday-card"
+    reason: "3% on U.S. online retail up to $6,000 a year, covering the Shopper's core use with no annual fee."
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "Keeps the rewards with U.S. Bank: two 5% categories of your choosing each quarter, no annual fee."
+  - slug: "wells-fargo-active-cash"
+    reason: "Flat 2% on everything with no annual fee, and nothing to pick or track each quarter."
 annual_fee: 95
 annual_fee_intro:
   value: 0

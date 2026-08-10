@@ -36,6 +36,7 @@ import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
 import { resolveApplyLink, withApplySource } from "@/lib/applyLink";
 import posthog from "posthog-js";
 import { V2Footer } from "@/components/landing-v2/Chrome";
+import { ReplacementCards } from "@/components/ui/ReplacementCards";
 import CardRecordsTable from "./CardRecordsTable";
 import ProductChangeFlow, { ProductChangeNode } from "./ProductChangeFlow";
 import "../../landing.css";
@@ -906,6 +907,25 @@ export default function CardClient({
             : "This card is no longer accepting applications."}
         </div>
       )}
+
+      {/* "What to get instead", directly under the banner that just told the
+          reader this card is gone. Deliberately above the fold rather than down
+          with Related Cards: the banner creates the question, so the answer
+          belongs next to it. build-cards.js only populates
+          replacement_cards_info on closed cards, so no open-card guard is
+          needed here — but the rail is wrapped anyway to keep a data mistake
+          from rendering a competitor list on a live card. */}
+      {card.accepting_applications === false &&
+        (card.replacement_cards_info?.length ?? 0) > 0 && (
+          <div className="replacement-cards-banner-slot">
+            <ReplacementCards
+              cards={card.replacement_cards_info ?? []}
+              surface="card_page"
+              sourceId={card.slug}
+              intro="This card is closed to new applicants. These are open and cover the same ground:"
+            />
+          </div>
+        )}
 
       <div className="cj-layout">
         {/* Left ToC */}

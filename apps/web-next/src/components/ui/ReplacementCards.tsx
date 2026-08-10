@@ -3,12 +3,27 @@
 import Link from 'next/link';
 import posthog from 'posthog-js';
 import CardImage from '@/components/ui/CardImage';
-import type { ReplacementCardInfo } from '@/lib/news';
+import type { ReplacementCardInfo } from '@/lib/api';
+
+/**
+ * Which page the rail is rendered on. Both surfaces emit the same
+ * `replacement_card_clicked` event, so this is what lets the two be read apart
+ * in PostHog — without it the card-page clicks would silently pollute the
+ * per-article readout the news rail has been measured on since #1924.
+ */
+export type ReplacementSurface = 'news' | 'card_page';
 
 interface Props {
   cards: ReplacementCardInfo[];
-  /** Article id, so clicks can be attributed to the story that drove them. */
-  articleId: string;
+  surface: ReplacementSurface;
+  /**
+   * What drove the click: the article id on news, the dead card's slug on a
+   * card page. Emitted under a per-surface property name so the existing
+   * `article_id` breakdown keeps meaning exactly what it always meant.
+   */
+  sourceId: string;
+  /** Optional override; each surface has a different natural lead-in. */
+  intro?: string;
 }
 
 function feeLabel(annualFee: number | null): string | null {
@@ -16,7 +31,7 @@ function feeLabel(annualFee: number | null): string | null {
   return annualFee === 0 ? 'No annual fee' : `$${annualFee.toLocaleString('en-US')} annual fee`;
 }
 
-export function ReplacementCards({ cards, articleId }: Props) {
+export function ReplacementCards({ cards, surface, sourceId, intro }: Props) {
   if (!cards || cards.length === 0) return null;
 
   // The intro deliberately names no card. On a straight pull the article's
@@ -29,7 +44,7 @@ export function ReplacementCards({ cards, articleId }: Props) {
         What to get instead
       </h2>
       <p className="replacement-cards-intro">
-        These cards are open to new applicants and cover the same ground:
+        {intro ?? 'These cards are open to new applicants and cover the same ground:'}
       </p>
       <ul className="replacement-cards-list">
         {cards.map((card, index) => {
@@ -41,7 +56,10 @@ export function ReplacementCards({ cards, articleId }: Props) {
                 className="replacement-card"
                 onClick={() => {
                   posthog.capture('replacement_card_clicked', {
-                    article_id: articleId,
+                    surface,
+                    ...(surface === 'news'
+                      ? { article_id: sourceId }
+                      : { source_card_slug: sourceId }),
                     card_slug: card.slug,
                     card_name: card.name,
                     bank: card.bank,

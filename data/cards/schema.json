@@ -38,6 +38,20 @@
       "type": "boolean",
       "description": "Whether the card is currently accepting new applications"
     },
+    "replacement_cards": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["slug"],
+        "properties": {
+          "slug": { "type": "string" },
+          "reason": { "type": "string", "maxLength": 160 }
+        },
+        "additionalProperties": false
+      },
+      "description": "Cards to offer a reader who lands on this card's page after it closed to applications. Renders the 'What to get instead' rail below the pulled-card banner. ONLY legal on a card whose `accepting_applications` is false — build-cards.js rejects it on a live card, because on a live card the rail would push readers away from a product they can still get. Each slug must exist in cards.json and itself be accepting applications; the build fails otherwise, since a dead replacement is worse than no rail. Same shape as the news `replacement_cards` field (data/news/schema.json); where a news article covers this exact card, reuse its curated list verbatim rather than writing new copy."
+    },
     "category": {
       "type": "string",
       "enum": ["travel", "cashback", "business", "student", "secured", "rewards", "balance_transfer", "other"],

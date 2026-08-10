@@ -3,6 +3,14 @@ bank: "Chase"
 slug: "chase-freedom"
 image: "chase-freedom.png"
 accepting_applications: false
+# Not from a news article: the original Freedom was retired before this site
+# covered it, so the copy below is written against the successors' current
+# YAML terms rather than reused.
+replacement_cards:
+  - slug: "chase-freedom-flex"
+    reason: "The direct successor: 5% on rotating quarterly categories up to $1,500, plus 3% on dining and drugstores, no annual fee."
+  - slug: "chase-freedom-unlimited"
+    reason: "Flat 1.5% on everything with no annual fee, if you would rather not activate categories each quarter."
 annual_fee: 0
 tags:
   - cashback

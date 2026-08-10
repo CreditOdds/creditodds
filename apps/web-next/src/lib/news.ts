@@ -1,5 +1,6 @@
 // News API types and fetching
 import { fetchWithRetry } from './fetchWithRetry';
+import type { ReplacementCardInfo } from './api';
 
 export type NewsTag =
   | 'new-card'
@@ -12,20 +13,10 @@ export type NewsTag =
   | 'rumor'
   | 'general';
 
-/**
- * A card readers can still apply for, offered on an article about a card that
- * went away. Resolved at build time by scripts/build-news.js, which guarantees
- * the slug exists in cards.json and is still accepting applications.
- */
-export interface ReplacementCardInfo {
-  slug: string;
-  name: string;
-  image: string | null;
-  bank: string;
-  annual_fee: number | null;
-  /** One editorial line on why this card stands in for the one that went away. */
-  reason?: string;
-}
+// Shared with the card-page surface, so the definition lives next to `Card`.
+// Re-exported here because news consumers have imported it from this module
+// since the rail shipped (#1924).
+export type { ReplacementCardInfo };
 
 /**
  * A card a news item is about, resolved at build time by scripts/build-news.js.
