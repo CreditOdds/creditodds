@@ -16,7 +16,7 @@ rewards:
   - category: "gas"
     value: 5
     unit: "percent"
-    note: "Gas worldwide, including Sam's Club stations (first $6,000/year, then 1%)"
+    note: "Gas and EV charging worldwide, including Sam's Club stations (first $6,000/year, then 1%)"
     spend_cap: 6000
     cap_period: annual
     rate_after_cap: 1
