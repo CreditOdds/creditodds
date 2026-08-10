@@ -583,64 +583,170 @@
     "t3_1vfgkp4": "2026-08-05",
     "t3_1vffwot": "2026-08-05",
     "t3_1vf9i3c": "2026-08-05",
-    "t3_1vh3gk7": "2026-08-07",
+    "t3_1vh3gk7": "2026-08-10",
     "t3_1vgvvbe": "2026-08-06",
     "t3_1vgsih9": "2026-08-06",
     "t3_1vgo9qw": "2026-08-06",
     "t3_1vgnjjk": "2026-08-06",
     "t3_1vgjf5f": "2026-08-06",
     "t3_1vgfbyi": "2026-08-06",
-    "t3_1vgeifs": "2026-08-07",
+    "t3_1vgeifs": "2026-08-10",
     "t3_1vged7t": "2026-08-06",
     "t3_1vgdq70": "2026-08-06",
     "t3_1vgdf8e": "2026-08-06",
     "t3_1vgcine": "2026-08-06",
     "t3_1vgbbld": "2026-08-06",
-    "t3_1vgae12": "2026-08-07",
+    "t3_1vgae12": "2026-08-10",
     "t3_1vg8s0a": "2026-08-06",
-    "t3_1vg77qk": "2026-08-06"
+    "t3_1vg77qk": "2026-08-06",
+    "t3_1vkctfm": "2026-08-10",
+    "t3_1vk7c6s": "2026-08-10",
+    "t3_1vk6o7f": "2026-08-10",
+    "t3_1vk5f91": "2026-08-10",
+    "t3_1vk2ym9": "2026-08-10",
+    "t3_1vjt80j": "2026-08-10",
+    "t3_1vjs2qz": "2026-08-10",
+    "t3_1vjqb1e": "2026-08-10",
+    "t3_1vjo8ji": "2026-08-10",
+    "t3_1vjlya3": "2026-08-10",
+    "t3_1vjivds": "2026-08-10",
+    "t3_1vji20h": "2026-08-10",
+    "t3_1vjgnkz": "2026-08-10",
+    "t3_1vjegtw": "2026-08-10",
+    "t3_1vjef02": "2026-08-10",
+    "t3_1vjdbfc": "2026-08-10",
+    "t3_1vjcjfl": "2026-08-10",
+    "t3_1vjcakr": "2026-08-10",
+    "t3_1vj9ch4": "2026-08-10",
+    "t3_1vj64up": "2026-08-10",
+    "t3_1vj07k3": "2026-08-10",
+    "t3_1viykf2": "2026-08-10",
+    "t3_1vixxpm": "2026-08-10",
+    "t3_1viqhz5": "2026-08-10",
+    "t3_1vilz18": "2026-08-10",
+    "t3_1vijet0": "2026-08-10",
+    "t3_1viiznt": "2026-08-10",
+    "t3_1viilrf": "2026-08-10",
+    "t3_1vihkzl": "2026-08-10",
+    "t3_1vihc8w": "2026-08-10",
+    "t3_1vihb8f": "2026-08-10",
+    "t3_1vifna0": "2026-08-10",
+    "t3_1vif832": "2026-08-10",
+    "t3_1vi92i2": "2026-08-10",
+    "t3_1vi8y7t": "2026-08-10",
+    "t3_1vi8juy": "2026-08-10",
+    "t3_1vi82ny": "2026-08-10",
+    "t3_1vi40w2": "2026-08-10",
+    "t3_1vi3jy3": "2026-08-10",
+    "t3_1vi381j": "2026-08-10",
+    "t3_1vi0vys": "2026-08-10",
+    "t3_1vi0ihv": "2026-08-10",
+    "t3_1vht58n": "2026-08-10",
+    "t3_1vhph70": "2026-08-10",
+    "t3_1vhp9zi": "2026-08-10",
+    "t3_1vhm7gd": "2026-08-10",
+    "t3_1vhjood": "2026-08-10",
+    "t3_1vhid0z": "2026-08-10",
+    "t3_1vhhez5": "2026-08-10",
+    "t3_1vhge0n": "2026-08-10",
+    "t3_1vhe6jw": "2026-08-10",
+    "t3_1vhdp81": "2026-08-10",
+    "t3_1vh9c6j": "2026-08-10",
+    "t3_1vh8uws": "2026-08-10",
+    "t3_1vh8shb": "2026-08-10",
+    "t3_1vh6nda": "2026-08-10",
+    "t3_1vh693i": "2026-08-10"
   },
   "pending": {
-    "t3_1vh3gk7": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vh3gk7/why_did_chase_approve_me_and_are_they_going_to/",
-      "title": "Why did Chase approve me and are they going to close my accounts lol",
+    "t3_1vjcakr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vjcakr/united_explorer_card_targeted_80k_sub/",
+      "title": "United Explorer Card Targeted 80k SUB",
+      "posted": "2026-08-09",
+      "card_name": "United Explorer",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied through a targeted 80k United offer this month and was approved. Poster shares velocity (one card in January, two in May including the CSP) but never a score.",
+      "firstSeen": "2026-08-10",
+      "attempts": 1,
+      "lastChecked": "2026-08-10"
+    },
+    "t3_1viilrf": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1viilrf/was_approved_for_chase_freedom_unlimited_is_this/",
+      "title": "Was approved for Chase Freedom Unlimited - Is this a good thing?",
+      "posted": "2026-08-08",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Twenty three year old instantly approved this month for a $5,000 limit after moving banking to Chase. No score anywhere in the post.",
+      "firstSeen": "2026-08-10",
+      "attempts": 1,
+      "lastChecked": "2026-08-10"
+    },
+    "t3_1vhge0n": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vhge0n/got_venture_x_after_getting_denied_from_bilt/",
+      "title": "Got Venture X after getting denied from Bilt Palladium Yesterday",
       "posted": "2026-08-06",
-      "card_name": "Chase Sapphire Reserve",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for the Chase Sapphire Reserve ($10,300 limit) and the Amazon Prime Rewards Visa Signature ($20,000) on $365k income. Lists EX 642, EQ 679, TU 655, and says Experian was frozen at application, so which bureau Chase pulled is still unclear. Look 2 replies added only income context.",
-      "firstSeen": "2026-08-06",
-      "attempts": 2,
-      "lastChecked": "2026-08-07"
-    },
-    "t3_1vgeifs": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vgeifs/citi_aadvantage_executive_world_legend_mastercard/",
-      "title": "Citi / AAdvantage Executive World Legend Mastercard",
-      "posted": "2026-08-05",
-      "card_name": "Citi AAdvantage Executive World Elite Mastercard",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approval last week on the Citi AAdvantage Executive World Elite Mastercard, card arrived stamped World Legend. No score, income, or limit anywhere. The one OP reply on look 2 is about card perks, not stats.",
-      "firstSeen": "2026-08-06",
-      "attempts": 2,
-      "lastChecked": "2026-08-07"
-    },
-    "t3_1vgae12": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vgae12/denied_for_a_student_credit_card_because_of_thin/",
-      "title": "denied for a student credit card because of thin credit history?",
-      "posted": "2026-08-05",
+      "card_name": "Bilt Palladium",
       "result": "denied",
       "missing": [
-        "card_name"
+        "credit_score"
       ],
-      "note": "Nineteen year old denied on an unnamed student card with a 670 Equifax score, issuer citing limited credit history, too many inquiries, and not enough revolving credit. The look 2 reply mentions Discover and Capital One, but reads as the free score tools used, and even read as issuers it names two r…",
-      "firstSeen": "2026-08-06",
-      "attempts": 2,
-      "lastChecked": "2026-08-07"
+      "note": "Denied for Bilt Palladium on August 5 citing high balances against limits, then approved for the Capital One Venture X the next day. Both would publish if a score arrives; the poster gives none.",
+      "firstSeen": "2026-08-10",
+      "attempts": 1,
+      "lastChecked": "2026-08-10"
+    },
+    "t3_1vhdp81": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vhdp81/how_is_my_credit_card_line_up/",
+      "title": "How is my credit card line up?",
+      "posted": "2026-08-06",
+      "card_name": "Robinhood Gold",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Twenty year old denied for Robinhood Gold this month after an invite, days after being approved for a Chase Freedom Unlimited at $1,500. Says only that the score has been great, no number.",
+      "firstSeen": "2026-08-10",
+      "attempts": 1,
+      "lastChecked": "2026-08-10"
+    },
+    "t3_1vh8shb": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vh8shb/got_rejected_for_savor_card/",
+      "title": "Got rejected for Savor Card!",
+      "posted": "2026-08-06",
+      "card_name": "Capital One Savor Cash Rewards",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied this month for the Savor after opening several cards in two months, with Capital One flagging amount of new credit. Poster says only that the score is high.",
+      "firstSeen": "2026-08-10",
+      "attempts": 1,
+      "lastChecked": "2026-08-10"
     }
-  }
+  },
+  "runs": [
+    {
+      "id": "2026-08-10T09:21:34.723Z",
+      "date": "2026-08-10",
+      "candidates": 60,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 7,
+      "pending": 5,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 14,
+        "card_unclear": 1,
+        "no_outcome": 26,
+        "pre_qual": 4,
+        "not_datable": 3
+      }
+    }
+  ]
 }
