@@ -121,6 +121,9 @@ function collapsePerCard(rows) {
     // from it is a genuine change worth reporting.
     collapsed.push({
       cardName: shortenCardName(latest.card_name),
+      // The wire's own name, kept unshortened because it is what `/cards`
+      // matches on when resolving the card's page slug.
+      fullCardName: latest.card_name,
       unit: latest.unit,
       oldValue: first.old_value,
       newValue: latest.new_value,
@@ -133,6 +136,49 @@ function collapsePerCard(rows) {
     });
   }
   return collapsed;
+}
+
+/**
+ * Resolve each change's card page slug off `/cards`, matching on the wire's
+ * full card name first (the shortened display name misses cards whose stripped
+ * issuer suffix is part of the real name, e.g. Delta SkyMiles Reserve
+ * Business American Express).
+ *
+ * A card that resolves to nothing keeps `slug: null` rather than a guessed
+ * slug, so callers render it unlinked instead of shipping a 404.
+ */
+async function attachCardSlugs(changes) {
+  const res = await fetchWithRetry(`${API_BASE}/cards`);
+  if (!res.ok) throw new Error(`Failed to fetch cards: ${res.status}`);
+  const cards = await res.json();
+
+  const slugByName = new Map();
+  for (const card of cards) {
+    const name = card.card_name || card.name;
+    if (name && card.slug) slugByName.set(name, card.slug);
+  }
+
+  for (const change of changes) {
+    change.slug =
+      slugByName.get(change.fullCardName) || slugByName.get(change.cardName) || null;
+    if (!change.slug) {
+      console.log(`  Warning: no card page found for "${change.fullCardName}" — it will post unlinked.`);
+    }
+  }
+  return changes;
+}
+
+/**
+ * Card page link for a post body. Same UTM shape as buildCardWireLink so the
+ * weekly roundup's traffic groups under one campaign.
+ */
+function buildCardLink(slug, utmSource, campaign) {
+  const url = new URL(`https://creditodds.com/card/${slug}`);
+  url.searchParams.set('utm_source', utmSource);
+  url.searchParams.set('utm_medium', 'social');
+  url.searchParams.set('utm_campaign', campaign);
+  url.searchParams.set('utm_content', `weekly-${new Date().toISOString().slice(0, 10)}`);
+  return url.toString();
 }
 
 function buildCardWireLink(utmSource, campaign) {
@@ -176,6 +222,8 @@ module.exports = {
   formatBonus,
   fetchRecentSubChanges,
   collapsePerCard,
+  attachCardSlugs,
+  buildCardLink,
   buildCardWireLink,
   queueSocialPost,
 };
