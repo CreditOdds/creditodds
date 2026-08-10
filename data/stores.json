@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-10T21:34:33.350Z",
-  "count": 1043,
+  "generated_at": "2026-08-10T22:11:55.539Z",
+  "count": 1107,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -326,7 +326,11 @@
         "online_shopping"
       ],
       "website": "https://www.ae.com/us/en/aerie",
-      "intro": "Aerie is American Eagle Outfitters' intimates, loungewear, and activewear sub-brand,\nwith hundreds of standalone stores and a heavy presence on ae.com. The Real Rewards\ncredit card from Synchrony covers both American Eagle and Aerie, paying boosted points\non every purchase. On most general-purpose cards, Aerie purchases code as department\nstore in person and online shopping when checking out through the AE site or app.\n"
+      "intro": "Aerie is American Eagle Outfitters' intimates, loungewear, and activewear sub-brand,\nwith hundreds of standalone stores and a heavy presence on ae.com. The Real Rewards\ncredit card from Synchrony covers both American Eagle and Aerie, paying boosted points\non every purchase. On most general-purpose cards, Aerie purchases code as department\nstore in person and online shopping when checking out through the AE site or app.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54137&trid=1552713.250288&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Aeropostale",
@@ -796,7 +800,11 @@
         "department_stores"
       ],
       "website": "https://www.ae.com",
-      "intro": "American Eagle is a U.S. apparel retailer with about 950 stores in its main\nbrand plus the Aerie intimates spinoff. In-store charges code as department\nstores or apparel; ae.com codes as online shopping. The Real Rewards loyalty\nprogram issues spend-based credits redeemable on future purchases. Strongest\npairings are an online-shopping-bonus card for ae.com orders or flat-rate\ncashback in-store.\n"
+      "intro": "American Eagle is a U.S. apparel retailer with about 950 stores in its main\nbrand plus the Aerie intimates spinoff. In-store charges code as department\nstores or apparel; ae.com codes as online shopping. The Real Rewards loyalty\nprogram issues spend-based credits redeemable on future purchases. Strongest\npairings are an online-shopping-bonus card for ae.com orders or flat-rate\ncashback in-store.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54135&trid=1552713.250291&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "American Standard",
@@ -847,6 +855,19 @@
       "intro": "Amerisleep is a direct-to-consumer memory foam mattress company that ships\ncompressed mattresses in a box and sells adjustable bases, pillows, and bedding\nalongside its core mattress lineup, competing with brands like Nectar and Purple\nin the bed-in-a-box space. There is no Amerisleep credit card, so an order codes\nas furniture or general online shopping. A card that bonuses furniture or home\npurchases, or a flat-rate cashback card, is the practical way to earn on a\nmattress purchase, which is often a large single transaction worth optimizing.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.34206.2911518&trid=1552713.235962&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Amorepacific",
+      "slug": "amorepacific",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://us.amorepacific.com",
+      "intro": "Amorepacific is the flagship luxury line of the Korean beauty giant of the same name, selling green-tea-based serums, cushion foundations, and anti-aging sets direct from us.amorepacific.com. Orders ship from its US web store and code as online retail rather than a department-store or drugstore purchase.\n\nPremium K-beauty routines mean repeat orders, so a Bank of America Customized Cash set to online shopping at 3 percent is the steady play, and a Chase Freedom Flex online-retail quarter is the time to stock up on full-size replenishments at 5 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.40043&trid=1552713.249834&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -979,6 +1000,19 @@
       "intro": "Anytime Fitness is a franchised chain offering 24/7 keyfob access to thousands of locations worldwide. Membership billing rarely falls into a bonus category, so dues usually earn your card's base rate, and pairing the charge with a card that carries a fitness or wellness credit is the smartest way to recover some value.\n"
     },
     {
+      "name": "APMEX",
+      "slug": "apmex",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.apmex.com",
+      "intro": "APMEX is one of the largest online dealers of gold, silver, platinum, and collectible coins in the US, selling everything from single American Eagles to monster boxes at prices tied to live spot markets. Card orders carry a premium over the wire price and some card issuers treat bullion purchases restrictively, so check terms before a large buy.\n\nBecause bullion margins are thin, APMEX charges more for card payment than for checks or wires, which usually eats any rewards. If you do pay by card for speed, a flat 2 percent card is the sensible cap, and never expect a metals purchase to count toward a bonus category.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.13444&trid=1552713.246173&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Apple",
       "slug": "apple",
       "aliases": [
@@ -1083,6 +1117,19 @@
       "intro": "Art.com sells framed prints, canvas art, posters, and wall decor through a large online\ncatalog spanning fine art reproductions, photography, and custom framing. The site is owned\nby Walmart, which acquired it in 2021 to bolster its home decor assortment. There's no\nArt.com co-brand credit card, so shoppers are best served by a strong online shopping\nrewards card or a general flat-rate cashback card, since orders are placed and shipped\nentirely through the website rather than a physical storefront.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.45368.1000000115&trid=1552713.215196&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "ArtToFrames",
+      "slug": "arttoframes",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.arttoframes.com",
+      "intro": "ArtToFrames is a Brooklyn-based custom framing shop that cuts made-to-order picture frames, mats, and canvas prints in thousands of size and finish combinations, at prices well below strip-mall framers. Orders are produced to spec and ship from arttoframes.com, coding as online retail.\n\nFraming projects tend to cluster, a gallery wall or a move means several frames at once, so time the batch to a Chase Freedom Flex online-retail quarter for 5 percent, or fall back to a Bank of America Customized Cash set to online shopping at 3 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54129&trid=1552713.250102&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -1634,6 +1681,20 @@
       }
     },
     {
+      "name": "Best Choice Products",
+      "slug": "best-choice-products",
+      "categories": [
+        "online_shopping",
+        "furniture_stores"
+      ],
+      "website": "https://www.bestchoiceproducts.com",
+      "intro": "Best Choice Products is a direct-to-consumer value brand selling patio sets, trampolines, exercise gear, holiday trees, and kids' ride-ons from bestchoiceproducts.com, often undercutting the same items sold through Amazon and Walmart marketplaces. Direct orders code as online retail.\n\nThese are mid-ticket seasonal buys, so pair them with whatever online category is live: a Freedom Flex online-retail quarter at 5 percent, or Bank of America Customized Cash online shopping at 3 percent. A U.S. Bank Cash+ furniture-stores selection can also hit if the charge classifies under furniture.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.33479&trid=1552713.230685&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Best Western",
       "slug": "best-western",
       "aliases": [
@@ -1672,6 +1733,20 @@
       }
     },
     {
+      "name": "Better World Books",
+      "slug": "better-world-books",
+      "categories": [
+        "online_shopping",
+        "secondhand_stores"
+      ],
+      "website": "https://www.betterworldbooks.com",
+      "intro": "Better World Books sells used and new books online and funds global literacy programs with every order, reselling library discards and donated titles with free US shipping. It is the biggest social-enterprise bookseller on the web, and orders from betterworldbooks.com code as online retail.\n\nBook orders here are small and frequent rather than big-ticket, which favors an always-on rate over quarter-chasing: Bank of America Customized Cash set to online shopping earns 3 percent, and a flat 2 percent card covers gift-heavy months without any category management.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.45965&trid=1552713.249884&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "BevMo!",
       "slug": "bevmo",
       "aliases": [
@@ -1692,6 +1767,20 @@
       ],
       "website": "https://www.big5sportinggoods.com",
       "intro": "Big 5 Sporting Goods runs neighborhood-format stores across the western US, stocking shoes, camping gear, and team-sport equipment that typically code as a department store. Grocery and dining multipliers will not apply to purchases here. Buying at big5sportinggoods.com generally codes as online shopping, so a flat-rate or online-shopping card tends to earn the most.\n"
+    },
+    {
+      "name": "Big Ass Fans",
+      "slug": "big-ass-fans",
+      "categories": [
+        "online_shopping",
+        "home_improvement"
+      ],
+      "website": "https://www.bigassfans.com",
+      "intro": "Big Ass Fans makes oversized ceiling and portable fans, from the residential Haiku line to shop-grade air movers for garages and barns, sold direct from bigassfans.com. A residential fan is a mid-ticket purchase that codes as online retail, with some orders classifying under home improvement.\n\nFor a one-time buy in the several-hundred-dollar range, the category gamble matters: Bank of America Customized Cash can take 3 percent whether you set it to online shopping or home improvement, while a Freedom Flex online-retail quarter at 5 percent is the best case if your timing lines up.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54143&trid=1552713.250048&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Big Lots",
@@ -1719,6 +1808,34 @@
       ],
       "website": "https://www.biggby.com",
       "intro": "Biggby Coffee is a Michigan-founded franchise known for flavored lattes and an upbeat, locally owned drive-thru vibe across the Midwest and beyond. Purchases code as dining or restaurants on most cards, so reach for a card with a coffee or dining bonus. Reloading a Biggby gift card in advance may not always trigger the dining category, so paying directly is safest.\n"
+    },
+    {
+      "name": "Billabong",
+      "slug": "billabong",
+      "categories": [
+        "select_clothing",
+        "online_shopping"
+      ],
+      "website": "https://www.billabong.com",
+      "intro": "Billabong is the Australian surf brand behind boardshorts, wetsuits, and beach apparel, now part of the same group as Quiksilver and Roxy. US orders from billabong.com code as online clothing retail, and the brand runs a deep sale section between seasonal drops.\n\nApparel here follows the standard playbook: a Freedom Flex quarter covering online retail or department stores hits 5 percent, and Bank of America Customized Cash set to online shopping is the reliable 3 percent for wetsuit or holiday orders outside the quarter.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.53002&trid=1552713.196171&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "BioLite",
+      "slug": "biolite",
+      "categories": [
+        "sporting_goods",
+        "online_shopping"
+      ],
+      "website": "https://www.bioliteenergy.com",
+      "intro": "BioLite makes off-grid energy gear for campers and emergency kits: wood-burning stoves that charge your phone, solar panels, headlamps, and power stations, sold direct from bioliteenergy.com with part of revenue funding clean-cooking programs in Africa.\n\nDirect orders usually code as online retail, though outdoor gear can classify as sporting goods. U.S. Bank Cash+ with sporting-goods selected reaches 5 percent when it does, and Bank of America Customized Cash set to online shopping is the safer 3 percent for a power-station-sized purchase.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10164&trid=1552713.250032&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Biotherm",
@@ -1944,6 +2061,19 @@
       "intro": "Bluemercury is a prestige beauty chain owned by Macy's Inc, with around 160 U.S.\nboutiques plus bluemercury.com selling skincare, makeup, fragrance, and the in-house\nM-61 and Lune+Aster brands. Direct purchases typically code as department store in\nperson and online shopping for web orders. Because Bluemercury is part of Macy's, the\nfree BlueRewards program is paired with Macy's Star Rewards and the Macy's\nCiti-issued credit cards earn elevated points on Bluemercury spend.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.43420&trid=1552713.169800&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Blueprint Prep",
+      "slug": "blueprint-prep",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://blueprintprep.com",
+      "intro": "Blueprint Prep sells test-prep courses and tutoring for the LSAT, MCAT, and nursing and medical board exams, from self-paced subscriptions to live online classes running well over a thousand dollars. Enrollment is a card-not-present education charge from blueprintprep.com that most issuers bucket as online services.\n\nA course purchase is a single large charge, which makes it ideal spend toward a signup bonus. Absent a bonus to hit, a flat 2 percent card beats guessing categories, since education services rarely land in a 5 percent bucket.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.11250&trid=1552713.249442&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -2360,6 +2490,20 @@
       }
     },
     {
+      "name": "Bulletproof",
+      "slug": "bulletproof",
+      "categories": [
+        "groceries",
+        "online_shopping"
+      ],
+      "website": "https://www.bulletproof.com",
+      "intro": "Bulletproof is the brand that popularized butter coffee, selling its coffee beans, MCT and Brain Octane oils, collagen protein, and supplements direct from bulletproof.com, mostly on subscribe-and-save reorders. Direct orders code as online retail rather than groceries, even though it is pantry spend.\n\nFor recurring subscriptions, a steady rate wins: Bank of America Customized Cash set to online shopping earns 3 percent every month, and a Freedom Flex online-retail quarter is the moment to prepay or stock up at 5 percent. Buying Bulletproof products at a grocery store instead unlocks Amex Blue Cash Preferred's 6 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54192&trid=1552713.250009&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Bulova",
       "slug": "bulova",
       "aliases": [
@@ -2476,6 +2620,20 @@
       }
     },
     {
+      "name": "Café Appliances",
+      "slug": "cafe-appliances",
+      "categories": [
+        "home_improvement",
+        "online_shopping"
+      ],
+      "website": "https://www.cafeappliances.com",
+      "intro": "Café is GE Appliances' customizable premium line, selling matte-finish ranges, wall ovens, refrigerators, and dishwashers with swappable brushed-brass and copper hardware direct from cafeappliances.com, with delivery and haul-away arranged through GE's network.\n\nAn appliance order here runs from several hundred dollars to five figures for a kitchen suite, so treat it as bonus-qualifying spend first: a new card's signup bonus usually beats any category rate. Otherwise a flat 2 percent card is the floor, and direct orders that code as online retail can catch Customized Cash at 3 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.107776&trid=1552713.250253&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "California Pizza Kitchen",
       "slug": "california-pizza-kitchen",
       "aliases": [
@@ -2548,6 +2706,20 @@
       "intro": "Cannondale is an American bicycle manufacturer known for road, mountain, and gravel bikes,\nplus the distinctive fat-tubed aluminum frames it pioneered decades ago, sold through\nindependent bike shops and its own website. There is no Cannondale co-brand credit card,\nso a sporting goods or general online shopping rewards card is the right choice for parts,\ngear, or a direct bike purchase.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.53974.1000000002&trid=1552713.248197&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Capezio",
+      "slug": "capezio",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://www.capezio.com",
+      "intro": "Capezio has outfitted dancers since 1887, making ballet slippers, pointe shoes, tights, and dancewear that studios put on their required lists every fall. Direct orders from capezio.com code as online clothing retail, and dance families reorder constantly as kids grow through sizes.\n\nRecital and back-to-studio season concentrates the spend, so a Freedom Flex quarter covering online retail hits 5 percent on the big replacement order, while Bank of America Customized Cash set to online shopping keeps mid-year size swaps at 3 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.13815&trid=1552713.249456&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -3032,6 +3204,19 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.124082.3714472&trid=1552713.159764&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "15% off when you sign up"
+      }
+    },
+    {
+      "name": "Clé de Peau Beauté",
+      "slug": "cle-de-peau-beaute",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.cledepeaubeaute.com",
+      "intro": "Clé de Peau Beauté is Shiseido's ultra-luxury skincare and makeup line, best known for its cult concealer and La Crème moisturizer at department-store-counter prices. Direct US orders from cledepeaubeaute.com code as online retail and routinely come with generous sample bundles.\n\nLuxury beauty replenishment is predictable spend, so the play is timing: a Chase Freedom Flex online-retail quarter turns a La Crème restock into 5 percent back, and a Bank of America Customized Cash set to online shopping holds 3 percent the rest of the year.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10170&trid=1552713.206155&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     },
     {
@@ -3916,6 +4101,20 @@
       "intro": "Discount Tire, doing business as America's Tire in California, is the largest\nindependent tire and wheel retailer in the United States with more than 1,200\nstores. The chain sells passenger, truck, performance, and trailer tires plus wheels\nand TPMS service. Tire purchases generally code as auto services or general retail\nrather than as a dedicated bonus category on most cards.\n\nCards with selectable categories such as Citi Custom Cash and Bank of America\nCustomized Cash can reach tire purchases when the right category is active. A new\nset of four tires plus installation often runs $800 to $1,500, which makes\nDiscount Tire useful for clearing signup bonus minimums on cards like the Wells\nFargo Autograph or Chase Freedom Unlimited.\n"
     },
     {
+      "name": "DiscountMugs",
+      "slug": "discountmugs",
+      "categories": [
+        "online_shopping",
+        "office_supplies"
+      ],
+      "website": "https://www.discountmugs.com",
+      "intro": "DiscountMugs prints custom mugs, water bottles, pens, tote bags, and event swag in bulk, serving weddings, fundraisers, and small businesses that need a few hundred branded pieces at a low unit price. Orders are produced to spec and ship from discountmugs.com, coding as online retail or printing services.\n\nBulk swag orders are exactly the kind of lumpy business spend that belongs on a business card: Chase Ink Business Cash covers office-supply-classified charges at 5 percent, and an Ink Unlimited or other flat 2 percent card is the fallback when the charge codes as generic online retail.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.10632&trid=1552713.212723&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Disney+",
       "slug": "disney-plus",
       "aliases": [
@@ -4015,6 +4214,20 @@
       "intro": "Domino's is the largest U.S. pizza chain at about 6,800 locations and a heavy digital\nordering footprint. All Domino's transactions — phone, app, and dominos.com — code as\ndining on every card we track, regardless of whether the food is delivered or picked up.\nThe Domino's Rewards program (free pizza after a points threshold) stacks on top of card\ncashback.\n"
     },
     {
+      "name": "Donner Music",
+      "slug": "donner-music",
+      "categories": [
+        "online_shopping",
+        "entertainment"
+      ],
+      "website": "https://www.donnermusic.com",
+      "intro": "Donner makes budget-friendly musical instruments and gear, from guitar pedals and digital pianos to drum kits and ukuleles, sold direct from donnermusic.com at a fraction of legacy-brand prices. It has become the default first-instrument brand for beginners buying online.\n\nInstrument orders code as online retail, so Bank of America Customized Cash set to online shopping earns 3 percent on a starter piano, and a Chase Freedom Flex online-retail quarter turns a bundle purchase into 5 percent. There is no co-brand card angle here, just clean category spend.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.43895&trid=1552713.249842&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Dooney & Bourke",
       "slug": "dooney-and-bourke",
       "aliases": [
@@ -4060,6 +4273,19 @@
       "intro": "Dorothy Perkins is a British women's fashion brand selling affordable everyday clothing,\nfrom workwear to occasionwear, primarily through its online store after the closure of its\nUK high street locations. It now operates as an online-only retailer shipping to customers\nin the UK and select international markets including the U.S. There's no Dorothy Perkins\nco-brand credit card, so shoppers ordering from the site should rely on a card that earns\nwell on general online shopping and, if applicable, one with favorable foreign transaction\nterms since charges may process through a UK-based merchant account.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.1134&trid=1552713.232050&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Dr. Dennis Gross Skincare",
+      "slug": "dr-dennis-gross",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://drdennisgross.com",
+      "intro": "Dr. Dennis Gross Skincare is the dermatologist-founded brand behind the Alpha Beta peel pads and the SpectraLite LED masks, sold direct from drdennisgross.com alongside Sephora and Dermstore. Direct orders code as online retail and skew toward auto-replenished peel refills plus the occasional big LED-device purchase.\n\nPut the recurring refills on a Bank of America Customized Cash set to online shopping for 3 percent, and hold a device purchase, which can run several hundred dollars, for a Freedom Flex online-retail quarter at 5 percent or a signup-bonus push.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10172&trid=1552713.250034&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -4213,6 +4439,20 @@
       "intro": "Dyson is a British technology company known for its vacuums, air purifiers, hair-care tools,\nand fans, sold direct at dyson.com, in Dyson Demo stores, and through retailers like Best\nBuy and department stores. There is no Dyson co-brand credit card. Dyson products carry high\nprice tags but rarely go on deep discount, so shoppers usually earn the most with a card\nthat has a strong online shopping multiplier, or by buying at a retailer whose own category\nbonus applies.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.36310&trid=1552713.189851&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "E-Z UP",
+      "slug": "e-z-up",
+      "categories": [
+        "online_shopping",
+        "sporting_goods"
+      ],
+      "website": "https://www.ezup.com",
+      "intro": "E-Z UP invented the pop-up canopy and still sells the instant shelters you see at farmers markets, tailgates, and youth tournaments, plus custom-printed canopies for small businesses, direct from ezup.com. Orders code as online retail, with some charges classifying under sporting goods.\n\nA canopy is a once-every-few-years purchase in the low hundreds: U.S. Bank Cash+ with sporting-goods selected reaches 5 percent if the charge lands there, and Bank of America Customized Cash set to online shopping is the reliable 3 percent for a custom-print order.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.44569&trid=1552713.249425&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -4811,6 +5051,19 @@
       "intro": "FedEx Office, formerly Kinko's, operates around 2,000 U.S. retail locations\noffering shipping, printing, copying, signage, packing, and computer rental. Most\nFedEx Office stores code as office supplies or stationery on Visa, Mastercard, and\nAmex networks, which makes spending eligible for office supply bonus categories on\nsmall business cards.\n\nThe Chase Ink Business Cash pays 5 percent on the first $25,000 in combined office\nsupplies and select utilities each year, making it the standard pick for printing\nand shipping spend. The Amex Business Gold also includes U.S. office supply\nretailers as a top-two category. Personal cards with selectable office supply\nbuckets, including U.S. Bank Cash+, can match those rates.\n"
     },
     {
+      "name": "Felix Gray",
+      "slug": "felix-gray",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://felixgray.com",
+      "intro": "Felix Gray sells blue-light-filtering computer glasses, prescription eyewear, and sleep glasses direct from felixgray.com, positioning itself as the screen-time eyewear brand for office workers. Orders code as online retail, and prescription pairs are FSA and HSA eligible.\n\nBefore reaching for rewards, spend FSA or HSA dollars here if you have them, since pre-tax beats any cashback. Paying out of pocket, Bank of America Customized Cash set to online shopping earns 3 percent, and a Freedom Flex online-retail quarter covers a two-pair order at 5 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.41566&trid=1552713.232890&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Fender",
       "slug": "fender",
       "aliases": [
@@ -5029,6 +5282,19 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.3382.119544810000835&trid=1552713.462&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "up to 60% off select styles"
+      }
+    },
+    {
+      "name": "Flower.com",
+      "slug": "flower-com",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.flower.com",
+      "intro": "Flower.com is an online florist network delivering same-day bouquets, plants, and gift baskets through local partner shops nationwide, competing with 1-800-Flowers on price for birthdays, sympathy arrangements, and holidays. Orders code as online retail or florist services.\n\nFlower spend spikes at Valentine's Day and Mother's Day, so a Freedom Flex quarter that covers online retail in that window is a 5 percent win. Otherwise this is classic Customized Cash online-shopping territory at 3 percent, and a flat 2 percent card handles the sympathy order you did not plan for.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.13581&trid=1552713.249104&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     },
     {
@@ -5566,6 +5832,20 @@
       }
     },
     {
+      "name": "Go City",
+      "slug": "gocity",
+      "categories": [
+        "travel",
+        "entertainment"
+      ],
+      "website": "https://gocity.com",
+      "intro": "Go City sells all-inclusive and build-your-own sightseeing passes for 30-plus destinations, bundling attractions like the Empire State Building or the London Eye at up to half the gate price. Passes are bought online at gocity.com before the trip and typically code as travel or attractions.\n\nBecause pass purchases often classify as travel, the travel-card multipliers apply: Chase Sapphire Preferred earns 2x and Reserve 3x, and Capital One Venture X's flat 2x covers a pass that codes as ticketing instead. Buy the pass with the same card you want the trip's protections on.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156085.101100673&trid=1552713.203873&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "GOAT",
       "slug": "goat",
       "categories": [
@@ -5884,6 +6164,20 @@
       ],
       "website": "https://www.hpb.com",
       "intro": "Half Price Books is a Dallas-based used and new book retailer with over 120 stores\nacross the United States, also selling vinyl records, movies, video games, and\ncollectibles. The chain is known for buying back books, music, and games from\ncustomers in addition to its retail operation. Purchases typically code as bookstore\nor general retail on most credit card networks.\n\nCards with selectable categories can sometimes capture bookstore purchases. U.S.\nBank Cash+ includes bookstores as one of its selectable 5 percent categories, which\ncan deliver meaningful value for heavy readers. Online orders at hpb.com may also\ntrigger online shopping bonuses on cards like Bank of America Customized Cash and\nChase Freedom Flex during rotating online quarters.\n"
+    },
+    {
+      "name": "Half Price Drapes",
+      "slug": "half-price-drapes",
+      "categories": [
+        "online_shopping",
+        "home_improvement"
+      ],
+      "website": "https://www.halfpricedrapes.com",
+      "intro": "Half Price Drapes sells ready-made and custom curtains, roman shades, and hardware direct from halfpricedrapes.com, with a made-to-order workroom for odd sizes at prices far below designer showrooms. Orders code as online retail.\n\nWindow treatments get bought a whole house at a time, so the order lands in the hundreds: time it to a Chase Freedom Flex online-retail quarter for 5 percent, or use a Bank of America Customized Cash set to online shopping for 3 percent when the quarter does not cooperate.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.33761&trid=1552713.249746&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Hanes",
@@ -6537,6 +6831,20 @@
       }
     },
     {
+      "name": "iBUYPOWER",
+      "slug": "ibuypower",
+      "categories": [
+        "electronics_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.ibuypower.com",
+      "intro": "iBUYPOWER builds custom and prebuilt gaming PCs to order, letting buyers spec GPU, cooling, and RGB from ibuypower.com with financing options for four-figure rigs. Orders code as online electronics retail.\n\nA gaming PC is peak signup-bonus spend: one build can clear most minimum-spend requirements in a single charge. Otherwise U.S. Bank Cash+ with electronics stores selected can reach 5 percent if the charge classifies that way, with Customized Cash online shopping at 3 percent as the dependable fallback.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14818&trid=1552713.249464&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Icebreaker",
       "slug": "icebreaker",
       "parent_company": "VF Corporation",
@@ -6744,6 +7052,20 @@
       }
     },
     {
+      "name": "Isotoner",
+      "slug": "isotoner",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://www.isotoner.com",
+      "intro": "Isotoner is the comfort-accessories brand behind the slippers and leather gloves that anchor department-store gift walls every winter, now selling direct from isotoner.com alongside umbrellas under the same corporate roof as Totes.\n\nDirect orders code as online clothing retail, and the spend is heavily gift-season: a Chase Freedom Flex fourth-quarter category covering online retail or department stores turns holiday slipper orders into 5 percent, while Customized Cash online shopping earns 3 percent year-round.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10174&trid=1552713.250330&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "ITA Airways",
       "slug": "ita-airways",
       "aliases": [
@@ -6757,6 +7079,19 @@
       "intro": "ITA Airways is Italy's flag carrier, formed in 2021 to take over international and\ndomestic routes previously flown by Alitalia, operating out of Rome Fiumicino with\nservice to destinations across Europe, North America, South America, and Asia. There\nis no ITA Airways co-brand credit card issued in the U.S., so booking a flight is best\ndone with a general travel rewards card that earns bonus points on airfare, or a\npremium travel card if you want airport lounge access and trip protections on an\ninternational itinerary.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.49569.4611686018427603255&trid=1552713.239112&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Italist",
+      "slug": "italist",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.italist.com",
+      "intro": "Italist is a luxury-fashion marketplace that ships current-season designer clothing, bags, and shoes from Italian boutiques directly to US shoppers, often 20 to 30 percent below US retail because of the boutique sourcing. Orders from italist.com code as online retail, and duties are included at checkout.\n\nLuxury orders here are large single charges, ideal for working toward a signup bonus or an elevated everywhere rate. Note that boutique shipments come from Italy, so use a card with no foreign transaction fee if your issuer processes the charge abroad, though most italist charges settle in USD.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.53066&trid=1552713.249284&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -7232,6 +7567,19 @@
       "intro": "Kimpton is a boutique hotel brand under IHG, known for design-forward properties, evening wine hours, and pet-friendly policies. Stays code as a hotel or travel purchase, so a hotel-bonus or broad travel card earns well. Because Kimpton sits inside IHG, the co-branded IHG cards and loyalty program can add value on top of your card's standard travel rewards.\n"
     },
     {
+      "name": "King of Christmas",
+      "slug": "king-of-christmas",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.kingofchristmas.com",
+      "intro": "King of Christmas sells premium artificial Christmas trees, wreaths, and garlands direct from kingofchristmas.com, competing with Balsam Hill on realism at a lower price point. A flocked eight-footer is a multi-hundred-dollar purchase most households make once a decade.\n\nTree buying concentrates in October and November, squarely inside Chase Freedom Flex's fourth-quarter categories in many years, which turns a big tree into 5 percent back. Otherwise Bank of America Customized Cash set to online shopping earns a dependable 3 percent, and off-season clearance in January is the value play.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.23248&trid=1552713.250147&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "King Soopers",
       "slug": "king-soopers",
       "categories": [
@@ -7497,6 +7845,19 @@
       }
     },
     {
+      "name": "Larson Jewelers",
+      "slug": "larson-jewelers",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.larsonjewelers.com",
+      "intro": "Larson Jewelers specializes in wedding bands, particularly alternative metals like tungsten, titanium, and meteorite inlay, sold direct from larsonjewelers.com with free engraving and lifetime sizing on most bands.\n\nA ring purchase is a one-time charge in the hundreds, coding as online retail. That makes it clean signup-bonus spend, and failing that, a Freedom Flex online-retail quarter at 5 percent or a Customized Cash online-shopping setting at 3 percent beats a flat rate. Jewelry stores rarely land in any issuer's bonus category, so the online coding here works in your favor.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.19343&trid=1552713.250134&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "LastPass",
       "slug": "lastpass",
       "categories": [
@@ -7628,6 +7989,19 @@
       ],
       "website": "https://www.lenscrafters.com",
       "intro": "LensCrafters, part of EssilorLuxottica, runs eye exams and sells frames and lenses from major brands across hundreds of US locations. Buying online codes as online shopping and earns on a card with that bonus, but in-store purchases typically land at flat-rate retail. Vision insurance and FSA funds frequently apply, so compare those against the points you would earn.\n"
+    },
+    {
+      "name": "LensDirect",
+      "slug": "lensdirect",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.lensdirect.com",
+      "intro": "LensDirect sells contact lenses, prescription glasses, and its Lens Replacement service that puts new prescription lenses in frames you already own, shipping from lensdirect.com with aggressive subscription discounts on contacts.\n\nContacts are FSA and HSA eligible, so pre-tax dollars come first. Out of pocket, a contacts subscription is steady recurring spend for a Bank of America Customized Cash set to online shopping at 3 percent, and an annual-supply purchase is worth timing to a Freedom Flex online-retail quarter for 5 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.27656&trid=1552713.162257&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Les Schwab Tire Center",
@@ -8034,6 +8408,20 @@
       ],
       "website": "https://www.lushusa.com",
       "intro": "Lush Fresh Handmade Cosmetics is a British beauty brand best known for bath bombs,\nshampoo bars, and packaging-light skincare. The U.S. footprint covers about 200 mall\nand street-front stores plus lushusa.com. Direct purchases typically code as\ndepartment store in person and online shopping for web orders, while the free Lush\nRewards program offers points and member perks that stack with credit card earnings.\nLush does not run a U.S. branded credit card.\n"
+    },
+    {
+      "name": "LuxeDecor",
+      "slug": "luxedecor",
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.luxedecor.com",
+      "intro": "LuxeDecor is an online furniture and lighting retailer carrying hundreds of premium brands, from Uttermost mirrors to whole dining sets, with white-glove delivery on big pieces ordered through luxedecor.com.\n\nFurniture orders run four figures, so the first question is financing versus rewards: if you can pay in full, a signup bonus absorbs a sofa-sized charge nicely. U.S. Bank Cash+ with furniture-stores selected reaches 5 percent when the charge classifies under furniture, and Customized Cash online shopping at 3 percent covers orders that code as generic online retail.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.24586&trid=1552713.249607&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Lyft",
@@ -8527,7 +8915,11 @@
         "online_shopping"
       ],
       "website": "https://www.michaelkors.com",
-      "intro": "Michael Kors is the flagship accessible luxury brand under Capri Holdings, which also\nowns Versace and Jimmy Choo. The U.S. footprint includes hundreds of Lifestyle and\noutlet stores plus michaelkors.com selling handbags, watches, footwear, and ready to\nwear. Direct purchases typically code as department store in person and online\nshopping for web orders, while MK bought at department stores codes under the host\nretailer. The free KORSVIP loyalty program stacks with credit card earnings.\n"
+      "intro": "Michael Kors is the flagship accessible luxury brand under Capri Holdings, which also\nowns Versace and Jimmy Choo. The U.S. footprint includes hundreds of Lifestyle and\noutlet stores plus michaelkors.com selling handbags, watches, footwear, and ready to\nwear. Direct purchases typically code as department store in person and online\nshopping for web orders, while MK bought at department stores codes under the host\nretailer. The free KORSVIP loyalty program stacks with credit card earnings.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54310&trid=1552713.250376&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Michaels",
@@ -8846,6 +9238,34 @@
       ],
       "website": "https://www.murphyusa.com",
       "intro": "Murphy USA runs about 1,700 low-price gas and convenience stations across the U.S.,\nmany of them sited in Walmart parking lots under the Murphy USA or Murphy Express\nbanners. The chain competes primarily on price per gallon. Fuel codes as gas at the\npump, so any gas category bonus card will earn its full multiplier. The Murphy Drive\nRewards loyalty app and Murphy USA Visa add per-gallon discounts that can stack with a\nmajor-issuer gas card if used carefully.\n"
+    },
+    {
+      "name": "Mustela",
+      "slug": "mustela",
+      "categories": [
+        "online_shopping",
+        "drugstores"
+      ],
+      "website": "https://www.mustelausa.com",
+      "intro": "Mustela is a French baby-skincare brand whose gentle cleansers, diaper creams, and maternity oils have been pediatrician-office staples for decades. US orders ship from mustelausa.com and code as online retail, though the same products sit on drugstore and Target shelves.\n\nBaby-care restocking is steady repeat spend: direct orders fit a Bank of America Customized Cash set to online shopping at 3 percent, while buying the same products at a drugstore instead lets a Chase Freedom Flex drugstore quarter or an everyday drugstore category card do better.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.37322&trid=1552713.249810&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "N.Peal",
+      "slug": "n-peal",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://www.npeal.com",
+      "intro": "N.Peal is a London cashmere house selling sweaters, scarves, and the polo necks it famously supplied to the James Bond films, shipping to the US from npeal.com. A single sweater runs several hundred dollars, coding as online clothing retail.\n\nBecause the London shipper can settle charges outside the US, use a card with no foreign transaction fee to be safe. Beyond that, luxury knitwear is a good signup-bonus vehicle, and a Freedom Flex online-retail quarter at 5 percent beats any flat rate when the timing works.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10161&trid=1552713.250286&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Naked Wines",
@@ -9175,6 +9595,20 @@
       }
     },
     {
+      "name": "Norma Kamali",
+      "slug": "norma-kamali",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://normakamali.com",
+      "intro": "Norma Kamali is the designer label behind the sleeping-bag coat and decades of swim and jersey pieces, sold direct from normakamali.com. Orders code as online clothing retail, and the brand runs a strong archive-sale cadence between collections.\n\nDesigner orders are lumpy spend: a coat-sized charge suits a signup-bonus push, while a Bank of America Customized Cash set to online shopping earns 3 percent on swim-season restocks and a Freedom Flex online-retail quarter lifts a sale haul to 5 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10141&trid=1552713.250287&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Northern Tool + Equipment",
       "slug": "northern-tool-plus-equipment",
       "aliases": [
@@ -9329,6 +9763,20 @@
       }
     },
     {
+      "name": "Olive & June",
+      "slug": "olive-and-june",
+      "categories": [
+        "online_shopping",
+        "drugstores"
+      ],
+      "website": "https://oliveandjune.com",
+      "intro": "Olive & June turned the at-home manicure into a system, selling polish, press-ons, and its Mani System kits direct from oliveandjune.com, with much of the line also on Target and Walmart shelves. Direct orders code as online retail.\n\nThe brand runs on repeat polish and press-on orders, natural territory for a Customized Cash set to online shopping at 3 percent. If you shop the same products through Target instead, a RedCard's flat 5 percent quietly beats every general category card.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.10369&trid=1552713.249434&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Olive Garden",
       "slug": "olive-garden",
       "categories": [
@@ -9336,6 +9784,19 @@
       ],
       "website": "https://www.olivegarden.com",
       "intro": "Olive Garden is a U.S. casual-dining chain with about 900 domestic locations,\nowned by Darden Restaurants. Charges code as dining on every card we track, so\nAmex Gold 4x (capped), Sapphire Preferred 3x, and SavorOne 3% all earn the\ndining bonus. Eligible Darden gift cards purchased through the My Olive Garden\nRewards or Darden portals occasionally code as gift cards rather than dining,\nworth checking before bulk-buying.\n"
+    },
+    {
+      "name": "OLIVE YOUNG",
+      "slug": "olive-young",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://global.oliveyoung.com",
+      "intro": "OLIVE YOUNG is Korea's dominant health-and-beauty chain, and its global site ships the K-beauty brands that fill its Seoul stores, from COSRX to Torriden, direct to US shoppers with frequent sitewide sales. Orders from global.oliveyoung.com code as online retail.\n\nOrders ship from Korea, so a no-foreign-transaction-fee card is the first filter in case the charge settles abroad. From there, K-beauty hauls are classic online-shopping category spend: Customized Cash at 3 percent always, Freedom Flex at 5 percent in an online-retail quarter.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=1.54267&trid=1552713.233494&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Ollie's Bargain Outlet",
@@ -9411,6 +9872,20 @@
       "intro": "OneTravel is an online travel agency that lets shoppers search and book flights, hotels,\ncar rentals, and vacation packages across multiple airlines and hotel chains from a\nsingle site, similar to other discount OTAs. Because it's a booking aggregator rather\nthan a single airline or hotel brand, purchases typically post under a general travel\nmerchant category. There's no OneTravel credit card, so a broad travel-rewards card that\nearns bonus points on travel-category purchases, or a flat-rate cashback card, is the\nbest way to earn when booking through OneTravel.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.35420.1010000558&trid=1552713.157114&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Only Natural Pet",
+      "slug": "only-natural-pet",
+      "categories": [
+        "pet_supplies",
+        "online_shopping"
+      ],
+      "website": "https://www.onlynaturalpet.com",
+      "intro": "Only Natural Pet sells holistic pet food, supplements, and flea-and-tick alternatives from onlynaturalpet.com, with autoship discounts on the raw and freeze-dried lines it is known for. Orders code as pet supplies or online retail depending on the processor.\n\nRecurring autoship food orders are ideal for a card with a pet or online category: U.S. Bank Cash+ can take 5 percent with the right selection when charges classify under pet supplies, and Customized Cash online shopping covers the rest at 3 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.48318&trid=1552713.161389&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -9492,6 +9967,20 @@
       ],
       "website": "https://www.overstock.com",
       "intro": "Overstock, now operating as Bed Bath & Beyond online, sells furniture, rugs, and home goods at outlet prices. Orders code as online shopping rather than as a home-improvement category, so a flat-rate or online-retail card earns the most. Its larger furniture buys make a strong online-shopping multiplier especially worthwhile.\n"
+    },
+    {
+      "name": "OWC",
+      "slug": "owc",
+      "categories": [
+        "electronics_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.owc.com",
+      "intro": "OWC (Other World Computing) has supplied Mac upgrades since 1988, selling memory, SSDs, Thunderbolt docks, and external drives that Apple users buy when the built-in storage runs out, direct from owc.com. Orders code as online electronics retail.\n\nUpgrade purchases cluster around a new machine or a full drive: U.S. Bank Cash+ with electronics stores selected reaches 5 percent when the charge classifies that way, and a Customized Cash set to online shopping holds 3 percent on dock-and-cable orders that code as generic retail.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.50228&trid=1552713.249910&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Owlet",
@@ -9686,6 +10175,19 @@
       "intro": "Patagonia is a privately held outdoor and performance apparel brand owned by the\nHoldfast Collective, with about 40 U.S. retail stores plus a strong DTC business at\npatagonia.com. Direct purchases typically code as department store in person and\nonline shopping for web orders, while the Worn Wear resale platform issues store\ncredit for trade-ins. Patagonia does not offer a U.S. branded credit card, so most\nshoppers rely on a strong online or everyday multiplier for full-price gear.\n"
     },
     {
+      "name": "Patchology",
+      "slug": "patchology",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.patchology.com",
+      "intro": "Patchology makes single-use skincare you can see working: under-eye gels, sheet masks, and lip patches in bright packaging that made it a gift-aisle and TikTok fixture. Direct orders from patchology.com code as online retail.\n\nThe basket here is small but frequent, stocking-stuffer economics, so an always-on rate beats quarter-chasing: Bank of America Customized Cash set to online shopping earns 3 percent, and holiday multi-pack hauls in a Freedom Flex online-retail quarter reach 5 percent.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.26120&trid=1552713.249636&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Paul Smith",
       "slug": "paul-smith",
       "aliases": [
@@ -9733,6 +10235,20 @@
       "intro": "Peak Design is a San Francisco based maker of camera bags, straps, tripods, and travel\ngear, best known for launching many of its products through record-setting Kickstarter\ncampaigns before selling direct at peakdesign.com. The company builds its own carry\nsystems, like the Capture clip and modular Travel Backpack line, aimed at photographers\nand frequent travelers who want gear that doubles as everyday carry. There is no Peak\nDesign co-brand credit card, so shoppers are best served by a flat-rate cashback card or\na card that boosts online shopping purchases when checking out directly on the brand's\nsite.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156372.6540870.1&trid=1552713.228553&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "PEARL iZUMi",
+      "slug": "pearl-izumi",
+      "categories": [
+        "sporting_goods",
+        "online_shopping"
+      ],
+      "website": "https://www.pearlizumi.com",
+      "intro": "PEARL iZUMi has made cycling apparel since 1950, and its bib shorts, jerseys, and shoes are the default kit recommendation in most bike shops. Direct orders from pearlizumi.com code as sporting goods or online retail.\n\nKit replacement comes in seasonal waves: U.S. Bank Cash+ with sporting goods selected hits 5 percent when the charge classifies under sporting goods, and Bank of America Customized Cash set to online shopping is the reliable 3 percent when a bib order codes as plain online retail.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156099.20053&trid=1552713.240541&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -10676,6 +11192,20 @@
       "intro": "Red Roof Inn is a US economy lodging chain with hundreds of pet-friendly properties, popular for budget road-trip stays. Direct bookings and stays code as a hotel or travel purchase, which a card with a hotel or broad travel bonus rewards. Booking through a card issuer's travel portal can boost earnings further, though it may limit any loyalty credit from the Red Roof program.\n"
     },
     {
+      "name": "Redbarn Pet Products",
+      "slug": "redbarn-pet-products",
+      "categories": [
+        "pet_supplies",
+        "online_shopping"
+      ],
+      "website": "https://www.redbarn.com",
+      "intro": "Redbarn is a family-run maker of dog chews, bully sticks, and rolled food that pet stores have stocked for thirty years, now selling direct from redbarn.com with subscription discounts on chew multi-packs.\n\nChew reorders are steady monthly spend. When charges classify under pet supplies, a U.S. Bank Cash+ selection can reach 5 percent; otherwise a Customized Cash set to online shopping earns 3 percent on the direct subscription, and buying Redbarn through a grocery run keeps it inside a groceries multiplier instead.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14165&trid=1552713.249457&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Reef",
       "slug": "reef",
       "categories": [
@@ -10710,6 +11240,20 @@
       ],
       "website": "https://www.rei.com",
       "intro": "REI is a member-owned outdoor co-op with about 180 U.S. stores, selling apparel,\ncamping, climbing, and cycling gear. REI codes under its own merchant category\non several cards (notably the Co-op Mastercard, which earns 5% back at REI for\nCo-op Members) and as online shopping for rei.com purchases otherwise. The $30\none-time Co-op membership earns an annual member dividend (~10% of purchases),\nplus member-only sales — typically the most valuable lever for heavy REI buyers\nbeyond any card bonus.\n"
+    },
+    {
+      "name": "Renogy",
+      "slug": "renogy",
+      "categories": [
+        "home_improvement",
+        "online_shopping"
+      ],
+      "website": "https://www.renogy.com",
+      "intro": "Renogy sells DIY solar: panels, charge controllers, batteries, and complete kits for RVs, vans, and off-grid cabins, direct from renogy.com. A full van-build kit is a four-figure order, and charges code as online retail or home improvement.\n\nSolar kits are ideal signup-bonus spend given the order size. Failing that, Bank of America Customized Cash pays 3 percent whether set to online shopping or home improvement, letting you match whichever way Renogy's processor classifies the charge.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14864&trid=1552713.250122&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Rent the Runway",
@@ -11231,6 +11775,20 @@
       }
     },
     {
+      "name": "Saramonic",
+      "slug": "saramonic",
+      "categories": [
+        "electronics_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.saramonic.com",
+      "intro": "Saramonic makes wireless microphones and audio gear for creators, its Blink clip-on mic systems being the budget alternative to Rode for podcasters and video shooters. Direct orders from saramonic.com code as online electronics retail.\n\nA mic system is a one-time purchase in the one-to-three-hundred range: U.S. Bank Cash+ with electronics stores selected reaches 5 percent when the charge classifies that way, with a Customized Cash online-shopping setting at 3 percent as the dependable fallback.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.33495&trid=1552713.249790&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Scheels",
       "slug": "scheels",
       "categories": [
@@ -11388,6 +11946,19 @@
       ],
       "website": "https://www.sephora.com",
       "intro": "Sephora is the largest U.S. beauty specialty retailer at about 600 stores, plus a\nseparate shop-in-shop presence inside Kohl's. Beauty doesn't have its own reward\ncategory on most general-purpose cards, so in-store purchases at Sephora typically fall\nback to a flat-rate cashback card. Online purchases at sephora.com code as online\nshopping. Sephora's own Beauty Insider points layer on top of card cashback.\n"
+    },
+    {
+      "name": "Setapp",
+      "slug": "setapp",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://setapp.com",
+      "intro": "Setapp is a subscription that unlocks 240-plus paid Mac and iOS apps, from CleanMyMac to Ulysses, for one monthly fee, billed by MacPaw from setapp.com. The charge is a recurring digital-services subscription.\n\nSoftware subscriptions rarely land in a bonus category, so the goal is a solid always-on rate: a flat 2 percent card or a Customized Cash set to online shopping at 3 percent if the charge codes as online retail. Prepaying the annual plan trims the price further and concentrates the charge for bonus-spend windows.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.5114&trid=1552713.249465&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Shake Shack",
@@ -11677,6 +12248,20 @@
       "intro": "Skechers is a comfort and lifestyle footwear brand with around 550 U.S. concept,\nfactory outlet, and warehouse stores plus skechers.com. Direct purchases typically\ncode as department store in person and online shopping for web orders, while Skechers\nbought at Famous Footwear, DSW, or Kohl's codes under those host retailers. The free\nSkechers Plus loyalty program offers points and a birthday reward and stacks with\ncredit card earnings.\n"
     },
     {
+      "name": "Ski-Doo",
+      "slug": "ski-doo",
+      "categories": [
+        "sporting_goods",
+        "online_shopping"
+      ],
+      "website": "https://www.ski-doo.com",
+      "intro": "Ski-Doo is BRP's snowmobile brand, and its online store sells the riding gear, helmets, and OEM parts and accessories that owners order between dealer visits. Gear orders from ski-doo.com code as sporting goods or online retail; the sleds themselves are dealer purchases.\n\nPre-season gear-up is the spend spike: U.S. Bank Cash+ with sporting goods selected reaches 5 percent when charges classify there, and a Customized Cash set to online shopping earns 3 percent on a parts order that codes as generic retail.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.25795&trid=1552713.249639&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Skillshare",
       "slug": "skillshare",
       "categories": [
@@ -11900,6 +12485,19 @@
       "intro": "Sony sells electronics, PlayStation gear, cameras and audio products across its various online storefronts. Direct purchases generally code as online shopping or general retail, so a card with an online or everyday-spending bonus is the better fit, and a shopping portal can sometimes add a small rebate on top.\n"
     },
     {
+      "name": "Soothe",
+      "slug": "soothe",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.soothe.com",
+      "intro": "Soothe is an on-demand wellness marketplace that sends licensed massage therapists, and in some cities estheticians, to your home or hotel, booked through soothe.com or its app with dynamic pricing by length and modality.\n\nBookings are card-not-present service charges that rarely classify under any bonus category, so a flat 2 percent card is the workhorse. A membership subscription lowers the per-massage price more than any rewards rate will, so optimize the price first and the card second.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.12833&trid=1552713.250315&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Soundcore",
       "slug": "soundcore",
       "aliases": [
@@ -12021,6 +12619,20 @@
       }
     },
     {
+      "name": "Splash Wines",
+      "slug": "splash-wines",
+      "categories": [
+        "online_shopping",
+        "groceries"
+      ],
+      "website": "https://splashwines.com",
+      "intro": "Splash Wines is a family-run online wine club shipping curated 6-to-15-bottle cases at aggressive intro pricing, with flexible subscriptions that let you skip or re-curate each shipment from splashwines.com.\n\nWine shipments code as online retail rather than liquor stores, which works in your favor: a Bank of America Customized Cash set to online shopping earns 3 percent on every case, and stacking a Freedom Flex online-retail quarter over a holiday case order reaches 5 percent. Check your state's direct-shipping rules before subscribing.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.33188&trid=1552713.249764&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Sportsman's Warehouse",
       "slug": "sportsmans-warehouse",
       "categories": [
@@ -12050,6 +12662,33 @@
       ],
       "website": "https://www.sprouts.com",
       "intro": "Sprouts Farmers Market is a natural-and-organic grocery chain with about 400 U.S.\nstores, leaning heavily on fresh produce and bulk foods. Sprouts codes cleanly as\ngroceries on every card we track. The strongest pairings are 6% Blue Cash Preferred\nand the U.S. Bank Shopper Cash Rewards (if Sprouts is selected as a chosen retailer);\nCapital One SavorOne earns 3% on groceries with no cap. Sprouts doesn't run a\nco-branded card, so general grocery cards are the standard answer.\n"
+    },
+    {
+      "name": "SPY Optic",
+      "slug": "spy-optic",
+      "categories": [
+        "online_shopping",
+        "sporting_goods"
+      ],
+      "website": "https://www.spyoptic.com",
+      "intro": "SPY Optic makes sunglasses and snow goggles with its Happy Lens tint, a So-Cal action-sports brand worn on mountains and job sites alike. Direct orders from spyoptic.com code as online retail, with some charges classifying as sporting goods.\n\nGoggle season concentrates the spend in fall: a Freedom Flex online-retail quarter lifts a goggle-and-lens order to 5 percent, U.S. Bank Cash+ with sporting goods selected can match it when the charge classifies that way, and Customized Cash online shopping holds 3 percent otherwise.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.34571&trid=1552713.249779&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "StackSocial",
+      "slug": "stacksocial",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.stacksocial.com",
+      "intro": "StackSocial sells deep-discount lifetime software licenses, online course bundles, and refurbished gadgets, the source of those \"lifetime cloud storage for $89\" deals that circulate every few months. Purchases from stacksocial.com code as online retail.\n\nDeal-site spending is impulse-shaped and small-ticket, so an always-on rate fits best: Customized Cash set to online shopping earns 3 percent, and a flat 2 percent card covers it with zero thought. Lifetime-deal fine print matters more than the rewards rate here, so read redemption terms before checkout.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14766&trid=1552713.249463&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "Stadium Goods",
@@ -12183,6 +12822,20 @@
       }
     },
     {
+      "name": "STIGA",
+      "slug": "stiga",
+      "categories": [
+        "sporting_goods",
+        "online_shopping"
+      ],
+      "website": "https://www.stigaus.com",
+      "intro": "STIGA is the Swedish table-tennis brand behind the tables, blades, and balls used in basements and tournament halls alike, selling its US line from stigaus.com. A tournament-grade table is a mid-hundreds purchase; paddles and balls are steady replacement spend.\n\nTable-tennis gear codes as sporting goods or online retail: U.S. Bank Cash+ with sporting goods selected reaches 5 percent when the charge classifies there, and Bank of America Customized Cash set to online shopping is the safe 3 percent for a table order.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.23852&trid=1552713.250148&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Stila",
       "slug": "stila-cosmetics",
       "aliases": [
@@ -12274,6 +12927,33 @@
       }
     },
     {
+      "name": "Stuhrling Original",
+      "slug": "stuhrling-original",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.stuhrling.com",
+      "intro": "Stuhrling Original sells affordable mechanical and automatic watches direct from stuhrling.com, putting skeleton dials and tourbillon-style complications at price points under a few hundred dollars. Orders code as online retail.\n\nWatches here are gift-season purchases: a Freedom Flex online-retail quarter in Q4 turns a gift watch into 5 percent back, and a Customized Cash set to online shopping earns 3 percent the rest of the year. Flash sales are constant, so the discount matters more than the multiplier.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.48882&trid=1552713.249877&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Stumptown Coffee Roasters",
+      "slug": "stumptown-coffee",
+      "categories": [
+        "dining",
+        "online_shopping"
+      ],
+      "website": "https://www.stumptowncoffee.com",
+      "intro": "Stumptown is the Portland roaster that helped define third-wave coffee, and its web store ships whole-bean subscriptions, cold brew, and brew gear from stumptowncoffee.com. Its cafes code as dining, while web orders code as online retail.\n\nA bean subscription is textbook recurring online spend for a Customized Cash set to online shopping at 3 percent. Orders at the cafes themselves land in the dining bucket instead, where an Amex Gold's 4x or any dining card outearns every online category.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156178.35221&trid=1552713.250304&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Subway",
       "slug": "subway",
       "categories": [
@@ -12347,6 +13027,20 @@
       "affiliate": {
         "url": "https://www.jdoqocy.com/click-101737824-15898110",
         "network": "cj"
+      }
+    },
+    {
+      "name": "Sunny Health & Fitness",
+      "slug": "sunny-health-and-fitness",
+      "categories": [
+        "sporting_goods",
+        "online_shopping"
+      ],
+      "website": "https://sunnyhealthfitness.com",
+      "intro": "Sunny Health & Fitness is the value brand behind the exercise bikes, rowers, and treadmills that dominate budget home-gym lists, sold direct from sunnyhealthfitness.com and through big marketplaces. Direct orders code as sporting goods or online retail.\n\nA cardio machine is a low-to-mid-hundreds one-time buy: U.S. Bank Cash+ with sporting goods selected reaches 5 percent when the charge classifies there, a Freedom Flex online-retail quarter matches it on timing, and Customized Cash online shopping is the dependable 3 percent floor.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.26943&trid=1552713.250157&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     },
     {
@@ -12548,6 +13242,20 @@
       "affiliate": {
         "url": "https://www.anrdoezrs.net/click-101737824-15919843",
         "network": "cj"
+      }
+    },
+    {
+      "name": "Teak Warehouse",
+      "slug": "teak-warehouse",
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.teakwarehouse.com",
+      "intro": "Teak Warehouse sells A-grade teak, wicker, and concrete outdoor furniture at container-import prices, shipping fully assembled dining sets and deep-seating collections from teakwarehouse.com with white-glove options.\n\nPatio sets run well into four figures, prime signup-bonus territory if you can pay in full. U.S. Bank Cash+ with furniture stores selected reaches 5 percent when the charge classifies under furniture, and Bank of America Customized Cash set to online shopping covers a 3 percent fallback on orders coding as online retail.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.35809&trid=1552713.249767&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     },
     {
@@ -12814,6 +13522,20 @@
       "intro": "The North Face is a U.S. outdoor-apparel brand owned by VF Corporation, with\nabout 150 retail stores plus extensive third-party distribution at REI, Dick's,\nBackcountry, and more. Direct purchases at thenorthface.com code as online\nshopping; in-store charges code as department stores or apparel. The XPLR Pass\nloyalty program is free and issues spend rewards plus first-access to limited\ndrops. Pair with an online-shopping-bonus card or flat-rate cashback.\n"
     },
     {
+      "name": "The Oodie",
+      "slug": "the-oodie",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://theoodie.com",
+      "intro": "The Oodie is the Australian brand that turned the oversized wearable blanket into a gifting phenomenon, selling hooded blanket-hoodies, sleep tees, and weighted blankets from theoodie.com in constant multi-buy bundle deals.\n\nOodie spend is almost entirely Q4 gifting, which lines up with Chase Freedom Flex's holiday-quarter categories for 5 percent when online retail is included. Outside the quarter, a Customized Cash set to online shopping earns 3 percent, and the bundle discounts stack on top of whatever card you use.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.24855&trid=1552713.250154&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "The Parking Spot",
       "slug": "the-parking-spot",
       "categories": [
@@ -12823,6 +13545,21 @@
       "intro": "The Parking Spot is the largest near-airport parking operator in the US, with covered and uncovered lots plus shuttle service at 25-plus airports, booked ahead on theparkingspot.com for member rates through its Spot Club program. Airport parking charges typically code as parking or travel merchants.\n\nParking spend near airports frequently counts toward travel multipliers (Chase Sapphire Preferred and Reserve both include parking in their travel definitions) and Capital One Venture X's flat 2x applies regardless of coding. Book prepaid online rather than paying the gate rate: the member discount usually outweighs any category difference.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.10415&trid=1552713.211617&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "The Pro's Closet",
+      "slug": "the-pros-closet",
+      "categories": [
+        "sporting_goods",
+        "online_shopping",
+        "secondhand_stores"
+      ],
+      "website": "https://www.theproscloset.com",
+      "intro": "The Pro's Closet is the largest online used-bike retailer in the US, selling certified pre-owned road, gravel, and mountain bikes with inspection reports and a 30-day return window from theproscloset.com. It also buys and takes trade-ins.\n\nA used carbon bike is a four-figure charge that codes as sporting goods or online retail: work it toward a signup bonus, or lean on U.S. Bank Cash+ with sporting goods selected for 5 percent when the classification cooperates. Trade-in credit reduces the charge, so decide on the trade before choosing the card.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.39275&trid=1552713.249819&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -12894,6 +13631,20 @@
       "intro": "Therabody is a wellness technology company best known for its Theragun percussive massage\ndevices, later expanding into recovery products like the RecoveryAir compression system\nand Bioboost wearables, sold through its own site as well as retailers such as Best Buy and\nDick's Sporting Goods. Therabody has no co-brand credit card. Ordering directly from\ntherabody.com is best matched to a card with a strong online shopping bonus category, while\na flat-rate cashback card is a reliable fallback for in-store retailer purchases.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.10041.3230206&trid=1552713.243987&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Thomas Pink",
+      "slug": "thomas-pink",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://www.thomaspink.com",
+      "intro": "Thomas Pink is the Jermyn Street shirtmaker behind sharply tailored dress shirts and the pink twill that made its name, relaunched direct-to-consumer at thomaspink.com. US orders code as online clothing retail.\n\nShirt wardrobes get rebuilt a few at a time, and multi-shirt bundles push the order into the hundreds: a Freedom Flex online-retail quarter lifts that to 5 percent, while Customized Cash set to online shopping earns 3 percent on a single-shirt top-up. UK-routed charges argue for a no-foreign-fee card as a precaution.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.44016&trid=1552713.249843&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -13109,6 +13860,20 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.9710.624887&trid=1552713.225825&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "wines under $15"
+      }
+    },
+    {
+      "name": "Totes",
+      "slug": "totes",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://www.totes.com",
+      "intro": "Totes is the umbrella and cold-weather accessories brand found at every department-store checkout, selling umbrellas, rain boots, and winter slippers direct from totes.com under the same corporate roof as Isotoner.\n\nThese are small-ticket practical purchases that cluster before winter and gift season: a Freedom Flex quarter covering online retail or department stores in Q4 reaches 5 percent, and a Customized Cash set to online shopping earns a steady 3 percent on the direct site year-round.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156052.10175&trid=1552713.250328&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     },
     {
@@ -13432,6 +14197,20 @@
       }
     },
     {
+      "name": "Ulanzi",
+      "slug": "ulanzi",
+      "categories": [
+        "electronics_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.ulanzi.com",
+      "intro": "Ulanzi makes affordable creator gear, phone tripods, camera cages, LED panels, and the desk-mount arms that fill every YouTube setup video, sold direct from ulanzi.com. Orders code as online electronics retail.\n\nCreator-accessory orders are frequent and under a hundred dollars each: U.S. Bank Cash+ with electronics stores selected reaches 5 percent when charges classify that way, and a Customized Cash set to online shopping is the reliable 3 percent for mixed accessory hauls.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.31511&trid=1552713.249704&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Ulta Beauty",
       "slug": "ulta",
       "aliases": [
@@ -13442,6 +14221,20 @@
       ],
       "website": "https://www.ulta.com",
       "intro": "Ulta Beauty is the largest U.S. beauty retailer by store count at about 1,400 locations,\ncovering both prestige and mass-market lines under one roof. Like Sephora, Ulta in-store\npurchases don't trigger a dedicated card category, so the right card there is usually a\nstrong flat-rate. Online purchases at ulta.com code as online shopping. Ultamate Rewards\nloyalty points stack with card cashback.\n"
+    },
+    {
+      "name": "Ultrahuman",
+      "slug": "ultrahuman",
+      "categories": [
+        "electronics_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.ultrahuman.com",
+      "intro": "Ultrahuman makes the Ring AIR smart ring and continuous-glucose-tracking products, competing with Oura on sleep and recovery tracking without a mandatory subscription. Hardware orders from ultrahuman.com code as online electronics retail.\n\nA smart ring is a one-time three-hundred-dollar-class purchase: U.S. Bank Cash+ with electronics stores selected reaches 5 percent if the charge classifies there, a Freedom Flex online-retail quarter matches it on timing, and Customized Cash online shopping holds the 3 percent floor.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.38784&trid=1552713.250189&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
     },
     {
       "name": "UnbeatableSale",
@@ -13485,6 +14278,20 @@
       "affiliate": {
         "url": "https://www.anrdoezrs.net/click-101737824-15222018",
         "network": "cj"
+      }
+    },
+    {
+      "name": "Uniform Advantage",
+      "slug": "uniform-advantage",
+      "categories": [
+        "online_shopping",
+        "select_clothing"
+      ],
+      "website": "https://www.uniformadvantage.com",
+      "intro": "Uniform Advantage outfits healthcare workers with scrubs from its house UA and Butter-Soft lines plus brands like FIGS competitors Cherokee and Grey's Anatomy, sold from uniformadvantage.com with group-order programs for practices.\n\nScrub replacement is predictable workwear spend that codes as online clothing retail: a Customized Cash set to online shopping earns 3 percent on routine reorders, and stocking a full rotation during a Freedom Flex online-retail quarter reaches 5 percent. Some employers reimburse scrubs, so keep itemized receipts.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.24120&trid=1552713.249600&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     },
     {
@@ -13607,6 +14414,20 @@
       "intro": "Vans is the skate and lifestyle footwear and apparel brand owned by VF Corporation,\nwith several hundred U.S. stores and a strong DTC site at vans.com. Direct purchases\ntypically code as department store in person and online shopping for web orders,\nwhile Vans bought at Foot Locker, Journeys, or Zumiez codes under that retailer. The\nfree Vans Family loyalty program offers points, free shipping, and event perks, but\nVans does not run a U.S. branded credit card today.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.48802.3801899&trid=1552713.166134&foc=16&fot=9999&fos=6",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "Vantrue",
+      "slug": "vantrue",
+      "categories": [
+        "electronics_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.vantrue.net",
+      "intro": "Vantrue makes dash cams, from single-lens commuters to three-channel rideshare setups with cabin recording, sold direct from vantrue.net. Rideshare drivers are the core customer, and orders code as online electronics retail.\n\nFor a working driver a dash cam is a business expense, so a business card with an electronics-friendly category fits; otherwise U.S. Bank Cash+ with electronics stores selected reaches 5 percent when the charge classifies there, with Customized Cash online shopping at 3 percent as the fallback.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.30643&trid=1552713.249720&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -13942,6 +14763,20 @@
       "intro": "Wacoal is a Japanese intimate apparel company whose American division sells bras,\nshapewear, and lingerie known for fit engineering and sizing that extends well beyond\nstandard ranges. Products are sold direct online as well as through department stores and\nspecialty lingerie retailers. There's no Wacoal co-brand credit card, so purchases are best\nmatched to a department-store rewards card when buying through a wholesale partner, or a\ngeneral online shopping or flat-rate cashback card for direct orders.\n"
     },
     {
+      "name": "Wacom",
+      "slug": "wacom",
+      "categories": [
+        "electronics_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.wacom.com",
+      "intro": "Wacom has defined the graphics tablet for three decades, from entry Intuos pads to Cintiq pen displays that digital artists treat as their primary monitor. US orders from wacom.com code as online electronics retail.\n\nA Cintiq is a four-figure charge that anchors a signup bonus nicely. Below that, U.S. Bank Cash+ with electronics stores selected reaches 5 percent when the charge classifies that way, and a Customized Cash set to online shopping earns 3 percent on pens, stands, and smaller tablets.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.17279&trid=1552713.249517&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Waffle House",
       "slug": "waffle-house",
       "categories": [
@@ -14073,6 +14908,19 @@
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.14695.3749619&trid=1552713.247914&foc=16&fot=9999&fos=6",
         "network": "flexoffers",
         "offer": "20% off"
+      }
+    },
+    {
+      "name": "Webroot",
+      "slug": "webroot",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.webroot.com",
+      "intro": "Webroot sells lightweight cloud-based antivirus and identity protection subscriptions for consumers and small offices, billed annually from webroot.com. The charge is a recurring digital-services subscription that renews at a higher price than the intro rate.\n\nSecurity subscriptions almost never land in a card bonus category, so a flat 2 percent card is the sensible default, or a Customized Cash set to online shopping at 3 percent when the charge codes as online retail. The bigger lever is re-buying at the intro price rather than letting auto-renew reprice you.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.29798&trid=1552713.249707&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     },
     {
@@ -14284,6 +15132,19 @@
       "intro": "Wingstop is a Dallas-based wing-focused quick-service chain with more than 2,400\nrestaurants worldwide. The menu centers on classic and boneless wings in flavors\nlike Lemon Pepper, Louisiana Rub, and Mango Habanero plus signature seasoned\nfries. Wingstop transactions code as restaurants on Visa, Mastercard, and Amex\nnetworks, which makes them eligible for dining bonus categories.\n\nThe Amex Gold pays 4x on U.S. restaurants and is the highest standing earner for\nfrequent Wingstop ordering, while the Chase Sapphire Reserve pays 3x and includes\ntravel protection if redeemed through Chase. The Capital One SavorOne offers 3\npercent dining with no annual fee. Wingstop also runs the MyWingstop loyalty\nprogram with points that stack with credit card rewards on app and online orders.\n"
     },
     {
+      "name": "Winky Lux",
+      "slug": "winky-lux",
+      "categories": [
+        "online_shopping"
+      ],
+      "website": "https://www.winkylux.com",
+      "intro": "Winky Lux makes playful, Instagram-native makeup, flower-embedded lip balms, coffee-scented bronzer, and skincare in collectible packaging, sold direct from winkylux.com and through Target. Direct orders code as online retail.\n\nThe basket is small and giftable, so steady beats optimal: a Customized Cash set to online shopping earns 3 percent on direct orders, holiday sets in a Freedom Flex online-retail quarter reach 5 percent, and picking up the Target-stocked items on a RedCard run earns a flat 5 percent instead.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.38608&trid=1552713.249805&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
       "name": "Winn-Dixie",
       "slug": "winn-dixie",
       "categories": [
@@ -14418,6 +15279,20 @@
       "intro": "Wyze made its name selling a competent $20 security camera and now covers the whole budget smart home: cams, video doorbells, locks, vacuums, and the Cam Plus subscription that unlocks cloud features. Hardware and subscriptions bill from wyze.com and code as online electronics retail.\n\nWyze orders are frequent and small, which favors an always-on category: U.S. Bank Cash+ set to electronics stores can return 5 percent where the charge classifies as electronics, Bank of America Customized Cash set to online shopping earns 3 percent on both hardware and Cam Plus renewals, and flat 2 percent covers the impulse camera.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.27209&trid=1552713.249672&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
+      }
+    },
+    {
+      "name": "X-Chair",
+      "slug": "x-chair",
+      "categories": [
+        "online_shopping",
+        "office_supplies"
+      ],
+      "website": "https://www.xchair.com",
+      "intro": "X-Chair sells high-adjustability ergonomic office chairs with its Dynamic Variable Lumbar support, plus standing desks, direct from xchair.com. A configured chair runs high hundreds to over a thousand dollars and codes as online retail or office furniture.\n\nA chair-sized charge is good signup-bonus fodder, and remote workers may find employers reimburse part of it. On rewards alone, Chase Ink Business Cash covers office-supply-classified charges at 5 percent for business buyers, while Customized Cash online shopping holds 3 percent for personal orders.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.32243&trid=1552713.249239&foc=17&fot=9999&fos=6&url=",
         "network": "flexoffers"
       }
     },
@@ -14566,6 +15441,20 @@
       "affiliate": {
         "url": "https://www.dpbolvw.net/click-101737824-17177799",
         "network": "cj"
+      }
+    },
+    {
+      "name": "Zinus",
+      "slug": "zinus",
+      "categories": [
+        "furniture_stores",
+        "online_shopping"
+      ],
+      "website": "https://www.zinus.com",
+      "intro": "Zinus is the bed-in-a-box value brand whose green-tea memory-foam mattresses and steel bed frames top budget-sleep rankings, sold direct from zinus.com and through every major marketplace. Direct orders code as online retail or furniture.\n\nA mattress purchase lands in the hundreds: U.S. Bank Cash+ with furniture stores selected reaches 5 percent when the charge classifies under furniture, a Freedom Flex online-retail quarter matches it on timing, and Customized Cash online shopping is the dependable 3 percent floor.\n",
+      "affiliate": {
+        "url": "https://track.flexlinkspro.com/g.ashx?foid=156074.31148&trid=1552713.185357&foc=17&fot=9999&fos=6&url=",
+        "network": "flexoffers"
       }
     }
   ]

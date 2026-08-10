@@ -2028,3 +2028,213 @@ merchants:
   zinio:
     url: "https://www.dpbolvw.net/click-101737824-17177799"
     network: cj
+
+  # --- Added 2026-08-10 (FlexOffers approvals, Tier A+B) ---
+  # Deep links (foc=17) taken verbatim from the approved-programs sheet, with
+  # only the scheme upgraded http->https. `&url=` ships empty as provided
+  # (the form verified working 2026-08-05). No offers attached: the sheet
+  # carried none that met the evergreen rule. aerie / american-eagle /
+  # michael-kors attach to existing store pages (michael-kors carries the US
+  # Outlet program's deeplink); every other merchant ships with a new
+  # data/stores/<slug>.yaml page in the same change.
+  # Aerie US
+  aerie:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54137&trid=1552713.250288&foc=17&fot=9999&fos=6&url="
+  # American Eagle Outfitters
+  american-eagle:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54135&trid=1552713.250291&foc=17&fot=9999&fos=6&url="
+  # Amorepacific
+  amorepacific:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.40043&trid=1552713.249834&foc=17&fot=9999&fos=6&url="
+  # APMEX
+  apmex:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13444&trid=1552713.246173&foc=17&fot=9999&fos=6&url="
+  # ArtToFrames
+  arttoframes:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54129&trid=1552713.250102&foc=17&fot=9999&fos=6&url="
+  # Best Choice Products
+  best-choice-products:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33479&trid=1552713.230685&foc=17&fot=9999&fos=6&url="
+  # Better World Books
+  better-world-books:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.45965&trid=1552713.249884&foc=17&fot=9999&fos=6&url="
+  # Big Ass Fans
+  big-ass-fans:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54143&trid=1552713.250048&foc=17&fot=9999&fos=6&url="
+  # Billabong.com
+  billabong:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.53002&trid=1552713.196171&foc=17&fot=9999&fos=6&url="
+  # BioLite
+  biolite:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10164&trid=1552713.250032&foc=17&fot=9999&fos=6&url="
+  # Blueprint Prep
+  blueprint-prep:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11250&trid=1552713.249442&foc=17&fot=9999&fos=6&url="
+  # Bulletproof 360
+  bulletproof:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54192&trid=1552713.250009&foc=17&fot=9999&fos=6&url="
+  # Cafe Appliances (US)
+  cafe-appliances:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.107776&trid=1552713.250253&foc=17&fot=9999&fos=6&url="
+  # Capezio
+  capezio:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13815&trid=1552713.249456&foc=17&fot=9999&fos=6&url="
+  # Cle De Peau Beaute
+  cle-de-peau-beaute:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10170&trid=1552713.206155&foc=17&fot=9999&fos=6&url="
+  # DiscountMugs
+  discountmugs:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10632&trid=1552713.212723&foc=17&fot=9999&fos=6&url="
+  # Donner Music
+  donner-music:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.43895&trid=1552713.249842&foc=17&fot=9999&fos=6&url="
+  # Dr Dennis Gross
+  dr-dennis-gross:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10172&trid=1552713.250034&foc=17&fot=9999&fos=6&url="
+  # E-Z UP
+  e-z-up:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.44569&trid=1552713.249425&foc=17&fot=9999&fos=6&url="
+  # Felix Gray
+  felix-gray:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41566&trid=1552713.232890&foc=17&fot=9999&fos=6&url="
+  # Flower.com Flowers
+  flower-com:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.13581&trid=1552713.249104&foc=17&fot=9999&fos=6&url="
+  # GoCity
+  gocity:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101100673&trid=1552713.203873&foc=17&fot=9999&fos=6&url="
+  # Half Price Drapes
+  half-price-drapes:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33761&trid=1552713.249746&foc=17&fot=9999&fos=6&url="
+  # ibuypower
+  ibuypower:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14818&trid=1552713.249464&foc=17&fot=9999&fos=6&url="
+  # Isotoner Affiliate Program
+  isotoner:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10174&trid=1552713.250330&foc=17&fot=9999&fos=6&url="
+  # Italist US
+  italist:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.53066&trid=1552713.249284&foc=17&fot=9999&fos=6&url="
+  # King of Christmas
+  king-of-christmas:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23248&trid=1552713.250147&foc=17&fot=9999&fos=6&url="
+  # Larson Jewelers
+  larson-jewelers:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.19343&trid=1552713.250134&foc=17&fot=9999&fos=6&url="
+  # LensDirect.com
+  lensdirect:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27656&trid=1552713.162257&foc=17&fot=9999&fos=6&url="
+  # LuxeDecor
+  luxedecor:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24586&trid=1552713.249607&foc=17&fot=9999&fos=6&url="
+  # Michael Kors US Outlet
+  michael-kors:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54310&trid=1552713.250376&foc=17&fot=9999&fos=6&url="
+  # Mustela USA
+  mustela:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37322&trid=1552713.249810&foc=17&fot=9999&fos=6&url="
+  # N.Peal
+  n-peal:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10161&trid=1552713.250286&foc=17&fot=9999&fos=6&url="
+  # NORMA KAMALI
+  norma-kamali:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10141&trid=1552713.250287&foc=17&fot=9999&fos=6&url="
+  # Olive & June
+  olive-and-june:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10369&trid=1552713.249434&foc=17&fot=9999&fos=6&url="
+  # OLIVE YOUNG US
+  olive-young:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.54267&trid=1552713.233494&foc=17&fot=9999&fos=6&url="
+  # Only Natural Pet
+  only-natural-pet:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.48318&trid=1552713.161389&foc=17&fot=9999&fos=6&url="
+  # Other World Computing (OWC)
+  owc:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.50228&trid=1552713.249910&foc=17&fot=9999&fos=6&url="
+  # Patchology
+  patchology:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26120&trid=1552713.249636&foc=17&fot=9999&fos=6&url="
+  # PEARL iZUMi
+  pearl-izumi:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156099.20053&trid=1552713.240541&foc=17&fot=9999&fos=6&url="
+  # Redbarn Pet Products
+  redbarn-pet-products:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14165&trid=1552713.249457&foc=17&fot=9999&fos=6&url="
+  # Renogy Affiliate Program
+  renogy:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14864&trid=1552713.250122&foc=17&fot=9999&fos=6&url="
+  # Saramonic
+  saramonic:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33495&trid=1552713.249790&foc=17&fot=9999&fos=6&url="
+  # Setapp
+  setapp:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5114&trid=1552713.249465&foc=17&fot=9999&fos=6&url="
+  # Ski-Doo
+  ski-doo:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25795&trid=1552713.249639&foc=17&fot=9999&fos=6&url="
+  # Soothe
+  soothe:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12833&trid=1552713.250315&foc=17&fot=9999&fos=6&url="
+  # Splash Wines
+  splash-wines:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33188&trid=1552713.249764&foc=17&fot=9999&fos=6&url="
+  # SPY Optic
+  spy-optic:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.34571&trid=1552713.249779&foc=17&fot=9999&fos=6&url="
+  # StackSocial
+  stacksocial:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14766&trid=1552713.249463&foc=17&fot=9999&fos=6&url="
+  # STIGA US
+  stiga:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23852&trid=1552713.250148&foc=17&fot=9999&fos=6&url="
+  # Stuhrling Original
+  stuhrling-original:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.48882&trid=1552713.249877&foc=17&fot=9999&fos=6&url="
+  # Stumptown Coffee Roasters
+  stumptown-coffee:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.35221&trid=1552713.250304&foc=17&fot=9999&fos=6&url="
+  # Sunny Health & Fitness
+  sunny-health-and-fitness:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26943&trid=1552713.250157&foc=17&fot=9999&fos=6&url="
+  # Teak Warehouse
+  teak-warehouse:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.35809&trid=1552713.249767&foc=17&fot=9999&fos=6&url="
+  # The Oodie US
+  the-oodie:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24855&trid=1552713.250154&foc=17&fot=9999&fos=6&url="
+  # The Pro's Closet - TPC
+  the-pros-closet:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.39275&trid=1552713.249819&foc=17&fot=9999&fos=6&url="
+  # Thomas Pink
+  thomas-pink:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.44016&trid=1552713.249843&foc=17&fot=9999&fos=6&url="
+  # Totes
+  totes:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10175&trid=1552713.250328&foc=17&fot=9999&fos=6&url="
+  # ULANZI
+  ulanzi:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31511&trid=1552713.249704&foc=17&fot=9999&fos=6&url="
+  # Ultrahuman Healthcare
+  ultrahuman:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.38784&trid=1552713.250189&foc=17&fot=9999&fos=6&url="
+  # Uniform Advantage
+  uniform-advantage:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24120&trid=1552713.249600&foc=17&fot=9999&fos=6&url="
+  # Vantrue Dashcam
+  vantrue:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.30643&trid=1552713.249720&foc=17&fot=9999&fos=6&url="
+  # Wacom
+  wacom:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17279&trid=1552713.249517&foc=17&fot=9999&fos=6&url="
+  # WEBROOT master
+  webroot:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.29798&trid=1552713.249707&foc=17&fot=9999&fos=6&url="
+  # Winky Lux
+  winky-lux:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.38608&trid=1552713.249805&foc=17&fot=9999&fos=6&url="
+  # X-Chair
+  x-chair:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.32243&trid=1552713.249239&foc=17&fot=9999&fos=6&url="
+  # Zinus
+  zinus:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31148&trid=1552713.185357&foc=17&fot=9999&fos=6&url="
