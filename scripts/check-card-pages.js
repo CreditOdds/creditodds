@@ -146,6 +146,56 @@ function withTimeout(promise, ms, label) {
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
+// A gap between two budget checks longer than this cannot be work: the main
+// loop caps a card at PER_CARD_TIMEOUT_MS (60s) plus a FETCH_DELAY_MS host
+// wait, and the retry pass adds at most its longest backoff on top. Anything
+// beyond that is the machine having been suspended.
+const SUSPEND_GAP_MS = Number(process.env.CARD_PAGE_SUSPEND_GAP_MS || 5 * 60 * 1000);
+
+/**
+ * The run's time budget, measured in ACTIVE time rather than wall clock.
+ *
+ * This job runs on a laptop, and a laptop on battery sleeps. Date.now() keeps
+ * advancing through sleep while the script does nothing, so a wall-clock
+ * deadline gets spent while suspended and the run stops having checked a
+ * fraction of the catalog. On 2026-08-10 that meant 76 of 168 cards in a
+ * nominal 150 minutes — about 25 minutes of real work stretched across three
+ * system sleeps (`pmset -g log` shows a 902-second 'Maintenance Sleep' on
+ * battery partway through).
+ *
+ * So: whenever two consecutive checks are further apart than any amount of work
+ * could explain, treat the gap as suspend time and push the deadline out by it.
+ * Sleeps observed on this machine run 900s+, comfortably clear of the 5-minute
+ * threshold, and a genuinely slow stretch stays inside it and is still charged.
+ *
+ * Detecting the gap after the fact is deliberate — there is no portable way to
+ * ask "were we asleep?", and this needs no OS APIs and no privileges.
+ */
+function createTimeBudget(totalMs, now = Date.now()) {
+  let deadline = now + totalMs;
+  let lastTick = now;
+
+  const tick = (at) => {
+    const gap = at - lastTick;
+    if (gap > SUSPEND_GAP_MS) deadline += gap;
+    lastTick = at;
+  };
+
+  return {
+    // Call once per unit of work. Advances the suspend accounting as a side
+    // effect, so callers must not treat it as a pure predicate.
+    expired(at = Date.now()) {
+      tick(at);
+      return at > deadline;
+    },
+    remainingMs(at = Date.now()) {
+      tick(at);
+      return Math.max(0, deadline - at);
+    },
+    suspendAdjustedMs: () => deadline,
+  };
+}
+
 // ─── YAML helpers ────────────────────────────────────────────────────────────
 
 function replaceYamlField(yamlText, field, newValue) {
@@ -265,6 +315,39 @@ function filterCardsForCheck(allCards, slugFilter) {
     }
   }
   return cards;
+}
+
+/**
+ * Order cards oldest-verification-first, so a run that does exhaust its budget
+ * starves a DIFFERENT slice each time.
+ *
+ * loadAllCards() returns readdir order, which is stable across runs. Combined
+ * with a truncating deadline that made the cut deterministic: the same
+ * alphabetical tail was dropped every single time, so those cards were never
+ * checked at all rather than checked less often. Sam's Club Mastercard sat at
+ * last_ok:null through 12 consecutive runs that way, and Wells Fargo, World of
+ * Hyatt and Wyndham were all in the same permanently-unreached block.
+ *
+ * Sorting by last_ok makes truncation self-correcting: whatever a run drops has
+ * the oldest timestamp next time and goes to the front. Never-verified cards
+ * lead, since they are the ones with no known-good data at all.
+ *
+ * Cheap-to-skip cards (known blocks) also sort to the front and stay there,
+ * which is harmless — knownBlockedReason() short-circuits before any fetch.
+ */
+function orderCardsByStaleness(cards, state = {}) {
+  return [...cards].sort((a, b) => {
+    const aOk = state[a.slug]?.last_ok;
+    const bOk = state[b.slug]?.last_ok;
+    if (!aOk !== !bOk) return aOk ? 1 : -1;
+    if (aOk && bOk) {
+      const delta = Date.parse(aOk) - Date.parse(bOk);
+      if (delta) return delta;
+    }
+    // Stable tiebreak so a run is reproducible and two cards never swap places
+    // between runs for no reason.
+    return a.slug.localeCompare(b.slug);
+  });
 }
 
 // ─── Page fetching ────────────────────────────────────────────────────────────
@@ -1812,7 +1895,14 @@ async function main() {
 
   console.log('Loading cards...');
   const allCards = loadAllCards();
-  const cardsToCheck = filterCardsForCheck(allCards, slugFilter);
+  // Prior runs' per-card knowledge: which cards need the browser (see
+  // BROWSER_FIRST_TTL_MS) and when each was last verified. Loaded before the
+  // check list is built because last_ok decides the order cards are checked in.
+  const prevState = loadSkipState();
+  const cardsToCheck = orderCardsByStaleness(
+    filterCardsForCheck(allCards, slugFilter),
+    prevState
+  );
 
   if (cardsToCheck.length === 0) {
     console.log('No active cards with apply_link found. Exiting.');
@@ -1849,13 +1939,12 @@ async function main() {
       knownBlock: resolveKnownBlock(checkUrlFor(card), opts),
     });
 
-  const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
+  const budget = createTimeBudget(SCRIPT_TIMEOUT_MS);
 
-  // Prior runs' per-card knowledge, read once up front: which cards are known
-  // to need the browser (see BROWSER_FIRST_TTL_MS). `browserFirstBySlug`
-  // collects the flags to persist for THIS run — a still-valid flag is carried
-  // forward with its original date so it eventually expires and re-probes.
-  const prevState = loadSkipState();
+  // `browserFirstBySlug` collects the flags to persist for THIS run — a
+  // still-valid flag is carried forward with its original date so it eventually
+  // expires and re-probes. (prevState itself is loaded above, before the check
+  // list is ordered.)
   const browserFirstBySlug = new Map();
 
   // Last time each hostname was actually hit; enforces FETCH_DELAY_MS per host.
@@ -1931,7 +2020,7 @@ async function main() {
   };
 
   for (const [i, card] of cardsToCheck.entries()) {
-    if (Date.now() > scriptDeadline) {
+    if (budget.expired()) {
       // Record the cards we never reached. Without this the loop just breaks and
       // they vanish — absent from both the checked set and the end-of-run skip
       // summary, so a truncated run is indistinguishable from a clean one.
@@ -2118,7 +2207,7 @@ async function main() {
       const pending = skippedCards.filter(s => !s.knownBlock && isTransientNetworkError(s.reason));
       if (pending.length === 0) break;
 
-      if (Date.now() + settleMs > scriptDeadline) {
+      if (settleMs > budget.remainingMs()) {
         console.warn(
           `\n⚠️  ${pending.length} network-error skip(s) left unretried — script deadline reached.`
         );
@@ -2133,7 +2222,7 @@ async function main() {
       await new Promise(r => setTimeout(r, settleMs));
 
       for (const entry of pending) {
-        if (Date.now() > scriptDeadline) {
+        if (budget.expired()) {
           console.warn('Script timeout reached — abandoning the remaining retries.');
           break;
         }
@@ -2403,6 +2492,8 @@ module.exports = {
   pageShowsSignupOffer,
   updateSkipState,
   resolveKnownBlock,
+  createTimeBudget,
+  orderCardsByStaleness,
   resolveSkipState,
   readSkipStateFromMain,
   staleCardsFrom,
