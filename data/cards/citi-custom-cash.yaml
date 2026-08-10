@@ -3,6 +3,14 @@ bank: "Citi"
 slug: "citi-custom-cash"
 image: "citi_custom_cash.png"
 accepting_applications: false
+# Reused verbatim from data/news/2026-05-27-citi-custom-cash-discontinuation-rumor.yaml
+replacement_cards:
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "The closest structure left: pick two 5% categories each quarter on the first $2,000, no annual fee."
+  - slug: "chase-freedom-flex"
+    reason: "5% on rotating quarterly categories up to $1,500, plus 3% on dining and drugstores, no annual fee."
+  - slug: "citi-double-cash"
+    reason: "Citi's own suggestion for new cash back applicants: 2% on everything, no annual fee."
 annual_fee: 0
 reward_type: "cashback"
 tags:

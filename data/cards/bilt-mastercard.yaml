@@ -3,6 +3,14 @@ bank: "Wells Fargo"
 slug: "bilt-mastercard"
 image: "bilt_mastercard.png"
 accepting_applications: false
+# Reused verbatim from data/news/2026-02-07-bilt-card-transition.yaml
+replacement_cards:
+  - slug: "bilt-blue"
+    reason: "Bilt's current no-fee card: rent still earns up to 1.25x, plus 3x on Bilt Travel hotels and 3x on Lyft."
+  - slug: "wells-fargo-autograph"
+    reason: "The card Wells Fargo moved many Bilt holders into: 3x on dining, travel, gas, transit, streaming, and phone, no annual fee."
+  - slug: "bilt-obsidian"
+    reason: "The $95 step up: choose 3x dining or groceries, keep the rent earning, and add travel rates."
 active: false
 category: "rewards"
 annual_fee: 0

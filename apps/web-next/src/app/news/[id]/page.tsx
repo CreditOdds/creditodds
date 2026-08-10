@@ -8,7 +8,7 @@ import { ArticleContent } from "@/components/articles/ArticleContent";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ReadingProgressBar } from "@/components/articles/ReadingProgressBar";
 import { RelatedCards } from "@/components/articles/RelatedCards";
-import { ReplacementCards } from "@/components/news/ReplacementCards";
+import { ReplacementCards } from "@/components/ui/ReplacementCards";
 import { RelatedCardInfo } from "@/lib/articles";
 import CardImage from "@/components/ui/CardImage";
 import { V2Footer } from "@/components/landing-v2/Chrome";
@@ -246,7 +246,8 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                 next question, and Related Cards points at the dead card. */}
             <ReplacementCards
               cards={item.replacement_cards_info ?? []}
-              articleId={item.id}
+              surface="news"
+              sourceId={item.id}
             />
 
             {relatedCards.length > 0 && <RelatedCards cards={relatedCards} />}

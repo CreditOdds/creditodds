@@ -2,6 +2,14 @@ name: "Wells Fargo Attune"
 bank: "Wells Fargo"
 slug: "wells-fargo-attune"
 accepting_applications: false
+# Reused verbatim from data/news/2026-06-16-wells-fargo-attune-discontinued.yaml
+replacement_cards:
+  - slug: "wells-fargo-autograph"
+    reason: "Wells Fargo's remaining no-fee category card: 3x on dining, travel, gas, transit, streaming, and phone plans."
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "Pick two 5% categories each quarter on the first $2,000 of spending, with no annual fee."
+  - slug: "wells-fargo-active-cash"
+    reason: "Flat 2% on everything, no annual fee, if you would rather not track categories at all."
 category: "cashback"
 image: "wells-fargo-attune.png"
 annual_fee: 0

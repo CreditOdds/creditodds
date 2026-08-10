@@ -3,6 +3,17 @@ bank: "U.S. Bank"
 slug: "kroger-rewards-world-elite-mastercard"
 image: "kroger-rewards-world-elite.png"
 accepting_applications: false
+# Reused verbatim from the Kroger conversion coverage
+# (data/news/2026-05-12-us-bank-kroger-cards-no-longer-accepting-applications.yaml).
+# Note that article's `card_slug` is the LIVE Smartly card, not this dead one —
+# the replacements belong to this page, which is the one readers land on.
+replacement_cards:
+  - slug: "blue-cash-preferred-card"
+    reason: "6% back at U.S. supermarkets on the first $6,000 a year, plus 3% on gas."
+  - slug: "blue-cash-everyday-card"
+    reason: "3% at U.S. supermarkets and 3% on gas with no annual fee, for lighter grocery baskets."
+  - slug: "us-bank-cash-plus-visa-signature"
+    reason: "Keeps the rewards with U.S. Bank: two 5% categories of your choosing each quarter, no annual fee."
 # One product, issued per Kroger Family of Companies banner. These are not
 # former names, they were concurrent brandings of this same card, which is why
 # they live here and not in previous_names. Reddit posters name the banner they

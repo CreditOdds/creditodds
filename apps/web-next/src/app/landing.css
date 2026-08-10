@@ -7188,6 +7188,29 @@
   }
 }
 
+/* Card-page placement. The rail itself was styled for article prose inside
+   .article-body; on a card page it sits full-bleed directly under the
+   pulled-card banner, so the slot supplies the page gutter the card layout
+   would otherwise provide and caps line length on wide screens. The rail's own
+   36px margin-top is overridden because here it follows a banner, not
+   paragraphs. Longhand padding on purpose: a shorthand here would be
+   overwritten wholesale by the mobile override below. */
+.landing-v2.card-journal .replacement-cards-banner-slot {
+  padding-inline: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.landing-v2.card-journal .replacement-cards-banner-slot .replacement-cards {
+  margin-top: 20px;
+  max-width: 720px;
+}
+@media (max-width: 767px) {
+  .landing-v2.card-journal .replacement-cards-banner-slot {
+    padding-inline: 16px;
+    padding-bottom: 20px;
+  }
+}
+
 .landing-v2 .article-follow {
   margin-top: 24px;
 }

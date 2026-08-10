@@ -237,6 +237,57 @@ function validateCard(card, schema, categoryIds, storeSlugs) {
     }
   }
 
+  // Validate replacement_cards shape. Cross-card resolution (does the slug
+  // exist, is it still open) needs every card loaded, so it happens in a second
+  // pass in buildCards() — this only covers what one card can check alone.
+  if (card.replacement_cards !== undefined) {
+    if (!Array.isArray(card.replacement_cards)) {
+      errors.push('replacement_cards must be an array');
+    } else if (card.replacement_cards.length > 4) {
+      errors.push('replacement_cards accepts at most 4 entries');
+    } else {
+      // Guard the whole point of the field: it answers "this card is gone, now
+      // what?". On a card still taking applications the rail would steer a
+      // ready-to-apply reader at a competitor, so treat it as an authoring bug
+      // rather than silently hiding it at render time.
+      if (card.accepting_applications !== false) {
+        errors.push(
+          'replacement_cards is only valid on a card with accepting_applications: false ' +
+          `(${card.slug} is still accepting applications)`
+        );
+      }
+      const seen = new Set();
+      for (const entry of card.replacement_cards) {
+        if (typeof entry !== 'object' || entry === null || Array.isArray(entry) || !entry.slug) {
+          errors.push('Each replacement_cards entry must be an object with a slug');
+          continue;
+        }
+        const extra = Object.keys(entry).filter(k => !['slug', 'reason'].includes(k));
+        if (extra.length > 0) {
+          errors.push(`Unknown replacement_cards field(s): ${extra.join(', ')}`);
+        }
+        if (typeof entry.slug !== 'string' || !/^[a-z0-9-]+$/.test(entry.slug)) {
+          errors.push(`Invalid replacement_cards slug: ${entry.slug} (must be lowercase with hyphens only)`);
+          continue;
+        }
+        if (seen.has(entry.slug)) {
+          errors.push(`Duplicate replacement_cards slug: ${entry.slug}`);
+        }
+        seen.add(entry.slug);
+        if (entry.slug === card.slug) {
+          errors.push(`replacement_cards slug ${entry.slug} is this card — a card cannot replace itself`);
+        }
+        if (entry.reason !== undefined) {
+          if (typeof entry.reason !== 'string') {
+            errors.push(`replacement_cards reason for ${entry.slug} must be a string`);
+          } else if (entry.reason.length > 160) {
+            errors.push(`replacement_cards reason for ${entry.slug} is ${entry.reason.length} chars (max 160)`);
+          }
+        }
+      }
+    }
+  }
+
   // Validate APR
   if (card.apr) {
     if (typeof card.apr !== 'object' || Array.isArray(card.apr)) {
@@ -369,6 +420,58 @@ function buildCards() {
         console.error(`    - ${err}`);
       }
     }
+    process.exit(1);
+  }
+
+  // Resolve replacement cards into self-contained objects, so the frontend
+  // never indexes parallel arrays (the bug this shape was chosen to avoid on
+  // the news side). Runs only once every card has parsed, because a slug can
+  // point at any other card in the set.
+  //
+  // Failures are fatal, matching build-news.js: the rail's whole job is to hand
+  // someone a card they can actually still get, and a bad slug either 404s or
+  // points at a second dead card — worse than rendering nothing.
+  const cardsLookup = Object.fromEntries(cards.map(c => [c.slug, c]));
+  const resolutionErrors = [];
+  for (const card of cards) {
+    if (!card.replacement_cards) continue;
+    const resolved = [];
+    for (const entry of card.replacement_cards) {
+      const target = cardsLookup[entry.slug];
+      if (!target) {
+        resolutionErrors.push(
+          `${card.slug}: replacement_cards slug "${entry.slug}" not found in data/cards`
+        );
+        continue;
+      }
+      if (target.accepting_applications === false) {
+        resolutionErrors.push(
+          `${card.slug}: replacement_cards slug "${entry.slug}" (${target.name}) is not accepting ` +
+          'applications — it cannot be offered as a replacement'
+        );
+        continue;
+      }
+      resolved.push({
+        slug: entry.slug,
+        name: target.card_name || target.name,
+        image: target.image || null,
+        bank: target.bank || '',
+        annual_fee: typeof target.annual_fee === 'number' ? target.annual_fee : null,
+        ...(entry.reason ? { reason: entry.reason } : {}),
+      });
+    }
+    card.replacement_cards_info = resolved;
+  }
+
+  if (resolutionErrors.length > 0) {
+    console.error(`\nReplacement-card resolution failed with ${resolutionErrors.length} error(s):`);
+    for (const err of resolutionErrors) {
+      console.error(`  - ${err}`);
+    }
+    console.error(
+      '\nFix the slug, or drop the entry. A replacement card must exist in data/cards\n' +
+      'and still be accepting applications.\n'
+    );
     process.exit(1);
   }
 
