@@ -1,0 +1,59 @@
+name: "Truist Business Premium"
+bank: "Truist"
+slug: "truist-business-premium"
+accepting_applications: true
+category: "business"
+annual_fee: 299
+annual_fee_intro:
+  value: 0
+  months: 12
+network: "visa"
+reward_type: "cashback"
+tags:
+  - business
+  - cashback
+  - premium
+rewards:
+  - category: everything_else
+    value: 2
+    unit: percent
+signup_bonus:
+  value: 1000
+  type: "cash"
+  spend_requirement: 15000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 15.74
+    max: 24.74
+benefits:
+  - name: "Annual Fee Waiver for High Spend"
+    value: 299
+    description: "The $299 annual fee is waived in any year the business puts $100,000 or more in eligible purchases on the card"
+    frequency: "annual"
+    category: "business"
+  - name: "Loyalty Cash Bonus"
+    value: 10
+    value_unit: "percent"
+    description: "10% bonus on rewards redeemed into an eligible Truist business deposit account"
+    frequency: "per_redemption"
+    category: "rewards"
+  - name: "Free Employee Cards"
+    value: 0
+    description: "Add authorized cardholders at no additional charge"
+    frequency: "ongoing"
+    category: "business"
+apply_link: https://www.truist.com/small-business/credit-cards/business-premium-rewards
+our_take: >
+  Truist Business Premium is a flat 2% card on a Visa Infinite Business chassis
+  with a $299 annual fee, and the fee is the whole question. It is waived the
+  first year and waived again in any year the business spends $100,000, which
+  is the spending level where the card is clearly meant to live. Below that,
+  paying $299 for 2% means you need roughly $15,000 a year in extra spending
+  versus a free 2% business card just to break even, and free flat rate
+  business cards are not scarce. The $1,000 bonus after $15,000 in 90 days is
+  real money and lands inside the waived first year, so a business with that
+  much near term spending can take the bonus, use the card for twelve months,
+  and decide later. Redeeming into a Truist business deposit account adds a
+  10% Loyalty Cash Bonus, lifting the effective rate to about 2.2%, which is
+  the version of the math Truist wants you to run.

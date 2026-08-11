@@ -1,0 +1,34 @@
+name: "Truist Business"
+bank: "Truist"
+slug: "truist-business"
+accepting_applications: true
+category: "business"
+annual_fee: 0
+network: "visa"
+tags:
+  - business
+  - balance_transfer
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 13.74
+    max: 22.74
+benefits:
+  - name: "Free Employee Cards"
+    value: 0
+    description: "Add authorized cardholders at no additional charge"
+    frequency: "ongoing"
+    category: "business"
+apply_link: https://www.truist.com/small-business/credit-cards/business-card
+our_take: >
+  This is Truist's no frills business card: no annual fee, no rewards, 12
+  months of 0% APR on purchases, and a regular range of 13.74% to 22.74% that
+  is the lowest in Truist's lineup by roughly two points. It exists for
+  businesses that expect to carry a balance, where a couple of points of APR
+  is worth more than 2% back that gets erased by interest anyway. If you pay
+  in full every month there is no argument for it over Truist's own Business
+  Cash Rewards, which costs the same nothing and actually earns. Employee
+  cards are free and it plugs into Truist's online banking and accounting
+  integrations like the rest of the lineup.

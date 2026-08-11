@@ -1,0 +1,34 @@
+name: "Truist Future"
+bank: "Truist"
+slug: "truist-future"
+accepting_applications: true
+category: "balance_transfer"
+annual_fee: 0
+foreign_transaction_fee: false
+network: "visa"
+tags:
+  - balance_transfer
+apr:
+  purchase_intro:
+    rate: 0
+    months: 15
+  balance_transfer_intro:
+    rate: 0
+    months: 15
+  regular:
+    min: 16.74
+    max: 25.74
+apply_link: https://www.truist.com/credit-cards/future
+our_take: >
+  Truist Future earns nothing, and that is the point: it is a low rate card
+  built for carrying a balance, with 15 months at 0% on purchases and on
+  balance transfers made within the first 90 days, then a regular range of
+  16.74% to 25.74% that starts about two points below Truist's rewards cards.
+  The balance transfer fee is 3% with a $10 minimum, so moving $8,000 costs
+  $240 up front and buys you more than a year of interest free runway. There
+  is no annual fee and no foreign transaction fee. The 90 day transfer window
+  is the trap to watch, since a transfer requested later pays the regular rate
+  from day one. Longer 0% windows exist elsewhere, but the low ongoing rate
+  after the intro period is what distinguishes this one, and it matters if you
+  expect to still be paying the balance down when the promo ends. Pay it off,
+  then move your spending to a card that actually earns.

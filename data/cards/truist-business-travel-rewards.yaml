@@ -1,0 +1,71 @@
+name: "Truist Business Travel Rewards"
+bank: "Truist"
+slug: "truist-business-travel-rewards"
+accepting_applications: true
+category: "business"
+annual_fee: 49
+annual_fee_intro:
+  value: 0
+  months: 12
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "miles"
+tags:
+  - business
+  - travel
+  - rewards
+rewards:
+  - category: airlines
+    value: 2
+    unit: points_per_dollar
+  - category: hotels
+    value: 2
+    unit: points_per_dollar
+  - category: car_rentals
+    value: 2
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 20000
+  type: "miles"
+  spend_requirement: 2000
+  timeframe_months: 3
+apr:
+  regular:
+    min: 15.74
+    max: 24.74
+benefits:
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 statement credit per organization for a Global Entry or TSA PreCheck application fee, once every four years"
+    frequency: "multi_year"
+    frequency_years: 4
+    category: "security"
+  - name: "Loyalty Travel Bonus"
+    value: 10
+    value_unit: "percent"
+    description: "10%, 25%, or 50% bonus when miles are redeemed for travel, with the tier set by your Truist deposit relationship"
+    frequency: "per_redemption"
+    category: "rewards"
+  - name: "Free Employee Cards"
+    value: 0
+    description: "Add authorized cardholders at no additional charge"
+    frequency: "ongoing"
+    category: "business"
+apply_link: https://www.truist.com/small-business/credit-cards/business-travel-rewards
+our_take: >
+  A $49 business travel card, free the first year, earning 2 miles per dollar
+  on airfare, hotels, and car rentals and 1 mile on everything else. The
+  20,000 mile bonus after $2,000 in 90 days covers the fee for years at face
+  value, and no foreign transaction fees make it usable on trips abroad, which
+  is where a business travel card has to work. The limits are the same ones
+  that apply across Truist's lineup: miles redeem through Truist rather than
+  transferring to airline or hotel programs, so their value is capped around a
+  cent each, and they expire five years after they are issued. A Global Entry
+  or TSA PreCheck credit of up to $120 every four years, granted per
+  organization rather than per cardholder, is a decent extra at this fee. If
+  your business travel is heavy or you want transferable points, a $95 card
+  with real partners will out earn this one; if it is occasional, the low fee
+  and free first year make it easy to justify.
