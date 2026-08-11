@@ -71,6 +71,15 @@ export interface PazeMerchant {
   offer?: string;
   /** Reported by users, not verified by us. Rendered with that caveat attached. */
   community?: CommunityNote;
+  /**
+   * Matching slug in data/stores, set ONLY where we hold an affiliate link for
+   * that exact merchant. The page swaps the outbound link for the tracking one
+   * when this resolves. Verified by comparing each store's `website` against
+   * the URL Paze's directory points at, because the near-misses are
+   * convincing: `caesars-rewards` is the casino, not Little Caesars, and
+   * `harrys` is the razor brand, not Harry & David.
+   */
+  storeSlug?: string;
 }
 
 /** Captured from paze.com/merchant-directory on 2026-08-10. */
@@ -145,6 +154,7 @@ export const PAZE_MERCHANTS: PazeMerchant[] = [
     name: 'GNC',
     url: 'https://www.gnc.com/',
     category: 'Beauty & Health',
+    storeSlug: 'gnc',
     community: {
       note: 'Two recurring complaints: Paze disappearing as a checkout option, and qualifying GNC purchases not generating the statement credit when every other merchant on the same card did. One user reports purchases from 10 July still uncredited a month later, with the items non-returnable.',
       asOf: '2026-08-09',
@@ -162,7 +172,7 @@ export const PAZE_MERCHANTS: PazeMerchant[] = [
       source: 'https://www.reddit.com/r/ChaseSapphire/comments/1vktslk/sephora_cfpb_update/',
     },
   },
-  { slug: 'pet-supermarket', name: 'Pet Supermarket', url: 'https://www.petsupermarket.com/', category: 'Food & Grocery' },
+  { slug: 'pet-supermarket', name: 'Pet Supermarket', url: 'https://www.petsupermarket.com/', category: 'Food & Grocery', storeSlug: 'pet-supermarket' },
   { slug: 'roku', name: 'Roku', url: 'https://www.roku.com/', category: 'Electronics' },
   { slug: 'xsolla', name: 'Xsolla', url: 'https://xsolla.com/', category: 'Electronics' },
   { slug: 'payrange', name: 'PayRange', url: 'https://payrange.com/', category: 'Services' },
@@ -182,15 +192,15 @@ export const PAZE_MERCHANTS: PazeMerchant[] = [
   { slug: 'proflowers', name: 'Proflowers', url: 'https://www.proflowers.com/', category: 'Flowers & Gifts' },
   { slug: 'teleflora', name: 'Teleflora', url: 'https://www.teleflora.com/', category: 'Flowers & Gifts' },
   { slug: 'harry-and-david', name: 'Harry & David', url: 'https://www.harryanddavid.com/', category: 'Flowers & Gifts' },
-  { slug: 'personalization-mall', name: 'Personalization Mall', url: 'https://www.personalizationmall.com/', category: 'Flowers & Gifts' },
+  { slug: 'personalization-mall', name: 'Personalization Mall', url: 'https://www.personalizationmall.com/', category: 'Flowers & Gifts', storeSlug: 'personalization-mall' },
   { slug: 'banter-by-piercing-pagoda', name: 'Banter by Piercing Pagoda', url: 'https://www.banter.com/', category: 'Apparel & Shoes' },
   { slug: 'jared', name: 'Jared', url: 'https://www.jared.com/', category: 'Apparel & Shoes' },
   { slug: 'kay-jewelers', name: 'KAY Jewelers', url: 'https://www.kay.com/', category: 'Apparel & Shoes' },
   { slug: 'zales', name: 'Zales', url: 'https://www.zales.com/', category: 'Apparel & Shoes' },
   { slug: 'lids', name: 'Lids', url: 'https://www.lids.com/', category: 'Apparel & Shoes' },
   { slug: 'fanatics', name: 'Fanatics', url: 'https://www.fanatics.com/pazepromo', category: 'Apparel & Shoes' },
-  { slug: 'durango', name: 'Durango', url: 'https://www.durangoboots.com/', category: 'Apparel & Shoes' },
-  { slug: 'georgia-boot', name: 'Georgia Boot', url: 'https://www.georgiaboot.com/', category: 'Apparel & Shoes' },
+  { slug: 'durango', name: 'Durango', url: 'https://www.durangoboots.com/', category: 'Apparel & Shoes', storeSlug: 'durango-boots' },
+  { slug: 'georgia-boot', name: 'Georgia Boot', url: 'https://www.georgiaboot.com/', category: 'Apparel & Shoes', storeSlug: 'georgia-boot' },
   { slug: 'muck-boot-company', name: 'Muck Boot Company', url: 'https://www.muckbootcompany.com/', category: 'Apparel & Shoes' },
   { slug: 'xtratuf', name: 'XTRATUF', url: 'https://www.xtratuf.com/', category: 'Apparel & Shoes' },
   { slug: 'broadway-com', name: 'Broadway.com', url: 'https://www.broadway.com/', category: 'Travel & Entertainment' },
@@ -200,6 +210,7 @@ export const PAZE_MERCHANTS: PazeMerchant[] = [
     name: 'StubHub',
     url: 'https://www.stubhub.com/',
     category: 'Travel & Entertainment',
+    storeSlug: 'stubhub',
     community: {
       note: 'Paze shows up at checkout on the web and mobile browser, but users report it missing in the StubHub app, and that the app and desktop show different ticket inventory. If the listing you want will not offer Paze, check the other surface before giving up. Stacks with a card StubHub credit for people who carry one.',
       asOf: '2026-08-07',
