@@ -1,0 +1,27 @@
+# Weekly dependency updates. The monorepo uses a single root lockfile
+# (workspaces), so all npm updates go through the root directory — a
+# per-workspace entry would try to write workspace lockfiles that don't exist.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-patch:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # Semver-major bumps need manual migration (firebase-admin 14,
+      # sharp 0.35 are known pending majors) — keep them out of the
+      # weekly noise; security advisories still surface via npm audit.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
