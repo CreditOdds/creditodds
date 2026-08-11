@@ -1,6 +1,7 @@
 name: "Truist Enjoy Cash Secured"
 bank: "Truist"
 slug: "truist-enjoy-cash-secured"
+image: "truist-enjoy-cash-secured.png"
 accepting_applications: true
 category: "secured"
 annual_fee: 0

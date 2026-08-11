@@ -1,6 +1,7 @@
 name: "Truist Enjoy Cash 3-2-1"
 bank: "Truist"
 slug: "truist-enjoy-cash-3-2-1"
+image: "truist-enjoy-cash-3-2-1.png"
 also_known_as:
   - "Truist Enjoy Cash"
 accepting_applications: true

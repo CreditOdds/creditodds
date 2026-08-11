@@ -1,6 +1,7 @@
 name: "Truist Enjoy Cash 1.5%"
 bank: "Truist"
 slug: "truist-enjoy-cash-1-5"
+image: "truist-enjoy-cash-1-5.png"
 accepting_applications: true
 category: "cashback"
 annual_fee: 0
