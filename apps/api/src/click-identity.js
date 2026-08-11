@@ -26,12 +26,43 @@ function getFirebaseAdmin() {
   }
 }
 
-// The API sits behind CloudFront, so requestContext.identity.sourceIp is a
-// CloudFront edge address, not the visitor. In the X-Forwarded-For chain the
-// last entry is CloudFront's own IP (appended by the API Gateway hop) and the
-// second-to-last is the address CloudFront saw as its TCP peer — the real
-// client. Anything earlier is client-supplied and spoofable.
+// The API sits behind CloudFront, so for CloudFront-routed traffic
+// requestContext.identity.sourceIp is an edge address, not the visitor: the
+// X-Forwarded-For chain reaching the Lambda is
+// "<client-supplied…>, <viewer IP>, <CloudFront edge IP>" — the last entry
+// appended by the API Gateway hop, the second-to-last being the address
+// CloudFront saw as its TCP peer, i.e. the real client.
+//
+// But the raw execute-api origin is also publicly reachable, and a direct
+// caller's chain is "<client-supplied…>, <caller IP>", which puts an
+// attacker-chosen value in the second-to-last slot — enough to forge the
+// ip_hash dedup on the anonymous ratings endpoint. So XFF is only trusted
+// when the request carries the x-origin-verify header the CloudFront
+// distribution attaches to origin requests (shared secret via the
+// OriginVerifySecret stack param). Anything else falls back to the
+// unforgeable TCP peer address in sourceIp. While ORIGIN_VERIFY_SECRET is
+// unset the legacy trust-XFF behavior applies unchanged — enable it with
+// apps/api/scripts/enable-origin-verify.sh.
+function timingSafeEqualStr(a, b) {
+  const ab = Buffer.from(String(a));
+  const bb = Buffer.from(String(b));
+  if (ab.length !== bb.length) return false;
+  return crypto.timingSafeEqual(ab, bb);
+}
+
 function getClientIp(event) {
+  const sourceIp = event.requestContext?.identity?.sourceIp || null;
+
+  const secret = process.env.ORIGIN_VERIFY_SECRET;
+  if (secret) {
+    const originHeader =
+      event.headers?.["X-Origin-Verify"] || event.headers?.["x-origin-verify"];
+    if (!originHeader || !timingSafeEqualStr(originHeader, secret)) {
+      // Direct-to-API-Gateway caller: the XFF chain is attacker-controlled.
+      return sourceIp;
+    }
+  }
+
   const xff =
     event.headers?.["X-Forwarded-For"] || event.headers?.["x-forwarded-for"];
   if (xff) {
@@ -42,7 +73,7 @@ function getClientIp(event) {
     if (chain.length >= 2) return chain[chain.length - 2];
     if (chain.length === 1) return chain[0];
   }
-  return event.requestContext?.identity?.sourceIp || null;
+  return sourceIp;
 }
 
 function hashIp(ip) {
