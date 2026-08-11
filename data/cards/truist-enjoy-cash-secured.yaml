@@ -1,0 +1,75 @@
+name: "Truist Enjoy Cash Secured"
+bank: "Truist"
+slug: "truist-enjoy-cash-secured"
+accepting_applications: true
+category: "secured"
+annual_fee: 0
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "cashback"
+tags:
+  - secured
+  - credit_builder
+  - cashback
+rewards:
+  - category: gas
+    value: 3
+    unit: percent
+    note: "$1,000 combined monthly cap across the 3% and 2% categories; 1% thereafter"
+    spend_cap: 1000
+    cap_period: monthly
+    rate_after_cap: 1
+  - category: ev_charging
+    value: 3
+    unit: percent
+    note: "$1,000 combined monthly cap across the 3% and 2% categories; 1% thereafter"
+    spend_cap: 1000
+    cap_period: monthly
+    rate_after_cap: 1
+  - category: groceries
+    value: 2
+    unit: percent
+    note: "$1,000 combined monthly cap across the 3% and 2% categories; 1% thereafter"
+    spend_cap: 1000
+    cap_period: monthly
+    rate_after_cap: 1
+  - category: utilities
+    value: 2
+    unit: percent
+    note: "$1,000 combined monthly cap across the 3% and 2% categories; 1% thereafter"
+    spend_cap: 1000
+    cap_period: monthly
+    rate_after_cap: 1
+  - category: everything_else
+    value: 1
+    unit: percent
+apr:
+  regular:
+    min: 26.74
+    max: 26.74
+benefits:
+  - name: "Loyalty Cash Bonus"
+    value: 10
+    value_unit: "percent"
+    description: "10% to 50% bonus on cash rewards redeemed into an eligible Truist deposit account, with the tier set by your combined Truist balances"
+    frequency: "per_redemption"
+    category: "rewards"
+  - name: "Credit Bureau Reporting"
+    value: 0
+    description: "Payment history reported monthly to all three major credit bureaus"
+    frequency: "monthly"
+    category: "security"
+apply_link: https://www.truist.com/credit-cards/enjoy-cash-secured
+our_take: >
+  Most secured cards give you nothing but a place to build history, so a
+  secured card earning 3% on gas and EV charging and 2% on groceries and
+  utilities is unusual, and Truist charges no annual fee to run it. The
+  security deposit starts at $400 and sets your credit limit, and payments
+  report to all three bureaus, which is the part that actually moves your
+  score. Read the limits before you get excited: the bonus rates share one
+  $1,000 monthly cap and drop to 1% past it, there is no intro APR, and the
+  rate is a flat 26.74%, so any balance you carry costs far more than the
+  rewards pay. Truist also publishes no automatic graduation path to an
+  unsecured card, so plan on asking for your deposit back rather than waiting
+  to be upgraded. Best used for a few small recurring charges paid in full
+  every month.

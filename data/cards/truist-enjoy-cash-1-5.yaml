@@ -1,0 +1,50 @@
+name: "Truist Enjoy Cash 1.5%"
+bank: "Truist"
+slug: "truist-enjoy-cash-1-5"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0
+foreign_transaction_fee: false
+network: "visa"
+reward_type: "cashback"
+tags:
+  - cashback
+  - rewards
+rewards:
+  - category: everything_else
+    value: 1.5
+    unit: percent
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  balance_transfer_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 18.74
+    max: 27.74
+benefits:
+  - name: "Loyalty Cash Bonus"
+    value: 10
+    value_unit: "percent"
+    description: "10% to 50% bonus on cash rewards redeemed into an eligible Truist deposit account, with the tier set by your combined Truist balances"
+    frequency: "per_redemption"
+    category: "rewards"
+apply_link: https://creditcard.digitalcommerce.truist.com/product/CRW
+page_check_url: https://www.truist.com/credit-cards/enjoy-cash
+our_take: >
+  This is the flat rate half of Truist Enjoy Cash: 1.5% on everything, no
+  categories, no caps, no annual fee. You choose between this and the tiered
+  3-2-1 version when you apply, and the choice is permanent, so it is worth
+  doing the arithmetic once. The tiered card caps its bonus rates at $1,000 of
+  combined monthly spending; if your gas, grocery, and utility spending runs
+  past that, or simply lands in categories the tiered version does not reward,
+  this version earns more. At 1.5% it is a middling flat rate card on its own,
+  since 2% cards with no annual fee are easy to find. What can move it is the
+  Loyalty Cash Bonus: redeem into an eligible Truist deposit account and 10% to
+  50% gets added, which at the top tier turns 1.5% into an effective 2.25%.
+  That upper tier takes a substantial Truist balance, so read the card as a
+  relationship product first and a flat rate card second. No foreign
+  transaction fees, and 12 months of 0% APR on purchases and on balance
+  transfers made in the first 90 days.
