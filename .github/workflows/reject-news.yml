@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout default branch
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # On pull_request events a bare checkout gives the PR's merge ref —
           # a DETACHED HEAD — so the plain `git push` below dies with
