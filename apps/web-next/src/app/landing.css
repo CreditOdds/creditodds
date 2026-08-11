@@ -12141,3 +12141,12 @@
   color: var(--muted);
   background: var(--paper-2);
 }
+
+/* Brand mark in the labs hero. Rounded to match the /tools card treatment. */
+.landing-v2.labs-v2 .labs-hero-logo {
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  line-height: 0;
+}
