@@ -19,6 +19,7 @@ const {
   isMerchantGated,
   summarizeRewards,
   buildCardSummary,
+  findUnsupportedRates,
 } = require('./post-new-card.js');
 
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
@@ -193,6 +194,110 @@ test('no card in data/cards puts a gated rate in the ungated line', () => {
     }
   }
   assert.deepEqual(offenders, [], `gated rates leaked into ungated copy:\n${offenders.join('\n')}`);
+});
+
+console.log('\nno-rewards cards');
+
+// The 2026-08-11 incident: both of these earn nothing, and both were announced
+// with an invented "3% on dining".
+for (const slug of ['truist-future', 'truist-business']) {
+  test(`${slug} summary says outright that it earns nothing`, () => {
+    const summary = buildCardSummary(loadCard(slug));
+    assert.match(summary, /earns no rewards at all, so do not mention any reward rate/);
+    assert.ok(!/Top rewards/.test(summary), `no-rewards card claimed top rewards:\n${summary}`);
+  });
+}
+
+console.log('\nfindUnsupportedRates');
+
+const NO_REWARDS = { name: 'Truist Future', rewards: undefined };
+const TIERED = {
+  name: 'Truist Enjoy Cash 3-2-1',
+  rewards: [
+    { category: 'gas', value: 3, unit: 'percent', rate_after_cap: 1 },
+    { category: 'groceries', value: 2, unit: 'percent', rate_after_cap: 1 },
+    { category: 'everything_else', value: 1, unit: 'percent' },
+  ],
+};
+const POINTS = {
+  name: 'Truist Enjoy Beyond',
+  rewards: [
+    { category: 'airlines', value: 3, unit: 'points_per_dollar' },
+    { category: 'dining', value: 2, unit: 'points_per_dollar' },
+  ],
+};
+
+test('the exact copy that shipped wrong is caught', () => {
+  assert.deepEqual(
+    findUnsupportedRates(
+      'Now on CreditOdds: The Truist Future credit card. Annual fee: $0. Earn 3% on dining, 2% on grocery stores, and 1% on all other purchases.',
+      NO_REWARDS
+    ),
+    ['3%', '2%', '1%']
+  );
+});
+
+test('a fee-only tweet for a no-rewards card passes', () => {
+  assert.deepEqual(
+    findUnsupportedRates('Now on CreditOdds: The Truist Business credit card, with a $0 annual fee.', NO_REWARDS),
+    []
+  );
+});
+
+test('rates the card actually has pass', () => {
+  assert.deepEqual(
+    findUnsupportedRates('Earn 3% on gas and EV charging, 2% on groceries, and 1% on everything else.', TIERED),
+    []
+  );
+});
+
+test('a rate the card does not have is caught even beside real ones', () => {
+  assert.deepEqual(
+    findUnsupportedRates('Earn 3% on gas, 2% on groceries, and 5% on travel.', TIERED),
+    ['5%']
+  );
+});
+
+test('points multipliers are checked the same way', () => {
+  assert.deepEqual(findUnsupportedRates('Earn 3x on airfare and 2x on dining.', POINTS), []);
+  assert.deepEqual(findUnsupportedRates('Earn 5x on airfare.', POINTS), ['5x']);
+});
+
+test('the word "percent" is caught too', () => {
+  assert.deepEqual(findUnsupportedRates('Earn 5 percent back on travel.', TIERED), ['5 percent']);
+});
+
+test('decimal rates match exactly', () => {
+  const flat = { rewards: [{ category: 'everything_else', value: 1.5, unit: 'percent' }] };
+  assert.deepEqual(findUnsupportedRates('Earn 1.5% on every purchase.', flat), []);
+  assert.deepEqual(findUnsupportedRates('Earn 1.75% on every purchase.', flat), ['1.75%']);
+});
+
+test('dollar amounts and bonus miles are not mistaken for rates', () => {
+  assert.deepEqual(
+    findUnsupportedRates(
+      'Sign-up bonus: 20,000 miles after $1,500 spend in 3 months. Annual fee: $95.',
+      NO_REWARDS
+    ),
+    []
+  );
+});
+
+test('a post-cap rate stated from the note is allowed', () => {
+  assert.deepEqual(findUnsupportedRates('3% on gas, then 1% past the cap.', TIERED), []);
+});
+
+test('every Truist card page of copy quoting its own rates would pass', () => {
+  // Regression net over real data: build the summary, pull every rate it
+  // contains, and confirm the guard accepts them. Catches a future formatter
+  // change that emits a rate in a shape allowedRateValues does not know about.
+  for (const file of fs.readdirSync(CARDS_DIR).filter(f => f.endsWith('.yaml'))) {
+    const card = yaml.load(fs.readFileSync(path.join(CARDS_DIR, file), 'utf8'));
+    const { ungated } = summarizeRewards(card.rewards);
+    if (!ungated) continue;
+    const unsupported = findUnsupportedRates(ungated, card);
+    assert.deepEqual(unsupported, [], `${file}: guard rejects its own summary (${unsupported.join(', ')})`);
+  }
 });
 
 console.log(failures === 0 ? '\nAll tests passed.' : `\n${failures} test(s) failed.`);

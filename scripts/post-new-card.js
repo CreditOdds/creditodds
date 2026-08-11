@@ -187,14 +187,90 @@ function buildCardSummary(card) {
       + `category-wide rate: ${gated}`
     );
   }
+  // Silence is what invited the invention. A card with no rewards used to
+  // produce a summary of just "Annual fee: $0", and the model filled the
+  // conspicuous gap left by the "state the top reward rate" rule with a rate
+  // of its own. Saying the card earns nothing, out loud, closes the gap.
+  if (!ungated && !gated) {
+    parts.push(
+      hasStatableReward(card.rewards)
+        ? 'No reward rate on this card can be stated plainly, so do not mention rewards at all'
+        : 'This card earns no rewards at all, so do not mention any reward rate'
+    );
+  }
   return parts.join('. ');
 }
 
-async function generatePost(card) {
+function hasStatableReward(rewards) {
+  return Array.isArray(rewards) && rewards.some(r => r && r.value && r.category);
+}
+
+/**
+ * Rate hallucination guard.
+ *
+ * gpt-4o-mini reads "State the most notable facts plainly (sign-up bonus, top
+ * reward rate, or annual fee)" as a template to fill rather than a menu of
+ * what happens to be available. On 2026-08-11 the Truist Future and Truist
+ * Business cards — both of which earn nothing at all, and whose summaries
+ * therefore carried only an annual fee — were each announced with an invented
+ * "3% on dining". Fluent copy, plausible number, no upstream check: the queue
+ * posts what it is handed, so the first reader of a fabricated rate is the
+ * public.
+ *
+ * So the copy is checked against the card data before it is queued. Every rate
+ * token in the tweet ("3%", "2x", "5 percent") must correspond to a rate the
+ * YAML actually carries. This is deliberately blunt — it does not care whether
+ * the number was applied to the right category, only that the number exists on
+ * the card — because the failure mode it exists to stop is invention, not
+ * mislabeling. Category scoping is what the gated-rate rules in the prompt are
+ * for.
+ *
+ * Note that a rate absent from the card data is a violation even when it is
+ * true of the real-world card: nothing outside `Details` reached the model, so
+ * a number that did not come from there was guessed, and today's lucky guess
+ * is tomorrow's wrong one.
+ */
+const RATE_TOKEN_RE = /(\d+(?:\.\d+)?)\s*(?:%|percent\b|x\b)/gi;
+
+function normalizeRate(value) {
+  return String(Number(String(value).replace(/,/g, '')));
+}
+
+function allowedRateValues(card) {
+  const allowed = new Set();
+  const rewards = Array.isArray(card.rewards) ? card.rewards : [];
+  for (const reward of rewards) {
+    if (!reward) continue;
+    if (reward.value !== undefined && reward.value !== null) allowed.add(normalizeRate(reward.value));
+    // `rate_after_cap` is the other number a truthful tweet may carry: the
+    // post-cap rate lives in the same note the model is shown.
+    if (reward.rate_after_cap !== undefined && reward.rate_after_cap !== null) {
+      allowed.add(normalizeRate(reward.rate_after_cap));
+    }
+  }
+  return allowed;
+}
+
+function findUnsupportedRates(text, card) {
+  const allowed = allowedRateValues(card);
+  const found = [];
+  for (const match of String(text).matchAll(RATE_TOKEN_RE)) {
+    if (!allowed.has(normalizeRate(match[1]))) found.push(match[0].trim());
+  }
+  return [...new Set(found)];
+}
+
+async function generatePost(card, rejectedRates = []) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY is required');
 
   const summary = buildCardSummary(card);
+
+  const correction = rejectedRates.length > 0
+    ? `\n\nYour previous attempt was rejected because it stated ${rejectedRates.join(', ')}, `
+      + 'which does not appear in Details above. Write the tweet again using only the facts '
+      + 'listed in Details. If that leaves nothing but an annual fee to report, say only that.'
+    : '';
 
   const prompt = `Write a short tweet announcing a newly added credit card on CreditOdds:
 Card: ${card.name}
@@ -206,6 +282,7 @@ Rules:
 - Open with a plain statement that the card is now listed, e.g. "Now on CreditOdds: ..." or "The ${card.name} has been added to CreditOdds"
 - Max 200 characters (shorter is better)
 - State the most notable facts plainly (sign-up bonus, top reward rate, or annual fee) — facts only, no editorializing
+- Every number in the tweet must come from Details above. Never state a reward rate, fee, or bonus that is not listed there, and never infer one from the card's name, its issuer, or what similar cards offer. A card with no rewards listed is a card that earns nothing: announce it on its fee and say nothing about rates
 - Rates under "Top rewards" apply to the whole category and can be stated plainly, e.g. "3% on dining"
 - Rates under "Merchant-limited rates" apply ONLY at the merchants named after "limited to". Either name that limit in the tweet (e.g. "5% on Intuit products") or leave the rate out entirely and use a top reward instead. Never write a merchant-limited rate as if it covered its whole category
 - Never repeat the labels from the details above ("merchant-limited", "top rewards", "applies to the whole category") in the tweet. Name the merchants directly instead
@@ -214,7 +291,7 @@ Rules:
 - No hashtags
 - Do NOT include any URL
 - Do NOT use em dashes
-- Do NOT use emojis`;
+- Do NOT use emojis${correction}`;
 
   const response = await fetchWithRetry('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -276,6 +353,8 @@ async function main() {
   const { files, dryRun } = parseArgs();
   console.log(`=== Queue New-Card Posts (${files.length} file${files.length === 1 ? '' : 's'})${dryRun ? ' [DRY RUN]' : ''} ===\n`);
 
+  const blocked = [];
+
   for (const filePath of files) {
     console.log(`Processing: ${filePath}`);
 
@@ -310,6 +389,24 @@ async function main() {
     let twitterText = null;
     try {
       postText = await generatePost(card);
+      let unsupported = findUnsupportedRates(postText, card);
+      if (unsupported.length > 0) {
+        console.log(`  Rejected (states ${unsupported.join(', ')}, not in the card data): ${postText}`);
+        postText = await generatePost(card, unsupported);
+        unsupported = findUnsupportedRates(postText, card);
+      }
+      // Two strikes and the card is dropped rather than queued. A missing
+      // announcement costs a little reach; a fabricated one is a false claim
+      // about a real issuer's product, published under our name.
+      if (unsupported.length > 0) {
+        blocked.push(card.slug);
+        console.error(
+          `::error::New-card post for ${card.slug} was NOT queued: the copy kept stating `
+          + `${unsupported.join(', ')}, which the card data does not have.`
+        );
+        console.error(`  Last attempt: ${postText}\n`);
+        continue;
+      }
       console.log(`  Generated (${postText.length} chars): ${postText}`);
       const banks = card.bank ? [card.bank] : [];
       const withHandles = appendBankHandles(postText, banks, TWEET_TEXT_LIMIT);
@@ -335,6 +432,17 @@ async function main() {
     }
   }
 
+  if (blocked.length > 0) {
+    // Deliberately not a non-zero exit: "Trigger Amplify rebuild" runs after
+    // this step in build-cards.yml with no `if: always()`, so failing here
+    // would skip the site deploy over a copy problem. The ::error:: annotation
+    // surfaces it on the run summary instead.
+    console.error(
+      `\n${blocked.length} card(s) had no post queued because the generated copy `
+      + `stated rates the card does not have: ${blocked.join(', ')}`
+    );
+  }
+
   console.log('=== Done ===');
 }
 
@@ -350,4 +458,6 @@ module.exports = {
   summarizeRewards,
   summarizeSignupBonus,
   buildCardSummary,
+  allowedRateValues,
+  findUnsupportedRates,
 };
