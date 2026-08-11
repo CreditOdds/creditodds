@@ -1,6 +1,7 @@
 name: "Truist Business"
 bank: "Truist"
 slug: "truist-business"
+image: "truist-business.png"
 accepting_applications: true
 category: "business"
 annual_fee: 0

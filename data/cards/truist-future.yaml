@@ -1,6 +1,7 @@
 name: "Truist Future"
 bank: "Truist"
 slug: "truist-future"
+image: "truist-future.png"
 accepting_applications: true
 category: "balance_transfer"
 annual_fee: 0

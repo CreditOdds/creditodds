@@ -1,6 +1,7 @@
 name: "Truist Business Premium"
 bank: "Truist"
 slug: "truist-business-premium"
+image: "truist-business-premium.png"
 accepting_applications: true
 category: "business"
 annual_fee: 299

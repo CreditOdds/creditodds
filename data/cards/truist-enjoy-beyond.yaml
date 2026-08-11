@@ -1,6 +1,7 @@
 name: "Truist Enjoy Beyond"
 bank: "Truist"
 slug: "truist-enjoy-beyond"
+image: "truist-enjoy-beyond.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95

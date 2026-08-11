@@ -1,6 +1,7 @@
 name: "Truist Enjoy Travel"
 bank: "Truist"
 slug: "truist-enjoy-travel"
+image: "truist-enjoy-travel.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 0
