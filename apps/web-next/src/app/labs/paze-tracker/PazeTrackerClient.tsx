@@ -1,19 +1,90 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import posthog from 'posthog-js';
+import { trackStoreEvent } from '@/lib/api';
 import {
   PAZE_CATEGORIES,
   PAZE_MERCHANTS,
   PAZE_DIRECTORY_CAPTURED,
   PAZE_PROMO,
   type PazeCategory,
+  type PazeMerchant,
 } from './merchants';
+
+/** Resolved on the server from data/stores; see resolveAffiliateLinks in page.tsx. */
+export interface AffiliateLink {
+  url: string;
+  network: string | null;
+  offer: string | null;
+}
+
+interface Props {
+  /** Keyed by store slug. Merchants without an entry keep their plain link. */
+  affiliateLinks: Record<string, AffiliateLink>;
+}
+
+/**
+ * The merchant name, pointed at our affiliate link where we hold one and at
+ * Paze's own destination otherwise.
+ *
+ * `rel="sponsored"` on the paid variant only, matching StoreAffiliateCta: it is
+ * the honest signal to search engines, and applying it to unpaid links would be
+ * a lie in the other direction. Both variants keep nofollow/noopener.
+ *
+ * Click tracking mirrors the store CTA so affiliate clicks from this page land
+ * in the same two places as everywhere else on the site: `trackStoreEvent` for
+ * the per-store aggregate and `affiliate_link_clicked` for PostHog. The
+ * `experiment_placement` value is what separates this surface in reporting.
+ */
+function MerchantLink({
+  merchant,
+  affiliate,
+}: {
+  merchant: PazeMerchant;
+  affiliate?: AffiliateLink;
+}) {
+  if (!affiliate) {
+    return (
+      <a
+        href={merchant.url}
+        className="labs-row-name"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
+        {merchant.name}
+      </a>
+    );
+  }
+
+  return (
+    <a
+      href={affiliate.url}
+      className="labs-row-name"
+      target="_blank"
+      rel="sponsored nofollow noopener noreferrer"
+      onClick={() => {
+        if (merchant.storeSlug) {
+          trackStoreEvent('affiliate_click', merchant.storeSlug).catch(() => {});
+        }
+        posthog.capture('affiliate_link_clicked', {
+          store_slug: merchant.storeSlug ?? null,
+          network: affiliate.network,
+          offer: affiliate.offer,
+          experiment_placement: 'paze_tracker',
+        });
+      }}
+    >
+      {merchant.name}
+    </a>
+  );
+}
 
 type Filter = PazeCategory | 'All';
 /** Merchants with field notes are the reason to visit, so they get their own filter. */
 type NotesFilter = 'all' | 'with-notes';
 
-export default function PazeTrackerClient() {
+export default function PazeTrackerClient({ affiliateLinks }: Props) {
   const [category, setCategory] = useState<Filter>('All');
   const [notesOnly, setNotesOnly] = useState<NotesFilter>('all');
   const [query, setQuery] = useState('');
@@ -107,14 +178,10 @@ export default function PazeTrackerClient() {
           {visible.map((m) => (
             <li key={m.slug} className="labs-row">
               <div className="labs-row-head">
-                <a
-                  href={m.url}
-                  className="labs-row-name"
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                >
-                  {m.name}
-                </a>
+                <MerchantLink
+                  merchant={m}
+                  affiliate={m.storeSlug ? affiliateLinks[m.storeSlug] : undefined}
+                />
                 <span className="labs-row-cat">{m.category}</span>
               </div>
 
@@ -160,7 +227,9 @@ export default function PazeTrackerClient() {
         the Dunkin reload throttle was reported lifted three days after it was written up
         as settled. Paze&apos;s directory also lags what people report actually working, so
         merchants can accept Paze without appearing above. Offers are quoted from Paze and
-        can end without notice.
+        can end without notice. Some merchant names link through our affiliate links,
+        which pay us if you buy; it costs you nothing and never changes what appears
+        here. See our <a href="/disclosures">disclosures</a>.
       </p>
     </div>
   );

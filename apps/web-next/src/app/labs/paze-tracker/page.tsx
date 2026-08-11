@@ -5,6 +5,8 @@ import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import PazeTrackerClient from './PazeTrackerClient';
 import { PAZE_MERCHANTS } from './merchants';
+import { getAllStores } from '@/lib/stores';
+import type { AffiliateLink } from './PazeTrackerClient';
 import '../../landing.css';
 
 export const metadata: Metadata = {
@@ -23,7 +25,42 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PazeTrackerPage() {
+/**
+ * Resolve affiliate links for the merchants that have one, at request time on
+ * the server. Deliberately keyed off each merchant's explicit `storeSlug`
+ * rather than fuzzy-matching names against the store catalogue: a wrong match
+ * would send readers to a competitor under our tracking link.
+ *
+ * A slug that no longer resolves, or a store whose affiliate entry has been
+ * pulled, simply yields no link and the merchant falls back to its plain URL.
+ */
+async function resolveAffiliateLinks(): Promise<Record<string, AffiliateLink>> {
+  const wanted = new Set(
+    PAZE_MERCHANTS.map((m) => m.storeSlug).filter((s): s is string => Boolean(s)),
+  );
+  if (wanted.size === 0) return {};
+
+  try {
+    const stores = await getAllStores();
+    const out: Record<string, AffiliateLink> = {};
+    for (const store of stores) {
+      if (!wanted.has(store.slug) || !store.affiliate?.url) continue;
+      out[store.slug] = {
+        url: store.affiliate.url,
+        network: store.affiliate.network ?? null,
+        offer: store.affiliate.offer ?? null,
+      };
+    }
+    return out;
+  } catch {
+    // Monetization must never take the page down: fall back to plain links.
+    return {};
+  }
+}
+
+export default async function PazeTrackerPage() {
+  const affiliateLinks = await resolveAffiliateLinks();
+
   return (
     <div className="landing-v2 labs-v2">
       <BreadcrumbSchema
@@ -63,7 +100,7 @@ export default function PazeTrackerPage() {
       </section>
 
       <div className="wrap" style={{ paddingTop: 8, paddingBottom: 64 }}>
-        <PazeTrackerClient />
+        <PazeTrackerClient affiliateLinks={affiliateLinks} />
       </div>
 
       <V2Footer />
