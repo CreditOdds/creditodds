@@ -5,14 +5,14 @@
   "private": true,
   "comment_firebase_app": "Not imported by our code. @firebase/database-compat 2.1.5 (published 2026-07-30) moved @firebase/app from a transitive dependency to a peerDependency, so npm stopped installing it, and esbuild broke on the require() inside database-compat's standalone bundle. firebase-admin pulls database-compat in transitively, so every SAM build failed with 'Could not resolve @firebase/app'. Declaring it here puts it back in node_modules. This directory has no lockfile, so transitive versions float and a change like this lands on the next apps/api deploy with no code change of ours.",
   "dependencies": {
-    "@firebase/app": "^0.14.13",
+    "@firebase/app": "^0.16.0",
     "firebase-admin": "^13.6.0",
-    "mysql2": "^3.16.2",
+    "mysql2": "^3.23.2",
     "serverless-mysql": "^1.5.4",
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "jest": "^26.6.3"
   },
   "scripts": {
