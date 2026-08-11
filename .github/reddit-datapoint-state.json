@@ -626,7 +626,7 @@
     "t3_1vilz18": "2026-08-10",
     "t3_1vijet0": "2026-08-10",
     "t3_1viiznt": "2026-08-10",
-    "t3_1viilrf": "2026-08-10",
+    "t3_1viilrf": "2026-08-11",
     "t3_1vihkzl": "2026-08-10",
     "t3_1vihc8w": "2026-08-10",
     "t3_1vihb8f": "2026-08-10",
@@ -648,30 +648,34 @@
     "t3_1vhjood": "2026-08-10",
     "t3_1vhid0z": "2026-08-10",
     "t3_1vhhez5": "2026-08-10",
-    "t3_1vhge0n": "2026-08-10",
+    "t3_1vhge0n": "2026-08-11",
     "t3_1vhe6jw": "2026-08-10",
     "t3_1vhdp81": "2026-08-10",
     "t3_1vh9c6j": "2026-08-10",
     "t3_1vh8uws": "2026-08-10",
     "t3_1vh8shb": "2026-08-10",
     "t3_1vh6nda": "2026-08-10",
-    "t3_1vh693i": "2026-08-10"
+    "t3_1vh693i": "2026-08-10",
+    "t3_1vlbqu1": "2026-08-11",
+    "t3_1vl9oq8": "2026-08-11",
+    "t3_1vl7l21": "2026-08-11",
+    "t3_1vl6f8z": "2026-08-11",
+    "t3_1vl5x87": "2026-08-11",
+    "t3_1vl40b1": "2026-08-11",
+    "t3_1vl2zet": "2026-08-11",
+    "t3_1vl242g": "2026-08-11",
+    "t3_1vl2347": "2026-08-11",
+    "t3_1vl1ss3": "2026-08-11",
+    "t3_1vl1mtu": "2026-08-11",
+    "t3_1vl04v9": "2026-08-11",
+    "t3_1vkz9h4": "2026-08-11",
+    "t3_1vkw0tx": "2026-08-11",
+    "t3_1vklzjm": "2026-08-11",
+    "t3_1vkkovu": "2026-08-11",
+    "t3_1vkjvqt": "2026-08-11",
+    "t3_1vkh4xu": "2026-08-11"
   },
   "pending": {
-    "t3_1vjcakr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vjcakr/united_explorer_card_targeted_80k_sub/",
-      "title": "United Explorer Card Targeted 80k SUB",
-      "posted": "2026-08-09",
-      "card_name": "United Explorer",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied through a targeted 80k United offer this month and was approved. Poster shares velocity (one card in January, two in May including the CSP) but never a score.",
-      "firstSeen": "2026-08-10",
-      "attempts": 1,
-      "lastChecked": "2026-08-10"
-    },
     "t3_1viilrf": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1viilrf/was_approved_for_chase_freedom_unlimited_is_this/",
       "title": "Was approved for Chase Freedom Unlimited - Is this a good thing?",
@@ -681,10 +685,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Twenty three year old instantly approved this month for a $5,000 limit after moving banking to Chase. No score anywhere in the post.",
+      "note": "Twenty three year old instantly approved this month for a $5,000 limit after moving banking to Chase. Look 2 of 3: still no score in the body or the one new OP reply.",
       "firstSeen": "2026-08-10",
-      "attempts": 1,
-      "lastChecked": "2026-08-10"
+      "attempts": 2,
+      "lastChecked": "2026-08-11"
     },
     "t3_1vhge0n": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vhge0n/got_venture_x_after_getting_denied_from_bilt/",
@@ -695,7 +699,90 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied for Bilt Palladium on August 5 citing high balances against limits, then approved for the Capital One Venture X the next day. Both would publish if a score arrives; the poster gives none.",
+      "note": "Denied for Bilt Palladium on August 5 citing balances high against limits, then approved for Capital One Venture X the next day. Look 2 of 3: four OP replies added, none give a score.",
+      "firstSeen": "2026-08-10",
+      "attempts": 2,
+      "lastChecked": "2026-08-11"
+    },
+    "t3_1vl5x87": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vl5x87/can_i_apply_for_csr_business/",
+      "title": "Can I apply for CSR Business?",
+      "posted": "2026-08-11",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Chase customer since 2008 reports two approvals with strong limits: Ink Business Unlimited in May 2026 and Chase Sapphire Preferred in June 2026. Two rows would publish if a score arrives.",
+      "firstSeen": "2026-08-11",
+      "attempts": 1,
+      "lastChecked": "2026-08-11"
+    },
+    "t3_1vl242g": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vl242g/looking_for_good_first_primary_card_after/",
+      "title": "Looking for good first primary card after rejection",
+      "posted": "2026-08-11",
+      "result": "denied",
+      "missing": [
+        "card_name"
+      ],
+      "note": "First time applicant with Experian 770, TransUnion 790, Equifax 775 and $70k income, denied for a Citi AAdvantage card because Citi could not verify application information. Which AAdvantage card is never named.",
+      "firstSeen": "2026-08-11",
+      "attempts": 1,
+      "lastChecked": "2026-08-11"
+    },
+    "t3_1vl1mtu": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vl1mtu/denied_aadvantage_platinum_select_when_to_reapply/",
+      "title": "Denied AAdvantage Platinum Select, When to Reapply?",
+      "posted": "2026-08-11",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Three dated Citi outcomes and no score anywhere: Double Cash applied 5/8 approved 6/2, Strata approved same day 6/10, AAdvantage Platinum Select applied 7/21 denied for insufficient credit history.",
+      "firstSeen": "2026-08-11",
+      "attempts": 1,
+      "lastChecked": "2026-08-11"
+    },
+    "t3_1vkw0tx": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vkw0tx/chase_united_explorer_card_taking_forever_to/",
+      "title": "Chase United Explorer card taking forever to arrive — no USPS tracking either. Anyone else had this happen?",
+      "posted": "2026-08-10",
+      "card_name": "United Explorer",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved August 1 with no prior Chase relationship; the post is about the card not arriving in the mail. No score, income, or limit given.",
+      "firstSeen": "2026-08-11",
+      "attempts": 1,
+      "lastChecked": "2026-08-11"
+    },
+    "t3_1vkjvqt": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vkjvqt/approved_for_the_us_bank_triple_cash_only_3k/",
+      "title": "Approved for the U.S. Bank Triple Cash, only $3k credit limit",
+      "posted": "2026-08-10",
+      "card_name": "Bank of America Travel Rewards",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Heavy churner on their 8th U.S. Bank card reports a Bank of America Travel Rewards decline this month, self attributed to too many recent accounts. No score anywhere in the post.",
+      "firstSeen": "2026-08-11",
+      "attempts": 1,
+      "lastChecked": "2026-08-11"
+    },
+    "t3_1vjcakr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vjcakr/united_explorer_card_targeted_80k_sub/",
+      "title": "United Explorer Card Targeted 80k SUB",
+      "posted": "2026-08-09",
+      "card_name": "United Explorer",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied through a targeted 80k United offer this month and was approved. Poster shares velocity (one card in January, two in May including the CSP) but never a score.",
       "firstSeen": "2026-08-10",
       "attempts": 1,
       "lastChecked": "2026-08-10"
@@ -746,6 +833,24 @@
         "no_outcome": 26,
         "pre_qual": 4,
         "not_datable": 3
+      }
+    },
+    {
+      "id": "2026-08-11T09:31:15.453Z",
+      "date": "2026-08-11",
+      "candidates": 20,
+      "revisits": 2,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 0,
+      "pending": 10,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 7,
+        "other": 1,
+        "pre_qual": 1,
+        "no_score": 3,
+        "card_not_in_catalog": 1
       }
     }
   ]
