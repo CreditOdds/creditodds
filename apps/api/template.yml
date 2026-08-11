@@ -56,6 +56,11 @@ Parameters:
     Type: String
     Description: Server-side pepper used to hash visitor IPs into stable per-IP tokens for unique-click counting. Treat as a long-lived secret; rotating resets all uniqueness chains.
     NoEcho: true
+  OriginVerifySecret:
+    Type: String
+    Description: Shared secret the API's CloudFront distribution attaches to origin requests as the x-origin-verify header. When set, getClientIp trusts X-Forwarded-For only on requests carrying the matching header; direct execute-api callers fall back to their own TCP source address, closing the forged-XFF hole in anonymous dedup (ratings) and submitter-IP evidence. Empty keeps the legacy trust-XFF behavior. Enable/rotate with apps/api/scripts/enable-origin-verify.sh (CloudFront must send the header BEFORE this is set, or CloudFront-routed visitors all resolve to edge IPs).
+    NoEcho: true
+    Default: ""
   SentryDsn:
     Type: String
     Description: Sentry DSN for the backend project. Leave empty to disable error reporting (the SDK initializes but sends nothing). Not secret — the DSN only carries a public ingest key.
@@ -105,6 +110,7 @@ Globals:
         SENTRY_DSN: !Ref SentryDsn
         SENTRY_TRACES_SAMPLE_RATE: !Ref SentryTracesSampleRate
         SENTRY_ENVIRONMENT: !Ref SentryEnvironment
+        ORIGIN_VERIFY_SECRET: !Ref OriginVerifySecret
     # Every function runs in the shared us-east-1 default VPC, next to the
     # Aurora cluster. Database access comes from the default SG's
     # self-referencing rule, not from any allowlisted egress IP - there is no
