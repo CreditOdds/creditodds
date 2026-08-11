@@ -1,6 +1,8 @@
-name: "Truist Enjoy Cash"
+name: "Truist Enjoy Cash 3-2-1"
 bank: "Truist"
-slug: "truist-enjoy-cash"
+slug: "truist-enjoy-cash-3-2-1"
+also_known_as:
+  - "Truist Enjoy Cash"
 accepting_applications: true
 category: "cashback"
 annual_fee: 0
@@ -42,7 +44,6 @@ rewards:
   - category: everything_else
     value: 1
     unit: percent
-    note: "A flat 1.5% on everything is offered as an alternative rewards structure chosen at application and locked in for the life of the account"
 apr:
   purchase_intro:
     rate: 0
@@ -60,19 +61,19 @@ benefits:
     description: "10% to 50% bonus on cash rewards redeemed into an eligible Truist deposit account, with the tier set by your combined Truist balances"
     frequency: "per_redemption"
     category: "rewards"
-apply_link: https://www.truist.com/credit-cards/enjoy-cash
+apply_link: https://creditcard.digitalcommerce.truist.com/product/CR3
+page_check_url: https://www.truist.com/credit-cards/enjoy-cash
 our_take: >
-  Truist Enjoy Cash asks you to pick a rewards structure at application and
-  live with it: either 3% on gas and EV charging plus 2% on groceries and
-  utilities, or a flat 1.5% on everything. The tiered option carries a
-  combined $1,000 monthly cap across both bonus tiers, so about $12,000 a year
-  of bonus spending, and everything past it earns 1%. That cap is what makes
-  the choice close, because a household putting more than a thousand dollars a
-  month through gas, groceries, and utilities is better off on the flat 1.5%.
-  There is no traditional welcome bonus, only the Loyalty Cash Bonus of 10% to
-  50% for redeeming into a Truist deposit account, which means the card pays
-  best if you already bank with Truist and worst if you do not. No annual fee
-  and no foreign transaction fees are genuine positives, and the 12 months of
-  0% APR on purchases and on balance transfers made in the first 90 days give
-  it some use as a payoff card. Outside the Truist relationship, a flat 2%
-  card beats every version of this one.
+  Truist sells one Enjoy Cash card with two rewards structures, and this is the
+  tiered one: 3% on gas and EV charging, 2% on groceries and utilities, and 1%
+  on everything else. You pick the structure when you apply and Truist does not
+  let you change it later, so the choice between this and the flat 1.5% version
+  is permanent. The deciding number is the cap: the 3% and 2% tiers share
+  $1,000 of spending a month, about $12,000 a year, and everything past it
+  earns 1%. Fill that cap with gas and groceries and this version wins
+  comfortably; go much beyond it and the flat card catches up and passes it.
+  There is no welcome bonus in either version, only the Loyalty Cash Bonus of
+  10% to 50% for redeeming into a Truist deposit account, so the card pays best
+  to existing Truist customers. No annual fee, no foreign transaction fees, and
+  12 months of 0% APR on purchases and on balance transfers made in the first
+  90 days round it out.
