@@ -12097,3 +12097,56 @@
     gap: 2px;
   }
 }
+
+/* Promo context banner: the offer that explains why any of the notes exist. */
+.labs-promo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  background: var(--accent-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+/* Community reports are visually separated from our own notes so the weaker
+   claim never gets read as the stronger one. */
+.labs-row-community {
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px dashed var(--line);
+}
+.labs-row-community-note {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.labs-row-community-meta {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.labs-row-community-meta a {
+  color: var(--muted);
+  text-decoration: underline;
+}
+.labs-tag-community {
+  color: var(--muted);
+  background: var(--paper-2);
+}
+
+/* Brand mark in the labs hero. Rounded to match the /tools card treatment. */
+.landing-v2.labs-v2 .labs-hero-logo {
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  line-height: 0;
+}

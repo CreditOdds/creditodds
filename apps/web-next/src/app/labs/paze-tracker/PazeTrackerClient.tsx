@@ -5,6 +5,7 @@ import {
   PAZE_CATEGORIES,
   PAZE_MERCHANTS,
   PAZE_DIRECTORY_CAPTURED,
+  PAZE_PROMO,
   type PazeCategory,
 } from './merchants';
 
@@ -18,7 +19,7 @@ export default function PazeTrackerClient() {
   const [query, setQuery] = useState('');
 
   const withNotesCount = useMemo(
-    () => PAZE_MERCHANTS.filter((m) => m.usage).length,
+    () => PAZE_MERCHANTS.filter((m) => m.usage || m.community).length,
     [],
   );
 
@@ -26,19 +27,30 @@ export default function PazeTrackerClient() {
     const q = query.trim().toLowerCase();
     return PAZE_MERCHANTS.filter((m) => {
       if (category !== 'All' && m.category !== category) return false;
-      if (notesOnly === 'with-notes' && !m.usage) return false;
+      if (notesOnly === 'with-notes' && !m.usage && !m.community) return false;
       if (q && !m.name.toLowerCase().includes(q)) return false;
       return true;
     }).sort((a, b) => {
       // Merchants we know something about lead; the rest stay alphabetical so
       // the list is still scannable as a directory.
-      if (Boolean(a.usage) !== Boolean(b.usage)) return a.usage ? -1 : 1;
+      const known = (m: typeof a) => Boolean(m.usage || m.community);
+      if (known(a) !== known(b)) return known(a) ? -1 : 1;
       return a.name.localeCompare(b.name);
     });
   }, [category, notesOnly, query]);
 
   return (
     <div className="labs-paze">
+      {/* Stated up front because almost every note below is a consequence of
+          this promo, and most of them stop meaning anything the day it ends. */}
+      <div className="labs-promo">
+        <span className="labs-tag">Paze offer</span>
+        <span>
+          {PAZE_PROMO.text} Runs through {PAZE_PROMO.endsOn}. Most of the behaviour
+          below exists because of it.
+        </span>
+      </div>
+
       <div className="labs-controls">
         <input
           type="search"
@@ -113,9 +125,24 @@ export default function PazeTrackerClient() {
                 </p>
               )}
 
-              {m.usage ? (
-                <p className="labs-row-usage">{m.usage}</p>
-              ) : (
+              {m.usage && <p className="labs-row-usage">{m.usage}</p>}
+
+              {m.community && (
+                <div className="labs-row-community">
+                  <p className="labs-row-community-note">
+                    <span className="labs-tag labs-tag-community">Reported</span>
+                    {m.community.note}
+                  </p>
+                  <p className="labs-row-community-meta">
+                    User reports as of {m.community.asOf}, not verified by us.{' '}
+                    <a href={m.community.source} target="_blank" rel="noopener noreferrer nofollow">
+                      Source
+                    </a>
+                  </p>
+                </div>
+              )}
+
+              {!m.usage && !m.community && (
                 <p className="labs-row-empty">
                   No notes yet. If you have used Paze here, tell us how it works and we
                   will add it.
@@ -128,9 +155,12 @@ export default function PazeTrackerClient() {
 
       <p className="labs-source">
         Merchant list transcribed from Paze&apos;s own directory on {PAZE_DIRECTORY_CAPTURED}.
-        Field notes are ours and are only written where someone has confirmed the
-        behaviour, which is why most rows are still empty. Offers are quoted from Paze
-        and can end without notice.
+        Rows marked <strong>Reported</strong> summarise what users describe publicly; they
+        are dated and linked, and we have not verified them. This behaviour changes fast:
+        the Dunkin reload throttle was reported lifted three days after it was written up
+        as settled. Paze&apos;s directory also lags what people report actually working, so
+        merchants can accept Paze without appearing above. Offers are quoted from Paze and
+        can end without notice.
       </p>
     </div>
   );

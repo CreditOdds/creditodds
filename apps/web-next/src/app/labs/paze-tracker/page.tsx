@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import PazeTrackerClient from './PazeTrackerClient';
@@ -46,6 +47,12 @@ export default function PazeTrackerPage() {
       </div>
 
       <section className="page-hero wrap">
+        {/* Brand mark above the title rather than inline: the hero title wraps
+            to two lines on narrow screens, and a floated icon beside it broke
+            that wrap awkwardly. */}
+        <span className="labs-hero-logo">
+          <Image src="/logos/paze.jpeg" alt="Paze" width={44} height={44} />
+        </span>
         <h1 className="page-title">
           Paze Tracker. <em>Where it works.</em>
         </h1>

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BreadcrumbSchema } from '@/components/seo/JsonLd';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import { PAZE_MERCHANTS } from './paze-tracker/merchants';
@@ -26,6 +27,8 @@ interface Lab {
   href: string;
   /** Short right-aligned stat, the way /tools shows cents per point. */
   stat: string;
+  /** Brand mark under public/logos, matching the /tools card treatment. */
+  logo: string;
 }
 
 const labs: Lab[] = [
@@ -35,6 +38,7 @@ const labs: Lab[] = [
       'Every merchant that accepts Paze, plus how it actually works at each one: reload caps, timing rules, and live Paze offers.',
     href: '/labs/paze-tracker',
     stat: `${PAZE_MERCHANTS.length} merchants`,
+    logo: '/logos/paze.jpeg',
   },
 ];
 
@@ -74,17 +78,28 @@ export default function LabsPage() {
             <Link
               key={lab.href}
               href={lab.href}
-              className="bg-white rounded-lg shadow p-5 hover:shadow-md transition-shadow group"
+              className="bg-white rounded-lg shadow p-5 hover:shadow-md transition-shadow group flex items-start gap-4"
             >
-              <div className="flex items-center justify-between gap-2">
-                <h2 className="text-base font-semibold text-gray-900 group-hover:text-indigo-600 truncate">
-                  {lab.name}
-                </h2>
-                <span className="inline-flex items-center rounded-md px-2 py-1 text-sm font-semibold ring-1 ring-inset bg-indigo-50 text-indigo-700 ring-indigo-600/20 whitespace-nowrap">
-                  {lab.stat}
-                </span>
+              <div className="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden bg-gray-100">
+                <Image
+                  src={lab.logo}
+                  alt={lab.name}
+                  width={40}
+                  height={40}
+                  className="object-cover w-full h-full"
+                />
               </div>
-              <p className="mt-1 text-sm text-gray-500">{lab.description}</p>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-base font-semibold text-gray-900 group-hover:text-indigo-600 truncate">
+                    {lab.name}
+                  </h2>
+                  <span className="inline-flex items-center rounded-md px-2 py-1 text-sm font-semibold ring-1 ring-inset bg-indigo-50 text-indigo-700 ring-indigo-600/20 whitespace-nowrap">
+                    {lab.stat}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-gray-500">{lab.description}</p>
+              </div>
             </Link>
           ))}
         </div>
