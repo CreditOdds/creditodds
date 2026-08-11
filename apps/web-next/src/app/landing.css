@@ -6814,6 +6814,7 @@
 .landing-v2.bank-v2,
 .landing-v2.best-detail-v2,
 .landing-v2.tools-v2,
+.landing-v2.labs-v2,
 .landing-v2.auth-v2,
 .landing-v2.contact-v2 {
   background: var(--paper);
@@ -6826,6 +6827,7 @@
 .landing-v2.bank-v2 .bg-gray-50,
 .landing-v2.best-detail-v2 .bg-gray-50,
 .landing-v2.tools-v2 .bg-gray-50,
+.landing-v2.labs-v2 .bg-gray-50,
 .landing-v2.auth-v2 .bg-gray-50,
 .landing-v2.contact-v2 .bg-gray-50,
 .landing-v2.check-v2 .bg-gray-100,
@@ -6835,6 +6837,7 @@
 .landing-v2.bank-v2 .bg-gray-100,
 .landing-v2.best-detail-v2 .bg-gray-100,
 .landing-v2.tools-v2 .bg-gray-100,
+.landing-v2.labs-v2 .bg-gray-100,
 .landing-v2.auth-v2 .bg-gray-100,
 .landing-v2.contact-v2 .bg-gray-100 {
   background: var(--paper-2);
@@ -6846,6 +6849,7 @@
 .landing-v2.bank-v2 .bg-white,
 .landing-v2.best-detail-v2 .bg-white,
 .landing-v2.tools-v2 .bg-white,
+.landing-v2.labs-v2 .bg-white,
 .landing-v2.auth-v2 .bg-white,
 .landing-v2.contact-v2 .bg-white {
   background: var(--card);
@@ -6857,6 +6861,7 @@
 .landing-v2.bank-v2 .shadow,
 .landing-v2.best-detail-v2 .shadow,
 .landing-v2.tools-v2 .shadow,
+.landing-v2.labs-v2 .shadow,
 .landing-v2.auth-v2 .shadow,
 .landing-v2.contact-v2 .shadow,
 .landing-v2.check-v2 .shadow-sm,
@@ -6866,6 +6871,7 @@
 .landing-v2.bank-v2 .shadow-sm,
 .landing-v2.best-detail-v2 .shadow-sm,
 .landing-v2.tools-v2 .shadow-sm,
+.landing-v2.labs-v2 .shadow-sm,
 .landing-v2.auth-v2 .shadow-sm,
 .landing-v2.contact-v2 .shadow-sm,
 .landing-v2.check-v2 .shadow-md,
@@ -6875,6 +6881,7 @@
 .landing-v2.bank-v2 .shadow-md,
 .landing-v2.best-detail-v2 .shadow-md,
 .landing-v2.tools-v2 .shadow-md,
+.landing-v2.labs-v2 .shadow-md,
 .landing-v2.auth-v2 .shadow-md,
 .landing-v2.contact-v2 .shadow-md,
 .landing-v2.check-v2 .shadow-lg,
@@ -6884,6 +6891,7 @@
 .landing-v2.bank-v2 .shadow-lg,
 .landing-v2.best-detail-v2 .shadow-lg,
 .landing-v2.tools-v2 .shadow-lg,
+.landing-v2.labs-v2 .shadow-lg,
 .landing-v2.auth-v2 .shadow-lg,
 .landing-v2.contact-v2 .shadow-lg {
   box-shadow: var(--shadow-sm);
@@ -6896,6 +6904,7 @@
 .landing-v2.bank-v2 .text-indigo-600,
 .landing-v2.best-detail-v2 .text-indigo-600,
 .landing-v2.tools-v2 .text-indigo-600,
+.landing-v2.labs-v2 .text-indigo-600,
 .landing-v2.auth-v2 .text-indigo-600,
 .landing-v2.contact-v2 .text-indigo-600,
 .landing-v2.check-v2 .text-indigo-500,
@@ -6905,6 +6914,7 @@
 .landing-v2.bank-v2 .text-indigo-500,
 .landing-v2.best-detail-v2 .text-indigo-500,
 .landing-v2.tools-v2 .text-indigo-500,
+.landing-v2.labs-v2 .text-indigo-500,
 .landing-v2.auth-v2 .text-indigo-500,
 .landing-v2.contact-v2 .text-indigo-500 {
   color: var(--accent);
@@ -6916,6 +6926,7 @@
 .landing-v2.bank-v2 .bg-indigo-50,
 .landing-v2.best-detail-v2 .bg-indigo-50,
 .landing-v2.tools-v2 .bg-indigo-50,
+.landing-v2.labs-v2 .bg-indigo-50,
 .landing-v2.auth-v2 .bg-indigo-50,
 .landing-v2.contact-v2 .bg-indigo-50,
 .landing-v2.check-v2 .bg-indigo-100,
@@ -6925,6 +6936,7 @@
 .landing-v2.bank-v2 .bg-indigo-100,
 .landing-v2.best-detail-v2 .bg-indigo-100,
 .landing-v2.tools-v2 .bg-indigo-100,
+.landing-v2.labs-v2 .bg-indigo-100,
 .landing-v2.auth-v2 .bg-indigo-100,
 .landing-v2.contact-v2 .bg-indigo-100 {
   background: var(--accent-2);
@@ -6936,6 +6948,7 @@
 .landing-v2.bank-v2 .bg-indigo-600,
 .landing-v2.best-detail-v2 .bg-indigo-600,
 .landing-v2.tools-v2 .bg-indigo-600,
+.landing-v2.labs-v2 .bg-indigo-600,
 .landing-v2.auth-v2 .bg-indigo-600,
 .landing-v2.contact-v2 .bg-indigo-600 {
   background: var(--ink);
@@ -6947,6 +6960,7 @@
 .landing-v2.bank-v2 .hover\:bg-indigo-700:hover,
 .landing-v2.best-detail-v2 .hover\:bg-indigo-700:hover,
 .landing-v2.tools-v2 .hover\:bg-indigo-700:hover,
+.landing-v2.labs-v2 .hover\:bg-indigo-700:hover,
 .landing-v2.auth-v2 .hover\:bg-indigo-700:hover,
 .landing-v2.contact-v2 .hover\:bg-indigo-700:hover {
   background: var(--ink-2);
@@ -6958,6 +6972,7 @@
 .landing-v2.bank-v2 .focus\:ring-indigo-500:focus,
 .landing-v2.best-detail-v2 .focus\:ring-indigo-500:focus,
 .landing-v2.tools-v2 .focus\:ring-indigo-500:focus,
+.landing-v2.labs-v2 .focus\:ring-indigo-500:focus,
 .landing-v2.auth-v2 .focus\:ring-indigo-500:focus,
 .landing-v2.contact-v2 .focus\:ring-indigo-500:focus {
   --tw-ring-color: var(--accent);
@@ -6969,6 +6984,7 @@
 .landing-v2.bank-v2 .focus\:border-indigo-500:focus,
 .landing-v2.best-detail-v2 .focus\:border-indigo-500:focus,
 .landing-v2.tools-v2 .focus\:border-indigo-500:focus,
+.landing-v2.labs-v2 .focus\:border-indigo-500:focus,
 .landing-v2.auth-v2 .focus\:border-indigo-500:focus,
 .landing-v2.contact-v2 .focus\:border-indigo-500:focus {
   border-color: var(--accent);
@@ -11940,4 +11956,144 @@
 }
 .best-for-me-v2 a.bcfm-rec-img {
   display: block;
+}
+
+/* ── Labs: Paze Tracker ──────────────────────────────────────────────────── */
+.labs-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.labs-search {
+  width: 100%;
+  max-width: 340px;
+  padding: 9px 12px;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.labs-search:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.labs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.labs-chip {
+  padding: 6px 11px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.labs-chip:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+/* Filter state has to be obvious at a glance: the explore page's chips were
+   the site's one measured rage-click hotspot, and weak click feedback was the
+   suspected cause. Active is a full colour inversion, not a border tint. */
+.labs-chip.is-active {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.labs-count {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.labs-empty {
+  margin: 28px 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+.labs-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.labs-row {
+  padding: 14px 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.labs-row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.labs-row-name {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+.labs-row-name:hover {
+  text-decoration: underline;
+}
+.labs-row-cat {
+  flex-shrink: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.labs-row-usage {
+  margin: 7px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+/* Deliberately quiet. Most rows are empty today and a page of loud
+   placeholders would read as a broken page rather than an honest one. */
+.labs-row-empty {
+  margin: 7px 0 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  font-style: italic;
+}
+.labs-row-offer {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.labs-tag {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-2);
+  border-radius: 4px;
+}
+.labs-source {
+  margin: 28px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+@media (max-width: 560px) {
+  .labs-row-head {
+    flex-direction: column;
+    gap: 2px;
+  }
 }
