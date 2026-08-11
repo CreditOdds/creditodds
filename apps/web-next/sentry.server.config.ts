@@ -7,8 +7,13 @@ import { isTransientNetworkError } from '@/lib/transientNetworkError';
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-  // Only send events when a DSN is configured (i.e. in deployed environments).
-  enabled: Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN),
+  // Only send events when a DSN is configured, and only in production — local
+  // dev SSR errors (worktrees copy .env.local, so the DSN is present locally)
+  // are noise. Opt in locally with NEXT_PUBLIC_SENTRY_DEV=1 to test Sentry.
+  enabled:
+    Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN) &&
+    (process.env.NODE_ENV === 'production' ||
+      process.env.NEXT_PUBLIC_SENTRY_DEV === '1'),
 
   // Performance tracing. Tune down if event volume/cost grows.
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.2 : 1.0,
