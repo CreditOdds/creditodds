@@ -10,7 +10,7 @@ const { EventEmitter } = require("events");
 
 jest.mock("https", () => ({ get: jest.fn() }));
 const https = require("https");
-const { fetchCardsFromCDN } = require("../src/lib/cards-cdn");
+const { fetchCardsFromCDN, _resetCacheForTests } = require("../src/lib/cards-cdn");
 
 const CARDS = [{ card_name: "Test Card" }];
 const BODY = JSON.stringify({ cards: CARDS });
@@ -54,6 +54,7 @@ function codedError(code, message) {
 
 beforeEach(() => {
   https.get.mockReset();
+  _resetCacheForTests();
   jest.spyOn(console, "warn").mockImplementation(() => {});
 });
 
@@ -134,4 +135,57 @@ test("cacheBust appends a timestamp query param", async () => {
 
   await fetchCardsFromCDN();
   expect(https.get.mock.calls[1][0]).toMatch(/cards\.json$/);
+});
+
+test("serves the module cache within the TTL without refetching", async () => {
+  https.get.mockImplementation(respondWith(BODY));
+
+  await expect(fetchCardsFromCDN()).resolves.toEqual(CARDS);
+  await expect(fetchCardsFromCDN()).resolves.toEqual(CARDS);
+  expect(https.get).toHaveBeenCalledTimes(1);
+});
+
+test("refetches after the 5-minute TTL expires", async () => {
+  let now = 1_000_000;
+  const nowSpy = jest.spyOn(Date, "now").mockImplementation(() => now);
+  https.get.mockImplementation(respondWith(BODY));
+
+  await fetchCardsFromCDN();
+  now += 5 * 60 * 1000 - 1;
+  await fetchCardsFromCDN();
+  expect(https.get).toHaveBeenCalledTimes(1);
+
+  now += 2; // past expiry
+  await fetchCardsFromCDN();
+  expect(https.get).toHaveBeenCalledTimes(2);
+  nowSpy.mockRestore();
+});
+
+test("cacheBust bypasses the cache in both directions", async () => {
+  https.get.mockImplementation(respondWith(BODY));
+
+  await fetchCardsFromCDN(); // populates the cache
+  await fetchCardsFromCDN({ cacheBust: true }); // must hit the network
+  expect(https.get).toHaveBeenCalledTimes(2);
+
+  await fetchCardsFromCDN(); // original cached copy still serves
+  expect(https.get).toHaveBeenCalledTimes(2);
+});
+
+test("does not cache failures: a rejected fetch is retried by the next call", async () => {
+  https.get
+    .mockImplementationOnce(failWith(codedError("ENOTFOUND", "getaddrinfo ENOTFOUND")))
+    .mockImplementationOnce(respondWith(BODY));
+
+  await expect(fetchCardsFromCDN()).rejects.toThrow("getaddrinfo ENOTFOUND");
+  await expect(fetchCardsFromCDN()).resolves.toEqual(CARDS);
+  expect(https.get).toHaveBeenCalledTimes(2);
+});
+
+test("does not cache a malformed payload (missing cards key)", async () => {
+  https.get.mockImplementation(respondWith(JSON.stringify({ notCards: [] })));
+
+  await expect(fetchCardsFromCDN()).resolves.toBeUndefined();
+  await fetchCardsFromCDN();
+  expect(https.get).toHaveBeenCalledTimes(2);
 });
