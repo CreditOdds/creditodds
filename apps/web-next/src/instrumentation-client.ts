@@ -27,7 +27,14 @@ posthog.init('phc_oPFKvUCGmpZdRPug7TvYDRRSZpJ9oUmLZphkjrSV3fCd', {
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-  enabled: Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN),
+  // Production only: local dev servers (and Claude worktrees, which copy
+  // .env.local and therefore the DSN) would otherwise stream HMR/Fast-Refresh
+  // noise, mid-edit parse errors, and stale-chunk ReferenceErrors into Sentry.
+  // To deliberately test Sentry locally, opt in with NEXT_PUBLIC_SENTRY_DEV=1.
+  enabled:
+    Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN) &&
+    (process.env.NODE_ENV === 'production' ||
+      process.env.NEXT_PUBLIC_SENTRY_DEV === '1'),
 
   // Performance tracing. Tune down if event volume/cost grows.
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.2 : 1.0,
