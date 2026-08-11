@@ -7188,26 +7188,69 @@
   }
 }
 
-/* Card-page placement. The rail itself was styled for article prose inside
-   .article-body; on a card page it sits full-bleed directly under the
-   pulled-card banner, so the slot supplies the page gutter the card layout
-   would otherwise provide and caps line length on wide screens. The rail's own
-   36px margin-top is overridden because here it follows a banner, not
-   paragraphs. Longhand padding on purpose: a shorthand here would be
-   overwritten wholesale by the mobile override below. */
-.landing-v2.card-journal .replacement-cards-banner-slot {
-  padding-inline: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--line);
+/* Card-page placement: last block in .cj-main, so it inherits the column's
+   width and padding and needs no gutter of its own. It previously sat
+   full-bleed under the pulled-card banner, which left a dead gutter beside its
+   720px cap and pushed the card below the fold.
+   The section rhythm on this page is heavier than article prose, so the rail's
+   own 36px top margin is opened up to match the gap between card sections. */
+.landing-v2.card-journal .cj-main > .replacement-cards {
+  margin-top: 44px;
+  margin-bottom: 8px;
+  /* Square on the card page. The rounded 12px box reads as a floating card,
+     which fights the hard-edged section rhythm this page uses. Scoped here so
+     the news article rail, which sits in rounded prose, keeps its radius. */
+  border-radius: 0;
+  /* Clears the 65px sticky navbar when the banner shortcut jumps here, so the
+     heading is not tucked underneath. Same allowance as the BCFM wizard. */
+  scroll-margin-top: 84px;
 }
-.landing-v2.card-journal .replacement-cards-banner-slot .replacement-cards {
-  margin-top: 20px;
-  max-width: 720px;
+/* Square all the way down: the tiles and their art boxes, so nothing inside
+   the squared container is still rounded. */
+.landing-v2.card-journal .cj-main > .replacement-cards .replacement-card,
+.landing-v2.card-journal .cj-main > .replacement-cards .replacement-card-thumb {
+  border-radius: 0;
 }
-@media (max-width: 767px) {
-  .landing-v2.card-journal .replacement-cards-banner-slot {
-    padding-inline: 16px;
-    padding-bottom: 20px;
+
+/* Pulled-card banner shortcut down to the rail. */
+.landing-v2.card-journal .cj-pulled-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  /* Reads as part of the banner sentence, not as a button: same colour, same
+     13px/500 weight as the warning text, no underline. The card thumbnails
+     beside it are what signal it is clickable. */
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+  line-height: 1.2;
+}
+.landing-v2.card-journal .cj-pulled-jump:hover {
+  opacity: 0.75;
+}
+.landing-v2.card-journal .cj-pulled-jump-thumbs {
+  display: inline-flex;
+  align-items: center;
+}
+/* Overlapped like a small stack so three cards cost ~60px, not ~110px. */
+.landing-v2.card-journal .cj-pulled-jump-thumb {
+  position: relative;
+  width: 34px;
+  height: 22px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  margin-right: -10px;
+}
+.landing-v2.card-journal .cj-pulled-jump-thumb:last-child {
+  margin-right: 0;
+}
+/* The banner is a single line of text on a narrow screen; the thumbnails are
+   the first thing to go, then the label wraps under the message. */
+@media (max-width: 640px) {
+  .landing-v2.card-journal .cj-pulled-jump-thumbs {
+    display: none;
   }
 }
 

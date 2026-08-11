@@ -24,6 +24,11 @@ interface Props {
   sourceId: string;
   /** Optional override; each surface has a different natural lead-in. */
   intro?: string;
+  /**
+   * DOM id for in-page links. Only the card page sets it, so the news markup
+   * is unchanged and no id can ever collide across the two surfaces.
+   */
+  anchorId?: string;
 }
 
 function feeLabel(annualFee: number | null): string | null {
@@ -31,7 +36,7 @@ function feeLabel(annualFee: number | null): string | null {
   return annualFee === 0 ? 'No annual fee' : `$${annualFee.toLocaleString('en-US')} annual fee`;
 }
 
-export function ReplacementCards({ cards, surface, sourceId, intro }: Props) {
+export function ReplacementCards({ cards, surface, sourceId, intro, anchorId }: Props) {
   if (!cards || cards.length === 0) return null;
 
   // The intro deliberately names no card. On a straight pull the article's
@@ -39,7 +44,7 @@ export function ReplacementCards({ cards, surface, sourceId, intro }: Props) {
   // card_slug points at the live replacement, so naming the subject would
   // assert the opposite of the truth on half the articles that use this module.
   return (
-    <aside className="replacement-cards" aria-labelledby="replacement-cards-title">
+    <aside id={anchorId} className="replacement-cards" aria-labelledby="replacement-cards-title">
       <h2 id="replacement-cards-title" className="replacement-cards-title">
         What to get instead
       </h2>

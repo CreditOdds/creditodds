@@ -38,6 +38,9 @@ import posthog from "posthog-js";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { ReplacementCards } from "@/components/ui/ReplacementCards";
 import CardRecordsTable from "./CardRecordsTable";
+
+/** Shared by the banner shortcut at the top and the rail it scrolls to. */
+const REPLACEMENTS_ANCHOR = "what-to-get-instead";
 import ProductChangeFlow, { ProductChangeNode } from "./ProductChangeFlow";
 import "../../landing.css";
 
@@ -298,6 +301,13 @@ export default function CardClient({
   bestRankings = [],
   productChanges,
 }: CardClientProps) {
+  // "What to get instead" is rendered at the bottom of the page but advertised
+  // in the pulled-card banner at the top, so both need the same id and the same
+  // answer to "does this card have replacements at all".
+  const replacementCards = card.replacement_cards_info ?? [];
+  const hasReplacements =
+    card.accepting_applications === false && replacementCards.length > 0;
+
   // ---------- State + chrome ----------
   const [showModal, setShowModal] = useState(false);
   // Approved/Denied prefill when the modal is opened from the post-apply
@@ -898,34 +908,45 @@ export default function CardClient({
             fontWeight: 500,
             display: "flex",
             alignItems: "center",
-            gap: 10,
+            justifyContent: "space-between",
+            gap: 12,
           }}
         >
-          <ExclamationTriangleIcon style={{ height: 16, width: 16 }} />
-          {card.active === false
-            ? "This card has been discontinued and is no longer offered."
-            : "This card is no longer accepting applications."}
+          <span style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+            <ExclamationTriangleIcon style={{ height: 16, width: 16, flexShrink: 0 }} />
+            {card.active === false
+              ? "This card has been discontinued and is no longer offered."
+              : "This card is no longer accepting applications."}
+          </span>
+
+          {/* Shortcut to the rail at the bottom of the page. The banner raises
+              the question and the answer is 3,000px away, so this carries the
+              reader there. Rendered only when that section actually exists. */}
+          {/* Plain anchor, no JS scroll handler: scrollIntoView with behavior
+              "smooth" silently no-ops in some engines (verified here: "auto"
+              scrolls, "smooth" leaves scrollY at 0), and the native jump
+              already honours the rail's scroll-margin-top. It also works
+              without JS and leaves a shareable hash. */}
+          {hasReplacements && (
+            <a href={`#${REPLACEMENTS_ANCHOR}`} className="cj-pulled-jump">
+              <span className="cj-pulled-jump-thumbs" aria-hidden="true">
+                {replacementCards.slice(0, 3).map((rc) => (
+                  <span className="cj-pulled-jump-thumb" key={rc.slug}>
+                    <CardImage
+                      cardImageLink={rc.image}
+                      alt={rc.name}
+                      fill
+                      sizes="34px"
+                      style={{ objectFit: "contain" }}
+                    />
+                  </span>
+                ))}
+              </span>
+              What to get instead
+            </a>
+          )}
         </div>
       )}
-
-      {/* "What to get instead", directly under the banner that just told the
-          reader this card is gone. Deliberately above the fold rather than down
-          with Related Cards: the banner creates the question, so the answer
-          belongs next to it. build-cards.js only populates
-          replacement_cards_info on closed cards, so no open-card guard is
-          needed here — but the rail is wrapped anyway to keep a data mistake
-          from rendering a competitor list on a live card. */}
-      {card.accepting_applications === false &&
-        (card.replacement_cards_info?.length ?? 0) > 0 && (
-          <div className="replacement-cards-banner-slot">
-            <ReplacementCards
-              cards={card.replacement_cards_info ?? []}
-              surface="card_page"
-              sourceId={card.slug}
-              intro="This card is closed to new applicants. These are open and cover the same ground:"
-            />
-          </div>
-        )}
 
       <div className="cj-layout">
         {/* Left ToC */}
@@ -1783,6 +1804,26 @@ export default function CardClient({
                 })}
               </div>
             </section>
+          )}
+
+          {/* "What to get instead". Lives at the very bottom of the main
+              column: at the top it sat outside the .cj-layout grid, which left
+              a dead white gutter beside it and pushed the card itself below the
+              fold. Down here it inherits the column width and reads as a
+              closing recommendation, after the reader has seen what the card
+              actually was.
+
+              build-cards.js only populates replacement_cards_info on closed
+              cards, so the open-card guard is belt-and-braces against a data
+              mistake rendering a competitor list on a live card. */}
+          {hasReplacements && (
+            <ReplacementCards
+              cards={replacementCards}
+              surface="card_page"
+              sourceId={card.slug}
+              anchorId={REPLACEMENTS_ANCHOR}
+              intro="This card is closed to new applicants. These are open and cover the same ground:"
+            />
           )}
         </main>
 
