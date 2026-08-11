@@ -1,0 +1,61 @@
+name: "Amtrak Guest Rewards Mastercard"
+bank: "FNBO"
+slug: "amtrak-guest-rewards-mastercard"
+image: "amtrak-guest-rewards-mastercard.png"
+accepting_applications: true
+annual_fee: 0
+apply_link: https://www.card.fnbo.com/amtrakguestrewards/apply
+foreign_transaction_fee: false
+network: "mastercard"
+category: "travel"
+reward_type: "points"
+tags:
+  - travel
+  - rewards
+rewards:
+  - category: "transit"
+    value: 2
+    unit: "points_per_dollar"
+    note: "Amtrak travel, including onboard purchases"
+    merchant_gate: [amtrak]
+  - category: "dining"
+    value: 2
+    unit: "points_per_dollar"
+  - category: "everything_else"
+    value: 1
+    unit: "points_per_dollar"
+signup_bonus:
+  value: 20000
+  type: "points"
+  spend_requirement: 1000
+  timeframe_months: 3
+  note: "15,000 points after $1,000 in the first 3 billing cycles, plus 5,000 points for adding an authorized user in the same window; offer runs through September 2, 2026 when applying via amtrak.com"
+apr:
+  regular:
+    min: 18.24
+    max: 27.74
+benefits:
+  - name: "10% Onboard Food & Beverage Rebate"
+    value: 10
+    value_unit: "percent"
+    description: "10% back as a statement credit on onboard food and beverage purchases"
+    frequency: "per_purchase"
+    category: "dining"
+  - name: "5% Points Rebate"
+    value: 5
+    value_unit: "percent"
+    description: "5% of points back when redeeming points for Amtrak travel"
+    frequency: "per_redemption"
+    category: "travel"
+our_take: >
+  The no-fee Amtrak Guest Rewards Mastercard is the casual rider's version of
+  the Preferred card: 2x points on Amtrak and dining, 1x everywhere else,
+  with a welcome offer of up to 20,000 points that goes a long way given how
+  valuable Amtrak points are toward train travel. What it lacks are the
+  Preferred card's trip extras, meaning no companion coupon, no upgrade
+  coupon, no lounge pass, and no tier qualifying points toward status, and
+  the onboard food and beverage rebate drops to 10%. That makes the choice
+  simple: if you ride Amtrak a few times a year or more, the $99 Preferred
+  pays for itself through the coupons alone, while this card suits someone
+  who takes the train once or twice a year and wants to earn points without
+  a fee.
