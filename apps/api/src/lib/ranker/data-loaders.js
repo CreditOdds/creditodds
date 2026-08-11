@@ -5,38 +5,17 @@
 //   this directory). It must NOT be read as a loose file via fs/__dirname:
 //   under `BuildMethod: esbuild` the data file isn't copied next to the
 //   bundle, so a runtime read throws ENOENT and 500s every wallet-picks call.
-// - cards.json is fetched from CloudFront per cold start. The existing
-//   nearby-recommendations / card-by-id / all-cards handlers do the same
-//   per request; we cache at module scope here with a short TTL to keep
-//   warm-container wallet picks fast without holding stale data forever.
+// - cards.json comes from the shared CDN fetcher (../cards-cdn), which
+//   caches the raw card list at module scope for 5 minutes and handles the
+//   warm-container ECONNRESET retry + idle timeout. The cache below is a
+//   second, separate layer: it holds the DB-*enriched* card list so warm
+//   wallet-picks calls also skip the cards-table metadata query.
 
-const https = require("https");
 const mysql = require("../../db");
-
-const CARDS_URL =
-  process.env.CARDS_JSON_URL || "https://d2hxvzw7msbtvt.cloudfront.net/cards.json";
+const { fetchCardsFromCDN } = require("../cards-cdn");
 
 const CARDS_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes — matches the CDN/ISR layers
 let cardsCache = null; // { expiresAt, data }
-
-function fetchCardsFromCDN() {
-  return new Promise((resolve, reject) => {
-    https
-      .get(CARDS_URL, (res) => {
-        let data = "";
-        res.on("data", (chunk) => (data += chunk));
-        res.on("end", () => {
-          try {
-            const json = JSON.parse(data);
-            resolve(Array.isArray(json.cards) ? json.cards : []);
-          } catch (err) {
-            reject(new Error("Failed to parse cards.json"));
-          }
-        });
-      })
-      .on("error", reject);
-  });
-}
 
 // Merge in the same DB-sourced fields that `all-cards.js` exposes — the
 // frontend expects `card_image_link` (used by <CardImage>) and
@@ -76,10 +55,13 @@ async function getAllCards() {
   if (cardsCache && cardsCache.expiresAt > now) {
     return cardsCache.data;
   }
-  const [cdnCards, dbByName] = await Promise.all([
+  const [cdnCardsRaw, dbByName] = await Promise.all([
     fetchCardsFromCDN(),
     fetchCardDbMetadata(),
   ]);
+  // The shared fetcher returns json.cards as-is (undefined if the key is
+  // missing); the previous local fetcher guaranteed an array, so keep that.
+  const cdnCards = Array.isArray(cdnCardsRaw) ? cdnCardsRaw : [];
   const enriched = cdnCards.map((c) => {
     const db = dbByName.get(c.card_name) || dbByName.get(c.name) || {};
     return {
