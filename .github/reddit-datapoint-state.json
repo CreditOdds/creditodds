@@ -616,7 +616,7 @@
     "t3_1vjef02": "2026-08-10",
     "t3_1vjdbfc": "2026-08-10",
     "t3_1vjcjfl": "2026-08-10",
-    "t3_1vjcakr": "2026-08-10",
+    "t3_1vjcakr": "2026-08-12",
     "t3_1vj9ch4": "2026-08-10",
     "t3_1vj64up": "2026-08-10",
     "t3_1vj07k3": "2026-08-10",
@@ -650,10 +650,10 @@
     "t3_1vhhez5": "2026-08-10",
     "t3_1vhge0n": "2026-08-11",
     "t3_1vhe6jw": "2026-08-10",
-    "t3_1vhdp81": "2026-08-10",
+    "t3_1vhdp81": "2026-08-12",
     "t3_1vh9c6j": "2026-08-10",
     "t3_1vh8uws": "2026-08-10",
-    "t3_1vh8shb": "2026-08-10",
+    "t3_1vh8shb": "2026-08-12",
     "t3_1vh6nda": "2026-08-10",
     "t3_1vh693i": "2026-08-10",
     "t3_1vlbqu1": "2026-08-11",
@@ -673,9 +673,92 @@
     "t3_1vklzjm": "2026-08-11",
     "t3_1vkkovu": "2026-08-11",
     "t3_1vkjvqt": "2026-08-11",
-    "t3_1vkh4xu": "2026-08-11"
+    "t3_1vkh4xu": "2026-08-11",
+    "t3_1vm5tm7": "2026-08-12",
+    "t3_1vm3r9x": "2026-08-12",
+    "t3_1vm1q8b": "2026-08-12",
+    "t3_1vm141o": "2026-08-12",
+    "t3_1vm05gl": "2026-08-12",
+    "t3_1vlzjw0": "2026-08-12",
+    "t3_1vlxd8w": "2026-08-12",
+    "t3_1vlv2ug": "2026-08-12",
+    "t3_1vluet3": "2026-08-12",
+    "t3_1vloxlu": "2026-08-12",
+    "t3_1vllkip": "2026-08-12",
+    "t3_1vlj2ts": "2026-08-12",
+    "t3_1vlgt0e": "2026-08-12"
   },
   "pending": {
+    "t3_1vjcakr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vjcakr/united_explorer_card_targeted_80k_sub/",
+      "title": "United Explorer Card Targeted 80k SUB",
+      "posted": "2026-08-09",
+      "card_name": "United Explorer",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied through a targeted 80k United offer this month and was approved. Poster gives velocity (one card in January, two in May including the CSP) but still no score after a re-read; the only OP reply is off topic.",
+      "firstSeen": "2026-08-10",
+      "attempts": 2,
+      "lastChecked": "2026-08-12"
+    },
+    "t3_1vhdp81": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vhdp81/how_is_my_credit_card_line_up/",
+      "title": "How is my credit card line up?",
+      "posted": "2026-08-06",
+      "card_name": "Robinhood Gold",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Twenty year old denied for Robinhood Gold this month after an invite, days after a Chase Freedom Unlimited approval at $1,500. Says only that the score has been great; the new OP reply is about card recommendations and carries no number.",
+      "firstSeen": "2026-08-10",
+      "attempts": 2,
+      "lastChecked": "2026-08-12"
+    },
+    "t3_1vh8shb": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vh8shb/got_rejected_for_savor_card/",
+      "title": "Got rejected for Savor Card!",
+      "posted": "2026-08-06",
+      "card_name": "Capital One Savor Cash Rewards",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied this month for the Savor after opening roughly nine cards in two months, with Capital One flagging amount of new credit. Four new OP replies discuss strategy and card history but still give no score, only that it is high.",
+      "firstSeen": "2026-08-10",
+      "attempts": 2,
+      "lastChecked": "2026-08-12"
+    },
+    "t3_1vlxd8w": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vlxd8w/just_get_approved_for_chase_csr/",
+      "title": "Just get approved for Chase CSR",
+      "posted": "2026-08-11",
+      "card_name": "Chase Sapphire Reserve",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Sapphire Reserve this month, listing a BofA Cash Rewards at 1 year 11 months plus a CSP and a Bonvoy Boundless both one month old. No score anywhere in a very short post.",
+      "firstSeen": "2026-08-12",
+      "attempts": 1,
+      "lastChecked": "2026-08-12"
+    },
+    "t3_1vlv2ug": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vlv2ug/us_bank_no_cli_going_on_15_years/",
+      "title": "US Bank - No CLI - Going on 1.5 years.",
+      "posted": "2026-08-11",
+      "card_name": "Smartly Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Smartly in February 2025 with a $500 starting limit, 0/1/1 inquiries and $110k total credit line, then denied three CLIs since. Score given only as a floor of 780+, so the exact number is the one thing missing.",
+      "firstSeen": "2026-08-12",
+      "attempts": 1,
+      "lastChecked": "2026-08-12"
+    },
     "t3_1viilrf": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1viilrf/was_approved_for_chase_freedom_unlimited_is_this/",
       "title": "Was approved for Chase Freedom Unlimited - Is this a good thing?",
@@ -772,48 +855,6 @@
       "firstSeen": "2026-08-11",
       "attempts": 1,
       "lastChecked": "2026-08-11"
-    },
-    "t3_1vjcakr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vjcakr/united_explorer_card_targeted_80k_sub/",
-      "title": "United Explorer Card Targeted 80k SUB",
-      "posted": "2026-08-09",
-      "card_name": "United Explorer",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied through a targeted 80k United offer this month and was approved. Poster shares velocity (one card in January, two in May including the CSP) but never a score.",
-      "firstSeen": "2026-08-10",
-      "attempts": 1,
-      "lastChecked": "2026-08-10"
-    },
-    "t3_1vhdp81": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vhdp81/how_is_my_credit_card_line_up/",
-      "title": "How is my credit card line up?",
-      "posted": "2026-08-06",
-      "card_name": "Robinhood Gold",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Twenty year old denied for Robinhood Gold this month after an invite, days after being approved for a Chase Freedom Unlimited at $1,500. Says only that the score has been great, no number.",
-      "firstSeen": "2026-08-10",
-      "attempts": 1,
-      "lastChecked": "2026-08-10"
-    },
-    "t3_1vh8shb": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vh8shb/got_rejected_for_savor_card/",
-      "title": "Got rejected for Savor Card!",
-      "posted": "2026-08-06",
-      "card_name": "Capital One Savor Cash Rewards",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied this month for the Savor after opening several cards in two months, with Capital One flagging amount of new credit. Poster says only that the score is high.",
-      "firstSeen": "2026-08-10",
-      "attempts": 1,
-      "lastChecked": "2026-08-10"
     }
   },
   "runs": [
@@ -850,6 +891,22 @@
         "other": 1,
         "pre_qual": 1,
         "no_score": 3,
+        "card_not_in_catalog": 1
+      }
+    },
+    {
+      "id": "2026-08-12T09:12:21.360Z",
+      "date": "2026-08-12",
+      "candidates": 16,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 12,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 8,
+        "no_score": 2,
         "card_not_in_catalog": 1
       }
     }
