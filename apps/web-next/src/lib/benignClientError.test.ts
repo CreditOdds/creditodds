@@ -188,6 +188,24 @@ describe("isBenignClientError", () => {
     expect(isBenignClientError("something actually broke")).toBe(false);
   });
 
+  // Firefox iOS content scripts re-encode inline SVGs as data: URIs and
+  // reject with a bare string when the load fails inside their context.
+  it("drops Firefox iOS's data-URI image-load string rejection", () => {
+    expect(
+      isBenignClientError(
+        "Unable to load image data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQi",
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps image-load failures pointing at a real URL", () => {
+    expect(
+      isBenignClientError(
+        "Unable to load image https://creditodds.com/cards/some-card.png",
+      ),
+    ).toBe(false);
+  });
+
   // An injected script stringifying a React-owned DOM node inside a patched
   // appendChild. Both halves of the message are required.
   it("drops circular-structure errors that walk a React fiber", () => {
