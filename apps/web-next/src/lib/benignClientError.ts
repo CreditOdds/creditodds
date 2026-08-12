@@ -40,7 +40,7 @@
 // ErrorEvent is deliberately NOT matched — it carries a real message/error
 // payload worth reporting.
 //
-// Two more shapes come from code that isn't ours at all:
+// Three more shapes come from code that isn't ours at all:
 //
 // 1. "Object Not Found Matching Id:N, MethodName:update, ParamCount:4"
 //    (CREDITODDS-JAVASCRIPT-NEXTJS-16), rejected as a bare STRING rather than
@@ -61,6 +61,20 @@
 //    genuine circular-structure bug in our own code would not be walking a
 //    React fiber.
 //
+// 3. "Unable to load image data:image/svg+xml;base64,..."
+//    (CREDITODDS-JAVASCRIPT-NEXTJS-1F), rejected as a bare STRING from
+//    Firefox iOS. The base64 payload decodes to one of our inline <svg>
+//    elements (the FollowXCallout X logo) — but we never serialise inline
+//    SVGs to data URIs or load them via Image(), and no code we ship says
+//    "Unable to load image" (nor could our chunks appear in a stack: string
+//    rejections carry no frames, which is also why hasOnlyForeignFrames
+//    can't catch this). Firefox iOS injects content scripts that walk the
+//    page's images (metadata/thumbnail extraction), and inline SVGs get
+//    re-encoded as data: URIs whose load can fail inside the injected
+//    context. The "data:" scheme is required in the signature so a
+//    hypothetical real image-load failure pointing at an https URL stays
+//    reportable.
+//
 // Finally, hasOnlyForeignFrames (below) drops exceptions by stack shape rather
 // than message: every frame lacks a resolvable script URL. See its comment.
 const BENIGN_CLIENT_SIGNATURES = [
@@ -78,6 +92,7 @@ const BENIGN_ANY_ERROR_SIGNATURES = [
   'Connection to Indexed Database server lost',
   'installations/app-offline',
   'Object Not Found Matching Id:',
+  'Unable to load image data:',
 ];
 
 // Every substring here must be present for the error to count as benign. Used
