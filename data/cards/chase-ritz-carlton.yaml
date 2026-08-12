@@ -1,0 +1,89 @@
+name: "Ritz-Carlton"
+bank: "Chase"
+slug: "chase-ritz-carlton"
+image: "chase-ritz-carlton.png"
+accepting_applications: true
+annual_fee: 450
+category: "travel"
+reward_type: "points"
+benefits:
+  - name: "Annual Travel Credit"
+    value: 300
+    description: "Up to $300 in statement credits each year on qualifying airline purchases such as baggage fees, seat upgrades, and lounge memberships or day passes"
+    frequency: "annual"
+    category: "statement_credit"
+    enrollment_required: false
+  - name: "Free Night Award"
+    value: 0
+    description: "One annual free night award on the account anniversary, good for a standard room at a redemption level up to 85,000 points"
+    frequency: "annual"
+    category: "hotel"
+  - name: "15 Elite Night Credits"
+    value: 0
+    description: "15 elite night credits toward Marriott Bonvoy status each calendar year"
+    frequency: "annual"
+    category: "hotel"
+  - name: "Gold Elite Status"
+    value: 0
+    description: "Automatic Marriott Bonvoy Gold Elite status each calendar year, with 25% bonus points on stays, 2 p.m. late checkout, and enhanced room upgrades when available. Platinum Elite status after $75,000 in purchases in a calendar year."
+    frequency: "ongoing"
+    category: "hotel"
+  - name: "Priority Pass Select"
+    value: 0
+    description: "Priority Pass Select membership covering over 1,300 airport lounges worldwide, plus access to Chase Sapphire Lounges, with up to 2 guests per visit"
+    frequency: "ongoing"
+    category: "travel"
+    enrollment_required: true
+  - name: "Global Entry or TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 statement credit toward a Global Entry application fee, which also confers TSA PreCheck privileges"
+    frequency: "every_4_years"
+    category: "travel"
+  - name: "Hotel Credit"
+    value: 100
+    description: "Up to $100 in property credit for qualifying dining, spa, or recreation charges on stays of two nights or more at The Ritz-Carlton and St. Regis properties"
+    frequency: "per_stay"
+    category: "hotel"
+tags:
+  - hotel
+  - travel
+  - premium
+  - rewards
+rewards:
+  - category: hotels
+    value: 6
+    unit: points_per_dollar
+    note: "Marriott Bonvoy participating hotels (card portion; Gold Elite bonus points are a program rate, not a card rate)"
+    merchant_specific: true
+    merchant_gate: [marriott]
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: airlines
+    value: 3
+    unit: points_per_dollar
+  - category: car_rentals
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 2
+    unit: points_per_dollar
+apply_link: https://marriott.chase.com/ritz-carlton
+foreign_transaction_fee: false
+network: "visa"
+our_take: >
+  The Ritz-Carlton card has been closed to new applications since 2018, so the
+  only way in is a product change from a Chase Marriott Bonvoy card you have
+  held for at least a year, which is why it keeps turning up in upgrade threads
+  rather than application ones. What makes it worth the detour is the annual
+  free night award at up to 85,000 points, a full 50,000 above what Boundless
+  gives you, which is the difference between a mid-tier property and a genuinely
+  aspirational one. Add the $300 airline credit and the $450 fee is mostly
+  covered before you count anything else, and the rest is real: Priority Pass
+  Select with Chase Sapphire Lounge access, a $120 Global Entry credit, 15
+  elite nights, automatic Gold Elite, and a $100 property credit on two-night
+  stays at Ritz-Carlton and St. Regis hotels. Earning is the weak spot at 6x on
+  Marriott stays, 3x on dining, airfare, and car rentals, and 2x on everything
+  else, so this is a card you hold for the certificate and the credits rather
+  than one you put daily spend on. If you already have a Boundless sitting at a
+  $10,000 credit line, the upgrade math is straightforward.
