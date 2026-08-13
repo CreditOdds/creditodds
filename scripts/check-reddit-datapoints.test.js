@@ -383,6 +383,25 @@ test('the prompt accepts narrow score ranges and floors, and still rejects wide 
   assert.match(prompt, /"mid 700s", "good credit", "excellent credit"/);
 });
 
+// bank_customer is the field most often filled in by inference, because a post
+// usually implies the answer without stating it. On 2026-08-13 a Smartly row
+// went in as true off "$100k+ in my US Bank brokerage" plus a grandfathered
+// offer — a defensible read, and exactly the reasoning Max ruled out: only set
+// it when the poster says it. A wrong true is indistinguishable from a real one
+// once imported, so the prompt has to name the tempting non-statements.
+test('the prompt keeps bank_customer strict and names what does not count', () => {
+  const prompt = buildExtractPrompt({
+    cards: [{ name: 'Smartly Visa Signature', bank: 'U.S. Bank', previous_names: [] }],
+    candidates: [],
+  });
+  assert.match(prompt, /ONLY when the poster SAYS it in words/);
+  assert.match(prompt, /point at the sentence/);
+  // The specific inferences that produced the bad row.
+  assert.match(prompt, /holding assets or another product with the issuer/);
+  assert.match(prompt, /grandfathered/);
+  assert.match(prompt, /chain of reasoning, omit the field/);
+});
+
 // ── Pending bucket (incomplete-revisit) ──────────────────────────────────────
 //
 // The bucket exists because precision-over-recall throws away recoverable rows:
