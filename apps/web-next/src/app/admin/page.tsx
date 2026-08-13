@@ -1913,8 +1913,20 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
   const [loadingRecords, setLoadingRecords] = useState(false);
   const [processingId, setProcessingId] = useState<number | null>(null);
   const [editingRecord, setEditingRecord] = useState<AdminRecordDetail | null>(null);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [tableError, setTableError] = useState<string | null>(null);
 
   const filteredCards = filterCardCatalog(cards, cardSearch);
+
+  const openEditor = (record: AdminRecordDetail) => {
+    setEditError(null);
+    setEditingRecord(record);
+  };
+
+  const closeEditor = () => {
+    setEditError(null);
+    setEditingRecord(null);
+  };
 
   const loadCardRecords = async (card: Card) => {
     setLoadingRecords(true);
@@ -1943,6 +1955,7 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
   const handleDeleteRecord = async (recordId: number) => {
     if (!confirm("Are you sure you want to delete this data point?")) return;
     setProcessingId(recordId);
+    setTableError(null);
     try {
       const token = await getToken();
       if (!token) return;
@@ -1950,7 +1963,7 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
       setCardRecords(prev => prev.filter(r => r.record_id !== recordId));
       setCardRecordsTotal(prev => prev - 1);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Failed to delete record");
+      setTableError(err instanceof Error ? err.message : "Failed to delete record");
     } finally {
       setProcessingId(null);
     }
@@ -1958,6 +1971,7 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
 
   const handleUpdateRecord = async (data: { record_id: number; [key: string]: unknown }) => {
     setProcessingId(data.record_id);
+    setEditError(null);
     try {
       const token = await getToken();
       if (!token) return;
@@ -1966,7 +1980,11 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
       if (selectedCard) await loadCardRecords(selectedCard);
       setEditingRecord(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Failed to update record");
+      // Inline, not alert(): a native dialog blocks the whole page until it is
+      // dismissed, which turns a one-line validation failure into what looks
+      // like a frozen browser (and wedges automated tooling outright). The
+      // modal also has to stay open so the entered values survive the error.
+      setEditError(err instanceof Error ? err.message : "Failed to update record");
     } finally {
       setProcessingId(null);
     }
@@ -2038,6 +2056,12 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
             <span className="av-section-meta">{cardRecordsTotal.toLocaleString()} for {selectedCard.card_name}</span>
           </div>
 
+          {tableError && (
+            <div className="av-banner av-banner-err" style={{ marginTop: 0, marginBottom: 14 }} role="alert">
+              {tableError}
+            </div>
+          )}
+
           {loadingRecords ? (
             <div className="av-tape av-tape-empty">Loading data points…</div>
           ) : cardRecords.length === 0 ? (
@@ -2087,7 +2111,7 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
                     <div className="av-row-actions">
                       <button
                         type="button"
-                        onClick={() => setEditingRecord(record)}
+                        onClick={() => openEditor(record)}
                         className="av-row-action-btn av-action-edit"
                         title="Edit"
                       >
@@ -2115,8 +2139,9 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
         <EditRecordModal
           record={editingRecord}
           processing={processingId === editingRecord.record_id}
+          error={editError}
           onSave={handleUpdateRecord}
-          onClose={() => setEditingRecord(null)}
+          onClose={closeEditor}
         />
       )}
     </>
@@ -2126,11 +2151,13 @@ function CardDataTab({ getToken }: { getToken: () => Promise<string | null> }) {
 function EditRecordModal({
   record,
   processing,
+  error,
   onSave,
   onClose
 }: {
   record: AdminRecordDetail;
   processing: boolean;
+  error?: string | null;
   onSave: (data: { record_id: number; [key: string]: unknown }) => void;
   onClose: () => void;
 }) {
@@ -2178,6 +2205,11 @@ function EditRecordModal({
           </div>
           <form onSubmit={handleSubmit}>
             <div className="av-modal-body">
+              {error && (
+                <div className="av-banner av-banner-err" style={{ marginTop: 0, marginBottom: 14 }} role="alert">
+                  {error}
+                </div>
+              )}
               <div className="av-field">
                 <label className="av-field-label">Credit Score</label>
                 <div className="av-inputgroup">
