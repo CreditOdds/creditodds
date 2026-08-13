@@ -358,7 +358,13 @@ test('the finish phase rejects a duplicate row and names its twin', () => {
 // took its lower bound (#1825). That asymmetry predated the backfill, when
 // ranges were rare; in one 8-candidate pass it cost six data points, more than
 // the pass produced. Narrow ranges now take the lower bound too.
-test('the prompt accepts narrow score ranges and still rejects wide ones and floors', () => {
+//
+// Floors held out one round longer on the theory that a score floor is the
+// poster rounding up while an income floor is a real bound. Max overruled that
+// on 2026-08-13 after a "780+" Smartly approval sat in the ask-list: a row that
+// is certainly-at-least-780 beats no row, and it understates in a known
+// direction exactly like income does. Floors now take the floor.
+test('the prompt accepts narrow score ranges and floors, and still rejects wide ranges', () => {
   const prompt = buildExtractPrompt({
     cards: [{ name: 'Chase Sapphire Preferred', bank: 'Chase', previous_names: [] }],
     candidates: [],
@@ -368,10 +374,12 @@ test('the prompt accepts narrow score ranges and still rejects wide ones and flo
   assert.match(prompt, /spread is 20 points or fewer/);
   assert.match(prompt, /record the LOWER bound/i);
   assert.match(prompt, /"753-758" → 753/);
-  // The lines that must survive any future rewording: wide ranges and floors
-  // are still out, and a floor is explicitly distinguished from a range.
+  // The lines that must survive any future rewording: wide ranges are still
+  // out, floors are in and take the floor rather than being rounded up.
   assert.match(prompt, /wider range does NOT qualify/);
-  assert.match(prompt, /A floor is not a range and does NOT qualify/);
+  assert.match(prompt, /A floor takes the floor/);
+  assert.match(prompt, /"770\+" → 770/);
+  assert.doesNotMatch(prompt, /floor.{0,40}does NOT qualify/);
   assert.match(prompt, /"mid 700s", "good credit", "excellent credit"/);
 });
 
@@ -400,13 +408,28 @@ test('pendingExpiry retires an entry on attempts or age, and says why', () => {
   assert.match(pendingExpiry(null, '2026-08-03'), /malformed/);
 });
 
-test('rankPending chases the least-tried and oldest first', () => {
+// Inverted 2026-08-13. Least-tried-first starved the tail: the bucket gains
+// entries every run, so fresh ones with a full window left permanently outranked
+// the ones down to their last look, and no entry ever reached attempt 3.
+test('rankPending drains the most-tried first so nothing ages out unread', () => {
   const ranked = rankPending({
     t3_new: { firstSeen: '2026-08-03', attempts: 0 },
     t3_tried: { firstSeen: '2026-08-01', attempts: 2 },
     t3_old: { firstSeen: '2026-07-30', attempts: 0 },
   });
-  assert.deepEqual(ranked.map((r) => r.id), ['t3_old', 't3_new', 't3_tried']);
+  assert.deepEqual(ranked.map((r) => r.id), ['t3_tried', 't3_old', 't3_new']);
+});
+
+// The starvation case itself: a full bucket where every newcomer would otherwise
+// jump the queue ahead of entries with one look left.
+test('rankPending puts last-look entries ahead of a run\'s fresh arrivals', () => {
+  const ranked = rankPending({
+    t3_fresh1: { firstSeen: '2026-08-13', attempts: 1 },
+    t3_fresh2: { firstSeen: '2026-08-13', attempts: 1 },
+    t3_lastlook: { firstSeen: '2026-08-10', attempts: 2 },
+    t3_lastlook2: { firstSeen: '2026-08-11', attempts: 2 },
+  });
+  assert.deepEqual(ranked.slice(0, 2).map((r) => r.id), ['t3_lastlook', 't3_lastlook2']);
 });
 
 testAsync('revisitPending re-reads the post and counts the attempt', async () => {
