@@ -660,16 +660,16 @@
     "t3_1vl9oq8": "2026-08-11",
     "t3_1vl7l21": "2026-08-11",
     "t3_1vl6f8z": "2026-08-11",
-    "t3_1vl5x87": "2026-08-11",
+    "t3_1vl5x87": "2026-08-13",
     "t3_1vl40b1": "2026-08-11",
     "t3_1vl2zet": "2026-08-11",
-    "t3_1vl242g": "2026-08-11",
+    "t3_1vl242g": "2026-08-13",
     "t3_1vl2347": "2026-08-11",
     "t3_1vl1ss3": "2026-08-11",
-    "t3_1vl1mtu": "2026-08-11",
+    "t3_1vl1mtu": "2026-08-13",
     "t3_1vl04v9": "2026-08-11",
     "t3_1vkz9h4": "2026-08-11",
-    "t3_1vkw0tx": "2026-08-11",
+    "t3_1vkw0tx": "2026-08-13",
     "t3_1vklzjm": "2026-08-11",
     "t3_1vkkovu": "2026-08-11",
     "t3_1vkjvqt": "2026-08-11",
@@ -686,9 +686,109 @@
     "t3_1vloxlu": "2026-08-12",
     "t3_1vllkip": "2026-08-12",
     "t3_1vlj2ts": "2026-08-12",
-    "t3_1vlgt0e": "2026-08-12"
+    "t3_1vlgt0e": "2026-08-12",
+    "t3_1vmyw3s": "2026-08-13",
+    "t3_1vmythy": "2026-08-13",
+    "t3_1vmykvq": "2026-08-13",
+    "t3_1vmyc67": "2026-08-13",
+    "t3_1vmy3js": "2026-08-13",
+    "t3_1vmx3c3": "2026-08-13",
+    "t3_1vmwplg": "2026-08-13",
+    "t3_1vmvgps": "2026-08-13",
+    "t3_1vmnx36": "2026-08-13",
+    "t3_1vmmcku": "2026-08-13",
+    "t3_1vmm6h5": "2026-08-13",
+    "t3_1vmkfv3": "2026-08-13",
+    "t3_1vmjuch": "2026-08-13",
+    "t3_1vmjpbo": "2026-08-13",
+    "t3_1vmj1bq": "2026-08-13",
+    "t3_1vmic66": "2026-08-13",
+    "t3_1vlzzq5": "2026-08-13"
   },
   "pending": {
+    "t3_1vl242g": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vl242g/looking_for_good_first_primary_card_after/",
+      "title": "Looking for good first primary card after rejection",
+      "posted": "2026-08-11",
+      "result": "denied",
+      "missing": [
+        "card_name"
+      ],
+      "note": "First time applicant, Experian 770 / TransUnion 790 / Equifax 775, $70k income, denied by Citi because it could not verify application information. Still never says which AAdvantage card.",
+      "firstSeen": "2026-08-11",
+      "attempts": 2,
+      "lastChecked": "2026-08-13"
+    },
+    "t3_1vl1mtu": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vl1mtu/denied_aadvantage_platinum_select_when_to_reapply/",
+      "title": "Denied AAdvantage Platinum Select, When to Reapply?",
+      "posted": "2026-08-11",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied 7/21 and denied for insufficient credit history, with two other dated Citi approvals in the same post. Re-read today and still no score anywhere in the body or replies.",
+      "firstSeen": "2026-08-11",
+      "attempts": 2,
+      "lastChecked": "2026-08-13"
+    },
+    "t3_1vkw0tx": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vkw0tx/chase_united_explorer_card_taking_forever_to/",
+      "title": "Chase United Explorer card taking forever to arrive — no USPS tracking either. Anyone else had this happen?",
+      "posted": "2026-08-10",
+      "card_name": "United Explorer",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved August 1 with no prior Chase relationship. Two OP replies arrived since the last look and neither mentions a score; the post is about the card not arriving in the mail, so a score is unlikely to surface.",
+      "firstSeen": "2026-08-11",
+      "attempts": 2,
+      "lastChecked": "2026-08-13"
+    },
+    "t3_1vmyc67": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vmyc67/went_on_a_bit_of_a_chase_binge/",
+      "title": "Went on a bit of a Chase binge",
+      "posted": "2026-08-13",
+      "card_name": "Ink Business Cash",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster at 4/24 reports approval on the Ink Business Cash 100k offer after a review-line call, plus a Sapphire Preferred approval two weeks earlier. Two rows would publish if a score arrives.",
+      "firstSeen": "2026-08-13",
+      "attempts": 1,
+      "lastChecked": "2026-08-13"
+    },
+    "t3_1vmnx36": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vmnx36/reapplication_chances_robinhood_gold/",
+      "title": "Reapplication chances Robinhood gold",
+      "posted": "2026-08-12",
+      "card_name": "Robinhood Gold",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied solely for low Robinhood account assets, with the adverse action letter citing nothing about creditworthiness. Poster is asking about reapproval odds and never states a score.",
+      "firstSeen": "2026-08-13",
+      "attempts": 1,
+      "lastChecked": "2026-08-13"
+    },
+    "t3_1vmic66": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vmic66/excellent_credit_no_credit_history_and_rejected/",
+      "title": "Excellent credit, no credit history, and rejected",
+      "posted": "2026-08-12",
+      "card_name": "Citi Double Cash",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Eighteen year old applied for the Double Cash and was instantly rejected for a thin file. Calls their credit excellent but gives no number.",
+      "firstSeen": "2026-08-13",
+      "attempts": 1,
+      "lastChecked": "2026-08-13"
+    },
     "t3_1vjcakr": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vjcakr/united_explorer_card_targeted_80k_sub/",
       "title": "United Explorer Card Targeted 80k SUB",
@@ -787,61 +887,6 @@
       "attempts": 2,
       "lastChecked": "2026-08-11"
     },
-    "t3_1vl5x87": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vl5x87/can_i_apply_for_csr_business/",
-      "title": "Can I apply for CSR Business?",
-      "posted": "2026-08-11",
-      "card_name": "Chase Sapphire Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Chase customer since 2008 reports two approvals with strong limits: Ink Business Unlimited in May 2026 and Chase Sapphire Preferred in June 2026. Two rows would publish if a score arrives.",
-      "firstSeen": "2026-08-11",
-      "attempts": 1,
-      "lastChecked": "2026-08-11"
-    },
-    "t3_1vl242g": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vl242g/looking_for_good_first_primary_card_after/",
-      "title": "Looking for good first primary card after rejection",
-      "posted": "2026-08-11",
-      "result": "denied",
-      "missing": [
-        "card_name"
-      ],
-      "note": "First time applicant with Experian 770, TransUnion 790, Equifax 775 and $70k income, denied for a Citi AAdvantage card because Citi could not verify application information. Which AAdvantage card is never named.",
-      "firstSeen": "2026-08-11",
-      "attempts": 1,
-      "lastChecked": "2026-08-11"
-    },
-    "t3_1vl1mtu": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vl1mtu/denied_aadvantage_platinum_select_when_to_reapply/",
-      "title": "Denied AAdvantage Platinum Select, When to Reapply?",
-      "posted": "2026-08-11",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Three dated Citi outcomes and no score anywhere: Double Cash applied 5/8 approved 6/2, Strata approved same day 6/10, AAdvantage Platinum Select applied 7/21 denied for insufficient credit history.",
-      "firstSeen": "2026-08-11",
-      "attempts": 1,
-      "lastChecked": "2026-08-11"
-    },
-    "t3_1vkw0tx": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vkw0tx/chase_united_explorer_card_taking_forever_to/",
-      "title": "Chase United Explorer card taking forever to arrive — no USPS tracking either. Anyone else had this happen?",
-      "posted": "2026-08-10",
-      "card_name": "United Explorer",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved August 1 with no prior Chase relationship; the post is about the card not arriving in the mail. No score, income, or limit given.",
-      "firstSeen": "2026-08-11",
-      "attempts": 1,
-      "lastChecked": "2026-08-11"
-    },
     "t3_1vkjvqt": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vkjvqt/approved_for_the_us_bank_triple_cash_only_3k/",
       "title": "Approved for the U.S. Bank Triple Cash, only $3k credit limit",
@@ -908,6 +953,23 @@
         "no_outcome": 8,
         "no_score": 2,
         "card_not_in_catalog": 1
+      }
+    },
+    {
+      "id": "2026-08-13T06:26:31.162Z",
+      "date": "2026-08-13",
+      "candidates": 21,
+      "revisits": 4,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 14,
+      "unaccounted": 0,
+      "skipped": {
+        "other": 1,
+        "pre_qual": 1,
+        "no_score": 7,
+        "no_outcome": 5
       }
     }
   ]
