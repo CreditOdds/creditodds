@@ -13,9 +13,9 @@ our_take: >
   most hotel co-brands manage. At Marriott Bonvoy properties it earns 6x, and
   complimentary Gold Elite status plus 15 Elite Night Credits each year move
   you toward higher tiers without any spending requirement. The current
-  135,000 point bonus arrives in two pieces, 85,000 after $5,000 and another
-  50,000 after $2,000 more, both within the first six months, and it climbed
-  back up in June after a sharp cut in May. The weak spot is a $250 annual fee
+  limited-time offer is 125,000 points plus a $150 statement credit after
+  $5,000 in the first six months, which replaces the two-part 135,000 point
+  deal and runs through September 30, 2026. The weak spot is a $250 annual fee
   against a free night award that only shows up after $15,000 of purchases in
   a calendar year, so there is no automatic anniversary night to lean on the
   way most hotel cards provide. Clear that threshold and stay at Marriott a
@@ -47,10 +47,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 135000
+  value: 125000
   type: "points"
-  spend_requirement: 7000
+  spend_requirement: 5000
   timeframe_months: 6
+  note: "Plus a $150 statement credit. Offer ends 2026-09-30."
 apr:
   regular:
     min: 19.49
