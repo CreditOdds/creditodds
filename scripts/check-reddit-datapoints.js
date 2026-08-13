@@ -131,7 +131,7 @@ const SKIP_REASONS = {
   pre_qual: 'Pre-qualification or pre-approval result, which is never an outcome',
   not_first_person: "Someone else's application, or second-hand with no details",
   no_score: 'Real outcome but no credit score anywhere, and below the pending bar',
-  score_too_vague: 'Score only as a wide range, a floor, or a description ("mid 700s")',
+  score_too_vague: 'Score only as a wide range or a description ("mid 700s")',
   card_not_in_catalog: 'Real outcome and score, but the card is not in data/cards/',
   card_unclear: 'Real outcome but which card was applied for cannot be pinned down',
   not_datable: 'Application cannot be placed in a specific month',
@@ -287,14 +287,22 @@ function pendingExpiry(entry, today = TODAY) {
   return null;
 }
 
-// Oldest and least-tried first: an entry on its last attempt is the one about to
-// age out, and a post loses its chance of new comments as it ages.
+// Closest to aging out first: an entry on its last attempt gets no other chance,
+// while a fresh one still has the whole window ahead of it.
+//
+// This used to sort least-tried first, which starved exactly the entries the
+// comment claimed to protect. With CAPS.revisitPosts slots against a bucket that
+// gains new entries every run, the fresh arrivals always outranked the old ones,
+// so nothing ever reached its third look — on 2026-08-13, 8 of 14 entries were
+// queued behind 6 newer ones with two looks each still to burn. Sorting by
+// attempts DESC drains the tail first; ties go to the older firstSeen, which is
+// both nearer the day limit and less likely to attract new comments.
 function rankPending(pending) {
   return Object.entries(pending)
     .map(([id, entry]) => ({ id, entry }))
     .sort(
       (a, b) =>
-        (a.entry.attempts || 0) - (b.entry.attempts || 0) ||
+        (b.entry.attempts || 0) - (a.entry.attempts || 0) ||
         String(a.entry.firstSeen || '').localeCompare(String(b.entry.firstSeen || ''))
     );
 }
@@ -804,7 +812,7 @@ You are a meticulous data curator for CreditOdds. From the r/CreditCards candida
    - **A range qualifies when its spread is ${MAX_SCORE_RANGE_SPREAD} points or fewer — record the LOWER bound.** "753-758" → 753. "760-770" → 760. This mirrors how bounded income is handled: a value that understates in a known direction beats losing the row, and a spread that narrow is smaller than the month-to-month drift in anyone's real score.
    - A wider range does NOT qualify, because its lower bound is a guess rather than a bound: "736-770ish", "580-600", "700-730" → skip.
    - Vague descriptions never qualify: "mid 700s", "good credit", "excellent credit".
-   - A floor is not a range and does NOT qualify: "770+", "740 or above" → skip. Unlike income, where a floor is a real lower bound on a quantity, a score floor is usually the poster rounding up and the true value is unknowable.
+   - **A floor takes the floor**: "770+" → 770, "740 or above" → 740, "at least 800" → 800. Same rule as bounded income: the value understates in a known direction, and a row that is certainly-at-least-770 is worth more than no row. Do NOT round up or split the difference — record exactly the number the poster gave.
 4. **A card in the catalog below**: match against current names and the "previously:" aliases, but always output the CURRENT catalog name, exactly as written. If the card is not in the catalog, skip the data point and mention the card in your run report instead.
 5. **A datable application**: you can place the application in a specific month. The default is the month the post was written, which is almost always right because people post about an application when it happens. Historical posts are in scope — anything within the last ${MAX_DATA_POINT_AGE_MONTHS / 12} years counts, so do NOT skip a data point merely for being old. Skip only when the application cannot be dated at all, or when the poster describes an application from before that window.
 
@@ -862,6 +870,7 @@ missing: ["credit_score"]        # one or more of: ${PENDING_MISSING_FIELDS.join
 card_name: "Bank of America Premium Rewards Elite"   # omit if the card is what is missing
 result: "denied"                                     # omit if the result is what is missing
 note: "Denial cited no existing banking relationship. Poster never gave a score."
+ask: "You mentioned a 2019 file. Roughly what month did you apply?"   # optional
 \`\`\`
 
 Declare an entry pending ONLY when **all** of these hold:
@@ -872,6 +881,8 @@ Declare an entry pending ONLY when **all** of these hold:
 A "what are my odds?" post, a recommendation-template post, or a pre-qual rejection is NOT pending. It is a skip, same as before. The bucket is expensive (one Reddit request per entry per run, against a feed that throttles us) and it is only worth spending on a row we would publish the moment one number arrives.
 
 \`note\` is your own paraphrase and gets read by a human deciding whether to go ask the poster, so say what is established and what is missing in one line.
+
+\`ask\` is optional and overrides the generic per-field question in the follow-up list. Write one whenever the post says something adjacent to the missing field, because the generic question will otherwise ask for what the post already gives: if the poster wrote "mid 700s", the ask is "you said mid 700s, what was the exact number?", not "what was your score?". Skip \`ask\` when the field is simply absent and the generic question already fits.
 
 ## Accounting: every candidate needs a disposition
 
@@ -919,6 +930,12 @@ If nothing qualifies, \`proposed/\` and \`pending/\` stay empty and every candid
 // What to ask the poster, by field. These are suggestions for a human to send
 // in their own words, not something the routine posts: commenting from a real
 // account is a separate decision with its own consequences on r/CreditCards.
+//
+// Generic by field, so they describe the gap but not the post. That misleads
+// whenever the post says something adjacent to the missing field: a post giving
+// "780+" is missing an exact score, and "what was your score?" reads as if the
+// poster never answered, sending a human to re-ask a question the post already
+// answered (seen 2026-08-13). An entry can override with its own `ask`.
 const FOLLOWUP_QUESTIONS = {
   credit_score: 'What was your score at the time, and which bureau?',
   card_name: 'Which card exactly was it?',
@@ -934,7 +951,7 @@ function buildFollowups(pending) {
   const blocks = entries.map(({ id, entry }) => {
     const missing = entry.missing || [];
     const known = [entry.card_name, entry.result].filter(Boolean).join(' · ') || 'outcome recorded';
-    const questions = missing.map((f) => FOLLOWUP_QUESTIONS[f]).filter(Boolean);
+    const questions = entry.ask ? [entry.ask] : missing.map((f) => FOLLOWUP_QUESTIONS[f]).filter(Boolean);
     const looksLeft = Math.max(0, PENDING_MAX_ATTEMPTS - (entry.attempts || 0));
     return [
       `### ${known}`,
@@ -1003,6 +1020,7 @@ function validatePendingEntry(entry, { candidateById, cardByName, aliasToName })
             result: entry.result || undefined,
             missing,
             note: truncate(String(entry.note || ''), 300),
+            ask: entry.ask ? truncate(String(entry.ask), 200) : undefined,
           },
   };
 }
@@ -1545,7 +1563,11 @@ async function phaseFetch() {
   const pending = {};
   const expired = [];
   for (const [id, entry] of Object.entries(state.pending)) {
-    const reason = pendingExpiry(entry);
+    // Resolved out from under the bucket: the missing field arrived some other
+    // way (a later run published it, or a row was added by hand) and the post
+    // now has an imported data point. Nothing left to chase, so stop paying a
+    // request a run for it.
+    const reason = importedIds.has(id) ? 'already published, nothing left to chase' : pendingExpiry(entry);
     if (reason) expired.push({ id, entry, reason });
     else pending[id] = { ...entry };
   }
