@@ -193,7 +193,15 @@ const CAPS = {
   // shared ceiling the two loops would each spend `expandPosts` and double our
   // request rate against a feed that already 429s most days.
   replyRequests: 8,
-  revisitPosts: 4,
+  // Raised 4 → 6 on 2026-08-13. Deliberately NOT paired with a replyRequests
+  // increase: this reallocates the shared budget toward revisits rather than
+  // adding requests, so it is throttle-neutral on a feed that 429'd six times
+  // that morning. The cost is fresh OP expansion dropping to 2 posts a run.
+  // Worth it while the bucket is backlogged (14 entries against 4 slots meant
+  // a human's comment on a post could go unread until the entry aged out); if
+  // the bucket drains to single digits, put this back to 4 and give the slots
+  // back to expansion, which is what finds new scoreless outcomes.
+  revisitPosts: 6,
   opCommentsPerPost: 5,
   opCommentChars: 600,
   abortAfterFailures: 2,
