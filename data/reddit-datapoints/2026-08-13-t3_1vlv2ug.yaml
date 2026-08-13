@@ -9,5 +9,4 @@ credit_score_source: 0
 starting_credit_limit: 500
 inquiries_3: 0
 inquiries_12: 1
-bank_customer: true
 date_applied: "2025-02"
