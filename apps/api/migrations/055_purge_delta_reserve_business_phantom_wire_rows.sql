@@ -1,0 +1,29 @@
+-- Purge four phantom CardWire rows on Delta SkyMiles Reserve Business American
+-- Express (card_id 375). The card's PUBLIC sign-up bonus never changed: it has
+-- been 80,000 miles after $12,000 in 6 months since the card was added on
+-- 2026-07-28.
+--
+-- What actually happened is that americanexpress.com serves a session-targeted
+-- 125,000 upgrade variant to some sessions, and the nightly page check's
+-- Playwright fetch was served that variant on some days and the public 80,000
+-- on others. Each flip wrote a wire row:
+--
+--   id 243  2026-08-03   80,000 -> 125,000   (#1898, fetch saw targeted variant)
+--   id 248  2026-08-11  125,000 ->  80,000   (#2011, hand-applied, unverified)
+--   id 252  2026-08-12   80,000 -> 125,000   (#2026, targeted variant confirmed
+--                                             in incognito as "Special Welcome
+--                                             Offer / previously 80,000, now
+--                                             125,000" — upgrade framing, i.e.
+--                                             targeting, not a public change)
+--   id 254  2026-08-13  125,000 ->  80,000   (#2040, corrects back to public)
+--
+-- All four are artifacts of one offer being read inconsistently, not four offer
+-- changes in eleven days. Leaving them shows visitors a bonus that ping-pongs
+-- weekly and, worse, two of them are INCREASES — which is what fires a CardWire
+-- tweet (see scripts/post-card-wire.js). Deleting the rows also removes them
+-- from the 48-hour --reconcile window so they cannot be re-posted.
+--
+-- Scoped by card_id + field + date so it cannot touch any other card or any of
+-- this card's non-SUB history (annual_fee, APR, rewards). The card's YAML is
+-- already correct at 80,000 as of #2040.
+DELETE FROM card_wire WHERE card_id = 375 AND field = 'signup_bonus_value' AND changed_at >= '2026-08-01 00:00:00';
