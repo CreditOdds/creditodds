@@ -246,7 +246,13 @@ exports.AdminRecordsHandler = async (event) => {
           credit_score: yup.number().integer().min(300).max(850),
           credit_score_source: yup.number().integer().min(0).max(4),
           result: yup.boolean(),
-          listed_income: yup.number().integer().min(0).max(1000000),
+          // .nullable() because income is optional on a record and the edit
+          // modal always sends every field, so a record with no income posts
+          // listed_income: null. Without this, yup coerces null to NaN and
+          // rejects the whole update — which made every income-less record
+          // uneditable, and surfaced only as a blocking alert() in the admin UI
+          // (72 of 133 imported Reddit data points were affected).
+          listed_income: yup.number().integer().min(0).max(1000000).nullable(),
           length_credit: yup.number().integer().min(0).max(100).nullable(),
           starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
           reason_denied: yup.string().max(254).nullable(),
