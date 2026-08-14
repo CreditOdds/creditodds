@@ -11,7 +11,9 @@
  * Fidelity's dead offer page survived a daily green check.
  *
  * A link is flagged as broken if any of these are true:
- *   - HTTP status is 4xx or 5xx (after retrying with a browser for 403/429)
+ *   - HTTP status is 4xx or 5xx, and it survives a stealth-browser retry plus a
+ *     second confirming attempt (see needsBrowserRetry — bank WAFs soft-block
+ *     the CI runner with a 404 as readily as a 403)
  *   - Final redirect URL matches an error path (e.g. /error/500, /404, /page-not-found)
  *   - Page title or body contains common error markers
  *
@@ -34,6 +36,7 @@ const CONCURRENCY = 8;
 const FETCH_TIMEOUT_MS = 20000;
 const BROWSER_TIMEOUT_MS = 30000;
 const REQUEST_DELAY_MS = 100;
+const RETRY_DELAY_MS = 3000;
 
 const USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -218,6 +221,27 @@ async function fetchWithBrowser(url) {
   }
 }
 
+// Statuses that may be a bank WAF blocking the CI runner rather than a real
+// verdict on the URL. The stealth-browser retry exists precisely to defeat these,
+// so the set decides whether that machinery ever runs.
+//
+// 404 is the important entry and the one that was missing. Akamai and Imperva
+// both soft-block with a plain 404, which at the status-code layer is
+// indistinguishable from a dead page — so the one status the script trusted
+// unconditionally was also a routine block response. Citi's /usc/lpaca/ offer
+// pages did exactly that on 2026-08-13 (issue #2037): a single run got a 404 on
+// the AAdvantage Executive apply link while every other citi.com URL in the same
+// run passed within the same second, and the page was live throughout — it had
+// checked OK on 8/9, 8/10 and 8/12, and checked OK again afterwards. Because 404
+// skipped the retry path, a live link with a live 70k offer was reported broken.
+//
+// 5xx and 410 are here for the same reason: transient edge failures that a real
+// browser or a few seconds later would not reproduce.
+function needsBrowserRetry(status) {
+  return status === 0 || status === 403 || status === 404 || status === 410 ||
+    status === 429 || status >= 500;
+}
+
 function classify(result, originalUrl) {
   if (!result) {
     return { ok: false, reason: 'No response' };
@@ -261,22 +285,54 @@ function classify(result, originalUrl) {
   return { ok: true, finalUrl };
 }
 
+// Surface what the server actually sent on a failure. Without this, a WAF denial
+// page and a real bank 404 are both just "HTTP 404" in the run log — which is
+// what made #2037 take a manual investigation to tell apart. Citi's genuine dead
+// page says "Page Not Found 404"; a block page reads nothing like it.
+function bodySnippetOf(result) {
+  if (!result?.body) return undefined;
+  const text = result.body
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text ? text.slice(0, 200) : undefined;
+}
+
+async function plainFetch(url) {
+  try {
+    return await fetchWithTimeout(url, FETCH_TIMEOUT_MS);
+  } catch (err) {
+    return { status: 0, finalUrl: url, body: '', error: err.message };
+  }
+}
+
 async function checkOne(card) {
-  let result = null;
+  let result = await plainFetch(card.apply_link);
   let usedBrowser = false;
 
-  try {
-    result = await fetchWithTimeout(card.apply_link, FETCH_TIMEOUT_MS);
-  } catch (err) {
-    result = { status: 0, finalUrl: card.apply_link, body: '', error: err.message };
-  }
-
-  // 403/429/0 may be bot blocks — retry with a real browser before flagging
-  if (result.status === 403 || result.status === 429 || result.status === 0) {
+  // A status a WAF might have invented deserves a real browser and a second look
+  // before we call the link dead. See needsBrowserRetry for why 404 is in that set.
+  if (needsBrowserRetry(result.status)) {
     const browserResult = await fetchWithBrowser(card.apply_link);
     if (browserResult) {
       result = browserResult;
       usedBrowser = true;
+    }
+
+    // Still bad. Edge blocks are usually rate- or reputation-based and clear
+    // within seconds, so give it one more attempt after a pause and only believe
+    // the failure if it repeats. A genuinely dead URL fails both times.
+    if (needsBrowserRetry(result.status)) {
+      await new Promise(r => setTimeout(r, RETRY_DELAY_MS));
+      const retry = await fetchWithBrowser(card.apply_link);
+      if (retry) {
+        result = retry;
+        usedBrowser = true;
+      } else {
+        result = await plainFetch(card.apply_link);
+        usedBrowser = false;
+      }
     }
   }
 
@@ -291,10 +347,17 @@ async function checkOne(card) {
       if (browserVerdict.ok) {
         return { ...card, ok: true, finalUrl: browserResult.finalUrl };
       }
-      return { ...card, ok: false, reason: browserVerdict.reason, finalUrl: browserResult.finalUrl };
+      return {
+        ...card,
+        ok: false,
+        reason: browserVerdict.reason,
+        finalUrl: browserResult.finalUrl,
+        bodySnippet: bodySnippetOf(browserResult),
+      };
     }
   }
 
+  if (!verdict.ok) verdict.bodySnippet = bodySnippetOf(result);
   return { ...card, ...verdict };
 }
 
@@ -324,6 +387,7 @@ async function main() {
     console.log(
       `[${idx + 1}/${cards.length}] ${tag} ${card.slug}${which} — ${r.reason || r.finalUrl || ''}`
     );
+    if (!r.ok && r.bodySnippet) console.log(`      body: ${r.bodySnippet}`);
     return r;
   });
 
@@ -360,7 +424,7 @@ async function main() {
   console.log(`Wrote ${RESULT_FILE}`);
 }
 
-module.exports = { checkOne, classify, loadActiveCards, targetsForCard };
+module.exports = { checkOne, classify, loadActiveCards, needsBrowserRetry, targetsForCard };
 
 if (require.main === module) {
   main()
