@@ -815,7 +815,7 @@ function FinalCTA() {
         <h2>
           Open the <em>file</em> on every card.
         </h2>
-        <p>150+ cards. Thousands of records. Free, forever, no email required to read.</p>
+        <p>200+ cards. Thousands of records. Free, forever, no email required to read.</p>
         <div className="ctas-row">
           <Link
             href="/explore"
