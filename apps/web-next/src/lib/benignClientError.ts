@@ -17,6 +17,18 @@
 // page to try again" — name/code don't match the AbortError gate below, so
 // that signature is matched unconditionally. The page itself is unaffected.
 //
+// WebKit has a second, distinct teardown signature: "InvalidStateError:
+// Database is closing/hidden" (CREDITODDS-JAVASCRIPT-NEXTJS-1G), raised when a
+// page opens IndexedDB while Mobile Safari is suspending the tab. It is neither
+// an AbortError nor a connection-lost error, so it needs its own entry.
+// The auth-side consequence of this one was real rather than cosmetic —
+// Firebase let it escape from initializeCurrentUser and wedged
+// onAuthStateChanged — and that is fixed at the source in auth/firebase.ts by
+// putting localStorage ahead of IndexedDB. What survives is the rejection
+// itself: Firebase Analytics/Installations still touch IndexedDB, and their
+// internal promises have no handler we can attach to, so the same message can
+// still surface as unhandled noise with nothing to act on.
+//
 // Firebase Installations also rejects with "installations/app-offline" when
 // navigator.onLine is false during Analytics init. getAnalytics() never awaits
 // that internal registration promise, so a visitor who loses connectivity
@@ -90,6 +102,7 @@ const BENIGN_CLIENT_SIGNATURES = [
 const BENIGN_ANY_ERROR_SIGNATURES = [
   'Invalid call to runtime.sendMessage(). Tab not found.',
   'Connection to Indexed Database server lost',
+  'Database is closing/hidden',
   'installations/app-offline',
   'Object Not Found Matching Id:',
   'Unable to load image data:',

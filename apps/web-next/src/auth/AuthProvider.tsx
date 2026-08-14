@@ -23,6 +23,25 @@ const newsletterRegisteredUids = new Set<string>();
 // Key for storing email in localStorage for email link sign-in
 const EMAIL_FOR_SIGN_IN_KEY = 'emailForSignIn';
 
+// How long to wait for Firebase's first auth-state emission before giving up
+// and treating the visitor as signed out.
+//
+// Firebase chains every onAuthStateChanged callback off its internal
+// _initializationPromise, and that promise rejects if reading the persisted
+// user throws — see the createAuth comment in firebase.ts for the iOS Safari
+// IndexedDB case. A rejection there means our callback is never invoked at all,
+// so isLoading would stay true forever and /profile, /admin and the store
+// personal row would sit on a skeleton for the rest of the page's life.
+// Firebase gives us no handle on that promise, so a timer is the only way to
+// notice.
+//
+// The failure is fast (a few synchronous storage retries, then it throws), so
+// this only has to outlast the slow-but-healthy case: a stored session whose
+// token gets refreshed over the network on load. 15s is comfortably past that,
+// and the subscription stays live afterwards, so a late emission still
+// corrects the state.
+const AUTH_INIT_TIMEOUT_MS = 15_000;
+
 // localStorage throws SecurityError in Safari when "Block all cookies" is
 // on. The email-link flow works without it — the user just gets prompted
 // for their email again — so storage failures are swallowed.
@@ -92,7 +111,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    const initTimeout = setTimeout(() => {
+      console.warn('Firebase auth did not initialize; treating as signed out');
+      setAuthState((prev) =>
+        prev.isLoading ? { ...prev, isLoading: false } : prev,
+      );
+    }, AUTH_INIT_TIMEOUT_MS);
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      clearTimeout(initTimeout);
       setAuthState({
         isAuthenticated: !!user,
         isLoading: false,
@@ -117,7 +144,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      clearTimeout(initTimeout);
+      unsubscribe();
+    };
   }, []);
 
   // Check for email link sign-in on mount

@@ -1,5 +1,12 @@
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
-import { getAuth, Auth } from 'firebase/auth';
+import {
+  getAuth,
+  initializeAuth,
+  browserLocalPersistence,
+  indexedDBLocalPersistence,
+  browserPopupRedirectResolver,
+  Auth,
+} from 'firebase/auth';
 import { getAnalytics, Analytics, isSupported } from 'firebase/analytics';
 
 const firebaseConfig = {
@@ -17,6 +24,42 @@ let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
 let analytics: Analytics | undefined;
 
+// getAuth() puts IndexedDB first in the persistence hierarchy, and on iOS
+// Safari that is a wedge risk. WebKit tears the page's IndexedDB connection
+// down whenever the tab is backgrounded or hidden, so an open during that
+// window rejects with "InvalidStateError: Database is closing/hidden". Firebase
+// retries four times with no backoff, then lets the rejection escape from
+// initializeCurrentUser -> _initializationPromise. Nothing in the SDK holds a
+// handler for that promise, so two things happen: Sentry records an unhandled
+// rejection (CREDITODDS-JAVASCRIPT-NEXTJS-1G), and — worse — every
+// onAuthStateChanged callback is chained off that same promise and therefore
+// never fires. AuthProvider's isLoading would stay true for the rest of the
+// page's life.
+//
+// localStorage first avoids the whole path: the selected persistence is read
+// synchronously and cannot reject. IndexedDB stays in the hierarchy so an
+// existing session stored there is still found and migrated to localStorage on
+// first load (PersistenceUserManager.create wraps those reads in try/catch), so
+// nobody gets signed out by this change. If localStorage is unavailable —
+// Safari with "Block all cookies" — Firebase drops it from the hierarchy and
+// falls back to IndexedDB, matching the previous behaviour.
+//
+// browserPopupRedirectResolver has to be passed explicitly: getAuth() supplies
+// it by default, and signInWithPopup throws auth/operation-not-supported
+// without it.
+function createAuth(firebaseApp: FirebaseApp): Auth {
+  try {
+    return initializeAuth(firebaseApp, {
+      persistence: [browserLocalPersistence, indexedDBLocalPersistence],
+      popupRedirectResolver: browserPopupRedirectResolver,
+    });
+  } catch {
+    // auth/already-initialized — another module (or a Fast Refresh reload)
+    // got here first. Reuse whatever instance exists.
+    return getAuth(firebaseApp);
+  }
+}
+
 function getFirebaseAuth(): Auth | undefined {
   if (typeof window === 'undefined') {
     return undefined;
@@ -30,7 +73,7 @@ function getFirebaseAuth(): Auth | undefined {
   if (!app) {
     try {
       app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-      auth = getAuth(app);
+      auth = createAuth(app);
 
       // Initialize Analytics (only in browser, if supported, and not in development)
       if (process.env.NODE_ENV === 'production') {

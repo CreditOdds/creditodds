@@ -69,6 +69,22 @@ describe("isBenignClientError", () => {
     ).toBe(true);
   });
 
+  it("drops WebKit's closing/hidden IDB-open noise (DOMException shape)", () => {
+    expect(
+      isBenignClientError(
+        domException("Database is closing/hidden", "InvalidStateError", 11),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops WebKit's closing/hidden IDB-open noise (Firebase rethrow shape)", () => {
+    // Firebase's _withRetries rethrows the DOMException as a plain Error once
+    // the retry budget is spent, which is the shape Sentry actually recorded.
+    expect(isBenignClientError(new Error('Database is closing/hidden'))).toBe(
+      true,
+    );
+  });
+
   it("drops Firebase Installations app-offline noise", () => {
     // FirebaseError shape: name "FirebaseError", code "installations/app-offline".
     expect(
