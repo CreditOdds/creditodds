@@ -13,14 +13,17 @@ benefits:
     frequency: "ongoing"
     category: "other"
   - name: "Travel Accident Insurance"
+    value: 0
     description: "Up to $1,000,000 in travel accident insurance when purchasing airline or common carrier tickets"
     category: "travel"
     enrollment_required: false
   - name: "Lost Baggage Reimbursement"
+    value: 0
     description: "Up to $3,000 in luggage reimbursement per trip if bags are lost due to theft or misdirection"
     category: "travel"
     enrollment_required: false
   - name: "Trip Cancellation and Interruption Protection"
+    value: 0
     description: "Up to $15,000 reimbursement for lodging, flights, and activities if trip is canceled for a covered reason"
     category: "travel"
     enrollment_required: false

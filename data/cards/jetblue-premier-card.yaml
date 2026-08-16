@@ -71,11 +71,13 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "25-Tile Mosaic Bonus"
+    value: 0
     description: "Annual 25-tile bonus after year-end to fast-track Mosaic status for the next year"
     frequency: "annual"
     category: "travel"
     enrollment_required: false
   - name: "15% Award Flight Rebate"
+    value: 0
     description: "Get 15% of your points back after you redeem for and travel on an award flight on JetBlue or partner airlines"
     frequency: "per_redemption"
     category: "rewards"
@@ -87,11 +89,13 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "BlueHouse Lounge Access"
+    value: 0
     description: "Complimentary access to JetBlue's BlueHouse lounges for cardmembers with eligible fares; primary cardmembers and authorized users may each bring 1 complimentary guest per visit"
     frequency: "ongoing"
     category: "lounge"
     enrollment_required: false
   - name: "Priority Pass"
+    value: 0
     description: "Access to over 1,800 participating lounges and travel experiences in over 700 airports in 146 countries"
     frequency: "ongoing"
     category: "lounge"
@@ -104,6 +108,7 @@ benefits:
     category: "security"
     enrollment_required: false
   - name: "First Checked Bag Free"
+    value: 0
     description: "First checked bag free for the cardmember and up to 3 eligible travel companions on JetBlue-operated flights when the card is used to book"
     frequency: "per_flight"
     category: "travel"
@@ -116,6 +121,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Group 3 Boarding"
+    value: 0
     description: "Group 3 boarding on JetBlue-operated flights"
     frequency: "per_flight"
     category: "travel"

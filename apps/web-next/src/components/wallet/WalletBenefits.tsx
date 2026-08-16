@@ -8,7 +8,9 @@ import {
   amortizedAnnualValue,
   DEFAULT_MULTI_YEAR_CYCLE,
   formatBenefitValue,
+  isCreditBenefit,
   isMonetaryBenefit,
+  isPerkBenefit,
 } from "@/lib/cardDisplayUtils";
 import { dedupeWalletByCardName } from "@/app/profile/profileSelectors";
 
@@ -123,7 +125,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
   const allCredits = useMemo<DecoratedBenefit[]>(() => {
     return cardsWithBenefits.flatMap(c =>
       c.benefits
-        .filter(b => b.value > 0)
+        .filter(isCreditBenefit)
         .map(b => ({ ...b, cardName: c.cardData.card_name, cardSlug: c.cardData.slug, cardImage: c.cardData.card_image_link }))
     ).sort((a, b) => amortizedAnnualValue(b) - amortizedAnnualValue(a));
   }, [cardsWithBenefits]);
@@ -131,7 +133,7 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
   const allPerks = useMemo<DecoratedBenefit[]>(() => {
     return cardsWithBenefits.flatMap(c =>
       c.benefits
-        .filter(b => b.value === 0)
+        .filter(isPerkBenefit)
         .map(b => ({ ...b, cardName: c.cardData.card_name, cardSlug: c.cardData.slug, cardImage: c.cardData.card_image_link }))
     );
   }, [cardsWithBenefits]);
@@ -153,9 +155,9 @@ export default function WalletBenefits({ walletCards, allCards }: WalletBenefits
           cardSlug: c.cardData.slug,
           cardImage: c.cardData.card_image_link,
         });
-        const credits = c.benefits.filter(b => b.value > 0).map(decorate)
+        const credits = c.benefits.filter(isCreditBenefit).map(decorate)
           .sort((a, b) => amortizedAnnualValue(b) - amortizedAnnualValue(a));
-        const perks = c.benefits.filter(b => b.value === 0).map(decorate);
+        const perks = c.benefits.filter(isPerkBenefit).map(decorate);
         const annualTotal = Math.round(credits.reduce((s, b) => s + amortizedAnnualValue(b), 0));
         return { card: c.cardData, credits, perks, annualTotal };
       })

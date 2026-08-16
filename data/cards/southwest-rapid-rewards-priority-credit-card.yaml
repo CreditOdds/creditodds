@@ -89,6 +89,7 @@ benefits:
     merchants:
       - instacart
   - name: "A-List Status TQPs"
+    value: 0
     description: "Earn 2,500 tier qualifying points for every $5,000 spent in purchases annually toward A-List status"
     frequency: "annual"
     category: "rewards"

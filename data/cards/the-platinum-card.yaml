@@ -175,21 +175,25 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "Marriott Bonvoy Gold Elite Status"
+    value: 0
     description: "Automatic Marriott Bonvoy Gold Elite Status."
     frequency: "ongoing"
     category: "travel"
     enrollment_required: true
   - name: "Hilton Honors Gold Status"
+    value: 0
     description: "Automatic Hilton Honors Gold Status."
     frequency: "ongoing"
     category: "travel"
     enrollment_required: true
   - name: "Delta Sky Club Visits"
+    value: 0
     description: "10 complimentary Delta Sky Club visits when flying on an eligible Delta flight."
     frequency: "annual"
     category: "lounge"
     enrollment_required: false
   - name: "Leaders Club Sterling Status"
+    value: 0
     description: "Complimentary Leaders Club Sterling Status from The Leading Hotels of the World, including a 5% Leaders Club points bonus on qualifying stays."
     frequency: "ongoing"
     category: "hotel"

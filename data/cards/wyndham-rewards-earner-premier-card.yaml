@@ -74,6 +74,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "Wyndham Rewards Diamond Status"
+    value: 0
     description: "Automatic Diamond status, Wyndham's top elite tier, with perks like suite upgrades and a welcome amenity at check-in at select hotels."
     frequency: "annual"
     category: "travel"

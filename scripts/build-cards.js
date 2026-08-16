@@ -211,6 +211,27 @@ function validateCard(card, schema, categoryIds, storeSlugs) {
     // those credits were treated as non-monetary and amortizedAnnualValue
     // returned 0 for each, understating the card's Total Annual Credits by
     // $2,330 against a $499 annual fee.
+    // Validate benefit value. Nothing checked this before, which let 163
+    // benefits across 67 cards sit with no `value` at all — and a benefit with
+    // no value renders NOWHERE. The UI partitions benefits into exactly two
+    // buckets, `value > 0` (credits) and `value === 0` (perks); an undefined
+    // value satisfies neither, so the perk was silently dropped from the
+    // compare table, the wallet benefits view and every credits rollup. Both
+    // halves of that split now default a missing value to 0, but the data is
+    // the real contract: `0` is the explicit marker for a non-dollar perk
+    // (status, lounge access, free bags), so require it to be written down.
+    for (const benefit of card.benefits) {
+      if (typeof benefit.value !== 'number' || Number.isNaN(benefit.value)) {
+        errors.push(
+          `Missing value for benefit "${benefit.name}": every benefit needs a numeric value. ` +
+          `Use 0 for a non-dollar perk such as elite status or lounge access. ` +
+          `Never invent a dollar amount for a perk that has none.`
+        );
+      } else if (benefit.value < 0) {
+        errors.push(`Invalid value for benefit "${benefit.name}": must be >= 0`);
+      }
+    }
+
     const validUnits = schema.properties.benefits.items.properties.value_unit.enum;
     for (const benefit of card.benefits) {
       if (benefit.value_unit !== undefined && !validUnits.includes(benefit.value_unit)) {

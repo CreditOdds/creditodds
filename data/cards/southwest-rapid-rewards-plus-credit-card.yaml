@@ -56,26 +56,31 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "First Checked Bag Free"
+    value: 0
     description: "First checked bag free for the cardmember plus up to 8 passengers on the same reservation"
     frequency: "per_flight"
     category: "travel"
     enrollment_required: false
   - name: "10% Flight Discount"
+    value: 0
     description: "10% off promo code for one Southwest flight per anniversary year (excludes Basic fare)"
     frequency: "annual"
     category: "travel"
     enrollment_required: false
   - name: "Complimentary Standard Seat"
+    value: 0
     description: "Select a Standard seat within 48 hours prior to departure for the cardmember plus up to 8 passengers on the same reservation, when available"
     frequency: "per_flight"
     category: "travel"
     enrollment_required: false
   - name: "25% Inflight Purchase Credit"
+    value: 0
     description: "25% back on inflight drinks and Wi-Fi purchases when paid with the card"
     frequency: "per_purchase"
     category: "statement_credit"
     enrollment_required: false
   - name: "DashPass Membership"
+    value: 0
     description: "Complimentary DashPass for at least one year plus $10 quarterly off non-restaurant DoorDash orders when activated by Dec 31, 2027"
     frequency: "annual"
     category: "rewards"
@@ -83,6 +88,7 @@ benefits:
     merchants:
       - doordash
   - name: "No Foreign Transaction Fees"
+    value: 0
     description: "No foreign transaction fees on purchases made outside the US"
     frequency: "per_purchase"
     category: "travel"

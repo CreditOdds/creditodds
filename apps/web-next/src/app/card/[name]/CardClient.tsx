@@ -23,7 +23,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
-import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel } from "@/lib/cardDisplayUtils";
+import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel, isCreditBenefit } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -443,7 +443,7 @@ export default function CardClient({
     [card.rewards],
   );
 
-  const creditBenefits = (card.benefits || []).filter((b) => b.value > 0);
+  const creditBenefits = (card.benefits || []).filter(isCreditBenefit);
   // Mirrors amortizedAnnualValue() but supports unit filtering so we can
   // roll up USD / points / miles totals separately. Convention: `value` is
   // the annual total; `frequency` is just a display hint (monthly/quarterly

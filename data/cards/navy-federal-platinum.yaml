@@ -17,14 +17,17 @@ apr:
     max: 18.00
 benefits:
   - name: "No Balance Transfer Fees"
+    value: 0
     description: "Navy Federal does not charge balance transfer fees, making this card built for paying down balances at its low standard APR"
     category: "other"
     enrollment_required: false
   - name: "Collision Damage Waiver"
+    value: 0
     description: "Rental car collision damage waiver coverage for rentals of 15 days or less paid with the card"
     category: "travel"
     enrollment_required: false
   - name: "Travel and Emergency Assistance"
+    value: 0
     description: "24/7 travel and emergency assistance services"
     category: "travel"
     enrollment_required: false

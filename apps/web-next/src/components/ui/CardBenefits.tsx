@@ -5,7 +5,7 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import { CardBenefit } from "@/lib/api";
-import { amortizedAnnualValue, formatBenefitValue, frequencyLabel } from "@/lib/cardDisplayUtils";
+import { amortizedAnnualValue, formatBenefitValue, frequencyLabel, isCreditBenefit, isPerkBenefit } from "@/lib/cardDisplayUtils";
 
 const categoryIcons: Record<string, string> = {
   dining: "🍽️",
@@ -31,8 +31,8 @@ interface CardBenefitsProps {
 }
 
 export default function CardBenefits({ benefits, cardName }: CardBenefitsProps) {
-  const credits = benefits.filter((b) => b.value > 0);
-  const perks = benefits.filter((b) => b.value === 0);
+  const credits = benefits.filter(isCreditBenefit);
+  const perks = benefits.filter(isPerkBenefit);
   // Only sum USD-valued credits — points/miles can't be meaningfully added in dollars.
   const totalAnnualValue = credits.reduce((sum, b) => sum + amortizedAnnualValue(b), 0);
 

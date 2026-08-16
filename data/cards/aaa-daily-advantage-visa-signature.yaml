@@ -73,9 +73,11 @@ our_take: >
   way.
 benefits:
   - name: "AAA Redemption Bonus"
+    value: 0
     description: "5% more cash back when redeeming with AAA Northeast Counselors and Advisors"
     category: "rewards"
   - name: "3% on AAA Purchases"
+    value: 0
     description: "3% cash back on AAA memberships and AAA Travel agency bookings"
     frequency: "ongoing"
     category: "rewards"
