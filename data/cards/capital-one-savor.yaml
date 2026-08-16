@@ -68,6 +68,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Price Match Guarantee"
+    value: 0
     description: "Travel credit for the difference if you find a better price on eligible flights, hotels, or rental cars within 24 hours of booking."
     frequency: "per_trip"
     category: "travel"

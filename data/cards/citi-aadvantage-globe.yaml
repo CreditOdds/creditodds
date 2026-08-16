@@ -42,6 +42,7 @@ benefits:
     category: "security"
     enrollment_required: false
   - name: "Companion Certificate"
+    value: 0
     description: "American Airlines Companion Certificate for a single qualifying round-trip main cabin domestic flight starting in the second cardmembership year upon renewal"
     frequency: "annual"
     category: "travel"

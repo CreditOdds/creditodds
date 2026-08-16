@@ -251,7 +251,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["name", "description"],
+        "required": ["name", "description", "value"],
         "properties": {
           "name": {
             "type": "string",
@@ -268,7 +268,7 @@
           "value": {
             "type": "number",
             "minimum": 0,
-            "description": "Value of the benefit. Use 0 for non-monetary perks such as lounge access or elite status."
+            "description": "Value of the benefit. REQUIRED — use 0 for non-monetary perks such as lounge access or elite status, never omit the field. The UI splits benefits into `value > 0` credits and `value === 0` perks, so a benefit with no value belongs to neither bucket and renders nowhere. build-cards.js rejects a benefit without it."
           },
           "value_unit": {
             "type": "string",

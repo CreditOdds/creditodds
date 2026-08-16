@@ -60,16 +60,19 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "First Checked Bag Free"
+    value: 0
     description: "First checked bag free for the cardmember and up to 3 traveling companions on JetBlue-operated flights when the card is used to book"
     frequency: "per_flight"
     category: "travel"
     enrollment_required: false
   - name: "50% Off Inflight Purchases"
+    value: 0
     description: "50% savings on eligible food, drinks, and Wi-Fi purchased on JetBlue-operated flights"
     frequency: "per_purchase"
     category: "statement_credit"
     enrollment_required: false
   - name: "Mosaic Status Boost"
+    value: 0
     description: "Earn Mosaic elite status after $50,000 in eligible purchases per calendar year"
     frequency: "annual"
     category: "travel"
@@ -88,6 +91,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Group 3 Boarding"
+    value: 0
     description: "Group 3 boarding on JetBlue-operated flights"
     frequency: "per_flight"
     category: "travel"

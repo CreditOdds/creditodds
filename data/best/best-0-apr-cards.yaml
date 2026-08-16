@@ -1,38 +1,41 @@
 # ============================================================
-# Best 0% APR Credit Cards — Ranking Reasoning (2026-08-03)
-# Consensus of: GPT, Gemini (borda count)
+# Best 0% APR Credit Cards — Ranking Reasoning (2026-08-15)
+# Consensus of: GPT, Gemini, Claude (borda count)
 # ============================================================
 #
-# #1 us-bank-shield (Best Overall)  [GPT #2, Gemini #1]
-#   This card stands out for its long 21-month 0% APR period, allowing ample
-#   time for debt management. Additionally, the travel rewards enhance its
-#   value for frequent travelers.
+# #1 us-bank-shield (Best Overall)  [GPT #2, Gemini #1, Claude #1]
+#   This card stands out for its long 21-month 0% intro APR period, making it
+#   ideal for those looking to finance large purchases or transfer balances.
+#   The additional travel rewards enhance its value, solidifying its position
+#   as the top choice.
 #
-# #2 bankamericard (Best No-Fee)  [GPT #1, Gemini #2]
-#   With a competitive 21-month 0% APR offer and no annual fee, this card is
-#   ideal for those looking to manage debt without extra costs. Its
-#   straightforward structure makes it a solid choice for budget-conscious
-#   consumers.
+# #2 bankamericard (Best Value)  [GPT #1, Gemini #2, Claude #2]
+#   With a competitive 0% intro APR period and a lower regular APR range, the
+#   BankAmericard offers excellent value for users who may carry a balance
+#   after the introductory period. Its lack of an annual fee further enhances
+#   its appeal.
 #
-# #3 wells-fargo-reflect  [GPT #3, Gemini #3]
-#   This card matches the 21-month 0% APR period of the top contenders, making
-#   it a strong option for those needing time to pay off balances. Its lack of
-#   an annual fee further enhances its appeal.
+# #3 wells-fargo-reflect  [GPT #3, Gemini #3, Claude #3]
+#   This card's lengthy 0% intro APR period is beneficial for those needing
+#   time to pay off larger expenses. However, its higher potential regular APR
+#   limits its overall value compared to the top-ranked cards.
 #
-# #4 citi-simplicity-card  [GPT #4, Gemini #4]
-#   This card provides a decent 0% APR period, but its shorter duration
-#   compared to the top-ranked cards places it lower in the rankings. It
-#   remains a viable option for those seeking simplicity without annual fees.
+# #4 citi-simplicity-card  [GPT #4, Gemini #4, Claude #5]
+#   While the Citi Simplicity provides a solid 0% intro APR period, its
+#   shorter duration compared to the top cards and higher regular APR range
+#   place it lower in the rankings. It remains a good option for those
+#   prioritizing simplicity and no fees.
 #
-# #5 citi-diamond-preferred  [GPT #5, Gemini #5]
-#   While it has a shorter 0% APR period for purchases compared to others, the
-#   21-month balance transfer offer is competitive. This card is suitable for
-#   those primarily focused on transferring existing debt.
+# #5 citi-diamond-preferred  [GPT #5, Gemini #5, Claude #4]
+#   This card's balance transfer offer is appealing, but the shorter 0% intro
+#   APR on purchases limits its overall utility. Its competitive regular APR
+#   range does provide some value for users who may carry a balance.
 #
-# #6 chase-slate-edge  [GPT #6, Gemini #6]
-#   While it lacks a 0% APR offer, the absence of an annual fee is a positive
-#   aspect. However, the high regular APR limits its attractiveness for those
-#   looking to manage debt effectively.
+# #6 chase-slate-edge  [GPT #6, Gemini #6, Claude #6]
+#   While the Chase Slate Edge has no annual fee, its lack of a 0% intro APR
+#   makes it less attractive for those looking to manage expenses or
+#   consolidate debt. The high regular APR further diminishes its standing
+#   among the best options.
 #
 # ============================================================
 
@@ -41,15 +44,15 @@ slug: best-0-apr-cards
 title: Best 0% APR Credit Cards
 description: The best 0% intro APR credit cards for purchases and balance transfers, all with no annual fee.
 date: "2026-03-01"
-updated_at: "2026-08-12"
+updated_at: "2026-08-15"
 seo_title: Best 0% APR Credit Cards of 2026
 seo_description: Compare the best 0% intro APR credit cards of 2026. Up to 24 months of 0% APR on purchases and balance transfers.
 intro: |
-  0% intro APR credit cards are an excellent choice for managing expenses or consolidating debt without accruing interest for an extended period. With no annual fees, these cards offer financial flexibility and a straightforward repayment path.
+  0% intro APR credit cards provide a strategic way to manage expenses and consolidate debt without incurring interest for an extended period. With no annual fees, these cards deliver both financial flexibility and a clear repayment plan.
 
 panel:
   method: borda
-  generated_at: "2026-08-03"
+  generated_at: "2026-08-15"
   models:
     - key: openai
       label: GPT
@@ -57,44 +60,45 @@ panel:
     - key: gemini
       label: Gemini
       model: gemini-3.5-flash
+    - key: claude
+      label: Claude
+      model: claude-haiku-4-5-20251001
 
 cards:
   - slug: us-bank-shield
     badge: Best Overall
-    highlight: The US Bank Shield offers 0% intro APR on purchases and balance transfers for 21 months, with no annual fee and 4% back on prepaid travel bookings through the U.S. Bank Travel Rewards Center.
+    highlight: The US Bank Shield offers a 0% intro APR on purchases and balance transfers for 21 months, with no annual fee. Earn 4% on prepaid air, hotel, and car reservations booked in the U.S. Bank Travel Rewards Center.
     consensus:
-      score: 11
-      ranks: { openai: 2, gemini: 1 }
+      score: 17
+      ranks: { openai: 2, gemini: 1, claude: 1 }
 
   - slug: bankamericard
-    badge: Best No-Fee
-    highlight: The BankAmericard features a 0% intro APR for 21 months on purchases and balance transfers, with no annual fee.
+    badge: Best Value
+    highlight: The BankAmericard features a 0% intro APR for 21 months on both purchases and balance transfers, with no annual fee. Regular APR ranges from 14.99% to 25.99%.
     consensus:
-      score: 11
-      ranks: { openai: 1, gemini: 2 }
+      score: 16
+      ranks: { openai: 1, gemini: 2, claude: 2 }
 
   - slug: wells-fargo-reflect
-    highlight: The Wells Fargo Reflect provides 0% intro APR for 21 months on purchases and balance transfers, with no annual fee.
+    highlight: The Wells Fargo Reflect provides a 0% intro APR for 21 months on purchases and balance transfers, with no annual fee. Regular APR varies from 17.49% to 28.24%.
     consensus:
-      score: 8
-      ranks: { openai: 3, gemini: 3 }
+      score: 12
+      ranks: { openai: 3, gemini: 3, claude: 3 }
 
   - slug: citi-simplicity-card
-    previous_rank: 5
-    highlight: The Citi Simplicity card features 0% intro APR for 18 months on purchases and balance transfers, with no annual fee.
+    highlight: The Citi Simplicity offers a 0% intro APR for 18 months on purchases and balance transfers, with no annual fee. Regular APR ranges from 17.49% to 28.24%.
     consensus:
-      score: 6
-      ranks: { openai: 4, gemini: 4 }
+      score: 8
+      ranks: { openai: 4, gemini: 4, claude: 5 }
 
   - slug: citi-diamond-preferred
-    previous_rank: 4
-    highlight: The Citi Diamond Preferred offers 0% intro APR on purchases for 12 months and on balance transfers for 21 months, with no annual fee.
+    highlight: The Citi Diamond Preferred features a 0% intro APR for 12 months on purchases and 21 months on balance transfers, with no annual fee. Regular APR ranges from 16.49% to 27.24%.
     consensus:
-      score: 4
-      ranks: { openai: 5, gemini: 5 }
+      score: 7
+      ranks: { openai: 5, gemini: 5, claude: 4 }
 
   - slug: chase-slate-edge
-    highlight: The Chase Slate Edge has no annual fee but does not offer an introductory APR period, with a regular APR of 28.99%.
+    highlight: The Chase Slate Edge has no annual fee but does not offer a 0% intro APR period. Its regular APR is set at 28.99%.
     consensus:
-      score: 2
-      ranks: { openai: 6, gemini: 6 }
+      score: 3
+      ranks: { openai: 6, gemini: 6, claude: 6 }

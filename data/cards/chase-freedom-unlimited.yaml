@@ -61,6 +61,7 @@ our_take: >
   Lyft. As a keep-forever no-fee card, it is hard to argue with.
 benefits:
   - name: "DashPass Complimentary Membership"
+    value: 0
     description: "6 months of complimentary DashPass membership with $0 delivery fees on eligible orders."
     frequency: "one_time"
     category: "dining"

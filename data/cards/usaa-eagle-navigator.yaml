@@ -56,6 +56,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Active Duty Military Benefits"
+    value: 0
     description: "$0 annual fee while on active duty plus reduced APR under Servicemembers Civil Relief Act for eligible service members"
     frequency: "annual"
     category: "other"

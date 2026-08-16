@@ -50,6 +50,7 @@ benefits:
     frequency: "annual"
     category: "travel"
   - name: "Free Checked Bag and Preferred Boarding"
+    value: 0
     description: "First checked bag free and preferred boarding for the cardmember and up to 6 guests on the same reservation"
     frequency: "per_flight"
     category: "travel"

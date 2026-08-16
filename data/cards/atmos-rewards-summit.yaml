@@ -69,6 +69,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Free Checked Bag and Preferred Boarding"
+    value: 0
     description: "First checked bag free and priority boarding for the cardmember and up to 6 guests on the same reservation when paid with the card"
     frequency: "per_flight"
     category: "travel"
@@ -86,6 +87,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Same-Day Confirmed Change Fee Waiver"
+    value: 0
     description: "Same-day confirmed flight change fees waived (excludes Saver fares)"
     frequency: "per_flight"
     category: "travel"
@@ -103,6 +105,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "20% Inflight Purchase Rebate"
+    value: 0
     description: "20% back on Alaska and Hawaiian Airlines inflight purchases when paid with the card"
     frequency: "per_purchase"
     category: "statement_credit"

@@ -40,6 +40,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "DoorDash DashPass"
+    value: 0
     description: "One-year complimentary DashPass membership for DoorDash and Caviar with unlimited deliveries and $0 delivery fees on eligible orders, when activated by Dec 31, 2027"
     frequency: "annual"
     category: "dining"

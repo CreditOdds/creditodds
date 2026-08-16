@@ -83,6 +83,7 @@ our_take: >
   rate stops mattering much.
 benefits:
   - name: "Instacart+ Membership"
+    value: 0
     description: "Complimentary three-month Instacart+ membership with a $20 Instacart credit each month"
     frequency: "one_time"
     category: "shopping"

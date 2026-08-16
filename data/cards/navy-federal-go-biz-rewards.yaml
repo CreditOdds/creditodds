@@ -20,10 +20,12 @@ apr:
     max: 18.00
 benefits:
   - name: "Multiple Cardholders"
+    value: 0
     description: "Issue cards to multiple employees on one account at no extra cost"
     category: "other"
     enrollment_required: false
   - name: "Purchase Protection"
+    value: 0
     description: "New purchase protection on eligible items bought with the card"
     category: "insurance"
     enrollment_required: false

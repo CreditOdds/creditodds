@@ -171,6 +171,32 @@ export function isMonetaryBenefit(benefit: { value_unit?: string }): boolean {
   return !benefit.value_unit || benefit.value_unit === 'usd';
 }
 
+// A benefit's `value`, defaulting a missing one to 0 (the repo's marker for a
+// non-dollar perk).
+//
+// CardBenefit types `value` as required and build-cards now enforces it, but
+// cards.json is served from a CDN and older payloads can still be in a
+// browser/ISR cache, so nothing at runtime guarantees the field is there. The
+// default matters because the UI partitions benefits into exactly two buckets
+// — `value > 0` credits and `value === 0` perks. An undefined value satisfies
+// neither test, so the benefit silently vanished from every list instead of
+// rendering as a perk (163 benefits across 67 cards were hidden this way), and
+// it turned annual totals into NaN wherever it reached the sum.
+export function benefitValue(benefit: { value?: number }): number {
+  return benefit.value ?? 0;
+}
+
+// The two buckets the UI renders. Kept here rather than inlined at each call
+// site so the "credits vs perks" split can never drift apart or leave a
+// benefit in neither bucket.
+export function isCreditBenefit(benefit: { value?: number }): boolean {
+  return benefitValue(benefit) > 0;
+}
+
+export function isPerkBenefit(benefit: { value?: number }): boolean {
+  return benefitValue(benefit) === 0;
+}
+
 // Smallest spendable denomination per cycle — what we headline in the UI.
 //
 // Why not just `benefit.value`? Because `value` is the ANNUAL TOTAL by
@@ -186,11 +212,12 @@ export function isMonetaryBenefit(benefit: { value_unit?: string }): boolean {
 //   3. `value` itself for annual / multi_year / ongoing / per-event
 export function spendableValue(benefit: CardBenefit): number {
   if (typeof benefit.value_per_cycle === 'number') return benefit.value_per_cycle;
+  const value = benefitValue(benefit);
   switch (benefit.frequency) {
-    case 'monthly': return Math.round(benefit.value / 12);
-    case 'quarterly': return Math.round(benefit.value / 4);
-    case 'semi_annual': return Math.round(benefit.value / 2);
-    default: return benefit.value;
+    case 'monthly': return Math.round(value / 12);
+    case 'quarterly': return Math.round(value / 4);
+    case 'semi_annual': return Math.round(value / 2);
+    default: return value;
   }
 }
 
@@ -198,7 +225,7 @@ export function formatBenefitValue(benefit: CardBenefit): string {
   // `percent` is a RATE, not an amount, so it must not be divided down by
   // frequency the way a dollar total is — a 20% inflight rebate is 20% on
   // every purchase, not 20/12 of anything. Read `value` directly.
-  if (benefit.value_unit === 'percent') return `${benefit.value.toLocaleString()}%`;
+  if (benefit.value_unit === 'percent') return `${benefitValue(benefit).toLocaleString()}%`;
   const v = spendableValue(benefit).toLocaleString();
   if (benefit.value_unit === 'points') return `${v} points`;
   if (benefit.value_unit === 'miles') return `${v} miles`;
@@ -243,10 +270,10 @@ export function amortizedAnnualValue(benefit: CardBenefit): number {
     case 'quarterly':
     case 'semi_annual':
     case 'annual':
-      return benefit.value;
+      return benefitValue(benefit);
     case 'multi_year': {
       const years = benefit.frequency_years || DEFAULT_MULTI_YEAR_CYCLE;
-      return Math.round(benefit.value / years);
+      return Math.round(benefitValue(benefit) / years);
     }
     case 'ongoing': return 0;
     // per_purchase, per_flight, per_trip, per_visit, per_rental, per_claim,
