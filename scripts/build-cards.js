@@ -37,7 +37,7 @@ function loadCategories() {
   return data.categories;
 }
 
-function validateCard(card, schema, categoryIds, storeSlugs) {
+function validateCard(card, schema, categoryIds, storeSlugs, file) {
   const errors = [];
 
   // Check required fields
@@ -50,6 +50,22 @@ function validateCard(card, schema, categoryIds, storeSlugs) {
   // Validate slug pattern
   if (card.slug && !/^[a-z0-9-]+$/.test(card.slug)) {
     errors.push(`Invalid slug format: ${card.slug} (must be lowercase with hyphens only)`);
+  }
+
+  // Card files are named <slug>.yaml. Tooling that walks the directory and then
+  // addresses a card by slug (scripts/refresh-our-takes.js writes its prompts
+  // per slug and reads back data/cards/<slug>.yaml) silently skips the card when
+  // the two drift apart, so treat a mismatch as a build error rather than let it
+  // rot unnoticed. Renaming a card is a filename change, never a slug change —
+  // the slug is the public /card/<slug> URL.
+  if (file && card.slug) {
+    const basename = file.replace(/\.ya?ml$/, '');
+    if (basename !== card.slug) {
+      errors.push(
+        `Filename does not match slug: ${file} declares slug "${card.slug}" ` +
+          `(expected ${card.slug}.yaml)`
+      );
+    }
   }
 
   // Validate category enum
@@ -388,7 +404,7 @@ function buildCards() {
       const card = yaml.load(content);
 
       // Validate the card
-      const validationErrors = validateCard(card, schema, categoryIds, storeSlugs);
+      const validationErrors = validateCard(card, schema, categoryIds, storeSlugs, file);
       if (validationErrors.length > 0) {
         errors.push({ file, errors: validationErrors });
         console.log(`  ERROR: ${validationErrors.join(', ')}`);
