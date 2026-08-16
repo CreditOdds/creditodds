@@ -38,17 +38,18 @@ apply_link: https://www.apple.com/apple-card/
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Apple Card's real draw is friction-free 2% Daily Cash on anything you
-  pay for with Apple Pay, with no annual fee and no foreign transaction fees.
-  That rises to 3% on Apple's own purchases and a short list of partner
-  merchants including Nike, Uber, Walgreens, Booking.com, Hertz, and Exxon
-  Mobil, again only through Apple Pay. The condition is the whole story: swipe
-  the physical titanium card and you drop to 1%, a below-average base rate, so
-  the card pays off only if Apple Pay covers most of your spending. There are
-  no rotating categories, no transfer partners, and no signup bonus, so what
-  you see is what you get. Extras like 2% in Booking.com Travel Credits
-  through the Apple Card portal and the Hertz rental discounts are pleasant
-  but minor.
+  Apple Card's real appeal is friction, not rate: no annual fee, no foreign
+  transaction fee, and Daily Cash that posts immediately. Just be clear about
+  how the earning actually works. The 2% applies only when you pay through
+  Apple Pay, and the 3% is narrower still, limited to Apple purchases and a
+  specific merchant list that includes Nike, Uber, Walgreens, Booking.com,
+  ChargePoint, Duane Reade, Exxon Mobil, Hertz, and Ace Hardware. Use the
+  physical titanium card and you earn 1%, which is the card's true base rate
+  and below what plenty of no-fee cash back cards pay on everything. The
+  extras are modest: 2% in Booking.com Travel Credits on stays and car rentals
+  booked through the Apple Card portal, a six-month Uber One trial, and some
+  Hertz rental discounts. It is a fine default if nearly all your spending is
+  tap-to-pay inside the Apple ecosystem, and a weak one if it isn't.
 benefits:
   - name: "Booking.com Travel Credits"
     value: 2

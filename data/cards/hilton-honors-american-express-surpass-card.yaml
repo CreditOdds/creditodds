@@ -8,19 +8,20 @@ foreign_transaction_fee: false
 network: "amex"
 annual_fee: 150
 our_take: >
-  Surpass sits in the middle of Hilton's Amex lineup and earns its $150 annual
-  fee mostly through everyday categories: 6x at U.S. restaurants,
-  supermarkets, and gas stations, 4x on eligible U.S. online retail, and 3x on
-  everything else, with the 12x rate reserved for purchases made directly at
-  Hilton properties. Up to $200 a year in Hilton credits, split as $50 per
-  quarter, covers most of that fee provided you stay with Hilton often enough
-  to use each quarter's allotment. The current welcome offer is 130,000 points
-  after $3,000 in six months plus a Free Night Reward, a low spend bar for a
-  bonus that size. Complimentary Gold status is the most valuable ongoing
-  perk, and heavier spenders pick up a Free Night Reward at $15,000 and
-  Diamond status at $40,000 in a calendar year. Just remember these points
-  only spend at Hilton, so those 6x grocery and gas multipliers are worth less
-  than they look if your stays are occasional.
+  The Surpass sits in the sweet spot of the Hilton lineup: 12x at Hilton
+  hotels and resorts and 6x at U.S. restaurants, U.S. supermarkets, and U.S.
+  gas stations, rates that hold up against cards charging far more than its
+  $150 annual fee. Up to $200 a year in Hilton credits, released as $50 per
+  quarter, covers most of the fee on its own if your Hilton stays are spread
+  across the year, and complimentary Gold status adds room upgrades, late
+  checkout, and 5th night free on reward stays. The welcome offer is 130,000
+  points plus a Free Night Reward after $3,000 in six months, a low spend
+  requirement for a bonus that size. The limits are real: the credits expire
+  quarterly rather than pooling, and the free night at $15,000 and Diamond
+  status at $40,000 in a calendar year are out of reach for most cardholders.
+  Take it over the no-fee Hilton card if you stay with the brand a few nights
+  a year, and over the Aspire if you will not travel enough to use that card's
+  larger credits.
 reward_type: "points"
 rewards:
   - category: hotels

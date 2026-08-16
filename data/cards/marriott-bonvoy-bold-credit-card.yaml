@@ -80,19 +80,19 @@ apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bo
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Bold is the low-commitment way into Marriott Bonvoy: no annual fee, no
-  foreign transaction fee, and 60,000 points after just $1,000 of spending in
-  three months, which is one of the easiest spend requirements you'll find on
-  a hotel card. It also hands you automatic Silver Elite status and 5 elite
-  night credits a year, so it can quietly nudge you toward a higher tier
-  without costing anything. The tradeoff is the earn rate: 3x applies only at
-  Marriott Bonvoy properties, the 2x buckets are narrow (groceries, select
-  streaming, internet and cable, phone service, and rideshare), and everything
-  else earns a flat 1x. Silver Elite is also the softest status Marriott
-  offers, so this is not the card to put a big travel budget on. Treat it as a
-  free keeper that protects your Bonvoy balance and adds a few elite nights,
-  with the one-year DashPass membership and the baggage and trip delay
-  coverage as extras rather than reasons to apply.
+  The Bold is the no annual fee entry point to Marriott Bonvoy, earning 3x
+  points on stays at Marriott properties and 2x on a fairly wide everyday mix:
+  groceries, select streaming, internet and cable, phone service, and
+  rideshare. Automatic Silver Elite status and 5 Elite Night Credits a year
+  cost you nothing to hold, and the card adds real travel coverage for a free
+  product, including trip delay reimbursement up to $500 per ticket and lost
+  luggage protection up to $3,000. The welcome offer was recently cut from
+  60,000 to 45,000 points after $1,000 of spend in 3 months, which is still an
+  easy threshold but a weaker starting point than it was. The tradeoff is that
+  everything here is modest: 1x on unbounded spend, Silver is the lowest
+  useful Bonvoy tier, and there is no annual free night, which is the benefit
+  that justifies the fee on Marriott's paid cards. Take it as a cheap way to
+  hold Bonvoy status and earn on Marriott stays, not as a card you lead with.
 signup_bonus:
   value: 45000
   type: "points"

@@ -9,17 +9,18 @@ foreign_transaction_fee: false
 network: "visa"
 reward_type: "cashback"
 our_take: >
-  The cashRewards Plus is a flat 2% cash back on everything with no annual fee
-  and no foreign transaction fee, which puts it in the same tier as the best
-  no-fee flat-rate cards. The catch is baked into approval: you get the Plus
-  version at 2% only if you're approved for a credit limit of $5,000 or more,
-  and lower limits land on the standard cashRewards card at 1.5% instead.
-  There's a $250 bonus after $2,500 in the first three months on applications
-  through January 3, 2027, and the balance transfer terms are unusually
-  friendly: 1.99% intro APR for 12 months with no balance transfer fee at all,
-  which is rare. Ongoing APRs run 14.15% to 18%, well below the typical
-  rewards-card range. Just don't expect much beyond the cash back, since a
-  rental car collision damage waiver is the only real perk attached.
+  The cashRewards Plus pays a flat 2% on everything with no annual fee and no
+  foreign transaction fee, which puts it in the top group of no fee flat rate
+  cards and makes it usable abroad without a second card. Navy Federal's rates
+  are the quieter advantage: a regular APR of 14.15% to 18%, 1.99% intro APR
+  on balance transfers for 12 months, and no balance transfer fee at all, so
+  consolidating a balance here is unusually cheap. The welcome offer is $250
+  after $2,500 in the first 3 months, available on applications through
+  January 3, 2027. The catch is that you do not apply for this card directly:
+  it is issued on the cashRewards application only when you are approved for a
+  credit limit of $5,000 or more, and lower limits get the 1.5% version
+  instead. Navy Federal membership is also required, so this is a strong
+  everyday card only if you are eligible and approved at the higher tier.
 tags:
   - cashback
   - rewards

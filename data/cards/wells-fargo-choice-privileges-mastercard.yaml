@@ -44,19 +44,19 @@ apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercar
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  For a card with no annual fee, the Choice Privileges Mastercard asks very
-  little and hands back a reasonable amount, starting with 60,000 bonus points
-  after $1,000 of spend in three months. That offer is worth watching: Wells
-  Fargo cut it to 40,000 in April 2026 before restoring the full 60,000 in
-  May. The 5 points per dollar rate applies only at participating Choice
-  Hotels properties, but 3 points per dollar on gas, groceries, home
-  improvement and phone plans is unusually broad for a free hotel card, and
-  automatic Gold Elite status plus 10 elite qualifying nights a year come
-  along with it. There are no foreign transaction fees and up to $800 of cell
-  phone protection when you pay your monthly bill with the card. The honest
-  limit is the currency: Choice Privileges points only matter if you actually
-  stay at Choice properties, and 1 point per dollar on everything else is a
-  weak base rate.
+  Wells Fargo recently raised this card's signup bonus from 40,000 to 60,000
+  Choice Privileges points, and the spend to earn it is only $1,000 in the
+  first 3 months, which is one of the easier bars to clear on a no annual fee
+  card. Beyond the bonus, the everyday earn is broader than most hotel cards:
+  3 points per dollar on gas, groceries, home improvement and phone bills,
+  plus automatic Gold Elite status and 10 elite qualifying nights each year.
+  The headline 5 points per dollar applies only at participating Choice Hotels
+  properties, so it does nothing for stays outside that brand. Everything else
+  earns 1 point per dollar, and Choice points are worth relatively little per
+  point, so the value depends on actually redeeming for Choice stays. With no
+  annual fee and no foreign transaction fee, it is a low-commitment card if
+  Comfort Inn, Quality Inn and their siblings are where you sleep, and a poor
+  fit if they are not.
 benefits:
   - name: "Automatic Gold Elite Status"
     value: 0

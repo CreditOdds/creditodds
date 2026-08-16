@@ -10,21 +10,20 @@ annual_fee: 0
 reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
-  Bilt Blue exists to let you pay rent by card without the usual processing
-  fee, earning up to 1.25 points per dollar on rent and mortgage payments if
-  you select the housing rewards track. Around that sit 3x on hotels and 2x on
-  flights booked through Bilt Travel, 3x on Lyft rides specifically once you
-  link your Lyft account, and no foreign transaction fees, all with no annual
-  fee. Everything else earns a plain 1 point per dollar, and the alternative
-  4% Bilt Cash option on everyday spend replaces the rent multiplier rather
-  than adding to it, so you pick one track or the other, and Bilt Cash is a
-  closed currency used mainly for point accelerators rather than real cash
-  back. The rent rate is not fixed either: it is recalculated each billing
-  cycle from your everyday spend relative to your housing payment, so 1.25x is
-  a ceiling and not a promise. Read the intro APR carefully too, because it is
-  10% rather than 0% for the first 12 billing cycles and 26.74% to 34.74%
-  after that, so this is not a financing card, and the $100 welcome offer
-  arrives as Bilt Cash rather than money.
+  Bilt Blue's whole pitch is paying rent or a mortgage by card with no
+  transaction fee, earning up to 1.25x points on that housing payment for no
+  annual fee at all. Around it you get 3x on hotels and 2x on flights booked
+  through Bilt Travel, 3x on Lyft rides once you link your Lyft account, and
+  no foreign transaction fees. The catch sits in the fine print on the
+  headline rate: the up to 1.25x only applies if you pick the housing-only
+  rewards track, and the exact multiplier is reset each billing cycle based on
+  your everyday spend relative to the housing payment. Everything else earns a
+  flat 1x, and the alternative 4% Bilt Cash track on everyday spend replaces
+  the rent points rather than adding to them, with Bilt Cash being an
+  in-ecosystem currency used mainly for point accelerators rather than true
+  cash back. The $100 in Bilt Cash at signup and the unusual 10% intro rate on
+  purchases for the first 12 billing cycles, which is a low rate and not a 0%
+  window, are small extras rather than reasons to apply.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

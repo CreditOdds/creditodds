@@ -5,15 +5,16 @@ image: "smartly-signature.png"
 accepting_applications: true
 apply_link: https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html
 our_take: >
-  The Smartly Visa Signature is a plain flat-rate card: 2% cash back on
-  everything, no annual fee, no categories to track or activate. That makes it
-  a reasonable default for spending that doesn't trigger a bonus rate on your
-  other cards, and the 12 months of 0% intro APR on both purchases and balance
-  transfers gives it a second use if you have a balance to clear. What it
-  lacks is a signup bonus, so there's no upfront reward to make opening it
-  worthwhile on its own. It also charges foreign transaction fees, which takes
-  it out of the running for travel. Think of it as a quiet base-rate card that
-  fills gaps in a wallet rather than one you build around.
+  The Smartly is a simple flat-rate card: 2% back on everything with no annual
+  fee and nothing to select or track. That puts it a half point ahead of the
+  common 1.5% cards and makes it a reasonable default for spending that
+  doesn't fall into a bonus category. It also comes with 12 months of 0% intro
+  APR on purchases and balance transfers, a shorter runway than dedicated
+  balance-transfer cards but useful if you're financing something modest. Two
+  things hold it back: there's no signup bonus to sweeten the first year, and
+  it charges foreign transaction fees, so it should stay home on international
+  trips. Treat it as a catch-all backup rather than the centerpiece of a
+  wallet.
 category: "cashback"
 annual_fee: 0
 reward_type: "cashback"
