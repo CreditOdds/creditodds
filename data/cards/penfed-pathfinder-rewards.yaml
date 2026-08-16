@@ -51,21 +51,31 @@ benefits:
     frequency: "annual"
     category: "lounge"
     enrollment_required: true
-  - name: "Annual Fee Waiver"
-    value: 95
-    description: "The $95 annual fee is waived for PenFed Honors Advantage members (current or former military, or Access America checking account holders)"
+  # Ending 2026-09-28: PenFed is mailing cardholders a change-in-terms notice
+  # saying the $95 fee is no longer eligible to be waived. Kept as a marked
+  # entry (value 0, so it stops counting toward Total Annual Credits) rather
+  # than deleted, because the live product page still advertises the waiver
+  # and the rewards checker would otherwise re-propose it. Delete this block
+  # after 2026-09-28.
+  - name: "Annual Fee Waiver (ends September 28, 2026)"
+    value: 0
+    description: "PenFed Honors Advantage members (current or former military, or Access America checking account holders) have had the $95 annual fee waived in full. PenFed is notifying cardholders that the fee is no longer eligible to be waived as of September 28, 2026, so plan on paying the $95."
     frequency: "annual"
     category: "other"
 our_take: >
-  The PenFed Pathfinder Rewards Visa Signature punches far above its weight
-  for military members and anyone willing to open a PenFed Access America
-  checking account: those Honors Advantage members get the $95 annual fee
-  waived entirely, plus 4x points on travel and 3x on dining. Even the $100
-  annual air travel incidental credit alone would justify a fee the eligible
-  cardholder is not paying. A 50,000-point bonus after $3,000 in spend, a
-  Global Entry credit every five years, and a Priority Pass membership round
-  out a travel package that few no-fee cards can match, though lounge visits
-  carry per-visit fees. Points redeem at roughly fixed value with a modest
-  catalog, so this is not a transferable-points powerhouse. For the Honors
-  Advantage crowd it is one of the best deals in travel cards; for everyone
-  else the math is merely decent.
+  The PenFed Pathfinder Rewards Visa Signature was built around a fee waiver
+  that is going away. PenFed is notifying cardholders that the $95 annual fee
+  is no longer eligible to be waived as of September 28, 2026, so Honors
+  Advantage members, meaning current or former military and Access America
+  checking customers, lose the perk that made this an effectively free travel
+  card. Judge it on the $95. The $100 annual domestic airline incidental
+  credit covers most of that by itself, and a Global Entry or TSA PreCheck
+  application credit every five years plus a Priority Pass membership fill out
+  a package that still holds up at this price, though lounge visits carry
+  per-visit fees. Honors Advantage members do keep the better earn rates, 4x
+  on travel and 3x on dining against 3x and 2x for everyone else, alongside
+  1.5x on everything else and no foreign transaction fees. The 50,000-point
+  bonus after $3,000 in the first 90 days is a fair start. Points redeem at
+  roughly fixed value through a modest catalog with no transfer partners, so
+  this is not a flexible-points powerhouse. It is a reasonable mid-fee travel
+  card now rather than the free-money play it used to be.
