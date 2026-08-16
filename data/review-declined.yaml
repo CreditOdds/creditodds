@@ -97,7 +97,7 @@ rewards_removed:
 
 # Benefit names declined on a specific card.
 benefits:
-  - { slug: chase-ihg-one-rewards-premier-business, name: "Points Purchase Discount",
+  - { slug: ihg-rewards-premier-business, name: "Points Purchase Discount",
       why: "a discount on BUYING points carries no wallet value — below the small-benefits threshold (PR #1775)" }
   - { slug: navy-federal-more-rewards-american-express, name: "Booking.com Hotel Discount",
       why: "an Amex network offers-platform promotion, not a card benefit; rotating 'up to 30% / select properties' copy (PR #1771)" }
