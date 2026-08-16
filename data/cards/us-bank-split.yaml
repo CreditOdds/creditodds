@@ -23,6 +23,7 @@ our_take: >
   daily spending on.
 benefits:
   - name: "3-Month Interest-Free Plans"
+    value: 0
     description: "No interest or fees on 3-month payment plans for all purchases of $100 or more."
     frequency: "per_purchase"
     category: "other"

@@ -27,6 +27,7 @@ benefits:
     frequency: "annual"
     category: "hotel"
   - name: "DoorDash DashPass"
+    value: 0
     description: "One-year complimentary DashPass membership with unlimited deliveries and $0 delivery fees"
     frequency: "annual"
     category: "dining"

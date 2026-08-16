@@ -94,6 +94,7 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "Cell Phone Protection"
+    value: 0
     description: "Reimburses the lesser of repair or replacement cost after damage or theft, up to $800 per claim and 2 claims per 12 months, with a $50 deductible, when the wireless bill is paid with the card"
     frequency: "per_claim"
     category: "telecom"

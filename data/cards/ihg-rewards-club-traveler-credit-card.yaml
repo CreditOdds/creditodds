@@ -12,6 +12,7 @@ benefits:
     frequency: "annual"
     category: "hotel"
   - name: "Fourth Night Free on Reward Stays"
+    value: 0
     description: "Redeem 3 nights and receive a 4th night free when you redeem points for a consecutive four-night IHG hotel stay at that same hotel during that same stay."
     frequency: "per_trip"
     category: "hotel"
@@ -23,6 +24,7 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "Gold Elite Status Qualification"
+    value: 0
     description: "Qualify for Gold Elite Status through December 31st of the following year when purchases total $20,000 or more in a calendar year."
     frequency: "annual"
     category: "travel"
@@ -35,6 +37,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "DoorDash DashPass"
+    value: 0
     description: "One-year complimentary DashPass membership for both DoorDash and Caviar providing unlimited deliveries with $0 delivery fees and lower service fees on eligible orders; plus up to $10 off quarterly on non-restaurant DoorDash orders through Dec 31, 2027."
     frequency: "annual"
     category: "dining"

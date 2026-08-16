@@ -61,5 +61,6 @@ our_take: >
   rate will not do much for you.
 benefits:
   - name: "AAA Redemption Bonus"
+    value: 0
     description: "5% more cash back when redeeming with AAA Northeast Counselors and Advisors"
     category: "rewards"
