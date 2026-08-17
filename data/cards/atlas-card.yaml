@@ -6,19 +6,21 @@ image: "atlas.png"
 apply_link: https://atlascard.com/
 foreign_transaction_fee: false
 our_take: >
-  Atlas tripled its annual fee from $1,000 to $3,000 in June 2026, which
-  resets who this card makes sense for. The credits can outrun that fee on
-  paper: $3,000 toward private charter flights booked through Atlas Travel,
-  $1,000 for semi-private aviation with BLADE, JSX, Aero, and Slate, $1,000
-  toward business class fares on bookings of $5,000 or more, $1,000 for
-  ticketed experiences, and a $200 Erewhon credit. Every one of those is
-  shaped around a specific kind of spending, so the value is real only if
-  private and semi-private aviation is already part of your travel pattern.
-  Earning is thin outside the ecosystem: the 5 points per dollar rate applies
-  only to bookings made through Atlas Travel, and everything else earns a flat
-  1 point per dollar, though at least there are no foreign transaction fees.
-  Additional credits unlock at $100,000, $250,000, and $1,000,000 in annual
-  spend, which tells you plainly who the card is built for.
+  Atlas tripled its annual fee from $1,000 to $3,000 in June 2026, and the
+  case for it now rests entirely on whether you spend the way the credits
+  assume: $3,000 toward private charter flights booked through Atlas Travel,
+  $1,000 for semi-private flights with BLADE, JSX, Aero, and Slate, $1,000
+  toward business class on bookings of $5,000 or more, $1,000 for ticketed
+  experiences, and $200 at Erewhon. The charter credit alone nominally covers
+  the fee, but only if chartering a plane was already on your calendar.
+  Earning is narrow: 5 points per dollar on bookings made through Atlas Travel
+  and 1 point per dollar on everything else, so this is not a card to route
+  general spend through. Most of the remaining value is access rather than
+  money, including an AI concierge by text, priority restaurant reservations
+  in four cities, member rates on private jets and luxury hotels, and a
+  complimentary one-year Slate Shared Membership valued at $595. If your
+  travel is commercial and getting a table isn't a problem you have, nothing
+  here justifies $3,000.
 annual_fee: 3000
 category: "travel"
 reward_type: "points"

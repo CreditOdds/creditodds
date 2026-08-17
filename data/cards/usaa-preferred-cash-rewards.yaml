@@ -15,16 +15,16 @@ rewards:
     value: 1.5
     unit: percent
 our_take: >
-  This is a simple flat-rate card: 1.5% cash back on everything, no annual
-  fee, no foreign transaction fee, and a $250 bonus after $1,000 in purchases
-  within three months. That bonus is generous relative to the low spending
-  requirement, and the lack of foreign transaction fees makes it usable
-  abroad, which not every no-fee cash back card can say. The honest catch is
-  the earn rate itself: 1.5% flat trails the better flat-rate cash back cards,
-  so over a full year of spending you're leaving money on the table compared
-  with a 2% option. There are no bonus categories to make up the difference
-  either. Worth opening for the bonus and keeping for overseas purchases, but
-  it shouldn't be the card you default to at home.
+  The Preferred Cash Rewards is a no-decisions card: a flat 1.5% back on
+  everything, no annual fee, and no foreign transaction fees, which is unusual
+  at this tier and makes it easy to take overseas. The $250 bonus after $1,000
+  in the first three months is generous relative to the spend required, so the
+  first year pays out well above the headline rate. The catch is the rate
+  itself: 1.5% is now the low end for flat-rate cards, and a 2% option will
+  out-earn it on every dollar after the bonus is banked. There's no intro APR
+  either, so it does nothing for existing debt, and the regular rate runs from
+  15.4% to 27.4%. Reasonable as a simple travel-friendly backup, less so as
+  the card you route most of your spending through.
 signup_bonus:
   value: 250
   type: cash

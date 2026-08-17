@@ -26,17 +26,18 @@ apply_link: https://www.fidelity.com/spend-save/visa-signature-card
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Fidelity Rewards Visa Signature is a clean flat-rate play: 2% back on
-  every purchase with no annual fee and no foreign transaction fee, which puts
-  it at the top tier for uncomplicated everyday spending. The condition to
-  understand is that the 2% holds when rewards are deposited into an eligible
-  Fidelity account, so this really only works if you already bank or invest
-  with Fidelity. It also reimburses up to $100 in points toward a Global Entry
-  or TSA PreCheck application fee once every five years, a small but genuine
-  extra for a no-fee card. Worth noting that the $150 welcome bonus was pulled
-  in July 2026, so there is no sign-up offer to sweeten the first year. There
-  is also no intro APR and the regular rate runs 16.49% to 26.49%, so this is
-  a card to pay in full, not to finance with.
+  The Fidelity Rewards Visa Signature is one of the cleanest flat-rate cards
+  available: 2% back on every purchase with no annual fee, no categories to
+  track, and no foreign transaction fee. The condition worth understanding is
+  that the 2% rate depends on rewards being deposited into an eligible
+  Fidelity account, so this really works best if you already bank or invest
+  with Fidelity and want cash back funneled straight into savings or a
+  brokerage. The up to $100 in Reward Points toward a Global Entry or TSA
+  PreCheck application every five years is a genuine extra on a card that
+  charges nothing to hold. Note that the signup bonus, previously $150, was
+  removed in July 2026, so there is no welcome offer to chase right now. The
+  16.49% to 26.49% regular APR is unremarkable, which is fine for a card you
+  carry for its steady base rate rather than for financing.
 benefits:
   - name: "Global Entry or TSA PreCheck Credit"
     value: 100

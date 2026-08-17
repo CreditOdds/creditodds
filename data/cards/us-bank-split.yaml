@@ -11,16 +11,16 @@ apply_link: https://www.usbank.com/credit-cards/offers/split-card-world-masterca
 foreign_transaction_fee: true
 network: "mastercard"
 our_take: >
-  The Split's one real trick is its financing structure: any purchase of $100
-  or more can be paid off over three months with no interest and no fees, on a
-  card that charges no annual fee. If you regularly make mid-sized purchases
-  you'd rather spread out, that's a cleaner deal than carrying a balance at a
-  standard APR, and it requires no enrollment. The catch is that the card
-  earns nothing: there are no cash back or points categories at all, so it
-  gives you no reason to reach for it once a purchase is paid off. It also
-  charges foreign transaction fees, which rules it out for travel. Think of it
-  as a budgeting tool for occasional larger buys rather than a card you put
-  daily spending on.
+  The Split's one real feature is its payment structure: any purchase of $100
+  or more can be paid over three months with no interest and no fees, and
+  there's no annual fee to hold the card. That's a genuinely useful way to
+  smooth out a mid-sized expense without the plan fees most buy-now-pay-later
+  products attach. The problem is that this is all the card does. It earns no
+  rewards, has no signup bonus, and carries foreign transaction fees, so
+  there's no reason to spend on it outside of purchases you actually want to
+  split. If you're mainly after breathing room on a large purchase, a card
+  with a long 0% intro APR window gives you far more time to pay it off. Keep
+  this one narrow: use it for the three-month plans and nothing else.
 benefits:
   - name: "3-Month Interest-Free Plans"
     value: 0

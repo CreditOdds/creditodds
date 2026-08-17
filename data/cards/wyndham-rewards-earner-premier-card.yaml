@@ -36,22 +36,24 @@ rewards:
     unit: points_per_dollar
     note: "Also earns 4x on Wyndham Vacation Club purchases"
 our_take: >
-  The Premier is the version for people who actually stay at Wyndham often:
-  30,000 anniversary points each year after the fee is paid, enough for up to
-  four award nights, plus a free night worth up to 30,000 points once you hit
-  five nights in a calendar year and a 25% discount on every award redemption.
-  Earning is topped by 8x at Hotels by Wyndham, including Travel Bundles, with
-  4x on travel, dining, and groceries excluding Target and Walmart, and 1x on
-  everything else. The current 120,000 point offer is a limited time structure
-  and a demanding one: 90,000 after $6,000 of spend and paying the annual fee
-  in full within 120 days, plus 30,000 after $750 at Wyndham hotels within 180
-  days. The problem is the $395 annual fee, which only works if you use the
-  credits rather than admire them: up to $100 at Wyndham hotels, $120 for meal
-  delivery at $10 a month, $100 on streaming, $65 toward a wholesale club
-  membership, and a $120 Global Entry or TSA PreCheck credit every four years.
-  Add Diamond status and a $95 Insider subscription and the paper value clears
-  the fee comfortably, but if you stay at Wyndham once or twice a year, the
-  Earner Plus does the same job for $95.
+  At $395 a year, the Premier is built around a stack of recurring credits and
+  points rather than raw earn rates: 30,000 anniversary points after you pay
+  the fee, a free night worth up to 30,000 points once you stay five or more
+  nights in a calendar year, a 25% discount on award redemptions, and up to
+  $100 in Wyndham hotel credits, $120 in meal delivery credits at $10 a month,
+  $100 in streaming credits, and $65 toward a wholesale club membership.
+  Earning is 8 points per dollar at Hotels by Wyndham, which applies only at
+  Wyndham properties, plus 4 points per dollar on travel, dining, and
+  groceries, with Target and Walmart excluded and everything else at 1 point
+  per dollar. The current limited time welcome offer is 120,000 points, but it
+  is the most demanding of the family: 90,000 after $6,000 in spending and
+  paying the annual fee in full, both within 120 days, then 30,000 more after
+  $750 at Hotels by Wyndham within 180 days. Diamond status, a $95 Wyndham
+  Rewards Insider subscription, up to $120 toward Global Entry or TSA PreCheck
+  every four years, and no foreign transaction fee fill out the package. The
+  math only works if you actually use the monthly credits and stay at Wyndham
+  enough to clear five nights; otherwise the cheaper Plus covers most of the
+  same ground for $300 less.
 signup_bonus:
   value: 120000
   type: "points"

@@ -8,20 +8,21 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
 our_take: >
-  The Platinum's welcome offer, 175,000 points after $12,000 in six months,
-  tops our Best Credit Card Signup Bonuses list and is the clearest reason to
-  open the card in year one. After that the value comes from credits rather
-  than earning: $600 a year on Fine Hotels + Resorts or The Hotel Collection,
-  $400 at U.S. Resy restaurants, $300 in digital entertainment, $300 at
-  Equinox, $300 at Lululemon, $200 in Uber Cash, $200 in airline incidentals,
-  and $219 for CLEAR Plus, alongside Centurion and Priority Pass lounge
-  access. Those add up on paper, but they arrive in monthly and quarterly
-  slices at specific merchants and most require enrollment, so the $895 annual
-  fee only works if your spending already looks like that list. Earning is
-  narrow as well: 5x on flights booked directly or through Amex Travel and 5x
-  on prepaid hotels on AmexTravel.com, with everything else at 1x. Open it for
-  the bonus and the credits you will actually use, and re-run the math each
-  renewal.
+  The Platinum Card currently ranks #1 on our Best Credit Card Signup Bonuses
+  list, and the reason is straightforward: 175,000 points after $12,000 in
+  purchases in six months. Ongoing earning is narrow, though: 5x points on
+  airfare booked directly with airlines or through Amex Travel (up to $500,000
+  per year, then 1x) and 5x on prepaid hotels through AmexTravel.com, with a
+  flat 1x on everything else. What has to justify the $895 annual fee is the
+  credit stack, including up to $600 in Fine Hotels + Resorts or Hotel
+  Collection credits, $400 at Resy restaurants, $300 in digital entertainment,
+  $300 at Equinox, $300 at Lululemon, $200 in Uber Cash, and $219 for CLEAR
+  Plus, plus Centurion Lounge and Priority Pass access. The catch is that
+  those credits arrive in monthly, quarterly, and semi-annual slices and most
+  require enrollment, so you only come out ahead if your spending already runs
+  through Uber, Resy, Lululemon, and Amex Travel hotel bookings. If you would
+  not naturally use most of them, that 1x base rate makes this a costly card
+  to keep.
 annual_fee: 895
 reward_type: "points"
 rewards:

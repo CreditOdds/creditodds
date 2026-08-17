@@ -7,22 +7,23 @@ apply_link: https://www.biltrewards.com/card/apply
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  Bilt built the Palladium around something almost no other card does: you can
-  put rent or mortgage on it with no transaction fee and still earn up to
-  1.25x points, on top of a flat 2x on everyday spend. At $495 a year the math
-  leans on the credits, a $400 annual hotel credit paid as two $200 statement
-  credits for Bilt Travel bookings and $200 in annual Bilt Cash, plus Priority
-  Pass lounge access and no foreign transaction fees. The catch is how
-  conditional the best numbers are: the 1.25x on housing only applies on the
-  housing rewards track, since the Bilt Cash track drops housing to 1x, the 4x
-  transit rate covers Lyft rides only after you link your account, and the 4x
-  hotels and 3x flights require booking through Bilt Travel. The intro APR is
-  unusual and worth reading twice, a 10% fixed rate for the first 12 billing
-  cycles rather than 0%, before a regular 26.74% to 34.74%. It opens with
-  50,000 points plus $300 Bilt Cash after $4,000 in three months, and that
-  same $4,000 in 90 days earns Gold Status. It is worth the fee mainly if your
-  rent is large enough that fee-free housing points carry the $495 on their
-  own.
+  Palladium is the $495 top of the Bilt lineup, and the case for it is the
+  credits rather than the earn rates: $400 in annual Bilt Travel hotel credit
+  paid as two $200 statement credits, plus $200 in annual Bilt Cash with up to
+  $100 rolling into the next year, alongside Priority Pass lounge access. It
+  is also the only Bilt card that earns 2x on everyday spend, with 4x on Bilt
+  Travel hotels, 3x on Bilt Travel flights, 4x on Lyft rides after linking
+  your account, and up to 5x at participating Bilt Dining restaurants, all
+  with no foreign transaction fee. The welcome offer is 50,000 points after
+  $4,000 in three months plus $300 in Bilt Cash, and hitting $4,000 in
+  non-housing spend within 90 days also triggers Gold Status. The honest
+  tradeoff is that the credits are the fee math: both hotel credits are locked
+  to Bilt Travel Portal bookings, Bilt Cash is an in-ecosystem currency rather
+  than cash back, and rent still earns only up to 1.25x on the housing track,
+  with the multiplier reset each cycle from your everyday spend. It ranks #14
+  on our Best Travel list, which is a fair reflection of a card that pays off
+  for people who book hotels through Bilt and use the lounge access, and not
+  for anyone else.
 annual_fee: 495
 reward_type: "points"
 release_date: "2025-01-15"

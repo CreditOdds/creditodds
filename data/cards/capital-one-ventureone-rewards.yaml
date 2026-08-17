@@ -31,17 +31,16 @@ apr:
 apply_link: https://www.capitalone.com/credit-cards/ventureone/
 foreign_transaction_fee: false
 our_take: >
-  VentureOne is the entry point to Capital One miles: 1.25x on every purchase
-  with no annual fee and no foreign transaction fee, which makes it a
-  low-commitment way to hold a miles balance and use it abroad. The 20,000
-  mile bonus needs only $500 of spend in the first three months, one of the
-  easier thresholds around, and there are 15 months of 0% intro APR on
-  purchases if you have something to finance. The tradeoff is the earn rate:
-  1.25x is well below the 2x on Capital One's fee-charging Venture cards, so
-  this is the version you carry when you don't want to pay $95 rather than the
-  one that maximizes miles. Only hotels and rental cars booked through Capital
-  One Travel break that pattern, at 5x. Note that the intro APR covers
-  purchases only, not balance transfers, so it isn't a debt-payoff card.
+  VentureOne is the no-annual-fee entry point to Capital One miles: 1.25x on
+  every purchase, no foreign transaction fees, and 15 months of 0% intro APR
+  on purchases if you have something to finance. The 20,000-mile bonus asks
+  only $500 of spending in three months, which is one of the easier thresholds
+  you will find. The honest problem is the earn rate, since 1.25x trails the
+  2x on the $95 Venture Rewards by enough that the fee usually pays for itself
+  once you are spending real money on the card. The 5x rate applies only to
+  hotels and rental cars booked through Capital One Travel, so most purchases
+  sit at that 1.25x base. Take this if you want a free card for overseas
+  spending and a long intro window, and move up if it becomes your main card.
 benefits:
   - name: "Price Drop Protection"
     value: 0

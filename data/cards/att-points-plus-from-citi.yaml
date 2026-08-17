@@ -7,18 +7,20 @@ apply_link: https://www.citi.com/credit-cards/citi-att-pointsplus-credit-card
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The pitch here is the statement credits rather than the points: $10 a month
-  off an AT&T wireless line and another $10 a month off eligible AT&T
-  internet, both requiring AutoPay and paperless billing, worth up to $240 a
-  year combined on a card with no annual fee. On top of that, spending $1,000
-  or more in a billing cycle earns a $20 statement credit, up to another $240
-  a year, which is a real return for routine spend. Earning is modest by
-  comparison: 3 points per dollar on gas including EV charging, 2x on
-  groceries, 2x on AT&T products and bill payments, and 1x on everything else,
-  with no foreign transaction fees. Citi recently cut the welcome offer from
-  $250 to $200, payable after $1,000 in purchases in the first three months.
-  If you're not an AT&T customer, most of the value evaporates and there are
-  stronger everyday cards to carry instead.
+  The reason to carry this one is the statement credit structure rather than
+  the points: $20 back in any billing cycle where you spend at least $1,000,
+  worth up to $240 a year, plus $10 a month off an AT&T wireless line and $10
+  a month off eligible AT&T internet if you enroll in AutoPay and paperless
+  billing. Earning is decent for a no annual fee card, with 3 points per
+  dollar on gas and EV charging and 2 on groceries, though the 2 points on
+  phone applies only to AT&T products, services and bill payments, and
+  everything else earns 1 point. The welcome offer is a $200 statement credit
+  after $1,000 in purchases in the first 3 months, recently trimmed from $250.
+  The obvious catch is that most of the value assumes you are an AT&T
+  customer, and the two telecom discounts require enrollment, so a
+  non-subscriber is left with a fairly ordinary gas and grocery card. No
+  foreign transaction fees and the ability to pool points with other Citi
+  ThankYou cards are genuine extras if you already sit in that ecosystem.
 annual_fee: 0
 reward_type: "points"
 tags:

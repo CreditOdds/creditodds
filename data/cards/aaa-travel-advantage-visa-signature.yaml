@@ -49,16 +49,16 @@ apr:
     min: 17.49
     max: 31.49
 our_take: >
-  The Travel Advantage leads with 5% back at gas and EV-charging stations, a
-  strong rate for a card with no annual fee and no foreign transaction fee.
-  Read the cap before you plan around it: the 5% category is limited to $350
-  in cash back per year, roughly $7,000 of fuel spending, and drops to 1%
-  after that. Below that ceiling the card fills in reasonably well with 3% on
-  groceries, dining, and travel including AAA purchases, though everything
-  outside those categories earns just 1%. The $100 bonus after $1,000 in three
-  months is small but low-effort. This is a commuter's card more than a travel
-  card: if fuel is not a large share of your monthly spending, the headline
-  rate will not do much for you.
+  The Travel Advantage leads with 5% back on gas and EV charging plus 3% on
+  groceries, dining, and travel, with no annual fee and no foreign transaction
+  fee. Read the fine print on that headline rate: the 5% is limited to $350 in
+  cash back a year, roughly $7,000 of fuel spending, after which it falls to
+  1%. Everything outside the bonus categories also earns just 1%, so this is a
+  supplementary card rather than the one you reach for by default. The $100
+  bonus after $1,000 in three months is small, though the spending bar is low
+  enough that most people will clear it without trying. With a regular APR of
+  17.49% to 31.49%, it only makes sense as a rewards card if you pay in full
+  each month.
 benefits:
   - name: "AAA Redemption Bonus"
     value: 0

@@ -14,18 +14,20 @@ check_ignore:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Atmos Rewards Business card covers the same Alaska and Hawaiian ground
-  as the personal version for $95 a year, earning 3 points per dollar on
-  Alaska and Hawaiian Airlines purchases, 2x on gas, EV charging, transit, and
-  shipping, and 1x elsewhere. The current bonus is 70,000 points plus a $99
-  Companion Fare after $4,000 in the first 90 days, trimmed back in early July
-  from the 80,000 that ran through May and June. The quieter draw is that card
-  activity doesn't report to personal credit bureaus, which keeps the account
-  off your personal utilization and out of 5/24-style counts. A recurring $99
-  Companion Fare after $6,000 of annual spend, a free checked bag, and
-  priority boarding on Alaska flights are what justify the fee year to year.
-  If your business doesn't fly Alaska or Hawaiian, the 3x rate never applies
-  and you're left with an ordinary 2x card.
+  The pitch here is a business card that keeps airline spending off your
+  personal credit file: activity does not report to the personal bureaus,
+  which helps if you are managing utilization or 5-24 style limits. The
+  welcome offer is 70,000 points plus a $99 Companion Fare after $4,000 in
+  purchases within 90 days, though note it briefly ran at 80,000 in May before
+  dropping back to 70,000 in July, so it is worth waiting for the higher offer
+  to return if you are not in a hurry. Ongoing earning is narrow: the 3 points
+  per dollar rate applies only to Alaska and Hawaiian Airlines purchases, with
+  2 points per dollar on gas, EV charging, transit and shipping and just 1
+  point everywhere else. Against the $95 annual fee, the recurring $99
+  Companion Fare requires $6,000 of spend each year to trigger, so the math
+  only works if you actually fly Alaska and put real volume on the card. Free
+  checked bag, priority boarding and 20% back on inflight purchases round it
+  out, and there are no foreign transaction fees.
 tags:
   - travel
   - airline

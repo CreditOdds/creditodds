@@ -8,19 +8,21 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref="
 our_take: >
-  The Gold is our #1 pick for dining and groceries because the earn rates are
-  genuinely best in class: 4x at restaurants on up to $50,000 a year and 4x at
-  U.S. supermarkets on up to $25,000, plus 5x on hotels prepaid through Amex
-  Travel and 3x on flights. A 100,000-point bonus after $8,000 in six months
-  is one of the larger offers available and lands it at #5 on our signup bonus
-  list. The $325 annual fee is the honest sticking point, and Amex expects you
-  to cover it with credits rather than points: $120 in Uber Cash, $120 in
-  dining credits at Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, and
-  Five Guys, $84 at Dunkin', and $100 semiannually at Resy restaurants. Those
-  are doled out in $10 and $7 monthly slices at specific merchants and require
-  enrollment, so they only count if you actually spend there each month. If
-  you do not, judge the card on the 4x rates alone and decide whether your
-  grocery and restaurant spending clears $325 of value.
+  The Gold's case is its earn rate on the two categories most households spend
+  the most in: 4 points per dollar at restaurants on up to $50,000 a year and
+  4 points per dollar at U.S. supermarkets on up to $25,000, which is why it
+  sits at #1 on our list of best cards for dining and groceries. The current
+  welcome offer of 100,000 points after $8,000 in six months is among the
+  larger ones on the market. The catch is that the $325 annual fee is only
+  offset if you actually use the credits, and they are narrow and time-boxed:
+  $10 a month in Uber Cash, $10 a month split across Grubhub, The Cheesecake
+  Factory, Goldbelly, Wine.com, and Five Guys, up to $7 a month at Dunkin',
+  and $50 twice a year at Resy restaurants, most requiring enrollment and none
+  rolling over. Spend past the caps and those 4x categories drop to 1 point
+  per dollar, and everything outside them earns 1 point per dollar from the
+  start. If your dining and grocery spend is real and the monthly credit
+  routine doesn't annoy you, the math works; if not, a no-fee card will treat
+  you better.
 annual_fee: 325
 benefits:
   - name: "Uber Cash"
