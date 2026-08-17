@@ -120,18 +120,22 @@ benefits:
     category: "car_rental"
     enrollment_required: true
   - name: "Trip Delay Insurance"
+    value: 0
     description: "Reimbursement for additional expenses up to $500 per trip when a covered trip is delayed more than 6 hours (maximum 2 claims per 12 months)"
     category: "travel"
     enrollment_required: false
   - name: "Trip Cancellation and Interruption Insurance"
+    value: 0
     description: "Reimbursement for non-refundable trip expenses up to $10,000 per trip and $20,000 per card per 12 months if covered reason cancels or interrupts trip"
     category: "travel"
     enrollment_required: false
   - name: "Baggage Insurance"
+    value: 0
     description: "Coverage for lost, damaged, or stolen baggage up to $3,000 aggregate per trip when entire fare purchased on card"
     category: "travel"
     enrollment_required: false
   - name: "Delta Sky Club Visits"
+    value: 0
     description: "10 complimentary visits per year when flying on an eligible Delta flight"
     frequency: "annual"
     category: "lounge"

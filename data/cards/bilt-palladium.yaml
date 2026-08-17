@@ -57,6 +57,7 @@ benefits:
     category: "lounge"
     enrollment_required: false
   - name: "Gold Status"
+    value: 0
     description: "Gold Status awarded after meeting $4,000 spend requirement on purchases (excluding rent or mortgage) in first 90 days"
     frequency: "one_time"
     category: "rewards"

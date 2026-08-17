@@ -22,10 +22,12 @@ apr:
     max: 18.00
 benefits:
   - name: "Upgrade Path to Unsecured cashRewards"
+    value: 0
     description: "Eligible for a credit limit increase after 3 months without adding to the deposit; reviewed monthly for upgrade to the unsecured cashRewards card starting at 6 months, with the security deposit ($200 minimum) returned upon upgrade"
     category: "other"
     enrollment_required: false
   - name: "Collision Damage Waiver"
+    value: 0
     description: "Rental car collision damage waiver coverage when the rental is paid with the card"
     category: "travel"
     enrollment_required: false

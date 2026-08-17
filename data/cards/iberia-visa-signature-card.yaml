@@ -53,11 +53,13 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "10% Flight Discount"
+    value: 0
     description: "10% off Iberia flights when booking via the designated cardmember website"
     frequency: "per_purchase"
     category: "travel"
     enrollment_required: false
   - name: "DashPass Membership"
+    value: 0
     description: "Complimentary DashPass for at least one year when activated by Dec 31, 2027"
     frequency: "annual"
     category: "rewards"
@@ -65,14 +67,17 @@ benefits:
     merchants:
       - doordash
   - name: "Baggage Delay Insurance"
+    value: 0
     description: "Reimbursement up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
     category: "travel"
     enrollment_required: false
   - name: "Lost Luggage Reimbursement"
+    value: 0
     description: "Reimbursement up to $3,000 per covered traveler for lost, damaged, or stolen checked or carry-on baggage during a covered trip"
     category: "travel"
     enrollment_required: false
   - name: "Purchase Protection"
+    value: 0
     description: "Coverage for eligible new purchases for 120 days from purchase against damage or theft up to $500 per item"
     category: "protection"
     enrollment_required: false

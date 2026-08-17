@@ -61,16 +61,19 @@ signup_bonus:
   note: "Get 70,000 bonus points and a $99 Companion Fare (plus taxes and fees from $23) after you make $4,000 or more in purchases within the first 90 days of opening your account."
 benefits:
   - name: "Coach Companion Fare"
+    value: 0
     description: "$99 Companion Fare (plus taxes and fees from $23) every year that you spend at least $6,000 on purchases with the card"
     frequency: "annual"
     category: "travel"
     enrollment_required: false
   - name: "Free Checked Bag"
+    value: 0
     description: "First checked bag free for the cardmember on Alaska Airlines flights when paid with the card"
     frequency: "per_flight"
     category: "travel"
     enrollment_required: false
   - name: "Priority Boarding"
+    value: 0
     description: "Priority boarding on Alaska Airlines flights when paid with the card"
     frequency: "per_flight"
     category: "travel"
@@ -82,6 +85,7 @@ benefits:
     category: "lounge"
     enrollment_required: false
   - name: "No Personal Credit Reporting"
+    value: 0
     description: "Card activity does not report to personal credit bureaus, helpful for managing personal credit utilization and 5/24-style limits"
     frequency: "annual"
     category: "other"

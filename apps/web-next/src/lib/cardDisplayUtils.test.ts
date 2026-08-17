@@ -3,7 +3,9 @@ import {
   formatBenefitValue,
   creditAmountLabel,
   amortizedAnnualValue,
+  isCreditBenefit,
   isMonetaryBenefit,
+  isPerkBenefit,
   spendableValue,
 } from './cardDisplayUtils';
 
@@ -89,5 +91,44 @@ describe('creditAmountLabel', () => {
 
   it('returns nothing for a zero-value perk', () => {
     expect(creditAmountLabel(0, 'annual')).toBe('');
+  });
+});
+
+// A benefit with no `value` at all used to render NOWHERE. Every surface
+// splits benefits into `value > 0` credits and `value === 0` perks, and
+// undefined satisfies neither test, so 163 perks across 67 cards (Amex
+// Platinum's Marriott Gold status, Delta Sky Club visits, free checked bags)
+// were dropped from the compare table, the wallet view and the card page.
+// The YAMLs are backfilled and build-cards.js now rejects a benefit without
+// a value; these guard the runtime half, since cards.json is CDN-cached and
+// an older payload can still reach the browser.
+describe('benefits with a missing value', () => {
+  const statusPerk = { name: 'Marriott Bonvoy Gold Elite Status', frequency: 'ongoing' } as never;
+
+  it('counts as a perk, not a credit', () => {
+    expect(isCreditBenefit(statusPerk)).toBe(false);
+    expect(isPerkBenefit(statusPerk)).toBe(true);
+  });
+
+  it('lands in exactly one bucket for every benefit', () => {
+    const benefits = [
+      { name: 'Hotel Credit', value: 600, frequency: 'annual' },
+      { name: 'Lounge Access', value: 0, frequency: 'ongoing' },
+      statusPerk,
+    ] as never[];
+    expect(benefits.filter(isCreditBenefit).length + benefits.filter(isPerkBenefit).length)
+      .toBe(benefits.length);
+  });
+
+  it('never turns an annual credits rollup into NaN', () => {
+    expect(amortizedAnnualValue(statusPerk)).toBe(0);
+    expect(
+      amortizedAnnualValue({ name: 'Delta Sky Club Visits', frequency: 'annual' } as never)
+    ).toBe(0);
+  });
+
+  it('formats as $0 rather than $NaN', () => {
+    expect(formatBenefitValue({ name: 'x', frequency: 'monthly' } as never)).toBe('$0');
+    expect(spendableValue({ name: 'x', frequency: 'quarterly' } as never)).toBe(0);
   });
 });

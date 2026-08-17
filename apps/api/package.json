@@ -7,7 +7,7 @@
   "dependencies": {
     "@firebase/app": "^0.16.0",
     "firebase-admin": "^13.6.0",
-    "mysql2": "^3.23.2",
+    "mysql2": "^3.23.3",
     "serverless-mysql": "^1.5.4",
     "yup": "^0.32.9"
   },

@@ -68,6 +68,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "Wyndham Rewards Status"
+    value: 0
     description: "Automatic Diamond status in your first year, then Platinum status, with perks like early check-in and late checkout."
     frequency: "annual"
     category: "travel"

@@ -23,7 +23,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
-import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel } from "@/lib/cardDisplayUtils";
+import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel, isCreditBenefit, isPerkBenefit } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -443,12 +443,14 @@ export default function CardClient({
     [card.rewards],
   );
 
-  const creditBenefits = (card.benefits || []).filter((b) => b.value > 0);
+  const creditBenefits = (card.benefits || []).filter(isCreditBenefit);
   // Zero-value benefits are real perks (lounge access, status tiers, free
-  // checked bags), not missing data — `value: 0` is backfilled and validated
-  // by build-cards. They carry no dollar amount, so they render as their own
-  // list instead of a row in the credits table.
-  const perkBenefits = (card.benefits || []).filter((b) => b.value === 0);
+  // checked bags), not missing data. Uses the shared isPerkBenefit so this
+  // bucket cannot drift from the credits bucket: it treats a missing value as
+  // 0, which is what keeps a stale CDN payload's value-less benefit from
+  // landing in neither list. Perks carry no dollar amount, so they render as
+  // their own list instead of a row in the credits table.
+  const perkBenefits = (card.benefits || []).filter(isPerkBenefit);
   // Mirrors amortizedAnnualValue() but supports unit filtering so we can
   // roll up USD / points / miles totals separately. Convention: `value` is
   // the annual total; `frequency` is just a display hint (monthly/quarterly

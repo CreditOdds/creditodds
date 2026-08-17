@@ -44,6 +44,7 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Price Match Guarantee"
+    value: 0
     description: "Travel credit for price difference on flights, hotels, or rental cars if better price found within 24 hours of booking"
     frequency: "per_trip"
     category: "travel"
@@ -55,17 +56,20 @@ benefits:
     category: "travel"
     enrollment_required: false
   - name: "Capital One Entertainment 5x"
+    value: 0
     description: "5x miles on ticket purchases through the Capital One Entertainment platform (concerts, sports, dining experiences). Excludes dining reservations and Capital One Dining."
     frequency: "per_purchase"
     category: "entertainment"
     enrollment_required: false
   - name: "Discounted Cultivist Membership"
+    value: 0
     description: "50% off the Enthusiast membership to The Cultivist for up to 2 years"
     frequency: "multi_year"
     frequency_years: 2
     category: "entertainment"
     enrollment_required: false
   - name: "Enhanced Hotel Benefits"
+    value: 0
     description: "Includes up to $100 hotel credit, daily breakfast, room upgrades, and more at Premier and Lifestyle Collection hotels"
     frequency: "per_trip"
     category: "hotel"
