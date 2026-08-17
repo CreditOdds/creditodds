@@ -24,30 +24,36 @@ benefits:
     category: "streaming"
     enrollment_required: true
   - name: "Disney Park Merchandise Discount"
+    value: 0
     description: "10% off select merchandise purchases at Disneyland and Walt Disney World Resort locations"
     frequency: "per_purchase"
     category: "shopping"
     enrollment_required: false
   - name: "Disney Park Dining Discount"
+    value: 0
     description: "10% off select dining locations at Disneyland and Walt Disney World Resort"
     frequency: "per_purchase"
     category: "dining"
     enrollment_required: false
   - name: "Disney Guided Tour Discount"
+    value: 0
     description: "15% off select guided tours at Disneyland and Walt Disney World Resort"
     frequency: "per_purchase"
     category: "entertainment"
     enrollment_required: false
   - name: "DisneyStore.com Discount"
+    value: 0
     description: "10% savings on select purchases at DisneyStore.com"
     frequency: "per_purchase"
     category: "shopping"
     enrollment_required: false
   - name: "Purchase Protection"
+    value: 0
     description: "Covers eligible new purchases for 120 days from date of purchase against damage or theft, up to $500 per item"
     category: "protection"
     enrollment_required: false
   - name: "Baggage Delay Insurance"
+    value: 0
     description: "Reimburses up to $100 a day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
     category: "travel"
     enrollment_required: false

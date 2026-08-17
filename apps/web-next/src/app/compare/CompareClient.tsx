@@ -12,7 +12,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Card, Reward, trackCardCompareEvent } from '@/lib/api';
-import { amortizedAnnualValue, formatBenefitValue } from '@/lib/cardDisplayUtils';
+import { amortizedAnnualValue, formatBenefitValue, isCreditBenefit, isPerkBenefit } from '@/lib/cardDisplayUtils';
 import { cardMatchesSearch } from '@/lib/searchAliases';
 import {
   categoryLabels,
@@ -539,8 +539,8 @@ export default function CompareClient({ allCards }: CompareClientProps) {
 
                   {/* Benefits */}
                   {card.benefits && card.benefits.length > 0 && (() => {
-                    const credits = card.benefits.filter(b => b.value > 0);
-                    const perks = card.benefits.filter(b => b.value === 0);
+                    const credits = card.benefits.filter(isCreditBenefit);
+                    const perks = card.benefits.filter(isPerkBenefit);
                     const totalAnnual = credits.reduce((sum, b) => sum + amortizedAnnualValue(b), 0);
                     return (
                       <div className="px-4 py-2.5 text-sm">
@@ -829,7 +829,7 @@ export default function CompareClient({ allCards }: CompareClientProps) {
               {activeCards.some(c => c.benefits && c.benefits.length > 0) && (() => {
                 const totalCredits = activeCards.map(c => {
                   if (!c.benefits) return 0;
-                  return c.benefits.filter(b => b.value > 0).reduce(
+                  return c.benefits.filter(isCreditBenefit).reduce(
                     (sum, b) => sum + amortizedAnnualValue(b),
                     0
                   );
@@ -848,12 +848,12 @@ export default function CompareClient({ allCards }: CompareClientProps) {
                               </div>
                             )}
                             <div className="text-xs text-gray-500 space-y-0.5">
-                              {card.benefits.filter(b => b.value > 0).map(b => (
+                              {card.benefits.filter(isCreditBenefit).map(b => (
                                 <div key={b.name}>{b.name} ({formatBenefitValue(b)}{b.frequency === 'annual' ? '/yr' : b.frequency === 'monthly' ? '/mo' : b.frequency === 'quarterly' ? '/qtr' : ''})</div>
                               ))}
-                              {card.benefits.filter(b => b.value === 0).length > 0 && (
+                              {card.benefits.filter(isPerkBenefit).length > 0 && (
                                 <div className="text-gray-400 mt-1">
-                                  +{card.benefits.filter(b => b.value === 0).length} perk{card.benefits.filter(b => b.value === 0).length !== 1 ? 's' : ''}
+                                  +{card.benefits.filter(isPerkBenefit).length} perk{card.benefits.filter(isPerkBenefit).length !== 1 ? 's' : ''}
                                 </div>
                               )}
                             </div>

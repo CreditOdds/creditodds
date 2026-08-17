@@ -66,14 +66,17 @@ benefits:
     category: "travel"
     enrollment_required: true
   - name: "Travel Accident Insurance"
+    value: 0
     description: "Worldwide automatic travel accident insurance when travel is purchased with the card"
     category: "insurance"
     enrollment_required: false
   - name: "Travel and Emergency Assistance"
+    value: 0
     description: "24/7 travel and emergency assistance services"
     category: "travel"
     enrollment_required: false
   - name: "No Balance Transfer Fees"
+    value: 0
     description: "Navy Federal does not charge balance transfer fees on this card"
     category: "other"
     enrollment_required: false

@@ -85,6 +85,7 @@ our_take: >
   rides through September 30, 2027.
 benefits:
   - name: "Instacart+ Membership"
+    value: 0
     description: "Complimentary three-month Instacart+ membership with a $20 Instacart credit each month"
     frequency: "one_time"
     category: "shopping"

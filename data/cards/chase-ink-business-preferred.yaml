@@ -80,11 +80,13 @@ benefits:
     category: "telecom"
     enrollment_required: false
   - name: "Primary Auto Rental Coverage"
+    value: 0
     description: "Primary collision damage waiver on rentals for business purposes (up to the cash value of the vehicle)"
     frequency: "per_rental"
     category: "travel"
     enrollment_required: false
   - name: "DashPass Membership"
+    value: 0
     description: "Complimentary DashPass for at least one year plus $10/month off non-restaurant DoorDash orders when activated by Dec 31, 2027"
     frequency: "monthly"
     category: "rewards"

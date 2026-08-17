@@ -71,10 +71,12 @@ benefits:
     category: "statement_credit"
     enrollment_required: false
   - name: "No Foreign Transaction Fees"
+    value: 0
     description: "No foreign transaction fees on purchases abroad"
     category: "travel"
     enrollment_required: false
   - name: "ThankYou Points Pooling"
+    value: 0
     description: "Pool points with other Citi ThankYou cards to access transfer partners"
     category: "rewards"
     enrollment_required: false

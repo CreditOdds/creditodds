@@ -70,6 +70,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "Wyndham Rewards Diamond Status"
+    value: 0
     description: "Automatic Diamond level status — Wyndham's top elite tier — for as long as you're a cardmember"
     frequency: "annual"
     category: "travel"

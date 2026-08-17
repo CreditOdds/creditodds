@@ -31,6 +31,7 @@ rewards:
     unit: points_per_dollar
 benefits:
   - name: "Two free checked bags"
+    value: 0
     description: "Two checked bags at no charge on Spirit flights, added to the card in September 2025."
     category: "travel"
   - name: "Companion flight voucher"
@@ -43,9 +44,11 @@ benefits:
     value_unit: percent
     category: "travel"
   - name: "Priority boarding"
+    value: 0
     description: "Shortcut boarding on Spirit flights."
     category: "travel"
   - name: "Points pooling"
+    value: 0
     description: "Free Spirit points could be pooled with up to eight friends or family members."
     category: "travel"
 our_take: >

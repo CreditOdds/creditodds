@@ -68,9 +68,11 @@ rewards:
     unit: percent
 benefits:
   - name: "Kroger fuel discount"
+    value: 0
     description: "An extra 5 cents per gallon off at Kroger Family of Companies Fuel Centers on top of earned fuel points, rising to 25 cents per gallon after $6,000 in calendar-year spend when redeeming at least 100 fuel points."
     category: "shopping"
   - name: "Boost Essential membership"
+    value: 0
     description: "Complimentary Kroger Boost Essential membership, which includes free grocery delivery on qualifying orders and doubled fuel points."
     category: "shopping"
 our_take: >

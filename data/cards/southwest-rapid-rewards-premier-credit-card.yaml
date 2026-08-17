@@ -87,11 +87,13 @@ benefits:
     merchants:
       - instacart
   - name: "First Checked Bag Free"
+    value: 0
     description: "First checked bag free for the cardmember plus up to 8 passengers on the same reservation"
     frequency: "per_flight"
     category: "travel"
     enrollment_required: false
   - name: "A-List Status TQPs"
+    value: 0
     description: "Earn 1,500 tier qualifying points for every $5,000 spent in purchases annually toward A-List status"
     frequency: "annual"
     category: "rewards"

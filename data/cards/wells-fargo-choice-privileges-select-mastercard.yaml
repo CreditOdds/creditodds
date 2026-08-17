@@ -65,6 +65,7 @@ benefits:
     category: "rewards"
     enrollment_required: false
   - name: "Choice Privileges Platinum Elite Status"
+    value: 0
     description: "Automatic Platinum Elite membership; earn 25% bonus points on Choice Hotels stays plus elite perks like room upgrades when available"
     frequency: "annual"
     category: "travel"

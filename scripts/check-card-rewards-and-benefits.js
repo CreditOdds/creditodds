@@ -1640,9 +1640,12 @@ function renderBenefitBlock(b, indent = '  ') {
   const fieldIndent = indent + '  ';
   const lines = [];
   lines.push(`${indent}- name: ${ymlString(b.name)}`);
-  if (typeof b.value === 'number' && b.value > 0) {
-    lines.push(`${fieldIndent}value: ${b.value}`);
-  }
+  // Always write `value`, including 0. Omitting it for non-dollar perks is
+  // what buried 163 benefits: the site partitions benefits into `value > 0`
+  // credits and `value === 0` perks, and an entry with no value lands in
+  // neither bucket, so it renders nowhere. build-cards.js now rejects a
+  // benefit without a numeric value, so an omission here would also fail CI.
+  lines.push(`${fieldIndent}value: ${typeof b.value === 'number' && b.value > 0 ? b.value : 0}`);
   if (b.value_unit && b.value_unit !== 'usd') {
     lines.push(`${fieldIndent}value_unit: ${ymlString(b.value_unit)}`);
   }

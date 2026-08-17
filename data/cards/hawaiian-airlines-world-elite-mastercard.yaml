@@ -58,6 +58,7 @@ our_take: >
   the intro window is the only cheap money here.
 benefits:
   - name: "Two Free Checked Bags"
+    value: 0
     description: "First and second checked bags free for the cardmember on eligible Hawaiian Airlines and Alaska Airlines operated flights when the card is used to book"
     frequency: "per_flight"
     category: "travel"

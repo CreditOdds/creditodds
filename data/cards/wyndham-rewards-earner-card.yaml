@@ -59,6 +59,7 @@ apr:
     max: 29.99
 benefits:
   - name: "Wyndham Rewards Gold Status"
+    value: 0
     description: "Automatic Gold status with perks like preferred room selection and late checkout."
     frequency: "annual"
     category: "travel"

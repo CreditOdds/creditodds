@@ -65,18 +65,22 @@ our_take: >
   bother with.
 benefits:
   - name: "Purchase Protection"
+    value: 0
     description: "Covers eligible new purchases for 120 days from purchase date against damage or theft up to $500 per item"
     category: "protection"
     enrollment_required: false
   - name: "Baggage Delay Insurance"
+    value: 0
     description: "Reimburses up to $100 per day for up to 3 days for essential purchases when baggage is delayed over 6 hours"
     category: "travel"
     enrollment_required: false
   - name: "Travel Accident Insurance"
+    value: 0
     description: "Provides up to $500,000 in accidental death or dismemberment coverage when you pay for air, bus, train or cruise transportation with your card"
     category: "travel"
     enrollment_required: false
   - name: "Lost Luggage Reimbursement"
+    value: 0
     description: "Provides reimbursement up to $3,000 per covered traveler for lost, damaged or stolen checked or carry-on baggage during a covered trip"
     category: "travel"
     enrollment_required: false

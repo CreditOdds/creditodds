@@ -626,7 +626,7 @@
     "t3_1vilz18": "2026-08-10",
     "t3_1vijet0": "2026-08-10",
     "t3_1viiznt": "2026-08-10",
-    "t3_1viilrf": "2026-08-11",
+    "t3_1viilrf": "2026-08-16",
     "t3_1vihkzl": "2026-08-10",
     "t3_1vihc8w": "2026-08-10",
     "t3_1vihb8f": "2026-08-10",
@@ -648,7 +648,7 @@
     "t3_1vhjood": "2026-08-10",
     "t3_1vhid0z": "2026-08-10",
     "t3_1vhhez5": "2026-08-10",
-    "t3_1vhge0n": "2026-08-11",
+    "t3_1vhge0n": "2026-08-16",
     "t3_1vhe6jw": "2026-08-10",
     "t3_1vhdp81": "2026-08-14",
     "t3_1vh9c6j": "2026-08-10",
@@ -663,16 +663,16 @@
     "t3_1vl5x87": "2026-08-13",
     "t3_1vl40b1": "2026-08-11",
     "t3_1vl2zet": "2026-08-11",
-    "t3_1vl242g": "2026-08-13",
+    "t3_1vl242g": "2026-08-16",
     "t3_1vl2347": "2026-08-11",
     "t3_1vl1ss3": "2026-08-11",
-    "t3_1vl1mtu": "2026-08-13",
+    "t3_1vl1mtu": "2026-08-16",
     "t3_1vl04v9": "2026-08-11",
     "t3_1vkz9h4": "2026-08-11",
-    "t3_1vkw0tx": "2026-08-13",
+    "t3_1vkw0tx": "2026-08-16",
     "t3_1vklzjm": "2026-08-11",
     "t3_1vkkovu": "2026-08-11",
-    "t3_1vkjvqt": "2026-08-11",
+    "t3_1vkjvqt": "2026-08-17",
     "t3_1vkh4xu": "2026-08-11",
     "t3_1vm5tm7": "2026-08-12",
     "t3_1vm3r9x": "2026-08-12",
@@ -680,7 +680,7 @@
     "t3_1vm141o": "2026-08-12",
     "t3_1vm05gl": "2026-08-12",
     "t3_1vlzjw0": "2026-08-12",
-    "t3_1vlxd8w": "2026-08-12",
+    "t3_1vlxd8w": "2026-08-17",
     "t3_1vlv2ug": "2026-08-12",
     "t3_1vluet3": "2026-08-12",
     "t3_1vloxlu": "2026-08-12",
@@ -690,7 +690,7 @@
     "t3_1vmyw3s": "2026-08-13",
     "t3_1vmythy": "2026-08-13",
     "t3_1vmykvq": "2026-08-13",
-    "t3_1vmyc67": "2026-08-13",
+    "t3_1vmyc67": "2026-08-17",
     "t3_1vmy3js": "2026-08-13",
     "t3_1vmx3c3": "2026-08-13",
     "t3_1vmwplg": "2026-08-13",
@@ -715,53 +715,212 @@
     "t3_1vn8t4v": "2026-08-14",
     "t3_1vn63n1": "2026-08-14",
     "t3_1vn37vy": "2026-08-14",
-    "t3_1vls9lj": "2026-08-14"
+    "t3_1vls9lj": "2026-08-14",
+    "t3_1vpw5cw": "2026-08-16",
+    "t3_1vpt2zv": "2026-08-16",
+    "t3_1vpr2o9": "2026-08-16",
+    "t3_1vpomfg": "2026-08-16",
+    "t3_1vpn8ps": "2026-08-16",
+    "t3_1vpmez5": "2026-08-16",
+    "t3_1vpjtlv": "2026-08-16",
+    "t3_1vphddm": "2026-08-16",
+    "t3_1vpgn9d": "2026-08-16",
+    "t3_1vpfq4x": "2026-08-16",
+    "t3_1vpcadg": "2026-08-16",
+    "t3_1vpb758": "2026-08-16",
+    "t3_1vpahoj": "2026-08-16",
+    "t3_1vp71mb": "2026-08-16",
+    "t3_1vp4mj4": "2026-08-16",
+    "t3_1vp4g3n": "2026-08-16",
+    "t3_1vozgol": "2026-08-16",
+    "t3_1voyeju": "2026-08-16",
+    "t3_1vowtuc": "2026-08-16",
+    "t3_1vovc20": "2026-08-16",
+    "t3_1voqgrl": "2026-08-16",
+    "t3_1voplmw": "2026-08-16",
+    "t3_1von9ed": "2026-08-16",
+    "t3_1voljqc": "2026-08-16",
+    "t3_1vok6dv": "2026-08-16",
+    "t3_1vok2y8": "2026-08-16",
+    "t3_1vojupm": "2026-08-16",
+    "t3_1voim7v": "2026-08-16",
+    "t3_1vogsch": "2026-08-16",
+    "t3_1vog0ic": "2026-08-16",
+    "t3_1vofpep": "2026-08-16",
+    "t3_1vofo6p": "2026-08-16",
+    "t3_1vofgy8": "2026-08-16",
+    "t3_1vofgla": "2026-08-16",
+    "t3_1voepp9": "2026-08-16",
+    "t3_1voemdw": "2026-08-16",
+    "t3_1vodcmn": "2026-08-16",
+    "t3_1vobci5": "2026-08-16",
+    "t3_1vob07k": "2026-08-16",
+    "t3_1voacpv": "2026-08-16",
+    "t3_1vo8ugz": "2026-08-16",
+    "t3_1vo7h9p": "2026-08-16",
+    "t3_1vo70my": "2026-08-16",
+    "t3_1vo0ukg": "2026-08-16",
+    "t3_1vqj6fs": "2026-08-17",
+    "t3_1vqh3tg": "2026-08-17",
+    "t3_1vqfxow": "2026-08-17",
+    "t3_1vqejgc": "2026-08-17",
+    "t3_1vqbb18": "2026-08-17",
+    "t3_1vqbawd": "2026-08-17",
+    "t3_1vqawag": "2026-08-17",
+    "t3_1vq6qn9": "2026-08-17",
+    "t3_1vq5uue": "2026-08-17",
+    "t3_1vq50jc": "2026-08-17",
+    "t3_1vq4l1z": "2026-08-17",
+    "t3_1vpzhse": "2026-08-17",
+    "t3_1vpzg6h": "2026-08-17",
+    "t3_1vpzd7r": "2026-08-17",
+    "t3_1vpz0c2": "2026-08-17"
   },
   "pending": {
-    "t3_1vjcakr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vjcakr/united_explorer_card_targeted_80k_sub/",
-      "title": "United Explorer Card Targeted 80k SUB",
-      "posted": "2026-08-09",
-      "card_name": "United Explorer",
+    "t3_1vkjvqt": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vkjvqt/approved_for_the_us_bank_triple_cash_only_3k/",
+      "title": "Approved for the U.S. Bank Triple Cash, only $3k credit limit",
+      "posted": "2026-08-10",
+      "card_name": "Bank of America Travel Rewards",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Heavy churner on their 8th U.S. Bank card reports a Bank of America Travel Rewards decline this month, self attributed to too many recent accounts. Look 3 of 3: three more replies, all about business card mechanics and limits, still no score anywhere.",
+      "ask": "You mentioned opening a lot of cards in the last 6 months. What was your FICO when BofA declined the Travel Rewards?",
+      "firstSeen": "2026-08-11",
+      "attempts": 3,
+      "lastChecked": "2026-08-17"
+    },
+    "t3_1vlxd8w": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vlxd8w/just_get_approved_for_chase_csr/",
+      "title": "Just get approved for Chase CSR",
+      "posted": "2026-08-11",
+      "card_name": "Chase Sapphire Reserve",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved this month off a targeted 80k United Explorer offer. Third look and still no score anywhere in the body or the replies, which only cover card velocity.",
-      "ask": "You listed your recent card velocity. What was your score when you applied for the Explorer?",
-      "firstSeen": "2026-08-10",
-      "attempts": 3,
-      "lastChecked": "2026-08-14"
+      "note": "Approved for the Sapphire Reserve this month, listing a BofA Cash Rewards at 1 year 11 months plus a CSP and a Bonvoy Boundless both one month old. New replies add a Bank of America Premium Rewards Elite denial last month, which would be a second row, but no score appears for either application.",
+      "ask": "What was your credit score when you applied for the CSR, and was the Elite denial at roughly the same number?",
+      "firstSeen": "2026-08-12",
+      "attempts": 2,
+      "lastChecked": "2026-08-17"
     },
-    "t3_1vhdp81": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vhdp81/how_is_my_credit_card_line_up/",
-      "title": "How is my credit card line up?",
-      "posted": "2026-08-06",
+    "t3_1vmyc67": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vmyc67/went_on_a_bit_of_a_chase_binge/",
+      "title": "Went on a bit of a Chase binge",
+      "posted": "2026-08-13",
+      "card_name": "Ink Business Cash",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster at 4/24 reports approval on the Ink Business Cash 100k offer after a review-line call, plus a Sapphire Preferred approval two weeks earlier. Look 2 of 3: no new replies, still no score. Two rows would publish if a score arrives.",
+      "ask": "What was your FICO when you applied for the Ink Cash and the CSP?",
+      "firstSeen": "2026-08-13",
+      "attempts": 2,
+      "lastChecked": "2026-08-17"
+    },
+    "t3_1vq5uue": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vq5uue/applied_and_approved_for_wf_autograph_card_credit/",
+      "title": "Applied and approved for WF Autograph card. Credit limit too low, any options?",
+      "posted": "2026-08-16",
+      "card_name": "Wells Fargo Autograph",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Autograph this month with a $2,000 starting limit, on a four year file with several $4k-$5k limits and an existing Wells Fargo checking account. The post is about getting the limit raised and never gives a score.",
+      "firstSeen": "2026-08-17",
+      "attempts": 1,
+      "lastChecked": "2026-08-17"
+    },
+    "t3_1vpw5cw": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vpw5cw/fidelity_visa_autopay_concerns_and_elan/",
+      "title": "Fidelity visa autopay concerns and elan",
+      "posted": "2026-08-16",
+      "card_name": "Fidelity Rewards Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster says they were recently approved for the Fidelity Visa and is asking how Elan autopay works. No score anywhere.",
+      "firstSeen": "2026-08-16",
+      "attempts": 1,
+      "lastChecked": "2026-08-16"
+    },
+    "t3_1vpn8ps": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vpn8ps/can_you_do_a_bill_payment_due_date_change/",
+      "title": "Can you do a bill payment due date change?",
+      "posted": "2026-08-16",
+      "card_name": "Blue Cash Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "One line approval report for Blue Cash Preferred, asking whether the due date can be changed. No score, income, or limit given.",
+      "firstSeen": "2026-08-16",
+      "attempts": 1,
+      "lastChecked": "2026-08-16"
+    },
+    "t3_1vpjtlv": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vpjtlv/do_i_close_a_not_needed_card/",
+      "title": "Do I close a not needed card?",
+      "posted": "2026-08-16",
       "card_name": "Robinhood Gold",
-      "result": "denied",
+      "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Twenty year old college student denied for Robinhood Gold this month after an invite, days after a Chase Freedom Unlimited approval. Third look and the score is still only described as great.",
-      "ask": "You said your score has been great as a longtime AU. What number was it when Robinhood denied you?",
-      "firstSeen": "2026-08-10",
-      "attempts": 3,
-      "lastChecked": "2026-08-14"
+      "note": "Poster came off the Robinhood waitlist and was approved instantly for their highest limit yet, with roughly $15k held at Robinhood. Never states a score or the limit.",
+      "ask": "You mentioned this was your highest limit so far. What was the limit, and what was your score when you applied?",
+      "firstSeen": "2026-08-16",
+      "attempts": 1,
+      "lastChecked": "2026-08-16"
     },
-    "t3_1vh8shb": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vh8shb/got_rejected_for_savor_card/",
-      "title": "Got rejected for Savor Card!",
-      "posted": "2026-08-06",
-      "card_name": "Capital One Savor Cash Rewards",
+    "t3_1voqgrl": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1voqgrl/bilt_dp_denied_because_they_couldnt_verify_my/",
+      "title": "Bilt DP: Denied because they \"couldn't verify my identity\"",
+      "posted": "2026-08-15",
+      "card_name": "Bilt Palladium",
       "result": "denied",
       "missing": [
         "credit_score"
       ],
-      "note": "Denied this month for the Savor after roughly nine new cards in two months, with Capital One flagging amount of new credit. Third look and four OP replies later, the score is still only called high.",
-      "ask": "You mentioned a high score with only amount of new credit rated fair. What was the actual number?",
-      "firstSeen": "2026-08-10",
-      "attempts": 3,
-      "lastChecked": "2026-08-14"
+      "note": "Deliberate data point post: denied for Bilt Palladium last week, sole cited reason was inability to verify identity, and recon could not explain it. No score given.",
+      "firstSeen": "2026-08-16",
+      "attempts": 1,
+      "lastChecked": "2026-08-16"
+    },
+    "t3_1voepp9": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1voepp9/just_got_approved_for_robinhood_gold_should_i/",
+      "title": "Just got approved for Robinhood Gold, should I switch to that vs Bilt Blue?",
+      "posted": "2026-08-14",
+      "card_name": "Robinhood Gold",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Robinhood Gold the day of the post, asking whether to move off Bilt Blue as the catch all. No score anywhere.",
+      "firstSeen": "2026-08-16",
+      "attempts": 1,
+      "lastChecked": "2026-08-16"
+    },
+    "t3_1vodcmn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vodcmn/international_student_rejected_for_a_chase/",
+      "title": "International student, rejected for a Chase Freedom Rise",
+      "posted": "2026-08-14",
+      "card_name": "Chase Freedom Rise",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "International student who arrived last year was rejected for Chase Freedom Rise and attributes it to low income. No score stated and they may not have one yet.",
+      "ask": "Did you have a credit score at the time you applied, and if so what was it?",
+      "firstSeen": "2026-08-16",
+      "attempts": 1,
+      "lastChecked": "2026-08-16"
     },
     "t3_1vnvzsq": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vnvzsq/is_having_two_brilliant_cards_worth_it/",
@@ -807,61 +966,6 @@
       "attempts": 1,
       "lastChecked": "2026-08-14"
     },
-    "t3_1vl242g": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vl242g/looking_for_good_first_primary_card_after/",
-      "title": "Looking for good first primary card after rejection",
-      "posted": "2026-08-11",
-      "result": "denied",
-      "missing": [
-        "card_name"
-      ],
-      "note": "First time applicant, Experian 770 / TransUnion 790 / Equifax 775, $70k income, denied by Citi because it could not verify application information. Still never says which AAdvantage card.",
-      "firstSeen": "2026-08-11",
-      "attempts": 2,
-      "lastChecked": "2026-08-13"
-    },
-    "t3_1vl1mtu": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vl1mtu/denied_aadvantage_platinum_select_when_to_reapply/",
-      "title": "Denied AAdvantage Platinum Select, When to Reapply?",
-      "posted": "2026-08-11",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied 7/21 and denied for insufficient credit history, with two other dated Citi approvals in the same post. Re-read today and still no score anywhere in the body or replies.",
-      "firstSeen": "2026-08-11",
-      "attempts": 2,
-      "lastChecked": "2026-08-13"
-    },
-    "t3_1vkw0tx": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vkw0tx/chase_united_explorer_card_taking_forever_to/",
-      "title": "Chase United Explorer card taking forever to arrive — no USPS tracking either. Anyone else had this happen?",
-      "posted": "2026-08-10",
-      "card_name": "United Explorer",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved August 1 with no prior Chase relationship. Two OP replies arrived since the last look and neither mentions a score; the post is about the card not arriving in the mail, so a score is unlikely to surface.",
-      "firstSeen": "2026-08-11",
-      "attempts": 2,
-      "lastChecked": "2026-08-13"
-    },
-    "t3_1vmyc67": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vmyc67/went_on_a_bit_of_a_chase_binge/",
-      "title": "Went on a bit of a Chase binge",
-      "posted": "2026-08-13",
-      "card_name": "Ink Business Cash",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster at 4/24 reports approval on the Ink Business Cash 100k offer after a review-line call, plus a Sapphire Preferred approval two weeks earlier. Two rows would publish if a score arrives.",
-      "firstSeen": "2026-08-13",
-      "attempts": 1,
-      "lastChecked": "2026-08-13"
-    },
     "t3_1vmnx36": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vmnx36/reapplication_chances_robinhood_gold/",
       "title": "Reapplication chances Robinhood gold",
@@ -889,62 +993,6 @@
       "firstSeen": "2026-08-13",
       "attempts": 1,
       "lastChecked": "2026-08-13"
-    },
-    "t3_1vlxd8w": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vlxd8w/just_get_approved_for_chase_csr/",
-      "title": "Just get approved for Chase CSR",
-      "posted": "2026-08-11",
-      "card_name": "Chase Sapphire Reserve",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for the Sapphire Reserve this month, listing a BofA Cash Rewards at 1 year 11 months plus a CSP and a Bonvoy Boundless both one month old. No score anywhere in a very short post.",
-      "firstSeen": "2026-08-12",
-      "attempts": 1,
-      "lastChecked": "2026-08-12"
-    },
-    "t3_1viilrf": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1viilrf/was_approved_for_chase_freedom_unlimited_is_this/",
-      "title": "Was approved for Chase Freedom Unlimited - Is this a good thing?",
-      "posted": "2026-08-08",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Twenty three year old instantly approved this month for a $5,000 limit after moving banking to Chase. Look 2 of 3: still no score in the body or the one new OP reply.",
-      "firstSeen": "2026-08-10",
-      "attempts": 2,
-      "lastChecked": "2026-08-11"
-    },
-    "t3_1vhge0n": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vhge0n/got_venture_x_after_getting_denied_from_bilt/",
-      "title": "Got Venture X after getting denied from Bilt Palladium Yesterday",
-      "posted": "2026-08-06",
-      "card_name": "Bilt Palladium",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied for Bilt Palladium on August 5 citing balances high against limits, then approved for Capital One Venture X the next day. Look 2 of 3: four OP replies added, none give a score.",
-      "firstSeen": "2026-08-10",
-      "attempts": 2,
-      "lastChecked": "2026-08-11"
-    },
-    "t3_1vkjvqt": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vkjvqt/approved_for_the_us_bank_triple_cash_only_3k/",
-      "title": "Approved for the U.S. Bank Triple Cash, only $3k credit limit",
-      "posted": "2026-08-10",
-      "card_name": "Bank of America Travel Rewards",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Heavy churner on their 8th U.S. Bank card reports a Bank of America Travel Rewards decline this month, self attributed to too many recent accounts. No score anywhere in the post.",
-      "firstSeen": "2026-08-11",
-      "attempts": 1,
-      "lastChecked": "2026-08-11"
     }
   },
   "runs": [
@@ -1030,6 +1078,38 @@
       "skipped": {
         "no_outcome": 6,
         "no_score": 2
+      }
+    },
+    {
+      "id": "2026-08-16T13:00:30.558Z",
+      "date": "2026-08-16",
+      "candidates": 50,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 3,
+      "pending": 19,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 30,
+        "no_score": 4,
+        "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-08-17T06:32:43.493Z",
+      "date": "2026-08-17",
+      "candidates": 18,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 15,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 9,
+        "pre_qual": 1,
+        "no_score": 3
       }
     }
   ]

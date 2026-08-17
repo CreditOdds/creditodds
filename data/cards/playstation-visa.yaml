@@ -59,14 +59,18 @@ our_take: >
   justify if it is not.
 benefits:
   - name: "PlayStation Plus Premium Membership"
+    value: 0
     description: "12-month PlayStation Plus Premium membership after $6,000 in purchases in a calendar year"
     category: "entertainment"
   - name: "PlayStation Store redemptions"
+    value: 0
     description: "Points redeemable for PlayStation Store codes and digital gift cards via the Account Center"
     category: "rewards"
   - name: "Visa Zero Liability"
+    value: 0
     description: "Protection against unauthorized transactions"
     category: "protection"
   - name: "Roadside Dispatch"
+    value: 0
     description: "24/7 pay-per-use roadside assistance via Visa"
     category: "travel"

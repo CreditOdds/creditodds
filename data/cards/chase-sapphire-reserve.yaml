@@ -37,6 +37,7 @@ benefits:
     frequency: "ongoing"
     category: "lounge"
   - name: "IHG Platinum Elite Status"
+    value: 0
     description: "Complimentary IHG One Rewards Platinum Elite Status through December 31, 2027."
     frequency: "multi_year"
     frequency_years: 4
@@ -95,6 +96,7 @@ benefits:
     category: "fitness"
     enrollment_required: true
   - name: "Primary Rental Car Coverage"
+    value: 0
     description: "Primary auto rental collision damage waiver with reimbursement up to $75,000 for theft and collision damage in the U.S. and abroad."
     frequency: "ongoing"
     category: "car_rental"
