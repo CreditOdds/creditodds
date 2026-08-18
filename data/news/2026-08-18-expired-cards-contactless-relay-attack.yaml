@@ -1,0 +1,44 @@
+id: "expired-cards-contactless-relay-attack"
+date: "2026-08-18"
+title: "Expired Cards Can Still Be Charged, Study Says"
+summary: "UMass Amherst researchers presented work on August 17, 2026 showing that expired credit cards can still be run through contactless terminals. Two ordinary smartphones and relay software rewrite the expiration date, which is not cryptographically protected, and the team says the attack worked at real stores. Major card companies were notified."
+tags:
+  - "general"
+source: "TechXplore"
+source_url: "https://techxplore.com/news/2026-08-zombie-credit-cards-loophole-reanimate.html"
+body: |
+  Researchers at the University of Massachusetts Amherst say an expired credit
+  card can still be pushed through a contactless payment terminal, and they
+  demonstrated it at working businesses rather than only in a lab.
+
+  The paper, "Zombie Cards Back Online: Reviving Expired Credit Cards for
+  Contactless Payments," was presented at the **USENIX Security 2026**
+  conference on **August 17, 2026**. Lead author Raja Hasnain Anwar and
+  assistant professor Taqi Raza did the work in the university's Khwarizmi Lab.
+
+  ## How it works
+
+  The weak point is the expiration date itself. When the plastic expires, the
+  underlying account normally stays open, and the expiration date a terminal
+  reads off the card is not cryptographically protected. The team used **two
+  ordinary smartphones** plus emulator software to relay an NFC transaction and
+  rewrite that date in transit, so the point of sale treated a dead card as a
+  live one. Raza said the printed and stored expiration date is the only signal
+  the terminal has, and it is not protected.
+
+  The researchers tried the attack in the lab and then at local businesses,
+  including dining locations and grocery stores, and reported that it worked
+  across a range of terminals. They say it can succeed even after the cardholder
+  has already received a replacement card.
+
+  ## What cardholders should do
+
+  The practical advice is old but the reason for it is new. Do not treat an
+  expired card as harmless plastic. The researchers recommend demagnetizing the
+  stripe, destroying the chip, cutting the card into pieces and spreading the
+  pieces across different trash, and continuing to watch statements on accounts
+  that have expired or been closed.
+
+  Major card companies have been notified of the findings. No issuer or network
+  has published a response to the research so far.
+
