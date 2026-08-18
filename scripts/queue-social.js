@@ -5,7 +5,10 @@
  * Replaces post-social.js — instead of posting directly to Twitter,
  * this generates text via Claude and queues it for the scheduler.
  *
- * Usage: node scripts/queue-social.js --type news|article|best|page --files <yaml-paths...>
+ * Usage: node scripts/queue-social.js --type news|article|best|page [--dry-run] --files <yaml-paths...>
+ *
+ * --dry-run generates and prints the post text without queuing it. Use it when
+ * changing the prompt: queued posts publish unread within the minute.
  *
  * Env vars: OPENAI_API_KEY, SOCIAL_API_URL, SOCIAL_API_KEY
  */
@@ -38,11 +41,14 @@ async function fetchWithRetry(url, options, { maxRetries = 3, baseDelay = 2000 }
 function parseArgs() {
   const args = process.argv.slice(2);
   let type = null;
+  let dryRun = false;
   const files = [];
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--type' && args[i + 1]) {
       type = args[++i];
+    } else if (args[i] === '--dry-run') {
+      dryRun = true;
     } else if (args[i] === '--files') {
       files.push(...args.slice(i + 1));
       break;
@@ -50,7 +56,7 @@ function parseArgs() {
   }
 
   if (!type || !['news', 'article', 'best', 'page'].includes(type)) {
-    console.error('Usage: node scripts/queue-social.js --type news|article|best|page --files <yaml-paths...>');
+    console.error('Usage: node scripts/queue-social.js --type news|article|best|page [--dry-run] --files <yaml-paths...>');
     process.exit(1);
   }
 
@@ -59,7 +65,7 @@ function parseArgs() {
     process.exit(1);
   }
 
-  return { type, files };
+  return { type, files, dryRun };
 }
 
 function buildUrl(type, item, source = 'twitter') {
@@ -148,6 +154,15 @@ Rules:
   with the plain factual statement
 - State the concrete terms from the summary (exact amounts, spend requirements,
   dates, deadlines). "$200 back on $1,000" beats "a great new offer"
+- Every fact must come from the summary. Do not add, infer, or extrapolate a
+  detail the summary does not state, even an obvious-sounding one
+- Timing phrases ("in the coming weeks", "starting September 1", "effective
+  immediately") belong to exactly one event. Keep each one attached to the same
+  event the summary attaches it to, and never move it onto a different one. If
+  you cannot tell which event a date modifies, leave the date out
+- Keep the tense the summary uses. An action the summary reports as already done
+  ("is emailing cardholders", "announced on August 3") stays in the past or
+  present. Never restate it as something that will happen later
 - If the summary says where to act (an app tab, activation page), include it
 - Plain declarative sentences. No hype, no rhetorical questions, no second-person
   hard sell, no "don't miss", no "act fast", no exclamation marks
@@ -248,8 +263,8 @@ async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId
 }
 
 async function main() {
-  const { type, files } = parseArgs();
-  console.log(`=== Queue Social Posts (${type}) ===\n`);
+  const { type, files, dryRun } = parseArgs();
+  console.log(`=== Queue Social Posts (${type})${dryRun ? ' [dry run]' : ''} ===\n`);
 
   for (const filePath of files) {
     console.log(`Processing: ${filePath}`);
@@ -312,6 +327,11 @@ async function main() {
       const newsFilename = item.news_image || `${item.id}.png`;
       imageUrl = `https://d3ay3etzd1512y.cloudfront.net/news_images/${newsFilename}`;
       console.log(`  Image: ${imageUrl}`);
+    }
+
+    if (dryRun) {
+      console.log('  Dry run: not queued\n');
+      continue;
     }
 
     try {
