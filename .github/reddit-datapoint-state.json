@@ -680,7 +680,7 @@
     "t3_1vm141o": "2026-08-12",
     "t3_1vm05gl": "2026-08-12",
     "t3_1vlzjw0": "2026-08-12",
-    "t3_1vlxd8w": "2026-08-17",
+    "t3_1vlxd8w": "2026-08-18",
     "t3_1vlv2ug": "2026-08-12",
     "t3_1vluet3": "2026-08-12",
     "t3_1vloxlu": "2026-08-12",
@@ -690,12 +690,12 @@
     "t3_1vmyw3s": "2026-08-13",
     "t3_1vmythy": "2026-08-13",
     "t3_1vmykvq": "2026-08-13",
-    "t3_1vmyc67": "2026-08-17",
+    "t3_1vmyc67": "2026-08-18",
     "t3_1vmy3js": "2026-08-13",
     "t3_1vmx3c3": "2026-08-13",
     "t3_1vmwplg": "2026-08-13",
     "t3_1vmvgps": "2026-08-13",
-    "t3_1vmnx36": "2026-08-13",
+    "t3_1vmnx36": "2026-08-18",
     "t3_1vmmcku": "2026-08-13",
     "t3_1vmm6h5": "2026-08-13",
     "t3_1vmkfv3": "2026-08-13",
@@ -774,24 +774,20 @@
     "t3_1vpzhse": "2026-08-17",
     "t3_1vpzg6h": "2026-08-17",
     "t3_1vpzd7r": "2026-08-17",
-    "t3_1vpz0c2": "2026-08-17"
+    "t3_1vpz0c2": "2026-08-17",
+    "t3_1vrl29g": "2026-08-18",
+    "t3_1vr8zh6": "2026-08-18",
+    "t3_1vr7mao": "2026-08-18",
+    "t3_1vr70k2": "2026-08-18",
+    "t3_1vr5hn1": "2026-08-18",
+    "t3_1vr3fmt": "2026-08-18",
+    "t3_1vr39d3": "2026-08-18",
+    "t3_1vr10w7": "2026-08-18",
+    "t3_1vqzh5u": "2026-08-18",
+    "t3_1vqxc9u": "2026-08-18",
+    "t3_1vqkpp7": "2026-08-18"
   },
   "pending": {
-    "t3_1vkjvqt": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vkjvqt/approved_for_the_us_bank_triple_cash_only_3k/",
-      "title": "Approved for the U.S. Bank Triple Cash, only $3k credit limit",
-      "posted": "2026-08-10",
-      "card_name": "Bank of America Travel Rewards",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Heavy churner on their 8th U.S. Bank card reports a Bank of America Travel Rewards decline this month, self attributed to too many recent accounts. Look 3 of 3: three more replies, all about business card mechanics and limits, still no score anywhere.",
-      "ask": "You mentioned opening a lot of cards in the last 6 months. What was your FICO when BofA declined the Travel Rewards?",
-      "firstSeen": "2026-08-11",
-      "attempts": 3,
-      "lastChecked": "2026-08-17"
-    },
     "t3_1vlxd8w": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vlxd8w/just_get_approved_for_chase_csr/",
       "title": "Just get approved for Chase CSR",
@@ -801,11 +797,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Sapphire Reserve this month, listing a BofA Cash Rewards at 1 year 11 months plus a CSP and a Bonvoy Boundless both one month old. New replies add a Bank of America Premium Rewards Elite denial last month, which would be a second row, but no score appears for either application.",
-      "ask": "What was your credit score when you applied for the CSR, and was the Elite denial at roughly the same number?",
+      "note": "Approved for the Sapphire Reserve this month with a BofA Cash Rewards at 1y11m plus a CSP and Bonvoy Boundless both one month old. Replies add a Bank of America Premium Rewards Elite denial last month, a second row if a score ever arrives. Look 3 of 3 and still no score for either application.",
+      "ask": "What was your credit score when you applied for the Sapphire Reserve?",
       "firstSeen": "2026-08-12",
-      "attempts": 2,
-      "lastChecked": "2026-08-17"
+      "attempts": 3,
+      "lastChecked": "2026-08-18"
     },
     "t3_1vmyc67": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vmyc67/went_on_a_bit_of_a_chase_binge/",
@@ -816,11 +812,26 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster at 4/24 reports approval on the Ink Business Cash 100k offer after a review-line call, plus a Sapphire Preferred approval two weeks earlier. Look 2 of 3: no new replies, still no score. Two rows would publish if a score arrives.",
-      "ask": "What was your FICO when you applied for the Ink Cash and the CSP?",
+      "note": "Poster at 4/24 reports an Ink Business Cash approval on the 100k offer after a review line call, plus a Sapphire Preferred approval two weeks earlier. Look 3 of 3, no new replies, still no score. Two rows would publish if a score arrives.",
+      "ask": "What was your credit score when you applied for the Ink Cash and the CSP?",
       "firstSeen": "2026-08-13",
-      "attempts": 2,
-      "lastChecked": "2026-08-17"
+      "attempts": 3,
+      "lastChecked": "2026-08-18"
+    },
+    "t3_1vrl29g": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vrl29g/balance_transfers_limits_rewards_for_0_apr_cards/",
+      "title": "Balance Transfers, Limits, & Rewards for 0% APR Cards: Wells Fargo Reflect, Citi Diamond Preferred, Discover It",
+      "posted": "2026-08-18",
+      "card_name": "Wells Fargo Reflect",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Recent approvals on Wells Fargo Reflect at a 13k limit and Citi Diamond Preferred at an 11k limit, with 7 years of history and 30 percent utilization, so two rows. Gives 750 and 751 but only as his score now, and the post says opening these lines dropped it from 819, so the application score is unst…",
+      "ask": "Was the 750 your score at the time you applied for the Reflect and the Diamond Preferred, or after the new accounts hit?",
+      "firstSeen": "2026-08-18",
+      "attempts": 1,
+      "lastChecked": "2026-08-18"
     },
     "t3_1vq5uue": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vq5uue/applied_and_approved_for_wf_autograph_card_credit/",
@@ -966,20 +977,6 @@
       "attempts": 1,
       "lastChecked": "2026-08-14"
     },
-    "t3_1vmnx36": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vmnx36/reapplication_chances_robinhood_gold/",
-      "title": "Reapplication chances Robinhood gold",
-      "posted": "2026-08-12",
-      "card_name": "Robinhood Gold",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied solely for low Robinhood account assets, with the adverse action letter citing nothing about creditworthiness. Poster is asking about reapproval odds and never states a score.",
-      "firstSeen": "2026-08-13",
-      "attempts": 1,
-      "lastChecked": "2026-08-13"
-    },
     "t3_1vmic66": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vmic66/excellent_credit_no_credit_history_and_rejected/",
       "title": "Excellent credit, no credit history, and rejected",
@@ -1110,6 +1107,22 @@
         "no_outcome": 9,
         "pre_qual": 1,
         "no_score": 3
+      }
+    },
+    {
+      "id": "2026-08-18T12:30:38.782Z",
+      "date": "2026-08-18",
+      "candidates": 14,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 14,
+      "unaccounted": 0,
+      "skipped": {
+        "pre_qual": 2,
+        "no_outcome": 7,
+        "no_score": 2
       }
     }
   ]
