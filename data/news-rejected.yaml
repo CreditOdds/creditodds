@@ -1,5 +1,11 @@
 # Rejected auto-news items (do not re-suggest)
 # Entries are appended by the "Record Rejected News" workflow.
+- id: "expired-cards-contactless-relay-attack"
+  title: "Expired Cards Can Still Be Charged, Study Says"
+  source_url: "https://techxplore.com/news/2026-08-zombie-credit-cards-loophole-reanimate.html"
+  date_rejected: "2026-08-18"
+  reason: "Rejected in PR #2069"
+  pr: 2069
 - id: "trump-official-credit-card-spending-spike-may-2026"
   title: "Trump Official Highlights Americans' Soaring Credit Card Spending Amid Cost-of-Living Concerns"
   source_url: "https://finance.yahoo.com/economy/articles/trump-official-boasts-that-americans-credit-card-spending-is-through-the-roof-201026439.html"
