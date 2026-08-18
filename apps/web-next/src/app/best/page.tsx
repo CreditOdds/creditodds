@@ -32,10 +32,6 @@ export const revalidate = 300;
 export default async function BestIndexPage() {
   const [pages, cards] = await Promise.all([getBestPages(), getAllCards()]);
 
-  const totalIssuers = new Set(
-    cards.map((c) => c.bank?.trim()).filter(Boolean)
-  ).size;
-
   // Top-3 card image previews per ranking page (mirrors the landing page).
   const cardImageBySlug = new Map<string, string | undefined>();
   const cardNameBySlug = new Map<string, string>();
@@ -85,7 +81,7 @@ export default async function BestIndexPage() {
           { name: 'Best Cards', url: 'https://creditodds.com/best' },
         ]}
       />
-      <BestV2Client pages={pages} previews={previews} totalIssuers={totalIssuers} totalCards={cards.length} />
+      <BestV2Client pages={pages} previews={previews} totalCards={cards.length} />
     </>
   );
 }

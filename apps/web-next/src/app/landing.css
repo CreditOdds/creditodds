@@ -3843,7 +3843,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  margin: 24px 0 0;
+  margin: 24px 0 32px;
 }
 .landing-v2 .best-promo {
   display: flex;
@@ -3901,52 +3901,6 @@
 @media (max-width: 640px) {
   .landing-v2 .best-promos {
     grid-template-columns: 1fr;
-  }
-}
-
-.landing-v2 .best-hero-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--line);
-  margin: 24px 0 40px;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  overflow: hidden;
-}
-.landing-v2 .bhs {
-  background: var(--card);
-  padding: 18px 22px;
-}
-.landing-v2 .bhs .k {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-.landing-v2 .bhs .v {
-  font-family: var(--font-inter-tight), sans-serif;
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-}
-.landing-v2 .bhs .v.accent {
-  font-size: 14px;
-  color: var(--accent);
-  font-family: var(--font-inter), sans-serif;
-  font-weight: 500;
-}
-.landing-v2 .bhs .v.accent a {
-  color: inherit;
-  text-decoration: none;
-}
-.landing-v2 .bhs .v.accent a:hover {
-  text-decoration: underline;
-}
-@media (max-width: 760px) {
-  .landing-v2 .best-hero-stats {
-    grid-template-columns: 1fr 1fr;
   }
 }
 
