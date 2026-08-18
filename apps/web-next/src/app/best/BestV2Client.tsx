@@ -9,7 +9,6 @@ import '../landing.css';
 interface BestV2ClientProps {
   pages: BestPage[];
   previews: Record<string, { src?: string; alt: string }[]>;
-  totalIssuers: number;
   totalCards: number;
 }
 
@@ -25,14 +24,8 @@ function formatShortDate(iso?: string): string {
 export default function BestV2Client({
   pages,
   previews,
-  totalIssuers,
   totalCards,
 }: BestV2ClientProps) {
-  const latestUpdate = pages
-    .map((p) => p.updated_at || p.date)
-    .sort()
-    .reverse()[0];
-
   return (
     <div className="landing-v2">
       <div className="cj-terminal">
@@ -78,25 +71,6 @@ export default function BestV2Client({
               Find my next card <span aria-hidden>→</span>
             </span>
           </Link>
-        </div>
-
-        <div className="best-hero-stats">
-          <div className="bhs">
-            <div className="k">Issuers covered</div>
-            <div className="v">{totalIssuers}</div>
-          </div>
-          <div className="bhs">
-            <div className="k">Cards ranked</div>
-            <div className="v">{totalCards}</div>
-          </div>
-          <div className="bhs">
-            <div className="k">Ranking pages</div>
-            <div className="v">{pages.length}</div>
-          </div>
-          <div className="bhs">
-            <div className="k">Last refresh</div>
-            <div className="v">{formatShortDate(latestUpdate) || '—'}</div>
-          </div>
         </div>
 
         {pages.length === 0 ? (
