@@ -2722,6 +2722,9 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 40px;
+  /* The filter bar above ends in a divider; the leading rows zero out their
+     own top padding, so the breathing room has to come from the list. */
+  padding-top: 22px;
 }
 /* .news-item clears its own top border on :first-child only, which would leave
    the second column's opening row hairline-heavy. Clear both leaders. */
