@@ -1,7 +1,8 @@
 id: "chase-edit-credit-back-to-back-stays"
 date: "2026-08-17"
-title: "Chase Limits Sapphire Edit Credit Stacking"
-summary: "A Chase travel guide dated August 10, 2026 says back-to-back stays at the same property within 24 hours of checkout count as one stay, so only the first is eligible for The Edit benefits. That blocks the common trick of using both $250 Edit credits on one long hotel stay."
+updated: "2026-08-18"
+title: "Chase Edit Guide Barred Back-to-Back Stays"
+summary: "A Chase travel guide said back-to-back stays at the same property within 24 hours of checkout count as one stay, so only the first was eligible for The Edit benefits. Internet Archive captures show the wording had been published since at least June 10, 2026, so it was not a new restriction. Chase deleted the sentence on August 17, and it is gone from the live page."
 tags:
   - "benefit-change"
   - "policy-change"
@@ -15,30 +16,48 @@ card_names:
 source: "Doctor of Credit"
 source_url: "https://www.doctorofcredit.com/chase-restricts-using-two-250-the-edit-credits-on-back-to-back-stays/"
 body: |
-  Chase has quietly closed the most popular way to burn through The Edit hotel
-  credits on the Sapphire Reserve. An updated Chase travel guide dated
-  **August 10, 2026** states that back-to-back stays at the same property within
-  **24 hours** of the previous checkout count as a single stay, and that only the
-  first stay is eligible for The Edit program benefits. A Reddit user spotted the
-  language on **August 15**, and Doctor of Credit reported it the next day.
+  **Correction (August 18, 2026):** This item originally said the restriction
+  below appeared in a Chase travel guide "dated August 10, 2026" and that Chase
+  had "quietly closed" the most popular way to use The Edit credits. That was
+  wrong. Internet Archive captures of the Chase guide from **June 10**,
+  **July 2** and **August 7, 2026** each carry the sentence word for word, so
+  the language had been published for more than two months before it was
+  reported. Chase has since deleted it, and as of **August 18** the sentence is
+  gone from the live page. The account below has been corrected.
 
-  The Chase Sapphire Reserve and the Chase Sapphire Reserve for Business each
-  carry up to **$500 a year** in The Edit credits, issued as two separate **$250**
-  credits on prepaid bookings of at least two nights through The Edit by Chase
-  Travel. Because Chase made both credits usable at any point in the calendar
-  year, many cardholders had been booking two consecutive two-night stays at the
-  same hotel to turn a single four-night trip into $500 off. Under the new
-  wording, the second booking no longer earns the credit or the other Edit perks.
+  The sentence sat in the eligibility answer on Chase's
+  [travel guide page for The Edit](https://www.chase.com/travel/guide/hotels/the-edit-chase-travel-credits-benefits)
+  and said that back-to-back stays at the same property within **24 hours** of
+  checkout are considered a single stay, and that The Edit program benefits
+  would not apply to the subsequent check-in. A Reddit user flagged the wording
+  on **August 15**, and Doctor of Credit reported it on **August 16**.
 
-  Chase did not email cardholders or send a statement notice, and there are no
-  confirmed data points yet on whether the rule is being enforced or was added to
-  stop booking system errors.
+  The Edit gives up to **$500** a year in statement credits, issued as two
+  separate **$250** credits on prepaid bookings of at least two nights through
+  Chase Travel. Chase makes both credits usable at any point in the calendar
+  year, so cardholders had been booking two consecutive two-night stays at the
+  same hotel to turn a single four-night trip into $500 off. For as long as the
+  sentence stood, that second booking read as ineligible.
 
-  ## What still works
+  The rule never reached the card's binding terms. The Sapphire Reserve pricing
+  and terms document conditions the credit only on prepaid bookings of two
+  nights or more, with no back-to-back language anywhere in it. Chase did not
+  notify cardholders when the sentence went up, did not announce its removal,
+  and has not commented on either.
 
-  Two stays at different properties remain eligible, as does splitting the
-  bookings between two people or between the consumer and business versions of
-  the card. Breaking up a trip so that more than 24 hours passes between checkout
-  and the next check-in also keeps both stays separate. Cardholders planning a
-  long stay this fall should rework the reservations before booking.
+  ## Who gets The Edit
 
+  Chase lists the benefit for [Chase Sapphire Reserve](/card/chase-sapphire-reserve)
+  and J.P. Morgan Reserve cardmembers, including authorized users, and for
+  primary [Chase Sapphire Reserve for Business](/card/chase-sapphire-reserve-business)
+  cardmembers.
+
+  ## Where that leaves the credits
+
+  With the sentence gone, no published Chase rule blocks splitting a four-night
+  stay at one property into two two-night reservations. Stays at two different
+  properties, bookings split between two people, and bookings split between the
+  consumer and business versions of the card were never in question. Anyone
+  stacking both credits at one hotel should still allow for booking systems
+  behaving differently from the guide, since the sentence stood for over two
+  months without explanation and came down the same way.
