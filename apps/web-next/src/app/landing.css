@@ -8379,6 +8379,27 @@
   font-weight: 500;
   text-align: right;
 }
+/* Zero-value perks (lounge access, status tiers, free checked bags). No dollar
+   column to align, so they get a two-up hairline list instead of a cj-table. */
+.landing-v2 .cj-perks-wrap { margin-top: 24px; }
+.landing-v2 .cj-perks {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border: 1px solid var(--line-2);
+}
+.landing-v2 .cj-perk {
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+.landing-v2 .cj-perk:first-child { border-top: 0; }
+@media (min-width: 768px) {
+  .landing-v2 .cj-perks { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* Second cell shares the first row, so it has no divider above it either. */
+  .landing-v2 .cj-perk:nth-child(2) { border-top: 0; }
+  .landing-v2 .cj-perk:nth-child(2n) { border-left: 1px solid var(--line); }
+}
+
 .landing-v2 .cj-pill {
   font-size: 12px;
   font-weight: 600;

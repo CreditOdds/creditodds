@@ -23,7 +23,7 @@ import {
   CardWireEntry,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
-import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel, isCreditBenefit } from "@/lib/cardDisplayUtils";
+import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel, isCreditBenefit, isPerkBenefit } from "@/lib/cardDisplayUtils";
 import { NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { Article } from "@/lib/articles";
 import SubmitRecordModal from "@/components/forms/SubmitRecordModal";
@@ -444,6 +444,13 @@ export default function CardClient({
   );
 
   const creditBenefits = (card.benefits || []).filter(isCreditBenefit);
+  // Zero-value benefits are real perks (lounge access, status tiers, free
+  // checked bags), not missing data. Uses the shared isPerkBenefit so this
+  // bucket cannot drift from the credits bucket: it treats a missing value as
+  // 0, which is what keeps a stale CDN payload's value-less benefit from
+  // landing in neither list. Perks carry no dollar amount, so they render as
+  // their own list instead of a row in the credits table.
+  const perkBenefits = (card.benefits || []).filter(isPerkBenefit);
   // Mirrors amortizedAnnualValue() but supports unit filtering so we can
   // roll up USD / points / miles totals separately. Convention: `value` is
   // the annual total; `frequency` is just a display hint (monthly/quarterly
@@ -1088,9 +1095,16 @@ export default function CardClient({
                   {headlineCredits ?? "—"}
                 </div>
                 <div className="cj-readoff-foot">
-                  {creditBenefits.length > 0
-                    ? `${creditBenefits.length} credit${creditBenefits.length !== 1 ? "s" : ""}`
-                    : "No tracked credits"}
+                  {[
+                    creditBenefits.length > 0
+                      ? `${creditBenefits.length} credit${creditBenefits.length !== 1 ? "s" : ""}`
+                      : null,
+                    perkBenefits.length > 0
+                      ? `${perkBenefits.length} perk${perkBenefits.length !== 1 ? "s" : ""}`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ") || "No tracked credits"}
                 </div>
               </div>
               <div className="cj-readoff-cell">
@@ -1343,6 +1357,20 @@ export default function CardClient({
                 )}
               </div>
             </div>
+
+            {perkBenefits.length > 0 && (
+              <div className="cj-perks-wrap">
+                <div className="cj-table-label">Perks &amp; protections</div>
+                <div className="cj-perks">
+                  {perkBenefits.map((b, i) => (
+                    <div className="cj-perk" key={`${b.name}-${i}`}>
+                      <div className="cj-cell-primary">{b.name}</div>
+                      <div className="cj-cell-detail">{b.description}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
 
           {/* Card details */}
