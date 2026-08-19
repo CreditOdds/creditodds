@@ -785,38 +785,65 @@
     "t3_1vr10w7": "2026-08-18",
     "t3_1vqzh5u": "2026-08-18",
     "t3_1vqxc9u": "2026-08-18",
-    "t3_1vqkpp7": "2026-08-18"
+    "t3_1vqkpp7": "2026-08-18",
+    "t3_1vsluyw": "2026-08-19",
+    "t3_1vsfxwb": "2026-08-19",
+    "t3_1vsblxk": "2026-08-19",
+    "t3_1vsaicy": "2026-08-19",
+    "t3_1vsae4f": "2026-08-19",
+    "t3_1vs7e8a": "2026-08-19",
+    "t3_1vs32so": "2026-08-19",
+    "t3_1vs14p9": "2026-08-19",
+    "t3_1vrzol5": "2026-08-19",
+    "t3_1vrznzv": "2026-08-19",
+    "t3_1vrx7d2": "2026-08-19",
+    "t3_1vrwmsr": "2026-08-19",
+    "t3_1vrpyf7": "2026-08-19"
   },
   "pending": {
-    "t3_1vlxd8w": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vlxd8w/just_get_approved_for_chase_csr/",
-      "title": "Just get approved for Chase CSR",
-      "posted": "2026-08-11",
-      "card_name": "Chase Sapphire Reserve",
-      "result": "approved",
+    "t3_1vsblxk": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vsblxk/got_denied_for_the_us_bank_cash/",
+      "title": "Got denied for the us bank cash+",
+      "posted": "2026-08-19",
+      "card_name": "US Bank Cash+ Visa Signature",
+      "result": "denied",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Sapphire Reserve this month with a BofA Cash Rewards at 1y11m plus a CSP and Bonvoy Boundless both one month old. Replies add a Bank of America Premium Rewards Elite denial last month, a second row if a score ever arrives. Look 3 of 3 and still no score for either application.",
-      "ask": "What was your credit score when you applied for the Sapphire Reserve?",
-      "firstSeen": "2026-08-12",
-      "attempts": 3,
-      "lastChecked": "2026-08-18"
+      "note": "First person Cash+ denial this month from a self described high earner who pays in full. Describes the score only as excellent, never gives a number.",
+      "ask": "You mentioned an excellent score. What was the exact number when you applied for the Cash+?",
+      "firstSeen": "2026-08-19",
+      "attempts": 1,
+      "lastChecked": "2026-08-19"
     },
-    "t3_1vmyc67": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vmyc67/went_on_a_bit_of_a_chase_binge/",
-      "title": "Went on a bit of a Chase binge",
-      "posted": "2026-08-13",
-      "card_name": "Ink Business Cash",
+    "t3_1vsae4f": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vsae4f/combine_thank_you_points_on_brand_new_card/",
+      "title": "Combine Thank You Points on Brand New Card",
+      "posted": "2026-08-19",
+      "card_name": "Citi Strata Premier",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Poster at 4/24 reports an Ink Business Cash approval on the 100k offer after a review line call, plus a Sapphire Preferred approval two weeks earlier. Look 3 of 3, no new replies, still no score. Two rows would publish if a score arrives.",
-      "ask": "What was your credit score when you applied for the Ink Cash and the CSP?",
-      "firstSeen": "2026-08-13",
-      "attempts": 3,
-      "lastChecked": "2026-08-18"
+      "note": "Poster reports an instant Citi Strata Premier approval this month while trying to combine ThankYou points with a Double Cash. No credit score anywhere in the post.",
+      "firstSeen": "2026-08-19",
+      "attempts": 1,
+      "lastChecked": "2026-08-19"
+    },
+    "t3_1vrwmsr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vrwmsr/how_accurate_is_us_bank_preapproval_tool/",
+      "title": "How Accurate is US Bank Preapproval Tool?",
+      "posted": "2026-08-18",
+      "card_name": "US Bank Altitude Connect",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Update on the post confirms the poster accepted the US Bank preapproval, applied and was instantly approved with a $1,000 line. Gives 2 TransUnion inquiries in 12 months but no score.",
+      "ask": "You listed your TransUnion inquiries. What was your TransUnion score when you applied for the Altitude Connect?",
+      "firstSeen": "2026-08-19",
+      "attempts": 1,
+      "lastChecked": "2026-08-19"
     },
     "t3_1vrl29g": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vrl29g/balance_transfers_limits_rewards_for_0_apr_cards/",
@@ -1122,6 +1149,22 @@
       "skipped": {
         "pre_qual": 2,
         "no_outcome": 7,
+        "no_score": 2
+      }
+    },
+    {
+      "id": "2026-08-19T13:11:40.853Z",
+      "date": "2026-08-19",
+      "candidates": 13,
+      "revisits": 0,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 1,
+      "pending": 15,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 6,
+        "pre_qual": 1,
         "no_score": 2
       }
     }
