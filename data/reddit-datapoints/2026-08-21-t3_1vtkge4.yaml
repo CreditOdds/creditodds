@@ -1,0 +1,12 @@
+source_id: "t3_1vtkge4"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1vtkge4/bank_of_america_a_pain_to_get_card_approved/"
+posted: "2026-08-20"
+evidence: "Poster reports a denial at 820 with utilization well under 30 percent, letter cited utilization and no BoA relationship, and reconsideration declined."
+card_name: "Bank of America Customized Cash Rewards"
+result: "denied"
+credit_score: 820
+credit_score_source: 0
+bank_customer: false
+date_applied: "2026-08"
+reason_denied: "Issuer cited high credit utilization and no existing relationship with the bank."
+reason_denied_code: "high_utilization"
