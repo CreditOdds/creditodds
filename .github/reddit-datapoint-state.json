@@ -716,13 +716,13 @@
     "t3_1vn63n1": "2026-08-14",
     "t3_1vn37vy": "2026-08-14",
     "t3_1vls9lj": "2026-08-21",
-    "t3_1vpw5cw": "2026-08-21",
+    "t3_1vpw5cw": "2026-08-22",
     "t3_1vpt2zv": "2026-08-16",
     "t3_1vpr2o9": "2026-08-16",
     "t3_1vpomfg": "2026-08-16",
-    "t3_1vpn8ps": "2026-08-21",
+    "t3_1vpn8ps": "2026-08-22",
     "t3_1vpmez5": "2026-08-16",
-    "t3_1vpjtlv": "2026-08-21",
+    "t3_1vpjtlv": "2026-08-22",
     "t3_1vphddm": "2026-08-16",
     "t3_1vpgn9d": "2026-08-16",
     "t3_1vpfq4x": "2026-08-16",
@@ -844,22 +844,93 @@
     "t3_1vssjau": "2026-08-21",
     "t3_1vsq2sg": "2026-08-21",
     "t3_1vspeas": "2026-08-21",
-    "t3_1vsnch2": "2026-08-21"
+    "t3_1vsnch2": "2026-08-21",
+    "t3_1vvew60": "2026-08-22",
+    "t3_1vvdas1": "2026-08-22",
+    "t3_1vva29o": "2026-08-22",
+    "t3_1vv9h5b": "2026-08-22",
+    "t3_1vv8fly": "2026-08-22",
+    "t3_1vv5h2x": "2026-08-22",
+    "t3_1vv58ti": "2026-08-22",
+    "t3_1vv3hp0": "2026-08-22",
+    "t3_1vv30ed": "2026-08-22",
+    "t3_1vuyszs": "2026-08-22",
+    "t3_1vutbz0": "2026-08-22",
+    "t3_1vuojay": "2026-08-22",
+    "t3_1vull01": "2026-08-22"
   },
   "pending": {
-    "t3_1vnvzsq": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vnvzsq/is_having_two_brilliant_cards_worth_it/",
-      "title": "Is having two Brilliant Cards worth it?",
-      "posted": "2026-08-14",
-      "card_name": "Marriott Bonvoy Bevy American Express",
+    "t3_1vpw5cw": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vpw5cw/fidelity_visa_autopay_concerns_and_elan/",
+      "title": "Fidelity visa autopay concerns and elan",
+      "posted": "2026-08-16",
+      "card_name": "Fidelity Rewards Visa Signature",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Poster mentions a June approval for the Bevy while asking about the Brilliant. Card, result and month are clear, but no score anywhere in the post or replies.",
-      "firstSeen": "2026-08-14",
-      "attempts": 2,
-      "lastChecked": "2026-08-21"
+      "note": "Poster says they were recently approved for the Fidelity Visa and asks how Elan autopay works. Still no score in the post or any reply on the third look.",
+      "firstSeen": "2026-08-16",
+      "attempts": 3,
+      "lastChecked": "2026-08-22"
+    },
+    "t3_1vpn8ps": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vpn8ps/can_you_do_a_bill_payment_due_date_change/",
+      "title": "Can you do a bill payment due date change?",
+      "posted": "2026-08-16",
+      "card_name": "Blue Cash Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "One line approval report for Blue Cash Preferred asking about changing the due date. The only OP reply is about finding the due date setting, still no score.",
+      "firstSeen": "2026-08-16",
+      "attempts": 3,
+      "lastChecked": "2026-08-22"
+    },
+    "t3_1vpjtlv": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vpjtlv/do_i_close_a_not_needed_card/",
+      "title": "Do I close a not needed card?",
+      "posted": "2026-08-16",
+      "card_name": "Robinhood Gold",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster came off the Robinhood waitlist and was approved instantly for their highest limit yet. The new OP reply asks about foreign transaction fees, still no score or limit.",
+      "firstSeen": "2026-08-16",
+      "attempts": 3,
+      "lastChecked": "2026-08-22"
+    },
+    "t3_1vva29o": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vva29o/stay_away_from_capital_one/",
+      "title": "Stay away from capital one!",
+      "posted": "2026-08-22",
+      "card_name": "Capital One VentureOne Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score",
+        "date_applied"
+      ],
+      "note": "Approved for the VentureOne with a $500 starting limit while their other Capital One accounts were being closed. No score given, and the application sits somewhere inside a multi month saga rather than the post month.",
+      "ask": "What was your credit score when you applied for the VentureOne, and roughly what month was that approval?",
+      "firstSeen": "2026-08-22",
+      "attempts": 1,
+      "lastChecked": "2026-08-22"
+    },
+    "t3_1vutbz0": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vutbz0/balance_transfer_from_chase_to_nfcu/",
+      "title": "Balance Transfer from Chase to NFCU",
+      "posted": "2026-08-21",
+      "card_name": "Navy Federal Platinum",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster was approved for the Navy Federal Platinum with a 0.99% balance transfer offer and is asking about transfer timing. No score anywhere in the post.",
+      "firstSeen": "2026-08-22",
+      "attempts": 1,
+      "lastChecked": "2026-08-22"
     },
     "t3_1vssjau": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vssjau/anybody_approved_for_palladium_after_being_denied/",
@@ -874,79 +945,6 @@
       "ask": "You mentioned the Palladium denial with Obsidian and Blue approvals. What was your credit score when you applied?",
       "firstSeen": "2026-08-21",
       "attempts": 1,
-      "lastChecked": "2026-08-21"
-    },
-    "t3_1vngsuf": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vngsuf/just_got_a_citi_mailer_but_the_citi_websites/",
-      "title": "Just got a Citi mailer but the Citi website's pre-qualify website says \"no pre-qualified offers available\"",
-      "posted": "2026-08-13",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied off a Citi mailer this month, got the 7 to 10 day message, then was approved on a call. Only credit detail given is being over 5/24, no score.",
-      "ask": "You mentioned being over 5/24 when you applied. What was your credit score at the time?",
-      "firstSeen": "2026-08-14",
-      "attempts": 2,
-      "lastChecked": "2026-08-21"
-    },
-    "t3_1vls9lj": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vls9lj/is_this_impossible_2_chase_cards_in_quick/",
-      "title": "Is this impossible? 2 Chase cards in quick succession.",
-      "posted": "2026-08-11",
-      "card_name": "United Business",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Edit reports two August approvals: United Business approved on a call after a TransUnion thaw, then World of Hyatt auto approved a day later. No inquiries in 24 months, but no score. One score would publish two rows.",
-      "ask": "You mentioned no cards opened in 24 months. What was your credit score when you applied for the United Business and Hyatt cards?",
-      "firstSeen": "2026-08-14",
-      "attempts": 2,
-      "lastChecked": "2026-08-21"
-    },
-    "t3_1vpw5cw": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vpw5cw/fidelity_visa_autopay_concerns_and_elan/",
-      "title": "Fidelity visa autopay concerns and elan",
-      "posted": "2026-08-16",
-      "card_name": "Fidelity Rewards Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster says they were recently approved for the Fidelity Visa and asks how Elan autopay works. No score given in the post or replies.",
-      "firstSeen": "2026-08-16",
-      "attempts": 2,
-      "lastChecked": "2026-08-21"
-    },
-    "t3_1vpn8ps": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vpn8ps/can_you_do_a_bill_payment_due_date_change/",
-      "title": "Can you do a bill payment due date change?",
-      "posted": "2026-08-16",
-      "card_name": "Blue Cash Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "One line approval report for Blue Cash Preferred, asking whether the due date can be changed. No score, income, or limit given.",
-      "firstSeen": "2026-08-16",
-      "attempts": 2,
-      "lastChecked": "2026-08-21"
-    },
-    "t3_1vpjtlv": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vpjtlv/do_i_close_a_not_needed_card/",
-      "title": "Do I close a not needed card?",
-      "posted": "2026-08-16",
-      "card_name": "Robinhood Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster came off the Robinhood waitlist and was approved instantly for their highest limit yet, with roughly $15k held at Robinhood. Never states a score or the limit.",
-      "ask": "You said the Robinhood Gold was your highest limit so far. What was your credit score when you were approved, and what limit did you get?",
-      "firstSeen": "2026-08-16",
-      "attempts": 2,
       "lastChecked": "2026-08-21"
     },
     "t3_1vtqlku": {
@@ -1274,6 +1272,20 @@
         "no_score": 7,
         "pre_qual": 2,
         "other": 1
+      }
+    },
+    {
+      "id": "2026-08-22T16:42:38.494Z",
+      "date": "2026-08-22",
+      "candidates": 16,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 17,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 9
       }
     }
   ]
