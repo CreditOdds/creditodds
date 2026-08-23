@@ -23,23 +23,36 @@ function isConfigured() {
   return Boolean(apiKey()) && listId() !== null;
 }
 
-async function request(method, path, body) {
-  const res = await fetch(`${BASE}${path}`, {
-    method,
-    headers: {
-      'api-key': apiKey(),
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
-  const text = await res.text();
-  if (!res.ok) {
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Rate-limited (429) responses are retried with backoff before surfacing as
+// an error: Brevo's Retry-After header when present, exponential otherwise.
+async function request(method, path, body, { retries = 3 } = {}) {
+  for (let attempt = 0; ; attempt += 1) {
+    const res = await fetch(`${BASE}${path}`, {
+      method,
+      headers: {
+        'api-key': apiKey(),
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    const text = await res.text();
+    if (res.ok) return text ? JSON.parse(text) : null;
+    if (res.status === 429 && attempt < retries) {
+      const retryAfter = Number(res.headers.get('retry-after'));
+      const waitMs =
+        Number.isFinite(retryAfter) && retryAfter > 0
+          ? Math.min(retryAfter * 1000, 30000)
+          : Math.min(1000 * 2 ** attempt, 30000);
+      await sleep(waitMs);
+      continue;
+    }
     const err = new Error(`Brevo ${method} ${path} -> ${res.status}: ${text}`);
     err.status = res.status;
     throw err;
   }
-  return text ? JSON.parse(text) : null;
 }
 
 // Brevo contact attributes from a Firebase displayName: first word becomes

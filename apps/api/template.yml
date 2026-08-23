@@ -489,7 +489,7 @@ Resources:
       Handler: src/handlers/newsletter-sync.NewsletterSyncHandler
       Runtime: nodejs22.x
       MemorySize: 256
-      Timeout: 300
+      Timeout: 600
       Description: Daily sync of Firebase users into the Brevo newsletter list
       Environment:
         Variables:
