@@ -27,8 +27,8 @@ apr:
     rate: 0
     months: 18
   regular:
-    min: 17.49
-    max: 27.49
+    min: 18.24
+    max: 28.49
 apply_link: https://www.citi.com/credit-cards/citi-double-cash-credit-card
 foreign_transaction_fee: true
 network: "mastercard"

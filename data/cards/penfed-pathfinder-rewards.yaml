@@ -41,9 +41,9 @@ benefits:
     category: "travel"
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120
-    description: "Application fee reimbursement of up to $120 for Global Entry or $85 for TSA PreCheck, once every 5 years"
+    description: "Application fee reimbursement of up to $120 for Global Entry or $85 for TSA PreCheck, once every 4 years"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "Priority Pass Membership"
     value: 0
