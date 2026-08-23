@@ -51,17 +51,6 @@ benefits:
     frequency: "annual"
     category: "lounge"
     enrollment_required: true
-  # Ending 2026-09-28: PenFed is mailing cardholders a change-in-terms notice
-  # saying the $95 fee is no longer eligible to be waived. Kept as a marked
-  # entry (value 0, so it stops counting toward Total Annual Credits) rather
-  # than deleted, because the live product page still advertises the waiver
-  # and the rewards checker would otherwise re-propose it. Delete this block
-  # after 2026-09-28.
-  - name: "Annual Fee Waiver (ends September 28, 2026)"
-    value: 0
-    description: "PenFed Honors Advantage members (current or former military, or Access America checking account holders) have had the $95 annual fee waived in full. PenFed is notifying cardholders that the fee is no longer eligible to be waived as of September 28, 2026, so plan on paying the $95."
-    frequency: "annual"
-    category: "other"
 our_take: >
   The PenFed Pathfinder Rewards Visa Signature was built around a fee waiver
   that is going away. PenFed is notifying cardholders that the $95 annual fee

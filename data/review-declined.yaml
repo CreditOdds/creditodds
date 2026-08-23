@@ -105,6 +105,8 @@ benefits:
       why: "standard network insurance — same class declined in #1636, #1666, #1731, #1743 (issue #1774)" }
   - { slug: robinhood-platinum, name: "Eight Sleep Credit",
       why: "dated promo ('valid through 9/15') and benefits have no `expires` field, so nothing would flag it once lapsed (PR #1772)" }
+  - { slug: penfed-pathfinder-rewards, name: "Annual Fee Waiver",
+      why: "PenFed ended the Honors Advantage $95 waiver as of 2026-09-28 and the product page no longer advertises it; the dated block was deleted in PR #2085. Git history deny-lists the dated name, this covers the undated variant" }
 
 # Benefit names declined on EVERY card. Prefer benefit-policy.yaml's
 # `exclude` list for anything the team will never want; this is for names
