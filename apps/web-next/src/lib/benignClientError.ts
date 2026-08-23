@@ -29,6 +29,16 @@
 // internal promises have no handler we can attach to, so the same message can
 // still surface as unhandled noise with nothing to act on.
 //
+// A third WebKit teardown signature: "UnknownError: Database deleted by
+// request of the user" (CREDITODDS-JAVASCRIPT-NEXTJS-1H). Safari deletes the
+// page's IndexedDB while the page still holds a connection — the user clearing
+// website data, or ITP evicting script-writable storage — and Firebase's
+// in-flight idb-get/idb-set operations reject with this message (followed by
+// "database connection is closing" as the doomed connection winds down). Same
+// name/code as connection-lost (UnknownError, code 0), so the AbortError gate
+// misses it and it needs its own unconditional entry. Nothing to act on: the
+// deletion is the browser/user's doing and Firebase falls back gracefully.
+//
 // Firebase Installations also rejects with "installations/app-offline" when
 // navigator.onLine is false during Analytics init. getAnalytics() never awaits
 // that internal registration promise, so a visitor who loses connectivity
@@ -102,6 +112,7 @@ const BENIGN_CLIENT_SIGNATURES = [
 const BENIGN_ANY_ERROR_SIGNATURES = [
   'Invalid call to runtime.sendMessage(). Tab not found.',
   'Connection to Indexed Database server lost',
+  'Database deleted by request of the user',
   'Database is closing/hidden',
   'installations/app-offline',
   'Object Not Found Matching Id:',
