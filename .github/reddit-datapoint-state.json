@@ -736,7 +736,7 @@
     "t3_1voyeju": "2026-08-16",
     "t3_1vowtuc": "2026-08-16",
     "t3_1vovc20": "2026-08-16",
-    "t3_1voqgrl": "2026-08-16",
+    "t3_1voqgrl": "2026-08-23",
     "t3_1voplmw": "2026-08-16",
     "t3_1von9ed": "2026-08-16",
     "t3_1voljqc": "2026-08-16",
@@ -750,9 +750,9 @@
     "t3_1vofo6p": "2026-08-16",
     "t3_1vofgy8": "2026-08-16",
     "t3_1vofgla": "2026-08-16",
-    "t3_1voepp9": "2026-08-16",
+    "t3_1voepp9": "2026-08-23",
     "t3_1voemdw": "2026-08-16",
-    "t3_1vodcmn": "2026-08-16",
+    "t3_1vodcmn": "2026-08-23",
     "t3_1vobci5": "2026-08-16",
     "t3_1vob07k": "2026-08-16",
     "t3_1voacpv": "2026-08-16",
@@ -768,7 +768,7 @@
     "t3_1vqbawd": "2026-08-17",
     "t3_1vqawag": "2026-08-17",
     "t3_1vq6qn9": "2026-08-17",
-    "t3_1vq5uue": "2026-08-17",
+    "t3_1vq5uue": "2026-08-23",
     "t3_1vq50jc": "2026-08-17",
     "t3_1vq4l1z": "2026-08-17",
     "t3_1vpzhse": "2026-08-17",
@@ -857,50 +857,121 @@
     "t3_1vuyszs": "2026-08-22",
     "t3_1vutbz0": "2026-08-22",
     "t3_1vuojay": "2026-08-22",
-    "t3_1vull01": "2026-08-22"
+    "t3_1vull01": "2026-08-22",
+    "t3_1vw35jz": "2026-08-23",
+    "t3_1vvxe1n": "2026-08-23",
+    "t3_1vvwbx7": "2026-08-23",
+    "t3_1vvwbln": "2026-08-23",
+    "t3_1vvw76r": "2026-08-23",
+    "t3_1vvvzuz": "2026-08-23",
+    "t3_1vvt9k6": "2026-08-23",
+    "t3_1vvt42x": "2026-08-23",
+    "t3_1vvmj4h": "2026-08-23",
+    "t3_1vvltuj": "2026-08-23",
+    "t3_1vvk74b": "2026-08-23",
+    "t3_1vvjyxb": "2026-08-23"
   },
   "pending": {
-    "t3_1vpw5cw": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vpw5cw/fidelity_visa_autopay_concerns_and_elan/",
-      "title": "Fidelity visa autopay concerns and elan",
-      "posted": "2026-08-16",
-      "card_name": "Fidelity Rewards Visa Signature",
-      "result": "approved",
+    "t3_1voqgrl": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1voqgrl/bilt_dp_denied_because_they_couldnt_verify_my/",
+      "title": "Bilt DP: Denied because they \"couldn't verify my identity\"",
+      "posted": "2026-08-15",
+      "card_name": "Bilt Palladium",
+      "result": "denied",
       "missing": [
         "credit_score"
       ],
-      "note": "Poster says they were recently approved for the Fidelity Visa and asks how Elan autopay works. Still no score in the post or any reply on the third look.",
+      "note": "Deliberate data point post: denied for Bilt Palladium in early August, sole cited reason was inability to verify identity, and recon could not explain it. Re-read today and the body plus the one OP reply still give no score.",
+      "ask": "You posted this as a data point. What was your credit score at the time you applied?",
       "firstSeen": "2026-08-16",
-      "attempts": 3,
-      "lastChecked": "2026-08-22"
+      "attempts": 2,
+      "lastChecked": "2026-08-23"
     },
-    "t3_1vpn8ps": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vpn8ps/can_you_do_a_bill_payment_due_date_change/",
-      "title": "Can you do a bill payment due date change?",
-      "posted": "2026-08-16",
-      "card_name": "Blue Cash Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "One line approval report for Blue Cash Preferred asking about changing the due date. The only OP reply is about finding the due date setting, still no score.",
-      "firstSeen": "2026-08-16",
-      "attempts": 3,
-      "lastChecked": "2026-08-22"
-    },
-    "t3_1vpjtlv": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vpjtlv/do_i_close_a_not_needed_card/",
-      "title": "Do I close a not needed card?",
-      "posted": "2026-08-16",
+    "t3_1voepp9": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1voepp9/just_got_approved_for_robinhood_gold_should_i/",
+      "title": "Just got approved for Robinhood Gold, should I switch to that vs Bilt Blue?",
+      "posted": "2026-08-14",
       "card_name": "Robinhood Gold",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Poster came off the Robinhood waitlist and was approved instantly for their highest limit yet. The new OP reply asks about foreign transaction fees, still no score or limit.",
+      "note": "Approved for Robinhood Gold the day of the post, asking whether to move off Bilt Blue as the catch all. Re-read today, still no score in the body or the OP reply about the annual fee.",
       "firstSeen": "2026-08-16",
-      "attempts": 3,
-      "lastChecked": "2026-08-22"
+      "attempts": 2,
+      "lastChecked": "2026-08-23"
+    },
+    "t3_1vq5uue": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vq5uue/applied_and_approved_for_wf_autograph_card_credit/",
+      "title": "Applied and approved for WF Autograph card. Credit limit too low, any options?",
+      "posted": "2026-08-16",
+      "card_name": "Wells Fargo Autograph",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Autograph this month with a $2,000 starting limit, on a four year file with several $4k-$5k limits and an existing Wells Fargo checking account. Three OP replies today, all about limit reallocation, none with a score.",
+      "ask": "What was your credit score when you applied for the Autograph?",
+      "firstSeen": "2026-08-17",
+      "attempts": 2,
+      "lastChecked": "2026-08-23"
+    },
+    "t3_1vvxe1n": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vvxe1n/amex_multiple_hard_inquiries_for_bce/",
+      "title": "Amex multiple hard inquiries for BCE",
+      "posted": "2026-08-23",
+      "card_name": "Blue Cash Everyday",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Blue Cash Everyday this month, then hit an account setup error and re-applied, and the second application was declined as a duplicate of the approved one. The approval is the real outcome. No score anywhere in the post.",
+      "firstSeen": "2026-08-23",
+      "attempts": 1,
+      "lastChecked": "2026-08-23"
+    },
+    "t3_1vvwbx7": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vvwbx7/need_a_rec_when_turned_down_for_cap1_with_a_high/",
+      "title": "Need a rec when turned down for cap1 with a high credit score",
+      "posted": "2026-08-23",
+      "result": "denied",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Denied by Capital One this month at a score over 800 with five cards opened in the last 24 months and no existing Capital One card. The poster never names which Capital One card they applied for.",
+      "ask": "Which Capital One card was the application that got turned down?",
+      "firstSeen": "2026-08-23",
+      "attempts": 1,
+      "lastChecked": "2026-08-23"
+    },
+    "t3_1vvltuj": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vvltuj/chase_marriott_bonvoy_boundless/",
+      "title": "Chase Marriott Bonvoy Boundless",
+      "posted": "2026-08-22",
+      "card_name": "Marriott Bonvoy Boundless",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster opened the Boundless this month for the 100k offer to replace an Amex Platinum, and the post is a complaint about charges being declined. Approval is clear from having the card in hand, but no score is given.",
+      "ask": "What was your credit score when you were approved for the Boundless?",
+      "firstSeen": "2026-08-23",
+      "attempts": 1,
+      "lastChecked": "2026-08-23"
+    },
+    "t3_1vvk74b": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vvk74b/bofa_flying_blue_card_possibly_denied/",
+      "title": "BofA Flying blue Card- possibly denied",
+      "posted": "2026-08-22",
+      "card_name": "Air France KLM Visa Signature",
+      "missing": [
+        "result"
+      ],
+      "note": "Applied this month for the Air France KLM card at a 829 score with no payment issues, income is foreign so it is not usable. Bank of America sent a letter after an information verification call and the poster only says possibly denied, so the outcome is not established.",
+      "ask": "Did the Bank of America letter turn out to be a denial, or were you approved?",
+      "firstSeen": "2026-08-23",
+      "attempts": 1,
+      "lastChecked": "2026-08-23"
     },
     "t3_1vva29o": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vva29o/stay_away_from_capital_one/",
@@ -1048,63 +1119,6 @@
       "firstSeen": "2026-08-18",
       "attempts": 1,
       "lastChecked": "2026-08-18"
-    },
-    "t3_1vq5uue": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vq5uue/applied_and_approved_for_wf_autograph_card_credit/",
-      "title": "Applied and approved for WF Autograph card. Credit limit too low, any options?",
-      "posted": "2026-08-16",
-      "card_name": "Wells Fargo Autograph",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for the Autograph this month with a $2,000 starting limit, on a four year file with several $4k-$5k limits and an existing Wells Fargo checking account. The post is about getting the limit raised and never gives a score.",
-      "firstSeen": "2026-08-17",
-      "attempts": 1,
-      "lastChecked": "2026-08-17"
-    },
-    "t3_1voqgrl": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1voqgrl/bilt_dp_denied_because_they_couldnt_verify_my/",
-      "title": "Bilt DP: Denied because they \"couldn't verify my identity\"",
-      "posted": "2026-08-15",
-      "card_name": "Bilt Palladium",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Deliberate data point post: denied for Bilt Palladium last week, sole cited reason was inability to verify identity, and recon could not explain it. No score given.",
-      "firstSeen": "2026-08-16",
-      "attempts": 1,
-      "lastChecked": "2026-08-16"
-    },
-    "t3_1voepp9": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1voepp9/just_got_approved_for_robinhood_gold_should_i/",
-      "title": "Just got approved for Robinhood Gold, should I switch to that vs Bilt Blue?",
-      "posted": "2026-08-14",
-      "card_name": "Robinhood Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Robinhood Gold the day of the post, asking whether to move off Bilt Blue as the catch all. No score anywhere.",
-      "firstSeen": "2026-08-16",
-      "attempts": 1,
-      "lastChecked": "2026-08-16"
-    },
-    "t3_1vodcmn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vodcmn/international_student_rejected_for_a_chase/",
-      "title": "International student, rejected for a Chase Freedom Rise",
-      "posted": "2026-08-14",
-      "card_name": "Chase Freedom Rise",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "International student who arrived last year was rejected for Chase Freedom Rise and attributes it to low income. No score stated and they may not have one yet.",
-      "ask": "Did you have a credit score at the time you applied, and if so what was it?",
-      "firstSeen": "2026-08-16",
-      "attempts": 1,
-      "lastChecked": "2026-08-16"
     }
   },
   "runs": [
@@ -1286,6 +1300,22 @@
       "unaccounted": 0,
       "skipped": {
         "no_outcome": 9
+      }
+    },
+    {
+      "id": "2026-08-23T15:28:34.842Z",
+      "date": "2026-08-23",
+      "candidates": 16,
+      "revisits": 4,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 17,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 1,
+        "no_outcome": 7,
+        "pre_qual": 1
       }
     }
   ]
