@@ -17,7 +17,12 @@
 const { initFirebase } = require('../lib/firebase-init');
 const brevo = require('../lib/brevo');
 
-const UPSERT_CONCURRENCY = 5; // Brevo free tier allows ~10 req/s
+const UPSERT_CONCURRENCY = 5;
+// Brevo free tier allows ~10 req/s; pace batches so sustained throughput
+// stays at half that, leaving headroom for retries and other API traffic.
+const BATCH_MIN_MS = 1000;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function listAllFirebaseUsers(admin) {
   const users = [];
@@ -53,6 +58,7 @@ exports.NewsletterSyncHandler = async () => {
   let upserted = 0;
   const failures = [];
   for (let i = 0; i < eligible.length; i += UPSERT_CONCURRENCY) {
+    const batchStarted = Date.now();
     const batch = eligible.slice(i, i + UPSERT_CONCURRENCY);
     const results = await Promise.allSettled(
       batch.map((u) =>
@@ -69,6 +75,10 @@ exports.NewsletterSyncHandler = async () => {
         failures.push({ email: batch[idx].email, error: r.reason?.message });
       }
     });
+    if (i + UPSERT_CONCURRENCY < eligible.length) {
+      const elapsed = Date.now() - batchStarted;
+      if (elapsed < BATCH_MIN_MS) await sleep(BATCH_MIN_MS - elapsed);
+    }
   }
   if (failures.length) {
     console.error('newsletter-sync: upsert failures:', JSON.stringify(failures));
