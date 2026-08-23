@@ -110,6 +110,12 @@ exclude:
   # manual-decision item (Atmos Rewards Business "Travel Accident Insurance"
   # in issue #1774) despite the same reasoning applying to all of them.
   - "Travel Accident Insurance"
+  # Issuers name this one inconsistently, and matching is substring-based, so
+  # "Insurance" alone does not cover "Coverage". PenFed Power Cash Rewards
+  # auto-PRed a "$250,000 Travel Accident Coverage" line through this gap
+  # (PR #2088).
+  - "Travel Accident Coverage"
+  - "Travel Accident Protection"
   - "Travel & Emergency Assistance"
   - "Travel and Emergency Assistance"
   - "Extended Warranty"

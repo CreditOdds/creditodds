@@ -237,7 +237,11 @@ function loadDeclined() {
       if (e?.slug && e?.name) empty.benefits.add(key(e.slug, e.name));
     }
     for (const n of raw.benefits_global || []) {
-      if (n) empty.benefitsGlobal.add(String(n).toLowerCase());
+      // Entries are `{ name, why }` like every other section of the file.
+      // `String(n)` on the object yields "[object Object]", so the set held
+      // one useless key and the global filter never matched anything.
+      const name = typeof n === 'string' ? n : n?.name;
+      if (name) empty.benefitsGlobal.add(String(name).toLowerCase());
     }
   } catch (err) {
     // A missing or malformed file must not silently disable the filter —
