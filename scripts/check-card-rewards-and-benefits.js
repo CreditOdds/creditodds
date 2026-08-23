@@ -1832,6 +1832,22 @@ function appendBenefits(text, newBenefits) {
   if (newBenefits.length === 0) return { text, changed: false };
   const blocks = newBenefits.map(b => renderBenefitBlock(b)).join('\n');
 
+  // `benefits: []` is an existing block written inline. A bare-`benefits:`
+  // match misses it, and the no-block fallback below would then append a
+  // second `benefits:` key at column 0 — a YAML duplicate-key error that
+  // fails validation and reverts the whole run.
+  const emptyRe = /^benefits:[ \t]*\[[ \t]*\][ \t]*$/m;
+  const emptyM = text.match(emptyRe);
+  if (emptyM) {
+    return {
+      text:
+        text.slice(0, emptyM.index) +
+        `benefits:\n${blocks}` +
+        text.slice(emptyM.index + emptyM[0].length),
+      changed: true,
+    };
+  }
+
   // Locate `^benefits:` at column 0.
   const bRe = /^benefits:\s*$/m;
   const m = text.match(bRe);
