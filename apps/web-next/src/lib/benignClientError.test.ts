@@ -69,6 +69,22 @@ describe("isBenignClientError", () => {
     ).toBe(true);
   });
 
+  it("drops WebKit's database-deleted noise (DOMException shape)", () => {
+    expect(
+      isBenignClientError(
+        domException("Database deleted by request of the user", "UnknownError", 0),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops WebKit's database-deleted noise (wrapped-message shape)", () => {
+    expect(
+      isBenignClientError(
+        new Error("UnknownError: Database deleted by request of the user"),
+      ),
+    ).toBe(true);
+  });
+
   it("drops WebKit's closing/hidden IDB-open noise (DOMException shape)", () => {
     expect(
       isBenignClientError(
