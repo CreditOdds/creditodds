@@ -28,7 +28,13 @@ apr:
   regular:
     min: 17.99
     max: 17.99
-benefits: []
+benefits:
+  - name: "Travel Accident Coverage"
+    value: 0
+    description: "Up to $250,000 in travel accident coverage when you purchase your travel ticket with the card"
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
 our_take: >
   This is a flat-rate cash back card whose real rate depends on who you are:
   2% on everything for PenFed Honors Advantage members, meaning current or
