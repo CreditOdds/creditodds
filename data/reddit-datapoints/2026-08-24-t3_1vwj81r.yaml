@@ -1,0 +1,12 @@
+source_id: "t3_1vwj81r"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1vwj81r/denied_for_bilt_paladium_what_to_do/"
+posted: "2026-08-23"
+evidence: "Poster reports a recent Bilt Palladium denial at a 760 plus score while holding four cards, with the adverse action citing recently opened accounts first, then the age of a mortgage taken out in May and inquiry count."
+card_name: "Bilt Palladium"
+result: "denied"
+credit_score: 760
+credit_score_source: 0
+total_open_cards: 4
+date_applied: "2026-08"
+reason_denied: "Too high a proportion of recently opened accounts, plus mortgage age and inquiries."
+reason_denied_code: "too_many_recent_accounts"
