@@ -74,6 +74,12 @@ benefits:
     frequency: "per_trip"
     category: "hotel"
     enrollment_required: false
+  - name: "Cell Phone Protection"
+    value: 0
+    description: "Reimbursement of up to $800 if your phone is stolen or damaged when you pay your cell phone bill with the card."
+    frequency: "per_claim"
+    category: "telecom"
+    enrollment_required: false
 tags:
   - travel
   - premium
