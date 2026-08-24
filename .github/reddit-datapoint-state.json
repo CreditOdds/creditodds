@@ -768,14 +768,14 @@
     "t3_1vqbawd": "2026-08-17",
     "t3_1vqawag": "2026-08-17",
     "t3_1vq6qn9": "2026-08-17",
-    "t3_1vq5uue": "2026-08-23",
+    "t3_1vq5uue": "2026-08-24",
     "t3_1vq50jc": "2026-08-17",
     "t3_1vq4l1z": "2026-08-17",
     "t3_1vpzhse": "2026-08-17",
     "t3_1vpzg6h": "2026-08-17",
     "t3_1vpzd7r": "2026-08-17",
     "t3_1vpz0c2": "2026-08-17",
-    "t3_1vrl29g": "2026-08-18",
+    "t3_1vrl29g": "2026-08-24",
     "t3_1vr8zh6": "2026-08-18",
     "t3_1vr7mao": "2026-08-18",
     "t3_1vr70k2": "2026-08-18",
@@ -788,16 +788,16 @@
     "t3_1vqkpp7": "2026-08-18",
     "t3_1vsluyw": "2026-08-19",
     "t3_1vsfxwb": "2026-08-19",
-    "t3_1vsblxk": "2026-08-19",
+    "t3_1vsblxk": "2026-08-24",
     "t3_1vsaicy": "2026-08-19",
-    "t3_1vsae4f": "2026-08-19",
+    "t3_1vsae4f": "2026-08-24",
     "t3_1vs7e8a": "2026-08-19",
     "t3_1vs32so": "2026-08-19",
     "t3_1vs14p9": "2026-08-19",
     "t3_1vrzol5": "2026-08-19",
     "t3_1vrznzv": "2026-08-19",
     "t3_1vrx7d2": "2026-08-19",
-    "t3_1vrwmsr": "2026-08-19",
+    "t3_1vrwmsr": "2026-08-24",
     "t3_1vrpyf7": "2026-08-19",
     "t3_1vudcxi": "2026-08-21",
     "t3_1vu76y1": "2026-08-21",
@@ -841,7 +841,7 @@
     "t3_1vsvmee": "2026-08-21",
     "t3_1vsul6d": "2026-08-21",
     "t3_1vssnb1": "2026-08-21",
-    "t3_1vssjau": "2026-08-21",
+    "t3_1vssjau": "2026-08-24",
     "t3_1vsq2sg": "2026-08-21",
     "t3_1vspeas": "2026-08-21",
     "t3_1vsnch2": "2026-08-21",
@@ -869,38 +869,24 @@
     "t3_1vvmj4h": "2026-08-23",
     "t3_1vvltuj": "2026-08-23",
     "t3_1vvk74b": "2026-08-23",
-    "t3_1vvjyxb": "2026-08-23"
+    "t3_1vvjyxb": "2026-08-23",
+    "t3_1vx6le0": "2026-08-24",
+    "t3_1vwvy2h": "2026-08-24",
+    "t3_1vwsxoi": "2026-08-24",
+    "t3_1vwstfm": "2026-08-24",
+    "t3_1vwsc9d": "2026-08-24",
+    "t3_1vwrh8c": "2026-08-24",
+    "t3_1vwqys9": "2026-08-24",
+    "t3_1vwpxep": "2026-08-24",
+    "t3_1vwkf1d": "2026-08-24",
+    "t3_1vwj81r": "2026-08-24",
+    "t3_1vwift7": "2026-08-24",
+    "t3_1vwhho6": "2026-08-24",
+    "t3_1vwcnq7": "2026-08-24",
+    "t3_1vwcas0": "2026-08-24",
+    "t3_1vwafog": "2026-08-24"
   },
   "pending": {
-    "t3_1voqgrl": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1voqgrl/bilt_dp_denied_because_they_couldnt_verify_my/",
-      "title": "Bilt DP: Denied because they \"couldn't verify my identity\"",
-      "posted": "2026-08-15",
-      "card_name": "Bilt Palladium",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Deliberate data point post: denied for Bilt Palladium in early August, sole cited reason was inability to verify identity, and recon could not explain it. Re-read today and the body plus the one OP reply still give no score.",
-      "ask": "You posted this as a data point. What was your credit score at the time you applied?",
-      "firstSeen": "2026-08-16",
-      "attempts": 2,
-      "lastChecked": "2026-08-23"
-    },
-    "t3_1voepp9": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1voepp9/just_got_approved_for_robinhood_gold_should_i/",
-      "title": "Just got approved for Robinhood Gold, should I switch to that vs Bilt Blue?",
-      "posted": "2026-08-14",
-      "card_name": "Robinhood Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Robinhood Gold the day of the post, asking whether to move off Bilt Blue as the catch all. Re-read today, still no score in the body or the OP reply about the annual fee.",
-      "firstSeen": "2026-08-16",
-      "attempts": 2,
-      "lastChecked": "2026-08-23"
-    },
     "t3_1vq5uue": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vq5uue/applied_and_approved_for_wf_autograph_card_credit/",
       "title": "Applied and approved for WF Autograph card. Credit limit too low, any options?",
@@ -910,11 +896,84 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Autograph this month with a $2,000 starting limit, on a four year file with several $4k-$5k limits and an existing Wells Fargo checking account. Three OP replies today, all about limit reallocation, none with a score.",
-      "ask": "What was your credit score when you applied for the Autograph?",
+      "note": "Autograph approval this month at a $2,000 starting limit on a four year file with an existing Wells Fargo checking account. Three more OP replies today, all about limit reallocation, still no score. Third and final look.",
+      "ask": "You mentioned a four year file with $4k to $5k limits elsewhere. What was your score when you applied for the Autograph?",
       "firstSeen": "2026-08-17",
+      "attempts": 3,
+      "lastChecked": "2026-08-24"
+    },
+    "t3_1vsblxk": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vsblxk/got_denied_for_the_us_bank_cash/",
+      "title": "Got denied for the us bank cash+",
+      "posted": "2026-08-19",
+      "card_name": "US Bank Cash+ Visa Signature",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "First person US Bank Cash+ denial this month. New OP replies add 17 percent overall utilization, 60 percent on one card, one hard inquiry from 2025, and a card opened this year, but the score is still only described as excellent.",
+      "ask": "You described your score as excellent. What was the actual number when US Bank pulled it?",
+      "firstSeen": "2026-08-19",
       "attempts": 2,
-      "lastChecked": "2026-08-23"
+      "lastChecked": "2026-08-24"
+    },
+    "t3_1vsae4f": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vsae4f/combine_thank_you_points_on_brand_new_card/",
+      "title": "Combine Thank You Points on Brand New Card",
+      "posted": "2026-08-19",
+      "card_name": "Citi Strata Premier",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Instant Citi Strata Premier approval this month, confirmed again in OP replies about waiting on the physical card. No credit score anywhere in the post or the replies.",
+      "firstSeen": "2026-08-19",
+      "attempts": 2,
+      "lastChecked": "2026-08-24"
+    },
+    "t3_1vrwmsr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vrwmsr/how_accurate_is_us_bank_preapproval_tool/",
+      "title": "How Accurate is US Bank Preapproval Tool?",
+      "posted": "2026-08-18",
+      "card_name": "US Bank Altitude Connect",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster accepted a US Bank preapproval, submitted the real application and was instantly approved with a $1,000 starting limit. Gives 2 TransUnion inquiries in 12 months and 3 new accounts, but no score.",
+      "ask": "You listed 2 TransUnion inquiries and 3 new accounts. What was your TransUnion score when US Bank pulled it?",
+      "firstSeen": "2026-08-19",
+      "attempts": 2,
+      "lastChecked": "2026-08-24"
+    },
+    "t3_1vssjau": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vssjau/anybody_approved_for_palladium_after_being_denied/",
+      "title": "Anybody approved for Palladium after being denied but approved for Obsidian/Blue?",
+      "posted": "2026-08-19",
+      "card_name": "Bilt Palladium",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied for the Bilt Palladium but approved for the Obsidian and Blue in the same round, with recon telling them to reapply after 30 days. No score anywhere, and one score would publish three rows.",
+      "firstSeen": "2026-08-21",
+      "attempts": 2,
+      "lastChecked": "2026-08-24"
+    },
+    "t3_1vwstfm": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vwstfm/debating_on_next_card_to_complete_c1_setup_or_try/",
+      "title": "Debating on next card; to complete C1 setup or try and pivot",
+      "posted": "2026-08-24",
+      "card_name": "Bilt Palladium",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster recently applied for the Bilt Palladium and was not approved, but was approved for the Capital One Venture X in the same round, so one score would publish two rows. Gives income around $82k and age 23, no score.",
+      "ask": "You mentioned getting the Venture X but not the Palladium. What was your credit score when you applied?",
+      "firstSeen": "2026-08-24",
+      "attempts": 1,
+      "lastChecked": "2026-08-24"
     },
     "t3_1vvxe1n": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vvxe1n/amex_multiple_hard_inquiries_for_bce/",
@@ -1003,21 +1062,6 @@
       "attempts": 1,
       "lastChecked": "2026-08-22"
     },
-    "t3_1vssjau": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vssjau/anybody_approved_for_palladium_after_being_denied/",
-      "title": "Anybody approved for Palladium after being denied but approved for Obsidian/Blue?",
-      "posted": "2026-08-19",
-      "card_name": "Bilt Palladium",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster was denied for the Bilt Palladium but approved for the Obsidian and Blue in the same round, and recon told them to reapply in 30 days. No score anywhere. One score would publish three rows.",
-      "ask": "You mentioned the Palladium denial with Obsidian and Blue approvals. What was your credit score when you applied?",
-      "firstSeen": "2026-08-21",
-      "attempts": 1,
-      "lastChecked": "2026-08-21"
-    },
     "t3_1vtqlku": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vtqlku/any_card_with_good_sub_that_can_be_used/",
       "title": "Any card with good SUB that can be used immediately or near-immediately?",
@@ -1060,65 +1104,6 @@
       "firstSeen": "2026-08-21",
       "attempts": 1,
       "lastChecked": "2026-08-21"
-    },
-    "t3_1vsblxk": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vsblxk/got_denied_for_the_us_bank_cash/",
-      "title": "Got denied for the us bank cash+",
-      "posted": "2026-08-19",
-      "card_name": "US Bank Cash+ Visa Signature",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "First person Cash+ denial this month from a self described high earner who pays in full. Describes the score only as excellent, never gives a number.",
-      "ask": "You mentioned an excellent score. What was the exact number when you applied for the Cash+?",
-      "firstSeen": "2026-08-19",
-      "attempts": 1,
-      "lastChecked": "2026-08-19"
-    },
-    "t3_1vsae4f": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vsae4f/combine_thank_you_points_on_brand_new_card/",
-      "title": "Combine Thank You Points on Brand New Card",
-      "posted": "2026-08-19",
-      "card_name": "Citi Strata Premier",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster reports an instant Citi Strata Premier approval this month while trying to combine ThankYou points with a Double Cash. No credit score anywhere in the post.",
-      "firstSeen": "2026-08-19",
-      "attempts": 1,
-      "lastChecked": "2026-08-19"
-    },
-    "t3_1vrwmsr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vrwmsr/how_accurate_is_us_bank_preapproval_tool/",
-      "title": "How Accurate is US Bank Preapproval Tool?",
-      "posted": "2026-08-18",
-      "card_name": "US Bank Altitude Connect",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Update on the post confirms the poster accepted the US Bank preapproval, applied and was instantly approved with a $1,000 line. Gives 2 TransUnion inquiries in 12 months but no score.",
-      "ask": "You listed your TransUnion inquiries. What was your TransUnion score when you applied for the Altitude Connect?",
-      "firstSeen": "2026-08-19",
-      "attempts": 1,
-      "lastChecked": "2026-08-19"
-    },
-    "t3_1vrl29g": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vrl29g/balance_transfers_limits_rewards_for_0_apr_cards/",
-      "title": "Balance Transfers, Limits, & Rewards for 0% APR Cards: Wells Fargo Reflect, Citi Diamond Preferred, Discover It",
-      "posted": "2026-08-18",
-      "card_name": "Wells Fargo Reflect",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Recent approvals on Wells Fargo Reflect at a 13k limit and Citi Diamond Preferred at an 11k limit, with 7 years of history and 30 percent utilization, so two rows. Gives 750 and 751 but only as his score now, and the post says opening these lines dropped it from 819, so the application score is unst…",
-      "ask": "Was the 750 your score at the time you applied for the Reflect and the Diamond Preferred, or after the new accounts hit?",
-      "firstSeen": "2026-08-18",
-      "attempts": 1,
-      "lastChecked": "2026-08-18"
     }
   },
   "runs": [
@@ -1315,6 +1300,42 @@
       "skipped": {
         "no_score": 1,
         "no_outcome": 7,
+        "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-08-24T16:04:33.917Z",
+      "date": "2026-08-24",
+      "candidates": 21,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 15,
+      "unaccounted": 1,
+      "skipped": {
+        "other": 1,
+        "no_score": 1,
+        "no_outcome": 9,
+        "score_too_vague": 1,
+        "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-08-24-unknown",
+      "date": "2026-08-24",
+      "candidates": 0,
+      "revisits": 0,
+      "sourcesOk": 0,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 15,
+      "unaccounted": 0,
+      "skipped": {
+        "other": 2,
+        "no_score": 1,
+        "no_outcome": 9,
+        "score_too_vague": 1,
         "pre_qual": 1
       }
     }
