@@ -41,9 +41,9 @@ benefits:
     category: "travel"
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120
-    description: "Application fee reimbursement of up to $120 for Global Entry or $85 for TSA PreCheck, once every 5 years"
+    description: "Application fee reimbursement of up to $120 for Global Entry or $85 for TSA PreCheck, once every 4 years"
     frequency: "multi_year"
-    frequency_years: 5
+    frequency_years: 4
     category: "security"
   - name: "Priority Pass Membership"
     value: 0
@@ -51,17 +51,6 @@ benefits:
     frequency: "annual"
     category: "lounge"
     enrollment_required: true
-  # Ending 2026-09-28: PenFed is mailing cardholders a change-in-terms notice
-  # saying the $95 fee is no longer eligible to be waived. Kept as a marked
-  # entry (value 0, so it stops counting toward Total Annual Credits) rather
-  # than deleted, because the live product page still advertises the waiver
-  # and the rewards checker would otherwise re-propose it. Delete this block
-  # after 2026-09-28.
-  - name: "Annual Fee Waiver (ends September 28, 2026)"
-    value: 0
-    description: "PenFed Honors Advantage members (current or former military, or Access America checking account holders) have had the $95 annual fee waived in full. PenFed is notifying cardholders that the fee is no longer eligible to be waived as of September 28, 2026, so plan on paying the $95."
-    frequency: "annual"
-    category: "other"
 our_take: >
   The PenFed Pathfinder Rewards Visa Signature was built around a fee waiver
   that is going away. PenFed is notifying cardholders that the $95 annual fee
@@ -70,7 +59,7 @@ our_take: >
   checking customers, lose the perk that made this an effectively free travel
   card. Judge it on the $95. The $100 annual domestic airline incidental
   credit covers most of that by itself, and a Global Entry or TSA PreCheck
-  application credit every five years plus a Priority Pass membership fill out
+  application credit every four years plus a Priority Pass membership fill out
   a package that still holds up at this price, though lounge visits carry
   per-visit fees. Honors Advantage members do keep the better earn rates, 4x
   on travel and 3x on dining against 3x and 2x for everyone else, alongside
