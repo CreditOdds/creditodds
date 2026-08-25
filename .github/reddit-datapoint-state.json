@@ -788,16 +788,16 @@
     "t3_1vqkpp7": "2026-08-18",
     "t3_1vsluyw": "2026-08-19",
     "t3_1vsfxwb": "2026-08-19",
-    "t3_1vsblxk": "2026-08-24",
+    "t3_1vsblxk": "2026-08-25",
     "t3_1vsaicy": "2026-08-19",
-    "t3_1vsae4f": "2026-08-24",
+    "t3_1vsae4f": "2026-08-25",
     "t3_1vs7e8a": "2026-08-19",
     "t3_1vs32so": "2026-08-19",
     "t3_1vs14p9": "2026-08-19",
     "t3_1vrzol5": "2026-08-19",
     "t3_1vrznzv": "2026-08-19",
     "t3_1vrx7d2": "2026-08-19",
-    "t3_1vrwmsr": "2026-08-24",
+    "t3_1vrwmsr": "2026-08-25",
     "t3_1vrpyf7": "2026-08-19",
     "t3_1vudcxi": "2026-08-21",
     "t3_1vu76y1": "2026-08-21",
@@ -884,24 +884,28 @@
     "t3_1vwhho6": "2026-08-24",
     "t3_1vwcnq7": "2026-08-24",
     "t3_1vwcas0": "2026-08-24",
-    "t3_1vwafog": "2026-08-24"
+    "t3_1vwafog": "2026-08-24",
+    "t3_1vy19ap": "2026-08-25",
+    "t3_1vy0x0z": "2026-08-25",
+    "t3_1vxzaw4": "2026-08-25",
+    "t3_1vxxsog": "2026-08-25",
+    "t3_1vxpdrb": "2026-08-25",
+    "t3_1vxmghp": "2026-08-25",
+    "t3_1vxlanz": "2026-08-25",
+    "t3_1vxg1zx": "2026-08-25",
+    "t3_1vxfhg8": "2026-08-25",
+    "t3_1vxf8v0": "2026-08-25",
+    "t3_1vxctb9": "2026-08-25",
+    "t3_1vxcqzw": "2026-08-25",
+    "t3_1vxcg2g": "2026-08-25",
+    "t3_1vxcb5x": "2026-08-25",
+    "t3_1vxbmci": "2026-08-25",
+    "t3_1vxbbu4": "2026-08-25",
+    "t3_1vx9v4a": "2026-08-25",
+    "t3_1vx9kzv": "2026-08-25",
+    "t3_1vx8o5y": "2026-08-25"
   },
   "pending": {
-    "t3_1vq5uue": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vq5uue/applied_and_approved_for_wf_autograph_card_credit/",
-      "title": "Applied and approved for WF Autograph card. Credit limit too low, any options?",
-      "posted": "2026-08-16",
-      "card_name": "Wells Fargo Autograph",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Autograph approval this month at a $2,000 starting limit on a four year file with an existing Wells Fargo checking account. Three more OP replies today, all about limit reallocation, still no score. Third and final look.",
-      "ask": "You mentioned a four year file with $4k to $5k limits elsewhere. What was your score when you applied for the Autograph?",
-      "firstSeen": "2026-08-17",
-      "attempts": 3,
-      "lastChecked": "2026-08-24"
-    },
     "t3_1vsblxk": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vsblxk/got_denied_for_the_us_bank_cash/",
       "title": "Got denied for the us bank cash+",
@@ -911,11 +915,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "First person US Bank Cash+ denial this month. New OP replies add 17 percent overall utilization, 60 percent on one card, one hard inquiry from 2025, and a card opened this year, but the score is still only described as excellent.",
-      "ask": "You described your score as excellent. What was the actual number when US Bank pulled it?",
+      "note": "First person US Bank Cash+ denial from 2026-08. Third look and the score is still only described as an excellent one. OP replies add 17 percent overall utilization, 60 percent on a single card, and one hard inquiry from 2025, but no number.",
+      "ask": "You mentioned an excellent score. What was the actual FICO number when you applied?",
       "firstSeen": "2026-08-19",
-      "attempts": 2,
-      "lastChecked": "2026-08-24"
+      "attempts": 3,
+      "lastChecked": "2026-08-25"
     },
     "t3_1vsae4f": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vsae4f/combine_thank_you_points_on_brand_new_card/",
@@ -926,10 +930,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Instant Citi Strata Premier approval this month, confirmed again in OP replies about waiting on the physical card. No credit score anywhere in the post or the replies.",
+      "note": "Instant Citi Strata Premier approval from 2026-08, reconfirmed in OP replies about waiting on the physical card. No credit score in the post or any reply after three looks.",
       "firstSeen": "2026-08-19",
-      "attempts": 2,
-      "lastChecked": "2026-08-24"
+      "attempts": 3,
+      "lastChecked": "2026-08-25"
     },
     "t3_1vrwmsr": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vrwmsr/how_accurate_is_us_bank_preapproval_tool/",
@@ -940,11 +944,40 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster accepted a US Bank preapproval, submitted the real application and was instantly approved with a $1,000 starting limit. Gives 2 TransUnion inquiries in 12 months and 3 new accounts, but no score.",
-      "ask": "You listed 2 TransUnion inquiries and 3 new accounts. What was your TransUnion score when US Bank pulled it?",
+      "note": "Poster accepted a US Bank preapproval, submitted the real application and was instantly approved with a 1000 dollar starting limit. Gives 2 TransUnion inquiries in 12 months and 3 new accounts, but still no score at the third look.",
       "firstSeen": "2026-08-19",
-      "attempts": 2,
-      "lastChecked": "2026-08-24"
+      "attempts": 3,
+      "lastChecked": "2026-08-25"
+    },
+    "t3_1vxxsog": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vxxsog/itin_holder_with_6_months_of_us_credit/",
+      "title": "ITIN holder with 6 months of U.S. credit history—stuck with Capital One?",
+      "posted": "2026-08-25",
+      "card_name": "Amazon Prime Rewards Visa Signature",
+      "result": "denied",
+      "missing": [
+        "credit_score",
+        "date_applied"
+      ],
+      "note": "ITIN holder with a thin file reports a real Chase Prime Visa denial after roughly three weeks pending, but gives only current VantageScore 3.0 numbers and no application month. Same post also reports a Capital One Platinum approval on 2026-02-20 with a 500 dollar limit, also without a score.",
+      "ask": "What were your scores when you applied for the Prime Visa, and roughly what month did you submit it?",
+      "firstSeen": "2026-08-25",
+      "attempts": 1,
+      "lastChecked": "2026-08-25"
+    },
+    "t3_1vx8o5y": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vx8o5y/citi_custom_vs_double_cash_reconsideration/",
+      "title": "Citi Custom vs. Double Cash Reconsideration",
+      "posted": "2026-08-24",
+      "card_name": "Citi Double Cash",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Real first person Citi Double Cash denial in 2026-08 with a TransUnion pull and a letter the poster disputes. Same post reports a Citi Custom Cash approval via reconsideration in May. No credit score given for either.",
+      "firstSeen": "2026-08-25",
+      "attempts": 1,
+      "lastChecked": "2026-08-25"
     },
     "t3_1vssjau": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vssjau/anybody_approved_for_palladium_after_being_denied/",
@@ -1337,6 +1370,23 @@
         "no_outcome": 9,
         "score_too_vague": 1,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-08-25T15:26:37.755Z",
+      "date": "2026-08-25",
+      "candidates": 22,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 16,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 12,
+        "pre_qual": 1,
+        "card_not_in_catalog": 1,
+        "no_score": 2
       }
     }
   ]
