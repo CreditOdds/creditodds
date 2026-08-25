@@ -1,10 +1,12 @@
-name: "Citi AAdvantage Executive World Elite Mastercard"
+name: "Citi AAdvantage Executive World Legend Mastercard"
+previous_names:
+  - "Citi AAdvantage Executive World Elite Mastercard"
 bank: "Citi"
 slug: "citi-aadvantage-executive-world-elite-masterc"
 accepting_applications: true
-annual_fee: 595
+annual_fee: 695
 reward_type: "miles"
-image: "citi-aadvantage-executive-world-elite.png"
+image: "citi-aadvantage-executive-world-legend.png"
 benefits:
   - name: "Admirals Club Membership"
     value: 0
@@ -28,21 +30,31 @@ benefits:
     frequency: "ongoing"
     category: "travel"
   - name: "Lyft Credits"
-    value: 120
-    description: "Up to $120 in annual Lyft credits ($10 per month after 3 eligible rides)"
+    value: 180
+    description: "Up to $180 in annual Lyft credits ($15 per calendar month after 3 eligible rides)"
     frequency: "annual"
     category: "rideshare"
     enrollment_required: true
     merchants:
       - lyft
-  - name: "Grubhub Statement Credit"
-    value: 120
-    description: "Up to $120 annual statement credit on eligible Grubhub purchases ($10 per monthly billing statement)"
+  - name: "American Airlines Vacations Credit"
+    value: 500
+    description: "Up to $500 in statement credits each calendar year on eligible American Airlines Vacations travel packages or experiences, split into up to $250 January through June and up to $250 July through December"
     frequency: "annual"
-    category: "dining"
+    category: "travel"
+    enrollment_required: false
+  - name: "Inflight and Admirals Club Purchase Credit"
+    value: 100
+    description: "Up to $100 in statement credits each calendar year on inflight and eligible Admirals Club purchases"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Omni Hotels Champion Status"
+    value: 0
+    description: "Primary cardmembers are eligible to enroll in Omni Hotels and Resorts Champion Status, with perks such as early check-in, late checkout, and room upgrades subject to availability"
+    frequency: "ongoing"
+    category: "hotel"
     enrollment_required: true
-    merchants:
-      - grubhub
   - name: "Avis and Budget Car Rental Credit"
     value: 120
     description: "Up to $120 annual statement credit for eligible prepaid car rentals booked directly on avis.com or budget.com"
@@ -50,9 +62,9 @@ benefits:
     category: "car_rental"
     enrollment_required: false
   - name: "Loyalty Points Bonus"
-    value: 20000
+    value: 40000
     value_unit: "points"
-    description: "Earn 10,000 Loyalty Points bonus after reaching 50,000 Loyalty Points, and another 10,000 bonus after reaching 90,000 Loyalty Points in the same status qualification year."
+    description: "Earn a 10,000 Loyalty Point bonus after reaching each of 50,000, 90,000, 165,000 and 240,000 Loyalty Points in the same status qualification year."
     frequency: "annual"
     category: "rewards"
     enrollment_required: false
@@ -62,9 +74,9 @@ tags:
   - premium
 rewards:
   - category: hotels_car_portal
-    value: 10
+    value: 12
     unit: points_per_dollar
-    note: "On eligible hotels and car rentals booked through AA portals"
+    note: "On eligible AAdvantage Hotels bookings and eligible AAdvantage Cars bookings"
   - category: airlines
     value: 4
     unit: points_per_dollar
@@ -74,30 +86,33 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 70000
+  value: 125000
   type: "miles"
-  spend_requirement: 7000
-  timeframe_months: 3
+  spend_requirement: 15000
+  timeframe_months: 5
+  note: "Limited time offer as advertised on Citi's card page."
 apr:
   regular:
     min: 19.49
     max: 29.49
-apply_link: https://www.citi.com/usc/lpaca/aa/aadvantage/exec/ps/index0.html
+apply_link: https://www.citi.com/credit-cards/citi-aadvantage-executive-world-legend-mastercard
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  Full Admirals Club membership for you and your authorized users is the
-  entire argument for the $595 Executive, and if you fly American often enough
-  to use those lounges it is the cleanest way to buy them. Around that sit
-  about $360 in annual credits, $120 each toward Lyft at $10 a month after
-  three eligible rides, Grubhub at $10 per billing statement, and prepaid Avis
-  or Budget rentals, plus a $120 Global Entry or TSA PreCheck credit every
-  four years. The current offer is 70,000 miles after $7,000 in three months,
-  and frequent flyers can pick up 10,000 bonus Loyalty Points at 50,000 and
-  another 10,000 at 90,000 in the same qualification year. Earning is narrow,
-  though: 10x on hotels and car rentals booked through American's portals and
-  4x on American Airlines purchases only, rising to 5x after $150,000 of spend
-  in a calendar year, with everything else at a flat 1x. Most of the credits
-  require enrollment and drip out monthly, so the fee really only works if the
-  lounge access alone is worth $595 to you.
+  Full Admirals Club membership for you and your authorized users is still the
+  entire argument for the Executive, and if you fly American often enough to
+  use those lounges it is the cleanest way to buy them. The August 2026
+  refresh renamed the card from World Elite to World Legend and pushed the fee
+  from $595 to $695, adding up to $500 a year in American Airlines Vacations
+  credits, up to $100 back on inflight and Admirals Club purchases, and Omni
+  Hotels Champion Status. Lyft credits rose to $180 a year at $15 a month
+  after three eligible rides, and the Loyalty Points bonuses doubled to 40,000
+  with new milestones at 165,000 and 240,000. The Grubhub credit is gone for
+  new cardmembers. The current limited time offer is 125,000 miles after
+  $15,000 in five months, a much larger bonus behind a much larger spend
+  requirement. Earning is still narrow: 12x on hotels and cars booked through
+  American's portals and 4x on American Airlines purchases, rising to 5x after
+  $150,000 of spend in a calendar year, with everything else at a flat 1x. The
+  Vacations credit only pays out on packaged bookings, so treat it as
+  conditional and buy this card for the lounge access.
 

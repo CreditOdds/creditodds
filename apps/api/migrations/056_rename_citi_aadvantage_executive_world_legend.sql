@@ -1,0 +1,13 @@
+-- Citi rebrand (August 2026): Citi AAdvantage Executive World Elite Mastercard
+-- -> Citi AAdvantage Executive World Legend Mastercard.
+--
+-- The old apply URL (citi.com/usc/lpaca/aa/aadvantage/exec/ps/index0.html) now
+-- 404s. The live Citi page
+-- (citi.com/credit-cards/citi-aadvantage-executive-world-legend-mastercard)
+-- titles the product "Citi / AAdvantage Executive World Legend Mastercard" and
+-- the string "World Elite" no longer appears on it.
+--
+-- Must run BEFORE the renamed cards.json reaches the sync: update-cards-github.js
+-- links rows by card_name, so a rename that lands in the CDN first would create a
+-- second row and strand this card's ratings, stats and CardWire history.
+UPDATE cards SET card_name = 'Citi AAdvantage Executive World Legend Mastercard' WHERE card_name = 'Citi AAdvantage Executive World Elite Mastercard';
