@@ -55,11 +55,14 @@ rewards_added:
       why: "local transit 2x expired 2025-12-31; Chase still quotes the dated text on the page. Delete this entry if Chase renews with a new date" }
   - { slug: world-of-hyatt-business-credit-card, category: selected_categories,
       why: "the same bucket as the existing top_category row" }
+  - { slug: chase-ink-business-preferred, category: online_shopping,
+      why: "the 3x is advertising with social media sites and search engines, not online retail; an online_shopping row would claim 3x on all online spend (issue #2089)" }
 
 # Reward categories flagged as present in YAML but not on the apply page.
 # Every entry below was verified still live on the issuer's page; the
 # detector could not read the earn table (JS-rendered or bot-blocked).
 rewards_removed:
+  - { slug: citi-aadvantage-globe, category: hotels_portal }
   - { slug: aaa-daily-advantage-visa-signature, category: ev_charging }
   - { slug: robinhood-platinum, category: hotels_portal }
   - { slug: robinhood-platinum, category: car_rentals_portal }

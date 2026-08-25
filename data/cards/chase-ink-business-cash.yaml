@@ -17,7 +17,7 @@ rewards:
     spend_cap: 25000
     cap_period: annual
     rate_after_cap: 1
-  - category: utilities
+  - category: tv_internet_streaming
     value: 5
     unit: percent
     note: "Internet and cable services; combined $25,000/year cap with office supplies and phone services; 1% thereafter"
