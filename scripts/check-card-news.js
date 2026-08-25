@@ -618,7 +618,7 @@ ${numbered}
 \`\`\`yaml
 id: "lowercase-hyphen-slug"            # unique, descriptive, no date prefix
 date: "${TODAY}"                        # always today; the finish phase re-forces it
-title: "Factual headline"               # aim for 35–47 chars (SEO budget); hard cap 200
+title: "Factual headline"               # 35-47 chars; over 47 is REJECTED by the finish phase
 summary: "1–3 sentences with concrete numbers/dates."   # max 500 chars
 tags:                                   # 1+ of: ${VALID_TAGS.join(', ')}
   - "benefit-change"
@@ -689,7 +689,7 @@ function validateItem(item, { cards, existingIds, existingUrls, rejectedIds, rej
   if (!item.id || !/^[a-z0-9-]+$/.test(item.id)) errors.push('invalid id (need lowercase-hyphen slug)');
   if (!item.title) errors.push('missing title');
   else if (item.title.length > 200) errors.push('title over 200 chars');
-  else if (item.title.length > 47) warnings.push(`title is ${item.title.length} chars (SEO budget is ~47)`);
+  else if (item.title.length > 47) errors.push(`title is ${item.title.length} chars; must be <= 47 so the rendered "<title> | CreditOdds" stays inside the 60-char SEO budget`);
   if (!item.summary) errors.push('missing summary');
   else if (item.summary.length > 500) errors.push('summary over 500 chars');
   if (!item.tags || !Array.isArray(item.tags) || item.tags.length === 0) {
