@@ -9,6 +9,18 @@ const OUTPUT_FILE = path.join(__dirname, '..', 'data', 'news.json');
 const SCHEMA_FILE = path.join(NEWS_DIR, 'schema.json');
 const CARDS_FILE = path.join(__dirname, '..', 'data', 'cards.json');
 
+// Keep in sync with TITLE_MAX in apps/web-next/src/lib/seo.ts, which drives the
+// generateMetadata truncation backstop.
+const TITLE_MAX = 47;
+const TITLE_SUFFIX_LEN = ' | CreditOdds'.length;
+// Items dated on or after this are hard-failed on title length; older ones are
+// pre-existing debt and only counted. See validateNewsItem.
+const TITLE_GATE_DATE = '2026-07-16';
+
+// Titles over budget on items predating TITLE_GATE_DATE, collected across the
+// run so the build can report one summary line instead of 70 scattered warnings.
+const legacyLongTitles = [];
+
 const VALID_TAGS = [
   'new-card',
   'discontinued',
@@ -57,11 +69,25 @@ function validateNewsItem(item, schema) {
   }
 
   // SEO: rendered <title> is "${item.title} | CreditOdds" (root layout
-  // template), so item.title above 47 chars overflows the 60-char Bing budget.
-  // generateMetadata truncates as a backstop; warn here so the YAML author can
-  // shorten before the truncation kicks in.
-  if (item.title && item.title.length > 47) {
-    console.warn(`  WARN: title is ${item.title.length} chars (>47 = ${item.title.length + 13} after " | CreditOdds" suffix; SEO budget is 60): ${item.title}`);
+  // template), so item.title above TITLE_MAX overflows the 60-char Bing budget.
+  // generateMetadata truncates as a backstop, but truncation cuts mid-phrase and
+  // drops the payload ("Discover Announces Q2 2026 5% Cash Back..." loses the
+  // categories), so the title still needs to be short at the source.
+  //
+  // This was a bare console.warn until 70 of 123 items had drifted over budget
+  // unnoticed, buried in a build log that prints two lines per item. Items dated
+  // on or after TITLE_GATE_DATE are hard-failed instead; older ones are counted
+  // into a single summary line (see reportTitleBudget) rather than warning
+  // per-item. The cutover is the date the card-news triage prompt started
+  // specifying a title length, and every item since has complied.
+  if (item.title && item.title.length > TITLE_MAX) {
+    const rendered = item.title.length + TITLE_SUFFIX_LEN;
+    const detail = `title is ${item.title.length} chars (${rendered} after " | CreditOdds"; SEO budget is 60, so item.title must be <= ${TITLE_MAX})`;
+    if (item.date && item.date >= TITLE_GATE_DATE) {
+      errors.push(detail);
+    } else {
+      legacyLongTitles.push({ title: item.title, length: item.title.length });
+    }
   }
 
   // Validate date format
@@ -167,6 +193,27 @@ function validateNewsItem(item, schema) {
   }
 
   return errors;
+}
+
+// One line for the whole run, so pre-existing over-budget titles stay visible
+// and countable instead of scrolling past as per-item warnings nobody reads.
+function reportTitleBudget() {
+  if (legacyLongTitles.length === 0) return;
+  const worst = legacyLongTitles
+    .slice()
+    .sort((a, b) => b.length - a.length)
+    .slice(0, 3);
+  console.warn(
+    `\nWARN: ${legacyLongTitles.length} item(s) predating ${TITLE_GATE_DATE} have titles over ` +
+    `${TITLE_MAX} chars. These render truncated mid-phrase in <title>. Longest:`
+  );
+  for (const { title, length } of worst) {
+    console.warn(`  ${length} chars: ${title}`);
+  }
+  console.warn(
+    `Newer items are hard-failed on this, so the count can only go down. ` +
+    `Rewrite them in data/news/ to clear it.`
+  );
 }
 
 function buildNews() {
@@ -308,6 +355,8 @@ function buildNews() {
   }
 
   console.log('\n---');
+  reportTitleBudget();
+
 
   if (errors.length > 0) {
     console.error(`\nValidation failed with ${errors.length} error(s):`);
