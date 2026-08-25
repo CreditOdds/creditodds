@@ -28,7 +28,14 @@ rewards:
   - category: groceries
     value: 2
     unit: percent
-    note: "Also includes wholesale clubs; cap is combined with choice category"
+    note: "Grocery stores; cap is combined with the choice category and wholesale clubs"
+    spend_cap: 2500
+    cap_period: quarterly
+    rate_after_cap: 1
+  - category: wholesale_clubs
+    value: 2
+    unit: percent
+    note: "Wholesale clubs; cap is combined with choice category and grocery stores"
     spend_cap: 2500
     cap_period: quarterly
     rate_after_cap: 1

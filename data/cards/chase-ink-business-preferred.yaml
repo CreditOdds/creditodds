@@ -27,7 +27,7 @@ rewards:
     spend_cap: 150000
     cap_period: annual
     rate_after_cap: 1
-  - category: utilities
+  - category: tv_internet_streaming
     value: 3
     unit: points_per_dollar
     note: "Internet and cable services (combined $150,000/yr cap with travel, shipping, phone, and advertising)"
