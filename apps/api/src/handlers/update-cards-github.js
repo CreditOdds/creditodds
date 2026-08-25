@@ -15,6 +15,109 @@ function extractMetrics(cdnCard) {
   };
 }
 
+// Card names are the join key between cards.json and the `cards` table, so a
+// rebrand is the one edit that can silently destroy data: if the renamed card
+// reaches the CDN before the DB row is renamed, the sync finds no match,
+// INSERTs a second row under a fresh card_id, and the original row keeps the
+// ratings, card_stats and card_wire history that now belong to nothing. That
+// hazard is why renames used to require a hand-run migration ahead of the
+// merge. Matching on `previous_names` (already carried in cards.json and
+// rendered as the "Previously ..." subtitle) removes the manual step.
+const NAME_SUFFIXES = [" Card", " Credit Card", " card", " credit card"];
+
+// Resolve one name against the DB rows, tolerating the legacy suffix drift
+// from before name standardization (DB may carry a suffix the CDN dropped, or
+// the reverse).
+function resolveDirect(name, existingByName) {
+  if (!name) return null;
+  if (existingByName[name]) return existingByName[name];
+  for (const suffix of NAME_SUFFIXES) {
+    if (existingByName[name + suffix]) return existingByName[name + suffix];
+  }
+  for (const suffix of NAME_SUFFIXES) {
+    if (name.endsWith(suffix) && existingByName[name.slice(0, -suffix.length)]) {
+      return existingByName[name.slice(0, -suffix.length)];
+    }
+  }
+  return null;
+}
+
+/**
+ * Build the CDN-card -> DB-row matcher for one sync run.
+ *
+ * Resolution order per card: current name (exact, then suffix-tolerant), then
+ * `previous_names`. Three guards keep the rename fallback from stealing rows:
+ *
+ *  - A row claimed by some card's CURRENT name is never available to another
+ *    card's previous_names. Reviving a retired name for a different product
+ *    must lose to the card actually called that today.
+ *  - A row claimed by two or more cards' previous_names is left unmatched, so
+ *    an ambiguous split gets a clean INSERT and a warning instead of an
+ *    arbitrary winner silently absorbing another card's history.
+ *  - A row already consumed earlier in this run cannot be matched twice.
+ *
+ * Returns a stateful function; build one per run.
+ */
+function buildCardMatcher(existingCards, cdnCards) {
+  const existingByName = {};
+  for (const card of existingCards) {
+    existingByName[card.card_name] = card;
+  }
+
+  const directlyClaimed = new Set();
+  for (const cdnCard of cdnCards) {
+    const row = resolveDirect(cdnCard.name, existingByName);
+    if (row) directlyClaimed.add(row.card_id);
+  }
+
+  // card_id -> set of CDN card names claiming it via previous_names
+  const previousClaimants = new Map();
+  for (const cdnCard of cdnCards) {
+    for (const prev of cdnCard.previous_names || []) {
+      const row = resolveDirect(prev, existingByName);
+      if (!row || directlyClaimed.has(row.card_id)) continue;
+      if (!previousClaimants.has(row.card_id)) {
+        previousClaimants.set(row.card_id, new Set());
+      }
+      previousClaimants.get(row.card_id).add(cdnCard.name);
+    }
+  }
+
+  const consumed = new Set();
+
+  return function findExistingCard(cdnCard) {
+    const direct = resolveDirect(cdnCard.name, existingByName);
+    if (direct) {
+      consumed.add(direct.card_id);
+      return direct;
+    }
+
+    for (const prev of cdnCard.previous_names || []) {
+      const row = resolveDirect(prev, existingByName);
+      if (!row) continue;
+      if (directlyClaimed.has(row.card_id)) continue;
+      if (consumed.has(row.card_id)) continue;
+
+      const claimants = previousClaimants.get(row.card_id);
+      if (claimants && claimants.size > 1) {
+        console.warn(
+          `Ambiguous rebrand: "${prev}" is claimed by ${claimants.size} cards ` +
+            `(${[...claimants].join(", ")}); leaving card_id ${row.card_id} unmatched`
+        );
+        continue;
+      }
+
+      consumed.add(row.card_id);
+      console.info(
+        `Rebrand matched: "${prev}" -> "${cdnCard.name}" (card_id ${row.card_id})`
+      );
+      return row;
+    }
+
+    return null;
+  };
+}
+
 // Compare old and new metrics, insert card_wire rows for any changes
 async function detectAndRecordChanges(cardId, oldMetrics, newMetrics) {
   const trackedFields = [
@@ -99,28 +202,7 @@ async function syncCardsToDatabase(cdnCards) {
        FROM cards`
     );
 
-    // Create lookup map by card_name
-    const existingByName = {};
-    for (const card of existingCards) {
-      existingByName[card.card_name] = card;
-    }
-
-    // Helper: find existing card by exact name, or fuzzy match (with/without suffix)
-    function findExistingCard(name) {
-      if (existingByName[name]) return existingByName[name];
-      // Try common suffixes that may still be in the DB from before name standardization
-      const suffixes = [' Card', ' Credit Card', ' card', ' credit card'];
-      for (const suffix of suffixes) {
-        if (existingByName[name + suffix]) return existingByName[name + suffix];
-      }
-      // Try stripping suffixes in case CDN has suffix but DB doesn't
-      for (const suffix of suffixes) {
-        if (name.endsWith(suffix) && existingByName[name.slice(0, -suffix.length)]) {
-          return existingByName[name.slice(0, -suffix.length)];
-        }
-      }
-      return null;
-    }
+    const findExistingCard = buildCardMatcher(existingCards, cdnCards);
 
     for (const cdnCard of cdnCards) {
       try {
@@ -128,8 +210,8 @@ async function syncCardsToDatabase(cdnCards) {
         const bank = cdnCard.bank;
         const acceptingApplications = cdnCard.accepting_applications ? 1 : 0;
 
-        // Check if card exists by name (with fuzzy suffix matching)
-        const existingCard = findExistingCard(name);
+        // Match by current name, falling back to previous_names for rebrands
+        const existingCard = findExistingCard(cdnCard);
 
         // Convert tags array to JSON string for database storage
         const tagsJson = cdnCard.tags ? JSON.stringify(cdnCard.tags) : null;
@@ -293,3 +375,6 @@ exports.updateCardsGitHubHandler = async (event) => {
     };
   }
 };
+
+// Exported for unit tests.
+exports._buildCardMatcher = buildCardMatcher;
