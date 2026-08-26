@@ -4282,6 +4282,22 @@
   font-weight: 500;
   margin-left: 2px;
 }
+/* Needs-attention chip on the Referrals tab: count of cards whose referral
+   link the validator flagged as expired and the user has not yet replaced
+   or dismissed. Amber, matching the expired-links banner accent. */
+.landing-v2.profile-v2 .cj-main-tab-chip {
+  align-self: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #a8792a;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+}
 
 /* Section block — no border-bottom inside tabs */
 .landing-v2.profile-v2 .cj-main-content .cj-section {
@@ -4331,6 +4347,23 @@
   font-family: inherit;
 }
 .landing-v2.profile-v2 .cj-inline-cta:hover { background: var(--accent-deep); }
+/* Quiet sibling of cj-inline-cta for secondary actions next to a filled CTA
+   (e.g. "dismiss" beside "add replacement" in the expired-links banner). */
+.landing-v2.profile-v2 .cj-inline-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--line-2);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.landing-v2.profile-v2 .cj-inline-cta-ghost:hover { color: var(--ink); border-color: var(--muted); }
+.landing-v2.profile-v2 .cj-inline-cta-ghost:disabled { opacity: 0.6; cursor: default; }
 
 /* Compact wallet rows */
 .landing-v2.profile-v2 .cj-wallet-tape { border: 1px solid var(--line-2); }
@@ -5866,6 +5899,18 @@
     height: 7px;
     border-radius: 50%;
     background: var(--accent);
+    border: 1.5px solid var(--paper);
+  }
+  /* Needs-attention dot on More (Referrals live there on mobile) — amber to
+     match the expired-links banner, distinct from the red beta dot. */
+  .landing-v2.profile-v2 .cj-mob-tab-alert {
+    position: absolute;
+    top: 4px;
+    right: 22%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a8792a;
     border: 1.5px solid var(--paper);
   }
 

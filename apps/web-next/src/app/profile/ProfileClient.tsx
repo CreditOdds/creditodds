@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { useUserSettings } from "@/user-settings/UserSettingsProvider";
 import UserAvatar from "@/components/user/UserAvatar";
 import { V2Footer } from "@/components/landing-v2/Chrome";
-import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, getWallet, getWalletEvents, deleteAccount, reorderWallet, getNewsletterSettings, updateNewsletterSettings, NewsletterSettings, WalletCard, WalletCardEvent, Card } from "@/lib/api";
+import { getAllCards, getRecords, getReferrals, deleteRecord, archiveReferral, dismissExpiredReferralWarning, getWallet, getWalletEvents, deleteAccount, reorderWallet, getNewsletterSettings, updateNewsletterSettings, NewsletterSettings, WalletCard, WalletCardEvent, Card } from "@/lib/api";
 import "../landing.css";
 import { getNews, getNewsCards, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
@@ -210,6 +210,7 @@ export default function ProfileClient() {
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
   const [archivingReferralId, setArchivingReferralId] = useState<number | null>(null);
+  const [dismissingCardId, setDismissingCardId] = useState<string | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
   const [openWalletId, setOpenWalletId] = useState<number | null>(null);
@@ -468,6 +469,29 @@ export default function ProfileClient() {
     } finally { setArchivingReferralId(null); }
   };
 
+  // Dismiss the expired-link warning for a card without submitting a
+  // replacement. The server rewrites the archive reason (`auto:` ->
+  // `dismissed-auto:`) on every auto-archived link for the card; the local
+  // state mirrors that so the banner row and chip disappear immediately.
+  const handleDismissExpiredWarning = async (cardId: string) => {
+    setDismissingCardId(cardId);
+    try {
+      const token = await getToken();
+      if (!token) return;
+      await dismissExpiredReferralWarning(cardId, token);
+      const dismissed = referrals.find(r => String(r.card_id) === cardId && isAutoArchivedReferral(r));
+      posthog.capture("referral_expired_warning_dismissed", { card_name: dismissed?.card_name });
+      setReferrals(referrals.map(r =>
+        String(r.card_id) === cardId && isAutoArchivedReferral(r)
+          ? { ...r, archived_reason: `dismissed-${r.archived_reason}` }
+          : r
+      ));
+    } catch (e) {
+      console.error("Error dismissing expired referral warning:", e);
+      alert("Failed to dismiss the warning. Please try again.");
+    } finally { setDismissingCardId(null); }
+  };
+
   const handleDeleteAccount = async () => {
     if (deleteConfirmText !== 'DELETE') return;
     setDeletingAccount(true);
@@ -502,14 +526,14 @@ export default function ProfileClient() {
   const expiredReferralsCount = groupUnreplacedAutoArchivedByCard(referrals).length;
   const visibleWalletCards = activeWalletCards;
 
-  const tabs: { key: TabKey; num: string; label: string; count: string }[] = [
+  const tabs: { key: TabKey; num: string; label: string; count: string; badge?: number }[] = [
     { key: 'cards', num: '01', label: 'Cards', count: walletCards.length ? `${walletCards.length} cards` : '' },
     { key: 'rewards', num: '02', label: 'Earn', count: '' },
     { key: 'benefits', num: '03', label: 'Benefits', count: '' },
     { key: 'applications', num: '04', label: 'Applications', count: records.length ? `${records.length} data point${records.length === 1 ? '' : 's'}` : '' },
-    { key: 'referrals', num: '05', label: 'Referrals', count: expiredReferralsCount
-        ? `${expiredReferralsCount} needs attention`
-        : (activeReferralsCount ? `${activeReferralsCount} links` : '') },
+    { key: 'referrals', num: '05', label: 'Referrals',
+      count: activeReferralsCount ? `${activeReferralsCount} link${activeReferralsCount === 1 ? '' : 's'}` : '',
+      badge: expiredReferralsCount },
     { key: 'settings', num: '06', label: 'Settings', count: '' },
   ];
 
@@ -650,6 +674,15 @@ export default function ProfileClient() {
                 <span className="cj-main-tab-num">{it.num}</span>
                 {it.label}
                 {it.count && <span className="cj-main-tab-count">· {it.count}</span>}
+                {it.badge ? (
+                  <span
+                    className="cj-main-tab-chip"
+                    title={`${it.badge} expired link${it.badge === 1 ? '' : 's'} need${it.badge === 1 ? 's' : ''} attention`}
+                    aria-label={`${it.badge} need${it.badge === 1 ? 's' : ''} attention`}
+                  >
+                    {it.badge}
+                  </span>
+                ) : null}
               </button>
             ))}
           </div>
@@ -767,6 +800,8 @@ export default function ProfileClient() {
                 onReplace={(cardId) => { setReplacementForCardId(cardId); setShowReferralModal(true); }}
                 onArchive={handleArchiveReferral}
                 archivingReferralId={archivingReferralId}
+                onDismiss={handleDismissExpiredWarning}
+                dismissingCardId={dismissingCardId}
               />
             )}
 
@@ -820,6 +855,8 @@ export default function ProfileClient() {
                   onReplace={(cardId) => { setReplacementForCardId(cardId); setShowReferralModal(true); }}
                   onArchive={handleArchiveReferral}
                   archivingReferralId={archivingReferralId}
+                  onDismiss={handleDismissExpiredWarning}
+                  dismissingCardId={dismissingCardId}
                 />
                 <div className="cj-mob-more-h">Account</div>
                 <SettingsTab
@@ -931,7 +968,7 @@ export default function ProfileClient() {
       </div>
 
       {/* Mobile bottom tab bar — Variant B (App Tabs). Hidden ≥641px via CSS. */}
-      <MobileTabBar activeTab={activeTab} onSelect={setActiveTab} />
+      <MobileTabBar activeTab={activeTab} onSelect={setActiveTab} needsAttention={expiredReferralsCount > 0} />
 
       <V2Footer />
 
@@ -1495,10 +1532,12 @@ interface ReferralsTabProps {
   onReplace: (cardId: string) => void;
   onArchive: (id: number) => void;
   archivingReferralId: number | null;
+  onDismiss: (cardId: string) => void;
+  dismissingCardId: string | null;
 }
 
 function ReferralsTab(props: ReferralsTabProps) {
-  const { referralsLoaded, referrals, eligibleReferralCards, onAddReferral, onReplace, onArchive, archivingReferralId } = props;
+  const { referralsLoaded, referrals, eligibleReferralCards, onAddReferral, onReplace, onArchive, archivingReferralId, onDismiss, dismissingCardId } = props;
   if (!referralsLoaded) return <LoadingPanel />;
 
   const active = referrals.filter(r => !r.archived_at);
@@ -1544,7 +1583,7 @@ function ReferralsTab(props: ReferralsTabProps) {
               : `${autoArchived.length} referral links look like they expired`}
           </div>
           <div style={{ fontSize: 12, color: '#5c4318', marginBottom: 10 }}>
-            Our link check stopped serving {autoArchived.length === 1 ? 'this one' : 'these'} on card pages. Add a replacement to start collecting clicks again. The old stats below stay yours.
+            Our link check stopped serving {autoArchived.length === 1 ? 'this one' : 'these'} on card pages. Add a replacement to start collecting clicks again, or dismiss if you are done referring that card. The old stats below stay yours.
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {autoArchived.map((g) => {
@@ -1553,11 +1592,13 @@ function ReferralsTab(props: ReferralsTabProps) {
               const eligible = eligibleCardIds.has(cardIdStr);
               const validatedDate = r.last_validated_at ? r.last_validated_at.slice(0, 10) : null;
               return (
-                <div key={r.referral_id} style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 8, borderTop: '1px solid rgba(168, 121, 42, 0.18)' }}>
+                <div key={r.referral_id} style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, paddingTop: 8, borderTop: '1px solid rgba(168, 121, 42, 0.18)' }}>
                   <span className="cj-tape-thumb" style={{ flexShrink: 0 }}>
                     <CardImage cardImageLink={r.card_image_link} alt={r.card_name} fill sizes="36px" className="object-contain" />
                   </span>
-                  <div style={{ minWidth: 0, flex: 1 }}>
+                  {/* flex-basis floor lets the two action buttons wrap to their
+                      own line on narrow screens instead of crushing the text */}
+                  <div style={{ minWidth: 0, flex: '1 1 180px' }}>
                     <div style={{ fontSize: 13, fontWeight: 500, color: '#2a2a2a' }}>{r.card_name}</div>
                     <div style={{ fontSize: 11, color: '#7a6035' }}>
                       flagged {validatedDate || 'recently'} · {g.impressions.toLocaleString()} impr · {g.clicks} click{g.clicks === 1 ? '' : 's'} {g.linkCount === 1 ? 'on the old link' : `across ${g.linkCount} expired links`}
@@ -1571,6 +1612,15 @@ function ReferralsTab(props: ReferralsTabProps) {
                     title={eligible ? '' : 'You no longer hold this card in your wallet or data points, so a new referral cannot be submitted.'}
                   >
                     {eligible ? 'add replacement' : 'card not held'}
+                  </button>
+                  <button
+                    type="button"
+                    className="cj-inline-cta-ghost"
+                    onClick={() => onDismiss(cardIdStr)}
+                    disabled={dismissingCardId === cardIdStr}
+                    title="Hide this warning without adding a replacement. You can still add a new referral for this card anytime."
+                  >
+                    {dismissingCardId === cardIdStr ? 'dismissing…' : 'dismiss'}
                   </button>
                 </div>
               );
@@ -2004,7 +2054,7 @@ function MobileNewsView({ relevantNews, walletCardsCount }: { relevantNews: News
 }
 
 /* ========== Mobile-only: Bottom tab bar (Variant B · App Tabs) ========== */
-function MobileTabBar({ activeTab, onSelect }: { activeTab: TabKey; onSelect: (k: TabKey) => void }) {
+function MobileTabBar({ activeTab, onSelect, needsAttention }: { activeTab: TabKey; onSelect: (k: TabKey) => void; needsAttention?: boolean }) {
   // Map the desktop's 6 tabs to the 5 in-profile mobile tabs:
   //   cards → cards | rewards → rewards | news → news (wallet-filtered) |
   //   benefits → benefits | applications/referrals/settings → more
@@ -2075,6 +2125,9 @@ function MobileTabBar({ activeTab, onSelect }: { activeTab: TabKey; onSelect: (k
           </svg>
         </span>
         More
+        {/* Referrals live under More on mobile, so the needs-attention dot
+            (expired referral links) surfaces here. */}
+        {needsAttention && <span className="cj-mob-tab-alert" aria-hidden="true" />}
       </button>
     </nav>
   );

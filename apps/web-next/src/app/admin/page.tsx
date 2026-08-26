@@ -1545,7 +1545,9 @@ function ReferralsTab({
                 </span>
                 {referral.archived_at && (
                   <span className="av-pill av-pill-arch">
-                    {referral.archived_reason?.startsWith('auto:') ? 'Auto-archived' : 'Archived'}
+                    {referral.archived_reason?.startsWith('auto:') ? 'Auto-archived'
+                      : referral.archived_reason?.startsWith('dismissed-auto:') ? 'Auto-archived (dismissed)'
+                      : 'Archived'}
                   </span>
                 )}
               </div>

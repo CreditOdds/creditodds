@@ -47,6 +47,10 @@ Parameters:
     Type: String
     Description: Numeric id of the Brevo contact list that mirrors Firebase users (the weekly-newsletter audience).
     Default: ""
+  BrevoSenderEmail:
+    Type: String
+    Description: Verified Brevo sender address for transactional email (referral expiry notices). Empty disables transactional sends.
+    Default: ""
   FirebaseServiceAccountB64:
     Type: String
     Description: Base64-encoded Firebase service-account JSON. Needed for privileged Admin API calls (listUsers in newsletter-sync, deleteUser in delete-account); token verification works without it.
@@ -1812,28 +1816,27 @@ Resources:
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
 
+  # No esbuild here: this handler pulls in firebase-admin (for the uid ->
+  # email lookup behind expiry notices), which the esbuild functions avoid.
+  # Plain zip packaging, same as NewsletterSyncFunction / DeleteAccountFunction.
   ReferralValidationCompleteFunction:
     Type: AWS::Serverless::Function
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        EntryPoints:
-          - src/handlers/referral-validation-complete.js
-        Target: node22
-        Sourcemap: false
-        Minify: false
     Properties:
       Handler: src/handlers/referral-validation-complete.ReferralValidationCompleteHandler
       Runtime: nodejs22.x
       MemorySize: 256
       Timeout: 300
-      Description: Records referral validation results; auto-archives after consecutive failures
+      Description: Records referral validation results; auto-archives after consecutive failures and emails affected users
       Environment:
         Variables:
           ENDPOINT: !Ref ENDPOINT
           DATABASE: !Ref DATABASE
           USERNAME: !Ref USERNAME
           PASSWORD: !Ref PASSWORD
+          FIREBASE_PROJECT_ID: creditodds
+          FIREBASE_SERVICE_ACCOUNT_B64: !Ref FirebaseServiceAccountB64
+          BREVO_API_KEY: !Ref BrevoApiKey
+          BREVO_SENDER_EMAIL: !Ref BrevoSenderEmail
 
   RefreshCardStatsFunction:
     Type: AWS::Serverless::Function
