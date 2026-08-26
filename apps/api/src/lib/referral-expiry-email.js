@@ -27,12 +27,27 @@ function isEnabled() {
 // Cards (not links) belonging to this user whose referral was auto-archived
 // by the validator, has no active replacement, and was not dismissed by the
 // user (dismissal rewrites the reason prefix to `dismissed-auto:`).
+// Impressions/clicks are summed across all of the card's dead links (same
+// per-card aggregation the profile's expired-links banner shows), with the
+// stats derived table pre-filtered to this submitter's referrals so it never
+// aggregates the whole referral_stats table.
 async function getStaleCardsForSubmitter(submitterId) {
   return mysql.query(
     `
-    SELECT c.card_name, c.card_image_link, MAX(r.last_validated_at) AS flagged_at
+    SELECT c.card_name, c.card_image_link, MAX(r.last_validated_at) AS flagged_at,
+           COALESCE(SUM(s.impressions), 0) AS impressions,
+           COALESCE(SUM(s.clicks), 0) AS clicks
     FROM referrals r
     JOIN cards c ON c.card_id = r.card_id
+    LEFT JOIN (
+      SELECT rs.referral_id,
+             SUM(CASE WHEN rs.event_type = 'impression' THEN 1 ELSE 0 END) AS impressions,
+             SUM(CASE WHEN rs.event_type = 'click' THEN 1 ELSE 0 END) AS clicks
+      FROM referral_stats rs
+      JOIN referrals ru ON ru.referral_id = rs.referral_id
+      WHERE ru.submitter_id = ?
+      GROUP BY rs.referral_id
+    ) s ON s.referral_id = r.referral_id
     WHERE r.submitter_id = ?
       AND r.archived_at IS NOT NULL
       AND r.archived_reason LIKE 'auto:%'
@@ -45,7 +60,7 @@ async function getStaleCardsForSubmitter(submitterId) {
     GROUP BY c.card_id, c.card_name, c.card_image_link
     ORDER BY flagged_at DESC
     `,
-    [submitterId],
+    [submitterId, submitterId],
   );
 }
 
@@ -69,8 +84,18 @@ const FONT_HEAD = "'Inter Tight','Inter',Helvetica,Arial,sans-serif";
 // DB is the bare filename. Absolute URLs are required in email clients.
 const CARD_IMAGE_CDN = "https://d3ay3etzd1512y.cloudfront.net/card_images";
 
-// cards: [{ card_name, card_image_link }] — card_image_link may be null, in
-// which case the row falls back to the newsletter-style purple dot.
+// Lifetime stats line shown under a card's name, or null when the card has
+// no recorded activity (a zero line reads as a dig, so it is omitted).
+function statsLine(c) {
+  const impressions = Number(c.impressions) || 0;
+  const clicks = Number(c.clicks) || 0;
+  if (impressions === 0 && clicks === 0) return null;
+  return `${impressions.toLocaleString("en-US")} impression${impressions === 1 ? "" : "s"} · ${clicks.toLocaleString("en-US")} click${clicks === 1 ? "" : "s"}`;
+}
+
+// cards: [{ card_name, card_image_link, impressions, clicks }] —
+// card_image_link may be null, in which case the row falls back to the
+// newsletter-style purple dot; missing stats just omit the stats line.
 function buildEmail(cards) {
   const cardNames = cards.map((c) => c.card_name);
   const many = cardNames.length > 1;
@@ -87,7 +112,10 @@ function buildEmail(cards) {
     "",
     intro,
     "",
-    ...cardNames.map((n) => `  - ${n}`),
+    ...cards.map((c) => {
+      const stats = statsLine(c);
+      return `  - ${c.card_name}${stats ? ` (${stats.replace(" · ", ", ")})` : ""}`;
+    }),
     "",
     "Issuers rotate or retire referral links from time to time, so this is normal. If you have a fresh link, you can add a replacement from the Referrals tab of your profile. If you would rather not replace it, you can dismiss the notice there instead:",
     "",
@@ -121,7 +149,11 @@ function buildEmail(cards) {
       const thumb = c.card_image_link
         ? `<img src="${CARD_IMAGE_CDN}/${escapeHtml(c.card_image_link)}" width="64" height="40" alt="" style="display:block;width:64px;height:40px;object-fit:contain;border:0;border-radius:4px;background-color:#f0e9ff;font-size:0;line-height:0;color:transparent;">`
         : `<div style="width:14px;height:14px;border-radius:50%;background-color:#6d3fe8;font-size:0;line-height:0;">&nbsp;</div>`;
-      return `<tr><td valign="middle" width="78" style="padding:0 14px 12px 0;">${thumb}</td><td valign="middle" style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#1a1330;font-weight:600;padding:0 0 12px;">${name}</td></tr>`;
+      const stats = statsLine(c);
+      const statsHtml = stats
+        ? `<div style="font-family:${FONT_BODY};font-size:13px;line-height:1.5;color:#6b6384;font-weight:400;">${stats}</div>`
+        : "";
+      return `<tr><td valign="middle" width="78" style="padding:0 14px 12px 0;">${thumb}</td><td valign="middle" style="font-family:${FONT_BODY};font-size:15px;line-height:1.5;color:#1a1330;font-weight:600;padding:0 0 12px;">${name}${statsHtml}</td></tr>`;
     })
     .join("\n        ");
 
