@@ -106,14 +106,20 @@ function buildEmail(cards) {
     ? "Our link check could no longer open these referral links. Add replacements or dismiss the notice from your profile."
     : "Our link check could no longer open your referral link. Add a replacement or dismiss the notice from your profile.";
 
-  // One row per card: card art thumbnail (alt text carries the name for
-  // clients that block remote images) next to the bold card name. Cards
-  // without art keep the newsletter-style purple dot.
+  // One row per card: card art thumbnail next to the bold card name. The
+  // thumbnail is built to fail gracefully when a client blocks or cannot
+  // load remote images: fixed 64x40 box with a lavender background and
+  // rounded corners renders as a clean card-shaped chip instead of a torn
+  // icon, and alt is intentionally empty because the card name is already
+  // real text in the adjacent cell (the image is decorative). object-fit
+  // keeps off-ratio art unstretched in clients that support it; Outlook
+  // ignores it and the stretch is imperceptible at this size. Cards without
+  // art keep the newsletter-style purple dot.
   const cardRows = cards
     .map((c) => {
       const name = escapeHtml(c.card_name);
       const thumb = c.card_image_link
-        ? `<img src="${CARD_IMAGE_CDN}/${escapeHtml(c.card_image_link)}" width="64" alt="${name}" style="display:block;width:64px;height:auto;border:0;border-radius:4px;">`
+        ? `<img src="${CARD_IMAGE_CDN}/${escapeHtml(c.card_image_link)}" width="64" height="40" alt="" style="display:block;width:64px;height:40px;object-fit:contain;border:0;border-radius:4px;background-color:#f0e9ff;font-size:0;line-height:0;color:transparent;">`
         : `<div style="width:14px;height:14px;border-radius:50%;background-color:#6d3fe8;font-size:0;line-height:0;">&nbsp;</div>`;
       return `<tr><td valign="middle" width="78" style="padding:0 14px 12px 0;">${thumb}</td><td valign="middle" style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#1a1330;font-weight:600;padding:0 0 12px;">${name}</td></tr>`;
     })
