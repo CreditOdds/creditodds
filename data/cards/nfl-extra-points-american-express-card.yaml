@@ -1,0 +1,88 @@
+name: "NFL Extra Points American Express"
+bank: "Comenity Capital Bank"
+slug: "nfl-extra-points-american-express-card"
+image: "nfl-extra-points-american-express.png"
+accepting_applications: true
+apply_link: https://www.nflextrapoints.com/
+page_check_url: https://www.nflextrapoints.com/
+release_date: "2026-08-26"
+annual_fee: 0
+foreign_transaction_fee: true
+network: "amex"
+category: "cashback"
+reward_type: "cashback"
+tags:
+  - cashback
+  - entertainment
+rewards:
+  # 3% is gated to NFL-brand spend: NFLShop.com, NFL stadium purchases, and NFL
+  # game tickets bought at team ticket offices, Ticketmaster, SeatGeek and
+  # Sports Illustrated Tickets. merchant_specific keeps it out of generic
+  # entertainment matching, so the card does not surface at arbitrary
+  # Ticketmaster or SeatGeek purchases where only NFL tickets actually qualify.
+  - category: entertainment
+    value: 3
+    unit: percent
+    note: "NFLShop.com, NFL stadium purchases, and NFL game tickets at NFL team ticket offices, Ticketmaster, SeatGeek and Sports Illustrated Tickets"
+    merchant_specific: true
+  - category: dining
+    value: 2
+    unit: percent
+    note: "Bars and restaurants, plus food delivery"
+  - category: groceries
+    value: 2
+    unit: percent
+  - category: sporting_goods
+    value: 2
+    unit: percent
+  - category: gyms_fitness
+    value: 2
+    unit: percent
+    note: "Gym memberships and fitness purchases"
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 100
+  type: "cash"
+  spend_requirement: 500
+  timeframe_months: 3
+  note: "Within the first 90 days of account opening, paid as a statement credit. Spend toward the bonus excludes all NFL purchases, including NFLShop.com, stadium purchases and NFL tickets."
+apr:
+  regular:
+    min: 17.49
+    max: 31.49
+our_take: >
+  This is a fan card first and a rewards card second. The 3% back only applies
+  to NFL spending, meaning NFLShop.com, stadium purchases and game tickets, so
+  unless you buy season tickets it is a small slice of a year's spending. The
+  2% tier is the part that could actually carry the card, covering restaurants,
+  groceries, food delivery, sporting goods and gyms with no cap and no annual
+  fee. That is a reasonable everyday rate, but plenty of no-fee cards pay 2% on
+  everything, and this one drops to 1% outside its categories while charging a
+  3% foreign transaction fee. Points are worth a flat 1 cent each toward a
+  statement credit and expire 5 years after they post. The standing 25% off
+  NFLShop.com is worth more than the 3% category to most fans, and the $100
+  bonus after $500 in non-NFL spend within 90 days is easy to clear. Take it
+  for the team art and the merchandise discount, not because it beats a flat
+  2% card.
+benefits:
+  - name: "25% Off NFLShop.com"
+    value: 25
+    value_unit: "percent"
+    description: "25% off NFLShop.com purchases made with the card using code EXTRAPOINTS4. Excludes gift cards, discounted items, trading cards and certain specialty items such as autographed collectibles."
+    frequency: "per_purchase"
+    category: "shopping"
+  - name: "Special Financing on NFL Tickets"
+    value: 0
+    description: "Promotional financing on single NFL ticket purchases of $250 or more at NFL team ticket offices, Ticketmaster, SeatGeek and Sports Illustrated Tickets. Minimum payments required, and the purchases still earn points."
+    frequency: "per_purchase"
+    category: "entertainment"
+  - name: "Team Card Art"
+    value: 0
+    description: "Choose a card design for any of the 32 NFL teams or a league-branded NFL option. The issuing network varies by team, so not every team design is on the American Express network."
+    category: "other"
+  - name: "Points Do Not Expire for 5 Years"
+    value: 0
+    description: "Points expire 5 years after the date they post to the balance. Redeem for statement credits at 1 cent per point, game tickets, NFL experiences, gift cards or memorabilia."
+    category: "rewards"
