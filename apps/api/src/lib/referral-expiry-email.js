@@ -57,6 +57,14 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+// Font stacks and palette mirror the newsletter templates in
+// creditodds-newsletters/ so every email from us looks like one family.
+// Everything critical is inlined; the <style> block (with the Google Fonts
+// @import) is progressive enhancement only, since Gmail strips @import and
+// most clients drop <head> styles.
+const FONT_BODY = "'Inter',Helvetica,Arial,sans-serif";
+const FONT_HEAD = "'Inter Tight','Inter',Helvetica,Arial,sans-serif";
+
 function buildEmail(cardNames) {
   const many = cardNames.length > 1;
   const subject = many
@@ -83,17 +91,90 @@ function buildEmail(cardNames) {
     "CreditOdds",
   ].join("\n");
 
-  const htmlContent = `
-<p>Hi,</p>
-<p>${escapeHtml(intro)}</p>
-<ul>
-${cardNames.map((n) => `  <li>${escapeHtml(n)}</li>`).join("\n")}
-</ul>
-<p>Issuers rotate or retire referral links from time to time, so this is normal. If you have a fresh link, you can add a replacement from the Referrals tab of your profile. If you would rather not replace it, you can dismiss the notice there instead.</p>
-<p><a href="${PROFILE_URL}">Open your profile</a></p>
-<p>Any impressions and clicks the old links earned stay on your profile.</p>
-<p>CreditOdds</p>
-`.trim();
+  const headline = many
+    ? `${cardNames.length} of your referral links stopped working`
+    : `Your ${escapeHtml(cardNames[0])} referral link stopped working`;
+
+  const preheader = many
+    ? "Our link check could no longer open these referral links. Add replacements or dismiss the notice from your profile."
+    : "Our link check could no longer open your referral link. Add a replacement or dismiss the notice from your profile.";
+
+  const cardRows = cardNames
+    .map(
+      (n) => `<tr><td valign="top" width="26" style="padding:4px 0 0;"><div style="width:14px;height:14px;border-radius:50%;background-color:#6d3fe8;font-size:0;line-height:0;">&nbsp;</div></td><td style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#1a1330;font-weight:600;padding:0 0 10px;">${escapeHtml(n)}</td></tr>`,
+    )
+    .join("\n        ");
+
+  const htmlContent = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>${escapeHtml(subject)}</title>
+<style>
+  /* Progressive enhancement only - all critical styles are inlined.
+     Gmail ignores @import and CSS variables, so none are used below. */
+  @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+  body{margin:0;padding:0;}
+  @media (max-width:600px){
+    .px{padding-left:20px!important;padding-right:20px!important;}
+    .h1{font-size:24px!important;}
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#f7f5fc;">
+<div style="display:none;visibility:hidden;opacity:0;color:transparent;height:0;width:0;overflow:hidden;">${escapeHtml(preheader)}</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f7f5fc;">
+<tr><td align="center" style="padding:24px 12px;">
+
+  <table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" style="max-width:640px;width:100%;background-color:#ffffff;border:1px solid #ece8f5;border-radius:16px;">
+
+    <!-- MASTHEAD -->
+    <tr><td class="px" style="padding:22px 32px;border-bottom:1px solid #ece8f5;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td align="left" style="font-family:${FONT_HEAD};">
+            <a href="https://creditodds.com" style="font-weight:700;font-size:20px;letter-spacing:-0.02em;color:#1a1330;text-decoration:none;">credit<span style="color:#6d3fe8;">odds</span></a>
+          </td>
+          <td align="right" style="font-family:${FONT_BODY};font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#6b6384;">Referral Update</td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- BODY -->
+    <tr><td class="px" style="padding:32px;">
+      <p style="font-family:${FONT_BODY};font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6d3fe8;margin:0 0 10px;">Your Referral Links</p>
+      <h1 class="h1" style="font-family:${FONT_HEAD};font-weight:700;font-size:28px;line-height:1.2;letter-spacing:-0.02em;color:#1a1330;margin:0 0 16px;">${headline}</h1>
+
+      <p style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#3a2f55;margin:0 0 14px;">${escapeHtml(intro)}</p>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;">
+        ${cardRows}
+      </table>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;"><tr><td style="background-color:#f7f5fc;border:1px solid #ddd7ec;border-left:3px solid #6d3fe8;border-radius:8px;padding:14px 16px;font-family:${FONT_BODY};font-size:14px;line-height:1.6;color:#3a2f55;"><strong style="color:#1a1330;">This is normal.</strong> Issuers rotate and retire referral links all the time. Any impressions and clicks the old ${many ? "links" : "link"} earned stay on your profile.</td></tr></table>
+
+      <p style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#3a2f55;margin:0 0 18px;">If you have a fresh link, add a replacement from the Referrals tab of your profile. If you would rather not replace it, you can dismiss the notice there instead.</p>
+
+      <a href="${PROFILE_URL}" style="display:inline-block;background-color:#6d3fe8;color:#ffffff;text-decoration:none;font-family:${FONT_HEAD};font-weight:600;font-size:15px;padding:13px 26px;border-radius:10px;">Open Your Referrals &#8594;</a>
+
+      <p style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#3a2f55;margin:26px 0 0;">&#8212; The CreditOdds Team</p>
+    </td></tr>
+
+    <!-- FOOTER -->
+    <tr><td class="px" style="padding:24px 32px 30px;border-top:1px solid #ece8f5;background-color:#f7f5fc;border-radius:0 0 16px 16px;">
+      <p style="font-family:${FONT_BODY};font-size:12px;color:#6b6384;line-height:1.6;margin:0 0 10px;text-align:center;">You're receiving this service notice because you <strong style="color:#1a1330;">submitted a referral link</strong> at creditodds.com. We only send it when one of your links stops working.</p>
+      <p style="font-family:${FONT_BODY};font-size:11px;color:#a49fb8;line-height:1.6;margin:0;text-align:center;">CreditOdds &#183; 400 E 75th St, New York, NY &#183; <a href="https://creditodds.com/privacy" style="color:#6b6384;">Privacy Policy</a></p>
+    </td></tr>
+
+  </table>
+
+</td></tr>
+</table>
+</body>
+</html>`;
 
   return { subject, textContent, htmlContent };
 }
