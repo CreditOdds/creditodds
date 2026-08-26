@@ -17,7 +17,7 @@ const os = require('node:os');
 const path = require('node:path');
 
 const sharp = require('sharp');
-const { compressPngInPlace, CARD_MAX_WIDTH } = require('./compress-image');
+const { compressPngInPlace, isAtTarget, isPalettePng, CARD_MAX_WIDTH } = require('./compress-image');
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'compress-image-test-'));
 const digest = (p) => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
@@ -98,6 +98,34 @@ test('a converted file settles on the next pass', async () => {
   await compressPngInPlace(f, { maxWidth: CARD_MAX_WIDTH });
   const res = await compressPngInPlace(f, { maxWidth: CARD_MAX_WIDTH });
   assert.equal(res.skipped, true, 'a converted file must not re-convert forever');
+});
+
+test('the skip recognises this encoder\'s own output', async () => {
+  // The bug: the guard asked sharp for `paletteBitDepth`, a metadata field this
+  // sharp does not emit, so it read false for every file and nothing was ever
+  // skipped. Assert against the bytes the encoder actually produces — if the
+  // two ever disagree again, every run re-quantises the whole set in silence.
+  const f = await makeSource('recognised.png', { width: 1400 });
+  await compressPngInPlace(f, { maxWidth: CARD_MAX_WIDTH });
+  assert.ok(isPalettePng(fs.readFileSync(f)), 'compressed output is not a palette PNG');
+  assert.equal(await isAtTarget(f, { maxWidth: CARD_MAX_WIDTH }), true);
+});
+
+test('isAtTarget agrees with the skip decision', async () => {
+  // --dry-run answers with isAtTarget while the real run answers inside
+  // compressPngInPlace. A dry run is only useful if the two never diverge.
+  const cases = [
+    ['agree-oversized.png', { width: 2400 }],
+    ['agree-truecolor.png', { width: 600 }],
+    ['agree-palette.png', { width: 500, palette: true }],
+    ['agree-jpeg.png', { width: 500, format: 'jpeg' }],
+  ];
+  for (const [name, opts] of cases) {
+    const f = await makeSource(name, opts);
+    const predicted = await isAtTarget(f, { maxWidth: CARD_MAX_WIDTH });
+    const res = await compressPngInPlace(f, { maxWidth: CARD_MAX_WIDTH });
+    assert.equal(predicted, res.skipped, `${name}: dry run and real run disagree`);
+  }
 });
 
 test('force re-encodes a file that would otherwise be skipped', async () => {

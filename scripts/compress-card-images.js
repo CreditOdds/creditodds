@@ -18,15 +18,21 @@
  * Usage:
  *   node scripts/compress-card-images.js [--dry-run] [--force]
  *
+ *   --dry-run  report which files are already at the target and which would be
+ *              re-encoded, without writing anything. Run it right after a real
+ *              run: it should report 0 to re-encode.
  *   --force  re-encode even files already at the target. Only for a deliberate
  *            requantisation of the whole set; it degrades every image it touches.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { compressPngInPlace, CARD_MAX_WIDTH } = require('./lib/compress-image');
+const { compressPngInPlace, isAtTarget, CARD_MAX_WIDTH } = require('./lib/compress-image');
 
-const IMAGES_DIR = path.join(__dirname, '..', 'data', 'cards', 'images');
+// Overridable so the test can point the script at a scratch directory. Nothing
+// in normal use should set this.
+const IMAGES_DIR =
+  process.env.CARD_IMAGES_DIR || path.join(__dirname, '..', 'data', 'cards', 'images');
 const dryRun = process.argv.includes('--dry-run');
 const force = process.argv.includes('--force');
 
@@ -60,7 +66,16 @@ async function main() {
     totalBefore += before;
 
     if (dryRun) {
+      // Classify without encoding. This is the same question the real run asks
+      // before it touches anything, so a dry run straight after a real run is
+      // the cheapest proof that the run was idempotent.
       totalAfter += before;
+      if (await isAtTarget(full, { maxWidth: CARD_MAX_WIDTH })) {
+        skippedCount++;
+      } else {
+        changedCount++;
+        process.stdout.write(`  ${file}: would re-encode (${kb(before)})\n`);
+      }
       continue;
     }
 
@@ -83,7 +98,7 @@ async function main() {
   }
 
   process.stdout.write(
-    `\n${files.length} file(s) scanned, ${changedCount} rewritten, ` +
+    `\n${files.length} file(s) scanned, ${changedCount} ${dryRun ? 'to re-encode' : 'rewritten'}, ` +
       `${skippedCount} already at target\n` +
       `total ${kb(totalBefore)} → ${kb(totalAfter)}\n`
   );
