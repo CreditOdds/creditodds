@@ -30,7 +30,7 @@ function isEnabled() {
 async function getStaleCardsForSubmitter(submitterId) {
   return mysql.query(
     `
-    SELECT c.card_name, MAX(r.last_validated_at) AS flagged_at
+    SELECT c.card_name, c.card_image_link, MAX(r.last_validated_at) AS flagged_at
     FROM referrals r
     JOIN cards c ON c.card_id = r.card_id
     WHERE r.submitter_id = ?
@@ -42,7 +42,7 @@ async function getStaleCardsForSubmitter(submitterId) {
           AND r2.card_id = r.card_id
           AND r2.archived_at IS NULL
       )
-    GROUP BY c.card_id, c.card_name
+    GROUP BY c.card_id, c.card_name, c.card_image_link
     ORDER BY flagged_at DESC
     `,
     [submitterId],
@@ -65,7 +65,14 @@ function escapeHtml(s) {
 const FONT_BODY = "'Inter',Helvetica,Arial,sans-serif";
 const FONT_HEAD = "'Inter Tight','Inter',Helvetica,Arial,sans-serif";
 
-function buildEmail(cardNames) {
+// Same public CDN the site's CardImage component uses; card_image_link in the
+// DB is the bare filename. Absolute URLs are required in email clients.
+const CARD_IMAGE_CDN = "https://d3ay3etzd1512y.cloudfront.net/card_images";
+
+// cards: [{ card_name, card_image_link }] — card_image_link may be null, in
+// which case the row falls back to the newsletter-style purple dot.
+function buildEmail(cards) {
+  const cardNames = cards.map((c) => c.card_name);
   const many = cardNames.length > 1;
   const subject = many
     ? `${cardNames.length} of your CreditOdds referral links stopped working`
@@ -99,10 +106,17 @@ function buildEmail(cardNames) {
     ? "Our link check could no longer open these referral links. Add replacements or dismiss the notice from your profile."
     : "Our link check could no longer open your referral link. Add a replacement or dismiss the notice from your profile.";
 
-  const cardRows = cardNames
-    .map(
-      (n) => `<tr><td valign="top" width="26" style="padding:4px 0 0;"><div style="width:14px;height:14px;border-radius:50%;background-color:#6d3fe8;font-size:0;line-height:0;">&nbsp;</div></td><td style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#1a1330;font-weight:600;padding:0 0 10px;">${escapeHtml(n)}</td></tr>`,
-    )
+  // One row per card: card art thumbnail (alt text carries the name for
+  // clients that block remote images) next to the bold card name. Cards
+  // without art keep the newsletter-style purple dot.
+  const cardRows = cards
+    .map((c) => {
+      const name = escapeHtml(c.card_name);
+      const thumb = c.card_image_link
+        ? `<img src="${CARD_IMAGE_CDN}/${escapeHtml(c.card_image_link)}" width="64" alt="${name}" style="display:block;width:64px;height:auto;border:0;border-radius:4px;">`
+        : `<div style="width:14px;height:14px;border-radius:50%;background-color:#6d3fe8;font-size:0;line-height:0;">&nbsp;</div>`;
+      return `<tr><td valign="middle" width="78" style="padding:0 14px 12px 0;">${thumb}</td><td valign="middle" style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#1a1330;font-weight:600;padding:0 0 12px;">${name}</td></tr>`;
+    })
     .join("\n        ");
 
   const htmlContent = `<!doctype html>
@@ -201,15 +215,14 @@ async function sendExpiryNotification(submitterId) {
   }
   if (!email) return { sent: false, reason: "no email on account" };
 
-  const cardNames = staleCards.map((c) => c.card_name);
-  const { subject, textContent, htmlContent } = buildEmail(cardNames);
+  const { subject, textContent, htmlContent } = buildEmail(staleCards);
   try {
     await brevo.sendTransactionalEmail({ to: email, subject, textContent, htmlContent });
   } catch (err) {
     console.error(`referral-expiry-email: send to uid ${submitterId} failed:`, err.message);
     return { sent: false, reason: "brevo send failed" };
   }
-  return { sent: true, cardNames };
+  return { sent: true, cardNames: staleCards.map((c) => c.card_name) };
 }
 
 module.exports = { isEnabled, sendExpiryNotification };
