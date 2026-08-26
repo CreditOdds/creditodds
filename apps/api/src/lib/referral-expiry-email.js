@@ -206,7 +206,9 @@ function buildEmail(cards) {
         ${cardRows}
       </table>
 
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;"><tr><td style="background-color:#f7f5fc;border:1px solid #ddd7ec;border-left:3px solid #6d3fe8;border-radius:8px;padding:14px 16px;font-family:${FONT_BODY};font-size:14px;line-height:1.6;color:#3a2f55;"><strong style="color:#1a1330;">This is normal.</strong> Issuers rotate and retire referral links all the time. Any impressions and clicks the old ${many ? "links" : "link"} earned stay on your profile.</td></tr></table>
+      <!-- Callout: square corners on purpose — a border-radius next to the
+           left accent bar rounds the bar into a "fingernail" shape. -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;"><tr><td style="background-color:#f7f5fc;border:1px solid #ddd7ec;border-left:3px solid #6d3fe8;padding:14px 16px;font-family:${FONT_BODY};font-size:14px;line-height:1.6;color:#3a2f55;"><strong style="color:#1a1330;">This is normal.</strong> Issuers rotate and retire referral links all the time. Any impressions and clicks the old ${many ? "links" : "link"} earned stay on your profile.</td></tr></table>
 
       <p style="font-family:${FONT_BODY};font-size:15px;line-height:1.6;color:#3a2f55;margin:0 0 18px;">If you have a fresh link, add a replacement from the Referrals tab of your profile. If you would rather not replace it, you can dismiss the notice there instead.</p>
 

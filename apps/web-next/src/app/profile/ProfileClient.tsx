@@ -1576,7 +1576,9 @@ function ReferralsTab(props: ReferralsTabProps) {
       </div>
 
       {autoArchived.length > 0 && (
-        <div style={{ marginTop: 16, border: '1px solid var(--line-2)', borderLeft: '3px solid #a8792a', background: '#fef9e8', borderRadius: 6, padding: '12px 14px' }}>
+        // Square corners on purpose: border-radius next to the left accent
+        // bar rounds it into a "fingernail" shape.
+        <div style={{ marginTop: 16, border: '1px solid var(--line-2)', borderLeft: '3px solid #a8792a', background: '#fef9e8', padding: '12px 14px' }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: '#5c4318', marginBottom: 8 }}>
             {autoArchived.length === 1
               ? '1 referral link looks like it expired'
