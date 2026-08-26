@@ -164,6 +164,34 @@ exports.UserReferralsHandler = async (event) => {
         const patchBody = JSON.parse(event.body);
         const patchUserId = event.requestContext.authorizer.sub;
 
+        // Dismiss the "expired link" warning for a card: the user chose not
+        // to submit a replacement. Rewrites the auto-archive reason prefix
+        // (`auto:` -> `dismissed-auto:`) so the profile banner and the
+        // needs-attention chip stop counting these rows and the expiry email
+        // query skips them. Covers every auto-archived link for the card,
+        // since the banner groups per card. Scoped to the caller's own rows.
+        if (patchBody.action === "dismiss") {
+          if (!patchBody.card_id) {
+            throw new Error("card_id is required to dismiss");
+          }
+          const dismissed = await mysql.query(
+            `UPDATE referrals
+             SET archived_reason = CONCAT('dismissed-', archived_reason)
+             WHERE submitter_id = ?
+               AND card_id = ?
+               AND archived_at IS NOT NULL
+               AND archived_reason LIKE 'auto:%'`,
+            [patchUserId, patchBody.card_id]
+          );
+          await mysql.end();
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({ message: "Warning dismissed", dismissed: dismissed.affectedRows || 0 }),
+          };
+          break;
+        }
+
         if (!patchBody.referral_id) {
           throw new Error("referral_id is required");
         }

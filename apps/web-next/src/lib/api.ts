@@ -450,6 +450,22 @@ export async function archiveReferral(referralId: number, token: string) {
   return res.json();
 }
 
+// Dismisses the "expired link" warning for a card the user chose not to
+// replace. Server-side this rewrites the auto-archive reason on every
+// auto-archived link for the card, so the warning stays gone across devices.
+export async function dismissExpiredReferralWarning(cardId: string, token: string) {
+  const res = await fetch(`${API_BASE}/referrals`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ action: 'dismiss', card_id: cardId }),
+  });
+  if (!res.ok) throw new Error('Failed to dismiss warning');
+  return res.json();
+}
+
 // Wallet types and API functions
 // One user pick for a selectable reward block on a held card. Cash+ (5%
 // quarterly) stores two rows per wallet card; Custom Cash stores one.

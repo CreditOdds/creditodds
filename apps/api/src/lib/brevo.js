@@ -23,6 +23,16 @@ function isConfigured() {
   return Boolean(apiKey()) && listId() !== null;
 }
 
+// Sender identity for transactional sends. Separate gate from isConfigured():
+// transactional email needs a verified sender but not the newsletter list.
+function senderEmail() {
+  return process.env.BREVO_SENDER_EMAIL || '';
+}
+
+function canSendTransactional() {
+  return Boolean(apiKey()) && Boolean(senderEmail());
+}
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Rate-limited (429) responses are retried with backoff before surfacing as
@@ -133,8 +143,26 @@ async function removeFromList(id, emails) {
   }
 }
 
+// One-off transactional email via Brevo's SMTP API. Sends immediately to a
+// single recipient and does not touch list membership or unsubscribe state.
+// Callers gate on canSendTransactional().
+async function sendTransactionalEmail({ to, subject, htmlContent, textContent }) {
+  return request('POST', '/smtp/email', {
+    sender: {
+      email: senderEmail(),
+      name: process.env.BREVO_SENDER_NAME || 'CreditOdds',
+    },
+    to: [{ email: to }],
+    subject,
+    htmlContent,
+    textContent,
+  });
+}
+
 module.exports = {
   isConfigured,
+  canSendTransactional,
+  sendTransactionalEmail,
   listId,
   nameAttributes,
   upsertContact,
