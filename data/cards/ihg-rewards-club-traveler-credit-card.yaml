@@ -72,15 +72,11 @@ rewards:
   - category: utilities
     value: 3
     unit: points_per_dollar
-    note: "Utilities, internet, and cable services (combined 3x bucket with phone and select streaming)"
-  - category: phone
-    value: 3
-    unit: points_per_dollar
-    note: "Phone services (combined 3x bucket with utilities/internet/cable and select streaming)"
+    note: "Utilities (combined 3x bucket with dining, gas, and select streaming)"
   - category: streaming
     value: 3
     unit: points_per_dollar
-    note: "Select streaming services (combined 3x bucket with utilities/internet/cable and phone)"
+    note: "Select streaming services (combined 3x bucket with dining, gas, and utilities)"
   - category: everything_else
     value: 2
     unit: points_per_dollar
@@ -100,8 +96,8 @@ network: "mastercard"
 our_take: >
   The Traveler is the no-annual-fee way into the IHG program, and it earns
   better than most free hotel cards: 5x at IHG properties, 3x across dining,
-  gas, utilities, internet and cable, phone, and select streaming, and 2x on
-  everything else, with no foreign transaction fee. The 80,000-point bonus
+  gas, utilities, and select streaming, and 2x on everything else, with no
+  foreign transaction fee. The 80,000-point bonus
   after just $2,000 in three months is a low bar, though it is worth knowing
   the offer ran as high as 125,000 points in June before falling back to
   80,000 in July, so waiting for another spike is reasonable. What you give up
