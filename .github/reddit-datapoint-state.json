@@ -811,7 +811,7 @@
     "t3_1vtxl97": "2026-08-21",
     "t3_1vtwt80": "2026-08-21",
     "t3_1vtrldt": "2026-08-21",
-    "t3_1vtqlku": "2026-08-26",
+    "t3_1vtqlku": "2026-08-27",
     "t3_1vtpe26": "2026-08-21",
     "t3_1vtouj6": "2026-08-21",
     "t3_1vtnqba": "2026-08-21",
@@ -821,7 +821,7 @@
     "t3_1vtmq0a": "2026-08-21",
     "t3_1vtmi4a": "2026-08-21",
     "t3_1vtlqys": "2026-08-21",
-    "t3_1vtlhs6": "2026-08-26",
+    "t3_1vtlhs6": "2026-08-27",
     "t3_1vtkge4": "2026-08-21",
     "t3_1vtk5lk": "2026-08-21",
     "t3_1vthhrm": "2026-08-21",
@@ -840,7 +840,7 @@
     "t3_1vsxibj": "2026-08-21",
     "t3_1vsvmee": "2026-08-21",
     "t3_1vsul6d": "2026-08-21",
-    "t3_1vssnb1": "2026-08-21",
+    "t3_1vssnb1": "2026-08-27",
     "t3_1vssjau": "2026-08-26",
     "t3_1vsq2sg": "2026-08-21",
     "t3_1vspeas": "2026-08-21",
@@ -922,24 +922,21 @@
     "t3_1vy4pr5": "2026-08-26",
     "t3_1vy4o84": "2026-08-26",
     "t3_1vy34dd": "2026-08-26",
-    "t3_1vy2tfx": "2026-08-26"
+    "t3_1vy2tfx": "2026-08-26",
+    "t3_1vzwtjd": "2026-08-27",
+    "t3_1vzwcvd": "2026-08-27",
+    "t3_1vzr1sq": "2026-08-27",
+    "t3_1vzmf69": "2026-08-27",
+    "t3_1vzi5nr": "2026-08-27",
+    "t3_1vzh65w": "2026-08-27",
+    "t3_1vzbwrd": "2026-08-27",
+    "t3_1vz7479": "2026-08-27",
+    "t3_1vz54bn": "2026-08-27",
+    "t3_1vz425i": "2026-08-27",
+    "t3_1vz2awg": "2026-08-27",
+    "t3_1vz03f9": "2026-08-27"
   },
   "pending": {
-    "t3_1vssjau": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vssjau/anybody_approved_for_palladium_after_being_denied/",
-      "title": "Anybody approved for Palladium after being denied but approved for Obsidian/Blue?",
-      "posted": "2026-08-19",
-      "card_name": "Bilt Palladium",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied for the Bilt Palladium but approved for the Obsidian and Blue in the same round, with recon telling them to reapply after 30 days. No score anywhere, and one score would publish three rows.",
-      "ask": "What score were you working with when you applied for the Palladium?",
-      "firstSeen": "2026-08-21",
-      "attempts": 3,
-      "lastChecked": "2026-08-26"
-    },
     "t3_1vtqlku": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vtqlku/any_card_with_good_sub_that_can_be_used/",
       "title": "Any card with good SUB that can be used immediately or near-immediately?",
@@ -949,10 +946,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster was approved for the Capital One Venture this month and is asking how fast the physical card arrives. Still no score in the body or in the OP reply about virtual cards.",
+      "note": "Approval for the Capital One Venture this month is established. Third look and still no score anywhere in the body or the OP replies, which are all about virtual cards and shipping time.",
+      "ask": "Congrats on the Venture approval. What score were you sitting at when you applied?",
       "firstSeen": "2026-08-21",
-      "attempts": 2,
-      "lastChecked": "2026-08-26"
+      "attempts": 3,
+      "lastChecked": "2026-08-27"
     },
     "t3_1vtlhs6": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vtlhs6/general_advicerecommendation_request/",
@@ -963,11 +961,26 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Recommendation-template post reporting a Chase Sapphire Preferred approval in August at an $8k limit. Lists three bureau scores (Experian 728, Equifax 750, Chase TransUnion 735) that predate the new card, so which one applied is still unresolvable.",
-      "ask": "You listed Experian 728, Equifax 750, and Chase's TransUnion 735. Which score did Chase pull for the Sapphire Preferred approval?",
+      "note": "Sapphire Preferred approval in August at an $8k limit is established. Three bureau scores are listed (Experian 728, Equifax 750, Chase-reported 735) but none is tied to the Chase pull, so the application score is still unresolvable.",
+      "ask": "You listed Experian 728, Equifax 750, and 735 via Chase. Which of those was showing when Chase pulled for the Sapphire Preferred?",
+      "firstSeen": "2026-08-21",
+      "attempts": 3,
+      "lastChecked": "2026-08-27"
+    },
+    "t3_1vssnb1": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vssnb1/when_should_i_get_rid_of_my_lower_end_cards/",
+      "title": "when should i get rid of my lower end cards?",
+      "posted": "2026-08-19",
+      "card_name": "Capital One Savor Cash Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Capital One Savor approval on 2026-08-19 at a $500 limit is established. Five OP replies since, all about closing subprime cards, and still no score given.",
+      "ask": "What was your score when Capital One approved you for the Savor?",
       "firstSeen": "2026-08-21",
       "attempts": 2,
-      "lastChecked": "2026-08-26"
+      "lastChecked": "2026-08-27"
     },
     "t3_1vynjsd": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vynjsd/late_2026_early_2027_card_roadmap_want_to/",
@@ -1128,20 +1141,6 @@
       "firstSeen": "2026-08-22",
       "attempts": 1,
       "lastChecked": "2026-08-22"
-    },
-    "t3_1vssnb1": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vssnb1/when_should_i_get_rid_of_my_lower_end_cards/",
-      "title": "when should i get rid of my lower end cards?",
-      "posted": "2026-08-19",
-      "card_name": "Capital One Savor Cash Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster was approved for the Capital One Savor today with a $500 limit and is asking whether to close several subprime cards. No score given.",
-      "firstSeen": "2026-08-21",
-      "attempts": 1,
-      "lastChecked": "2026-08-21"
     }
   },
   "runs": [
@@ -1409,6 +1408,22 @@
         "no_outcome": 12,
         "pre_qual": 2,
         "no_score": 1
+      }
+    },
+    {
+      "id": "2026-08-27T15:26:52.364Z",
+      "date": "2026-08-27",
+      "candidates": 15,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 5,
+      "pending": 14,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 6,
+        "pre_qual": 2,
+        "not_first_person": 1
       }
     }
   ]
