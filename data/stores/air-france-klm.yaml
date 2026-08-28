@@ -8,6 +8,8 @@ categories:
   - airlines
   - travel
 website: "https://www.airfrance.us"
+co_brand_cards:
+  - air-france-klm-visa-signature
 intro: |
   Air France-KLM is the Franco-Dutch parent of Air France (hubbed at Paris-Charles de Gaulle)
   and KLM Royal Dutch Airlines (hubbed at Amsterdam-Schiphol), both SkyTeam members with a

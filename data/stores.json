@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-10T22:27:32.600Z",
+  "generated_at": "2026-08-28T15:07:07.119Z",
   "count": 1117,
   "stores": [
     {
@@ -440,6 +440,9 @@
         "travel"
       ],
       "website": "https://www.airfrance.us",
+      "co_brand_cards": [
+        "air-france-klm-visa-signature"
+      ],
       "intro": "Air France-KLM is the Franco-Dutch parent of Air France (hubbed at Paris-Charles de Gaulle)\nand KLM Royal Dutch Airlines (hubbed at Amsterdam-Schiphol), both SkyTeam members with a\nshared Flying Blue loyalty program. Flying Blue partners with Amex Membership Rewards, Chase\nUltimate Rewards, Capital One miles, Bilt, and Citi ThankYou Points as a 1:1 transfer\npartner, plus periodic transfer bonuses. Air France and KLM ticket purchases code as\nairlines/airfare on US cards, earning the full airfare bonus on any card with that category.\n"
     },
     {
@@ -878,6 +881,10 @@
         "transit"
       ],
       "website": "https://www.amtrak.com",
+      "co_brand_cards": [
+        "amtrak-guest-rewards-mastercard",
+        "amtrak-guest-rewards-preferred-mastercard"
+      ],
       "intro": "Amtrak is the US national passenger rail operator, running the Northeast Corridor and long-distance routes nationwide. Tickets usually code as travel or transit and earn on cards that bonus either, so a card counting trains as travel works best. Amtrak also offers its own Guest Rewards co-brand card for riders who travel the rails frequently.\n"
     },
     {
@@ -1278,6 +1285,9 @@
         "phone"
       ],
       "website": "https://www.att.com",
+      "co_brand_cards": [
+        "att-points-plus-from-citi"
+      ],
       "intro": "AT&T provides wireless service, fiber internet and TV bundles to millions of US customers. Your monthly bill earns a bonus only on cards that reward wireless or telecom spending, otherwise it lands on the flat rate, and certain cards include cell-phone protection if you charge the bill to them.\n"
     },
     {
@@ -3884,7 +3894,9 @@
         "delta-skymiles-gold-american-express-card",
         "delta-skymiles-platinum-american-express-card",
         "delta-skymiles-reserve-american-express-card",
-        "delta-skymiles-gold-business-american-express-card"
+        "delta-skymiles-gold-business-american-express-card",
+        "delta-skymiles-platinum-business-american-express-card",
+        "delta-skymiles-reserve-business-american-express-card"
       ],
       "intro": "Delta Air Lines runs one of the strongest U.S. domestic networks and the SkyMiles\nloyalty program. Delta tickets code as airfare across all major cards. Co-branded\nSkyMiles Amex cards add extra miles per dollar on Delta plus perks like a free\nchecked bag, Sky Club access (Reserve only), and Medallion-status boost spend.\nGeneral travel cards usually beat them on raw cash-equivalent value, but the\nReserve's lounge access and MQD-waiver path can swing the math for frequent flyers.\nOTA bookings still earn miles when your SkyMiles number is attached.\n"
     },
@@ -4151,6 +4163,10 @@
         "streaming"
       ],
       "website": "https://www.disneyplus.com",
+      "co_brand_cards": [
+        "disney-inspire-visa",
+        "disney-premier-visa-card"
+      ],
       "intro": "Disney+ is The Walt Disney Company's streaming service, with Disney/Pixar/Marvel/\nStar Wars/National Geographic content. Monthly subscriptions code as streaming on\nevery card we track. Streaming-bonus cards (Blue Cash Preferred 6%, U.S. Bank\nCash+ 5% on selected categories) are the strongest pairings. Disney+ is also\nbundled with Hulu and ESPN+ as the Disney Bundle, often the cheapest path to\nall three services.\n"
     },
     {
@@ -6509,7 +6525,8 @@
       "co_brand_cards": [
         "hilton-honors-american-express-aspire-card",
         "hilton-honors-american-express-surpass-card",
-        "hilton-honors-card"
+        "hilton-honors-card",
+        "hilton-honors-american-express-business-card"
       ],
       "intro": "Hilton Honors covers roughly 8,000 properties worldwide across 22 brands, from budget\nHampton Inn and Tru up through Waldorf Astoria and Conrad luxury. Booking direct at\nhilton.com or in-app earns the full 10x base points plus any co-brand multiplier, while\nthird-party bookings (Expedia, Booking.com) earn nothing in the program and don't count\ntoward elite status. The Hilton co-brand cards lean heavily on perks — free weekend\nnights, automatic Gold or Diamond status, statement credits — rather than headline\nearn rates, so the value calculation depends on whether you'll actually use the\ncertificate and the status. Hilton points typically value around 0.5 cents each.\n"
     },
@@ -8744,7 +8761,9 @@
         "marriott-bonvoy-bevy-american-express",
         "marriott-bonvoy-bold-credit-card",
         "marriott-bonvoy-boundless-credit-card",
-        "marriott-bonvoy-brilliant-american-express"
+        "marriott-bonvoy-brilliant-american-express",
+        "marriott-bonvoy-business-american-express",
+        "chase-ritz-carlton"
       ],
       "intro": "Marriott Bonvoy is the world's largest hotel loyalty program, covering more than 30\nbrands from budget Fairfield Inn through luxury Ritz-Carlton, St. Regis, and W Hotels.\nDirect stays at marriott.com or any Bonvoy property earn the most points and unlock\nelite-night credits, but the math gets nuanced: co-branded Marriott cards layer extra\nBonvoy points on top of base earnings, while general hotel-category cards (Sapphire\nReserve, Venture X) often yield higher cashback-equivalent value if you don't care\nabout Bonvoy status. Stays booked through OTAs like Expedia or Hotels.com forfeit\npoints and elite credit, so the in-program booking is almost always the right call.\n"
     },
@@ -11821,6 +11840,9 @@
         "online_shopping"
       ],
       "website": "https://www.samsung.com",
+      "co_brand_cards": [
+        "samsung-galaxy-card"
+      ],
       "intro": "Samsung sells phones, TVs, appliances and accessories through Samsung.com and its retail partners. Purchases on its site usually code as online shopping or general merchandise, so a card with an online or everyday bonus works best, while in-store buys at third-party retailers often fall to a flat-rate or that store's category.\n",
       "affiliate": {
         "url": "https://track.flexlinkspro.com/g.ashx?foid=1.47773.1000000009&trid=1552713.159074&foc=16&fot=9999&fos=6",
@@ -12597,7 +12619,9 @@
       "co_brand_cards": [
         "southwest-rapid-rewards-plus-credit-card",
         "southwest-rapid-rewards-premier-credit-card",
-        "southwest-rapid-rewards-priority-credit-card"
+        "southwest-rapid-rewards-priority-credit-card",
+        "southwest-rapid-rewards-premier-business-credit-card",
+        "southwest-rapid-rewards-performance-business-credit-card"
       ],
       "intro": "Southwest Airlines is the largest U.S. domestic carrier by passenger volume and the\nhome of the Rapid Rewards program. Tickets code as airfare on every card we track,\nand the Companion Pass — earned by hitting an annual points threshold — is widely\nconsidered the best perk in U.S. domestic travel. Co-branded Chase Rapid Rewards\ncards count signup bonuses toward Companion Pass qualification, which is the main\nreason most travelers carry one. Southwest doesn't sell tickets through OTAs.\n"
     },
@@ -14461,7 +14485,9 @@
         "united-gateway",
         "united-explorer",
         "united-quest",
-        "united-club-infinite"
+        "united-club-infinite",
+        "united-business",
+        "united-club-business"
       ],
       "intro": "United Airlines is one of the three U.S. legacy carriers and runs the MileagePlus\nloyalty program. United tickets code as airfare on every card we track. The Chase\nco-branded ladder ranges from no-fee Gateway to the $525 Club Infinite with United\nClub lounge membership; mid-tier Explorer adds free checked bag and 2 club passes,\nand Quest adds an annual flight credit. General travel cards often outperform on\ncash-equivalent value, but United co-brands waive close-in award fees and add\nstatus-credit boosts that frequent flyers value.\n"
     },
@@ -15398,7 +15424,8 @@
       "co_brand_cards": [
         "wyndham-rewards-earner-card",
         "wyndham-rewards-earner-plus-card",
-        "wyndham-rewards-earner-business-card"
+        "wyndham-rewards-earner-business-card",
+        "wyndham-rewards-earner-premier-card"
       ],
       "intro": "Wyndham Hotels & Resorts is the largest U.S. hotel chain by property count — about\n9,000 hotels — concentrated in mid-scale and economy brands like Days Inn, Super 8,\nLa Quinta, and Ramada, with a smaller upscale presence under Wyndham Grand and the\nRegistry Collection. Wyndham Rewards uses a flat or tiered award chart with redemptions\nstarting at 7,500 points per night, and the program partners with Vacasa for full\nvacation-rental redemptions — a quirk that gives Wyndham points unusual reach for an\neconomy-leaning chain. Direct bookings at wyndhamhotels.com or in the app earn points;\nOTA stays do not. Co-brand cards run lower annual fees than the major chains' cards,\nmatching the program's value-tier identity.\n"
     },
