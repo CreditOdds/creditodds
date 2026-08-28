@@ -13,6 +13,8 @@ co_brand_cards:
   - delta-skymiles-platinum-american-express-card
   - delta-skymiles-reserve-american-express-card
   - delta-skymiles-gold-business-american-express-card
+  - delta-skymiles-platinum-business-american-express-card
+  - delta-skymiles-reserve-business-american-express-card
 intro: |
   Delta Air Lines runs one of the strongest U.S. domestic networks and the SkyMiles
   loyalty program. Delta tickets code as airfare across all major cards. Co-branded

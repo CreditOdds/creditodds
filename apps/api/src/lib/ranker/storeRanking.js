@@ -313,13 +313,29 @@ function rankCards(store, cards, options) {
     }
   }
 
-  // Ties break toward the more store-specific source: the branded card at
-  // its own store, then a curated also_earns rate, then a category bonus,
-  // then a generic flat rate.
+  // Ties break first toward the pick that pays without the cardholder doing
+  // anything: an unconditional rate beats one needing quarterly activation,
+  // which beats an opt-in bonus category, which beats a top-spend dependency.
+  // (Without this, "3% if you select it" cards sat at #1 above unconditional
+  // 3% cards on every long-tail online-shopping page.) Only category
+  // candidates carry a match mode; co_brand / also_earns / flat rates are
+  // unconditional. Then ties break toward the more store-specific source:
+  // the branded card at its own store, then a curated also_earns rate, then
+  // a category bonus, then a generic flat rate.
+  const MODE_TIE_RANK = {
+    direct: 0,
+    user_selected: 0,
+    rotating_current: 1,
+    user_choice: 2,
+    top_spend: 3,
+    rotating_eligible: 4,
+  };
+  const modeTieRank = (c) => (c.match ? MODE_TIE_RANK[c.match.mode] ?? 0 : 0);
   const SOURCE_TIE_RANK = { co_brand: 0, also_earns: 1, category: 2, flat: 3 };
   candidates.sort(
     (a, b) =>
       b.effective - a.effective ||
+      modeTieRank(a) - modeTieRank(b) ||
       SOURCE_TIE_RANK[a.kind] - SOURCE_TIE_RANK[b.kind],
   );
 

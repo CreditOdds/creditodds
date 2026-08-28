@@ -5,6 +5,9 @@ aliases:
 categories:
   - streaming
 website: "https://www.disneyplus.com"
+co_brand_cards:
+  - disney-inspire-visa
+  - disney-premier-visa-card
 intro: |
   Disney+ is The Walt Disney Company's streaming service, with Disney/Pixar/Marvel/
   Star Wars/National Geographic content. Monthly subscriptions code as streaming on

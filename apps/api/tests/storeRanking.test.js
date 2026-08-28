@@ -35,6 +35,10 @@ describe("valuation program matching", () => {
     // Ink Business Preferred earns transferable UR like the Sapphires.
     ["Ink Business Preferred", 1.25],
     ["Chase Sapphire Preferred", 1.25],
+    // Ritz-Carlton earns Bonvoy despite having neither "marriott" nor
+    // "bonvoy" in its name — it defaulted to 1.0 and ranked #1 at Marriott
+    // at 6.0% while the true Bonvoy earners showed 4.2% for the same 6x.
+    ["Ritz-Carlton", 0.7],
   ])("%s → %scpp", (name, cpp) => {
     expect(getValuation(name)).toBe(cpp);
   });
@@ -129,6 +133,44 @@ describe("flat-rate cards compete on effective rate", () => {
     const slugs = picks.map((p) => p.card.slug);
     expect(slugs.indexOf("rotator")).toBeGreaterThan(slugs.indexOf("strong-flat"));
     expect(picks.find((p) => p.card.slug === "rotator").matchMode).toBe("rotating_eligible");
+  });
+});
+
+describe("conditional tie-break", () => {
+  // At an equal effective rate, a pick the cardholder gets without doing
+  // anything must lead. Before this rank existed, "3% if you select it"
+  // (BofA Customized Cash / Cash Rewards Secured) sat at #1 above the
+  // unconditional 3% cards on ~330 long-tail online-shopping pages.
+  const store = { name: "Framer", slug: "framer", categories: ["online_shopping"] };
+  const chooser = card("choose-3", [
+    {
+      category: "selected_categories",
+      value: 3,
+      unit: "percent",
+      mode: "user_choice",
+      eligible_categories: ["online_shopping"],
+    },
+    pct("everything_else", 1),
+  ]);
+  const direct3 = card("direct-3", [pct("online_shopping", 3), pct("everything_else", 1)]);
+  const flat3 = card("flat-3", [pct("everything_else", 3)]);
+
+  test("equal-rate order is direct category, then flat, then opt-in choice", () => {
+    const picks = rankCards(store, [chooser, direct3, flat3]);
+    expect(picks.map((p) => p.card.slug)).toEqual(["direct-3", "flat-3", "choose-3"]);
+    expect(picks[2].matchMode).toBe("user_choice");
+  });
+
+  test("a saved user selection ranks as unconditional again", () => {
+    const userSelections = new Map([
+      [
+        "choose-3",
+        [{ reward_category: "selected_categories", reward_rate: 3, selected_category: "online_shopping" }],
+      ],
+    ]);
+    const picks = rankCards(store, [chooser, flat3], { userSelections });
+    expect(picks.map((p) => p.card.slug)).toEqual(["choose-3", "flat-3"]);
+    expect(picks[0].matchMode).toBe("user_selected");
   });
 });
 
