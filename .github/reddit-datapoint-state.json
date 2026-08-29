@@ -847,7 +847,7 @@
     "t3_1vsnch2": "2026-08-21",
     "t3_1vvew60": "2026-08-22",
     "t3_1vvdas1": "2026-08-22",
-    "t3_1vva29o": "2026-08-28",
+    "t3_1vva29o": "2026-08-29",
     "t3_1vv9h5b": "2026-08-22",
     "t3_1vv8fly": "2026-08-22",
     "t3_1vv5h2x": "2026-08-22",
@@ -855,19 +855,19 @@
     "t3_1vv3hp0": "2026-08-22",
     "t3_1vv30ed": "2026-08-22",
     "t3_1vuyszs": "2026-08-22",
-    "t3_1vutbz0": "2026-08-28",
+    "t3_1vutbz0": "2026-08-29",
     "t3_1vuojay": "2026-08-22",
     "t3_1vull01": "2026-08-22",
     "t3_1vw35jz": "2026-08-23",
-    "t3_1vvxe1n": "2026-08-28",
-    "t3_1vvwbx7": "2026-08-28",
+    "t3_1vvxe1n": "2026-08-29",
+    "t3_1vvwbx7": "2026-08-29",
     "t3_1vvwbln": "2026-08-23",
     "t3_1vvw76r": "2026-08-23",
     "t3_1vvvzuz": "2026-08-23",
     "t3_1vvt9k6": "2026-08-23",
     "t3_1vvt42x": "2026-08-23",
     "t3_1vvmj4h": "2026-08-23",
-    "t3_1vvltuj": "2026-08-28",
+    "t3_1vvltuj": "2026-08-29",
     "t3_1vvk74b": "2026-08-23",
     "t3_1vvjyxb": "2026-08-23",
     "t3_1vx6le0": "2026-08-24",
@@ -946,24 +946,19 @@
     "t3_1w001r5": "2026-08-28",
     "t3_1vzz4iu": "2026-08-28",
     "t3_1vzy360": "2026-08-28",
-    "t3_1vzxlad": "2026-08-28"
+    "t3_1vzxlad": "2026-08-28",
+    "t3_1w1sxq6": "2026-08-29",
+    "t3_1w1shqa": "2026-08-29",
+    "t3_1w1rso9": "2026-08-29",
+    "t3_1w1rg7z": "2026-08-29",
+    "t3_1w1pe88": "2026-08-29",
+    "t3_1w1n3aa": "2026-08-29",
+    "t3_1w1f0si": "2026-08-29",
+    "t3_1w1a088": "2026-08-29",
+    "t3_1w14r1i": "2026-08-29",
+    "t3_1w0xup8": "2026-08-29"
   },
   "pending": {
-    "t3_1vssnb1": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vssnb1/when_should_i_get_rid_of_my_lower_end_cards/",
-      "title": "when should i get rid of my lower end cards?",
-      "posted": "2026-08-19",
-      "card_name": "Capital One Savor Cash Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Capital One Savor approval on 2026-08-19 at a $500 limit is established. Now ten OP replies deep, all about closing subprime cards, and the poster has never given a score.",
-      "ask": "What was your credit score when you applied for the Savor?",
-      "firstSeen": "2026-08-21",
-      "attempts": 3,
-      "lastChecked": "2026-08-28"
-    },
     "t3_1vva29o": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vva29o/stay_away_from_capital_one/",
       "title": "Stay away from capital one!",
@@ -974,11 +969,11 @@
         "credit_score",
         "date_applied"
       ],
-      "note": "Approved for the VentureOne at a $500 starting limit while their other Capital One accounts were being closed. New OP replies are all arguing about payment history, still no score and no application month.",
-      "ask": "Roughly what month did you apply for the VentureOne, and what was your score at the time?",
+      "note": "Approved for the VentureOne at a $500 starting limit while their other Capital One accounts were being closed. Third look, and the new OP replies are still only arguing about payment history, so no score and no application month.",
+      "ask": "You mentioned scrambling for another card after the closures. Roughly what month did you apply for the VentureOne, and what was your score then?",
       "firstSeen": "2026-08-22",
-      "attempts": 2,
-      "lastChecked": "2026-08-28"
+      "attempts": 3,
+      "lastChecked": "2026-08-29"
     },
     "t3_1vutbz0": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vutbz0/balance_transfer_from_chase_to_nfcu/",
@@ -989,10 +984,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Navy Federal Platinum with a 0.99% balance transfer offer and asking about transfer timing. No comments since the last look, and no score anywhere in the post.",
+      "note": "Approved for the Navy Federal Platinum with a 0.99 percent balance transfer offer. Third look, still no comments and no score anywhere in the post.",
       "firstSeen": "2026-08-22",
-      "attempts": 2,
-      "lastChecked": "2026-08-28"
+      "attempts": 3,
+      "lastChecked": "2026-08-29"
     },
     "t3_1vvxe1n": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vvxe1n/amex_multiple_hard_inquiries_for_bce/",
@@ -1003,10 +998,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Blue Cash Everyday this month, then hit an account setup error and re-applied, and the second application was declined as a duplicate of the approved one. The approval is the real outcome. Still no score.",
+      "note": "Approved for the Blue Cash Everyday this month, then a setup error led to a second application that was declined as a duplicate of the approval. Third look, still no score.",
       "firstSeen": "2026-08-23",
-      "attempts": 2,
-      "lastChecked": "2026-08-28"
+      "attempts": 3,
+      "lastChecked": "2026-08-29"
     },
     "t3_1vvwbx7": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vvwbx7/need_a_rec_when_turned_down_for_cap1_with_a_high/",
@@ -1016,11 +1011,11 @@
       "missing": [
         "card_name"
       ],
-      "note": "Denied by Capital One this month at a score over 800. An OP reply since the last look quotes the adverse action letter (too many bank card tradelines opened in the last 24 months), but the poster still never names which Capital One card they applied for. Replies mention already holding Savor and Qui…",
-      "ask": "Which Capital One card was the one that turned you down?",
+      "note": "Denied by Capital One this month at a score over 800, with an adverse action letter citing too many bank card tradelines opened in the last 24 months. Third look, and the poster still never names which Capital One card they applied for.",
+      "ask": "You mentioned already having Savor and Quicksilver and wanting the Venture line. Which Capital One card was the application that got turned down?",
       "firstSeen": "2026-08-23",
-      "attempts": 2,
-      "lastChecked": "2026-08-28"
+      "attempts": 3,
+      "lastChecked": "2026-08-29"
     },
     "t3_1vvltuj": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vvltuj/chase_marriott_bonvoy_boundless/",
@@ -1031,11 +1026,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster opened the Boundless for the 100k offer to replace an Amex Platinum, and a new OP reply dates it to last month rather than the post month. Approval is clear from having the card in hand, but still no score.",
-      "ask": "What was your credit score when you applied for the Boundless?",
+      "note": "Opened the Boundless last month for the 100k offer to replace an Amex Platinum, so the approval is clear and now dated. Third look, still no score.",
       "firstSeen": "2026-08-23",
-      "attempts": 2,
-      "lastChecked": "2026-08-28"
+      "attempts": 3,
+      "lastChecked": "2026-08-29"
     },
     "t3_1w068db": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w068db/back_to_back_approvals_for_altitude_go_mcp/",
@@ -1437,6 +1431,21 @@
         "no_score": 1,
         "no_outcome": 7,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-08-29T19:31:32.912Z",
+      "date": "2026-08-29",
+      "candidates": 15,
+      "revisits": 5,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 12,
+      "unaccounted": 0,
+      "skipped": {
+        "pre_qual": 2,
+        "no_outcome": 7
       }
     }
   ]
