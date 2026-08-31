@@ -873,7 +873,7 @@
     "t3_1vx6le0": "2026-08-24",
     "t3_1vwvy2h": "2026-08-24",
     "t3_1vwsxoi": "2026-08-24",
-    "t3_1vwstfm": "2026-08-24",
+    "t3_1vwstfm": "2026-08-31",
     "t3_1vwsc9d": "2026-08-24",
     "t3_1vwrh8c": "2026-08-24",
     "t3_1vwqys9": "2026-08-24",
@@ -888,7 +888,7 @@
     "t3_1vy19ap": "2026-08-25",
     "t3_1vy0x0z": "2026-08-25",
     "t3_1vxzaw4": "2026-08-25",
-    "t3_1vxxsog": "2026-08-25",
+    "t3_1vxxsog": "2026-08-31",
     "t3_1vxpdrb": "2026-08-25",
     "t3_1vxmghp": "2026-08-25",
     "t3_1vxlanz": "2026-08-25",
@@ -903,14 +903,14 @@
     "t3_1vxbbu4": "2026-08-25",
     "t3_1vx9v4a": "2026-08-25",
     "t3_1vx9kzv": "2026-08-25",
-    "t3_1vx8o5y": "2026-08-25",
+    "t3_1vx8o5y": "2026-08-31",
     "t3_1vywjrl": "2026-08-26",
     "t3_1vytxqp": "2026-08-26",
     "t3_1vyr39v": "2026-08-26",
     "t3_1vypk05": "2026-08-26",
     "t3_1vynzcn": "2026-08-26",
-    "t3_1vynjsd": "2026-08-26",
-    "t3_1vync0s": "2026-08-26",
+    "t3_1vynjsd": "2026-08-31",
+    "t3_1vync0s": "2026-08-31",
     "t3_1vykm0r": "2026-08-26",
     "t3_1vyk70f": "2026-08-26",
     "t3_1vyhyk4": "2026-08-26",
@@ -939,7 +939,7 @@
     "t3_1w0dhof": "2026-08-28",
     "t3_1w08gze": "2026-08-28",
     "t3_1w06xru": "2026-08-28",
-    "t3_1w068db": "2026-08-28",
+    "t3_1w068db": "2026-08-31",
     "t3_1w05r45": "2026-08-28",
     "t3_1w01u64": "2026-08-28",
     "t3_1w01myu": "2026-08-28",
@@ -965,9 +965,97 @@
     "t3_1w23kdp": "2026-08-30",
     "t3_1w21822": "2026-08-30",
     "t3_1w1xm9d": "2026-08-30",
-    "t3_1w1x02h": "2026-08-30"
+    "t3_1w1x02h": "2026-08-30",
+    "t3_1w33u0b": "2026-08-31",
+    "t3_1w2uz6y": "2026-08-31"
   },
   "pending": {
+    "t3_1vwstfm": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vwstfm/debating_on_next_card_to_complete_c1_setup_or_try/",
+      "title": "Debating on next card; to complete C1 setup or try and pivot",
+      "posted": "2026-08-24",
+      "card_name": "Bilt Palladium",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster restates that they applied for the Bilt Palladium and were not approved while the Capital One Venture X went through in the same round. Look 2 added two OP replies about card strategy, still no score anywhere. Income around 82k and age 23 are given.",
+      "firstSeen": "2026-08-24",
+      "attempts": 2,
+      "lastChecked": "2026-08-31"
+    },
+    "t3_1vxxsog": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vxxsog/itin_holder_with_6_months_of_us_credit/",
+      "title": "ITIN holder with 6 months of U.S. credit history—stuck with Capital One?",
+      "posted": "2026-08-25",
+      "card_name": "Amazon Prime Rewards Visa Signature",
+      "result": "denied",
+      "missing": [
+        "credit_score",
+        "date_applied"
+      ],
+      "note": "ITIN holder with a thin file reports a real Chase Prime Visa denial after roughly three weeks pending. Only current VantageScore 3.0 numbers are given, not the score at application, and no application month. Look 2 replies are about utilization only.",
+      "ask": "You listed your current VantageScore numbers. What was your score when you applied for the Amazon Prime Visa, and which month did you apply?",
+      "firstSeen": "2026-08-25",
+      "attempts": 2,
+      "lastChecked": "2026-08-31"
+    },
+    "t3_1vx8o5y": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vx8o5y/citi_custom_vs_double_cash_reconsideration/",
+      "title": "Citi Custom vs. Double Cash Reconsideration",
+      "posted": "2026-08-24",
+      "card_name": "Citi Double Cash",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Real first person Citi Double Cash denial this month on a TransUnion pull, with a denial letter the poster disputes. Same post reports a Citi Custom Cash approval via reconsideration in May. Look 2 added one OP reply, still no score for either application.",
+      "firstSeen": "2026-08-25",
+      "attempts": 2,
+      "lastChecked": "2026-08-31"
+    },
+    "t3_1vynjsd": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vynjsd/late_2026_early_2027_card_roadmap_want_to/",
+      "title": "Late 2026 / early 2027 card roadmap. (Want to capitalize on Bilt)",
+      "posted": "2026-08-26",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster was recently denied for the Freedom Unlimited for holding too many Chase cards, currently five. Real first person denial on a catalog card, but the roadmap post still gives no score on look 2.",
+      "firstSeen": "2026-08-26",
+      "attempts": 2,
+      "lastChecked": "2026-08-31"
+    },
+    "t3_1vync0s": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1vync0s/trying_to_get_savor_to_pair_with_venture_x_to/",
+      "title": "Trying to get Savor to pair with Venture X to complete setup",
+      "posted": "2026-08-26",
+      "card_name": "Capital One Venture X Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster was approved for the Venture X a couple of weeks before posting and now wants the Savor. No score given, only that repeated soft pre-qual checks for the Savor come back empty. No new OP replies on look 2.",
+      "firstSeen": "2026-08-26",
+      "attempts": 2,
+      "lastChecked": "2026-08-31"
+    },
+    "t3_1w068db": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w068db/back_to_back_approvals_for_altitude_go_mcp/",
+      "title": "Back to back approvals for Altitude Go + MCP",
+      "posted": "2026-08-27",
+      "card_name": "US Bank Altitude Go Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "US Bank told the poster the Altitude Go went through at a 3500 dollar limit, and they list it among their 2026 approvals. Look 2 added an OP reply about a separate Aven denial, still no score anywhere in the post.",
+      "firstSeen": "2026-08-28",
+      "attempts": 2,
+      "lastChecked": "2026-08-31"
+    },
     "t3_1w2ri7t": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w2ri7t/got_my_first_credit_card_at_26_after_being_scared/",
       "title": "Got my first credit card at 26 after being scared to get one",
@@ -997,108 +1085,6 @@
       "firstSeen": "2026-08-30",
       "attempts": 1,
       "lastChecked": "2026-08-30"
-    },
-    "t3_1w068db": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w068db/back_to_back_approvals_for_altitude_go_mcp/",
-      "title": "Back to back approvals for Altitude Go + MCP",
-      "posted": "2026-08-27",
-      "card_name": "US Bank Altitude Go Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "US Bank told the poster their Altitude Go application went through at a $3500 limit, and they list the card among their 2026 approvals. A second application for the same card days later was declined as a duplicate. No score anywhere in the post.",
-      "ask": "What was your credit score when the Altitude Go went through?",
-      "firstSeen": "2026-08-28",
-      "attempts": 1,
-      "lastChecked": "2026-08-28"
-    },
-    "t3_1vynjsd": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vynjsd/late_2026_early_2027_card_roadmap_want_to/",
-      "title": "Late 2026 / early 2027 card roadmap. (Want to capitalize on Bilt)",
-      "posted": "2026-08-26",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster says they were recently denied for the Freedom Unlimited for holding too many Chase cards, currently five. Real first-person denial on a catalog card, but no score anywhere in the roadmap post.",
-      "firstSeen": "2026-08-26",
-      "attempts": 1,
-      "lastChecked": "2026-08-26"
-    },
-    "t3_1vync0s": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vync0s/trying_to_get_savor_to_pair_with_venture_x_to/",
-      "title": "Trying to get Savor to pair with Venture X to complete setup",
-      "posted": "2026-08-26",
-      "card_name": "Capital One Venture X Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster says they were approved for the Venture X a couple of weeks ago and now want the Savor. No score given, only that repeated soft pre-qual checks for the Savor have come back empty.",
-      "firstSeen": "2026-08-26",
-      "attempts": 1,
-      "lastChecked": "2026-08-26"
-    },
-    "t3_1vxxsog": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vxxsog/itin_holder_with_6_months_of_us_credit/",
-      "title": "ITIN holder with 6 months of U.S. credit history—stuck with Capital One?",
-      "posted": "2026-08-25",
-      "card_name": "Amazon Prime Rewards Visa Signature",
-      "result": "denied",
-      "missing": [
-        "credit_score",
-        "date_applied"
-      ],
-      "note": "ITIN holder with a thin file reports a real Chase Prime Visa denial after roughly three weeks pending, but gives only current VantageScore 3.0 numbers and no application month. Same post also reports a Capital One Platinum approval on 2026-02-20 with a 500 dollar limit, also without a score.",
-      "ask": "What were your scores when you applied for the Prime Visa, and roughly what month did you submit it?",
-      "firstSeen": "2026-08-25",
-      "attempts": 1,
-      "lastChecked": "2026-08-25"
-    },
-    "t3_1vx8o5y": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vx8o5y/citi_custom_vs_double_cash_reconsideration/",
-      "title": "Citi Custom vs. Double Cash Reconsideration",
-      "posted": "2026-08-24",
-      "card_name": "Citi Double Cash",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Real first person Citi Double Cash denial in 2026-08 with a TransUnion pull and a letter the poster disputes. Same post reports a Citi Custom Cash approval via reconsideration in May. No credit score given for either.",
-      "firstSeen": "2026-08-25",
-      "attempts": 1,
-      "lastChecked": "2026-08-25"
-    },
-    "t3_1vwstfm": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vwstfm/debating_on_next_card_to_complete_c1_setup_or_try/",
-      "title": "Debating on next card; to complete C1 setup or try and pivot",
-      "posted": "2026-08-24",
-      "card_name": "Bilt Palladium",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster recently applied for the Bilt Palladium and was not approved, but was approved for the Capital One Venture X in the same round, so one score would publish two rows. Gives income around $82k and age 23, no score.",
-      "ask": "You mentioned getting the Venture X but not the Palladium. What was your credit score when you applied?",
-      "firstSeen": "2026-08-24",
-      "attempts": 1,
-      "lastChecked": "2026-08-24"
-    },
-    "t3_1vvk74b": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vvk74b/bofa_flying_blue_card_possibly_denied/",
-      "title": "BofA Flying blue Card- possibly denied",
-      "posted": "2026-08-22",
-      "card_name": "Air France KLM Visa Signature",
-      "missing": [
-        "result"
-      ],
-      "note": "Applied this month for the Air France KLM card at a 829 score with no payment issues, income is foreign so it is not usable. Bank of America sent a letter after an information verification call and the poster only says possibly denied, so the outcome is not established.",
-      "ask": "Did the Bank of America letter turn out to be a denial, or were you approved?",
-      "firstSeen": "2026-08-23",
-      "attempts": 1,
-      "lastChecked": "2026-08-23"
     }
   },
   "runs": [
@@ -1428,6 +1414,20 @@
       "skipped": {
         "no_outcome": 5,
         "no_score": 2
+      }
+    },
+    {
+      "id": "2026-08-31T15:34:30.241Z",
+      "date": "2026-08-31",
+      "candidates": 8,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 2
       }
     }
   ]
