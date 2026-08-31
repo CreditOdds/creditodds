@@ -31,6 +31,7 @@ const {
   buildSharedUrlMap,
   isDeclined,
   loadDeclined,
+  filterCardsForCheck,
 } = require('./check-card-rewards-and-benefits');
 
 const NOOP_POLICY = { exclude: [], borderline: [], exampleCards: [] };
@@ -1012,6 +1013,53 @@ test('ignores an unconditional credit', () => {
 
 test('ignores a zero-valued perk even when the copy is gated', () => {
   assert.equal(gated('Companion certificate after $30,000 in purchases', 0), false);
+});
+
+console.log('\nCARD_SLUG filtering:');
+
+// A card as loadAllCards yields it: only the fields filterCardsForCheck reads.
+function card(slug, extra = {}) {
+  return { slug, data: { apply_link: `https://example.com/${slug}`, ...extra } };
+}
+
+const CATALOG = [
+  card('alpha'),
+  card('bravo'),
+  card('charlie'),
+  card('archived', { accepting_applications: false }),
+  card('no-link', { apply_link: undefined }),
+];
+
+test('no filter returns every active card with an apply_link', () => {
+  const got = filterCardsForCheck(CATALOG, '').map(c => c.slug);
+  assert.deepEqual(got, ['alpha', 'bravo', 'charlie']);
+});
+
+test('a single slug still works (the pre-list behavior)', () => {
+  const got = filterCardsForCheck(CATALOG, 'bravo').map(c => c.slug);
+  assert.deepEqual(got, ['bravo']);
+});
+
+test('a comma-separated list scopes the run to those cards', () => {
+  const got = filterCardsForCheck(CATALOG, 'alpha,charlie').map(c => c.slug);
+  assert.deepEqual(got, ['alpha', 'charlie']);
+});
+
+test('tolerates whitespace and trailing commas in the list', () => {
+  // The recovery command is copy-pasted from the fetch phase's own output, so
+  // stray separators must not silently drop a card.
+  const got = filterCardsForCheck(CATALOG, ' alpha , charlie ,').map(c => c.slug);
+  assert.deepEqual(got, ['alpha', 'charlie']);
+});
+
+test('a listed slug that is archived or link-less stays excluded', () => {
+  // The active/apply_link filter runs first; naming a card cannot force it in.
+  assert.deepEqual(filterCardsForCheck(CATALOG, 'archived,no-link'), []);
+});
+
+test('unknown slugs are dropped rather than throwing', () => {
+  const got = filterCardsForCheck(CATALOG, 'alpha,does-not-exist').map(c => c.slug);
+  assert.deepEqual(got, ['alpha']);
 });
 
 console.log('\nDone.\n');
