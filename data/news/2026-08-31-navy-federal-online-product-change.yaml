@@ -1,0 +1,46 @@
+id: "navy-federal-online-product-change"
+date: "2026-08-31"
+title: "Navy Federal Adds Online Product Changes"
+summary: "Navy Federal has turned on self service credit card product changes in its web browser portal, a request that previously had to go through a phone agent. Doctor of Credit reported the feature on August 31, 2026. Most members see More Rewards American Express, Go Rewards and cashRewards as the available targets, and the option only appears on cards at least one year old. The mobile app does not support it yet."
+tags:
+  - "policy-change"
+bank: "Navy Federal"
+card_slugs:
+  - "navy-federal-more-rewards-american-express"
+  - "navy-federal-go-rewards"
+  - "navy-federal-cash-rewards"
+card_names:
+  - "Navy Federal More Rewards American Express"
+  - "Navy Federal GO REWARDS"
+  - "Navy Federal cashRewards"
+source: "Doctor of Credit"
+source_url: "https://www.doctorofcredit.com/navy-federal-now-allows-automated-product-changes-online/"
+body: |
+  Navy Federal Credit Union has added an automated credit card product change
+  tool to its website, letting members switch card products without calling in.
+  Doctor of Credit reported the feature on **August 31, 2026**.
+
+  The path is Log in, then Accounts, then select the credit card, then Manage
+  Cards or Card Management, then Card Benefits, then Credit Card Product Change.
+  The tool is browser only right now. It does not appear in the Navy Federal
+  mobile app.
+
+  ## What you can switch to
+
+  Most members are shown three targets:
+
+  - **More Rewards American Express**
+  - **GO REWARDS**
+  - **cashRewards**
+
+  ## The one year rule
+
+  The product change section only surfaces options once the account is at least
+  **one year old**. Members with a newer card see no choices at all.
+
+  Product changes have been available at Navy Federal for a long time, so this
+  is a change in how the request is made rather than a new capability. That
+  still matters for anyone who wants to move off a card without opening a new
+  account or sitting in a phone queue, since a product change keeps the account
+  age and the credit line intact.
+
