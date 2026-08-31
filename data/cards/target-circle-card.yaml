@@ -17,11 +17,11 @@ rewards:
     unit: "percent"
     note: "Instant 5% discount at Target stores and Target.com, including in-store Starbucks and Target subscriptions; excludes Target GiftCards, prescriptions, and some services. A Mastercard version issued to well-qualified applicants also earns 2% on gas and dining and 1% everywhere else outside Target."
 signup_bonus:
-  value: 100
+  value: 50
   type: "cash"
   spend_requirement: 500
   timeframe_months: 2
-  note: "Get $50 in Target Circle Rewards when you are approved for a Target Circle credit card, plus an extra $50 in Target Circle Rewards when you spend $500 within 60 days of approval. Approval bonus offer ends 2026-09-26; spend bonus offer ends 2026-08-29."
+  note: "$50 in Target Circle Rewards deposited into your Target Circle account within 30 minutes of approval for a Target Circle credit card. Must apply by 2026-09-26."
 apr:
   regular:
     min: 27.4
