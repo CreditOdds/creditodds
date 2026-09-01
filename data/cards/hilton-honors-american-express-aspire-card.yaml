@@ -7,19 +7,20 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/hilton-honors-a
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  The Aspire's case rests on credits rather than earn rates: an annual free
-  night at most Hilton properties, up to $400 a year in resort credits issued
-  as $200 semiannually, up to $200 a year in flight credits at $50 per
-  quarter, up to $219 for CLEAR Plus, and complimentary Diamond status. Stack
-  that against the $550 annual fee and it holds up, but only if you will
-  actually use the free night and spend at participating Hilton resorts, since
-  the credits are capped by period and do not roll over. The current welcome
-  offer is 150,000 points after $6,000 in six months, cut back from 175,000 at
-  the end of July, so there is no reason to rush an application at this level.
-  Away from Hilton you earn 7x on flights, car rentals, and U.S. restaurants
-  and 3x on everything else, useful only if you value Hilton points highly.
-  Heavy spenders can also pick up additional free night rewards at $30,000 and
-  $60,000 in a calendar year.
+  The Aspire justifies its $550 annual fee through credits rather than
+  spending: an annual Free Night Award, up to $400 in Hilton resort credits
+  split across two halves of the year, up to $200 in flight credits at $50 a
+  quarter, and up to $219 for CLEAR Plus. Automatic Hilton Honors Diamond
+  status is the other pillar, bringing upgrades, lounge access, and late
+  checkout without a stay requirement. Earning is strong where it counts, at
+  14x on eligible Hilton purchases, with 7x on flights, car rentals, and U.S.
+  restaurants and 3x on everything else, though the 14x applies only at Hilton
+  properties. The signup bonus is 150,000 points after $6,000 in six months,
+  back down after briefly running at 175,000 between May and the end of July.
+  The honest catch is that the credits arrive in quarterly and semiannual
+  slices, so you only come out ahead if your travel actually fits that
+  calendar and you stay at Hilton enough to value the Diamond status and free
+  night.
 annual_fee: 550
 reward_type: "points"
 rewards:

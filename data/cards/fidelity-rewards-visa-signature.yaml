@@ -26,18 +26,19 @@ apply_link: https://www.fidelity.com/spend-save/visa-signature-card
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Fidelity Rewards Visa Signature is one of the cleanest flat-rate cards
-  available: 2% back on every purchase with no annual fee, no categories to
-  track, and no foreign transaction fee. The condition worth understanding is
-  that the 2% rate depends on rewards being deposited into an eligible
-  Fidelity account, so this really works best if you already bank or invest
-  with Fidelity and want cash back funneled straight into savings or a
-  brokerage. The up to $100 in Reward Points toward a Global Entry or TSA
-  PreCheck application every five years is a genuine extra on a card that
-  charges nothing to hold. Note that the signup bonus, previously $150, was
-  removed in July 2026, so there is no welcome offer to chase right now. The
-  16.49% to 26.49% regular APR is unremarkable, which is fine for a card you
-  carry for its steady base rate rather than for financing.
+  The Fidelity Rewards Visa Signature is a clean 2% flat cash back card with
+  no annual fee, with one condition: the full 2% comes when rewards are
+  deposited into an eligible Fidelity account. If you already bank or invest
+  with Fidelity that is a formality, and the automatic sweep into a brokerage
+  or retirement account is a useful habit in itself, but if you do not, the
+  account requirement is friction for a rate you can get elsewhere with no
+  strings. It also charges no foreign transaction fee and offers up to $100 in
+  reward points toward a Global Entry or TSA PreCheck application fee once
+  every five years, which is unusual on a card that costs nothing to hold. The
+  welcome offer is gone, though: the previous $150 bonus was removed in July
+  2026, so there is no upfront incentive to open it right now. Treat it as a
+  long-term everyday card for Fidelity customers rather than a bonus play, and
+  note the regular APR of 16.49% to 26.49% if you ever carry a balance.
 benefits:
   - name: "Global Entry or TSA PreCheck Credit"
     value: 100

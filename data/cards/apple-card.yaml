@@ -38,18 +38,19 @@ apply_link: https://www.apple.com/apple-card/
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  Apple Card's real appeal is friction, not rate: no annual fee, no foreign
-  transaction fee, and Daily Cash that posts immediately. Just be clear about
-  how the earning actually works. The 2% applies only when you pay through
-  Apple Pay, and the 3% is narrower still, limited to Apple purchases and a
-  specific merchant list that includes Nike, Uber, Walgreens, Booking.com,
-  ChargePoint, Duane Reade, Exxon Mobil, Hertz, and Ace Hardware. Use the
-  physical titanium card and you earn 1%, which is the card's true base rate
-  and below what plenty of no-fee cash back cards pay on everything. The
-  extras are modest: 2% in Booking.com Travel Credits on stays and car rentals
-  booked through the Apple Card portal, a six-month Uber One trial, and some
-  Hertz rental discounts. It is a fine default if nearly all your spending is
-  tap-to-pay inside the Apple ecosystem, and a weak one if it isn't.
+  The Apple Card's headline 2% Daily Cash only applies when you pay through
+  Apple Pay, and the physical titanium card drops to 1%, so treat 1% as the
+  true base rate and the 2% as an Apple Pay habit you have to maintain. The 3%
+  tier is narrower still: it covers Apple purchases and a specific merchant
+  list including Nike, Uber, Walgreens, Booking.com, ChargePoint, Duane Reade,
+  Exxon Mobil, Hertz, Ace Hardware, and only when paid with Apple Pay. There
+  is no annual fee and no foreign transaction fee, which keeps the cost of
+  carrying it at zero. A handful of partner extras round it out, including 2%
+  in Booking.com Travel Credits on eligible stays booked through the Apple
+  Card portal, a six month Uber One trial, and Hertz discounts, all requiring
+  enrollment. The regular APR runs 17.49% to 27.74%, so this is a card to use
+  for the Apple Pay flow and pay off monthly, not a rewards engine for
+  tap-resistant merchants.
 benefits:
   - name: "Booking.com Travel Credits"
     value: 2

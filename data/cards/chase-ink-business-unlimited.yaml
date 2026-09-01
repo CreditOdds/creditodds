@@ -32,18 +32,17 @@ apr:
     min: 16.74
     max: 24.74
 our_take: >
-  The Ink Business Unlimited is a one-rule card: 1.5% on every purchase, no
-  annual fee, no categories to track. Chase recently raised the signup bonus
-  from $750 to $1,000 for $8,000 of spend in the first four months, and the
-  12-month 0% intro APR on purchases makes it a reasonable way to float
-  startup or equipment costs interest-free for a year. Simplicity is also the
-  limitation: 1.5% trails what category cards pay on travel, shipping, or
-  advertising, so this works best as the card that catches spend your other
-  business cards do not reward. The foreign transaction fee rules it out for
-  international purchases, and the 5% transit rate applies only to Lyft rides
-  through September 30, 2027. If you want one no-fee business card and no
-  optimization, this is a defensible pick; if you spend heavily in defined
-  categories, pair it with something that pays more there.
+  The Ink Business Unlimited is the simplest card in Chase's business lineup:
+  1.5% back on every purchase, no categories to track, no annual fee. The
+  signup bonus recently rose from $750 to $1,000 after $8,000 of spend in four
+  months, which is a strong return on a card that costs nothing to carry, and
+  12 months of 0% intro APR on purchases makes it usable for financing early
+  expenses. The tradeoff is that 1.5% is the whole story: with no bonus
+  categories, a business with concentrated spend on shipping, advertising, or
+  office supplies will simply earn more elsewhere. It also charges a foreign
+  transaction fee, which rules it out for purchases abroad. The 5% on Lyft
+  rides is a limited-time promo running through September 2027 and applies at
+  Lyft only, not to transit in general.
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
 foreign_transaction_fee: true
 network: "visa"

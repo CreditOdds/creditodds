@@ -8,21 +8,18 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref="
 our_take: >
-  The Gold's case is its earn rate on the two categories most households spend
-  the most in: 4 points per dollar at restaurants on up to $50,000 a year and
-  4 points per dollar at U.S. supermarkets on up to $25,000, which is why it
-  sits at #1 on our list of best cards for dining and groceries. The current
-  welcome offer of 100,000 points after $8,000 in six months is among the
-  larger ones on the market. The catch is that the $325 annual fee is only
-  offset if you actually use the credits, and they are narrow and time-boxed:
-  $10 a month in Uber Cash, $10 a month split across Grubhub, The Cheesecake
-  Factory, Goldbelly, Wine.com, and Five Guys, up to $7 a month at Dunkin',
-  and $50 twice a year at Resy restaurants, most requiring enrollment and none
-  rolling over. Spend past the caps and those 4x categories drop to 1 point
-  per dollar, and everything outside them earns 1 point per dollar from the
-  start. If your dining and grocery spend is real and the monthly credit
-  routine doesn't annoy you, the math works; if not, a no-fee card will treat
-  you better.
+  The Gold earns 4x at restaurants and 4x at U.S. supermarkets, on up to
+  $50,000 and $25,000 of annual spend respectively, which is why it ranks
+  second and carries the Best Overall badge on our Best Credit Cards for
+  Dining and Groceries list. The current 100,000-point offer after $8,000 in
+  six months is also among the larger welcome bonuses going, placing sixth on
+  our signup bonus list. The $325 annual fee only works if you actually use
+  the credits, and they arrive in small monthly pieces: $10 a month in Uber
+  Cash, $10 a month at Grubhub and a few other partners, $7 a month at Dunkin,
+  and $50 twice a year through Resy. All of them require enrollment and none
+  roll over, so a skipped month is simply money lost. Travel earning is decent
+  but secondary, with 3x on airlines and 5x on hotels prepaid through Amex
+  Travel, and everything outside the bonus categories drops to 1x.
 annual_fee: 325
 benefits:
   - name: "Uber Cash"

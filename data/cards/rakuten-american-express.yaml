@@ -49,13 +49,14 @@ apr:
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  This is a shopper's card built around one ecosystem: 4% back on Rakuten.com
-  purchases on up to $10,000 of spending per calendar year, a cap raised from
-  $7,000 in July 2026, plus 5% on Rakuten Dining purchases. Outside that, 2%
-  on groceries and 2% on dining are reasonable but not category-leading, and
-  everything else drops to 1%. There's no annual fee and no foreign
-  transaction fee, so the card costs nothing to keep around for Rakuten runs.
-  Note that the signup bonus was cut in July 2026 from $200 to $100 after
-  $1,000 in spending within three months, which takes a lot of the first-year
-  shine off. The math only works if you genuinely shop through Rakuten; if you
-  don't, the 1% base rate makes this an easy pass.
+  The Rakuten American Express earns its keep only if you shop through
+  Rakuten: 4% back on Rakuten.com purchases on up to $10,000 of spending per
+  calendar year, a cap raised from $7,000 in July 2026, plus 5% on Rakuten
+  Dining. Off the platform it is ordinary, at 2% on groceries and dining and
+  1% on everything else, though the card has no annual fee and no foreign
+  transaction fee. The signup bonus was cut from $200 to $100 in July 2026, so
+  the upfront incentive is now half what it was for the same $1,000 of
+  spending over three months. The regular APR runs as high as 33.99%, which
+  makes this a poor place to carry a balance. Buy through Rakuten regularly
+  and the 4% and 5% tiers carry the card; if you do not, a general 2% cash
+  back card will do more for you.

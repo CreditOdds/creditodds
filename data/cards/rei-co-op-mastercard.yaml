@@ -20,17 +20,16 @@ rewards:
     value: 1.5
     unit: percent
 our_take: >
-  For anyone who spends real money at REI, 5% back at REI retail locations and
-  REI.com is the reason to apply, and it sits on top of a card with no annual
-  fee and no foreign transaction fee. The 1.5% on everything else is
-  respectable enough that you're not penalized for using it away from REI,
-  though it won't beat a dedicated 2% card. The signup bonus is small and
-  oddly structured: a $100 REI gift card after your first purchase outside REI
-  within 60 days, with no real spending requirement, so it's easy money but
-  not a big first-year payout. Rewards come back as REI value rather than
-  flexible cash, so the card is only worth it if the co-op is already a
-  regular stop. The 17.49% to 28.49% regular APR and lack of any intro period
-  mean this is strictly a pay-in-full card.
+  If you shop at REI with any regularity, this is a straightforward way to add
+  5% back at REI retail locations and REI.com on top of whatever the co-op
+  already gives you, and it costs nothing to hold. Outside the co-op, the flat
+  1.5% back is fine but unremarkable, so this is a supplement to a stronger
+  everyday card rather than a replacement for one. The signup offer is modest
+  and oddly shaped: a $100 REI gift card after a single purchase made outside
+  REI within 60 days, so the reward comes back to you as store credit, not
+  cash. No foreign transaction fee is a real plus if you buy gear while
+  traveling. With a regular APR of 17.49% to 28.49% and no intro rate, treat
+  it as a spending card you pay off in full, not a financing tool.
 signup_bonus:
   value: 100
   type: cash
