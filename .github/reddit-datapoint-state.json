@@ -888,7 +888,7 @@
     "t3_1vy19ap": "2026-08-25",
     "t3_1vy0x0z": "2026-08-25",
     "t3_1vxzaw4": "2026-08-25",
-    "t3_1vxxsog": "2026-08-31",
+    "t3_1vxxsog": "2026-09-01",
     "t3_1vxpdrb": "2026-08-25",
     "t3_1vxmghp": "2026-08-25",
     "t3_1vxlanz": "2026-08-25",
@@ -903,13 +903,13 @@
     "t3_1vxbbu4": "2026-08-25",
     "t3_1vx9v4a": "2026-08-25",
     "t3_1vx9kzv": "2026-08-25",
-    "t3_1vx8o5y": "2026-08-31",
+    "t3_1vx8o5y": "2026-09-01",
     "t3_1vywjrl": "2026-08-26",
     "t3_1vytxqp": "2026-08-26",
     "t3_1vyr39v": "2026-08-26",
     "t3_1vypk05": "2026-08-26",
     "t3_1vynzcn": "2026-08-26",
-    "t3_1vynjsd": "2026-08-31",
+    "t3_1vynjsd": "2026-09-01",
     "t3_1vync0s": "2026-08-31",
     "t3_1vykm0r": "2026-08-26",
     "t3_1vyk70f": "2026-08-26",
@@ -967,23 +967,24 @@
     "t3_1w1xm9d": "2026-08-30",
     "t3_1w1x02h": "2026-08-30",
     "t3_1w33u0b": "2026-08-31",
-    "t3_1w2uz6y": "2026-08-31"
+    "t3_1w2uz6y": "2026-08-31",
+    "t3_1w4evry": "2026-09-01",
+    "t3_1w4dwjj": "2026-09-01",
+    "t3_1w4dqse": "2026-09-01",
+    "t3_1w4c36q": "2026-09-01",
+    "t3_1w41qaw": "2026-09-01",
+    "t3_1w3zjrz": "2026-09-01",
+    "t3_1w3zcdw": "2026-09-01",
+    "t3_1w3ybou": "2026-09-01",
+    "t3_1w3vo2k": "2026-09-01",
+    "t3_1w3siza": "2026-09-01",
+    "t3_1w3odqo": "2026-09-01",
+    "t3_1w3nx99": "2026-09-01",
+    "t3_1w3jbvz": "2026-09-01",
+    "t3_1w3hima": "2026-09-01",
+    "t3_1w3h1yh": "2026-09-01"
   },
   "pending": {
-    "t3_1vwstfm": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vwstfm/debating_on_next_card_to_complete_c1_setup_or_try/",
-      "title": "Debating on next card; to complete C1 setup or try and pivot",
-      "posted": "2026-08-24",
-      "card_name": "Bilt Palladium",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster restates that they applied for the Bilt Palladium and were not approved while the Capital One Venture X went through in the same round. Look 2 added two OP replies about card strategy, still no score anywhere. Income around 82k and age 23 are given.",
-      "firstSeen": "2026-08-24",
-      "attempts": 2,
-      "lastChecked": "2026-08-31"
-    },
     "t3_1vxxsog": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vxxsog/itin_holder_with_6_months_of_us_credit/",
       "title": "ITIN holder with 6 months of U.S. credit history—stuck with Capital One?",
@@ -994,11 +995,11 @@
         "credit_score",
         "date_applied"
       ],
-      "note": "ITIN holder with a thin file reports a real Chase Prime Visa denial after roughly three weeks pending. Only current VantageScore 3.0 numbers are given, not the score at application, and no application month. Look 2 replies are about utilization only.",
-      "ask": "You listed your current VantageScore numbers. What was your score when you applied for the Amazon Prime Visa, and which month did you apply?",
+      "note": "ITIN holder with a roughly six month old file reports a real Chase Amazon Prime Visa denial after about three weeks pending. Look 3 replies are still only about utilization, so there is no score as of the application and no application month.",
+      "ask": "You listed current VantageScore numbers. What was your score at the time you applied for the Amazon Prime Visa, and roughly what month did you apply?",
       "firstSeen": "2026-08-25",
-      "attempts": 2,
-      "lastChecked": "2026-08-31"
+      "attempts": 3,
+      "lastChecked": "2026-09-01"
     },
     "t3_1vx8o5y": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vx8o5y/citi_custom_vs_double_cash_reconsideration/",
@@ -1009,10 +1010,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Real first person Citi Double Cash denial this month on a TransUnion pull, with a denial letter the poster disputes. Same post reports a Citi Custom Cash approval via reconsideration in May. Look 2 added one OP reply, still no score for either application.",
+      "note": "Real first person Citi Double Cash denial in August on a TransUnion pull, with a denial letter the poster disputes. Look 3 adds nothing new and still gives no score for the application.",
+      "ask": "The denial letter went through TransUnion. What was your TransUnion score when you applied for the Double Cash?",
       "firstSeen": "2026-08-25",
-      "attempts": 2,
-      "lastChecked": "2026-08-31"
+      "attempts": 3,
+      "lastChecked": "2026-09-01"
     },
     "t3_1vynjsd": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vynjsd/late_2026_early_2027_card_roadmap_want_to/",
@@ -1023,10 +1025,24 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster was recently denied for the Freedom Unlimited for holding too many Chase cards, currently five. Real first person denial on a catalog card, but the roadmap post still gives no score on look 2.",
+      "note": "Poster was recently denied for the Freedom Unlimited for holding too many Chase cards, currently five. Real first person denial on a catalog card, but the roadmap post still gives no score on look 3.",
       "firstSeen": "2026-08-26",
-      "attempts": 2,
-      "lastChecked": "2026-08-31"
+      "attempts": 3,
+      "lastChecked": "2026-09-01"
+    },
+    "t3_1w3zjrz": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w3zjrz/i_got_approved_for_a_chase_freedom_unlimited_now/",
+      "title": "I got approved for a Chase Freedom Unlimited, now what?",
+      "posted": "2026-09-01",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster turned 18 and reports an instant Chase Freedom Unlimited approval with a 500 dollar limit after about twelve months of Chase checking. No credit score given anywhere in the post.",
+      "firstSeen": "2026-09-01",
+      "attempts": 1,
+      "lastChecked": "2026-09-01"
     },
     "t3_1vync0s": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1vync0s/trying_to_get_savor_to_pair_with_venture_x_to/",
@@ -1428,6 +1444,20 @@
       "unaccounted": 0,
       "skipped": {
         "no_outcome": 2
+      }
+    },
+    {
+      "id": "2026-09-01T15:27:50.687Z",
+      "date": "2026-09-01",
+      "candidates": 18,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 13
       }
     }
   ]
