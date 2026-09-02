@@ -22,7 +22,7 @@ rewards:
     value: 2
     unit: "points_per_dollar"
   - category: "travel"
-    value: 3
+    value: 2
     unit: "points_per_dollar"
   - category: "transit"
     value: 2
