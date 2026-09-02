@@ -16,7 +16,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { appendBankHandles, resolveBanksFromCardNames } = require('./lib/bank-handles');
-const { TWEET_TEXT_LIMIT, enforceTweetLimit } = require('./lib/social-text');
+const { TWEET_TEXT_LIMIT, enforceTweetLimit, findFlattenedAttribution } = require('./lib/social-text');
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -119,7 +119,7 @@ function getCardNameList(item) {
   return [];
 }
 
-async function generatePost(type, item) {
+async function generatePost(type, item, corrective = '') {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY is required');
 
@@ -159,6 +159,13 @@ Rules:
   dates, deadlines). "$200 back on $1,000" beats "a great new offer"
 - Every fact must come from the summary. Do not add, infer, or extrapolate a
   detail the summary does not state, even an obvious-sounding one
+- Preserve the summary's certainty. When the summary attributes a claim to an
+  outlet ("Doctor of Credit reports", "according to the Wall Street Journal") or
+  marks it unverified ("unconfirmed", "rumored", "cardholders report"), keep that
+  attribution or hedge on the same claim in the post. Never restate a reported or
+  rumored claim as established fact. If it will not fit, drop the claim instead of
+  the hedge. A company speaking about its own product ("Chase said", "Citi is
+  mailing") is confirmation, so that may be stated flatly
 - Timing phrases ("in the coming weeks", "starting September 1", "effective
   immediately") belong to exactly one event. Keep each one attached to the same
   event the summary attaches it to, and never move it onto a different one. If
@@ -173,7 +180,7 @@ Rules:
 - 1 hashtag max, only if it adds value. Skip hashtags if the tweet is strong without one
 - Do NOT include any URL
 - Do NOT use emojis, emoticons, or decorative symbols anywhere. Zero emoji
-- Do NOT use em dashes or en dashes. Use a period, comma, or colon instead`;
+- Do NOT use em dashes or en dashes. Use a period, comma, or colon instead${corrective}`;
 
   const response = await fetchWithRetry('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -268,6 +275,7 @@ async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId
 async function main() {
   const { type, files, dryRun } = parseArgs();
   console.log(`=== Queue Social Posts (${type})${dryRun ? ' [dry run]' : ''} ===\n`);
+  let failures = 0;
 
   for (const filePath of files) {
     console.log(`Processing: ${filePath}`);
@@ -296,6 +304,26 @@ async function main() {
     try {
       postText = await generatePost(type, item);
       console.log(`  Generated post (${postText.length} chars): ${postText}`);
+
+      // Backstop for the one rewrite that turns a careful summary into a
+      // stronger claim than the reporting supports. Retry once with the miss
+      // spelled out; if it still flattens, publish nothing rather than an
+      // overstated fact, and fail the step so a human sees why.
+      let flattened = findFlattenedAttribution(getSummary(item), postText);
+      if (flattened) {
+        console.error(`  Dropped the "${flattened.marker}" ${flattened.kind} from the summary. Regenerating.`);
+        const corrective = `\n- The summary carries a ${flattened.kind} marker ("${flattened.marker}"). Your` +
+          ' previous attempt stated that claim as established fact. Keep the attribution or' +
+          ' hedge attached to the claim, or leave the claim out entirely.';
+        postText = await generatePost(type, item, corrective);
+        console.log(`  Regenerated post (${postText.length} chars): ${postText}`);
+        flattened = findFlattenedAttribution(getSummary(item), postText);
+      }
+      if (flattened) {
+        console.error(`  Skipping ${filePath}: still states the ${flattened.kind} claim ("${flattened.marker}") as fact.\n`);
+        failures++;
+        continue;
+      }
       const banks = resolveBanksFromCardNames(getCardNameList(item));
       if (banks.length > 0) {
         const withHandles = appendBankHandles(postText, banks, TWEET_TEXT_LIMIT);
@@ -346,6 +374,10 @@ async function main() {
   }
 
   console.log('=== Done ===');
+  if (failures > 0) {
+    console.error(`${failures} item(s) were not queued because the post overstated a hedged claim.`);
+    process.exitCode = 1;
+  }
 }
 
 main().catch(err => {

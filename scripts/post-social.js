@@ -104,6 +104,13 @@ Rules:
   with the plain factual statement
 - State the concrete terms from the summary (exact amounts, spend requirements,
   dates, deadlines). "$200 back on $1,000" beats "a great new offer"
+- Preserve the summary's certainty. When the summary attributes a claim to an
+  outlet ("Doctor of Credit reports", "according to the Wall Street Journal") or
+  marks it unverified ("unconfirmed", "rumored", "cardholders report"), keep that
+  attribution or hedge on the same claim in the post. Never restate a reported or
+  rumored claim as established fact. If it will not fit, drop the claim instead of
+  the hedge. A company speaking about its own product ("Chase said", "Citi is
+  mailing") is confirmation, so that may be stated flatly
 - Plain declarative sentences. No hype, no rhetorical questions, no second-person
   hard sell, no "don't miss", no "act fast", no exclamation marks
 - No filler words, no "excited to announce", no "stay tuned"
