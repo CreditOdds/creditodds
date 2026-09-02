@@ -74,8 +74,10 @@ function enforceTweetLimit(input, limit = TWEET_TEXT_LIMIT) {
     clipped.lastIndexOf('. '),
     clipped.lastIndexOf('.')
   );
-  // Only accept a clean break if it keeps most of the post.
-  if (lastBreak >= limit * 0.6) {
+  // Prefer ending on a complete sentence or line. Accept the break as long as
+  // it keeps at least half the post; ending a fact short reads better than the
+  // ellipsis fallback, which can clip mid-number.
+  if (lastBreak >= limit * 0.5) {
     return clipped.slice(0, lastBreak + 1).trim().replace(/[\s,;:]+$/g, '');
   }
   return `${clipped.slice(0, limit - 3).trim()}...`;

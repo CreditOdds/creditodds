@@ -107,6 +107,16 @@ test('overlong text is cut at a sentence boundary, not mid-number', () => {
   assert.ok(!out.endsWith('...'), 'fell back to ellipsis despite clean breaks');
 });
 
+// A single long lead sentence followed by an overrunning second one: the only
+// sentence boundary sits just past halfway, so the clean-break path has to
+// accept it rather than clipping the second sentence mid-word.
+test('a lone early sentence boundary is preferred over an ellipsis', () => {
+  const lead = `NEW: ${'x'.repeat(130)}.`;
+  const out = enforceTweetLimit(`${lead} ${'y'.repeat(200)} trailing words`);
+  assert.equal(out, lead, `did not cut back to the lead sentence: ${out}`);
+  assert.ok(!out.endsWith('...'), 'fell back to ellipsis despite a clean break');
+});
+
 test('text with no clean break falls back to an ellipsis within the limit', () => {
   const out = enforceTweetLimit('a'.repeat(300), 50);
   assert.equal(out.length, 50);

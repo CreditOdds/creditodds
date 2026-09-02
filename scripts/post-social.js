@@ -93,10 +93,13 @@ Voice: a factual trade-desk account. Informative and specific, never promotional
 and never meme-y. The reader should finish the post knowing the concrete facts.
 
 Rules:
-- Max ${TWEET_TEXT_LIMIT} characters total. Length is fine when every line carries a fact;
-  do not pad to fill it, and do not compress facts out to be short
-- Multiple lines are encouraged. Put each distinct fact (dates, cities, prices,
-  deadlines) on its own line so the post scans
+- Hard limit ${TWEET_TEXT_LIMIT} characters. Aim for 200 to 230: anything over the limit is
+  cut off mid-sentence, so finish the thought inside the budget. Do not pad to
+  fill it, and do not compress facts out to be short
+- Default to a single paragraph of plain sentences. Line breaks are for lists,
+  not for prose: use them only when there are three or more parallel items
+  (cities, tiers, dated milestones), and then put one item per line. Two
+  sentences that continue one thought stay on the same line
 - Lead with "NEW:" or "BREAKING:" when the item is genuinely new, otherwise open
   with the plain factual statement
 - State the concrete terms from the summary (exact amounts, spend requirements,
@@ -107,7 +110,7 @@ Rules:
 - 1 hashtag max, only if it adds value. Skip hashtags if the tweet is strong without one
 - Do NOT include any URL
 - Do NOT use emojis, emoticons, or decorative symbols anywhere. Zero emoji
-- Do NOT use em dashes or en dashes. Use a period, comma, colon, or new line instead`;
+- Do NOT use em dashes or en dashes. Use a period, comma, or colon instead`;
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
