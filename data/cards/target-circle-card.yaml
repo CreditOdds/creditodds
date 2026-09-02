@@ -19,8 +19,8 @@ rewards:
 signup_bonus:
   value: 50
   type: "cash"
-  spend_requirement: 500
-  timeframe_months: 2
+  spend_requirement: 0
+  timeframe_months: 0
   note: "$50 in Target Circle Rewards deposited into your Target Circle account within 30 minutes of approval for a Target Circle credit card. Must apply by 2026-09-26."
 apr:
   regular:
