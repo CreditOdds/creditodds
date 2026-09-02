@@ -23,6 +23,7 @@ const {
   TWEET_MAX,
   sanitizeSocialText,
   enforceTweetLimit,
+  findFlattenedAttribution,
 } = require('./social-text.js');
 
 let failures = 0;
@@ -127,6 +128,77 @@ test('text already within the limit is returned unchanged apart from sanitizing'
   const clean = 'NEW: Citi expands Curated Table for Strata Elite cardmembers.';
   assert.equal(enforceTweetLimit(clean), clean);
 });
+
+console.log('\nattribution and hedging');
+
+// A summary that hangs a claim on an outlet must not become a bare assertion.
+// This is the 2026-09-02 Sapphire Reserve DoorDash post, which published
+// "This replaces the current $5 credit" from a summary that said Doctor of
+// Credit reported it.
+test('an outlet attribution dropped from the post is caught', () => {
+  const summary = 'Doctor of Credit reports it takes the place of the current $5 restaurant only promo.';
+  const hit = findFlattenedAttribution(summary, 'This replaces the current $5 restaurant-only promo.');
+  assert.ok(hit, 'flattened attribution went undetected');
+  assert.equal(hit.kind, 'attribution');
+  assert.equal(hit.marker, 'doctor of credit');
+});
+
+test('a post that keeps the outlet attribution passes', () => {
+  const summary = 'Doctor of Credit reports it takes the place of the current $5 promo.';
+  assert.equal(findFlattenedAttribution(summary, 'Doctor of Credit reports it replaces the $5 promo.'), null);
+});
+
+test('an uncertainty marker dropped from the post is caught', () => {
+  const summary = 'Unconfirmed: a cardholder says Chase will drop the foreign transaction fee.';
+  const hit = findFlattenedAttribution(summary, 'Chase will drop the foreign transaction fee.');
+  assert.ok(hit);
+  assert.equal(hit.kind, 'uncertainty');
+});
+
+test('a hedge kept in different words still passes', () => {
+  const summary = 'Unconfirmed: a cardholder says Chase will drop the fee.';
+  assert.equal(findFlattenedAttribution(summary, 'Chase reportedly will drop the fee.'), null);
+});
+
+// The issuer speaking about its own product is the confirmation, so a post may
+// state it flatly. These are the common case and must never block a queue.
+test('a first-party issuer statement is not treated as a hedge', () => {
+  const summary = 'Southwest said on September 2, 2026 that it is building its first airport lounges.';
+  assert.equal(findFlattenedAttribution(summary, 'Southwest is building its first airport lounges.'), null);
+});
+
+test('a summary with no hedge at all passes', () => {
+  const summary = 'Citi is mailing Sunoco cardholders notice that every account closes on October 31, 2026.';
+  assert.equal(findFlattenedAttribution(summary, 'Citi is closing every Sunoco account on October 31, 2026.'), null);
+});
+
+// The prompt lets the model drop a hedged claim instead of hedging it. A post
+// that leaves the claim out is correct and must not be blocked, even though the
+// summary still names the outlet.
+test('a post that omits the hedged claim entirely passes', () => {
+  const summary = 'Starting October 1, 2026, Chase Sapphire Reserve cardholders get a $15 monthly '
+    + 'DoorDash credit that works on any eligible order. Doctor of Credit reports it takes the '
+    + 'place of the current $5 restaurant only promo.';
+  const post = 'Starting October 1, 2026, Chase Sapphire Reserve cardholders will receive a $15 '
+    + 'monthly DoorDash credit applicable to any eligible order, including restaurants.';
+  assert.equal(findFlattenedAttribution(summary, post), null);
+});
+
+test('restating the hedged claim without the hedge is still caught', () => {
+  const summary = 'Starting October 1, 2026, cardholders get a $15 monthly DoorDash credit. '
+    + 'Doctor of Credit reports it takes the place of the current $5 restaurant only promo.';
+  const post = 'Cardholders get a $15 monthly DoorDash credit. This replaces the current $5 '
+    + 'restaurant-only promo.';
+  const hit = findFlattenedAttribution(summary, post);
+  assert.ok(hit, 'flattened claim went undetected');
+  assert.equal(hit.kind, 'attribution');
+});
+
+test('empty input is safe', () => {
+  assert.equal(findFlattenedAttribution('', 'anything'), null);
+  assert.equal(findFlattenedAttribution('Doctor of Credit reports a change.', ''), null);
+});
+
 
 console.log(failures === 0 ? '\nAll tests passed.' : `\n${failures} test(s) failed.`);
 process.exit(failures === 0 ? 0 : 1);

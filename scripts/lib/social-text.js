@@ -83,4 +83,154 @@ function enforceTweetLimit(input, limit = TWEET_TEXT_LIMIT) {
   return `${clipped.slice(0, limit - 3).trim()}...`;
 }
 
-module.exports = { TWEET_TEXT_LIMIT, TWEET_MAX, sanitizeSocialText, enforceTweetLimit };
+/**
+ * Outlets and sources that are NOT the company the story is about. When a
+ * summary hangs a claim on one of these, the claim is somebody's reporting
+ * rather than an issuer announcement, and the post has to say so.
+ *
+ * A first-party attribution ("Southwest said on September 2", "Citi is
+ * mailing") is deliberately not in this list: the issuer speaking about its
+ * own product is the confirmation, so a post may state it flatly.
+ */
+const THIRD_PARTY_SOURCES = [
+  'doctor of credit',
+  'the points guy',
+  'nerdwallet',
+  'upgraded points',
+  'thrifty traveler',
+  'view from the wing',
+  'one mile at a time',
+  'frequent miler',
+  'wall street journal',
+  'bloomberg',
+  'reuters',
+  'reddit',
+  'r/churning',
+  'r/creditcards',
+  'cardholders report',
+  'cardholder reports',
+  'data points',
+];
+
+/**
+ * Words that mark a claim as unverified regardless of who said it.
+ */
+const UNCERTAINTY_MARKERS = [
+  'unconfirmed',
+  'rumor',
+  'rumored',
+  'rumours',
+  'reportedly',
+  'allegedly',
+  'appears to',
+  'appear to',
+  'is said to',
+  'are said to',
+  'has not confirmed',
+  'have not confirmed',
+  'not confirmed',
+  'has not published',
+  'not yet confirmed',
+  'no official',
+];
+
+function containsAny(haystack, needles) {
+  const lower = haystack.toLowerCase();
+  return needles.filter((needle) => lower.includes(needle));
+}
+
+const CLAIM_STOPWORDS = new Set([
+  'the', 'and', 'that', 'this', 'with', 'from', 'for', 'its', 'it', 'is', 'are',
+  'was', 'were', 'has', 'have', 'had', 'will', 'would', 'can', 'could', 'been',
+  'not', 'but', 'they', 'their', 'them', 'there', 'then', 'than', 'also', 'only',
+  'now', 'new', 'per', 'each', 'all', 'any', 'some', 'more', 'most', 'other',
+  'into', 'out', 'over', 'under', 'after', 'before', 'when', 'which', 'who',
+  'what', 'how', 'says', 'said', 'reports', 'reported', 'according', 'card',
+  'cards', 'cardholders', 'cardholder', 'takes', 'take', 'place', 'current',
+]);
+
+/**
+ * The distinctive content of a claim: numbers and dollar amounts, plus words
+ * long enough to carry meaning. Used to tell "the post repeated this claim"
+ * from "the post left this claim out".
+ */
+function claimTokens(sentence) {
+  const lower = String(sentence || '').toLowerCase();
+  const tokens = new Set();
+  for (const amount of lower.match(/\$[\d,.]+|\b\d[\d,.]*\b/g) || []) {
+    tokens.add(amount.replace(/[.,]$/, ''));
+  }
+  for (const word of lower.match(/[a-z][a-z-]{2,}/g) || []) {
+    if (!CLAIM_STOPWORDS.has(word)) tokens.add(word);
+  }
+  return tokens;
+}
+
+/**
+ * The sentences of `summary` that carry one of `markers`.
+ */
+function markedSentences(summary, markers) {
+  return String(summary || '')
+    .split(/(?<=[.!?])\s+/)
+    .filter((sentence) => containsAny(sentence, markers).length > 0);
+}
+
+/**
+ * True when `text` repeats the substance of `sentence` rather than omitting it.
+ * Two distinctive tokens in common is enough: a dollar amount plus a noun is
+ * the shape of nearly every claim we publish.
+ */
+function restatesClaim(sentence, text) {
+  const claim = claimTokens(sentence);
+  if (claim.size === 0) return false;
+  const post = claimTokens(text);
+  let shared = 0;
+  for (const token of claim) {
+    if (post.has(token)) shared++;
+    if (shared >= 2) return true;
+  }
+  return false;
+}
+
+/**
+ * Detect the failure where a summary carefully attributes or hedges a claim
+ * ("Doctor of Credit reports it takes the place of the $5 promo") and the
+ * generated post restates it as established fact ("This replaces the $5
+ * promo"). The hedge is the whole point of the sentence, so dropping it
+ * publishes a stronger claim than the reporting supports.
+ *
+ * Fires only when the post BOTH repeats the substance of the hedged claim AND
+ * carries no attribution or hedge of its own. A post that leaves the claim out
+ * entirely is fine, and so is a confirmed story with no hedge to begin with.
+ *
+ * Returns null when the post is fine, or { marker, kind } describing the hedge
+ * that went missing.
+ */
+function findFlattenedAttribution(summary, text) {
+  const summaryText = String(summary || '');
+  const postText = String(text || '');
+  if (!summaryText || !postText) return null;
+
+  const checks = [
+    { kind: 'uncertainty', markers: UNCERTAINTY_MARKERS },
+    { kind: 'attribution', markers: THIRD_PARTY_SOURCES },
+  ];
+
+  for (const { kind, markers } of checks) {
+    const found = containsAny(summaryText, markers);
+    if (found.length === 0) continue;
+
+    // The post carries a hedge of its own, or names the same source.
+    if (containsAny(postText, UNCERTAINTY_MARKERS).length > 0) return null;
+    if (containsAny(postText, found).length > 0) return null;
+
+    const restated = markedSentences(summaryText, found)
+      .some((sentence) => restatesClaim(sentence, postText));
+    if (restated) return { marker: found[0], kind };
+  }
+
+  return null;
+}
+
+module.exports = { TWEET_TEXT_LIMIT, TWEET_MAX, sanitizeSocialText, enforceTweetLimit,
+  findFlattenedAttribution, THIRD_PARTY_SOURCES, UNCERTAINTY_MARKERS };
