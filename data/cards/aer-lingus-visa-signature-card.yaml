@@ -74,6 +74,13 @@ benefits:
     description: "Covers eligible new purchases for 120 days from purchase date against damage or theft, up to $500 per item"
     category: "protection"
     enrollment_required: false
+  - name: "Anniversary Avios Award"
+    value: 2500
+    value_unit: "points"
+    description: "2,500 bonus Avios each account anniversary year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
 apply_link: https://creditcards.chase.com/travel-credit-cards/aer-lingus
 our_take: >
   The 75,000 mile welcome bonus after $5,000 in three months is the main

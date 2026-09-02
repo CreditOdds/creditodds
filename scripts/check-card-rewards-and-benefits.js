@@ -86,9 +86,16 @@ const MAX_CONTENT_CHARS = 18000;
 const FETCH_DELAY_MS = 2000;
 const FETCH_TIMEOUT_MS = 15000;
 const PER_CARD_TIMEOUT_MS = 90 * 1000;
-// A full sweep of every active card runs ~20 min. Keep real headroom: hitting
-// this cap stops the run early, silently dropping the tail of the alphabet.
-const SCRIPT_TIMEOUT_MS = 35 * 60 * 1000;
+// A flat 35 min was sized when a full sweep ran ~20. It no longer does: the
+// catalog reached 184 active cards, and on 2026-08-30 the fetch phase averaged
+// ~26s/card and burned the whole 35 min on the first 82, stranding everything
+// past "Discover it Cash Back" unchecked. Give 'fetch' the same larger budget
+// the sibling check-card-pages.js already uses — it runs locally with no job
+// cap. The other phases keep 35 min, which stays under the workflow's
+// `timeout-minutes: 50` so a capped run still exits in time to open its PRs.
+const SCRIPT_TIMEOUT_MS = Number(
+  process.env.CARD_RB_SCRIPT_TIMEOUT_MS || (PHASE === 'fetch' ? 150 * 60 * 1000 : 35 * 60 * 1000)
+);
 
 // ─── Timeout helpers ─────────────────────────────────────────────────────────
 
@@ -150,7 +157,15 @@ function filterCardsForCheck(allCards, slugFilter) {
     c => c.data.accepting_applications !== false && c.data.apply_link
   );
   if (slugFilter) {
-    cards = cards.filter(c => c.slug === slugFilter);
+    // CARD_SLUG accepts a single slug or a comma-separated list, so a run can be
+    // scoped to just the cards a previous run never reached (recovery pass)
+    // without re-fetching the whole catalog. Matches the sibling
+    // check-card-pages.js, and pairs with the `not_reached` list the fetch
+    // phase writes into fetch-state.json.
+    const wanted = new Set(
+      slugFilter.split(',').map(s => s.trim()).filter(Boolean)
+    );
+    cards = cards.filter(c => wanted.has(c.slug));
     if (cards.length === 0) {
       console.warn(`Warning: No active card with apply_link found for slug "${slugFilter}"`);
     }
@@ -2113,6 +2128,11 @@ async function main() {
     fetched: 0,
     extractFailed: 0,
     fetchFailed: 0,
+    // Cards the run never got to because it ran out of clock. Non-zero means
+    // this sweep was partial: those cards were not checked and not skipped,
+    // they simply never came up. Re-run scoped to the `not_reached` list in
+    // fetch-state.json to finish the catalog.
+    notReached: 0,
     cardsModified: 0,
     autoChanges: 0,
     reviewItems: 0,
@@ -2128,10 +2148,18 @@ async function main() {
   };
 
   const startMs = Date.now();
+  let notReached = [];
 
-  for (const card of cards) {
+  for (const [i, card] of cards.entries()) {
     if (Date.now() - startMs > SCRIPT_TIMEOUT_MS) {
-      console.warn(`Script-level timeout reached, stopping early.`);
+      // Record the cards we never reached. Without this the loop just breaks and
+      // they vanish — absent from the fetched set and from the summary — so a
+      // truncated run is indistinguishable from a clean one. That is exactly how
+      // the 2026-08-30 run reported a tidy 80-card sweep while 102 cards went
+      // unchecked.
+      notReached = cards.slice(i).map(c => c.slug);
+      const mins = SCRIPT_TIMEOUT_MS / 60000;
+      console.warn(`\nScript timeout reached (${mins} min) — stopping early; ${notReached.length} card(s) never checked.`);
       break;
     }
 
@@ -2204,14 +2232,26 @@ async function main() {
   await closeBrowser();
 
   if (PHASE === 'fetch') {
+    summary.notReached = notReached.length;
     fs.writeFileSync(FETCH_STATE_FILE, JSON.stringify({
       fetched_at: new Date().toISOString(),
       slug_filter: slugFilter || null,
       fetched: fetchedSlugs,
       fetch_failed: summary.fetchFailed,
+      not_reached: notReached,
     }, null, 2));
     console.log(`\nWrote ${fetchedSlugs.length} prompt(s) to ${path.relative(process.cwd(), PROMPTS_DIR)}`);
     console.log(`${summary.fetchFailed} card(s) could not be fetched.`);
+    if (notReached.length > 0) {
+      // The work dir is wiped at the start of every fetch, so a recovery pass
+      // has to be scoped or it will re-fetch the cards already answered here
+      // and time out in the same place.
+      console.log(`\n⚠️  ${notReached.length} card(s) never checked — this sweep is PARTIAL.`);
+      console.log('Answer and finish this batch first (the next fetch wipes the work dir),');
+      console.log('then run the rest with:');
+      console.log(`  CARD_SLUG="${notReached.join(',')}" \\`);
+      console.log('    node scripts/check-card-rewards-and-benefits.js --phase=fetch');
+    }
     console.log('\nNext: answer each prompt and write {"<slug>": {...}} to');
     console.log(`  ${path.relative(process.cwd(), EXTRACTIONS_FILE)}`);
     console.log('then run: node scripts/check-card-rewards-and-benefits.js --phase=finish');
@@ -2253,6 +2293,11 @@ function finishPhase({ cards, policy, sharedUrls }) {
     fetched: fetched.size,
     extractFailed: 0,
     fetchFailed: fetchState.fetch_failed || 0,
+    // Carried through from the fetch phase so the published summary reports the
+    // partial sweep too. finish only ever sees the cards fetch reached, so
+    // without this the final numbers look complete no matter how early the
+    // fetch stopped.
+    notReached: (fetchState.not_reached || []).length,
     cardsModified: 0,
     autoChanges: 0,
     reviewItems: 0,
@@ -2397,6 +2442,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  filterCardsForCheck,
   isSpendGatedDollarValue,
   editRewardCapFields,
   findRewardBlock,

@@ -68,6 +68,12 @@ benefits:
     frequency: "annual"
     category: "rewards"
     enrollment_required: false
+  - name: "Omni Free Night Award"
+    value: 0
+    description: "Once per calendar year, primary cardmembers earn an Omni Free Night Award after completing a stay of two or more consecutive nights booked directly on omnihotels.com."
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: true
 tags:
   - travel
   - airline

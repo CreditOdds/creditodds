@@ -81,4 +81,11 @@ benefits:
     description: "Coverage for eligible new purchases for 120 days from purchase against damage or theft up to $500 per item"
     category: "protection"
     enrollment_required: false
+  - name: "Anniversary Avios Bonus"
+    value: 2500
+    value_unit: "miles"
+    description: "2,500 bonus Avios each account anniversary year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
 apply_link: https://creditcards.chase.com/travel-credit-cards/avios/iberia
