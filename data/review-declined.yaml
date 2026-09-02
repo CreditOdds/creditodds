@@ -31,6 +31,8 @@
 
 # Reward categories proposed as NEW that we decided not to add.
 rewards_added:
+  - { slug: apple-card, category: electronics_stores,
+      why: "the 3% tier is limited to Apple and named partner merchants; the existing merchant-specific online_shopping row models that scope without claiming 3% at electronics stores generally (issue #2122)" }
   - { slug: aaa-daily-advantage-visa-signature, category: travel,
       why: "Travel Advantage's row bleeding over — both AAA cards share one apply URL" }
   - { slug: blue-business-plus-credit-card-from-american-express, category: travel_portal,
@@ -59,11 +61,14 @@ rewards_added:
       why: "the 3x is advertising with social media sites and search engines, not online retail; an online_shopping row would claim 3x on all online spend (issue #2089)" }
   - { slug: capital-one-venture-x-business, category: vacation_rentals,
       why: "the 5x is real (Capital One Travel) but `vacation_rentals` is not in ranker/categoryLabels.js, so the row would never match anything; covered by the travel_portal row's note (issue #2055)" }
+  - { slug: rei-co-op-mastercard, category: sporting_goods,
+      why: "the 5% tier is limited to REI purchases; a sporting_goods row would incorrectly claim 5% at competing sporting-goods merchants (issue #2126)" }
 
 # Reward categories flagged as present in YAML but not on the apply page.
 # Every entry below was verified still live on the issuer's page; the
 # detector could not read the earn table (JS-rendered or bot-blocked).
 rewards_removed:
+  - { slug: apple-card, category: online_shopping }
   - { slug: british-airways-visa-signature-card, category: hotels }
   - { slug: united-club-business, category: hotels_portal }
   - { slug: citi-aadvantage-globe, category: hotels_portal }
@@ -99,7 +104,9 @@ rewards_removed:
   - { slug: marriott-bonvoy-boundless-credit-card, category: hotels }
   - { slug: marriott-bonvoy-boundless-credit-card, category: travel }
   - { slug: marriott-bonvoy-brilliant-american-express, category: hotels }
+  - { slug: nfl-extra-points-american-express-card, category: gyms_fitness }
   - { slug: playstation-visa, category: streaming }
+  - { slug: rei-co-op-mastercard, category: rei }
   - { slug: robinhood-gold-card, category: travel_portal }
 
 # Benefit names declined on a specific card.
