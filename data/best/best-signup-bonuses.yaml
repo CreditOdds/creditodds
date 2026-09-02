@@ -97,12 +97,6 @@
 #   attractive signup bonus and flat rewards rate make it a strong contender
 #   for everyday use.
 #
-# #17 capital-one-savorone  [GPT #17, Gemini #17, Claude #17]
-#   The Capital One SavorOne Cash Rewards card is ideal for those who
-#   frequently dine out and enjoy entertainment. Its low annual fee and strong
-#   rewards on popular spending categories make it a practical choice for
-#   maximizing cash back.
-#
 # ============================================================
 
 id: best-signup-bonuses
@@ -235,9 +229,3 @@ cards:
     consensus:
       score: 7
       ranks: { openai: 15, gemini: 16, claude: 16 }
-
-  - slug: capital-one-savorone
-    highlight: Earn 3% on dining, entertainment, streaming, and groceries, with a $39 annual fee. Enjoy 1% on all other purchases.
-    consensus:
-      score: 3
-      ranks: { openai: 17, gemini: 17, claude: 17 }

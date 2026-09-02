@@ -185,7 +185,7 @@ cards:
 
   - slug: capital-one-savorone
     previous_rank: 12
-    highlight: Earn 3% cash back on dining, entertainment, and streaming, with a $200 cash bonus after spending $500 in the first 3 months. Annual fee of $39.
+    highlight: Earn 3% cash back on dining, entertainment, streaming, and groceries, with a $39 annual fee. This card currently has no signup bonus.
     consensus:
       score: 5
       ranks: { openai: 12, gemini: 13, claude: 12 }

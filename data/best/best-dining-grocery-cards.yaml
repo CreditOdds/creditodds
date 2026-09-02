@@ -20,10 +20,9 @@
 #   points on dining and groceries. Its attractive signup bonus and annual fee
 #   position it well for those looking to maximize their rewards.
 #
-# #4 capital-one-savorone (Best No-Fee)  [GPT #5, Gemini #3, Claude #5]
-#   The Capital One SavorOne is an attractive option for those seeking rewards
-#   without an annual fee. Its straightforward cash back structure and solid
-#   signup bonus make it a practical choice for everyday spending.
+# #4 capital-one-savorone  [GPT #5, Gemini #3, Claude #5]
+#   The Capital One SavorOne earns strong rewards on dining and groceries, but
+#   its $39 annual fee and lack of a signup bonus reduce its overall value.
 #
 # #5 chase-sapphire-preferred (Best for Travel Rewards)  [GPT #3, Gemini #7, Claude #4]
 #   The Chase Sapphire Preferred is a strong contender for those who value
@@ -124,9 +123,8 @@ cards:
       ranks: { openai: 4, gemini: 4, claude: 3 }
 
   - slug: capital-one-savorone
-    badge: Best No-Fee
     previous_rank: 5
-    highlight: Earn 3% cash back on dining and groceries, with no annual fee. Enjoy a $200 cash signup bonus after spending $500 in the first 3 months.
+    highlight: Earn 3% cash back on dining, groceries, entertainment, and streaming, with a $39 annual fee and no signup bonus.
     consensus:
       score: 29
       ranks: { openai: 5, gemini: 3, claude: 5 }
