@@ -74,6 +74,13 @@ benefits:
     description: "Coverage for eligible new purchases against damage or theft up to $500 per item for 120 days from purchase date"
     category: "protection"
     enrollment_required: false
+  - name: "Anniversary Avios Bonus"
+    value: 2500
+    value_unit: "miles"
+    description: "2,500 bonus Avios each account anniversary year"
+    frequency: "annual"
+    category: "rewards"
+    enrollment_required: false
 our_take: >
   The reason to carry this card is the reward flight statement credits: up to
   three per year, $100 for Economy or Premium Economy and $200 for Business or
