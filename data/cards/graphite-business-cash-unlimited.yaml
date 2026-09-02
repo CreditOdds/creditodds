@@ -10,17 +10,17 @@ apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-c
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  Amex built this one around a single number: unlimited 2% cash back on
-  eligible purchases, plus 5% on flights and prepaid hotels booked through
-  American Express Travel. The problem is that plenty of business cards pay a
-  flat 2% with no annual fee, so the $295 here has to be earned somewhere
-  else, and that somewhere is volume. The welcome offer is $1,500 after
-  $50,000 in six months, and the One AP statement credits, worth up to $2,400
-  a year, only begin after $250,000 in eligible purchases in a calendar year.
-  If your business genuinely runs six figures through a card annually, the
-  math works; below that you are paying a premium fee for a rate available for
-  free. No foreign transaction fees and a 17.74% to 28.49% regular APR round
-  it out.
+  The core of this card is a flat 2% cash back on eligible purchases with no
+  category tracking, which is the right shape for a business with spend that
+  does not sort neatly into buckets. American Express Travel bookings earn 5%
+  on flights and prepaid hotels, but that rate only applies through the Amex
+  portal, not to bookings made directly with the airline or property. The $295
+  annual fee is the first hurdle: at 2%, you need roughly $15,000 of annual
+  spend just to break even against a no fee 2% alternative. The signup bonus
+  is $1,500 after $50,000 of spend in six months, a high bar aimed squarely at
+  larger businesses, and the One AP statement credits of up to $2,400 require
+  $250,000 of purchases in a calendar year. There is no foreign transaction
+  fee, and the regular APR runs 17.74% to 28.49%.
 tags:
   - business
   - cashback

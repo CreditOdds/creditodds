@@ -7,21 +7,20 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  The Brilliant is the card you carry for Marriott Bonvoy Platinum Elite
-  status without staying 50 nights, and the annual Free Night Award is
-  unusually generous at up to 85,000 points, enough to reach properties the
-  cheaper Bonvoy cards cannot. The welcome offer currently sits at 150,000
-  points after $6,000 in 6 months, up from 100,000 earlier this year. The $650
-  annual fee is the obstacle, and Amex has stacked credits to answer it: $25 a
-  month in dining credits worth $300 a year, a $100 property credit on stays
-  of two or more consecutive nights, Priority Pass lounge access, and a Global
-  Entry or TSA PreCheck credit every 4 years. Those only work if your spending
-  fits the shape, since the dining credit is monthly and expires unused, and
-  the property credit requires a qualifying two night Marriott stay. Earning
-  is fine but not the draw: 6x at Marriott properties, 3x at restaurants and
-  on flights booked directly with airlines, 2x on everything else. This makes
-  sense for a regular Marriott guest who will use the dining credit every
-  month; occasional guests should look at the cheaper Bonvoy cards.
+  The Brilliant is built around a free night award good for redemptions up to
+  85,000 points plus complimentary Marriott Bonvoy Platinum Elite status,
+  which is the highest-tier status you can get from a card in this family and
+  brings upgrades, late checkout, and lounge access. The welcome offer
+  currently sits at 150,000 points after $6,000 in purchases within 6 months,
+  up from 100,000 after Amex cut it from 200,000 earlier this year. The math
+  on the $650 annual fee hinges on credits you have to actually use: $25 a
+  month in dining statement credits, $100 toward a Marriott stay of two or
+  more consecutive nights, and Global Entry or TSA PreCheck once every 4
+  years. Outside of the 6 points per dollar at Marriott Bonvoy properties, the
+  earn structure is modest at 3x on restaurants and direct airline bookings
+  and 2x on everything else. If you stay with Marriott a few times a year and
+  will use the monthly dining credit, this works; if the credits sit unused,
+  the fee is hard to justify.
 annual_fee: 650
 reward_type: "points"
 rewards:

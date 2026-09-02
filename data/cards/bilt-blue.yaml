@@ -10,20 +10,21 @@ annual_fee: 0
 reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
-  Bilt Blue's whole pitch is paying rent or a mortgage by card with no
-  transaction fee, earning up to 1.25x points on that housing payment for no
-  annual fee at all. Around it you get 3x on hotels and 2x on flights booked
-  through Bilt Travel, 3x on Lyft rides once you link your Lyft account, and
-  no foreign transaction fees. The catch sits in the fine print on the
-  headline rate: the up to 1.25x only applies if you pick the housing-only
-  rewards track, and the exact multiplier is reset each billing cycle based on
-  your everyday spend relative to the housing payment. Everything else earns a
-  flat 1x, and the alternative 4% Bilt Cash track on everyday spend replaces
-  the rent points rather than adding to them, with Bilt Cash being an
-  in-ecosystem currency used mainly for point accelerators rather than true
-  cash back. The $100 in Bilt Cash at signup and the unusual 10% intro rate on
-  purchases for the first 12 billing cycles, which is a low rate and not a 0%
-  window, are small extras rather than reasons to apply.
+  Bilt Blue exists for one thing: paying rent or a mortgage by card without a
+  transaction fee, earning up to 1.25x points on housing when you choose the
+  housing rewards track, with no annual fee. That is genuinely useful, since
+  rent is usually the largest bill that earns nothing at all. Be careful with
+  the fine print, though: the exact housing multiplier is reset each billing
+  cycle based on your everyday spend relative to the housing payment, and
+  picking the alternative 4% Bilt Cash track on everyday spend drops housing
+  to 1x, so you choose one track and not both. Bilt Cash is also a separate
+  currency used mostly for point accelerators rather than actual cash back,
+  and the $100 signup bonus arrives in that form. The rest of the earn is
+  modest: 3x on hotels and 2x on flights booked through Bilt Travel, 3x on
+  Lyft rides after linking your account, and a plain 1x on everything else, so
+  this is a housing card first and an everyday card a distant second. The
+  intro APR is unusual and worth noting: 10% rather than 0% for the first 12
+  billing cycles, before a steep 26.74% to 34.74% regular rate.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

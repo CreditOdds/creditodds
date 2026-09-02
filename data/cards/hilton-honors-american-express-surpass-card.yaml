@@ -8,20 +8,20 @@ foreign_transaction_fee: false
 network: "amex"
 annual_fee: 150
 our_take: >
-  The Surpass sits in the sweet spot of the Hilton lineup: 12x at Hilton
-  hotels and resorts and 6x at U.S. restaurants, U.S. supermarkets, and U.S.
-  gas stations, rates that hold up against cards charging far more than its
-  $150 annual fee. Up to $200 a year in Hilton credits, released as $50 per
-  quarter, covers most of the fee on its own if your Hilton stays are spread
-  across the year, and complimentary Gold status adds room upgrades, late
-  checkout, and 5th night free on reward stays. The welcome offer is 130,000
-  points plus a Free Night Reward after $3,000 in six months, a low spend
-  requirement for a bonus that size. The limits are real: the credits expire
-  quarterly rather than pooling, and the free night at $15,000 and Diamond
-  status at $40,000 in a calendar year are out of reach for most cardholders.
-  Take it over the no-fee Hilton card if you stay with the brand a few nights
-  a year, and over the Aspire if you will not travel enough to use that card's
-  larger credits.
+  The Surpass is the middle Hilton card, and the reason to pick it is the
+  everyday earn: 6x at U.S. restaurants, U.S. supermarkets, and U.S. gas
+  stations, 4x on eligible U.S. online retail, and 3x on everything else, with
+  12x reserved for eligible purchases at Hilton properties. The signup bonus
+  is 130,000 points plus a Free Night Reward after $3,000 of spend in six
+  months, which is a low requirement relative to the size of the offer. Up to
+  $50 per quarter in Hilton credits can offset most of the $150 annual fee,
+  but only if you have a Hilton charge in each of the four quarters, and
+  unused quarters do not roll forward. Complimentary Gold status with
+  upgrades, late checkout, and fifth night free on award stays is the ongoing
+  perk that matters most; Diamond requires $40,000 of annual spend, and a
+  second Free Night Reward requires $15,000. Hilton points carry modest per
+  point value, so weigh the 6x categories against a card earning transferable
+  points at a lower rate.
 reward_type: "points"
 rewards:
   - category: hotels

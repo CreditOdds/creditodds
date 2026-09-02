@@ -42,21 +42,23 @@ apr:
     min: 19.49
     max: 29.49
 our_take: >
-  The Premier only makes sense if you fly JetBlue often enough to use its
-  credits, because the $499 annual fee is steep and the offsets are specific:
-  up to $300 a year in statement credits on TrueBlue Travel bookings like
-  hotels, car rentals, and cruises, 5,000 anniversary points, and a $120
-  Global Entry or TSA PreCheck credit every four years. Lounge access is the
-  real upgrade over the $99 Plus, combining JetBlue BlueHouse lounges for
-  cardmembers on eligible fares with a Priority Pass membership covering more
-  than 1,800 lounges. Earning is unchanged from the cheaper JetBlue cards at
-  6x on JetBlue and TrueBlue Travel purchases, 2x on dining and groceries, and
-  1x on everything else, so the fee buys perks, not better rewards. The
-  90,000-point signup bonus after $5,000 in three months was cut from 100,000
-  in early August, and the headline companion pass credits require $15,000 of
-  spend for the first $500 and $75,000 for the additional $1,500. Run the math
-  on the $300 travel credit and lounge visits honestly before committing; if
-  you would not clear those, the Plus does most of the job for $400 less.
+  At $499 a year, the JetBlue Premier is asking you to prepay for benefits you
+  must actively use, and the math only works for frequent JetBlue flyers. The
+  credits are the core of it: up to $300 in statement credits on TrueBlue
+  Travel purchases like hotels, car rentals, and cruises each calendar year,
+  plus up to $120 for Global Entry or TSA PreCheck every four years, which
+  together offset well over half the fee if you book that travel through
+  JetBlue. On top of that you get BlueHouse lounge access with eligible fares,
+  Priority Pass, a free first checked bag for you and up to three companions,
+  a 15% points rebate on award flights, and an annual 25-tile bonus toward
+  Mosaic. Earn rates are unchanged from the cheaper cards at 6 points per
+  dollar on JetBlue and TrueBlue Travel, 2 points on dining and groceries, and
+  1 point elsewhere, so you are not paying extra for a better points engine.
+  The companion pass credits look generous at up to $500, but they require
+  $15,000 in calendar-year spend, with the larger $1,500 tier needing $75,000,
+  and the signup bonus was cut from 100,000 to 90,000 points in August, so
+  evaluate this card on the $300 travel credit and lounge access rather than
+  the headline perks.
 benefits:
   - name: "TrueBlue Travel Statement Credits"
     value: 300

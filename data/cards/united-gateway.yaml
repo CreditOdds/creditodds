@@ -40,18 +40,19 @@ apply_link: https://creditcards.chase.com/travel-credit-cards/united/united-gate
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Gateway is United's no-annual-fee entry point and our Best No-Fee pick
-  among airline cards, sitting at number 17 on that list. You get 2x on
-  eligible United purchases, gas, and local transit, 1x on everything else,
-  and 30,000 bonus miles after just $1,000 in three months, plus 10,000 more
-  for adding an authorized user, which is an unusually low bar. It also
-  includes 12 months of 0% intro APR on purchases, rare for an airline card,
-  before the rate resets to a variable 19.74% to 28.24%. Be clear on the
-  limits: there is no free checked bag or lounge access out of the gate, and
-  the perks that exist, two checked bags and 10% off award flights, only
-  unlock after $10,000 of spend in a calendar year. Treat it as a free way to
-  keep MileagePlus miles accruing, not as a card that improves the flight
-  itself.
+  The Gateway is the no-annual-fee entry point to United miles, earning 2
+  miles per dollar on eligible United purchases, gas, and transit, with 1 on
+  everything else and no foreign transaction fee. The 30,000-mile signup bonus
+  after just $1,000 in three months, plus 10,000 more for adding an authorized
+  user, is a low bar for a free card, and the 12-month 0% intro APR on
+  purchases gives it a second use. Be honest about what it doesn't have: no
+  free checked bag, no lounge passes, and no Global Entry credit, so the perks
+  that make the paid United cards worthwhile are absent here. The two benefits
+  it does offer, two free checked bags and 10% off award flights, only unlock
+  after $10,000 in calendar-year spend, which is a lot to put on a 1x base
+  card. It carries the Best No-Fee badge at #17 on our Best Airline Credit
+  Cards list, and that is the right framing: a way to keep earning United
+  miles without paying to do it, not a card to build a wallet around.
 benefits:
   - name: "Checked Bags"
     value: 0

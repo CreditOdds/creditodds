@@ -12,15 +12,15 @@ foreign_transaction_fee: true
 network: "mastercard"
 our_take: >
   The Split's one real feature is its payment structure: any purchase of $100
-  or more can be paid over three months with no interest and no fees, and
-  there's no annual fee to hold the card. That's a genuinely useful way to
-  smooth out a mid-sized expense without the plan fees most buy-now-pay-later
-  products attach. The problem is that this is all the card does. It earns no
-  rewards, has no signup bonus, and carries foreign transaction fees, so
-  there's no reason to spend on it outside of purchases you actually want to
-  split. If you're mainly after breathing room on a large purchase, a card
-  with a long 0% intro APR window gives you far more time to pay it off. Keep
-  this one narrow: use it for the three-month plans and nothing else.
+  or more can be broken into a 3-month plan with no interest and no fees, and
+  the card itself carries no annual fee. That makes it a narrow but honest
+  tool if you want to spread out mid-size purchases without paying financing
+  charges. Be clear about what is missing, though: the card earns no rewards
+  of any kind, so every dollar you route through it is a dollar not earning
+  cash back or points elsewhere. It also charges foreign transaction fees,
+  which takes it out of contention for anything abroad. Use it deliberately
+  for the purchases you actually want stretched across three months, and keep
+  a rewards card for everything else.
 benefits:
   - name: "3-Month Interest-Free Plans"
     value: 0

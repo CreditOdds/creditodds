@@ -15,17 +15,17 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  Amex stopped accepting new applications for the Green in July 2026, so this
-  is now a card to evaluate only if you already hold one. What it did well was
-  breadth: 3 points per dollar on travel, transit, and dining, with no foreign
-  transaction fees, for a $150 annual fee. The problem for existing
-  cardholders is that the fee leans almost entirely on the $219 annual CLEAR
-  Plus credit, which is only worth having if you fly often enough to use
-  CLEAR, and everything outside those three categories earns 1 point per
-  dollar. If the CLEAR credit isn't getting used, the Wells Fargo Autograph
-  matches the same 3x on travel, transit, and dining with no annual fee, and
-  the Chase Sapphire Preferred covers dining at 3x for $95. Weigh the credit
-  against the fee at renewal rather than keeping the card out of habit.
+  Amex stopped accepting new applications for the Green in July 2026, so the
+  question now is whether to keep it, not whether to get it. It earns 3x on
+  travel, transit, and dining for a $150 annual fee, and the single offsetting
+  credit is up to $219 a year for CLEAR Plus, which only pays off if you fly
+  often enough to use it. Everything outside those three categories earns 1x,
+  which is thin for a card with a fee. If CLEAR is not part of your routine,
+  the math is hard to defend: the Wells Fargo Autograph matches the 3x on
+  travel, transit, and dining with no annual fee, and the Chase Sapphire
+  Preferred offers 3x dining and transferable points for $95. Inside Amex, the
+  Gold is the natural step up if your dining and grocery spend can clear its
+  larger fee.
 annual_fee: 150
 reward_type: "points"
 rewards:

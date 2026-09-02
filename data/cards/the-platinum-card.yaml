@@ -8,21 +8,21 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
 our_take: >
-  The Platinum Card currently ranks #1 on our Best Credit Card Signup Bonuses
-  list, and the reason is straightforward: 175,000 points after $12,000 in
-  purchases in six months. Ongoing earning is narrow, though: 5x points on
-  airfare booked directly with airlines or through Amex Travel (up to $500,000
-  per year, then 1x) and 5x on prepaid hotels through AmexTravel.com, with a
-  flat 1x on everything else. What has to justify the $895 annual fee is the
-  credit stack, including up to $600 in Fine Hotels + Resorts or Hotel
-  Collection credits, $400 at Resy restaurants, $300 in digital entertainment,
-  $300 at Equinox, $300 at Lululemon, $200 in Uber Cash, and $219 for CLEAR
-  Plus, plus Centurion Lounge and Priority Pass access. The catch is that
-  those credits arrive in monthly, quarterly, and semi-annual slices and most
-  require enrollment, so you only come out ahead if your spending already runs
-  through Uber, Resy, Lululemon, and Amex Travel hotel bookings. If you would
-  not naturally use most of them, that 1x base rate makes this a costly card
-  to keep.
+  The Platinum earns 5x on airfare booked directly with airlines or through
+  Amex Travel, up to $500,000 a year, and 5x on prepaid hotels through
+  AmexTravel.com, paired with a 175,000 point bonus after $12,000 in spend
+  over six months that currently ranks second on our Best Credit Card Signup
+  Bonuses list. Lounge access is the ongoing draw: Centurion Lounges, Priority
+  Pass Select, and 10 Delta Sky Club visits a year when flying Delta. The $895
+  annual fee is only justified if you methodically use the credits, which
+  include up to $600 a year in Fine Hotels + Resorts or Hotel Collection
+  bookings, $400 at Resy restaurants, $300 in monthly digital entertainment
+  credits, $300 for Equinox, $300 for Lululemon, $200 in Uber Cash, $200 in
+  airline incidental fees, and $219 for CLEAR Plus. Most of those require
+  enrollment and arrive in monthly or quarterly slices, so unused months are
+  gone for good, and a card that pays only 1x outside airfare and portal
+  hotels is not the one to put everyday spending on. Treat it as a travel and
+  credits subscription you either work at or should not buy.
 annual_fee: 895
 reward_type: "points"
 rewards:

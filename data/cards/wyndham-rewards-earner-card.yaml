@@ -9,19 +9,18 @@ annual_fee: 0
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  This is the no annual fee entry point to Wyndham Rewards, and the pitch is
-  simple: 5 points per dollar at Hotels by Wyndham, plus 3 points per dollar
-  on dining and groceries, with no foreign transaction fee. The welcome offer
-  is 75,000 points, structured as 30,000 after $1,000 in purchases in the
-  first 90 days and 45,000 more after $500 at Hotels by Wyndham within 180
-  days, so you need an actual Wyndham stay to collect all of it. There is also
-  a 15 month 0% intro APR on balance transfers, which is a reasonable side
-  benefit but not the reason to apply. The tradeoffs are that the 5x rate is
-  limited to Wyndham properties, the grocery category excludes Target and
-  Walmart, everything else earns a flat 1 point per dollar, and the
-  anniversary bonus of 7,500 points requires $15,000 of spending to trigger.
-  Automatic Gold status and a 10% discount on award redemptions round it out:
-  modest, but at $0 a year there is little to lose.
+  For a card with no annual fee, the Earner asks very little up front: 75,000
+  points total, split as 30,000 after $1,000 of spend in 90 days and 45,000
+  more after just $500 at Hotels by Wyndham within 180 days. Day to day it
+  earns 5x at Wyndham properties, 3x on dining and groceries excluding Target
+  and Walmart, and 1x on everything else, alongside automatic Gold status and
+  a 10% discount when you redeem points for free nights. There is also 15
+  months of 0% intro APR on balance transfers, a useful side door on a card
+  that costs nothing to keep. The catches are modest but real: the 7,500-point
+  anniversary bonus only triggers after $15,000 of spend, and the headline 5x
+  rate counts only at Wyndham hotels. If Wyndham is not in your travel
+  rotation, the 3x dining and grocery rates are not enough to carry the card
+  on their own.
 reward_type: "points"
 tags:
   - hotel

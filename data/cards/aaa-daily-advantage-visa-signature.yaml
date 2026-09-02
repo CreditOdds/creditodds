@@ -59,17 +59,15 @@ apr:
     min: 17.49
     max: 31.49
 our_take: >
-  The Daily Advantage earns 5% back at grocery stores and 3% on gas and EV
-  charging, wholesale clubs, streaming, and pharmacy purchases, all with no
-  annual fee and no foreign transaction fee. The catch is the cap: groceries,
-  wholesale clubs, and gas and EV charging share a single $500 per year cash
-  back limit, and everything past it drops to 1%, which is also the rate on
-  all other spending. That works out to roughly $10,000 of grocery spending
-  before the 5% runs out, so treat this as a card for a household's core bills
-  rather than a catch-all. The $100 bonus after $1,000 in the first three
-  months is modest but easy to clear. If you already deal with AAA, the 3%
-  back on memberships and AAA Travel bookings and the 5% redemption bonus
-  through AAA Northeast advisors are small extras on top.
+  The draw here is 5% back on groceries with no annual fee, a higher grocery
+  rate than most no-fee cash back cards pay. The catch is the cap: the 5%
+  grocery rate and the 3% rates on gas, EV charging, and wholesale clubs all
+  share a single $500 per year cash back limit, after which they drop to 1%.
+  That ceiling arrives at roughly $10,000 of grocery spend, so this fits a
+  normal household budget rather than a large one. Streaming and drugstore
+  purchases earn 3% without sharing that cap, and there are no foreign
+  transaction fees. The $100 bonus after $1,000 in three months is modest, and
+  with a regular APR of 17.49% to 31.49% this is strictly a pay-in-full card.
 benefits:
   - name: "AAA Redemption Bonus"
     value: 0

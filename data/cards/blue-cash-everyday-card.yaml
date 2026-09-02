@@ -8,20 +8,18 @@ foreign_transaction_fee: true
 network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
 our_take: >
-  Blue Cash Everyday covers the three places most households actually spend at
-  3%: U.S. supermarkets, U.S. gas stations, and U.S. online retail, each with
-  its own $6,000 annual cap before dropping to 1%, and it charges no annual
-  fee. Fully used, those caps are worth up to $540 a year in bonus cash back,
-  which is a lot for a card that costs nothing to hold. It also carries one of
-  the longer intro windows in the no-fee cash back tier at 0% for 15 months on
-  both purchases and balance transfers, with transfers needing to be requested
-  within 60 days of opening. The catches are ordinary but worth knowing:
-  everything outside those three categories earns 1%, there is a foreign
-  transaction fee that rules it out abroad, and the $84 in annual Disney
-  streaming credit comes as $7 monthly increments you have to enroll for and
-  actually use. It sits at #6 on our Best Cash Back list, and the $200 welcome
-  bonus after $2,000 in six months is an easy target for a card you would
-  carry anyway.
+  The Blue Cash Everyday spreads 3% cash back across three categories most
+  households already spend in: U.S. supermarkets, U.S. gas stations, and U.S.
+  online retail, all with no annual fee. The limit is the cap: each category
+  earns 3% on only the first $6,000 a year, and everything past that, plus all
+  other spending, drops to 1%. New cardholders can pick up $200 after $2,000
+  of spend in the first 6 months, and there's a 15 month 0% intro APR on both
+  purchases and balance transfers requested within 60 days, which gives the
+  card a second use as a short payoff runway. The $7 monthly credit toward
+  Disney+, Hulu, or ESPN+ is worth up to $84 a year but requires enrollment,
+  so it only counts if you already pay for one of those. Note the foreign
+  transaction fee: this is a domestic card, and it ranks #6 on our Best Cash
+  Back list.
 annual_fee: 0
 reward_type: "cashback"
 tags:

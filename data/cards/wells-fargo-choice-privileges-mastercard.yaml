@@ -44,19 +44,19 @@ apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercar
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  Wells Fargo recently raised this card's signup bonus from 40,000 to 60,000
-  Choice Privileges points, and the spend to earn it is only $1,000 in the
-  first 3 months, which is one of the easier bars to clear on a no annual fee
-  card. Beyond the bonus, the everyday earn is broader than most hotel cards:
-  3 points per dollar on gas, groceries, home improvement and phone bills,
-  plus automatic Gold Elite status and 10 elite qualifying nights each year.
-  The headline 5 points per dollar applies only at participating Choice Hotels
-  properties, so it does nothing for stays outside that brand. Everything else
-  earns 1 point per dollar, and Choice points are worth relatively little per
-  point, so the value depends on actually redeeming for Choice stays. With no
-  annual fee and no foreign transaction fee, it is a low-commitment card if
-  Comfort Inn, Quality Inn and their siblings are where you sleep, and a poor
-  fit if they are not.
+  This is a no annual fee hotel card built around Choice Privileges, earning
+  5x points at participating Choice Hotels properties and 3x on gas,
+  groceries, home improvement, and phone plans, which is a wider everyday
+  footprint than most free hotel cards offer. The signup bonus was recently
+  raised from 40,000 to 60,000 points after $1,000 in the first three months,
+  so the entry value is better than it was in May. Automatic Gold Elite status
+  plus 10 elite qualifying nights each year keeps that status intact without
+  any stay requirement, and there is no foreign transaction fee. The obvious
+  limit is that the 5x rate applies only at Choice properties, so the card is
+  worth carrying mainly if Choice is a brand you actually book; everything
+  outside the bonus categories earns 1x. Cell phone protection of up to $800
+  per claim, with a $25 deductible, applies when you pay your monthly bill
+  with the card.
 benefits:
   - name: "Automatic Gold Elite Status"
     value: 0

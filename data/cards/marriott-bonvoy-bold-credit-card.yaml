@@ -84,19 +84,20 @@ apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bo
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Bold is the no annual fee entry point to Marriott Bonvoy, earning 3x
-  points on stays at Marriott properties and 2x on a fairly wide everyday mix:
-  groceries, select streaming, internet and cable, phone service, and
-  rideshare. Automatic Silver Elite status and 5 Elite Night Credits a year
-  cost you nothing to hold, and the card adds real travel coverage for a free
-  product, including trip delay reimbursement up to $500 per ticket and lost
-  luggage protection up to $3,000. The welcome offer was recently cut from
-  60,000 to 45,000 points after $1,000 of spend in 3 months, which is still an
-  easy threshold but a weaker starting point than it was. The tradeoff is that
-  everything here is modest: 1x on unbounded spend, Silver is the lowest
-  useful Bonvoy tier, and there is no annual free night, which is the benefit
-  that justifies the fee on Marriott's paid cards. Take it as a cheap way to
-  hold Bonvoy status and earn on Marriott stays, not as a card you lead with.
+  The Bonvoy Bold's appeal is that it costs nothing to hold while still giving
+  you automatic Silver Elite status and 5 Elite Night Credits a year toward
+  higher Marriott status, which is a reasonable trade for a card you keep in a
+  drawer. Earn rates are modest: 3 points per dollar at Marriott Bonvoy
+  hotels, 2 points on groceries, select streaming, internet and cable, phone
+  service, and rideshare, and 1 point on everything else, with no foreign
+  transaction fee. The 45,000-point bonus after just $1,000 in three months is
+  easy to hit, though it was trimmed from 60,000 in August, so this is a
+  weaker entry point than the card offered earlier in the year. The travel
+  protections are the quiet strength here for a no-fee product, including up
+  to $500 per ticket in trip delay reimbursement, baggage delay coverage, and
+  up to $3,000 in lost luggage reimbursement. Just do not expect this card to
+  move you meaningfully up the Bonvoy ladder: the elite night credits help,
+  but Silver status carries little practical benefit on its own.
 signup_bonus:
   value: 45000
   type: "points"

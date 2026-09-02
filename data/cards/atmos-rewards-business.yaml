@@ -14,20 +14,19 @@ check_ignore:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The pitch here is a business card that keeps airline spending off your
-  personal credit file: activity does not report to the personal bureaus,
-  which helps if you are managing utilization or 5-24 style limits. The
-  welcome offer is 70,000 points plus a $99 Companion Fare after $4,000 in
-  purchases within 90 days, though note it briefly ran at 80,000 in May before
-  dropping back to 70,000 in July, so it is worth waiting for the higher offer
-  to return if you are not in a hurry. Ongoing earning is narrow: the 3 points
-  per dollar rate applies only to Alaska and Hawaiian Airlines purchases, with
-  2 points per dollar on gas, EV charging, transit and shipping and just 1
-  point everywhere else. Against the $95 annual fee, the recurring $99
-  Companion Fare requires $6,000 of spend each year to trigger, so the math
-  only works if you actually fly Alaska and put real volume on the card. Free
-  checked bag, priority boarding and 20% back on inflight purchases round it
-  out, and there are no foreign transaction fees.
+  This is the business version of the Alaska and Hawaiian card, same $95 fee
+  and same 3 points per dollar on Alaska and Hawaiian Airlines purchases, with
+  the category mix tuned for a company: 2 points on gas, EV charging, transit,
+  and shipping, and 1 point on everything else. The opening offer is 70,000
+  points and a $99 Companion Fare after $4,000 in the first 90 days, recently
+  trimmed from 80,000. The quiet advantage over the personal card is that
+  account activity does not report to personal credit bureaus, which keeps the
+  balance off your utilization and the account out of 5/24 style counts. The
+  recurring $99 Companion Fare needs $6,000 in annual purchases to trigger,
+  and the free checked bag here covers only the cardmember rather than a
+  party, so it is a narrower benefit than the consumer version. If your
+  business does not put meaningful spend on Alaska or Hawaiian, the 2x
+  categories alone are not enough to carry the fee.
 tags:
   - travel
   - airline

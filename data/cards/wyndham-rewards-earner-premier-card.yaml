@@ -36,24 +36,22 @@ rewards:
     unit: points_per_dollar
     note: "Also earns 4x on Wyndham Vacation Club purchases"
 our_take: >
-  At $395 a year, the Premier is built around a stack of recurring credits and
-  points rather than raw earn rates: 30,000 anniversary points after you pay
-  the fee, a free night worth up to 30,000 points once you stay five or more
-  nights in a calendar year, a 25% discount on award redemptions, and up to
-  $100 in Wyndham hotel credits, $120 in meal delivery credits at $10 a month,
-  $100 in streaming credits, and $65 toward a wholesale club membership.
-  Earning is 8 points per dollar at Hotels by Wyndham, which applies only at
-  Wyndham properties, plus 4 points per dollar on travel, dining, and
-  groceries, with Target and Walmart excluded and everything else at 1 point
-  per dollar. The current limited time welcome offer is 120,000 points, but it
-  is the most demanding of the family: 90,000 after $6,000 in spending and
-  paying the annual fee in full, both within 120 days, then 30,000 more after
-  $750 at Hotels by Wyndham within 180 days. Diamond status, a $95 Wyndham
-  Rewards Insider subscription, up to $120 toward Global Entry or TSA PreCheck
-  every four years, and no foreign transaction fee fill out the package. The
-  math only works if you actually use the monthly credits and stay at Wyndham
-  enough to clear five nights; otherwise the cheaper Plus covers most of the
-  same ground for $300 less.
+  The Premier costs $395, and its credits are stacked so a Wyndham regular can
+  clear that on paper: 30,000 anniversary points, a free night worth up to
+  30,000 points after five nights in a calendar year, up to $100 back at
+  Wyndham hotels, $120 a year for meal delivery, $100 a year on streaming, and
+  $65 toward a wholesale club membership. The current limited-time offer is
+  120,000 points, with 90,000 after $6,000 of spend and paying the annual fee
+  in full within 120 days, plus 30,000 more after $750 at Hotels by Wyndham in
+  the first 180 days. Ongoing you get 8x at Wyndham properties, 4x on travel,
+  dining, and groceries excluding Target and Walmart, automatic Diamond
+  status, and a 25% discount on award redemptions that quietly stretches every
+  point you hold. The honest catch is that much of the value is credit value:
+  the meal delivery credit doles out $10 a month, the streaming and wholesale
+  club credits only pay if you use those services, and everything outside the
+  bonus categories earns 1x. Unless you spend several nights a year at Wyndham
+  and will actually work through the monthly credits, the fee outruns what
+  comes back.
 signup_bonus:
   value: 120000
   type: "points"
