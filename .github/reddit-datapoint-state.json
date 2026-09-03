@@ -957,14 +957,14 @@
     "t3_1w1a088": "2026-08-29",
     "t3_1w14r1i": "2026-08-29",
     "t3_1w0xup8": "2026-08-29",
-    "t3_1w2ri7t": "2026-09-02",
+    "t3_1w2ri7t": "2026-09-03",
     "t3_1w2px2a": "2026-08-30",
     "t3_1w2lnnn": "2026-08-30",
     "t3_1w2dh8d": "2026-08-30",
     "t3_1w24h9x": "2026-08-30",
     "t3_1w23kdp": "2026-08-30",
     "t3_1w21822": "2026-08-30",
-    "t3_1w1xm9d": "2026-09-02",
+    "t3_1w1xm9d": "2026-09-03",
     "t3_1w1x02h": "2026-08-30",
     "t3_1w33u0b": "2026-08-31",
     "t3_1w2uz6y": "2026-08-31",
@@ -973,7 +973,7 @@
     "t3_1w4dqse": "2026-09-01",
     "t3_1w4c36q": "2026-09-01",
     "t3_1w41qaw": "2026-09-01",
-    "t3_1w3zjrz": "2026-09-02",
+    "t3_1w3zjrz": "2026-09-03",
     "t3_1w3zcdw": "2026-09-01",
     "t3_1w3ybou": "2026-09-01",
     "t3_1w3vo2k": "2026-09-01",
@@ -992,54 +992,20 @@
     "t3_1w4qwuz": "2026-09-02",
     "t3_1w4q7hy": "2026-09-02",
     "t3_1w4l7yy": "2026-09-02",
-    "t3_1w4g5nn": "2026-09-02"
+    "t3_1w4g5nn": "2026-09-02",
+    "t3_1w67twh": "2026-09-03",
+    "t3_1w61d9i": "2026-09-03",
+    "t3_1w5vlxz": "2026-09-03",
+    "t3_1w5uo24": "2026-09-03",
+    "t3_1w5sujq": "2026-09-03",
+    "t3_1w5sqwt": "2026-09-03",
+    "t3_1w5qjgh": "2026-09-03",
+    "t3_1w5lglk": "2026-09-03",
+    "t3_1w5hiwn": "2026-09-03",
+    "t3_1w5hi96": "2026-09-03",
+    "t3_1w5de2w": "2026-09-03"
   },
   "pending": {
-    "t3_1vync0s": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1vync0s/trying_to_get_savor_to_pair_with_venture_x_to/",
-      "title": "Trying to get Savor to pair with Venture X to complete setup",
-      "posted": "2026-08-26",
-      "card_name": "Capital One Venture X Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for the Venture X in mid-August 2026 and now chasing the Savor. Still no score anywhere in the post or replies after three looks.",
-      "ask": "Congrats on the Venture X. What was your credit score when you applied for it?",
-      "firstSeen": "2026-08-26",
-      "attempts": 3,
-      "lastChecked": "2026-09-02"
-    },
-    "t3_1w068db": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w068db/back_to_back_approvals_for_altitude_go_mcp/",
-      "title": "Back to back approvals for Altitude Go + MCP",
-      "posted": "2026-08-27",
-      "card_name": "US Bank Altitude Go Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "US Bank confirmed the Altitude Go approval at a $3,500 limit on 2026-08-27. Look 3 added an OP reply about a separate Aven denial but still no credit score.",
-      "ask": "What was your score when US Bank approved the Altitude Go at $3,500?",
-      "firstSeen": "2026-08-28",
-      "attempts": 3,
-      "lastChecked": "2026-09-02"
-    },
-    "t3_1w2ri7t": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w2ri7t/got_my_first_credit_card_at_26_after_being_scared/",
-      "title": "Got my first credit card at 26 after being scared to get one",
-      "posted": "2026-08-30",
-      "card_name": "Capital One Quicksilver Secured Cash Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "First ever card at 26, approved with a $1,000 deposit and $1,000 limit in August 2026. Replies say no income and no prior history, so a score may not exist yet.",
-      "ask": "Did you have any credit score at all when you applied, or was your file completely new?",
-      "firstSeen": "2026-08-30",
-      "attempts": 2,
-      "lastChecked": "2026-09-02"
-    },
     "t3_1w1xm9d": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w1xm9d/amex_blue_cash_preferred_3x_credit_line_increase/",
       "title": "AMEX Blue Cash Preferred 3x Credit Line Increase Strategy?",
@@ -1050,25 +1016,68 @@
         "credit_score"
       ],
       "note": "Approved in August 2026 with a $12,000 starting line. The only number is a forward-looking 'score would stay around 740' during a planned utilization run, not the score at application.",
-      "ask": "You mentioned staying around 740 while running up utilization. What was your score on the day you applied?",
+      "ask": "You mentioned expecting to stay around 740 while running up utilization. What was your score on the day you applied?",
       "firstSeen": "2026-08-30",
-      "attempts": 2,
-      "lastChecked": "2026-09-02"
+      "attempts": 3,
+      "lastChecked": "2026-09-03"
     },
-    "t3_1w3zjrz": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w3zjrz/i_got_approved_for_a_chase_freedom_unlimited_now/",
-      "title": "I got approved for a Chase Freedom Unlimited, now what?",
-      "posted": "2026-09-01",
-      "card_name": "Chase Freedom Unlimited",
+    "t3_1w5vlxz": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5vlxz/applied_for_the_wrong_card/",
+      "title": "Applied for the wrong card",
+      "posted": "2026-09-03",
+      "card_name": "Discover it Cash Back",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Instant Freedom Unlimited approval at $500 on the poster's 18th birthday after about 12 months of Chase checking. No score given anywhere.",
-      "ask": "Did Chase or your bank app show you a credit score when you applied?",
-      "firstSeen": "2026-09-01",
-      "attempts": 2,
-      "lastChecked": "2026-09-02"
+      "note": "First ever card, approved September 2026 with a $1,000 limit and a confirmed hard pull. Poster meant to apply for the secured version and never gave a score.",
+      "ask": "You said this was your first card. Did Discover or any app show you a credit score when you applied?",
+      "firstSeen": "2026-09-03",
+      "attempts": 1,
+      "lastChecked": "2026-09-03"
+    },
+    "t3_1w5uo24": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5uo24/new_chase_sapphire_preferred_has_declined_6/",
+      "title": "New Chase Sapphire Preferred has declined 6 legitimate purchases despite repeatedly verifying and “unlocking” my account each time",
+      "posted": "2026-09-03",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved August 22 2026 with a $7,000 limit. The post is entirely about fraud declines afterward and never states a score.",
+      "firstSeen": "2026-09-03",
+      "attempts": 1,
+      "lastChecked": "2026-09-03"
+    },
+    "t3_1w5hi96": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5hi96/chase_524_timing_5th_card_just_hit_24_months_but/",
+      "title": "Chase 5/24 timing, 5th card just hit 24 months but rejected, what to say to recon?",
+      "posted": "2026-09-02",
+      "card_name": "Ink Business Unlimited",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied September 2026, recon confirmed Chase still counted them at 5/24. No score given anywhere in the post.",
+      "firstSeen": "2026-09-03",
+      "attempts": 1,
+      "lastChecked": "2026-09-03"
+    },
+    "t3_1w5de2w": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5de2w/bofa_reconsideration_success_travel_rewards/",
+      "title": "BofA reconsideration success. Travel Rewards.",
+      "posted": "2026-09-02",
+      "card_name": "Bank of America Travel Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied then approved on reconsideration in September 2026 after verifying SSN at a branch. Initial decline cited recent accounts and no BofA relationship. No score stated.",
+      "ask": "You listed 5/12 and 6/24 for accounts. What was your FICO when you applied?",
+      "firstSeen": "2026-09-03",
+      "attempts": 1,
+      "lastChecked": "2026-09-03"
     },
     "t3_1w5bg9u": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w5bg9u/applying_for_two_credit_cards_back_to_back/",
@@ -1457,6 +1466,21 @@
         "duplicate": 1,
         "no_outcome": 6,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-09-03T17:17:57.033Z",
+      "date": "2026-09-03",
+      "candidates": 14,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 6,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 3,
+        "no_outcome": 6
       }
     }
   ]
