@@ -21,6 +21,7 @@ const assert = require('node:assert/strict');
 const {
   TWEET_TEXT_LIMIT,
   TWEET_MAX,
+  MIN_TRUNCATED_LENGTH,
   sanitizeSocialText,
   enforceTweetLimit,
   findFlattenedAttribution,
@@ -116,6 +117,42 @@ test('a lone early sentence boundary is preferred over an ellipsis', () => {
   const out = enforceTweetLimit(`${lead} ${'y'.repeat(200)} trailing words`);
   assert.equal(out, lead, `did not cut back to the lead sentence: ${out}`);
   assert.ok(!out.endsWith('...'), 'fell back to ellipsis despite a clean break');
+});
+
+// The exact post that shipped truncated on 2026-09-04 (queue id 398). The
+// model came in at 259 characters, four over budget, and the only sentence
+// break sat at 122 -- just under the old `limit * 0.5` guard -- so the clean
+// break was rejected and the ellipsis fallback cut inside "retroactive",
+// destroying the negation the sentence existed to deliver.
+test('a barely-over post cuts back to its sentence instead of mid-word', () => {
+  const shipped =
+    "NEW: Discover's Q4 2026 rotating categories for October through December " +
+    'include restaurants, entertainment, and utilities. The 5% cashback applies ' +
+    'to up to $1,500 in combined purchases after activation, which opened ' +
+    'September 1, 2026, and is not retroactive.';
+  assert.ok(shipped.length > TWEET_TEXT_LIMIT, 'fixture is no longer over budget');
+  const out = enforceTweetLimit(shipped);
+  assert.ok(out.length <= TWEET_TEXT_LIMIT);
+  assert.ok(!out.endsWith('...'), `fell back to an ellipsis: ${out}`);
+  assert.ok(out.endsWith('utilities.'), `did not end on the lead sentence: ${out}`);
+  assert.ok(!/retro$/.test(out), 'still clipped mid-word');
+});
+
+// The floor is absolute, so a clean break is taken wherever it lands above it.
+test('a sentence break just above the floor is still preferred', () => {
+  const lead = `NEW: ${'x'.repeat(MIN_TRUNCATED_LENGTH - 6)}.`;
+  assert.equal(lead.length, MIN_TRUNCATED_LENGTH);
+  const out = enforceTweetLimit(`${lead} ${'y'.repeat(300)}`);
+  assert.equal(out, lead, `did not cut back to the lead sentence: ${out}`);
+});
+
+// Below the floor there is no fact left to keep, so the ellipsis wins -- but it
+// must still land between words rather than inside one.
+test('the ellipsis fallback cuts on a word boundary', () => {
+  const out = enforceTweetLimit(`${'word '.repeat(80)}retroactive`, 120);
+  assert.ok(out.length <= 120);
+  assert.ok(out.endsWith('...'));
+  assert.ok(/word\.\.\.$/.test(out), `split a word: ${out}`);
 });
 
 test('text with no clean break falls back to an ellipsis within the limit', () => {
