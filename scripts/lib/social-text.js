@@ -20,6 +20,21 @@ const URL_SEPARATOR_LENGTH = 2; // the "\n\n" between text and URL
 const TWEET_TEXT_LIMIT = TWEET_MAX - TCO_LENGTH - URL_SEPARATOR_LENGTH; // 255
 
 /**
+ * The shortest post worth keeping when truncation has to fall back to an
+ * earlier sentence boundary. A complete sentence this long still carries a
+ * fact; below it the post says nothing and the ellipsis is the lesser evil.
+ *
+ * This is an absolute floor rather than a fraction of the limit on purpose.
+ * A fraction rejects a clean break precisely when the text runs barely over
+ * budget, which is both the common case and the one where the mid-word
+ * fallback does the most damage. On 2026-09-04 a 259-character post (four
+ * over) had its only sentence break at 122, just under the old 127.5 guard,
+ * so it shipped cut mid-word as "and is not retro..." instead of stopping a
+ * sentence early.
+ */
+const MIN_TRUNCATED_LENGTH = 80;
+
+/**
  * Strip characters the house style bans, regardless of what the model returned.
  * The prompt already forbids these; this is the backstop so a single ignored
  * instruction cannot put an emoji or an em dash in front of readers.
@@ -62,7 +77,10 @@ function sanitizeSocialText(input) {
  * Sanitize, then hard-cap to the text budget. Truncation prefers the last
  * sentence or line break so a clipped post still ends on a complete fact
  * rather than mid-number; it falls back to an ellipsis only when there is no
- * clean break to cut at.
+ * usable break, and even then cuts on a word boundary.
+ *
+ * Truncation always costs a fact, so a caller that can regenerate should treat
+ * a post reaching this path as a retry signal, not as a finished post.
  */
 function enforceTweetLimit(input, limit = TWEET_TEXT_LIMIT) {
   const text = sanitizeSocialText(input);
@@ -74,13 +92,18 @@ function enforceTweetLimit(input, limit = TWEET_TEXT_LIMIT) {
     clipped.lastIndexOf('. '),
     clipped.lastIndexOf('.')
   );
-  // Prefer ending on a complete sentence or line. Accept the break as long as
-  // it keeps at least half the post; ending a fact short reads better than the
-  // ellipsis fallback, which can clip mid-number.
-  if (lastBreak >= limit * 0.5) {
+  // Prefer ending on a complete sentence or line whenever what remains still
+  // carries a fact. A short complete post beats a longer one that stops in the
+  // middle of a word, a number, or a negation.
+  if (lastBreak + 1 >= Math.min(MIN_TRUNCATED_LENGTH, limit)) {
     return clipped.slice(0, lastBreak + 1).trim().replace(/[\s,;:]+$/g, '');
   }
-  return `${clipped.slice(0, limit - 3).trim()}...`;
+  // No usable sentence break: clip at the last space so the ellipsis never
+  // splits a word in half.
+  const room = clipped.slice(0, limit - 3).trimEnd();
+  const lastSpace = room.lastIndexOf(' ');
+  const body = lastSpace >= MIN_TRUNCATED_LENGTH ? room.slice(0, lastSpace) : room;
+  return `${body.trimEnd().replace(/[\s,;:]+$/g, '')}...`;
 }
 
 /**
@@ -232,5 +255,5 @@ function findFlattenedAttribution(summary, text) {
   return null;
 }
 
-module.exports = { TWEET_TEXT_LIMIT, TWEET_MAX, sanitizeSocialText, enforceTweetLimit,
-  findFlattenedAttribution, THIRD_PARTY_SOURCES, UNCERTAINTY_MARKERS };
+module.exports = { TWEET_TEXT_LIMIT, TWEET_MAX, MIN_TRUNCATED_LENGTH, sanitizeSocialText,
+  enforceTweetLimit, findFlattenedAttribution, THIRD_PARTY_SOURCES, UNCERTAINTY_MARKERS };

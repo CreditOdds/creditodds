@@ -69,6 +69,13 @@ function buildUrl(type, item) {
  */
 function getCardNameList(item) {
   if (item.card_name) return [item.card_name];
+  // Multi-card items carry card_names (plural), the field build-news.js
+  // validates against card_slugs. Missing it here meant a third of news items
+  // reached the model with "Cards: N/A" and resolved no bank, so they could
+  // never be tagged with their issuer handle.
+  if (Array.isArray(item.card_names) && item.card_names.length > 0) {
+    return item.card_names.slice();
+  }
   if (Array.isArray(item.related_cards) && item.related_cards.length > 0) {
     return item.related_cards.slice();
   }

@@ -90,6 +90,21 @@ function getBankHandles(bankNames) {
 }
 
 /**
+ * How many characters appendBankHandles would add for these banks: the "\n\n"
+ * join plus the handles themselves.
+ *
+ * Callers reserve this out of the text budget BEFORE generating. appendBankHandles
+ * drops handles (and returns the text untouched when even one will not fit), so a
+ * post generated against the full budget silently loses its issuer tag whenever
+ * the model fills the budget.
+ */
+function bankHandleSuffixLength(bankNames) {
+  const handles = getBankHandles(bankNames);
+  if (handles.length === 0) return 0;
+  return 2 + handles.join(' ').length; // "\n\n" + the handles
+}
+
+/**
  * Append bank @mentions to a tweet body, respecting a max-length ceiling.
  * Handles are joined with spaces on a new line (blank-line separated). If
  * adding all handles would push the tweet past `maxLength`, drops handles
@@ -118,5 +133,6 @@ module.exports = {
   getBankHandle,
   getBankHandles,
   appendBankHandles,
+  bankHandleSuffixLength,
   resolveBanksFromCardNames,
 };

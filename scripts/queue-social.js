@@ -15,8 +15,8 @@
 
 const fs = require('fs');
 const yaml = require('js-yaml');
-const { appendBankHandles, resolveBanksFromCardNames } = require('./lib/bank-handles');
-const { TWEET_TEXT_LIMIT, enforceTweetLimit, findFlattenedAttribution } = require('./lib/social-text');
+const { appendBankHandles, bankHandleSuffixLength, resolveBanksFromCardNames } = require('./lib/bank-handles');
+const { TWEET_TEXT_LIMIT, sanitizeSocialText, enforceTweetLimit, findFlattenedAttribution } = require('./lib/social-text');
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -108,6 +108,13 @@ function getSummary(item) {
 
 function getCardNameList(item) {
   if (item.card_name) return [item.card_name];
+  // Multi-card items carry card_names (plural), the field build-news.js
+  // validates against card_slugs. Missing it here meant a third of news items
+  // reached the model with "Cards: N/A" and resolved no bank, so they could
+  // never be tagged with their issuer handle.
+  if (Array.isArray(item.card_names) && item.card_names.length > 0) {
+    return item.card_names.slice();
+  }
   if (Array.isArray(item.related_cards) && item.related_cards.length > 0) {
     return item.related_cards.slice();
   }
@@ -119,7 +126,7 @@ function getCardNameList(item) {
   return [];
 }
 
-async function generatePost(type, item, corrective = '') {
+async function generatePost(type, item, corrective = '', limit = TWEET_TEXT_LIMIT) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('OPENAI_API_KEY is required');
 
@@ -146,7 +153,7 @@ Voice: a factual trade-desk account. Informative and specific, never promotional
 and never meme-y. The reader should finish the post knowing the concrete facts.
 
 Rules:
-- Hard limit ${TWEET_TEXT_LIMIT} characters. Aim for 200 to 230: anything over the limit is
+- Hard limit ${limit} characters. Aim for ${Math.max(120, limit - 55)} to ${Math.max(140, limit - 25)}: anything over the limit is
   cut off mid-sentence, so finish the thought inside the budget. Do not pad to
   fill it, and do not compress facts out to be short
 - Default to a single paragraph of plain sentences. Line breaks are for lists,
@@ -203,7 +210,12 @@ Rules:
   const data = await response.json();
   // Strips banned characters (emoji, em dashes) and caps at the real text
   // budget, which leaves room for the t.co link appended at post time.
-  return enforceTweetLimit(data.choices[0]?.message?.content || '');
+  //
+  // rawLength is the sanitized length BEFORE capping. Capping is lossy, so the
+  // caller needs to see the overshoot to decide whether to regenerate; folding
+  // it in here silently destroyed that signal.
+  const raw = sanitizeSocialText(data.choices[0]?.message?.content || '');
+  return { text: enforceTweetLimit(raw, limit), rawLength: raw.length, limit };
 }
 
 // Fetch a remote image and return { base64, mimeType } suitable for the
@@ -302,8 +314,31 @@ async function main() {
     let postText;
     let twitterText = null;
     try {
-      postText = await generatePost(type, item);
-      console.log(`  Generated post (${postText.length} chars): ${postText}`);
+      // Reserve the issuer handles out of the budget up front. appendBankHandles
+      // only ever appends what is left over, so a post generated against the full
+      // 255 and landing at 255 silently ships with no @issuer tag at all.
+      const banks = resolveBanksFromCardNames(getCardNameList(item));
+      const textLimit = TWEET_TEXT_LIMIT - bankHandleSuffixLength(banks);
+
+      let generated = await generatePost(type, item, '', textLimit);
+      console.log(`  Generated post (${generated.text.length} chars): ${generated.text}`);
+
+      // Overshooting the budget is recoverable and truncation is not: capping
+      // always drops a fact, and on 2026-09-04 a four-character overshoot cost
+      // the post its closing clause. Ask once for a shorter version before
+      // settling for the capped text.
+      if (generated.rawLength > textLimit) {
+        console.error(`  Generated ${generated.rawLength} chars against a ${textLimit} char budget. Regenerating.`);
+        const corrective = `\n- Your previous attempt was ${generated.rawLength} characters against a ` +
+          `${textLimit} character budget. Rewrite it to fit inside ${textLimit} characters while keeping ` +
+          'the concrete facts, and finish the closing sentence. Do not end mid-sentence.';
+        const retry = await generatePost(type, item, corrective, textLimit);
+        console.log(`  Regenerated post (${retry.text.length} chars): ${retry.text}`);
+        // Keep the retry when it fits, or when it at least overshoots by less.
+        // A retry that runs even longer is a worse cap, so keep the first.
+        if (retry.rawLength <= generated.rawLength) generated = retry;
+      }
+      postText = generated.text;
 
       // Backstop for the one rewrite that turns a careful summary into a
       // stronger claim than the reporting supports. Retry once with the miss
@@ -315,7 +350,7 @@ async function main() {
         const corrective = `\n- The summary carries a ${flattened.kind} marker ("${flattened.marker}"). Your` +
           ' previous attempt stated that claim as established fact. Keep the attribution or' +
           ' hedge attached to the claim, or leave the claim out entirely.';
-        postText = await generatePost(type, item, corrective);
+        postText = (await generatePost(type, item, corrective, textLimit)).text;
         console.log(`  Regenerated post (${postText.length} chars): ${postText}`);
         flattened = findFlattenedAttribution(getSummary(item), postText);
       }
@@ -324,7 +359,6 @@ async function main() {
         failures++;
         continue;
       }
-      const banks = resolveBanksFromCardNames(getCardNameList(item));
       if (banks.length > 0) {
         const withHandles = appendBankHandles(postText, banks, TWEET_TEXT_LIMIT);
         if (withHandles !== postText) {
