@@ -1003,23 +1003,83 @@
     "t3_1w5lglk": "2026-09-03",
     "t3_1w5hiwn": "2026-09-03",
     "t3_1w5hi96": "2026-09-03",
-    "t3_1w5de2w": "2026-09-03"
+    "t3_1w5de2w": "2026-09-03",
+    "t3_1w79ldo": "2026-09-04",
+    "t3_1w78wyq": "2026-09-04",
+    "t3_1w78u83": "2026-09-04",
+    "t3_1w786bb": "2026-09-04",
+    "t3_1w76xbp": "2026-09-04",
+    "t3_1w75pc6": "2026-09-04",
+    "t3_1w75mfd": "2026-09-04",
+    "t3_1w720qn": "2026-09-04",
+    "t3_1w70jyo": "2026-09-04",
+    "t3_1w703ip": "2026-09-04",
+    "t3_1w6vdsf": "2026-09-04",
+    "t3_1w6rnbz": "2026-09-04",
+    "t3_1w6oe5d": "2026-09-04",
+    "t3_1w6nuhx": "2026-09-04",
+    "t3_1w6mk14": "2026-09-04",
+    "t3_1w6gcvf": "2026-09-04",
+    "t3_1w6c34k": "2026-09-04"
   },
   "pending": {
-    "t3_1w1xm9d": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w1xm9d/amex_blue_cash_preferred_3x_credit_line_increase/",
-      "title": "AMEX Blue Cash Preferred 3x Credit Line Increase Strategy?",
-      "posted": "2026-08-29",
-      "card_name": "Blue Cash Preferred",
+    "t3_1w79ldo": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w79ldo/approved_for_sapphire_preferred/",
+      "title": "Approved for Sapphire Preferred!",
+      "posted": "2026-09-04",
+      "card_name": "Chase Sapphire Preferred",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved in August 2026 with a $12,000 starting line. The only number is a forward-looking 'score would stay around 740' during a planned utilization run, not the score at application.",
-      "ask": "You mentioned expecting to stay around 740 while running up utilization. What was your score on the day you applied?",
-      "firstSeen": "2026-08-30",
-      "attempts": 3,
-      "lastChecked": "2026-09-03"
+      "note": "Instant approval for an $11k limit off a preapproval offer in their Chase account. Poster describes three years of rebuilding but never gives a number.",
+      "ask": "You mentioned rebuilding your FICO over the last three years. What was the score when the CSP was approved?",
+      "firstSeen": "2026-09-04",
+      "attempts": 1,
+      "lastChecked": "2026-09-04"
+    },
+    "t3_1w786bb": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w786bb/strata_elite_false_fraud_alerts_and_frustrating/",
+      "title": "Strata Elite - false fraud alerts and frustrating Citi processes",
+      "posted": "2026-09-04",
+      "card_name": "Citi Strata Elite",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved after Citi mailed a verification code to confirm the address, card received and activated. Post is about fraud alerts afterward and gives no score.",
+      "firstSeen": "2026-09-04",
+      "attempts": 1,
+      "lastChecked": "2026-09-04"
+    },
+    "t3_1w6oe5d": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w6oe5d/typo_on_credit_card_application_resulted_in_way/",
+      "title": "Typo on credit card application resulted in way less limit",
+      "posted": "2026-09-03",
+      "result": "approved",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Approved by Citi for a $4,800 limit around 720 with roughly $100k income, but never names which Citi card. Same post also reports a Bank of America denial caused by a TransUnion freeze, card also unnamed.",
+      "ask": "Which Citi card was the $4,800 approval for?",
+      "firstSeen": "2026-09-04",
+      "attempts": 1,
+      "lastChecked": "2026-09-04"
+    },
+    "t3_1w6gcvf": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w6gcvf/bad_application_experience_with_comenityaaa_daily/",
+      "title": "Bad Application Experience with Comenity/AAA Daily Advantage Visa Signature",
+      "posted": "2026-09-03",
+      "card_name": "AAA Daily Advantage Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster was approved on the phone after the online application prompted a callback. They give their spouse's stats but never their own score.",
+      "ask": "What was your own credit score when Comenity approved you on the call?",
+      "firstSeen": "2026-09-04",
+      "attempts": 1,
+      "lastChecked": "2026-09-04"
     },
     "t3_1w5vlxz": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w5vlxz/applied_for_the_wrong_card/",
@@ -1481,6 +1541,21 @@
       "skipped": {
         "no_score": 3,
         "no_outcome": 6
+      }
+    },
+    {
+      "id": "2026-09-04T16:49:45.062Z",
+      "date": "2026-09-04",
+      "candidates": 17,
+      "revisits": 0,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 1,
+      "pending": 9,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 10,
+        "no_score": 2
       }
     }
   ]
