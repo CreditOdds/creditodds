@@ -1,0 +1,72 @@
+name: "Complete Rewards Visa Signature"
+bank: "FNBO"
+slug: "fnbo-complete-rewards-visa-signature"
+image: "fnbo-complete-rewards-visa-signature.png"
+accepting_applications: true
+category: "rewards"
+release_date: "2026-09-02"
+annual_fee: 0
+reward_type: "points"
+tags:
+  - travel
+  - rewards
+rewards:
+  # FNBO defines each bonus category by MCC in the Summary of Credit Terms.
+  # "Travel" is broader than flights and hotels: it also covers transit, taxis,
+  # cruise lines, tolls, car rental, and timeshares.
+  - category: travel
+    value: 5
+    unit: points_per_dollar
+    note: "Airlines, hotels, car rental, cruise lines, travel agencies, transit, taxis, tolls, and timeshares by merchant category code"
+  - category: streaming
+    value: 3
+    unit: points_per_dollar
+    note: "Cable, satellite, and other pay television, radio, and streaming services (MCC 4899)"
+  - category: gas
+    value: 2
+    unit: points_per_dollar
+    note: "Service stations, automated fuel dispensers, and EV charging"
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 15000
+  type: "points"
+  spend_requirement: 500
+  timeframe_months: 3
+  note: "15,000 points after $500 in net purchases within the first 3 billing cycles; FNBO values the bonus at $150"
+apr:
+  # FNBO quotes these as Prime + 12.24% to Prime + 22.24%, using the 6.75%
+  # prime rate in effect on the 07/31/2026 determination date.
+  regular:
+    min: 18.99
+    max: 28.99
+foreign_transaction_fee: true
+network: "visa"
+apply_link: https://www.card.fnbo.com/mpp/fi/offer/consumer/banner-visa-cmplt
+benefits:
+  - name: "Visa Signature Benefits"
+    value: 0
+    description: "Visa Zero Liability fraud protection, Global Services for emergency card replacement and cash, and pay-per-use Roadside Dispatch at pre-negotiated rates"
+    frequency: "ongoing"
+    category: "travel"
+our_take: >
+  FNBO launched this one on September 2, 2026, and the reason to look at it is
+  a single number: 5 points per dollar on travel with no annual fee. Very few
+  no-fee cards pay 5x on travel at all, and FNBO defines travel generously by
+  merchant category code, so transit, taxis, cruise lines, tolls, and car
+  rental all count alongside the obvious flights and hotels. Streaming earns
+  3x and fuel earns 2x, with EV charging folded into the fuel bucket, which is
+  a nice touch on a card this cheap to hold. The welcome offer is small but
+  easy: 15,000 points after just $500 in the first three billing cycles, which
+  FNBO calls $150.
+  Three things keep it from being a slam dunk. It charges a 3% foreign
+  transaction fee, which is an odd flaw on a travel card and means you should
+  leave it home on any trip abroad. The points are a closed FNBO currency with
+  no airline or hotel transfer partners, so they are worth about a cent each
+  whether you take cash back, gift cards, or travel, and there is no way to
+  stretch them further. And they expire on the third anniversary of when you
+  earn them, so this is not a card for slowly banking points toward something
+  big. Treat it as a straightforward 5% back on domestic travel spending, take
+  the value as cash, and it does that job better than almost anything else
+  without a fee.
