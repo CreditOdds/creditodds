@@ -983,7 +983,7 @@
     "t3_1w3jbvz": "2026-09-01",
     "t3_1w3hima": "2026-09-01",
     "t3_1w3h1yh": "2026-09-01",
-    "t3_1w5bg9u": "2026-09-02",
+    "t3_1w5bg9u": "2026-09-05",
     "t3_1w59tu1": "2026-09-02",
     "t3_1w4z5uu": "2026-09-02",
     "t3_1w4xyqh": "2026-09-02",
@@ -995,8 +995,8 @@
     "t3_1w4g5nn": "2026-09-02",
     "t3_1w67twh": "2026-09-03",
     "t3_1w61d9i": "2026-09-03",
-    "t3_1w5vlxz": "2026-09-03",
-    "t3_1w5uo24": "2026-09-03",
+    "t3_1w5vlxz": "2026-09-05",
+    "t3_1w5uo24": "2026-09-05",
     "t3_1w5sujq": "2026-09-03",
     "t3_1w5sqwt": "2026-09-03",
     "t3_1w5qjgh": "2026-09-03",
@@ -1020,9 +1020,79 @@
     "t3_1w6nuhx": "2026-09-04",
     "t3_1w6mk14": "2026-09-04",
     "t3_1w6gcvf": "2026-09-04",
-    "t3_1w6c34k": "2026-09-04"
+    "t3_1w6c34k": "2026-09-04",
+    "t3_1w817jx": "2026-09-05",
+    "t3_1w813zi": "2026-09-05",
+    "t3_1w7wvyw": "2026-09-05",
+    "t3_1w7s8h4": "2026-09-05",
+    "t3_1w7rhdc": "2026-09-05",
+    "t3_1w7llze": "2026-09-05",
+    "t3_1w7iur6": "2026-09-05",
+    "t3_1w7hwy3": "2026-09-05",
+    "t3_1w7c10i": "2026-09-05",
+    "t3_1w79y94": "2026-09-05"
   },
   "pending": {
+    "t3_1w5bg9u": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5bg9u/applying_for_two_credit_cards_back_to_back/",
+      "title": "Applying for two credit cards back to back",
+      "posted": "2026-09-02",
+      "card_name": "Blue Cash Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Amex Blue Cash Preferred on 2026-09-01. Look 2 of 3 and still no score in the body or the two new OP replies, which are both about pairing the card rather than his profile.",
+      "ask": "Congrats on the BCP approval. What was your FICO score when you applied?",
+      "firstSeen": "2026-09-02",
+      "attempts": 2,
+      "lastChecked": "2026-09-05"
+    },
+    "t3_1w5vlxz": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5vlxz/applied_for_the_wrong_card/",
+      "title": "Applied for the wrong card",
+      "posted": "2026-09-03",
+      "card_name": "Discover it Cash Back",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "First ever card, approved September 2026 with a $1,000 limit and a confirmed hard pull. Look 2 of 3 and the three new OP replies are all thank-yous, still no score.",
+      "ask": "Since this was your first card, did Discover or any app show you the credit score they pulled?",
+      "firstSeen": "2026-09-03",
+      "attempts": 2,
+      "lastChecked": "2026-09-05"
+    },
+    "t3_1w5uo24": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5uo24/new_chase_sapphire_preferred_has_declined_6/",
+      "title": "New Chase Sapphire Preferred has declined 6 legitimate purchases despite repeatedly verifying and “unlocking” my account each time",
+      "posted": "2026-09-03",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved 2026-08-22 with a $7,000 limit. Look 2 of 3. The post and its one new OP reply are entirely about the fraud declines afterward and never state a score.",
+      "ask": "Aside from the fraud mess, what was your credit score when Chase approved you for the $7,000 limit?",
+      "firstSeen": "2026-09-03",
+      "attempts": 2,
+      "lastChecked": "2026-09-05"
+    },
+    "t3_1w813zi": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w813zi/bilt_just_gave_me_a_reason_to_question_whether_i/",
+      "title": "Bilt just gave me a reason to question whether I should trust them",
+      "posted": "2026-09-05",
+      "card_name": "Bilt Obsidian",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Bilt Obsidian at a $17,500 limit in September 2026, then had that application withdrawn by Cardless and was denied for Bilt Palladium days later for identity verification. Both outcomes are first person and dated, but no score anywhere.",
+      "ask": "You were approved for Obsidian at $17.5k and then denied for Palladium. What credit score were you working with?",
+      "firstSeen": "2026-09-05",
+      "attempts": 1,
+      "lastChecked": "2026-09-05"
+    },
     "t3_1w79ldo": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w79ldo/approved_for_sapphire_preferred/",
       "title": "Approved for Sapphire Preferred!",
@@ -1081,35 +1151,6 @@
       "attempts": 1,
       "lastChecked": "2026-09-04"
     },
-    "t3_1w5vlxz": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5vlxz/applied_for_the_wrong_card/",
-      "title": "Applied for the wrong card",
-      "posted": "2026-09-03",
-      "card_name": "Discover it Cash Back",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "First ever card, approved September 2026 with a $1,000 limit and a confirmed hard pull. Poster meant to apply for the secured version and never gave a score.",
-      "ask": "You said this was your first card. Did Discover or any app show you a credit score when you applied?",
-      "firstSeen": "2026-09-03",
-      "attempts": 1,
-      "lastChecked": "2026-09-03"
-    },
-    "t3_1w5uo24": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5uo24/new_chase_sapphire_preferred_has_declined_6/",
-      "title": "New Chase Sapphire Preferred has declined 6 legitimate purchases despite repeatedly verifying and “unlocking” my account each time",
-      "posted": "2026-09-03",
-      "card_name": "Chase Sapphire Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved August 22 2026 with a $7,000 limit. The post is entirely about fraud declines afterward and never states a score.",
-      "firstSeen": "2026-09-03",
-      "attempts": 1,
-      "lastChecked": "2026-09-03"
-    },
     "t3_1w5hi96": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w5hi96/chase_524_timing_5th_card_just_hit_24_months_but/",
       "title": "Chase 5/24 timing, 5th card just hit 24 months but rejected, what to say to recon?",
@@ -1138,21 +1179,6 @@
       "firstSeen": "2026-09-03",
       "attempts": 1,
       "lastChecked": "2026-09-03"
-    },
-    "t3_1w5bg9u": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5bg9u/applying_for_two_credit_cards_back_to_back/",
-      "title": "Applying for two credit cards back to back",
-      "posted": "2026-09-02",
-      "card_name": "Blue Cash Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster was approved for the Amex Blue Cash Preferred on 2026-09-01 and is asking whether to apply for the CSP next. No credit score in the post or replies.",
-      "ask": "What was your credit score when the Blue Cash Preferred was approved?",
-      "firstSeen": "2026-09-02",
-      "attempts": 1,
-      "lastChecked": "2026-09-02"
     }
   },
   "runs": [
@@ -1556,6 +1582,21 @@
       "skipped": {
         "no_outcome": 10,
         "no_score": 2
+      }
+    },
+    {
+      "id": "2026-09-05T15:50:51.678Z",
+      "date": "2026-09-05",
+      "candidates": 13,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 10,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 8,
+        "no_score": 1
       }
     }
   ]
