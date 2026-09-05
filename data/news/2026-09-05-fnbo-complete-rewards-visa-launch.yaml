@@ -5,6 +5,8 @@ summary: "FNBO launched the Complete Rewards Visa Signature on September 2, 2026
 tags:
   - "new-card"
 bank: "FNBO"
+card_slug: "fnbo-complete-rewards-visa-signature"
+card_name: "Complete Rewards Visa Signature"
 source: "Doctor of Credit"
 source_url: "https://www.doctorofcredit.com/fnbo-launches-complete-rewards-visa-signature-card-150-bonus-5x-on-travel-with-no-annual-fee/"
 body: |
