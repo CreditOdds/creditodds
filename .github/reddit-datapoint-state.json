@@ -983,7 +983,7 @@
     "t3_1w3jbvz": "2026-09-01",
     "t3_1w3hima": "2026-09-01",
     "t3_1w3h1yh": "2026-09-01",
-    "t3_1w5bg9u": "2026-09-05",
+    "t3_1w5bg9u": "2026-09-06",
     "t3_1w59tu1": "2026-09-02",
     "t3_1w4z5uu": "2026-09-02",
     "t3_1w4xyqh": "2026-09-02",
@@ -995,16 +995,16 @@
     "t3_1w4g5nn": "2026-09-02",
     "t3_1w67twh": "2026-09-03",
     "t3_1w61d9i": "2026-09-03",
-    "t3_1w5vlxz": "2026-09-05",
-    "t3_1w5uo24": "2026-09-05",
+    "t3_1w5vlxz": "2026-09-06",
+    "t3_1w5uo24": "2026-09-06",
     "t3_1w5sujq": "2026-09-03",
     "t3_1w5sqwt": "2026-09-03",
     "t3_1w5qjgh": "2026-09-03",
     "t3_1w5lglk": "2026-09-03",
     "t3_1w5hiwn": "2026-09-03",
-    "t3_1w5hi96": "2026-09-03",
-    "t3_1w5de2w": "2026-09-03",
-    "t3_1w79ldo": "2026-09-04",
+    "t3_1w5hi96": "2026-09-06",
+    "t3_1w5de2w": "2026-09-06",
+    "t3_1w79ldo": "2026-09-06",
     "t3_1w78wyq": "2026-09-04",
     "t3_1w78u83": "2026-09-04",
     "t3_1w786bb": "2026-09-04",
@@ -1030,7 +1030,24 @@
     "t3_1w7iur6": "2026-09-05",
     "t3_1w7hwy3": "2026-09-05",
     "t3_1w7c10i": "2026-09-05",
-    "t3_1w79y94": "2026-09-05"
+    "t3_1w79y94": "2026-09-05",
+    "t3_1w90w2m": "2026-09-06",
+    "t3_1w90jir": "2026-09-06",
+    "t3_1w8urnp": "2026-09-06",
+    "t3_1w8s1s8": "2026-09-06",
+    "t3_1w8r5r5": "2026-09-06",
+    "t3_1w8pxa7": "2026-09-06",
+    "t3_1w8pgyq": "2026-09-06",
+    "t3_1w8npw9": "2026-09-06",
+    "t3_1w8izt6": "2026-09-06",
+    "t3_1w8i2c8": "2026-09-06",
+    "t3_1w8hb7m": "2026-09-06",
+    "t3_1w8g747": "2026-09-06",
+    "t3_1w8c9d3": "2026-09-06",
+    "t3_1w8bbwq": "2026-09-06",
+    "t3_1w88sfb": "2026-09-06",
+    "t3_1w88m1i": "2026-09-06",
+    "t3_1w86tme": "2026-09-06"
   },
   "pending": {
     "t3_1w5bg9u": {
@@ -1042,11 +1059,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Amex Blue Cash Preferred on 2026-09-01. Look 2 of 3 and still no score in the body or the two new OP replies, which are both about pairing the card rather than his profile.",
-      "ask": "Congrats on the BCP approval. What was your FICO score when you applied?",
+      "note": "Approved for the Amex Blue Cash Preferred on 2026-09-01. Look 3 of 3 and still no score anywhere; the two OP replies are both about which card to pair it with, never his profile.",
+      "ask": "Congrats on the BCP approval. Roughly what was your FICO when you applied?",
       "firstSeen": "2026-09-02",
-      "attempts": 2,
-      "lastChecked": "2026-09-05"
+      "attempts": 3,
+      "lastChecked": "2026-09-06"
     },
     "t3_1w5vlxz": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w5vlxz/applied_for_the_wrong_card/",
@@ -1057,11 +1074,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "First ever card, approved September 2026 with a $1,000 limit and a confirmed hard pull. Look 2 of 3 and the three new OP replies are all thank-yous, still no score.",
-      "ask": "Since this was your first card, did Discover or any app show you the credit score they pulled?",
+      "note": "First ever card, approved September 2026 with a $1,000 limit and a confirmed hard pull. Look 3 of 3 and the OP replies are all thank-yous, still no score.",
+      "ask": "You mentioned this is your first card. Did Discover or Credit Karma show you a score when you applied?",
       "firstSeen": "2026-09-03",
-      "attempts": 2,
-      "lastChecked": "2026-09-05"
+      "attempts": 3,
+      "lastChecked": "2026-09-06"
     },
     "t3_1w5uo24": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w5uo24/new_chase_sapphire_preferred_has_declined_6/",
@@ -1072,11 +1089,95 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved 2026-08-22 with a $7,000 limit. Look 2 of 3. The post and its one new OP reply are entirely about the fraud declines afterward and never state a score.",
-      "ask": "Aside from the fraud mess, what was your credit score when Chase approved you for the $7,000 limit?",
+      "note": "Approved 2026-08-22 with a $7,000 limit. Look 3 of 3. The post and its OP reply are entirely about the fraud declines afterward and never state a score.",
+      "firstSeen": "2026-09-03",
+      "attempts": 3,
+      "lastChecked": "2026-09-06"
+    },
+    "t3_1w5hi96": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5hi96/chase_524_timing_5th_card_just_hit_24_months_but/",
+      "title": "Chase 5/24 timing, 5th card just hit 24 months but rejected, what to say to recon?",
+      "posted": "2026-09-02",
+      "card_name": "Ink Business Unlimited",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied September 2026, recon confirmed Chase still counted them at 5/24. Look 2 of 3; three new OP replies are all about bonus timing, no score given.",
       "firstSeen": "2026-09-03",
       "attempts": 2,
-      "lastChecked": "2026-09-05"
+      "lastChecked": "2026-09-06"
+    },
+    "t3_1w5de2w": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5de2w/bofa_reconsideration_success_travel_rewards/",
+      "title": "BofA reconsideration success. Travel Rewards.",
+      "posted": "2026-09-02",
+      "card_name": "Bank of America Travel Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied then approved on reconsideration in September 2026 after verifying SSN at a branch. Initial decline cited recent accounts and no BofA relationship. Look 2 of 3, still no score.",
+      "firstSeen": "2026-09-03",
+      "attempts": 2,
+      "lastChecked": "2026-09-06"
+    },
+    "t3_1w79ldo": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w79ldo/approved_for_sapphire_preferred/",
+      "title": "Approved for Sapphire Preferred!",
+      "posted": "2026-09-04",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Instant approval for an $11k limit off a preapproval offer sitting in their Chase account. Look 2 of 3. Poster describes three years of rebuilding but never gives a number.",
+      "ask": "You mentioned rebuilding your FICO over three years. Where had it gotten to by the time the CSP approval came through?",
+      "firstSeen": "2026-09-04",
+      "attempts": 2,
+      "lastChecked": "2026-09-06"
+    },
+    "t3_1w90jir": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w90jir/chase_reconsideration_experience/",
+      "title": "Chase Reconsideration Experience",
+      "posted": "2026-09-06",
+      "card_name": "Ink Business Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied September 2026 for too many recently opened accounts, then approved on the Chase reconsideration line when the agent rechecked the file. Poster says only 3 accounts opened in two years but never states a score.",
+      "firstSeen": "2026-09-06",
+      "attempts": 1,
+      "lastChecked": "2026-09-06"
+    },
+    "t3_1w8pxa7": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w8pxa7/robinhood_gold_credit_card/",
+      "title": "Robinhood Gold Credit Card",
+      "posted": "2026-09-06",
+      "card_name": "Robinhood Gold",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved September 2026 for what the poster calls their second credit card. Card is named only in the title; the body is entirely a how-do-I-use-it question with no score or limit.",
+      "firstSeen": "2026-09-06",
+      "attempts": 1,
+      "lastChecked": "2026-09-06"
+    },
+    "t3_1w8bbwq": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w8bbwq/citi_aa_plat_select_recon/",
+      "title": "Citi AA Plat select recon?",
+      "posted": "2026-09-05",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied September 2026 citing too few revolving accounts on Experian, which the poster disputes since they show 7 open accounts. Post is about whether Citi will recon without a new hard pull; no score anywhere.",
+      "firstSeen": "2026-09-06",
+      "attempts": 1,
+      "lastChecked": "2026-09-06"
     },
     "t3_1w813zi": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w813zi/bilt_just_gave_me_a_reason_to_question_whether_i/",
@@ -1092,21 +1193,6 @@
       "firstSeen": "2026-09-05",
       "attempts": 1,
       "lastChecked": "2026-09-05"
-    },
-    "t3_1w79ldo": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w79ldo/approved_for_sapphire_preferred/",
-      "title": "Approved for Sapphire Preferred!",
-      "posted": "2026-09-04",
-      "card_name": "Chase Sapphire Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Instant approval for an $11k limit off a preapproval offer in their Chase account. Poster describes three years of rebuilding but never gives a number.",
-      "ask": "You mentioned rebuilding your FICO over the last three years. What was the score when the CSP was approved?",
-      "firstSeen": "2026-09-04",
-      "attempts": 1,
-      "lastChecked": "2026-09-04"
     },
     "t3_1w786bb": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w786bb/strata_elite_false_fraud_alerts_and_frustrating/",
@@ -1150,35 +1236,6 @@
       "firstSeen": "2026-09-04",
       "attempts": 1,
       "lastChecked": "2026-09-04"
-    },
-    "t3_1w5hi96": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5hi96/chase_524_timing_5th_card_just_hit_24_months_but/",
-      "title": "Chase 5/24 timing, 5th card just hit 24 months but rejected, what to say to recon?",
-      "posted": "2026-09-02",
-      "card_name": "Ink Business Unlimited",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied September 2026, recon confirmed Chase still counted them at 5/24. No score given anywhere in the post.",
-      "firstSeen": "2026-09-03",
-      "attempts": 1,
-      "lastChecked": "2026-09-03"
-    },
-    "t3_1w5de2w": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5de2w/bofa_reconsideration_success_travel_rewards/",
-      "title": "BofA reconsideration success. Travel Rewards.",
-      "posted": "2026-09-02",
-      "card_name": "Bank of America Travel Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied then approved on reconsideration in September 2026 after verifying SSN at a branch. Initial decline cited recent accounts and no BofA relationship. No score stated.",
-      "ask": "You listed 5/12 and 6/24 for accounts. What was your FICO when you applied?",
-      "firstSeen": "2026-09-03",
-      "attempts": 1,
-      "lastChecked": "2026-09-03"
     }
   },
   "runs": [
@@ -1597,6 +1654,23 @@
       "skipped": {
         "no_outcome": 8,
         "no_score": 1
+      }
+    },
+    {
+      "id": "2026-09-06T17:44:31.804Z",
+      "date": "2026-09-06",
+      "candidates": 23,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 13,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 9,
+        "no_score": 3,
+        "other": 1,
+        "duplicate": 1
       }
     }
   ]
