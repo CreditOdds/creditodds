@@ -55,6 +55,12 @@ benefits:
     description: "10% to 50% bonus on points redeemed into an eligible Truist deposit account, with the tier set by your combined Truist balances"
     frequency: "per_redemption"
     category: "rewards"
+  - name: "Annual Fee Waiver for Truist Wealth Clients"
+    value: 0
+    description: "The $95 annual fee is waived when an account holder is a Truist Wealth client (Signature, Reserve, or GenSpring) with an assigned Truist Wealth advisor at the time the fee is charged"
+    frequency: "annual"
+    category: "other"
+    enrollment_required: false
 apply_link: https://www.truist.com/credit-cards/enjoy-beyond
 our_take: >
   Enjoy Beyond pays 3x points on airlines, hotels, and car rentals and 2x on
