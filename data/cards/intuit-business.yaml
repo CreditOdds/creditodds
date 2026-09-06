@@ -52,6 +52,12 @@ benefits:
     value: 0
     frequency: "one_time"
     category: "other"
+  - name: "Business Partner Discounts"
+    value: 0
+    description: "Intuit-negotiated cardholder savings including 30% off the first year of Google Workspace Business Standard, 25% off Adobe Creative Cloud Pro, 25% off LegalZoom business services, up to 42% off FedEx shipping, and up to $400 in annual LinkedIn Hiring Pro credits"
+    frequency: "ongoing"
+    category: "other"
+    enrollment_required: false
 our_take: >
   If your business already runs on QuickBooks, this card's real selling point
   is not the rewards but the plumbing: transactions and captured receipts flow
