@@ -1003,11 +1003,11 @@
     "t3_1w5lglk": "2026-09-03",
     "t3_1w5hiwn": "2026-09-03",
     "t3_1w5hi96": "2026-09-06",
-    "t3_1w5de2w": "2026-09-06",
-    "t3_1w79ldo": "2026-09-06",
+    "t3_1w5de2w": "2026-09-07",
+    "t3_1w79ldo": "2026-09-07",
     "t3_1w78wyq": "2026-09-04",
     "t3_1w78u83": "2026-09-04",
-    "t3_1w786bb": "2026-09-04",
+    "t3_1w786bb": "2026-09-07",
     "t3_1w76xbp": "2026-09-04",
     "t3_1w75pc6": "2026-09-04",
     "t3_1w75mfd": "2026-09-04",
@@ -1016,10 +1016,10 @@
     "t3_1w703ip": "2026-09-04",
     "t3_1w6vdsf": "2026-09-04",
     "t3_1w6rnbz": "2026-09-04",
-    "t3_1w6oe5d": "2026-09-04",
+    "t3_1w6oe5d": "2026-09-07",
     "t3_1w6nuhx": "2026-09-04",
     "t3_1w6mk14": "2026-09-04",
-    "t3_1w6gcvf": "2026-09-04",
+    "t3_1w6gcvf": "2026-09-07",
     "t3_1w6c34k": "2026-09-04",
     "t3_1w817jx": "2026-09-05",
     "t3_1w813zi": "2026-09-05",
@@ -1047,52 +1047,108 @@
     "t3_1w8bbwq": "2026-09-06",
     "t3_1w88sfb": "2026-09-06",
     "t3_1w88m1i": "2026-09-06",
-    "t3_1w86tme": "2026-09-06"
+    "t3_1w86tme": "2026-09-06",
+    "t3_1w9wq45": "2026-09-07",
+    "t3_1w9unve": "2026-09-07",
+    "t3_1w9uku9": "2026-09-07",
+    "t3_1w9o3ju": "2026-09-07",
+    "t3_1w9ml8x": "2026-09-07",
+    "t3_1w9mfag": "2026-09-07",
+    "t3_1w9honr": "2026-09-07",
+    "t3_1w9hlng": "2026-09-07",
+    "t3_1w9eyfe": "2026-09-07",
+    "t3_1w9dxxy": "2026-09-07",
+    "t3_1w9bewc": "2026-09-07",
+    "t3_1w97vrt": "2026-09-07",
+    "t3_1w93qad": "2026-09-07"
   },
   "pending": {
-    "t3_1w5bg9u": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5bg9u/applying_for_two_credit_cards_back_to_back/",
-      "title": "Applying for two credit cards back to back",
+    "t3_1w5de2w": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w5de2w/bofa_reconsideration_success_travel_rewards/",
+      "title": "BofA reconsideration success. Travel Rewards.",
       "posted": "2026-09-02",
-      "card_name": "Blue Cash Preferred",
+      "card_name": "Bank of America Travel Rewards",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Amex Blue Cash Preferred on 2026-09-01. Look 3 of 3 and still no score anywhere; the two OP replies are both about which card to pair it with, never his profile.",
-      "ask": "Congrats on the BCP approval. Roughly what was your FICO when you applied?",
-      "firstSeen": "2026-09-02",
-      "attempts": 3,
-      "lastChecked": "2026-09-06"
-    },
-    "t3_1w5vlxz": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5vlxz/applied_for_the_wrong_card/",
-      "title": "Applied for the wrong card",
-      "posted": "2026-09-03",
-      "card_name": "Discover it Cash Back",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "First ever card, approved September 2026 with a $1,000 limit and a confirmed hard pull. Look 3 of 3 and the OP replies are all thank-yous, still no score.",
-      "ask": "You mentioned this is your first card. Did Discover or Credit Karma show you a score when you applied?",
+      "note": "Approved on reconsideration in September 2026 after a branch SSN verification; the initial decline cited recent accounts and no BofA relationship. Look 3 of 3 and the poster still never gives a score.",
+      "ask": "Great writeup on the reconsideration. What was your FICO when you applied?",
       "firstSeen": "2026-09-03",
       "attempts": 3,
-      "lastChecked": "2026-09-06"
+      "lastChecked": "2026-09-07"
     },
-    "t3_1w5uo24": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5uo24/new_chase_sapphire_preferred_has_declined_6/",
-      "title": "New Chase Sapphire Preferred has declined 6 legitimate purchases despite repeatedly verifying and “unlocking” my account each time",
-      "posted": "2026-09-03",
+    "t3_1w79ldo": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w79ldo/approved_for_sapphire_preferred/",
+      "title": "Approved for Sapphire Preferred!",
+      "posted": "2026-09-04",
       "card_name": "Chase Sapphire Preferred",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved 2026-08-22 with a $7,000 limit. Look 3 of 3. The post and its OP reply are entirely about the fraud declines afterward and never state a score.",
-      "firstSeen": "2026-09-03",
+      "note": "Instant approval for an $11k limit off a preapproval offer in the poster's Chase account. Look 3 of 3, and three years of rebuilding are described without a single number.",
+      "ask": "You mentioned rebuilding your FICO over three years. Roughly what was it when the CSP approval came through?",
+      "firstSeen": "2026-09-04",
       "attempts": 3,
-      "lastChecked": "2026-09-06"
+      "lastChecked": "2026-09-07"
+    },
+    "t3_1w786bb": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w786bb/strata_elite_false_fraud_alerts_and_frustrating/",
+      "title": "Strata Elite - false fraud alerts and frustrating Citi processes",
+      "posted": "2026-09-04",
+      "card_name": "Citi Strata Elite",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved in September 2026 after Citi mailed an address verification code; card received and activated. The post and the one OP reply are entirely about the fraud alerts afterward, with no score.",
+      "firstSeen": "2026-09-04",
+      "attempts": 2,
+      "lastChecked": "2026-09-07"
+    },
+    "t3_1w6oe5d": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w6oe5d/typo_on_credit_card_application_resulted_in_way/",
+      "title": "Typo on credit card application resulted in way less limit",
+      "posted": "2026-09-03",
+      "result": "approved",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Approved by Citi in September 2026 for a $4,800 limit at roughly 720 with about $100k income, but the post never names which Citi card. The same post reports a Bank of America denial caused by a TransUnion freeze, also unnamed.",
+      "ask": "Which Citi card was the $4,800 approval for?",
+      "firstSeen": "2026-09-04",
+      "attempts": 2,
+      "lastChecked": "2026-09-07"
+    },
+    "t3_1w6gcvf": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w6gcvf/bad_application_experience_with_comenityaaa_daily/",
+      "title": "Bad Application Experience with Comenity/AAA Daily Advantage Visa Signature",
+      "posted": "2026-09-03",
+      "card_name": "AAA Daily Advantage Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster was approved instantly on the phone after the online application prompted a callback, in September 2026. Their four OP replies discuss the spouse's failed applications and an Equifax reporting error, never the poster's own score.",
+      "ask": "You listed your spouse's 800+ credit. What was your own score when Comenity approved you on the call?",
+      "firstSeen": "2026-09-04",
+      "attempts": 2,
+      "lastChecked": "2026-09-07"
+    },
+    "t3_1w97vrt": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w97vrt/american_airlines_credit_card_question/",
+      "title": "American Airlines credit card question.",
+      "posted": "2026-09-06",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Recent approval with a $14k limit, posted 2026-09-06. The poster writes AA platinum advantage, which reads as the Citi AAdvantage Platinum Select, but gives no score anywhere.",
+      "firstSeen": "2026-09-07",
+      "attempts": 1,
+      "lastChecked": "2026-09-07"
     },
     "t3_1w5hi96": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w5hi96/chase_524_timing_5th_card_just_hit_24_months_but/",
@@ -1105,35 +1161,6 @@
       ],
       "note": "Denied September 2026, recon confirmed Chase still counted them at 5/24. Look 2 of 3; three new OP replies are all about bonus timing, no score given.",
       "firstSeen": "2026-09-03",
-      "attempts": 2,
-      "lastChecked": "2026-09-06"
-    },
-    "t3_1w5de2w": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5de2w/bofa_reconsideration_success_travel_rewards/",
-      "title": "BofA reconsideration success. Travel Rewards.",
-      "posted": "2026-09-02",
-      "card_name": "Bank of America Travel Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied then approved on reconsideration in September 2026 after verifying SSN at a branch. Initial decline cited recent accounts and no BofA relationship. Look 2 of 3, still no score.",
-      "firstSeen": "2026-09-03",
-      "attempts": 2,
-      "lastChecked": "2026-09-06"
-    },
-    "t3_1w79ldo": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w79ldo/approved_for_sapphire_preferred/",
-      "title": "Approved for Sapphire Preferred!",
-      "posted": "2026-09-04",
-      "card_name": "Chase Sapphire Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Instant approval for an $11k limit off a preapproval offer sitting in their Chase account. Look 2 of 3. Poster describes three years of rebuilding but never gives a number.",
-      "ask": "You mentioned rebuilding your FICO over three years. Where had it gotten to by the time the CSP approval came through?",
-      "firstSeen": "2026-09-04",
       "attempts": 2,
       "lastChecked": "2026-09-06"
     },
@@ -1193,49 +1220,6 @@
       "firstSeen": "2026-09-05",
       "attempts": 1,
       "lastChecked": "2026-09-05"
-    },
-    "t3_1w786bb": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w786bb/strata_elite_false_fraud_alerts_and_frustrating/",
-      "title": "Strata Elite - false fraud alerts and frustrating Citi processes",
-      "posted": "2026-09-04",
-      "card_name": "Citi Strata Elite",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved after Citi mailed a verification code to confirm the address, card received and activated. Post is about fraud alerts afterward and gives no score.",
-      "firstSeen": "2026-09-04",
-      "attempts": 1,
-      "lastChecked": "2026-09-04"
-    },
-    "t3_1w6oe5d": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w6oe5d/typo_on_credit_card_application_resulted_in_way/",
-      "title": "Typo on credit card application resulted in way less limit",
-      "posted": "2026-09-03",
-      "result": "approved",
-      "missing": [
-        "card_name"
-      ],
-      "note": "Approved by Citi for a $4,800 limit around 720 with roughly $100k income, but never names which Citi card. Same post also reports a Bank of America denial caused by a TransUnion freeze, card also unnamed.",
-      "ask": "Which Citi card was the $4,800 approval for?",
-      "firstSeen": "2026-09-04",
-      "attempts": 1,
-      "lastChecked": "2026-09-04"
-    },
-    "t3_1w6gcvf": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w6gcvf/bad_application_experience_with_comenityaaa_daily/",
-      "title": "Bad Application Experience with Comenity/AAA Daily Advantage Visa Signature",
-      "posted": "2026-09-03",
-      "card_name": "AAA Daily Advantage Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster was approved on the phone after the online application prompted a callback. They give their spouse's stats but never their own score.",
-      "ask": "What was your own credit score when Comenity approved you on the call?",
-      "firstSeen": "2026-09-04",
-      "attempts": 1,
-      "lastChecked": "2026-09-04"
     }
   },
   "runs": [
@@ -1670,6 +1654,23 @@
         "no_outcome": 9,
         "no_score": 3,
         "other": 1,
+        "duplicate": 1
+      }
+    },
+    {
+      "id": "2026-09-07T16:35:37.259Z",
+      "date": "2026-09-07",
+      "candidates": 18,
+      "revisits": 5,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 1,
+      "pending": 11,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 7,
+        "no_score": 2,
+        "card_unclear": 1,
         "duplicate": 1
       }
     }
