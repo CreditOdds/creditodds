@@ -1,0 +1,13 @@
+source_id: "t3_1w93qad"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1w93qad/looking_for_new_travel_card/"
+posted: "2026-09-06"
+evidence: "In a card-recommendation profile the poster reports applying for the Sapphire Preferred on 7/24/26 and being denied for too many recently opened cards, listing FICOs of Experian 723, TransUnion 740, Equifax 721 and $40k income."
+card_name: "Chase Sapphire Preferred"
+result: "denied"
+credit_score: 723
+credit_score_source: 1
+listed_income: 40000
+length_credit: 1
+date_applied: "2026-07"
+reason_denied: "Chase cited too many accounts opened recently."
+reason_denied_code: "too_many_recent_accounts"
