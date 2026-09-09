@@ -109,6 +109,20 @@ const MAX_SCORE_RANGE_SPREAD = 20;
 const PENDING_MAX_DAYS = 7;
 const PENDING_MAX_ATTEMPTS = 3;
 
+// How many entries the bucket may hold at once.
+//
+// The other two bounds age an entry out; this one stops the bucket growing past
+// what a run can actually service. Every entry costs one comment-feed request
+// per look, drawn from CAPS.replyRequests and shared with fresh OP expansion,
+// so a bucket bigger than the revisit budget does not chase harder — it just
+// means entries reach PENDING_MAX_DAYS without ever being looked at, which
+// reads in the follow-up list exactly like "we asked and got nothing".
+// Live on 2026-09-09: 14 entries against 6 revisit slots, of which Reddit's
+// 429s let through 2. Sized a little above CAPS.revisitPosts so a full bucket
+// still drains in about a run, with headroom for the entries that get skipped
+// when the feed throttles.
+const PENDING_MAX_ENTRIES = 8;
+
 // Fields a pending entry may claim to be missing. Anything the extraction rules
 // treat as required to publish a row, plus card_name for the case where the
 // outcome is unambiguous but which card it was is not.
@@ -211,7 +225,17 @@ const CAPS = {
   abortAfterThrottled: 3,
   // Timings, named so the tests can shrink them — otherwise every case that
   // exercises the retry or the request loop would sit through the real waits.
-  requestSpacingMs: 8000,
+  //
+  // Raised 8s → 15s on 2026-09-09. 8s was cheap per request but not actually
+  // cheaper per run: three unauthenticated local routines share this IP
+  // (card-news-local and reddit-product-changes-local are the other two), and
+  // on 2026-09-09 the fetch phase took five 61s backoffs, lost /new page 2 and
+  // the megathread outright, and reached only 2 of 5 pending revisits. A
+  // backoff costs 61s, so trading ~7s of spacing to avoid even one of them wins
+  // on wall-clock as well as on coverage: ~13 requests at 15s is ~3.3 minutes,
+  // inside the 3-5 minute budget the routine already claims, where the same run
+  // at 8s spent 305s in backoffs alone.
+  requestSpacingMs: 15000,
   rateLimitBackoffMs: 61000,
 };
 
@@ -888,6 +912,8 @@ Declare an entry pending ONLY when **all** of these hold:
 
 A "what are my odds?" post, a recommendation-template post, or a pre-qual rejection is NOT pending. It is a skip, same as before. The bucket is expensive (one Reddit request per entry per run, against a feed that throttles us) and it is only worth spending on a row we would publish the moment one number arrives.
 
+The bucket holds ${PENDING_MAX_ENTRIES} entries at most, and entries already being chased keep their places. So on a busy day the last few new near-misses you declare will not be admitted: they are reported with their links for a human to ask by hand, but they get no automatic revisits. Write the strongest ones first, and do not pad the bucket to look thorough — a weak entry admitted is a strong one refused.
+
 \`note\` is your own paraphrase and gets read by a human deciding whether to go ask the poster, so say what is established and what is missing in one line.
 
 \`ask\` is optional and overrides the generic per-field question in the follow-up list. Write one whenever the post says something adjacent to the missing field, because the generic question will otherwise ask for what the post already gives: if the poster wrote "mid 700s", the ask is "you said mid 700s, what was the exact number?", not "what was your score?". Skip \`ask\` when the field is simply absent and the generic question already fits.
@@ -1309,7 +1335,28 @@ function mergePending({ carried, declared, candidateById }) {
     pending[id] = entry.firstSeen ? entry : { ...entry, firstSeen: TODAY };
     carriedForward.push({ id, entry: pending[id] });
   }
-  return { pending, carriedForward };
+
+  // Enforce PENDING_MAX_ENTRIES as admission control on THIS run's brand-new
+  // near-misses, never on entries already in flight.
+  //
+  // Evicting an in-flight entry instead would undo the 2026-08-13 starvation
+  // fix in rankPending: those are the entries with attempts already spent and
+  // the least time left, so dropping them wastes every request spent on them so
+  // far and re-creates the "nothing ever reaches its third look" failure. A
+  // brand-new entry, by contrast, has cost nothing yet — refusing it is the
+  // cheapest possible eviction, and it is what keeps a busy day from burying
+  // yesterday's half-chased entries.
+  //
+  // A refused entry is NOT silently lost: it is returned so the run report can
+  // print it with its link, the same as any other follow-up. It just does not
+  // get automatic revisits, so it is Max's to ask by hand or let go.
+  const notAdmitted = [];
+  const fresh = Object.keys(declared).filter((id) => !carried[id]);
+  for (let i = fresh.length - 1; i >= 0 && Object.keys(pending).length > PENDING_MAX_ENTRIES; i -= 1) {
+    notAdmitted.unshift({ id: fresh[i], entry: pending[fresh[i]] });
+    delete pending[fresh[i]];
+  }
+  return { pending, carriedForward, notAdmitted };
 }
 
 // The staged state is the fetch phase's output, so finish has to read it back,
@@ -1352,12 +1399,19 @@ function reconcilePending(validationCtx) {
     };
   }
 
-  const { pending, carriedForward } = mergePending({
+  const { pending, carriedForward, notAdmitted } = mergePending({
     carried,
     declared,
     candidateById: validationCtx.candidateById,
   });
-  return { staged, pending, rejected, carriedForward, carriedCount: Object.keys(carried).length };
+  return {
+    staged,
+    pending,
+    rejected,
+    carriedForward,
+    notAdmitted,
+    carriedCount: Object.keys(carried).length,
+  };
 }
 
 function resolvePendingFor(result, publishedIds) {
@@ -1373,7 +1427,7 @@ function resolvePendingFor(result, publishedIds) {
 // `runs` is the completed run log; the staging-only `run` key is dropped here,
 // so what lands in the committed state file stays {seen, pending, runs}.
 function reportPending(result, runs) {
-  const { staged, pending, rejected, resolved = 0, carriedForward = [] } = result;
+  const { staged, pending, rejected, resolved = 0, carriedForward = [], notAdmitted = [] } = result;
   fs.writeFileSync(
     STATE_UPDATED_FILE,
     `${JSON.stringify({ seen: staged.seen || {}, pending, runs: runs || staged.runs || [] }, null, 2)}\n`
@@ -1399,6 +1453,19 @@ function reportPending(result, runs) {
           `still ${looksLeft} look(s) left, first seen ${entry.firstSeen}`
       );
       console.log(`    ${entry.url}`);
+    }
+  }
+
+  if (notAdmitted.length > 0) {
+    console.log(
+      `\nPending bucket full (${PENDING_MAX_ENTRIES}): ${notAdmitted.length} new near-miss(es) not admitted, ` +
+        `so they get no automatic revisits. Ask by hand or let them go:`
+    );
+    for (const { id, entry } of notAdmitted) {
+      const known = [entry.card_name, entry.result].filter(Boolean).join(' ') || 'outcome';
+      console.log(`  - ${known}, missing ${(entry.missing || []).join('/')}`);
+      if (entry.url) console.log(`    ${entry.url}`);
+      if (entry.note) console.log(`    ${entry.note}`);
     }
   }
 
@@ -1847,6 +1914,7 @@ module.exports = {
   buildRunEntry,
   fetchNewPosts,
   SKIP_REASONS,
+  PENDING_MAX_ENTRIES,
   RUN_LOG_LIMIT,
   NEW_FEED_PAGES,
   CAPS,
