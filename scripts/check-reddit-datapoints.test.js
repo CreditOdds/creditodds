@@ -27,6 +27,7 @@ const {
   rankPending,
   validatePendingEntry,
   mergePending,
+  PENDING_MAX_ENTRIES,
   buildFollowups,
   fetchNewPosts,
   loadSkipped,
@@ -625,6 +626,75 @@ test('a re-declared entry wins over the carried copy', () => {
   assert.equal(pending.t3_shown.attempts, 2);
   assert.equal(pending.t3_shown.note, 'still no score');
   assert.deepEqual(carriedForward, [], 'a re-declared entry was presented, so it is not a carry');
+});
+
+// PENDING_MAX_ENTRIES bounds the bucket to what a run can actually service.
+// Eviction has to fall on brand-new entries, never on ones already part-chased,
+// or a busy day would keep resetting the bucket and nothing would ever finish.
+const nearMiss = (n, extra = {}) => ({
+  url: `https://reddit.com/${n}`,
+  missing: ['credit_score'],
+  firstSeen: '2026-09-09',
+  attempts: 1,
+  ...extra,
+});
+
+test('a full bucket refuses new near-misses instead of growing', () => {
+  const declared = {};
+  for (let i = 0; i < PENDING_MAX_ENTRIES + 3; i += 1) declared[`t3_new${i}`] = nearMiss(i);
+
+  const { pending, notAdmitted } = mergePending({ carried: {}, declared, candidateById: new Map() });
+
+  assert.equal(Object.keys(pending).length, PENDING_MAX_ENTRIES, 'bucket is capped');
+  assert.equal(notAdmitted.length, 3, 'the overflow is reported, not dropped in silence');
+  // The tail overflows, so the earlier files survive and the report keeps them
+  // in file order rather than reversed.
+  assert.deepEqual(
+    notAdmitted.map((n) => n.id),
+    ['t3_new8', 't3_new9', 't3_new10']
+  );
+  assert.ok(notAdmitted.every((n) => n.entry && n.entry.url), 'refused entries keep their link for the ask-list');
+});
+
+test('the cap evicts brand-new entries, never ones already in flight', () => {
+  // A full bucket of part-chased entries, plus a fresh near-miss on top.
+  const carried = {};
+  const candidateById = new Map();
+  for (let i = 0; i < PENDING_MAX_ENTRIES; i += 1) {
+    carried[`t3_old${i}`] = nearMiss(i, { firstSeen: '2026-09-05', attempts: 2 });
+  }
+  const declared = { t3_fresh: nearMiss('fresh') };
+
+  const { pending, notAdmitted } = mergePending({ carried, declared, candidateById });
+
+  assert.equal(Object.keys(pending).length, PENDING_MAX_ENTRIES);
+  assert.deepEqual(notAdmitted.map((n) => n.id), ['t3_fresh']);
+  for (let i = 0; i < PENDING_MAX_ENTRIES; i += 1) {
+    assert.ok(pending[`t3_old${i}`], `in-flight entry t3_old${i} survives a full bucket`);
+    assert.equal(pending[`t3_old${i}`].attempts, 2, 'and keeps the looks it already spent');
+  }
+});
+
+test('a re-declared entry is not treated as new when the bucket is full', () => {
+  // The bucket is full and every entry was presented and re-declared. None of
+  // them is new, so nothing may be evicted even though the cap is reached.
+  const carried = {};
+  const declared = {};
+  const candidateById = new Map();
+  for (let i = 0; i < PENDING_MAX_ENTRIES; i += 1) {
+    carried[`t3_p${i}`] = nearMiss(i, { firstSeen: '2026-09-06', attempts: 1 });
+    declared[`t3_p${i}`] = nearMiss(i, { firstSeen: '2026-09-06', attempts: 2 });
+    candidateById.set(`t3_p${i}`, { id: `t3_p${i}`, kind: 'post' });
+  }
+
+  const { pending, notAdmitted } = mergePending({ carried, declared, candidateById });
+
+  assert.equal(notAdmitted.length, 0, 'a re-declaration is a continuation, not an admission');
+  assert.equal(Object.keys(pending).length, PENDING_MAX_ENTRIES);
+  assert.ok(
+    Object.values(pending).every((e) => e.attempts === 2),
+    'every entry keeps the look it just spent'
+  );
 });
 
 // Carrying forward must not become immortality: the entry keeps its original
