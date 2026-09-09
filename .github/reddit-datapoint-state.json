@@ -1007,7 +1007,7 @@
     "t3_1w79ldo": "2026-09-07",
     "t3_1w78wyq": "2026-09-04",
     "t3_1w78u83": "2026-09-04",
-    "t3_1w786bb": "2026-09-07",
+    "t3_1w786bb": "2026-09-09",
     "t3_1w76xbp": "2026-09-04",
     "t3_1w75pc6": "2026-09-04",
     "t3_1w75mfd": "2026-09-04",
@@ -1016,7 +1016,7 @@
     "t3_1w703ip": "2026-09-04",
     "t3_1w6vdsf": "2026-09-04",
     "t3_1w6rnbz": "2026-09-04",
-    "t3_1w6oe5d": "2026-09-07",
+    "t3_1w6oe5d": "2026-09-09",
     "t3_1w6nuhx": "2026-09-04",
     "t3_1w6mk14": "2026-09-04",
     "t3_1w6gcvf": "2026-09-07",
@@ -1060,39 +1060,35 @@
     "t3_1w9dxxy": "2026-09-07",
     "t3_1w9bewc": "2026-09-07",
     "t3_1w97vrt": "2026-09-07",
-    "t3_1w93qad": "2026-09-07"
+    "t3_1w93qad": "2026-09-07",
+    "t3_1wbolr7": "2026-09-09",
+    "t3_1wbmi49": "2026-09-09",
+    "t3_1wbm0aj": "2026-09-09",
+    "t3_1wblyzb": "2026-09-09",
+    "t3_1wbfvjc": "2026-09-09",
+    "t3_1wbbk4v": "2026-09-09",
+    "t3_1wb8oat": "2026-09-09",
+    "t3_1wb87zo": "2026-09-09",
+    "t3_1wb7c7z": "2026-09-09",
+    "t3_1wb4ltb": "2026-09-09",
+    "t3_1wb46a9": "2026-09-09",
+    "t3_1wb3q8l": "2026-09-09",
+    "t3_1wb3cr3": "2026-09-09",
+    "t3_1wb2evp": "2026-09-09",
+    "t3_1wb121k": "2026-09-09",
+    "t3_1wb0t2o": "2026-09-09",
+    "t3_1wb0i20": "2026-09-09",
+    "t3_1wb0hwr": "2026-09-09",
+    "t3_1wayk90": "2026-09-09",
+    "t3_1wat6xj": "2026-09-09",
+    "t3_1wasej5": "2026-09-09",
+    "t3_1was74w": "2026-09-09",
+    "t3_1waqt7n": "2026-09-09",
+    "t3_1wapfaw": "2026-09-09",
+    "t3_1waozwf": "2026-09-09",
+    "t3_1waemr2": "2026-09-09"
   },
   "pending": {
-    "t3_1w5de2w": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5de2w/bofa_reconsideration_success_travel_rewards/",
-      "title": "BofA reconsideration success. Travel Rewards.",
-      "posted": "2026-09-02",
-      "card_name": "Bank of America Travel Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved on reconsideration in September 2026 after a branch SSN verification; the initial decline cited recent accounts and no BofA relationship. Look 3 of 3 and the poster still never gives a score.",
-      "ask": "Great writeup on the reconsideration. What was your FICO when you applied?",
-      "firstSeen": "2026-09-03",
-      "attempts": 3,
-      "lastChecked": "2026-09-07"
-    },
-    "t3_1w79ldo": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w79ldo/approved_for_sapphire_preferred/",
-      "title": "Approved for Sapphire Preferred!",
-      "posted": "2026-09-04",
-      "card_name": "Chase Sapphire Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Instant approval for an $11k limit off a preapproval offer in the poster's Chase account. Look 3 of 3, and three years of rebuilding are described without a single number.",
-      "ask": "You mentioned rebuilding your FICO over three years. Roughly what was it when the CSP approval came through?",
-      "firstSeen": "2026-09-04",
-      "attempts": 3,
-      "lastChecked": "2026-09-07"
-    },
     "t3_1w786bb": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w786bb/strata_elite_false_fraud_alerts_and_frustrating/",
       "title": "Strata Elite - false fraud alerts and frustrating Citi processes",
@@ -1102,10 +1098,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved in September 2026 after Citi mailed an address verification code; card received and activated. The post and the one OP reply are entirely about the fraud alerts afterward, with no score.",
+      "note": "Approved for the Strata Elite in September 2026 after Citi verified the address by mailed code; card received and activated. Post and both OP replies are entirely about the fraud alerts afterward, still no score anywhere.",
+      "ask": "Congrats on the Strata Elite approval. What was your credit score when you applied?",
       "firstSeen": "2026-09-04",
-      "attempts": 2,
-      "lastChecked": "2026-09-07"
+      "attempts": 3,
+      "lastChecked": "2026-09-09"
     },
     "t3_1w6oe5d": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w6oe5d/typo_on_credit_card_application_resulted_in_way/",
@@ -1115,11 +1112,82 @@
       "missing": [
         "card_name"
       ],
-      "note": "Approved by Citi in September 2026 for a $4,800 limit at roughly 720 with about $100k income, but the post never names which Citi card. The same post reports a Bank of America denial caused by a TransUnion freeze, also unnamed.",
-      "ask": "Which Citi card was the $4,800 approval for?",
+      "note": "Approved by Citi in September 2026 for a $4,800 limit at roughly 720 with about $100k income, but the post still never names which Citi card. The Bank of America denial in the same post is also unnamed.",
+      "ask": "Which Citi card were you approved for at $4,800?",
       "firstSeen": "2026-09-04",
-      "attempts": 2,
-      "lastChecked": "2026-09-07"
+      "attempts": 3,
+      "lastChecked": "2026-09-09"
+    },
+    "t3_1wbm0aj": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wbm0aj/citi_aadvantage_400_40000_miles_offer_on_aacom/",
+      "title": "Citi AAdvantage $400 + 40,000 miles offer on AA.com: approved, but promised temporary card details never provided",
+      "posted": "2026-09-09",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Instantly approved on 2026-09-08 through the AA.com checkout offer. Entire post is about the missing temporary card details, so no score is given.",
+      "firstSeen": "2026-09-09",
+      "attempts": 1,
+      "lastChecked": "2026-09-09"
+    },
+    "t3_1wbfvjc": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wbfvjc/does_cap1_spark_biz_cc_have_reconsideration_line/",
+      "title": "Does cap1 spark biz cc have reconsideration line?",
+      "posted": "2026-09-09",
+      "result": "denied",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Denied for a Capital One Spark business card in September 2026 at 760 plus with $300k personal income and a June 2026 business, reason being a GM card opened two months earlier. The post says only cap1 spark biz cc, which could be Spark Cash Plus or Spark Classic.",
+      "ask": "Which Spark card was it, Spark Cash Plus or one of the others?",
+      "firstSeen": "2026-09-09",
+      "attempts": 1,
+      "lastChecked": "2026-09-09"
+    },
+    "t3_1wb0t2o": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wb0t2o/how_do_i_know_if_i_got_the_rakuten_deal_with_boa/",
+      "title": "How do I know if I got the Rakuten deal with BoA UCR?",
+      "posted": "2026-09-08",
+      "card_name": "Bank of America Travel Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied in the BofA app under a Rakuten $325 offer in September 2026, no instant approval, pushed through by phone and now holds the card. Post is about tracking the Rakuten bonus, so no score.",
+      "firstSeen": "2026-09-09",
+      "attempts": 1,
+      "lastChecked": "2026-09-09"
+    },
+    "t3_1wb0hwr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wb0hwr/chase_not_letting_me_talk_to_someone_in/",
+      "title": "Chase not letting me talk to someone in reconsideration department?",
+      "posted": "2026-09-08",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied 2026-09-03 in the Chase app, denied for too many active accounts or too much available credit. Post is about failing to reach the reconsideration line, so no score is given.",
+      "firstSeen": "2026-09-09",
+      "attempts": 1,
+      "lastChecked": "2026-09-09"
+    },
+    "t3_1waemr2": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1waemr2/chase_amazon_prime_visa_rejected_after_recently/",
+      "title": "Chase Amazon Prime Visa rejected after recently moving to the US. Is my thin credit history the reason?",
+      "posted": "2026-09-08",
+      "card_name": "Amazon Prime Rewards Visa Signature",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied in September 2026 two to three weeks after moving to the US, with a Chase checking account and a recently approved Chase Freedom already open. Poster says the US file is extremely new but never gives a score.",
+      "ask": "You mentioned a very new US file. Did any score show up on the denial letter?",
+      "firstSeen": "2026-09-09",
+      "attempts": 1,
+      "lastChecked": "2026-09-09"
     },
     "t3_1w6gcvf": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w6gcvf/bad_application_experience_with_comenityaaa_daily/",
@@ -1672,6 +1740,22 @@
         "no_score": 2,
         "card_unclear": 1,
         "duplicate": 1
+      }
+    },
+    {
+      "id": "2026-09-09T16:55:10.675Z",
+      "date": "2026-09-09",
+      "candidates": 28,
+      "revisits": 2,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 1,
+      "pending": 14,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 12,
+        "no_score": 5,
+        "pre_qual": 3
       }
     }
   ]
