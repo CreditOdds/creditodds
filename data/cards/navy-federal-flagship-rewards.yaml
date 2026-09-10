@@ -4,7 +4,7 @@ slug: "navy-federal-flagship-rewards"
 accepting_applications: true
 category: "travel"
 image: "navy-federal-flagship-rewards.png"
-annual_fee: 49
+annual_fee: 95
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
@@ -35,9 +35,9 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 35000
-  type: points
-  spend_requirement: 3500
+  value: 50000
+  type: "points"
+  spend_requirement: 4000
   timeframe_months: 3
   note: "Worth $350; offer valid for applications through 1/3/2027"
 apr:
