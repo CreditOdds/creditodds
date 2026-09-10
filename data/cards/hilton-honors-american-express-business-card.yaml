@@ -28,11 +28,11 @@ rewards:
     cap_period: annual
     rate_after_cap: 3
 signup_bonus:
-  value: 130000
+  value: 150000
   type: "points"
-  spend_requirement: 6000
+  spend_requirement: 8000
   timeframe_months: 6
-  note: "Limited-time offer through July 29, 2026, which also waives the annual fee for the first year"
+  note: "Earn 150,000 Hilton Honors Bonus Points and a Free Night Reward after you spend $8,000 on eligible purchases within the first 6 months of Card Membership. Offer ends 2027-01-13."
 apr:
   regular:
     min: 19.49

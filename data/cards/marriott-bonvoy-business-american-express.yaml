@@ -44,7 +44,6 @@ signup_bonus:
   type: "points"
   spend_requirement: 9000
   timeframe_months: 6
-  note: "Earn 75,000 points after $6,000 in purchases, plus an additional 50,000 points after an additional $3,000 in purchases, within the first 6 months"
 apr:
   regular:
     min: 19.49
