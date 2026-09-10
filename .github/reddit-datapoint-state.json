@@ -1002,7 +1002,7 @@
     "t3_1w5qjgh": "2026-09-03",
     "t3_1w5lglk": "2026-09-03",
     "t3_1w5hiwn": "2026-09-03",
-    "t3_1w5hi96": "2026-09-06",
+    "t3_1w5hi96": "2026-09-10",
     "t3_1w5de2w": "2026-09-07",
     "t3_1w79ldo": "2026-09-07",
     "t3_1w78wyq": "2026-09-04",
@@ -1019,10 +1019,10 @@
     "t3_1w6oe5d": "2026-09-09",
     "t3_1w6nuhx": "2026-09-04",
     "t3_1w6mk14": "2026-09-04",
-    "t3_1w6gcvf": "2026-09-07",
+    "t3_1w6gcvf": "2026-09-10",
     "t3_1w6c34k": "2026-09-04",
     "t3_1w817jx": "2026-09-05",
-    "t3_1w813zi": "2026-09-05",
+    "t3_1w813zi": "2026-09-10",
     "t3_1w7wvyw": "2026-09-05",
     "t3_1w7s8h4": "2026-09-05",
     "t3_1w7rhdc": "2026-09-05",
@@ -1032,7 +1032,7 @@
     "t3_1w7c10i": "2026-09-05",
     "t3_1w79y94": "2026-09-05",
     "t3_1w90w2m": "2026-09-06",
-    "t3_1w90jir": "2026-09-06",
+    "t3_1w90jir": "2026-09-10",
     "t3_1w8urnp": "2026-09-06",
     "t3_1w8s1s8": "2026-09-06",
     "t3_1w8r5r5": "2026-09-06",
@@ -1086,37 +1086,58 @@
     "t3_1waqt7n": "2026-09-09",
     "t3_1wapfaw": "2026-09-09",
     "t3_1waozwf": "2026-09-09",
-    "t3_1waemr2": "2026-09-09"
+    "t3_1waemr2": "2026-09-09",
+    "t3_1wcm6bz": "2026-09-10",
+    "t3_1wchq3z": "2026-09-10",
+    "t3_1wcbfet": "2026-09-10",
+    "t3_1wc6gdo": "2026-09-10",
+    "t3_1wc33zu": "2026-09-10",
+    "t3_1wc0l1j": "2026-09-10",
+    "t3_1wc00hd": "2026-09-10",
+    "t3_1wbz727": "2026-09-10",
+    "t3_1wbxbb5": "2026-09-10",
+    "t3_1wbx9nu": "2026-09-10",
+    "t3_1wbx9m0": "2026-09-10",
+    "t3_1wbwyci": "2026-09-10",
+    "t3_1wbwekq": "2026-09-10",
+    "t3_1wbvzzk": "2026-09-10",
+    "t3_1wbsn3l": "2026-09-10",
+    "t3_1wbrfp3": "2026-09-10",
+    "t3_1wa9mea": "2026-09-10",
+    "t3_1wa8o0s": "2026-09-10",
+    "t3_1wa69nr": "2026-09-10",
+    "t3_1wa2vjp": "2026-09-10",
+    "t3_1w9yb5v": "2026-09-10",
+    "t3_1w9xtid": "2026-09-10"
   },
   "pending": {
-    "t3_1w786bb": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w786bb/strata_elite_false_fraud_alerts_and_frustrating/",
-      "title": "Strata Elite - false fraud alerts and frustrating Citi processes",
-      "posted": "2026-09-04",
-      "card_name": "Citi Strata Elite",
+    "t3_1w813zi": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w813zi/bilt_just_gave_me_a_reason_to_question_whether_i/",
+      "title": "Bilt just gave me a reason to question whether I should trust them",
+      "posted": "2026-09-05",
+      "card_name": "Bilt Obsidian",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Strata Elite in September 2026 after Citi verified the address by mailed code; card received and activated. Post and both OP replies are entirely about the fraud alerts afterward, still no score anywhere.",
-      "ask": "Congrats on the Strata Elite approval. What was your credit score when you applied?",
-      "firstSeen": "2026-09-04",
-      "attempts": 3,
-      "lastChecked": "2026-09-09"
+      "note": "Approved for Bilt Obsidian at a $17,500 limit in September 2026, then had that application withdrawn by Cardless and was denied for Bilt Palladium days later on identity verification. Look 3 of 3 and the two new OP replies are about the denial letter, still no score.",
+      "firstSeen": "2026-09-05",
+      "attempts": 2,
+      "lastChecked": "2026-09-10"
     },
-    "t3_1w6oe5d": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w6oe5d/typo_on_credit_card_application_resulted_in_way/",
-      "title": "Typo on credit card application resulted in way less limit",
-      "posted": "2026-09-03",
+    "t3_1w90jir": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w90jir/chase_reconsideration_experience/",
+      "title": "Chase Reconsideration Experience",
+      "posted": "2026-09-06",
+      "card_name": "Ink Business Unlimited",
       "result": "approved",
       "missing": [
-        "card_name"
+        "credit_score"
       ],
-      "note": "Approved by Citi in September 2026 for a $4,800 limit at roughly 720 with about $100k income, but the post still never names which Citi card. The Bank of America denial in the same post is also unnamed.",
-      "ask": "Which Citi card were you approved for at $4,800?",
-      "firstSeen": "2026-09-04",
-      "attempts": 3,
-      "lastChecked": "2026-09-09"
+      "note": "Denied September 2026 for too many recently opened accounts, then approved on the Chase reconsideration line after the agent rechecked the file. Look 3 of 3 and the three new OP replies cover account counts and the SUB, never a score.",
+      "firstSeen": "2026-09-06",
+      "attempts": 2,
+      "lastChecked": "2026-09-10"
     },
     "t3_1wbm0aj": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wbm0aj/citi_aadvantage_400_40000_miles_offer_on_aacom/",
@@ -1189,21 +1210,6 @@
       "attempts": 1,
       "lastChecked": "2026-09-09"
     },
-    "t3_1w6gcvf": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w6gcvf/bad_application_experience_with_comenityaaa_daily/",
-      "title": "Bad Application Experience with Comenity/AAA Daily Advantage Visa Signature",
-      "posted": "2026-09-03",
-      "card_name": "AAA Daily Advantage Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster was approved instantly on the phone after the online application prompted a callback, in September 2026. Their four OP replies discuss the spouse's failed applications and an Equifax reporting error, never the poster's own score.",
-      "ask": "You listed your spouse's 800+ credit. What was your own score when Comenity approved you on the call?",
-      "firstSeen": "2026-09-04",
-      "attempts": 2,
-      "lastChecked": "2026-09-07"
-    },
     "t3_1w97vrt": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w97vrt/american_airlines_credit_card_question/",
       "title": "American Airlines credit card question.",
@@ -1217,34 +1223,6 @@
       "firstSeen": "2026-09-07",
       "attempts": 1,
       "lastChecked": "2026-09-07"
-    },
-    "t3_1w5hi96": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w5hi96/chase_524_timing_5th_card_just_hit_24_months_but/",
-      "title": "Chase 5/24 timing, 5th card just hit 24 months but rejected, what to say to recon?",
-      "posted": "2026-09-02",
-      "card_name": "Ink Business Unlimited",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied September 2026, recon confirmed Chase still counted them at 5/24. Look 2 of 3; three new OP replies are all about bonus timing, no score given.",
-      "firstSeen": "2026-09-03",
-      "attempts": 2,
-      "lastChecked": "2026-09-06"
-    },
-    "t3_1w90jir": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w90jir/chase_reconsideration_experience/",
-      "title": "Chase Reconsideration Experience",
-      "posted": "2026-09-06",
-      "card_name": "Ink Business Unlimited",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied September 2026 for too many recently opened accounts, then approved on the Chase reconsideration line when the agent rechecked the file. Poster says only 3 accounts opened in two years but never states a score.",
-      "firstSeen": "2026-09-06",
-      "attempts": 1,
-      "lastChecked": "2026-09-06"
     },
     "t3_1w8pxa7": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1w8pxa7/robinhood_gold_credit_card/",
@@ -1273,21 +1251,6 @@
       "firstSeen": "2026-09-06",
       "attempts": 1,
       "lastChecked": "2026-09-06"
-    },
-    "t3_1w813zi": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w813zi/bilt_just_gave_me_a_reason_to_question_whether_i/",
-      "title": "Bilt just gave me a reason to question whether I should trust them",
-      "posted": "2026-09-05",
-      "card_name": "Bilt Obsidian",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Bilt Obsidian at a $17,500 limit in September 2026, then had that application withdrawn by Cardless and was denied for Bilt Palladium days later for identity verification. Both outcomes are first person and dated, but no score anywhere.",
-      "ask": "You were approved for Obsidian at $17.5k and then denied for Palladium. What credit score were you working with?",
-      "firstSeen": "2026-09-05",
-      "attempts": 1,
-      "lastChecked": "2026-09-05"
     }
   },
   "runs": [
@@ -1756,6 +1719,22 @@
         "no_outcome": 12,
         "no_score": 5,
         "pre_qual": 3
+      }
+    },
+    {
+      "id": "2026-09-10T15:35:59.441Z",
+      "date": "2026-09-10",
+      "candidates": 26,
+      "revisits": 4,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 10,
+      "unaccounted": 4,
+      "skipped": {
+        "no_score": 8,
+        "no_outcome": 10,
+        "card_not_in_catalog": 1
       }
     }
   ]
