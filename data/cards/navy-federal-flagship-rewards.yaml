@@ -8,19 +8,23 @@ annual_fee: 95
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Flagship pairs a $49 annual fee with a $139 annual statement credit
-  covering an Amazon Prime membership paid with the card, so the fee is more
-  than covered if you were buying Prime anyway. Earn rates are solid and
-  broadly defined: 3 points per dollar on travel that includes airlines,
-  hotels, car rentals, ride-sharing, parking, tolls, museums, amusement parks,
-  and golf courses, plus 2x on everything else, which is a strong floor for a
-  card at this price. The welcome offer is 35,000 points worth $350 after
-  $3,500 in purchases within 3 months, and there is a Global Entry or TSA
-  PreCheck credit of up to $120 once every 4 years. No foreign transaction
-  fee, travel accident insurance, and 24/7 emergency assistance round out a
-  genuinely travel-ready package. The limitation is scale rather than quality:
-  there is no lounge access and no hotel or airline status, so this is a value
-  travel card, not a competitor to premium $500-plus products.
+  The Flagship Rewards pairs a $95 annual fee, up from $49 as of November 2,
+  2026, with a $139 annual statement credit covering an Amazon Prime
+  membership paid with the card, so the fee is still more than covered if you
+  were buying Prime anyway. Earn rates are solid and broadly defined: 3 points
+  per dollar on travel that includes airlines, hotels, car rentals,
+  ride-sharing, parking, tolls, museums, amusement parks, and golf courses,
+  plus 2x on everything else, which remains a strong floor at this price. The
+  welcome offer is 50,000 points worth $500 after $4,000 in purchases within 3
+  months, and there is a Global Entry or TSA PreCheck credit of up to $120
+  once every 4 years. No foreign transaction fee, travel accident insurance,
+  and 24/7 emergency assistance round out a genuinely travel-ready package.
+  Navy Federal now also offers the Flagship Premier at the same $95 fee, which
+  swaps the Prime credit for a $100 airline credit and pays 4x on travel and
+  3x on dining but only 1x on everything else, so this card is still the
+  better pick if your spending is spread out. The limitation is scale rather
+  than quality: there is no lounge access and no hotel or airline status, so
+  this is a value travel card, not a competitor to premium $500-plus products.
 reward_type: "points"
 tags:
   - travel
@@ -39,7 +43,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 4000
   timeframe_months: 3
-  note: "Worth $350; offer valid for applications through 1/3/2027"
+  note: "Worth $500; offer valid for applications through 1/3/2027"
 apr:
   regular:
     min: 14.74

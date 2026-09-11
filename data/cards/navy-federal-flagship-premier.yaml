@@ -1,0 +1,92 @@
+name: "Navy Federal Flagship Premier Visa Signature"
+bank: "Navy Federal"
+slug: "navy-federal-flagship-premier"
+accepting_applications: true
+category: "travel"
+release_date: "2026-09-10"
+annual_fee: 95
+reward_type: "points"
+tags:
+  - travel
+  - rewards
+  - premium
+rewards:
+  - category: travel
+    value: 4
+    unit: points_per_dollar
+  - category: dining
+    value: 3
+    unit: points_per_dollar
+  - category: everything_else
+    value: 1
+    unit: points_per_dollar
+signup_bonus:
+  value: 50000
+  type: "points"
+  spend_requirement: 4000
+  timeframe_months: 3
+  note: "Worth $500; for accounts opened between 9/10/2026 and 1/3/2027"
+apr:
+  regular:
+    min: 15.74
+    max: 18.00
+benefits:
+  - name: "Annual Airline Credit"
+    value: 100
+    description: "$100 statement credit each year after spending $100 or more on eligible airline purchases with the card"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
+  - name: "Global Entry / TSA PreCheck Credit"
+    value: 120
+    description: "Up to $120 in statement credits for Global Entry or TSA PreCheck application fees, once every 4 years"
+    frequency: "every_4_years"
+    category: "travel"
+    enrollment_required: false
+  - name: "GigSky Global Data Plan"
+    value: 20
+    description: "Complimentary 3GB GigSky global mobile data plan, valid for up to 15 days after activation, when the card is the default payment method in the GigSky app"
+    category: "travel"
+    enrollment_required: true
+  - name: "Collision Damage Waiver"
+    value: 0
+    description: "Rental car collision damage waiver coverage on rentals of 15 days or less"
+    category: "insurance"
+    enrollment_required: false
+  - name: "Travel Accident Insurance"
+    value: 0
+    description: "Worldwide automatic travel accident insurance when travel is purchased with the card"
+    category: "insurance"
+    enrollment_required: false
+  - name: "Travel and Emergency Assistance"
+    value: 0
+    description: "24/7 travel and emergency assistance including medical referral, lost luggage locator, and prescription assistance"
+    category: "travel"
+    enrollment_required: false
+  - name: "No Balance Transfer Fees"
+    value: 0
+    description: "Navy Federal does not charge balance transfer fees on this card"
+    category: "other"
+    enrollment_required: false
+  - name: "No Cash Advance Fees"
+    value: 0
+    description: "Navy Federal does not charge cash advance fees, though ATM fees may apply outside Navy Federal locations"
+    category: "other"
+    enrollment_required: false
+foreign_transaction_fee: false
+network: "visa"
+apply_link: https://www.navyfederal.org/loans-cards/credit-cards/flagship-premier-visa-signature.html
+our_take: >
+  The Flagship Premier is Navy Federal's first metal card and its most
+  travel-focused one, sitting above the older Flagship Rewards at the same $95
+  annual fee both cards now carry. It earns 4x on travel and 3x on dining, and
+  the $100 annual airline credit covers the fee outright if you put at least
+  $100 of airline spend on the card in a year. A Global Entry or TSA PreCheck
+  credit of up to $120 every 4 years, rental car collision coverage, travel
+  accident insurance and no foreign transaction fee make it a genuinely
+  capable travel card for the price. The tradeoff is the floor: everything
+  outside travel and dining earns 1x, down from the flat 2x that made Flagship
+  Rewards worth using on ordinary spend, so this is the better card only if
+  travel and dining dominate your budget. There is no lounge access and no
+  hotel or airline status, and membership is limited to the military
+  community, so it competes on value rather than on premium perks.
