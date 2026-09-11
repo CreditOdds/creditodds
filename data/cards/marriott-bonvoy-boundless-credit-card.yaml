@@ -75,7 +75,7 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 4
+  value: 3
   type: "free_nights"
   spend_requirement: 3000
   timeframe_months: 3

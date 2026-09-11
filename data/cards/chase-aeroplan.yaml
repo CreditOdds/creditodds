@@ -3,7 +3,7 @@ bank: "Chase"
 slug: "chase-aeroplan"
 image: "chase-aeroplan.png"
 accepting_applications: true
-annual_fee: 95
+annual_fee: 195
 reward_type: "points"
 rewards:
   - category: airlines
@@ -21,10 +21,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 60000
+  value: 115000
   type: "points"
-  spend_requirement: 3000
-  timeframe_months: 3
+  spend_requirement: 20000
+  timeframe_months: 12
+  note: "Earn 75,000 bonus points after you spend $4,000 on purchases in the first 3 months your account is open, plus 40,000 bonus points after a total of $20,000 in purchases within 12 months of account opening, for a possible total of 115,000 points."
 apr:
   regular:
     min: 19.74
