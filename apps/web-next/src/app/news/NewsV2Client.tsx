@@ -472,8 +472,12 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                       <div className="ni-head">
                         <h3 className="ni-title">{item.title}</h3>
                         {cards.length > 0 && (
-                          // Decorative: the headline and excerpt already name the
-                          // cards, so announcing each image repeats the row.
+                          // aria-hidden because the headline and excerpt already
+                          // name the cards; announcing each image repeats the row.
+                          // The alt text still has to be non-empty: check-seo.mjs
+                          // fails the build on an empty alt attribute, since Bing
+                          // reads that as a missing one, and aria-hidden does not
+                          // exempt it.
                           <div className="ni-cards" aria-hidden="true">
                             {cards.slice(0, 3).map((c, i) => (
                               <span
@@ -483,7 +487,7 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                               >
                                 <CardImage
                                   cardImageLink={c.image ?? undefined}
-                                  alt=""
+                                  alt={c.name}
                                   fill
                                   sizes="60px"
                                   style={{ objectFit: 'cover' }}
