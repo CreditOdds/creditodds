@@ -1,0 +1,13 @@
+-- Chase rebrand (September 10, 2026): Aeroplan -> Air Canada Aeroplan.
+--
+-- Chase refreshed and renamed the product on 2026-09-10. The live apply page
+-- (creditcards.chase.com/travel-credit-cards/aircanada/aeroplan) now titles it
+-- "Air Canada Aeroplan(R) Card" and the terms refer to it throughout as the
+-- "Chase Air Canada Aeroplan Card". The refresh also raised the annual fee from
+-- $95 to $195 and added automatic Aeroplan 25K Status, a 15% award discount and
+-- up to $100 a year in Air Canada statement credits.
+--
+-- Must run BEFORE the renamed cards.json reaches the sync: update-cards-github.js
+-- links rows by card_name, so a rename that lands in the CDN first would create a
+-- second row and strand this card's ratings, stats and CardWire history.
+UPDATE cards SET card_name = 'Air Canada Aeroplan' WHERE card_name = 'Aeroplan';

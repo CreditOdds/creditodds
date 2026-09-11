@@ -1,4 +1,6 @@
-name: "Aeroplan"
+name: "Air Canada Aeroplan"
+previous_names:
+  - "Aeroplan"
 bank: "Chase"
 slug: "chase-aeroplan"
 image: "chase-aeroplan.png"
@@ -6,16 +8,28 @@ accepting_applications: true
 annual_fee: 195
 reward_type: "points"
 rewards:
+  # Chase splits Air Canada direct purchases out from the broader travel
+  # category: both earn 3x from the card, but only Air Canada purchases stack
+  # with the extra 2x Air Canada pays Aeroplan 25K members, for up to 5x total.
   - category: airlines
     value: 3
     unit: points_per_dollar
-    note: "Air Canada direct purchases"
+    note: "Air Canada direct purchases, which stack with 2x from Air Canada as a 25K member for up to 5x total"
     merchant_gate: [air-canada]
-  - category: dining
+  - category: travel
     value: 3
     unit: points_per_dollar
+    note: "Travel other than Air Canada direct purchases, which earn 3x under the airlines category"
+  - category: dining
+    value: 2
+    unit: points_per_dollar
+    note: "Purchases posting through December 31, 2026 earn 3x, then 2x"
   - category: groceries
-    value: 3
+    value: 2
+    unit: points_per_dollar
+    note: "Purchases posting through December 31, 2026 earn 3x, then 2x"
+  - category: gas
+    value: 2
     unit: points_per_dollar
   - category: everything_else
     value: 1
@@ -25,7 +39,7 @@ signup_bonus:
   type: "points"
   spend_requirement: 20000
   timeframe_months: 12
-  note: "Earn 75,000 bonus points after you spend $4,000 on purchases in the first 3 months your account is open, plus 40,000 bonus points after a total of $20,000 in purchases within 12 months of account opening, for a possible total of 115,000 points."
+  note: "75,000 points after $4,000 in purchases in the first 3 months, plus 40,000 points after $20,000 in purchases in the first 12 months"
 apr:
   regular:
     min: 19.74
@@ -33,13 +47,30 @@ apr:
 benefits:
   - name: "First Checked Bag Free"
     value: 0
-    description: "Free first checked bag for cardmember and up to 8 companions on Air Canada flights"
+    description: "Free first checked bag for the primary cardmember and up to eight other passengers on the same reservation on Air Canada flights"
     frequency: "ongoing"
     category: "travel"
-  - name: "Aeroplan 25K Elite Status"
+  - name: "Automatic Aeroplan 25K Status"
     value: 0
-    description: "Two years of Aeroplan 25K Elite Status for new cardmembers"
+    description: "Aeroplan 25K Status with no spend requirement for as long as the account is open, including Priority Check-In, Priority Boarding in Zone 2, additional baggage allowance, Star Alliance recognition and eUpgrade credits"
     frequency: "ongoing"
+    category: "travel"
+  - name: "15% Off Air Canada Award Flights"
+    value: 0
+    description: "FLY15OFF reduces the Aeroplan points needed for the base fare of eligible Air Canada, Air Canada Express and Air Canada Rouge flight rewards by at least 15%"
+    frequency: "ongoing"
+    category: "travel"
+  - name: "Air Canada Statement Credits"
+    value: 100
+    description: "Up to $50 in statement credits for eligible Air Canada purchases from January 1 through June 30 and up to $50 from July 1 through December 31, for up to $100 each calendar year"
+    frequency: "annual"
+    category: "travel"
+    merchants:
+      - air-canada
+  - name: "Aeroplan 35K Status for $75,000 Spend"
+    value: 0
+    description: "Spend $75,000 in a calendar year to earn Aeroplan 35K Status for the rest of that year and the following year"
+    frequency: "annual"
     category: "travel"
   - name: "Global Entry / TSA PreCheck / NEXUS Credit"
     value: 120
@@ -50,16 +81,6 @@ benefits:
   - name: "No Foreign Transaction Fees"
     value: 0
     description: "Pay no foreign transaction fees on purchases made outside the United States"
-    frequency: "ongoing"
-    category: "travel"
-  - name: "Monthly Spend Bonus"
-    value: 0
-    description: "Earn 500 bonus points for every $2,000 spent monthly, up to 1,500 bonus points per month"
-    frequency: "monthly"
-    category: "rewards"
-  - name: "Ultimate Rewards Transfer Bonus"
-    value: 0
-    description: "10% bonus when transferring 50,000 or more Ultimate Rewards points to Aeroplan"
     frequency: "ongoing"
     category: "travel"
   - name: "24/7 Concierge"
@@ -75,16 +96,20 @@ apply_link: https://creditcards.chase.com/travel-credit-cards/aircanada/aeroplan
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Aeroplan card is unusually good for a $95 airline card because its bonus
-  categories are not airline-specific: 3x points on dining and on groceries,
-  which most people spend on every week, alongside 3x on Air Canada purchases.
-  New cardmembers get two years of Aeroplan 25K Elite Status, a free first
-  checked bag for the cardmember and up to eight companions on Air Canada, a
-  Global Entry, TSA PreCheck, or NEXUS credit, and no foreign transaction
-  fees. A monthly spend bonus adds 500 points per $2,000 spent, capped at
-  1,500 points a month. Be aware the signup bonus was cut from 75,000 to
-  60,000 points in June, so the current 60,000 after $3,000 in 3 months is
-  below where it recently sat. The card really pays off only if Aeroplan
-  redemptions fit your travel, since everything outside those categories earns
-  a flat 1x.
-
+  Chase refreshed this card on September 10, 2026 and roughly doubled the
+  annual fee to $195, so the value case now rests on Air Canada specifically
+  rather than on broad everyday categories. The headline addition is automatic
+  Aeroplan 25K Status for as long as the account stays open, with no spend
+  requirement, which brings priority check-in, Zone 2 boarding and eUpgrade
+  credits. A standing 15% discount on eligible Air Canada award redemptions
+  and up to $100 a year in Air Canada statement credits, paid as two $50
+  halves, effectively bring the fee back to about $95 if you fly Air Canada at
+  all. Travel earns 3x across the board and Air Canada purchases reach up to
+  5x once the 25K bonus is layered on. The cost of all this is the everyday
+  earning: groceries and dining drop from 3x to 2x for purchases posting after
+  December 31, 2026, the 500 points per $2,000 monthly spend bonus is retired,
+  and the 10% bonus on Ultimate Rewards transfers to Aeroplan ends on that
+  same date. Free first checked bags for the cardmember and up to eight
+  companions, a Global Entry, TSA PreCheck or NEXUS credit and no foreign
+  transaction fees all carry over. This is now a card for people who actually
+  fly Air Canada, not a general-purpose 3x earner.
