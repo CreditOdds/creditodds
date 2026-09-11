@@ -1022,7 +1022,7 @@
     "t3_1w6gcvf": "2026-09-10",
     "t3_1w6c34k": "2026-09-04",
     "t3_1w817jx": "2026-09-05",
-    "t3_1w813zi": "2026-09-10",
+    "t3_1w813zi": "2026-09-11",
     "t3_1w7wvyw": "2026-09-05",
     "t3_1w7s8h4": "2026-09-05",
     "t3_1w7rhdc": "2026-09-05",
@@ -1032,11 +1032,11 @@
     "t3_1w7c10i": "2026-09-05",
     "t3_1w79y94": "2026-09-05",
     "t3_1w90w2m": "2026-09-06",
-    "t3_1w90jir": "2026-09-10",
+    "t3_1w90jir": "2026-09-11",
     "t3_1w8urnp": "2026-09-06",
     "t3_1w8s1s8": "2026-09-06",
     "t3_1w8r5r5": "2026-09-06",
-    "t3_1w8pxa7": "2026-09-06",
+    "t3_1w8pxa7": "2026-09-11",
     "t3_1w8pgyq": "2026-09-06",
     "t3_1w8npw9": "2026-09-06",
     "t3_1w8izt6": "2026-09-06",
@@ -1044,7 +1044,7 @@
     "t3_1w8hb7m": "2026-09-06",
     "t3_1w8g747": "2026-09-06",
     "t3_1w8c9d3": "2026-09-06",
-    "t3_1w8bbwq": "2026-09-06",
+    "t3_1w8bbwq": "2026-09-11",
     "t3_1w88sfb": "2026-09-06",
     "t3_1w88m1i": "2026-09-06",
     "t3_1w86tme": "2026-09-06",
@@ -1059,7 +1059,7 @@
     "t3_1w9eyfe": "2026-09-07",
     "t3_1w9dxxy": "2026-09-07",
     "t3_1w9bewc": "2026-09-07",
-    "t3_1w97vrt": "2026-09-07",
+    "t3_1w97vrt": "2026-09-11",
     "t3_1w93qad": "2026-09-07",
     "t3_1wbolr7": "2026-09-09",
     "t3_1wbmi49": "2026-09-09",
@@ -1108,36 +1108,74 @@
     "t3_1wa69nr": "2026-09-10",
     "t3_1wa2vjp": "2026-09-10",
     "t3_1w9yb5v": "2026-09-10",
-    "t3_1w9xtid": "2026-09-10"
+    "t3_1w9xtid": "2026-09-10",
+    "t3_1wdeney": "2026-09-11",
+    "t3_1wdbsgt": "2026-09-11",
+    "t3_1wd9d5s": "2026-09-11",
+    "t3_1wd7b1u": "2026-09-11",
+    "t3_1wd6b18": "2026-09-11",
+    "t3_1wd10w3": "2026-09-11",
+    "t3_1wd0n5x": "2026-09-11",
+    "t3_1wcy13q": "2026-09-11",
+    "t3_1wcx03e": "2026-09-11",
+    "t3_1wcws9v": "2026-09-11",
+    "t3_1wcwcpn": "2026-09-11",
+    "t3_1wcvkjd": "2026-09-11",
+    "t3_1wcvjbr": "2026-09-11",
+    "t3_1wcusr6": "2026-09-11",
+    "t3_1wcuaif": "2026-09-11",
+    "t3_1wctnhd": "2026-09-11",
+    "t3_1wcr6mg": "2026-09-11",
+    "t3_1wcqpra": "2026-09-11",
+    "t3_1wcqlvu": "2026-09-11",
+    "t3_1wcohxd": "2026-09-11",
+    "t3_1wco1na": "2026-09-11",
+    "t3_1wcnpf8": "2026-09-11",
+    "t3_1wcmkr3": "2026-09-11"
   },
   "pending": {
-    "t3_1w813zi": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w813zi/bilt_just_gave_me_a_reason_to_question_whether_i/",
-      "title": "Bilt just gave me a reason to question whether I should trust them",
-      "posted": "2026-09-05",
-      "card_name": "Bilt Obsidian",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Bilt Obsidian at a $17,500 limit in September 2026, then had that application withdrawn by Cardless and was denied for Bilt Palladium days later on identity verification. Look 3 of 3 and the two new OP replies are about the denial letter, still no score.",
-      "firstSeen": "2026-09-05",
-      "attempts": 2,
-      "lastChecked": "2026-09-10"
-    },
-    "t3_1w90jir": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w90jir/chase_reconsideration_experience/",
-      "title": "Chase Reconsideration Experience",
+    "t3_1w8pxa7": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w8pxa7/robinhood_gold_credit_card/",
+      "title": "Robinhood Gold Credit Card",
       "posted": "2026-09-06",
-      "card_name": "Ink Business Unlimited",
+      "card_name": "Robinhood Gold",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Denied September 2026 for too many recently opened accounts, then approved on the Chase reconsideration line after the agent rechecked the file. Look 3 of 3 and the three new OP replies cover account counts and the SUB, never a score.",
+      "note": "Approved September 2026 for their second credit card. Look 2 of 3 added that their credit history is about one year three months old and that they have been a Robinhood Gold member since February, but still no score.",
+      "ask": "You mentioned this is your second card and your file is about 15 months old. What was your credit score when you applied?",
       "firstSeen": "2026-09-06",
       "attempts": 2,
-      "lastChecked": "2026-09-10"
+      "lastChecked": "2026-09-11"
+    },
+    "t3_1w8bbwq": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1w8bbwq/citi_aa_plat_select_recon/",
+      "title": "Citi AA Plat select recon?",
+      "posted": "2026-09-05",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied September 2026 citing too few revolving accounts on Experian, which the poster disputes since they show 7 open accounts. No score anywhere, and no new OP replies on this look.",
+      "firstSeen": "2026-09-06",
+      "attempts": 2,
+      "lastChecked": "2026-09-11"
+    },
+    "t3_1wcvjbr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wcvjbr/approved_for_a_cc_then_received_this/",
+      "title": "Approved for a CC, then received this",
+      "posted": "2026-09-10",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved September 2026 at standard rates. The whole post is about a pre-selected bonus flyer that arrived afterward, so no score, limit, or income is given.",
+      "firstSeen": "2026-09-11",
+      "attempts": 1,
+      "lastChecked": "2026-09-11"
     },
     "t3_1wbm0aj": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wbm0aj/citi_aadvantage_400_40000_miles_offer_on_aacom/",
@@ -1209,48 +1247,6 @@
       "firstSeen": "2026-09-09",
       "attempts": 1,
       "lastChecked": "2026-09-09"
-    },
-    "t3_1w97vrt": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w97vrt/american_airlines_credit_card_question/",
-      "title": "American Airlines credit card question.",
-      "posted": "2026-09-06",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Recent approval with a $14k limit, posted 2026-09-06. The poster writes AA platinum advantage, which reads as the Citi AAdvantage Platinum Select, but gives no score anywhere.",
-      "firstSeen": "2026-09-07",
-      "attempts": 1,
-      "lastChecked": "2026-09-07"
-    },
-    "t3_1w8pxa7": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w8pxa7/robinhood_gold_credit_card/",
-      "title": "Robinhood Gold Credit Card",
-      "posted": "2026-09-06",
-      "card_name": "Robinhood Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved September 2026 for what the poster calls their second credit card. Card is named only in the title; the body is entirely a how-do-I-use-it question with no score or limit.",
-      "firstSeen": "2026-09-06",
-      "attempts": 1,
-      "lastChecked": "2026-09-06"
-    },
-    "t3_1w8bbwq": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w8bbwq/citi_aa_plat_select_recon/",
-      "title": "Citi AA Plat select recon?",
-      "posted": "2026-09-05",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied September 2026 citing too few revolving accounts on Experian, which the poster disputes since they show 7 open accounts. Post is about whether Citi will recon without a new hard pull; no score anywhere.",
-      "firstSeen": "2026-09-06",
-      "attempts": 1,
-      "lastChecked": "2026-09-06"
     }
   },
   "runs": [
@@ -1735,6 +1731,23 @@
         "no_score": 8,
         "no_outcome": 10,
         "card_not_in_catalog": 1
+      }
+    },
+    {
+      "id": "2026-09-11T15:46:59.670Z",
+      "date": "2026-09-11",
+      "candidates": 28,
+      "revisits": 5,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 8,
+      "unaccounted": 4,
+      "skipped": {
+        "no_score": 7,
+        "no_outcome": 8,
+        "card_unclear": 1,
+        "pre_qual": 3
       }
     }
   ]
