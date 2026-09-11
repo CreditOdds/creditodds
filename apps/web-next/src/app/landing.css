@@ -2573,6 +2573,40 @@
 .landing-v2 .news-item:hover .ni-title {
   color: var(--accent);
 }
+/* Title on the left, card art on the right. min-width:0 lets the heading wrap
+   instead of forcing the row wider than the column. */
+.landing-v2 .news-item .ni-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+.landing-v2 .news-item .ni-head .ni-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.landing-v2 .news-item .ni-cards {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+}
+.landing-v2 .news-item .ni-card {
+  position: relative;
+  display: block;
+  width: 60px;
+  aspect-ratio: 1000 / 634;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+}
+/* Stories tagged with several cards fan out to the right, first card on top.
+   The inline z-index descends per card so the overlap reads front-to-back. */
+.landing-v2 .news-item .ni-card + .ni-card {
+  margin-left: -40px;
+}
 .landing-v2 .news-item .ni-excerpt {
   font-size: 13px;
   color: var(--muted);
@@ -2768,6 +2802,15 @@
   .landing-v2 .news-archive-list .news-item:nth-child(2) {
     border-top: 1px solid var(--line);
     padding-top: 18px;
+  }
+  .landing-v2 .news-item .ni-head {
+    gap: 10px;
+  }
+  .landing-v2 .news-item .ni-card {
+    width: 48px;
+  }
+  .landing-v2 .news-item .ni-card + .ni-card {
+    margin-left: -32px;
   }
   /* The search input and the issuer select each want the full width here, so
      wrap them onto separate lines instead of letting the select crush the

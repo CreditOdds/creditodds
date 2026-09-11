@@ -457,18 +457,46 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
           ) : (
             <>
               <div className="news-archive-list">
-                {shown.map((item) => (
-                  <Link key={item.id} href={`/news/${item.id}`} className="news-item">
-                    <div className="ni-meta">
-                      <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
-                      <span>{formatDate(item.date)}</span>
-                      {item.bank ? <> · {item.bank}</> : null}
-                      {viewsOf(item) > 100 && <> · {viewsOf(item).toLocaleString('en-US')} views</>}
-                    </div>
-                    <h3 className="ni-title">{item.title}</h3>
-                    <p className="ni-excerpt">{plainSummary(item.summary)}</p>
-                  </Link>
-                ))}
+                {shown.map((item) => {
+                  // Cards without art would render the generic placeholder, which
+                  // is noise next to a headline that already names the card.
+                  const cards = getNewsCards(item).filter((c) => c.image);
+                  return (
+                    <Link key={item.id} href={`/news/${item.id}`} className="news-item">
+                      <div className="ni-meta">
+                        <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
+                        <span>{formatDate(item.date)}</span>
+                        {item.bank ? <> · {item.bank}</> : null}
+                        {viewsOf(item) > 100 && <> · {viewsOf(item).toLocaleString('en-US')} views</>}
+                      </div>
+                      <div className="ni-head">
+                        <h3 className="ni-title">{item.title}</h3>
+                        {cards.length > 0 && (
+                          // Decorative: the headline and excerpt already name the
+                          // cards, so announcing each image repeats the row.
+                          <div className="ni-cards" aria-hidden="true">
+                            {cards.slice(0, 3).map((c, i) => (
+                              <span
+                                key={c.slug}
+                                className="ni-card"
+                                style={{ zIndex: cards.length - i }}
+                              >
+                                <CardImage
+                                  cardImageLink={c.image ?? undefined}
+                                  alt=""
+                                  fill
+                                  sizes="60px"
+                                  style={{ objectFit: 'cover' }}
+                                />
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <p className="ni-excerpt">{plainSummary(item.summary)}</p>
+                    </Link>
+                  );
+                })}
               </div>
 
               {shown.length < filtered.length && (
