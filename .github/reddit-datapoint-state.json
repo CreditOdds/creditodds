@@ -1036,7 +1036,7 @@
     "t3_1w8urnp": "2026-09-06",
     "t3_1w8s1s8": "2026-09-06",
     "t3_1w8r5r5": "2026-09-06",
-    "t3_1w8pxa7": "2026-09-11",
+    "t3_1w8pxa7": "2026-09-12",
     "t3_1w8pgyq": "2026-09-06",
     "t3_1w8npw9": "2026-09-06",
     "t3_1w8izt6": "2026-09-06",
@@ -1044,7 +1044,7 @@
     "t3_1w8hb7m": "2026-09-06",
     "t3_1w8g747": "2026-09-06",
     "t3_1w8c9d3": "2026-09-06",
-    "t3_1w8bbwq": "2026-09-11",
+    "t3_1w8bbwq": "2026-09-12",
     "t3_1w88sfb": "2026-09-06",
     "t3_1w88m1i": "2026-09-06",
     "t3_1w86tme": "2026-09-06",
@@ -1063,9 +1063,9 @@
     "t3_1w93qad": "2026-09-07",
     "t3_1wbolr7": "2026-09-09",
     "t3_1wbmi49": "2026-09-09",
-    "t3_1wbm0aj": "2026-09-09",
+    "t3_1wbm0aj": "2026-09-12",
     "t3_1wblyzb": "2026-09-09",
-    "t3_1wbfvjc": "2026-09-09",
+    "t3_1wbfvjc": "2026-09-12",
     "t3_1wbbk4v": "2026-09-09",
     "t3_1wb8oat": "2026-09-09",
     "t3_1wb87zo": "2026-09-09",
@@ -1076,9 +1076,9 @@
     "t3_1wb3cr3": "2026-09-09",
     "t3_1wb2evp": "2026-09-09",
     "t3_1wb121k": "2026-09-09",
-    "t3_1wb0t2o": "2026-09-09",
+    "t3_1wb0t2o": "2026-09-12",
     "t3_1wb0i20": "2026-09-09",
-    "t3_1wb0hwr": "2026-09-09",
+    "t3_1wb0hwr": "2026-09-12",
     "t3_1wayk90": "2026-09-09",
     "t3_1wat6xj": "2026-09-09",
     "t3_1wasej5": "2026-09-09",
@@ -1131,37 +1131,105 @@
     "t3_1wcohxd": "2026-09-11",
     "t3_1wco1na": "2026-09-11",
     "t3_1wcnpf8": "2026-09-11",
-    "t3_1wcmkr3": "2026-09-11"
+    "t3_1wcmkr3": "2026-09-11",
+    "t3_1wed3a5": "2026-09-12",
+    "t3_1we1i35": "2026-09-12",
+    "t3_1wdzunj": "2026-09-12",
+    "t3_1wdwmam": "2026-09-12",
+    "t3_1wdu8ab": "2026-09-12",
+    "t3_1wdtdb7": "2026-09-12",
+    "t3_1wdpfpl": "2026-09-12",
+    "t3_1wdnvqz": "2026-09-12",
+    "t3_1wdnuyz": "2026-09-12",
+    "t3_1wdkx5v": "2026-09-12"
   },
   "pending": {
-    "t3_1w8pxa7": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w8pxa7/robinhood_gold_credit_card/",
-      "title": "Robinhood Gold Credit Card",
-      "posted": "2026-09-06",
-      "card_name": "Robinhood Gold",
+    "t3_1wbm0aj": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wbm0aj/citi_aadvantage_400_40000_miles_offer_on_aacom/",
+      "title": "Citi AAdvantage $400 + 40,000 miles offer on AA.com: approved, but promised temporary card details never provided",
+      "posted": "2026-09-09",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved September 2026 for their second credit card. Look 2 of 3 added that their credit history is about one year three months old and that they have been a Robinhood Gold member since February, but still no score.",
-      "ask": "You mentioned this is your second card and your file is about 15 months old. What was your credit score when you applied?",
-      "firstSeen": "2026-09-06",
+      "note": "Instantly approved 2026-09-08 via the AA.com checkout offer. Look 3 of 3 and the post is still entirely about the missing temporary card details, so no score anywhere.",
+      "ask": "You mentioned being instantly approved through the AA.com offer. Roughly what was your FICO score when you applied?",
+      "firstSeen": "2026-09-09",
       "attempts": 2,
-      "lastChecked": "2026-09-11"
+      "lastChecked": "2026-09-12"
     },
-    "t3_1w8bbwq": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1w8bbwq/citi_aa_plat_select_recon/",
-      "title": "Citi AA Plat select recon?",
-      "posted": "2026-09-05",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+    "t3_1wbfvjc": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wbfvjc/does_cap1_spark_biz_cc_have_reconsideration_line/",
+      "title": "Does cap1 spark biz cc have reconsideration line?",
+      "posted": "2026-09-09",
+      "result": "denied",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Denied September 2026 for a Capital One Spark business card at 760 plus with $300k personal income, reason being a GM card opened two months earlier. Post says only cap1 spark biz cc, which could be Spark Cash Plus or Spark Classic.",
+      "ask": "Which Spark card was it, Spark Cash Plus or Spark Classic?",
+      "firstSeen": "2026-09-09",
+      "attempts": 2,
+      "lastChecked": "2026-09-12"
+    },
+    "t3_1wb0hwr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wb0hwr/chase_not_letting_me_talk_to_someone_in/",
+      "title": "Chase not letting me talk to someone in reconsideration department?",
+      "posted": "2026-09-08",
+      "card_name": "Chase Freedom Unlimited",
       "result": "denied",
       "missing": [
         "credit_score"
       ],
-      "note": "Denied September 2026 citing too few revolving accounts on Experian, which the poster disputes since they show 7 open accounts. No score anywhere, and no new OP replies on this look.",
-      "firstSeen": "2026-09-06",
+      "note": "Applied 2026-09-03 in the Chase app, denied for too many active accounts or too much available credit. The post is entirely about failing to reach the reconsideration line, so no score is given.",
+      "ask": "You mentioned disputing accounts on your report. What was your score when you applied on 9/3?",
+      "firstSeen": "2026-09-09",
       "attempts": 2,
-      "lastChecked": "2026-09-11"
+      "lastChecked": "2026-09-12"
+    },
+    "t3_1wed3a5": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wed3a5/offered_a_blue_cash_everyday_card_after_i_applied/",
+      "title": "Offered a Blue Cash Everyday card after I applied for fun- thoughts?",
+      "posted": "2026-09-12",
+      "card_name": "Blue Cash Everyday",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "College student with one existing Capital One card applied 2026-09-11 and got an approval email about twenty minutes later. Post is about whether to accept the card, so no score is given.",
+      "firstSeen": "2026-09-12",
+      "attempts": 1,
+      "lastChecked": "2026-09-12"
+    },
+    "t3_1wdtdb7": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wdtdb7/approved_for_wells_fargo_active_cash_but/",
+      "title": "Approved for Wells Fargo Active Cash, but card/account not showing online yet — normal?",
+      "posted": "2026-09-11",
+      "card_name": "Wells Fargo Active Cash",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved 2026-09-11, their first Wells Fargo account. Post asks how long the card takes to appear online, so no score is given.",
+      "firstSeen": "2026-09-12",
+      "attempts": 1,
+      "lastChecked": "2026-09-12"
+    },
+    "t3_1wdnvqz": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wdnvqz/dp_another_wells_fargo_524_type_rule/",
+      "title": "DP: another Wells Fargo 5/24 type rule",
+      "posted": "2026-09-11",
+      "card_name": "Wells Fargo Autograph Journey",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied September 2026 for number of tradelines opened in the last 24 months, poster is over 5/24 and has direct deposit checking plus a Wells Fargo Autograph for over 18 months. Posted as a data point but with no score.",
+      "ask": "You posted this as a DP. What was your score at application?",
+      "firstSeen": "2026-09-12",
+      "attempts": 1,
+      "lastChecked": "2026-09-12"
     },
     "t3_1wcvjbr": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wcvjbr/approved_for_a_cc_then_received_this/",
@@ -1176,62 +1244,6 @@
       "firstSeen": "2026-09-11",
       "attempts": 1,
       "lastChecked": "2026-09-11"
-    },
-    "t3_1wbm0aj": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wbm0aj/citi_aadvantage_400_40000_miles_offer_on_aacom/",
-      "title": "Citi AAdvantage $400 + 40,000 miles offer on AA.com: approved, but promised temporary card details never provided",
-      "posted": "2026-09-09",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Instantly approved on 2026-09-08 through the AA.com checkout offer. Entire post is about the missing temporary card details, so no score is given.",
-      "firstSeen": "2026-09-09",
-      "attempts": 1,
-      "lastChecked": "2026-09-09"
-    },
-    "t3_1wbfvjc": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wbfvjc/does_cap1_spark_biz_cc_have_reconsideration_line/",
-      "title": "Does cap1 spark biz cc have reconsideration line?",
-      "posted": "2026-09-09",
-      "result": "denied",
-      "missing": [
-        "card_name"
-      ],
-      "note": "Denied for a Capital One Spark business card in September 2026 at 760 plus with $300k personal income and a June 2026 business, reason being a GM card opened two months earlier. The post says only cap1 spark biz cc, which could be Spark Cash Plus or Spark Classic.",
-      "ask": "Which Spark card was it, Spark Cash Plus or one of the others?",
-      "firstSeen": "2026-09-09",
-      "attempts": 1,
-      "lastChecked": "2026-09-09"
-    },
-    "t3_1wb0t2o": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wb0t2o/how_do_i_know_if_i_got_the_rakuten_deal_with_boa/",
-      "title": "How do I know if I got the Rakuten deal with BoA UCR?",
-      "posted": "2026-09-08",
-      "card_name": "Bank of America Travel Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied in the BofA app under a Rakuten $325 offer in September 2026, no instant approval, pushed through by phone and now holds the card. Post is about tracking the Rakuten bonus, so no score.",
-      "firstSeen": "2026-09-09",
-      "attempts": 1,
-      "lastChecked": "2026-09-09"
-    },
-    "t3_1wb0hwr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wb0hwr/chase_not_letting_me_talk_to_someone_in/",
-      "title": "Chase not letting me talk to someone in reconsideration department?",
-      "posted": "2026-09-08",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied 2026-09-03 in the Chase app, denied for too many active accounts or too much available credit. Post is about failing to reach the reconsideration line, so no score is given.",
-      "firstSeen": "2026-09-09",
-      "attempts": 1,
-      "lastChecked": "2026-09-09"
     },
     "t3_1waemr2": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1waemr2/chase_amazon_prime_visa_rejected_after_recently/",
@@ -1748,6 +1760,22 @@
         "no_outcome": 8,
         "card_unclear": 1,
         "pre_qual": 3
+      }
+    },
+    {
+      "id": "2026-09-12T15:31:49.977Z",
+      "date": "2026-09-12",
+      "candidates": 16,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 2,
+        "other": 1,
+        "no_outcome": 7
       }
     }
   ]
