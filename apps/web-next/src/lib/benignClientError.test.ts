@@ -30,6 +30,22 @@ describe("isBenignClientError", () => {
     ).toBe(true);
   });
 
+  it("drops WebKit's default-message AbortError from IDB teardown", () => {
+    // Safari populates tx.error with its platform default AbortError text
+    // where Chrome leaves it null (bare "AbortError" above).
+    expect(
+      isBenignClientError(domException("The operation was aborted.")),
+    ).toBe(true);
+  });
+
+  it("keeps 'The operation was aborted.' when it is not an AbortError", () => {
+    expect(
+      isBenignClientError(
+        domException("The operation was aborted.", "UnknownError", 0),
+      ),
+    ).toBe(false);
+  });
+
   it("walks the cause chain when Firebase wraps the DOMException", () => {
     const wrapped = {
       name: "Error",

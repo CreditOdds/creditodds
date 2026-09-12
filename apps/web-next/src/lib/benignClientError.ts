@@ -97,10 +97,25 @@
 //    hypothetical real image-load failure pointing at an https URL stays
 //    reportable.
 //
+// The same Firebase IndexedDB teardown has a WebKit-specific spelling:
+// "AbortError: The operation was aborted." (CREDITODDS-JAVASCRIPT-NEXTJS,
+// issue 7728583818, Mobile Safari on /best-card-for/:slug after a reload).
+// Firebase's `idb` wrapper rejects `tx.done` with `tx.error || new
+// DOMException('AbortError', 'AbortError')` (idb/build/wrap-idb-value.js).
+// Chrome leaves `tx.error` null when the connection closes mid-transaction,
+// producing the bare "AbortError" message matched below; WebKit instead
+// populates it with a DOMException carrying its platform default AbortError
+// text, "The operation was aborted." Nothing on this site ever aborts a fetch
+// (fetchWithRetry only attaches never-aborting signals), so an AbortError with
+// WebKit's generic default message has no other origin worth reporting. It is
+// kept behind the AbortError name/code gate, and Chrome's descriptive fetch
+// abort ("The user aborted a request.") stays reportable.
+//
 // Finally, hasOnlyForeignFrames (below) drops exceptions by stack shape rather
 // than message: every frame lacks a resolvable script URL. See its comment.
 const BENIGN_CLIENT_SIGNATURES = [
   'The transaction was aborted',
+  'The operation was aborted.',
   'database connection is closing',
   'idb-get',
   'idb-set',
