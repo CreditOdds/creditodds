@@ -1063,9 +1063,9 @@
     "t3_1w93qad": "2026-09-07",
     "t3_1wbolr7": "2026-09-09",
     "t3_1wbmi49": "2026-09-09",
-    "t3_1wbm0aj": "2026-09-12",
+    "t3_1wbm0aj": "2026-09-13",
     "t3_1wblyzb": "2026-09-09",
-    "t3_1wbfvjc": "2026-09-12",
+    "t3_1wbfvjc": "2026-09-13",
     "t3_1wbbk4v": "2026-09-09",
     "t3_1wb8oat": "2026-09-09",
     "t3_1wb87zo": "2026-09-09",
@@ -1078,7 +1078,7 @@
     "t3_1wb121k": "2026-09-09",
     "t3_1wb0t2o": "2026-09-12",
     "t3_1wb0i20": "2026-09-09",
-    "t3_1wb0hwr": "2026-09-12",
+    "t3_1wb0hwr": "2026-09-13",
     "t3_1wayk90": "2026-09-09",
     "t3_1wat6xj": "2026-09-09",
     "t3_1wasej5": "2026-09-09",
@@ -1086,7 +1086,7 @@
     "t3_1waqt7n": "2026-09-09",
     "t3_1wapfaw": "2026-09-09",
     "t3_1waozwf": "2026-09-09",
-    "t3_1waemr2": "2026-09-09",
+    "t3_1waemr2": "2026-09-13",
     "t3_1wcm6bz": "2026-09-10",
     "t3_1wchq3z": "2026-09-10",
     "t3_1wcbfet": "2026-09-10",
@@ -1141,7 +1141,13 @@
     "t3_1wdpfpl": "2026-09-12",
     "t3_1wdnvqz": "2026-09-12",
     "t3_1wdnuyz": "2026-09-12",
-    "t3_1wdkx5v": "2026-09-12"
+    "t3_1wdkx5v": "2026-09-12",
+    "t3_1wf6yxm": "2026-09-13",
+    "t3_1wf3kn3": "2026-09-13",
+    "t3_1wesxjl": "2026-09-13",
+    "t3_1weq1r1": "2026-09-13",
+    "t3_1wei5f0": "2026-09-13",
+    "t3_1wegpbu": "2026-09-13"
   },
   "pending": {
     "t3_1wbm0aj": {
@@ -1153,11 +1159,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Instantly approved 2026-09-08 via the AA.com checkout offer. Look 3 of 3 and the post is still entirely about the missing temporary card details, so no score anywhere.",
-      "ask": "You mentioned being instantly approved through the AA.com offer. Roughly what was your FICO score when you applied?",
+      "note": "Instant approval 2026-09-08 through the AA.com checkout offer. Look 3 of 3 and the post is still entirely about the missing temporary card details, so no score anywhere in the body or replies.",
+      "ask": "You mentioned you were instantly approved through the AA.com offer. Roughly what was your FICO score at the time?",
       "firstSeen": "2026-09-09",
-      "attempts": 2,
-      "lastChecked": "2026-09-12"
+      "attempts": 3,
+      "lastChecked": "2026-09-13"
     },
     "t3_1wbfvjc": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wbfvjc/does_cap1_spark_biz_cc_have_reconsideration_line/",
@@ -1167,11 +1173,11 @@
       "missing": [
         "card_name"
       ],
-      "note": "Denied September 2026 for a Capital One Spark business card at 760 plus with $300k personal income, reason being a GM card opened two months earlier. Post says only cap1 spark biz cc, which could be Spark Cash Plus or Spark Classic.",
+      "note": "Denied September 2026 for a Capital One Spark business card at 760 plus with $300k personal income, reason being a GM card opened two months earlier. Post still says only cap1 spark biz cc, which could be Spark Cash Plus or Spark Classic.",
       "ask": "Which Spark card was it, Spark Cash Plus or Spark Classic?",
       "firstSeen": "2026-09-09",
-      "attempts": 2,
-      "lastChecked": "2026-09-12"
+      "attempts": 3,
+      "lastChecked": "2026-09-13"
     },
     "t3_1wb0hwr": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wb0hwr/chase_not_letting_me_talk_to_someone_in/",
@@ -1182,11 +1188,25 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Applied 2026-09-03 in the Chase app, denied for too many active accounts or too much available credit. The post is entirely about failing to reach the reconsideration line, so no score is given.",
-      "ask": "You mentioned disputing accounts on your report. What was your score when you applied on 9/3?",
+      "note": "Applied 2026-09-03 in the Chase app, denied for too many active accounts or too much available credit. The post and the one OP reply are entirely about failing to reach the reconsideration line, so no score is given.",
+      "firstSeen": "2026-09-09",
+      "attempts": 3,
+      "lastChecked": "2026-09-13"
+    },
+    "t3_1waemr2": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1waemr2/chase_amazon_prime_visa_rejected_after_recently/",
+      "title": "Chase Amazon Prime Visa rejected after recently moving to the US. Is my thin credit history the reason?",
+      "posted": "2026-09-08",
+      "card_name": "Amazon Prime Rewards Visa Signature",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied in September 2026 two to three weeks after moving to the US, with a Chase checking account and a recently approved Chase Freedom already open. Poster says the US file is extremely new but never gives a score.",
+      "ask": "You said your US credit history is very new. Did the denial letter or your app show a score, and if so what was it?",
       "firstSeen": "2026-09-09",
       "attempts": 2,
-      "lastChecked": "2026-09-12"
+      "lastChecked": "2026-09-13"
     },
     "t3_1wed3a5": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wed3a5/offered_a_blue_cash_everyday_card_after_i_applied/",
@@ -1244,21 +1264,6 @@
       "firstSeen": "2026-09-11",
       "attempts": 1,
       "lastChecked": "2026-09-11"
-    },
-    "t3_1waemr2": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1waemr2/chase_amazon_prime_visa_rejected_after_recently/",
-      "title": "Chase Amazon Prime Visa rejected after recently moving to the US. Is my thin credit history the reason?",
-      "posted": "2026-09-08",
-      "card_name": "Amazon Prime Rewards Visa Signature",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied in September 2026 two to three weeks after moving to the US, with a Chase checking account and a recently approved Chase Freedom already open. Poster says the US file is extremely new but never gives a score.",
-      "ask": "You mentioned a very new US file. Did any score show up on the denial letter?",
-      "firstSeen": "2026-09-09",
-      "attempts": 1,
-      "lastChecked": "2026-09-09"
     }
   },
   "runs": [
@@ -1776,6 +1781,23 @@
         "no_score": 2,
         "other": 1,
         "no_outcome": 7
+      }
+    },
+    {
+      "id": "2026-09-13T15:27:50.059Z",
+      "date": "2026-09-13",
+      "candidates": 10,
+      "revisits": 4,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 3,
+        "score_too_vague": 1,
+        "no_score": 1,
+        "pre_qual": 1
       }
     }
   ]
