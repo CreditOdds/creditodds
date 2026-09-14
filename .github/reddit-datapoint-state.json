@@ -1086,7 +1086,7 @@
     "t3_1waqt7n": "2026-09-09",
     "t3_1wapfaw": "2026-09-09",
     "t3_1waozwf": "2026-09-09",
-    "t3_1waemr2": "2026-09-13",
+    "t3_1waemr2": "2026-09-14",
     "t3_1wcm6bz": "2026-09-10",
     "t3_1wchq3z": "2026-09-10",
     "t3_1wcbfet": "2026-09-10",
@@ -1121,7 +1121,7 @@
     "t3_1wcws9v": "2026-09-11",
     "t3_1wcwcpn": "2026-09-11",
     "t3_1wcvkjd": "2026-09-11",
-    "t3_1wcvjbr": "2026-09-11",
+    "t3_1wcvjbr": "2026-09-14",
     "t3_1wcusr6": "2026-09-11",
     "t3_1wcuaif": "2026-09-11",
     "t3_1wctnhd": "2026-09-11",
@@ -1132,7 +1132,7 @@
     "t3_1wco1na": "2026-09-11",
     "t3_1wcnpf8": "2026-09-11",
     "t3_1wcmkr3": "2026-09-11",
-    "t3_1wed3a5": "2026-09-12",
+    "t3_1wed3a5": "2026-09-14",
     "t3_1we1i35": "2026-09-12",
     "t3_1wdzunj": "2026-09-12",
     "t3_1wdwmam": "2026-09-12",
@@ -1147,52 +1147,20 @@
     "t3_1wesxjl": "2026-09-13",
     "t3_1weq1r1": "2026-09-13",
     "t3_1wei5f0": "2026-09-13",
-    "t3_1wegpbu": "2026-09-13"
+    "t3_1wegpbu": "2026-09-13",
+    "t3_1wg3448": "2026-09-14",
+    "t3_1wftu1i": "2026-09-14",
+    "t3_1wfqjt4": "2026-09-14",
+    "t3_1wfmpfw": "2026-09-14",
+    "t3_1wfmfaz": "2026-09-14",
+    "t3_1wfk78d": "2026-09-14",
+    "t3_1wfjymy": "2026-09-14",
+    "t3_1wfjmta": "2026-09-14",
+    "t3_1wfj5f0": "2026-09-14",
+    "t3_1wfc99m": "2026-09-14",
+    "t3_1wfarfi": "2026-09-14"
   },
   "pending": {
-    "t3_1wbm0aj": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wbm0aj/citi_aadvantage_400_40000_miles_offer_on_aacom/",
-      "title": "Citi AAdvantage $400 + 40,000 miles offer on AA.com: approved, but promised temporary card details never provided",
-      "posted": "2026-09-09",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Instant approval 2026-09-08 through the AA.com checkout offer. Look 3 of 3 and the post is still entirely about the missing temporary card details, so no score anywhere in the body or replies.",
-      "ask": "You mentioned you were instantly approved through the AA.com offer. Roughly what was your FICO score at the time?",
-      "firstSeen": "2026-09-09",
-      "attempts": 3,
-      "lastChecked": "2026-09-13"
-    },
-    "t3_1wbfvjc": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wbfvjc/does_cap1_spark_biz_cc_have_reconsideration_line/",
-      "title": "Does cap1 spark biz cc have reconsideration line?",
-      "posted": "2026-09-09",
-      "result": "denied",
-      "missing": [
-        "card_name"
-      ],
-      "note": "Denied September 2026 for a Capital One Spark business card at 760 plus with $300k personal income, reason being a GM card opened two months earlier. Post still says only cap1 spark biz cc, which could be Spark Cash Plus or Spark Classic.",
-      "ask": "Which Spark card was it, Spark Cash Plus or Spark Classic?",
-      "firstSeen": "2026-09-09",
-      "attempts": 3,
-      "lastChecked": "2026-09-13"
-    },
-    "t3_1wb0hwr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wb0hwr/chase_not_letting_me_talk_to_someone_in/",
-      "title": "Chase not letting me talk to someone in reconsideration department?",
-      "posted": "2026-09-08",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied 2026-09-03 in the Chase app, denied for too many active accounts or too much available credit. The post and the one OP reply are entirely about failing to reach the reconsideration line, so no score is given.",
-      "firstSeen": "2026-09-09",
-      "attempts": 3,
-      "lastChecked": "2026-09-13"
-    },
     "t3_1waemr2": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1waemr2/chase_amazon_prime_visa_rejected_after_recently/",
       "title": "Chase Amazon Prime Visa rejected after recently moving to the US. Is my thin credit history the reason?",
@@ -1202,11 +1170,25 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied in September 2026 two to three weeks after moving to the US, with a Chase checking account and a recently approved Chase Freedom already open. Poster says the US file is extremely new but never gives a score.",
-      "ask": "You said your US credit history is very new. Did the denial letter or your app show a score, and if so what was it?",
+      "note": "Denied September 2026 about two to three weeks after moving to the US, with a Chase checking account and a recently approved Chase Freedom already open. Third look and still no score anywhere in the post or replies; the US file may be too new to have one.",
+      "ask": "You mentioned your US credit history is only a few weeks old. Did Chase or any app show you a FICO score at the time, and if so what was it?",
       "firstSeen": "2026-09-09",
+      "attempts": 3,
+      "lastChecked": "2026-09-14"
+    },
+    "t3_1wcvjbr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wcvjbr/approved_for_a_cc_then_received_this/",
+      "title": "Approved for a CC, then received this",
+      "posted": "2026-09-10",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved September 2026 at standard rates. The post is entirely about a pre-selected bonus flyer that arrived after approval, so no score, limit, or income is given.",
+      "firstSeen": "2026-09-11",
       "attempts": 2,
-      "lastChecked": "2026-09-13"
+      "lastChecked": "2026-09-14"
     },
     "t3_1wed3a5": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wed3a5/offered_a_blue_cash_everyday_card_after_i_applied/",
@@ -1217,10 +1199,27 @@
       "missing": [
         "credit_score"
       ],
-      "note": "College student with one existing Capital One card applied 2026-09-11 and got an approval email about twenty minutes later. Post is about whether to accept the card, so no score is given.",
+      "note": "College student with one Capital One card applied 2026-09-11 and was approved about twenty minutes later; an update gives the starting line as $1,500. Still no credit score in the body or any OP reply.",
+      "ask": "You said Amex approved you in about twenty minutes. What was your credit score when you applied?",
       "firstSeen": "2026-09-12",
+      "attempts": 2,
+      "lastChecked": "2026-09-14"
+    },
+    "t3_1wfk78d": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wfk78d/likely_going_to_drop_7k_on_some_home_repairs_what/",
+      "title": "Likely going to drop $7K+ on some home repairs. What credit card would get me the best SUB?",
+      "posted": "2026-09-13",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "denied",
+      "missing": [
+        "credit_score",
+        "date_applied"
+      ],
+      "note": "Poster states they were denied the Sapphire Preferred earlier in 2026 because they hold too much credit with Chase. The template lists current scores of 800 Equifax and 812 TransUnion as of September 2026, but neither is tied to the application, and the month of the application is not given.",
+      "ask": "You mentioned being denied the Sapphire Preferred earlier this year for too much credit with Chase. Which month did you apply, and what was your FICO score then?",
+      "firstSeen": "2026-09-14",
       "attempts": 1,
-      "lastChecked": "2026-09-12"
+      "lastChecked": "2026-09-14"
     },
     "t3_1wdtdb7": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wdtdb7/approved_for_wells_fargo_active_cash_but/",
@@ -1250,20 +1249,6 @@
       "firstSeen": "2026-09-12",
       "attempts": 1,
       "lastChecked": "2026-09-12"
-    },
-    "t3_1wcvjbr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wcvjbr/approved_for_a_cc_then_received_this/",
-      "title": "Approved for a CC, then received this",
-      "posted": "2026-09-10",
-      "card_name": "Chase Freedom Flex",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved September 2026 at standard rates. The whole post is about a pre-selected bonus flyer that arrived afterward, so no score, limit, or income is given.",
-      "firstSeen": "2026-09-11",
-      "attempts": 1,
-      "lastChecked": "2026-09-11"
     }
   },
   "runs": [
@@ -1798,6 +1783,21 @@
         "score_too_vague": 1,
         "no_score": 1,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-09-14T13:35:00.989Z",
+      "date": "2026-09-14",
+      "candidates": 14,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 6,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 7,
+        "pre_qual": 2
       }
     }
   ]
