@@ -237,6 +237,9 @@ const FOREIGN_FRAME_FILENAMES = new Set([
 interface FrameLike {
   filename?: unknown;
   abs_path?: unknown;
+  function?: unknown;
+  lineno?: unknown;
+  colno?: unknown;
 }
 
 interface SentryEventLike {
@@ -269,6 +272,69 @@ export function hasOnlyForeignFrames(
         frame != null &&
         typeof frame === 'object' &&
         !isForeignFrame(frame as FrameLike)
+      ) {
+        return false;
+      }
+    }
+  }
+  return frameCount > 0;
+}
+
+// Drops errors whose every frame is "global code" attributed to the page's own
+// URL at line 1, in a column before any script we serve could begin. First
+// instance: issue 7729803906, "ReferenceError: Can't find variable: _G" from
+// Mobile Safari on /news/:id, single frame "global code" at line 1, column 3
+// of the document itself. Every document Next.js renders for us opens with
+// `<!DOCTYPE html><html`, so on line 1 nothing executable can start before
+// column 16 (the first inline <script> on that page sits past column 2000),
+// and no bundle we ship defines `_G`. Code that WebKit attributes to the
+// document URL at such a column has been evaluated INTO the page from outside
+// it: an iOS app's WKWebView `evaluateJavaScript`, or a Safari extension —
+// WebKit reports those with the document as the source and line 1. That code
+// isn't ours, we can't see it, and the page itself is unaffected.
+//
+// Deliberately narrow. Our own inline scripts (Next's `self.__next_f.push`
+// bootstrap, JSON-LD is not executed) also report at the document URL, but on
+// line 1 they sit far past the preamble, and any frame touching a `/_next/`
+// asset or a `.js` file disqualifies the event outright — so a genuine
+// ReferenceError in our code still reaches Sentry.
+
+// `<!DOCTYPE html>` is 15 characters; a <script> cannot open before column 16.
+const DOCUMENT_PREAMBLE_COLUMNS = 15;
+
+function isDocumentFrame(frame: FrameLike): boolean {
+  let named = false;
+  for (const value of [frame.filename, frame.abs_path]) {
+    if (typeof value !== 'string' || FOREIGN_FRAME_FILENAMES.has(value)) {
+      continue;
+    }
+    if (value.includes('/_next/') || /\.[cm]?js(\?|#|$)/.test(value)) {
+      return false;
+    }
+    named = true;
+  }
+  return named;
+}
+
+export function isInjectedDocumentScriptError(
+  event: SentryEventLike | null | undefined,
+): boolean {
+  const values = event?.exception?.values;
+  if (!Array.isArray(values)) return false;
+  let frameCount = 0;
+  for (const value of values) {
+    const frames = value?.stacktrace?.frames;
+    if (!Array.isArray(frames)) continue;
+    for (const raw of frames) {
+      frameCount++;
+      if (raw == null || typeof raw !== 'object') return false;
+      const frame = raw as FrameLike;
+      if (
+        frame.function !== 'global code' ||
+        frame.lineno !== 1 ||
+        typeof frame.colno !== 'number' ||
+        frame.colno > DOCUMENT_PREAMBLE_COLUMNS ||
+        !isDocumentFrame(frame)
       ) {
         return false;
       }

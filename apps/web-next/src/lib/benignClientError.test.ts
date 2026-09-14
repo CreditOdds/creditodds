@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import { hasOnlyForeignFrames, isBenignClientError } from "./benignClientError";
+import {
+  hasOnlyForeignFrames,
+  isBenignClientError,
+  isInjectedDocumentScriptError,
+} from "./benignClientError";
 
 // Mimics a browser DOMException without depending on the DOM lib in tests.
 const domException = (message: string, name = "AbortError", code = 20) =>
@@ -371,5 +375,89 @@ describe("hasOnlyForeignFrames", () => {
         },
       }),
     ).toBe(false);
+  });
+});
+
+describe("isInjectedDocumentScriptError", () => {
+  const documentFrame = (overrides: Record<string, unknown> = {}) => ({
+    filename: "app:///news/wells-fargo-attune-discontinued",
+    abs_path: "https://creditodds.com/news/wells-fargo-attune-discontinued",
+    function: "global code",
+    lineno: 1,
+    colno: 3,
+    in_app: true,
+    ...overrides,
+  });
+  const eventWith = (frames: unknown[]) => ({
+    exception: { values: [{ stacktrace: { frames } }] },
+  });
+
+  it("drops WebKit 'global code' at the document URL before any script could start", () => {
+    // Issue 7729803906: "Can't find variable: _G", line 1 column 3 of the page.
+    expect(isInjectedDocumentScriptError(eventWith([documentFrame()]))).toBe(
+      true,
+    );
+  });
+
+  it("keeps document-URL frames past the <!DOCTYPE html> preamble (our inline scripts)", () => {
+    expect(
+      isInjectedDocumentScriptError(eventWith([documentFrame({ colno: 2100 })])),
+    ).toBe(false);
+    expect(
+      isInjectedDocumentScriptError(eventWith([documentFrame({ colno: 16 })])),
+    ).toBe(false);
+  });
+
+  it("keeps frames on later lines or without a column", () => {
+    expect(
+      isInjectedDocumentScriptError(eventWith([documentFrame({ lineno: 5 })])),
+    ).toBe(false);
+    expect(
+      isInjectedDocumentScriptError(
+        eventWith([documentFrame({ colno: undefined })]),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps anything that touches a script we ship", () => {
+    expect(
+      isInjectedDocumentScriptError(
+        eventWith([
+          documentFrame({
+            filename: "app:///_next/static/chunks/abc123.js",
+            abs_path: "https://creditodds.com/_next/static/chunks/abc123.js",
+          }),
+        ]),
+      ),
+    ).toBe(false);
+    expect(
+      isInjectedDocumentScriptError(
+        eventWith([
+          documentFrame(),
+          documentFrame({
+            filename: "app:///_next/static/chunks/abc123.js",
+            function: "onClick",
+            lineno: 1,
+            colno: 3,
+          }),
+        ]),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps non-'global code' frames and frame-less or foreign-only events", () => {
+    expect(
+      isInjectedDocumentScriptError(
+        eventWith([documentFrame({ function: "handler" })]),
+      ),
+    ).toBe(false);
+    expect(isInjectedDocumentScriptError(eventWith([]))).toBe(false);
+    expect(
+      isInjectedDocumentScriptError(
+        eventWith([documentFrame({ filename: "<anonymous>", abs_path: "" })]),
+      ),
+    ).toBe(false);
+    expect(isInjectedDocumentScriptError(null)).toBe(false);
+    expect(isInjectedDocumentScriptError({})).toBe(false);
   });
 });

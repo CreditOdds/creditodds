@@ -13,6 +13,7 @@ import posthog from 'posthog-js';
 import {
   hasOnlyForeignFrames,
   isBenignClientError,
+  isInjectedDocumentScriptError,
 } from '@/lib/benignClientError';
 
 posthog.init('phc_oPFKvUCGmpZdRPug7TvYDRRSZpJ9oUmLZphkjrSV3fCd', {
@@ -52,6 +53,11 @@ Sentry.init({
       return null;
     }
     if (hasOnlyForeignFrames(event)) {
+      return null;
+    }
+    // Host-injected code WebKit attributes to the page URL at line 1 (see
+    // isInjectedDocumentScriptError in benignClientError.ts).
+    if (isInjectedDocumentScriptError(event)) {
       return null;
     }
     return event;
