@@ -279,8 +279,7 @@ merchants:
   # so no `offer` is attached (per the offer rules above).
   # 1-800 CONTACTS
   1-800-contacts:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=1.52869.1000000157&trid=1552713.158602&foc=16&fot=9999&fos=6"
-    offer: "30% off for new customers"
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.52869.1000000002&trid=1552713.158602&foc=16&fot=9999&fos=6"
   # 1-800-PACK-RAT
   1-800-pack-rat:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15653.2015612&trid=1552713.243983&foc=16&fot=9999&fos=6"
@@ -352,8 +351,8 @@ merchants:
     offer: "up to 50% off"
   # Ariat
   ariat:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10644.3947926&trid=1552713.240088&foc=16&fot=9999&fos=6"
-    offer: "buy one get one 50% off"
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10644.696794&trid=1552713.240088&foc=16&fot=9999&fos=6"
+    offer: "10% off your first purchase"
   # Art.com
   art-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.45368.1000000115&trid=1552713.215196&foc=16&fot=9999&fos=6"
@@ -608,6 +607,10 @@ merchants:
   # Fabletics CA
   fabletics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7361.412745&trid=1552713.243928&foc=16&fot=9999&fos=6"
+  # Factor
+  factor:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41435.3278839&trid=1552713.227764&foc=16&fot=9999&fos=6"
+    offer: "up to $130 off plus free breakfast for a year"
   # Farberware
   farberware:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11993&trid=1552713.239550&foc=17&fot=9999&fos=6&url="
@@ -1538,7 +1541,7 @@ merchants:
     network: cj
   # Ashimary Hair
   ashimary-hair:
-    url: "https://www.anrdoezrs.net/click-101737824-17318232"
+    url: "https://www.dpbolvw.net/click-101737824-17330376"
     network: cj
   # Carla Car Rental
   carla-car-rental:
@@ -1570,7 +1573,7 @@ merchants:
     network: cj
   # EaseUS
   easeus:
-    url: "https://www.tkqlhce.com/click-101737824-15414522"
+    url: "https://www.jdoqocy.com/click-101737824-15867576"
     network: cj
   # Electronic Express
   electronic-express:
@@ -1688,6 +1691,9 @@ merchants:
   switchbot:
     url: "https://www.tkqlhce.com/click-101737824-15037301"
     network: cj
+  # T-Mobile 5G Home Internet
+  t-mobile:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.40590.3441389&trid=1552713.248590&foc=16&fot=9999&fos=6"
   # TEAC
   teac:
     url: "https://www.anrdoezrs.net/click-101737824-15919843"
@@ -1945,6 +1951,10 @@ merchants:
   # European Wax Center
   european-wax-center:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.30094&trid=1552713.245382&foc=17&fot=9999&fos=6&url="
+  # EveryPlate
+  everyplate:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41438.3275790&trid=1552713.249102&foc=16&fot=9999&fos=6"
+    offer: "$2.99 per meal on your first box"
   # Firstleaf Wine Club
   firstleaf:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.38398&trid=1552713.249831&foc=17&fot=9999&fos=6&url="
@@ -2000,9 +2010,6 @@ merchants:
   # Make Up For Ever
   make-up-for-ever:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.54284&trid=1552713.209548&foc=17&fot=9999&fos=6&url="
-  # Mrs. Fields
-  mrs-fields:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.7935&trid=1552713.158847&foc=17&fot=9999&fos=6&url="
   # Nalgene
   nalgene:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12848&trid=1552713.226006&foc=17&fot=9999&fos=6&url="
