@@ -80,6 +80,12 @@ function validateNewsItem(item, schema) {
   // into a single summary line (see reportTitleBudget) rather than warning
   // per-item. The cutover is the date the card-news triage prompt started
   // specifying a title length, and every item since has complied.
+  //
+  // Those 70 legacy titles were rewritten on 2026-09-15, so the summary line is
+  // now silent and every item in data/news/ is inside the budget. The pre-gate
+  // branch is kept as a soft landing for a backfilled item dated before the
+  // cutover; if that never happens, the branch can go and the gate can apply
+  // to everything.
   if (item.title && item.title.length > TITLE_MAX) {
     const rendered = item.title.length + TITLE_SUFFIX_LEN;
     const detail = `title is ${item.title.length} chars (${rendered} after " | CreditOdds"; SEO budget is 60, so item.title must be <= ${TITLE_MAX})`;
