@@ -1121,7 +1121,7 @@
     "t3_1wcws9v": "2026-09-11",
     "t3_1wcwcpn": "2026-09-11",
     "t3_1wcvkjd": "2026-09-11",
-    "t3_1wcvjbr": "2026-09-14",
+    "t3_1wcvjbr": "2026-09-15",
     "t3_1wcusr6": "2026-09-11",
     "t3_1wcuaif": "2026-09-11",
     "t3_1wctnhd": "2026-09-11",
@@ -1132,14 +1132,14 @@
     "t3_1wco1na": "2026-09-11",
     "t3_1wcnpf8": "2026-09-11",
     "t3_1wcmkr3": "2026-09-11",
-    "t3_1wed3a5": "2026-09-14",
+    "t3_1wed3a5": "2026-09-15",
     "t3_1we1i35": "2026-09-12",
     "t3_1wdzunj": "2026-09-12",
     "t3_1wdwmam": "2026-09-12",
     "t3_1wdu8ab": "2026-09-12",
-    "t3_1wdtdb7": "2026-09-12",
+    "t3_1wdtdb7": "2026-09-15",
     "t3_1wdpfpl": "2026-09-12",
-    "t3_1wdnvqz": "2026-09-12",
+    "t3_1wdnvqz": "2026-09-15",
     "t3_1wdnuyz": "2026-09-12",
     "t3_1wdkx5v": "2026-09-12",
     "t3_1wf6yxm": "2026-09-13",
@@ -1153,57 +1153,60 @@
     "t3_1wfqjt4": "2026-09-14",
     "t3_1wfmpfw": "2026-09-14",
     "t3_1wfmfaz": "2026-09-14",
-    "t3_1wfk78d": "2026-09-14",
+    "t3_1wfk78d": "2026-09-15",
     "t3_1wfjymy": "2026-09-14",
     "t3_1wfjmta": "2026-09-14",
     "t3_1wfj5f0": "2026-09-14",
     "t3_1wfc99m": "2026-09-14",
-    "t3_1wfarfi": "2026-09-14"
+    "t3_1wfarfi": "2026-09-14",
+    "t3_1wh04k1": "2026-09-15",
+    "t3_1wh01mz": "2026-09-15",
+    "t3_1wgr2zj": "2026-09-15",
+    "t3_1wgqdh5": "2026-09-15",
+    "t3_1wgo90k": "2026-09-15",
+    "t3_1wgldg8": "2026-09-15",
+    "t3_1wgjl8h": "2026-09-15",
+    "t3_1wgjcco": "2026-09-15",
+    "t3_1wgifex": "2026-09-15",
+    "t3_1wgfa8b": "2026-09-15",
+    "t3_1wgdq37": "2026-09-15",
+    "t3_1wgbzc0": "2026-09-15",
+    "t3_1wgbq2b": "2026-09-15",
+    "t3_1wgam4q": "2026-09-15",
+    "t3_1wg8baw": "2026-09-15",
+    "t3_1wg732l": "2026-09-15",
+    "t3_1wg62r5": "2026-09-15",
+    "t3_1wg5vxj": "2026-09-15"
   },
   "pending": {
-    "t3_1waemr2": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1waemr2/chase_amazon_prime_visa_rejected_after_recently/",
-      "title": "Chase Amazon Prime Visa rejected after recently moving to the US. Is my thin credit history the reason?",
-      "posted": "2026-09-08",
-      "card_name": "Amazon Prime Rewards Visa Signature",
+    "t3_1wdtdb7": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wdtdb7/approved_for_wells_fargo_active_cash_but/",
+      "title": "Approved for Wells Fargo Active Cash, but card/account not showing online yet — normal?",
+      "posted": "2026-09-11",
+      "card_name": "Wells Fargo Active Cash",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved 2026-09-11, their first Wells Fargo account. Post asks how long the card takes to appear online, so no score is given and no OP replies have added one.",
+      "firstSeen": "2026-09-12",
+      "attempts": 2,
+      "lastChecked": "2026-09-15"
+    },
+    "t3_1wdnvqz": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wdnvqz/dp_another_wells_fargo_524_type_rule/",
+      "title": "DP: another Wells Fargo 5/24 type rule",
+      "posted": "2026-09-11",
+      "card_name": "Wells Fargo Autograph Journey",
       "result": "denied",
       "missing": [
         "credit_score"
       ],
-      "note": "Denied September 2026 about two to three weeks after moving to the US, with a Chase checking account and a recently approved Chase Freedom already open. Third look and still no score anywhere in the post or replies; the US file may be too new to have one.",
-      "ask": "You mentioned your US credit history is only a few weeks old. Did Chase or any app show you a FICO score at the time, and if so what was it?",
-      "firstSeen": "2026-09-09",
-      "attempts": 3,
-      "lastChecked": "2026-09-14"
-    },
-    "t3_1wcvjbr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wcvjbr/approved_for_a_cc_then_received_this/",
-      "title": "Approved for a CC, then received this",
-      "posted": "2026-09-10",
-      "card_name": "Chase Freedom Flex",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved September 2026 at standard rates. The post is entirely about a pre-selected bonus flyer that arrived after approval, so no score, limit, or income is given.",
-      "firstSeen": "2026-09-11",
-      "attempts": 2,
-      "lastChecked": "2026-09-14"
-    },
-    "t3_1wed3a5": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wed3a5/offered_a_blue_cash_everyday_card_after_i_applied/",
-      "title": "Offered a Blue Cash Everyday card after I applied for fun- thoughts?",
-      "posted": "2026-09-12",
-      "card_name": "Blue Cash Everyday",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "College student with one Capital One card applied 2026-09-11 and was approved about twenty minutes later; an update gives the starting line as $1,500. Still no credit score in the body or any OP reply.",
-      "ask": "You said Amex approved you in about twenty minutes. What was your credit score when you applied?",
+      "note": "Denied September 2026 for number of tradelines opened in the last 24 months. An OP reply confirms they are at 10/24 and they hold direct deposit checking plus a Wells Fargo Autograph, but still no score.",
+      "ask": "You mentioned you are at 10/24 with Wells Fargo. What was your FICO score when you applied for the Autograph Journey?",
       "firstSeen": "2026-09-12",
       "attempts": 2,
-      "lastChecked": "2026-09-14"
+      "lastChecked": "2026-09-15"
     },
     "t3_1wfk78d": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wfk78d/likely_going_to_drop_7k_on_some_home_repairs_what/",
@@ -1215,40 +1218,27 @@
         "credit_score",
         "date_applied"
       ],
-      "note": "Poster states they were denied the Sapphire Preferred earlier in 2026 because they hold too much credit with Chase. The template lists current scores of 800 Equifax and 812 TransUnion as of September 2026, but neither is tied to the application, and the month of the application is not given.",
-      "ask": "You mentioned being denied the Sapphire Preferred earlier this year for too much credit with Chase. Which month did you apply, and what was your FICO score then?",
+      "note": "Poster says they were denied the Sapphire Preferred earlier in 2026 for holding too much credit with Chase. The template gives current scores of 800 Equifax and 812 TransUnion as of September 2026, but neither is tied to the application and the month is not given.",
+      "ask": "You said you were denied the Sapphire Preferred earlier this year for too much credit with Chase. Which month did you apply, and what was your FICO score then?",
       "firstSeen": "2026-09-14",
-      "attempts": 1,
-      "lastChecked": "2026-09-14"
+      "attempts": 2,
+      "lastChecked": "2026-09-15"
     },
-    "t3_1wdtdb7": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wdtdb7/approved_for_wells_fargo_active_cash_but/",
-      "title": "Approved for Wells Fargo Active Cash, but card/account not showing online yet — normal?",
-      "posted": "2026-09-11",
-      "card_name": "Wells Fargo Active Cash",
+    "t3_1wgdq37": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wgdq37/recently_got_an_amex_blue_cash_everyday_card/",
+      "title": "Recently got an Amex Blue Cash Everyday card. Should've went for the Preferred, honestly - is there any downside to trying to get approval for the Preferred card now?",
+      "posted": "2026-09-14",
+      "card_name": "Blue Cash Everyday",
       "result": "approved",
       "missing": [
-        "credit_score"
+        "credit_score",
+        "date_applied"
       ],
-      "note": "Approved 2026-09-11, their first Wells Fargo account. Post asks how long the card takes to appear online, so no score is given.",
-      "firstSeen": "2026-09-12",
+      "note": "First-time cardholder at 37 reports being approved for the Blue Cash Everyday a couple of months ago alongside a Citi Costco card. Score is given only as a long-run 775 to 790 band rather than a figure at application, and the month is not stated.",
+      "ask": "You mentioned running 775 to 790 and getting the Blue Cash Everyday a couple of months ago. What was your exact score when you applied, and which month was it?",
+      "firstSeen": "2026-09-15",
       "attempts": 1,
-      "lastChecked": "2026-09-12"
-    },
-    "t3_1wdnvqz": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wdnvqz/dp_another_wells_fargo_524_type_rule/",
-      "title": "DP: another Wells Fargo 5/24 type rule",
-      "posted": "2026-09-11",
-      "card_name": "Wells Fargo Autograph Journey",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied September 2026 for number of tradelines opened in the last 24 months, poster is over 5/24 and has direct deposit checking plus a Wells Fargo Autograph for over 18 months. Posted as a data point but with no score.",
-      "ask": "You posted this as a DP. What was your score at application?",
-      "firstSeen": "2026-09-12",
-      "attempts": 1,
-      "lastChecked": "2026-09-12"
+      "lastChecked": "2026-09-15"
     }
   },
   "runs": [
@@ -1798,6 +1788,22 @@
       "skipped": {
         "no_outcome": 7,
         "pre_qual": 2
+      }
+    },
+    {
+      "id": "2026-09-15T13:45:50.001Z",
+      "date": "2026-09-15",
+      "candidates": 23,
+      "revisits": 5,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 4,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 2,
+        "no_outcome": 15,
+        "pre_qual": 1
       }
     }
   ]
