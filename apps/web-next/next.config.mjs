@@ -84,6 +84,15 @@ const nextConfig = {
         destination: '/best-card-for/budget',
         permanent: true,
       },
+      // Retired news item: the 2026-02-18 interest-rate-cap story was framed
+      // around a political figure, which our news rules exclude, so it was
+      // pulled from data/news/. The page was indexed, so send it to the news
+      // index rather than 404ing the inbound links.
+      {
+        source: '/news/trump-credit-card-interest-rate-cap-proposal',
+        destination: '/news',
+        permanent: true,
+      },
     ];
   },
 
