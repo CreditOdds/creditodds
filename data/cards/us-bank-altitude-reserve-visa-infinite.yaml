@@ -8,17 +8,16 @@ annual_fee: 400
 reward_type: "points"
 network: "visa"
 our_take: >
-  The Altitude Reserve is no longer accepting applications, so this is a card
-  you can only keep, not open. For existing holders the math still works if
-  you use the benefits: a $325 annual travel credit, up to $100 back for
-  Global Entry or TSA PreCheck every five years, and unlimited Priority Pass
-  Select lounge access against a $400 annual fee. The important condition is
-  that the travel credit applies to travel purchases made through a mobile
-  wallet, so you need to be paying with Apple Pay or a similar wallet at
-  checkout for it to trigger. If you are already in the habit, the credit
-  alone covers most of the fee and the lounge access is close to pure upside.
-  If you aren't, or if you rarely travel, the $400 is harder to justify and
-  there is no way back in once you close it.
+  The Altitude Reserve's pitch is its $325 annual travel credit, which is
+  generous enough to cut the $400 annual fee down to $75 in practice, and it
+  stacks with unlimited Priority Pass Select lounge access and a $100 Global
+  Entry or TSA PreCheck credit every five years. The catch is the fine print
+  on that credit: it only applies to travel purchases paid through a mobile
+  wallet, so you have to change how you pay to collect it. The bigger catch is
+  that U.S. Bank is no longer accepting applications for this card, so it is
+  only relevant if you already hold it. If you do, the math still works as
+  long as you use the full travel credit each year and get real value out of
+  the lounge access. If you don't, there is no way in right now.
 benefits:
   - name: "Annual Travel Credit"
     value: 325

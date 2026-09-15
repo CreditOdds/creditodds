@@ -10,21 +10,20 @@ annual_fee: 0
 reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
-  Bilt Blue exists for one thing: paying rent or a mortgage by card without a
-  transaction fee, earning up to 1.25x points on housing when you choose the
-  housing rewards track, with no annual fee. That is genuinely useful, since
-  rent is usually the largest bill that earns nothing at all. Be careful with
-  the fine print, though: the exact housing multiplier is reset each billing
-  cycle based on your everyday spend relative to the housing payment, and
-  picking the alternative 4% Bilt Cash track on everyday spend drops housing
-  to 1x, so you choose one track and not both. Bilt Cash is also a separate
-  currency used mostly for point accelerators rather than actual cash back,
-  and the $100 signup bonus arrives in that form. The rest of the earn is
-  modest: 3x on hotels and 2x on flights booked through Bilt Travel, 3x on
-  Lyft rides after linking your account, and a plain 1x on everything else, so
-  this is a housing card first and an everyday card a distant second. The
-  intro APR is unusual and worth noting: 10% rather than 0% for the first 12
-  billing cycles, before a steep 26.74% to 34.74% regular rate.
+  Bilt Blue's reason to exist is rent: you can pay housing with the card and
+  earn up to 1.25x points with no transaction fee, which is spending almost no
+  other card will touch, and it costs nothing annually. Around that sit 3x on
+  hotels and 2x on flights booked through Bilt Travel, 3x on Lyft rides once
+  you link your account, and a $100 Bilt Cash welcome award. The important
+  caveat is that the rent multiplier is conditional: it applies only on the
+  housing rewards track, and the exact rate is set each billing cycle based on
+  your everyday spend relative to the housing payment, so 1.25x is a ceiling
+  rather than a promise. Everything else earns just 1x, and the alternative 4%
+  Bilt Cash track on everyday spend replaces the rent points rather than
+  adding to them, in a separate currency used mainly for point accelerators.
+  The intro APR is also unusual, a fixed 10% for the first 12 billing cycles
+  rather than 0%, and the ongoing rate runs 26.74% to 34.74%, so this is a
+  card to pay in full.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

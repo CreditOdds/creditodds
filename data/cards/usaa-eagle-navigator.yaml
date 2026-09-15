@@ -29,19 +29,19 @@ apr:
     min: 18.40
     max: 26.65
 our_take: >
-  The Eagle Navigator earns 2 points per dollar on everything and 3 on travel
-  and transit, including rideshare and tolls, with no foreign transaction fee,
-  which makes it a workable single-card setup for someone who travels
-  regularly. The 30,000 point signup bonus after $3,000 of spending in three
-  months and the up to $120 Global Entry or TSA PreCheck credit give the first
-  year a real head start against the $95 annual fee. Keeping it worthwhile
-  after that depends on the 10,000 bonus points awarded each year for booking
-  a hotel stay or car rental through the USAA Rewards Center, so you have to
-  route at least one booking through USAA annually to stay ahead. Active duty
-  members get the best version of this card: no annual fee while serving, plus
-  a reduced APR under the Servicemembers Civil Relief Act. If you are not
-  active duty and will not use the Rewards Center, a flat 2x base rate is
-  available elsewhere without a fee.
+  The Eagle Navigator earns 2 points per dollar on everything and 3 points per
+  dollar on travel and transit, a definition broad enough to include rideshare
+  and tolls, so it holds up as an everyday card rather than a trip-only one.
+  The signup bonus is 30,000 points after $3,000 in spending within three
+  months, and there is no foreign transaction fee, which matters on a travel
+  card. Recurring value comes from a $120 Global Entry or TSA PreCheck credit
+  every four years and 10,000 bonus points each year for booking a hotel stay
+  or car rental through the USAA Rewards Center, though that second one
+  requires you to route a booking through USAA to collect it. The $95 annual
+  fee is the hurdle for casual spenders, and it is waived entirely while you
+  are on active duty, along with a reduced APR under the Servicemembers Civil
+  Relief Act. That active duty carve-out is what tips the value calculation
+  for the people this card is actually built for.
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120

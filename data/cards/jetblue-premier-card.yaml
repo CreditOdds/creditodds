@@ -42,23 +42,19 @@ apr:
     min: 19.49
     max: 29.49
 our_take: >
-  At $499 a year, the JetBlue Premier is asking you to prepay for benefits you
-  must actively use, and the math only works for frequent JetBlue flyers. The
-  credits are the core of it: up to $300 in statement credits on TrueBlue
-  Travel purchases like hotels, car rentals, and cruises each calendar year,
-  plus up to $120 for Global Entry or TSA PreCheck every four years, which
-  together offset well over half the fee if you book that travel through
-  JetBlue. On top of that you get BlueHouse lounge access with eligible fares,
-  Priority Pass, a free first checked bag for you and up to three companions,
-  a 15% points rebate on award flights, and an annual 25-tile bonus toward
-  Mosaic. Earn rates are unchanged from the cheaper cards at 6 points per
-  dollar on JetBlue and TrueBlue Travel, 2 points on dining and groceries, and
-  1 point elsewhere, so you are not paying extra for a better points engine.
-  The companion pass credits look generous at up to $500, but they require
-  $15,000 in calendar-year spend, with the larger $1,500 tier needing $75,000,
-  and the signup bonus was cut from 100,000 to 90,000 points in August, so
-  evaluate this card on the $300 travel credit and lounge access rather than
-  the headline perks.
+  At $499 a year, the JetBlue Premier only makes sense if your travel
+  genuinely revolves around JetBlue. The recurring credits do most of the
+  work: up to $300 a year in statement credits on TrueBlue Travel purchases
+  like hotels, car rentals, and cruises, a free first checked bag for you and
+  up to three companions, and lounge access through JetBlue's BlueHouse
+  lounges on eligible fares plus Priority Pass. The signup bonus is 90,000
+  points after $5,000 in three months, trimmed from 100,000 in early August,
+  so this isn't the card's strongest window. The companion pass credits are
+  the real headline but they demand volume, up to $500 after $15,000 of
+  calendar-year purchases and up to another $1,500 after $75,000. Earning away
+  from the airline is unremarkable, with 6x on JetBlue and TrueBlue Travel, 2x
+  on dining and groceries, and 1x on everything else, so add up the credits
+  you will actually use before committing to the fee.
 benefits:
   - name: "TrueBlue Travel Statement Credits"
     value: 300

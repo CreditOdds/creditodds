@@ -46,19 +46,19 @@ apr:
     min: 19.24
     max: 29.99
 our_take: >
-  The Plus is the middle card in the Wyndham lineup and the easiest to justify
-  if you stay with the chain a few times a year: 15,000 anniversary points,
-  enough for up to two free award nights, already outrun the $95 annual fee
-  that Barclays raised from $75 in June. The welcome offer is generous
-  relative to the spend required, at 100,000 points total, 45,000 after $1,000
-  in the first 90 days and 55,000 more after $500 at Hotels by Wyndham within
-  180 days. Earning runs 6x at Wyndham properties and a solid 4x on dining,
-  groceries, and travel, with 15 months of 0% intro APR on balance transfers
-  if you need it. Status is Diamond in the first year and Platinum after that,
-  and you get a free night worth up to 15,000 points once you stay five nights
-  in a calendar year. The weak spot is the 1x rate on everything outside those
-  categories, and the fact that 6x applies only at Wyndham, so this rewards
-  loyalty rather than general spending.
+  The Earner Plus sits in the sensible middle of Barclays' Wyndham line:
+  15,000 anniversary points each year, enough for up to two award nights,
+  against a $95 annual fee that the perk alone can cover. The welcome offer is
+  100,000 points, split as 45,000 after $1,000 in the first 90 days and 55,000
+  more after $500 at Hotels by Wyndham within 180 days, and the ongoing rates
+  step up from the free version to 6 points per dollar at Hotels by Wyndham
+  and 4x on dining, groceries and travel. Diamond status in the first year,
+  dropping to Platinum after that, plus a free night worth up to 15,000 points
+  once you stay five or more nights in a calendar year, round out the hotel
+  side. Worth noting that the annual fee rose from $75 to $95 in June, which
+  narrows the gap between what the card gives back and what it costs.
+  Everything outside the bonus categories still earns 1 point per dollar, so
+  the case rests almost entirely on how often you actually stay with Wyndham.
 benefits:
   - name: "Anniversary Points Bonus"
     value: 15000

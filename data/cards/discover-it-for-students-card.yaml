@@ -34,18 +34,18 @@ apply_link: https://www.discover.com/credit-cards/student/it-card.html
 foreign_transaction_fee: false
 network: "discover"
 our_take: >
-  For a first card, the Cashback Match is the headline: Discover matches all
-  the cash back you earn in your first year with no cap, which effectively
-  doubles both the 5% rotating category and the 1% base rate for twelve
-  months. Through Q3 2026 that 5% covers gas, EV charging, transit, airlines
-  and drugstores on up to $1,500 in quarterly spending, and there is no annual
-  fee and no foreign transaction fee if you study abroad. The tradeoffs are
-  the usual rotating-category ones: you have to activate each quarter, and
-  anything past the cap or outside the category earns 1%. The 0% intro APR
-  runs only 6 months and applies to purchases alone, so treat it as a short
-  grace period rather than a payoff plan, especially with a regular rate of
-  16.49% to 25.49%. Use it to build history, pay in full each month, and
-  collect the match at the end of year one.
+  The standout feature for a first card is the Cashback Match: Discover
+  automatically matches all the cash back you earn in your first year, with no
+  cap and no annual fee, which effectively doubles whatever you earn while
+  you're learning the habit. On top of that you get 5% back in rotating
+  quarterly categories, currently gas, EV charging, transit, airlines, and
+  drugstores for Q3 2026, plus no foreign transaction fee if you study abroad.
+  Be clear on the limits: the 5% requires activation each quarter and stops
+  after $1,500 of spending, dropping to 1%, which is also the rate on
+  everything else. The 0% intro APR runs only 6 months on purchases, so this
+  isn't a card for carrying a balance, and the regular rate of 16.49% to
+  25.49% gets expensive fast. Use it to build history, pay it in full, and let
+  the first-year match do the work.
 benefits:
   - name: "Cashback Match"
     value: 0

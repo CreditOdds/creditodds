@@ -8,18 +8,19 @@ foreign_transaction_fee: false
 network: "visa"
 reward_type: "miles"
 our_take: >
-  The Iberia Visa Signature is a narrow card built for one thing: earning
-  Avios on the Iberia side of the British Airways family, at 3 points per
-  dollar on Iberia, British Airways, and Aer Lingus flights. Beyond that it
-  pays 2 points per dollar on hotels booked directly and 1 point on everything
-  else, so it is not a card you spend on day to day. The current 75,000-mile
-  bonus after $5,000 in three months is the main reason to open it, and there
-  is no foreign transaction fee to worry about abroad. The headline companion
-  voucher, worth up to $1,000 toward two tickets on the same Iberia flight,
-  requires $30,000 of spend in a calendar year, which is a real hurdle for
-  most people and the honest catch behind the $95 annual fee. If you fly
-  Iberia often enough to hit that threshold, the math works; if you do not,
-  this is a bonus-and-close card.
+  The case for the Iberia Visa Signature is the 75,000 Avios bonus after
+  $5,000 of spend in the first three months, a lot of currency for a $95
+  annual fee. Earning is narrow, though: the 3x rate applies only to Iberia,
+  British Airways, and Aer Lingus flights, hotels booked directly earn 2x, and
+  everything else sits at 1x, so this is a card you pull out for a specific
+  set of purchases rather than daily spend. The headline companion voucher,
+  worth up to $1,000 toward two tickets on the same Iberia flight, requires
+  $30,000 of spend in a calendar year, which is out of reach for most people
+  earning 1x on the rest of their purchases. The realistic perks are smaller:
+  2,500 bonus Avios each account anniversary, 10% off Iberia flights booked
+  through the cardmember site, and no foreign transaction fees. Take the bonus
+  if Iberia or its partner airlines are actually in your travel plans, then
+  decide at renewal whether $95 still earns its place.
 tags:
   - airline
   - travel
