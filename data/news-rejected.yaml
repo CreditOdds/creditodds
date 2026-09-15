@@ -34,3 +34,8 @@
   date_rejected: "2026-07-14"
   reason: "Signup-bonus change on an existing card — SUB moves (elevated/reduced/returning offers) are covered by CardWire and the weekly sign-up bonus changes post, never as news articles. Recorded manually: the Record Rejected News run for this PR failed on a detached-HEAD push (run #957)."
   pr: 1680
+- id: "trump-credit-card-interest-rate-cap-proposal"
+  title: "Trump Proposes 10% Card Interest Rate Cap"
+  source_url: "https://www.city-journal.org/article/trump-credit-card-interest-rate-cap-economy"
+  date_rejected: "2026-09-15"
+  reason: "Story framed around a political figure — never publish news centered on a politician, party, or administration. Pulled after merge."
