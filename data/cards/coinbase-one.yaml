@@ -24,16 +24,15 @@ apr:
     max: 29.49
 foreign_transaction_fee: false
 our_take: >
-  The pitch is a flat 2% back in bitcoin on everything with no annual fee,
-  scaling to 2.5%, 3%, or 4% depending on how much you hold on Coinbase. That
-  tiering is where the fine print lives: anything above the 2% base is capped
-  at $10,000 of eligible purchases per month and drops back to 2% after, and
-  the whole card requires an active Coinbase One membership, so the true
-  no-strings rate is 2%. Booking flights, hotels, and cars through the
-  Coinbase One Card travel portal earns 5% and sits outside the tier cap,
-  which is the card's most interesting rate. There is no signup bonus and no
-  intro APR, so the value is entirely in the ongoing earn, and the 19.49% to
-  29.49% regular APR means it only works if you pay in full. It suits someone
-  already paying for Coinbase One and comfortable being paid in bitcoin; for
-  anyone else, a plain 2% cash back card does the same job without the
-  membership.
+  The Coinbase One Card's pitch is a high flat rate on everything: 2% back as
+  a floor, rising to 2.5%, 3%, or 4% depending on how much you hold on
+  Coinbase, with no annual fee and no foreign transaction fees. That makes it
+  interesting as a single-card setup if you already keep meaningful assets on
+  the platform, since even the base tier beats most flat-rate cards. Read the
+  conditions carefully, though: the card requires a Coinbase One membership,
+  and every tier above 2% is capped at $10,000 of eligible purchases per month
+  before dropping back to 2%, so the headline 4% is not an unlimited rate.
+  Travel booked through the Coinbase One Card Travel portal earns 5% bitcoin
+  back and sits outside that cap. There is no signup bonus and no intro APR,
+  so the entire case rests on whether your asset balance and spending actually
+  land you in a top tier.

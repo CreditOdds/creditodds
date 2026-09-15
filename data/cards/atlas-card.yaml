@@ -6,21 +6,19 @@ image: "atlas.png"
 apply_link: https://atlascard.com/
 foreign_transaction_fee: false
 our_take: >
-  Atlas is a spend-heavy travel card whose math only works if you fly private
-  or semi-private: it carries a $3,000 annual fee, tripled from $1,000 in June
-  2026, and hands back $3,000 in annual private charter credit, $1,000 for
-  semi-private aviation with BLADE, JSX, Aero, and Slate, $1,000 toward
-  business class flights on bookings of $5,000 or more, and $1,000 toward
-  ticketed experiences. Earning is simple, 5 points per dollar on all Atlas
-  Travel bookings covering hotels, charter, car rentals, flights, rail,
-  cruises, and airport services, and 1 point per dollar on everything else.
-  The credits are the product, not the points, and nearly all of them are
-  locked to Atlas Travel or a named partner, so an unused charter credit is
-  $3,000 of fee you do not recover. Additional credits unlock only at extreme
-  spend levels, $1,000 after $100,000, $2,000 after $250,000, and $5,000 after
-  $1,000,000 in a year. Lifestyle extras like a $200 Erewhon credit, Sollis
-  Health access, and a complimentary one-year Slate Shared Membership are
-  pleasant but will not close the gap on their own.
+  On paper the Atlas covers its own $3,000 annual fee with the $3,000 private
+  charter credit alone, and then adds $1,000 for semi-private aviation, $1,000
+  toward business class flights on bookings of $5,000 or more, $1,000 for
+  ticketed experiences, and a $200 Erewhon credit. That only holds if you
+  genuinely fly charter and book through Atlas Travel, which is also the one
+  place the card earns well, at 5 points per dollar. Lead Bank tripled the
+  annual fee from $1,000 to $3,000 in June 2026, so the cost of misjudging
+  your own usage went up sharply, and everything outside Atlas Travel earns a
+  flat 1 point per dollar. The spend-unlocked credits make the intended
+  customer clear: the extra airport, hotel and travel credits do not appear
+  until $100,000, $250,000 and $1,000,000 in annual spend. If private aviation
+  is not already part of your year, the credits are unusable and the $3,000 is
+  just a fee.
 annual_fee: 3000
 category: "travel"
 reward_type: "points"

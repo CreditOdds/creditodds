@@ -6,17 +6,18 @@ apply_link: https://creditcards.wellsfargo.com/business-credit-cards/signify-bus
 foreign_transaction_fee: true
 network: "mastercard"
 our_take: >
-  The Signify Business Cash keeps it simple: a flat 2% back on every business
-  purchase with no annual fee, so there are no categories to track and no caps
-  to plan around. The $500 bonus after $5,000 of spend in the first three
-  months is within reach for most small businesses, and the 12 months of 0%
-  intro APR on purchases gives you room to finance equipment or inventory
-  early on. The tradeoff is that the flat 2% is the entire rewards program, so
-  a business with heavy shipping, advertising, or travel spend will out-earn
-  it elsewhere. It also charges foreign transaction fees, which makes it a
-  poor fit if you buy from overseas suppliers or travel internationally. Up to
-  $250,000 in travel accident insurance when you buy tickets with the card is
-  a minor extra, not a reason to apply.
+  Signify Business Cash is the stripped-down version of a business card: a
+  flat 2% cash back on every purchase with no annual fee, so there are no
+  categories to track and no caps to plan around. The $500 bonus after $5,000
+  of spending in the first three months is a fair return on volume most small
+  businesses already have, and the 12 months of 0% intro APR on purchases buys
+  a year to finance equipment or inventory before the rate settles into the
+  16.74% to 24.74% range. The catch is that the flat 2% is also the ceiling,
+  so a business concentrated in one lane, like shipping or advertising, will
+  earn more on a card with real bonus categories. It also charges a foreign
+  transaction fee, which is a poor fit if you buy from overseas suppliers or
+  travel for work. Travel accident insurance of up to $250,000 on tickets
+  bought with the card is a minor extra rather than a reason to apply.
 image: "wells-fargo-signify-business-cash.png"
 category: "business"
 annual_fee: 0

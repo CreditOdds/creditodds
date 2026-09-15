@@ -8,20 +8,20 @@ foreign_transaction_fee: false
 network: "amex"
 annual_fee: 150
 our_take: >
-  The Surpass is the middle Hilton card, and the reason to pick it is the
-  everyday earn: 6x at U.S. restaurants, U.S. supermarkets, and U.S. gas
-  stations, 4x on eligible U.S. online retail, and 3x on everything else, with
-  12x reserved for eligible purchases at Hilton properties. The signup bonus
-  is 130,000 points plus a Free Night Reward after $3,000 of spend in six
-  months, which is a low requirement relative to the size of the offer. Up to
-  $50 per quarter in Hilton credits can offset most of the $150 annual fee,
-  but only if you have a Hilton charge in each of the four quarters, and
-  unused quarters do not roll forward. Complimentary Gold status with
-  upgrades, late checkout, and fifth night free on award stays is the ongoing
-  perk that matters most; Diamond requires $40,000 of annual spend, and a
-  second Free Night Reward requires $15,000. Hilton points carry modest per
-  point value, so weigh the 6x categories against a card earning transferable
-  points at a lower rate.
+  The Surpass sits in the sensible middle of the Hilton lineup: a $150 annual
+  fee against up to $200 a year in Hilton credits, delivered as $50 per
+  quarter on purchases made directly with Hilton properties, plus
+  complimentary Gold status with room upgrades, late checkout, and a 5th night
+  free on reward stays. Its earning structure is the best part for everyday
+  use, with 6x at U.S. restaurants, U.S. supermarkets, and U.S. gas stations,
+  4x on eligible U.S. online retail, and 3x on everything else, on top of 12x
+  at Hilton properties themselves. The welcome offer is 130,000 points plus a
+  Free Night Reward after $3,000 of spending in six months, which is a modest
+  spending requirement for a bonus of that size. The catches are the quarterly
+  shape of the credit, which is easy to leave unused if your Hilton stays
+  cluster in one season, and the $15,000 annual spending needed to earn the
+  Free Night Reward each year. Diamond status is possible at $40,000 of annual
+  purchases, but most people should treat Gold as the real benefit.
 reward_type: "points"
 rewards:
   - category: hotels

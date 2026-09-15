@@ -38,19 +38,18 @@ apply_link: https://www.apple.com/apple-card/
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Apple Card's headline 2% Daily Cash only applies when you pay through
-  Apple Pay, and the physical titanium card drops to 1%, so treat 1% as the
-  true base rate and the 2% as an Apple Pay habit you have to maintain. The 3%
-  tier is narrower still: it covers Apple purchases and a specific merchant
-  list including Nike, Uber, Walgreens, Booking.com, ChargePoint, Duane Reade,
-  Exxon Mobil, Hertz, Ace Hardware, and only when paid with Apple Pay. There
-  is no annual fee and no foreign transaction fee, which keeps the cost of
-  carrying it at zero. A handful of partner extras round it out, including 2%
-  in Booking.com Travel Credits on eligible stays booked through the Apple
-  Card portal, a six month Uber One trial, and Hertz discounts, all requiring
-  enrollment. The regular APR runs 17.49% to 27.74%, so this is a card to use
-  for the Apple Pay flow and pay off monthly, not a rewards engine for
-  tap-resistant merchants.
+  The Apple Card fits a phone-first wallet better than almost anything else:
+  2% Daily Cash on any purchase you pay for through Apple Pay, and 3% on
+  Apple's own purchases and a fixed list of partners including Nike, Uber,
+  Walgreens, Booking.com, Exxon Mobil and Hertz when you pay that same way.
+  The condition attached to those rates is the whole story. Tap or swipe the
+  physical titanium card instead and you earn 1%, which is the card's true
+  base rate, so the value depends entirely on how many of the places you shop
+  accept Apple Pay. There is no annual fee and no foreign transaction fee, so
+  holding it costs nothing, and extras like a six-month Uber One trial and 2%
+  in Booking.com travel credits on stays booked through the Apple Card portal
+  are modest but real. If a lot of your spending happens where Apple Pay does
+  not reach, a flat 2% card will simply beat it.
 benefits:
   - name: "Booking.com Travel Credits"
     value: 2

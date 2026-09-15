@@ -49,16 +49,16 @@ apr:
     min: 17.49
     max: 31.49
 our_take: >
-  This is the fuel-heavy half of AAA's no-fee pair: 5% back at gas stations
-  and EV charging, plus 3% on groceries, dining, and travel, including AAA
-  purchases. The 5% rate is capped at $350 of cash back per year, about $7,000
-  of fuel spend, and falls to 1% after that, so the headline number suits a
-  commuter more than a heavy driver. The 3% categories carry no stated cap,
-  which makes the card more flexible than the top rate alone suggests, and
-  there are no foreign transaction fees when you use it abroad. The $100 bonus
-  after $1,000 in three months is small but easy to clear. Just note the 5%
-  redemption bonus only applies when you cash out through AAA Northeast, and
-  the 17.49% to 31.49% APR punishes any balance you carry.
+  The Travel Advantage is built around the pump: 5% back on gas and EV
+  charging, with 3% on groceries, dining, and travel including AAA purchases,
+  and no annual fee or foreign transaction fee. If you drive a lot and want
+  one no-fee card for fuel and everyday travel spending, the earn structure is
+  genuinely strong. The catch is the ceiling on the headline rate, since the
+  5% gas and EV charging category shares a $350 per year cash back cap and
+  falls to 1% after that, which works out to roughly $7,000 of fuel spending.
+  The 3% categories are uncapped, so groceries, dining, and travel keep
+  earning all year. A $100 bonus after $1,000 in three months rounds it out,
+  and AAA members get 5% more when redeeming through AAA Northeast counselors.
 benefits:
   - name: "AAA Redemption Bonus"
     value: 0

@@ -7,22 +7,21 @@ apply_link: https://www.biltrewards.com/card/apply
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  Palladium is the premium tier, and the credits are what make the $495 fee
-  defensible: $400 a year in Bilt Travel hotel credits issued as two $200
-  statement credits, plus $200 in annual Bilt Cash with up to $100 rolling
-  into the next year, alongside Priority Pass lounge access. It also carries
-  the best everyday rate in the Bilt lineup at 2x on all non-category spend,
-  on top of fee-free rent or mortgage payments earning up to 1.25x, 4x on Bilt
-  Travel hotels, 3x on flights, 4x on Lyft, and no foreign transaction fee,
-  which is enough to put it at #14 on our Best Travel Credit Cards list. The
-  signup bonus is 50,000 points after $4,000 in the first 3 months plus $300
-  in Bilt Cash, and hitting that same $4,000 in non-housing spend within 90
-  days earns Gold Status. The honest catch is that most of the fixed value is
-  locked inside Bilt's own ecosystem: the hotel credits only work on Bilt
-  Travel bookings and Bilt Cash is a separate currency aimed at buying point
-  accelerators, not real cash. Choosing the 4% Bilt Cash track also drops
-  housing earnings to 1x, so it is one track or the other, and the 26.74% to
-  34.74% regular APR means this only makes sense if you never carry a balance.
+  Palladium is the only card in the Bilt lineup that pairs the rent earning
+  with a genuinely strong base rate: 2x on all everyday spend, alongside 4x on
+  Bilt Travel hotels, 3x on Bilt Travel flights, 4x on Lyft, and up to 1.25x
+  on rent or mortgage with no transaction fee. The credits are what carry the
+  $495 annual fee: $400 a year in hotel credits, issued as two $200 statement
+  credits for Bilt Travel bookings, plus $200 in annual Bilt Cash with up to
+  $100 rolling over, and Priority Pass lounge access. New cardholders get
+  50,000 points plus $300 in Bilt Cash after $4,000 in three months, with Gold
+  Status on the same $4,000 of non-housing spend in the first 90 days, which
+  is why it lands at #13 on our Best Travel Credit Cards list. The honest
+  catch is that the hotel credits only pay out through Bilt's own travel
+  portal, so if you book hotels elsewhere a large share of the fee simply does
+  not come back. The rent rate is also a ceiling, set each cycle from your
+  everyday spend relative to the housing payment, and the intro APR is a fixed
+  10% for 12 billing cycles rather than 0%.
 annual_fee: 495
 reward_type: "points"
 release_date: "2025-01-15"

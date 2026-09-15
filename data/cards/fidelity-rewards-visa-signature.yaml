@@ -26,19 +26,18 @@ apply_link: https://www.fidelity.com/spend-save/visa-signature-card
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Fidelity Rewards Visa Signature is a clean 2% flat cash back card with
-  no annual fee, with one condition: the full 2% comes when rewards are
-  deposited into an eligible Fidelity account. If you already bank or invest
-  with Fidelity that is a formality, and the automatic sweep into a brokerage
-  or retirement account is a useful habit in itself, but if you do not, the
-  account requirement is friction for a rate you can get elsewhere with no
-  strings. It also charges no foreign transaction fee and offers up to $100 in
-  reward points toward a Global Entry or TSA PreCheck application fee once
-  every five years, which is unusual on a card that costs nothing to hold. The
-  welcome offer is gone, though: the previous $150 bonus was removed in July
-  2026, so there is no upfront incentive to open it right now. Treat it as a
-  long-term everyday card for Fidelity customers rather than a bonus play, and
-  note the regular APR of 16.49% to 26.49% if you ever carry a balance.
+  The pitch is one clean number: 2% back on every purchase, with no categories
+  to track and no annual fee, provided you deposit the rewards into an
+  eligible Fidelity account. That makes it a legitimate everyday default card
+  for anyone who already banks or invests with Fidelity, and the lack of a
+  foreign transaction fee means it travels well too. There's also a Global
+  Entry or TSA PreCheck credit worth up to $100 in Reward Points toward the
+  application fee, available every 5 years. Two caveats: the 2% is tied to
+  that Fidelity deposit, so the card is much less interesting if you don't
+  want a Fidelity account, and the signup bonus was removed in July 2026, so
+  there's no upfront sweetener to earn anymore. With a regular APR of 16.49%
+  to 26.49% and no intro APR offer, this is a card to pay in full and hold for
+  the flat rate, not to finance with.
 benefits:
   - name: "Global Entry or TSA PreCheck Credit"
     value: 100
