@@ -1137,9 +1137,9 @@
     "t3_1wdzunj": "2026-09-12",
     "t3_1wdwmam": "2026-09-12",
     "t3_1wdu8ab": "2026-09-12",
-    "t3_1wdtdb7": "2026-09-15",
+    "t3_1wdtdb7": "2026-09-16",
     "t3_1wdpfpl": "2026-09-12",
-    "t3_1wdnvqz": "2026-09-15",
+    "t3_1wdnvqz": "2026-09-16",
     "t3_1wdnuyz": "2026-09-12",
     "t3_1wdkx5v": "2026-09-12",
     "t3_1wf6yxm": "2026-09-13",
@@ -1153,7 +1153,7 @@
     "t3_1wfqjt4": "2026-09-14",
     "t3_1wfmpfw": "2026-09-14",
     "t3_1wfmfaz": "2026-09-14",
-    "t3_1wfk78d": "2026-09-15",
+    "t3_1wfk78d": "2026-09-16",
     "t3_1wfjymy": "2026-09-14",
     "t3_1wfjmta": "2026-09-14",
     "t3_1wfj5f0": "2026-09-14",
@@ -1176,22 +1176,49 @@
     "t3_1wg8baw": "2026-09-15",
     "t3_1wg732l": "2026-09-15",
     "t3_1wg62r5": "2026-09-15",
-    "t3_1wg5vxj": "2026-09-15"
+    "t3_1wg5vxj": "2026-09-15",
+    "t3_1wi58wi": "2026-09-16",
+    "t3_1wi4cnn": "2026-09-16",
+    "t3_1wi1dnb": "2026-09-16",
+    "t3_1whzx05": "2026-09-16",
+    "t3_1whzwow": "2026-09-16",
+    "t3_1whqsdj": "2026-09-16",
+    "t3_1whq9ua": "2026-09-16",
+    "t3_1whpaa1": "2026-09-16",
+    "t3_1whgzui": "2026-09-16",
+    "t3_1whchr2": "2026-09-16",
+    "t3_1whc5cy": "2026-09-16",
+    "t3_1wh5so1": "2026-09-16",
+    "t3_1wh3thw": "2026-09-16"
   },
   "pending": {
-    "t3_1wdtdb7": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wdtdb7/approved_for_wells_fargo_active_cash_but/",
-      "title": "Approved for Wells Fargo Active Cash, but card/account not showing online yet — normal?",
-      "posted": "2026-09-11",
-      "card_name": "Wells Fargo Active Cash",
+    "t3_1whgzui": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1whgzui/wells_fargo_credit_limit_increases_should_i_see_a/",
+      "title": "Wells Fargo Credit Limit Increases (Should I see a banker?)",
+      "posted": "2026-09-15",
+      "result": "approved",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Approved September 2026 for a Wells Fargo card with a $3,500 starting limit on an 850 score, right after opening a Wells Fargo checking account. The post never names which Wells Fargo card it was.",
+      "ask": "Which Wells Fargo card was it that came back at the $3,500 limit?",
+      "firstSeen": "2026-09-16",
+      "attempts": 1,
+      "lastChecked": "2026-09-16"
+    },
+    "t3_1wi4cnn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wi4cnn/is_rh_gold_card_worth_it_for_me/",
+      "title": "Is RH Gold Card Worth it for me?",
+      "posted": "2026-09-16",
+      "card_name": "Robinhood Gold",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved 2026-09-11, their first Wells Fargo account. Post asks how long the card takes to appear online, so no score is given and no OP replies have added one.",
-      "firstSeen": "2026-09-12",
-      "attempts": 2,
-      "lastChecked": "2026-09-15"
+      "note": "Approved September 2026 for the Robinhood Gold card at a $5,500 limit, previously holding two $500-limit student-tier cards. No credit score anywhere in the post.",
+      "firstSeen": "2026-09-16",
+      "attempts": 1,
+      "lastChecked": "2026-09-16"
     },
     "t3_1wdnvqz": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wdnvqz/dp_another_wells_fargo_524_type_rule/",
@@ -1202,11 +1229,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied September 2026 for number of tradelines opened in the last 24 months. An OP reply confirms they are at 10/24 and they hold direct deposit checking plus a Wells Fargo Autograph, but still no score.",
-      "ask": "You mentioned you are at 10/24 with Wells Fargo. What was your FICO score when you applied for the Autograph Journey?",
+      "note": "Denied September 2026 for number of tradelines opened in the last 24 months. OP replies confirm 10/24 plus direct-deposit checking and an existing Wells Fargo Autograph, but still no score after three looks.",
       "firstSeen": "2026-09-12",
-      "attempts": 2,
-      "lastChecked": "2026-09-15"
+      "attempts": 3,
+      "lastChecked": "2026-09-16"
     },
     "t3_1wfk78d": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wfk78d/likely_going_to_drop_7k_on_some_home_repairs_what/",
@@ -1218,11 +1244,40 @@
         "credit_score",
         "date_applied"
       ],
-      "note": "Poster says they were denied the Sapphire Preferred earlier in 2026 for holding too much credit with Chase. The template gives current scores of 800 Equifax and 812 TransUnion as of September 2026, but neither is tied to the application and the month is not given.",
-      "ask": "You said you were denied the Sapphire Preferred earlier this year for too much credit with Chase. Which month did you apply, and what was your FICO score then?",
+      "note": "Denied for holding too much credit with Chase at some point earlier in 2026. The template gives 800 Equifax and 812 TransUnion as of September 2026, but neither is tied to the application and the month is still not given.",
+      "ask": "You mentioned the Sapphire Preferred denial was earlier this year. Roughly what month did you apply, and what was your score then?",
       "firstSeen": "2026-09-14",
-      "attempts": 2,
-      "lastChecked": "2026-09-15"
+      "attempts": 3,
+      "lastChecked": "2026-09-16"
+    },
+    "t3_1wdtdb7": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wdtdb7/approved_for_wells_fargo_active_cash_but/",
+      "title": "Approved for Wells Fargo Active Cash, but card/account not showing online yet — normal?",
+      "posted": "2026-09-11",
+      "card_name": "Wells Fargo Active Cash",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved 2026-09-11, their first Wells Fargo account. The post is about how long the card takes to appear online, so no score is given and three looks have added none.",
+      "firstSeen": "2026-09-12",
+      "attempts": 3,
+      "lastChecked": "2026-09-16"
+    },
+    "t3_1whq9ua": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1whq9ua/update_on_advice_on_a_cash_back_credit_card/",
+      "title": "Update on advice on a cash back credit card",
+      "posted": "2026-09-16",
+      "result": "denied",
+      "missing": [
+        "card_name",
+        "credit_score"
+      ],
+      "note": "Applied and was denied for a PNC card in September 2026, told informally it was thin card history. Neither which PNC card nor any score is given.",
+      "ask": "Which PNC card did you apply for, and what was your score at the time?",
+      "firstSeen": "2026-09-16",
+      "attempts": 1,
+      "lastChecked": "2026-09-16"
     },
     "t3_1wgdq37": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wgdq37/recently_got_an_amex_blue_cash_everyday_card/",
@@ -1804,6 +1859,22 @@
         "no_score": 2,
         "no_outcome": 15,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-09-16T18:39:54.725Z",
+      "date": "2026-09-16",
+      "candidates": 16,
+      "revisits": 3,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 1,
+      "pending": 7,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 6,
+        "pre_qual": 1,
+        "card_unclear": 2
       }
     }
   ]
