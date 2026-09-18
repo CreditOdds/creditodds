@@ -1178,14 +1178,14 @@
     "t3_1wg62r5": "2026-09-15",
     "t3_1wg5vxj": "2026-09-15",
     "t3_1wi58wi": "2026-09-16",
-    "t3_1wi4cnn": "2026-09-17",
+    "t3_1wi4cnn": "2026-09-18",
     "t3_1wi1dnb": "2026-09-16",
     "t3_1whzx05": "2026-09-16",
     "t3_1whzwow": "2026-09-16",
     "t3_1whqsdj": "2026-09-16",
-    "t3_1whq9ua": "2026-09-17",
+    "t3_1whq9ua": "2026-09-18",
     "t3_1whpaa1": "2026-09-16",
-    "t3_1whgzui": "2026-09-17",
+    "t3_1whgzui": "2026-09-18",
     "t3_1whchr2": "2026-09-16",
     "t3_1whc5cy": "2026-09-16",
     "t3_1wh5so1": "2026-09-16",
@@ -1193,7 +1193,7 @@
     "t3_1wixd27": "2026-09-17",
     "t3_1wiuqno": "2026-09-17",
     "t3_1wiuo3y": "2026-09-17",
-    "t3_1wiu1ga": "2026-09-17",
+    "t3_1wiu1ga": "2026-09-18",
     "t3_1wik374": "2026-09-17",
     "t3_1wijwv8": "2026-09-17",
     "t3_1wijh3m": "2026-09-17",
@@ -1204,10 +1204,120 @@
     "t3_1wiel8w": "2026-09-17",
     "t3_1wie5dc": "2026-09-17",
     "t3_1wicwgj": "2026-09-17",
-    "t3_1wi9h0d": "2026-09-17",
-    "t3_1wi7tha": "2026-09-17"
+    "t3_1wi9h0d": "2026-09-18",
+    "t3_1wi7tha": "2026-09-17",
+    "t3_1wjqjb0": "2026-09-18",
+    "t3_1wjoi3a": "2026-09-18",
+    "t3_1wjik68": "2026-09-18",
+    "t3_1wjhb5m": "2026-09-18",
+    "t3_1wjg7aw": "2026-09-18",
+    "t3_1wj884s": "2026-09-18",
+    "t3_1wizmh0": "2026-09-18"
   },
   "pending": {
+    "t3_1whgzui": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1whgzui/wells_fargo_credit_limit_increases_should_i_see_a/",
+      "title": "Wells Fargo Credit Limit Increases (Should I see a banker?)",
+      "posted": "2026-09-15",
+      "result": "approved",
+      "missing": [
+        "card_name"
+      ],
+      "note": "September 2026 Wells Fargo approval at a $3,500 limit on an 850 score, and a reply now bounds income between $250k and $300k. Three looks in, the poster has still never named which Wells Fargo card it was.",
+      "ask": "Which Wells Fargo card was it that came in at the $3,500 limit?",
+      "firstSeen": "2026-09-16",
+      "attempts": 3,
+      "lastChecked": "2026-09-18"
+    },
+    "t3_1wi4cnn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wi4cnn/is_rh_gold_card_worth_it_for_me/",
+      "title": "Is RH Gold Card Worth it for me?",
+      "posted": "2026-09-16",
+      "card_name": "Robinhood Gold",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "20 year old student approved September 2026 for the Robinhood Gold at a $5,500 limit, up from two $500 student cards. Replies confirm he accepted the card but still give no credit score.",
+      "firstSeen": "2026-09-16",
+      "attempts": 3,
+      "lastChecked": "2026-09-18"
+    },
+    "t3_1whq9ua": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1whq9ua/update_on_advice_on_a_cash_back_credit_card/",
+      "title": "Update on advice on a cash back credit card",
+      "posted": "2026-09-16",
+      "result": "denied",
+      "missing": [
+        "card_name",
+        "credit_score"
+      ],
+      "note": "September 2026 PNC denial, told informally it was a thin card history. Replies have moved on to a Capital One pre-approval and never name the PNC card or give a score. Third look with no answer.",
+      "ask": "Which PNC card did you apply for, and what was your score at the time?",
+      "firstSeen": "2026-09-16",
+      "attempts": 3,
+      "lastChecked": "2026-09-18"
+    },
+    "t3_1wiu1ga": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wiu1ga/just_finished_doing_my_deposit_for_my_capital_one/",
+      "title": "Just finished doing my deposit for my Capital One Quicksilver secured with a $200 limit. Any Tips ?",
+      "posted": "2026-09-17",
+      "card_name": "Capital One Quicksilver Secured Cash Rewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved September 2026 for the Quicksilver Secured with a $200 deposit and limit, their first card. A new reply narrows their credit to the low 600s, which is still too vague to record.",
+      "ask": "You mentioned being in the low 600s. What was the exact score?",
+      "firstSeen": "2026-09-17",
+      "attempts": 2,
+      "lastChecked": "2026-09-18"
+    },
+    "t3_1wi9h0d": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wi9h0d/chase_sapphire_reserve_recon/",
+      "title": "Chase Sapphire Reserve Recon",
+      "posted": "2026-09-16",
+      "card_name": "Chase Sapphire Reserve",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied for the CSR off a pre-approval in September 2026 and was denied the next day for balances near the limit, now in reconsideration. No score given and no new replies since the first look.",
+      "firstSeen": "2026-09-17",
+      "attempts": 2,
+      "lastChecked": "2026-09-18"
+    },
+    "t3_1wj884s": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wj884s/advice_needed_denied_chase_business_credit_card/",
+      "title": "Advice needed - Denied Chase Business Credit Card Application for 3/24",
+      "posted": "2026-09-17",
+      "result": "denied",
+      "missing": [
+        "card_name",
+        "credit_score"
+      ],
+      "note": "Detailed first-person Chase Ink business denial dated 9/15/2026, citing recently opened accounts, with a recon call transcript. Never says which Ink card or gives a credit score.",
+      "ask": "Which Ink card was it (Cash, Unlimited, Preferred or Premier), and what was your score when you applied?",
+      "firstSeen": "2026-09-18",
+      "attempts": 1,
+      "lastChecked": "2026-09-18"
+    },
+    "t3_1wjhb5m": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wjhb5m/capital_one_preapproval_consistently_denied/",
+      "title": "Capital One Pre-approval Consistently Denied",
+      "posted": "2026-09-18",
+      "card_name": "Chase Sapphire Reserve",
+      "result": "approved",
+      "missing": [
+        "date_applied",
+        "credit_score"
+      ],
+      "note": "Mentions in passing being approved for the CSR in spring 2026, their only new card in a year. The 780s score they quote is today's and they say it has moved since, and spring does not pin a month.",
+      "ask": "Which month in the spring did the CSR approval come through, and what was your score then?",
+      "firstSeen": "2026-09-18",
+      "attempts": 1,
+      "lastChecked": "2026-09-18"
+    },
     "t3_1wgdq37": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wgdq37/recently_got_an_amex_blue_cash_everyday_card/",
       "title": "Recently got an Amex Blue Cash Everyday card. Should've went for the Preferred, honestly - is there any downside to trying to get approval for the Preferred card now?",
@@ -1222,77 +1332,6 @@
       "ask": "You mentioned 775-790 generally. What was your score when you applied, and roughly what month was the approval?",
       "firstSeen": "2026-09-15",
       "attempts": 2,
-      "lastChecked": "2026-09-17"
-    },
-    "t3_1whgzui": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1whgzui/wells_fargo_credit_limit_increases_should_i_see_a/",
-      "title": "Wells Fargo Credit Limit Increases (Should I see a banker?)",
-      "posted": "2026-09-15",
-      "result": "approved",
-      "missing": [
-        "card_name"
-      ],
-      "note": "September 2026 Wells Fargo approval at a $3,500 limit on an 850 score, right after opening a Wells Fargo checking account. Replies added income context but still never name which Wells Fargo card it was.",
-      "ask": "Which Wells Fargo card was it that came in at $3,500?",
-      "firstSeen": "2026-09-16",
-      "attempts": 2,
-      "lastChecked": "2026-09-17"
-    },
-    "t3_1wi4cnn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wi4cnn/is_rh_gold_card_worth_it_for_me/",
-      "title": "Is RH Gold Card Worth it for me?",
-      "posted": "2026-09-16",
-      "card_name": "Robinhood Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "20 year old student approved September 2026 for the Robinhood Gold at a $5,500 limit, up from two $500 student cards. Still no credit score anywhere in the post or replies.",
-      "firstSeen": "2026-09-16",
-      "attempts": 2,
-      "lastChecked": "2026-09-17"
-    },
-    "t3_1whq9ua": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1whq9ua/update_on_advice_on_a_cash_back_credit_card/",
-      "title": "Update on advice on a cash back credit card",
-      "posted": "2026-09-16",
-      "result": "denied",
-      "missing": [
-        "card_name",
-        "credit_score"
-      ],
-      "note": "September 2026 PNC denial, told informally it was a thin card history. Replies show the poster moved on to a Capital One pre-approval offer but never named the PNC card or gave a score.",
-      "ask": "Which PNC card did you apply for, and what was your score at the time?",
-      "firstSeen": "2026-09-16",
-      "attempts": 2,
-      "lastChecked": "2026-09-17"
-    },
-    "t3_1wiu1ga": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wiu1ga/just_finished_doing_my_deposit_for_my_capital_one/",
-      "title": "Just finished doing my deposit for my Capital One Quicksilver secured with a $200 limit. Any Tips ?",
-      "posted": "2026-09-17",
-      "card_name": "Capital One Quicksilver Secured Cash Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved September 2026 for the Quicksilver Secured with a $200 deposit and limit, described as their first card. Says only that their credit is not great, with no score given.",
-      "firstSeen": "2026-09-17",
-      "attempts": 1,
-      "lastChecked": "2026-09-17"
-    },
-    "t3_1wi9h0d": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wi9h0d/chase_sapphire_reserve_recon/",
-      "title": "Chase Sapphire Reserve Recon",
-      "posted": "2026-09-16",
-      "card_name": "Chase Sapphire Reserve",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied for the CSR off a pre-approval in September 2026 and was denied the next day for high balances near the limit, now in reconsideration. No credit score given.",
-      "firstSeen": "2026-09-17",
-      "attempts": 1,
       "lastChecked": "2026-09-17"
     }
   },
@@ -1890,6 +1929,21 @@
       "skipped": {
         "no_outcome": 8,
         "no_score": 4
+      }
+    },
+    {
+      "id": "2026-09-18T15:02:58.777Z",
+      "date": "2026-09-18",
+      "candidates": 12,
+      "revisits": 5,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 0,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 1,
+        "no_outcome": 4
       }
     }
   ]
