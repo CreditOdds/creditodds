@@ -74,6 +74,65 @@ function sanitizeSocialText(input) {
 }
 
 /**
+ * Words whose trailing period ends an abbreviation rather than a sentence.
+ * Multi-letter only; runs of initials ("J.P.", "U.S.") are caught by the
+ * single-letter rule in `isSentenceEnd` instead of being enumerated here.
+ */
+const ABBREVIATIONS = new Set([
+  'inc',
+  'ltd',
+  'co',
+  'corp',
+  'dept',
+  'est',
+  'st',
+  'mt',
+  'ave',
+  'jr',
+  'sr',
+  'dr',
+  'mr',
+  'mrs',
+  'ms',
+  'vs',
+  'etc',
+  'approx',
+  'no',
+]);
+
+/**
+ * True when the period at `index` actually ends a sentence.
+ *
+ * A bare `lastIndexOf('.')` cannot tell "utilities." from the period inside
+ * "J.P.", and issuer copy is full of the latter: J.P. Morgan, U.S. Bank,
+ * Synchrony Inc. Cutting on an abbreviation severs a name in half while still
+ * looking like a clean sentence break to the caller.
+ */
+function isSentenceEnd(text, index) {
+  const wordBefore = /([A-Za-z]+)$/.exec(text.slice(0, index));
+  // A number or symbol before the period ("$250.", "2026.") always ends a
+  // sentence; there is no abbreviation to protect.
+  if (!wordBefore) return true;
+  const word = wordBefore[1];
+  // A single letter is an initial, not a word: the J.P. / U.S. / F.D.I.C. case.
+  if (word.length === 1) return false;
+  return !ABBREVIATIONS.has(word.toLowerCase());
+}
+
+/**
+ * The last usable break in `clipped`: a line break, or a period that ends a
+ * sentence rather than an abbreviation. Returns -1 when there is none.
+ */
+function findLastBreak(clipped) {
+  for (let i = clipped.length - 1; i >= 0; i--) {
+    const char = clipped[i];
+    if (char === '\n') return i;
+    if (char === '.' && isSentenceEnd(clipped, i)) return i;
+  }
+  return -1;
+}
+
+/**
  * Sanitize, then hard-cap to the text budget. Truncation prefers the last
  * sentence or line break so a clipped post still ends on a complete fact
  * rather than mid-number; it falls back to an ellipsis only when there is no
@@ -87,11 +146,7 @@ function enforceTweetLimit(input, limit = TWEET_TEXT_LIMIT) {
   if (text.length <= limit) return text;
 
   const clipped = text.slice(0, limit);
-  const lastBreak = Math.max(
-    clipped.lastIndexOf('\n'),
-    clipped.lastIndexOf('. '),
-    clipped.lastIndexOf('.')
-  );
+  const lastBreak = findLastBreak(clipped);
   // Prefer ending on a complete sentence or line whenever what remains still
   // carries a fact. A short complete post beats a longer one that stops in the
   // middle of a word, a number, or a negation.
