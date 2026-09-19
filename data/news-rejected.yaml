@@ -1,5 +1,11 @@
 # Rejected auto-news items (do not re-suggest)
 # Entries are appended by the "Record Rejected News" workflow.
+- id: "capital-one-dulles-lounge-reopens"
+  title: "Capital One Dulles Lounge Reopens Sept 18"
+  source_url: "https://thepointsguy.com/news/capital-one-lounge-dulles-reopens/"
+  date_rejected: "2026-09-19"
+  reason: "Rejected in PR #2197"
+  pr: 2197
 - id: "expired-cards-contactless-relay-attack"
   title: "Expired Cards Can Still Be Charged, Study Says"
   source_url: "https://techxplore.com/news/2026-08-zombie-credit-cards-loophole-reanimate.html"
