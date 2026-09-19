@@ -55,10 +55,10 @@ rewards:
     value: 1
     unit: percent
 signup_bonus:
-  value: 1000
+  value: 750
   type: "cash"
-  spend_requirement: 8000
-  timeframe_months: 4
+  spend_requirement: 6000
+  timeframe_months: 3
 apr:
   purchase_intro:
     rate: 0
