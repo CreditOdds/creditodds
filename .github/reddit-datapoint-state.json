@@ -1169,7 +1169,7 @@
     "t3_1wgjcco": "2026-09-15",
     "t3_1wgifex": "2026-09-15",
     "t3_1wgfa8b": "2026-09-15",
-    "t3_1wgdq37": "2026-09-17",
+    "t3_1wgdq37": "2026-09-19",
     "t3_1wgbzc0": "2026-09-15",
     "t3_1wgbq2b": "2026-09-15",
     "t3_1wgam4q": "2026-09-15",
@@ -1193,7 +1193,7 @@
     "t3_1wixd27": "2026-09-17",
     "t3_1wiuqno": "2026-09-17",
     "t3_1wiuo3y": "2026-09-17",
-    "t3_1wiu1ga": "2026-09-18",
+    "t3_1wiu1ga": "2026-09-19",
     "t3_1wik374": "2026-09-17",
     "t3_1wijwv8": "2026-09-17",
     "t3_1wijh3m": "2026-09-17",
@@ -1204,7 +1204,7 @@
     "t3_1wiel8w": "2026-09-17",
     "t3_1wie5dc": "2026-09-17",
     "t3_1wicwgj": "2026-09-17",
-    "t3_1wi9h0d": "2026-09-18",
+    "t3_1wi9h0d": "2026-09-19",
     "t3_1wi7tha": "2026-09-17",
     "t3_1wjqjb0": "2026-09-18",
     "t3_1wjoi3a": "2026-09-18",
@@ -1212,52 +1212,15 @@
     "t3_1wjhb5m": "2026-09-18",
     "t3_1wjg7aw": "2026-09-18",
     "t3_1wj884s": "2026-09-18",
-    "t3_1wizmh0": "2026-09-18"
+    "t3_1wizmh0": "2026-09-18",
+    "t3_1wkfwa0": "2026-09-19",
+    "t3_1wkc911": "2026-09-19",
+    "t3_1wk40oe": "2026-09-19",
+    "t3_1wk33mp": "2026-09-19",
+    "t3_1wjvyh6": "2026-09-19",
+    "t3_1wjv4pu": "2026-09-19"
   },
   "pending": {
-    "t3_1whgzui": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1whgzui/wells_fargo_credit_limit_increases_should_i_see_a/",
-      "title": "Wells Fargo Credit Limit Increases (Should I see a banker?)",
-      "posted": "2026-09-15",
-      "result": "approved",
-      "missing": [
-        "card_name"
-      ],
-      "note": "September 2026 Wells Fargo approval at a $3,500 limit on an 850 score, and a reply now bounds income between $250k and $300k. Three looks in, the poster has still never named which Wells Fargo card it was.",
-      "ask": "Which Wells Fargo card was it that came in at the $3,500 limit?",
-      "firstSeen": "2026-09-16",
-      "attempts": 3,
-      "lastChecked": "2026-09-18"
-    },
-    "t3_1wi4cnn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wi4cnn/is_rh_gold_card_worth_it_for_me/",
-      "title": "Is RH Gold Card Worth it for me?",
-      "posted": "2026-09-16",
-      "card_name": "Robinhood Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "20 year old student approved September 2026 for the Robinhood Gold at a $5,500 limit, up from two $500 student cards. Replies confirm he accepted the card but still give no credit score.",
-      "firstSeen": "2026-09-16",
-      "attempts": 3,
-      "lastChecked": "2026-09-18"
-    },
-    "t3_1whq9ua": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1whq9ua/update_on_advice_on_a_cash_back_credit_card/",
-      "title": "Update on advice on a cash back credit card",
-      "posted": "2026-09-16",
-      "result": "denied",
-      "missing": [
-        "card_name",
-        "credit_score"
-      ],
-      "note": "September 2026 PNC denial, told informally it was a thin card history. Replies have moved on to a Capital One pre-approval and never name the PNC card or give a score. Third look with no answer.",
-      "ask": "Which PNC card did you apply for, and what was your score at the time?",
-      "firstSeen": "2026-09-16",
-      "attempts": 3,
-      "lastChecked": "2026-09-18"
-    },
     "t3_1wiu1ga": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wiu1ga/just_finished_doing_my_deposit_for_my_capital_one/",
       "title": "Just finished doing my deposit for my Capital One Quicksilver secured with a $200 limit. Any Tips ?",
@@ -1267,11 +1230,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved September 2026 for the Quicksilver Secured with a $200 deposit and limit, their first card. A new reply narrows their credit to the low 600s, which is still too vague to record.",
-      "ask": "You mentioned being in the low 600s. What was the exact score?",
+      "note": "Approved September 2026 for the Quicksilver Secured with a $200 deposit and matching limit, their first card. A reply narrows their credit to the low 600s, which is still a description rather than a number.",
+      "ask": "You mentioned you are in the low 600s. Do you know the exact score you had when you applied?",
       "firstSeen": "2026-09-17",
-      "attempts": 2,
-      "lastChecked": "2026-09-18"
+      "attempts": 3,
+      "lastChecked": "2026-09-19"
     },
     "t3_1wi9h0d": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wi9h0d/chase_sapphire_reserve_recon/",
@@ -1282,10 +1245,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Applied for the CSR off a pre-approval in September 2026 and was denied the next day for balances near the limit, now in reconsideration. No score given and no new replies since the first look.",
+      "note": "Real application in September 2026 off a pre-approval, denied the next day for balances near the credit limit, now in reconsideration. Still no score anywhere in the post or replies after three looks.",
+      "ask": "What was your credit score when you applied for the Sapphire Reserve?",
       "firstSeen": "2026-09-17",
-      "attempts": 2,
-      "lastChecked": "2026-09-18"
+      "attempts": 3,
+      "lastChecked": "2026-09-19"
     },
     "t3_1wj884s": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wj884s/advice_needed_denied_chase_business_credit_card/",
@@ -1317,22 +1281,6 @@
       "firstSeen": "2026-09-18",
       "attempts": 1,
       "lastChecked": "2026-09-18"
-    },
-    "t3_1wgdq37": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wgdq37/recently_got_an_amex_blue_cash_everyday_card/",
-      "title": "Recently got an Amex Blue Cash Everyday card. Should've went for the Preferred, honestly - is there any downside to trying to get approval for the Preferred card now?",
-      "posted": "2026-09-14",
-      "card_name": "Blue Cash Everyday",
-      "result": "approved",
-      "missing": [
-        "credit_score",
-        "date_applied"
-      ],
-      "note": "First card at 37, approved for the Blue Cash Everyday a couple of months before the post. Score still given only as a lifetime 775 to 790 band, and the application month is still not stated.",
-      "ask": "You mentioned 775-790 generally. What was your score when you applied, and roughly what month was the approval?",
-      "firstSeen": "2026-09-15",
-      "attempts": 2,
-      "lastChecked": "2026-09-17"
     }
   },
   "runs": [
@@ -1944,6 +1892,21 @@
       "skipped": {
         "no_score": 1,
         "no_outcome": 4
+      }
+    },
+    {
+      "id": "2026-09-19T13:26:53.398Z",
+      "date": "2026-09-19",
+      "candidates": 9,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 4,
+      "unaccounted": 0,
+      "skipped": {
+        "pre_qual": 1,
+        "no_outcome": 5
       }
     }
   ]
