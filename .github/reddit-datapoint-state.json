@@ -1209,48 +1209,42 @@
     "t3_1wjqjb0": "2026-09-18",
     "t3_1wjoi3a": "2026-09-18",
     "t3_1wjik68": "2026-09-18",
-    "t3_1wjhb5m": "2026-09-18",
+    "t3_1wjhb5m": "2026-09-20",
     "t3_1wjg7aw": "2026-09-18",
-    "t3_1wj884s": "2026-09-18",
+    "t3_1wj884s": "2026-09-20",
     "t3_1wizmh0": "2026-09-18",
     "t3_1wkfwa0": "2026-09-19",
     "t3_1wkc911": "2026-09-19",
     "t3_1wk40oe": "2026-09-19",
     "t3_1wk33mp": "2026-09-19",
     "t3_1wjvyh6": "2026-09-19",
-    "t3_1wjv4pu": "2026-09-19"
+    "t3_1wjv4pu": "2026-09-19",
+    "t3_1wlgeaw": "2026-09-20",
+    "t3_1wlg2ic": "2026-09-20",
+    "t3_1wld0ql": "2026-09-20",
+    "t3_1wl7tjy": "2026-09-20",
+    "t3_1wl7jrc": "2026-09-20",
+    "t3_1wl55ao": "2026-09-20",
+    "t3_1wl4jao": "2026-09-20",
+    "t3_1wl43xi": "2026-09-20",
+    "t3_1wl0v4i": "2026-09-20",
+    "t3_1wl0sie": "2026-09-20",
+    "t3_1wl0gqo": "2026-09-20",
+    "t3_1wl05f4": "2026-09-20",
+    "t3_1wkx2i7": "2026-09-20",
+    "t3_1wkvhjj": "2026-09-20",
+    "t3_1wkv6av": "2026-09-20",
+    "t3_1wksf4q": "2026-09-20",
+    "t3_1wkrmjh": "2026-09-20",
+    "t3_1wkriae": "2026-09-20",
+    "t3_1wkq6ub": "2026-09-20",
+    "t3_1wkpe1d": "2026-09-20",
+    "t3_1wkp9av": "2026-09-20",
+    "t3_1wkorhv": "2026-09-20",
+    "t3_1wko1ir": "2026-09-20",
+    "t3_1wkn9zo": "2026-09-20"
   },
   "pending": {
-    "t3_1wiu1ga": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wiu1ga/just_finished_doing_my_deposit_for_my_capital_one/",
-      "title": "Just finished doing my deposit for my Capital One Quicksilver secured with a $200 limit. Any Tips ?",
-      "posted": "2026-09-17",
-      "card_name": "Capital One Quicksilver Secured Cash Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved September 2026 for the Quicksilver Secured with a $200 deposit and matching limit, their first card. A reply narrows their credit to the low 600s, which is still a description rather than a number.",
-      "ask": "You mentioned you are in the low 600s. Do you know the exact score you had when you applied?",
-      "firstSeen": "2026-09-17",
-      "attempts": 3,
-      "lastChecked": "2026-09-19"
-    },
-    "t3_1wi9h0d": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wi9h0d/chase_sapphire_reserve_recon/",
-      "title": "Chase Sapphire Reserve Recon",
-      "posted": "2026-09-16",
-      "card_name": "Chase Sapphire Reserve",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Real application in September 2026 off a pre-approval, denied the next day for balances near the credit limit, now in reconsideration. Still no score anywhere in the post or replies after three looks.",
-      "ask": "What was your credit score when you applied for the Sapphire Reserve?",
-      "firstSeen": "2026-09-17",
-      "attempts": 3,
-      "lastChecked": "2026-09-19"
-    },
     "t3_1wj884s": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wj884s/advice_needed_denied_chase_business_credit_card/",
       "title": "Advice needed - Denied Chase Business Credit Card Application for 3/24",
@@ -1260,11 +1254,11 @@
         "card_name",
         "credit_score"
       ],
-      "note": "Detailed first-person Chase Ink business denial dated 9/15/2026, citing recently opened accounts, with a recon call transcript. Never says which Ink card or gives a credit score.",
-      "ask": "Which Ink card was it (Cash, Unlimited, Preferred or Premier), and what was your score when you applied?",
+      "note": "Detailed first-person Chase Ink business denial dated 9/15/2026 citing recently opened accounts, with a full recon call account. Re-read today: still never names which Ink card or gives a credit score.",
+      "ask": "Which Ink card was the application for, and what was your credit score at the time?",
       "firstSeen": "2026-09-18",
-      "attempts": 1,
-      "lastChecked": "2026-09-18"
+      "attempts": 2,
+      "lastChecked": "2026-09-20"
     },
     "t3_1wjhb5m": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wjhb5m/capital_one_preapproval_consistently_denied/",
@@ -1276,11 +1270,57 @@
         "date_applied",
         "credit_score"
       ],
-      "note": "Mentions in passing being approved for the CSR in spring 2026, their only new card in a year. The 780s score they quote is today's and they say it has moved since, and spring does not pin a month.",
-      "ask": "Which month in the spring did the CSR approval come through, and what was your score then?",
+      "note": "Mentions in passing being approved for the Chase Sapphire Reserve in spring 2026, their only new card in a year. Re-read today: the 780s score is still today's figure and they note it has moved, and spring still does not pin a month.",
+      "ask": "You said you were approved for the CSR in the spring. Which month was that, and what was your score when you applied?",
       "firstSeen": "2026-09-18",
+      "attempts": 2,
+      "lastChecked": "2026-09-20"
+    },
+    "t3_1wl0gqo": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wl0gqo/what_are_the_current_cashbacktravel_cards_with_a/",
+      "title": "What are the current cashback/travel cards with a great SUB to apply for today?",
+      "posted": "2026-09-19",
+      "card_name": "Wells Fargo Autograph Journey",
+      "result": "denied",
+      "missing": [
+        "date_applied"
+      ],
+      "note": "First-person Autograph Journey denial with an 820 score and 20 years of perfect history, but the application is placed only as earlier in 2026.",
+      "ask": "You mentioned applying for the Autograph Journey earlier in the year. Roughly which month was that?",
+      "firstSeen": "2026-09-20",
       "attempts": 1,
-      "lastChecked": "2026-09-18"
+      "lastChecked": "2026-09-20"
+    },
+    "t3_1wksf4q": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wksf4q/i_have_freedom_unlimited_which_card_to_get_next/",
+      "title": "I have Freedom Unlimited. Which card to get next?",
+      "posted": "2026-09-19",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "New-to-credit poster reports a Chase Freedom Unlimited approval with a $2,900 limit. The only score mentioned is one they expect to reach in a couple of months, not the score at application.",
+      "ask": "What was your credit score when you applied for the Freedom Unlimited?",
+      "firstSeen": "2026-09-20",
+      "attempts": 1,
+      "lastChecked": "2026-09-20"
+    },
+    "t3_1wkorhv": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wkorhv/how_many_credit_cards_can_i_apply_for_and_get/",
+      "title": "How many credit cards can I apply for and get? (new-ish in the US)",
+      "posted": "2026-09-19",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score",
+        "date_applied"
+      ],
+      "note": "Poster moved back to the US and was approved for a Chase Freedom Unlimited when opening a Chase account. The 756 Experian score is stated as current, and the application month is not given.",
+      "ask": "You said your Experian score is 756 now. What was it when you applied for the Freedom Unlimited, and roughly which month did you apply?",
+      "firstSeen": "2026-09-20",
+      "attempts": 1,
+      "lastChecked": "2026-09-20"
     }
   },
   "runs": [
@@ -1907,6 +1947,24 @@
       "skipped": {
         "pre_qual": 1,
         "no_outcome": 5
+      }
+    },
+    {
+      "id": "2026-09-20T14:42:49.658Z",
+      "date": "2026-09-20",
+      "candidates": 26,
+      "revisits": 2,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 5,
+      "unaccounted": 0,
+      "skipped": {
+        "pre_qual": 3,
+        "no_outcome": 13,
+        "score_too_vague": 1,
+        "duplicate": 1,
+        "no_score": 1
       }
     }
   ]
