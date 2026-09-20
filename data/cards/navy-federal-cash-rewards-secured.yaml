@@ -31,6 +31,11 @@ benefits:
     description: "Rental car collision damage waiver coverage when the rental is paid with the card"
     category: "travel"
     enrollment_required: false
+  - name: "No Cash Advance Fees"
+    value: 0
+    description: "Navy Federal does not charge a cash advance fee, though ATM fees of $0.50 domestic or $1.00 foreign apply outside Navy Federal branches and ATMs"
+    category: "other"
+    enrollment_required: false
 our_take: >
   This is a credit-building card first: a secured Visa with no annual fee that
   still pays 1% cash back on every purchase, which is more than many
