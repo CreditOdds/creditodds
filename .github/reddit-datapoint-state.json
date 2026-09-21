@@ -1209,9 +1209,9 @@
     "t3_1wjqjb0": "2026-09-18",
     "t3_1wjoi3a": "2026-09-18",
     "t3_1wjik68": "2026-09-18",
-    "t3_1wjhb5m": "2026-09-20",
+    "t3_1wjhb5m": "2026-09-21",
     "t3_1wjg7aw": "2026-09-18",
-    "t3_1wj884s": "2026-09-20",
+    "t3_1wj884s": "2026-09-21",
     "t3_1wizmh0": "2026-09-18",
     "t3_1wkfwa0": "2026-09-19",
     "t3_1wkc911": "2026-09-19",
@@ -1229,12 +1229,12 @@
     "t3_1wl43xi": "2026-09-20",
     "t3_1wl0v4i": "2026-09-20",
     "t3_1wl0sie": "2026-09-20",
-    "t3_1wl0gqo": "2026-09-20",
+    "t3_1wl0gqo": "2026-09-21",
     "t3_1wl05f4": "2026-09-20",
     "t3_1wkx2i7": "2026-09-20",
     "t3_1wkvhjj": "2026-09-20",
     "t3_1wkv6av": "2026-09-20",
-    "t3_1wksf4q": "2026-09-20",
+    "t3_1wksf4q": "2026-09-21",
     "t3_1wkrmjh": "2026-09-20",
     "t3_1wkriae": "2026-09-20",
     "t3_1wkq6ub": "2026-09-20",
@@ -1242,40 +1242,17 @@
     "t3_1wkp9av": "2026-09-20",
     "t3_1wkorhv": "2026-09-20",
     "t3_1wko1ir": "2026-09-20",
-    "t3_1wkn9zo": "2026-09-20"
+    "t3_1wkn9zo": "2026-09-20",
+    "t3_1wmbuci": "2026-09-21",
+    "t3_1wm2tgd": "2026-09-21",
+    "t3_1wm2p36": "2026-09-21",
+    "t3_1wm12ky": "2026-09-21",
+    "t3_1wlyyl8": "2026-09-21",
+    "t3_1wly2sa": "2026-09-21",
+    "t3_1wlqiml": "2026-09-21",
+    "t3_1wlojlv": "2026-09-21"
   },
   "pending": {
-    "t3_1wj884s": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wj884s/advice_needed_denied_chase_business_credit_card/",
-      "title": "Advice needed - Denied Chase Business Credit Card Application for 3/24",
-      "posted": "2026-09-17",
-      "result": "denied",
-      "missing": [
-        "card_name",
-        "credit_score"
-      ],
-      "note": "Detailed first-person Chase Ink business denial dated 9/15/2026 citing recently opened accounts, with a full recon call account. Re-read today: still never names which Ink card or gives a credit score.",
-      "ask": "Which Ink card was the application for, and what was your credit score at the time?",
-      "firstSeen": "2026-09-18",
-      "attempts": 2,
-      "lastChecked": "2026-09-20"
-    },
-    "t3_1wjhb5m": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wjhb5m/capital_one_preapproval_consistently_denied/",
-      "title": "Capital One Pre-approval Consistently Denied",
-      "posted": "2026-09-18",
-      "card_name": "Chase Sapphire Reserve",
-      "result": "approved",
-      "missing": [
-        "date_applied",
-        "credit_score"
-      ],
-      "note": "Mentions in passing being approved for the Chase Sapphire Reserve in spring 2026, their only new card in a year. Re-read today: the 780s score is still today's figure and they note it has moved, and spring still does not pin a month.",
-      "ask": "You said you were approved for the CSR in the spring. Which month was that, and what was your score when you applied?",
-      "firstSeen": "2026-09-18",
-      "attempts": 2,
-      "lastChecked": "2026-09-20"
-    },
     "t3_1wl0gqo": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wl0gqo/what_are_the_current_cashbacktravel_cards_with_a/",
       "title": "What are the current cashback/travel cards with a great SUB to apply for today?",
@@ -1285,11 +1262,11 @@
       "missing": [
         "date_applied"
       ],
-      "note": "First-person Autograph Journey denial with an 820 score and 20 years of perfect history, but the application is placed only as earlier in 2026.",
-      "ask": "You mentioned applying for the Autograph Journey earlier in the year. Roughly which month was that?",
+      "note": "First-person Autograph Journey denial with an 820 FICO and 20 years of perfect history. Placed only as earlier in 2026, so the month is still unpinned. Replies since the last look are about other cards, not the date.",
+      "ask": "You mentioned the Autograph Journey denial was earlier in the year. Roughly what month did you apply?",
       "firstSeen": "2026-09-20",
-      "attempts": 1,
-      "lastChecked": "2026-09-20"
+      "attempts": 2,
+      "lastChecked": "2026-09-21"
     },
     "t3_1wksf4q": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wksf4q/i_have_freedom_unlimited_which_card_to_get_next/",
@@ -1300,11 +1277,40 @@
       "missing": [
         "credit_score"
       ],
-      "note": "New-to-credit poster reports a Chase Freedom Unlimited approval with a $2,900 limit. The only score mentioned is one they expect to reach in a couple of months, not the score at application.",
-      "ask": "What was your credit score when you applied for the Freedom Unlimited?",
+      "note": "New-to-credit poster reports a Freedom Unlimited approval with a $2,900 starting limit. The only score named is one they expect to reach in a couple of months, not the score at application.",
+      "ask": "You said you expect 700+ in a couple of months. What was your score when you applied for the Freedom Unlimited?",
       "firstSeen": "2026-09-20",
+      "attempts": 2,
+      "lastChecked": "2026-09-21"
+    },
+    "t3_1wly2sa": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wly2sa/amex_gold_approved_on_saturday_added_via_app_to/",
+      "title": "Amex Gold approved on Saturday, added via app to Apple Pay, but getting declined everywhere. CS says wait for physical card?",
+      "posted": "2026-09-21",
+      "card_name": "American Express Gold",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Clear first-person Amex Gold approval this month, posted about an Apple Pay problem rather than the application, so no credit score appears anywhere.",
+      "firstSeen": "2026-09-21",
       "attempts": 1,
-      "lastChecked": "2026-09-20"
+      "lastChecked": "2026-09-21"
+    },
+    "t3_1wmbuci": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wmbuci/failed_at_324_for_ink_sole_proprietor/",
+      "title": "Failed at 3/24 for Ink (sole proprietor)",
+      "posted": "2026-09-21",
+      "result": "denied",
+      "missing": [
+        "card_name",
+        "credit_score"
+      ],
+      "note": "First-person Ink denial this month with a recon call confirming Chase is holding sole proprietors to 3/24. Never says which Ink card or gives a score.",
+      "ask": "Which Ink card was it, and what was your credit score at application?",
+      "firstSeen": "2026-09-21",
+      "attempts": 1,
+      "lastChecked": "2026-09-21"
     },
     "t3_1wkorhv": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wkorhv/how_many_credit_cards_can_i_apply_for_and_get/",
@@ -1965,6 +1971,22 @@
         "score_too_vague": 1,
         "duplicate": 1,
         "no_score": 1
+      }
+    },
+    {
+      "id": "2026-09-21T13:32:56.221Z",
+      "date": "2026-09-21",
+      "candidates": 12,
+      "revisits": 4,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 5,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 2,
+        "score_too_vague": 1,
+        "no_outcome": 5
       }
     }
   ]
