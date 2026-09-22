@@ -1229,30 +1229,96 @@
     "t3_1wl43xi": "2026-09-20",
     "t3_1wl0v4i": "2026-09-20",
     "t3_1wl0sie": "2026-09-20",
-    "t3_1wl0gqo": "2026-09-21",
+    "t3_1wl0gqo": "2026-09-22",
     "t3_1wl05f4": "2026-09-20",
     "t3_1wkx2i7": "2026-09-20",
     "t3_1wkvhjj": "2026-09-20",
     "t3_1wkv6av": "2026-09-20",
-    "t3_1wksf4q": "2026-09-21",
+    "t3_1wksf4q": "2026-09-22",
     "t3_1wkrmjh": "2026-09-20",
     "t3_1wkriae": "2026-09-20",
     "t3_1wkq6ub": "2026-09-20",
     "t3_1wkpe1d": "2026-09-20",
     "t3_1wkp9av": "2026-09-20",
-    "t3_1wkorhv": "2026-09-20",
+    "t3_1wkorhv": "2026-09-22",
     "t3_1wko1ir": "2026-09-20",
     "t3_1wkn9zo": "2026-09-20",
-    "t3_1wmbuci": "2026-09-21",
+    "t3_1wmbuci": "2026-09-22",
     "t3_1wm2tgd": "2026-09-21",
     "t3_1wm2p36": "2026-09-21",
     "t3_1wm12ky": "2026-09-21",
     "t3_1wlyyl8": "2026-09-21",
-    "t3_1wly2sa": "2026-09-21",
+    "t3_1wly2sa": "2026-09-22",
     "t3_1wlqiml": "2026-09-21",
-    "t3_1wlojlv": "2026-09-21"
+    "t3_1wlojlv": "2026-09-21",
+    "t3_1wnh7m6": "2026-09-22",
+    "t3_1wnergz": "2026-09-22",
+    "t3_1wnem4l": "2026-09-22",
+    "t3_1wn1hnk": "2026-09-22",
+    "t3_1wmyldm": "2026-09-22",
+    "t3_1wmxa1a": "2026-09-22",
+    "t3_1wmx5am": "2026-09-22",
+    "t3_1wmwiae": "2026-09-22",
+    "t3_1wmwe28": "2026-09-22",
+    "t3_1wmujpk": "2026-09-22",
+    "t3_1wmuh30": "2026-09-22",
+    "t3_1wmtmps": "2026-09-22",
+    "t3_1wmmnyy": "2026-09-22",
+    "t3_1wmm2cm": "2026-09-22",
+    "t3_1wmks1e": "2026-09-22",
+    "t3_1wmk4pt": "2026-09-22",
+    "t3_1wmk185": "2026-09-22",
+    "t3_1wmjq1c": "2026-09-22",
+    "t3_1wmh1ph": "2026-09-22",
+    "t3_1wmg9zs": "2026-09-22",
+    "t3_1wmf943": "2026-09-22",
+    "t3_1wmerix": "2026-09-22"
   },
   "pending": {
+    "t3_1wn1hnk": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wn1hnk/cancel_converted_barclays_aviator_now_citi_plat/",
+      "title": "Cancel converted Barclays Aviator (now Citi Plat Select) while working on new Plat Select SUB — risky?",
+      "posted": "2026-09-22",
+      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster states they applied and were approved for a new Citi AA Platinum Select on 9/22/26 with the 80k offer. Post is about cancelling their converted Aviator card, so no credit score appears anywhere.",
+      "ask": "You mentioned applying and getting approved on 9/22 for the new Plat Select. What was your credit score at the time?",
+      "firstSeen": "2026-09-22",
+      "attempts": 1,
+      "lastChecked": "2026-09-22"
+    },
+    "t3_1wmg9zs": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wmg9zs/venture_x_denials_for_me_and_p2_whats_next_best/",
+      "title": "Venture X denials for me and P2, what’s next best thing?",
+      "posted": "2026-09-21",
+      "card_name": "Capital One Venture X Rewards",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "First-person Venture X denial this month alongside their partner, posted as a what-next question. Poster says debt to income is not an issue and last applied in April, but never gives a score.",
+      "firstSeen": "2026-09-22",
+      "attempts": 1,
+      "lastChecked": "2026-09-22"
+    },
+    "t3_1wmxa1a": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
+      "title": "Chase Freedom Unlimited vs Bilt Blue card",
+      "posted": "2026-09-22",
+      "card_name": "Bilt Palladium",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster mentions in passing that they have already been approved for the Palladium while asking whether Bilt Blue beats the CFU. No score, and the approval is not dated beyond being in the past.",
+      "ask": "You mentioned already being approved for the Palladium. What was your credit score then, and roughly what month did you apply?",
+      "firstSeen": "2026-09-22",
+      "attempts": 1,
+      "lastChecked": "2026-09-22"
+    },
     "t3_1wl0gqo": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wl0gqo/what_are_the_current_cashbacktravel_cards_with_a/",
       "title": "What are the current cashback/travel cards with a great SUB to apply for today?",
@@ -1262,11 +1328,11 @@
       "missing": [
         "date_applied"
       ],
-      "note": "First-person Autograph Journey denial with an 820 FICO and 20 years of perfect history. Placed only as earlier in 2026, so the month is still unpinned. Replies since the last look are about other cards, not the date.",
-      "ask": "You mentioned the Autograph Journey denial was earlier in the year. Roughly what month did you apply?",
+      "note": "Autograph Journey denial with an 820 score and 20 years of history, still placed only as earlier in 2026. Third look, and the new replies discuss other cards and their Wells Fargo relationship, not the date.",
+      "ask": "You said the Autograph Journey denial was earlier in the year. Do you remember roughly which month you applied?",
       "firstSeen": "2026-09-20",
-      "attempts": 2,
-      "lastChecked": "2026-09-21"
+      "attempts": 3,
+      "lastChecked": "2026-09-22"
     },
     "t3_1wksf4q": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wksf4q/i_have_freedom_unlimited_which_card_to_get_next/",
@@ -1277,40 +1343,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "New-to-credit poster reports a Freedom Unlimited approval with a $2,900 starting limit. The only score named is one they expect to reach in a couple of months, not the score at application.",
-      "ask": "You said you expect 700+ in a couple of months. What was your score when you applied for the Freedom Unlimited?",
+      "note": "New-to-credit poster approved for a Freedom Unlimited with a $2,900 limit. The only number given is a 700+ score they expect to reach later, not the score at application. Third look, no replies added.",
+      "ask": "You mentioned expecting 700+ in a couple of months. What was your score when you applied for the Freedom Unlimited?",
       "firstSeen": "2026-09-20",
-      "attempts": 2,
-      "lastChecked": "2026-09-21"
-    },
-    "t3_1wly2sa": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wly2sa/amex_gold_approved_on_saturday_added_via_app_to/",
-      "title": "Amex Gold approved on Saturday, added via app to Apple Pay, but getting declined everywhere. CS says wait for physical card?",
-      "posted": "2026-09-21",
-      "card_name": "American Express Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Clear first-person Amex Gold approval this month, posted about an Apple Pay problem rather than the application, so no credit score appears anywhere.",
-      "firstSeen": "2026-09-21",
-      "attempts": 1,
-      "lastChecked": "2026-09-21"
-    },
-    "t3_1wmbuci": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wmbuci/failed_at_324_for_ink_sole_proprietor/",
-      "title": "Failed at 3/24 for Ink (sole proprietor)",
-      "posted": "2026-09-21",
-      "result": "denied",
-      "missing": [
-        "card_name",
-        "credit_score"
-      ],
-      "note": "First-person Ink denial this month with a recon call confirming Chase is holding sole proprietors to 3/24. Never says which Ink card or gives a score.",
-      "ask": "Which Ink card was it, and what was your credit score at application?",
-      "firstSeen": "2026-09-21",
-      "attempts": 1,
-      "lastChecked": "2026-09-21"
+      "attempts": 3,
+      "lastChecked": "2026-09-22"
     },
     "t3_1wkorhv": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wkorhv/how_many_credit_cards_can_i_apply_for_and_get/",
@@ -1322,11 +1359,40 @@
         "credit_score",
         "date_applied"
       ],
-      "note": "Poster moved back to the US and was approved for a Chase Freedom Unlimited when opening a Chase account. The 756 Experian score is stated as current, and the application month is not given.",
-      "ask": "You said your Experian score is 756 now. What was it when you applied for the Freedom Unlimited, and roughly which month did you apply?",
+      "note": "Poster moved back to the US and was approved for a Freedom Unlimited when opening their Chase account. The 756 Experian score is stated as current, not as the score at application, and the month is still unstated.",
+      "ask": "You listed Experian 756 as your score now. Was that roughly your score when you applied, and which month did you open the Chase account?",
       "firstSeen": "2026-09-20",
-      "attempts": 1,
-      "lastChecked": "2026-09-20"
+      "attempts": 2,
+      "lastChecked": "2026-09-22"
+    },
+    "t3_1wly2sa": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wly2sa/amex_gold_approved_on_saturday_added_via_app_to/",
+      "title": "Amex Gold approved on Saturday, added via app to Apple Pay, but getting declined everywhere. CS says wait for physical card?",
+      "posted": "2026-09-21",
+      "card_name": "American Express Gold",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Clear Amex Gold approval this month, but the post is about Apple Pay declines and every reply stays on that topic, so no score has appeared.",
+      "firstSeen": "2026-09-21",
+      "attempts": 2,
+      "lastChecked": "2026-09-22"
+    },
+    "t3_1wmbuci": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wmbuci/failed_at_324_for_ink_sole_proprietor/",
+      "title": "Failed at 3/24 for Ink (sole proprietor)",
+      "posted": "2026-09-21",
+      "result": "denied",
+      "missing": [
+        "card_name",
+        "credit_score"
+      ],
+      "note": "First-person Ink denial this month with a recon rep citing a new 3/24 rule for sole proprietors from 9/16. Replies confirm it was their first Chase business application but still never name which Ink card or give a score.",
+      "ask": "Which Ink card was the application for, and what was your credit score at the time?",
+      "firstSeen": "2026-09-21",
+      "attempts": 2,
+      "lastChecked": "2026-09-22"
     }
   },
   "runs": [
@@ -1987,6 +2053,21 @@
         "no_score": 2,
         "score_too_vague": 1,
         "no_outcome": 5
+      }
+    },
+    {
+      "id": "2026-09-22T20:02:50.245Z",
+      "date": "2026-09-22",
+      "candidates": 27,
+      "revisits": 5,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 16,
+        "score_too_vague": 1
       }
     }
   ]
