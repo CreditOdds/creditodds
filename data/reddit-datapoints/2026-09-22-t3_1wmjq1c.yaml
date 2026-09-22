@@ -1,0 +1,11 @@
+source_id: "t3_1wmjq1c"
+permalink: "https://www.reddit.com/r/CreditCards/comments/1wmjq1c/apple_credit_card_declined/"
+posted: "2026-09-21"
+evidence: "Poster quotes the Goldman Sachs adverse action notice denying their Apple Card application, citing debt relative to income, with a TransUnion score of 727 dated September 21, 2026."
+card_name: "Apple Card"
+result: "denied"
+credit_score: 727
+credit_score_source: 2
+date_applied: "2026-09"
+reason_denied: "Issuer cited monthly debt obligations too high relative to income, including housing payments."
+reason_denied_code: "other"
