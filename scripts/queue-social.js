@@ -68,6 +68,35 @@ function parseArgs() {
   return { type, files, dryRun };
 }
 
+/**
+ * GitHub Actions annotation and step-summary helpers.
+ *
+ * A hedge-guard skip is an editorial outcome, not a broken pipeline, so it must
+ * stay visible without turning the job red. An annotation surfaces it on the run
+ * page and the step summary puts it in front of whoever merged the PR. Both
+ * no-op outside Actions so local and dry runs stay readable.
+ */
+function escapeAnnotation(value) {
+  return String(value).replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+}
+
+function annotateWarning(message, file) {
+  if (!process.env.GITHUB_ACTIONS) return;
+  const location = file ? ` file=${escapeAnnotation(file)}` : '';
+  console.log(`::warning${location}::${escapeAnnotation(message)}`);
+}
+
+function appendStepSummary(lines) {
+  const target = process.env.GITHUB_STEP_SUMMARY;
+  if (!target || lines.length === 0) return;
+  try {
+    fs.appendFileSync(target, `${lines.join('\n')}\n`);
+  } catch (err) {
+    // A summary is a nicety. Never fail the run over a failure to write one.
+    console.error(`  Could not write step summary: ${err.message}`);
+  }
+}
+
 function buildUrl(type, item, source = 'twitter') {
   const explicitUrl = item.url;
   let base = explicitUrl;
@@ -287,7 +316,11 @@ async function queuePost(textContent, twitterText, linkUrl, sourceType, sourceId
 async function main() {
   const { type, files, dryRun } = parseArgs();
   console.log(`=== Queue Social Posts (${type})${dryRun ? ' [dry run]' : ''} ===\n`);
-  let failures = 0;
+  // Two different outcomes, two different signals. A skip is the hedge guard
+  // working as designed and leaves the run green; an error is the API, the
+  // network, or a malformed file, and has to fail the step so it gets seen.
+  const skipped = [];
+  let errors = 0;
 
   for (const filePath of files) {
     console.log(`Processing: ${filePath}`);
@@ -298,11 +331,13 @@ async function main() {
       item = yaml.load(content);
     } catch (err) {
       console.error(`  Failed to read/parse ${filePath}: ${err.message}`);
+      errors++;
       continue;
     }
 
     if (!item || (!item.id && !item.slug)) {
       console.error(`  Skipping ${filePath}: missing id/slug`);
+      errors++;
       continue;
     }
 
@@ -355,8 +390,9 @@ async function main() {
         flattened = findFlattenedAttribution(getSummary(item), postText);
       }
       if (flattened) {
-        console.error(`  Skipping ${filePath}: still states the ${flattened.kind} claim ("${flattened.marker}") as fact.\n`);
-        failures++;
+        const reason = `still states the ${flattened.kind} claim ("${flattened.marker}") as fact`;
+        console.error(`  Skipping ${filePath}: ${reason}.\n`);
+        skipped.push({ filePath, reason });
         continue;
       }
       if (banks.length > 0) {
@@ -367,7 +403,9 @@ async function main() {
         }
       }
     } catch (err) {
-      console.error(`  Failed to generate post: ${err.message}`);
+      // The API or the network, not an editorial call.
+      console.error(`  Failed to generate post for ${filePath}: ${err.message}`);
+      errors++;
       continue;
     }
 
@@ -403,13 +441,26 @@ async function main() {
       const result = await queuePost(postText, twitterText, url, sourceType, sourceId, imageUrl);
       console.log(`  Queued successfully! Post ID: ${result.id}\n`);
     } catch (err) {
-      console.error(`  Failed to queue: ${err.message}\n`);
+      console.error(`  Failed to queue ${filePath}: ${err.message}\n`);
+      errors++;
     }
   }
 
   console.log('=== Done ===');
-  if (failures > 0) {
-    console.error(`${failures} item(s) were not queued because the post overstated a hedged claim.`);
+
+  if (skipped.length > 0) {
+    const summary = [`### Social posts not queued (${skipped.length})`, ''];
+    for (const { filePath, reason } of skipped) {
+      console.log(`Not queued: ${filePath} (${reason}).`);
+      annotateWarning(`Not queued for social: ${reason}.`, filePath);
+      summary.push(`- \`${filePath}\`: ${reason}.`);
+    }
+    summary.push('', 'The hedge guard declined these on purpose. Nothing is broken and no retry is needed.');
+    appendStepSummary(summary);
+  }
+
+  if (errors > 0) {
+    console.error(`${errors} item(s) failed to read, generate, or queue. This is a pipeline failure, not an editorial skip.`);
     process.exitCode = 1;
   }
 }
