@@ -1240,21 +1240,21 @@
     "t3_1wkq6ub": "2026-09-20",
     "t3_1wkpe1d": "2026-09-20",
     "t3_1wkp9av": "2026-09-20",
-    "t3_1wkorhv": "2026-09-22",
+    "t3_1wkorhv": "2026-09-23",
     "t3_1wko1ir": "2026-09-20",
     "t3_1wkn9zo": "2026-09-20",
-    "t3_1wmbuci": "2026-09-22",
+    "t3_1wmbuci": "2026-09-23",
     "t3_1wm2tgd": "2026-09-21",
     "t3_1wm2p36": "2026-09-21",
     "t3_1wm12ky": "2026-09-21",
     "t3_1wlyyl8": "2026-09-21",
-    "t3_1wly2sa": "2026-09-22",
+    "t3_1wly2sa": "2026-09-23",
     "t3_1wlqiml": "2026-09-21",
     "t3_1wlojlv": "2026-09-21",
     "t3_1wnh7m6": "2026-09-22",
     "t3_1wnergz": "2026-09-22",
     "t3_1wnem4l": "2026-09-22",
-    "t3_1wn1hnk": "2026-09-22",
+    "t3_1wn1hnk": "2026-09-23",
     "t3_1wmyldm": "2026-09-22",
     "t3_1wmxa1a": "2026-09-22",
     "t3_1wmx5am": "2026-09-22",
@@ -1270,9 +1270,25 @@
     "t3_1wmk185": "2026-09-22",
     "t3_1wmjq1c": "2026-09-22",
     "t3_1wmh1ph": "2026-09-22",
-    "t3_1wmg9zs": "2026-09-22",
+    "t3_1wmg9zs": "2026-09-23",
     "t3_1wmf943": "2026-09-22",
-    "t3_1wmerix": "2026-09-22"
+    "t3_1wmerix": "2026-09-22",
+    "t3_1wo80c1": "2026-09-23",
+    "t3_1wo7ck5": "2026-09-23",
+    "t3_1wo6ipe": "2026-09-23",
+    "t3_1wo6ewz": "2026-09-23",
+    "t3_1wo06qn": "2026-09-23",
+    "t3_1wnyxix": "2026-09-23",
+    "t3_1wnylkn": "2026-09-23",
+    "t3_1wnvofz": "2026-09-23",
+    "t3_1wnud9m": "2026-09-23",
+    "t3_1wntv1u": "2026-09-23",
+    "t3_1wntpzk": "2026-09-23",
+    "t3_1wns4mt": "2026-09-23",
+    "t3_1wns0hm": "2026-09-23",
+    "t3_1wnpras": "2026-09-23",
+    "t3_1wnowq5": "2026-09-23",
+    "t3_1wnnxrb": "2026-09-23"
   },
   "pending": {
     "t3_1wn1hnk": {
@@ -1284,11 +1300,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster states they applied and were approved for a new Citi AA Platinum Select on 9/22/26 with the 80k offer. Post is about cancelling their converted Aviator card, so no credit score appears anywhere.",
-      "ask": "You mentioned applying and getting approved on 9/22 for the new Plat Select. What was your credit score at the time?",
+      "note": "Poster states they applied and were approved for a new Citi AA Platinum Select on 9/22/26 with the 80k offer. The post is about cancelling their converted Aviator, so no score has appeared in the body or the new reply.",
+      "ask": "Nice pull on the 80k offer. What was your score when you applied on 9/22?",
       "firstSeen": "2026-09-22",
-      "attempts": 1,
-      "lastChecked": "2026-09-22"
+      "attempts": 2,
+      "lastChecked": "2026-09-23"
     },
     "t3_1wmg9zs": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wmg9zs/venture_x_denials_for_me_and_p2_whats_next_best/",
@@ -1299,10 +1315,54 @@
       "missing": [
         "credit_score"
       ],
-      "note": "First-person Venture X denial this month alongside their partner, posted as a what-next question. Poster says debt to income is not an issue and last applied in April, but never gives a score.",
+      "note": "First-person Venture X denial this month alongside their partner. New replies add that their cards were built over about 15 years at under one a year, but still no score anywhere.",
+      "ask": "You mentioned averaging under a card a year over 15 years. What score were you sitting at when Capital One denied you?",
       "firstSeen": "2026-09-22",
+      "attempts": 2,
+      "lastChecked": "2026-09-23"
+    },
+    "t3_1wnpras": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wnpras/chase_freedom_flex_automatically_opened_account/",
+      "title": "Chase Freedom Flex automatically opened account after application, stuck with low CL",
+      "posted": "2026-09-22",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Clean first-person Freedom Flex approval this month with a $500 starting limit, $30k listed income, and a full profile of existing cards. The poster never gives a credit score.",
+      "firstSeen": "2026-09-23",
       "attempts": 1,
-      "lastChecked": "2026-09-22"
+      "lastChecked": "2026-09-23"
+    },
+    "t3_1wnnxrb": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wnnxrb/til_that_account_means_two_things_at_least_at_amex/",
+      "title": "TIL that \"account\" means two things, at least at Amex",
+      "posted": "2026-09-22",
+      "card_name": "Blue Cash Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster applied for and was approved for a Blue Cash Preferred this month, then cancelled it because they had wanted an upgrade rather than a second card. No score is given and the limit is only described as lower than their existing Amex.",
+      "firstSeen": "2026-09-23",
+      "attempts": 1,
+      "lastChecked": "2026-09-23"
+    },
+    "t3_1wo06qn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wo06qn/preapproved_for_all_the_good_cards_none_today/",
+      "title": "Pre-approved for all the good cards, none today.",
+      "posted": "2026-09-23",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster says they applied and were approved for a Chase Freedom Flex with a $3,500 limit in July 2026. The 697 EQ / 699 EX / 695 TU figures they give are framed as their scores today, two months later, not at application.",
+      "ask": "You listed 697 EQ / 699 EX / 695 TU as where you are now. Roughly what was your score back in July when the Flex was approved?",
+      "firstSeen": "2026-09-23",
+      "attempts": 1,
+      "lastChecked": "2026-09-23"
     },
     "t3_1wmxa1a": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
@@ -1317,81 +1377,6 @@
       "ask": "You mentioned already being approved for the Palladium. What was your credit score then, and roughly what month did you apply?",
       "firstSeen": "2026-09-22",
       "attempts": 1,
-      "lastChecked": "2026-09-22"
-    },
-    "t3_1wl0gqo": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wl0gqo/what_are_the_current_cashbacktravel_cards_with_a/",
-      "title": "What are the current cashback/travel cards with a great SUB to apply for today?",
-      "posted": "2026-09-19",
-      "card_name": "Wells Fargo Autograph Journey",
-      "result": "denied",
-      "missing": [
-        "date_applied"
-      ],
-      "note": "Autograph Journey denial with an 820 score and 20 years of history, still placed only as earlier in 2026. Third look, and the new replies discuss other cards and their Wells Fargo relationship, not the date.",
-      "ask": "You said the Autograph Journey denial was earlier in the year. Do you remember roughly which month you applied?",
-      "firstSeen": "2026-09-20",
-      "attempts": 3,
-      "lastChecked": "2026-09-22"
-    },
-    "t3_1wksf4q": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wksf4q/i_have_freedom_unlimited_which_card_to_get_next/",
-      "title": "I have Freedom Unlimited. Which card to get next?",
-      "posted": "2026-09-19",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "New-to-credit poster approved for a Freedom Unlimited with a $2,900 limit. The only number given is a 700+ score they expect to reach later, not the score at application. Third look, no replies added.",
-      "ask": "You mentioned expecting 700+ in a couple of months. What was your score when you applied for the Freedom Unlimited?",
-      "firstSeen": "2026-09-20",
-      "attempts": 3,
-      "lastChecked": "2026-09-22"
-    },
-    "t3_1wkorhv": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wkorhv/how_many_credit_cards_can_i_apply_for_and_get/",
-      "title": "How many credit cards can I apply for and get? (new-ish in the US)",
-      "posted": "2026-09-19",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "approved",
-      "missing": [
-        "credit_score",
-        "date_applied"
-      ],
-      "note": "Poster moved back to the US and was approved for a Freedom Unlimited when opening their Chase account. The 756 Experian score is stated as current, not as the score at application, and the month is still unstated.",
-      "ask": "You listed Experian 756 as your score now. Was that roughly your score when you applied, and which month did you open the Chase account?",
-      "firstSeen": "2026-09-20",
-      "attempts": 2,
-      "lastChecked": "2026-09-22"
-    },
-    "t3_1wly2sa": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wly2sa/amex_gold_approved_on_saturday_added_via_app_to/",
-      "title": "Amex Gold approved on Saturday, added via app to Apple Pay, but getting declined everywhere. CS says wait for physical card?",
-      "posted": "2026-09-21",
-      "card_name": "American Express Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Clear Amex Gold approval this month, but the post is about Apple Pay declines and every reply stays on that topic, so no score has appeared.",
-      "firstSeen": "2026-09-21",
-      "attempts": 2,
-      "lastChecked": "2026-09-22"
-    },
-    "t3_1wmbuci": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wmbuci/failed_at_324_for_ink_sole_proprietor/",
-      "title": "Failed at 3/24 for Ink (sole proprietor)",
-      "posted": "2026-09-21",
-      "result": "denied",
-      "missing": [
-        "card_name",
-        "credit_score"
-      ],
-      "note": "First-person Ink denial this month with a recon rep citing a new 3/24 rule for sole proprietors from 9/16. Replies confirm it was their first Chase business application but still never name which Ink card or give a score.",
-      "ask": "Which Ink card was the application for, and what was your credit score at the time?",
-      "firstSeen": "2026-09-21",
-      "attempts": 2,
       "lastChecked": "2026-09-22"
     }
   },
@@ -2068,6 +2053,22 @@
       "skipped": {
         "no_outcome": 16,
         "score_too_vague": 1
+      }
+    },
+    {
+      "id": "2026-09-23T15:37:55.476Z",
+      "date": "2026-09-23",
+      "candidates": 21,
+      "revisits": 5,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 3,
+      "pending": 6,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 4,
+        "no_outcome": 10,
+        "pre_qual": 1
       }
     }
   ]
