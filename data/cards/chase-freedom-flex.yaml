@@ -58,7 +58,7 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/flex
-foreign_transaction_fee: true
+foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
   The Freedom Flex is our #1 cash back pick and carries the Best Overall
@@ -66,14 +66,14 @@ our_take: >
   rotating quarterly categories, 5% on travel booked through Chase, 3% on
   dining, 3% at drugstores, and 1% on everything else. The Q3 2026 rotation is
   gas stations and EV charging, public transit, and select live entertainment.
-  The $200 bonus after only $500 of spend in the first 3 months is among the
-  easier ones to hit, and there are 15 months of 0% intro APR on both
-  purchases and balance transfers if you have something to pay down. Two
-  limits matter: the 5% rate covers only $1,500 of spend per quarter and falls
-  to 1% after that, and the card charges foreign transaction fees, so it
-  should stay home on international trips. Cell phone protection of up to $800
-  per claim when you pay your bill with the card is a real extra rather than
-  filler.
+  The $250 bonus, a limited-time increase from $200, after only $500 of spend
+  in the first 3 months is among the easier ones to hit, and there are 15
+  months of 0% intro APR on both purchases and balance transfers if you have
+  something to pay down. The one real limit is that the 5% rate covers only
+  $1,500 of spend per quarter and falls to 1% after that. Chase has also
+  dropped the foreign transaction fee, so the card no longer needs to stay
+  home on international trips. Cell phone protection of up to $800 per claim
+  when you pay your bill with the card is a real extra rather than filler.
 benefits:
   - name: "Cell Phone Protection"
     value: 1000
