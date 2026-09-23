@@ -155,6 +155,40 @@ test('the ellipsis fallback cuts on a word boundary', () => {
   assert.ok(/word\.\.\.$/.test(out), `split a word: ${out}`);
 });
 
+// The exact failure that shipped on 2026-09-17 (queue id 427). The generated
+// post ran 265 characters, ten over budget, and the truncation scan took the
+// period inside "J.P." as a sentence end. The tweet went out at 177 characters
+// reading "...deposited into an eligible J.P.", severing the bank's name while
+// looking to the caller like a clean break.
+test('an abbreviation period is not mistaken for a sentence end', () => {
+  const shipped =
+    'NEW: Chase announced Invest Your Points on September 16, 2026. Sapphire, ' +
+    'Freedom, and Ink cardholders can redeem Ultimate Rewards points for cash ' +
+    'deposited into an eligible J.P. Morgan Wealth Management account or a ' +
+    'Self-Directed Investing account at 1 cent per point.';
+  assert.ok(shipped.length > TWEET_TEXT_LIMIT, 'fixture is no longer over budget');
+  const out = enforceTweetLimit(shipped);
+  assert.ok(out.length <= TWEET_TEXT_LIMIT, `text was ${out.length}`);
+  assert.ok(!out.endsWith('J.P.'), `still cut inside the bank name: ${out}`);
+  assert.ok(!/\bJ\.P\.$/.test(out), `still cut inside the bank name: ${out}`);
+});
+
+// Initials are the common case, but a trailing "Inc." reads the same way to a
+// naive scan and severs the issuer name just as badly.
+test('a known abbreviation is not mistaken for a sentence end', () => {
+  const lead = `NEW: ${'x'.repeat(120)}.`;
+  const out = enforceTweetLimit(`${lead} The card is issued by Synchrony Inc. ${'y'.repeat(200)}`);
+  assert.equal(out, lead, `did not cut back past the abbreviation: ${out}`);
+});
+
+// The guard must not swallow real sentence ends that happen to follow a
+// number or a lowercase word, which is how most of these posts actually end.
+test('periods after numbers and plain words still end sentences', () => {
+  const out = enforceTweetLimit(`NEW: ${'The annual fee is now $250. '.repeat(20)}`);
+  assert.ok(out.endsWith('$250.'), `did not end on the sentence: ${out}`);
+  assert.ok(!out.endsWith('...'), 'fell back to ellipsis despite a clean break');
+});
+
 test('text with no clean break falls back to an ellipsis within the limit', () => {
   const out = enforceTweetLimit('a'.repeat(300), 50);
   assert.equal(out.length, 50);
