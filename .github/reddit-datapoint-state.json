@@ -1254,9 +1254,9 @@
     "t3_1wnh7m6": "2026-09-22",
     "t3_1wnergz": "2026-09-22",
     "t3_1wnem4l": "2026-09-22",
-    "t3_1wn1hnk": "2026-09-23",
+    "t3_1wn1hnk": "2026-09-24",
     "t3_1wmyldm": "2026-09-22",
-    "t3_1wmxa1a": "2026-09-22",
+    "t3_1wmxa1a": "2026-09-24",
     "t3_1wmx5am": "2026-09-22",
     "t3_1wmwiae": "2026-09-22",
     "t3_1wmwe28": "2026-09-22",
@@ -1270,7 +1270,7 @@
     "t3_1wmk185": "2026-09-22",
     "t3_1wmjq1c": "2026-09-22",
     "t3_1wmh1ph": "2026-09-22",
-    "t3_1wmg9zs": "2026-09-23",
+    "t3_1wmg9zs": "2026-09-24",
     "t3_1wmf943": "2026-09-22",
     "t3_1wmerix": "2026-09-22",
     "t3_1wo80c1": "2026-09-23",
@@ -1288,7 +1288,24 @@
     "t3_1wns0hm": "2026-09-23",
     "t3_1wnpras": "2026-09-23",
     "t3_1wnowq5": "2026-09-23",
-    "t3_1wnnxrb": "2026-09-23"
+    "t3_1wnnxrb": "2026-09-23",
+    "t3_1wp1wbz": "2026-09-24",
+    "t3_1wp1pco": "2026-09-24",
+    "t3_1wovnhb": "2026-09-24",
+    "t3_1wotals": "2026-09-24",
+    "t3_1wor4yx": "2026-09-24",
+    "t3_1woqyk0": "2026-09-24",
+    "t3_1wopnx3": "2026-09-24",
+    "t3_1wonczs": "2026-09-24",
+    "t3_1wom0tn": "2026-09-24",
+    "t3_1wok12g": "2026-09-24",
+    "t3_1wok0kq": "2026-09-24",
+    "t3_1woivnu": "2026-09-24",
+    "t3_1wogav8": "2026-09-24",
+    "t3_1wofeuc": "2026-09-24",
+    "t3_1wof0gh": "2026-09-24",
+    "t3_1woct31": "2026-09-24",
+    "t3_1woc3v7": "2026-09-24"
   },
   "pending": {
     "t3_1wn1hnk": {
@@ -1300,11 +1317,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster states they applied and were approved for a new Citi AA Platinum Select on 9/22/26 with the 80k offer. The post is about cancelling their converted Aviator, so no score has appeared in the body or the new reply.",
-      "ask": "Nice pull on the 80k offer. What was your score when you applied on 9/22?",
+      "note": "Approved 9/22/26 for a new Plat Select with the 80k offer; still no score in body or replies.",
       "firstSeen": "2026-09-22",
-      "attempts": 2,
-      "lastChecked": "2026-09-23"
+      "attempts": 3,
+      "lastChecked": "2026-09-24"
     },
     "t3_1wmg9zs": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wmg9zs/venture_x_denials_for_me_and_p2_whats_next_best/",
@@ -1315,11 +1331,55 @@
       "missing": [
         "credit_score"
       ],
-      "note": "First-person Venture X denial this month alongside their partner. New replies add that their cards were built over about 15 years at under one a year, but still no score anywhere.",
-      "ask": "You mentioned averaging under a card a year over 15 years. What score were you sitting at when Capital One denied you?",
+      "note": "First-person Venture X denial in Sep 2026 (partner also denied); long Chase history, but no score anywhere.",
+      "firstSeen": "2026-09-22",
+      "attempts": 3,
+      "lastChecked": "2026-09-24"
+    },
+    "t3_1wmxa1a": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
+      "title": "Chase Freedom Unlimited vs Bilt Blue card",
+      "posted": "2026-09-22",
+      "card_name": "Bilt Palladium",
+      "result": "approved",
+      "missing": [
+        "credit_score",
+        "date_applied"
+      ],
+      "note": "Says in passing they were already approved for Palladium; no score and no application month.",
+      "ask": "Roughly when were you approved for the Palladium, and what was your score at the time?",
       "firstSeen": "2026-09-22",
       "attempts": 2,
-      "lastChecked": "2026-09-23"
+      "lastChecked": "2026-09-24"
+    },
+    "t3_1wok12g": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wok12g/looking_to_knock_out_a_sub_with_upcoming_expenses/",
+      "title": "Looking to knock out a SUB with upcoming expenses",
+      "posted": "2026-09-23",
+      "card_name": "Ink Business Preferred",
+      "result": "denied",
+      "missing": [
+        "date_applied"
+      ],
+      "note": "ETA says denied for a CIP a few months ago; Experian FICO 764 and $60k income given, but the application month is not.",
+      "ask": "You said you were denied for the Ink Preferred a few months ago. Which month was that, and was your score around the 764 you listed?",
+      "firstSeen": "2026-09-24",
+      "attempts": 1,
+      "lastChecked": "2026-09-24"
+    },
+    "t3_1woct31": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1woct31/agreement_paperwork_doesnt_include_0_purchasebt/",
+      "title": "Agreement paperwork doesn't include 0% purchase/BT offer that was on application",
+      "posted": "2026-09-23",
+      "card_name": "Blue Cash Everyday",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Blue Cash Everyday this month with an $8k limit after accepting the offer; no score given.",
+      "firstSeen": "2026-09-24",
+      "attempts": 1,
+      "lastChecked": "2026-09-24"
     },
     "t3_1wnpras": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wnpras/chase_freedom_flex_automatically_opened_account/",
@@ -1363,21 +1423,6 @@
       "firstSeen": "2026-09-23",
       "attempts": 1,
       "lastChecked": "2026-09-23"
-    },
-    "t3_1wmxa1a": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
-      "title": "Chase Freedom Unlimited vs Bilt Blue card",
-      "posted": "2026-09-22",
-      "card_name": "Bilt Palladium",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster mentions in passing that they have already been approved for the Palladium while asking whether Bilt Blue beats the CFU. No score, and the approval is not dated beyond being in the past.",
-      "ask": "You mentioned already being approved for the Palladium. What was your credit score then, and roughly what month did you apply?",
-      "firstSeen": "2026-09-22",
-      "attempts": 1,
-      "lastChecked": "2026-09-22"
     }
   },
   "runs": [
@@ -2069,6 +2114,41 @@
         "no_score": 4,
         "no_outcome": 10,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-09-24T14:04:38.830Z",
+      "date": "2026-09-24",
+      "candidates": 20,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 3,
+      "pending": 8,
+      "unaccounted": 1,
+      "skipped": {
+        "no_outcome": 7,
+        "card_unclear": 2,
+        "no_score": 1,
+        "other": 1
+      }
+    },
+    {
+      "id": "2026-09-24-unknown",
+      "date": "2026-09-24",
+      "candidates": 0,
+      "revisits": 0,
+      "sourcesOk": 0,
+      "sourcesFailed": 0,
+      "published": 3,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 7,
+        "card_unclear": 2,
+        "no_score": 1,
+        "other": 1,
+        "score_too_vague": 1
       }
     }
   ]
