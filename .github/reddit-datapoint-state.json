@@ -1305,36 +1305,55 @@
     "t3_1wofeuc": "2026-09-24",
     "t3_1wof0gh": "2026-09-24",
     "t3_1woct31": "2026-09-24",
-    "t3_1woc3v7": "2026-09-24"
+    "t3_1woc3v7": "2026-09-24",
+    "t3_1wpxujw": "2026-09-25",
+    "t3_1wpvgqc": "2026-09-25",
+    "t3_1wpljjn": "2026-09-25",
+    "t3_1wpjkse": "2026-09-25",
+    "t3_1wpgsu2": "2026-09-25",
+    "t3_1wpfot4": "2026-09-25",
+    "t3_1wpe937": "2026-09-25",
+    "t3_1wpdcae": "2026-09-25",
+    "t3_1wpcuqf": "2026-09-25",
+    "t3_1wpcsvh": "2026-09-25",
+    "t3_1wpc04m": "2026-09-25",
+    "t3_1wp9m3j": "2026-09-25",
+    "t3_1wp9kjx": "2026-09-25",
+    "t3_1wp90zb": "2026-09-25",
+    "t3_1wp8llh": "2026-09-25",
+    "t3_1wp82qx": "2026-09-25",
+    "t3_1wp43vu": "2026-09-25",
+    "t3_1wp2ds8": "2026-09-25",
+    "t3_1wkm0wy": "2026-09-25"
   },
   "pending": {
-    "t3_1wn1hnk": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wn1hnk/cancel_converted_barclays_aviator_now_citi_plat/",
-      "title": "Cancel converted Barclays Aviator (now Citi Plat Select) while working on new Plat Select SUB — risky?",
-      "posted": "2026-09-22",
-      "card_name": "Citi AAdvantage Platinum Select World Elite Mastercard",
+    "t3_1wpcuqf": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wpcuqf/capital_one_venture_question/",
+      "title": "Capital One Venture Question",
+      "posted": "2026-09-24",
+      "card_name": "Capital One Venture Rewards",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved 9/22/26 for a new Plat Select with the 80k offer; still no score in body or replies.",
-      "firstSeen": "2026-09-22",
-      "attempts": 3,
-      "lastChecked": "2026-09-24"
+      "note": "Poster applied and was approved for the Capital One Venture yesterday (September 2026); no score or profile given.",
+      "firstSeen": "2026-09-25",
+      "attempts": 1,
+      "lastChecked": "2026-09-25"
     },
-    "t3_1wmg9zs": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wmg9zs/venture_x_denials_for_me_and_p2_whats_next_best/",
-      "title": "Venture X denials for me and P2, what’s next best thing?",
-      "posted": "2026-09-21",
-      "card_name": "Capital One Venture X Rewards",
-      "result": "denied",
+    "t3_1wkm0wy": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wkm0wy/fidelity_card_prehistoric_customer_support/",
+      "title": "Fidelity Card Prehistoric Customer Support",
+      "posted": "2026-09-19",
+      "card_name": "Fidelity Rewards Visa Signature",
+      "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "First-person Venture X denial in Sep 2026 (partner also denied); long Chase history, but no score anywhere.",
-      "firstSeen": "2026-09-22",
-      "attempts": 3,
-      "lastChecked": "2026-09-24"
+      "note": "Applied for the Fidelity Rewards card in September 2026, sent ID docs by fax, approved about a week later; no score given.",
+      "firstSeen": "2026-09-25",
+      "attempts": 1,
+      "lastChecked": "2026-09-25"
     },
     "t3_1wmxa1a": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
@@ -2149,6 +2168,23 @@
         "no_score": 1,
         "other": 1,
         "score_too_vague": 1
+      }
+    },
+    {
+      "id": "2026-09-25T15:06:08.770Z",
+      "date": "2026-09-25",
+      "candidates": 19,
+      "revisits": 0,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 10,
+        "not_first_person": 1,
+        "score_too_vague": 2,
+        "no_score": 3
       }
     }
   ]
