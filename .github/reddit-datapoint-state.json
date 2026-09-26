@@ -1286,9 +1286,9 @@
     "t3_1wntpzk": "2026-09-23",
     "t3_1wns4mt": "2026-09-23",
     "t3_1wns0hm": "2026-09-23",
-    "t3_1wnpras": "2026-09-23",
+    "t3_1wnpras": "2026-09-26",
     "t3_1wnowq5": "2026-09-23",
-    "t3_1wnnxrb": "2026-09-23",
+    "t3_1wnnxrb": "2026-09-26",
     "t3_1wp1wbz": "2026-09-24",
     "t3_1wp1pco": "2026-09-24",
     "t3_1wovnhb": "2026-09-24",
@@ -1324,9 +1324,47 @@
     "t3_1wp82qx": "2026-09-25",
     "t3_1wp43vu": "2026-09-25",
     "t3_1wp2ds8": "2026-09-25",
-    "t3_1wkm0wy": "2026-09-25"
+    "t3_1wkm0wy": "2026-09-25",
+    "t3_1wqnipz": "2026-09-26",
+    "t3_1wqcxh7": "2026-09-26",
+    "t3_1wqbqx3": "2026-09-26",
+    "t3_1wqaj12": "2026-09-26",
+    "t3_1wqabvd": "2026-09-26",
+    "t3_1wq9yls": "2026-09-26",
+    "t3_1wq5oe5": "2026-09-26",
+    "t3_1wq5bnr": "2026-09-26",
+    "t3_1wq1aa1": "2026-09-26",
+    "t3_1wq13vy": "2026-09-26"
   },
   "pending": {
+    "t3_1wnpras": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wnpras/chase_freedom_flex_automatically_opened_account/",
+      "title": "Chase Freedom Flex automatically opened account after application, stuck with low CL",
+      "posted": "2026-09-22",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "First-person Freedom Flex approval this month at a $500 limit with $30k listed income; still no credit score after re-read.",
+      "firstSeen": "2026-09-23",
+      "attempts": 2,
+      "lastChecked": "2026-09-26"
+    },
+    "t3_1wnnxrb": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wnnxrb/til_that_account_means_two_things_at_least_at_amex/",
+      "title": "TIL that \"account\" means two things, at least at Amex",
+      "posted": "2026-09-22",
+      "card_name": "Blue Cash Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Poster was approved for a Blue Cash Preferred this month (then cancelled it); no score given, limit only described as lower than their existing Amex.",
+      "firstSeen": "2026-09-23",
+      "attempts": 2,
+      "lastChecked": "2026-09-26"
+    },
     "t3_1wpcuqf": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wpcuqf/capital_one_venture_question/",
       "title": "Capital One Venture Question",
@@ -1399,34 +1437,6 @@
       "firstSeen": "2026-09-24",
       "attempts": 1,
       "lastChecked": "2026-09-24"
-    },
-    "t3_1wnpras": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wnpras/chase_freedom_flex_automatically_opened_account/",
-      "title": "Chase Freedom Flex automatically opened account after application, stuck with low CL",
-      "posted": "2026-09-22",
-      "card_name": "Chase Freedom Flex",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Clean first-person Freedom Flex approval this month with a $500 starting limit, $30k listed income, and a full profile of existing cards. The poster never gives a credit score.",
-      "firstSeen": "2026-09-23",
-      "attempts": 1,
-      "lastChecked": "2026-09-23"
-    },
-    "t3_1wnnxrb": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wnnxrb/til_that_account_means_two_things_at_least_at_amex/",
-      "title": "TIL that \"account\" means two things, at least at Amex",
-      "posted": "2026-09-22",
-      "card_name": "Blue Cash Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster applied for and was approved for a Blue Cash Preferred this month, then cancelled it because they had wanted an upgrade rather than a second card. No score is given and the limit is only described as lower than their existing Amex.",
-      "firstSeen": "2026-09-23",
-      "attempts": 1,
-      "lastChecked": "2026-09-23"
     },
     "t3_1wo06qn": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wo06qn/preapproved_for_all_the_good_cards_none_today/",
@@ -2185,6 +2195,21 @@
         "not_first_person": 1,
         "score_too_vague": 2,
         "no_score": 3
+      }
+    },
+    {
+      "id": "2026-09-26T15:02:32.186Z",
+      "date": "2026-09-26",
+      "candidates": 12,
+      "revisits": 2,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 0,
+      "pending": 8,
+      "unaccounted": 2,
+      "skipped": {
+        "no_outcome": 7,
+        "other": 1
       }
     }
   ]
