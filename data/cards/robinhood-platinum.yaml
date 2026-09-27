@@ -77,6 +77,12 @@ benefits:
     frequency: "semi_annual"
     category: "travel"
     enrollment_required: false
+  - name: "WHOOP Peak Membership"
+    value: 239
+    description: "Complimentary WHOOP Peak membership with hardware included, a $239/year value."
+    frequency: "annual"
+    category: "fitness"
+    enrollment_required: false
 tags:
   - premium
   - travel
