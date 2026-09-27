@@ -1256,7 +1256,7 @@
     "t3_1wnem4l": "2026-09-22",
     "t3_1wn1hnk": "2026-09-24",
     "t3_1wmyldm": "2026-09-22",
-    "t3_1wmxa1a": "2026-09-24",
+    "t3_1wmxa1a": "2026-09-27",
     "t3_1wmx5am": "2026-09-22",
     "t3_1wmwiae": "2026-09-22",
     "t3_1wmwe28": "2026-09-22",
@@ -1277,7 +1277,7 @@
     "t3_1wo7ck5": "2026-09-23",
     "t3_1wo6ipe": "2026-09-23",
     "t3_1wo6ewz": "2026-09-23",
-    "t3_1wo06qn": "2026-09-23",
+    "t3_1wo06qn": "2026-09-27",
     "t3_1wnyxix": "2026-09-23",
     "t3_1wnylkn": "2026-09-23",
     "t3_1wnvofz": "2026-09-23",
@@ -1286,9 +1286,9 @@
     "t3_1wntpzk": "2026-09-23",
     "t3_1wns4mt": "2026-09-23",
     "t3_1wns0hm": "2026-09-23",
-    "t3_1wnpras": "2026-09-26",
+    "t3_1wnpras": "2026-09-27",
     "t3_1wnowq5": "2026-09-23",
-    "t3_1wnnxrb": "2026-09-26",
+    "t3_1wnnxrb": "2026-09-27",
     "t3_1wp1wbz": "2026-09-24",
     "t3_1wp1pco": "2026-09-24",
     "t3_1wovnhb": "2026-09-24",
@@ -1298,13 +1298,13 @@
     "t3_1wopnx3": "2026-09-24",
     "t3_1wonczs": "2026-09-24",
     "t3_1wom0tn": "2026-09-24",
-    "t3_1wok12g": "2026-09-24",
+    "t3_1wok12g": "2026-09-27",
     "t3_1wok0kq": "2026-09-24",
     "t3_1woivnu": "2026-09-24",
     "t3_1wogav8": "2026-09-24",
     "t3_1wofeuc": "2026-09-24",
     "t3_1wof0gh": "2026-09-24",
-    "t3_1woct31": "2026-09-24",
+    "t3_1woct31": "2026-09-27",
     "t3_1woc3v7": "2026-09-24",
     "t3_1wpxujw": "2026-09-25",
     "t3_1wpvgqc": "2026-09-25",
@@ -1334,9 +1334,68 @@
     "t3_1wq5oe5": "2026-09-26",
     "t3_1wq5bnr": "2026-09-26",
     "t3_1wq1aa1": "2026-09-26",
-    "t3_1wq13vy": "2026-09-26"
+    "t3_1wq13vy": "2026-09-26",
+    "t3_1wruoup": "2026-09-27",
+    "t3_1wrrram": "2026-09-27",
+    "t3_1wrla3b": "2026-09-27",
+    "t3_1wrgcjv": "2026-09-27",
+    "t3_1wrf4gw": "2026-09-27",
+    "t3_1wr8pho": "2026-09-27",
+    "t3_1wr873w": "2026-09-27",
+    "t3_1wr5xsw": "2026-09-27",
+    "t3_1wr4h5b": "2026-09-27",
+    "t3_1wr1phj": "2026-09-27",
+    "t3_1wr09kv": "2026-09-27",
+    "t3_1wr03gj": "2026-09-27",
+    "t3_1wqwm91": "2026-09-27",
+    "t3_1wqwjgo": "2026-09-27",
+    "t3_1wpat2r": "2026-09-27"
   },
   "pending": {
+    "t3_1wok12g": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wok12g/looking_to_knock_out_a_sub_with_upcoming_expenses/",
+      "title": "Looking to knock out a SUB with upcoming expenses",
+      "posted": "2026-09-23",
+      "card_name": "Ink Business Preferred",
+      "result": "denied",
+      "missing": [
+        "date_applied"
+      ],
+      "note": "Denied for Ink Business Preferred a few months ago; Experian FICO 764 and $60k income listed, but no application month.",
+      "ask": "You mentioned the CIP denial was a few months ago. Roughly what month did you apply, and was your score around 764 then?",
+      "firstSeen": "2026-09-24",
+      "attempts": 2,
+      "lastChecked": "2026-09-27"
+    },
+    "t3_1wo06qn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wo06qn/preapproved_for_all_the_good_cards_none_today/",
+      "title": "Pre-approved for all the good cards, none today.",
+      "posted": "2026-09-23",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Freedom Flex in July 2026 with a $3,500 limit; the 695-699 scores given are current, not at application.",
+      "ask": "You listed 697/699/695 today. Do you know roughly what your score was when you applied for the Flex in July?",
+      "firstSeen": "2026-09-23",
+      "attempts": 2,
+      "lastChecked": "2026-09-27"
+    },
+    "t3_1woct31": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1woct31/agreement_paperwork_doesnt_include_0_purchasebt/",
+      "title": "Agreement paperwork doesn't include 0% purchase/BT offer that was on application",
+      "posted": "2026-09-23",
+      "card_name": "Blue Cash Everyday",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Blue Cash Everyday this month with an $8k limit (later closed it); no score given.",
+      "firstSeen": "2026-09-24",
+      "attempts": 2,
+      "lastChecked": "2026-09-27"
+    },
     "t3_1wnpras": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wnpras/chase_freedom_flex_automatically_opened_account/",
       "title": "Chase Freedom Flex automatically opened account after application, stuck with low CL",
@@ -1346,10 +1405,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "First-person Freedom Flex approval this month at a $500 limit with $30k listed income; still no credit score after re-read.",
+      "note": "Approved for Freedom Flex this month at a $500 limit with $30k listed income; still no score after re-read.",
       "firstSeen": "2026-09-23",
-      "attempts": 2,
-      "lastChecked": "2026-09-26"
+      "attempts": 3,
+      "lastChecked": "2026-09-27"
     },
     "t3_1wnnxrb": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wnnxrb/til_that_account_means_two_things_at_least_at_amex/",
@@ -1360,10 +1419,25 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster was approved for a Blue Cash Preferred this month (then cancelled it); no score given, limit only described as lower than their existing Amex.",
+      "note": "Approved for Blue Cash Preferred this month then cancelled; no score given.",
       "firstSeen": "2026-09-23",
-      "attempts": 2,
-      "lastChecked": "2026-09-26"
+      "attempts": 3,
+      "lastChecked": "2026-09-27"
+    },
+    "t3_1wmxa1a": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
+      "title": "Chase Freedom Unlimited vs Bilt Blue card",
+      "posted": "2026-09-22",
+      "card_name": "Bilt Palladium",
+      "result": "approved",
+      "missing": [
+        "credit_score",
+        "date_applied"
+      ],
+      "note": "Says in passing they were already approved for Palladium; no score and no application month.",
+      "firstSeen": "2026-09-22",
+      "attempts": 3,
+      "lastChecked": "2026-09-27"
     },
     "t3_1wpcuqf": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wpcuqf/capital_one_venture_question/",
@@ -1392,66 +1466,6 @@
       "firstSeen": "2026-09-25",
       "attempts": 1,
       "lastChecked": "2026-09-25"
-    },
-    "t3_1wmxa1a": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
-      "title": "Chase Freedom Unlimited vs Bilt Blue card",
-      "posted": "2026-09-22",
-      "card_name": "Bilt Palladium",
-      "result": "approved",
-      "missing": [
-        "credit_score",
-        "date_applied"
-      ],
-      "note": "Says in passing they were already approved for Palladium; no score and no application month.",
-      "ask": "Roughly when were you approved for the Palladium, and what was your score at the time?",
-      "firstSeen": "2026-09-22",
-      "attempts": 2,
-      "lastChecked": "2026-09-24"
-    },
-    "t3_1wok12g": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wok12g/looking_to_knock_out_a_sub_with_upcoming_expenses/",
-      "title": "Looking to knock out a SUB with upcoming expenses",
-      "posted": "2026-09-23",
-      "card_name": "Ink Business Preferred",
-      "result": "denied",
-      "missing": [
-        "date_applied"
-      ],
-      "note": "ETA says denied for a CIP a few months ago; Experian FICO 764 and $60k income given, but the application month is not.",
-      "ask": "You said you were denied for the Ink Preferred a few months ago. Which month was that, and was your score around the 764 you listed?",
-      "firstSeen": "2026-09-24",
-      "attempts": 1,
-      "lastChecked": "2026-09-24"
-    },
-    "t3_1woct31": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1woct31/agreement_paperwork_doesnt_include_0_purchasebt/",
-      "title": "Agreement paperwork doesn't include 0% purchase/BT offer that was on application",
-      "posted": "2026-09-23",
-      "card_name": "Blue Cash Everyday",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Blue Cash Everyday this month with an $8k limit after accepting the offer; no score given.",
-      "firstSeen": "2026-09-24",
-      "attempts": 1,
-      "lastChecked": "2026-09-24"
-    },
-    "t3_1wo06qn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wo06qn/preapproved_for_all_the_good_cards_none_today/",
-      "title": "Pre-approved for all the good cards, none today.",
-      "posted": "2026-09-23",
-      "card_name": "Chase Freedom Flex",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Poster says they applied and were approved for a Chase Freedom Flex with a $3,500 limit in July 2026. The 697 EQ / 699 EX / 695 TU figures they give are framed as their scores today, two months later, not at application.",
-      "ask": "You listed 697 EQ / 699 EX / 695 TU as where you are now. Roughly what was your score back in July when the Flex was approved?",
-      "firstSeen": "2026-09-23",
-      "attempts": 1,
-      "lastChecked": "2026-09-23"
     }
   },
   "runs": [
@@ -2210,6 +2224,36 @@
       "skipped": {
         "no_outcome": 7,
         "other": 1
+      }
+    },
+    {
+      "id": "2026-09-27T22:11:53.747Z",
+      "date": "2026-09-27",
+      "candidates": 21,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 8,
+      "unaccounted": 3,
+      "skipped": {
+        "no_outcome": 9,
+        "no_score": 2
+      }
+    },
+    {
+      "id": "2026-09-27-unknown",
+      "date": "2026-09-27",
+      "candidates": 0,
+      "revisits": 0,
+      "sourcesOk": 0,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 9,
+        "no_score": 5
       }
     }
   ]
