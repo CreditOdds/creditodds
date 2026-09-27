@@ -32,6 +32,12 @@ benefits:
     enrollment_required: true
     merchants:
       - doordash
+  - name: "Primary Rental Car Coverage"
+    value: 0
+    description: "Primary auto rental collision damage waiver with reimbursement up to $60,000 for theft and collision damage"
+    frequency: "per_rental"
+    category: "car_rental"
+    enrollment_required: false
 tags:
   - travel
   - dining
