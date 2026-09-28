@@ -29,11 +29,6 @@ benefits:
     description: "$250 annual credit for eligible autonomous ride purchases"
     frequency: "annual"
     category: "travel"
-  - name: "Health Wearable Credit"
-    value: 270
-    description: "$270 Health Wearables Statement Credit"
-    frequency: "annual"
-    category: "fitness"
   - name: "One Medical Membership"
     value: 0
     description: "Complimentary Amazon One Medical membership"
