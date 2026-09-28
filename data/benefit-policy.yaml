@@ -104,6 +104,12 @@ exclude:
   - "Worldwide Car Rental Insurance"
   - "Rental Car Insurance"
   - "Car Rental Insurance"
+  # Word order varies by issuer, and none of the names above is a substring
+  # of "Primary Rental Car Coverage", so Chase Sapphire Preferred's $60,000
+  # CDW auto-PRed through this gap (PR #2225, closed). Same class as the
+  # "Travel Accident Coverage" gap below.
+  - "Rental Car Coverage"
+  - "Car Rental Coverage"
   - "Purchase Protection"
   # The rest of the same class. These were left behind when the block above
   # was moved out of `borderline`, so they kept regenerating a weekly
