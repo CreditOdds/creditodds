@@ -101,6 +101,12 @@ benefits:
     frequency: "ongoing"
     category: "car_rental"
     enrollment_required: false
+  - name: "$75K Spend Unlocks"
+    value: 0
+    description: "After $75,000 in purchases in a calendar year: World of Hyatt Explorist status, IHG Diamond Elite status, $250 The Shops at Chase credit, $500 Southwest Chase Travel credit, and Southwest A-List status"
+    frequency: "annual"
+    category: "travel"
+    enrollment_required: false
 tags:
   - travel
   - premium
