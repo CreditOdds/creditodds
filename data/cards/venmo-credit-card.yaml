@@ -10,37 +10,31 @@ tags:
   - cashback
   - rewards
 rewards:
-  - category: "top_category"
+  # Venmo replaced the automatic top-category design (3% on your top eligible
+  # category, 2% on the second) with fixed rates. The extra 1% on split
+  # purchases is conditional on friends paying you back in the app, so it
+  # lives in the notes rather than lifting the rate the ranker sees.
+  - category: "dining"
     value: 3
     unit: "percent"
-    mode: auto_top_spend
-    eligible_categories:
-      - "transit"
-      - "travel"
-      - "groceries"
-      - "entertainment"
-      - "dining"
-      - "utilities"
-      - "drugstores"
-      - "gas"
-    note: "Automatically on your highest-spend eligible category each statement period (8 eligible: transportation, travel, groceries, entertainment, dining & nightlife, bills & utilities, health & beauty, gas). Drugstores here represents health & beauty; bills & utilities maps to utilities."
-  - category: "top_category"
-    value: 2
+    note: "Restaurants, carryout, drive-throughs, delivery, bars, and liquor stores. 4% when you split the purchase in Venmo and friends pay you back within 30 days."
+  - category: "entertainment"
+    value: 3
     unit: "percent"
-    mode: auto_top_spend
-    eligible_categories:
-      - "transit"
-      - "travel"
-      - "groceries"
-      - "entertainment"
-      - "dining"
-      - "utilities"
-      - "drugstores"
-      - "gas"
-    note: "Automatically on your second-highest eligible category each statement period (same 8-category list)."
+    note: "Movie theaters, concerts, amusement parks, digital goods, and gym or golf memberships. 4% when you split the purchase in Venmo and friends pay you back within 30 days."
+  - category: "streaming"
+    value: 3
+    unit: "percent"
+    note: "Subscription streaming counts as Entertainment on this card."
+  - category: "online_shopping"
+    value: 3
+    unit: "percent"
+    note: "Only when paying through Venmo: checking out with Venmo online, paying a business on Venmo, or paying someone for goods and services on Venmo."
+    merchant_specific: true
   - category: "everything_else"
     value: 1
     unit: "percent"
+    note: "Includes groceries, gas, travel, and utilities, which earned 3% or 2% under the old top-category design."
 apr:
   regular:
     min: 18.74
@@ -49,16 +43,16 @@ apply_link: https://venmo.com/about/creditcard
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Venmo Credit Card's appeal is that it does the category tracking for
-  you: 3% back on your highest-spend eligible category each statement period
-  and 2% on your second-highest, chosen automatically from eight buckets that
-  cover transportation, travel, groceries, entertainment, dining and
-  nightlife, bills and utilities, health and beauty, and gas. For anyone whose
-  spending shifts month to month, that beats remembering which card to pull
-  out, and it carries no annual fee and no foreign transaction fee. The
-  tradeoff is the floor: everything outside your top two categories earns just
-  1%, so a flat 2% card will out-earn this one for most of your spending
-  unless your budget is heavily concentrated. There is no signup bonus to
-  sweeten the start, and the regular APR runs 18.74% to 30.74%, so this only
-  works as a card you pay in full. Good as a low-effort second card, not as
-  the one that carries your whole wallet.
+  The Venmo Credit Card now pays fixed rates instead of picking your top
+  category for you: 3% on dining, 3% on entertainment (which Venmo defines
+  broadly enough to cover subscription streaming, digital goods, and gym
+  memberships), and 3% on anything you pay for through Venmo itself, whether
+  that is checking out online, paying a business, or paying someone for goods
+  and services. Split a dining or entertainment purchase in the app and get
+  paid back within 30 days, and it earns 4%. Everything else, including
+  groceries, gas, travel, and utilities, now earns 1%, and that is the real
+  cost of the change, since those categories could earn 3% or 2% under the
+  old automatic design. It carries no annual fee and no foreign transaction
+  fee. With no signup bonus and a regular APR of 18.74% to 30.74%, it works
+  best as a pay-in-full second card for someone whose spending already leans
+  toward going out and settling up with friends.
