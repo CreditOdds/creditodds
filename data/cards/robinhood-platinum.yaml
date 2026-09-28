@@ -29,11 +29,6 @@ benefits:
     description: "$250 annual credit for eligible autonomous ride purchases"
     frequency: "annual"
     category: "travel"
-  - name: "Health Wearable Credit"
-    value: 270
-    description: "$270 Health Wearables Statement Credit"
-    frequency: "annual"
-    category: "fitness"
   - name: "One Medical Membership"
     value: 0
     description: "Complimentary Amazon One Medical membership"
@@ -76,6 +71,12 @@ benefits:
     description: "$300 in statement credits each year ($150 every 6 months) for travel purchases."
     frequency: "semi_annual"
     category: "travel"
+    enrollment_required: false
+  - name: "WHOOP Peak Membership"
+    value: 239
+    description: "Complimentary WHOOP Peak membership with hardware included, a $239/year value."
+    frequency: "annual"
+    category: "fitness"
     enrollment_required: false
 tags:
   - premium
