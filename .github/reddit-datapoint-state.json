@@ -1349,9 +1349,31 @@
     "t3_1wr03gj": "2026-09-27",
     "t3_1wqwm91": "2026-09-27",
     "t3_1wqwjgo": "2026-09-27",
-    "t3_1wpat2r": "2026-09-27"
+    "t3_1wpat2r": "2026-09-27",
+    "t3_1wsd39l": "2026-09-28",
+    "t3_1ws7bxf": "2026-09-28",
+    "t3_1ws4xwp": "2026-09-28",
+    "t3_1ws4q9o": "2026-09-28",
+    "t3_1ws3g2d": "2026-09-28",
+    "t3_1wrzjpe": "2026-09-28",
+    "t3_1wryqqe": "2026-09-28"
   },
   "pending": {
+    "t3_1wrzjpe": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wrzjpe/chase_no_longer_approving_for_flex_if_you_have/",
+      "title": "Chase no longer approving for Flex if you have Unlimited???",
+      "posted": "2026-09-27",
+      "card_name": "Chase Freedom Flex",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied for Freedom Flex because poster already holds Freedom Unlimited; under 5/24, gave only 'excellent credit', no number.",
+      "ask": "You said excellent credit, what was your exact score when you applied for the Flex?",
+      "firstSeen": "2026-09-28",
+      "attempts": 1,
+      "lastChecked": "2026-09-28"
+    },
     "t3_1wok12g": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wok12g/looking_to_knock_out_a_sub_with_upcoming_expenses/",
       "title": "Looking to knock out a SUB with upcoming expenses",
@@ -1394,49 +1416,6 @@
       "note": "Approved for Blue Cash Everyday this month with an $8k limit (later closed it); no score given.",
       "firstSeen": "2026-09-24",
       "attempts": 2,
-      "lastChecked": "2026-09-27"
-    },
-    "t3_1wnpras": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wnpras/chase_freedom_flex_automatically_opened_account/",
-      "title": "Chase Freedom Flex automatically opened account after application, stuck with low CL",
-      "posted": "2026-09-22",
-      "card_name": "Chase Freedom Flex",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Freedom Flex this month at a $500 limit with $30k listed income; still no score after re-read.",
-      "firstSeen": "2026-09-23",
-      "attempts": 3,
-      "lastChecked": "2026-09-27"
-    },
-    "t3_1wnnxrb": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wnnxrb/til_that_account_means_two_things_at_least_at_amex/",
-      "title": "TIL that \"account\" means two things, at least at Amex",
-      "posted": "2026-09-22",
-      "card_name": "Blue Cash Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Blue Cash Preferred this month then cancelled; no score given.",
-      "firstSeen": "2026-09-23",
-      "attempts": 3,
-      "lastChecked": "2026-09-27"
-    },
-    "t3_1wmxa1a": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wmxa1a/chase_freedom_unlimited_vs_bilt_blue_card/",
-      "title": "Chase Freedom Unlimited vs Bilt Blue card",
-      "posted": "2026-09-22",
-      "card_name": "Bilt Palladium",
-      "result": "approved",
-      "missing": [
-        "credit_score",
-        "date_applied"
-      ],
-      "note": "Says in passing they were already approved for Palladium; no score and no application month.",
-      "firstSeen": "2026-09-22",
-      "attempts": 3,
       "lastChecked": "2026-09-27"
     },
     "t3_1wpcuqf": {
@@ -2254,6 +2233,21 @@
       "skipped": {
         "no_outcome": 9,
         "no_score": 5
+      }
+    },
+    {
+      "id": "2026-09-28T13:47:19.454Z",
+      "date": "2026-09-28",
+      "candidates": 7,
+      "revisits": 0,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 0,
+      "pending": 6,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 4,
+        "no_score": 2
       }
     }
   ]
