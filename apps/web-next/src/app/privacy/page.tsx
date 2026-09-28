@@ -27,7 +27,7 @@ export default function PrivacyPage() {
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">
-          <span><span className="cj-status-dot" />updated jan 27, 2026</span>
+          <span><span className="cj-status-dot" />updated sep 28, 2026</span>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
               why, and how to reach us if something doesn&apos;t sit right.
             </p>
             <div className="cj-page-meta">
-              <span><b>Last updated</b> · January 27, 2026</span>
+              <span><b>Last updated</b> · September 28, 2026</span>
               <span><b>Standard</b> · GDPR-aligned</span>
               <span><b>Trackers</b> · none beyond Google Analytics</span>
             </div>
@@ -54,7 +54,8 @@ export default function PrivacyPage() {
             email, the data point you submit when you share an application result) and
             standard analytics. We use it to run the site and improve the dataset. We don&apos;t
             sell your information, we don&apos;t share it with anyone except where the law
-            forces us to, and you can ask us to delete it any time.
+            forces us to or if the business itself changes hands (see section 10), and you
+            can ask us to delete it any time.
           </div>
 
           <nav className="cj-toc-chips" aria-label="Sections">
@@ -67,7 +68,8 @@ export default function PrivacyPage() {
             <a href="#access"><span>07</span>who has access</a>
             <a href="#protect"><span>08</span>how we protect it</a>
             <a href="#complain"><span>09</span>how to complain</a>
-            <a href="#changes"><span>10</span>changes</a>
+            <a href="#transfers"><span>10</span>business transfers</a>
+            <a href="#changes"><span>11</span>changes</a>
           </nav>
 
           <section id="summary" className="cj-static-section">
@@ -96,7 +98,7 @@ export default function PrivacyPage() {
                 file, so we ask for only the bare minimum from our customers. We&apos;ll
                 never use your personal information for any reason other than why you gave
                 it, and we&apos;ll never give anyone access to it unless we&apos;re forced
-                to by law.
+                to by law or the business changes ownership as described in section 10.
               </p>
             </div>
           </section>
@@ -195,8 +197,31 @@ export default function PrivacyPage() {
             </div>
           </section>
 
+          <section id="transfers" className="cj-static-section">
+            <div className="cj-section-num">10 · business transfers</div>
+            <h2>Business transfers.</h2>
+            <div className="cj-callout"><b>In short:</b> if CreditOdds is sold or merged, your data goes with it, under the same rules.</div>
+            <div className="cj-prose">
+              <p>
+                If CreditOdds, or substantially all of its assets, is acquired by, merged
+                with, or transferred to another company, the information we hold about you
+                (your account, email address, submitted data points, and wallet contents)
+                may be transferred to the new owner as part of that transaction. This also
+                applies in the event of a reorganization, bankruptcy, or similar proceeding.
+              </p>
+              <p>
+                Any new owner must continue to treat your information under the terms of
+                the privacy policy that was in effect when it was collected, until you are
+                notified otherwise. We will post a notice on this page, and email account
+                holders, before your information is transferred, and you can ask us to
+                delete your account at any time before the transfer takes place through
+                the <Link href="/contact">contact</Link> feature.
+              </p>
+            </div>
+          </section>
+
           <section id="changes" className="cj-static-section">
-            <div className="cj-section-num">10 · changes to the policy</div>
+            <div className="cj-section-num">11 · changes to the policy</div>
             <h2>Changes to the policy.</h2>
             <div className="cj-prose">
               <p>
