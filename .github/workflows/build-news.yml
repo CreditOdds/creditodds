@@ -75,6 +75,9 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           S3_IMAGES_BUCKET_NAME: ${{ secrets.S3_IMAGES_BUCKET_NAME }}
+          # Lets a --force regeneration evict the replaced object from the
+          # images CDN (the same distribution build-cards.yml invalidates).
+          CLOUDFRONT_IMAGES_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }}
         run: node scripts/sync-news-images.js
 
       - name: Flag hero-image failure

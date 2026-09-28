@@ -6,6 +6,19 @@
  * exists on S3 at `news_images/<id>.png`, then stamps the filename into the
  * item's `news_image` field (in data/news.json, in place).
  *
+ * Regenerating an image at its stable filename (`--force`) has to punch
+ * through two caches before the site shows it:
+ *   1. The images CDN (d3ay3etzd1512y.cloudfront.net) caches objects for the
+ *      30-day max-age set on upload and IGNORES query strings, so `?v=` style
+ *      cache-busting does nothing there. This script invalidates the replaced
+ *      path itself (see invalidateCdnPath) using CLOUDFRONT_IMAGES_DISTRIBUTION_ID,
+ *      falling back to a lookup by CDN domain when the env var is unset.
+ *   2. Amplify's edge caches the optimized `/_next/image?url=...` responses
+ *      for the same 30 days. Amplify invalidates that on every deploy, and
+ *      build-news.yml fires the Amplify webhook after this step, so in CI it
+ *      sorts itself out. After a LOCAL `--force`, trigger a frontend deploy
+ *      (merge any PR, or start an Amplify release) or the old render stays up.
+ *
  * The image is a surreal-but-photoreal scene in which the REAL card art for
  * the cards the story is about is composited in as the hero subject. The
  * scene is art-directed per story by gpt-4o-mini so the background ties to
@@ -49,6 +62,7 @@ const { compressPngInPlace, EDITORIAL_MAX_WIDTH } = require('./lib/compress-imag
 
 const NEWS_JSON = path.join(__dirname, '..', 'data', 'news.json');
 const S3_PREFIX = 'news_images';
+const CDN_HOST = 'd3ay3etzd1512y.cloudfront.net'; // images CDN in front of the bucket
 const CARD_CDN = 'https://d3ay3etzd1512y.cloudfront.net/card_images';
 const MAX_CARDS = 3; // cards fanned into one scene — more than this gets crowded
 
@@ -374,6 +388,33 @@ function s3HasObject(key) {
   }
 }
 
+// Evict a replaced object from the images CDN. Best-effort: a failure here is
+// logged, never fatal, because the upload already succeeded and the next deploy
+// or the 30-day TTL will eventually surface the new file anyway.
+function invalidateCdnPath(key) {
+  if (dryRun) {
+    log(`(dry-run) would invalidate /${key} on the images CDN`);
+    return;
+  }
+  try {
+    let distId = process.env.CLOUDFRONT_IMAGES_DISTRIBUTION_ID;
+    if (!distId) {
+      distId = execSync(
+        `aws cloudfront list-distributions --query "DistributionList.Items[?DomainName=='${CDN_HOST}'].Id" --output text`,
+        { stdio: 'pipe' }
+      ).toString().trim();
+    }
+    if (!distId) throw new Error(`no distribution found for ${CDN_HOST}`);
+    const out = execSync(
+      `aws cloudfront create-invalidation --distribution-id "${distId}" --paths "/${key}" --query Invalidation.Id --output text`,
+      { stdio: 'pipe' }
+    ).toString().trim();
+    log(`invalidated /${key} on ${distId} (${out})`);
+  } catch (err) {
+    log(`WARN could not invalidate /${key} on the images CDN: ${(err.message || '').split('\n')[0]}`);
+  }
+}
+
 async function uploadToS3(key, localPath) {
   if (dryRun) {
     log(`(dry-run) would upload ${localPath} → s3://${bucket}/${key}`);
@@ -450,8 +491,10 @@ async function main() {
       continue;
     }
     try {
+      const replacing = force && s3HasObject(key);
       const localPath = await generateNewsImage(item);
       await uploadToS3(key, localPath);
+      if (replacing) invalidateCdnPath(key);
       item.news_image = expected;
       generatedThisRun++;
       results.generated.push(item.id);
@@ -477,7 +520,11 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+module.exports = { invalidateCdnPath };
