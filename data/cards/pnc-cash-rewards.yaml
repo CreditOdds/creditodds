@@ -35,8 +35,8 @@ rewards:
     value: 1
     unit: percent
 signup_bonus:
-  value: 200
-  type: cash
+  value: 250
+  type: "cash"
   spend_requirement: 1000
   timeframe_months: 3
   note: "One new account opening bonus per customer per product within a 24-month period"
