@@ -120,8 +120,31 @@ test('points_per_dollar renders as x, the only unit points cards actually use', 
     { category: 'everything_else', value: 1, unit: 'points_per_dollar' },
     { category: 'transit', value: 5, unit: 'points_per_dollar', merchant_gate: ['lyft'], note: 'On Lyft rides' },
   ]);
-  assert.equal(ungated, '5x on travel portal, 1x on everything else');
+  assert.equal(ungated, '5x on travel booked through the card\'s travel portal, 1x on everything else');
   assert.match(gated, /^5x in the transit category/);
+});
+
+test('portal categories are spelled out as portal bookings', () => {
+  // "hotels car portal" came back from the model as "10% on hotels through
+  // its car portal" for the U.S. Bank Business Essentials Plus.
+  const { ungated } = summarizeRewards([
+    { category: 'hotels_car_portal', value: 10, unit: 'percent' },
+    { category: 'everything_else', value: 2, unit: 'percent' },
+  ]);
+  assert.equal(ungated, '10% on hotels and car rentals booked through the card\'s travel portal, 2% on everything else');
+});
+
+test('no card in data/cards renders a raw portal id', () => {
+  for (const file of fs.readdirSync(CARDS_DIR).filter(f => f.endsWith('.yaml'))) {
+    const card = yaml.load(fs.readFileSync(path.join(CARDS_DIR, file), 'utf8'));
+    const { ungated, gated } = summarizeRewards(card.rewards);
+    for (const line of [ungated, gated]) {
+      assert.ok(
+        !/\b\w+ portal\b/.test((line || '').replace(/travel portal|card's portal/g, '')),
+        `${file} rendered an unlabeled portal category: ${line}`
+      );
+    }
+  }
 });
 
 test('no card in data/cards renders a raw unit string', () => {

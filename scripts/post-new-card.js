@@ -113,8 +113,21 @@ function formatRate(reward) {
   return `${reward.value}${unit}`;
 }
 
+// Portal ids read badly once the underscores go: "hotels car portal" came back
+// from the model as "10% on hotels through its car portal" for the U.S. Bank
+// Business Essentials Plus (2026-09-29). Spell out that the rate is for
+// bookings made through the issuer's travel portal.
+const PORTAL_LABELS = {
+  travel_portal: 'travel booked through the card\'s travel portal',
+  hotels_portal: 'hotels booked through the card\'s travel portal',
+  flights_portal: 'flights booked through the card\'s travel portal',
+  car_rentals_portal: 'car rentals booked through the card\'s travel portal',
+  hotels_car_portal: 'hotels and car rentals booked through the card\'s travel portal',
+  entertainment_portal: 'entertainment purchased through the card\'s portal',
+};
+
 function categoryLabel(category) {
-  return String(category).replace(/_/g, ' ');
+  return PORTAL_LABELS[category] || String(category).replace(/_/g, ' ');
 }
 
 const MAX_NOTE_CHARS = 140;
