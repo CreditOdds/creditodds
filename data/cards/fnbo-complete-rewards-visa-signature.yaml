@@ -43,7 +43,7 @@ apr:
     max: 28.99
 foreign_transaction_fee: true
 network: "visa"
-apply_link: https://www.card.fnbo.com/mpp/fi/offer/consumer/banner-visa-cmplt
+apply_link: https://www.card.fnbo.com/mpp/fi/offer/consumer/brochure-visa
 benefits:
   - name: "Visa Signature Benefits"
     value: 0
