@@ -1,0 +1,63 @@
+name: "US Bank Business Essentials Plus"
+bank: "U.S. Bank"
+slug: "us-bank-business-essentials-plus"
+image: "us-bank-business-essentials-plus.png"
+accepting_applications: true
+category: "business"
+annual_fee: 295
+reward_type: "cashback"
+tags:
+  - business
+  - cashback
+rewards:
+  - category: hotels_car_portal
+    value: 10
+    unit: percent
+    note: "Prepaid hotels and car rentals booked directly in the U.S. Bank Travel Center"
+  - category: top_category
+    value: 5
+    unit: percent
+    mode: auto_top_spend
+    eligible_categories:
+      - airlines
+      - phone
+      - dining
+      - entertainment
+      - office_supplies
+      - shipping
+      - utilities
+    note: "Automatically on your top eligible spend category each month from 8 eligible (accounting & tax services, airlines, cell phone service providers, dining, entertainment, office supply stores, postal & shipping services, utilities), up to $200,000 a year"
+    spend_cap: 200000
+    cap_period: annual
+    rate_after_cap: 2
+  - category: everything_else
+    value: 2
+    unit: percent
+    note: "Up to 3.5% on $200,000 a year with qualifying U.S. Bank business checking balances: 2.5% at $15,000 to $74,999, 3% at $75,000 to $149,999, 3.5% at $150,000+ (Business Essentials, Gold, Gold with Interest, or Platinum Business Checking); 2% otherwise"
+signup_bonus:
+  value: 1000
+  type: "cash"
+  spend_requirement: 15000
+  timeframe_months: 5
+  note: "Spend must be completed within 150 days of account opening"
+apr:
+  regular:
+    min: 17.99
+    max: 27.99
+apply_link: https://www.usbank.com/business-banking/business-credit-cards/business-essentials-plus-credit-card.html
+foreign_transaction_fee: false
+network: "visa"
+our_take: >
+  The Business Essentials Plus asks $295 a year for two things the no fee
+  Business Essentials lacks: 5% cash back on your top eligible category each
+  month, and a much higher ceiling on the checking relationship boost. The
+  5% applies automatically to whichever of eight categories you spend the
+  most in, including airlines, dining, cell phone service, office supplies,
+  shipping, utilities, and accounting and tax services, on up to $200,000 a
+  year. Everything else earns 2%, rising to 2.5%, 3%, or 3.5% on up to
+  $200,000 a year once you hold $15,000, $75,000, or $150,000 in qualifying
+  U.S. Bank business checking, which means the top tier needs serious cash
+  parked at U.S. Bank. The welcome offer is $1,000 after $15,000 in spending
+  within 150 days. There is no intro APR, but there is also no foreign
+  transaction fee, and prepaid hotels and car rentals in the U.S. Bank Travel
+  Center earn 10%.

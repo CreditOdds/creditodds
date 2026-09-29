@@ -5,6 +5,12 @@ summary: "U.S. Bank launched the Business Essentials Visa and Business Essential
 tags:
   - "new-card"
 bank: "U.S. Bank"
+card_slugs:
+  - "us-bank-business-essentials"
+  - "us-bank-business-essentials-plus"
+card_names:
+  - "US Bank Business Essentials"
+  - "US Bank Business Essentials Plus"
 source: "U.S. Bank"
 source_url: "https://ir.usbank.com/news-events/news/news-details/2026/U-S--Bank-Launches-New-Credit-Cards-for-Small-Business-Owners-with-Jessica-Alba-as-Spokesperson/default.aspx"
 body: |

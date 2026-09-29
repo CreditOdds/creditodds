@@ -1,0 +1,47 @@
+name: "US Bank Business Essentials"
+bank: "U.S. Bank"
+slug: "us-bank-business-essentials"
+image: "us-bank-business-essentials.png"
+accepting_applications: true
+category: "business"
+annual_fee: 0
+reward_type: "cashback"
+tags:
+  - business
+  - cashback
+rewards:
+  - category: hotels_car_portal
+    value: 6
+    unit: percent
+    note: "Prepaid hotels and car rentals booked directly in the U.S. Bank Travel Center"
+  - category: everything_else
+    value: 2
+    unit: percent
+    note: "2.5% on the first $10,000 in eligible purchases each billing cycle with $10,000+ in qualifying U.S. Bank business checking balances (Business Essentials, Gold, Gold with Interest, or Platinum Business Checking); 2% otherwise"
+signup_bonus:
+  value: 500
+  type: "cash"
+  spend_requirement: 5000
+  timeframe_months: 5
+  note: "Spend must be completed within 150 days of account opening"
+apr:
+  purchase_intro:
+    rate: 0
+    months: 12
+  regular:
+    min: 16.99
+    max: 27.99
+apply_link: https://www.usbank.com/business-banking/business-credit-cards/business-essentials-credit-card.html
+foreign_transaction_fee: true
+network: "visa"
+our_take: >
+  The Business Essentials is a straightforward no annual fee card: 2% cash
+  back on every purchase with no categories to track, which already beats the
+  1.5% flat rate on most business cards in its class. Keep $10,000 or more in
+  a qualifying U.S. Bank business checking account and the rate rises to
+  2.5%, but only on the first $10,000 of spending each billing cycle, so the
+  boost tops out at $50 a month. The welcome offer is $500 after $5,000 in
+  spending within 150 days, and purchases get a 0% intro APR for the first 12
+  billing cycles before a 16.99% to 27.99% variable rate. Prepaid hotels and
+  car rentals booked in the U.S. Bank Travel Center earn 6%. The catch is a 3%
+  foreign transaction fee, so it is a card for domestic spending only.
