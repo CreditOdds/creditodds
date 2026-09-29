@@ -1,0 +1,84 @@
+id: "fico-vantagescore-mortgage-pricing-grid"
+slug: "fico-vantagescore-mortgage-pricing-grid"
+title: "Fannie and Freddie Put VantageScore on Equal Footing With FICO: What It Means for Your Mortgage"
+date: "2026-09-29"
+author: "CreditOdds"
+summary: "Fannie Mae and Freddie Mac are merging FICO and VantageScore 4.0 into one pricing grid, Rocket is switching to VantageScore, and FICO stock fell 22%."
+tags:
+  - news-analysis
+  - guide
+related_cards:
+  - discover-it-cash-back
+  - citi-double-cash
+  - bank-of-america-customized-cash-rewards
+  - chase-freedom-unlimited
+  - capital-one-quicksilver
+seo_title: "Fannie & Freddie Move VantageScore to FICO Pricing Grid | CreditOdds"
+seo_description: "The FHFA is putting VantageScore 4.0 on the same mortgage pricing grid as FICO. What changes for borrowers, why FICO stock fell 22%, and what to do now."
+social_title: "FICO Loses Its Mortgage Moat"
+content: |
+  For decades, if you wanted a mortgage backed by Fannie Mae or Freddie Mac, one number decided your price: your FICO score. That era is ending fast.
+
+  On Monday, September 28, FHFA Director Bill Pulte announced on X that Fannie Mae and Freddie Mac are "moving to ONE PRICING GRID with VantageScore joining the existing FICO Classic pricing grid." The same day, Rocket Mortgage said it will make **VantageScore 4.0 its default credit score** for loans it sells to Fannie and Freddie starting in the fourth quarter of 2026.
+
+  Wall Street read that as a direct hit to FICO's most profitable business. Fair Isaac shares fell about **22% in early trading on Tuesday**, the stock's worst intraday drop since July 2004.
+
+  Here is what actually changed, why the pricing grid matters more than the headlines suggest, and what it means if you are buying or refinancing a home.
+
+  ## What Changed
+
+  This is the third step in a year-long shift away from FICO as the only score that counts for conforming mortgages:
+
+  1. **2025: VantageScore 4.0 is approved.** The FHFA allowed lenders to use VantageScore 4.0 instead of Classic FICO on loans sold to Fannie and Freddie, initially through a limited rollout.
+  2. **September 9, 2026: access opens to every lender.** VantageScore 4.0 was expanded to all approved Fannie and Freddie single-family lenders. Lenders pick one model per loan file; they cannot mix FICO and VantageScore on the same loan.
+  3. **September 28, 2026: one pricing grid.** VantageScore loses the pricing handicap it had until now.
+
+  Step three is the one that moved the stock.
+
+  ## Why the Pricing Grid Is the Real Story
+
+  Fannie and Freddie charge upfront fees on the loans they buy, called **loan-level price adjustments (LLPAs)**. Those fees are set on a grid by credit score and down payment. A lower score means a bigger fee, which your lender passes on to you as a higher rate or more points at closing.
+
+  Until this week there were effectively two grids. A VantageScore 4.0 had to be **20 points higher** than a Classic FICO to get the same price. The top tier, for example, started at **780 for FICO** but **800 for VantageScore**.
+
+  That penalty gave lenders a reason to stick with FICO even though VantageScore was allowed. If a borrower had a 780 on both models, running the loan on FICO got them the best price and running it on VantageScore did not.
+
+  With a single grid, a 780 is a 780 no matter which model produced it. Pulte has not said when the unified grid takes effect, but once it does, the choice of model comes down to which score is higher for a given borrower and which is cheaper for the lender to buy.
+
+  ## Why FICO Investors Panicked
+
+  Mortgages are where FICO has the most pricing power, and it has used it: FICO has raised the per-score royalty it charges for mortgage scores sharply over the past few years. That pricing is only sustainable while lenders have no real alternative.
+
+  VantageScore is owned jointly by the three credit bureaus, which have every incentive to price it aggressively. TransUnion, for one, has extended a 99-cent price for VantageScore 4.0 mortgage scores through 2028.
+
+  Adoption was already climbing before the grid change. In August, VantageScore 4.0 was used on about **5.6% of all Fannie and Freddie loans**, and nearly all of that volume came from two lenders: Rocket (about 30% of its GSE production, up from 17% in July) and United Wholesale Mortgage (about 25%, up from about 20%). Rocket says its analysis of 1.4 million credit reports found VantageScore 4.0 helped more borrowers qualify, and it cited average savings of around **$1,600 at closing** on some loans.
+
+  Analysts were blunt. Deutsche Bank asked "where is the moat?" after the 20-point gap disappeared. TD Cowen argued regulators are now actively steering lenders toward VantageScore. RBC flagged a different concern: **score shopping**, where lenders run whichever model produces the better number and price the loan off that.
+
+  ## What This Means for Borrowers
+
+  ### Your "free" score may now matter more
+  Our [FICO vs VantageScore guide](/articles/fico-vs-vantagescore) explains why the score in your credit app often differs from the one a lender pulls. Most free apps show **VantageScore 3.0**, not 4.0, so they are still not a perfect preview. But VantageScore 4.0 is a real, pricing-equal option for your mortgage now, which was not true a week ago.
+
+  ### Thin files and renters are the likely winners
+  VantageScore 4.0 can score you with as little as **one month** of credit history (FICO needs six), and it can factor in rent and utility payments when they are reported. It also looks at trends in your balances over time rather than a single snapshot. If you are a newer credit user, or your FICO is dragged down by an old event, VantageScore may put you in a better pricing tier.
+
+  ### Ask your lender which model they use
+  Once the single grid is live, the model your lender runs can change your rate. It is a fair question to ask during preapproval: "Are you pricing this loan on FICO or VantageScore 4.0, and would the other one put me in a better tier?" Some lenders will only use one. If your two scores are far apart, that can be a reason to shop lenders.
+
+  ### Nothing changes for credit cards
+  This is a mortgage story. Credit card issuers set their own underwriting, and almost all of them still pull **FICO 8** or a FICO Bankcard score. Your approval odds on a new card do not move because of this announcement. (You can see real approval data by score on any [card page](/explore).)
+
+  ### Credit reports still come from all three bureaus
+  Mortgage lenders still pull all three bureau reports (a "tri-merge") for Fannie and Freddie loans. Pulte has said he is exploring alternatives, including a two-bureau option, but nothing has been announced. For now, errors on any of your three reports can still hurt you, so check all three before you apply.
+
+  ## What Is Still Unknown
+
+  - **Effective date.** Pulte's post did not say when the single grid starts.
+  - **How other lenders respond.** Rocket and UWM moved first. Most other large lenders have been waiting to see whether pricing would be equalized. Now it has been.
+  - **FICO's counter.** FICO 10T, FICO's newer mortgage model, is still not eligible for delivery to Fannie and Freddie, and Pulte has pointed to pricing disputes as the holdup. Expect FICO to fight on price.
+  - **Score shopping rules.** If lenders can freely pick the higher of two scores, the GSEs may add guardrails. None have been announced.
+
+  ## The Bottom Line
+
+  For most of the history of the modern mortgage market, you had exactly one credit score that mattered when buying a home. Starting later this year, you will likely have two, priced the same. For borrowers, more competition among score providers should mean lower costs at closing and, for some people with thin or recovering credit, a better rate. If you are planning to buy or refinance in the next six months, ask your lender which score they use and whether the other would help you.
