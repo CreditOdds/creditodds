@@ -9,13 +9,6 @@ card_referral_link: "https://www.referyourchasecard.com/20r"
 annual_fee: 0
 reward_type: "cashback"
 rewards:
-  - category: dining
-    value: 3
-    unit: percent
-    note: "Dining at restaurants, including takeout and eligible delivery, on up to $6,000 spent in the first 6 months from account opening; 1.5% thereafter"
-    spend_cap: 6000
-    cap_period: lifetime
-    rate_after_cap: 1.5
   - category: transit
     value: 2
     unit: percent
@@ -35,9 +28,7 @@ network: "visa"
 our_take: >
   The Freedom Rise is a starter card designed to get someone their first Chase
   account: a flat 1.5% cash back on everything, no annual fee, and nothing to
-  activate. The opening push is 3% on dining, including takeout and eligible
-  delivery, on the first $6,000 of dining spend in your first 6 months, after
-  which that rate settles permanently at the standard 1.5%. Qualifying Lyft
+  activate. Qualifying Lyft
   rides earn 2% through September 30, 2027, a half point over the base rate
   that applies to Lyft specifically and not to transit in general. A $25
   statement credit for enrolling in automatic payments within the first 3

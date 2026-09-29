@@ -63,6 +63,24 @@ rewards_added:
       why: "the 5x is real (Capital One Travel) but `vacation_rentals` is not in ranker/categoryLabels.js, so the row would never match anything; covered by the travel_portal row's note (issue #2055)" }
   - { slug: rei-co-op-mastercard, category: sporting_goods,
       why: "the 5% tier is limited to REI purchases; a sporting_goods row would incorrectly claim 5% at competing sporting-goods merchants (issue #2126)" }
+  - { slug: att-points-plus-from-citi, category: cell_phone_providers,
+      why: "alias of the existing merchant-gated phone row (AT&T only) (issue #2228)" }
+  - { slug: marriott-bonvoy-business-american-express, category: cell_phone_providers,
+      why: "alias of the existing phone 4x row (issues #2154, #2205)" }
+  - { slug: marriott-bonvoy-bold-credit-card, category: cell_phone_providers,
+      why: "alias of the existing phone 2x row (issue #2154)" }
+  - { slug: marriott-bonvoy-bold-credit-card, category: ground_transportation,
+      why: "rideshare is already the transit 2x row (issues #2154, #2205)" }
+  - { slug: marriott-bonvoy-bold-credit-card, category: dining,
+      why: "the 2x is select food delivery apps only, noted on the transit row; a dining row would claim 2x at all restaurants (issues #2154, #2205)" }
+  - { slug: venmo-credit-card, category: streaming,
+      why: "the existing streaming 3% row already covers it; the split bonus lives in notes (issue #2228)" }
+  - { slug: venmo-credit-card, category: mobile_wallet,
+      why: "Venmo checkout is modeled as the merchant_specific online_shopping row, like PayPal; mobile_wallet is for Apple Pay/Samsung Wallet-gated rates (issue #2228)" }
+  - { slug: paypal-cashback-mastercard, category: mobile_wallet,
+      why: "PayPal checkout is modeled as the merchant_specific online_shopping row (issue #2205)" }
+  - { slug: bilt-blue, category: dining,
+      why: "the 4x is Bilt Dining partner restaurants only, a program perk; a dining row would claim 4x at all restaurants (issue #2205)" }
 
 # Reward categories flagged as present in YAML but not on the apply page.
 # Every entry below was verified still live on the issuer's page; the
@@ -108,6 +126,13 @@ rewards_removed:
   - { slug: playstation-visa, category: streaming }
   - { slug: rei-co-op-mastercard, category: rei }
   - { slug: robinhood-gold-card, category: travel_portal }
+  - { slug: att-points-plus-from-citi, category: phone }
+  - { slug: marriott-bonvoy-business-american-express, category: phone }
+  - { slug: marriott-bonvoy-bold-credit-card, category: utilities }
+  - { slug: marriott-bonvoy-bold-credit-card, category: phone }
+  - { slug: marriott-bonvoy-bold-credit-card, category: transit }
+  - { slug: paypal-cashback-mastercard, category: online_shopping }
+  - { slug: hilton-honors-american-express-aspire-card, category: car_rentals }
 
 # Benefit names declined on a specific card.
 benefits:

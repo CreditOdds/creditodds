@@ -1,7 +1,7 @@
 name: "Navy Federal Visa Signature Flagship Travel Rewards"
 bank: "Navy Federal"
 slug: "navy-federal-flagship-rewards"
-accepting_applications: true
+accepting_applications: false
 category: "travel"
 image: "navy-federal-flagship-rewards.png"
 annual_fee: 95

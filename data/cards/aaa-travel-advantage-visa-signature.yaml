@@ -36,6 +36,10 @@ rewards:
     value: 3
     unit: percent
     note: "Includes AAA purchases"
+  - category: transit
+    value: 3
+    unit: percent
+    note: "Transportation, including rideshares, taxis, and limousine services"
   - category: everything_else
     value: 1
     unit: percent
