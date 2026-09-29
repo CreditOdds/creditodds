@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   hasOnlyForeignFrames,
   isBenignClientError,
+  isInjectedDocumentCallbackError,
   isInjectedDocumentScriptError,
 } from "./benignClientError";
 
@@ -459,5 +460,80 @@ describe("isInjectedDocumentScriptError", () => {
     ).toBe(false);
     expect(isInjectedDocumentScriptError(null)).toBe(false);
     expect(isInjectedDocumentScriptError({})).toBe(false);
+  });
+});
+
+describe("isInjectedDocumentCallbackError", () => {
+  const documentFrame = (overrides: Record<string, unknown> = {}) => ({
+    filename: "app:///best-card-for/temu",
+    abs_path: "https://creditodds.com/best-card-for/temu",
+    function: "?",
+    lineno: 8,
+    colno: 98031,
+    in_app: true,
+    ...overrides,
+  });
+  const eventWith = (frames: unknown[]) => ({
+    exception: { values: [{ stacktrace: { frames } }] },
+  });
+
+  it("drops an injected image-onload fetch attributed to the document", () => {
+    // Issue 7760401564: "TypeError: Failed to fetch" from HTMLImageElement.onload.
+    expect(
+      isInjectedDocumentCallbackError(
+        eventWith([
+          documentFrame({ function: "HTMLImageElement.onload", colno: 98516 }),
+          documentFrame(),
+        ]),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps document stacks made only of top-level or unnamed frames", () => {
+    expect(isInjectedDocumentCallbackError(eventWith([documentFrame()]))).toBe(
+      false,
+    );
+    expect(
+      isInjectedDocumentCallbackError(
+        eventWith([documentFrame({ function: "global code" })]),
+      ),
+    ).toBe(false);
+    expect(
+      isInjectedDocumentCallbackError(
+        eventWith([documentFrame({ function: undefined })]),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps anything that touches a script we ship", () => {
+    expect(
+      isInjectedDocumentCallbackError(
+        eventWith([
+          documentFrame({ function: "HTMLImageElement.onload" }),
+          documentFrame({
+            filename: "app:///_next/static/chunks/abc123.js",
+            abs_path: "https://creditodds.com/_next/static/chunks/abc123.js",
+            function: "loadImage",
+          }),
+        ]),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps frame-less, foreign-only, and malformed events", () => {
+    expect(isInjectedDocumentCallbackError(eventWith([]))).toBe(false);
+    expect(
+      isInjectedDocumentCallbackError(
+        eventWith([
+          documentFrame({
+            function: "HTMLImageElement.onload",
+            filename: "<anonymous>",
+            abs_path: "",
+          }),
+        ]),
+      ),
+    ).toBe(false);
+    expect(isInjectedDocumentCallbackError(null)).toBe(false);
+    expect(isInjectedDocumentCallbackError({})).toBe(false);
   });
 });

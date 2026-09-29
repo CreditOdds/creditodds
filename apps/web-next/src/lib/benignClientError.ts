@@ -342,3 +342,52 @@ export function isInjectedDocumentScriptError(
   }
   return frameCount > 0;
 }
+
+// Drops errors whose every frame sits in the page document itself and at least
+// one of those frames is a named function (a callback or helper), not
+// top-level code. First instance: issue 7760401564, "TypeError: Failed to
+// fetch" on /best-card-for/temu (Chrome 153, Mac), unhandled rejection with
+// two frames, both in the document: an anonymous function at line 8 column
+// 98031 called from `HTMLImageElement.onload` at column 98516. Line 8 of that
+// page is the Next.js RSC flight payload and was ~92.7k columns long when
+// checked, so those columns point past anything we render. The shape is a
+// main-world script injected by a browser extension (shopping/coupon
+// extensions scrape store pages for images and fetch them); Chrome attributes
+// dynamically inserted inline scripts to the document URL.
+//
+// Why this can't be ours: the only executable inline scripts Next.js renders
+// are `self.__next_f.push(...)` data pushes, which run once at top level and
+// define no functions, so a document frame can never be a callback of ours.
+// Every function we ship lives in a `/_next/` chunk, and a single such frame
+// on the stack disqualifies the event (see isDocumentFrame). Stacks made only
+// of top-level/unnamed document frames stay reportable, since a broken flight
+// push would look like that.
+
+// Function names that denote top-level (non-callback) code or an unknown name.
+const TOP_LEVEL_FUNCTION_NAMES = new Set(['', '?', 'global code', '<anonymous>']);
+
+export function isInjectedDocumentCallbackError(
+  event: SentryEventLike | null | undefined,
+): boolean {
+  const values = event?.exception?.values;
+  if (!Array.isArray(values)) return false;
+  let sawCallback = false;
+  let frameCount = 0;
+  for (const value of values) {
+    const frames = value?.stacktrace?.frames;
+    if (!Array.isArray(frames)) continue;
+    for (const raw of frames) {
+      frameCount++;
+      if (raw == null || typeof raw !== 'object') return false;
+      const frame = raw as FrameLike;
+      if (!isDocumentFrame(frame)) return false;
+      if (
+        typeof frame.function === 'string' &&
+        !TOP_LEVEL_FUNCTION_NAMES.has(frame.function)
+      ) {
+        sawCallback = true;
+      }
+    }
+  }
+  return frameCount > 0 && sawCallback;
+}

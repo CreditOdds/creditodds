@@ -13,6 +13,7 @@ import posthog from 'posthog-js';
 import {
   hasOnlyForeignFrames,
   isBenignClientError,
+  isInjectedDocumentCallbackError,
   isInjectedDocumentScriptError,
 } from '@/lib/benignClientError';
 
@@ -58,6 +59,12 @@ Sentry.init({
     // Host-injected code WebKit attributes to the page URL at line 1 (see
     // isInjectedDocumentScriptError in benignClientError.ts).
     if (isInjectedDocumentScriptError(event)) {
+      return null;
+    }
+    // Extension-injected callbacks (e.g. an image onload that fetches) whose
+    // whole stack is attributed to the document (see
+    // isInjectedDocumentCallbackError in benignClientError.ts).
+    if (isInjectedDocumentCallbackError(event)) {
       return null;
     }
     return event;
