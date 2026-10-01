@@ -32,16 +32,16 @@ apr:
     min: 16.74
     max: 24.74
 our_take: >
-  The Ink Business Unlimited is the simplest card in Chase's business lineup:
-  a flat 1.5% back on every purchase, no categories, no caps, and no annual
-  fee. The signup bonus is $750 after $6,000 of spend in the first three
-  months, a solid return on a card that costs nothing to keep. Twelve months
-  of 0% intro APR on purchases gives a new business room to finance equipment
-  before the regular 16.74% to 24.74% rate applies. The limit is what you
-  would expect from a flat-rate card: nothing earns above 1.5%, so heavy
-  office supply, phone, or advertising spend does better on the Ink Business
-  Cash or Ink Business Preferred. It also charges foreign transaction fees,
-  which rules it out for purchases abroad.
+  The Ink Business Unlimited keeps things simple: 1.5% back on every purchase
+  with no annual fee and no categories to track. The signup bonus is back to
+  $750 after $6,000 in spending within three months, following a short-lived
+  increase to $1,000 that ended in September, and a 12-month 0% intro APR on
+  purchases helps if you need to float early business costs. The catch is that
+  a flat 1.5% is a floor, not a standout rate, and the card charges foreign
+  transaction fees, so it is a poor fit for overseas spending. It pairs best
+  with a category card like the Ink Business Cash rather than serving as a
+  business's only card. The 5% on Lyft rides through September 2027 and three
+  months of Instacart+ are minor extras.
 apply_link: https://creditcards.chase.com/business-credit-cards/ink/unlimited
 foreign_transaction_fee: true
 network: "visa"

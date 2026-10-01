@@ -16,15 +16,14 @@ rewards:
     unit: percent
 our_take: >
   The Preferred Cash Rewards is a simple flat-rate card: 1.5% cash back on
-  everything, no annual fee, and no foreign transaction fee, which makes it
-  easy to carry overseas without doing mental math. The $250 signup bonus
-  after $1,000 in spending within three months is a strong return for a card
-  that costs nothing to keep. The honest limitation is the earn rate itself,
-  since 1.5% on everything is below what flat 2% cards pay, and there are no
-  bonus categories to make up the gap on groceries, gas, or dining. There is
-  also no intro APR offer here, so it does nothing for existing debt or a
-  purchase you want to spread out. Grab it for the bonus and the no-fee
-  foreign spending, but do not expect it to be your top earner.
+  every purchase with no annual fee and no categories to track. A $250 bonus
+  after $1,000 in spending in the first three months is a generous welcome for
+  a modest spend requirement. No foreign transaction fee also makes it a
+  reasonable card to use overseas, which matters for members stationed or
+  traveling abroad. The tradeoff is that 1.5% is merely average for a
+  flat-rate card, so anyone who wants more from everyday spending can likely
+  do better elsewhere. It's best as a low-maintenance default card for USAA
+  members who value simplicity over squeezing out every point.
 signup_bonus:
   value: 250
   type: cash

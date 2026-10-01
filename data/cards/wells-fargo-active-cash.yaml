@@ -32,17 +32,16 @@ apply_link: https://creditcards.wellsfargo.com/active-cash-credit-card
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  A flat 2% cash back on every purchase with no annual fee is still the
-  cleanest version of the simple-card pitch, and it is why the Active Cash
-  sits at #4 on our Best Cash Back list. You also get 12 months of 0% intro
-  APR on both purchases and qualifying balance transfers, which makes it a
-  rare card that works as an everyday earner and a short payoff runway at the
-  same time. The recent news is less good: Wells Fargo cut the signup bonus
-  from $200 to $100 on $500 of spending in three months, so the opening value
-  is half what it was. The other real catch is the 3% foreign transaction fee,
-  which rules it out for travel abroad. Cell phone protection of up to $600
-  per claim when you pay your bill with the card is a decent extra, but the 2%
-  flat rate is the whole reason to carry it.
+  The Active Cash earns an unlimited 2% cash back on every purchase with no
+  annual fee, which makes it one of the simplest high-value default cards
+  around and earns it a spot at #4 on our Best Cash Back Credit Cards list. It
+  adds 12 months of 0% intro APR on both purchases and balance transfers, plus
+  cell phone protection up to $600 per claim when you pay your bill with the
+  card, subject to a $25 deductible. The signup bonus was recently cut from
+  $200 to $100 after $500 in spending in the first three months, so the
+  welcome offer is now modest. It also charges a foreign transaction fee, so
+  leave it at home when you travel abroad. For domestic everyday spending,
+  though, a flat 2% with no fee is hard to argue with.
 benefits:
   - name: "Cellular Telephone Protection"
     value: 0

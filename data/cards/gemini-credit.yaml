@@ -41,15 +41,13 @@ apply_link: https://www.gemini.com/credit-card
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Gemini Credit card pays 4% back on gas, EV charging, and transit with no
-  annual fee, which is a genuinely high rate for a category most cards ignore.
-  The limit is the cap: that 4% applies to the first $300 of combined gas, EV,
-  and transit spending each month and drops to 1% after, with the cap
-  resetting on the 1st, so the top rate is worth at most about $12 a month if
-  you fill it exactly. Dining at 3% and groceries at 2% give it real everyday
-  utility, though everything else sits at 1%, so it is a category card rather
-  than a one-card wallet. There is no foreign transaction fee, which makes it
-  usable abroad, and the APR range runs from 16.49% to 34.49%, so the top end
-  is steep if you carry a balance. There is no signup bonus to sweeten the
-  first year, so judge it purely on whether your monthly commuting spend lands
-  near that $300 ceiling.
+  The Gemini Credit card's best feature is 4% back on gas, EV charging, and
+  transit with no annual fee, but that rate covers only the first $300 of
+  combined spend in those categories each month before dropping to 1%. That
+  works out to at most $12 a month at the top rate, so it rewards a typical
+  commuter rather than a heavy driver. Beyond that you earn 3% on dining, 2%
+  on groceries, and 1% on everything else, with no foreign transaction fee.
+  The 1% base rate is the real weakness, since anything outside the bonus
+  categories earns less than a basic flat-rate card. The regular APR runs as
+  high as 34.49%, so this only makes sense if you pay in full and want your
+  rewards tied to the Gemini platform.

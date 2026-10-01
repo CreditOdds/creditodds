@@ -8,20 +8,17 @@ foreign_transaction_fee: false
 network: "amex"
 annual_fee: 150
 our_take: >
-  The Surpass sits in the sensible middle of the Hilton lineup: a $150 annual
-  fee against up to $200 a year in Hilton credits, delivered as $50 per
-  quarter on purchases made directly with Hilton properties, plus
-  complimentary Gold status with room upgrades, late checkout, and a 5th night
-  free on reward stays. Its earning structure is the best part for everyday
-  use, with 6x at U.S. restaurants, U.S. supermarkets, and U.S. gas stations,
-  4x on eligible U.S. online retail, and 3x on everything else, on top of 12x
-  at Hilton properties themselves. The welcome offer is 130,000 points plus a
-  Free Night Reward after $3,000 of spending in six months, which is a modest
-  spending requirement for a bonus of that size. The catches are the quarterly
-  shape of the credit, which is easy to leave unused if your Hilton stays
-  cluster in one season, and the $15,000 annual spending needed to earn the
-  Free Night Reward each year. Diamond status is possible at $40,000 of annual
-  purchases, but most people should treat Gold as the real benefit.
+  The Surpass is the middle tier of the Hilton lineup, pairing complimentary
+  Gold status with strong everyday earning: 6 points per dollar at U.S.
+  restaurants, U.S. supermarkets, and U.S. gas stations, 4 points on eligible
+  U.S. online retail, and 12 points at Hilton. The welcome offer is 130,000
+  points plus a Free Night Reward after $3,000 in spend within six months, a
+  low bar for a bonus that size. The $150 annual fee is offset by up to $200 a
+  year in Hilton credits, but those come as $50 per quarter, so you need
+  regular Hilton charges to capture them. Free nights aren't automatic either:
+  you earn one after $15,000 in calendar-year spend, and Diamond status takes
+  $40,000. It's a good fit for Hilton loyalists who will put real spending on
+  the card, while occasional guests may do better with the no-fee version.
 reward_type: "points"
 rewards:
   - category: hotels

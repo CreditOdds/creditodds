@@ -8,22 +8,22 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
 our_take: >
-  The Platinum Card is a credits-and-access card first and a rewards card a
-  distant second: $600 a year in hotel credits on prepaid Fine Hotels +
-  Resorts and Hotel Collection bookings, $400 at Resy restaurants, $300 in
-  digital entertainment, $300 at Equinox, $300 at Lululemon, $200 in Uber
-  Cash, $200 in airline incidental fees, $219 for CLEAR Plus, and Centurion
-  plus Priority Pass lounge access. Its 175,000 point bonus after $12,000 in
-  six months ranks #2 on our Best Credit Card Signup Bonuses list, where it
-  carries the Best Premium badge. Earning is narrow for the price: 5x on
-  airfare booked directly with airlines or through Amex Travel up to $500,000
-  a year and on prepaid hotels through Amex Travel, then 1x on everything
-  else, so your everyday spending belongs on a different card. The $895 annual
-  fee only works if you actually use the credits, and most of them are monthly
-  or quarterly and require enrollment, which means anything you skip is gone
-  rather than banked. If Equinox, Lululemon, Resy, and Uber are not already
-  part of your month, you are paying close to full freight for the lounges and
-  hotel status.
+  The Platinum Card is a premium travel and lifestyle card built around lounge
+  access and a stack of statement credits, and its current offer of 175,000
+  points after $12,000 in spending within six months earns it the Best Premium
+  spot on our signup bonus rankings. It earns 5 points per dollar on flights
+  booked directly with airlines or through Amex Travel, up to $500,000 a year,
+  and on prepaid hotels booked through AmexTravel.com, along with Centurion
+  Lounge, Priority Pass, and limited Delta Sky Club access. The real catch is
+  the $895 annual fee, which only pays off if you use credits that are carved
+  into monthly and quarterly pieces: $15 a month in Uber Cash, $25 a month for
+  digital entertainment, $100 a quarter at Resy restaurants, $75 a quarter at
+  Lululemon, $300 semi-annually on Fine Hotels + Resorts or The Hotel
+  Collection, plus Equinox, Oura, Walmart+, and CLEAR credits. Outside of
+  travel, it earns just 1 point per dollar, so it is a poor choice for
+  everyday spending. It suits frequent travelers who will happily track and
+  use most of those credits; if that sounds like a chore, the fee will
+  outweigh the value.
 annual_fee: 895
 reward_type: "points"
 rewards:

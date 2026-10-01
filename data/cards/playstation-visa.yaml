@@ -44,18 +44,17 @@ apr:
     min: 17.74
     max: 31.74
 our_take: >
-  For anyone who spends regularly on PlayStation, this card earns 5 points per
-  dollar at PlayStation, PlayStation Direct and the Sony Store, and 3x on
-  streaming, cable and internet subscriptions, all with no annual fee. Points
-  redeem for PlayStation Store codes and digital gift cards, and spending
-  $6,000 in a calendar year triggers a 12-month PlayStation Plus Premium
-  membership, which is a real benefit if you were paying for it anyway. Dining
-  and groceries at 2x give it some everyday use, but everything else is 1x, so
-  it is a companion card rather than a daily driver. The $100 statement credit
-  after $500 in 60 days is one of the easier opening offers to clear. Watch
-  the fine print though: there is a foreign transaction fee, and the regular
-  APR runs 17.74% to 31.74%, which would erase the rewards fast if you carried
-  a balance.
+  The PlayStation Visa makes the most sense for dedicated PlayStation players:
+  it earns 5 points per dollar on PlayStation, PlayStation Direct, and Sony
+  Store purchases, with no annual fee. The secondary categories are
+  respectable too, at 3 points per dollar on streaming, cable, and internet
+  subscriptions and 2 points per dollar on dining and groceries. A $100
+  statement credit after $500 in purchases within 60 days is an easy bonus to
+  earn. The tradeoffs are a 1 point per dollar base rate on everything else, a
+  foreign transaction fee that rules it out abroad, and a regular APR that can
+  reach 31.74%. The 12-month PlayStation Plus Premium membership requires
+  $6,000 in purchases in a calendar year, so treat it as a perk for heavy
+  spenders rather than a reason to apply.
 benefits:
   - name: "PlayStation Plus Premium Membership"
     value: 0

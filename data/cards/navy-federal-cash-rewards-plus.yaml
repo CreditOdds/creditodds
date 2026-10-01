@@ -9,19 +9,18 @@ foreign_transaction_fee: false
 network: "visa"
 reward_type: "cashback"
 our_take: >
-  cashRewards Plus is a flat 2% cash back card with no annual fee and no
-  foreign transaction fee, which puts it at the top of the simple everyday
-  tier. One condition matters a lot: the 2% version is issued on the
-  cashRewards application only when you are approved for a credit limit of
-  $5,000 or more, and smaller limits get the 1.5% card instead, so the
-  headline rate is not guaranteed going in. The welcome offer is $250 after
-  $2,500 in purchases in the first three months on applications through
-  January 3, 2027, and the regular APR range of 14.15% to 18% is well under
-  what most rewards cards charge. It is also a quiet balance transfer option
-  at 1.99% for 12 months with no balance transfer fee at all, which is
-  genuinely uncommon. The tradeoff is the absence of bonus categories and of
-  perks beyond rental car collision damage coverage, so treat it as the card
-  you reach for when nothing else earns more.
+  The cashRewards Plus earns a flat 2% cash back on everything with no annual
+  fee and no foreign transaction fees, which puts it among the better simple
+  cash back cards for anyone eligible for Navy Federal membership. The catch
+  is that you cannot apply for it directly: it is issued on the cashRewards
+  application only when you are approved for a credit limit of $5,000 or more,
+  while lower limits get the 1.5% version. New cardholders can earn a $250
+  bonus after spending $2,500 within 3 months, an offer valid for applications
+  through January 3, 2027. A 1.99% intro balance transfer rate for 12 months
+  with no balance transfer fee is a genuinely useful extra, and regular APRs
+  of 14.15% to 18% are lower than most bank cards. Beyond rental car collision
+  damage waiver coverage, the perks are minimal, but a no-fee 2% card does not
+  need many.
 tags:
   - cashback
   - rewards
