@@ -1324,7 +1324,7 @@
     "t3_1wp82qx": "2026-09-25",
     "t3_1wp43vu": "2026-09-25",
     "t3_1wp2ds8": "2026-09-25",
-    "t3_1wkm0wy": "2026-09-29",
+    "t3_1wkm0wy": "2026-10-01",
     "t3_1wqnipz": "2026-09-26",
     "t3_1wqcxh7": "2026-09-26",
     "t3_1wqbqx3": "2026-09-26",
@@ -1357,57 +1357,54 @@
     "t3_1ws3g2d": "2026-09-28",
     "t3_1wrzjpe": "2026-09-29",
     "t3_1wryqqe": "2026-09-28",
-    "t3_1wt8tlx": "2026-09-29",
+    "t3_1wt8tlx": "2026-10-01",
     "t3_1wt19t8": "2026-09-29",
     "t3_1wsx9lq": "2026-09-29",
     "t3_1wsufl7": "2026-09-29",
     "t3_1wsmbj2": "2026-09-29",
-    "t3_1wshfmm": "2026-09-29"
+    "t3_1wshfmm": "2026-09-29",
+    "t3_1wuynnd": "2026-10-01",
+    "t3_1wur81h": "2026-10-01",
+    "t3_1wuqbrg": "2026-10-01",
+    "t3_1wuphkg": "2026-10-01",
+    "t3_1wup40x": "2026-10-01",
+    "t3_1wumdji": "2026-10-01",
+    "t3_1wujps6": "2026-10-01",
+    "t3_1wugdga": "2026-10-01",
+    "t3_1wuc27q": "2026-10-01",
+    "t3_1wub0ig": "2026-10-01",
+    "t3_1wuaja9": "2026-10-01",
+    "t3_1wua1t3": "2026-10-01",
+    "t3_1wu7p8i": "2026-10-01",
+    "t3_1wtwwml": "2026-10-01",
+    "t3_1wtuvgk": "2026-10-01",
+    "t3_1wtte5r": "2026-10-01",
+    "t3_1wtrf0m": "2026-10-01",
+    "t3_1wtpxzs": "2026-10-01",
+    "t3_1wtpl2f": "2026-10-01",
+    "t3_1wtoq70": "2026-10-01",
+    "t3_1wtnnd6": "2026-10-01",
+    "t3_1wtj7zd": "2026-10-01",
+    "t3_1wtg0hm": "2026-10-01",
+    "t3_1wtfqz6": "2026-10-01",
+    "t3_1wtcvex": "2026-10-01",
+    "t3_1wtc2kr": "2026-10-01",
+    "t3_1wsn44w": "2026-10-01"
   },
   "pending": {
-    "t3_1wo06qn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wo06qn/preapproved_for_all_the_good_cards_none_today/",
-      "title": "Pre-approved for all the good cards, none today.",
-      "posted": "2026-09-23",
-      "card_name": "Chase Freedom Flex",
+    "t3_1wkm0wy": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wkm0wy/fidelity_card_prehistoric_customer_support/",
+      "title": "Fidelity Card Prehistoric Customer Support",
+      "posted": "2026-09-19",
+      "card_name": "Fidelity Rewards Visa Signature",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for Freedom Flex in July 2026 with a $3,500 limit; the 695-699 scores given are current, not at application.",
-      "ask": "You listed scores around 695-699 now. What was your score when you applied for the Flex in July?",
-      "firstSeen": "2026-09-23",
+      "note": "Applied for the Fidelity Rewards card in September 2026, faxed ID docs, approved about a week later; still no score given.",
+      "firstSeen": "2026-09-25",
       "attempts": 3,
-      "lastChecked": "2026-09-29"
-    },
-    "t3_1wok12g": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wok12g/looking_to_knock_out_a_sub_with_upcoming_expenses/",
-      "title": "Looking to knock out a SUB with upcoming expenses",
-      "posted": "2026-09-23",
-      "card_name": "Ink Business Preferred",
-      "result": "denied",
-      "missing": [
-        "date_applied"
-      ],
-      "note": "Denied for Ink Business Preferred a few months ago; Experian FICO 764 and $60k income listed, but no application month.",
-      "ask": "You mentioned the CIP denial was a few months ago. Roughly what month did you apply?",
-      "firstSeen": "2026-09-24",
-      "attempts": 3,
-      "lastChecked": "2026-09-29"
-    },
-    "t3_1woct31": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1woct31/agreement_paperwork_doesnt_include_0_purchasebt/",
-      "title": "Agreement paperwork doesn't include 0% purchase/BT offer that was on application",
-      "posted": "2026-09-23",
-      "card_name": "Blue Cash Everyday",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Blue Cash Everyday in September 2026 with an $8k limit (later closed it); no score given.",
-      "firstSeen": "2026-09-24",
-      "attempts": 3,
-      "lastChecked": "2026-09-29"
+      "lastChecked": "2026-10-01"
     },
     "t3_1wpcuqf": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wpcuqf/capital_one_venture_question/",
@@ -1421,34 +1418,6 @@
       "note": "Approved for the Capital One Venture in September 2026; no score or profile given.",
       "firstSeen": "2026-09-25",
       "attempts": 2,
-      "lastChecked": "2026-09-29"
-    },
-    "t3_1wkm0wy": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wkm0wy/fidelity_card_prehistoric_customer_support/",
-      "title": "Fidelity Card Prehistoric Customer Support",
-      "posted": "2026-09-19",
-      "card_name": "Fidelity Rewards Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied for the Fidelity Rewards card in September 2026, faxed ID docs, approved about a week later; no score given.",
-      "firstSeen": "2026-09-25",
-      "attempts": 2,
-      "lastChecked": "2026-09-29"
-    },
-    "t3_1wt8tlx": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wt8tlx/capital_one_basic_quicksilver_how_long_does_it/",
-      "title": "Capital One basic Quicksilver. How long does it take?",
-      "posted": "2026-09-29",
-      "card_name": "Capital One Quicksilver Cash Rewards",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied for a Quicksilver on 2026-09-28 and was approved the next day; no score or profile given.",
-      "firstSeen": "2026-09-29",
-      "attempts": 1,
       "lastChecked": "2026-09-29"
     }
   },
@@ -2268,6 +2237,24 @@
       "skipped": {
         "other": 1,
         "no_outcome": 5
+      }
+    },
+    {
+      "id": "2026-10-01T14:30:55.366Z",
+      "date": "2026-10-01",
+      "candidates": 29,
+      "revisits": 2,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 1,
+      "pending": 2,
+      "unaccounted": 0,
+      "skipped": {
+        "other": 1,
+        "no_outcome": 19,
+        "card_unclear": 2,
+        "no_score": 4,
+        "pre_qual": 1
       }
     }
   ]
