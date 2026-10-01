@@ -70,16 +70,16 @@ apply_link: https://creditcards.chase.com/business-credit-cards/ink/cash
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  For a business card with no annual fee, 5% back on office supply stores plus
-  internet, cable, and phone service is a strong everyday rate, and it runs on
-  a combined $25,000 of annual spend before falling to 1%. The signup bonus is
-  $750 after $6,000 of spend in the first three months, and it pairs with 12
-  months of 0% intro APR on purchases for anyone financing startup costs. Gas
-  stations and restaurants add 2% under their own combined $25,000 cap. The
-  ceilings are the real catch: past them everything earns 1%, and the card
-  charges foreign transaction fees, so overseas spending belongs on a
-  different card. The regular APR of 16.74% to 24.74% is reasonable, but not a
-  reason to carry a balance past the intro period.
+  The Ink Business Cash is built for businesses with steady office overhead:
+  5% back at office supply stores and on internet, cable, and phone services,
+  plus 2% at gas stations and restaurants, all with no annual fee. The catch
+  is the caps, since each of those tiers is limited to $25,000 a year before
+  dropping to 1%, and everything else earns only 1% from the start. That makes
+  it a strong category card but a weak one for general spending. The signup
+  bonus is back to $750 after $6,000 in spending within three months, after a
+  brief bump to $1,000 that ended in September. A 12-month 0% intro APR on
+  purchases helps if you are financing equipment or startup costs, while the
+  Lyft promo and three months of Instacart+ are small extras.
 benefits:
   - name: "Instacart+ Membership"
     value: 0

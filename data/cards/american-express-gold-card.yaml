@@ -8,21 +8,20 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref="
 our_take: >
-  The Gold is the strongest card on the market for food spending, earning 4x
-  points at restaurants on up to $50,000 a year and 4x at U.S. supermarkets on
-  up to $25,000, which is why it sits at number 2 with our Best Premium badge
-  on the Best Credit Cards for Dining and Groceries list. Travel earning is
-  respectable too, with 5x on hotels prepaid through Amex Travel, 3x on
-  flights, and 2x on prepaid car rentals and cruises, and there is no foreign
-  transaction fee. The $325 annual fee is offset on paper by a stack of
-  monthly and semiannual credits worth well over the fee: $120 a year in Uber
-  Cash, $120 in dining credits at Grubhub, Cheesecake Factory, Goldbelly,
-  Wine.com, and Five Guys, $84 at Dunkin, and $100 at Resy restaurants. Be
-  honest about the catch: those credits arrive in small monthly or semiannual
-  chunks at named merchants and require enrollment, so if you would not
-  otherwise spend there, the real fee is closer to the full $325. The current
-  100,000 point welcome offer after $8,000 in six months is a generous entry,
-  and the card also ranks number 6 on both our signup bonus and travel lists.
+  The Gold is built for people who spend heavily on food: 4 points per dollar
+  at restaurants on up to $50,000 a year and 4 points at U.S. supermarkets on
+  up to $25,000, plus 3 points on flights and 5 points on hotels, prepaid car
+  rentals, and cruises booked through Amex Travel. That earning power is why
+  it sits near the top of our dining and groceries rankings, and the current
+  100,000-point welcome offer after $8,000 in spend over six months is a
+  strong head start. The catch is the $325 annual fee, which leans on a stack
+  of monthly credits to justify itself: $10 a month in Uber Cash, $10 a month
+  at Grubhub and a handful of other merchants, up to $7 a month at Dunkin',
+  and up to $50 twice a year at Resy. Those credits require enrollment and
+  only pay off if you already use those specific merchants, so be honest about
+  which ones you will actually redeem. Everything outside the bonus categories
+  earns just 1 point per dollar, so this works best alongside a solid
+  catch-all card.
 annual_fee: 325
 benefits:
   - name: "Uber Cash"

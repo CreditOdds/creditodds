@@ -14,20 +14,18 @@ check_ignore:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The business version runs the same playbook as the consumer card: 3 points
-  per dollar on Alaska and Hawaiian Airlines purchases, 2 points per dollar on
-  gas, EV charging, transit and shipping, and a $99 Companion Fare plus taxes
-  and fees from $23 in any year you spend at least $6,000, which alone covers
-  the $95 annual fee for anyone flying that network. Bank of America trimmed
-  the signup bonus from 80,000 points to 70,000 in July, still paired with a
-  Companion Fare and requiring $4,000 in the first 90 days. The quiet
-  advantage for owners is that card activity does not report to personal
-  credit bureaus, keeping the balance off your personal utilization and the
-  account out of 5/24-style counts. The limits carry over too: everything
-  outside those categories earns 1 point per dollar, and the free checked bag
-  covers the cardmember rather than the whole reservation. If your business
-  does not fly Alaska or Hawaiian with some regularity, there is little reason
-  to pay the fee.
+  The Atmos Rewards Business makes the most sense for a business owner who
+  already flies Alaska or Hawaiian, earning 3 points per dollar on those
+  airlines plus 2 points per dollar on gas, EV charging, transit, and
+  shipping. The welcome offer was recently cut from 80,000 to 70,000 points,
+  but it still comes with a $99 Companion Fare (plus taxes and fees from $23)
+  after $4,000 in purchases within 90 days. Ongoing value depends on loyalty:
+  the free first checked bag and priority boarding apply only on Alaska
+  flights paid with the card, and repeating the Companion Fare each year
+  requires $6,000 in annual spend. Outside the bonus categories everything
+  earns just 1 point per dollar, so it is a weak choice for general business
+  spending. For the $95 annual fee, it fits owners who fly Alaska a few times
+  a year and want card activity kept off their personal credit reports.
 tags:
   - travel
   - airline

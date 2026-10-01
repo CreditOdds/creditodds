@@ -6,19 +6,19 @@ image: "atlas.png"
 apply_link: https://atlascard.com/
 foreign_transaction_fee: false
 our_take: >
-  On paper the Atlas covers its own $3,000 annual fee with the $3,000 private
-  charter credit alone, and then adds $1,000 for semi-private aviation, $1,000
-  toward business class flights on bookings of $5,000 or more, $1,000 for
-  ticketed experiences, and a $200 Erewhon credit. That only holds if you
-  genuinely fly charter and book through Atlas Travel, which is also the one
-  place the card earns well, at 5 points per dollar. Lead Bank tripled the
-  annual fee from $1,000 to $3,000 in June 2026, so the cost of misjudging
-  your own usage went up sharply, and everything outside Atlas Travel earns a
-  flat 1 point per dollar. The spend-unlocked credits make the intended
-  customer clear: the extra airport, hotel and travel credits do not appear
-  until $100,000, $250,000 and $1,000,000 in annual spend. If private aviation
-  is not already part of your year, the credits are unusable and the $3,000 is
-  just a fee.
+  Atlas is an ultra-premium card aimed at people who already spend on private
+  and semi-private aviation, offering a $3,000 annual private charter credit,
+  $1,000 toward semi-private flights with BLADE, JSX, Aero, and Slate, $1,000
+  toward business class bookings of $5,000 or more, and $1,000 toward ticketed
+  experiences. It earns 5 points per dollar on everything booked through Atlas
+  Travel, layers on concierge and dining reservation access in a few major
+  cities, and charges no foreign transaction fees. The major change is the
+  annual fee, which recently tripled from $1,000 to $3,000, so the math now
+  hinges on using those credits in full every year. Outside Atlas Travel, the
+  card earns just 1 point per dollar, which is a weak return on everyday
+  spending at this price. This only makes sense if charter flights and
+  high-end travel are already part of your budget; for nearly everyone else, a
+  conventional premium travel card is a better value.
 annual_fee: 3000
 category: "travel"
 reward_type: "points"

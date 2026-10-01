@@ -10,20 +10,16 @@ apply_link: "https://www.americanexpress.com/us/credit-cards/business/business-c
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  Amex's Graphite Business Cash Unlimited is built for a business that wants
-  one flat rate and no category tracking: 2% cash back on eligible purchases
-  with no cap, plus 5% on flights and prepaid hotels booked through American
-  Express Travel. The problem is the math on the $295 annual fee, since 2% is
-  only half a point better than the free 1.5% flat-rate cards, meaning you
-  need roughly $59,000 of annual spending on the card before the extra cash
-  back covers the fee at all. The $1,500 welcome bonus is real money but
-  demands $50,000 of spending in six months, and the statement credits of up
-  to $2,400 toward American Express One AP monthly fees only unlock after
-  $250,000 of eligible purchases in a calendar year. That pattern repeats
-  throughout: every headline number here assumes a very high spending volume.
-  There is no foreign transaction fee, and for a business already pushing six
-  figures through a card each year it is a clean, low-maintenance option, but
-  smaller businesses will do better with a no-fee flat-rate card.
+  The Graphite Business Cash Unlimited is built for businesses with very large
+  spend: a flat 2% cash back on eligible purchases plus a $1,500 bonus after
+  $50,000 in spending within six months. Flights and prepaid hotels booked
+  through American Express Travel earn 5%, and there's no foreign transaction
+  fee. The catch is the $295 annual fee on a 2% card, because you need roughly
+  $15,000 a year in spend at 2% just to earn back the fee. Its distinctive
+  perk, up to $2,400 in statement credits for American Express One AP monthly
+  fees, only unlocks after $250,000 in eligible purchases in a calendar year.
+  That makes it a fit for companies with six-figure card volume that use or
+  want One AP, and a hard sell for everyone else.
 tags:
   - business
   - cashback

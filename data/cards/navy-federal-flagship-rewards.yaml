@@ -8,20 +8,19 @@ annual_fee: 95
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Flagship Travel Rewards card's strength is its floor: 2 points per
-  dollar on everything, with 3 points on an unusually broad travel definition
-  that includes airlines, hotels, car rentals, rideshare, parking, tolls,
-  museums, amusement parks and golf courses. Navy Federal reworked the
-  economics on September 10, 2026, raising the annual fee from $49 to $95
-  while lifting the welcome offer from 35,000 to 50,000 points, described as
-  worth $500, after $4,000 in purchases in three months. That fee increase is
-  largely absorbed by the annual statement credit covering one Amazon Prime
-  membership, worth $139 when you pay for Prime with the card, and there is up
-  to $120 for Global Entry or TSA PreCheck every four years on top. Rates stay
-  low for the category at 14.74% to 18%, with no foreign transaction fee and
-  no balance transfer fee. If you were holding it at the old $49 fee, the
-  question is simply whether you renew Prime on this card, because that credit
-  is what keeps the new math working.
+  Navy Federal stopped accepting new applications for the Flagship Travel
+  Rewards on September 29, 2026, so this take is mainly for existing
+  cardholders deciding whether to keep it. The card's strength was its
+  earning: 3 points per dollar on a broad travel category that includes
+  airlines, hotels, ride-sharing, parking, tolls and even museums and golf
+  courses, plus a solid 2 points on everything else. The tradeoff got steeper
+  this month, when the annual fee jumped from $49 to $95 just before the card
+  closed to applicants. To justify that higher fee, you need to actually use
+  the annual Amazon Prime membership credit, which alone covers more than the
+  fee if you already pay for Prime with the card. Up to $120 for Global Entry
+  or TSA PreCheck every four years and no foreign transaction fees help, but
+  if you don't use Prime, the math on keeping this card is far less convincing
+  than it used to be.
 reward_type: "points"
 tags:
   - travel

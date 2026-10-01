@@ -9,19 +9,19 @@ annual_fee: 0
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  For a card with no annual fee, the Earner asks very little and still puts up
-  a 75,000 point welcome offer: 30,000 after $1,000 of spending in the first
-  90 days, plus 45,000 more after just $500 at Hotels by Wyndham within 180
-  days. Ongoing it earns 5 points per dollar at Hotels by Wyndham, 3x on
-  dining and groceries excluding Target and Walmart, and 1x on everything
-  else, alongside automatic Gold status and a 10% discount when you redeem for
-  free nights. There is also 15 months of 0% intro APR on balance transfers
-  and no foreign transaction fee. The limits are real: the 7,500 point
-  anniversary bonus only lands after $15,000 of spending in a cardmember year,
-  and the higher hotel rate, Diamond status and larger anniversary bonus are
-  reserved for the paid versions of this card. Treat it as a low-commitment
-  way to keep Wyndham points accumulating rather than a card that earns its
-  way into daily use.
+  The Wyndham Rewards Earner is a no-annual-fee way to collect Wyndham points,
+  with 5 points per dollar at Hotels by Wyndham and 3x on dining and
+  groceries, excluding Target and Walmart. The welcome offer of 75,000 points
+  is generous for a free card, split into 30,000 after $1,000 in 90 days and
+  45,000 after $500 at Hotels by Wyndham within 180 days, so you will need a
+  Wyndham stay to collect the full amount. Automatic Gold status and a 10%
+  discount on award redemptions add modest ongoing value, and there is no
+  foreign transaction fee. The tradeoff is that the everyday earn drops to 1x
+  outside those categories, and the 7,500-point anniversary bonus only arrives
+  if you spend $15,000 in a year. It also offers 15 months of 0% intro APR on
+  balance transfers, which is a useful extra for someone consolidating debt.
+  Pick it if you stay at Wyndham occasionally and want hotel points without
+  paying a fee.
 reward_type: "points"
 tags:
   - hotel

@@ -9,17 +9,17 @@ foreign_transaction_fee: false
 network: "amex"
 reward_type: "points"
 our_take: >
-  The More Rewards Amex earns 3 points per dollar across four of the biggest
-  everyday categories at once, dining including food delivery, groceries, gas
-  and transit, and it does that with no annual fee and no foreign transaction
-  fee. That breadth is rare at $0, and the regular APR range of 14.15% to 18%
-  is well below what most rewards cards charge if you ever carry a balance.
-  The opening offer is modest but easy to clear: 20,000 points worth $200
-  after $2,000 in the first three months, on applications through 1/3/2027.
-  The catch is everything outside those four categories earns just 1 point per
-  dollar, so this is a supporting card for routine spending rather than a
-  single-card solution. No balance transfer fees and car rental discounts with
-  loss and damage coverage round it out.
+  More Rewards packs an unusually wide spread of 3x categories into a
+  no-annual-fee card: 3 points per dollar on dining and food delivery,
+  groceries, gas and transit. For a household whose budget runs mostly through
+  those four buckets, that is a lot of earning power for no cost, and the
+  20,000-point bonus, worth $200 after $2,000 in spend over three months, is a
+  reasonable welcome. The tradeoff is that everything else earns just 1 point
+  per dollar, and because it runs on the American Express network, you may run
+  into merchants that don't accept it. The regular APR of 14.15% to 18% is low
+  for a rewards card, and Navy Federal charges no balance transfer fees. No
+  foreign transaction fees and car rental discounts with included coverage are
+  nice extras on a card that earns its spot through its everyday categories.
 tags:
   - rewards
   - dining
