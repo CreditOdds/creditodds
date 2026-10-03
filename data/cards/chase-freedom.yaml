@@ -25,16 +25,12 @@ rewards:
     unit: "percent"
     mode: "quarterly_rotating"
     current_categories:
-      - category: "gas"
-        note: "Gas stations (Q3 2026 rotation)"
-      - category: "ev_charging"
-        note: "EV charging (Q3 2026 rotation)"
-      - category: "transit"
-        note: "Public transit (Q3 2026 rotation)"
-      - category: "entertainment"
-        note: "Select live entertainment (Q3 2026 rotation)"
-    current_period: "Q3 2026"
-    note: "Q3 2026: gas stations and EV charging, public transit, select live entertainment, and donations to United Way"
+      - category: "groceries"
+        note: "Grocery stores, excl. Walmart and Target (Q4 2026 rotation)"
+      - category: "dining"
+        note: "Dining (Q4 2026 rotation)"
+    current_period: "Q4 2026"
+    note: "Q4 2026: grocery stores (excluding Walmart and Target), dining, and donations to the American Red Cross"
     spend_cap: 1500
     cap_period: quarterly
     rate_after_cap: 1
@@ -51,9 +47,8 @@ network: "visa"
 our_take: >
   Chase no longer accepts applications for the Freedom, so it only matters now
   if you already hold one. If you do, it still earns 5% on rotating quarterly
-  categories on up to $1,500 of spend each quarter, which for Q3 2026 covers
-  gas stations and EV charging, public transit, and select live entertainment,
-  then drops to 1% past the cap. Everything outside those categories earns a
+  categories on up to $1,500 of spend each quarter, which for Q4 2026 covers
+  grocery stores (excluding Walmart and Target) and dining, then drops to 1% past the cap. Everything outside those categories earns a
   flat 1%, so the card only pays off if you activate each quarter and
   deliberately steer the right spending to it. There is no annual fee, which
   makes it painless to keep open for the credit history even in quarters you

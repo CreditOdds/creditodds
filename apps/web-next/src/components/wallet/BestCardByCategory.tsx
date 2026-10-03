@@ -4,22 +4,10 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import CardImage from '@/components/ui/CardImage';
 import { Card, WalletCard, Reward } from '@/lib/api';
-import { categoryLabels, formatRewardWithUsdEquivalent, getRewardUsdRate } from '@/lib/cardDisplayUtils';
+import { categoryLabels, currentQuarterLabel, formatRewardWithUsdEquivalent, getRewardUsdRate, isStaleRotation } from '@/lib/cardDisplayUtils';
 import { dedupeWalletByCardName } from '@/app/profile/profileSelectors';
 
 const canonicalOrder = Object.keys(categoryLabels).filter(c => c !== 'everything_else');
-
-function currentQuarterLabel(now: Date = new Date()): string {
-  const q = Math.floor(now.getUTCMonth() / 3) + 1;
-  return `Q${q} ${now.getUTCFullYear()}`;
-}
-
-function isStaleRotation(reward: Reward, expected: string): boolean {
-  if (reward.mode !== 'quarterly_rotating') return false;
-  const cur = reward.current_period;
-  if (!cur) return true;
-  return cur.trim().toUpperCase() !== expected.toUpperCase();
-}
 
 function isConditional(reward: Reward) {
   return reward.merchant_specific === true || (!!reward.note && reward.note.trim().length > 0);

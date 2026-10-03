@@ -13,8 +13,8 @@ rewards:
     value: 5
     unit: percent
     mode: quarterly_rotating
-    current_categories: [gas, ev_charging, transit, airlines, drugstores]
-    current_period: "Q3 2026"
+    current_categories: [dining, entertainment, utilities]
+    current_period: "Q4 2026"
     note: "Activation required each quarter"
     spend_cap: 1500
     cap_period: quarterly
@@ -38,8 +38,8 @@ network: "discover"
 our_take: >
   This is the standard Discover it rotating cash back card in NHL clothing: 5%
   back in quarterly categories on up to $1,500 in spending each quarter after
-  you activate, which through Q3 2026 covers gas, EV charging, transit,
-  airlines and drugstores. There is no annual fee and no foreign transaction
+  you activate, which through Q4 2026 covers restaurants,
+  entertainment and utilities. There is no annual fee and no foreign transaction
   fee, and the intro window is a genuine 15 months at 0% on both purchases and
   balance transfers, which is long enough to finance something meaningful or
   clear a balance. The work is on you, though: the categories change every
