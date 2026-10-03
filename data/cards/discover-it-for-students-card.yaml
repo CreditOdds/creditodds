@@ -14,8 +14,8 @@ rewards:
     value: 5
     unit: percent
     mode: quarterly_rotating
-    current_categories: [gas, ev_charging, transit, airlines, drugstores]
-    current_period: "Q3 2026"
+    current_categories: [dining, entertainment, utilities]
+    current_period: "Q4 2026"
     note: "Activation required each quarter"
     spend_cap: 1500
     cap_period: quarterly
@@ -38,8 +38,8 @@ our_take: >
   automatically matches all the cash back you earn in your first year, with no
   cap and no annual fee, which effectively doubles whatever you earn while
   you're learning the habit. On top of that you get 5% back in rotating
-  quarterly categories, currently gas, EV charging, transit, airlines, and
-  drugstores for Q3 2026, plus no foreign transaction fee if you study abroad.
+  quarterly categories, currently restaurants, entertainment, and
+  utilities for Q4 2026, plus no foreign transaction fee if you study abroad.
   Be clear on the limits: the 5% requires activation each quarter and stops
   after $1,500 of spending, dropping to 1%, which is also the rate on
   everything else. The 0% intro APR runs only 6 months on purchases, so this

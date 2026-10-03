@@ -14,19 +14,15 @@ rewards:
     unit: "percent"
     mode: "quarterly_rotating"
     # Chase Travel (travel_portal) is a permanent 5% on this card, so it is
-    # intentionally NOT listed here. Donations to United Way don't map to
+    # intentionally NOT listed here. Donations to the Red Cross don't map to
     # a spending category, so they're kept in the umbrella note for context.
     current_categories:
-      - category: "gas"
-        note: "Gas stations (Q3 2026 rotation)"
-      - category: "ev_charging"
-        note: "EV charging (Q3 2026 rotation)"
-      - category: "transit"
-        note: "Public transit (Q3 2026 rotation)"
-      - category: "entertainment"
-        note: "Select live entertainment (Q3 2026 rotation)"
-    current_period: "Q3 2026"
-    note: "Q3 2026: gas stations and EV charging, public transit, select live entertainment, and donations to United Way"
+      - category: "groceries"
+        note: "Grocery stores, excl. Walmart and Target (Q4 2026 rotation)"
+      - category: "dining"
+        note: "Dining (Q4 2026 rotation)"
+    current_period: "Q4 2026"
+    note: "Q4 2026: grocery stores (excluding Walmart and Target), dining, and donations to the American Red Cross"
     spend_cap: 1500
     cap_period: quarterly
     rate_after_cap: 1
@@ -64,8 +60,9 @@ our_take: >
   The Freedom Flex is our #1 cash back pick and carries the Best Overall
   badge, largely because of how much ground it covers for no annual fee: 5% on
   rotating quarterly categories, 5% on travel booked through Chase, 3% on
-  dining, 3% at drugstores, and 1% on everything else. The Q3 2026 rotation is
-  gas stations and EV charging, public transit, and select live entertainment.
+  dining, 3% at drugstores, and 1% on everything else. The Q4 2026 rotation is
+  grocery stores (excluding Walmart and Target) and dining, which stacks with
+  the everyday 3% to make dining 7% through December.
   The $250 bonus, a limited-time increase from $200, after only $500 of spend
   in the first 3 months is among the easier ones to hit, and there are 15
   months of 0% intro APR on both purchases and balance transfers if you have

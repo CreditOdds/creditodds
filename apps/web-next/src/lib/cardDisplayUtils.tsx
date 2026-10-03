@@ -462,3 +462,20 @@ export function creditAmountLabel(value: number, frequency: string, valueUnit?: 
   }
   return `$${value.toLocaleString()}${CREDIT_FREQUENCY_SUFFIX[frequency] ?? ''}`;
 }
+
+// Quarterly rotating categories are hand-maintained in the card YAML, so a
+// rollover can lag the calendar. "Q4 2026" style label for the current UTC
+// quarter, matching the `current_period` format.
+export function currentQuarterLabel(now: Date = new Date()): string {
+  const q = Math.floor(now.getUTCMonth() / 3) + 1;
+  return `Q${q} ${now.getUTCFullYear()}`;
+}
+
+// True when a quarterly_rotating reward's `current_period` is missing or
+// doesn't match `expected` (defaults to the current quarter).
+export function isStaleRotation(reward: Reward, expected: string = currentQuarterLabel()): boolean {
+  if (reward.mode !== 'quarterly_rotating') return false;
+  const cur = reward.current_period;
+  if (!cur) return true;
+  return cur.trim().toUpperCase() !== expected.toUpperCase();
+}

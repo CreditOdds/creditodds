@@ -14,8 +14,8 @@ rewards:
     value: 5
     unit: percent
     mode: quarterly_rotating
-    current_categories: [gas, ev_charging, transit, airlines, drugstores]
-    current_period: "Q3 2026"
+    current_categories: [dining, entertainment, utilities]
+    current_period: "Q4 2026"
     note: "Activation required each quarter"
     spend_cap: 1500
     cap_period: quarterly
@@ -37,8 +37,8 @@ apply_link: https://www.discover.com/credit-cards/cash-back/it-card.html
 foreign_transaction_fee: false
 network: "discover"
 our_take: >
-  The draw here is the rotating 5% category, currently covering gas, EV
-  charging, transit, airlines, and drugstores through Q3 2026, on a card with
+  The draw here is the rotating 5% category, currently covering
+  restaurants, entertainment, and utilities through Q4 2026, on a card with
   no annual fee and no foreign transaction fee. It also carries a 0% intro APR
   for 15 months on both purchases and balance transfers, which is a useful
   window if you're carrying a balance or financing something large. The

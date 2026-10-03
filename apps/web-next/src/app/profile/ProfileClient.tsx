@@ -14,7 +14,7 @@ import "../landing.css";
 import { getNews, getNewsCards, NewsItem, NewsTag, tagLabels } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import ProfileLoader from "./ProfileLoader";
-import { amortizedAnnualValue, categoryLabels, isCreditBenefit } from "@/lib/cardDisplayUtils";
+import { amortizedAnnualValue, categoryLabels, isCreditBenefit, isStaleRotation } from "@/lib/cardDisplayUtils";
 import { TrashIcon, DocumentTextIcon, LinkIcon, ExclamationTriangleIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { calculateApplicationRules, countCardsMissingDates } from "@/lib/applicationRules";
 import posthog from "posthog-js";
@@ -367,6 +367,9 @@ export default function ProfileClient() {
       for (const r of card.rewards) {
         if (r.mode !== 'quarterly_rotating') continue;
         if (!r.current_categories?.length) continue;
+        // Don't remind with last quarter's categories if the YAML hasn't
+        // been rolled over yet.
+        if (isStaleRotation(r)) continue;
         const cats = r.current_categories.map((c) => {
           const id = typeof c === 'string' ? c : c.category;
           const slotNote = typeof c === 'string' ? undefined : c.note;
