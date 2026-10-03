@@ -1389,36 +1389,84 @@
     "t3_1wtfqz6": "2026-10-01",
     "t3_1wtcvex": "2026-10-01",
     "t3_1wtc2kr": "2026-10-01",
-    "t3_1wsn44w": "2026-10-01"
+    "t3_1wsn44w": "2026-10-01",
+    "t3_1wwlni7": "2026-10-03",
+    "t3_1wwkde2": "2026-10-03",
+    "t3_1wwep51": "2026-10-03",
+    "t3_1wwelvg": "2026-10-03",
+    "t3_1wwe9km": "2026-10-03",
+    "t3_1wwe41r": "2026-10-03",
+    "t3_1wwc2qv": "2026-10-03",
+    "t3_1wwblkj": "2026-10-03",
+    "t3_1wwb98l": "2026-10-03",
+    "t3_1wwa9ov": "2026-10-03",
+    "t3_1ww8d76": "2026-10-03",
+    "t3_1ww8146": "2026-10-03",
+    "t3_1ww7ksa": "2026-10-03",
+    "t3_1ww75tg": "2026-10-03",
+    "t3_1ww6kz4": "2026-10-03",
+    "t3_1ww64fu": "2026-10-03",
+    "t3_1ww21vc": "2026-10-03",
+    "t3_1ww18zr": "2026-10-03",
+    "t3_1wvxxc0": "2026-10-03",
+    "t3_1wvwggt": "2026-10-03",
+    "t3_1wvw43z": "2026-10-03",
+    "t3_1wvo0yd": "2026-10-03",
+    "t3_1wvntyn": "2026-10-03",
+    "t3_1wvncwi": "2026-10-03",
+    "t3_1wvi1k1": "2026-10-03",
+    "t3_1wvgy4i": "2026-10-03",
+    "t3_1wvfy50": "2026-10-03",
+    "t3_1wvdjou": "2026-10-03",
+    "t3_1wv8tyj": "2026-10-03",
+    "t3_1wv8krs": "2026-10-03",
+    "t3_1wv7mvn": "2026-10-03",
+    "t3_1wv4ipl": "2026-10-03",
+    "t3_1wv3qyx": "2026-10-03",
+    "t3_1wv3m3n": "2026-10-03"
   },
   "pending": {
-    "t3_1wkm0wy": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wkm0wy/fidelity_card_prehistoric_customer_support/",
-      "title": "Fidelity Card Prehistoric Customer Support",
-      "posted": "2026-09-19",
-      "card_name": "Fidelity Rewards Visa Signature",
+    "t3_1wv3qyx": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wv3qyx/citi_diamond_preferred_under_review/",
+      "title": "Citi Diamond Preferred Under Review",
+      "posted": "2026-10-01",
+      "card_name": "Citi Diamond Preferred",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Applied for the Fidelity Rewards card in September 2026, faxed ID docs, approved about a week later; still no score given.",
-      "firstSeen": "2026-09-25",
-      "attempts": 3,
-      "lastChecked": "2026-10-01"
+      "note": "Poster's edit confirms approval after a 7-10 day review and text verification. No score given.",
+      "firstSeen": "2026-10-03",
+      "attempts": 1,
+      "lastChecked": "2026-10-03"
     },
-    "t3_1wpcuqf": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wpcuqf/capital_one_venture_question/",
-      "title": "Capital One Venture Question",
-      "posted": "2026-09-24",
+    "t3_1wv3m3n": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wv3m3n/how_long_until_i_can_sign_up_for_another_capital/",
+      "title": "How long until I can sign up for another Capital One card?",
+      "posted": "2026-10-01",
       "card_name": "Capital One Venture Rewards",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied for Venture Rewards, citing the recent Savor approval, after three new cards (Savor, Samsung Galaxy, Strata Premier). No score given.",
+      "firstSeen": "2026-10-03",
+      "attempts": 1,
+      "lastChecked": "2026-10-03"
+    },
+    "t3_1ww8d76": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1ww8d76/usaa_eagle_navigator_wrong_in_apple_wallet/",
+      "title": "USAA Eagle Navigator Wrong in Apple Wallet",
+      "posted": "2026-10-02",
+      "card_name": "USAA Eagle Navigator",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for the Capital One Venture in September 2026; no score or profile given.",
-      "firstSeen": "2026-09-25",
-      "attempts": 2,
-      "lastChecked": "2026-09-29"
+      "note": "Poster recently approved for the Eagle Navigator; post is about Apple Wallet art. No score given.",
+      "firstSeen": "2026-10-03",
+      "attempts": 1,
+      "lastChecked": "2026-10-03"
     }
   },
   "runs": [
@@ -2255,6 +2303,23 @@
         "card_unclear": 2,
         "no_score": 4,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-10-03T14:49:52.934Z",
+      "date": "2026-10-03",
+      "candidates": 34,
+      "revisits": 0,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 5,
+      "pending": 3,
+      "unaccounted": 0,
+      "skipped": {
+        "card_unclear": 3,
+        "no_outcome": 19,
+        "pre_qual": 4,
+        "no_score": 1
       }
     }
   ]
