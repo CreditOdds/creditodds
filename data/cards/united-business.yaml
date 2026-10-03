@@ -37,11 +37,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 100000
+  value: 90000
   type: "miles"
   spend_requirement: 5000
   timeframe_months: 3
-  note: "Plus 2,000 Premier qualifying points on meeting the spend requirement, and 10,000 additional miles for adding an employee card in the first 3 months"
+  note: "Plus 2,000 Premier qualifying points (PQP) after spending $5,000 in the first 3 months"
 apr:
   regular:
     min: 19.74
