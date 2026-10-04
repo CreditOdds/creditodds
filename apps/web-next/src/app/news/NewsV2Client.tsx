@@ -464,13 +464,12 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                   return (
                     <Link key={item.id} href={`/news/${item.id}`} className="news-item">
                       <div className="ni-meta">
-                        <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
-                        <span>{formatDate(item.date)}</span>
-                        {item.bank ? <> · {item.bank}</> : null}
-                        {viewsOf(item) > 100 && <> · {viewsOf(item).toLocaleString('en-US')} views</>}
-                      </div>
-                      <div className="ni-head">
-                        <h3 className="ni-title">{item.title}</h3>
+                        <span className="ni-meta-text">
+                          <span className="news-tag">{TAG_DISPLAY[primaryTag(item)]}</span>
+                          <span>{formatDate(item.date)}</span>
+                          {item.bank ? <> · {item.bank}</> : null}
+                          {viewsOf(item) > 100 && <> · {viewsOf(item).toLocaleString('en-US')} views</>}
+                        </span>
                         {cards.length > 0 && (
                           // aria-hidden because the headline and excerpt already
                           // name the cards; announcing each image repeats the row.
@@ -478,7 +477,7 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                           // fails the build on an empty alt attribute, since Bing
                           // reads that as a missing one, and aria-hidden does not
                           // exempt it.
-                          <div className="ni-cards" aria-hidden="true">
+                          <span className="ni-cards" aria-hidden="true">
                             {cards.slice(0, 3).map((c, i) => (
                               <span
                                 key={c.slug}
@@ -489,14 +488,15 @@ export default function NewsV2Client({ items, viewCounts }: NewsV2ClientProps) {
                                   cardImageLink={c.image ?? undefined}
                                   alt={c.name}
                                   fill
-                                  sizes="60px"
+                                  sizes="36px"
                                   style={{ objectFit: 'cover' }}
                                 />
                               </span>
                             ))}
-                          </div>
+                          </span>
                         )}
                       </div>
+                      <h3 className="ni-title">{item.title}</h3>
                       <p className="ni-excerpt">{plainSummary(item.summary)}</p>
                     </Link>
                   );

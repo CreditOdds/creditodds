@@ -42,6 +42,7 @@ import CardRecordsTable from "./CardRecordsTable";
 /** Shared by the banner shortcut at the top and the rail it scrolls to. */
 const REPLACEMENTS_ANCHOR = "what-to-get-instead";
 import ProductChangeFlow, { ProductChangeNode } from "./ProductChangeFlow";
+import SubHistoryChart, { SubChange } from "./SubHistoryChart";
 import "../../landing.css";
 
 const ScatterPlot = dynamic(() => import("@/components/charts/ScatterPlot"), {
@@ -598,10 +599,12 @@ export default function CardClient({
     ) as Record<string, string>;
   }, [hasDetails, hasProductChanges, news.length, articles.length]);
 
-  // Wire entries for the right-rail block, newest first.
+  // Non-SUB wire entries for the right-rail list, newest first. Signup-bonus
+  // changes render as the step chart above the list instead.
   const wireEntries = useMemo(
     () =>
-      [...wire]
+      wire
+        .filter((w) => w.field !== "signup_bonus_value")
         .sort(
           (a, b) =>
             new Date(b.changed_at).getTime() -
@@ -661,6 +664,31 @@ export default function CardClient({
               timeZone: "UTC",
             }),
     };
+  }, [card.signup_bonus, wire]);
+
+  // Signup-bonus changes in the current unit, oldest first, for the rail
+  // chart. Same unit rule as highestSub: legacy rows without a unit fall back
+  // to a magnitude check against the current offer.
+  const subChanges = useMemo((): SubChange[] => {
+    const sb = card.signup_bonus;
+    if (!sb || typeof sb.value !== "number" || sb.value <= 0) return [];
+    const inBand = (n: number) =>
+      n > 0 && n <= sb.value * 1000 && n >= sb.value / 1000;
+    return wire
+      .filter((w) => w.field === "signup_bonus_value")
+      .map((w) => ({
+        id: w.id,
+        t: new Date(w.changed_at).getTime(),
+        from: Number(w.old_value),
+        to: Number(w.new_value),
+        unit: w.unit,
+      }))
+      .filter((c) =>
+        c.unit ? c.unit === sb.type : inBand(c.from) && inBand(c.to),
+      )
+      .filter((c) => !Number.isNaN(c.t) && c.from !== c.to)
+      .sort((a, b) => a.t - b.t)
+      .map(({ id, t, from, to }) => ({ id, t, from, to }));
   }, [card.signup_bonus, wire]);
 
   const fieldLabel: Record<string, string> = {
@@ -1859,7 +1887,7 @@ export default function CardClient({
         <aside className="cj-rail">
           {applyBlock}
 
-          {wireEntries.length > 0 && (
+          {(wireEntries.length > 0 || subChanges.length > 0) && (
             <div className="cj-rail-block cj-wire-rail">
               <div className="cj-rail-label">Card wire</div>
               {highestSub &&
@@ -1891,37 +1919,45 @@ export default function CardClient({
                     </div>
                   );
                 })()}
-              <ul className="cj-wire-rail-list">
-                {wireEntries.map((w) => {
-                  const dir = wireDirection(w.field, w.old_value, w.new_value);
-                  const dirClass = dir ? ` cj-wire-${dir}` : "";
-                  const date = new Date(w.changed_at).toLocaleDateString(
-                    "en-US",
-                    { month: "short", day: "numeric", timeZone: "UTC" },
-                  );
-                  return (
-                    <li key={w.id} className="cj-wire-rail-row">
-                      <div className="cj-wire-rail-meta">
-                        <span className="cj-wire-rail-date">{date}</span>
-                        <span className="cj-wire-rail-field">
-                          {fieldLabel[w.field] || w.field}
-                        </span>
-                      </div>
-                      <div className="cj-wire-rail-change">
-                        <span className="cj-wire-rail-old">
-                          {formatWireValue(w.old_value, w.field)}
-                        </span>
-                        <span className={`cj-wire-rail-arrow${dirClass}`}>
-                          →
-                        </span>
-                        <span className={`cj-wire-rail-new${dirClass}`}>
-                          {formatWireValue(w.new_value, w.field)}
-                        </span>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+              {subChanges.length > 0 && card.signup_bonus && (
+                <SubHistoryChart
+                  changes={subChanges}
+                  format={(v) => formatBonusValue(v, card.signup_bonus!.type)}
+                />
+              )}
+              {wireEntries.length > 0 && (
+                <ul className="cj-wire-rail-list">
+                  {wireEntries.map((w) => {
+                    const dir = wireDirection(w.field, w.old_value, w.new_value);
+                    const dirClass = dir ? ` cj-wire-${dir}` : "";
+                    const date = new Date(w.changed_at).toLocaleDateString(
+                      "en-US",
+                      { month: "short", day: "numeric", timeZone: "UTC" },
+                    );
+                    return (
+                      <li key={w.id} className="cj-wire-rail-row">
+                        <div className="cj-wire-rail-meta">
+                          <span className="cj-wire-rail-date">{date}</span>
+                          <span className="cj-wire-rail-field">
+                            {fieldLabel[w.field] || w.field}
+                          </span>
+                        </div>
+                        <div className="cj-wire-rail-change">
+                          <span className="cj-wire-rail-old">
+                            {formatWireValue(w.old_value, w.field)}
+                          </span>
+                          <span className={`cj-wire-rail-arrow${dirClass}`}>
+                            →
+                          </span>
+                          <span className={`cj-wire-rail-new${dirClass}`}>
+                            {formatWireValue(w.new_value, w.field)}
+                          </span>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
               <p className="cj-wire-rail-note">Tracked since April 2026</p>
             </div>
           )}
