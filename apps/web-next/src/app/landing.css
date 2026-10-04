@@ -2547,10 +2547,16 @@
   padding-top: 0;
 }
 .landing-v2 .news-item .ni-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 12.5px;
   font-weight: 500;
   color: var(--muted);
   margin-bottom: 8px;
+}
+.landing-v2 .news-item .ni-meta-text {
+  min-width: 0;
 }
 .landing-v2 .news-item .ni-meta .news-tag {
   padding: 2px 6px;
@@ -2573,30 +2579,18 @@
 .landing-v2 .news-item:hover .ni-title {
   color: var(--accent);
 }
-/* Title on the left, card art on the right. min-width:0 lets the heading wrap
-   instead of forcing the row wider than the column. */
-.landing-v2 .news-item .ni-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-}
-.landing-v2 .news-item .ni-head .ni-title {
-  flex: 1 1 auto;
-  min-width: 0;
-}
+/* Small card art trails the tag/date/issuer line. */
 .landing-v2 .news-item .ni-cards {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  padding-top: 2px;
 }
 .landing-v2 .news-item .ni-card {
   position: relative;
   display: block;
-  width: 60px;
+  width: 36px;
   aspect-ratio: 1000 / 634;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
   border: 1px solid var(--line);
   background: var(--paper-2);
@@ -2605,7 +2599,7 @@
 /* Stories tagged with several cards fan out to the right, first card on top.
    The inline z-index descends per card so the overlap reads front-to-back. */
 .landing-v2 .news-item .ni-card + .ni-card {
-  margin-left: -40px;
+  margin-left: -22px;
 }
 .landing-v2 .news-item .ni-excerpt {
   font-size: 13px;
@@ -2802,15 +2796,6 @@
   .landing-v2 .news-archive-list .news-item:nth-child(2) {
     border-top: 1px solid var(--line);
     padding-top: 18px;
-  }
-  .landing-v2 .news-item .ni-head {
-    gap: 10px;
-  }
-  .landing-v2 .news-item .ni-card {
-    width: 48px;
-  }
-  .landing-v2 .news-item .ni-card + .ni-card {
-    margin-left: -32px;
   }
   /* The search input and the issuer select each want the full width here, so
      wrap them onto separate lines instead of letting the select crush the
@@ -8129,6 +8114,90 @@
 .landing-v2 .cj-wire-rail-new {
   color: var(--accent);
   font-weight: 600;
+}
+
+/* Signup-bonus step chart in the Card wire rail (SubHistoryChart). */
+.landing-v2 .cj-sub-chart {
+  margin-bottom: 12px;
+}
+.landing-v2 .cj-sub-chart-head {
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.landing-v2 .cj-sub-chart-plot {
+  position: relative;
+  height: 72px;
+  margin-left: 44px;
+}
+.landing-v2 .cj-sub-chart-plot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.landing-v2 .cj-sub-chart-grid {
+  stroke: var(--line);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.landing-v2 .cj-sub-chart-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.landing-v2 .cj-sub-chart-y {
+  position: absolute;
+  right: calc(100% + 6px);
+  transform: translateY(-50%);
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.landing-v2 .cj-sub-chart-y-hi { top: 14%; }
+.landing-v2 .cj-sub-chart-y-lo { top: 86%; }
+.landing-v2 .cj-sub-chart-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--paper);
+  background: var(--muted);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  box-shadow: 0 0 0 1px var(--line-2);
+}
+.landing-v2 .cj-sub-chart-dot.cj-wire-pos { background: #0f8a5f; }
+.landing-v2 .cj-sub-chart-dot.cj-wire-neg { background: var(--warn); }
+.landing-v2 .cj-sub-chart-dot.is-active {
+  width: 12px;
+  height: 12px;
+  box-shadow: 0 0 0 2px currentColor;
+}
+.landing-v2 .cj-sub-chart-dot.cj-wire-pos.is-active { color: #0f8a5f; }
+.landing-v2 .cj-sub-chart-dot.cj-wire-neg.is-active { color: var(--warn); }
+.landing-v2 .cj-sub-chart-x {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0 0 44px;
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.landing-v2 .cj-sub-chart-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
 }
 
 /* "Highest bonus on record" callout pinned to the top of the Card wire rail. */
