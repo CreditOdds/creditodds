@@ -259,6 +259,24 @@ describe("isBenignClientError", () => {
     ).toBe(false);
   });
 
+  // Firebase popup sign-in losing the race with its own close detector
+  // (Chrome iOS); sign-in has already succeeded when this throws.
+  it("drops Firebase's popup pending-promise assertion", () => {
+    expect(
+      isBenignClientError(
+        new Error("INTERNAL ASSERTION FAILED: Pending promise was never set"),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps other Firebase internal assertions", () => {
+    expect(
+      isBenignClientError(
+        new Error("INTERNAL ASSERTION FAILED: Expected a user"),
+      ),
+    ).toBe(false);
+  });
+
   // An injected script stringifying a React-owned DOM node inside a patched
   // appendChild. Both halves of the message are required.
   it("drops circular-structure errors that walk a React fiber", () => {

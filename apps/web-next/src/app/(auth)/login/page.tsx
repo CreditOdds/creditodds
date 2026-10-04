@@ -63,7 +63,17 @@ function LoginPageInner() {
       posthog.capture("user_signed_in", { method: "google" });
       router.push(getRedirectUrl());
     } catch (err: unknown) {
-      const error = err as Error;
+      const error = err as Error & { code?: string };
+      // Closing the popup isn't an error worth showing. On Chrome iOS this
+      // code can also arrive while the sign-in is still completing (Firebase's
+      // close poll fires first); the authState effect above redirects once it
+      // lands.
+      if (
+        error.code === "auth/popup-closed-by-user" ||
+        error.code === "auth/cancelled-popup-request"
+      ) {
+        return;
+      }
       setErrorMessage(error.message || "Failed to sign in with Google");
     } finally {
       setLoading(false);
