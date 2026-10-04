@@ -1400,7 +1400,7 @@
     "t3_1wwblkj": "2026-10-03",
     "t3_1wwb98l": "2026-10-03",
     "t3_1wwa9ov": "2026-10-03",
-    "t3_1ww8d76": "2026-10-03",
+    "t3_1ww8d76": "2026-10-04",
     "t3_1ww8146": "2026-10-03",
     "t3_1ww7ksa": "2026-10-03",
     "t3_1ww75tg": "2026-10-03",
@@ -1422,8 +1422,8 @@
     "t3_1wv8krs": "2026-10-03",
     "t3_1wv7mvn": "2026-10-03",
     "t3_1wv4ipl": "2026-10-03",
-    "t3_1wv3qyx": "2026-10-03",
-    "t3_1wv3m3n": "2026-10-03"
+    "t3_1wv3qyx": "2026-10-04",
+    "t3_1wv3m3n": "2026-10-04"
   },
   "pending": {
     "t3_1wv3qyx": {
@@ -1435,10 +1435,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster's edit confirms approval after a 7-10 day review and text verification. No score given.",
+      "note": "Poster submitted a full application after a pre-approval and later edited to confirm approval following text verification. No score given.",
       "firstSeen": "2026-10-03",
-      "attempts": 1,
-      "lastChecked": "2026-10-03"
+      "attempts": 2,
+      "lastChecked": "2026-10-04"
     },
     "t3_1wv3m3n": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wv3m3n/how_long_until_i_can_sign_up_for_another_capital/",
@@ -1449,10 +1449,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied for Venture Rewards, citing the recent Savor approval, after three new cards (Savor, Samsung Galaxy, Strata Premier). No score given.",
+      "note": "Denied for Venture Rewards citing the recent Savor approval, after three new cards (Savor, Samsung Galaxy, Strata Premier). No score given.",
       "firstSeen": "2026-10-03",
-      "attempts": 1,
-      "lastChecked": "2026-10-03"
+      "attempts": 2,
+      "lastChecked": "2026-10-04"
     },
     "t3_1ww8d76": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1ww8d76/usaa_eagle_navigator_wrong_in_apple_wallet/",
@@ -1463,10 +1463,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster recently approved for the Eagle Navigator; post is about Apple Wallet art. No score given.",
+      "note": "Poster recently approved for the Eagle Navigator; post is about Apple Wallet card art. No score given.",
       "firstSeen": "2026-10-03",
-      "attempts": 1,
-      "lastChecked": "2026-10-03"
+      "attempts": 2,
+      "lastChecked": "2026-10-04"
     }
   },
   "runs": [
@@ -2321,6 +2321,18 @@
         "pre_qual": 4,
         "no_score": 1
       }
+    },
+    {
+      "id": "2026-10-04T22:39:42.018Z",
+      "date": "2026-10-04",
+      "candidates": 3,
+      "revisits": 3,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 0,
+      "pending": 3,
+      "unaccounted": 0,
+      "skipped": {}
     }
   ]
 }
