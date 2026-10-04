@@ -215,7 +215,6 @@ cards:
       ranks: { openai: 10, gemini: 12, claude: 9 }
 
   - slug: united-club-infinite
-    badge: Best Premium
     previous_rank: 12
     highlight: Get 80,000 miles after spending $5,000 in the first 3 months with a $695 annual fee. Earn 5 points per dollar on United purchases.
     consensus:
