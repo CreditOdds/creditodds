@@ -42,12 +42,11 @@ apr:
 benefits:
   - name: "Business Statement Credits"
     value: 240
-    description: "Up to $20/month in statement credits on eligible U.S. purchases at FedEx, Grubhub, and office supply stores"
+    description: "Up to $20/month in statement credits on eligible U.S. purchases at Grubhub, office supply stores, and shipments at UPS.com"
     frequency: "monthly"
     category: "other"
     enrollment_required: true
     merchants:
-      - fedex-office
       - grubhub
   - name: "ChatGPT Credits"
     value: 300
@@ -98,7 +97,7 @@ our_take: >
   not have to predict where your business spending will land, and for most
   small businesses the top two categories capture a meaningful share of the
   budget. The $375 annual fee is steep, but the credit stack is substantial on
-  paper: up to $20 a month at FedEx, Grubhub, and office supply stores, $300 a
+  paper: up to $20 a month at Grubhub, office supply stores, and UPS.com, $300 a
   year in ChatGPT credits, a monthly Walmart+ credit, and up to $150 a year
   back at Squarespace. Nearly all of those require enrollment and are tied to
   specific vendors, so run the math against your actual suppliers before
