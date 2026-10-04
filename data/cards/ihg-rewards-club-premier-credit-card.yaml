@@ -76,6 +76,12 @@ benefits:
     frequency: "annual"
     category: "hotel"
     enrollment_required: false
+  - name: "IHG Food and Beverage Reward"
+    value: 100
+    description: "A $25 Food and Beverage Reward voucher each quarter to redeem at IHG Hotels, up to $100 per year"
+    frequency: "quarterly"
+    category: "hotel"
+    enrollment_required: false
 tags:
   - hotel
   - travel
