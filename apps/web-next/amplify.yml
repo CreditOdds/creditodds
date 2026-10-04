@@ -16,6 +16,12 @@ applications:
           commands:
             - env | grep -e NEXT_PUBLIC_ >> .env.production || true
             - npm run build
+            # Amplify caps the SSR build output at 220 MB and we hit it from
+            # content growth. sharp ships a 9 MB wasm32 build that it only
+            # loads if the native linux-x64 binary fails, so drop it after the
+            # build, before Amplify traces node_modules into the compute bundle.
+            # Safe for caching: preBuild runs a fresh `npm ci` every time.
+            - rm -rf ../../node_modules/@img/sharp-wasm32
       artifacts:
         baseDirectory: .next
         files:
