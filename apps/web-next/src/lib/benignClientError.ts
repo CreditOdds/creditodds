@@ -111,6 +111,21 @@
 // kept behind the AbortError name/code gate, and Chrome's descriptive fetch
 // abort ("The user aborted a request.") stays reportable.
 //
+// Firebase Auth's popup sign-in can lose a race with its own close detector:
+// "INTERNAL ASSERTION FAILED: Pending promise was never set" (Sentry issue
+// 7772370032, Chrome iOS on /login). Chrome iOS opens the Google popup as a
+// separate tab, so when the user comes back PopupOperation.pollUserCancellation
+// sees the window closed and, 8s later, rejects signInWithPopup with
+// auth/popup-closed-by-user, clearing pendingPromise. If the popup's auth event
+// arrived first but its signInWithIdp round-trip (throttled while the tab was
+// backgrounded) finishes after that timer, onAuthEvent calls resolve() on the
+// cleared promise, the debugAssert throws, its catch calls reject(), which
+// asserts again — inside an async method nobody awaits, so it escapes as an
+// unhandled rejection. The sign-in itself has already succeeded by then
+// (_signIn updates currentUser before resolve), and the login page redirects
+// on authState.isAuthenticated. The throw lives in
+// AbstractPopupRedirectOperation with no handle we can attach to.
+//
 // Finally, hasOnlyForeignFrames (below) drops exceptions by stack shape rather
 // than message: every frame lacks a resolvable script URL. See its comment.
 const BENIGN_CLIENT_SIGNATURES = [
@@ -132,6 +147,7 @@ const BENIGN_ANY_ERROR_SIGNATURES = [
   'installations/app-offline',
   'Object Not Found Matching Id:',
   'Unable to load image data:',
+  'INTERNAL ASSERTION FAILED: Pending promise was never set',
 ];
 
 // Every substring here must be present for the error to count as benign. Used
