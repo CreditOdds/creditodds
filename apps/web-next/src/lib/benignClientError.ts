@@ -62,7 +62,7 @@
 // ErrorEvent is deliberately NOT matched — it carries a real message/error
 // payload worth reporting.
 //
-// Three more shapes come from code that isn't ours at all:
+// Four more shapes come from code that isn't ours at all:
 //
 // 1. "Object Not Found Matching Id:N, MethodName:update, ParamCount:4"
 //    (CREDITODDS-JAVASCRIPT-NEXTJS-16), rejected as a bare STRING rather than
@@ -96,6 +96,17 @@
 //    context. The "data:" scheme is required in the signature so a
 //    hypothetical real image-load failure pointing at an https URL stays
 //    reportable.
+//
+// 4. "WKWebView API client did not respond to this postMessage"
+//    (CREDITODDS-JAVASCRIPT-NEXTJS, issue 7774873892, DuckDuckGo Mobile on
+//    iOS, /news/:id). WebKit's own wording, raised when a page script calls
+//    `window.webkit.messageHandlers.<name>.postMessage()` against a native
+//    reply handler (WKScriptMessageHandlerWithReply) and the host app never
+//    calls the reply block — e.g. the tab is backgrounded or navigates
+//    mid-request. We never touch `webkit.messageHandlers`; the caller is the
+//    host browser's injected content scripts (DuckDuckGo's privacy/autofill
+//    scripts bridge to native this way). The message is specific to that
+//    native bridge, so it is matched outright.
 //
 // The same Firebase IndexedDB teardown has a WebKit-specific spelling:
 // "AbortError: The operation was aborted." (CREDITODDS-JAVASCRIPT-NEXTJS,
@@ -148,6 +159,7 @@ const BENIGN_ANY_ERROR_SIGNATURES = [
   'Object Not Found Matching Id:',
   'Unable to load image data:',
   'INTERNAL ASSERTION FAILED: Pending promise was never set',
+  'WKWebView API client did not respond to this postMessage',
 ];
 
 // Every substring here must be present for the error to count as benign. Used
