@@ -1423,9 +1423,37 @@
     "t3_1wv7mvn": "2026-10-03",
     "t3_1wv4ipl": "2026-10-03",
     "t3_1wv3qyx": "2026-10-04",
-    "t3_1wv3m3n": "2026-10-04"
+    "t3_1wv3m3n": "2026-10-04",
+    "t3_1wy9p6v": "2026-10-05",
+    "t3_1wy8ldk": "2026-10-05",
+    "t3_1wxx58l": "2026-10-05",
+    "t3_1wxnvp1": "2026-10-05",
+    "t3_1wxbz6k": "2026-10-05",
+    "t3_1wx4zez": "2026-10-05",
+    "t3_1wx0kzd": "2026-10-05",
+    "t3_1wx0j6v": "2026-10-05",
+    "t3_1wx0d9s": "2026-10-05",
+    "t3_1wwzwms": "2026-10-05",
+    "t3_1wwzu1p": "2026-10-05",
+    "t3_1wwxzq5": "2026-10-05",
+    "t3_1wwp9qo": "2026-10-05",
+    "t3_1wv1uuq": "2026-10-05"
   },
   "pending": {
+    "t3_1wv1uuq": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wv1uuq/chase_ink_business_unlimited_issue_resolution/",
+      "title": "Chase Ink Business Unlimited Issue Resolution",
+      "posted": "2026-10-01",
+      "card_name": "Ink Business Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Ink Business Unlimited after address verification (long-time Chase client); no credit score given.",
+      "firstSeen": "2026-10-05",
+      "attempts": 1,
+      "lastChecked": "2026-10-05"
+    },
     "t3_1wv3qyx": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wv3qyx/citi_diamond_preferred_under_review/",
       "title": "Citi Diamond Preferred Under Review",
@@ -2333,6 +2361,21 @@
       "pending": 3,
       "unaccounted": 0,
       "skipped": {}
+    },
+    {
+      "id": "2026-10-05T14:27:54.526Z",
+      "date": "2026-10-05",
+      "candidates": 14,
+      "revisits": 0,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 4,
+      "pending": 4,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 8,
+        "no_score": 3
+      }
     }
   ]
 }
