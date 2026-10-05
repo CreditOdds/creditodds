@@ -259,6 +259,22 @@ describe("isBenignClientError", () => {
     ).toBe(false);
   });
 
+  // An iOS host browser's (DuckDuckGo) injected scripts calling a native
+  // WKWebView reply handler that never answered.
+  it("drops WKWebView native-bridge postMessage timeouts", () => {
+    expect(
+      isBenignClientError(
+        new Error("WKWebView API client did not respond to this postMessage"),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps unrelated postMessage errors", () => {
+    expect(
+      isBenignClientError(new Error("Failed to execute 'postMessage' on 'Window'")),
+    ).toBe(false);
+  });
+
   // Firebase popup sign-in losing the race with its own close detector
   // (Chrome iOS); sign-in has already succeeded when this throws.
   it("drops Firebase's popup pending-promise assertion", () => {
