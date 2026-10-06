@@ -1400,7 +1400,7 @@
     "t3_1wwblkj": "2026-10-03",
     "t3_1wwb98l": "2026-10-03",
     "t3_1wwa9ov": "2026-10-03",
-    "t3_1ww8d76": "2026-10-04",
+    "t3_1ww8d76": "2026-10-06",
     "t3_1ww8146": "2026-10-03",
     "t3_1ww7ksa": "2026-10-03",
     "t3_1ww75tg": "2026-10-03",
@@ -1422,8 +1422,8 @@
     "t3_1wv8krs": "2026-10-03",
     "t3_1wv7mvn": "2026-10-03",
     "t3_1wv4ipl": "2026-10-03",
-    "t3_1wv3qyx": "2026-10-04",
-    "t3_1wv3m3n": "2026-10-04",
+    "t3_1wv3qyx": "2026-10-06",
+    "t3_1wv3m3n": "2026-10-06",
     "t3_1wy9p6v": "2026-10-05",
     "t3_1wy8ldk": "2026-10-05",
     "t3_1wxx58l": "2026-10-05",
@@ -1437,23 +1437,16 @@
     "t3_1wwzu1p": "2026-10-05",
     "t3_1wwxzq5": "2026-10-05",
     "t3_1wwp9qo": "2026-10-05",
-    "t3_1wv1uuq": "2026-10-05"
+    "t3_1wv1uuq": "2026-10-06",
+    "t3_1wywa4m": "2026-10-06",
+    "t3_1wyv60d": "2026-10-06",
+    "t3_1wytx0i": "2026-10-06",
+    "t3_1wyrbw2": "2026-10-06",
+    "t3_1wyq1wr": "2026-10-06",
+    "t3_1wynoqm": "2026-10-06",
+    "t3_1wyfnqh": "2026-10-06"
   },
   "pending": {
-    "t3_1wv1uuq": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wv1uuq/chase_ink_business_unlimited_issue_resolution/",
-      "title": "Chase Ink Business Unlimited Issue Resolution",
-      "posted": "2026-10-01",
-      "card_name": "Ink Business Unlimited",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Ink Business Unlimited after address verification (long-time Chase client); no credit score given.",
-      "firstSeen": "2026-10-05",
-      "attempts": 1,
-      "lastChecked": "2026-10-05"
-    },
     "t3_1wv3qyx": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wv3qyx/citi_diamond_preferred_under_review/",
       "title": "Citi Diamond Preferred Under Review",
@@ -1463,10 +1456,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster submitted a full application after a pre-approval and later edited to confirm approval following text verification. No score given.",
+      "note": "Full application after a pre-approval, approved after text verification. No score given.",
       "firstSeen": "2026-10-03",
-      "attempts": 2,
-      "lastChecked": "2026-10-04"
+      "attempts": 3,
+      "lastChecked": "2026-10-06"
     },
     "t3_1wv3m3n": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wv3m3n/how_long_until_i_can_sign_up_for_another_capital/",
@@ -1477,10 +1470,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied for Venture Rewards citing the recent Savor approval, after three new cards (Savor, Samsung Galaxy, Strata Premier). No score given.",
+      "note": "Denied for Venture Rewards citing the recent Savor approval, after three new cards. No score given.",
       "firstSeen": "2026-10-03",
-      "attempts": 2,
-      "lastChecked": "2026-10-04"
+      "attempts": 3,
+      "lastChecked": "2026-10-06"
     },
     "t3_1ww8d76": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1ww8d76/usaa_eagle_navigator_wrong_in_apple_wallet/",
@@ -1491,10 +1484,82 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Poster recently approved for the Eagle Navigator; post is about Apple Wallet card art. No score given.",
+      "note": "Recently approved for the Eagle Navigator; post is about Apple Wallet card art. No score given.",
       "firstSeen": "2026-10-03",
+      "attempts": 3,
+      "lastChecked": "2026-10-06"
+    },
+    "t3_1wv1uuq": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wv1uuq/chase_ink_business_unlimited_issue_resolution/",
+      "title": "Chase Ink Business Unlimited Issue Resolution",
+      "posted": "2026-10-01",
+      "card_name": "Ink Business Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Ink Business Unlimited after address verification; no credit score given.",
+      "firstSeen": "2026-10-05",
       "attempts": 2,
-      "lastChecked": "2026-10-04"
+      "lastChecked": "2026-10-06"
+    },
+    "t3_1wyq1wr": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wyq1wr/confused_about_the_second_denial_reason/",
+      "title": "Confused about the second denial reason",
+      "posted": "2026-10-06",
+      "card_name": "Wells Fargo Autograph Journey",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied citing too many inquiries, low Wells Fargo deposit balances, and trades opened in 24 months. Six cards opened this year. No score given.",
+      "firstSeen": "2026-10-06",
+      "attempts": 1,
+      "lastChecked": "2026-10-06"
+    },
+    "t3_1wyrbw2": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wyrbw2/strata_premier_150_rakuten_bonus_back_active/",
+      "title": "Strata Premier $150 Rakuten Bonus back active",
+      "posted": "2026-10-06",
+      "card_name": "Citi Strata Premier",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Strata Premier around 10/05 after nearly a year of Citi denials. No score given.",
+      "firstSeen": "2026-10-06",
+      "attempts": 1,
+      "lastChecked": "2026-10-06"
+    },
+    "t3_1wynoqm": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wynoqm/costco_sub_issue_cancel_and_reapply_or_skip_it/",
+      "title": "Costco SUB issue - cancel and reapply, or skip it?",
+      "posted": "2026-10-05",
+      "card_name": "Costco Anywhere Visa by Citi",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Recently approved for a Costco card (assumed the personal Anywhere Visa), card already received. No score given.",
+      "ask": "Was this the personal Costco Anywhere Visa, and what was your credit score when you applied?",
+      "firstSeen": "2026-10-06",
+      "attempts": 1,
+      "lastChecked": "2026-10-06"
+    },
+    "t3_1wytx0i": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wytx0i/reconsideration_timing_or_reapply/",
+      "title": "Reconsideration timing or reapply",
+      "posted": "2026-10-06",
+      "result": "denied",
+      "missing": [
+        "credit_score",
+        "card_name"
+      ],
+      "note": "Denied twice (August and Sep 15) for an unnamed Chase business card over 5/24. Card and score not given.",
+      "ask": "Which Chase business card was the September 15 application for, and what was your credit score?",
+      "firstSeen": "2026-10-06",
+      "attempts": 1,
+      "lastChecked": "2026-10-06"
     }
   },
   "runs": [
@@ -2375,6 +2440,21 @@
       "skipped": {
         "no_outcome": 8,
         "no_score": 3
+      }
+    },
+    {
+      "id": "2026-10-06T14:00:07.509Z",
+      "date": "2026-10-06",
+      "candidates": 11,
+      "revisits": 4,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 2,
+        "pre_qual": 1
       }
     }
   ]
