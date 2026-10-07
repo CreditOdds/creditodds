@@ -37,7 +37,7 @@ rewards:
 signup_bonus:
   value: 115000
   type: "points"
-  spend_requirement: 20000
+  spend_requirement: 24000
   timeframe_months: 12
   note: "75,000 points after $4,000 in purchases in the first 3 months, plus 40,000 points after $20,000 in purchases in the first 12 months"
 apr:
