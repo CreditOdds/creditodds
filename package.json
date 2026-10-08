@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "js-yaml": "^4.3.2",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "twitter-api-v2": "^1.29.1"
   },
   "devDependencies": {
