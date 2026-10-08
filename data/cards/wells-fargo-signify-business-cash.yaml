@@ -3,6 +3,7 @@ bank: "Wells Fargo"
 slug: "wells-fargo-signify-business-cash"
 accepting_applications: true
 apply_link: https://creditcards.wellsfargo.com/business-credit-cards/signify-business-cash-credit-card/
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=7848
 foreign_transaction_fee: true
 network: "mastercard"
 our_take: >

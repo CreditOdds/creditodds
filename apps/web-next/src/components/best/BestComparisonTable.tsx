@@ -2,7 +2,6 @@ import CardImage from '@/components/ui/CardImage';
 import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard } from '@/lib/best';
-import { bestCardDetailHref } from '@/lib/applyLink';
 import {
   formatAnnualFee,
   formatBonusValue,
@@ -17,7 +16,6 @@ interface EnrichedCard extends BestPageCard {
 
 interface BestComparisonTableProps {
   cards: EnrichedCard[];
-  bestPageSlug: string;
 }
 
 function getTopRewardLabel(card: Card): string {
@@ -73,7 +71,7 @@ function RankChangeSmall({ currentRank, previousRank }: { currentRank: number; p
   );
 }
 
-export function BestComparisonTable({ cards, bestPageSlug }: BestComparisonTableProps) {
+export function BestComparisonTable({ cards }: BestComparisonTableProps) {
   if (cards.length === 0) return null;
 
   // Determine which columns to show based on data
@@ -110,7 +108,7 @@ export function BestComparisonTable({ cards, bestPageSlug }: BestComparisonTable
           <tbody className="divide-y divide-gray-200">
             {cards.map((entry, index) => {
               const { card } = entry;
-              const cardHref = bestCardDetailHref(card.slug, bestPageSlug);
+              const cardHref = `/card/${card.slug}`;
               return (
                 <tr key={card.slug} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3 whitespace-nowrap">

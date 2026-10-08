@@ -34,6 +34,7 @@ apr:
     min: 17.49
     max: 26.49
 apply_link: https://www.discover.com/credit-cards/cash-back/it-card.html
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=1070
 foreign_transaction_fee: false
 network: "discover"
 our_take: >

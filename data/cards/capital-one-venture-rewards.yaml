@@ -51,6 +51,7 @@ apr:
     min: 19.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/venture/
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=1059
 foreign_transaction_fee: false
 our_take: >
   The Venture Rewards earns a flat 2x miles on everything for a $95 annual
