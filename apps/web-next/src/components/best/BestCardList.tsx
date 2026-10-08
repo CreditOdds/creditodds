@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { Card } from '@/lib/api';
 import { BestPageCard, BestPanel } from '@/lib/best';
 import { ApplyButtons } from './ApplyButtons';
-import { bestCardDetailHref } from '@/lib/applyLink';
 import {
   formatEstimatedValue,
   formatBonusValue,
@@ -21,7 +20,6 @@ interface BestCardListProps {
   panel?: BestPanel;
   /** 'consensus', a model key, or undefined when no panel is available. */
   activeView?: string;
-  bestPageSlug: string;
 }
 
 /**
@@ -65,7 +63,7 @@ function RankChange({ currentRank, previousRank }: { currentRank: number; previo
   );
 }
 
-export function BestCardList({ cards, activeView, bestPageSlug }: BestCardListProps) {
+export function BestCardList({ cards, activeView }: BestCardListProps) {
   const isConsensus = !activeView || activeView === 'consensus';
   return (
     <div className="space-y-6">
@@ -73,7 +71,7 @@ export function BestCardList({ cards, activeView, bestPageSlug }: BestCardListPr
         const { card } = entry;
         const rank = index + 1;
         const topRewards = (card.rewards || []).slice(0, 3);
-        const cardHref = bestCardDetailHref(card.slug, bestPageSlug);
+        const cardHref = `/card/${card.slug}`;
 
         return (
           <div

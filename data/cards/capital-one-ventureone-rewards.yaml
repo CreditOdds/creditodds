@@ -29,6 +29,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/ventureone/
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=1060
 foreign_transaction_fee: false
 our_take: >
   The VentureOne is the no-fee entry point to Capital One miles: 1.25x on

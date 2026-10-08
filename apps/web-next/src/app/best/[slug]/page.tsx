@@ -150,7 +150,6 @@ export default async function BestDetailPage({ params }: Props) {
         <BestRankingViews
           cards={enrichedCards}
           panel={page.panel}
-          bestPageSlug={page.slug}
         />
 
         <Link

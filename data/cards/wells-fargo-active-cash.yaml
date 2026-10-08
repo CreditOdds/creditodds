@@ -29,6 +29,7 @@ apr:
     min: 18.49
     max: 28.49
 apply_link: https://creditcards.wellsfargo.com/active-cash-credit-card
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=5748
 foreign_transaction_fee: true
 network: "visa"
 our_take: >

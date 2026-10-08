@@ -112,6 +112,11 @@
       "format": "uri",
       "description": "Targeted offer URL — used for the Apply button and for signup-bonus extraction by check-card-pages.js when set. Falls back to apply_link. Use when the card's headline SUB lives on a different page than the generic marketing page (e.g. Fidelity's /go/ offer pages)."
     },
+    "affiliate_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "Affiliate tracking URL for the Apply button. When set it wins over special_apply_link and apply_link and is sent verbatim (no UTM decoration). Button-only: check-card-pages.js and check-apply-links.js never read it, so SUB/terms checks keep using the issuer page."
+    },
     "page_check_url": {
       "type": "string",
       "format": "uri",

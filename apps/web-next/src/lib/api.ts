@@ -177,6 +177,7 @@ export interface Card {
   network?: 'visa' | 'mastercard' | 'amex' | 'discover';
   apply_link?: string;
   special_apply_link?: string;
+  affiliate_link?: string;
   card_referral_link?: string;
   referral_bonus?: string;
   referrals?: CardReferral[];

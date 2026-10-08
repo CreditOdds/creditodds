@@ -110,6 +110,7 @@ apr:
     min: 19.49
     max: 28.49
 apply_link: https://www.capitalone.com/credit-cards/venture-x/
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=5656
 foreign_transaction_fee: false
 network: "visa"
 our_take: >

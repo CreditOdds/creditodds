@@ -33,7 +33,7 @@ import CardyComparePopup from "@/components/ui/CardyComparePopup";
 import { CreditCardSchema, BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { categoryLabels, CategoryIcon } from "@/lib/cardDisplayUtils";
-import { resolveApplyLink, withApplySource } from "@/lib/applyLink";
+import { cardApplyHref } from "@/lib/applyLink";
 import posthog from "posthog-js";
 import { V2Footer } from "@/components/landing-v2/Chrome";
 import { ReplacementCards } from "@/components/ui/ReplacementCards";
@@ -260,35 +260,6 @@ function SubmitParamWatcher({ slug, onTrigger }: { slug: string; onTrigger: () =
   return null;
 }
 
-function DirectApplyLink({
-  cardSlug,
-  defaultUrl,
-  onClick,
-}: {
-  cardSlug: string;
-  defaultUrl: string;
-  onClick: () => void;
-}) {
-  const searchParams = useSearchParams();
-  const href = resolveApplyLink({
-    cardSlug,
-    defaultUrl,
-    source: searchParams.get('from'),
-  });
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={onClick}
-      className="cj-apply-btn"
-    >
-      Apply now
-    </a>
-  );
-}
-
 export default function CardClient({
   card,
   graphData,
@@ -394,6 +365,7 @@ export default function CardClient({
       card_slug: card.slug,
       bank: card.bank,
       click_source: clickSource,
+      affiliate: clickSource === "direct" && Boolean(card.affiliate_link),
       annual_fee: card.annual_fee,
     });
   };
@@ -408,6 +380,8 @@ export default function CardClient({
   };
 
   const handleSubmitSuccess = () => router.refresh();
+
+  const applyHref = cardApplyHref(card);
 
   // ---------- Computed ----------
   const chartOne = graphData[0] || [];
@@ -743,26 +717,16 @@ export default function CardClient({
       )}
       {card.accepting_applications ? (
         <>
-          {(card.special_apply_link || card.apply_link) && (
-            <Suspense
-              fallback={(
-                <a
-                  href={withApplySource(card.special_apply_link || card.apply_link!)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => handleCardApplyClick("direct")}
-                  className="cj-apply-btn"
-                >
-                  Apply now
-                </a>
-              )}
+          {applyHref && (
+            <a
+              href={applyHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => handleCardApplyClick("direct")}
+              className="cj-apply-btn"
             >
-              <DirectApplyLink
-                cardSlug={card.slug}
-                defaultUrl={card.special_apply_link || card.apply_link!}
-                onClick={() => handleCardApplyClick("direct")}
-              />
-            </Suspense>
+              Apply now
+            </a>
           )}
           {randomReferralUrl && (
             <a
@@ -782,7 +746,7 @@ export default function CardClient({
               )}
             </a>
           )}
-          {!card.apply_link && !card.special_apply_link && !randomReferralUrl && (
+          {!applyHref && !randomReferralUrl && (
             <div className="cj-apply-closed">
               Apply link not available yet
             </div>

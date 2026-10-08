@@ -93,6 +93,7 @@ apr:
     min: 19.49
     max: 29.49
 apply_link: https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=7898
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >

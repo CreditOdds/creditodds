@@ -44,6 +44,7 @@ apr:
     min: 18.24
     max: 27.74
 apply_link: https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=7208
 foreign_transaction_fee: true
 network: "visa"
 our_take: >

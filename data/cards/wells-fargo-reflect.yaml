@@ -18,6 +18,7 @@ apr:
     min: 17.49
     max: 28.24
 apply_link: https://creditcards.wellsfargo.com/reflect-visa-credit-card
+affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=5747
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
