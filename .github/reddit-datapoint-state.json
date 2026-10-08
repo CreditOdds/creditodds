@@ -1447,48 +1447,6 @@
     "t3_1wyfnqh": "2026-10-06"
   },
   "pending": {
-    "t3_1wv3qyx": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wv3qyx/citi_diamond_preferred_under_review/",
-      "title": "Citi Diamond Preferred Under Review",
-      "posted": "2026-10-01",
-      "card_name": "Citi Diamond Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Full application after a pre-approval, approved after text verification. No score given.",
-      "firstSeen": "2026-10-03",
-      "attempts": 3,
-      "lastChecked": "2026-10-06"
-    },
-    "t3_1wv3m3n": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wv3m3n/how_long_until_i_can_sign_up_for_another_capital/",
-      "title": "How long until I can sign up for another Capital One card?",
-      "posted": "2026-10-01",
-      "card_name": "Capital One Venture Rewards",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied for Venture Rewards citing the recent Savor approval, after three new cards. No score given.",
-      "firstSeen": "2026-10-03",
-      "attempts": 3,
-      "lastChecked": "2026-10-06"
-    },
-    "t3_1ww8d76": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1ww8d76/usaa_eagle_navigator_wrong_in_apple_wallet/",
-      "title": "USAA Eagle Navigator Wrong in Apple Wallet",
-      "posted": "2026-10-02",
-      "card_name": "USAA Eagle Navigator",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Recently approved for the Eagle Navigator; post is about Apple Wallet card art. No score given.",
-      "firstSeen": "2026-10-03",
-      "attempts": 3,
-      "lastChecked": "2026-10-06"
-    },
     "t3_1wv1uuq": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wv1uuq/chase_ink_business_unlimited_issue_resolution/",
       "title": "Chase Ink Business Unlimited Issue Resolution",
@@ -2456,6 +2414,18 @@
         "no_outcome": 2,
         "pre_qual": 1
       }
+    },
+    {
+      "id": "2026-10-08T14:43:33.390Z",
+      "date": "2026-10-08",
+      "candidates": 0,
+      "revisits": 0,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 0,
+      "pending": 5,
+      "unaccounted": 0,
+      "skipped": {}
     }
   ]
 }
