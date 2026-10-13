@@ -3,6 +3,8 @@ slug: "safeway"
 categories:
   - groceries
 website: "https://www.safeway.com"
+co_brand_cards:
+  - safeway-foru-american-express
 parent_company: "Albertsons Companies"
 intro: |
   Safeway is one of Albertsons' largest banners, running about 900 stores primarily in the
