@@ -1531,9 +1531,81 @@
     "t3_1wzmlvm": "2026-10-13",
     "t3_1wzkdd2": "2026-10-13",
     "t3_1wzir5d": "2026-10-13",
-    "t3_1wzfu9q": "2026-10-13"
+    "t3_1wzfu9q": "2026-10-13",
+    "t3_1x536os": "2026-10-13",
+    "t3_1x5332p": "2026-10-13",
+    "t3_1wzf3zk": "2026-10-13",
+    "t3_1wzek1f": "2026-10-13",
+    "t3_1wze6li": "2026-10-13",
+    "t3_1wzays2": "2026-10-13",
+    "t3_1wz8wbl": "2026-10-13",
+    "t3_1wz8mqt": "2026-10-13",
+    "t3_1wz7fdr": "2026-10-13",
+    "t3_1wz73g5": "2026-10-13",
+    "t3_1wz6mwe": "2026-10-13",
+    "t3_1wz6j1k": "2026-10-13",
+    "t3_1wz6cdv": "2026-10-13",
+    "t3_1wz4qqw": "2026-10-13",
+    "t3_1wz2rtg": "2026-10-13",
+    "t3_1wyngrm": "2026-10-13"
   },
   "pending": {
+    "t3_1x4twon": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x4twon/approved_for_amex_plat_but_only_125k_sub_take_it/",
+      "title": "Approved for Amex Plat, but only 125k SUB. Take it?",
+      "posted": "2026-10-13",
+      "card_name": "The Platinum Card",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Amex Platinum (reapplied after an income typo, got 125k SUB). No score given.",
+      "firstSeen": "2026-10-13",
+      "attempts": 2,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1x2oqpn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x2oqpn/denied_for_delta_gold_business/",
+      "title": "Denied for delta gold business",
+      "posted": "2026-10-10",
+      "card_name": "Delta SkyMiles Gold Business American Express",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied as a sole prop at 4/24, $50k listed income, reason too many recently opened accounts. No score.",
+      "firstSeen": "2026-10-13",
+      "attempts": 2,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1x5332p": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x5332p/approved_for_freedom_flex/",
+      "title": "Approved for Freedom Flex!😃",
+      "posted": "2026-10-13",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Freedom Flex in Oct 2026; already holds the original Freedom. No score, limit, or income given.",
+      "firstSeen": "2026-10-13",
+      "attempts": 1,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1wze6li": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wze6li/approved_for_wells_fargo_autograph/",
+      "title": "Approved for Wells Fargo Autograph",
+      "posted": "2026-10-06",
+      "card_name": "Wells Fargo Autograph",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for WF Autograph with a $14k limit; banked with Wells Fargo 20+ years; already has Active Cash. No score.",
+      "firstSeen": "2026-10-13",
+      "attempts": 1,
+      "lastChecked": "2026-10-13"
+    },
     "t3_1x4pa19": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x4pa19/anyone_with_the_robinhood_credit_card/",
       "title": "Anyone with the robinhood credit card?",
@@ -1545,7 +1617,7 @@
       ],
       "note": "Approved for Robinhood Gold on 2026-10-13 with a $1k limit after a long waitlist. No score given.",
       "firstSeen": "2026-10-13",
-      "attempts": 2,
+      "attempts": 3,
       "lastChecked": "2026-10-13"
     },
     "t3_1x3q9v7": {
@@ -1559,7 +1631,7 @@
       ],
       "note": "Approved about 3 weeks before posting (Sept 2026) for a $500 limit; holds checking and savings at U.S. Bank; ~90% utilization. No score.",
       "firstSeen": "2026-10-13",
-      "attempts": 2,
+      "attempts": 3,
       "lastChecked": "2026-10-13"
     },
     "t3_1wytx0i": {
@@ -1572,37 +1644,8 @@
         "card_name"
       ],
       "note": "Denied twice (August and Sep 15) for an unnamed Chase business card over 5/24. Card and score not given.",
-      "ask": "Which Chase business card was it, and what was your score when you applied?",
       "firstSeen": "2026-10-06",
-      "attempts": 2,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1x4twon": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x4twon/approved_for_amex_plat_but_only_125k_sub_take_it/",
-      "title": "Approved for Amex Plat, but only 125k SUB. Take it?",
-      "posted": "2026-10-13",
-      "card_name": "The Platinum Card",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Amex Platinum (twice; first with no SUB after an income typo, then 125k). No score given.",
-      "firstSeen": "2026-10-13",
-      "attempts": 1,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1x2oqpn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x2oqpn/denied_for_delta_gold_business/",
-      "title": "Denied for delta gold business",
-      "posted": "2026-10-10",
-      "card_name": "Delta SkyMiles Gold Business American Express",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied for Delta Gold Business as a sole prop at 4/24, citing too many recently opened accounts; listed $50k income. No score.",
-      "firstSeen": "2026-10-13",
-      "attempts": 1,
+      "attempts": 3,
       "lastChecked": "2026-10-13"
     },
     "t3_1wzzh8n": {
@@ -1617,34 +1660,6 @@
       "note": "Denied for BofA Premium Rewards applying through Rakuten; no BofA checking yet. No score or reason given.",
       "firstSeen": "2026-10-13",
       "attempts": 1,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1wyrbw2": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wyrbw2/strata_premier_150_rakuten_bonus_back_active/",
-      "title": "Strata Premier $150 Rakuten Bonus back active",
-      "posted": "2026-10-06",
-      "card_name": "Citi Strata Premier",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Strata Premier around 10/05 after nearly a year of Citi denials. Still no score after OP reply.",
-      "firstSeen": "2026-10-06",
-      "attempts": 3,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1wynoqm": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wynoqm/costco_sub_issue_cancel_and_reapply_or_skip_it/",
-      "title": "Costco SUB issue - cancel and reapply, or skip it?",
-      "posted": "2026-10-05",
-      "card_name": "Costco Anywhere Visa by Citi",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Recently approved for a Costco card (assumed personal Anywhere Visa), card received. OP replies are sign-offs, no score.",
-      "firstSeen": "2026-10-06",
-      "attempts": 3,
       "lastChecked": "2026-10-13"
     }
   },
@@ -2588,6 +2603,22 @@
         "not_first_person": 1,
         "no_score": 11,
         "pre_qual": 3
+      }
+    },
+    {
+      "id": "2026-10-13T17:50:51.901Z",
+      "date": "2026-10-13",
+      "candidates": 21,
+      "revisits": 5,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 4,
+        "no_outcome": 8,
+        "pre_qual": 2
       }
     }
   ]
