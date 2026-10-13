@@ -1441,25 +1441,94 @@
     "t3_1wywa4m": "2026-10-06",
     "t3_1wyv60d": "2026-10-06",
     "t3_1wytx0i": "2026-10-06",
-    "t3_1wyrbw2": "2026-10-06",
+    "t3_1wyrbw2": "2026-10-13",
     "t3_1wyq1wr": "2026-10-06",
-    "t3_1wynoqm": "2026-10-06",
-    "t3_1wyfnqh": "2026-10-06"
+    "t3_1wynoqm": "2026-10-13",
+    "t3_1wyfnqh": "2026-10-06",
+    "t3_1x4roiq": "2026-10-13",
+    "t3_1x4pa19": "2026-10-13",
+    "t3_1x4ozsv": "2026-10-13",
+    "t3_1x4ops2": "2026-10-13",
+    "t3_1x4le0v": "2026-10-13",
+    "t3_1x4k6a8": "2026-10-13",
+    "t3_1x4iq99": "2026-10-13",
+    "t3_1x4hcm0": "2026-10-13",
+    "t3_1x4fiyj": "2026-10-13",
+    "t3_1x4faos": "2026-10-13",
+    "t3_1x4dd1x": "2026-10-13",
+    "t3_1x48rp5": "2026-10-13",
+    "t3_1x46dd5": "2026-10-13",
+    "t3_1x45uru": "2026-10-13",
+    "t3_1x45d13": "2026-10-13",
+    "t3_1x42lzb": "2026-10-13",
+    "t3_1x3zoih": "2026-10-13",
+    "t3_1x3upl4": "2026-10-13",
+    "t3_1x3q9v7": "2026-10-13",
+    "t3_1x3pl91": "2026-10-13",
+    "t3_1x3l6v6": "2026-10-13",
+    "t3_1x3kvne": "2026-10-13",
+    "t3_1x3kggi": "2026-10-13",
+    "t3_1x34cpw": "2026-10-13",
+    "t3_1x2yihi": "2026-10-13",
+    "t3_1x2xyd4": "2026-10-13",
+    "t3_1x2x67k": "2026-10-13"
   },
   "pending": {
-    "t3_1wv1uuq": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wv1uuq/chase_ink_business_unlimited_issue_resolution/",
-      "title": "Chase Ink Business Unlimited Issue Resolution",
-      "posted": "2026-10-01",
-      "card_name": "Ink Business Unlimited",
+    "t3_1x4pa19": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x4pa19/anyone_with_the_robinhood_credit_card/",
+      "title": "Anyone with the robinhood credit card?",
+      "posted": "2026-10-13",
+      "card_name": "Robinhood Gold",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for Ink Business Unlimited after address verification; no credit score given.",
-      "firstSeen": "2026-10-05",
+      "note": "Approved for Robinhood Gold today with a $1k limit after a long waitlist. No score given.",
+      "firstSeen": "2026-10-13",
+      "attempts": 1,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1x3q9v7": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x3q9v7/us_bank_smartly_visa_signature/",
+      "title": "Us Bank Smartly Visa Signature",
+      "posted": "2026-10-12",
+      "card_name": "Smartly Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved about 3 weeks ago (Sept 2026) for $500 SL, has checking and savings at U.S. Bank, ~90% utilization at the time. No score given.",
+      "firstSeen": "2026-10-13",
+      "attempts": 1,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1wyrbw2": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wyrbw2/strata_premier_150_rakuten_bonus_back_active/",
+      "title": "Strata Premier $150 Rakuten Bonus back active",
+      "posted": "2026-10-06",
+      "card_name": "Citi Strata Premier",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Strata Premier around 10/05 after nearly a year of Citi denials. Still no score after OP reply.",
+      "firstSeen": "2026-10-06",
       "attempts": 2,
-      "lastChecked": "2026-10-06"
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1wynoqm": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wynoqm/costco_sub_issue_cancel_and_reapply_or_skip_it/",
+      "title": "Costco SUB issue - cancel and reapply, or skip it?",
+      "posted": "2026-10-05",
+      "card_name": "Costco Anywhere Visa by Citi",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Recently approved for a Costco card (assumed personal Anywhere Visa), card received. OP replies are sign-offs, no score.",
+      "firstSeen": "2026-10-06",
+      "attempts": 2,
+      "lastChecked": "2026-10-13"
     },
     "t3_1wyq1wr": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wyq1wr/confused_about_the_second_denial_reason/",
@@ -1471,35 +1540,6 @@
         "credit_score"
       ],
       "note": "Denied citing too many inquiries, low Wells Fargo deposit balances, and trades opened in 24 months. Six cards opened this year. No score given.",
-      "firstSeen": "2026-10-06",
-      "attempts": 1,
-      "lastChecked": "2026-10-06"
-    },
-    "t3_1wyrbw2": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wyrbw2/strata_premier_150_rakuten_bonus_back_active/",
-      "title": "Strata Premier $150 Rakuten Bonus back active",
-      "posted": "2026-10-06",
-      "card_name": "Citi Strata Premier",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Strata Premier around 10/05 after nearly a year of Citi denials. No score given.",
-      "firstSeen": "2026-10-06",
-      "attempts": 1,
-      "lastChecked": "2026-10-06"
-    },
-    "t3_1wynoqm": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wynoqm/costco_sub_issue_cancel_and_reapply_or_skip_it/",
-      "title": "Costco SUB issue - cancel and reapply, or skip it?",
-      "posted": "2026-10-05",
-      "card_name": "Costco Anywhere Visa by Citi",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Recently approved for a Costco card (assumed the personal Anywhere Visa), card already received. No score given.",
-      "ask": "Was this the personal Costco Anywhere Visa, and what was your credit score when you applied?",
       "firstSeen": "2026-10-06",
       "attempts": 1,
       "lastChecked": "2026-10-06"
@@ -2426,6 +2466,23 @@
       "pending": 5,
       "unaccounted": 0,
       "skipped": {}
+    },
+    {
+      "id": "2026-10-13T11:18:52.736Z",
+      "date": "2026-10-13",
+      "candidates": 29,
+      "revisits": 2,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 2,
+      "pending": 6,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 15,
+        "pre_qual": 4,
+        "no_score": 3,
+        "score_too_vague": 1
+      }
     }
   ]
 }
