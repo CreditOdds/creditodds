@@ -14,9 +14,9 @@ rewards:
     cap_period: annual
     rate_after_cap: 1
 signup_bonus:
-  value: 15000
-  type: points
-  spend_requirement: 3000
+  value: 50000
+  type: "points"
+  spend_requirement: 5000
   timeframe_months: 3
 apr:
   purchase_intro:
