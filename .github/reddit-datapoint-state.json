@@ -1440,9 +1440,9 @@
     "t3_1wv1uuq": "2026-10-06",
     "t3_1wywa4m": "2026-10-06",
     "t3_1wyv60d": "2026-10-06",
-    "t3_1wytx0i": "2026-10-06",
+    "t3_1wytx0i": "2026-10-13",
     "t3_1wyrbw2": "2026-10-13",
-    "t3_1wyq1wr": "2026-10-06",
+    "t3_1wyq1wr": "2026-10-13",
     "t3_1wynoqm": "2026-10-13",
     "t3_1wyfnqh": "2026-10-06",
     "t3_1x4roiq": "2026-10-13",
@@ -1471,7 +1471,67 @@
     "t3_1x34cpw": "2026-10-13",
     "t3_1x2yihi": "2026-10-13",
     "t3_1x2xyd4": "2026-10-13",
-    "t3_1x2x67k": "2026-10-13"
+    "t3_1x2x67k": "2026-10-13",
+    "t3_1x4wo99": "2026-10-13",
+    "t3_1x4wnxa": "2026-10-13",
+    "t3_1x4twon": "2026-10-13",
+    "t3_1x2wvk4": "2026-10-13",
+    "t3_1x2w5qi": "2026-10-13",
+    "t3_1x2uu03": "2026-10-13",
+    "t3_1x2ubce": "2026-10-13",
+    "t3_1x2tvnq": "2026-10-13",
+    "t3_1x2q9pz": "2026-10-13",
+    "t3_1x2q2sa": "2026-10-13",
+    "t3_1x2pnub": "2026-10-13",
+    "t3_1x2oqpn": "2026-10-13",
+    "t3_1x2mr6c": "2026-10-13",
+    "t3_1x2i7gc": "2026-10-13",
+    "t3_1x2fnps": "2026-10-13",
+    "t3_1x2fn95": "2026-10-13",
+    "t3_1x26b4z": "2026-10-13",
+    "t3_1x25m6a": "2026-10-13",
+    "t3_1x25d4m": "2026-10-13",
+    "t3_1x22f2s": "2026-10-13",
+    "t3_1x21ry8": "2026-10-13",
+    "t3_1x21c7m": "2026-10-13",
+    "t3_1x1zg55": "2026-10-13",
+    "t3_1x1t19n": "2026-10-13",
+    "t3_1x1qsbr": "2026-10-13",
+    "t3_1x1bebc": "2026-10-13",
+    "t3_1x1aojz": "2026-10-13",
+    "t3_1x1819l": "2026-10-13",
+    "t3_1x17e2o": "2026-10-13",
+    "t3_1x1799b": "2026-10-13",
+    "t3_1x171dy": "2026-10-13",
+    "t3_1x141mb": "2026-10-13",
+    "t3_1x13peh": "2026-10-13",
+    "t3_1x13lcu": "2026-10-13",
+    "t3_1x12evp": "2026-10-13",
+    "t3_1x112vw": "2026-10-13",
+    "t3_1x0xdu5": "2026-10-13",
+    "t3_1x0x7fl": "2026-10-13",
+    "t3_1x0wzrh": "2026-10-13",
+    "t3_1x0wmcw": "2026-10-13",
+    "t3_1x0taqj": "2026-10-13",
+    "t3_1x0swh0": "2026-10-13",
+    "t3_1x0f0xr": "2026-10-13",
+    "t3_1x0evss": "2026-10-13",
+    "t3_1x0e1by": "2026-10-13",
+    "t3_1x0b5e8": "2026-10-13",
+    "t3_1x09v4m": "2026-10-13",
+    "t3_1x07rgl": "2026-10-13",
+    "t3_1x052nn": "2026-10-13",
+    "t3_1x04z82": "2026-10-13",
+    "t3_1x03wgi": "2026-10-13",
+    "t3_1x00sej": "2026-10-13",
+    "t3_1wzzh8n": "2026-10-13",
+    "t3_1wzz9sv": "2026-10-13",
+    "t3_1wzq5o6": "2026-10-13",
+    "t3_1wzp3pd": "2026-10-13",
+    "t3_1wzmlvm": "2026-10-13",
+    "t3_1wzkdd2": "2026-10-13",
+    "t3_1wzir5d": "2026-10-13",
+    "t3_1wzfu9q": "2026-10-13"
   },
   "pending": {
     "t3_1x4pa19": {
@@ -1483,9 +1543,9 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for Robinhood Gold today with a $1k limit after a long waitlist. No score given.",
+      "note": "Approved for Robinhood Gold on 2026-10-13 with a $1k limit after a long waitlist. No score given.",
       "firstSeen": "2026-10-13",
-      "attempts": 1,
+      "attempts": 2,
       "lastChecked": "2026-10-13"
     },
     "t3_1x3q9v7": {
@@ -1497,7 +1557,64 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved about 3 weeks ago (Sept 2026) for $500 SL, has checking and savings at U.S. Bank, ~90% utilization at the time. No score given.",
+      "note": "Approved about 3 weeks before posting (Sept 2026) for a $500 limit; holds checking and savings at U.S. Bank; ~90% utilization. No score.",
+      "firstSeen": "2026-10-13",
+      "attempts": 2,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1wytx0i": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wytx0i/reconsideration_timing_or_reapply/",
+      "title": "Reconsideration timing or reapply",
+      "posted": "2026-10-06",
+      "result": "denied",
+      "missing": [
+        "credit_score",
+        "card_name"
+      ],
+      "note": "Denied twice (August and Sep 15) for an unnamed Chase business card over 5/24. Card and score not given.",
+      "ask": "Which Chase business card was it, and what was your score when you applied?",
+      "firstSeen": "2026-10-06",
+      "attempts": 2,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1x4twon": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x4twon/approved_for_amex_plat_but_only_125k_sub_take_it/",
+      "title": "Approved for Amex Plat, but only 125k SUB. Take it?",
+      "posted": "2026-10-13",
+      "card_name": "The Platinum Card",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Amex Platinum (twice; first with no SUB after an income typo, then 125k). No score given.",
+      "firstSeen": "2026-10-13",
+      "attempts": 1,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1x2oqpn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x2oqpn/denied_for_delta_gold_business/",
+      "title": "Denied for delta gold business",
+      "posted": "2026-10-10",
+      "card_name": "Delta SkyMiles Gold Business American Express",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied for Delta Gold Business as a sole prop at 4/24, citing too many recently opened accounts; listed $50k income. No score.",
+      "firstSeen": "2026-10-13",
+      "attempts": 1,
+      "lastChecked": "2026-10-13"
+    },
+    "t3_1wzzh8n": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1wzzh8n/denial_for_boa_premium_rewards_card/",
+      "title": "Denial for BOA Premium Rewards Card",
+      "posted": "2026-10-07",
+      "card_name": "Bank of America Premium Rewards",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied for BofA Premium Rewards applying through Rakuten; no BofA checking yet. No score or reason given.",
       "firstSeen": "2026-10-13",
       "attempts": 1,
       "lastChecked": "2026-10-13"
@@ -1513,7 +1630,7 @@
       ],
       "note": "Approved for Strata Premier around 10/05 after nearly a year of Citi denials. Still no score after OP reply.",
       "firstSeen": "2026-10-06",
-      "attempts": 2,
+      "attempts": 3,
       "lastChecked": "2026-10-13"
     },
     "t3_1wynoqm": {
@@ -1527,37 +1644,8 @@
       ],
       "note": "Recently approved for a Costco card (assumed personal Anywhere Visa), card received. OP replies are sign-offs, no score.",
       "firstSeen": "2026-10-06",
-      "attempts": 2,
+      "attempts": 3,
       "lastChecked": "2026-10-13"
-    },
-    "t3_1wyq1wr": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wyq1wr/confused_about_the_second_denial_reason/",
-      "title": "Confused about the second denial reason",
-      "posted": "2026-10-06",
-      "card_name": "Wells Fargo Autograph Journey",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied citing too many inquiries, low Wells Fargo deposit balances, and trades opened in 24 months. Six cards opened this year. No score given.",
-      "firstSeen": "2026-10-06",
-      "attempts": 1,
-      "lastChecked": "2026-10-06"
-    },
-    "t3_1wytx0i": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wytx0i/reconsideration_timing_or_reapply/",
-      "title": "Reconsideration timing or reapply",
-      "posted": "2026-10-06",
-      "result": "denied",
-      "missing": [
-        "credit_score",
-        "card_name"
-      ],
-      "note": "Denied twice (August and Sep 15) for an unnamed Chase business card over 5/24. Card and score not given.",
-      "ask": "Which Chase business card was the September 15 application for, and what was your credit score?",
-      "firstSeen": "2026-10-06",
-      "attempts": 1,
-      "lastChecked": "2026-10-06"
     }
   },
   "runs": [
@@ -2482,6 +2570,24 @@
         "pre_qual": 4,
         "no_score": 3,
         "score_too_vague": 1
+      }
+    },
+    {
+      "id": "2026-10-13T17:11:34.457Z",
+      "date": "2026-10-13",
+      "candidates": 66,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 4,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "other": 1,
+        "no_outcome": 38,
+        "not_first_person": 1,
+        "no_score": 11,
+        "pre_qual": 3
       }
     }
   ]
