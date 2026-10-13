@@ -3,6 +3,8 @@ slug: "acme-markets"
 categories:
   - groceries
 website: "https://www.acmemarkets.com"
+co_brand_cards:
+  - safeway-foru-american-express
 intro: |
   Acme Markets is the Mid-Atlantic banner of Albertsons Companies, with around 160
   stores across Pennsylvania, New Jersey, Delaware, Maryland, and New York. The chain

@@ -5,6 +5,8 @@ aliases:
 categories:
   - groceries
 website: "https://www.vons.com"
+co_brand_cards:
+  - safeway-foru-american-express
 intro: |
   Vons is the Southern California banner of Albertsons Companies, with roughly 200 stores
   concentrated in the Los Angeles, San Diego, and Las Vegas metros. For credit card

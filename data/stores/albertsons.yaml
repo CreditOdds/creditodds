@@ -5,6 +5,8 @@ aliases:
 categories:
   - groceries
 website: "https://www.albertsons.com"
+co_brand_cards:
+  - safeway-foru-american-express
 intro: |
   Albertsons is a national supermarket operator with about 2,250 stores under the
   Albertsons, Safeway, Vons, Jewel-Osco, Shaw's, Acme, Tom Thumb, and Randalls banners.

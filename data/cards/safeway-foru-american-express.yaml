@@ -1,0 +1,104 @@
+name: "Safeway forU American Express"
+bank: "First Electronic Bank"
+slug: "safeway-foru-american-express"
+image: "safeway-foru-american-express.png"
+accepting_applications: true
+apply_link: https://www.safeway.com/rewards/partners/foru-amex-credit-card
+# One product, issued per Albertsons Companies banner (Imprint's internal name is
+# the "Albertsons Companies forU American Express Card"). These are concurrent
+# brandings of the same card, not former names, so they live here and not in
+# previous_names. Applications open at Albertsons, ACME, Haggen, Jewel-Osco,
+# Pavilions, Randalls, Safeway, Shaw's, Star Market, Tom Thumb, United and Vons.
+also_known_as:
+  - "Albertsons forU American Express"
+  - "Albertsons Companies forU American Express"
+  - "ACME forU American Express"
+  - "Haggen forU American Express"
+  - "Jewel-Osco forU American Express"
+  - "Pavilions forU American Express"
+  - "Randalls forU American Express"
+  - "Shaw's forU American Express"
+  - "Star Market forU American Express"
+  - "Tom Thumb forU American Express"
+  - "United Supermarkets forU American Express"
+  - "Vons forU American Express"
+category: "cashback"
+annual_fee: 0
+reward_type: "cashback"
+network: "amex"
+# No foreign transaction fee appears in the cardholder agreement, but Imprint's
+# FAQ lists cross-border transactions among the types it may decline, so this
+# is not a card to rely on abroad.
+foreign_transaction_fee: false
+tags:
+  - cashback
+  - shopping
+  - dining
+  - rewards
+rewards:
+  # Both Albertsons rates apply across the whole banner family (the rewards FAQ
+  # also lists Amigos, Andronico's, Balducci's, Carrs, Kings, Lucky and Market
+  # Street). Gated to the banner stores we have pages for.
+  - category: "groceries"
+    value: 5
+    unit: "percent"
+    note: "Online and app orders (delivery and pickup) placed through Albertsons Companies banner sites such as safeway.com; in-store purchases earn 3%"
+    merchant_specific: true
+    merchant_gate: [safeway, albertsons, vons, jewel-osco, acme-markets, pavilions, shaws]
+  - category: "groceries"
+    value: 3
+    unit: "percent"
+    note: "In-store grocery and pharmacy purchases at Albertsons Companies banners, including prescriptions, immunizations and eligible over-the-counter health products"
+    merchant_specific: true
+    merchant_gate: [safeway, albertsons, vons, jewel-osco, acme-markets, pavilions, shaws]
+  - category: "gas"
+    value: 3
+    unit: "percent"
+  - category: "dining"
+    value: 3
+    unit: "percent"
+  - category: "utilities"
+    value: 3
+    unit: "percent"
+  - category: "streaming"
+    value: 3
+    unit: "percent"
+  - category: "everything_else"
+    value: 1
+    unit: "percent"
+signup_bonus:
+  value: 50
+  type: "cash"
+  spend_requirement: 1000
+  timeframe_months: 3
+  note: "Statement credit after $1,000 in purchases within 90 days of account opening; purchases at Albertsons Companies stores do not count toward the spend"
+apr:
+  regular:
+    min: 21.24
+    max: 34.24
+benefits:
+  - name: "Amex Offers"
+    value: 0
+    description: "Access to Amex Offers statement-credit deals on the card"
+    frequency: "ongoing"
+    category: "shopping"
+  - name: "Amex Experiences"
+    value: 0
+    description: "Ticket presales for select concerts, sporting events and entertainment, plus perks at participating venues"
+    frequency: "ongoing"
+    category: "entertainment"
+our_take: >
+  If you shop at Safeway or another Albertsons Companies banner, this
+  no-annual-fee card pays 5% back on online and app orders, including pickup
+  and delivery, and 3% on in-store groceries and pharmacy purchases. The
+  bigger surprise is outside the store: gas, dining, utilities and streaming
+  all earn 3% with no spending cap stated in the rewards terms, which makes it
+  a reasonable everyday card even for people who split their grocery runs
+  between chains. Everything else earns 1%, and rewards post automatically as
+  a statement credit each billing cycle, so there is nothing to redeem. The
+  welcome offer is small at $50 after $1,000 in spending within 90 days, and
+  purchases at Albertsons Companies stores do not count toward it. The card
+  is issued by First Electronic Bank and run through the Imprint app rather
+  than American Express, cross-border transactions may be declined, and the
+  APR runs as high as 34.24%, so treat it as a domestic card you pay off in
+  full every month.

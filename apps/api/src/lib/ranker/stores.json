@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T16:39:48.787Z",
+  "generated_at": "2026-10-13T16:56:49.168Z",
   "count": 1117,
   "stores": [
     {
@@ -248,6 +248,9 @@
         "groceries"
       ],
       "website": "https://www.acmemarkets.com",
+      "co_brand_cards": [
+        "safeway-foru-american-express"
+      ],
       "intro": "Acme Markets is the Mid-Atlantic banner of Albertsons Companies, with around 160\nstores across Pennsylvania, New Jersey, Delaware, Maryland, and New York. The chain\ncodes as a U.S. supermarket for credit cards, so a grocery rewards card (Amex Gold,\nBlue Cash Preferred, Citi Custom Cash) earns its posted multiplier at checkout. Acme\nparticipates in the Albertsons for U loyalty program and stocks a wide gift-card rack\nat the service desk, which is occasionally useful for extending a grocery multiplier\ninto adjacent spending categories.\n"
     },
     {
@@ -532,6 +535,9 @@
         "groceries"
       ],
       "website": "https://www.albertsons.com",
+      "co_brand_cards": [
+        "safeway-foru-american-express"
+      ],
       "intro": "Albertsons is a national supermarket operator with about 2,250 stores under the\nAlbertsons, Safeway, Vons, Jewel-Osco, Shaw's, Acme, Tom Thumb, and Randalls banners.\nAll banners code as groceries at the register and ship online through their respective\napps and sites. Albertsons' Just for U coupons stack with card-side rewards at checkout.\n"
     },
     {
@@ -7365,6 +7371,9 @@
         "groceries"
       ],
       "website": "https://www.jewelosco.com",
+      "co_brand_cards": [
+        "safeway-foru-american-express"
+      ],
       "intro": "Jewel-Osco is a Chicago-area institution under the Albertsons family, combining a grocery store with an in-house Osco pharmacy. Your grocery total codes as supermarket on most cards, so lean on a card that bonuses groceries. Pharmacy and household items rung up at the main registers typically fall under the same grocery code.\n"
     },
     {
@@ -10303,6 +10312,9 @@
         "groceries"
       ],
       "website": "https://www.pavilions.com",
+      "co_brand_cards": [
+        "safeway-foru-american-express"
+      ],
       "intro": "Pavilions is the upscale Albertsons banner serving affluent Southern California\nneighborhoods, with a focus on prepared foods, wine, and specialty grocery. It codes as\na U.S. supermarket, so any grocery category bonus (Amex Gold, Blue Cash Preferred, Citi\nCustom Cash) applies at the register. Like other Albertsons banners, Pavilions runs the\nAlbertsons for U loyalty program, and the broad gift-card rack at the service counter\nis worth knowing about if you want to extend a 4x or 6x grocery multiplier into other\nspending.\n"
     },
     {
@@ -11739,6 +11751,9 @@
         "groceries"
       ],
       "website": "https://www.safeway.com",
+      "co_brand_cards": [
+        "safeway-foru-american-express"
+      ],
       "parent_company": "Albertsons Companies",
       "intro": "Safeway is one of Albertsons' largest banners, running about 900 stores primarily in the\nWestern U.S. Safeway codes as groceries at the register and most online ordering happens\nthrough safeway.com or DoorDash partnerships. Safeway's own Just for U digital coupons\nstack with whatever card-side cashback you earn at checkout.\n"
     },
@@ -12101,6 +12116,9 @@
         "groceries"
       ],
       "website": "https://www.shaws.com",
+      "co_brand_cards": [
+        "safeway-foru-american-express"
+      ],
       "intro": "Shaw's is a New England supermarket chain owned by Albertsons, with a long history across Massachusetts and the surrounding states. Spending codes as groceries on most rewards cards, so a supermarket multiplier captures the most value. Fuel purchased at a Shaw's gas station codes separately as gas rather than groceries.\n"
     },
     {
@@ -14873,6 +14891,9 @@
         "groceries"
       ],
       "website": "https://www.vons.com",
+      "co_brand_cards": [
+        "safeway-foru-american-express"
+      ],
       "intro": "Vons is the Southern California banner of Albertsons Companies, with roughly 200 stores\nconcentrated in the Los Angeles, San Diego, and Las Vegas metros. For credit card\npurposes Vons codes as a U.S. supermarket, which means standard grocery bonus cards\n(Amex Gold, Amex Blue Cash Preferred, Citi Custom Cash on a chosen month) will earn\ntheir full multiplier. Vons also participates in the Albertsons for U loyalty program,\nand gift cards sold at the service desk can be a useful angle for category stacking.\n"
     },
     {
