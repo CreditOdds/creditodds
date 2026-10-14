@@ -1474,7 +1474,7 @@
     "t3_1x2x67k": "2026-10-13",
     "t3_1x4wo99": "2026-10-13",
     "t3_1x4wnxa": "2026-10-13",
-    "t3_1x4twon": "2026-10-13",
+    "t3_1x4twon": "2026-10-14",
     "t3_1x2wvk4": "2026-10-13",
     "t3_1x2w5qi": "2026-10-13",
     "t3_1x2uu03": "2026-10-13",
@@ -1483,7 +1483,7 @@
     "t3_1x2q9pz": "2026-10-13",
     "t3_1x2q2sa": "2026-10-13",
     "t3_1x2pnub": "2026-10-13",
-    "t3_1x2oqpn": "2026-10-13",
+    "t3_1x2oqpn": "2026-10-14",
     "t3_1x2mr6c": "2026-10-13",
     "t3_1x2i7gc": "2026-10-13",
     "t3_1x2fnps": "2026-10-13",
@@ -1533,7 +1533,7 @@
     "t3_1wzir5d": "2026-10-13",
     "t3_1wzfu9q": "2026-10-13",
     "t3_1x536os": "2026-10-13",
-    "t3_1x5332p": "2026-10-13",
+    "t3_1x5332p": "2026-10-14",
     "t3_1wzf3zk": "2026-10-13",
     "t3_1wzek1f": "2026-10-13",
     "t3_1wze6li": "2026-10-13",
@@ -1559,10 +1559,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for Amex Platinum (reapplied after an income typo, got 125k SUB). No score given.",
+      "note": "Approved for Amex Platinum on a reapply after fixing an income typo, 125k SUB offered. Still no score in post or OP replies.",
       "firstSeen": "2026-10-13",
-      "attempts": 2,
-      "lastChecked": "2026-10-13"
+      "attempts": 3,
+      "lastChecked": "2026-10-14"
     },
     "t3_1x2oqpn": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x2oqpn/denied_for_delta_gold_business/",
@@ -1573,24 +1573,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied as a sole prop at 4/24, $50k listed income, reason too many recently opened accounts. No score.",
+      "note": "Denied as a sole prop at 4/24 with $50k listed income; Amex cited too many recently opened accounts. No score given.",
       "firstSeen": "2026-10-13",
-      "attempts": 2,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1x5332p": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x5332p/approved_for_freedom_flex/",
-      "title": "Approved for Freedom Flex!😃",
-      "posted": "2026-10-13",
-      "card_name": "Chase Freedom Flex",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Freedom Flex in Oct 2026; already holds the original Freedom. No score, limit, or income given.",
-      "firstSeen": "2026-10-13",
-      "attempts": 1,
-      "lastChecked": "2026-10-13"
+      "attempts": 3,
+      "lastChecked": "2026-10-14"
     },
     "t3_1wze6li": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wze6li/approved_for_wells_fargo_autograph/",
@@ -1604,48 +1590,6 @@
       "note": "Approved for WF Autograph with a $14k limit; banked with Wells Fargo 20+ years; already has Active Cash. No score.",
       "firstSeen": "2026-10-13",
       "attempts": 1,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1x4pa19": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x4pa19/anyone_with_the_robinhood_credit_card/",
-      "title": "Anyone with the robinhood credit card?",
-      "posted": "2026-10-13",
-      "card_name": "Robinhood Gold",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Robinhood Gold on 2026-10-13 with a $1k limit after a long waitlist. No score given.",
-      "firstSeen": "2026-10-13",
-      "attempts": 3,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1x3q9v7": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x3q9v7/us_bank_smartly_visa_signature/",
-      "title": "Us Bank Smartly Visa Signature",
-      "posted": "2026-10-12",
-      "card_name": "Smartly Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved about 3 weeks before posting (Sept 2026) for a $500 limit; holds checking and savings at U.S. Bank; ~90% utilization. No score.",
-      "firstSeen": "2026-10-13",
-      "attempts": 3,
-      "lastChecked": "2026-10-13"
-    },
-    "t3_1wytx0i": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wytx0i/reconsideration_timing_or_reapply/",
-      "title": "Reconsideration timing or reapply",
-      "posted": "2026-10-06",
-      "result": "denied",
-      "missing": [
-        "credit_score",
-        "card_name"
-      ],
-      "note": "Denied twice (August and Sep 15) for an unnamed Chase business card over 5/24. Card and score not given.",
-      "firstSeen": "2026-10-06",
-      "attempts": 3,
       "lastChecked": "2026-10-13"
     },
     "t3_1wzzh8n": {
@@ -1664,24 +1608,6 @@
     }
   },
   "runs": [
-    {
-      "id": "2026-08-10T09:21:34.723Z",
-      "date": "2026-08-10",
-      "candidates": 60,
-      "revisits": 3,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 7,
-      "pending": 5,
-      "unaccounted": 0,
-      "skipped": {
-        "no_score": 14,
-        "card_unclear": 1,
-        "no_outcome": 26,
-        "pre_qual": 4,
-        "not_datable": 3
-      }
-    },
     {
       "id": "2026-08-11T09:31:15.453Z",
       "date": "2026-08-11",
@@ -2619,6 +2545,20 @@
         "no_score": 4,
         "no_outcome": 8,
         "pre_qual": 2
+      }
+    },
+    {
+      "id": "2026-10-14T16:22:58.302Z",
+      "date": "2026-10-14",
+      "candidates": 3,
+      "revisits": 3,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 0,
+      "pending": 4,
+      "unaccounted": 0,
+      "skipped": {
+        "other": 1
       }
     }
   ]
