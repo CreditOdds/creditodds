@@ -1524,7 +1524,7 @@
     "t3_1x04z82": "2026-10-13",
     "t3_1x03wgi": "2026-10-13",
     "t3_1x00sej": "2026-10-13",
-    "t3_1wzzh8n": "2026-10-13",
+    "t3_1wzzh8n": "2026-10-15",
     "t3_1wzz9sv": "2026-10-13",
     "t3_1wzq5o6": "2026-10-13",
     "t3_1wzp3pd": "2026-10-13",
@@ -1536,7 +1536,7 @@
     "t3_1x5332p": "2026-10-14",
     "t3_1wzf3zk": "2026-10-13",
     "t3_1wzek1f": "2026-10-13",
-    "t3_1wze6li": "2026-10-13",
+    "t3_1wze6li": "2026-10-15",
     "t3_1wzays2": "2026-10-13",
     "t3_1wz8wbl": "2026-10-13",
     "t3_1wz8mqt": "2026-10-13",
@@ -1547,37 +1547,45 @@
     "t3_1wz6cdv": "2026-10-13",
     "t3_1wz4qqw": "2026-10-13",
     "t3_1wz2rtg": "2026-10-13",
-    "t3_1wyngrm": "2026-10-13"
+    "t3_1wyngrm": "2026-10-13",
+    "t3_1x6oaon": "2026-10-15",
+    "t3_1x6mmpr": "2026-10-15",
+    "t3_1x6fj9s": "2026-10-15",
+    "t3_1x6e5dz": "2026-10-15",
+    "t3_1x6b590": "2026-10-15",
+    "t3_1x6asbh": "2026-10-15",
+    "t3_1x6aglj": "2026-10-15",
+    "t3_1x69msn": "2026-10-15",
+    "t3_1x685d3": "2026-10-15",
+    "t3_1x67vvc": "2026-10-15",
+    "t3_1x6649r": "2026-10-15",
+    "t3_1x65gy7": "2026-10-15",
+    "t3_1x658sn": "2026-10-15",
+    "t3_1x63jce": "2026-10-15",
+    "t3_1x62e1r": "2026-10-15",
+    "t3_1x61l58": "2026-10-15",
+    "t3_1x61hpg": "2026-10-15",
+    "t3_1x619xd": "2026-10-15",
+    "t3_1x5zr1s": "2026-10-15",
+    "t3_1x5zh73": "2026-10-15",
+    "t3_1x5yz42": "2026-10-15",
+    "t3_1x5xalo": "2026-10-15",
+    "t3_1x5w229": "2026-10-15",
+    "t3_1x5t7er": "2026-10-15",
+    "t3_1x5rdj1": "2026-10-15",
+    "t3_1x5kbeg": "2026-10-15",
+    "t3_1x5dg49": "2026-10-15",
+    "t3_1x59h7m": "2026-10-15",
+    "t3_1x59ge1": "2026-10-15",
+    "t3_1x58xk6": "2026-10-15",
+    "t3_1x5732b": "2026-10-15",
+    "t3_1x56qxo": "2026-10-15",
+    "t3_1x55qkj": "2026-10-15",
+    "t3_1x55lcf": "2026-10-15",
+    "t3_1x55eay": "2026-10-15",
+    "t3_1x54gd3": "2026-10-15"
   },
   "pending": {
-    "t3_1x4twon": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x4twon/approved_for_amex_plat_but_only_125k_sub_take_it/",
-      "title": "Approved for Amex Plat, but only 125k SUB. Take it?",
-      "posted": "2026-10-13",
-      "card_name": "The Platinum Card",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Amex Platinum on a reapply after fixing an income typo, 125k SUB offered. Still no score in post or OP replies.",
-      "firstSeen": "2026-10-13",
-      "attempts": 3,
-      "lastChecked": "2026-10-14"
-    },
-    "t3_1x2oqpn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x2oqpn/denied_for_delta_gold_business/",
-      "title": "Denied for delta gold business",
-      "posted": "2026-10-10",
-      "card_name": "Delta SkyMiles Gold Business American Express",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied as a sole prop at 4/24 with $50k listed income; Amex cited too many recently opened accounts. No score given.",
-      "firstSeen": "2026-10-13",
-      "attempts": 3,
-      "lastChecked": "2026-10-14"
-    },
     "t3_1wze6li": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wze6li/approved_for_wells_fargo_autograph/",
       "title": "Approved for Wells Fargo Autograph",
@@ -1587,10 +1595,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for WF Autograph with a $14k limit; banked with Wells Fargo 20+ years; already has Active Cash. No score.",
+      "note": "Approved for WF Autograph with a $14k limit; 20+ year WF banking customer with direct deposit. Still no score.",
       "firstSeen": "2026-10-13",
-      "attempts": 1,
-      "lastChecked": "2026-10-13"
+      "attempts": 2,
+      "lastChecked": "2026-10-15"
     },
     "t3_1wzzh8n": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wzzh8n/denial_for_boa_premium_rewards_card/",
@@ -1601,31 +1609,85 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied for BofA Premium Rewards applying through Rakuten; no BofA checking yet. No score or reason given.",
+      "note": "Denied for BofA Premium Rewards via Rakuten; holds BofA Customized Cash but no BofA checking. No score or reason given.",
       "firstSeen": "2026-10-13",
+      "attempts": 2,
+      "lastChecked": "2026-10-15"
+    },
+    "t3_1x5kbeg": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x5kbeg/im_shook_never_thought_id_be_here_just_got/",
+      "title": "I'm shook, never thought I'd be here. Just got approved for CSP and Barclays Jet Blue",
+      "posted": "2026-10-14",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for CSP ($5k SL) with $103k income despite past charge-offs; gave three bureau scores (617 EX, 644 EQ, 630 TU) but not which one Chase pulled. Same post has a JetBlue approval ($4k) where the exact JetBlue card is also unclear.",
+      "ask": "You listed 617 EX / 644 EQ / 630 TU. Which bureau did Chase pull for the CSP, and which JetBlue card (plain, Plus, or Premier) did Barclays approve?",
+      "firstSeen": "2026-10-15",
       "attempts": 1,
-      "lastChecked": "2026-10-13"
+      "lastChecked": "2026-10-15"
+    },
+    "t3_1x56qxo": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x56qxo/wells_fargo_autograph_visa_odds_of_approval/",
+      "title": "Wells Fargo Autograph Visa Odds Of Approval?",
+      "posted": "2026-10-13",
+      "card_name": "Wells Fargo Autograph",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for WF Autograph with a $13k limit, $180k income, ~10 years of history, 2 cards; gave 787 Experian and 815 FICO without saying which one WF used.",
+      "ask": "You mentioned 787 on Experian and 815 FICO. Which score and bureau did Wells Fargo pull for the Autograph?",
+      "firstSeen": "2026-10-15",
+      "attempts": 1,
+      "lastChecked": "2026-10-15"
+    },
+    "t3_1x658sn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x658sn/approved_for_ink_business_unltd_over_524/",
+      "title": "Approved for Ink Business Unltd over 5/24",
+      "posted": "2026-10-14",
+      "card_name": "Ink Business Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Instantly approved for Ink Business Unlimited at 6/24 with a $3k limit; existing Chase business and personal banking. No score.",
+      "firstSeen": "2026-10-15",
+      "attempts": 1,
+      "lastChecked": "2026-10-15"
+    },
+    "t3_1x55lcf": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x55lcf/got_approved_for_the_amex_plat_175k_sub/",
+      "title": "Got approved for the amex plat 175k sub",
+      "posted": "2026-10-13",
+      "card_name": "The Platinum Card",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Amex Platinum with the 175k offer after holding Gold. No score or other stats.",
+      "firstSeen": "2026-10-15",
+      "attempts": 1,
+      "lastChecked": "2026-10-15"
+    },
+    "t3_1x58xk6": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x58xk6/samsung_cc_initial_limit_question/",
+      "title": "Samsung CC initial limit question",
+      "posted": "2026-10-13",
+      "card_name": "Samsung Galaxy Card",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Samsung card while rebuilding credit, shown $800 at approval. No score.",
+      "firstSeen": "2026-10-15",
+      "attempts": 1,
+      "lastChecked": "2026-10-15"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-11T09:31:15.453Z",
-      "date": "2026-08-11",
-      "candidates": 20,
-      "revisits": 2,
-      "sourcesOk": 1,
-      "sourcesFailed": 1,
-      "published": 0,
-      "pending": 10,
-      "unaccounted": 0,
-      "skipped": {
-        "no_outcome": 7,
-        "other": 1,
-        "pre_qual": 1,
-        "no_score": 3,
-        "card_not_in_catalog": 1
-      }
-    },
     {
       "id": "2026-08-12T09:12:21.360Z",
       "date": "2026-08-12",
@@ -2559,6 +2621,23 @@
       "unaccounted": 0,
       "skipped": {
         "other": 1
+      }
+    },
+    {
+      "id": "2026-10-15T16:27:50.514Z",
+      "date": "2026-10-15",
+      "candidates": 38,
+      "revisits": 2,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 1,
+      "pending": 7,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 25,
+        "no_score": 2,
+        "score_too_vague": 2,
+        "pre_qual": 1
       }
     }
   ]
