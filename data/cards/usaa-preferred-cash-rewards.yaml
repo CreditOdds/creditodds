@@ -15,16 +15,15 @@ rewards:
     value: 1.5
     unit: percent
 our_take: >
-  The Preferred Cash Rewards is a simple flat-rate card: 1.5% cash back on
-  everything, no annual fee, and no foreign transaction fee, which makes it
-  easy to carry overseas without doing mental math. The $250 signup bonus
-  after $1,000 in spending within three months is a strong return for a card
-  that costs nothing to keep. The honest limitation is the earn rate itself,
-  since 1.5% on everything is below what flat 2% cards pay, and there are no
-  bonus categories to make up the gap on groceries, gas, or dining. There is
-  also no intro APR offer here, so it does nothing for existing debt or a
-  purchase you want to spread out. Grab it for the bonus and the no-fee
-  foreign spending, but do not expect it to be your top earner.
+  The Preferred Cash Rewards is a set it and forget it card: 1.5% cash back on
+  every purchase with no annual fee and no foreign transaction fees. New
+  cardholders can pick up a $250 bonus after spending $1,000 in the first 3
+  months, a low bar that most people will clear with normal spending. The
+  tradeoff is that 1.5% is below what some flat rate competitors pay, and
+  there are no bonus categories to boost your return. The regular APR range of
+  15.4% to 27.4% is reasonable but not a reason to carry a balance. It works
+  best as a simple catch-all card, especially for travel abroad, rather than a
+  rewards maximizer.
 signup_bonus:
   value: 250
   type: cash
