@@ -29,19 +29,17 @@ apr:
     min: 18.40
     max: 26.65
 our_take: >
-  The Eagle Navigator earns 2 points per dollar on everything and 3 points per
-  dollar on travel and transit, a definition broad enough to include rideshare
-  and tolls, so it holds up as an everyday card rather than a trip-only one.
-  The signup bonus is 30,000 points after $3,000 in spending within three
-  months, and there is no foreign transaction fee, which matters on a travel
-  card. Recurring value comes from a $120 Global Entry or TSA PreCheck credit
-  every four years and 10,000 bonus points each year for booking a hotel stay
-  or car rental through the USAA Rewards Center, though that second one
-  requires you to route a booking through USAA to collect it. The $95 annual
-  fee is the hurdle for casual spenders, and it is waived entirely while you
-  are on active duty, along with a reduced APR under the Servicemembers Civil
-  Relief Act. That active duty carve-out is what tips the value calculation
-  for the people this card is actually built for.
+  The Eagle Navigator earns a solid 2 points per dollar on everything and 3
+  points on travel and transit, including rideshare and tolls, which gives it
+  a stronger base rate than many travel cards. New cardholders can earn 30,000
+  bonus points after spending $3,000 in 3 months, and there is no foreign
+  transaction fee. The catch is the $95 annual fee, which you need to justify
+  with steady spending; active duty service members get the fee waived. Extras
+  help offset the cost: an up to $120 Global Entry or TSA PreCheck credit
+  every four years, and 10,000 bonus points each year after booking a hotel
+  stay or car rental through the USAA Rewards Center. If you travel enough to
+  use those perks, it pays for itself; otherwise a no fee card may serve you
+  better.
 benefits:
   - name: "Global Entry / TSA PreCheck Credit"
     value: 120

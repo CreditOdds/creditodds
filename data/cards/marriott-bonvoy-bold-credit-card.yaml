@@ -84,20 +84,17 @@ apply_link: https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bo
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Bonvoy Bold is the free way to stay inside the Marriott ecosystem: no
-  annual fee, no foreign transaction fee, automatic Silver Elite status, and 5
-  elite night credits each year toward your next tier. Earning is modest, with
-  3 points per dollar at Marriott Bonvoy hotels and 2 points on groceries,
-  streaming, internet and cable, phone service and rideshare, then 1 point on
-  everything else, so this is a status-and-perks card rather than a spending
-  engine. Chase trimmed the welcome offer from 60,000 points to 45,000 in
-  August, though the $1,000 spend requirement over three months remains one of
-  the easiest to clear. The protections are more substantial than the fee
-  suggests, including up to $500 per ticket in trip delay reimbursement, up to
-  $3,000 in lost luggage coverage, and a one-year DashPass membership. If you
-  stay with Marriott a few nights a year and do not want to pay for the
-  privilege, it earns its keep, but anyone chasing real status or points
-  volume should look at the paid cards in the line.
+  The Bold is the no-annual-fee way into Marriott Bonvoy: you get automatic
+  Silver Elite status and 5 Elite Night Credits a year without paying to hold
+  the card. It earns 3x at Marriott Bonvoy hotels and 2x on groceries, select
+  streaming, internet and cable, phone services and rideshare, with 1x on
+  everything else. Chase recently cut the welcome bonus from 60,000 to 45,000
+  points, which still needs only $1,000 in spending within 3 months. The
+  tradeoff is weak earning for a hotel card, and there's no annual free night,
+  so it does little to make you a high-tier Marriott member. Its travel
+  protections are solid for a free card, including trip delay coverage up to
+  $500 per ticket, lost luggage reimbursement and no foreign transaction fee,
+  so it works as a low-cost Marriott starter or a card to keep in the drawer.
 signup_bonus:
   value: 45000
   type: "points"

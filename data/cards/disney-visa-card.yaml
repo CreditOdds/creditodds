@@ -24,19 +24,17 @@ apply_link: https://creditcards.chase.com/rewards-credit-cards/disney/rewards
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  The no-fee Disney Visa is the entry point to the lineup, and its honest
-  appeal is the signup bonus: $150 total, a $100 Disney eGift Card on approval
-  plus a $50 statement credit after $500 of spending in the first 3 months,
-  with nothing to pay to keep the card open. You also get the park perks that
-  run across the Disney cards, including 10% off select merchandise and dining
-  at Disneyland and Walt Disney World, 15% off select guided tours, and a
-  complimentary one-year DoorDash DashPass membership (enrollment required).
-  The earning is the weak spot: a flat 1% in Disney Rewards Dollars on every
-  purchase, with no bonus categories at all, which is below what plenty of
-  no-fee cash back cards pay. It also charges foreign transaction fees, so
-  leave it home on international trips. Grab it for the bonus and the park
-  discounts if you're a Disney household, then put your actual spending on
-  something that earns more.
+  The Disney Visa is a no-annual-fee entry point into Disney perks, earning 1%
+  in Disney Rewards Dollars on every purchase. Its strongest draw is the
+  welcome offer: a $100 Disney eGift Card on approval plus a $50 statement
+  credit after spending $500 in the first 3 months, along with in-park
+  discounts like 10% off select merchandise and dining and 15% off select
+  guided tours at Disneyland and Walt Disney World. The catch is that a flat
+  1% is a weak earn rate, with no bonus categories to lift it, and it charges
+  foreign transaction fees. A complimentary year of DashPass, purchase
+  protection, and baggage delay insurance are minor extras. Consider it for
+  the sign-up gift and the park discounts, but rely on a stronger cash-back
+  card for everyday spending.
 benefits:
   - name: "DoorDash DashPass"
     value: 0

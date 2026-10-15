@@ -39,18 +39,19 @@ apr:
     min: 19.49
     max: 29.49
 our_take: >
-  The JetBlue Business works for a company whose team actually flies JetBlue:
-  6x on JetBlue purchases, a free first checked bag for you and up to three
-  traveling companions when you book with the card, and Group 3 boarding, for
-  a $99 annual fee. The signup bonus is 50,000 TrueBlue points after $4,000 in
-  three months, and the $100 JetBlue Vacations statement credit plus 5,000
-  anniversary points each year chip away at the fee on their own. Away from
-  the airline the earn rate is ordinary, at 2x on dining and office supplies
-  and 1x on everything else, so this shouldn't be your general business card.
-  Mosaic elite status is available but takes $50,000 of eligible purchases in
-  a calendar year, which is a lot of spend to route through a 1x rate. There
-  are no foreign transaction fees, and getting 10% of your points back after
-  you fly an award flight makes redemptions stretch a little further.
+  The JetBlue Business card is aimed at business owners who fly JetBlue,
+  earning 6 points per dollar on JetBlue purchases for a $99 annual fee with
+  no foreign transaction fee. The welcome bonus is 50,000 points after $4,000
+  in spending in three months. Its most useful ongoing perk is a free first
+  checked bag for you and up to three companions on JetBlue-operated flights
+  when you book with the card, which can cover the fee in a single trip. You
+  also get 5,000 anniversary points, 10% of your points back on award flights,
+  half off inflight food, drinks, and Wi-Fi, and Group 3 boarding. The catch
+  is limited earning outside JetBlue: 2 points per dollar on dining and office
+  supplies and only 1 point everywhere else, so it isn't a strong card for
+  general business spending. Mosaic status requires $50,000 in yearly
+  spending, so most owners will get value from the bag and points perks rather
+  than elite status.
 benefits:
   - name: "Anniversary Points Bonus"
     value: 5000

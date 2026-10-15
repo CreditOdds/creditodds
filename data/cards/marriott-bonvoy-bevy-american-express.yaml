@@ -7,21 +7,17 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  The Bevy's pitch right now is its signup bonus: 125,000 points plus a $150
-  statement credit after $5,000 of spend in six months, an offer scheduled to
-  end September 30. Worth knowing the recent history, since the bonus rose to
-  135,000 in June before settling back to 125,000 in August, so this is near
-  but not at the card's peak. Ongoing, you get complimentary Gold Elite
-  status, 15 Elite Night Credits a year toward status qualification, 1,000
-  bonus points per paid stay booked directly with Marriott, 6x at Marriott
-  Bonvoy hotels, and 4x at restaurants and U.S. supermarkets on up to $15,000
-  of combined spend a year before that drops to 2x. The catch is the $250
-  annual fee set against a free night award that only arrives after $15,000 of
-  calendar-year purchases and tops out at 50,000 points, so the fee doesn't
-  cover itself the way an automatic anniversary night would. If you stay with
-  Marriott often enough to use Gold status and the elite night credits, it
-  holds together; occasional guests should take the bonus and reassess at
-  renewal.
+  The Bevy is for Marriott regulars who want automatic Gold Elite status and a
+  stronger everyday earn than the cheaper Bonvoy cards offer. It earns 6x at
+  Marriott Bonvoy hotels, 4x at restaurants worldwide and U.S. supermarkets on
+  up to $15,000 a year combined (2x after that), and 2x on everything else.
+  The welcome offer was recently cut from 135,000 to 125,000 points, plus a
+  $150 statement credit, after $5,000 in spending within 6 months. The catch
+  is the $250 annual fee, which comes with no free night at renewal: the only
+  Free Night Award (worth up to 50,000 points) requires $15,000 in spending in
+  a calendar year. If you won't spend that much on the card, the Gold status,
+  15 Elite Night Credits and 1,000 bonus points per eligible stay have to
+  cover the whole fee on their own.
 annual_fee: 250
 reward_type: "points"
 rewards:

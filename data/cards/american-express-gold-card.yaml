@@ -8,21 +8,19 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref="
 our_take: >
-  The Gold is the strongest card on the market for food spending, earning 4x
-  points at restaurants on up to $50,000 a year and 4x at U.S. supermarkets on
-  up to $25,000, which is why it sits at number 2 with our Best Premium badge
-  on the Best Credit Cards for Dining and Groceries list. Travel earning is
-  respectable too, with 5x on hotels prepaid through Amex Travel, 3x on
-  flights, and 2x on prepaid car rentals and cruises, and there is no foreign
-  transaction fee. The $325 annual fee is offset on paper by a stack of
-  monthly and semiannual credits worth well over the fee: $120 a year in Uber
-  Cash, $120 in dining credits at Grubhub, Cheesecake Factory, Goldbelly,
-  Wine.com, and Five Guys, $84 at Dunkin, and $100 at Resy restaurants. Be
-  honest about the catch: those credits arrive in small monthly or semiannual
-  chunks at named merchants and require enrollment, so if you would not
-  otherwise spend there, the real fee is closer to the full $325. The current
-  100,000 point welcome offer after $8,000 in six months is a generous entry,
-  and the card also ranks number 6 on both our signup bonus and travel lists.
+  The Gold is built for people who spend heavily on food: 4x points at
+  restaurants on up to $50,000 a year and 4x at grocery stores on up to
+  $25,000 a year, plus 3x on flights and 5x on hotels, prepaid car rentals,
+  and cruises booked through Amex Travel. That earning power, along with a
+  100,000-point welcome offer after $8,000 in spend over six months, is why it
+  ranks among our top premium picks for dining and groceries. The catch is the
+  $325 annual fee, which the card tries to offset with a stack of monthly
+  credits: $10 in Uber Cash, $10 for Grubhub and a few other dining merchants,
+  up to $7 at Dunkin', and up to $50 twice a year at Resy restaurants. Each
+  one requires enrollment and only pays out if you already use those specific
+  merchants every month, so count only the credits you would spend anyway.
+  Outside its bonus categories the card earns just 1x, so it works best paired
+  with a stronger everyday card.
 annual_fee: 325
 benefits:
   - name: "Uber Cash"
