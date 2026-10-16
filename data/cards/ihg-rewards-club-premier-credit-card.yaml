@@ -83,7 +83,7 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "Airline Statement Credit"
-    value: 0
+    value: 100
     description: "$100 statement credit when you spend at least $250 on flights purchased directly with the airline each calendar year through 12/31/27"
     frequency: "annual"
     category: "travel"
