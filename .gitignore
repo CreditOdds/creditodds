@@ -47,6 +47,7 @@ coverage/
 .apply-link-check-result.json
 .issue-body.md
 .card-page-check-work/
+.referral-check-work/
 .card-page-check-summary.md
 .card-page-check-stale.md
 .card-news-work/

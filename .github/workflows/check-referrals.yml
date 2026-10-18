@@ -4,7 +4,7 @@ name: Check Referrals
 #
 # Pulls the next batch of approved, non-archived referrals from the
 # ReferralValidationListFunction Lambda, fetches each URL (Playwright +
-# Haiku), and posts results back to ReferralValidationCompleteFunction.
+# model), and posts results back to ReferralValidationCompleteFunction.
 #
 # Conservative detection: HTTP 404/410/timeout + explicit "expired"
 # language only. After 2 consecutive failed checks per referral, the
@@ -15,9 +15,16 @@ name: Check Referrals
 # keeps healthy links from being re-hit, so daily only picks up
 # newly-approved or stale (>7d) referrals.
 
+# The daily cron is DISABLED. Scheduled runs happen locally through the
+# `referral-check-local` Claude Code scheduled task
+# (scripts/check-referrals-local.sh), which classifies pages in-session instead
+# of calling the OpenAI API. This workflow stays for manual dispatch, which
+# still needs OPENAI_API_KEY credits; without them every page that needs a
+# verdict is left out of the results (no failure strike), so a dispatch only
+# settles HTTP-status cases.
 on:
-  schedule:
-    - cron: '0 12 * * *'  # Daily 12:00 UTC
+  # schedule:
+  #   - cron: '0 12 * * *'  # Daily 12:00 UTC
   workflow_dispatch:
     inputs:
       limit:
