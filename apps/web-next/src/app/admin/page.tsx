@@ -20,6 +20,7 @@ import {
   StorePageEventStat,
   deleteAdminRecord,
   deleteAdminReferral,
+  restoreAdminReferral,
   updateReferralApproval,
   createAdminRecord,
   updateAdminRecord,
@@ -55,7 +56,8 @@ import {
   CreditCardIcon,
   CursorArrowRaysIcon,
   ClipboardDocumentCheckIcon,
-  BuildingStorefrontIcon
+  BuildingStorefrontIcon,
+  ArrowUturnLeftIcon
 } from "@heroicons/react/24/outline";
 
 // Master admin user ID (Firebase UID)
@@ -237,6 +239,34 @@ export default function AdminPage() {
     }
   };
 
+  const handleRestoreReferral = async (referralId: number) => {
+    setProcessingId(referralId);
+    try {
+      const token = await getToken();
+      if (!token) return;
+
+      await restoreAdminReferral(referralId, token);
+      setReferrals(prev =>
+        prev.map(r =>
+          r.referral_id === referralId
+            ? {
+                ...r,
+                archived_at: null,
+                archived_reason: null,
+                validation_status: null,
+                validation_consecutive_failures: 0,
+                last_validated_at: null,
+              }
+            : r
+        )
+      );
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to restore referral");
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
   const handleDeleteReferral = async (referralId: number) => {
     if (!confirm("Are you sure you want to delete this referral?")) return;
 
@@ -407,6 +437,7 @@ export default function AdminPage() {
               total={referralsTotal}
               processingId={processingId}
               onApprove={handleApproveReferral}
+              onRestore={handleRestoreReferral}
               onDelete={handleDeleteReferral}
               onEdit={handleEditReferral}
             />
@@ -1422,6 +1453,7 @@ function ReferralsTab({
   total,
   processingId,
   onApprove,
+  onRestore,
   onDelete,
   onEdit
 }: {
@@ -1429,6 +1461,7 @@ function ReferralsTab({
   total: number;
   processingId: number | null;
   onApprove: (id: number, approve: boolean) => void;
+  onRestore: (id: number) => void;
   onDelete: (id: number) => void;
   onEdit: (id: number, newLink: string) => void;
 }) {
@@ -1598,6 +1631,18 @@ function ReferralsTab({
                     title="Unapprove"
                   >
                     <XMarkIcon />
+                  </button>
+                )}
+                {referral.archived_at && (
+                  <button
+                    type="button"
+                    onClick={() => onRestore(referral.referral_id)}
+                    disabled={processingId === referral.referral_id}
+                    className="av-row-action-btn av-action-approve"
+                    title="Restore (un-archive and reset link checks)"
+                    aria-label="Restore referral"
+                  >
+                    <ArrowUturnLeftIcon />
                   </button>
                 )}
                 <button
