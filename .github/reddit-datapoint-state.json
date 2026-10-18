@@ -1560,7 +1560,7 @@
     "t3_1x67vvc": "2026-10-15",
     "t3_1x6649r": "2026-10-15",
     "t3_1x65gy7": "2026-10-15",
-    "t3_1x658sn": "2026-10-15",
+    "t3_1x658sn": "2026-10-18",
     "t3_1x63jce": "2026-10-15",
     "t3_1x62e1r": "2026-10-15",
     "t3_1x61l58": "2026-10-15",
@@ -1573,15 +1573,15 @@
     "t3_1x5w229": "2026-10-15",
     "t3_1x5t7er": "2026-10-15",
     "t3_1x5rdj1": "2026-10-15",
-    "t3_1x5kbeg": "2026-10-15",
+    "t3_1x5kbeg": "2026-10-18",
     "t3_1x5dg49": "2026-10-15",
     "t3_1x59h7m": "2026-10-15",
     "t3_1x59ge1": "2026-10-15",
-    "t3_1x58xk6": "2026-10-15",
+    "t3_1x58xk6": "2026-10-18",
     "t3_1x5732b": "2026-10-15",
-    "t3_1x56qxo": "2026-10-15",
+    "t3_1x56qxo": "2026-10-18",
     "t3_1x55qkj": "2026-10-15",
-    "t3_1x55lcf": "2026-10-15",
+    "t3_1x55lcf": "2026-10-18",
     "t3_1x55eay": "2026-10-15",
     "t3_1x54gd3": "2026-10-15",
     "t3_1x8zg2p": "2026-10-18",
@@ -1609,32 +1609,76 @@
     "t3_1x6ryfm": "2026-10-18"
   },
   "pending": {
-    "t3_1wze6li": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wze6li/approved_for_wells_fargo_autograph/",
-      "title": "Approved for Wells Fargo Autograph",
-      "posted": "2026-10-06",
+    "t3_1x5kbeg": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x5kbeg/im_shook_never_thought_id_be_here_just_got/",
+      "title": "I'm shook, never thought I'd be here. Just got approved for CSP and Barclays Jet Blue",
+      "posted": "2026-10-14",
+      "card_name": "Chase Sapphire Preferred",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for CSP ($5k SL, $103k income) despite past charge-offs; gave three bureau scores (617 EX, 644 EQ, 630 TU) but not which one Chase pulled.",
+      "ask": "You listed 617 EX, 644 EQ, 630 TU. Do you know which bureau Chase pulled for the Sapphire Preferred?",
+      "firstSeen": "2026-10-15",
+      "attempts": 2,
+      "lastChecked": "2026-10-18"
+    },
+    "t3_1x56qxo": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x56qxo/wells_fargo_autograph_visa_odds_of_approval/",
+      "title": "Wells Fargo Autograph Visa Odds Of Approval?",
+      "posted": "2026-10-13",
       "card_name": "Wells Fargo Autograph",
       "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for WF Autograph with a $14k limit; 20+ year WF banking customer with direct deposit. Still no score after replies.",
-      "firstSeen": "2026-10-13",
-      "attempts": 3,
+      "note": "Approved for WF Autograph with a $13k limit, $180k income, ~10 years history; gave 787 Experian and 815 FICO without saying which one WF used.",
+      "ask": "You mentioned 787 on Experian and 815 FICO. Which of those is a FICO score, and do you know which bureau Wells pulled?",
+      "firstSeen": "2026-10-15",
+      "attempts": 2,
       "lastChecked": "2026-10-18"
     },
-    "t3_1wzzh8n": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1wzzh8n/denial_for_boa_premium_rewards_card/",
-      "title": "Denial for BOA Premium Rewards Card",
-      "posted": "2026-10-07",
-      "card_name": "Bank of America Premium Rewards",
-      "result": "denied",
+    "t3_1x658sn": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x658sn/approved_for_ink_business_unltd_over_524/",
+      "title": "Approved for Ink Business Unltd over 5/24",
+      "posted": "2026-10-14",
+      "card_name": "Ink Business Unlimited",
+      "result": "approved",
       "missing": [
         "credit_score"
       ],
-      "note": "Denied for BofA Premium Rewards via Rakuten; holds BofA Customized Cash, no BofA checking. No score or reason given.",
-      "firstSeen": "2026-10-13",
-      "attempts": 3,
+      "note": "Instantly approved for Ink Business Unlimited at 6/24 with a $3k limit; existing Chase business and personal banking. No score.",
+      "firstSeen": "2026-10-15",
+      "attempts": 2,
+      "lastChecked": "2026-10-18"
+    },
+    "t3_1x55lcf": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x55lcf/got_approved_for_the_amex_plat_175k_sub/",
+      "title": "Got approved for the amex plat 175k sub",
+      "posted": "2026-10-13",
+      "card_name": "The Platinum Card",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Amex Platinum with the 175k offer after holding Gold. No score or other stats.",
+      "firstSeen": "2026-10-15",
+      "attempts": 2,
+      "lastChecked": "2026-10-18"
+    },
+    "t3_1x58xk6": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x58xk6/samsung_cc_initial_limit_question/",
+      "title": "Samsung CC initial limit question",
+      "posted": "2026-10-13",
+      "card_name": "Samsung Galaxy Card",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for the Samsung card while rebuilding credit, shown $800 at approval. No score.",
+      "firstSeen": "2026-10-15",
+      "attempts": 2,
       "lastChecked": "2026-10-18"
     },
     "t3_1x825ta": {
@@ -1648,98 +1692,11 @@
       ],
       "note": "Approved for Freedom Flex in Oct 2026, card in the mail; already holds an original Freedom. No score given.",
       "firstSeen": "2026-10-18",
-      "attempts": 1,
+      "attempts": 2,
       "lastChecked": "2026-10-18"
-    },
-    "t3_1x5kbeg": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x5kbeg/im_shook_never_thought_id_be_here_just_got/",
-      "title": "I'm shook, never thought I'd be here. Just got approved for CSP and Barclays Jet Blue",
-      "posted": "2026-10-14",
-      "card_name": "Chase Sapphire Preferred",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for CSP ($5k SL) with $103k income despite past charge-offs; gave three bureau scores (617 EX, 644 EQ, 630 TU) but not which one Chase pulled. Same post has a JetBlue approval ($4k) where the exact JetBlue card is also unclear.",
-      "ask": "You listed 617 EX / 644 EQ / 630 TU. Which bureau did Chase pull for the CSP, and which JetBlue card (plain, Plus, or Premier) did Barclays approve?",
-      "firstSeen": "2026-10-15",
-      "attempts": 1,
-      "lastChecked": "2026-10-15"
-    },
-    "t3_1x56qxo": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x56qxo/wells_fargo_autograph_visa_odds_of_approval/",
-      "title": "Wells Fargo Autograph Visa Odds Of Approval?",
-      "posted": "2026-10-13",
-      "card_name": "Wells Fargo Autograph",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for WF Autograph with a $13k limit, $180k income, ~10 years of history, 2 cards; gave 787 Experian and 815 FICO without saying which one WF used.",
-      "ask": "You mentioned 787 on Experian and 815 FICO. Which score and bureau did Wells Fargo pull for the Autograph?",
-      "firstSeen": "2026-10-15",
-      "attempts": 1,
-      "lastChecked": "2026-10-15"
-    },
-    "t3_1x658sn": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x658sn/approved_for_ink_business_unltd_over_524/",
-      "title": "Approved for Ink Business Unltd over 5/24",
-      "posted": "2026-10-14",
-      "card_name": "Ink Business Unlimited",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Instantly approved for Ink Business Unlimited at 6/24 with a $3k limit; existing Chase business and personal banking. No score.",
-      "firstSeen": "2026-10-15",
-      "attempts": 1,
-      "lastChecked": "2026-10-15"
-    },
-    "t3_1x55lcf": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x55lcf/got_approved_for_the_amex_plat_175k_sub/",
-      "title": "Got approved for the amex plat 175k sub",
-      "posted": "2026-10-13",
-      "card_name": "The Platinum Card",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for Amex Platinum with the 175k offer after holding Gold. No score or other stats.",
-      "firstSeen": "2026-10-15",
-      "attempts": 1,
-      "lastChecked": "2026-10-15"
-    },
-    "t3_1x58xk6": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1x58xk6/samsung_cc_initial_limit_question/",
-      "title": "Samsung CC initial limit question",
-      "posted": "2026-10-13",
-      "card_name": "Samsung Galaxy Card",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for the Samsung card while rebuilding credit, shown $800 at approval. No score.",
-      "firstSeen": "2026-10-15",
-      "attempts": 1,
-      "lastChecked": "2026-10-15"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-14T07:37:56.306Z",
-      "date": "2026-08-14",
-      "candidates": 15,
-      "revisits": 3,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 1,
-      "pending": 16,
-      "unaccounted": 0,
-      "skipped": {
-        "no_outcome": 6,
-        "no_score": 2
-      }
-    },
     {
       "id": "2026-08-16T13:00:30.558Z",
       "date": "2026-08-16",
@@ -2679,6 +2636,18 @@
         "score_too_vague": 1,
         "pre_qual": 1
       }
+    },
+    {
+      "id": "2026-10-18T13:00:44.254Z",
+      "date": "2026-10-18",
+      "candidates": 6,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 6,
+      "unaccounted": 0,
+      "skipped": {}
     }
   ]
 }
