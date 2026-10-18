@@ -575,10 +575,28 @@ exports.AdminReferralsHandler = async (event) => {
 
         // Handle archive/unarchive
         if (archived !== undefined) {
-          await mysql.query(
-            "UPDATE referrals SET archived_at = ? WHERE referral_id = ?",
-            [archived ? new Date() : null, referral_id]
-          );
+          if (archived) {
+            await mysql.query(
+              "UPDATE referrals SET archived_at = ? WHERE referral_id = ?",
+              [new Date(), referral_id]
+            );
+          } else {
+            // Restore wipes the validator's state along with the archive.
+            // Leaving validation_consecutive_failures at the threshold would
+            // let a single later miss re-archive the link and re-email its
+            // owner. last_validated_at = NULL puts the link at the front of
+            // the next validation batch, so it is re-checked right away.
+            await mysql.query(
+              `UPDATE referrals
+               SET archived_at = NULL,
+                   archived_reason = NULL,
+                   validation_status = NULL,
+                   validation_consecutive_failures = 0,
+                   last_validated_at = NULL
+               WHERE referral_id = ?`,
+              [referral_id]
+            );
+          }
           await logAuditAction(userId, archived ? 'ARCHIVE' : 'UNARCHIVE', 'referral', referral_id, referral[0]);
         }
 
@@ -606,7 +624,9 @@ exports.AdminReferralsHandler = async (event) => {
           statusCode: 200,
           headers: responseHeaders,
           body: JSON.stringify({
-            message: approved ? "Referral approved" : "Referral unapproved",
+            message: approved === undefined && archived !== undefined
+              ? (archived ? "Referral archived" : "Referral restored")
+              : (approved ? "Referral approved" : "Referral unapproved"),
             referral_id
           }),
         };

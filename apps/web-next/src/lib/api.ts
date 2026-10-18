@@ -1837,6 +1837,27 @@ export async function updateReferralApproval(
   return res.json();
 }
 
+// Un-archives a referral and resets its validator state (fail counter,
+// status, last check), so the next validation run re-checks it from scratch.
+export async function restoreAdminReferral(
+  referralId: number,
+  token: string
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/admin/referrals`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ referral_id: referralId, archived: false }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to restore referral: ${errorText}`);
+  }
+  return res.json();
+}
+
 export async function deleteAdminReferral(
   referralId: number,
   token: string
