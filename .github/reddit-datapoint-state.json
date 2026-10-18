@@ -1524,7 +1524,7 @@
     "t3_1x04z82": "2026-10-13",
     "t3_1x03wgi": "2026-10-13",
     "t3_1x00sej": "2026-10-13",
-    "t3_1wzzh8n": "2026-10-15",
+    "t3_1wzzh8n": "2026-10-18",
     "t3_1wzz9sv": "2026-10-13",
     "t3_1wzq5o6": "2026-10-13",
     "t3_1wzp3pd": "2026-10-13",
@@ -1536,7 +1536,7 @@
     "t3_1x5332p": "2026-10-14",
     "t3_1wzf3zk": "2026-10-13",
     "t3_1wzek1f": "2026-10-13",
-    "t3_1wze6li": "2026-10-15",
+    "t3_1wze6li": "2026-10-18",
     "t3_1wzays2": "2026-10-13",
     "t3_1wz8wbl": "2026-10-13",
     "t3_1wz8mqt": "2026-10-13",
@@ -1583,7 +1583,30 @@
     "t3_1x55qkj": "2026-10-15",
     "t3_1x55lcf": "2026-10-15",
     "t3_1x55eay": "2026-10-15",
-    "t3_1x54gd3": "2026-10-15"
+    "t3_1x54gd3": "2026-10-15",
+    "t3_1x8zg2p": "2026-10-18",
+    "t3_1x8v5zf": "2026-10-18",
+    "t3_1x8sqze": "2026-10-18",
+    "t3_1x8sgrb": "2026-10-18",
+    "t3_1x8qqnf": "2026-10-18",
+    "t3_1x8k14p": "2026-10-18",
+    "t3_1x8eh1g": "2026-10-18",
+    "t3_1x85um2": "2026-10-18",
+    "t3_1x825ta": "2026-10-18",
+    "t3_1x7wldf": "2026-10-18",
+    "t3_1x7w3ab": "2026-10-18",
+    "t3_1x7w2s0": "2026-10-18",
+    "t3_1x7s1jr": "2026-10-18",
+    "t3_1x7nwcp": "2026-10-18",
+    "t3_1x7miyn": "2026-10-18",
+    "t3_1x7leo1": "2026-10-18",
+    "t3_1x7klym": "2026-10-18",
+    "t3_1x7evh7": "2026-10-18",
+    "t3_1x73fvh": "2026-10-18",
+    "t3_1x72esn": "2026-10-18",
+    "t3_1x71z0q": "2026-10-18",
+    "t3_1x6zqzv": "2026-10-18",
+    "t3_1x6ryfm": "2026-10-18"
   },
   "pending": {
     "t3_1wze6li": {
@@ -1595,10 +1618,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for WF Autograph with a $14k limit; 20+ year WF banking customer with direct deposit. Still no score.",
+      "note": "Approved for WF Autograph with a $14k limit; 20+ year WF banking customer with direct deposit. Still no score after replies.",
       "firstSeen": "2026-10-13",
-      "attempts": 2,
-      "lastChecked": "2026-10-15"
+      "attempts": 3,
+      "lastChecked": "2026-10-18"
     },
     "t3_1wzzh8n": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1wzzh8n/denial_for_boa_premium_rewards_card/",
@@ -1609,10 +1632,24 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Denied for BofA Premium Rewards via Rakuten; holds BofA Customized Cash but no BofA checking. No score or reason given.",
+      "note": "Denied for BofA Premium Rewards via Rakuten; holds BofA Customized Cash, no BofA checking. No score or reason given.",
       "firstSeen": "2026-10-13",
-      "attempts": 2,
-      "lastChecked": "2026-10-15"
+      "attempts": 3,
+      "lastChecked": "2026-10-18"
+    },
+    "t3_1x825ta": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1x825ta/does_a_product_change_make_you_lose_the_bonus/",
+      "title": "Does a product change make you lose the bonus?",
+      "posted": "2026-10-17",
+      "card_name": "Chase Freedom Flex",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for Freedom Flex in Oct 2026, card in the mail; already holds an original Freedom. No score given.",
+      "firstSeen": "2026-10-18",
+      "attempts": 1,
+      "lastChecked": "2026-10-18"
     },
     "t3_1x5kbeg": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x5kbeg/im_shook_never_thought_id_be_here_just_got/",
@@ -1688,39 +1725,6 @@
     }
   },
   "runs": [
-    {
-      "id": "2026-08-12T09:12:21.360Z",
-      "date": "2026-08-12",
-      "candidates": 16,
-      "revisits": 3,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 0,
-      "pending": 12,
-      "unaccounted": 0,
-      "skipped": {
-        "no_outcome": 8,
-        "no_score": 2,
-        "card_not_in_catalog": 1
-      }
-    },
-    {
-      "id": "2026-08-13T06:26:31.162Z",
-      "date": "2026-08-13",
-      "candidates": 21,
-      "revisits": 4,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 1,
-      "pending": 14,
-      "unaccounted": 0,
-      "skipped": {
-        "other": 1,
-        "pre_qual": 1,
-        "no_score": 7,
-        "no_outcome": 5
-      }
-    },
     {
       "id": "2026-08-14T07:37:56.306Z",
       "date": "2026-08-14",
@@ -2637,6 +2641,42 @@
         "no_outcome": 25,
         "no_score": 2,
         "score_too_vague": 2,
+        "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-10-18T12:46:55.077Z",
+      "date": "2026-10-18",
+      "candidates": 25,
+      "revisits": 2,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 4,
+      "pending": 8,
+      "unaccounted": 1,
+      "skipped": {
+        "no_outcome": 10,
+        "no_score": 3,
+        "card_unclear": 2,
+        "score_too_vague": 1,
+        "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-10-18-unknown",
+      "date": "2026-10-18",
+      "candidates": 0,
+      "revisits": 0,
+      "sourcesOk": 0,
+      "sourcesFailed": 0,
+      "published": 4,
+      "pending": 8,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 10,
+        "no_score": 4,
+        "card_unclear": 2,
+        "score_too_vague": 1,
         "pre_qual": 1
       }
     }
