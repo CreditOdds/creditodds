@@ -57,10 +57,11 @@ apr:
   purchase_intro:
     rate: 0
     months: 18
+    note: "0% intro APR for up to 18 months on purchases and balance transfers from account opening. Amex sets the intro period at approval, and it may be as short as 6 months."
   balance_transfer_intro:
     rate: 0
     months: 18
-    note: "0% intro APR for 15 months on balance transfers requested within 60 days of account opening"
+    note: "0% intro APR for up to 18 months on purchases and balance transfers from account opening. Amex sets the intro period at approval, and it may be as short as 6 months."
   regular:
     min: 19.49
     max: 28.49
