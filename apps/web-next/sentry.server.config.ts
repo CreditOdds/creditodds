@@ -3,6 +3,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 import * as Sentry from '@sentry/nextjs';
 import { isTransientNetworkError } from '@/lib/transientNetworkError';
+import { isBogusServerActionError } from '@/lib/bogusServerActionError';
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
@@ -25,6 +26,12 @@ Sentry.init({
   // recover from these, so users never see them and they aren't actionable).
   beforeSend(event, hint) {
     if (isTransientNetworkError(hint?.originalException)) {
+      return null;
+    }
+    // Drop scanner probes that POST a fake server-action id (we have none).
+    // Fall back to the "POST /route" transaction name if request data is absent.
+    const method = event.request?.method ?? event.transaction?.split(' ')[0];
+    if (isBogusServerActionError(hint?.originalException, method)) {
       return null;
     }
     return event;
