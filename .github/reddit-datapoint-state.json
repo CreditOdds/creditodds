@@ -1560,7 +1560,7 @@
     "t3_1x67vvc": "2026-10-15",
     "t3_1x6649r": "2026-10-15",
     "t3_1x65gy7": "2026-10-15",
-    "t3_1x658sn": "2026-10-18",
+    "t3_1x658sn": "2026-10-19",
     "t3_1x63jce": "2026-10-15",
     "t3_1x62e1r": "2026-10-15",
     "t3_1x61l58": "2026-10-15",
@@ -1573,15 +1573,15 @@
     "t3_1x5w229": "2026-10-15",
     "t3_1x5t7er": "2026-10-15",
     "t3_1x5rdj1": "2026-10-15",
-    "t3_1x5kbeg": "2026-10-18",
+    "t3_1x5kbeg": "2026-10-19",
     "t3_1x5dg49": "2026-10-15",
     "t3_1x59h7m": "2026-10-15",
     "t3_1x59ge1": "2026-10-15",
-    "t3_1x58xk6": "2026-10-18",
+    "t3_1x58xk6": "2026-10-19",
     "t3_1x5732b": "2026-10-15",
-    "t3_1x56qxo": "2026-10-18",
+    "t3_1x56qxo": "2026-10-19",
     "t3_1x55qkj": "2026-10-15",
-    "t3_1x55lcf": "2026-10-18",
+    "t3_1x55lcf": "2026-10-19",
     "t3_1x55eay": "2026-10-15",
     "t3_1x54gd3": "2026-10-15",
     "t3_1x8zg2p": "2026-10-18",
@@ -1592,7 +1592,7 @@
     "t3_1x8k14p": "2026-10-18",
     "t3_1x8eh1g": "2026-10-18",
     "t3_1x85um2": "2026-10-18",
-    "t3_1x825ta": "2026-10-18",
+    "t3_1x825ta": "2026-10-19",
     "t3_1x7wldf": "2026-10-18",
     "t3_1x7w3ab": "2026-10-18",
     "t3_1x7w2s0": "2026-10-18",
@@ -1606,7 +1606,25 @@
     "t3_1x72esn": "2026-10-18",
     "t3_1x71z0q": "2026-10-18",
     "t3_1x6zqzv": "2026-10-18",
-    "t3_1x6ryfm": "2026-10-18"
+    "t3_1x6ryfm": "2026-10-18",
+    "t3_1xa7gj1": "2026-10-19",
+    "t3_1xa6cqk": "2026-10-19",
+    "t3_1xa60p8": "2026-10-19",
+    "t3_1xa2c8m": "2026-10-19",
+    "t3_1x9zuck": "2026-10-19",
+    "t3_1x9r1yp": "2026-10-19",
+    "t3_1x9qbf6": "2026-10-19",
+    "t3_1x9p99k": "2026-10-19",
+    "t3_1x9l8kn": "2026-10-19",
+    "t3_1x9jo9y": "2026-10-19",
+    "t3_1x9ipft": "2026-10-19",
+    "t3_1x9gjcv": "2026-10-19",
+    "t3_1x9b7qj": "2026-10-19",
+    "t3_1x99e3a": "2026-10-19",
+    "t3_1x97ds0": "2026-10-19",
+    "t3_1x96dnf": "2026-10-19",
+    "t3_1x94g6w": "2026-10-19",
+    "t3_1x94bpj": "2026-10-19"
   },
   "pending": {
     "t3_1x5kbeg": {
@@ -1618,11 +1636,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for CSP ($5k SL, $103k income) despite past charge-offs; gave three bureau scores (617 EX, 644 EQ, 630 TU) but not which one Chase pulled.",
-      "ask": "You listed 617 EX, 644 EQ, 630 TU. Do you know which bureau Chase pulled for the Sapphire Preferred?",
+      "note": "Approved for CSP ($5k SL, $103k income) despite charge-offs; gave 617 EX / 644 EQ / 630 TU without saying which Chase pulled.",
+      "ask": "You listed 617 EX, 644 EQ and 630 TU. Do you know which bureau Chase pulled for the CSP?",
       "firstSeen": "2026-10-15",
-      "attempts": 2,
-      "lastChecked": "2026-10-18"
+      "attempts": 3,
+      "lastChecked": "2026-10-19"
     },
     "t3_1x56qxo": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x56qxo/wells_fargo_autograph_visa_odds_of_approval/",
@@ -1633,11 +1651,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for WF Autograph with a $13k limit, $180k income, ~10 years history; gave 787 Experian and 815 FICO without saying which one WF used.",
-      "ask": "You mentioned 787 on Experian and 815 FICO. Which of those is a FICO score, and do you know which bureau Wells pulled?",
+      "note": "Approved for WF Autograph with $13k limit, $180k income; gave 787 Experian and 815 FICO without saying which WF used.",
+      "ask": "You mentioned 787 Experian and 815 FICO. Which score did Wells Fargo pull for the Autograph?",
       "firstSeen": "2026-10-15",
-      "attempts": 2,
-      "lastChecked": "2026-10-18"
+      "attempts": 3,
+      "lastChecked": "2026-10-19"
     },
     "t3_1x658sn": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x658sn/approved_for_ink_business_unltd_over_524/",
@@ -1650,8 +1668,8 @@
       ],
       "note": "Instantly approved for Ink Business Unlimited at 6/24 with a $3k limit; existing Chase business and personal banking. No score.",
       "firstSeen": "2026-10-15",
-      "attempts": 2,
-      "lastChecked": "2026-10-18"
+      "attempts": 3,
+      "lastChecked": "2026-10-19"
     },
     "t3_1x55lcf": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x55lcf/got_approved_for_the_amex_plat_175k_sub/",
@@ -1664,8 +1682,8 @@
       ],
       "note": "Approved for Amex Platinum with the 175k offer after holding Gold. No score or other stats.",
       "firstSeen": "2026-10-15",
-      "attempts": 2,
-      "lastChecked": "2026-10-18"
+      "attempts": 3,
+      "lastChecked": "2026-10-19"
     },
     "t3_1x58xk6": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x58xk6/samsung_cc_initial_limit_question/",
@@ -1678,8 +1696,8 @@
       ],
       "note": "Approved for the Samsung card while rebuilding credit, shown $800 at approval. No score.",
       "firstSeen": "2026-10-15",
-      "attempts": 2,
-      "lastChecked": "2026-10-18"
+      "attempts": 3,
+      "lastChecked": "2026-10-19"
     },
     "t3_1x825ta": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1x825ta/does_a_product_change_make_you_lose_the_bonus/",
@@ -1692,27 +1710,39 @@
       ],
       "note": "Approved for Freedom Flex in Oct 2026, card in the mail; already holds an original Freedom. No score given.",
       "firstSeen": "2026-10-18",
-      "attempts": 2,
-      "lastChecked": "2026-10-18"
+      "attempts": 3,
+      "lastChecked": "2026-10-19"
+    },
+    "t3_1xa7gj1": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xa7gj1/venture_x_business_denial_reason/",
+      "title": "Venture X Business Denial Reason",
+      "posted": "2026-10-19",
+      "card_name": "Capital One Venture X Business",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied for Venture X Business as an LLC and was denied for the business size and entity type combination. No score.",
+      "firstSeen": "2026-10-19",
+      "attempts": 1,
+      "lastChecked": "2026-10-19"
+    },
+    "t3_1xa60p8": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xa60p8/all_chase_biz_cards_not_just_ink_are_324/",
+      "title": "All Chase Biz cards, not just Ink, are 3/24.",
+      "posted": "2026-10-19",
+      "card_name": "United Business",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied as a sole prop for United Business and was denied for being 4/24. No score.",
+      "firstSeen": "2026-10-19",
+      "attempts": 1,
+      "lastChecked": "2026-10-19"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-16T13:00:30.558Z",
-      "date": "2026-08-16",
-      "candidates": 50,
-      "revisits": 6,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 3,
-      "pending": 19,
-      "unaccounted": 0,
-      "skipped": {
-        "no_outcome": 30,
-        "no_score": 4,
-        "pre_qual": 1
-      }
-    },
     {
       "id": "2026-08-17T06:32:43.493Z",
       "date": "2026-08-17",
@@ -2648,6 +2678,22 @@
       "pending": 6,
       "unaccounted": 0,
       "skipped": {}
+    },
+    {
+      "id": "2026-10-19T21:34:50.205Z",
+      "date": "2026-10-19",
+      "candidates": 24,
+      "revisits": 6,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 8,
+      "unaccounted": 1,
+      "skipped": {
+        "no_outcome": 10,
+        "no_score": 2,
+        "score_too_vague": 1
+      }
     }
   ]
 }
