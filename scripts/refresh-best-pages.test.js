@@ -13,9 +13,12 @@ const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
 
-const { getCardContext, buildVoterPrompt, buildWriterPrompt } = require('./refresh-best-pages.js');
+const yaml = require('js-yaml');
+
+const { splitArchived, getCardContext, buildVoterPrompt, buildWriterPrompt } = require('./refresh-best-pages.js');
 
 const CARDS_FILE = path.join(__dirname, '..', 'data', 'cards.json');
+const BEST_DIR = path.join(__dirname, '..', 'data', 'best');
 
 let failures = 0;
 function test(name, fn) {
@@ -120,6 +123,29 @@ test('both prompts explain what a cap means', () => {
   }
 });
 
+console.log('\nsplitArchived');
+
+test('a card with accepting_applications: false is removed, order kept', () => {
+  const lookup = {
+    a: { slug: 'a', accepting_applications: true },
+    b: { slug: 'b', accepting_applications: false },
+    c: { slug: 'c', accepting_applications: true },
+  };
+  const { active, removed } = splitArchived([{ slug: 'a' }, { slug: 'b' }, { slug: 'c' }], lookup);
+  assert.deepEqual(active.map(e => e.slug), ['a', 'c']);
+  assert.deepEqual(removed.map(e => e.slug), ['b']);
+});
+
+test('invite-only (true), unset, and unknown slugs all stay', () => {
+  const lookup = {
+    invite: { slug: 'invite', accepting_applications: true },
+    unset: { slug: 'unset' },
+  };
+  const { active, removed } = splitArchived([{ slug: 'invite' }, { slug: 'unset' }, { slug: 'unknown' }], lookup);
+  assert.deepEqual(active.map(e => e.slug), ['invite', 'unset', 'unknown']);
+  assert.deepEqual(removed, []);
+});
+
 console.log('\nagainst built cards.json');
 
 if (!fs.existsSync(CARDS_FILE)) {
@@ -172,6 +198,18 @@ if (!fs.existsSync(CARDS_FILE)) {
     assert.equal(groceries.spend_cap, 6000);
     assert.equal(groceries.cap_period, 'annual');
     assert.equal(groceries.rate_after_cap, 1);
+  });
+
+  test('no /best page ranks a card that is closed to new applicants', () => {
+    const lookup = Object.fromEntries(cards.map(c => [c.slug, c]));
+    const offenders = [];
+    for (const file of fs.readdirSync(BEST_DIR).filter(f => f.endsWith('.yaml'))) {
+      const page = yaml.load(fs.readFileSync(path.join(BEST_DIR, file), 'utf8'));
+      for (const entry of splitArchived(page.cards || [], lookup).removed) {
+        offenders.push(`${file}: ${entry.slug}`);
+      }
+    }
+    assert.deepEqual(offenders, [], `archived cards still ranked:\n${offenders.join('\n')}`);
   });
 
   test('notes and gates actually survive for a known-gated card', () => {
