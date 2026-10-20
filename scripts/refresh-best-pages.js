@@ -96,6 +96,22 @@ function loadBestPages() {
   return pages;
 }
 
+// The panel only re-ranks the list a page already carries, so a card that
+// stops accepting applications would otherwise stay ranked forever. Drop it
+// before ranking. Invite-only cards are stored as `accepting_applications:
+// true`, so only an explicit `false` counts. A slug missing from cards.json is
+// kept: build:best already fails loudly on those.
+function splitArchived(entries, cardsLookup) {
+  const active = [];
+  const removed = [];
+  for (const entry of entries) {
+    const card = cardsLookup[entry.slug];
+    if (card && card.accepting_applications === false) removed.push(entry);
+    else active.push(entry);
+  }
+  return { active, removed };
+}
+
 // ─── Card data extraction (only the fields models need) ──────────────────────
 
 function getCardContext(card) {
@@ -666,6 +682,13 @@ function generateSummary(allResults, today) {
       md += '\n';
     }
 
+    const removedChange = changes.find(c => c.type === 'removed');
+    if (removedChange) {
+      md += '**Removed (no longer accepting applications):**\n\n';
+      for (const slug of removedChange.slugs) md += `- ${slug}\n`;
+      md += '\n';
+    }
+
     const badgeChanges = changes.filter(c => c.type === 'badge');
     if (badgeChanges.length > 0) {
       md += '**Badge Changes:**\n\n';
@@ -712,7 +735,15 @@ async function main() {
   const allResults = [];
 
   for (const page of pages) {
+    // Filter before anything reads page.data.cards, so ranking, fallback prose,
+    // previous_rank and change detection all work on the same active list.
+    const { active, removed } = splitArchived(page.data.cards, cardsLookup);
+    page.data.cards = active;
+
     console.log(`Ranking: ${page.data.title} (${page.data.cards.length} cards)`);
+    for (const entry of removed) {
+      console.log(`  Removed ${entry.slug} (no longer accepting applications)`);
+    }
 
     let updates;
     try {
@@ -727,6 +758,7 @@ async function main() {
     }
 
     const changes = detectChanges(page, updates);
+    if (removed.length > 0) changes.push({ type: 'removed', slugs: removed.map(e => e.slug) });
     const rankChange = changes.find(c => c.type === 'ranking');
     if (rankChange) {
       console.log(`  ${rankChange.rankChanges.length} ranking change(s):`);
@@ -765,6 +797,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  splitArchived,
   getCardContext,
   buildCardsWithData,
   buildVoterPrompt,
