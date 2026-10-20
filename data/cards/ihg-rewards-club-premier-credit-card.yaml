@@ -8,7 +8,7 @@ reward_type: "points"
 benefits:
   - name: "Free Night Award"
     value: 0
-    description: "One anniversary free night valid at properties costing up to 40,000 points, with option to top off using points"
+    description: "One anniversary free night valid at properties costing up to 50,000 points, with option to top off using points"
     frequency: "annual"
     category: "hotel"
   - name: "4th Reward Night Free"
@@ -16,20 +16,38 @@ benefits:
     description: "4th night free on IHG reward night stays"
     frequency: "ongoing"
     category: "hotel"
-  - name: "Platinum Elite Status"
+  - name: "Gold Elite Status"
     value: 0
-    description: "Automatic IHG One Rewards Platinum Elite status"
+    description: "Automatic IHG One Rewards Gold Elite status for as long as you remain a cardmember"
     frequency: "ongoing"
     category: "hotel"
-  - name: "Anniversary Bonus Points"
+  - name: "Platinum Elite Status Upgrade"
     value: 0
-    description: "10,000 bonus points and a $100 statement credit after $20,000 in annual purchases"
+    description: "Earn IHG One Rewards Platinum Elite status through December 31 of the following year after spending $15,000 or more in a calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Diamond Elite Status Upgrade"
+    value: 0
+    description: "Earn IHG One Rewards Diamond Elite status through December 31 of the following year after spending $40,000 or more in a calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Elite Night Credits"
+    value: 0
+    description: "15 Elite Night Credits at account opening and each calendar year, plus 2 Elite Night Credits for every $5,000 spent and 5 more after $15,000 in purchases each calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Annual Spend Bonus"
+    value: 0
+    description: "15,000 bonus points after $15,000 in purchases each calendar year"
     frequency: "annual"
     category: "hotel"
   - name: "Points Purchase Discount"
-    value: 20
+    value: 30
     value_unit: "percent"
-    description: "Save 20% when purchasing IHG Reward Points with this card."
+    description: "Save at least 30% when purchasing IHG One Rewards points with this card."
     frequency: "per_purchase"
     category: "rewards"
     enrollment_required: false
@@ -42,43 +60,37 @@ benefits:
     enrollment_required: false
   - name: "United TravelBank Cash"
     value: 50
-    description: "Receive up to $50 United TravelBank Cash each calendar year after registering with MileagePlus account."
-    frequency: "annual"
+    description: "A $25 United TravelBank Cash deposit for January to June and another for July to December, up to $50 each calendar year, after registering your card with your MileagePlus account."
+    frequency: "semi_annual"
     category: "travel"
     enrollment_required: true
   - name: "DoorDash DashPass"
     value: 0
-    description: "One-year complimentary DashPass membership with unlimited deliveries and $0 delivery fees."
+    description: "One-year complimentary DashPass membership with unlimited deliveries and $0 delivery fees, when activated by Dec 31, 2027."
     frequency: "annual"
     category: "dining"
     enrollment_required: true
     merchants:
       - doordash
-  - name: "DoorDash Quarterly Discount"
-    value: 10
-    description: "Up to $10 off quarterly on non-restaurant DoorDash orders through Dec 31, 2027."
-    frequency: "quarterly"
+  - name: "DoorDash Non-Restaurant Promo"
+    value: 120
+    description: "$10 off one non-restaurant DoorDash order each month through Dec 31, 2027 while enrolled in the Chase DashPass membership. Applies to DashPass activations on or after Sep 1, 2026; earlier activations get $10 off each quarter."
+    frequency: "monthly"
     category: "dining"
-    enrollment_required: false
+    enrollment_required: true
     merchants:
       - doordash
   - name: "Instacart Credit"
     value: 120
-    description: "Receive a $10 Instacart credit monthly (up to $120 annually) plus a complimentary 3-month Instacart+ membership."
+    description: "Receive a $10 Instacart credit monthly (up to $120 annually) plus a complimentary 3-month Instacart+ membership; an active Instacart+ membership is required, and benefits end 12/31/27."
     frequency: "monthly"
     category: "shopping"
     enrollment_required: true
     merchants:
       - instacart
-  - name: "Diamond Elite Status Upgrade"
-    value: 0
-    description: "Earn automatic IHG One Rewards Diamond Elite status after spending $40,000 or more in a calendar year"
-    frequency: "annual"
-    category: "hotel"
-    enrollment_required: false
   - name: "IHG Food and Beverage Reward"
     value: 100
-    description: "A $25 Food and Beverage Reward voucher each quarter to redeem at IHG Hotels, up to $100 per year"
+    description: "A $25 Food and Beverage Reward voucher each quarter to redeem on your room bill at IHG Hotels, up to $100 per year"
     frequency: "quarterly"
     category: "hotel"
     enrollment_required: false
