@@ -273,6 +273,20 @@ function estimateMonoWidth(s, fontSize) {
   return Math.ceil(String(s).length * fontSize * 0.6);
 }
 
+// Largest font size (max 40, min 20) at which "old → new" fits in maxWidth.
+// A fixed 40px overflowed the change block for longer pairs like
+// "150,000 miles → 300,000 miles" (~683px in a ~584px box).
+const VALUE_GAP = 18;
+function fitValueSize(oldText, newText, maxWidth, { max = 40, min = 20 } = {}) {
+  for (let size = max; size > min; size--) {
+    const w = estimateMonoWidth(oldText, size)
+            + VALUE_GAP + estimateMonoWidth('→', size - 2) + VALUE_GAP
+            + estimateMonoWidth(newText, size);
+    if (w <= maxWidth) return size;
+  }
+  return min;
+}
+
 // Render the card image inside a tilted, rounded frame with a soft drop shadow.
 // Returns { buffer, width, height } for compositing onto the main canvas.
 async function renderTiltedCardArt(cardImageBuffer) {
@@ -428,12 +442,12 @@ async function generateCardWireImage(cardName, bank, changes, cardImageBuffer, t
   const pillY = changeBlockY + 24;
 
   const valueY = changeBlockY + changeBlockH - 36;
-  const valueSize = 40;
+  const valueSize = fitValueSize(oldFormatted, newFormatted, blockW - 48);
   const fromX = blockX + 24;
   const fromW = estimateMonoWidth(oldFormatted, valueSize);
-  const arrowX = fromX + fromW + 18;
+  const arrowX = fromX + fromW + VALUE_GAP;
   const arrowW = estimateMonoWidth('→', valueSize - 2);
-  const toX = arrowX + arrowW + 18;
+  const toX = arrowX + arrowW + VALUE_GAP;
   const fromCenterY = valueY - Math.round(valueSize * 0.32);
 
   const changeBlockSvg = `
