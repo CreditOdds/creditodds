@@ -16,6 +16,14 @@ import {
   isInjectedDocumentCallbackError,
   isInjectedDocumentScriptError,
 } from '@/lib/benignClientError';
+import { installTranslatedDomGuard } from '@/lib/translatedDomGuard';
+
+// Before React hydrates: stop in-page translation (Chrome's <font> wrappers)
+// from crashing commits with removeChild/insertBefore NotFoundErrors. See
+// translatedDomGuard.ts.
+if (typeof Node === 'function' && Node.prototype) {
+  installTranslatedDomGuard(Node.prototype);
+}
 
 posthog.init('phc_oPFKvUCGmpZdRPug7TvYDRRSZpJ9oUmLZphkjrSV3fCd', {
   // Managed first-party reverse proxy configured in Route 53.
