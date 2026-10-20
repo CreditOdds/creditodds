@@ -81,6 +81,14 @@ rewards_added:
       why: "PayPal checkout is modeled as the merchant_specific online_shopping row (issue #2205)" }
   - { slug: bilt-blue, category: dining,
       why: "the 4x is Bilt Dining partner restaurants only, a program perk; a dining row would claim 4x at all restaurants (issue #2205)" }
+  - { slug: amazon-prime-rewards-visa-signature-card, category: groceries,
+      why: "the 5% is Whole Foods Market only, already in the amazon row's note and the whole-foods-market store's also_earns; a groceries row would claim 5% at every grocery store (issue #2299)" }
+  - { slug: target-circle-card, category: dining,
+      why: "in-store Starbucks inside Target is part of the target 5% row; a dining row would claim 5% at all restaurants (issue #2300)" }
+  - { slug: playstation-visa, category: entertainment,
+      why: "alias of the existing merchant-specific playstation 5x row (issue #2286)" }
+  - { slug: bilt-palladium, category: dining,
+      why: "the up-to-5x is Bilt Dining partner restaurants only, a program perk; same call as bilt-blue (issue #2262)" }
 
 # Reward categories flagged as present in YAML but not on the apply page.
 # Every entry below was verified still live on the issuer's page; the
@@ -133,6 +141,25 @@ rewards_removed:
   - { slug: marriott-bonvoy-bold-credit-card, category: transit }
   - { slug: paypal-cashback-mastercard, category: online_shopping }
   - { slug: hilton-honors-american-express-aspire-card, category: car_rentals }
+  - { slug: my-best-buy-visa, category: electronics_stores }
+  - { slug: safeway-foru-american-express, category: streaming }
+  - { slug: truist-enjoy-beyond, category: car_rentals }
+  - { slug: truist-enjoy-travel, category: car_rentals }
+  - { slug: chase-ink-business-cash, category: tv_internet_streaming }
+  - { slug: chase-ink-business-preferred, category: tv_internet_streaming }
+  - { slug: chase-ritz-carlton, category: car_rentals }
+  - { slug: intuit-business, category: online_shopping }
+  - { slug: playstation-visa, category: playstation }
+  - { slug: gemini-credit, category: transit }
+  - { slug: bank-of-america-cash-rewards-secured, category: wholesale_clubs }
+  - { slug: venmo-credit-card, category: streaming }
+  # Dated rows: Chase's 2026 IHG refresh keeps these through 2026-12-31 and
+  # the page no longer headlines them. Delete these entries in January 2027
+  # along with the expired rows.
+  - { slug: ihg-rewards-club-premier-credit-card, category: travel }
+  - { slug: ihg-rewards-club-traveler-credit-card, category: utilities }
+  - { slug: ihg-rewards-club-traveler-credit-card, category: phone }
+  - { slug: ihg-rewards-club-traveler-credit-card, category: streaming }
 
 # Benefit names declined on a specific card.
 benefits:

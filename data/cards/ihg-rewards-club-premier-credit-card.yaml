@@ -96,12 +96,25 @@ rewards:
   - category: hotels
     value: 10
     unit: points_per_dollar
-    note: "Up to 26x total points at IHG hotels"
+    note: "Up to 24x total points at IHG hotels"
     merchant_specific: true
     merchant_gate: [ihg]
+  - category: airlines
+    value: 5
+    unit: points_per_dollar
+    note: "Airline tickets purchased directly with the airline"
+  - category: car_rentals
+    value: 5
+    unit: points_per_dollar
   - category: travel
     value: 5
     unit: points_per_dollar
+    note: "All other travel earns 5x through December 31, 2026, then 3x; flights booked directly and car rentals stay at 5x"
+    expires: "2026-12-31"
+  - category: groceries
+    value: 5
+    unit: points_per_dollar
+    note: "Grocery stores"
   - category: gas
     value: 5
     unit: points_per_dollar

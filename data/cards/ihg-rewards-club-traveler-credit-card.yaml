@@ -69,18 +69,25 @@ rewards:
   - category: gas
     value: 3
     unit: points_per_dollar
+  - category: groceries
+    value: 3
+    unit: points_per_dollar
+    note: "Grocery stores"
   - category: utilities
     value: 3
     unit: points_per_dollar
-    note: "Utilities (combined 3x bucket with dining, gas, and select streaming)"
+    note: "Utilities; 3x through December 31, 2026, then 2x"
+    expires: "2026-12-31"
   - category: phone
     value: 3
     unit: points_per_dollar
-    note: "Internet, cable, and phone services (same 3x bucket as utilities)"
+    note: "Internet, cable, and phone services; 3x through December 31, 2026, then 2x"
+    expires: "2026-12-31"
   - category: streaming
     value: 3
     unit: points_per_dollar
-    note: "Select streaming services (combined 3x bucket with dining, gas, and utilities)"
+    note: "Select streaming services; 3x through December 31, 2026, then 2x"
+    expires: "2026-12-31"
   - category: everything_else
     value: 2
     unit: points_per_dollar
@@ -94,7 +101,7 @@ apr:
   regular:
     min: 19.24
     max: 27.74
-apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/traveler
+apply_link: https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/one-rewards
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >

@@ -46,6 +46,11 @@ rewards:
     value: 3
     unit: percent
     note: "Pharmacy purchases"
+  - category: car_rentals
+    value: 2
+    unit: percent
+    note: "Hertz purchases made at Hertz or through AAA"
+    merchant_gate: [hertz]
   - category: everything_else
     value: 1
     unit: percent
