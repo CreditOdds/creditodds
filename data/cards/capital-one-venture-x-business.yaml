@@ -27,11 +27,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 150000
+  value: 300000
   type: "miles"
-  spend_requirement: 30000
-  timeframe_months: 3
-  note: "Not available to existing or previous Capital One business cardholders"
+  spend_requirement: 120000
+  timeframe_months: 4
+  note: "Earn 150,000 bonus miles when you spend $40,000 in the first 4 months, plus an additional 150,000 bonus miles and a $1,000 Capital One Business Travel credit when you spend $120,000 in the first 4 months."
 benefits:
   - name: "Annual Travel Credit"
     value: 300
