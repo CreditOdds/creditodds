@@ -20,6 +20,13 @@ updates:
       # weekly noise; security advisories still surface via npm audit.
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+      # @firebase/app 0.16.3 requires Node >=24.12; Lambdas run nodejs22.x.
+      # apps/api declares it only so esbuild can resolve database-compat's
+      # require() (database-compat inlines its own copy, so none of its code
+      # is bundled today). Precautionary pin in apps/api/package.json; remove
+      # this and the pin once template.yml moves to nodejs24.x.
+      - dependency-name: "@firebase/app"
+        versions: [">=0.16.3"]
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
