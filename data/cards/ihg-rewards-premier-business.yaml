@@ -8,9 +8,15 @@ image: "chase-ihg-one-rewards-premier-business.png"
 benefits:
   - name: "Free Night Award"
     value: 0
-    description: "One anniversary free night valid at properties costing up to 40,000 points, with option to top off using points"
+    description: "One anniversary free night valid at properties costing up to 50,000 points, with option to top off using points"
     frequency: "annual"
     category: "hotel"
+  - name: "Free Night After Annual Spend"
+    value: 0
+    description: "One additional free night valid at properties costing up to 50,000 points after $60,000 in purchases each calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
   - name: "4th Reward Night Free"
     value: 0
     description: "4th night free on IHG reward night stays"
@@ -21,9 +27,21 @@ benefits:
     description: "Automatic IHG One Rewards Platinum Elite status"
     frequency: "ongoing"
     category: "hotel"
-  - name: "Anniversary Bonus Points"
+  - name: "Diamond Elite Status Upgrade"
     value: 0
-    description: "10,000 bonus points and a $100 statement credit after $20,000 in annual purchases"
+    description: "Starting January 1, 2027, earn IHG One Rewards Diamond Elite status through December 31 of the following year after spending $50,000 or more in a calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Elite Night Credits"
+    value: 0
+    description: "15 Elite Night Credits at account opening and each calendar year, plus 2 Elite Night Credits for every $5,000 spent and 5 more after $25,000 in purchases each calendar year"
+    frequency: "annual"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Annual Spend Bonus"
+    value: 0
+    description: "20,000 bonus points after $25,000 in purchases each calendar year"
     frequency: "annual"
     category: "hotel"
   - name: "Global Entry / TSA PreCheck / NEXUS Credit"
@@ -33,9 +51,9 @@ benefits:
     frequency_years: 4
     category: "travel"
   - name: "Points Purchase Discount"
-    value: 20
+    value: 30
     value_unit: "percent"
-    description: "Save at least 20% when you purchase IHG One Rewards points with this card."
+    description: "Save at least 30% when you purchase IHG One Rewards points with this card."
     frequency: "per_purchase"
     category: "rewards"
     enrollment_required: false
@@ -45,6 +63,16 @@ benefits:
     frequency: "annual"
     category: "dining"
     enrollment_required: true
+    merchants:
+      - doordash
+  - name: "DoorDash Non-Restaurant Promo"
+    value: 120
+    description: "$10 off one non-restaurant DoorDash order each month through Dec 31, 2027 while enrolled in the Chase DashPass membership. Applies to DashPass activations on or after Sep 1, 2026; earlier activations get $10 off each quarter."
+    frequency: "monthly"
+    category: "dining"
+    enrollment_required: true
+    merchants:
+      - doordash
   - name: "IHG Food and Beverage Rewards"
     value: 100
     description: "A $25 Food and Beverage Reward voucher each calendar quarter, up to $100 per year, for food and beverage on your room bill at participating IHG hotels"
@@ -52,7 +80,7 @@ benefits:
     category: "hotel"
     enrollment_required: false
   - name: "Airline Statement Credit"
-    value: 0
+    value: 100
     description: "$100 statement credit after spending at least $250 on flights purchased directly with the airline each calendar year through 12/31/27"
     frequency: "annual"
     category: "travel"
@@ -65,10 +93,10 @@ benefits:
     enrollment_required: false
   - name: "Instacart Credit"
     value: 120
-    description: "$10 Instacart credit monthly, up to $120 per calendar year, for purchases made directly through Instacart; ends 12/31/27"
+    description: "$10 Instacart credit monthly, up to $120 per calendar year, for purchases made directly through Instacart; requires activating the complimentary Instacart+ membership, ends 12/31/27"
     frequency: "monthly"
     category: "grocery"
-    enrollment_required: false
+    enrollment_required: true
 tags:
   - hotel
   - travel

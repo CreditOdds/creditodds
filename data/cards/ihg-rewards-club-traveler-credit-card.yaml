@@ -6,14 +6,14 @@ annual_fee: 0
 reward_type: "points"
 image: "chase-ihg-one-rewards-traveler.png"
 benefits:
-  - name: "Anniversary Bonus Points"
+  - name: "Annual Spend Bonus"
     value: 0
-    description: "10,000 bonus points after spending $10,000 each calendar year"
+    description: "10,000 bonus points after $15,000 in purchases each calendar year"
     frequency: "annual"
     category: "hotel"
   - name: "Fourth Night Free on Reward Stays"
     value: 0
-    description: "Redeem 3 nights and receive a 4th night free when you redeem points for a consecutive four-night IHG hotel stay at that same hotel during that same stay."
+    description: "Redeem 3 nights and receive a 4th night free on a consecutive four-night reward stay at the same hotel. Automatic through December 31, 2026; starting in 2027 it requires $5,000 in purchases in a calendar year and then lasts for the rest of that year and the following year."
     frequency: "per_trip"
     category: "hotel"
     enrollment_required: false
@@ -25,29 +25,43 @@ benefits:
     enrollment_required: false
   - name: "Gold Elite Status Qualification"
     value: 0
-    description: "Qualify for Gold Elite Status through December 31st of the following year when purchases total $20,000 or more in a calendar year."
+    description: "Qualify for Gold Elite status through December 31 of the following year when purchases total $15,000 or more in a calendar year."
     frequency: "annual"
-    category: "travel"
+    category: "hotel"
+    enrollment_required: false
+  - name: "Elite Night Credits"
+    value: 0
+    description: "5 Elite Night Credits at account opening and at the start of each calendar year"
+    frequency: "annual"
+    category: "hotel"
     enrollment_required: false
   - name: "Points Purchase Discount"
-    value: 20
+    value: 30
     value_unit: "percent"
-    description: "Save 20% when you purchase IHG One Rewards points with this credit card."
+    description: "Save at least 30% when you purchase IHG One Rewards points with this credit card."
     frequency: "per_purchase"
     category: "rewards"
     enrollment_required: false
   - name: "DoorDash DashPass"
     value: 0
-    description: "One-year complimentary DashPass membership for both DoorDash and Caviar providing unlimited deliveries with $0 delivery fees and lower service fees on eligible orders; plus up to $10 off quarterly on non-restaurant DoorDash orders through Dec 31, 2027."
+    description: "One-year complimentary DashPass membership for both DoorDash and Caviar providing unlimited deliveries with $0 delivery fees and lower service fees on eligible orders, when activated by Dec 31, 2027."
     frequency: "annual"
+    category: "dining"
+    enrollment_required: true
+    merchants:
+      - doordash
+  - name: "DoorDash Non-Restaurant Promo"
+    value: 120
+    description: "$10 off one non-restaurant DoorDash order each month through Dec 31, 2027 while enrolled in the Chase DashPass membership. Applies to DashPass activations on or after Sep 1, 2026; earlier activations get $10 off each quarter."
+    frequency: "monthly"
     category: "dining"
     enrollment_required: true
     merchants:
       - doordash
   - name: "Instacart Credit"
     value: 120
-    description: "Receive a $10 Instacart credit monthly (up to $120 annually) plus a complimentary 3-month Instacart+ membership; benefits end 12/31/27."
-    frequency: "annual"
+    description: "Receive a $10 Instacart credit monthly (up to $120 annually) plus a complimentary 3-month Instacart+ membership; an active Instacart+ membership is required, and benefits end 12/31/27."
+    frequency: "monthly"
     category: "shopping"
     enrollment_required: true
     merchants:
