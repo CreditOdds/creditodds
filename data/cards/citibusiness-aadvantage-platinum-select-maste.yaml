@@ -49,7 +49,11 @@ rewards:
   - category: phone
     value: 2
     unit: points_per_dollar
-    note: "Telecommunications merchants, cable, and satellite providers"
+    note: "Telecommunications merchants"
+  - category: tv_internet_streaming
+    value: 2
+    unit: points_per_dollar
+    note: "Cable and satellite providers"
   - category: everything_else
     value: 1
     unit: points_per_dollar

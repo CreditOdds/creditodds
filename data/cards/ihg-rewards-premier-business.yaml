@@ -80,10 +80,18 @@ rewards:
     note: "Up to 26x total points at IHG hotels"
     merchant_specific: true
     merchant_gate: [ihg]
+  - category: airlines
+    value: 5
+    unit: points_per_dollar
+    note: "Airline tickets purchased directly with the airline"
+  - category: car_rentals
+    value: 5
+    unit: points_per_dollar
   - category: travel
     value: 5
     unit: points_per_dollar
-    note: "Travel, gas stations, select advertising, and restaurants"
+    note: "All other travel earns 5x through December 31, 2026, then 3x; flights booked directly and car rentals stay at 5x"
+    expires: "2026-12-31"
   - category: gas
     value: 5
     unit: points_per_dollar
@@ -93,7 +101,8 @@ rewards:
   - category: office_supplies
     value: 5
     unit: points_per_dollar
-    note: "Office supply stores"
+    note: "Office supply stores; 5x through December 31, 2026, then 3x"
+    expires: "2026-12-31"
   - category: everything_else
     value: 3
     unit: points_per_dollar
@@ -107,7 +116,7 @@ apr:
   regular:
     min: 19.24
     max: 27.74
-apply_link: https://creditcards.chase.com/business-credit-cards/IHG/business-premier
+apply_link: https://creditcards.chase.com/business-credit-cards/IHG/business
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
