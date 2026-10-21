@@ -15,6 +15,7 @@ import {
   isBenignClientError,
   isInjectedDocumentCallbackError,
   isInjectedDocumentScriptError,
+  isOffBundleScriptError,
 } from '@/lib/benignClientError';
 import { installTranslatedDomGuard } from '@/lib/translatedDomGuard';
 
@@ -73,6 +74,11 @@ Sentry.init({
     // whole stack is attributed to the document (see
     // isInjectedDocumentCallbackError in benignClientError.ts).
     if (isInjectedDocumentCallbackError(event)) {
+      return null;
+    }
+    // Stacks that never enter one of our /_next/ bundles, e.g. an extension's
+    // own script (see isOffBundleScriptError in benignClientError.ts).
+    if (isOffBundleScriptError(event)) {
       return null;
     }
     return event;

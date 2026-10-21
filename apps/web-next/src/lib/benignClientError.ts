@@ -419,3 +419,54 @@ export function isInjectedDocumentCallbackError(
   }
   return frameCount > 0 && sawCallback;
 }
+
+// Drops errors whose every frame sits in a .js file that is not one of our
+// bundles. First instance: issue 7804757103, "TypeError: Cannot read
+// properties of undefined (reading 'M_ID')" on /best-card-for/discount-tire
+// (Chrome 154, Mac), unhandled rejection with two frames, both in
+// `app:///executors/200.js`. Nothing we ship mentions `M_ID` or lives under
+// `/executors/` (creditodds.com/executors/200.js is a 404), and the same error
+// fired again after every client-side navigation that session, the pattern of
+// a browser extension or agent-browser content script re-running per route.
+//
+// Why the `app:///` path doesn't mean the script is ours: Sentry's Next.js
+// client integration (nextjsClientStackFrameNormalizationIntegration) rewrites
+// the origin of EVERY frame URL to `app://` before beforeSend runs, so
+// `chrome-extension://<id>/executors/200.js` and
+// `https://creditodds.com/_next/static/chunks/x.js` both reach us as bare
+// paths, and "In app" is a byproduct of that rewrite. The path is what's left
+// to go on, and every function we ship lives under `/_next/` (public/ holds no
+// scripts). A single `/_next/` frame disqualifies the event, so a crash in our
+// own code, including one awaiting a vendor promise (async frames keep the
+// caller), still reports.
+//
+// Accepted scope: a stack made only of vendor-script frames (PostHog's lazy
+// chunks from relay.creditodds.com/static/*.js, Google's gapi loader) is also
+// dropped. That code isn't ours to fix, and anything it breaks for users
+// surfaces through our own callers. Frames at the document URL (no .js) don't
+// match, so the inline-script stacks the two predicates above deliberately
+// keep stay reportable, as do frame-less events.
+export function isOffBundleScriptError(
+  event: SentryEventLike | null | undefined,
+): boolean {
+  const values = event?.exception?.values;
+  if (!Array.isArray(values)) return false;
+  let frameCount = 0;
+  for (const value of values) {
+    const frames = value?.stacktrace?.frames;
+    if (!Array.isArray(frames)) continue;
+    for (const raw of frames) {
+      frameCount++;
+      if (raw == null || typeof raw !== 'object') return false;
+      const filename = (raw as FrameLike).filename;
+      if (
+        typeof filename !== 'string' ||
+        filename.includes('/_next/') ||
+        !/\.[cm]?js(\?|#|$)/.test(filename)
+      ) {
+        return false;
+      }
+    }
+  }
+  return frameCount > 0;
+}

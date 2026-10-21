@@ -4,6 +4,7 @@ import {
   isBenignClientError,
   isInjectedDocumentCallbackError,
   isInjectedDocumentScriptError,
+  isOffBundleScriptError,
 } from "./benignClientError";
 
 // Mimics a browser DOMException without depending on the DOM lib in tests.
@@ -569,5 +570,75 @@ describe("isInjectedDocumentCallbackError", () => {
     ).toBe(false);
     expect(isInjectedDocumentCallbackError(null)).toBe(false);
     expect(isInjectedDocumentCallbackError({})).toBe(false);
+  });
+});
+
+describe("isOffBundleScriptError", () => {
+  const eventWith = (frames: Array<Record<string, unknown>>) => ({
+    exception: { values: [{ stacktrace: { frames } }] },
+  });
+  const ourChunk = {
+    filename: "app:///_next/static/chunks/abc123.js",
+    function: "handleCardApplyClick",
+  };
+
+  // Issue 7804757103: an extension/agent-browser script's TypeError, both
+  // frames in a non-bundle .js path after Sentry's app:/// rewrite.
+  it("drops a stack that lives entirely in a non-bundle script", () => {
+    expect(
+      isOffBundleScriptError(
+        eventWith([
+          { filename: "app:///executors/200.js", function: "E", lineno: 1, colno: 1442 },
+          { filename: "app:///executors/200.js", function: "Y", lineno: 1, colno: 761 },
+        ]),
+      ),
+    ).toBe(true);
+  });
+
+  it("drops vendor-only script stacks too (accepted scope)", () => {
+    expect(
+      isOffBundleScriptError(
+        eventWith([{ filename: "app:///static/recorder.js?v=1.2.3", function: "t" }]),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps the stack once any frame is in one of our bundles", () => {
+    expect(
+      isOffBundleScriptError(
+        eventWith([
+          { filename: "app:///executors/200.js", function: "Y" },
+          ourChunk,
+        ]),
+      ),
+    ).toBe(false);
+    expect(isOffBundleScriptError(eventWith([ourChunk]))).toBe(false);
+  });
+
+  it("keeps document-URL, anonymous, and filename-less frames", () => {
+    expect(
+      isOffBundleScriptError(
+        eventWith([
+          { filename: "app:///best-card-for/discount-tire", function: "HTMLImageElement.onload" },
+        ]),
+      ),
+    ).toBe(false);
+    expect(
+      isOffBundleScriptError(
+        eventWith([
+          { filename: "app:///executors/200.js", function: "Y" },
+          { filename: "<anonymous>", function: "wrapper" },
+        ]),
+      ),
+    ).toBe(false);
+    expect(isOffBundleScriptError(eventWith([{ function: "?" }]))).toBe(false);
+  });
+
+  it("keeps frame-less and malformed events", () => {
+    expect(isOffBundleScriptError(eventWith([]))).toBe(false);
+    expect(isOffBundleScriptError({ exception: { values: [{}] } })).toBe(false);
+    expect(isOffBundleScriptError(eventWith([null as unknown as Record<string, unknown>]))).toBe(false);
+    expect(isOffBundleScriptError(null)).toBe(false);
+    expect(isOffBundleScriptError({})).toBe(false);
   });
 });
