@@ -1,5 +1,5 @@
 import { fetchWithRetry } from './fetchWithRetry';
-import { CardNotFoundError } from './cardNotFound';
+import { getPublicCard } from './publicCardApi';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
@@ -216,7 +216,7 @@ interface LocalCard extends Omit<Card, 'card_id' | 'card_name'> {
   card_name?: string;
 }
 
-export async function getAllCards(): Promise<Card[]> {
+export async function getAllCards(signal?: AbortSignal): Promise<Card[]> {
   if (!isBrowser && process.env.NODE_ENV === 'development') {
     try {
       const fs = await import('fs/promises');
@@ -235,7 +235,7 @@ export async function getAllCards(): Promise<Card[]> {
     }
   }
   const res = await fetchWithRetry(`${API_BASE}/cards`, {
-    next: { revalidate: 300 },
+    signal, next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch cards');
   return res.json();
@@ -315,21 +315,12 @@ export async function getCard(cardName: string): Promise<Card> {
       // Fall through to network fetch when local file isn't built yet.
     }
   }
-  const res = await fetchWithRetry(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
-    next: { revalidate: 300 },
-  });
-  if (res.status === 404) throw new CardNotFoundError();
-  if (!res.ok) throw new Error(`Failed to fetch card: ${res.status}`);
-  const card = await res.json();
-  if (!card || typeof card.card_name !== 'string' || !card.card_name || typeof card.slug !== 'string' || !card.slug) {
-    throw new Error('Invalid card response');
-  }
-  return card;
+  return getPublicCard(cardName);
 }
 
-export async function getCardGraphs(cardName: string): Promise<GraphData[]> {
+export async function getCardGraphs(cardName: string, signal?: AbortSignal): Promise<GraphData[]> {
   const res = await fetchWithRetry(`${API_BASE}/graphs?card_name=${encodeURIComponent(cardName)}`, {
-    next: { revalidate: 300 },
+    signal, next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch graphs');
   return res.json();
@@ -354,9 +345,9 @@ export interface CardRecord {
   date_applied: string | null;
 }
 
-export async function getCardRecords(cardName: string): Promise<CardRecord[]> {
+export async function getCardRecords(cardName: string, signal?: AbortSignal): Promise<CardRecord[]> {
   const res = await fetchWithRetry(`${API_BASE}/card-records?card_name=${encodeURIComponent(cardName)}`, {
-    next: { revalidate: 300 },
+    signal, next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error('Failed to fetch card records');
   return res.json();
@@ -1017,11 +1008,11 @@ export interface ComparePartner {
 
 // Pull the top N most-frequently-compared partner cards for a given card slug.
 // Used to populate "Often compared with" chips on the card detail page.
-export async function getComparePartners(slug: string, limit = 5): Promise<ComparePartner[]> {
+export async function getComparePartners(slug: string, limit = 5, signal?: AbortSignal): Promise<ComparePartner[]> {
   try {
     const res = await fetchWithRetry(
       `${API_BASE}/card-compare-event?slug=${encodeURIComponent(slug)}&limit=${limit}`,
-      { next: { revalidate: 600 } },
+      { signal, next: { revalidate: 600 } },
     );
     if (!res.ok) return [];
     const data = await res.json();
@@ -1236,9 +1227,9 @@ export interface CardWireEntry {
   changed_at: string;
 }
 
-export async function getCardWire(cardId: number): Promise<CardWireEntry[]> {
+export async function getCardWire(cardId: number, signal?: AbortSignal): Promise<CardWireEntry[]> {
   const res = await fetchWithRetry(`${API_BASE}/card-wire?card_id=${cardId}&limit=20`, {
-    next: { revalidate: 300 },
+    signal, next: { revalidate: 300 },
   });
   if (!res.ok) return [];
   const data = await res.json();
@@ -1299,11 +1290,12 @@ export const EMPTY_PRODUCT_CHANGES: CardProductChanges = {
 export async function getCardProductChanges(
   cardId: number,
   limit = 6,
+  signal?: AbortSignal,
 ): Promise<CardProductChanges> {
   try {
     const res = await fetchWithRetry(
       `${API_BASE}/card-product-changes?card_id=${cardId}&limit=${limit}`,
-      { next: { revalidate: 300 } },
+      { signal, next: { revalidate: 300 } },
     );
     if (!res.ok) return EMPTY_PRODUCT_CHANGES;
     const data = await res.json();
@@ -1543,11 +1535,11 @@ function ratingsCardIdParam(cardId?: number | string): string {
   return cardId != null && cardId !== '' ? `&card_id=${encodeURIComponent(String(cardId))}` : '';
 }
 
-export async function getCardRatings(cardName: string, cardId?: number | string): Promise<CardRatingAggregates> {
+export async function getCardRatings(cardName: string, cardId?: number | string, signal?: AbortSignal): Promise<CardRatingAggregates> {
   const res = await fetchWithRetry(
     `${API_BASE}/ratings?card_name=${encodeURIComponent(cardName)}${ratingsCardIdParam(cardId)}`,
     {
-      next: { revalidate: 300 },
+      signal, next: { revalidate: 300 },
     }
   );
   if (!res.ok) return { count: 0, average: null };

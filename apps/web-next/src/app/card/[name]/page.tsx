@@ -1,5 +1,5 @@
-import { readFileSync } from "fs";
-import { join } from "path";
+import { getLocalCardBenefits } from "@/lib/localCardBenefits";
+import { optionalRead } from "@/lib/optionalRead";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CardNotFoundError } from "@/lib/cardNotFound";
@@ -164,33 +164,32 @@ export default async function CardPage({ params }: CardPageProps) {
 
   // Fetch all data in parallel — chain getCard → getCardRatings together
   // so ratings fetches concurrently with graphs/news/articles instead of after them all
-  const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages] = await Promise.all([
+  const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages, localBenefits] = await Promise.all([
     getCardOrNotFound(slug).then(async (card) => {
       // card_id is the numeric DB id once a card has been synced to the
       // database, but falls back to the slug for a brand-new card that hasn't
       // synced yet. Skip card-wire in that case — there are no wire entries
       // for an unsynced card, and asking for card_id=NaN 500s the API.
       const wireId = Number(card.card_id);
-      return {
-        card,
-        ratings: await getCardRatings(card.card_name, card.db_card_id ?? card.card_id).catch(() => ({ count: 0, average: null })),
-        wire: Number.isInteger(wireId)
-          ? await getCardWire(wireId).catch(() => [] as CardWireEntry[])
-          : ([] as CardWireEntry[]),
-        // Same numeric-id requirement as card-wire: wallet_card_events stores
-        // DB card ids, so an unsynced card has nothing to look up.
-        productChanges: Number.isInteger(wireId)
-          ? await getCardProductChanges(wireId)
-          : EMPTY_PRODUCT_CHANGES,
-      };
+      const [ratings, wire, productChanges] = await Promise.all([
+        optionalRead(signal => getCardRatings(card.card_name, card.db_card_id ?? card.card_id, signal), { count: 0, average: null }),
+        Number.isInteger(wireId)
+          ? optionalRead(signal => getCardWire(wireId, signal), [] as CardWireEntry[])
+          : Promise.resolve([] as CardWireEntry[]),
+        Number.isInteger(wireId)
+          ? optionalRead(signal => getCardProductChanges(wireId, 6, signal), EMPTY_PRODUCT_CHANGES)
+          : Promise.resolve(EMPTY_PRODUCT_CHANGES),
+      ]);
+      return { card, ratings, wire, productChanges };
     }),
-    getCardGraphs(slug).catch(() => [] as GraphData[]),
-    getCardRecords(slug).catch(() => [] as CardRecord[]),
-    getNews().catch(() => [] as NewsItem[]),
-    getArticles().catch(() => [] as Article[]),
-    getAllCards().catch(() => [] as Card[]),
-    getComparePartners(slug, 20).catch(() => []),
-    getBestPages().catch(() => []),
+    optionalRead(signal => getCardGraphs(slug, signal), [] as GraphData[]),
+    optionalRead(signal => getCardRecords(slug, signal), [] as CardRecord[]),
+    optionalRead(signal => getNews(signal), [] as NewsItem[]),
+    optionalRead(signal => getArticles(signal), [] as Article[]),
+    optionalRead(signal => getAllCards(signal), [] as Card[]),
+    optionalRead(signal => getComparePartners(slug, 20, signal), []),
+    optionalRead(signal => getBestPages(signal), []),
+    optionalRead(() => getLocalCardBenefits(slug), undefined),
   ]);
 
   const { card, ratings, wire, productChanges } = cardWithRatingsAndWire;
@@ -199,13 +198,11 @@ export default async function CardPage({ params }: CardPageProps) {
   // and overlay value_unit on API benefits while CloudFront catches up to the
   // schema (so points-valued benefits render correctly even before CDN refresh).
   try {
-    const localData = JSON.parse(readFileSync(join(process.cwd(), '../../data/cards.json'), 'utf8'));
-    const localCard = localData.cards.find((c: { slug: string; benefits?: CardBenefit[] }) => c.slug === slug);
-    if (localCard?.benefits) {
+    if (localBenefits) {
       if (!card.benefits) {
-        card.benefits = localCard.benefits;
+        card.benefits = localBenefits;
       } else {
-        const localByName = new Map(localCard.benefits.map((b: CardBenefit) => [b.name, b]));
+        const localByName = new Map(localBenefits.map((b: CardBenefit) => [b.name, b]));
         card.benefits = card.benefits.map((b) => {
           const local = localByName.get(b.name) as CardBenefit | undefined;
           return local?.value_unit ? { ...b, value_unit: local.value_unit } : b;

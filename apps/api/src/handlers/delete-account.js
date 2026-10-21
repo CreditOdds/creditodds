@@ -70,7 +70,7 @@ exports.DeleteAccountHandler = async (event) => {
 
     // 4. Delete Firebase user account
     try {
-      await admin.auth().deleteUser(userId);
+      await admin.deleteUser(userId);
       console.info(`Firebase user ${userId} deleted successfully`);
     } catch (firebaseError) {
       // Log but don't fail if Firebase deletion fails

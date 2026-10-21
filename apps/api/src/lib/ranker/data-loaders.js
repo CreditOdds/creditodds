@@ -55,10 +55,12 @@ async function getAllCards() {
   if (cardsCache && cardsCache.expiresAt > now) {
     return cardsCache.data;
   }
-  const [cdnCardsRaw, dbByName] = await Promise.all([
+  const results = await Promise.allSettled([
     fetchCardsFromCDN(),
     fetchCardDbMetadata(),
   ]);
+  for (const result of results) if (result.status === "rejected") throw result.reason;
+  const [cdnCardsRaw, dbByName] = results.map(result => result.value);
   // The shared fetcher returns json.cards as-is (undefined if the key is
   // missing); the previous local fetcher guaranteed an array, so keep that.
   const cdnCards = Array.isArray(cdnCardsRaw) ? cdnCardsRaw : [];

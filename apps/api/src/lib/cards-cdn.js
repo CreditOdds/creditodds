@@ -30,24 +30,41 @@ let cache = null; // { expiresAt, data }
 
 function requestCardsOnce(url) {
   return new Promise((resolve, reject) => {
+    let timer;
+    const finish = (error, value) => {
+      clearTimeout(timer);
+      if (error) reject(error);
+      else resolve(value);
+    };
     const req = https.get(url, (res) => {
       let data = '';
       res.on('data', (chunk) => (data += chunk));
+      res.on('error', error => finish(error));
+      res.on('aborted', () => {
+        const error = new Error('cards.json response aborted');
+        error.code = 'ECONNRESET';
+        finish(error);
+      });
       res.on('end', () => {
         try {
           const json = JSON.parse(data);
-          resolve(json.cards);
-        } catch (err) {
-          reject(new Error('Failed to parse cards.json'));
+          finish(null, json.cards);
+        } catch {
+          finish(new Error('Failed to parse cards.json'));
         }
       });
     });
-    req.setTimeout(REQUEST_TIMEOUT_MS, () => {
+    const timeout = () => {
       const err = new Error(`cards.json request timed out after ${REQUEST_TIMEOUT_MS}ms`);
       err.code = 'ETIMEDOUT';
       req.destroy(err);
-    });
-    req.on('error', reject);
+      finish(err);
+    };
+    // Socket idle timeouts alone don't bound DNS/connect or trickling bodies.
+    // Two attempts therefore take at most 10 seconds, including body reads.
+    timer = setTimeout(timeout, REQUEST_TIMEOUT_MS);
+    req.setTimeout(REQUEST_TIMEOUT_MS, timeout);
+    req.on('error', error => finish(error));
   });
 }
 

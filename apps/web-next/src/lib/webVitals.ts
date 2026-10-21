@@ -1,3 +1,5 @@
+import posthog from 'posthog-js';
+
 // Web Vitals reporting utility
 // Captures Core Web Vitals metrics for performance monitoring
 
@@ -20,27 +22,35 @@ function sendToAnalytics(metric: Metric) {
     console.log(`[Web Vitals] ${metric.name}: ${metric.value.toFixed(2)} (${metric.rating})`);
   }
 
-  // In production, you could send to your analytics service:
-  // Example: Google Analytics
-  // if (typeof window !== 'undefined' && window.gtag) {
-  //   window.gtag('event', metric.name, {
-  //     value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
-  //     event_label: metric.id,
-  //     non_interaction: true,
-  //   });
-  // }
+  if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
+    // Existing analytics transport; route groups avoid card IDs, searches and
+    // query strings. Numeric values keep p75 queries possible by device/route.
+    posthog.capture('web_vital', {
+      metric: metric.name,
+      value: metric.value,
+      rating: metric.rating,
+      route: initialRoute,
+      device_class: window.matchMedia('(max-width: 767px)').matches ? 'mobile' : 'desktop',
+      $current_url: `${window.location.origin}${initialRoute}`,
+      $pathname: initialRoute,
+      $referrer: '',
+    });
+  }
+}
 
-  // Example: Custom analytics endpoint
-  // navigator.sendBeacon('/api/vitals', JSON.stringify({
-  //   name: metric.name,
-  //   value: metric.value,
-  //   rating: metric.rating,
-  //   path: window.location.pathname,
-  // }));
+let initialized = false;
+let initialRoute = '/';
+export function vitalsRoute(pathname: string): string {
+  const prefix = pathname.split('/').filter(Boolean)[0];
+  if (!prefix) return '/';
+  if (['card', 'news', 'articles', 'best', 'best-card-for', 'compare', 'bank'].includes(prefix)) return `/${prefix}/:page`;
+  return ['explore', 'wallet', 'tools', 'login', 'signup'].includes(prefix) ? `/${prefix}` : '/other';
 }
 
 export function reportWebVitals(onPerfEntry?: ReportHandler) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || initialized) return;
+  initialized = true;
+  initialRoute = vitalsRoute(window.location.pathname);
 
   const handler = onPerfEntry || sendToAnalytics;
 

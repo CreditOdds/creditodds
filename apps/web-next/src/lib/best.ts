@@ -48,8 +48,8 @@ export interface BestPagesResponse {
   pages: BestPage[];
 }
 
-export async function getBestPages(): Promise<BestPage[]> {
-  return getContentCollection<BestPage>('best', 'pages', 'slug');
+export async function getBestPages(signal?: AbortSignal): Promise<BestPage[]> {
+  return getContentCollection<BestPage>('best', 'pages', 'slug', signal);
 }
 
 export async function getBestPage(slug: string): Promise<BestPage | null> {

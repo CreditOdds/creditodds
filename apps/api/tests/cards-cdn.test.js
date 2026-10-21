@@ -189,3 +189,32 @@ test("does not cache a malformed payload (missing cards key)", async () => {
   await fetchCardsFromCDN();
   expect(https.get).toHaveBeenCalledTimes(2);
 });
+
+test('absolute deadline stops a response even when its idle timeout never fires', async () => {
+  jest.useFakeTimers();
+  try {
+    const req = mockRequest();
+    https.get.mockImplementationOnce(() => req).mockImplementationOnce(respondWith(BODY));
+    const result = fetchCardsFromCDN();
+    await jest.advanceTimersByTimeAsync(5000);
+    await expect(result).resolves.toEqual(CARDS);
+    expect(req.destroy).toHaveBeenCalledWith(expect.objectContaining({ code: 'ETIMEDOUT' }));
+    expect(https.get).toHaveBeenCalledTimes(2);
+    expect(jest.getTimerCount()).toBe(0);
+  } finally { jest.useRealTimers(); }
+});
+
+test('retries a mid-body disconnect instead of waiting indefinitely for end', async () => {
+  https.get.mockImplementationOnce((url, callback) => {
+    const req = mockRequest();
+    process.nextTick(() => {
+      const response = new EventEmitter();
+      callback(response);
+      response.emit('data', '{');
+      response.emit('aborted');
+    });
+    return req;
+  }).mockImplementationOnce(respondWith(BODY));
+  await expect(fetchCardsFromCDN()).resolves.toEqual(CARDS);
+  expect(https.get).toHaveBeenCalledTimes(2);
+});

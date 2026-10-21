@@ -246,7 +246,7 @@ async function sendExpiryNotification(submitterId) {
 
   let email;
   try {
-    const user = await initFirebase().auth().getUser(submitterId);
+    const user = await initFirebase().getUser(submitterId);
     if (user.disabled) return { sent: false, reason: "user disabled" };
     email = user.email;
   } catch (err) {

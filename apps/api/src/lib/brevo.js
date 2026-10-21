@@ -4,6 +4,8 @@
 // All functions throw on non-2xx responses (except where noted) with the
 // Brevo error body in the message so CloudWatch logs show the real cause.
 
+const { fetchWithDeadline } = require('./fetch-with-deadline');
+
 const BASE = 'https://api.brevo.com/v3';
 
 function apiKey() {
@@ -38,8 +40,9 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // Rate-limited (429) responses are retried with backoff before surfacing as
 // an error: Brevo's Retry-After header when present, exponential otherwise.
 async function request(method, path, body, { retries = 3 } = {}) {
+  const deadline = Date.now() + 15000;
   for (let attempt = 0; ; attempt += 1) {
-    const res = await fetch(`${BASE}${path}`, {
+    const { response: res, text } = await fetchWithDeadline(`${BASE}${path}`, {
       method,
       headers: {
         'api-key': apiKey(),
@@ -47,8 +50,7 @@ async function request(method, path, body, { retries = 3 } = {}) {
         Accept: 'application/json',
       },
       body: body === undefined ? undefined : JSON.stringify(body),
-    });
-    const text = await res.text();
+    }, Math.min(8000, Math.max(1, deadline - Date.now())));
     if (res.ok) return text ? JSON.parse(text) : null;
     if (res.status === 429 && attempt < retries) {
       const retryAfter = Number(res.headers.get('retry-after'));
@@ -56,6 +58,9 @@ async function request(method, path, body, { retries = 3 } = {}) {
         Number.isFinite(retryAfter) && retryAfter > 0
           ? Math.min(retryAfter * 1000, 30000)
           : Math.min(1000 * 2 ** attempt, 30000);
+      if (Date.now() + waitMs >= deadline) {
+        throw new DOMException('Brevo request deadline exceeded', 'TimeoutError');
+      }
       await sleep(waitMs);
       continue;
     }

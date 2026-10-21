@@ -28,7 +28,7 @@ async function listAllFirebaseUsers(admin) {
   const users = [];
   let pageToken;
   do {
-    const page = await admin.auth().listUsers(1000, pageToken);
+    const page = await admin.listUsers(1000, pageToken);
     users.push(...page.users);
     pageToken = page.pageToken;
   } while (pageToken);

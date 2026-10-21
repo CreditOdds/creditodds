@@ -8,6 +8,8 @@
 // TTL. Survives within a warm Lambda container — cold start resets it.
 // That's fine for a beta surface; move to ElastiCache if abuse appears.
 
+const { fetchWithDeadline } = require("../fetch-with-deadline");
+
 const PLACES_ENDPOINT = "https://places.googleapis.com/v1/places:searchNearby";
 
 const INCLUDED_TYPES = [
@@ -74,7 +76,7 @@ function gridKey(lat, lng) {
 }
 
 async function callPlacesApi(lat, lng, apiKey) {
-  const res = await fetch(PLACES_ENDPOINT, {
+  const { response: res, text } = await fetchWithDeadline(PLACES_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -97,11 +99,10 @@ async function callPlacesApi(lat, lng, apiKey) {
   });
 
   if (!res.ok) {
-    const text = await res.text().catch(() => "");
     throw new Error(`Places API ${res.status}: ${text.slice(0, 200)}`);
   }
 
-  const data = await res.json();
+  const data = JSON.parse(text);
   const places = Array.isArray(data.places) ? data.places : [];
   return places
     .filter((p) => !p.businessStatus || p.businessStatus === "OPERATIONAL")
@@ -124,7 +125,11 @@ async function searchNearby(lat, lng, apiKey) {
     return { places: cached.data, cached: true };
   }
   const places = await callPlacesApi(lat, lng, apiKey);
-  placesCache.set(key, { expiresAt: now + CACHE_TTL_MS, data: places });
+  for (const [cacheKey, value] of placesCache) {
+    if (value.expiresAt <= Date.now()) placesCache.delete(cacheKey);
+  }
+  if (placesCache.size >= 256) placesCache.delete(placesCache.keys().next().value);
+  placesCache.set(key, { expiresAt: Date.now() + CACHE_TTL_MS, data: places });
   return { places, cached: false };
 }
 

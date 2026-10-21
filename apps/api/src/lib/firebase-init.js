@@ -8,24 +8,25 @@
 // Without it those calls fail with a credential error at call time; callers
 // that treat that as best-effort keep working as before.
 
-const admin = require('firebase-admin');
+const { getApps, initializeApp, cert } = require('firebase-admin/app');
+const { getAuth } = require('firebase-admin/auth');
 
 function initFirebase() {
-  if (admin.apps.length) return admin;
+  if (getApps().length) return getAuth();
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'creditodds';
   const b64 = process.env.FIREBASE_SERVICE_ACCOUNT_B64 || '';
 
   if (b64) {
     const serviceAccount = JSON.parse(Buffer.from(b64, 'base64').toString('utf8'));
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
+    initializeApp({
+      credential: cert(serviceAccount),
       projectId,
     });
   } else {
-    admin.initializeApp({ projectId });
+    initializeApp({ projectId });
   }
-  return admin;
+  return getAuth();
 }
 
 module.exports = { initFirebase };
