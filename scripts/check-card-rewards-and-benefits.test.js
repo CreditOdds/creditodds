@@ -31,6 +31,7 @@ const {
   buildSharedUrlMap,
   isDeclined,
   loadDeclined,
+  rewardValueKey,
   filterCardsForCheck,
 } = require('./check-card-rewards-and-benefits');
 
@@ -751,6 +752,31 @@ test('the declined list is scoped per card, not global', () => {
 
 test('added and removed lists do not leak into each other', () => {
   assert.equal(isDeclined('reward_removed', 'aaa-daily-advantage-visa-signature', 'travel'), false);
+});
+
+test('a declined value change is filtered (PenFed Power Cash 2% → 1.5%)', () => {
+  assert.equal(
+    isDeclined('reward_value', 'penfed-power-cash-rewards', rewardValueKey('everything_else', 1.5)),
+    true
+  );
+});
+
+test('a value decline is pinned to the declined number', () => {
+  assert.equal(
+    isDeclined('reward_value', 'penfed-power-cash-rewards', rewardValueKey('everything_else', 1)),
+    false
+  );
+});
+
+test('a value decline matches regardless of how the number is written', () => {
+  assert.equal(
+    isDeclined('reward_value', 'penfed-power-cash-rewards', rewardValueKey('everything_else', '1.50')),
+    true
+  );
+});
+
+test('a value decline does not decline the category outright', () => {
+  assert.equal(isDeclined('reward_removed', 'penfed-power-cash-rewards', 'everything_else'), false);
 });
 
 // ─── editRewardValue ────────────────────────────────────────────────────────

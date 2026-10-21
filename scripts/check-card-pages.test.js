@@ -29,6 +29,7 @@ const {
   readSkipStateFromMain,
   staleCardsFrom,
   isTransientNetworkError,
+  botInterstitialReason,
   SKIP_ALERT_THRESHOLD,
 } = require('./check-card-pages');
 
@@ -1158,6 +1159,42 @@ test('an empty or missing reason is not retried', () => {
   assert.equal(isTransientNetworkError(''), false);
   assert.equal(isTransientNetworkError(null), false);
   assert.equal(isTransientNetworkError(undefined), false);
+});
+
+// ─── botInterstitialReason ──────────────────────────────────────────────────
+//
+// Amazon's bot wall clears the 100-char content floor, so before #2322 it went
+// to the extractor as the card's page and skipped as "no extraction returned".
+
+console.log('\nbotInterstitialReason:');
+
+const AMAZON_WALL =
+  'Amazon.com Click the button below to continue shopping Continue shopping ' +
+  'Conditions of Use Privacy Policy 1996-2025, Amazon.com, Inc. or its affiliates';
+
+test('the Amazon "Continue shopping" wall is recognised', () => {
+  assert.match(botInterstitialReason(AMAZON_WALL), /Continue shopping/);
+});
+
+test('a real product page is not an interstitial', () => {
+  assert.equal(
+    botInterstitialReason('Amazon Store Card. Earn 5% back at Amazon.com with an eligible Prime membership. 29.49% variable APR.'),
+    null
+  );
+});
+
+test('a long page that quotes the phrase is not thrown away', () => {
+  assert.equal(botInterstitialReason(AMAZON_WALL + ' x'.repeat(2000)), null);
+});
+
+test('an empty page is not an interstitial', () => {
+  assert.equal(botInterstitialReason(''), null);
+  assert.equal(botInterstitialReason(null), null);
+});
+
+test('an interstitial skip is not retried as a network blip', () => {
+  const reason = `${botInterstitialReason(AMAZON_WALL)} on plain fetch (151 chars); verify the page by hand in an ordinary browser`;
+  assert.equal(isTransientNetworkError(reason), false);
 });
 
 // ─── Session-targeted offer downgrades ──────────────────────────────────────

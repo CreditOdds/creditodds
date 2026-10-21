@@ -17,7 +17,7 @@ rewards:
 benefits:
   - name: "0% APR Equal Monthly Payments"
     value: 0
-    description: "6 months on Amazon purchases $50–$599.99, 12 months on $600+, 24 months on select purchases"
+    description: "6 months on Amazon purchases $50–$299.99, 12 months on $300+, 24 months on select purchases"
   - name: "10%+ back limited-time offers"
     value: 0
     description: "Rotating selection of items and categories on Amazon for eligible Prime cardmembers"
