@@ -56,3 +56,11 @@ Amplify rejected the initial deployment at 252,050,372 bytes (limit 230,686,720)
 ## Lambda Node module compatibility
 
 Lambda Node 22 disables require(ESM), unlike local Node 22. Firebase Admin 14's jwks-rsa/jose chain needs it. The SAM global `NODE_OPTIONS` explicitly enables `--experimental-require-module` while retaining the Sentry preload. The initial production authorizer check exposed this difference; the runtime setting was corrected and an invalid-token probe must return 401, not 500. See [AWS runtime documentation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-nodejs.html#nodejs-experimental).
+
+## News refresh timeout resilience
+
+Sentry issue 7805642165 reported the wrapper's 10-second deadline on `/news/[id]`. CloudWatch showed the errors within milliseconds of a Lambda invocation starting, with that invocation completing in under one second. This is consistent with background work resuming after an idle/frozen interval; the logs do not identify the upstream delay or establish the visitor's HTTP status. A subsequent probe returned HTTP 200 from the route cache.
+
+News detail metadata and rendering now share concurrent catalog reads. Each worker keeps its most recently successful detail-lookup catalog: on a `TimeoutError` only, an existing story can use this snapshot for up to one hour after the successful read. A warning records fallback use. Cold workers, expired snapshots, missing IDs, invalid catalogs, HTTP failures and explicit cancellation still propagate errors; fallback never establishes a 404. Successful empty or updated catalogs replace the snapshot, including removals. Normal route ISR can cache a fallback render for its existing five-minute interval. This mitigates warm-worker refresh failures; it does not guarantee availability on a cold-worker CDN outage.
+
+Completed fetches and optional reads no longer abort their signals during cleanup, allowing Next's other response-stream branch to finish cache work. Failed or stalled requests still abort and retain their existing budgets. News view counts now receive the optional-section 2.5-second budget and cancellation signal. Regression coverage includes shared requests, recovery after rejection, fallback expiry/removal, missing IDs and successful signal cleanup.

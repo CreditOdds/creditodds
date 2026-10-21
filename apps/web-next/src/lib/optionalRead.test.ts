@@ -1,6 +1,11 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { optionalRead } from './optionalRead';
 afterEach(() => vi.useRealTimers());
+it('leaves successful reads un-aborted so cache tee consumers can finish', async () => {
+  let signal: AbortSignal | undefined;
+  expect(await optionalRead(async s => { signal = s; return 'ok'; }, '')).toBe('ok');
+  expect(signal?.aborted).toBe(false);
+});
 it('returns fallback on the section deadline and cancels upstream work', async () => {
   vi.useFakeTimers();
   let signal: AbortSignal | undefined;

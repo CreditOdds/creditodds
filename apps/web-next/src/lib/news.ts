@@ -1,4 +1,5 @@
 // News API types and fetching
+import { createResilientLookup } from './resilientLookup';
 import { getContentCollection } from './contentCollection';
 import type { ReplacementCardInfo } from './api';
 
@@ -128,10 +129,10 @@ export function getNewsCards(item: NewsItem | null | undefined): NewsCardInfo[] 
   }));
 }
 
-export async function getNewsItem(id: string): Promise<NewsItem | null> {
-  const items = await getNews();
-  return items.find(item => item.id === id) || null;
-}
+// Keep one validated snapshot per worker, and share concurrent metadata/page reads.
+// A timeout can reuse a known story for at most one hour; absence still requires
+// a successful catalog read so an outage can never manufacture a cached 404.
+export const getNewsItem = createResilientLookup(getNews, item => item.id);
 
 export async function getNews(signal?: AbortSignal): Promise<NewsItem[]> {
   return getContentCollection<NewsItem>('news', 'items', 'id', signal);

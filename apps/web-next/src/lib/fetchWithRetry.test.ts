@@ -18,6 +18,8 @@ describe("fetchWithRetry", () => {
 
     expect(out.status).toBe(200);
     expect(fetchMock).toHaveBeenCalledTimes(1);
+    // Next's other stream branch may still be populating its Data Cache.
+    expect(fetchMock.mock.calls[0][1].signal.aborted).toBe(false);
   });
 
   it("retries a transient network error then succeeds", async () => {

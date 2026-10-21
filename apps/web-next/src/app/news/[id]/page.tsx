@@ -1,3 +1,4 @@
+import { optionalRead } from '@/lib/optionalRead';
 import { serializeJsonLd } from '@/lib/serializeJsonLd';
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -82,7 +83,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
   // All-time views, shown only once past a floor so fresh posts don't
   // advertise low numbers.
-  const viewCounts = await getContentViewCounts(0).catch(() => null);
+  const viewCounts = await optionalRead(signal => getContentViewCounts(0, signal), null);
   const viewCount = viewCounts?.news[item.id] ?? 0;
 
   const newsCards = getNewsCards(item);
