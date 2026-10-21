@@ -13,8 +13,13 @@ test('modular Firebase initialization exposes all used Auth APIs and reuses the 
     for (const name of ['verifyIdToken', 'listUsers', 'getUser', 'deleteUser', 'setCustomUserClaims']) assert.equal(typeof auth[name], 'function');
     console.log('ok');
   `;
-  expect(execFileSync(process.execPath, ['-e', source], {
+  expect(execFileSync(process.execPath, ['--experimental-require-module', '-e', source], {
     cwd: path.join(__dirname, '..'), encoding: 'utf8',
     env: { ...process.env, FIREBASE_SERVICE_ACCOUNT_B64: '', GOOGLE_APPLICATION_CREDENTIALS: '' },
   }).trim()).toBe('ok');
+});
+
+test('Lambda deployment explicitly enables the SDK module compatibility flag', () => {
+  const template = require('node:fs').readFileSync(path.join(__dirname, '../template.yml'), 'utf8');
+  expect(template).toMatch(/NODE_OPTIONS: --experimental-require-module -r @sentry\/aws-serverless\/awslambda-auto/);
 });
