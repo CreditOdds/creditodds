@@ -1,4 +1,5 @@
 import { fetchWithRetry } from './fetchWithRetry';
+import { CardNotFoundError } from './cardNotFound';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net';
 
@@ -317,8 +318,13 @@ export async function getCard(cardName: string): Promise<Card> {
   const res = await fetchWithRetry(`${API_BASE}/card?card_name=${encodeURIComponent(cardName)}`, {
     next: { revalidate: 300 },
   });
-  if (!res.ok) throw new Error('Failed to fetch card');
-  return res.json();
+  if (res.status === 404) throw new CardNotFoundError();
+  if (!res.ok) throw new Error(`Failed to fetch card: ${res.status}`);
+  const card = await res.json();
+  if (!card || typeof card.card_name !== 'string' || !card.card_name || typeof card.slug !== 'string' || !card.slug) {
+    throw new Error('Invalid card response');
+  }
+  return card;
 }
 
 export async function getCardGraphs(cardName: string): Promise<GraphData[]> {
@@ -1458,6 +1464,13 @@ export interface CheckOddsCard {
   approved_count: number;
   total_records: number;
   approved_data_points: number;
+  available_metrics: number;
+  credit_score_sample_count: number;
+  income_sample_count: number;
+  length_credit_sample_count: number;
+  stats_updated_at: string | null;
+  latest_approved_application: string | null;
+  // Compatibility flag: all three fields have enough observations.
   has_enough_data: boolean;
   median_credit_score: number | null;
   median_income: number | null;

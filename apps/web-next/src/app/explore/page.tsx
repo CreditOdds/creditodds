@@ -8,8 +8,7 @@ export const revalidate = 300;
 
 // Trim each card to only the fields ExploreV2Client actually reads before it
 // goes into the RSC/HTML payload. Drops benefits, apr, referrals, our_take,
-// medians, etc., and reduces rewards to {category,value,unit} — roughly a
-// two-thirds cut per card on a page that ships the full catalog.
+// medians, etc. Reward terms are retained so headline selection stays honest.
 function slimForExplore(c: Card): Card {
   return {
     card_id: c.card_id,
@@ -35,11 +34,7 @@ function slimForExplore(c: Card): Card {
           timeframe_months: c.signup_bonus.timeframe_months,
         }
       : undefined,
-    rewards: c.rewards?.map((r) => ({
-      category: r.category,
-      value: r.value,
-      unit: r.unit,
-    })),
+    rewards: c.rewards,
   };
 }
 

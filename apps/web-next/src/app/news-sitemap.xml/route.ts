@@ -17,7 +17,7 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-  const items = await getNews().catch(() => []);
+  const items = await getNews();
 
   const twoDaysAgo = Date.now() - 1000 * 60 * 60 * 48;
   const recent = items

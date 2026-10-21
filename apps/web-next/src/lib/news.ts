@@ -1,5 +1,5 @@
 // News API types and fetching
-import { fetchWithRetry } from './fetchWithRetry';
+import { getContentCollection } from './contentCollection';
 import type { ReplacementCardInfo } from './api';
 
 export type NewsTag =
@@ -128,43 +128,11 @@ export function getNewsCards(item: NewsItem | null | undefined): NewsCardInfo[] 
   }));
 }
 
-const NEWS_CDN_URL = 'https://d2hxvzw7msbtvt.cloudfront.net/news.json';
-
-// Check if running in the browser
-const isBrowser = typeof window !== 'undefined';
-
 export async function getNewsItem(id: string): Promise<NewsItem | null> {
   const items = await getNews();
   return items.find(item => item.id === id) || null;
 }
 
 export async function getNews(): Promise<NewsItem[]> {
-  try {
-    // In development on the server, read from local file
-    if (!isBrowser && process.env.NODE_ENV === 'development') {
-      const fs = await import('fs/promises');
-      const path = await import('path');
-      const filePath = path.join(process.cwd(), '..', '..', 'data', 'news.json');
-      const fileContent = await fs.readFile(filePath, 'utf8');
-      const data: NewsResponse = JSON.parse(fileContent);
-      return data.items || [];
-    }
-
-    // Use local API route on client to avoid CORS, direct CDN on server
-    const url = isBrowser ? '/api/news' : NEWS_CDN_URL;
-    const res = await fetchWithRetry(url, isBrowser ? {} : {
-      next: { revalidate: 300 }, // Revalidate every 5 minutes (server only)
-    });
-
-    if (!res.ok) {
-      console.error('Failed to fetch news:', res.status);
-      return [];
-    }
-
-    const data: NewsResponse = await res.json();
-    return data.items || [];
-  } catch (error) {
-    console.error('Error fetching news:', error);
-    return [];
-  }
+  return getContentCollection<NewsItem>('news', 'items', 'id');
 }

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CitiThankYouToUsdPage() {
-  const [allCards, allNews] = await Promise.all([getAllCards(), getNews()]);
+  const [allCards, allNews] = await Promise.all([getAllCards(), getNews().catch(() => [])]);
 
   const cards = allCards.filter(c =>
     c.card_name.toLowerCase().includes('citi') && c.accepting_applications

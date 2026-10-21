@@ -131,6 +131,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch (error) {
     console.error('Error generating sitemap for cards:', error);
+    throw error;
   }
 
   // Dynamic bank pages
@@ -145,6 +146,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch (error) {
     console.error('Error generating sitemap for banks:', error);
+    throw error;
   }
 
   // Dynamic news article pages
@@ -161,6 +163,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }));
   } catch (error) {
     console.error('Error generating sitemap for news:', error);
+    throw error;
   }
 
   // Dynamic article pages + category and author hubs
@@ -202,6 +205,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch (error) {
     console.error('Error generating sitemap for articles:', error);
+    throw error;
   }
 
   // Dynamic best pages
@@ -216,6 +220,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch (error) {
     console.error('Error generating sitemap for best pages:', error);
+    throw error;
   }
 
   // Dynamic /best-card-for/[slug] store pages
@@ -230,6 +235,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch (error) {
     console.error('Error generating sitemap for store pages:', error);
+    throw error;
   }
 
   return [

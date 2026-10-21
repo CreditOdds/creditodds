@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BiltToUsdPage() {
-  const [allCards, allNews] = await Promise.all([getAllCards(), getNews()]);
+  const [allCards, allNews] = await Promise.all([getAllCards(), getNews().catch(() => [])]);
 
   const cards = allCards.filter(c =>
     c.card_name.toLowerCase().includes('bilt') && c.accepting_applications

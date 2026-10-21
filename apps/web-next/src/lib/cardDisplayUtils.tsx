@@ -90,7 +90,17 @@ export function pickHeadlineReward(
   rewards: Reward[] | undefined
 ): { reward: Reward; isPortal: boolean } | null {
   if (!rewards || rewards.length === 0) return null;
-  const nonPortal = rewards.filter((r) => !isPortalCategory(r.category));
+  // Dense headlines cannot explain eligibility or caps. Prefer an ongoing,
+  // unrestricted rate; all detailed terms remain on the card page. Notes are
+  // deliberately treated conservatively, since some restrictions exist only
+  // in prose (enrollment, membership tiers, minimum purchases, etc.).
+  const eligible = rewards.filter((r) =>
+    Number.isFinite(r.value) && r.value > 0 &&
+    !r.merchant_specific && !r.merchant_gate?.length &&
+    !r.mode && r.spend_cap == null && !r.expires && !r.note?.trim() &&
+    !['rotating', 'selected_categories', 'top_category'].includes(r.category)
+  );
+  const nonPortal = eligible.filter((r) => !isPortalCategory(r.category));
   const everyday = nonPortal
     .filter((r) => r.category !== 'everything_else')
     .sort((a, b) => b.value - a.value)[0];
@@ -99,8 +109,8 @@ export function pickHeadlineReward(
     .filter((r) => r.category === 'everything_else')
     .sort((a, b) => b.value - a.value)[0];
   if (base) return { reward: base, isPortal: false };
-  const portal = [...rewards].sort((a, b) => b.value - a.value)[0];
-  return { reward: portal, isPortal: true };
+  const portal = eligible.sort((a, b) => b.value - a.value)[0];
+  return portal ? { reward: portal, isPortal: true } : null;
 }
 
 export function CategoryIcon({ category, className }: { category: string; className?: string }) {
