@@ -9,18 +9,18 @@ foreign_transaction_fee: false
 network: "mastercard"
 reward_type: "points"
 our_take: >
-  The Choice Privileges Select is built for loyal Choice Hotels guests: 10x
-  points at participating Choice properties and 5x on gas, groceries, home
-  improvement, and phone plans, for a $95 annual fee. The standout perk is
-  30,000 bonus points every anniversary year, which on its own can justify the
-  fee if you redeem at Choice hotels. Automatic Platinum Elite status, a
-  Global Entry or TSA PreCheck credit of up to $120, and no foreign
-  transaction fees add to the package, along with a 60,000-point welcome bonus
-  after $3,000 in spending in the first three months. The tradeoff is
-  concentration: every point lives in one hotel program, and everything
-  outside the bonus categories earns just 1x. If you rarely stay with Choice,
-  the anniversary bonus loses most of its value and the fee is hard to
-  justify.
+  The Choice Privileges Select is built for loyal Choice Hotels guests: its
+  30,000 anniversary points each year, worth about 3 reward nights at
+  participating Choice hotels, can easily outweigh the $95 annual fee on their
+  own. It earns 10x points at participating Choice properties and 5x on gas,
+  groceries, home improvement, and phone plans, which is strong everyday
+  earning for a hotel card. Automatic Platinum Elite status, a Global Entry or
+  TSA PreCheck credit of up to $120, and no foreign transaction fee add to the
+  value. The tradeoff is concentration: points only pay off if you stay with
+  Choice, and the 10x rate applies only at Choice properties, not hotels in
+  general. The welcome offer of 60,000 points after $3,000 in spending in the
+  first 3 months matches the no-fee version, so the case for upgrading rests
+  on the anniversary points and elite status.
 tags:
   - travel
   - hotel

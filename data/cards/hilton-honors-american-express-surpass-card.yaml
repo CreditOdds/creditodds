@@ -8,18 +8,18 @@ foreign_transaction_fee: false
 network: "amex"
 annual_fee: 150
 our_take: >
-  The Hilton Honors American Express Surpass is the sweet spot of the Hilton
-  lineup for most travelers, earning 12 points per dollar at Hilton hotels and
-  resorts and 6 points at U.S. restaurants, supermarkets, and gas stations for
-  a $150 annual fee. The welcome offer of 130,000 points plus a Free Night
-  Reward after $3,000 in spend within six months is generous for the spending
-  required. Up to $200 a year in Hilton credits, paid as $50 per quarter, can
-  cover most of the fee if you stay or spend at Hilton properties regularly,
-  and Gold status comes standard. The catch is that the Free Night Reward
-  requires $15,000 in purchases in a calendar year, and Diamond status takes
-  $40,000, so the bigger perks are earned rather than given. If you stay at
-  Hilton a few times a year and can use the quarterly credits, it's a strong
-  value; otherwise the no-fee Hilton card may be enough.
+  The Hilton Honors Surpass is the sweet spot of the Hilton lineup for regular
+  guests: Gold status out of the box, 6 points per dollar at U.S. restaurants,
+  supermarkets, and gas stations, and 12 points at Hilton hotels and resorts.
+  The welcome offer of 130,000 points plus a Free Night Reward after $3,000 in
+  spend within 6 months is generous for the spend required. The $150 annual
+  fee is covered by up to $200 a year in Hilton credits, paid out at $50 per
+  quarter, if you stay or spend at Hilton properties often enough to use them.
+  A Free Night Reward after $15,000 in calendar-year purchases and Diamond
+  status at $40,000 reward heavier spenders. The catch is that all of this
+  only pays off inside the Hilton ecosystem, and the 3x base rate on
+  everything else is ordinary in value, so occasional travelers may be better
+  off with a flexible-points card.
 reward_type: "points"
 rewards:
   - category: hotels

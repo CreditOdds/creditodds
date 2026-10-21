@@ -49,17 +49,15 @@ apply_link: https://www.usbank.com/credit-cards/altitude-go-visa-signature-credi
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  The Altitude Go is a straightforward dining card with no annual fee, earning
-  4 points per dollar at restaurants on up to $2,000 in spend each quarter
-  before dropping to 1. Groceries, gas, and streaming earn 2 points per
-  dollar, and a 20,000-point bonus after $1,000 in spend in three months is an
-  easy first win. The 15-month 0% intro APR on purchases and on balance
-  transfers made within 60 days adds real flexibility, though transfers carry
-  a 5% fee. The catches are a 1 point base rate on everything else and a
-  foreign transaction fee, which make it a poor companion for international
-  trips despite its spot among our Best Travel Credit Cards picks. The $15
-  streaming credit after 11 months of streaming activity is a minor extra that
-  requires enrollment.
+  The Altitude Go is a straightforward no-annual-fee dining card: 4x points at
+  restaurants on up to $2,000 per quarter, plus 2x on groceries, gas, and
+  streaming. A 20,000-point bonus after $1,000 in spend and 15 months of 0%
+  intro APR on purchases and balance transfers make the first year easy to
+  justify, though balance transfers must be made within 60 days and carry a 5%
+  fee. The tradeoff is a foreign transaction fee, which is a drawback if you
+  plan to use it abroad. Everything outside the bonus categories earns just
+  1x, and the $15 streaming credit requires 11 months of streaming activity,
+  so treat it as a minor extra rather than a reason to apply.
 benefits:
   - name: "Streaming Service Credit"
     value: 15

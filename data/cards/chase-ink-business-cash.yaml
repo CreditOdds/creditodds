@@ -70,16 +70,17 @@ apply_link: https://creditcards.chase.com/business-credit-cards/ink/cash
 foreign_transaction_fee: true
 network: "visa"
 our_take: >
-  The Ink Business Cash pays 5% back at office supply stores and on internet,
-  cable, and phone services, plus 2% at gas stations and restaurants, all with
-  no annual fee. For a small business with steady spending on those bills,
-  that is a strong return, along with 12 months of 0% intro APR on purchases.
-  The catch is the caps: the 5% categories share a $25,000 annual limit, the
-  2% categories share their own $25,000 limit, and everything else earns just
-  1%. Chase also recently trimmed the signup bonus from $1,000 to $750, which
-  now takes $6,000 in spending in the first 3 months. Add the foreign
-  transaction fee, and this is a card for domestic operating expenses in its
-  bonus categories, not a catchall.
+  The Ink Business Cash is built for businesses with steady office overhead:
+  5% cash back at office supply stores and on internet, cable, and phone
+  services, plus 2% at gas stations and restaurants, all with no annual fee.
+  Each of those tiers is capped at $25,000 in combined spend per year before
+  dropping to 1%, so it rewards a modest business best and loses its edge at
+  higher volumes. Chase recently cut the signup bonus from $1,000 to $750,
+  which still requires $6,000 in spend over three months. Twelve months of 0%
+  intro APR on purchases helps if you need to float equipment or startup
+  costs. The real tradeoff is the 1% base rate on everything else and a
+  foreign transaction fee, so pair it with a flat-rate card for uncategorized
+  spending and keep it off international purchases.
 benefits:
   - name: "Instacart+ Membership"
     value: 0

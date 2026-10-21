@@ -9,20 +9,20 @@ network: "amex"
 annual_fee: 650
 reward_type: "miles"
 our_take: >
-  The Delta Reserve is built for frequent Delta flyers who want lounge access:
-  15 Delta Sky Club visits per Medallion Year when flying Delta (unlimited
-  after $75,000 in calendar-year spend) plus Centurion Lounge access when your
-  Delta flight is booked with the card. Its companion certificate is also the
-  most flexible in the Delta lineup, covering First, Premium Select, Comfort,
-  or Main round-trips, and $1 MQD per $10 spent on top of a $2,500 MQD
-  headstart makes it the strongest Delta card for earning status. The catch is
-  the $650 annual fee, which leans heavily on credits you must actively use:
-  up to $20 a month at Resy, $10 a month on rideshare, and up to $200 for
-  Delta Stays. The current welcome offer is 50,000 miles plus two round-trip
-  Delta Comfort certificates after $10,000 in spend over 6 months, down from a
-  125,000-mile headline earlier this summer, and it ends 2026-11-04. With just
-  3x on Delta purchases and 1x on everything else, this is a status-and-lounge
-  card, not a rewards earner.
+  The Delta Reserve is the card for travelers who live in Delta's network and
+  want lounge access: 15 Delta Sky Club visits per Medallion Year, unlimited
+  visits after $75,000 in calendar-year spend, and Centurion Lounge access
+  when your Delta flight is booked with the card. Its annual companion
+  certificate is also the most flexible in the Delta lineup, valid in First,
+  Premium Select, Comfort, or Main. The catch is a $650 annual fee and thin
+  everyday earning of 3 miles per dollar on Delta and 1 mile on everything
+  else, so the value depends on using the lounges, the companion pass, and
+  credits like $20 a month at Resy, up to $200 on Delta Stays, and $10 a month
+  on rideshare. The welcome offer has also been reworked: the miles portion
+  fell from 100,000 to 50,000 miles, now paired with two round-trip Delta
+  Comfort Flight Certificates, after a steep $10,000 spend in 6 months, ending
+  November 4, 2026. For heavy Delta flyers chasing status with $1 MQD per $10
+  spent, it fits; everyone else will struggle to justify the fee.
 benefits:
   - name: "Delta Sky Club Access"
     value: 0

@@ -58,17 +58,16 @@ apr:
     min: 17.49
     max: 31.49
 our_take: >
-  The Travel Advantage's headline is 5% cash back on gas and EV charging,
-  backed by a broad 3% tier covering groceries, dining, travel (including AAA
-  purchases), and transportation like rideshares and taxis, all with no annual
-  fee and no foreign transaction fee. That spread of 3% categories is
-  genuinely useful for everyday spending and trips abroad. The catch is the 5%
-  gas and EV-charging rate is capped at $350 of cash back per year, roughly
-  $7,000 in spending, before it falls to 1%, and anything outside the bonus
-  categories earns only 1%. The $100 bonus after $1,000 in spend within three
-  months is a modest but easy welcome. It fits AAA members who drive a lot and
-  want one no-fee card for gas, food, and travel, as long as they keep a
-  better flat-rate card for everything else.
+  The Travel Advantage leads with 5% cash back on gas and EV charging, then
+  layers 3% on groceries, dining, travel, and transit, all with no annual fee
+  and no foreign transaction fees. That spread of 3% categories is broad for a
+  no-fee card and makes it a reasonable everyday option for drivers and
+  road-trippers, with a $100 bonus after $1,000 in spending in the first three
+  months. The tradeoff is that the 5% gas rate is capped at $350 in cash back
+  per year, roughly $7,000 in spending, before falling to 1%. The base rate on
+  everything else is also just 1%, so purchases outside the named categories
+  earn little. The 4% on Hertz rentals and the AAA redemption bonus are
+  worthwhile only if you rent from Hertz or redeem through AAA.
 benefits:
   - name: "AAA Redemption Bonus"
     value: 0

@@ -36,19 +36,21 @@ rewards:
     unit: points_per_dollar
     note: "Also earns 4x on Wyndham Vacation Club purchases"
 our_take: >
-  The Wyndham Rewards Earner Premier is built for committed Wyndham travelers
-  who will use its long list of credits, since the $395 annual fee demands it.
-  The biggest recurring value is 30,000 anniversary points after paying the
-  fee, enough for up to four free award nights, along with automatic Diamond
-  status and a 25% discount on points for free nights. You also get up to $100
-  a year at Wyndham hotels, $120 in meal delivery credits paid out at $10 a
-  month, $100 for streaming, $65 toward a wholesale club membership, and a
-  Global Entry or TSA PreCheck credit. On spending, it earns 8 points per
-  dollar at Hotels by Wyndham and 4x on travel, dining, and groceries. The
-  limited-time 120,000-point welcome offer is large, but it requires $6,000 in
-  spend and paying the annual fee in full within 120 days, plus $750 at Hotels
-  by Wyndham within 180 days. If you will not naturally use most of those
-  monthly and annual credits, the cheaper Earner Plus is the safer pick.
+  The Wyndham Rewards Earner Premier is the heavy-hitter of the lineup: 30,000
+  bonus points every anniversary, enough for up to four free award nights,
+  plus another free night worth up to 30,000 points after five nights in a
+  calendar year. It earns 8x at Hotels by Wyndham and 4x on travel, dining,
+  and groceries (excluding Target and Walmart), and you get Diamond status
+  plus 25% off the points cost of free nights. The current 120,000-point
+  signup bonus is a limited-time offer: 90,000 points after $6,000 in spend
+  and paying the annual fee within 120 days, plus 30,000 more after $750 at
+  Hotels by Wyndham within 180 days. The real catch is the $395 annual fee,
+  and getting your money back depends on using a long list of credits: up to
+  $100 a year at Wyndham hotels, $120 for meal delivery at $10 a month, $100
+  for streaming, $65 for a wholesale club membership, and a Global Entry or
+  TSA PreCheck credit every four years. If you will not use most of those and
+  stay with Wyndham regularly, the Earner Plus at $95 is the easier card to
+  justify.
 signup_bonus:
   value: 120000
   type: "points"

@@ -24,15 +24,14 @@ apr:
     max: 29.49
 foreign_transaction_fee: false
 our_take: >
-  The Coinbase One card pairs a no-annual-fee credit card with crypto-flavored
-  rewards: a 2% base rate on everyday purchases that climbs to 2.5%, 3%, or 4%
-  depending on the assets you hold on Coinbase. Flights, hotels, and cars
-  booked through the Coinbase One Card Travel portal earn 5% in bitcoin back,
-  and that rate is not subject to the tier cap. The real catch is that the
-  card requires a Coinbase One membership, and the higher tiers depend on how
-  much you keep on the platform, so the headline rates only make sense if you
-  are already committed to Coinbase. Even then, tiers above 2% apply to the
-  first $10,000 in eligible purchases each month before dropping back to 2%.
-  With no foreign transaction fee, it is a reasonable everyday card for
-  existing Coinbase users, but anyone outside that ecosystem has simpler 2%
-  options.
+  The Coinbase One card earns a flat 2% back on everything, with no annual fee
+  and no foreign transaction fee, and that rate climbs to 2.5%, 3%, or 4%
+  depending on how much you hold on Coinbase. Flights, hotels, and cars booked
+  through the Coinbase One Card Travel portal earn 5% in bitcoin, and that
+  rate is not subject to the tier cap. The catch is that the card requires a
+  Coinbase One membership, and the higher tiers only apply to the first
+  $10,000 in eligible purchases each month before dropping back to 2%. That
+  ties the card's best value to keeping meaningful assets on the platform.
+  There is also no signup bonus. It makes the most sense for people already
+  committed to Coinbase; everyone else can get a similar flat 2% without the
+  membership strings.

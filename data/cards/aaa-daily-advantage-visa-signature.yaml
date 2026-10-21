@@ -65,17 +65,15 @@ apr:
     max: 31.49
 our_take: >
   The Daily Advantage is built for household spending: 5% cash back at grocery
-  stores, 3% at gas stations, EV-charging stations, and wholesale clubs, plus
-  uncapped 3% on streaming and drugstore purchases, all with no annual fee and
-  no foreign transaction fee. The catch is a shared $500 yearly cash back cap
-  across groceries, gas, EV charging, and wholesale clubs, after which those
-  purchases drop to 1%, so heavy-spending families will hit the ceiling and
-  fall back to a plain 1% card. Everything outside the bonus categories earns
-  just 1%, which is a weak base rate. The $100 bonus after $1,000 in spend
-  within three months is a reasonable welcome, and AAA members also earn 3% on
-  memberships and AAA Travel bookings. It makes the most sense for a AAA
-  household with moderate grocery and gas spend that pairs it with a stronger
-  catch-all card.
+  stores and 3% at gas stations, EV-charging stations, and wholesale clubs,
+  with no annual fee and no foreign transaction fees. Add 3% on streaming and
+  drugstore purchases and the $100 bonus after $1,000 in spending in the first
+  three months, and it covers a lot of a typical family budget. The catch is a
+  combined $500 annual cash back cap across groceries, gas, EV charging, and
+  wholesale clubs, after which those categories drop to 1%, so heavy spenders
+  will hit the ceiling. Everything outside the bonus categories earns just 1%,
+  which is weak as a base rate. The 3% on AAA memberships and travel bookings
+  and 2% on Hertz rentals are useful extras if you already lean on AAA.
 benefits:
   - name: "AAA Redemption Bonus"
     value: 0

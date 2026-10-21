@@ -10,19 +10,18 @@ annual_fee: 95
 reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
-  The Bilt Obsidian is built for renters who also spend real money on food:
-  you choose dining or groceries as a 3x category each year, keep the ability
-  to pay rent or a mortgage with no transaction fee for up to 1.25x, and add
-  4x on hotels and 3x on flights booked through Bilt Travel. The $95 annual
-  fee is offset on paper by up to $100 a year in Bilt Travel hotel credits,
-  issued as two $50 statement credits, plus a $200 Bilt Cash welcome bonus
-  deposited on approval with no minimum spend. The tradeoffs are real, though.
-  The 3x category is capped at $25,000 a year before dropping to 1x, everyday
-  spend outside your chosen category earns only 1x, and the hotel credit only
-  pays out if you book through Bilt's portal. The rent multiplier also floats
-  each billing cycle based on your other spending, so heavy renters with light
-  everyday spend may see less than the headline. Note too that the intro offer
-  is a fixed 10% purchase APR for 12 billing cycles, not a 0% window.
+  The Bilt Obsidian is the card for renters who also spend real money on food:
+  you pick dining or groceries as a 3x category each year, and you keep up to
+  1.25x points on rent and mortgage payments with no transaction fee. Travel
+  booked through Bilt Travel earns 4x on hotels and 3x on flights, other
+  travel earns 2x, and Lyft rides earn 3x once linked. The $95 annual fee is
+  offset in part by a $100 Bilt Travel hotel credit, paid as two $50 statement
+  credits, but only if you book hotels through the Bilt portal. Watch the fine
+  print: the 3x category is capped at $25,000 a year before dropping to 1x,
+  everything else earns only 1x, and the rent rate is set each cycle based on
+  your everyday spend relative to your housing payment. The $200 in Bilt Cash
+  on approval needs no minimum spend, which makes the first year easier to
+  justify.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

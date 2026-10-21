@@ -15,16 +15,17 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/green/
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  American Express stopped accepting new applications for the Green in July
-  2026, so this take is mainly for existing cardholders deciding whether to
-  keep it. The card earns 3x points on travel, transit, and dining, with no
-  foreign transaction fees and up to $219 a year in statement credits for
-  CLEAR Plus membership. If you would pay for CLEAR anyway, that credit covers
-  most of the $150 annual fee, and the 3x categories are broad enough to keep
-  the card useful. If you don't use CLEAR, the math gets harder, since
-  everything outside the bonus categories earns only 1x. Cardholders without a
-  reason to stay should look at no-fee or lower-fee cards with similar 3x
-  travel and dining earn.
+  American Express stopped taking new applications for the Green in July 2026,
+  so this take is mainly for existing cardholders deciding whether to keep it.
+  The card earns 3x points on travel, transit, and dining with no foreign
+  transaction fee, and its up to $219 annual CLEAR Plus credit can cover most
+  of the $150 annual fee if you would pay for that membership anyway. The
+  weakness is everything else: non-bonus spending earns only 1x, and the fee
+  is higher than several cards that now match or beat its categories. The
+  Wells Fargo Autograph covers the same 3x travel, transit, and dining with no
+  annual fee, while the Chase Sapphire Preferred pairs 3x dining with
+  transferable points for $95. If you do not use CLEAR, it is worth comparing
+  those options before your next renewal.
 annual_fee: 150
 reward_type: "points"
 rewards:

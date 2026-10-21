@@ -12,15 +12,15 @@ foreign_transaction_fee: true
 network: "mastercard"
 our_take: >
   U.S. Bank stopped accepting new applications for the Split as of late
-  September 2026, so this card is only relevant if you already have it. Its
-  whole pitch was built around one feature: purchases of $100 or more can be
-  paid off over 3 months with no interest or fees. That structure works well
-  for spreading out a larger purchase without paying anything extra, as long
-  as you stick to the three month schedule. The tradeoff is that the card
-  earns no rewards at all, and it charges foreign transaction fees, so there
-  is little reason to use it for everyday spending or travel. If you hold one,
-  treat it as a no annual fee tool for occasional big purchases rather than a
-  primary card.
+  September 2026, so this card is now only relevant if you already have one in
+  your wallet. Its whole pitch is built-in installment financing: purchases of
+  $100 or more can go on 3-month payment plans with no interest or fees, and
+  there is no annual fee. That is genuinely handy for spreading out a larger
+  purchase over a few months without paying for the privilege. The tradeoff is
+  that the card earns no rewards at all, so every dollar you put on it outside
+  those plans earns nothing back. It also charges a foreign transaction fee.
+  If you hold it, treat it as a short-term financing tool and use a rewards
+  card for everything else.
 benefits:
   - name: "3-Month Interest-Free Plans"
     value: 0

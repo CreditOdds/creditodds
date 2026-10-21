@@ -32,17 +32,15 @@ apply_link: https://www.citi.com/credit-cards/aadvantage-mile-up-credit-card
 foreign_transaction_fee: true
 network: "mastercard"
 our_take: >
-  The AAdvantage MileUp is the no-annual-fee entry point into American
-  Airlines miles, earning 2 miles per dollar at grocery stores and on eligible
-  American Airlines purchases. The 15,000-mile welcome bonus after just $500
-  in spend within three months is small but easy to reach. The tradeoffs are
-  real: everything else earns only 1 mile per dollar, and the card charges
-  foreign transaction fees, which is an odd fit for an airline card. The only
-  listed perk is 25% off inflight food and beverage purchases on American
-  flights, so it skips the checked-bag benefits travelers typically want from
-  an airline card. It earns a spot on our Best Airline Credit Cards list as a
-  low-cost way to keep AAdvantage miles trickling in, but frequent American
-  flyers will likely want a card with more travel perks.
+  The MileUp is the no-annual-fee entry point to American Airlines AAdvantage,
+  earning 2 miles per dollar at grocery stores and on eligible American
+  Airlines purchases. That makes it a reasonable way to keep an AAdvantage
+  balance growing without paying a fee. The welcome bonus is modest at 15,000
+  miles after $500 in spending in the first three months. The tradeoffs are
+  real: everything else earns just 1 mile per dollar, there is a foreign
+  transaction fee, and the only travel perk is 25% off inflight food and
+  beverages. It works for occasional American flyers who want miles on
+  groceries, but frequent flyers will want a card with more travel benefits.
 benefits:
   - name: "Inflight Food & Beverage Discount"
     value: 25

@@ -42,20 +42,18 @@ apr:
     min: 19.49
     max: 29.49
 our_take: >
-  The JetBlue Premier is the premium JetBlue card, and the most practical way
-  to offset its $499 annual fee is the up to $300 in yearly statement credits
-  on TrueBlue Travel purchases like hotels, car rentals, and cruises. The
-  welcome bonus was recently cut from 100,000 to 90,000 points and now
-  requires $5,000 in spending in three months. On the travel side, you get
-  BlueHouse lounge access with an eligible fare, Priority Pass membership, a
-  free first checked bag for you and up to three companions, a 25-tile Mosaic
-  bonus each year, and 15% of your points back on award flights on JetBlue or
-  partner airlines. Earning matches the cheaper Plus card: 6 points per dollar
-  on JetBlue and TrueBlue Travel purchases, 2 per dollar on dining and
-  groceries, and 1 point everywhere else. The companion pass credits ($500 at
-  $15,000 in yearly spending and another $1,500 at $75,000) only pay off for
-  heavy spenders. Unless you'll use the $300 credit and the lounges, the $99
-  JetBlue Plus is the better deal for most JetBlue flyers.
+  The JetBlue Premier is JetBlue's premium play, and its value rests on lounge
+  access: BlueHouse lounges with eligible fares plus Priority Pass, alongside
+  up to $300 a year in TrueBlue Travel statement credits and a 15% points
+  rebate on award flights. That is a lot to ask for a $499 annual fee, so the
+  math only works if you will actually use the travel credit and the lounges.
+  The signup bonus was recently trimmed from 100,000 to 90,000 points after
+  $5,000 in spending over three months, still a sizable haul. Earning is 6x on
+  JetBlue and TrueBlue Travel purchases, 2x on dining and groceries, and 1x on
+  everything else, which is thin for a card at this price. Big spenders can
+  unlock companion pass statement credits of up to $500 at $15,000 in yearly
+  purchases and up to $1,500 more at $75,000, but casual JetBlue flyers will
+  get most of the core value from the $99 JetBlue Plus.
 benefits:
   - name: "TrueBlue Travel Statement Credits"
     value: 300

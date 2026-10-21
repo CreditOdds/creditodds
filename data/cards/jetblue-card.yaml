@@ -41,17 +41,17 @@ apr:
     min: 19.49
     max: 29.49
 our_take: >
-  The no-annual-fee JetBlue card lets occasional JetBlue flyers earn TrueBlue
-  points without paying a fee, at 3 points per dollar on JetBlue purchases and
-  2 per dollar on dining and groceries. It ranks #16 on our Best Airline
-  Credit Cards list, which reflects that it's a starter card rather than a top
-  choice. The welcome bonus is small at 10,000 points after $1,000 in
-  spending, and everything else earns just 1 point per dollar. The tradeoff
-  with the free version is the perks: you get 50% off inflight purchases but
-  no free checked bag, which is the main reason to choose the $99 JetBlue Plus
-  instead. There's also a 0% intro APR on balance transfers for 12 months and
-  no foreign transaction fee. If you check a bag even once or twice a year,
-  the paid card probably makes more sense.
+  The no-annual-fee JetBlue card is a low-commitment way to earn TrueBlue
+  points, with 3x on JetBlue purchases and 2x on dining and groceries. The
+  10,000-point signup bonus after $1,000 in spending over three months is
+  small, and the 12-month 0% intro APR on balance transfers is a modest
+  secondary perk. The real catch is how little it does for travelers: there is
+  no free checked bag, and the only ongoing benefit is 50% off inflight
+  purchases on JetBlue-operated flights. Everything outside its bonus
+  categories earns just 1x, so it is hard to justify as a primary card. It
+  ranks 16th on our Best Airline Credit Cards list, and occasional JetBlue
+  flyers who want no fee will find it fine, but anyone checking bags should
+  look at the JetBlue Plus instead.
 benefits:
   - name: "50% Off Inflight Purchases"
     value: 50
