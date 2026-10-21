@@ -57,6 +57,7 @@ export async function fetchWithRetry(
       const abortAttempt = () => controller.abort(total.signal.reason);
       total.signal.addEventListener('abort', abortAttempt, { once: true });
       const timer = setTimeout(() => controller.abort(new DOMException('Attempt deadline exceeded', 'TimeoutError')), attemptMs);
+      let completed = false;
       try {
         const res = await abortable(fetch(input, { ...init, signal: controller.signal }), controller.signal);
         if (res.status >= 500 && attempt < maxRetries) {
@@ -67,6 +68,7 @@ export async function fetchWithRetry(
         } else {
           const buffer = await abortable(res.arrayBuffer(), controller.signal);
           const body = [204, 205, 304].includes(res.status) || init?.method?.toUpperCase() === 'HEAD' ? null : buffer;
+          completed = true;
           return new Response(body, { status: res.status, statusText: res.statusText, headers: res.headers });
         }
       } catch (error) {
@@ -75,8 +77,9 @@ export async function fetchWithRetry(
       } finally {
         clearTimeout(timer);
         total.signal.removeEventListener('abort', abortAttempt);
-        // Also terminate failed/body-stalled requests before another attempt.
-        controller.abort();
+        // A successful response may still have a Next.js cache tee draining.
+        // Abort failed work only; timers/listeners are always removed.
+        if (!completed) controller.abort();
       }
       const wait = backoffMs * (attempt + 1) + (backoffMs ? Math.floor(Math.random() * 100) : 0);
       await delay(wait, total.signal);

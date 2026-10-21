@@ -14,9 +14,9 @@ export async function optionalRead<T>(read: (signal: AbortSignal) => Promise<T>,
       }),
     ]);
   } catch {
+    controller.abort();
     return fallback;
   } finally {
     clearTimeout(timer);
-    controller.abort();
   }
 }

@@ -925,8 +925,9 @@ export async function trackContentView(
 // Get article + news view counts over the trailing `periodDays` window
 // (0 = all-time). Used to rank the landing page editorial lane by "top
 // viewed this week" and to show all-time counts on article/news pages.
-export async function getContentViewCounts(periodDays = 7): Promise<EditorialViewCounts> {
+export async function getContentViewCounts(periodDays = 7, signal?: AbortSignal): Promise<EditorialViewCounts> {
   const res = await fetchWithRetry(`${API_BASE}/content-view?period=${periodDays}`, {
+    signal,
     next: { revalidate: 300 },
   });
   if (!res.ok) return EMPTY_EDITORIAL_VIEWS;
