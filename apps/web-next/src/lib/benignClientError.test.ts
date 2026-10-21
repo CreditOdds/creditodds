@@ -276,6 +276,18 @@ describe("isBenignClientError", () => {
     ).toBe(false);
   });
 
+  // DuckDuckGo iOS native bridge rejecting its own injected script's message
+  // (UserScriptMessagingError.policyRestriction).
+  it("drops DuckDuckGo's native-bridge 'invalid origin' reply", () => {
+    expect(isBenignClientError(new Error("invalid origin"))).toBe(true);
+  });
+
+  it("keeps longer messages that merely mention an invalid origin", () => {
+    expect(
+      isBenignClientError(new Error("invalid origin: https://evil.example")),
+    ).toBe(false);
+  });
+
   // Firebase popup sign-in losing the race with its own close detector
   // (Chrome iOS); sign-in has already succeeded when this throws.
   it("drops Firebase's popup pending-promise assertion", () => {
