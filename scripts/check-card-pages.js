@@ -439,8 +439,35 @@ const KNOWN_BLOCKED_HOSTS = new Map([
 // card's browser_first flag, which sends every later run straight to Playwright
 // and makes the damage permanent.
 const BROWSER_BLOCKED_HOSTS = new Map([
-  ['amazon.com', 'amazon.com answers headless Chromium with a "Continue shopping" interstitial; its plain fetch is fine'],
+  ['amazon.com', 'amazon.com answers headless Chromium with a "Continue shopping" interstitial; its plain fetch usually is fine'],
 ]);
+
+// Bot-wall pages short enough to look like a stub but long enough to clear the
+// 100-char content floor. Without this they were handed to the extractor as
+// the card's page, and the skip surfaced as the uninformative "no extraction
+// returned for this card".
+//
+// amazon.com is the live case. By 2026-10-21 its PLAIN fetch had started
+// getting the same "Continue shopping" interstitial as headless Chromium
+// (3,781 bytes of HTML, 151 chars of text, on every attempt and with two
+// different user agents), even though the same URL fetched 64k chars of real
+// page in July and verified as recently as 2026-10-18. It comes and goes, so
+// amazon.com stays a checkable host. When the wall is up, the card skips with
+// a reason that says so (issue #2322), and the stale alarm still fires so a
+// human checks it in an ordinary browser.
+//
+// The length cap keeps a real product page that happens to quote one of these
+// phrases from being thrown away.
+const BOT_INTERSTITIAL_MAX_CHARS = 2000;
+const BOT_INTERSTITIALS = [
+  [/click the button below to continue shopping/i, 'Amazon "Continue shopping" bot interstitial'],
+];
+
+function botInterstitialReason(text) {
+  if (!text || text.length > BOT_INTERSTITIAL_MAX_CHARS) return null;
+  const hit = BOT_INTERSTITIALS.find(([re]) => re.test(text));
+  return hit ? hit[1] : null;
+}
 
 function browserBlockedReason(url) {
   try {
@@ -624,10 +651,21 @@ async function fetchPageContent(url) {
       if (contentType.includes('text/html')) {
         const html = await response.text();
         const stripped = stripHtml(html);
-        if (stripped.length >= 100) {
+        const interstitial = botInterstitialReason(stripped);
+        if (interstitial) {
+          lastFetchError = `${interstitial} on plain fetch (${stripped.length} chars); verify the page by hand in an ordinary browser`;
+          // A browser-blocked host would only refuse the fallback and overwrite
+          // this reason with its own, which describes the browser, not the page.
+          if (browserBlockedReason(url)) {
+            console.warn(`  Simple fetch got the bot wall (${interstitial}) — skipping`);
+            return null;
+          }
+          console.warn(`  Simple fetch got the bot wall (${interstitial}) — falling back to browser`);
+        } else if (stripped.length >= 100) {
           return { content: stripped, usedBrowser: false };
+        } else {
+          console.warn(`  Simple fetch returned too little content (${stripped.length} chars) — falling back to browser`);
         }
-        console.warn(`  Simple fetch returned too little content (${stripped.length} chars) — falling back to browser`);
       }
     } else {
       // 403/429 are usually bot mitigation the browser can get past, so still fall
@@ -728,6 +766,12 @@ async function fetchWithBrowser(url) {
     await context.close();
 
     const stripped = stripHtml(html);
+    const interstitial = botInterstitialReason(stripped);
+    if (interstitial) {
+      lastFetchError = `${interstitial} in browser (${stripped.length} chars); verify the page by hand in an ordinary browser`;
+      console.warn(`  Browser fetch got the bot wall (${interstitial}) — skipping`);
+      return null;
+    }
     if (stripped.length < 100) {
       lastFetchError = `content too short (${stripped.length} chars)`;
       console.warn(`  Browser fetch still too short (${stripped.length} chars) — skipping`);
@@ -2498,6 +2542,7 @@ module.exports = {
   readSkipStateFromMain,
   staleCardsFrom,
   isTransientNetworkError,
+  botInterstitialReason,
   redirectedToAncestor,
   PULLED_TO_HUB_MARKER,
   SKIP_ALERT_THRESHOLD,

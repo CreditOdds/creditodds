@@ -236,6 +236,7 @@ function loadDeclined() {
   const empty = {
     rewardsAdded: new Set(),
     rewardsRemoved: new Set(),
+    rewardsValue: new Set(),
     benefits: new Set(),
     benefitsGlobal: new Set(),
   };
@@ -247,6 +248,11 @@ function loadDeclined() {
     }
     for (const e of raw.rewards_removed || []) {
       if (e?.slug && e?.category) empty.rewardsRemoved.add(key(e.slug, e.category));
+    }
+    for (const e of raw.rewards_value || []) {
+      if (e?.slug && e?.category && e?.value !== undefined) {
+        empty.rewardsValue.add(key(e.slug, rewardValueKey(e.category, e.value)));
+      }
     }
     for (const e of raw.benefits || []) {
       if (e?.slug && e?.name) empty.benefits.add(key(e.slug, e.name));
@@ -269,11 +275,19 @@ function loadDeclined() {
   return _declined;
 }
 
+// A value decline is pinned to the exact number proposed, not just the
+// category, so a later proposal of a DIFFERENT value still surfaces. Number()
+// makes `1.5` in the YAML match a proposed `1.50`.
+function rewardValueKey(category, value) {
+  return `${category}::${Number(value)}`;
+}
+
 function isDeclined(kind, slug, value) {
   const d = loadDeclined();
   const k = `${slug}::${String(value).toLowerCase()}`;
   if (kind === 'reward_added') return d.rewardsAdded.has(k);
   if (kind === 'reward_removed') return d.rewardsRemoved.has(k);
+  if (kind === 'reward_value') return d.rewardsValue.has(k);
   if (kind === 'benefit') {
     return d.benefits.has(k) || d.benefitsGlobal.has(String(value).toLowerCase());
   }
@@ -1961,7 +1975,9 @@ function appendReviewEntries(card, reviewItems, rewardsDiff, ftxnDiff) {
   const added = rewardsDiff.added.filter(r => !isDeclined('reward_added', slug, r.category));
   const removed = rewardsDiff.removed.filter(r => !isDeclined('reward_removed', slug, r.category));
   const downgraded = (rewardsDiff.downgraded || []).filter(
-    d => !isDeclined('reward_removed', slug, d.to.category)
+    d =>
+      !isDeclined('reward_removed', slug, d.to.category) &&
+      !isDeclined('reward_value', slug, rewardValueKey(d.to.category, d.to.value))
   );
   const benefits = reviewItems.filter(b => !isDeclined('benefit', slug, b.name));
 
@@ -2382,6 +2398,12 @@ function applyExtraction({ card, extracted, pageContent, policy, summary, shared
     benefitsDiff.auto = benefitsDiff.auto.filter(
       b => !isDeclined('benefit', card.slug, b.name)
     );
+    // Same gap for rate changes: a value rewrite whose auto PR was closed
+    // unmerged leaves nothing in git history, so it came back every week
+    // (Aeroplan dining/groceries 2x→3x, #2224).
+    rewardsDiff.changed = rewardsDiff.changed.filter(
+      c => !isDeclined('reward_value', card.slug, rewardValueKey(c.to.category, c.to.value))
+    );
     const ftxnDiff = diffForeignTxn(
       card.data.foreign_transaction_fee,
       extracted.foreign_transaction_fee,
@@ -2459,6 +2481,7 @@ module.exports = {
   hasRewardEvidence,
   isDeclined,
   loadDeclined,
+  rewardValueKey,
   buildSharedUrlMap,
   aliasSiblings,
   isBroaderThan,
