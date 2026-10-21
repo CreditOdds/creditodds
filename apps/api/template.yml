@@ -110,7 +110,9 @@ Globals:
       - !FindInMap [RegionConfig, !Ref AWS::Region, SentryLayerArn]
     Environment:
       Variables:
-        NODE_OPTIONS: -r @sentry/aws-serverless/awslambda-auto
+        # Firebase Admin 14 uses require(ESM); Lambda disables this Node 22
+        # default unless explicitly enabled. Preserve the Sentry preload.
+        NODE_OPTIONS: --experimental-require-module -r @sentry/aws-serverless/awslambda-auto
         SENTRY_DSN: !Ref SentryDsn
         SENTRY_TRACES_SAMPLE_RATE: !Ref SentryTracesSampleRate
         SENTRY_ENVIRONMENT: !Ref SentryEnvironment

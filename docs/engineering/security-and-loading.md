@@ -52,3 +52,7 @@ Core Web Vitals now use the existing PostHog transport (`web_vital`): metric, nu
 ## Deployment artifact limit
 
 Amplify rejected the initial deployment at 252,050,372 bytes (limit 230,686,720). The card route now prebuilds at most 80 active/high-data cards; other cards render on demand and use the same 5-minute ISR cache. `dynamicParams = true` preserves all card URLs, and `dynamic = 'force-static'` explicitly enables runtime static caching. Sitemaps/catalog coverage is unchanged. This follows the store route's existing bounded-prerender approach. The first visit to a non-prebuilt card can be slower; subsequent requests use ISR. See [Next's subset prerendering guidance](https://nextjs.org/docs/app/api-reference/functions/generate-static-params#subset-of-paths-at-build-time).
+
+## Lambda Node module compatibility
+
+Lambda Node 22 disables require(ESM), unlike local Node 22. Firebase Admin 14's jwks-rsa/jose chain needs it. The SAM global `NODE_OPTIONS` explicitly enables `--experimental-require-module` while retaining the Sentry preload. The initial production authorizer check exposed this difference; the runtime setting was corrected and an invalid-token probe must return 401, not 500. See [AWS runtime documentation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-nodejs.html#nodejs-experimental).
