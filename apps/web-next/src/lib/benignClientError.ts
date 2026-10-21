@@ -62,7 +62,7 @@
 // ErrorEvent is deliberately NOT matched — it carries a real message/error
 // payload worth reporting.
 //
-// Four more shapes come from code that isn't ours at all:
+// Five more shapes come from code that isn't ours at all:
 //
 // 1. "Object Not Found Matching Id:N, MethodName:update, ParamCount:4"
 //    (CREDITODDS-JAVASCRIPT-NEXTJS-16), rejected as a bare STRING rather than
@@ -107,6 +107,17 @@
 //    host browser's injected content scripts (DuckDuckGo's privacy/autofill
 //    scripts bridge to native this way). The message is specific to that
 //    native bridge, so it is matched outright.
+//
+// 5. "invalid origin" (CREDITODDS-JAVASCRIPT-NEXTJS, issue 7805517316,
+//    DuckDuckGo Mobile on iOS, /articles/:slug), an unhandled rejection with
+//    no stack. Same bridge as #4, other direction: DuckDuckGo's native side
+//    answered the injected script's message with an error, and
+//    `UserScriptMessagingError.policyRestriction` is literally "invalid
+//    origin" (duckduckgo/apple-browsers, BrowserServicesKit
+//    UserScriptMessaging.swift), raised when the native feature's origin
+//    allowlist rejects the frame that sent it. Nothing we ship or bundle says
+//    "invalid origin". The phrase is generic enough that a future dependency
+//    could use it in a longer message, so only the exact string is dropped.
 //
 // The same Firebase IndexedDB teardown has a WebKit-specific spelling:
 // "AbortError: The operation was aborted." (CREDITODDS-JAVASCRIPT-NEXTJS,
@@ -162,6 +173,10 @@ const BENIGN_ANY_ERROR_SIGNATURES = [
   'WKWebView API client did not respond to this postMessage',
 ];
 
+// Matched only when the whole message equals the entry, for wording too
+// generic to match as a substring.
+const BENIGN_EXACT_MESSAGES = ['invalid origin'];
+
 // Every substring here must be present for the error to count as benign. Used
 // for shapes whose message alone is too generic to drop outright.
 const BENIGN_COMPOUND_SIGNATURES = [
@@ -210,6 +225,10 @@ export function isBenignClientError(error: unknown): boolean {
     const isAbort = name === 'AbortError' || e.code === ABORT_ERR_CODE;
 
     if (BENIGN_ANY_ERROR_SIGNATURES.some((sig) => message.includes(sig))) {
+      return true;
+    }
+
+    if (BENIGN_EXACT_MESSAGES.includes(message)) {
       return true;
     }
 
