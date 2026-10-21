@@ -44,16 +44,16 @@ apply_link: https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercar
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Choice Privileges Mastercard is a no-annual-fee hotel card that earns 5x
-  points at participating Choice Hotels properties and a notably broad 3x on
-  gas, groceries, home improvement, and phone plans. The 60,000-point welcome
-  bonus needs only $1,000 in spending in the first three months, an easy bar
-  to clear. Automatic Gold Elite status, backed by 10 elite qualifying nights
-  each calendar year, adds value if you stay at Choice properties, and there
-  are no foreign transaction fees. The catch is that the points are tied to a
-  single hotel program, so the card only makes sense if Choice Hotels fit your
-  travel. Everything outside the bonus categories earns just 1x, and cell
-  phone protection of up to $800 per claim rounds out the perks.
+  The Choice Privileges Mastercard is a no-annual-fee way to earn toward
+  Choice Hotels stays, with 5x points at participating Choice properties and
+  3x on gas, groceries, home improvement, and phone plans. The welcome offer
+  of 60,000 points after just $1,000 in spending in the first 3 months is
+  generous for a free card. It also includes automatic Gold Elite status plus
+  10 elite qualifying nights each year, and no foreign transaction fee. The
+  catch is that the points are only useful if you actually stay at Choice
+  hotels, and the 5x rate applies only at Choice properties, not other hotel
+  brands. Everything else earns 1x, and cell phone protection up to $800 per
+  claim rounds out the package.
 benefits:
   - name: "Automatic Gold Elite Status"
     value: 0

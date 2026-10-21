@@ -8,17 +8,16 @@ foreign_transaction_fee: true
 network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
 our_take: >
-  The Blue Cash Everyday's strength is covering three common categories at
-  once with no annual fee: 3% cash back at U.S. supermarkets, U.S. gas
-  stations, and U.S. online retail purchases. That spread, plus a 0% intro APR
-  on purchases for 18 months, makes it a solid no-fee pick for households that
-  want one card for routine spending, and it ranks #5 on our Best Cash Back
-  Credit Cards list. The catch is that each 3% category is capped at $6,000 a
-  year before dropping to 1%, and everything outside those categories earns
-  only 1%, so heavy grocery shoppers will outgrow it. The welcome offer is a
-  modest $200 after $2,000 in spend within six months. The up to $7 monthly
-  Disney streaming credit is a nice extra if you already subscribe, but the
-  foreign transaction fee means it shouldn't travel with you abroad.
+  The Blue Cash Everyday earns 3% cash back at U.S. supermarkets, U.S. gas
+  stations, and U.S. online retail purchases with no annual fee, which covers
+  a large share of most household budgets. Pair that with a $200 bonus after
+  $2,000 in spend over six months and up to 18 months of 0% intro APR on
+  purchases and balance transfers, and it is easy to see the appeal. The catch
+  is the caps: each 3% category tops out at $6,000 in spending a year before
+  dropping to 1%, and everything else earns just 1%. Note too that Amex sets
+  the intro APR length at approval, and it can be as short as 6 months. The up
+  to $7 monthly Disney streaming credit requires enrollment and is worth $84 a
+  year only if you already pay for Disney+, Hulu, or ESPN+.
 annual_fee: 0
 reward_type: "cashback"
 tags:

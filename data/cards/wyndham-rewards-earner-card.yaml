@@ -9,18 +9,19 @@ annual_fee: 0
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Wyndham Rewards Earner is a no-annual-fee way to earn Wyndham points,
-  with 5 points per dollar at Hotels by Wyndham and 3x on dining and
-  groceries, excluding Target and Walmart. The welcome offer totals 75,000
-  points, but 45,000 of those require spending $500 at Hotels by Wyndham
-  within 180 days, with the remaining 30,000 coming after $1,000 in purchases
-  in the first 90 days. Automatic Gold status and a 10% discount on points for
-  free nights are nice touches for occasional Wyndham guests, and a 0% intro
-  APR on balance transfers for 15 months adds some flexibility. The catch is
-  that the ongoing perks are modest: the 7,500-point anniversary bonus only
-  arrives if you spend $15,000 in a year, and everything outside the bonus
-  categories earns 1x. It is a sensible fee-free starter card for Wyndham
-  loyalists, but heavier travelers will get more from the paid versions.
+  The Wyndham Rewards Earner is a no-annual-fee way into Wyndham's program,
+  with 3x points on dining and groceries (excluding Target and Walmart) and 5x
+  at Hotels by Wyndham. Its 75,000-point signup bonus comes in two pieces:
+  30,000 points after $1,000 in spend within 90 days, and 45,000 more after
+  spending $500 at Hotels by Wyndham within 180 days, so the full amount
+  depends on actually booking a Wyndham stay. You also get automatic Gold
+  status, 10% off the points cost of free nights, and a 15-month 0% intro APR
+  on balance transfers. The tradeoff is that ongoing value is thin compared
+  with the paid versions: the 7,500-point anniversary bonus requires $15,000
+  in annual spend, and everything outside the bonus categories earns just 1x.
+  It is a solid keeper for occasional Wyndham guests who want no fee and no
+  foreign transaction charges, but frequent guests will likely get more from
+  the Earner Plus.
 reward_type: "points"
 tags:
   - hotel

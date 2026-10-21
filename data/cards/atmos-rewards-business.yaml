@@ -14,19 +14,19 @@ check_ignore:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Atmos Rewards Business is built for small-business owners who fly Alaska
-  or Hawaiian Airlines often enough to cash in on its perks: a free first
-  checked bag, priority boarding, and a $99 Companion Fare (plus taxes and
-  fees from $23) each year you spend at least $6,000 on the card. The welcome
-  offer was recently trimmed from 80,000 to 70,000 points, now paired with a
-  Companion Fare after $4,000 in purchases within 90 days, which is still a
-  solid start for a $95 annual fee. Day to day, it earns 3 points per dollar
-  only on Alaska and Hawaiian Airlines purchases, 2 points on gas, EV
-  charging, transit, and shipping, and just 1 point on everything else, so it
-  is not a strong card for general business spending. Activity does not report
-  to your personal credit bureaus, a useful bonus for keeping personal
-  utilization low. Carry it if the free bags and annual companion fare cover
-  the fee, and pair it with a better everyday earner for the rest.
+  The Atmos Rewards Business is built for companies that fly Alaska or
+  Hawaiian Airlines: it earns 3 points per dollar on those two airlines, 2
+  points on gas, EV charging, transit, and shipping, and comes with a first
+  checked bag free and priority boarding on Alaska flights paid with the card.
+  The welcome offer was recently cut from 80,000 to 70,000 points, still
+  paired with a $99 Companion Fare (plus taxes and fees from $23) after $4,000
+  in purchases within 90 days. The bigger catch is that the ongoing Companion
+  Fare requires $6,000 in annual spend, and everything outside the bonus
+  categories earns just 1 point per dollar, so the $95 annual fee only makes
+  sense if your business actually books on Alaska or Hawaiian. Activity does
+  not report to your personal credit bureaus, which helps keep personal
+  utilization clean. The $100 discount on Alaska Lounge+ and 20% back on
+  inflight purchases are minor extras.
 tags:
   - travel
   - airline

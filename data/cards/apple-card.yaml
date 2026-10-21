@@ -38,17 +38,17 @@ apply_link: https://www.apple.com/apple-card/
 foreign_transaction_fee: false
 network: "mastercard"
 our_take: >
-  The Apple Card is a simple, no-annual-fee card that rewards you for paying
-  with Apple Pay: 2% Daily Cash on any Apple Pay purchase, and 3% on Apple
-  purchases and at a short list of merchants such as Nike, Uber, Walgreens,
-  Exxon Mobil, and Booking.com when paid through Apple Pay. There are no
-  foreign transaction fees, and bookings through the Apple Card portal on
-  Booking.com add 2% in travel credits on top of the 3% Daily Cash. The catch
-  is that the physical titanium card earns only 1%, so the card's real base
-  rate drops wherever Apple Pay isn't accepted. That makes it a strong fit for
-  iPhone users who pay with their phone almost everywhere and a weaker one for
-  anyone who still swipes or shops at stores without Apple Pay. There is also
-  no signup bonus, so the value comes entirely from steady everyday use.
+  The Apple Card's real value is simplicity for Apple Pay users: 2% Daily Cash
+  on any purchase you pay through Apple Pay, with no annual fee and no foreign
+  transaction fee. It goes up to 3% on Apple purchases and at a short list of
+  merchants when paid with Apple Pay, including Nike, Uber, Walgreens,
+  Booking.com, Exxon Mobil, and Hertz. The catch is that the physical titanium
+  card earns only 1%, so its true base rate is 1% anywhere Apple Pay is not
+  accepted, and that is a weak number next to flat-rate cards that pay more on
+  every swipe. There is also no signup bonus listed. Booking.com travel
+  credits, a six-month Uber One trial, and Hertz rental discounts are nice
+  extras, but this card mainly makes sense if nearly all of your spending
+  already goes through your iPhone.
 benefits:
   - name: "Booking.com Travel Credits"
     value: 2

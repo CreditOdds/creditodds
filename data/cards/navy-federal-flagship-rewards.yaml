@@ -8,19 +8,18 @@ annual_fee: 95
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  Navy Federal has stopped taking new applications for the Visa Signature
-  Flagship Travel Rewards, so this card is now relevant only to existing
-  cardholders. Before it closed, the annual fee jumped from $49 to $95 and the
-  welcome offer rose from 35,000 to 50,000 points, a sign the product was
-  being repositioned. For current holders, the appeal is a flat 2 points per
-  dollar on everything plus 3 points on a broad travel category that covers
-  airlines, hotels, car rentals, ride-sharing, parking, tolls, and even
-  museums and golf courses. The perks help justify the higher fee: a statement
-  credit covering one Amazon Prime annual membership each year when you pay
-  for it with the card, a Global Entry or TSA PreCheck credit of up to $120
-  every four years, and no foreign transaction fees. If you already carry it
-  and use Prime, the math still works at $95; if you do not, the jump from $49
-  is a fair reason to reconsider whether it stays in your wallet.
+  Navy Federal has stopped accepting new applications for the Flagship Travel
+  Rewards, so this take is mainly for existing cardholders deciding whether to
+  keep it. Just before closing it, Navy Federal nearly doubled the annual fee
+  from $49 to $95 while raising the signup bonus from 35,000 to 50,000 points.
+  The earning is still solid: 3 points per dollar on a broad travel category
+  that includes ride-sharing, parking, tolls, and even museums, and a generous
+  2 points per dollar on everything else. An annual statement credit for one
+  Amazon Prime membership paid with the card, a Global Entry or TSA PreCheck
+  credit of up to $120 every four years, and no foreign transaction fees help
+  offset the higher fee. If you already pay for Prime and put real spending on
+  the card, keeping it still makes sense, but the fee hike is worth rechecking
+  against how much you actually use it.
 reward_type: "points"
 tags:
   - travel
