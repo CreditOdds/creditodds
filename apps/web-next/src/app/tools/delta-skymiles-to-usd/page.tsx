@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DeltaSkyMilesToUsdPage() {
-  const [allCards, allNews] = await Promise.all([getAllCards(), getNews()]);
+  const [allCards, allNews] = await Promise.all([getAllCards(), getNews().catch(() => [])]);
   const valuation = loadValuation('delta-skymiles');
 
   const cards = allCards.filter(c =>

@@ -50,7 +50,7 @@ export default async function BankPage({ params }: BankPageProps) {
 
   const [cards, allNews, trendingViews] = await Promise.all([
     getCardsByBank(bankName),
-    getNews(),
+    getNews().catch(() => []),
     getCardViewCounts('trending').catch(() => ({})),
   ]);
 

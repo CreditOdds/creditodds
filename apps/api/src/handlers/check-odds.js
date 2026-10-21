@@ -17,19 +17,13 @@ const responseHeaders = {
 // metadata. card_stats is refreshed every 5 min by RefreshCardStatsFunction and
 // is what /cards and /card already read, so check-odds no longer scans the full
 // records table (3 window-function CTEs + an aggregate) on every request — and
-// its numbers now stay consistent with the rest of the site. All card_stats
-// columns are INT, so values arrive as JS numbers.
+// its numbers now stay consistent with the rest of the site. Numeric card_stats
+// columns are INT, so values arrive as JS numbers. SELECT * also supports
+// deployment before migration 058: absent counts fail closed as unavailable.
 async function fetchStatsAndMetadata() {
   const [statsResults, cardResults] = await Promise.all([
     mysql.query(`
-      SELECT
-        card_id,
-        total_records,
-        approved_count,
-        approved_median_credit_score,
-        approved_median_income,
-        approved_median_length_credit
-      FROM card_stats
+      SELECT * FROM card_stats
     `),
     mysql.query(`
       SELECT card_id, card_name, card_image_link, accepting_applications, tags
@@ -62,20 +56,23 @@ async function fetchStatsAndMetadata() {
 // Validate input
 function validateInput(body) {
   const errors = [];
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return ['Request body must be an object'];
+  }
 
-  if (body.credit_score == null || typeof body.credit_score !== 'number') {
+  if (!Number.isFinite(body.credit_score)) {
     errors.push('credit_score is required and must be a number');
   } else if (body.credit_score < 300 || body.credit_score > 850) {
     errors.push('credit_score must be between 300 and 850');
   }
 
-  if (body.income == null || typeof body.income !== 'number') {
+  if (!Number.isFinite(body.income)) {
     errors.push('income is required and must be a number');
   } else if (body.income < 0) {
     errors.push('income must be 0 or greater');
   }
 
-  if (body.length_credit == null || typeof body.length_credit !== 'number') {
+  if (!Number.isFinite(body.length_credit)) {
     errors.push('length_credit is required and must be a number');
   } else if (body.length_credit < 0 || body.length_credit > 100) {
     errors.push('length_credit must be between 0 and 100');
@@ -107,7 +104,10 @@ exports.CheckOddsHandler = async (event) => {
   switch (event.httpMethod) {
     case "POST": {
       try {
-        const body = JSON.parse(event.body || '{}');
+        let body;
+        try { body = JSON.parse(event.body || '{}'); } catch {
+          return { statusCode: 400, headers: responseHeaders, body: JSON.stringify({ errors: ['Invalid JSON'] }) };
+        }
         const errors = validateInput(body);
         if (errors.length > 0) {
           return {
@@ -145,18 +145,21 @@ exports.CheckOddsHandler = async (event) => {
             const stats = statsMap[dbCard.db_card_id] || {};
 
             const approvedCount = stats.approved_count || 0;
-            const hasEnoughData = approvedCount >= 5;
-
-            const medianCreditScore = stats.approved_median_credit_score;
-            const medianIncome = stats.approved_median_income;
-            const medianLengthCredit = stats.approved_median_length_credit;
-
-            let matchScore = 0;
-            if (hasEnoughData) {
-              if (credit_score >= medianCreditScore) matchScore++;
-              if (income >= medianIncome) matchScore++;
-              if (length_credit >= medianLengthCredit) matchScore++;
-            }
+            // Each median has its own sample size; optional fields may have
+            // fewer observations than the overall number of approvals.
+            const compare = (field, value, min, max = Infinity) => {
+              const count = stats[`approved_${field}_count`];
+              const median = stats[`approved_median_${field}`];
+              const sampleCount = Number.isInteger(count) && count >= 0 ? count : 0;
+              const available = sampleCount >= 5 && Number.isFinite(median) && median >= min && median <= max;
+              return { sampleCount, median: available ? median : null, above: available ? value >= median : null };
+            };
+            const score = compare('credit_score', credit_score, 300, 850);
+            const earnings = compare('income', income, 0);
+            const history = compare('length_credit', length_credit, 0, 100);
+            const metrics = [score, earnings, history];
+            const availableMetrics = metrics.filter(m => m.above !== null).length;
+            const matchScore = metrics.filter(m => m.above === true).length;
 
             return {
               card_id: card.card_id,
@@ -170,19 +173,28 @@ exports.CheckOddsHandler = async (event) => {
               approved_count: stats.approved_count || 0,
               total_records: stats.total_records || 0,
               approved_data_points: approvedCount,
-              has_enough_data: hasEnoughData,
-              median_credit_score: hasEnoughData ? medianCreditScore : null,
-              median_income: hasEnoughData ? medianIncome : null,
-              median_length_credit: hasEnoughData ? medianLengthCredit : null,
-              above_credit_score: hasEnoughData ? credit_score >= medianCreditScore : null,
-              above_income: hasEnoughData ? income >= medianIncome : null,
-              above_length_credit: hasEnoughData ? length_credit >= medianLengthCredit : null,
+              // Legacy clients assume this flag guarantees all three medians.
+              has_enough_data: availableMetrics === 3,
+              available_metrics: availableMetrics,
+              credit_score_sample_count: score.sampleCount,
+              income_sample_count: earnings.sampleCount,
+              length_credit_sample_count: history.sampleCount,
+              stats_updated_at: stats.updated_at || null,
+              latest_approved_application: stats.latest_approved_application || null,
+              median_credit_score: score.median,
+              median_income: earnings.median,
+              median_length_credit: history.median,
+              above_credit_score: score.above,
+              above_income: earnings.above,
+              above_length_credit: history.above,
               match_score: matchScore,
             };
           });
 
-        // Sort by match score desc, then by total records desc
+        // Complete comparisons first, then partial ones. Keep a raw numerator
+        // and explicit denominator: 1/1 is never presented as 3/3 or 100% odds.
         enrichedCards.sort((a, b) => {
+          if (b.available_metrics !== a.available_metrics) return b.available_metrics - a.available_metrics;
           if (b.match_score !== a.match_score) return b.match_score - a.match_score;
           if (b.has_enough_data !== a.has_enough_data) return b.has_enough_data ? 1 : -1;
           return (b.total_records || 0) - (a.total_records || 0);
@@ -198,10 +210,11 @@ exports.CheckOddsHandler = async (event) => {
         };
       } catch (error) {
         console.error('Error in POST /check-odds:', error);
+        await mysql.end().catch(() => {});
         return {
           statusCode: 500,
           headers: responseHeaders,
-          body: JSON.stringify({ error: `Failed to check odds: ${error.message}` }),
+          body: JSON.stringify({ error: 'Failed to check odds' }),
         };
       }
     }
@@ -228,7 +241,7 @@ exports.CheckOddsHandler = async (event) => {
         return {
           statusCode: 500,
           headers: responseHeaders,
-          body: JSON.stringify({ error: `Failed to fetch searches: ${error.message}` }),
+          body: JSON.stringify({ error: 'Failed to fetch searches' }),
         };
       }
     }

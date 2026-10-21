@@ -11,9 +11,12 @@ import { calculateApplicationRules, RuleResult } from "@/lib/applicationRules";
 import { cardMatchesSearch } from "@/lib/searchAliases";
 import posthog from "posthog-js";
 
+import { normalizeOddsCard, sortOddsComparisons, summarizeOddsComparisons, formatStatsDate } from '@/lib/oddsComparison';
+import { MedianIndicator, MobileIndicator } from './ComparisonIndicators';
+
 type SortOption = 'match' | 'name' | 'bank';
 
-const CACHE_KEY = 'check-odds-results';
+const CACHE_KEY = 'check-odds-results-v2';
 
 function saveResultsToCache(data: CheckOddsResponse) {
   try {
@@ -24,7 +27,9 @@ function saveResultsToCache(data: CheckOddsResponse) {
 function loadResultsFromCache(): CheckOddsResponse | null {
   try {
     const cached = sessionStorage.getItem(CACHE_KEY);
-    return cached ? JSON.parse(cached) : null;
+    if (!cached) return null;
+    const parsed: CheckOddsResponse = JSON.parse(cached);
+    return { ...parsed, cards: parsed.cards.map(normalizeOddsCard) };
   } catch { return null; }
 }
 
@@ -106,6 +111,7 @@ export default function CheckOddsClient() {
         ),
         getWallet(token).catch(() => [] as WalletCard[]),
       ]);
+      data.cards = data.cards.map(normalizeOddsCard);
       setResults(data);
       setWalletCards(wallet);
       saveResultsToCache(data);
@@ -161,15 +167,12 @@ export default function CheckOddsClient() {
     if (!results) return [];
 
     const filtered = results.cards.filter(card =>
-      card.has_enough_data && cardMatchesSearch(card.card_name, card.bank, search)
+      cardMatchesSearch(card.card_name, card.bank, search)
     );
 
     switch (sortBy) {
       case 'match':
-        filtered.sort((a, b) => {
-          if (b.match_score !== a.match_score) return b.match_score - a.match_score;
-          return (b.total_records || 0) - (a.total_records || 0);
-        });
+        filtered.sort(sortOddsComparisons);
         break;
       case 'name':
         filtered.sort((a, b) => a.card_name.localeCompare(b.card_name));
@@ -182,17 +185,7 @@ export default function CheckOddsClient() {
     return filtered;
   }, [results, search, sortBy]);
 
-  const matchCounts = useMemo(() => {
-    if (!results) return { three: 0, two: 0, one: 0, zero: 0, noData: 0 };
-    const cards = results.cards;
-    return {
-      three: cards.filter(c => c.has_enough_data && c.match_score === 3).length,
-      two: cards.filter(c => c.has_enough_data && c.match_score === 2).length,
-      one: cards.filter(c => c.has_enough_data && c.match_score === 1).length,
-      zero: cards.filter(c => c.has_enough_data && c.match_score === 0).length,
-      noData: cards.filter(c => !c.has_enough_data).length,
-    };
-  }, [results]);
+  const matchCounts = useMemo(() => summarizeOddsComparisons(results?.cards || []), [results]);
 
   const ruleByBank = useMemo(() => {
     const rules = calculateApplicationRules(walletCards);
@@ -282,28 +275,38 @@ export default function CheckOddsClient() {
       {results && (
         <>
           {/* Summary */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-3xl mx-auto">
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-6 gap-3 max-w-3xl mx-auto">
             <div className="bg-green-50 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold text-green-700">{matchCounts.three}</div>
-              <div className="text-xs text-green-600">3/3 Match</div>
+              <div className="text-xs text-green-600">3/3 at or above</div>
             </div>
             <div className="bg-lime-50 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold text-lime-700">{matchCounts.two}</div>
-              <div className="text-xs text-lime-600">2/3 Match</div>
+              <div className="text-xs text-lime-600">2/3 at or above</div>
             </div>
             <div className="bg-amber-50 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold text-amber-700">{matchCounts.one}</div>
-              <div className="text-xs text-amber-600">1/3 Match</div>
+              <div className="text-xs text-amber-600">1/3 at or above</div>
             </div>
             <div className="bg-red-50 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold text-red-700">{matchCounts.zero}</div>
-              <div className="text-xs text-red-600">0/3 Match</div>
+              <div className="text-xs text-red-600">0/3 at or above</div>
             </div>
-            <div className="bg-gray-50 rounded-lg p-3 text-center col-span-2 sm:col-span-1">
+            <div className="bg-slate-50 rounded-lg p-3 text-center">
+              <div className="text-2xl font-bold text-slate-600">{matchCounts.partial}</div>
+              <div className="text-xs text-slate-500">Partial data</div>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold text-gray-500">{matchCounts.noData}</div>
-              <div className="text-xs text-gray-400">Collecting Data</div>
+              <div className="text-xs text-gray-400">Insufficient data</div>
             </div>
           </div>
+
+          <p className="mt-4 text-sm text-gray-600">
+            Comparisons use self-reported, community-submitted approvals across all dates, with at least five reports per field.
+            Missing fields are excluded from the comparison, and complete profiles sort first.
+            These comparisons are not approval probabilities or guarantees; submitted applicants may not represent all applicants.
+          </p>
 
           {/* Filters */}
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
@@ -326,7 +329,7 @@ export default function CheckOddsClient() {
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
-                <option value="match">Sort by Match Score</option>
+                <option value="match">Sort by Comparison</option>
                 <option value="name">Sort by Name</option>
                 <option value="bank">Sort by Bank</option>
               </select>
@@ -334,7 +337,7 @@ export default function CheckOddsClient() {
           </div>
 
           <p className="mt-3 text-sm text-gray-500">
-            Showing {filteredCards.length} of {results.cards.length - matchCounts.noData} cards
+            Showing {filteredCards.length} of {results.cards.length} cards
           </p>
 
           {/* Results Table */}
@@ -388,12 +391,21 @@ export default function CheckOddsClient() {
                                     {card.card_name}
                                   </div>
                                   <div className="text-xs text-gray-500">{card.bank}</div>
+                                  <div className="text-xs text-gray-500 mt-1">
+                                    {card.available_metrics > 0
+                                      ? `${card.match_score}/${card.available_metrics} available fields at or above median${card.available_metrics < 3 ? ' · partial data' : ''}`
+                                      : 'Insufficient comparison data'}
+                                  </div>
+                                  <div className="text-xs text-gray-500">
+                                    Latest reported approval: {formatStatsDate(card.latest_approved_application)}
+                                    {' · '}Stats refreshed: {formatStatsDate(card.stats_updated_at)}
+                                  </div>
                                   {/* Mobile inline indicators */}
                                   <div className="sm:hidden mt-0.5">
-                                    <div className="flex items-center gap-2 text-[11px]">
-                                      <MobileIndicator label="Score" isAbove={card.above_credit_score!} median={card.median_credit_score!} />
-                                      <MobileIndicator label="Income" isAbove={card.above_income!} median={card.median_income!} isCurrency />
-                                      <MobileIndicator label="History" isAbove={card.above_length_credit!} median={card.median_length_credit!} suffix="yr" />
+                                    <div className="flex flex-wrap items-center gap-2 text-[11px]">
+                                      <MobileIndicator label="Score" isAbove={card.above_credit_score} median={card.median_credit_score} sampleCount={card.credit_score_sample_count} />
+                                      <MobileIndicator label="Income" isAbove={card.above_income} median={card.median_income} sampleCount={card.income_sample_count} isCurrency />
+                                      <MobileIndicator label="History" isAbove={card.above_length_credit} median={card.median_length_credit} sampleCount={card.length_credit_sample_count} suffix="yr" />
                                     </div>
                                     {ruleByBank[card.bank] && (
                                       <div className="mt-0.5">
@@ -411,24 +423,21 @@ export default function CheckOddsClient() {
                             {/* Desktop columns */}
                             <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
                               <MedianIndicator
-                                value={results.search.credit_score}
-                                median={card.median_credit_score!}
-                                isAbove={card.above_credit_score!}
+                                median={card.median_credit_score} sampleCount={card.credit_score_sample_count}
+                                isAbove={card.above_credit_score}
                               />
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
                               <MedianIndicator
-                                value={results.search.income}
-                                median={card.median_income!}
-                                isAbove={card.above_income!}
+                                median={card.median_income} sampleCount={card.income_sample_count}
+                                isAbove={card.above_income}
                                 isCurrency
                               />
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-center text-sm hidden sm:table-cell">
                               <MedianIndicator
-                                value={results.search.length_credit}
-                                median={card.median_length_credit!}
-                                isAbove={card.above_length_credit!}
+                                median={card.median_length_credit} sampleCount={card.length_credit_sample_count}
+                                isAbove={card.above_length_credit}
                                 suffix=" yr"
                               />
                             </td>
@@ -447,7 +456,7 @@ export default function CheckOddsClient() {
 
           {matchCounts.noData > 0 && (
             <p className="mt-4 text-sm text-gray-500 text-center">
-              We&rsquo;re still collecting approval results on {matchCounts.noData} more{' '}
+              We&rsquo;re still collecting approval results on {matchCounts.noData} {' '}
               {matchCounts.noData === 1 ? 'card' : 'cards'}.{' '}
               <Link href="/explore" className="font-medium text-indigo-600 hover:text-indigo-900">
                 Explore all cards
@@ -457,64 +466,6 @@ export default function CheckOddsClient() {
         </>
       )}
     </>
-  );
-}
-
-function MedianIndicator({
-  median,
-  isAbove,
-  isCurrency,
-  suffix,
-}: {
-  value: number;
-  median: number;
-  isAbove: boolean;
-  isCurrency?: boolean;
-  suffix?: string;
-}) {
-  const formatVal = (n: number) => {
-    if (isCurrency) return `$${n.toLocaleString()}`;
-    return `${n.toLocaleString()}${suffix || ''}`;
-  };
-
-  return (
-    <div className="flex flex-col items-center">
-      <span className={`inline-flex items-center text-xs font-medium ${isAbove ? 'text-green-700' : 'text-red-700'}`}>
-        {isAbove ? (
-          <svg className="w-3 h-3 mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" /></svg>
-        ) : (
-          <svg className="w-3 h-3 mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-        )}
-        {isAbove ? 'Above' : 'Below'}
-      </span>
-      <span className="text-xs text-gray-500 mt-0.5">
-        median {formatVal(median)}
-      </span>
-    </div>
-  );
-}
-
-function MobileIndicator({
-  label,
-  isAbove,
-  median,
-  isCurrency,
-  suffix,
-}: {
-  label: string;
-  isAbove: boolean;
-  median: number;
-  isCurrency?: boolean;
-  suffix?: string;
-}) {
-  const formatted = isCurrency
-    ? `$${median >= 1000 ? `${Math.round(median / 1000)}k` : median}`
-    : `${median}${suffix ? suffix : ''}`;
-
-  return (
-    <span className={isAbove ? 'text-green-700' : 'text-red-700'}>
-      {label} {isAbove ? '\u2191' : '\u2193'} {formatted}
-    </span>
   );
 }
 

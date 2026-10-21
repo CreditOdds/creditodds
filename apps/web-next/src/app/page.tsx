@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 // Project a Card down to only the fields the landing page reads.
-// This trims ~66% off the per-card payload (drops benefits, apr, referrals, tags, etc.).
+// Drops benefits, apr, referrals, and tags while retaining reward restrictions.
 function slimCard(c: Card): LandingCard {
   return {
     slug: c.slug,
@@ -55,11 +55,7 @@ function slimCard(c: Card): LandingCard {
           timeframe_months: c.signup_bonus.timeframe_months,
         }
       : undefined,
-    rewards: c.rewards?.map((r) => ({
-      category: r.category,
-      value: r.value,
-      unit: r.unit,
-    })),
+    rewards: c.rewards,
   };
 }
 

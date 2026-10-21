@@ -7,10 +7,10 @@ import "../landing.css";
 
 export const metadata: Metadata = {
   title: "Check Your Odds",
-  description: "Enter your credit profile and see your approval odds for every credit card, based on real data from thousands of past applications.",
+  description: "Compare your credit profile with community-submitted approvals. See per-field medians, sample sizes, and where more data is needed.",
   openGraph: {
     title: "Check Your Odds | CreditOdds",
-    description: "Enter your credit profile and see your approval odds for every credit card, based on real data from thousands of past applications.",
+    description: "Compare your credit profile with community-submitted approvals. See per-field medians, sample sizes, and where more data is needed.",
     url: "https://creditodds.com/check-odds",
     type: "website",
   },

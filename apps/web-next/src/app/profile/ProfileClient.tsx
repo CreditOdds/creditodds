@@ -389,7 +389,7 @@ export default function ProfileClient() {
   }, [walletCards, cardLookups, walletDisplayNames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    Promise.all([getAllCards(), getNews()])
+    Promise.all([getAllCards(), getNews().catch(() => [])])
       .then(([cards, news]) => { setAllCards(cards); setNewsItems(news); })
       .catch(err => console.error("Error loading public data:", err));
   }, []);

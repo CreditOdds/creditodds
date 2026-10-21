@@ -17,7 +17,7 @@ import './landing-v3.css';
 
 // Slim shapes — only the fields the landing page actually reads.
 // Defined here so the server can project the dataset down before serializing.
-export type LandingReward = { category: string; value: number; unit: string };
+export type LandingReward = import('@/lib/api').Reward;
 export type LandingSignupBonus = {
   value?: number;
   type?: string;
@@ -757,8 +757,8 @@ function FooterBlocks({ cards }: { cards: LandingCard[] }) {
               Free <em>calculators</em>.
             </h3>
             <p>
-              Everything you need to do credit-card math without a spreadsheet. Approval
-              probability is calibrated against thousands of real records.
+              Everything you need to do credit-card math without a spreadsheet. Compare your profile with community-submitted approvals
+              and explore rewards for everyday spending.
             </p>
             <div className="tool-mini-grid">
               <Link href="/check-odds" className="tmini odds">
@@ -788,7 +788,7 @@ function FooterBlocks({ cards }: { cards: LandingCard[] }) {
                   </svg>
                   <div>
                     <div className="nm">Approval odds</div>
-                    <div className="v">Real probability · live data</div>
+                    <div className="v">Community approval comparisons</div>
                   </div>
                 </div>
                 <span style={{ fontSize: 18 }}>→</span>

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AmexMRToUsdPage() {
-  const [allCards, allNews] = await Promise.all([getAllCards(), getNews()]);
+  const [allCards, allNews] = await Promise.all([getAllCards(), getNews().catch(() => [])]);
 
   const exclude = ['delta', 'hilton', 'blue cash'];
   const cards = allCards.filter(c => {

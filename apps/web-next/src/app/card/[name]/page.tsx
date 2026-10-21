@@ -2,6 +2,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { CardNotFoundError } from "@/lib/cardNotFound";
 import { Card, CardBenefit, getCard, getCardGraphs, getCardRecords, getAllCards, getCardRatings, getCardWire, getCardProductChanges, getComparePartners, EMPTY_PRODUCT_CHANGES, GraphData, CardRecord, CardWireEntry, ProductChangeEdge } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
@@ -116,168 +117,163 @@ interface CardPageProps {
 
 // Generate static pages for all cards at build time
 export async function generateStaticParams() {
+  const cards = await getAllCards();
+  return cards.map((card) => ({ name: card.slug }));
+}
+
+async function getCardOrNotFound(slug: string): Promise<Card> {
   try {
-    const cards = await getAllCards();
-    return cards.map((card) => ({
-      name: card.slug,
-    }));
-  } catch {
-    return [];
+    return await getCard(slug);
+  } catch (error) {
+    if (error instanceof CardNotFoundError) notFound();
+    throw error;
   }
 }
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: CardPageProps): Promise<Metadata> {
-  try {
-    const { name: slug } = await params;
-    const card = await getCard(slug);
+  const { name: slug } = await params;
+  const card = await getCardOrNotFound(slug);
 
-    const seoName = /card/i.test(card.card_name) ? card.card_name : `${card.card_name} Credit Card`;
-    const description = buildMetaDescription(card);
+  const seoName = /card/i.test(card.card_name) ? card.card_name : `${card.card_name} Credit Card`;
+  const description = buildMetaDescription(card);
 
-    return {
-      title: truncateTitle(seoName),
+  return {
+    title: truncateTitle(seoName),
+    description,
+    openGraph: {
+      title: `${seoName} | CreditOdds`,
       description,
-      openGraph: {
-        title: `${seoName} | CreditOdds`,
-        description,
-        siteName: 'CreditOdds',
-        type: 'website',
-        url: `https://creditodds.com/card/${card.slug}`,
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${seoName} | CreditOdds`,
-        description,
-      },
-      alternates: {
-        canonical: `https://creditodds.com/card/${card.slug}`,
-      },
-    };
-  } catch {
-    return { title: 'Card Not Found' };
-  }
+      siteName: 'CreditOdds',
+      type: 'website',
+      url: `https://creditodds.com/card/${card.slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${seoName} | CreditOdds`,
+      description,
+    },
+    alternates: {
+      canonical: `https://creditodds.com/card/${card.slug}`,
+    },
+  };
 }
 
 export default async function CardPage({ params }: CardPageProps) {
   const { name: slug } = await params;
 
-  try {
-    // Fetch all data in parallel — chain getCard → getCardRatings together
-    // so ratings fetches concurrently with graphs/news/articles instead of after them all
-    const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages] = await Promise.all([
-      getCard(slug).then(async (card) => {
-        // card_id is the numeric DB id once a card has been synced to the
-        // database, but falls back to the slug for a brand-new card that hasn't
-        // synced yet. Skip card-wire in that case — there are no wire entries
-        // for an unsynced card, and asking for card_id=NaN 500s the API.
-        const wireId = Number(card.card_id);
-        return {
-          card,
-          ratings: await getCardRatings(card.card_name, card.db_card_id ?? card.card_id).catch(() => ({ count: 0, average: null })),
-          wire: Number.isInteger(wireId)
-            ? await getCardWire(wireId).catch(() => [] as CardWireEntry[])
-            : ([] as CardWireEntry[]),
-          // Same numeric-id requirement as card-wire: wallet_card_events stores
-          // DB card ids, so an unsynced card has nothing to look up.
-          productChanges: Number.isInteger(wireId)
-            ? await getCardProductChanges(wireId)
-            : EMPTY_PRODUCT_CHANGES,
-        };
-      }),
-      getCardGraphs(slug).catch(() => [] as GraphData[]),
-      getCardRecords(slug).catch(() => [] as CardRecord[]),
-      getNews().catch(() => [] as NewsItem[]),
-      getArticles().catch(() => [] as Article[]),
-      getAllCards().catch(() => [] as Card[]),
-      getComparePartners(slug, 20).catch(() => []),
-      getBestPages().catch(() => []),
-    ]);
-
-    const { card, ratings, wire, productChanges } = cardWithRatingsAndWire;
-
-    // Merge benefits from local cards.json: use as fallback when API has none,
-    // and overlay value_unit on API benefits while CloudFront catches up to the
-    // schema (so points-valued benefits render correctly even before CDN refresh).
-    try {
-      const localData = JSON.parse(readFileSync(join(process.cwd(), '../../data/cards.json'), 'utf8'));
-      const localCard = localData.cards.find((c: { slug: string; benefits?: CardBenefit[] }) => c.slug === slug);
-      if (localCard?.benefits) {
-        if (!card.benefits) {
-          card.benefits = localCard.benefits;
-        } else {
-          const localByName = new Map(localCard.benefits.map((b: CardBenefit) => [b.name, b]));
-          card.benefits = card.benefits.map((b) => {
-            const local = localByName.get(b.name) as CardBenefit | undefined;
-            return local?.value_unit ? { ...b, value_unit: local.value_unit } : b;
-          });
-        }
-      }
-    } catch {
-      // Silently fail - benefits will appear once CDN is updated
-    }
-
-    // Filter news and articles for this specific card
-    const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));
-    const cardArticles = allArticles.filter(a => a.related_cards?.includes(slug));
-
-    // Behavioral signal for the alternatives ranker — slug → compare count.
-    // Sparse until card_compare_pair_counts accumulates data; the scorer
-    // gracefully falls back to pure content similarity when empty.
-    const partnerCounts = new Map(comparePartners.map(p => [p.slug, p.count]));
-
-    // Find similar cards using content similarity + fee-band proximity +
-    // compare-pair behavior layered together.
-    const similarCards = getSimilarCards(card, allCards, partnerCounts);
-
-    // Resolve compare-partner slugs into full Card objects (drop any that no
-    // longer exist in cards.json). Hard cap at 3 for the rail UI.
-    const cardsBySlug = new Map(allCards.map(c => [c.slug, c]));
-    const frequentlyComparedCards = comparePartners
-      .map(p => cardsBySlug.get(p.slug))
-      .filter((c): c is Card => c !== undefined && c.active !== false)
-      .slice(0, 3);
-
-    // Product-change edges come back from the DB keyed by card_name (the cards
-    // table has no slug column), so resolve each one against cards.json to get a
-    // link target and the canonical image. An edge whose card is gone from the
-    // catalog still renders, just without a link.
-    const cardsByName = new Map(allCards.map(c => [c.card_name.toLowerCase(), c]));
-    const toFlowNode = (edge: ProductChangeEdge) => {
-      const match = cardsByName.get(edge.card_name.toLowerCase());
+  // Fetch all data in parallel — chain getCard → getCardRatings together
+  // so ratings fetches concurrently with graphs/news/articles instead of after them all
+  const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages] = await Promise.all([
+    getCardOrNotFound(slug).then(async (card) => {
+      // card_id is the numeric DB id once a card has been synced to the
+      // database, but falls back to the slug for a brand-new card that hasn't
+      // synced yet. Skip card-wire in that case — there are no wire entries
+      // for an unsynced card, and asking for card_id=NaN 500s the API.
+      const wireId = Number(card.card_id);
       return {
-        cardId: edge.card_id,
-        cardName: match?.card_name ?? edge.card_name,
-        slug: match?.slug,
-        cardImageLink: match?.card_image_link ?? edge.card_image_link,
-        count: edge.count,
-        share: edge.share,
-        forced: edge.forced,
+        card,
+        ratings: await getCardRatings(card.card_name, card.db_card_id ?? card.card_id).catch(() => ({ count: 0, average: null })),
+        wire: Number.isInteger(wireId)
+          ? await getCardWire(wireId).catch(() => [] as CardWireEntry[])
+          : ([] as CardWireEntry[]),
+        // Same numeric-id requirement as card-wire: wallet_card_events stores
+        // DB card ids, so an unsynced card has nothing to look up.
+        productChanges: Number.isInteger(wireId)
+          ? await getCardProductChanges(wireId)
+          : EMPTY_PRODUCT_CHANGES,
       };
-    };
-    const productChangeFlow = {
-      inbound: productChanges.inbound.map(toFlowNode),
-      outbound: productChanges.outbound.map(toFlowNode),
-      inboundTotal: productChanges.inbound_total,
-      outboundTotal: productChanges.outbound_total,
-      walletTotal: productChanges.wallet_total,
-      redditTotal: productChanges.reddit_total,
-    };
+    }),
+    getCardGraphs(slug).catch(() => [] as GraphData[]),
+    getCardRecords(slug).catch(() => [] as CardRecord[]),
+    getNews().catch(() => [] as NewsItem[]),
+    getArticles().catch(() => [] as Article[]),
+    getAllCards().catch(() => [] as Card[]),
+    getComparePartners(slug, 20).catch(() => []),
+    getBestPages().catch(() => []),
+  ]);
 
-    // Top-3 placements across the /best/* pages — surfaced as social-proof
-    // badges in the overview block, with deep links back to each list.
-    const bestRankings = bestPages
-      .map((page) => {
-        const idx = page.cards.findIndex((c) => c.slug === slug);
-        return idx >= 0 && idx < 3
-          ? { rank: idx + 1, title: page.title, slug: page.slug }
-          : null;
-      })
-      .filter((r): r is { rank: number; title: string; slug: string } => r !== null)
-      .sort((a, b) => a.rank - b.rank);
+  const { card, ratings, wire, productChanges } = cardWithRatingsAndWire;
 
-    return <CardClient card={card} graphData={graphData} records={records} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} bestRankings={bestRankings} productChanges={productChangeFlow} />;
+  // Merge benefits from local cards.json: use as fallback when API has none,
+  // and overlay value_unit on API benefits while CloudFront catches up to the
+  // schema (so points-valued benefits render correctly even before CDN refresh).
+  try {
+    const localData = JSON.parse(readFileSync(join(process.cwd(), '../../data/cards.json'), 'utf8'));
+    const localCard = localData.cards.find((c: { slug: string; benefits?: CardBenefit[] }) => c.slug === slug);
+    if (localCard?.benefits) {
+      if (!card.benefits) {
+        card.benefits = localCard.benefits;
+      } else {
+        const localByName = new Map(localCard.benefits.map((b: CardBenefit) => [b.name, b]));
+        card.benefits = card.benefits.map((b) => {
+          const local = localByName.get(b.name) as CardBenefit | undefined;
+          return local?.value_unit ? { ...b, value_unit: local.value_unit } : b;
+        });
+      }
+    }
   } catch {
-    notFound();
+    // Silently fail - benefits will appear once CDN is updated
   }
+
+  // Filter news and articles for this specific card
+  const cardNews = allNews.filter(news => news.card_slugs?.includes(slug));
+  const cardArticles = allArticles.filter(a => a.related_cards?.includes(slug));
+
+  // Behavioral signal for the alternatives ranker — slug → compare count.
+  // Sparse until card_compare_pair_counts accumulates data; the scorer
+  // gracefully falls back to pure content similarity when empty.
+  const partnerCounts = new Map(comparePartners.map(p => [p.slug, p.count]));
+
+  // Find similar cards using content similarity + fee-band proximity +
+  // compare-pair behavior layered together.
+  const similarCards = getSimilarCards(card, allCards, partnerCounts);
+
+  // Resolve compare-partner slugs into full Card objects (drop any that no
+  // longer exist in cards.json). Hard cap at 3 for the rail UI.
+  const cardsBySlug = new Map(allCards.map(c => [c.slug, c]));
+  const frequentlyComparedCards = comparePartners
+    .map(p => cardsBySlug.get(p.slug))
+    .filter((c): c is Card => c !== undefined && c.active !== false)
+    .slice(0, 3);
+
+  // Product-change edges come back from the DB keyed by card_name (the cards
+  // table has no slug column), so resolve each one against cards.json to get a
+  // link target and the canonical image. An edge whose card is gone from the
+  // catalog still renders, just without a link.
+  const cardsByName = new Map(allCards.map(c => [c.card_name.toLowerCase(), c]));
+  const toFlowNode = (edge: ProductChangeEdge) => {
+    const match = cardsByName.get(edge.card_name.toLowerCase());
+    return {
+      cardId: edge.card_id,
+      cardName: match?.card_name ?? edge.card_name,
+      slug: match?.slug,
+      cardImageLink: match?.card_image_link ?? edge.card_image_link,
+      count: edge.count,
+      share: edge.share,
+      forced: edge.forced,
+    };
+  };
+  const productChangeFlow = {
+    inbound: productChanges.inbound.map(toFlowNode),
+    outbound: productChanges.outbound.map(toFlowNode),
+    inboundTotal: productChanges.inbound_total,
+    outboundTotal: productChanges.outbound_total,
+    walletTotal: productChanges.wallet_total,
+    redditTotal: productChanges.reddit_total,
+  };
+
+  // Top-3 placements across the /best/* pages — surfaced as social-proof
+  // badges in the overview block, with deep links back to each list.
+  const bestRankings = bestPages
+    .map((page) => {
+      const idx = page.cards.findIndex((c) => c.slug === slug);
+      return idx >= 0 && idx < 3
+        ? { rank: idx + 1, title: page.title, slug: page.slug }
+        : null;
+    })
+    .filter((r): r is { rank: number; title: string; slug: string } => r !== null)
+    .sort((a, b) => a.rank - b.rank);
+
+  return <CardClient card={card} graphData={graphData} records={records} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} bestRankings={bestRankings} productChanges={productChangeFlow} />;
 }

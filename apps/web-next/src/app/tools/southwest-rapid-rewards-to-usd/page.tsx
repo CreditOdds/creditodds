@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SouthwestRRToUsdPage() {
-  const [allCards, allNews] = await Promise.all([getAllCards(), getNews()]);
+  const [allCards, allNews] = await Promise.all([getAllCards(), getNews().catch(() => [])]);
   const valuation = loadValuation('southwest-rapid-rewards');
 
   const cards = allCards.filter(c =>
