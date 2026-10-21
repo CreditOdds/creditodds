@@ -1,3 +1,4 @@
+import { serializeJsonLd } from '@/lib/serializeJsonLd';
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -128,7 +129,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
       <div className="landing-v2">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
         />
         <BreadcrumbSchema
           items={[

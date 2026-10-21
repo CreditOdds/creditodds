@@ -6,6 +6,7 @@ export async function getContentCollection<T>(
   name: 'articles' | 'news' | 'best',
   key: 'articles' | 'items' | 'pages',
   identifier: 'slug' | 'id',
+  signal?: AbortSignal,
 ): Promise<T[]> {
   const isBrowser = typeof window !== 'undefined';
   let data: unknown;
@@ -15,7 +16,7 @@ export async function getContentCollection<T>(
     data = JSON.parse(await fs.readFile(path.join(process.cwd(), '..', '..', 'data', `${name}.json`), 'utf8'));
   } else {
     const url = isBrowser ? `/api/${name}` : `https://d2hxvzw7msbtvt.cloudfront.net/${name}.json`;
-    const response = await fetchWithRetry(url, isBrowser ? {} : { next: { revalidate: 300 } });
+    const response = await fetchWithRetry(url, { signal, ...(isBrowser ? {} : { next: { revalidate: 300 } }) });
     if (!response.ok) throw new Error(`Failed to fetch ${name}: ${response.status}`);
     data = await response.json();
   }

@@ -110,12 +110,13 @@ exports.WalletPicksNearbyHandler = async (event) => {
     // Run the three independent fetches concurrently. Places is the
     // slowest (~150–400ms cold), cards.json is CDN-cached but adds another
     // hop, and the user wallet is a DB round-trip.
-    const [{ places, cached }, allCards, walletRows] = await Promise.all([
+    const results = await Promise.allSettled([
       searchNearby(lat, lng, apiKey),
       getAllCards(),
       loadUserWallet(userId),
     ]);
-    await mysql.end();
+    for (const result of results) if (result.status === "rejected") throw result.reason;
+    const [{ places, cached }, allCards, walletRows] = results.map(result => result.value);
 
     const brandIndex = getBrandIndex();
 
@@ -130,5 +131,7 @@ exports.WalletPicksNearbyHandler = async (event) => {
   } catch (e) {
     console.error("wallet-picks-nearby failed:", e);
     return err(502, "Failed to compute nearby wallet picks");
+  } finally {
+    await mysql.end().catch(error => console.error("Wallet connection cleanup failed:", error.message));
   }
 };

@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { getCard } from '@/lib/api';
+import { getPublicCard as getCard } from '@/lib/publicCardApi';
 import { OGBackground, OGLogo, loadInterFonts, OG_CACHE_HEADERS } from '@/components/og/og-utils';
 
 export const size = {

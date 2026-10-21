@@ -1,0 +1,31 @@
+jest.mock('../src/db', () => ({ end: jest.fn(async () => {}) }));
+jest.mock('../src/lib/ranker/places', () => ({ searchNearby: jest.fn() }));
+jest.mock('../src/lib/ranker/data-loaders', () => ({ getAllCards: jest.fn(), getBrandIndex: jest.fn(() => []) }));
+jest.mock('../src/lib/ranker/user-wallet-loader', () => ({ loadUserWallet: jest.fn() }));
+const mysql = require('../src/db');
+const { searchNearby } = require('../src/lib/ranker/places');
+const { getAllCards } = require('../src/lib/ranker/data-loaders');
+const { loadUserWallet } = require('../src/lib/ranker/user-wallet-loader');
+const { WalletPicksNearbyHandler } = require('../src/handlers/wallet-picks-nearby');
+const event = { httpMethod: 'POST', requestContext: { authorizer: { principalId: 'user' } }, body: JSON.stringify({ lat: 41, lng: -87 }) };
+beforeEach(() => { jest.clearAllMocks(); process.env.GOOGLE_PLACES_API_KEY = 'test'; jest.spyOn(console, 'error').mockImplementation(() => {}); });
+afterEach(() => { delete process.env.GOOGLE_PLACES_API_KEY; jest.restoreAllMocks(); });
+test('releases DB after an upstream failure, but waits for concurrent DB work', async () => {
+  let finishWallet;
+  searchNearby.mockRejectedValue(new Error('Places timeout'));
+  getAllCards.mockResolvedValue([]);
+  loadUserWallet.mockReturnValue(new Promise(resolve => { finishWallet = resolve; }));
+  const result = WalletPicksNearbyHandler(event);
+  await Promise.resolve();
+  expect(mysql.end).not.toHaveBeenCalled();
+  finishWallet([]);
+  expect((await result).statusCode).toBe(502);
+  expect(mysql.end).toHaveBeenCalledTimes(1);
+});
+test('also releases DB when the wallet query fails', async () => {
+  searchNearby.mockResolvedValue({ places: [], cached: false });
+  getAllCards.mockResolvedValue([]);
+  loadUserWallet.mockRejectedValue(new Error('query failure'));
+  expect((await WalletPicksNearbyHandler(event)).statusCode).toBe(502);
+  expect(mysql.end).toHaveBeenCalledTimes(1);
+});

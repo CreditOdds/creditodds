@@ -1,3 +1,4 @@
+import { serializeJsonLd } from '@/lib/serializeJsonLd';
 import { Metadata } from "next";
 import { getNews } from "@/lib/news";
 import { getContentViewCounts } from "@/lib/api";
@@ -49,7 +50,7 @@ export default async function NewsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(collectionJsonLd) }}
       />
       <BreadcrumbSchema
         items={[

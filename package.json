@@ -14,7 +14,7 @@
     "build:articles": "node scripts/build-articles.js",
     "build:best": "node scripts/build-best.js",
     "build:stores": "node scripts/build-stores.js && node scripts/audit-store-rankings.js --validate-only",
- "audit:store-rankings": "node scripts/audit-store-rankings.js",
+    "audit:store-rankings": "node scripts/audit-store-rankings.js",
     "start:web-next": "npm run dev -w @creditodds/web-next",
     "dev:web-next": "npm run dev -w @creditodds/web-next",
     "lint": "npm run lint --workspaces --if-present"
@@ -30,6 +30,9 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22.12.0"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "1.14.6"
   }
 }

@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'data/cards/**'
+      - 'scripts/build-cards.js'
+      - 'scripts/version-card-image.js'
+      - '.github/workflows/build-cards.yml'
   workflow_dispatch:
     inputs:
       test_post_file:
@@ -37,6 +40,8 @@ jobs:
         run: npm ci
 
       - name: Build cards.json
+        env:
+          VERSION_CARD_IMAGES: '1'
         run: npm run build:cards
 
       - name: Configure AWS credentials
@@ -44,6 +49,13 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::953352003729:role/GitHubActions-CreditOdds
           aws-region: us-east-2
+
+      # Publish immutable art BEFORE any catalog can reference it. Never delete
+      # previous hashes: cached pages and saved links still reference them.
+      - name: Upload versioned card images
+        run: |
+          aws s3 sync .build/card-images/ s3://${{ secrets.S3_IMAGES_BUCKET_NAME }}/card_images/ \
+            --cache-control "public, max-age=31536000, immutable"
 
       - name: Upload cards.json to S3
         run: aws s3 cp data/cards.json s3://${{ secrets.S3_BUCKET_NAME }}/cards.json --content-type application/json --cache-control "max-age=300"

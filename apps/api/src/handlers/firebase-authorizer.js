@@ -5,15 +5,8 @@
  * that allows or denies access to API Gateway endpoints.
  */
 
-const admin = require('firebase-admin');
-
-// Initialize Firebase Admin SDK
-// Using application default credentials or environment variable
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: process.env.FIREBASE_PROJECT_ID || 'creditodds',
-  });
-}
+const { initFirebase } = require('../lib/firebase-init');
+const auth = initFirebase();
 
 /**
  * Generate an IAM policy document
@@ -65,7 +58,7 @@ exports.firebaseAuthorizerHandler = async (event) => {
 
   try {
     // Verify the Firebase ID token
-    const decodedToken = await admin.auth().verifyIdToken(token);
+    const decodedToken = await auth.verifyIdToken(token);
     console.log('Token verified successfully for user:', decodedToken.uid);
 
     // Build the resource ARN for the policy

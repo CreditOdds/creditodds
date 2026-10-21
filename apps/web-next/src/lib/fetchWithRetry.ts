@@ -1,116 +1,88 @@
-// Retry wrapper for idempotent (GET) data reads used by server-side rendering /
-// ISR. Transient network failures between our SSR server and the upstream
-// CDN/API are brief and almost always succeed on a second attempt. Retrying
-// here keeps a blip from failing an ISR render — which otherwise reports to
-// Sentry and, on a cold cache, errors the page.
-//
-// Two failure modes are covered, both seen in production on 2026-06-25:
-//   1. The fetch() itself rejects — ETIMEDOUT / "fetch failed" / TLS handshake
-//      aborted (/best/[slug], /best-card-for/[slug]).
-//   2. The fetch() resolves 200 but the connection drops *while the body is
-//      read* — "terminated" / "other side closed", an undici keep-alive race
-//      where the upstream closes a pooled socket mid-response (/card-wire).
-// To catch (2), we read the body INSIDE the retry loop and return a buffered
-// Response, so a mid-stream termination retries here instead of exploding later
-// in the caller's res.json(). Callers see an ordinary Response (res.ok /
-// res.json() work) that now reads from memory and can't terminate.
-//
-// IMPORTANT: only use this for GET reads. Never wrap POST/mutations — a retry
-// after the server already applied the write would double-apply it.
+// Bounded GET/HEAD reads for SSR/ISR. Deadlines cover both headers and body.
+// A signal opts out of Next's per-render fetch memoization on EVERY attempt;
+// Next's persistent Data Cache (next.revalidate) still works independently.
+// Never replay mutations after an ambiguous network failure.
+export interface FetchRetryOptions {
+  retries?: number;
+  backoffMs?: number;
+  attemptTimeoutMs?: number;
+  totalTimeoutMs?: number;
+}
 
-// 4 retries (5 attempts) over a ~2.5s window. The upstream (API Gateway /
-// CloudFront) periodically closes idle keep-alive sockets, and Node's fetch can
-// reuse a just-closed one ("other side closed"); a wider window lets a brief
-// hiccup — or a poisoned connection pool — clear before we give up.
-const DEFAULT_RETRIES = 4;
-const DEFAULT_BACKOFF_MS = 200;
+function positive(value: number, name: string): number {
+  if (!Number.isFinite(value) || value <= 0) throw new RangeError(`${name} must be positive`);
+  return value;
+}
 
-const delay = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+// Race as well as abort: a patched fetch/tee may not settle when aborted.
+function abortable<T>(work: Promise<T>, signal: AbortSignal): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const abort = () => reject(signal.reason);
+    signal.addEventListener('abort', abort, { once: true });
+    work.then(resolve, reject).finally(() => signal.removeEventListener('abort', abort));
+    if (signal.aborted) abort();
+  });
+}
 
-// Linear backoff with a little jitter so concurrent renders don't retry in
-// lockstep. No jitter when backoff is 0 (keeps tests fast/deterministic).
-const backoffFor = (attempt: number, backoffMs: number) => {
-  const base = backoffMs * (attempt + 1);
-  return base > 0 ? base + Math.floor(Math.random() * 100) : 0;
-};
-
-// Statuses that the Response constructor requires to have a null body.
-const NULL_BODY_STATUSES = new Set([204, 205, 304]);
-
-// During an App Router render, Next patches globalThis.fetch with a per-render
-// memoization layer (next/dist/server/lib/dedupe-fetch.js) that caches the FIRST
-// settled result of a GET per URL+options — including 500s and rejections. Without
-// an opt-out, every retry below would receive a clone of attempt 1's failure with
-// no network request, making the whole retry loop dead code inside renders (seen
-// in production 2026-07-28: the upstream Lambda logged exactly one 500, zero
-// retries followed, and the SSR render of /explore failed). Passing any
-// AbortSignal is dedupe-fetch's designed opt-out, so retry attempts attach a
-// fresh, never-aborting signal — unless the caller already supplied one, which
-// opts out of memoization by itself. The Next DATA cache (`next: { revalidate }`)
-// is a separate layer that ignores `signal` both in its cache key
-// (incremental-cache generateCacheKey) and when storing a 200 (patch-fetch.js),
-// so a retried success still populates ISR caching as before.
-const dedupeBypassInit = (init?: RequestInit): RequestInit =>
-  init?.signal ? init : { ...init, signal: new AbortController().signal };
-
-// Drain the body of a response we're about to throw away, so the underlying
-// socket goes back to the pool instead of waiting on the GC.
-//
-// Deliberately NOT awaited, and deliberately not `res.body.cancel()`. Under
-// Next.js's patched fetch the response handed to us is one branch of a tee'd
-// stream (Next reads the other branch into the fetch cache — see
-// next/dist/server/lib/clone-response.js). Per the ReadableStream tee contract,
-// a branch's cancel() promise only settles once BOTH branches are cancelled or
-// the source ends; Next never cancels its branch, so `await res.body.cancel()`
-// can hang forever. Verified 2026-07-27: a 500 from /card-wire during a
-// /card/[name] render never retried — the SSR request sat open until the client
-// disconnected 90s later, which is the exact opposite of what this wrapper is
-// for. Not awaiting means the retry loop can't be blocked by the discarded
-// response no matter how its body behaves.
-function discardBody(res: Response): void {
-  void res.arrayBuffer().catch(() => {});
+async function delay(ms: number, signal: AbortSignal): Promise<void> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    await abortable(new Promise<void>(resolve => { timer = setTimeout(resolve, ms); }), signal);
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 export async function fetchWithRetry(
   input: string | URL,
   init?: RequestInit,
-  opts: { retries?: number; backoffMs?: number } = {},
+  opts: FetchRetryOptions = {},
 ): Promise<Response> {
-  const retries = opts.retries ?? DEFAULT_RETRIES;
-  const backoffMs = opts.backoffMs ?? DEFAULT_BACKOFF_MS;
-
-  let lastError: unknown;
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    try {
-      const res = await fetch(input, attempt === 0 ? init : dedupeBypassInit(init));
-
-      // Retry transient upstream failures (5xx), but never client errors (4xx).
-      if (res.status >= 500 && attempt < retries) {
-        discardBody(res);
-        await delay(backoffFor(attempt, backoffMs));
-        continue;
+  const retries = opts.retries ?? 4;
+  const backoffMs = opts.backoffMs ?? 200;
+  if (!Number.isInteger(retries) || retries < 0 || retries > 10) throw new RangeError('Invalid retries');
+  if (!Number.isFinite(backoffMs) || backoffMs < 0) throw new RangeError('Invalid backoff');
+  const attemptMs = positive(opts.attemptTimeoutMs ?? 4000, 'attemptTimeoutMs');
+  const totalMs = positive(opts.totalTimeoutMs ?? 10000, 'totalTimeoutMs');
+  const maxRetries = ['GET', 'HEAD'].includes((init?.method ?? 'GET').toUpperCase()) ? retries : 0;
+  const total = new AbortController();
+  const cancel = () => total.abort(init?.signal?.reason);
+  init?.signal?.addEventListener('abort', cancel, { once: true });
+  if (init?.signal?.aborted) cancel();
+  const totalTimer = setTimeout(() => total.abort(new DOMException('Request deadline exceeded', 'TimeoutError')), totalMs);
+  try {
+    for (let attempt = 0; ; attempt++) {
+      total.signal.throwIfAborted();
+      const controller = new AbortController();
+      const abortAttempt = () => controller.abort(total.signal.reason);
+      total.signal.addEventListener('abort', abortAttempt, { once: true });
+      const timer = setTimeout(() => controller.abort(new DOMException('Attempt deadline exceeded', 'TimeoutError')), attemptMs);
+      try {
+        const res = await abortable(fetch(input, { ...init, signal: controller.signal }), controller.signal);
+        if (res.status >= 500 && attempt < maxRetries) {
+          // Never await cancellation: Next can return one branch of a tee whose
+          // other branch stays open. Aborting the request releases its socket.
+          void res.body?.cancel().catch(() => {});
+          controller.abort();
+        } else {
+          const buffer = await abortable(res.arrayBuffer(), controller.signal);
+          const body = [204, 205, 304].includes(res.status) || init?.method?.toUpperCase() === 'HEAD' ? null : buffer;
+          return new Response(body, { status: res.status, statusText: res.statusText, headers: res.headers });
+        }
+      } catch (error) {
+        total.signal.throwIfAborted();
+        if (attempt >= maxRetries) throw error;
+      } finally {
+        clearTimeout(timer);
+        total.signal.removeEventListener('abort', abortAttempt);
+        // Also terminate failed/body-stalled requests before another attempt.
+        controller.abort();
       }
-
-      // Buffer the body here so a mid-stream socket termination is caught and
-      // retried in this loop rather than surfacing later in the caller's read.
-      const buffer = await res.arrayBuffer();
-      const body = NULL_BODY_STATUSES.has(res.status) || res.status < 200 ? null : buffer;
-      return new Response(body, {
-        status: res.status,
-        statusText: res.statusText,
-        headers: res.headers,
-      });
-    } catch (error) {
-      // Network-level failure during the request or the body read
-      // (ETIMEDOUT / "fetch failed" / "terminated"). Retry if budget remains.
-      lastError = error;
-      if (attempt < retries) {
-        await delay(backoffFor(attempt, backoffMs));
-        continue;
-      }
+      const wait = backoffMs * (attempt + 1) + (backoffMs ? Math.floor(Math.random() * 100) : 0);
+      await delay(wait, total.signal);
     }
+  } finally {
+    clearTimeout(totalTimer);
+    init?.signal?.removeEventListener('abort', cancel);
   }
-  // Exhausted retries — rethrow the original so callers and Sentry still see
-  // the real failure.
-  throw lastError;
 }

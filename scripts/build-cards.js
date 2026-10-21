@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
+const { versionCardImage } = require('./version-card-image');
 
 const CARDS_DIR = path.join(__dirname, '..', 'data', 'cards');
 const OUTPUT_FILE = path.join(__dirname, '..', 'data', 'cards.json');
@@ -438,6 +439,11 @@ function buildCards() {
       delete card.check_ignore;
       delete card.also_known_as;
 
+      // Only the publishing workflow uploads these artifacts. Local dev keeps
+      // existing CDN filenames instead of requesting not-yet-published hashes.
+      if (process.env.VERSION_CARD_IMAGES === '1') {
+        card.image = versionCardImage(card.image, path.join(CARDS_DIR, 'images'), path.join(__dirname, '..', '.build', 'card-images'));
+      }
       cards.push(card);
       cardsWithFiles.push({ file, card });
       console.log(`  OK: ${card.name}`);

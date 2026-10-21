@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { OGBackground, OGLogo, loadInterFonts, OG_CACHE_HEADERS } from '@/components/og/og-utils';
-import { tagLabels, tagDescriptions, type ArticleTag } from '@/lib/articles';
+import { tagLabels, tagDescriptions, type ArticleTag } from '@/lib/articleTags';
 
 export const size = {
   width: 1200,

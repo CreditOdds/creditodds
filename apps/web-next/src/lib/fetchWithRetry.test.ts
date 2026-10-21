@@ -5,6 +5,8 @@ const res = (status: number) => new Response(null, { status });
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
 });
 
 describe("fetchWithRetry", () => {
@@ -121,45 +123,72 @@ describe("fetchWithRetry", () => {
     expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
-  it("does not attach a signal to the first attempt", async () => {
-    // Attempt 1 must stay memoizable by Next's per-render dedupe layer —
-    // concurrent components fetching the same URL should share one request.
-    const fetchMock = vi.fn().mockResolvedValue(res(200));
-    vi.stubGlobal("fetch", fetchMock);
-
-    await fetchWithRetry("https://x.test", undefined, { backoffMs: 0 });
-
-    expect(fetchMock.mock.calls[0][1]).toBeUndefined();
-  });
-
-  it("attaches a fresh non-aborted signal to retries, preserving other init fields", async () => {
+  it("bounds every attempt and preserves Next cache options", async () => {
     const fetchMock = vi.fn().mockResolvedValueOnce(res(503)).mockResolvedValue(res(200));
     vi.stubGlobal("fetch", fetchMock);
     const init = { headers: { "x-a": "1" }, next: { revalidate: 300 } } as RequestInit;
-
     await fetchWithRetry("https://x.test", init, { backoffMs: 0 });
-
-    // First attempt: init passed through untouched.
-    expect(fetchMock.mock.calls[0][1]).toBe(init);
-    // Retry: same init fields plus the dedupe-bypass signal.
-    const retryInit = fetchMock.mock.calls[1][1] as RequestInit;
-    expect(retryInit.headers).toEqual({ "x-a": "1" });
-    expect((retryInit as { next?: unknown }).next).toEqual({ revalidate: 300 });
-    expect(retryInit.signal).toBeInstanceOf(AbortSignal);
-    expect(retryInit.signal!.aborted).toBe(false);
+    for (const call of fetchMock.mock.calls) {
+      expect(call[1].headers).toEqual(init.headers);
+      expect(call[1].next).toEqual({ revalidate: 300 });
+      expect(call[1].signal).toBeInstanceOf(AbortSignal);
+    }
+    expect(fetchMock.mock.calls[0][1].signal).not.toBe(fetchMock.mock.calls[1][1].signal);
   });
 
-  it("keeps a caller-provided signal on every attempt", async () => {
-    const fetchMock = vi.fn().mockResolvedValueOnce(res(503)).mockResolvedValue(res(200));
-    vi.stubGlobal("fetch", fetchMock);
+  it.each(['headers', 'body'])("aborts stalled %s and stops within the total budget", async phase => {
+    vi.useFakeTimers();
+    const never = new Promise<never>(() => {});
+    const fetchMock = vi.fn().mockImplementation(() => phase === 'headers' ? never : Promise.resolve({ status: 200, arrayBuffer: () => never }));
+    vi.stubGlobal('fetch', fetchMock);
+    const result = expect(fetchWithRetry('https://x.test', undefined, { attemptTimeoutMs: 100, totalTimeoutMs: 250, backoffMs: 0 })).rejects.toMatchObject({ name: 'TimeoutError' });
+    await vi.advanceTimersByTimeAsync(250);
+    await result;
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock.mock.calls.every(call => call[1].signal.aborted)).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it.each(['request', 'backoff'])("honors caller cancellation during %s without retrying", async phase => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn().mockImplementation(() => phase === 'request' ? new Promise(() => {}) : Promise.reject(new Error('network')));
+    vi.stubGlobal('fetch', fetchMock);
     const controller = new AbortController();
-    const init: RequestInit = { signal: controller.signal };
-
-    await fetchWithRetry("https://x.test", init, { backoffMs: 0 });
-
-    expect(fetchMock.mock.calls[0][1]).toBe(init);
-    expect((fetchMock.mock.calls[1][1] as RequestInit).signal).toBe(controller.signal);
+    const error = new Error('Caller left');
+    const result = expect(fetchWithRetry('https://x.test', { signal: controller.signal })).rejects.toBe(error);
+    await vi.advanceTimersByTimeAsync(10);
+    controller.abort(error);
+    await result;
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0][1].signal.aborted).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
   });
+
+  it('does not start work for an already cancelled caller', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(fetchWithRetry('https://x.test', { signal: AbortSignal.abort() })).rejects.toMatchObject({ name: 'AbortError' });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('does not retry mutations', async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new Error('ambiguous write'));
+    vi.stubGlobal('fetch', fetchMock);
+    await expect(fetchWithRetry('https://x.test', { method: 'POST' }, { backoffMs: 0 })).rejects.toThrow('ambiguous write');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not let backoff outlive the total deadline', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn().mockRejectedValue(new Error('network'));
+    vi.stubGlobal('fetch', fetchMock);
+    const result = expect(fetchWithRetry('https://x.test', undefined, { totalTimeoutMs: 50, backoffMs: 1000 })).rejects.toMatchObject({ name: 'TimeoutError' });
+    await vi.advanceTimersByTimeAsync(50);
+    await result;
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
 });
 
 // Replica of Next's per-render fetch memoization, mirroring
@@ -219,7 +248,7 @@ describe("fetchWithRetry under Next's per-render fetch memoization", () => {
     expect(upstream).toHaveBeenCalledTimes(2);
   });
 
-  it("still memoizes the successful first attempt for other same-render callers", async () => {
+  it("uses independent cancellable requests for same-render callers", async () => {
     const upstream = vi
       .fn()
       .mockImplementation(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
@@ -230,6 +259,6 @@ describe("fetchWithRetry under Next's per-render fetch memoization", () => {
 
     expect(a.status).toBe(200);
     expect(b.status).toBe(200);
-    expect(upstream).toHaveBeenCalledTimes(1);
+    expect(upstream).toHaveBeenCalledTimes(2);
   });
 });

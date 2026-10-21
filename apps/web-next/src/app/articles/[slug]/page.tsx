@@ -1,3 +1,4 @@
+import { serializeJsonLd } from '@/lib/serializeJsonLd';
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -119,7 +120,7 @@ export default async function ArticlePage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <BreadcrumbSchema
         items={[

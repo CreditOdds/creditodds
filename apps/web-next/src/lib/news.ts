@@ -133,6 +133,6 @@ export async function getNewsItem(id: string): Promise<NewsItem | null> {
   return items.find(item => item.id === id) || null;
 }
 
-export async function getNews(): Promise<NewsItem[]> {
-  return getContentCollection<NewsItem>('news', 'items', 'id');
+export async function getNews(signal?: AbortSignal): Promise<NewsItem[]> {
+  return getContentCollection<NewsItem>('news', 'items', 'id', signal);
 }

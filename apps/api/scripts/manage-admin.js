@@ -18,23 +18,17 @@
  * 4. Set: export GOOGLE_APPLICATION_CREDENTIALS="/path/to/serviceAccountKey.json"
  */
 
-const admin = require('firebase-admin');
-
-// Initialize Firebase Admin
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: process.env.FIREBASE_PROJECT_ID || 'creditodds',
-  });
-}
+const { initFirebase } = require('../src/lib/firebase-init');
+const auth = initFirebase();
 
 async function setAdminClaim(uid, isAdmin) {
   try {
     // Get current user to verify they exist
-    const user = await admin.auth().getUser(uid);
+    const user = await auth.getUser(uid);
     console.log(`Found user: ${user.email || user.uid}`);
 
     // Set custom claims
-    await admin.auth().setCustomUserClaims(uid, { admin: isAdmin });
+    await auth.setCustomUserClaims(uid, { admin: isAdmin });
 
     console.log(`Successfully ${isAdmin ? 'granted' : 'revoked'} admin access for ${user.email || uid}`);
     console.log('\nIMPORTANT: The user must sign out and sign back in for the change to take effect.');
@@ -47,7 +41,7 @@ async function setAdminClaim(uid, isAdmin) {
 
 async function checkAdmin(uid) {
   try {
-    const user = await admin.auth().getUser(uid);
+    const user = await auth.getUser(uid);
     console.log(`User: ${user.email || user.uid}`);
     console.log(`UID: ${user.uid}`);
     console.log(`Admin: ${user.customClaims?.admin === true ? 'Yes' : 'No'}`);
@@ -60,7 +54,7 @@ async function checkAdmin(uid) {
 
 async function listUsers() {
   try {
-    const listResult = await admin.auth().listUsers(100);
+    const listResult = await auth.listUsers(100);
     console.log('Users (first 100):');
     console.log('─'.repeat(80));
 

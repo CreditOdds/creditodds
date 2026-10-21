@@ -12,14 +12,9 @@ let firebaseAdmin = null;
 function getFirebaseAdmin() {
   if (firebaseAdmin) return firebaseAdmin;
   try {
-    const admin = require("firebase-admin");
-    if (!admin.apps.length) {
-      admin.initializeApp({
-        projectId: process.env.FIREBASE_PROJECT_ID || "creditodds",
-      });
-    }
-    firebaseAdmin = admin;
-    return admin;
+    const { initFirebase } = require("./lib/firebase-init");
+    firebaseAdmin = initFirebase();
+    return firebaseAdmin;
   } catch (err) {
     console.warn("firebase-admin not available:", err.message);
     return null;
@@ -99,7 +94,7 @@ async function getOptionalUserId(event) {
   if (!admin) return null;
 
   try {
-    const decoded = await admin.auth().verifyIdToken(token);
+    const decoded = await admin.verifyIdToken(token);
     return decoded.uid || null;
   } catch (err) {
     console.warn("Firebase token verification failed:", err.message);

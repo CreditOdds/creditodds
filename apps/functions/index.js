@@ -1,8 +1,8 @@
 const functions = require("firebase-functions/v1");
 const { logger } = require("firebase-functions");
-const admin = require("firebase-admin");
+const { initializeApp } = require("firebase-admin/app");
 
-admin.initializeApp();
+initializeApp();
 
 exports.onUserCreated = functions.auth.user().onCreate(async (user) => {
   const webhookUrl = process.env.SLACK_WEBHOOK_URL;
