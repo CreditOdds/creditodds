@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { CardNotFoundError } from '@/lib/cardNotFound';
-import { getCard, getCardRatings, getCardWire, getCardProductChanges, EMPTY_PRODUCT_CHANGES } from '@/lib/api';
+import { getCard, getAllCards, getCardRatings, getCardWire, getCardProductChanges, EMPTY_PRODUCT_CHANGES } from '@/lib/api';
 import { notFound } from 'next/navigation';
-import CardPage, { generateMetadata } from './page';
+import CardPage, { generateMetadata, generateStaticParams, dynamicParams, dynamic } from './page';
 vi.mock('./CardClient', () => ({ default: () => null }));
 vi.mock('next/navigation', () => ({ notFound: vi.fn(() => { throw new Error('CONFIRMED_404'); }) }));
 vi.mock('@/lib/api', () => ({
@@ -46,4 +46,15 @@ it('starts ratings, wire and product changes together and bounds a stalled secti
   expect(result.props.ratings).toEqual({ count: 0, average: null });
   expect(vi.mocked(getCardRatings).mock.calls[0][2]?.aborted).toBe(true);
   expect(vi.getTimerCount()).toBe(0);
+});
+
+it('bounds prebuilt card pages without disabling on-demand ISR routes', async () => {
+  const cards = Array.from({ length: 120 }, (_, i) => ({ slug: `card-${i}`, total_records: i, active: true })) as Awaited<ReturnType<typeof getAllCards>>;
+  vi.mocked(getAllCards).mockResolvedValueOnce(cards);
+  const params = await generateStaticParams();
+  expect(params).toHaveLength(80);
+  expect(params[0]).toEqual({ name: 'card-119' });
+  expect(cards[0].slug).toBe('card-0');
+  expect(dynamicParams).toBe(true);
+  expect(dynamic).toBe('force-static');
 });
