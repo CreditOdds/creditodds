@@ -14,10 +14,13 @@
  *   - HTTP 200 → the model looks for explicit dead signals (e.g. "this
  *     referral has expired", "no longer available", "this offer has ended").
  *     Anything else returns "valid".
- *   - A classification that never happened (model API error, missing
- *     verdict) is LEFT OUT of results.json. It must never be reported as
- *     "unreachable": the Complete Lambda counts that as a failure strike,
- *     auto-archives after two, and emails the submitter.
+ *   - A check that never happened is LEFT OUT of results.json and simply
+ *     re-checked next run: a model API error, a missing verdict, Playwright
+ *     not being installed, or this script's own per-referral timeout. Those
+ *     are failures of the checker, not of the link. (The Complete Lambda no
+ *     longer strikes on "unreachable" either, but a left-out result also
+ *     keeps last_validated_at unchanged, so the retry comes the next day
+ *     instead of 7 days later.)
  *
  * Phases (--phase=...):
  *   all    (default) one pass, classifying via the OpenAI API. What the
@@ -112,6 +115,7 @@ async function closeBrowser() {
 //   { kind: 'ok', content: string, finalUrl: string }
 //   { kind: 'expired-by-status', status: number }   (404, 410, 451)
 //   { kind: 'unreachable', reason: string }
+//   { kind: 'not-checked', reason: string }         (checker problem, not the link)
 async function fetchReferralPage(url) {
   // Try simple fetch first.
   try {
@@ -151,7 +155,7 @@ async function fetchReferralPage(url) {
 
   // Fall back to Playwright for JS-rendered pages.
   const browser = await getBrowser();
-  if (!browser) return { kind: 'unreachable', reason: 'browser unavailable' };
+  if (!browser) return { kind: 'not-checked', reason: 'browser unavailable' };
 
   let page;
   try {
@@ -271,10 +275,13 @@ async function classifyWithOpenAI(cardName, referralUrl, finalUrl, pageContent) 
 // alone. Each page that needs a model verdict goes to onNeedsVerdict, which
 // returns a verdict ({ status, reason }) or null when none was produced. A
 // null is left out of the results, so the referral is simply checked again
-// next run instead of earning a failure strike it did not deserve.
+// next run instead of earning a failure strike it did not deserve. The same
+// goes for checker-side failures (no browser, this loop's own timeout, a
+// thrown error), counted in notChecked.
 async function fetchAll(referrals, onNeedsVerdict) {
   const results = [];
   let noVerdict = 0;
+  let notChecked = 0;
   const scriptDeadline = Date.now() + SCRIPT_TIMEOUT_MS;
 
   for (const ref of referrals) {
@@ -286,6 +293,13 @@ async function fetchAll(referrals, onNeedsVerdict) {
     console.log(`Checking: ${ref.card_name} (#${ref.referral_id})`);
     console.log(`  URL: ${ref.referral_link}`);
 
+    // Set when withTimeout gives up, so the abandoned fetch can't push a
+    // late result for a referral already counted as not checked.
+    let abandoned = false;
+    const record = (result) => {
+      if (!abandoned) results.push({ referral_id: ref.referral_id, ...result });
+    };
+
     try {
       await withTimeout(
         (async () => {
@@ -293,21 +307,19 @@ async function fetchAll(referrals, onNeedsVerdict) {
 
           if (fetched.kind === 'expired-by-status') {
             console.log(`  → expired (HTTP ${fetched.status})`);
-            results.push({
-              referral_id: ref.referral_id,
-              status: 'expired',
-              reason: `HTTP ${fetched.status}`,
-            });
+            record({ status: 'expired', reason: `HTTP ${fetched.status}` });
             return;
           }
 
           if (fetched.kind === 'unreachable') {
             console.log(`  → unreachable (${fetched.reason})`);
-            results.push({
-              referral_id: ref.referral_id,
-              status: 'unreachable',
-              reason: fetched.reason,
-            });
+            record({ status: 'unreachable', reason: fetched.reason });
+            return;
+          }
+
+          if (fetched.kind === 'not-checked') {
+            console.warn(`  → not checked (${fetched.reason}); left out of results`);
+            notChecked++;
             return;
           }
 
@@ -318,18 +330,15 @@ async function fetchAll(referrals, onNeedsVerdict) {
             return;
           }
           console.log(`  → ${verdict.status} (${verdict.reason})`);
-          results.push({ referral_id: ref.referral_id, ...verdict });
+          record(verdict);
         })(),
         PER_REFERRAL_TIMEOUT_MS,
         `referral #${ref.referral_id}`,
       );
     } catch (err) {
-      console.warn(`  ${err.message} — recording unreachable`);
-      results.push({
-        referral_id: ref.referral_id,
-        status: 'unreachable',
-        reason: err.message,
-      });
+      abandoned = true;
+      console.warn(`  ${err.message}; not checked, left out of results`);
+      notChecked++;
     }
 
     console.log('');
@@ -337,6 +346,9 @@ async function fetchAll(referrals, onNeedsVerdict) {
   }
 
   await closeBrowser();
+  if (notChecked > 0) {
+    console.warn(`::warning::${notChecked} referral(s) could not be checked (checker-side failure) and were left out; they will be re-checked next run.`);
+  }
   return { results, noVerdict };
 }
 
