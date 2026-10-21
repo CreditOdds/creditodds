@@ -1607,9 +1607,9 @@
     "t3_1x71z0q": "2026-10-18",
     "t3_1x6zqzv": "2026-10-18",
     "t3_1x6ryfm": "2026-10-18",
-    "t3_1xa7gj1": "2026-10-20",
+    "t3_1xa7gj1": "2026-10-21",
     "t3_1xa6cqk": "2026-10-19",
-    "t3_1xa60p8": "2026-10-20",
+    "t3_1xa60p8": "2026-10-21",
     "t3_1xa2c8m": "2026-10-19",
     "t3_1x9zuck": "2026-10-19",
     "t3_1x9r1yp": "2026-10-19",
@@ -1625,10 +1625,10 @@
     "t3_1x96dnf": "2026-10-19",
     "t3_1x94g6w": "2026-10-19",
     "t3_1x94bpj": "2026-10-19",
-    "t3_1xakvpi": "2026-10-20",
+    "t3_1xakvpi": "2026-10-21",
     "t3_1xakrvd": "2026-10-20",
-    "t3_1xakoc9": "2026-10-20",
-    "t3_1xahe9q": "2026-10-20",
+    "t3_1xakoc9": "2026-10-21",
+    "t3_1xahe9q": "2026-10-21",
     "t3_1xae919": "2026-10-20",
     "t3_1xacarh": "2026-10-20",
     "t3_1xac2h7": "2026-10-20",
@@ -1645,10 +1645,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "LLC application denied for business size and entity type combination; OP added one employee and $300k revenue but still no score.",
+      "note": "LLC application denied for business size and entity type combination; one employee, $300k revenue, still no score.",
       "firstSeen": "2026-10-19",
-      "attempts": 2,
-      "lastChecked": "2026-10-20"
+      "attempts": 3,
+      "lastChecked": "2026-10-21"
     },
     "t3_1xa60p8": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xa60p8/all_chase_biz_cards_not_just_ink_are_324/",
@@ -1661,8 +1661,8 @@
       ],
       "note": "Sole prop application for United Business denied for being 4/24. No score given.",
       "firstSeen": "2026-10-19",
-      "attempts": 2,
-      "lastChecked": "2026-10-20"
+      "attempts": 3,
+      "lastChecked": "2026-10-21"
     },
     "t3_1xakoc9": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xakoc9/chase_freedom_unlimited_500_credit_limit/",
@@ -1673,11 +1673,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for CFU in September 2026 with a $500 limit on a thin file. Cites Experian 698 now, but not as the score at application.",
-      "ask": "You mentioned Experian 698 now. What was your score when you applied for the CFU in September?",
+      "note": "Approved for CFU in September 2026 with a $500 limit on a thin file. Cites Experian 698 now, not at application.",
+      "ask": "You mentioned an Experian 698 now. What was your score when you applied for the CFU in September?",
       "firstSeen": "2026-10-20",
-      "attempts": 1,
-      "lastChecked": "2026-10-20"
+      "attempts": 2,
+      "lastChecked": "2026-10-21"
     },
     "t3_1xakvpi": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xakvpi/hard_focusing_on_getting_the_ritz_carlton_card/",
@@ -1690,41 +1690,11 @@
       ],
       "note": "Recently approved for the Marriott Boundless, planning a later product change to Ritz. No score or limit given.",
       "firstSeen": "2026-10-20",
-      "attempts": 1,
-      "lastChecked": "2026-10-20"
-    },
-    "t3_1xahe9q": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xahe9q/fidelity_rewards_visa_signature_card_conundrum/",
-      "title": "Fidelity Rewards Visa Signature Card conundrum",
-      "posted": "2026-10-20",
-      "card_name": "US Bank Altitude Go Visa Signature",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "In a reply OP says they just got approved for USB Altitude Go with a $3,500 limit. No score anywhere. (Older Fidelity Rewards approval in the same post is undatable.)",
-      "firstSeen": "2026-10-20",
-      "attempts": 1,
-      "lastChecked": "2026-10-20"
+      "attempts": 2,
+      "lastChecked": "2026-10-21"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-18T12:30:38.782Z",
-      "date": "2026-08-18",
-      "candidates": 14,
-      "revisits": 3,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 0,
-      "pending": 14,
-      "unaccounted": 0,
-      "skipped": {
-        "pre_qual": 2,
-        "no_outcome": 7,
-        "no_score": 2
-      }
-    },
     {
       "id": "2026-08-19T13:11:40.853Z",
       "date": "2026-08-19",
@@ -2658,6 +2628,18 @@
       "skipped": {
         "no_outcome": 4
       }
+    },
+    {
+      "id": "2026-10-21T14:22:46.034Z",
+      "date": "2026-10-21",
+      "candidates": 5,
+      "revisits": 5,
+      "sourcesOk": 1,
+      "sourcesFailed": 1,
+      "published": 1,
+      "pending": 4,
+      "unaccounted": 0,
+      "skipped": {}
     }
   ]
 }
