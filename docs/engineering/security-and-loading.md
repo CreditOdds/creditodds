@@ -48,3 +48,7 @@ Core Web Vitals now use the existing PostHog transport (`web_vital`): metric, nu
 - Full production Next build (614 pages); full SAM build and Firebase Functions load smoke test.
 - Mobile Chromium checks on home, explore, card, news and login: HTTP 200, no page errors or unexpected CSP violations. Separate tests blocked an unlisted external script and an eval call and observed report delivery. Signed-in account flows were not exercised with a real user account.
 - Existing repository lint baseline remains 18 errors and 1 warning; changed frontend files introduce none.
+
+## Deployment artifact limit
+
+Amplify rejected the initial deployment at 252,050,372 bytes (limit 230,686,720). The card route now prebuilds at most 80 active/high-data cards; other cards render on demand and use the same 5-minute ISR cache. `dynamicParams = true` preserves all card URLs, and `dynamic = 'force-static'` explicitly enables runtime static caching. Sitemaps/catalog coverage is unchanged. This follows the store route's existing bounded-prerender approach. The first visit to a non-prebuilt card can be slower; subsequent requests use ISR. See [Next's subset prerendering guidance](https://nextjs.org/docs/app/api-reference/functions/generate-static-params#subset-of-paths-at-build-time).
