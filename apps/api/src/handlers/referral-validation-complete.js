@@ -1,17 +1,26 @@
 // Referral Validation — Complete handler
 //
-// Accepts per-referral results from the `check-referrals` GitHub Action
-// workflow and updates the DB. Called once per workflow run via
-// `aws lambda invoke`. NOT exposed via API Gateway.
+// Accepts per-referral results from the referral check (the local
+// `referral-check-local` routine, or the `check-referrals` workflow's manual
+// dispatch) and updates the DB. Called once per run via `aws lambda invoke`.
+// NOT exposed via API Gateway.
 //
 // For each result:
 //   - `valid`        → reset consecutive failures to 0, mark valid, bump last_validated_at
 //   - `expired`      → increment consecutive failures, mark expired,
 //                      bump last_validated_at. Auto-archive once the
 //                      counter reaches ARCHIVE_THRESHOLD.
-//   - `unreachable`  → same as expired (network failures are treated as
-//                      soft signal; auto-archive only after the same N
-//                      consecutive misses).
+//   - `unreachable`  → mark unreachable and bump last_validated_at, but leave
+//                      the failure counter alone. "We could not load the
+//                      page" says nothing about the link, so it never earns a
+//                      strike, an auto-archive, or an expiry email. In
+//                      2026-10 an OpenAI quota outage was recorded as
+//                      unreachable, and two working links were archived and
+//                      their owner emailed on that alone.
+//
+// Batch guard: when most of a batch comes back unreachable, the checker is
+// broken, not the links. Those results are skipped without touching the row,
+// so the links are picked up again by the next run instead of 7 days later.
 //
 // After the DB writes, each user who had a link auto-archived in this run is
 // emailed once (via Brevo transactional) with their full list of currently
@@ -23,16 +32,21 @@
 //
 // Audit log: every consequential outcome is recorded in `audit_log` under the
 // actor `system:referral-validation` so the admin Activity tab can monitor the
-// automation — `VALIDATION_FAIL` for each expired/unreachable hit (with the
-// running consecutive-failure count) and `AUTO_ARCHIVE` when a link is killed.
+// automation — `VALIDATION_FAIL` for each expired hit (with the running
+// consecutive-failure count), `VALIDATION_UNREACHABLE` for each page that
+// could not be loaded, and `AUTO_ARCHIVE` when a link is killed.
 // `valid` results are intentionally not logged to keep the audit trail signal.
 
 const mysql = require("../db");
 const { logAuditAction } = require("../lib/audit-log");
 const expiryEmail = require("../lib/referral-expiry-email");
 
-const ARCHIVE_THRESHOLD = 2; // consecutive failures before auto-archive
+const ARCHIVE_THRESHOLD = 2; // consecutive `expired` results before auto-archive
 const VALID_STATUSES = new Set(["valid", "expired", "unreachable"]);
+
+// Batch guard: at least this many unreachable results, making up at least
+// half the batch, means the checker failed and the unreachable rows are skipped.
+const BATCH_UNREACHABLE_MIN = 3;
 
 // Actor recorded in audit_log for entries written by this automation, so the
 // admin Activity tab can tell the validator's actions apart from a human admin.
@@ -55,6 +69,17 @@ exports.ReferralValidationCompleteHandler = async (event) => {
   // expiry notification: one email per affected user per run.
   const newlyArchivedBySubmitter = new Map();
 
+  const unreachableCount = results.filter(
+    (r) => String((r && r.status) || "").toLowerCase() === "unreachable",
+  ).length;
+  const checkerLooksBroken =
+    unreachableCount >= BATCH_UNREACHABLE_MIN && unreachableCount * 2 >= results.length;
+  if (checkerLooksBroken) {
+    console.warn(
+      `ReferralValidationComplete: ${unreachableCount}/${results.length} results unreachable; treating as a checker failure and skipping them`,
+    );
+  }
+
   try {
     for (const r of results) {
       const referralId = Number(r.referral_id);
@@ -62,6 +87,10 @@ exports.ReferralValidationCompleteHandler = async (event) => {
 
       if (!Number.isFinite(referralId) || referralId <= 0 || !VALID_STATUSES.has(status)) {
         skipped.push({ referral_id: r.referral_id, reason: "invalid input" });
+        continue;
+      }
+      if (status === "unreachable" && checkerLooksBroken) {
+        skipped.push({ referral_id: referralId, reason: "batch mostly unreachable" });
         continue;
       }
 
@@ -98,7 +127,25 @@ exports.ReferralValidationCompleteHandler = async (event) => {
         continue;
       }
 
-      // expired or unreachable
+      if (status === "unreachable") {
+        await mysql.query(
+          `
+          UPDATE referrals
+          SET validation_status = 'unreachable',
+              last_validated_at = NOW()
+          WHERE referral_id = ?
+          `,
+          [referralId],
+        );
+        await logAuditAction(AUDIT_ACTOR, "VALIDATION_UNREACHABLE", "referral", referralId, {
+          reason: r.reason || null,
+          consecutive_failures: rows[0].validation_consecutive_failures || 0,
+        });
+        processed += 1;
+        continue;
+      }
+
+      // expired
       const nextFailures = (rows[0].validation_consecutive_failures || 0) + 1;
       const shouldArchive = nextFailures >= ARCHIVE_THRESHOLD;
 
