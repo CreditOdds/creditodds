@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchWithRetry } from "./fetchWithRetry";
+import { fetchTransportWithRetry as fetchWithRetry } from "./fetchWithRetry";
 
 const res = (status: number) => new Response(null, { status });
 
@@ -125,14 +125,15 @@ describe("fetchWithRetry", () => {
     expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
-  it("bounds every attempt and preserves Next cache options", async () => {
+  it("bounds every transport attempt without starting a nested Next cache", async () => {
     const fetchMock = vi.fn().mockResolvedValueOnce(res(503)).mockResolvedValue(res(200));
     vi.stubGlobal("fetch", fetchMock);
     const init = { headers: { "x-a": "1" }, next: { revalidate: 300 } } as RequestInit;
     await fetchWithRetry("https://x.test", init, { backoffMs: 0 });
     for (const call of fetchMock.mock.calls) {
       expect(call[1].headers).toEqual(init.headers);
-      expect(call[1].next).toEqual({ revalidate: 300 });
+      expect(call[1].next).toBeUndefined();
+      expect(call[1].cache).toBe("no-store");
       expect(call[1].signal).toBeInstanceOf(AbortSignal);
     }
     expect(fetchMock.mock.calls[0][1].signal).not.toBe(fetchMock.mock.calls[1][1].signal);

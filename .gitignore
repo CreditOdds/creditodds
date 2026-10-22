@@ -39,6 +39,9 @@ npm-debug.log*
 # Test coverage
 coverage/
 
+# Generated isolated Next runtime fixture (removed by its test runner).
+.fetch-cache-test-*/
+
 # Temporary files
 *.tmp
 *.temp

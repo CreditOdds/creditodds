@@ -1,7 +1,7 @@
-// Bounded GET/HEAD reads for SSR/ISR. Deadlines cover both headers and body.
-// A signal opts out of Next's per-render fetch memoization on EVERY attempt;
-// Next's persistent Data Cache (next.revalidate) still works independently.
-// Never replay mutations after an ambiguous network failure.
+import { readCachedResponse, canCacheResponse } from './responseCache';
+
+// Cache ownership is outside the transport deadline. Cache refresh callbacks
+// invoke the complete bounded operation, never a single fetch attempt.
 export interface FetchRetryOptions {
   retries?: number;
   backoffMs?: number;
@@ -38,6 +38,24 @@ export async function fetchWithRetry(
   init?: RequestInit,
   opts: FetchRetryOptions = {},
 ): Promise<Response> {
+  init?.signal?.throwIfAborted();
+  if (canCacheResponse(init)) {
+    const work = readCachedResponse(input, init!, opts, fetchTransportWithRetry);
+    // Cancelling one optional section must not cancel a shared cache refresh.
+    return init?.signal ? abortable(work, init.signal) : work;
+  }
+  return fetchTransportWithRetry(input, init, opts);
+}
+
+export async function fetchTransportWithRetry(
+  input: string | URL,
+  init?: RequestInit,
+  opts: FetchRetryOptions = {},
+): Promise<Response> {
+  // Disable the nested fetch cache: retries must reach the origin, including
+  // during stale revalidation. The outer cache stores only completed responses.
+  const { next: _next, ...transportInit } = init ?? {};
+  void _next;
   const retries = opts.retries ?? 4;
   const backoffMs = opts.backoffMs ?? 200;
   if (!Number.isInteger(retries) || retries < 0 || retries > 10) throw new RangeError('Invalid retries');
@@ -59,7 +77,7 @@ export async function fetchWithRetry(
       const timer = setTimeout(() => controller.abort(new DOMException('Attempt deadline exceeded', 'TimeoutError')), attemptMs);
       let completed = false;
       try {
-        const res = await abortable(fetch(input, { ...init, signal: controller.signal }), controller.signal);
+        const res = await abortable(fetch(input, { ...transportInit, cache: 'no-store', signal: controller.signal }), controller.signal);
         if (res.status >= 500 && attempt < maxRetries) {
           // Never await cancellation: Next can return one branch of a tee whose
           // other branch stays open. Aborting the request releases its socket.
