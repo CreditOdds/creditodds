@@ -1,7 +1,7 @@
 name: "Hawaiian Airlines World Elite Mastercard"
 bank: "Barclays"
 slug: "hawaiian-airlines-world-elite-mastercard"
-accepting_applications: true
+accepting_applications: false
 category: "travel"
 image: "barclays-hawaiian.png"
 annual_fee: 99
