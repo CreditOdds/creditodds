@@ -4,6 +4,10 @@ applications:
       phases:
         preBuild:
           commands:
+            # Keep the build runtime aligned with local development and CI.
+            - nvm install "$(cat ../../.nvmrc)"
+            - nvm use "$(cat ../../.nvmrc)"
+            - node --version
             # Install dependencies from repo root (monorepo with workspaces)
             # Use subshell to preserve working directory
             - (cd ../.. && npm ci)

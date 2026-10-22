@@ -22,7 +22,7 @@ For the full endpoint reference and database schema, see the
 ## Prerequisites
 
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-- Node.js 22+
+- Node.js 22.23.4 (run `nvm install && nvm use` from the repository root)
 - Docker (only needed for `sam local`)
 
 ## Build & deploy
