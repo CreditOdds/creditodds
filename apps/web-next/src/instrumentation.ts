@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/nextjs';
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
+    console.info('[runtime-version]', JSON.stringify({ service: 'web-next', node: process.version }));
     await import('../sentry.server.config');
   }
 
